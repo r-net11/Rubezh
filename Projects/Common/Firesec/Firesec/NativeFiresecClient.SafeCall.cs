@@ -14,17 +14,18 @@ namespace Firesec
     {
         OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
         {
-            var safeCallResult = (OperationResult<T>)_dispatcher.Invoke
-            (
-                new Func<OperationResult<T>>
-                (
-                    () =>
-                    {
-                        return SafeLoopCall(func, methodName);
-                    }
-                )
-            );
-            return safeCallResult;
+			var safeCallResult = (OperationResult<T>)_dispatcher.Invoke
+			(
+				new Func<OperationResult<T>>
+				(
+					() =>
+					{
+						return SafeLoopCall(func, methodName);
+					}
+				)
+			);
+			CheckForRead();
+			return safeCallResult;
         }
 
         public static int OperationNo = 0;

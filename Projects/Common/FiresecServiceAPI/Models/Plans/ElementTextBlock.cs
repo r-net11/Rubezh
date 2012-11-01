@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementTextBlock()
 		{
+			Stretch = true;
 		}
 
 		[DataMember]

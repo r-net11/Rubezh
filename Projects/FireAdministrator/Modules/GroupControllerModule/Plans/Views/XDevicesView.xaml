@@ -78,7 +78,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-			<DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding Device.PresentationAddressAndDriver}" />
+			<DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding Device.Address}" />
             <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
         </DataGrid.Columns>
     </DataGrid >

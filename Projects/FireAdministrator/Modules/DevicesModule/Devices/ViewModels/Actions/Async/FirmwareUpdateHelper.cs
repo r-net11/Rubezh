@@ -34,7 +34,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnVarifyPropgress()
 		{
-			_operationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(_device, _isUsb, new FileInfo(_fileName).Name);
+			_operationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(_device, _isUsb, new FileInfo(_fileName).FullName);
 		}
 
 		static void OnVerifyCompleted()

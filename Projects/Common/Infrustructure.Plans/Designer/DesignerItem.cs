@@ -133,16 +133,22 @@ namespace Infrustructure.Plans.Designer
 		}
 		public virtual void Redraw()
 		{
-			Content = Painter == null ? null : Painter.Draw(Element);
-			MinWidth = Element.BorderThickness;
-			MinHeight = Element.BorderThickness;
-			if (Element is ElementBaseShape)
+			try
 			{
-				MinWidth += 3;
-				MinHeight += 3;
+				Content = Painter == null ? null : Painter.Draw(Element);
+				MinWidth = Element.BorderThickness;
+				MinHeight = Element.BorderThickness;
+				if (Element is ElementBaseShape)
+				{
+					MinWidth += 3;
+					MinHeight += 3;
+				}
+				SetLocation();
+				UpdateAdorner();
 			}
-			SetLocation();
-			UpdateAdorner();
+			catch
+			{
+			}
 		}
 
 		public virtual double ItemWidth

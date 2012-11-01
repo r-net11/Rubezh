@@ -16,6 +16,8 @@ using System.Diagnostics;
 using Common.GK;
 using DevicesModule.ViewModels;
 using FiresecAPI;
+using Microsoft.Win32;
+using System.IO;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -31,6 +33,7 @@ namespace DiagnosticsModule.ViewModels
 			Test2Command = new RelayCommand(OnTest2);
 			Test3Command = new RelayCommand(OnTest3);
 			Test4Command = new RelayCommand(OnTest4);
+			Test5Command = new RelayCommand(OnTest5);
 		}
 
 		string _text;
@@ -90,10 +93,10 @@ namespace DiagnosticsModule.ViewModels
 			while (true)
 			{
 				FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-				FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
-				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+				//FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+				//FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+				//FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+				//FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
                 Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
                 counter++;
 			}
@@ -102,22 +105,25 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test3Command { get; private set; }
 		void OnTest3()
 		{
-			var stringBuilder = new StringBuilder();
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.StateType == StateType.Service)
-					{
-						stringBuilder.AppendLine(driver.ShortName + " - " + state.Name);
-					}
-				}
-			}
-			Text = stringBuilder.ToString();
 		}
 
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
+		{
+			var openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
+
+			if (openFileDialog.ShowDialog() == true)
+			{
+				var fileName = openFileDialog.FileName;
+				var fileName2 = new FileInfo(fileName).Name;
+				var fileName3 = new FileInfo(fileName).FullName;
+				MessageBoxService.Show(fileName + "\n" + fileName2 + "\n" + fileName3);
+			}
+		}
+
+		public RelayCommand Test5Command { get; private set; }
+		void OnTest5()
 		{
 		}
 	}

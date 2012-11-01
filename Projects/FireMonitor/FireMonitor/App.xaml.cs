@@ -46,7 +46,9 @@ namespace FireMonitor
 
 			if (bootstrapperLoaded)
 			{
+#if RELEASE
 				System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+#endif
 				Application.Current.MainWindow.Close();
 				Application.Current.Shutdown();
 			}

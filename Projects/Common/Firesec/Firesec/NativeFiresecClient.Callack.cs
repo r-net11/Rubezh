@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using Common;
 using FiresecAPI;
 using System.Diagnostics;
+using FiresecAPI.Models;
 
 namespace Firesec
 {
@@ -14,6 +15,8 @@ namespace Firesec
     {
         public void NewEventsAvailable(int eventMask)
         {
+			needToRead = true;
+
             bool evmNewEvents = ((eventMask & 1) == 1);
             bool evmStateChanged = ((eventMask & 2) == 2);
             bool evmConfigChanged = ((eventMask & 4) == 4);
@@ -27,12 +30,28 @@ namespace Firesec
             bool evmIgnoreListChanged = ((eventMask & 1024) == 1024);
             bool evmEventViewChanged = ((eventMask & 2048) == 2048);
 
+			if (evmStateChanged)
+			{
+				needToReadStates = true;
+			}
+			if (needToReadParameters)
+			{
+				needToReadParameters = true;
+			}
+			if (evmNewEvents)
+			{
+				needToReadJournal = true;
+			}
+
+			CheckForRead();
+			return;
+
             SuspendOperationQueueEvent = new AutoResetEvent(false);
             try
             {
                 if (evmStateChanged)
                 {
-                    var result = SafeLoopCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
+					var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
                     if (result != null && result.Result != null)
                     {
                         var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
@@ -46,7 +65,7 @@ namespace Firesec
 
                 if (evmDeviceParamsUpdated)
                 {
-                    var result = SafeLoopCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
+					var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
                     if (result != null && result.Result != null)
                     {
                         var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
@@ -89,6 +108,9 @@ namespace Firesec
 
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
+			CheckForRead();
+			//return true;
+
             try
             {
                 if (ProgressEvent != null)
@@ -104,6 +126,7 @@ namespace Firesec
             }
         }
 
+		public event Action<List<JournalRecord>> NewJournalRecord;
         public event Action<Firesec.Models.CoreState.config> StateChanged;
         public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
         public event Action<int> NewEventAvaliable;

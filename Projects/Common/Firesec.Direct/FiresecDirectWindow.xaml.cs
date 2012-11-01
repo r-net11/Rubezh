@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecAPI;
 using System.Runtime.Serialization;
 using System;
+using System.Diagnostics;
 
 namespace FiresecDirect
 {
@@ -157,20 +158,10 @@ namespace FiresecDirect
 
 		private void OnGetConfigurationParameters(object sender, RoutedEventArgs e)
 		{
-			var result = NativeFiresecClient.GetConfigurationParameters(Execute1_devicePath.Text, int.Parse(Execute1_AParams.Text));
-			if (result.HasError)
-				MessageBox.Show("Error:" + result.Error);
-			else
-				MessageBox.Show("Result:" + result.Result);
 		}
 
 		private void OnSetConfigurationParameters(object sender, RoutedEventArgs e)
 		{
-			var result = NativeFiresecClient.SetConfigurationParameters(Execute1_devicePath.Text, Execute1_AParams.Text);
-			if (result.HasError)
-				MessageBox.Show("Error:" + result.Error);
-			else
-				MessageBox.Show("Result:" + result.Result);
 		}
 
 		private void OnCreateDrivers(object sender, RoutedEventArgs e)
@@ -196,6 +187,32 @@ namespace FiresecDirect
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
+			}
+		}
+
+		private void OnAutoTest(object sender, RoutedEventArgs e)
+		{
+			while (true)
+			{
+				var result = NativeFiresecClient.GetCoreConfig();
+				if (result.HasError)
+				{
+					Trace.WriteLine(result.Error);
+				}
+				else
+				{
+					var writeResult = NativeFiresecClient.SetNewConfig(result.Result);
+					if (writeResult.HasError)
+					{
+						Trace.WriteLine(writeResult.Error);
+					}
+				}
+				result = NativeFiresecClient.GetCoreState();
+				if (result.HasError)
+				{
+					Trace.WriteLine(result.Error);
+				}
+				Trace.WriteLine("OnAutoTest Completed");
 			}
 		}
 	}

@@ -30,6 +30,7 @@ namespace Firesec
             {
 				ForceStateChanged();
 				ForceParametersChanged();
+				FiresecSerializedClient.NativeFiresecClient.NewJournalRecord += new Action<List<JournalRecord>>(OnNewJournalRecords);
 				FiresecSerializedClient.NativeFiresecClient.NewEventAvaliable += new Action<int>(FiresecClient_NewEvent);
 				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(OnStateChanged);
 				FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
@@ -39,6 +40,8 @@ namespace Firesec
 
 		void FiresecClient_NewEvent(int EventMask)
 		{
+			return;
+
 			bool evmNewEvents = ((EventMask & 1) == 1);
 			bool evmStateChanged = ((EventMask & 2) == 2);
 			bool evmConfigChanged = ((EventMask & 4) == 4);
@@ -100,7 +103,7 @@ namespace Firesec
 			var result = new List<JournalRecord>();
 
 			var hasNewRecords = true;
-			//while (hasNewRecords)
+			for (int i = 0; i < 100; i++ )
 			{
 				hasNewRecords = false;
 				var document = FiresecSerializedClient.ReadEvents(oldJournalNo, 100).Result;
@@ -119,6 +122,8 @@ namespace Firesec
 						}
 					}
 				}
+				if (!hasNewRecords)
+					break;
 			}
 
 			return result;

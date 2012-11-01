@@ -17,6 +17,11 @@ namespace Firesec
 		public Watcher Watcher { get; private set; }
 		public static StringBuilder LoadingErrors { get; private set; }
 
+		static FiresecDriver()
+		{
+			LoadingErrors = new StringBuilder();
+		}
+
 		public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
 		{
 			LoadingErrors = new StringBuilder();
