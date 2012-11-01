@@ -5,15 +5,17 @@
 		<Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="expand"
 						 ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
+      <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.DB" />
       <ComponentRef Id="Server.SecurityConfiguration.xml" />
       <ComponentRef Id="Server.DeviceLibraryConfiguration.xml" />
+      <ComponentRef Id="Server.XDeviceLibraryConfiguration.xml" />
       <ComponentRef Id="Server.DriversConfiguration.xml" />
       <ComponentRef Id="Server.Sounds" />
       <ComponentRef Id="Server.SKUD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
 			<ComponentRef Id="Server.DesktopShortcut" />
-			<ComponentRef Id="Server.AutorunComponent" />
+			<!--<ComponentRef Id="Server.AutorunComponent" />-->
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->

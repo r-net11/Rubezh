@@ -6,11 +6,11 @@
   <Fragment>
 
     <DirectoryRef Id="SERVERLOCATION">
-      <Component Id="Server.AutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
+      <!--<Component Id="Server.AutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
         <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
           <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
         </RegistryKey>
-      </Component>
+      </Component>-->
 
       <Component Id="Server.Files" Guid="DF63AD3D-F414-49A1-86A5-79D635310E8D">
         <File Id="Server.FiresecService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
@@ -24,7 +24,7 @@
         <File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
-      <Component Id="Server.DB" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994" Permanent='yes'>
+      <Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">
         <File Id="Server.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
@@ -33,6 +33,9 @@
         <File Id="Server.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+      </Component>
+
+      <Component Id="Server.DB" Guid="*" Permanent='yes'>
         <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
 
@@ -48,6 +51,9 @@
       </Component>
       <Component Id="Server.DeviceLibraryConfiguration.xml" Guid="*" Permanent='yes'>
         <File Id="Server.DeviceLibraryConfiguration.xml" Name="DeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
+      </Component>
+      <Component Id="Server.XDeviceLibraryConfiguration.xml" Guid="*" Permanent='yes'>
+        <File Id="Server.XDeviceLibraryConfiguration.xml" Name="XDeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
       <Component Id="Server.DriversConfiguration.xml" Guid="*" Permanent='yes'>
         <File Id="Server.DriversConfiguration.xml" Name="DriversConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
