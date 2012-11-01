@@ -157,9 +157,9 @@ namespace XFiresecAPI
 
             foreach (var journalFilter in JournalFilters)
             {
-                if(journalFilter.StateTypes == null)
+                if(journalFilter.StateClasses == null)
                 {
-                    journalFilter.StateTypes = new List<XStateType>();
+                    journalFilter.StateClasses = new List<XStateClass>();
                     result = false;
                 }
             }

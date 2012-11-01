@@ -15,11 +15,17 @@ namespace GKModule.ViewModels
 
         public FilterDetailsViewModel(XJournalFilter journalFilter = null)
         {
-            StateTypes = new ObservableCollection<StateTypeViewModel>();
-            foreach (var stateType in GetAvailableStates())
+            StateClasses = new ObservableCollection<FilterStateClassViewModel>();
+            foreach (var stateClass in GetAvailableStateClasses())
 			{
-				StateTypes.Add(new StateTypeViewModel(stateType));
+				StateClasses.Add(new FilterStateClassViewModel(stateClass));
 			}
+
+            EventNames = new ObservableCollection<FilterEventNameViewModel>();
+            foreach (var eventName in GetAvailableEventNames())
+            {
+                EventNames.Add(new FilterEventNameViewModel(eventName));
+            }
 
 			if (journalFilter == null)
             {
@@ -45,9 +51,13 @@ namespace GKModule.ViewModels
 			Description = JournalFilter.Description;
             LastRecordsCount = JournalFilter.LastRecordsCount;
 
-            StateTypes.Where(
-                eventViewModel => JournalFilter.StateTypes.Any(
-                    x => x == eventViewModel.StateType)).All(x => x.IsChecked = true);
+            StateClasses.Where(
+                viewModel => JournalFilter.StateClasses.Any(
+                    x => x == viewModel.StateClass)).All(x => x.IsChecked = true);
+
+            EventNames.Where(
+                viewModel => JournalFilter.EventNames.Any(
+                    x => x == viewModel.EventName)).All(x => x.IsChecked = true);
         }
 
         string _name;
@@ -83,19 +93,53 @@ namespace GKModule.ViewModels
             }
         }
 
-        public ObservableCollection<StateTypeViewModel> StateTypes { get; private set; }
+        public ObservableCollection<FilterStateClassViewModel> StateClasses { get; private set; }
+        public ObservableCollection<FilterEventNameViewModel> EventNames { get; private set; }
 
-        List<XStateType> GetAvailableStates()
+        List<XStateClass> GetAvailableStateClasses()
         {
-            var states = new List<XStateType>();
-            states.Add(XStateType.Attention);
-            states.Add(XStateType.Fire1);
-            states.Add(XStateType.Fire2);
-            states.Add(XStateType.Test);
-            states.Add(XStateType.Failure);
-            states.Add(XStateType.Ignore);
-            states.Add(XStateType.On);
+            var states = new List<XStateClass>();
+            states.Add(XStateClass.Fire2);
+            states.Add(XStateClass.Fire1);
+            states.Add(XStateClass.Attention);
+            states.Add(XStateClass.Failure);
+            states.Add(XStateClass.Ignore);
+            states.Add(XStateClass.On);
+            states.Add(XStateClass.Unknown);
+            states.Add(XStateClass.Service);
+            states.Add(XStateClass.Info);
+            states.Add(XStateClass.Norm);
             return states;
+        }
+
+        List<string> GetAvailableEventNames()
+        {
+            var eventNames = new List<string>();
+            eventNames.Add("Технология");
+            eventNames.Add("Очистка журнала");
+            eventNames.Add("Установка часов");
+            eventNames.Add("Запись информации о блоке");
+            eventNames.Add("Смена ПО");
+            eventNames.Add("Смена БД");
+            eventNames.Add("Работа");
+            eventNames.Add("Неизвестный тип");
+            eventNames.Add("Устройство с таким адресом не описано при конфигурации");
+            eventNames.Add("При конфигурации описан другой тип");
+            eventNames.Add("Изменился заводской номер");
+            eventNames.Add("Пожар");
+            eventNames.Add("Пожар-2");
+            eventNames.Add("Внимание");
+            eventNames.Add("Неисправность");
+            eventNames.Add("Тест");
+            eventNames.Add("Запыленность");
+            eventNames.Add("Управление");
+            eventNames.Add("Состояние");
+            eventNames.Add("Режим работы");
+            eventNames.Add("Дежурный");
+            eventNames.Add("Отключение");
+            eventNames.Add("Вход пользователя в систему");
+            eventNames.Add("Выход пользователя из системы");
+            return eventNames;
         }
 
 		protected override bool Save()
@@ -103,7 +147,8 @@ namespace GKModule.ViewModels
 			JournalFilter.Name = Name;
 			JournalFilter.Description = Description;
             JournalFilter.LastRecordsCount = LastRecordsCount;
-            JournalFilter.StateTypes = StateTypes.Where(x => x.IsChecked).Select(x => x.StateType).Cast<XStateType>().ToList();
+            JournalFilter.StateClasses = StateClasses.Where(x => x.IsChecked).Select(x => x.StateClass).Cast<XStateClass>().ToList();
+            JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventName).Cast<string>().ToList();
 			return base.Save();
 		}
     }

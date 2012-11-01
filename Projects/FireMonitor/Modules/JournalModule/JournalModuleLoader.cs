@@ -69,7 +69,6 @@ namespace JournalModule
 		}
 
 		#region IReportProviderModule Members
-
 		public IEnumerable<IReportProvider> GetReportProviders()
 		{
 			return new List<IReportProvider>()
@@ -77,7 +76,6 @@ namespace JournalModule
 				new JournalReport()
 			};
 		}
-
 		#endregion
 	}
 }

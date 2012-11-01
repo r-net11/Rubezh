@@ -315,32 +315,32 @@ namespace GKModule.ViewModels
 	{
 		public static List<string> GetAllEvents()
 		{
-			var evenNames = new List<string>();
-			evenNames.Add("Технология");
-			evenNames.Add("Очистка журнала");
-			evenNames.Add("Установка часов");
-			evenNames.Add("Запись информации о блоке");
-			evenNames.Add("Смена ПО");
-			evenNames.Add("Смена БД");
-			evenNames.Add("Работа");
-			evenNames.Add("Неизвестный тип");
-			evenNames.Add("Устройство с таким адресом не описано при конфигурации");
-			evenNames.Add("При конфигурации описан другой тип");
-			evenNames.Add("Изменился заводской номер");
-			evenNames.Add("Пожар");
-			evenNames.Add("Пожар-2");
-			evenNames.Add("Внимание");
-			evenNames.Add("Неисправность");
-			evenNames.Add("Тест");
-			evenNames.Add("Запыленность");
-			evenNames.Add("Управление");
-			evenNames.Add("Состояние");
-			evenNames.Add("Режим работы");
-			evenNames.Add("Дежурный");
-			evenNames.Add("Отключение");
-			evenNames.Add("Вход пользователя в систему");
-			evenNames.Add("Выход пользователя из системы");
-			return evenNames;
+			var eventNames = new List<string>();
+			eventNames.Add("Технология");
+			eventNames.Add("Очистка журнала");
+			eventNames.Add("Установка часов");
+			eventNames.Add("Запись информации о блоке");
+			eventNames.Add("Смена ПО");
+			eventNames.Add("Смена БД");
+			eventNames.Add("Работа");
+			eventNames.Add("Неизвестный тип");
+			eventNames.Add("Устройство с таким адресом не описано при конфигурации");
+			eventNames.Add("При конфигурации описан другой тип");
+			eventNames.Add("Изменился заводской номер");
+			eventNames.Add("Пожар");
+			eventNames.Add("Пожар-2");
+			eventNames.Add("Внимание");
+			eventNames.Add("Неисправность");
+			eventNames.Add("Тест");
+			eventNames.Add("Запыленность");
+			eventNames.Add("Управление");
+			eventNames.Add("Состояние");
+			eventNames.Add("Режим работы");
+			eventNames.Add("Дежурный");
+			eventNames.Add("Отключение");
+			eventNames.Add("Вход пользователя в систему");
+			eventNames.Add("Выход пользователя из системы");
+			return eventNames;
 		}
 	}
 }

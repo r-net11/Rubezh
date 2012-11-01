@@ -30,12 +30,25 @@
             </Grid>
         </TabItem>
         <TabItem Header="Состояния">
-            <ItemsControl ItemsSource="{Binding StateTypes}" Margin="10">
+            <ItemsControl ItemsSource="{Binding StateClasses}" Margin="10">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <CheckBox IsChecked="{Binding IsChecked}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="White" Margin="1" />
+                                <TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" Margin="1" />
+                            </StackPanel>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </TabItem>
+        <TabItem Header="События">
+            <ItemsControl ItemsSource="{Binding EventNames}" Margin="10">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox IsChecked="{Binding IsChecked}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding EventName}" Foreground="White" Margin="1" />
                             </StackPanel>
                         </CheckBox>
                     </DataTemplate>

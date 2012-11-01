@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -106,6 +109,10 @@
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectCommandSendHelper.cs" />
+    <Compile Include="Reports\DeviceListReport.cs" />
+    <Compile Include="Reports\DriverCounterReport.cs" />
+    <Compile Include="Reports\JournalReport.cs" />
+    <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="ShowOnPlanHelper.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />
@@ -202,6 +209,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Resource Include="Reports\DriverCounterReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\DeviceListReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\JournalReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

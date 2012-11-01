@@ -11,10 +11,12 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
+using Infrastructure.Common.Reports;
+using GKModule.Reports;
 
 namespace GKModule
 {
-	public class GKModuleLoader : ModuleBase
+    public class GKModuleLoader : ModuleBase, IReportProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
@@ -111,5 +113,17 @@ namespace GKModule
 		{
 			get { return "Групповой контроллер"; }
 		}
+
+        #region IReportProviderModule Members
+        public IEnumerable<IReportProvider> GetReportProviders()
+        {
+            return new List<IReportProvider>()
+			{
+                new DriverCounterReport(),
+                new DeviceListReport(),
+				new JournalReport()
+			};
+        }
+        #endregion
 	}
 }

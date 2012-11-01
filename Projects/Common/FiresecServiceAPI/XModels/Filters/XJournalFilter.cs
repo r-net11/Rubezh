@@ -10,7 +10,8 @@ namespace XFiresecAPI
         public XJournalFilter()
         {
             LastRecordsCount = 100;
-            StateTypes = new List<XStateType>();
+            StateClasses = new List<XStateClass>();
+            EventNames = new List<string>();
         }
 
         [DataMember]
@@ -23,6 +24,9 @@ namespace XFiresecAPI
         public int LastRecordsCount { get; set; }
 
         [DataMember]
-        public List<XStateType> StateTypes { get; set; }
+        public List<XStateClass> StateClasses { get; set; }
+
+        [DataMember]
+        public List<string> EventNames { get; set; }
     }
 }
