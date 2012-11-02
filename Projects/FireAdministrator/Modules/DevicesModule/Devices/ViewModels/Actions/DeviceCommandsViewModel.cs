@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -35,7 +36,7 @@ namespace DevicesModule.ViewModels
             ResetConfigurationParametersCommand = new RelayCommand(OnResetConfigurationParameters, CanGetConfigurationParameters);
 			GetAllDeviceConfigurationParametersCommand = new RelayCommand(OnGetAllDeviceConfigurationParameters, CanGetAllDeviceConfigurationParameters);
 			SetAllDeviceConfigurationParametersCommand = new RelayCommand(OnSetAllDeviceConfigurationParameters, CanSetAllDeviceConfigurationParameters);
-			
+			SetGetTestCommand = new RelayCommand(OnSetGetTest);
 
 			_devicesViewModel = devicesViewModel;
 		}
@@ -364,8 +365,63 @@ namespace DevicesModule.ViewModels
 			return false;
 		}
 		#endregion
-		
 
+		#region SetGetTestCommand
+		public RelayCommand SetGetTestCommand { get; private set; }
+		void OnSetGetTest()
+		{
+			for (int i = 0; i < 1000; i++)
+			{
+				Logger.Info("Итерация чтения/записи номер "+ i.ToString());
+				List<string> rndVals = new List<string>();
+				foreach (var prop in SelectedDevice.Device.Properties)
+				{
+					var drProp = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == prop.Name);
+					if (drProp != null &&
+						drProp.IsAUParameter &&
+						drProp.DriverPropertyType == DriverPropertyTypeEnum.IntType)
+					{
+						Random rnd = new Random();
+						string v = (drProp.Min + rnd.Next(drProp.Max)).ToString();
+						prop.Value = v;
+						rndVals.Add(v);
+					}
+				}
+				FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+				Logger.Info("Запись параметров:");
+				foreach (var rndVal in rndVals)
+				{
+					Logger.Info(rndVal.ToString());
+				}
+
+				Logger.Info("Чтение параметров:");
+				OperationResult<List<Property>> result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
+				if (!result.HasError)
+				{
+					foreach (var resultProperty in result.Result)
+					{
+						var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+						if (property == null)
+						{
+							property = new Property()
+							{
+								Name = resultProperty.Name
+							};
+							SelectedDevice.Device.Properties.Add(property);
+						}
+						Logger.Info(resultProperty.Value.ToString());
+						var drProp = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+						if (drProp.DriverPropertyType == DriverPropertyTypeEnum.IntType && !rndVals.Contains(resultProperty.Value))
+						{
+							Logger.Error("Ошибка чтения/записи");
+						}
+						property.Value = resultProperty.Value;
+					}
+					SelectedDevice.UpdataConfigurationProperties();
+				}
+			}
+		}
+		#endregion
 
 		public bool IsAlternativeUSB
 		{

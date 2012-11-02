@@ -35,7 +35,6 @@ namespace Firesec
 			}
 
 			int count = propertyNos.Count;
-			
 			while (count > 0)
 			{
 				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
@@ -51,18 +50,15 @@ namespace Firesec
 						Error = result.Error
 					};
 				}
-
 				Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
-
 				if (requests != null && requests.request.Count() > 0)
 				{
-                    //if (requestIds.Contains(requests.request.First().id))
+                    if (requestIds.Contains(requests.request.First().id))
                     {
-                        
-						int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
+                        int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
 						int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
-						if (fullvalue != -1)
-							Trace.WriteLine(address.ToString() + " " + fullvalue.ToString());
+						Trace.WriteLine(address.ToString() + " " + fullvalue.ToString());
+						
 						count--;
                         foreach (var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
                         {
@@ -72,12 +68,11 @@ namespace Firesec
                             }
 						}
                     }
-					//else
-					//{
-					//    Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
-					//}
+					else
+					{
+						Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
+					}
 				}
-					
 				int waitCount = 0;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
@@ -91,7 +86,6 @@ namespace Firesec
 					};
 				}
 			}
-
 			return new OperationResult<List<Property>>()
 			{
 				Result = properties
@@ -151,7 +145,6 @@ namespace Firesec
 		{
 			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			var binProperties = new List<BinProperty>();
-
 			foreach (var property in properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
@@ -183,6 +176,7 @@ namespace Firesec
 						{
 							intValue = int.Parse(driverPropertyParameterValue.Value);
 						}
+						
 					}
 					else if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.BoolType)
 					{
@@ -203,6 +197,8 @@ namespace Firesec
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
 					}
+					Trace.WriteLine(intValue.ToString());
+
 					if (driverProperty.BitOffset > 0)
 					{
 						intValue = intValue << driverProperty.BitOffset;
@@ -231,15 +227,13 @@ namespace Firesec
 			foreach (var binProperty in binProperties)
 			{
 				if (binProperty.No == 0x8c
-					//&& binProperty.No <= 0xbf
 					)
 				{
 					;
 				}
-				Trace.WriteLine(binProperty.ToString());
 				int requestId = 0;
 				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", binProperty.ToString(), ref requestId);
-				//Trace.WriteLine(binProperty.ToString());
+				Trace.WriteLine(binProperty.ToString());
 			}
 		}
 

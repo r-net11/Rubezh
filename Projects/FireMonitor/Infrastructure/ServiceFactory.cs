@@ -47,25 +47,11 @@ namespace Infrastructure
 			FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
 			FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
 			FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
-			FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
 
 			SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
 			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 		}
 
-		static bool Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			SafeCall(() =>
-			{
-				var deviceState = FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice.DeviceState;
-				if (deviceState.StateType == StateType.Unknown)
-				{
-
-				}
-				Trace.WriteLine(stage.ToString() + " - " + comment + " - " + percentComplete.ToString() + " - " + bytesRW.ToString());
-			});
-			return true;
-		}
 		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
 		{
 			foreach (var deviceState in deviceStates)
@@ -75,14 +61,12 @@ namespace Infrastructure
 					deviceState.OnStateChanged();
 				}
 			}
-			Trace.WriteLine("OnDeviceStateChangedEvent Count = " + deviceStates.Count.ToString());
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
 		}
 		static void OnDeviceParametersChangedEvent(List<DeviceState> deviceStates)
 		{
 			foreach (var deviceState in deviceStates)
 			{
-				Trace.WriteLine("OnDeviceParametersChangedEvent");
 				ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.Device.UID);
 				if (deviceState != null)
 				{
@@ -94,7 +78,6 @@ namespace Infrastructure
 		{
 			foreach (var zoneState in zoneStates)
 			{
-				Trace.WriteLine("OnZoneStateChangedEvent");
 				ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.Zone.UID);
 				if (zoneState != null)
 				{
@@ -104,7 +87,6 @@ namespace Infrastructure
 		}
 		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)
 		{
-			Trace.WriteLine("OnNewJournalRecordEvent");
 			FiresecManager.FiresecService.AddJournalRecords(journalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
 		}
