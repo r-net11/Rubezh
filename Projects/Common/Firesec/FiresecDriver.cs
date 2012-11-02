@@ -79,7 +79,10 @@ namespace Firesec
 		{
 			try
 			{
-				ConfigurationConverter.Convert();
+                var firesecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
+                if (firesecConfiguration == null)
+                    firesecConfiguration = new Models.CoreConfiguration.config();
+                ConfigurationConverter.Convert(firesecConfiguration);
 			}
 			catch (Exception e)
 			{
@@ -208,7 +211,8 @@ namespace Firesec
 				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
 			var configurationManager = new ConfigurationConverter();
-			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);
+            configurationManager.ConvertDevicesAndZones(result.Result);
+		    operationResult.Result = configurationManager.DeviceConfiguration;
 			return operationResult;
 		}
 

@@ -20,9 +20,11 @@ namespace DevicesModule.ViewModels
 	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
+        public static ZonesViewModel Current { get; private set; }
 
 		public ZonesViewModel()
 		{
+            Current = this;
 			Menu = new ZonesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);

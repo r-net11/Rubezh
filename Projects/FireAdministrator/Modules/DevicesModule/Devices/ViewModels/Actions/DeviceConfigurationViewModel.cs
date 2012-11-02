@@ -24,14 +24,17 @@ namespace DevicesModule.ViewModels
 			RemoteDeviceConfiguration = remoteDeviceConfiguration;
 			RemoteDeviceConfiguration.Reorder();
 			RemoteDeviceConfiguration.Update();
+            RemoteDeviceConfiguration.InvalidateConfiguration();
+            RemoteDeviceConfiguration.UpdateCrossReferences();
+
 			foreach (var device in RemoteDeviceConfiguration.Devices)
 			{
 				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
-			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			RemoteRootDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			var UnionRootDevice = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
+            LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            RemoteRootDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            var UnionRootDevice = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
 			UnionRootDevice.Children = new List<Device>();
 			foreach (var localChild in LocalRootDevice.Children)
 			{
@@ -66,25 +69,31 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ReplaceCommand { get; private set; }
 		void OnReplace()
 		{
-			if (MessageBoxService.ShowQuestion("Обратите внимание, что при наличии межпанельных связей, информация о внешних устройствах может быть восстановлена не полностью") != System.Windows.MessageBoxResult.Yes)
-				return;
-
-			LocalRootDevice.Parent.Children.Remove(LocalRootDevice);
+            LocalRootDevice.Parent.Children.Remove(LocalRootDevice);
 			LocalRootDevice.Parent.Children.Add(RemoteRootDevice);
 			RemoteRootDevice.Parent = LocalRootDevice.Parent;
-
-			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == RemoteRootDevice.UID);
+            var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == LocalRootDevice.UID);
 			deviceViewModel.CollapseChildren();
 			deviceViewModel.Children.Clear();
-			foreach (var device in RemoteRootDevice.Children)
-				DevicesViewModel.Current.AddDevice(device, deviceViewModel);
-			deviceViewModel.ExpandChildren();
+            foreach (var device in RemoteRootDevice.Children)
+            {
+                DevicesViewModel.Current.AddDevice(device, deviceViewModel);
+                if (device.Zone == null)
+                    continue;
+                if (FiresecManager.Zones.Any(x => x.No == device.Zone.No))
+                    device.Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.Zone.No);
+                else
+                {
+                    FiresecManager.FiresecConfiguration.AddZone(device.Zone);
+                    ZonesViewModel.Current.Zones.Add(new ZoneViewModel(device.Zone));
+                }
+            }
+		    deviceViewModel.ExpandChildren();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.FSChanged = true;
 			DevicesViewModel.UpdateGuardVisibility();
-
-			Close(true);
+            Close(true);
 		}
 	}
 }

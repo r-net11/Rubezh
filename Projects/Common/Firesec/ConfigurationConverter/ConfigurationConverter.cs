@@ -10,7 +10,7 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-		DeviceConfiguration DeviceConfiguration { get; set; }
+        public DeviceConfiguration DeviceConfiguration { get; private set; }
 		public FiresecSerializedClient FiresecSerializedClient;
 		public Firesec.Models.CoreConfiguration.config FiresecConfiguration { get; set; }
 		int Gid { get; set; }
@@ -21,12 +21,10 @@ namespace Firesec
 			DriversError = new StringBuilder();
 		}
 
-		public void Convert()
-		{
-			FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
-			if (FiresecConfiguration == null)
-				FiresecConfiguration = new Models.CoreConfiguration.config();
-			DeviceConfiguration = new DeviceConfiguration();
+        public void Convert(Models.CoreConfiguration.config firesecConfiguration)
+        {
+            FiresecConfiguration = firesecConfiguration;
+            DeviceConfiguration = new DeviceConfiguration();
 			ConvertZones();
 			ConvertDirections();
 			ConvertGuardUsers();
@@ -36,6 +34,14 @@ namespace Firesec
 			var plans = FiresecSerializedClient.GetPlans().Result;
 			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
 		}
+
+        public void ConvertDevicesAndZones(Models.CoreConfiguration.config firesecConfiguration)
+        {
+            FiresecConfiguration = firesecConfiguration;
+            DeviceConfiguration = new DeviceConfiguration();
+            ConvertZones();
+            ConvertDevices();
+        }
 
         public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
