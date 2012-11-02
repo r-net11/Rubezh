@@ -46,6 +46,18 @@ namespace FiresecAPI.Models
 					plan.ElementXDevices = new List<ElementXDevice>();
 					result = false;
 				}
+
+				if (plan.ElementRectangleXZones == null)
+				{
+					plan.ElementRectangleXZones = new List<ElementRectangleXZone>();
+					result = false;
+				}
+
+				if (plan.ElementPolygonXZones == null)
+				{
+					plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
+					result = false;
+				}
 			}
 			return result;
 		}

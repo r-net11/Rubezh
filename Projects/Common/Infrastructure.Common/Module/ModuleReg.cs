@@ -41,12 +41,18 @@ namespace Infrastructure.Common.Module
                 var registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Modules");
                 if (registryKey != null)
                 {
-                    var Modules = registryKey.GetValueNames();
-                    foreach (var module in Modules)
-                    {
-                        var status = registryKey.GetValue(module);
-                        modules.FirstOrDefault(x => x.Name == module).IsEnabled = !status.Equals("False");
-                    }
+                    var moduleNames = registryKey.GetValueNames();
+					if (moduleNames != null)
+					{
+						foreach (var moduleName in moduleNames)
+						{
+							var status = registryKey.GetValue(moduleName);
+							if (status != null)
+							{
+								modules.FirstOrDefault(x => x.Name == moduleName).IsEnabled = !status.Equals("False");
+							}
+						}
+					}
 					registryKey.Close();
                 }
             }

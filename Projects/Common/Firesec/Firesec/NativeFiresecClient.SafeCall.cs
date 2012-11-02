@@ -68,6 +68,7 @@ namespace Firesec
                     resultData.HasError = true;
                     resultData.Error = e.Message;
                     SocketServerHelper.StartIfNotRunning();
+					Trace.WriteLine(e.Message);
                 }
                 catch (System.Reflection.TargetParameterCountException e)
                 {
@@ -80,14 +81,12 @@ namespace Firesec
                     resultData.HasError = true;
                     resultData.Error = e.Message;
                     SocketServerHelper.StartIfNotRunning();
+					Trace.WriteLine(e.Message);
                 }
                 catch (System.Runtime.InteropServices.InvalidComObjectException e)
                 {
-                    //if (!FiresecExceptionHelper.IsWellKnownInvalidComObjectException(e.Message))
-                    //{
                     string exceptionText = "InvalidComObjectException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
                     Logger.Error(exceptionText);
-                    //}
                     resultData.Result = default(T);
                     resultData.HasError = true;
                     resultData.Error = e.Message;
@@ -101,6 +100,7 @@ namespace Firesec
                     resultData.HasError = true;
                     resultData.Error = e.Message;
                     SocketServerHelper.StartIfNotRunning();
+					Trace.WriteLine(e.Message);
                 }
                 finally
                 {

@@ -13,46 +13,23 @@ namespace Firesec
 {
     public partial class NativeFiresecClient
     {
-        public void NewEventsAvailable(int eventMask)
-        {
-			if (!IsPing)
-				return;
-
-			needToRead = true;
-
-            bool evmNewEvents = ((eventMask & 1) == 1);
-            bool evmStateChanged = ((eventMask & 2) == 2);
-            bool evmConfigChanged = ((eventMask & 4) == 4);
-            bool evmDeviceParamsUpdated = ((eventMask & 8) == 8);
-            bool evmPong = ((eventMask & 16) == 16);
-            bool evmDatabaseChanged = ((eventMask & 32) == 32);
-            bool evmReportsChanged = ((eventMask & 64) == 64);
-            bool evmSoundsChanged = ((eventMask & 128) == 128);
-            bool evmLibraryChanged = ((eventMask & 256) == 256);
-            bool evmPing = ((eventMask & 512) == 512);
-            bool evmIgnoreListChanged = ((eventMask & 1024) == 1024);
-            bool evmEventViewChanged = ((eventMask & 2048) == 2048);
-
-			if (evmStateChanged)
-			{
-				needToReadStates = true;
-			}
-			if (needToReadParameters)
-			{
-				needToReadParameters = true;
-			}
-			if (evmNewEvents)
-			{
-				needToReadJournal = true;
-			}
-
-			CheckForRead();
-        }
-
+		int LastJournalNo = 0;
 		bool needToRead = false;
 		bool needToReadStates = false;
 		bool needToReadParameters = false;
 		bool needToReadJournal = false;
+
+		public void NewEventsAvailable(int eventMask)
+		{
+			if (IsPing)
+			{
+				needToRead = true;
+				needToReadJournal = ((eventMask & 1) == 1);
+				needToReadStates = ((eventMask & 2) == 2);
+				needToReadParameters = ((eventMask & 8) == 8);
+				CheckForRead();
+			}
+		}
 
 		void CheckForRead()
 		{
@@ -98,8 +75,8 @@ namespace Firesec
 						needToReadJournal = false;
 						var journalRecords = GetEventsFromLastId(LastJournalNo);
 
-						if (NewJournalRecord != null)
-							NewJournalRecord(journalRecords);
+						if (NewJournalRecords != null)
+							NewJournalRecords(journalRecords);
 					}
 				}
 				catch (Exception e)
@@ -117,44 +94,48 @@ namespace Firesec
 			}
 		}
 
-		int LastJournalNo = 0;
-
 		void SetLastEvent()
 		{
-			var result1 = ReadEvents(0, 100);
-			if (result1.HasError)
+			try
 			{
-				;
-			}
-			var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result1.Result);
-
-			if (document != null && document.Journal.IsNotNullOrEmpty())
-			{
-				foreach (var journalItem in document.Journal)
+				var result = ReadEvents(0, 100);
+				if (result.HasError)
 				{
-					var intValue = int.Parse(journalItem.IDEvents);
-					if (intValue > LastJournalNo)
-						LastJournalNo = intValue;
+					LastJournalNo = 0;
 				}
+				var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result.Result);
+				if (document != null && document.Journal.IsNotNullOrEmpty())
+				{
+					foreach (var journalItem in document.Journal)
+					{
+						var intValue = int.Parse(journalItem.IDEvents);
+						if (intValue > LastJournalNo)
+							LastJournalNo = intValue;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "NativeFiresecClient.SetLastEvent");
 			}
 		}
 
 		List<JournalRecord> GetEventsFromLastId(int oldJournalNo)
 		{
-			var result = new List<JournalRecord>();
+			var journalRecords = new List<JournalRecord>();
 
 			var hasNewRecords = true;
 			for (int i = 0; i < 100; i++)
 			{
 				hasNewRecords = false;
 
-				var result1 = ReadEvents(oldJournalNo, 100);
-				if (result1.HasError)
+				var result = ReadEvents(oldJournalNo, 100);
+				if (result.HasError)
 				{
-					;
+					return new List<JournalRecord>();
 				}
-				var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result1.Result);
 
+				var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result.Result);
 				if (document != null && document.Journal.IsNotNullOrEmpty())
 				{
 					foreach (var innerJournalItem in document.Journal)
@@ -165,7 +146,7 @@ namespace Firesec
 							LastJournalNo = eventId;
 							oldJournalNo = eventId;
 							var journalRecord = JournalConverter.Convert(innerJournalItem);
-							result.Add(journalRecord);
+							journalRecords.Add(journalRecord);
 							hasNewRecords = true;
 						}
 					}
@@ -174,7 +155,7 @@ namespace Firesec
 					break;
 			}
 
-			return result;
+			return journalRecords;
 		}
 
         OperationResult<T> ConvertResultData<T>(OperationResult<string> result)
@@ -204,10 +185,9 @@ namespace Firesec
             }
         }
 
-		public event Action<List<JournalRecord>> NewJournalRecord;
+		public event Action<List<JournalRecord>> NewJournalRecords;
         public event Action<Firesec.Models.CoreState.config> StateChanged;
         public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
-        public event Action<int> NewEventAvaliable;
         public event Func<int, string, int, int, bool> ProgressEvent;
     }
 }

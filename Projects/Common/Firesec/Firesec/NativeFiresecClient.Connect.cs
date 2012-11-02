@@ -68,9 +68,9 @@ namespace Firesec
             {
                 for (int j = 0; j < 3; j++)
                 {
-					//ConnectionTimeoutEvent = new AutoResetEvent(false);
-					//ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
-					//ConnectionTimeoutThread.Start();
+					ConnectionTimeoutEvent = new AutoResetEvent(false);
+					ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
+					ConnectionTimeoutThread.Start();
 
 					_dispatcher.Invoke(
 					(
@@ -82,7 +82,7 @@ namespace Firesec
 							}
 						)
 					));
-					//ConnectionTimeoutEvent.Set();
+					ConnectionTimeoutEvent.Set();
                     if (Connection != null)
                         break;
                 }
@@ -92,7 +92,7 @@ namespace Firesec
                 }
                 else
                 {
-					//SocketServerHelper.Restart();
+					SocketServerHelper.Restart();
                 }
             }
             if (Connection == null)
@@ -100,13 +100,13 @@ namespace Firesec
                 FiresecDriver.LoadingErrors.Append("Ошибка при загрузке драйвера firesec");
                 return new OperationResult<bool>("Ошибка при загрузке драйвера firesec");
             }
-			//if (IsPing)
-			//{
-			//    StartPingThread();
-			//}
+			if (IsPing)
+			{
+				StartPingThread();
+			}
 
-			//StartLifetimeThread();
-			//StartOperationQueueThread();
+			StartLifetimeThread();
+			StartOperationQueueThread();
 
 			SetLastEvent();
 

@@ -30,48 +30,11 @@ namespace Firesec
             {
 				ForceStateChanged();
 				ForceParametersChanged();
-				FiresecSerializedClient.NativeFiresecClient.NewJournalRecord += new Action<List<JournalRecord>>(OnNewJournalRecords);
-				FiresecSerializedClient.NativeFiresecClient.NewEventAvaliable += new Action<int>(FiresecClient_NewEvent);
+				FiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
 				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(OnStateChanged);
 				FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
 			}
             FiresecSerializedClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
-		}
-
-		void FiresecClient_NewEvent(int EventMask)
-		{
-			return;
-
-			bool evmNewEvents = ((EventMask & 1) == 1);
-			bool evmStateChanged = ((EventMask & 2) == 2);
-			bool evmConfigChanged = ((EventMask & 4) == 4);
-			bool evmDeviceParamsUpdated = ((EventMask & 8) == 8);
-			bool evmPong = ((EventMask & 16) == 16);
-			bool evmDatabaseChanged = ((EventMask & 32) == 32);
-			bool evmReportsChanged = ((EventMask & 64) == 64);
-			bool evmSoundsChanged = ((EventMask & 128) == 128);
-			bool evmLibraryChanged = ((EventMask & 256) == 256);
-			bool evmPing = ((EventMask & 512) == 512);
-			bool evmIgnoreListChanged = ((EventMask & 1024) == 1024);
-			bool evmEventViewChanged = ((EventMask & 2048) == 2048);
-
-			if (evmStateChanged)
-			{
-				//OnStateChanged();
-			}
-
-			if (evmDeviceParamsUpdated)
-			{
-				//OnParametersChanged();
-			}
-
-			if (evmNewEvents)
-			{
-				if (MustMonitorJournal)
-				{
-					OnNewEvent();
-				}
-			}
 		}
 
 		void SetLastEvent()
