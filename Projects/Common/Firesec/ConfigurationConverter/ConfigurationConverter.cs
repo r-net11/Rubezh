@@ -54,6 +54,7 @@ namespace Firesec
                 {
                     FiresecConfiguration = new Models.CoreConfiguration.config();
                     Logger.Error("ConfigurationConverter.FiresecConfiguration == null");
+					return null;
                 }
 			}
 			else

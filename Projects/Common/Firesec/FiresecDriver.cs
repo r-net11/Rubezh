@@ -96,6 +96,10 @@ namespace Firesec
 		public OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration)
 		{
 			var firesecConfiguration = ConvertBack(deviceConfiguration, true);
+			if (firesecConfiguration == null)
+			{
+				return new OperationResult<bool>("Ошибка при выполнении операции");
+			}
 			return FiresecSerializedClient.SetNewConfig(firesecConfiguration);
 		}
 

@@ -15,6 +15,9 @@ namespace Firesec
     {
         public void NewEventsAvailable(int eventMask)
         {
+			if (!IsPing)
+				return;
+
 			needToRead = true;
 
             bool evmNewEvents = ((eventMask & 1) == 1);
@@ -44,57 +47,135 @@ namespace Firesec
 			}
 
 			CheckForRead();
-			return;
-
-            SuspendOperationQueueEvent = new AutoResetEvent(false);
-            try
-            {
-                if (evmStateChanged)
-                {
-					var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
-                    if (result != null && result.Result != null)
-                    {
-                        var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
-                        if (coreState.Result != null)
-                        {
-                            if (StateChanged != null)
-                                StateChanged(coreState.Result);
-                        }
-                    }
-                }
-
-                if (evmDeviceParamsUpdated)
-                {
-					var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
-                    if (result != null && result.Result != null)
-                    {
-                        var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
-                        if (coreParameters.Result != null)
-                        {
-                            if (ParametersChanged != null)
-                                ParametersChanged(coreParameters.Result);
-                        }
-                    }
-                }
-
-                if (evmNewEvents)
-                {
-                    ;
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "NativeFiresecClient.NewEventsAvailable");
-            }
-            finally
-            {
-                SuspendOperationQueueEvent.Set();
-                SuspendOperationQueueEvent = null;
-            }
-
-            if (NewEventAvaliable != null)
-                NewEventAvaliable(eventMask);
         }
+
+		bool needToRead = false;
+		bool needToReadStates = false;
+		bool needToReadParameters = false;
+		bool needToReadJournal = false;
+
+		void CheckForRead()
+		{
+			if (needToRead)
+			{
+				needToRead = false;
+
+				SuspendOperationQueueEvent = new AutoResetEvent(false);
+				try
+				{
+					if (needToReadStates)
+					{
+						needToReadStates = false;
+						var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
+						if (result != null && result.Result != null)
+						{
+							var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
+							if (coreState.Result != null)
+							{
+								if (StateChanged != null)
+									StateChanged(coreState.Result);
+							}
+						}
+					}
+
+					if (needToReadParameters)
+					{
+						needToReadParameters = false;
+						var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
+						if (result != null && result.Result != null)
+						{
+							var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
+							if (coreParameters.Result != null)
+							{
+								if (ParametersChanged != null)
+									ParametersChanged(coreParameters.Result);
+							}
+						}
+					}
+
+					if (needToReadJournal)
+					{
+						needToReadJournal = false;
+						var journalRecords = GetEventsFromLastId(LastJournalNo);
+
+						if (NewJournalRecord != null)
+							NewJournalRecord(journalRecords);
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "NativeFiresecClient.NewEventsAvailable");
+				}
+				finally
+				{
+					if (SuspendOperationQueueEvent != null)
+					{
+						SuspendOperationQueueEvent.Set();
+					}
+					SuspendOperationQueueEvent = null;
+				}
+			}
+		}
+
+		int LastJournalNo = 0;
+
+		void SetLastEvent()
+		{
+			var result1 = ReadEvents(0, 100);
+			if (result1.HasError)
+			{
+				;
+			}
+			var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result1.Result);
+
+			if (document != null && document.Journal.IsNotNullOrEmpty())
+			{
+				foreach (var journalItem in document.Journal)
+				{
+					var intValue = int.Parse(journalItem.IDEvents);
+					if (intValue > LastJournalNo)
+						LastJournalNo = intValue;
+				}
+			}
+		}
+
+		List<JournalRecord> GetEventsFromLastId(int oldJournalNo)
+		{
+			var result = new List<JournalRecord>();
+
+			var hasNewRecords = true;
+			for (int i = 0; i < 100; i++)
+			{
+				hasNewRecords = false;
+
+				var result1 = ReadEvents(oldJournalNo, 100);
+				if (result1.HasError)
+				{
+					;
+				}
+				var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result1.Result);
+
+				if (document != null && document.Journal.IsNotNullOrEmpty())
+				{
+					foreach (var innerJournalItem in document.Journal)
+					{
+						var eventId = int.Parse(innerJournalItem.IDEvents);
+						if (eventId > oldJournalNo)
+						{
+							LastJournalNo = eventId;
+							oldJournalNo = eventId;
+							var journalRecord = JournalConverter.Convert(innerJournalItem);
+							result.Add(journalRecord);
+							hasNewRecords = true;
+						}
+					}
+				}
+				if (!hasNewRecords)
+					break;
+			}
+
+			return result;
+		}
 
         OperationResult<T> ConvertResultData<T>(OperationResult<string> result)
         {
@@ -108,9 +189,6 @@ namespace Firesec
 
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-			CheckForRead();
-			//return true;
-
             try
             {
                 if (ProgressEvent != null)
