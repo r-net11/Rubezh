@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Events;
-using OPCModule.ViewModels;
 using Infrastructure.Common.Validation;
+using Infrastructure.Events;
 using OPCModule.Validation;
+using OPCModule.ViewModels;
 
 namespace OPCModule
 {

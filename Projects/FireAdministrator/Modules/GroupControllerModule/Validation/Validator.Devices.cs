@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using FiresecClient;
@@ -32,7 +31,7 @@ namespace GKModule.Validation
             var deviceAddresses = new HashSet<string>();
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
-                if (device.Driver.DriverType == XDriverType.System || device.Driver.DriverType == XDriverType.GK)
+                if (device.Driver.DriverType == XDriverType.System || device.Driver.DriverType == XDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
                     continue;
 
                 if(!deviceAddresses.Add(device.DottedAddress))

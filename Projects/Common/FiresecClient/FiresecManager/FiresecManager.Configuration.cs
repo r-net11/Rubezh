@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Common;
 using FiresecAPI.Models;
 using XFiresecAPI;
-using Common;
 
 namespace FiresecClient
 {
@@ -30,7 +30,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.UpdateFiles");
-                LoadingErrors.AppendLine(e.Message);
+                AddLoadingError(e);
             }
         }
 
@@ -43,7 +43,7 @@ namespace FiresecClient
                 {
                     SystemConfiguration = new SystemConfiguration();
                     Logger.Error("FiresecManager.SystemConfiguration = null");
-                    LoadingErrors.AppendLine("Нулевая системная конфигурация");
+                    AddLoadingError("Нулевая системная конфигурация");
                 }
 
                 DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
@@ -51,7 +51,7 @@ namespace FiresecClient
                 {
                     DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
                     Logger.Error("FiresecManager.DeviceLibraryConfiguration = null");
-                    LoadingErrors.AppendLine("Нулевая конфигурация библиотеки устройств");
+                    AddLoadingError("Нулевая конфигурация библиотеки устройств");
                 }
 
                 XManager.XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
@@ -59,7 +59,7 @@ namespace FiresecClient
                 {
                     XManager.XDeviceLibraryConfiguration = new XDeviceLibraryConfiguration();
                     Logger.Error("FiresecManager.XDeviceLibraryConfiguration = null");
-                    LoadingErrors.AppendLine("Нулевая конфигурация библиотеки устройств ГК");
+                    AddLoadingError("Нулевая конфигурация библиотеки устройств ГК");
                 }
 
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
@@ -67,7 +67,7 @@ namespace FiresecClient
                 {
                     PlansConfiguration = new PlansConfiguration();
                     Logger.Error("FiresecManager.PlansConfiguration = null");
-                    LoadingErrors.AppendLine("Нулевая конфигурация графических планов");
+                    AddLoadingError("Нулевая конфигурация графических планов");
                 }
 
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
@@ -75,7 +75,7 @@ namespace FiresecClient
                 {
                     SecurityConfiguration = new SecurityConfiguration();
                     Logger.Error("FiresecManager.SecurityConfiguration = null");
-                    LoadingErrors.AppendLine("Нулевая конфигурация безопасности");
+                    AddLoadingError("Нулевая конфигурация безопасности");
                 }
 
                 var driversConfiguration = FiresecService.GetDriversConfiguration();
@@ -91,7 +91,7 @@ namespace FiresecClient
                 {
                     deviceConfiguration = new DeviceConfiguration();
                     Logger.Error("FiresecManager.deviceConfiguration = null");
-                    LoadingErrors.AppendLine("Нулевая конфигурация устройств");
+                    AddLoadingError("Нулевая конфигурация устройств");
                 }
 
                 FiresecConfiguration = new FiresecConfiguration()
@@ -106,7 +106,7 @@ namespace FiresecClient
             catch (Exception e)
             {
 				Logger.Error(e, "FiresecManager.GetConfiguration");
-                LoadingErrors.AppendLine(e.Message);
+                AddLoadingError(e);
             }
         }
 
@@ -121,7 +121,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.UpdateConfiguration");
-                LoadingErrors.AppendLine(e.Message);
+                AddLoadingError(e);
             }
         }
 
@@ -151,7 +151,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.UpdatePlansConfiguration");
-                LoadingErrors.AppendLine(e.Message);
+                AddLoadingError(e);
             }
         }
 

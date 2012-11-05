@@ -6,7 +6,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.ViewModels;
-using SoundsModule.Views;
 
 namespace SoundsModule.ViewModels
 {

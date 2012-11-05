@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
-using FiresecClient;
 
 namespace SkudModule
 {

@@ -71,6 +71,11 @@ namespace XFiresecAPI
         {
             get
             {
+                if(Driver.DriverType == XDriverType.GK)
+                {
+                    var ipAddress = GetGKIpAddress();
+                    return ipAddress != null ? ipAddress : "";
+                }
                 if (Driver.HasAddress == false)
                     return "";
 

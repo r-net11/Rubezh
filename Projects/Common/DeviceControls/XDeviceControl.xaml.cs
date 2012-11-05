@@ -5,10 +5,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecClient;
 using Common;
+using FiresecAPI;
+using FiresecClient;
 using XFiresecAPI;
 
 namespace DeviceControls

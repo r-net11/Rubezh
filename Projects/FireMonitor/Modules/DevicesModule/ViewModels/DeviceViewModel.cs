@@ -400,7 +400,6 @@ namespace DevicesModule.ViewModels
                         var mptTimerViewModel = new MPTTimerViewModel(Device);
                         DialogService.ShowWindow(mptTimerViewModel);
                         mptTimerViewModel.StartTimer(secondsLeft);
-                        return;
                     }
                 }
 

@@ -1,25 +1,26 @@
-﻿using Firesec;
-using System;
+﻿using System;
 using Common;
+using Firesec;
+using FiresecAPI;
 
 namespace FiresecClient
 {
     public partial class FiresecManager
     {
         public static FiresecDriver FiresecDriver { get; private set; }
-        static int lastJournalNo;
 
-        public static void InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
+        static public OperationResult<bool> InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
         {
             try
             {
-                lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
-                FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password, isPing);
+                FiresecDriver = new FiresecDriver();
+                return FiresecDriver.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
             }
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.InitializeFiresecDriver");
-                LoadingErrors.AppendLine(e.Message);
+                AddLoadingError(e);
+                return new OperationResult<bool>(e.Message);
             }
         }
 
@@ -27,7 +28,13 @@ namespace FiresecClient
         {
             try
             {
-                var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(lastJournalNo);
+                var result = FiresecService.FiresecService.GetJournalLastId();
+                if (result.HasError)
+                {
+                    AddLoadingError("Ошибка при получении индекса последней записи с сервера");
+                }
+
+                var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(result.Result);
                 if (journalRecords.Count > 0)
                 {
                     FiresecService.AddJournalRecords(journalRecords);
@@ -36,7 +43,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.SynchrinizeJournal");
-                LoadingErrors.AppendLine(e.Message);
+                AddLoadingError(e);
             }
         }
     }

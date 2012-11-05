@@ -5,10 +5,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Database;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Text;
 
 namespace FiresecService.Service
 {

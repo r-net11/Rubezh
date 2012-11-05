@@ -99,7 +99,7 @@ namespace PlansModule.ViewModels
 		{
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("ToolTip");
-			ElementXDeviceView._deviceControl.StateType = DeviceState.StateType;
+            ElementXDeviceView._deviceControl.StateType = DeviceState.GetStateType();
 			ElementXDeviceView._deviceControl.AdditionalStateCodes = new List<string>();
 			ElementXDeviceView._deviceControl.Update();
 		}

@@ -25,6 +25,11 @@ namespace FireMonitor
 			FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
 		}
 
+        public static void Close()
+        {
+            progressViewModel.Close();
+        }
+
 		static bool Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
@@ -34,7 +39,7 @@ namespace FireMonitor
 			{
 				if (FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice.DeviceState.StateType == StateType.Unknown)
 				{
-					progressViewModel.ProgressItems.Add(comment);
+					progressViewModel.Add(comment);
 					progressViewModel.SelectedProgressItem = progressViewModel.ProgressItems.LastOrDefault();
 					if (!progressViewModel.IsShown)
 					{
@@ -43,7 +48,6 @@ namespace FireMonitor
 						ClosingTimer.Start();
 					}
 				}
-				Trace.WriteLine(stage.ToString() + " - " + comment + " - " + percentComplete.ToString() + " - " + bytesRW.ToString());
 			});
 			return true;
 		}

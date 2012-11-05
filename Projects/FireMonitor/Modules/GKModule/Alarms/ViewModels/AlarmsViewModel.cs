@@ -52,18 +52,6 @@ namespace GKModule.ViewModels
 				{
 					switch (stateType)
 					{
-						case XStateType.Fire1:
-							alarms.Add(new Alarm(XAlarmType.Fire1, device));
-							break;
-
-						case XStateType.Fire2:
-							alarms.Add(new Alarm(XAlarmType.Fire2, device));
-							break;
-
-						case XStateType.Attention:
-							alarms.Add(new Alarm(XAlarmType.Attention, device));
-							break;
-
 						case XStateType.Ignore:
 							alarms.Add(new Alarm(XAlarmType.Ignore, device));
 							break;
@@ -71,6 +59,10 @@ namespace GKModule.ViewModels
 						case XStateType.Failure:
 							alarms.Add(new Alarm(XAlarmType.Failure, device));
 							break;
+
+                        case XStateType.On:
+                            alarms.Add(new Alarm(XAlarmType.Info, device));
+                            break;
 
 						case XStateType.Test:
 							alarms.Add(new Alarm(XAlarmType.Info, device));
@@ -89,12 +81,12 @@ namespace GKModule.ViewModels
 				{
 					switch (stateType)
 					{
+                        case XStateType.Fire2:
+                            alarms.Add(new Alarm(XAlarmType.Fire2, zone));
+                            break;
+
 						case XStateType.Fire1:
 							alarms.Add(new Alarm(XAlarmType.Fire1, zone));
-							break;
-
-						case XStateType.Fire2:
-							alarms.Add(new Alarm(XAlarmType.Fire2, zone));
 							break;
 
 						case XStateType.Attention:

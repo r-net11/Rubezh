@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
-using FiresecAPI;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using FiresecAPI;
 
 namespace XFiresecAPI
 {
@@ -81,6 +80,14 @@ namespace XFiresecAPI
 				JournalFilters = new List<XJournalFilter>();
 				result = false;
 			}
+            foreach (var journalFilter in JournalFilters)
+            {
+                if(journalFilter.EventNames == null)
+                {
+                    journalFilter.EventNames = new List<string>();
+                    result = false;
+                }
+            }
 
 			if (Devices == null)
 			{

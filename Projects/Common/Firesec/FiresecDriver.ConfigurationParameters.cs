@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Common;
 
 namespace Firesec
 {

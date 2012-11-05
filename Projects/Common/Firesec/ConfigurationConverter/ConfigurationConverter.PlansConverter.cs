@@ -10,7 +10,7 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-		PlansConfiguration ConvertPlans(surfaces innerPlans)
+        PlansConfiguration ConvertPlans(surfaces innerPlans, DeviceConfiguration deviceConfiguration)
 		{
 			var plansConfiguration = new PlansConfiguration();
 
@@ -82,7 +82,7 @@ namespace Firesec
 
 									long longId = long.Parse(innerElement.id);
 									int intId = (int)longId;
-									foreach (var zone in DeviceConfiguration.Zones)
+									foreach (var zone in deviceConfiguration.Zones)
 									{
 										foreach (var zoneShapeId in zone.ShapeIds)
 										{
@@ -137,7 +137,7 @@ namespace Firesec
 							case "Устройства":
 								foreach (var innerElement in innerLayer.elements)
 								{
-									AddDevice(plan, innerElement);
+                                    AddDevice(plan, innerElement, deviceConfiguration);
 								}
 								break;
 						}
@@ -231,7 +231,7 @@ namespace Firesec
 			plan.ElementPolygons.Add(elementPolygon);
 		}
 
-		void AddDevice(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
+        void AddDevice(Plan plan, surfacesSurfaceLayerElementsElement innerElement, DeviceConfiguration deviceConfiguration)
 		{
 			if (innerElement.rect != null)
 			{
@@ -249,7 +249,7 @@ namespace Firesec
 				};
 				plan.ElementDevices.Add(elementDevice);
 
-				foreach (var device in DeviceConfiguration.Devices)
+				foreach (var device in deviceConfiguration.Devices)
 				{
 					foreach (var deviceShapeId in device.ShapeIds)
 					{

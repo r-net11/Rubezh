@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace XFiresecAPI
 {
@@ -48,7 +46,6 @@ namespace XFiresecAPI
             {
                 stateClasses.Add(XStateClass.AutoOff);
             }
-            //stateClasses.Add(XStateClass.Service);
 
             return stateClasses.ToList();
         }

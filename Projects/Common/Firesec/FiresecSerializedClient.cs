@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using Firesec.Models.Functions;
 using FiresecAPI;
-using Common;
 
 namespace Firesec
 {

@@ -124,7 +124,7 @@
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Converters\NullToImageConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Converters\StateToColorConverter.cs" />
+    <Compile Include="Converters\StateTypeToColorConverter.cs" />
     <Compile Include="Converters\StateTypeToIconConverter.cs" />
     <Compile Include="Converters\StateTypeToIntConverter.cs" />
     <Compile Include="Converters\StateTypeToJournalStringConverter.cs" />

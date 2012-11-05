@@ -7,13 +7,13 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-		void ConvertZones()
+        void ConvertZones(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
-			DeviceConfiguration.Zones = new List<Zone>();
+			deviceConfiguration.Zones = new List<Zone>();
 
-			if (FiresecConfiguration.zone != null)
+			if (coreConfig.zone != null)
 			{
-				foreach (var innerZone in FiresecConfiguration.zone)
+				foreach (var innerZone in coreConfig.zone)
 				{
 					var zone = new Zone()
 					{
@@ -65,15 +65,15 @@ namespace Firesec
 							zone.GuardZoneType = (GuardZoneType)int.Parse(guardZoneTypeParam.value);
 						}
 					}
-					DeviceConfiguration.Zones.Add(zone);
+					deviceConfiguration.Zones.Add(zone);
 				}
 			}
 		}
 
-		void ConvertZonesBack()
+        void ConvertZonesBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			var innerZones = new List<zoneType>();
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in deviceConfiguration.Zones)
 			{
 				var innerZone = new zoneType()
 				{
@@ -161,9 +161,9 @@ namespace Firesec
 			}
 
 			if (innerZones.Count > 0)
-				FiresecConfiguration.zone = innerZones.ToArray();
+				coreConfig.zone = innerZones.ToArray();
 			else
-				FiresecConfiguration.zone = null;
+				coreConfig.zone = null;
 		}
 	}
 }

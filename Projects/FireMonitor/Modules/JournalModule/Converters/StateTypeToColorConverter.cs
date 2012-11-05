@@ -2,19 +2,14 @@
 using System.Windows.Data;
 using System.Windows.Media;
 using FiresecAPI;
-using XFiresecAPI;
 
-namespace GKModule.Converters
+namespace JournalModule.Converters
 {
-	public class XZoneStateToColorConverter : IValueConverter
+    public class StateTypeToColorConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			XZoneState zoneState = (XZoneState)value;
-			if (zoneState == null)
-				return Brushes.Black;
-
-			switch (zoneState.StateType)
+			switch ((StateType)value)
 			{
 				case StateType.Fire:
 					return Brushes.Red;
@@ -29,19 +24,22 @@ namespace GKModule.Converters
 					return Brushes.LightGreen;
 
 				case StateType.Off:
-					return Brushes.LightYellow;
+					return Brushes.Yellow;
 
 				case StateType.Unknown:
 					return Brushes.Gray;
 
 				case StateType.Info:
-					return Brushes.LightBlue;
+					return Brushes.White;
 
 				case StateType.Norm:
-					return Brushes.Green;
+					return Brushes.White;
+
+				case StateType.No:
+					return Brushes.White;
 
 				default:
-					return Brushes.Black;
+					return Brushes.White;
 			}
 		}
 

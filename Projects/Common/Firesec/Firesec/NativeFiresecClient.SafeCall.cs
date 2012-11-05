@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Windows.Threading;
 using Common;
 using FiresecAPI;
-using System.Diagnostics;
 
 namespace Firesec
 {
     public partial class NativeFiresecClient
     {
+        public static bool IsOperationBuisy = false;
+        public static DateTime OperationDateTime;
+
         OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
         {
 			var safeCallResult = (OperationResult<T>)_dispatcher.Invoke
@@ -28,10 +27,6 @@ namespace Firesec
 			return safeCallResult;
         }
 
-        public static int OperationNo = 0;
-        public static bool IsOperationBuisy = false;
-        public static DateTime OperationDateTime;
-
         OperationResult<T> SafeLoopCall<T>(Func<T> f, string methodName)
         {
             var resultData = new OperationResult<T>();
@@ -39,7 +34,6 @@ namespace Firesec
             {
                 try
                 {
-                    OperationNo++;
                     IsOperationBuisy = true;
                     OperationDateTime = DateTime.Now;
 

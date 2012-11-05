@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AlarmModule.Events;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -15,38 +14,50 @@ namespace AlarmModule.ViewModels
 {
 	public class AlarmsViewModel : ViewPartViewModel
 	{
+        public static AlarmsViewModel Current { get; private set; }
 		List<Alarm> allAlarms;
-		AlarmType? _alarmType;
+		AlarmType? SortingAlarmType;
 
 		public AlarmsViewModel()
 		{
+            Current = this;
 			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
-			ServiceFactory.Events.GetEvent<AlarmRemovedEvent>().Subscribe(OnAlarmRemoved);
-			ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
 
 			allAlarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
 		}
 
-		public void Initialize()
-		{
-		}
+        public void Update(List<Alarm> alarms)
+        {
+            allAlarms = alarms;
+            Sort(SortingAlarmType);
+        }
 
-		public void Sort(AlarmType? alarmType)
+		public void Sort(AlarmType? sortingAlarmType)
 		{
-			_alarmType = alarmType;
+			SortingAlarmType = sortingAlarmType;
+
+            Alarm oldAlarm = null;
+            if (SelectedAlarm != null)
+            {
+                oldAlarm = SelectedAlarm.Alarm.Clone();
+            }
 
 			Alarms.Clear();
-
 			foreach (var alarm in allAlarms)
 			{
-				if ((alarmType == null) || (alarm.AlarmType == alarmType))
+				if ((sortingAlarmType == null) || (alarm.AlarmType == sortingAlarmType))
 				{
 					var alarmViewModel = new AlarmViewModel(alarm);
 					Alarms.Add(alarmViewModel);
 				}
 			}
+
+            if (oldAlarm != null)
+            {
+                SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
+            }
 		}
 
 		public ObservableCollection<AlarmViewModel> Alarms { get; private set; }
@@ -114,9 +125,11 @@ namespace AlarmModule.ViewModels
             {
                 if (alarmViewModel.Alarm.AlarmType == AlarmType.Off)
                 {
-                    var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == alarmViewModel.Alarm.DeviceUID);
-                    if (FiresecManager.CanDisable(device.DeviceState) && device.DeviceState.IsDisabled)
-                        devices.Add(device);
+                    if (alarmViewModel.Alarm.Device != null)
+                    {
+                        if (FiresecManager.CanDisable(alarmViewModel.Alarm.Device.DeviceState) && alarmViewModel.Alarm.Device.DeviceState.IsDisabled)
+                            devices.Add(alarmViewModel.Alarm.Device);
+                    }
                 }
             }
 
@@ -128,26 +141,6 @@ namespace AlarmModule.ViewModels
 		public bool CanRemoveAllFromIgnoreList()
 		{
 			return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);
-		}
-
-		void OnAlarmAdded(Alarm alarm)
-		{
-			allAlarms.Add(alarm);
-
-			if (_alarmType == null || alarm.AlarmType == _alarmType)
-			{
-				Alarms.Insert(0, new AlarmViewModel(alarm));
-			}
-		}
-
-		void OnAlarmRemoved(Alarm alarm)
-		{
-			allAlarms.Remove(alarm);
-
-			if (_alarmType == null || alarm.AlarmType == _alarmType)
-			{
-				Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
-			}
 		}
 	}
 }

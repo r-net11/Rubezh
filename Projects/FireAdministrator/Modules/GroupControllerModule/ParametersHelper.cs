@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Common;
 using Common.GK;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
-using System;
-using Common;
-using System.Diagnostics;
 
 namespace GKModule
 {

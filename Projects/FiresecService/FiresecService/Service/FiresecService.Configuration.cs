@@ -1,6 +1,6 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecService.Configuration;
-using FiresecAPI;
 using XFiresecAPI;
 
 namespace FiresecService.Service

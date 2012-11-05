@@ -3,13 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Views="clr-namespace:GKModule.Views"
         xmlns:Converters="clr-namespace:GKModule.Converters"
-        xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <UserControl.Resources>
-        <CommonConverters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-        <Converters:XZoneStateToColorConverter x:Key="XZoneStateToColorConverter" />
-        <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
-    </UserControl.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -31,7 +25,7 @@
                                     <Setter Property="Margin" Value="0"/>
                                     <Setter Property="VerticalContentAlignment" Value="Center" />
                                     <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource XZoneStateToColorConverter}}"/>
+                                    <Setter Property="Background" Value="{Binding ZoneState.StateClass., Converter={StaticResource XStateClassToIconConverter}}"/>
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="Foreground" Value="Black" />
@@ -52,7 +46,7 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                            Background="{Binding ZoneState.StateType, Converter={StaticResource StateToColorConverter}}"
+                                            Background="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToColorConverter}}"
                                             ToolTip="{Binding ToolTip}">
                                         <Grid.ContextMenu>
                                             <ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
@@ -80,12 +74,12 @@
                 <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="{Binding Zone.PresentationName}" Margin="0" />
-                        <Label Content="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="10, 0, 0, 0" />
+                        <Label Content="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="10, 0, 0, 0" />
                     </StackPanel>
-                    <ItemsControl ItemsSource="{Binding ZoneState.States}" Margin="2">
+                    <ItemsControl ItemsSource="{Binding ZoneState.StateClasses}" Margin="2">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" Foreground="White" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -107,7 +101,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.DottedAddress}" />
+                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
                 </DataGrid.Columns>
             </DataGrid>

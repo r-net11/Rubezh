@@ -1,110 +1,114 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
-using System.Diagnostics;
-using XFiresecAPI;
 
 namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-        public DeviceConfiguration DeviceConfiguration { get; private set; }
-		public FiresecSerializedClient FiresecSerializedClient;
-		public Firesec.Models.CoreConfiguration.config FiresecConfiguration { get; set; }
-		int Gid { get; set; }
+        FiresecSerializedClient FiresecSerializedClient;
 		public StringBuilder DriversError { get; private set; }
 
-		public ConfigurationConverter()
+        public ConfigurationConverter(FiresecSerializedClient firesecSerializedClient)
 		{
 			DriversError = new StringBuilder();
+            FiresecSerializedClient = firesecSerializedClient;
 		}
 
-        public void Convert(Models.CoreConfiguration.config firesecConfiguration)
+        public DeviceConfiguration ConvertCoreConfig()
         {
-            FiresecConfiguration = firesecConfiguration;
-            DeviceConfiguration = new DeviceConfiguration();
-			ConvertZones();
-			ConvertDirections();
-			ConvertGuardUsers();
-			ConvertDevices();
-			ConfigurationCash.DeviceConfiguration = DeviceConfiguration;
-            Update(ConfigurationCash.DeviceConfiguration);
-			var plans = FiresecSerializedClient.GetPlans().Result;
-			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
+            var coreConfig = FiresecSerializedClient.GetCoreConfig().Result;
+            if (coreConfig == null)
+                return null;
+
+            var deviceConfiguration = new DeviceConfiguration();
+			ConvertZones(deviceConfiguration, coreConfig);
+            ConvertDirections(deviceConfiguration, coreConfig);
+            ConvertGuardUsers(deviceConfiguration, coreConfig);
+            ConvertDevices(deviceConfiguration, coreConfig);
+            Update(deviceConfiguration);
+            return deviceConfiguration;
 		}
 
-        public void ConvertDevicesAndZones(Models.CoreConfiguration.config firesecConfiguration)
+        public PlansConfiguration ConvertPlans(DeviceConfiguration deviceConfiguration)
         {
-            FiresecConfiguration = firesecConfiguration;
-            DeviceConfiguration = new DeviceConfiguration();
-            ConvertZones();
-            ConvertDevices();
+            var plans = FiresecSerializedClient.GetPlans().Result;
+            if (plans == null)
+                return null;
+            var plansConfiguration = ConvertPlans(plans, deviceConfiguration);
+            return plansConfiguration;
+        }
+
+        public DeviceConfiguration ConvertDevicesAndZones(Models.CoreConfiguration.config coreConfig)
+        {
+            var deviceConfiguration = new DeviceConfiguration();
+            ConvertZones(deviceConfiguration, coreConfig);
+            ConvertDevices(deviceConfiguration, coreConfig);
+            return deviceConfiguration;
+        }
+
+        public DeviceConfiguration ConvertOnlyDevices(Firesec.Models.CoreConfiguration.config coreConfig)
+        {
+            var deviceConfiguration = new DeviceConfiguration();
+            ConvertDevices(deviceConfiguration, coreConfig);
+            return deviceConfiguration;
+        }
+
+        public DriversConfiguration ConvertMetadataFromFiresec()
+        {
+            var driversConfiguration = new DriversConfiguration();
+            var coreDriversConfig = FiresecSerializedClient.GetMetaData().Result;
+            if (coreDriversConfig == null)
+                return null;
+            foreach (var innerDriver in coreDriversConfig.drv)
+            {
+                var driver = DriverConverter.Convert(coreDriversConfig, innerDriver);
+                if (driver == null)
+                {
+                    Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
+                    DriversError.AppendLine("Не удается найти данные для драйвера " + innerDriver.name);
+                }
+                else
+                {
+                    if (driver.IsIgnore == false)
+                        driversConfiguration.Drivers.Add(driver);
+                }
+            }
+            DriverConfigurationParametersHelper.CreateKnownProperties(driversConfiguration.Drivers);
+            return driversConfiguration;
         }
 
         public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
-			DeviceConfiguration = deviceConfiguration;
-			DeviceConfiguration.Update();
+			deviceConfiguration.Update();
 
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in deviceConfiguration.Devices)
 			{
 				device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
+            var coreConfig = new Firesec.Models.CoreConfiguration.config();
 			if (includeSecurity)
 			{
-				FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
-                if (FiresecConfiguration == null)
+				coreConfig = FiresecSerializedClient.GetCoreConfig().Result;
+                if (coreConfig == null)
                 {
-                    FiresecConfiguration = new Models.CoreConfiguration.config();
+                    coreConfig = new Models.CoreConfiguration.config();
                     Logger.Error("ConfigurationConverter.FiresecConfiguration == null");
 					return null;
                 }
+                coreConfig.part = null;
 			}
-			else
-			{
-				FiresecConfiguration = new Firesec.Models.CoreConfiguration.config();
-			}
-            FiresecConfiguration.part = null;
 
-			Gid = 0;
-			ConvertZonesBack();
-			ConvertDevicesBack();
-			ConvertDirectionsBack();
-			ConvertGuardUsersBack();
+			int gid = 0;
+            ConvertZonesBack(deviceConfiguration, coreConfig);
+            ConvertDevicesBack(deviceConfiguration, coreConfig);
+            ConvertDirectionsBack(deviceConfiguration, coreConfig, ref gid);
+            ConvertGuardUsersBack(deviceConfiguration, coreConfig, ref gid);
 
-            return FiresecConfiguration;
-		}
-
-		public DeviceConfiguration ConvertOnlyDevices(Firesec.Models.CoreConfiguration.config firesecConfiguration)
-		{
-			DeviceConfiguration = new DeviceConfiguration();
-			FiresecConfiguration = firesecConfiguration;
-			ConvertDevices();
-			return DeviceConfiguration;
-		}
-
-		public void ConvertMetadataFromFiresec()
-		{
-			DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
-			ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-			foreach (var innerDriver in DriverConverter.Metadata.drv)
-			{
-				var driver = DriverConverter.Convert(innerDriver);
-				if (driver == null)
-				{
-					Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
-					DriversError.AppendLine("Не удается найти данные для драйвера " + innerDriver.name);
-				}
-				else
-				{
-					if (driver.IsIgnore == false)
-						ConfigurationCash.DriversConfiguration.Drivers.Add(driver);
-				}
-			}
-			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.DriversConfiguration.Drivers);
+            return coreConfig;
 		}
 
         void Update(DeviceConfiguration deviceConfiguration = null)
@@ -112,7 +116,7 @@ namespace Firesec
 			if (deviceConfiguration == null)
 			{
 				Logger.Error("ConfigurationConverter.Update deviceConfiguration = null");
-                return;
+                throw new FiresecException("Нулевая кофигурация устройств при обновлении");
 			}
 
             var hasInvalidDriver = false;
@@ -136,21 +140,12 @@ namespace Firesec
 		public void SynchronyzeConfiguration()
 		{
             var result = FiresecSerializedClient.GetCoreConfig();
-			if (result.HasError)
+            if (result.HasError || result.Result == null)
 			{
-				Logger.Error("SynchronyzeConfiguration FiresecSerializedClient.GetCoreConfig HasError" + result.Error);
-                DriversError.AppendLine("Ошибка при загрузке конфигурации из драйвера");
-				return;
-			}
-            var coreConfig = result.Result;
-			if (coreConfig == null)
-			{
-                Logger.Error("SynchronyzeConfiguration FiresecSerializedClient.GetCoreConfig coreConfig=null");
-                DriversError.AppendLine("Ошибка при загрузке конфигурации из драйвера");
-				return;
+                throw new FiresecException("Ощибка при пполучении конфигурации устройств из драйвера Firesec");
 			}
 
-			var firesecDeviceConfiguration = ConvertOnlyDevices(coreConfig);
+            var firesecDeviceConfiguration = ConvertOnlyDevices(result.Result);
 			Update(firesecDeviceConfiguration);
 			Update(ConfigurationCash.DeviceConfiguration);
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)

@@ -10,19 +10,25 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-		void ConvertDevices()
+        void ConvertDevices(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
-			DeviceConfiguration.Devices = new List<Device>();
+			deviceConfiguration.Devices = new List<Device>();
 
-			var rootInnerDevice = FiresecConfiguration.dev[0];
-			var rootDevice = SetInnerDevice(rootInnerDevice, null);
-			DeviceConfiguration.Devices.Add(rootDevice);
-			AddDevice(rootInnerDevice, rootDevice);
+            if (coreConfig.dev == null || coreConfig.dev.Count() == 0 || coreConfig.drv == null)
+            {
+                Logger.Error("ConfigurationConverter.ConvertDevices coreConfig.dev = null");
+                FiresecDriver.LoadingErrors.Append("Пустая коллекция устройств или драйверов при конвертации конфигурации");
+                return;
+            }
 
-			DeviceConfiguration.RootDevice = rootDevice;
+			var rootInnerDevice = coreConfig.dev[0];
+            var rootDevice = SetInnerDevice(rootInnerDevice, null, deviceConfiguration, coreConfig);
+			deviceConfiguration.Devices.Add(rootDevice);
+            AddDevice(rootInnerDevice, rootDevice, deviceConfiguration, coreConfig);
+			deviceConfiguration.RootDevice = rootDevice;
 		}
 
-		void AddDevice(devType parentInnerDevice, Device parentDevice)
+        void AddDevice(devType parentInnerDevice, Device parentDevice, DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			if (parentInnerDevice.dev == null)
 				return;
@@ -30,24 +36,30 @@ namespace Firesec
 			parentDevice.Children = new List<Device>();
 			foreach (var innerDevice in parentInnerDevice.dev)
 			{
-				var device = SetInnerDevice(innerDevice, parentDevice);
+                var device = SetInnerDevice(innerDevice, parentDevice, deviceConfiguration, coreConfig);
 				if (device != null)
 				{
 					parentDevice.Children.Add(device);
-					DeviceConfiguration.Devices.Add(device);
-					AddDevice(innerDevice, device);
+					deviceConfiguration.Devices.Add(device);
+                    AddDevice(innerDevice, device, deviceConfiguration, coreConfig);
 				}
 			}
 		}
 
-		Device SetInnerDevice(devType innerDevice, Device parentDevice)
+        Device SetInnerDevice(devType innerDevice, Device parentDevice, DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			var device = new Device()
 			{
 				Parent = parentDevice
 			};
-			var driverId = FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
-			var driverUID = new Guid(driverId);
+            var drvType = coreConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv);
+            if(drvType == null)
+            {
+                Logger.Error("ConfigurationConverter.SetInnerDevice drvType = null " + innerDevice.drv.ToString());
+                FiresecDriver.LoadingErrors.Append("Ошибка сопоставления при конвертации конфигурации");
+                return null;
+            }
+			var driverUID = new Guid(drvType.id);
 			device.DriverUID = driverUID;
 			device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == driverUID);
 			if (device.Driver == null)
@@ -113,7 +125,7 @@ namespace Firesec
 			if (description != null)
 				description = description.Replace('¹', '№');
 			device.Description = description;
-			SetZone(device, innerDevice);
+            SetZone(device, innerDevice, deviceConfiguration, coreConfig);
 
 			device.ShapeIds = new List<string>();
 			if (innerDevice.shape != null)
@@ -128,14 +140,14 @@ namespace Firesec
 			return device;
 		}
 
-		void SetZone(Device device, devType innerDevice)
+        void SetZone(Device device, devType innerDevice, DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
-			if (innerDevice.inZ != null)
+            if (innerDevice.inZ != null && innerDevice.inZ.Count() > 0)
 			{
 				string zoneIdx = innerDevice.inZ[0].idz;
-				string zoneNo = FiresecConfiguration.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
+				string zoneNo = coreConfig.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
                 int intZoneNo = int.Parse(zoneNo);
-                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == intZoneNo);
+                var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == intZoneNo);
                 if (zone != null)
                 {
                     device.ZoneUID = zone.UID;
@@ -148,7 +160,7 @@ namespace Firesec
 				{
 					string zoneLogicstring = zoneLogicProperty.value;
 					if (string.IsNullOrEmpty(zoneLogicstring) == false)
-                        device.ZoneLogic = ZoneLogicConverter.Convert(DeviceConfiguration, SerializerHelper.GetZoneLogic(zoneLogicstring));
+                        device.ZoneLogic = ZoneLogicConverter.Convert(deviceConfiguration, SerializerHelper.GetZoneLogic(zoneLogicstring));
 				}
 
 				var indicatorLogicProperty = innerDevice.prop.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
@@ -159,7 +171,7 @@ namespace Firesec
 					{
 						var indicatorLogic = SerializerHelper.GetIndicatorLogic(indicatorLogicString);
 						if (indicatorLogic != null)
-							device.IndicatorLogic = IndicatorLogicConverter.Convert(DeviceConfiguration, indicatorLogic);
+							device.IndicatorLogic = IndicatorLogicConverter.Convert(deviceConfiguration, indicatorLogic);
 					}
 				}
 
@@ -173,18 +185,18 @@ namespace Firesec
 			}
 		}
 
-		void ConvertDevicesBack()
+        void ConvertDevicesBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
-			ConvertDriversBack();
-			var rootDevice = DeviceConfiguration.RootDevice;
-			var rootInnerDevice = DeviceToInnerDevice(rootDevice);
-			AddInnerDevice(rootDevice, rootInnerDevice);
+            ConvertDriversBack(coreConfig);
+			var rootDevice = deviceConfiguration.RootDevice;
+            var rootInnerDevice = DeviceToInnerDevice(rootDevice, deviceConfiguration, coreConfig);
+            AddInnerDevice(rootDevice, rootInnerDevice, deviceConfiguration, coreConfig);
 
-			FiresecConfiguration.dev = new devType[1];
-			FiresecConfiguration.dev[0] = rootInnerDevice;
+			coreConfig.dev = new devType[1];
+			coreConfig.dev[0] = rootInnerDevice;
 		}
 
-		void ConvertDriversBack()
+        void ConvertDriversBack(Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			var drivers = new List<drvType>();
 			foreach (var driver in ConfigurationCash.DriversConfiguration.Drivers)
@@ -197,27 +209,27 @@ namespace Firesec
 				};
 				drivers.Add(innerDriver);
 			}
-			FiresecConfiguration.drv = drivers.ToArray();
+			coreConfig.drv = drivers.ToArray();
 		}
 
-		void AddInnerDevice(Device parentDevice, devType parentInnerDevice)
+        void AddInnerDevice(Device parentDevice, devType parentInnerDevice, DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			var childInnerDevices = new List<devType>();
 			foreach (var device in parentDevice.Children)
 			{
-				var childInnerDevice = DeviceToInnerDevice(device);
+				var childInnerDevice = DeviceToInnerDevice(device, deviceConfiguration, coreConfig);
 				childInnerDevices.Add(childInnerDevice);
-				AddInnerDevice(device, childInnerDevice);
+                AddInnerDevice(device, childInnerDevice, deviceConfiguration, coreConfig);
 			}
 			parentInnerDevice.dev = childInnerDevices.ToArray();
 		}
 
-		devType DeviceToInnerDevice(Device device)
+        devType DeviceToInnerDevice(Device device, DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			var innerDevice = new devType();
 			innerDevice.name = device.Description;
 
-			innerDevice.drv = FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.Driver.StringUID).idx;
+			innerDevice.drv = coreConfig.drv.FirstOrDefault(x => x.id.ToUpper() == device.Driver.StringUID).idx;
 
 			var intAddress = device.IntAddress;
 			if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
@@ -235,7 +247,7 @@ namespace Firesec
 
 			if (device.ZoneUID != Guid.Empty)
 			{
-                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+                var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
                 if (zone != null)
                 {
                     var zones = new List<inZType>();

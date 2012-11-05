@@ -9,7 +9,6 @@ namespace GKModule
 	public class Alarm
 	{
 		public XAlarmType AlarmType { get; set; }
-		public XStateType StateType { get; set; }
 		public XDevice Device { get; set; }
 		public XZone Zone { get; set; }
 		public XDirection Direction { get; set; }

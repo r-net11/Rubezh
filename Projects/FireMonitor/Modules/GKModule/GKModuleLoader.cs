@@ -87,7 +87,6 @@ namespace GKModule
             ArchiveViewModel.Initialize();
 
             JournalWatcherManager.Start();
-            JournalWatcherManager.GetLastJournalItems(100);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

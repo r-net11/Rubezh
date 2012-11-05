@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace FiresecAPI
 {

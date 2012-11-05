@@ -13,10 +13,11 @@ using XFiresecAPI;
 
 namespace GKModule
 {
-    public class JournalWatcher
+    public partial class JournalWatcher
     {
+        public bool IsStopped = false;
         GkDatabase GkDatabase;
-        int LastId;
+        int LastId = -1;
         int LastDBNo;
 
         public JournalWatcher(GkDatabase gkDatabase)
@@ -24,11 +25,6 @@ namespace GKModule
             GkDatabase = gkDatabase;
             var gkIpAddress = XManager.GetIpAddress(gkDatabase.RootDevice);
             LastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
-        }
-
-        public void Start()
-        {
-            LastId = GetLastId();
         }
 
         public void PingJournal()
@@ -48,6 +44,8 @@ namespace GKModule
         int GetLastId()
         {
             var sendResult = SendManager.Send(GkDatabase.RootDevice, 0, 6, 64);
+            if (IsStopped)
+                return -1;
             if (sendResult.HasError)
             {
                 ConnectionChanged(false);
@@ -62,6 +60,8 @@ namespace GKModule
         {
             var data = BitConverter.GetBytes(index).ToList();
             var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
+            if (IsStopped)
+                return null;
             if (sendResult.HasError)
             {
                 ConnectionChanged(false);
@@ -113,60 +113,10 @@ namespace GKModule
         public void GetLastJournalItems(int count)
         {
             var lastId = GetLastId();
-            ReadAndPublish(Math.Max(0, lastId - count), lastId);
-        }
-
-        bool IsConnected = true;
-
-        void ConnectionChanged(bool isConnected)
-        {
-            if (IsConnected != isConnected)
+            if (lastId != -1)
             {
-                var journalItem = new JournalItem()
-                {
-                    DateTime = DateTime.Now,
-                    GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-                    ObjectUID = GkDatabase.RootDevice.UID,
-                    GKObjectNo = GkDatabase.RootDevice.GetDatabaseNo(DatabaseType.Gk),
-                    JournalItemType = JournalItemType.GK,
-                    StateClass = XStateClass.Unknown
-                };
-                if (isConnected)
-                {
-                    journalItem.Description = "Восстановление связи с прибором";
-                }
-                else
-                {
-                    journalItem.Description = "Потеря связи с прибором";
-                }
-                ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
-                GKDBHelper.Add(journalItem);
-                IsConnected = isConnected;
+                ReadAndPublish(Math.Max(0, lastId - count), lastId);
             }
-            var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
-            if (gkDevice == null)
-            {
-                Logger.Error("JournalWatcher ConnectionChanged gkDevice = null");
-                return;
-            }
-
-            foreach (var childDevice in XManager.GetAllDeviceChildren(gkDevice))
-            {
-                if (childDevice != null)
-                {
-                    childDevice.DeviceState.IsConnectionLost = !isConnected;
-                }
-            }
-            foreach (var zoneState in XManager.GetAllGKZoneStates(gkDevice.DeviceState))
-            {
-                zoneState.IsConnectionLost = !isConnected;
-            }
-            foreach (var directionState in XManager.GetAllGKDirectionStates(gkDevice.DeviceState))
-            {
-                directionState.IsConnectionLost = !isConnected;
-            }
-
-            ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(isConnected); });
         }
     }
 }

@@ -19,6 +19,7 @@
 				case "Ошибка записи потока":
 				case "Версия 5 базы в блоке индикации не поддерживается. Обновите FireSec":
 				case "Неверный аргумент":
+                case "Catastrophic failure":
 					return true;
 			}
 			return false;

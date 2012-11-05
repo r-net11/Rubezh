@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using XFiresecAPI;
-using FiresecAPI;
 
 namespace FiresecService.Configuration
 {

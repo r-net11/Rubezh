@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
 
 namespace OPCModule.ViewModels
 {

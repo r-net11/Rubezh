@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Windows.Threading;
 using Common;
-using FiresecAPI;
-using System.Diagnostics;
 
 namespace Firesec
 {
@@ -21,6 +15,10 @@ namespace Firesec
             {
                 StopPingEvent.Set();
             }
+            if (PingThread != null)
+            {
+                PingThread.Join(TimeSpan.FromSeconds(1));
+            }
         }
 
         void StartPingThread()
@@ -28,7 +26,7 @@ namespace Firesec
             if (PingThread == null)
             {
                 StopPingEvent = new AutoResetEvent(false);
-                PingThread = new Thread(new ThreadStart(() => { OnPing(); }));
+                PingThread = new Thread(OnPing);
                 PingThread.Start();
             }
         }
@@ -39,6 +37,9 @@ namespace Firesec
             {
                 if (StopPingEvent.WaitOne(10000))
                     break;
+
+                if (!IsConnected)
+                    continue;
 
                 if (Connection != null)
                 {

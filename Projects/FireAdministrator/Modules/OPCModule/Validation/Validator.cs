@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Validation;
+﻿using System.Collections.Generic;
 using FiresecClient;
+using Infrastructure.Common.Validation;
 
 namespace OPCModule.Validation
 {

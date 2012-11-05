@@ -102,7 +102,7 @@
                 <DataGridTemplateColumn Header="Адрес" MinWidth="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Device.Address}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Text="{Binding Device.PresentationAddress}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

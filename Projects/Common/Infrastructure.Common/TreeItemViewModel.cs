@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
-using System.Collections.Specialized;
 
 namespace Infrastructure.Common
 {

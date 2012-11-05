@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AlarmModule.Events;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -15,26 +14,10 @@ namespace AlarmModule.ViewModels
 		{
 			Alarms = new List<Alarm>();
 			ShowCommand = new RelayCommand(OnShowCommand);
-			ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
-			ServiceFactory.Events.GetEvent<AlarmRemovedEvent>().Subscribe(OnResetAlarm);
 		}
 
 		public AlarmType AlarmType { get; set; }
 		public List<Alarm> Alarms { get; set; }
-
-		void OnAlarmAdded(Alarm alarm)
-		{
-			if (alarm.AlarmType == AlarmType)
-				Alarms.Add(alarm);
-			Update();
-		}
-
-		void OnResetAlarm(Alarm alarm)
-		{
-			if (alarm.AlarmType == this.AlarmType)
-				Alarms.Remove(Alarms.FirstOrDefault(x => x.DeviceUID == alarm.DeviceUID));
-			Update();
-		}
 
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShowCommand()

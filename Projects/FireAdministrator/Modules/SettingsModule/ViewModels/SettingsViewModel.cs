@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrastructure.Common.Theme;
 
 namespace SettingsModule.ViewModels
 {
@@ -36,7 +31,12 @@ namespace SettingsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
                     LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
-					FiresecManager.FiresecDriver.Convert();
+					var convertstionResult = FiresecManager.FiresecDriver.Convert();
+                    if (!convertstionResult)
+                    {
+                        MessageBoxService.ShowError("Ошибка при конвертации");
+                        return;
+                    }
 					ServiceFactory.SaveService.FSChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;
                     LoadingService.DoStep("Обновление конфигурации");

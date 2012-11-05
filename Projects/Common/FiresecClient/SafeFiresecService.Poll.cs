@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading;
-using FiresecAPI.Models;
-using FiresecAPI;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Threading;
 using Common;
+using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FiresecClient
 {

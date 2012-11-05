@@ -5,7 +5,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
-using FiresecService.ViewModels;
 using XFiresecAPI;
 
 namespace FiresecService.Service

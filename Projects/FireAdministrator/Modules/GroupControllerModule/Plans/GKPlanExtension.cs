@@ -10,7 +10,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
-using System;
 
 namespace GKModule.Plans
 {

@@ -162,9 +162,6 @@ namespace Firesec
 				FiresecDriver.LoadingErrors.Append("Не удалось обнаружить драйвер устройств");
 				return null;
 
-				//var result = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Firesec", "scktsrvr.exe");
-				//return result;
-
 				//RegistryKey registryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Adv_SocketServer", false);
 				//object key = registryKey.GetValue("ImagePath");
 				//string path = key.ToString();

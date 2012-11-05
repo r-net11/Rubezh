@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Реле ГК",
 				ShortName = "Реле ГК",
 				CanEditAddress = false,
-				HasAddress = true,
+                HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 14,
 				MaxAddress = 15,

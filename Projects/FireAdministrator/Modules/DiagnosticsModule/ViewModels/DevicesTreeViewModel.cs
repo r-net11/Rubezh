@@ -1,15 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using DevicesModule.DeviceProperties;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common.Windows.ViewModels;
-using DevicesModule.DeviceProperties;
-using Infrastructure.Common;
-using System;
-using Infrastructure.Common.Windows;
 using Infrastructure;
-using System.Collections.Generic;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DiagnosticsModule.ViewModels
 {

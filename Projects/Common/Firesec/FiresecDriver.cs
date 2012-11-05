@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models;
 using System.Text;
 using Common;
-using System.Threading;
+using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace Firesec
 {
@@ -22,72 +21,83 @@ namespace Firesec
 			LoadingErrors = new StringBuilder();
 		}
 
-		public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
+		public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
 		{
 			LoadingErrors = new StringBuilder();
 			try
 			{
 				FiresecSerializedClient = new FiresecSerializedClient();
-				FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
-				ConfigurationConverter = new ConfigurationConverter()
-				{
-					FiresecSerializedClient = FiresecSerializedClient
-				};
-				ConfigurationConverter.ConvertMetadataFromFiresec();
+				var connectResult = FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
+                if (connectResult.HasError)
+                {
+                    return connectResult;
+                }
+                ConfigurationConverter = new ConfigurationConverter(FiresecSerializedClient);
+				var result = ConfigurationConverter.ConvertMetadataFromFiresec();
+                if (connectResult.HasError)
+                {
+                    return connectResult;
+                }
+                if (result != null)
+                {
+                    ConfigurationCash.DriversConfiguration = result;
+                    return new OperationResult<bool>() { Result = true };
+                }
+                else
+                {
+                    return new OperationResult<bool>("Список драйверов пуст");
+                }
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecDriver.Synchronyze");
 				FiresecDriver.LoadingErrors.Append(e.Message);
+                return new OperationResult<bool>(e.Message);
 			}
 		}
 
-		public void Synchronyze()
+        public void Synchronyze()
+        {
+            ConfigurationConverter.SynchronyzeConfiguration();
+        }
+
+        public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+        {
+            if (Watcher == null)
+                Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
+
+            if (mustMonitorStates)
+            {
+                Watcher.ForceStateChanged();
+                Watcher.ForceParametersChanged();
+            }
+        }
+
+		public bool Convert()
 		{
 			try
 			{
-				ConfigurationConverter.SynchronyzeConfiguration();
+                var deviceConfiguration = ConfigurationConverter.ConvertCoreConfig();
+                if (deviceConfiguration == null)
+                {
+                    return false;
+                }
+                ConfigurationCash.DeviceConfiguration = deviceConfiguration;
+
+                var plansConfiguration = ConfigurationConverter.ConvertPlans(deviceConfiguration);
+                if (plansConfiguration == null)
+                {
+                    return false;
+                }
+                ConfigurationCash.PlansConfiguration = plansConfiguration;
+
+                return true;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecDriver.Synchronyze");
 				FiresecDriver.LoadingErrors.Append(e.Message);
-			}
-		}
-
-		public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
-		{
-			try
-			{
-				if (Watcher == null)
-					Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
-
-				if (mustMonitorStates)
-				{
-					Watcher.ForceStateChanged();
-					Watcher.ForceParametersChanged();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecDriver.Synchronyze");
-				FiresecDriver.LoadingErrors.Append(e.Message);
-			}
-		}
-
-		public void Convert()
-		{
-			try
-			{
-                var firesecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
-                if (firesecConfiguration == null)
-                    firesecConfiguration = new Models.CoreConfiguration.config();
-                ConfigurationConverter.Convert(firesecConfiguration);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecDriver.Synchronyze");
-				FiresecDriver.LoadingErrors.Append(e.Message);
+                return false;
 			}
 		}
 
@@ -188,7 +198,7 @@ namespace Firesec
 			if (result.Result == null)
 				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
-			var configurationManager = new ConfigurationConverter();
+            var configurationManager = new ConfigurationConverter(FiresecSerializedClient);
 			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);
 			return operationResult;
 		}
@@ -210,9 +220,8 @@ namespace Firesec
 			if (result.Result == null)
 				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
-			var configurationManager = new ConfigurationConverter();
-            configurationManager.ConvertDevicesAndZones(result.Result);
-		    operationResult.Result = configurationManager.DeviceConfiguration;
+            var configurationManager = new ConfigurationConverter(FiresecSerializedClient);
+            operationResult.Result = configurationManager.ConvertDevicesAndZones(result.Result);
 			return operationResult;
 		}
 

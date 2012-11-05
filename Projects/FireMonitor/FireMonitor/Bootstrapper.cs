@@ -13,6 +13,8 @@ using Infrastructure.Events;
 using Infrastructure.Common.Theme;
 using Common.GK;
 using Microsoft.Win32;
+using Common;
+using FiresecAPI;
 
 namespace FireMonitor
 {
@@ -21,12 +23,14 @@ namespace FireMonitor
         public void Initialize()
         {
             AppConfigHelper.InitializeAppSettings();
-            ThemeHelper.LoadThemeFromRegister();
             VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
             ServiceFactory.Initialize(new LayoutService(), new SecurityService());
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
-            if (ServiceFactory.LoginService.ExecuteConnect())
+            if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
+            {
+                App.Login = ServiceFactory.LoginService.Login;
+                App.Password = ServiceFactory.LoginService.Password;
                 try
                 {
                     LoadingService.Show("Чтение конфигурации", 15);
@@ -36,10 +40,10 @@ namespace FireMonitor
                     FiresecManager.UpdateFiles();
                     InitializeFs(false);
                     var loadingError = FiresecManager.GetLoadingError();
-					if (!String.IsNullOrEmpty(loadingError))
-					{
-						MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
-					}
+                    if (!String.IsNullOrEmpty(loadingError))
+                    {
+                        MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
+                    }
                     LoadingService.DoStep("Загрузка конфигурации ГК");
                     InitializeGk();
 
@@ -80,8 +84,12 @@ namespace FireMonitor
                     MessageBoxService.ShowException(ex);
                     Application.Current.Shutdown();
                 }
+            }
             else
+            {
                 Application.Current.Shutdown();
+                return;
+            }
             //MutexHelper.KeepAlive();
             ServiceFactory.SubscribeEvents();
 			ProgressWatcher.Run();
@@ -89,22 +97,35 @@ namespace FireMonitor
 
         void InitializeFs(bool reconnect = false)
         {
-            LoadingService.DoStep("Загрузка конфигурации с сервера");
-            FiresecManager.GetConfiguration();
+            try
+            {
+                LoadingService.DoStep("Загрузка конфигурации с сервера");
+                FiresecManager.GetConfiguration();
 
-            if (!reconnect)
-            {
-                LoadingService.DoStep("Инициализация драйвера устройств");
-                FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, true);
+                if (!reconnect)
+                {
+                    LoadingService.DoStep("Инициализация драйвера устройств");
+                    var connectionResult = FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, true);
+                    if (connectionResult.HasError)
+                    {
+                        CloseOnException(connectionResult.Error);
+                        return;
+                    }
+                }
+                LoadingService.DoStep("Синхронизация конфигурации");
+                FiresecManager.FiresecDriver.Synchronyze();
+                LoadingService.DoStep("Старт мониторинга");
+                FiresecManager.FiresecDriver.StartWatcher(true, true);
+                if (!reconnect)
+                {
+                    LoadingService.DoStep("Синхронизация журнала событий");
+                    FiresecManager.SynchrinizeJournal();
+                }
             }
-            LoadingService.DoStep("Синхронизация конфигурации");
-            FiresecManager.FiresecDriver.Synchronyze();
-            LoadingService.DoStep("Старт мониторинга");
-            FiresecManager.FiresecDriver.StartWatcher(true, true);
-            if (!reconnect)
+            catch (FiresecException e)
             {
-                LoadingService.DoStep("Синхронизация журнала событий");
-                FiresecManager.SynchrinizeJournal();
+                Logger.Error(e, "Bootstrapper.InitializeFs");
+                CloseOnException(e.Message);
             }
         }
 
@@ -116,21 +137,43 @@ namespace FireMonitor
             DatabaseManager.Convert();
         }
 
+        bool IsRestarting = false;
         void OnConfigurationChanged()
         {
-            LoadingService.Show("Перезагрузка конфигурации", 10);
-            LoadingService.AddCount(10);
+            try
+            {
+                if (IsRestarting)
+                    return;
+                IsRestarting = true;
+                ProgressWatcher.Close();
+                NativeFiresecClient.IsSuspended = true;
+                ApplicationService.Restart();
 
-            ApplicationService.CloseAllWindows();
-            ServiceFactory.Layout.Close();
+                LoadingService.Show("Перезагрузка конфигурации", 10);
+                LoadingService.AddCount(10);
 
-            InitializeFs(true);
-            InitializeGk();
+                ApplicationService.CloseAllWindows();
+                ServiceFactory.Layout.Close();
 
-            InitializeModules();
-            ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+                InitializeFs(true);
+                InitializeGk();
 
-            LoadingService.Close();
+                InitializeModules();
+                ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+
+                LoadingService.Close();
+            }
+            finally
+            {
+                NativeFiresecClient.IsSuspended = false;
+                IsRestarting = false;
+            }
+        }
+
+        void CloseOnException(string message)
+        {
+            MessageBoxService.ShowError(message);
+            Application.Current.Shutdown();
         }
 
         void OnNotify(string message)

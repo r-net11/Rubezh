@@ -17,10 +17,8 @@ namespace GKModule.ViewModels
 			Alarms = new List<Alarm>();
 			ShowCommand = new RelayCommand(OnShowCommand);
 			AlarmType = alarmType;
-			StateType = AlarmToStateHelper.AlarmToState(alarmType);
 		}
 
-		public XStateType StateType { get; set; }
 		public XAlarmType AlarmType { get; set; }
 		public List<Alarm> Alarms { get; set; }
 

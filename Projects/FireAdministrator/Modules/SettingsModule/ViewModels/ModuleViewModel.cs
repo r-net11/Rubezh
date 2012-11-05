@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using Infrastructure.Common.Module;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using Infrastructure.Common.Module;
 
 namespace SettingsModule.ViewModels
 {

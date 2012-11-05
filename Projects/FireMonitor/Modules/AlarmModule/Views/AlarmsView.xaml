@@ -22,8 +22,9 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="200" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Alarm.StateName}" Width="*" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="*" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" Width="*" />
+                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.StateName}" Width="*" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -31,7 +32,6 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="Collapsed" Margin="2" />
                                 <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" Margin="2" />
                                 <MenuItem Header="Включить" Command="{Binding RemoveFromIgnoreListCommand}" Margin="2" />
                                 <Separator />

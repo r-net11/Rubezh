@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Windows.Threading;
 using Common;
 using FiresecAPI;
-using System.Diagnostics;
 using FiresecAPI.Models;
 
 namespace Firesec
 {
     public partial class NativeFiresecClient
     {
+        public static bool IsSuspended { get; set; }
 		int LastJournalNo = 0;
 		bool needToRead = false;
 		bool needToReadStates = false;
@@ -33,6 +30,9 @@ namespace Firesec
 
 		void CheckForRead()
 		{
+            if (IsSuspended)
+                return;
+
 			if (needToRead)
 			{
 				needToRead = false;
@@ -89,7 +89,6 @@ namespace Firesec
 					{
 						SuspendOperationQueueEvent.Set();
 					}
-					SuspendOperationQueueEvent = null;
 				}
 			}
 		}
@@ -170,6 +169,9 @@ namespace Firesec
 
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
+            if (IsSuspended)
+                return true;
+
             try
             {
                 if (ProgressEvent != null)

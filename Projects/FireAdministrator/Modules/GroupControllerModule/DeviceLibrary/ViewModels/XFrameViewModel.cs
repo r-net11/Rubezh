@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
-using XFiresecAPI;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

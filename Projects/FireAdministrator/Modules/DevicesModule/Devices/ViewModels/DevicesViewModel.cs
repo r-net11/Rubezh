@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using DevicesModule.DeviceProperties;
-using DevicesModule.Views;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -12,9 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
-using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
-using System.Windows.Controls;
 
 namespace DevicesModule.ViewModels
 {

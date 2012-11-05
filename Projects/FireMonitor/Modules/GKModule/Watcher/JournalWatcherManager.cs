@@ -7,85 +7,94 @@ using System;
 
 namespace GKModule
 {
-	public static class JournalWatcherManager
-	{
-		static Thread thread;
-		static AutoResetEvent StopEvent;
-		static List<JournalWatcher> JournalWatchers;
+    public static class JournalWatcherManager
+    {
         public static SafeSendManager SafeSendManager { get; private set; }
+        static Thread WorkThread;
+        static AutoResetEvent StopThreadEvent;
+        static List<JournalWatcher> JournalWatchers;
 
-		public static void Start()
-		{
+        public static void Start()
+        {
             SafeSendManager = new SafeSendManager();
 
-			JournalWatchers = new List<JournalWatcher>();
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
-			{
-				var ipAddress = gkDatabase.RootDevice.GetGKIpAddress();
-				if (string.IsNullOrEmpty(ipAddress))
-				{
-					Logger.Error("JournalWatcherManager.Start ipAddress = null");
-					continue;
-				}
-				var journalWatcher = new JournalWatcher(gkDatabase);
-				JournalWatchers.Add(journalWatcher);
-			}
+            JournalWatchers = new List<JournalWatcher>();
+            foreach (var gkDatabase in DatabaseManager.GkDatabases)
+            {
+                var ipAddress = gkDatabase.RootDevice.GetGKIpAddress();
+                if (string.IsNullOrEmpty(ipAddress))
+                {
+                    Logger.Error("JournalWatcherManager.Start ipAddress = null");
+                    continue;
+                }
+                var journalWatcher = new JournalWatcher(gkDatabase);
+                JournalWatchers.Add(journalWatcher);
+            }
 
-			StopEvent = new AutoResetEvent(false);
-			thread = new Thread(new ThreadStart(OnRun));
-			thread.Start();
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-		}
+            StopThreadEvent = new AutoResetEvent(false);
+            WorkThread = new Thread(new ThreadStart(OnRun));
+            WorkThread.Start();
+            ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+            ApplicationService.Restarting += new Action(ApplicationService_Restarting);
+        }
 
-		static void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-            SafeSendManager.StopThread();
-			StopEvent.Set();
-		}
+        public static void Stop()
+        {
+            try
+            {
+                foreach (var journalWatcher in JournalWatchers)
+                {
+                    journalWatcher.IsStopped = true;
+                }
+                SafeSendManager.StopThread();
+                StopThreadEvent.Set();
+                WorkThread.Join(TimeSpan.FromSeconds(1));
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "JournalWatcherManager.Stop");
+            }
+        }
 
-		static void OnRun()
-		{
-			try
-			{
-				foreach (var journalWatcher in JournalWatchers)
-				{
-					journalWatcher.Start();
-				}
-			}
-			catch(Exception e)
-			{
-				Logger.Error(e, "JournalWatcherManager.OnRun 1");
-			}
+        static void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Stop();
+        }
+        static void ApplicationService_Restarting()
+        {
+            Stop();
+        }
 
-			while (true)
-			{
-				try
-				{
-					foreach (var journalWatcher in JournalWatchers)
-					{
-						journalWatcher.PingJournal();
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "JournalWatcherManager.OnRun 2");
-				}
-				if (StopEvent.WaitOne(100))
-					break;
-			}
-		}
+        static void OnRun()
+        {
+            try
+            {
+                foreach (var journalWatcher in JournalWatchers)
+                {
+                    journalWatcher.GetLastJournalItems(100);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "JournalWatcherManager.OnRun 1");
+            }
 
-		public static void GetLastJournalItems(int count)
-		{
-            var thread = new Thread(new ThreadStart(
-                () => {
+            while (true)
+            {
+                try
+                {
                     foreach (var journalWatcher in JournalWatchers)
                     {
-                        journalWatcher.GetLastJournalItems(count);
+                        journalWatcher.PingJournal();
                     }
                 }
-                ));
-            thread.Start();
-		}
-	}
+                catch (Exception e)
+                {
+                    Logger.Error(e, "JournalWatcherManager.OnRun 2");
+                }
+                if (StopThreadEvent.WaitOne(100))
+                    break;
+            }
+        }
+    }
 }

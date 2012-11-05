@@ -9,6 +9,8 @@ namespace FireMonitor.ViewModels
 {
 	public class ProgressViewModel : DialogViewModel
 	{
+        public bool IsShown { get; set; }
+
 		public ProgressViewModel()
 		{
             Title = "Опрос устройств";
@@ -16,7 +18,18 @@ namespace FireMonitor.ViewModels
 			IsShown = false;
 		}
 
-		public bool IsShown { get; set; }
+        public void Add(string item)
+        {
+            if (ProgressItems.Count == 0)
+                ProgressItems.Add(item);
+            else
+                ProgressItems.Insert(0, item);
+
+            if (ProgressItems.Count > 100)
+                ProgressItems.RemoveAt(100);
+
+            SelectedProgressItem = ProgressItems.FirstOrDefault();
+        }
 
 		ObservableCollection<string> _progressItems;
 		public ObservableCollection<string> ProgressItems

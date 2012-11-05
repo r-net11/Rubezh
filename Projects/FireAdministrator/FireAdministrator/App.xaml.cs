@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
@@ -17,15 +17,14 @@ namespace FireAdministrator
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+            ThemeHelper.LoadThemeFromRegister();
             ServerLoadHelper.Load();
 #if DEBUG
 			bool trace = true;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-
 			_bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
 				_bootstrapper.Initialize();

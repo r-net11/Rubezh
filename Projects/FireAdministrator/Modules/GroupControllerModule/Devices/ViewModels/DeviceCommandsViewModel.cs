@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 using Common.GK;
+using FiresecAPI.Models;
+using FiresecClient;
 using GKModule.Converter;
 using GKModule.ViewModels;
 using Infrastructure;
@@ -9,8 +11,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using FiresecClient;
-using FiresecAPI.Models;
 
 namespace GKModule.Models
 {

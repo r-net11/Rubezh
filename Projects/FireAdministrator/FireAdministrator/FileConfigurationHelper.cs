@@ -1,19 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Controls;
 using Common;
-using FireAdministrator.ViewModels;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using FiresecAPI;
 
 namespace FireAdministrator
 {

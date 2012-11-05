@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Diagnostics;
 using Common;
 
 namespace Firesec
@@ -72,6 +69,12 @@ namespace Firesec
 
                         while (Tasks.Count == 0)
                             Monitor.Wait(locker, TimeSpan.FromSeconds(1));
+
+                        if (!IsConnected)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                            continue;
+                        }
                     }
 
                     if (SuspendOperationQueueEvent != null)

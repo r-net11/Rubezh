@@ -9,13 +9,13 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-		void ConvertDirections()
+        void ConvertDirections(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
-			DeviceConfiguration.Directions = new List<Direction>();
+			deviceConfiguration.Directions = new List<Direction>();
 
-			if (FiresecConfiguration.part != null)
+			if (coreConfig.part != null)
 			{
-				foreach (var innerDirection in FiresecConfiguration.part)
+				foreach (var innerDirection in coreConfig.part)
 				{
 					if (innerDirection.type == "direction")
 					{
@@ -33,7 +33,7 @@ namespace Firesec
                                 if (string.IsNullOrWhiteSpace(item.pidz) == false)
                                 {
                                     var zoneNo = int.Parse(item.pidz);
-                                    var zone = DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
+                                    var zone = deviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
                                     direction.ZoneUIDs.Add(zone.UID);
                                 }
 							}
@@ -47,25 +47,25 @@ namespace Firesec
 							direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
 						}
 
-						DeviceConfiguration.Directions.Add(direction);
+						deviceConfiguration.Directions.Add(direction);
 					}
 				}
 			}
 		}
 
-		void ConvertDirectionsBack()
+        void ConvertDirectionsBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig, ref int gid)
 		{
 			var innerDirections = new List<partType>();
 			int no = 0;
 
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in deviceConfiguration.Directions)
 			{
 				var innerDirection = new partType()
 				{
 					type = "direction",
 					no = no.ToString(),
 					id = direction.Id.ToString(),
-					gid = Gid++.ToString(),
+					gid = gid++.ToString(),
 					name = direction.Name
 				};
 				++no;
@@ -73,7 +73,7 @@ namespace Firesec
 				var zonesPartTypePinZ = new List<partTypePinZ>();
                 foreach (var zoneUID in direction.ZoneUIDs)
 				{
-                    var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
                     if (zone != null)
                     {
                         zonesPartTypePinZ.Add(new partTypePinZ() { pidz = zone.No.ToString() });
@@ -112,7 +112,7 @@ namespace Firesec
 				innerDirections.Add(innerDirection);
 			}
 
-			FiresecConfiguration.part = innerDirections.ToArray();
+			coreConfig.part = innerDirections.ToArray();
 		}
 	}
 }

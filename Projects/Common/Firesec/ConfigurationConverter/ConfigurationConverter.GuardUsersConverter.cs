@@ -8,13 +8,13 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-		void ConvertGuardUsers()
+        void ConvertGuardUsers(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
-			DeviceConfiguration.GuardUsers = new List<GuardUser>();
+			deviceConfiguration.GuardUsers = new List<GuardUser>();
 
-			if (FiresecConfiguration.part != null)
+			if (coreConfig.part != null)
 			{
-				foreach (var innerGuardUser in FiresecConfiguration.part)
+				foreach (var innerGuardUser in coreConfig.part)
 				{
 					if (innerGuardUser.type == "guarduser")
 					{
@@ -29,7 +29,7 @@ namespace Firesec
 							foreach (var partZone in innerGuardUser.PinZ)
 							{
                                 var zoneNo = int.Parse(partZone.pidz);
-                                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+                                var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
 								guardUser.ZoneUIDs.Add(zone.UID);
 							}
 						}
@@ -79,25 +79,25 @@ namespace Firesec
 							}
 						}
 
-						DeviceConfiguration.GuardUsers.Add(guardUser);
+						deviceConfiguration.GuardUsers.Add(guardUser);
 					}
 				}
 			}
 		}
 
-		void ConvertGuardUsersBack()
+        void ConvertGuardUsersBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig, ref int gid)
 		{
 			var innerGuardUsers = new List<partType>();
 			int no = 0;
 
-			foreach (var guardUser in DeviceConfiguration.GuardUsers)
+			foreach (var guardUser in deviceConfiguration.GuardUsers)
 			{
 				var innerGuardUser = new partType()
 				{
 					type = "guarduser",
 					no = no.ToString(),
 					id = guardUser.Id.ToString(),
-					gid = Gid++.ToString(),
+					gid = gid++.ToString(),
 					name = guardUser.Name
 				};
 				++no;
@@ -105,7 +105,7 @@ namespace Firesec
 				var innerZones = new List<partTypePinZ>();
 				foreach (var zoneUID in guardUser.ZoneUIDs)
 				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x=>x.UID == zoneUID);
+					var zone = deviceConfiguration.Zones.FirstOrDefault(x=>x.UID == zoneUID);
 					if (zone != null)
 					{
 						innerZones.Add(new partTypePinZ() { pidz = zone.No.ToString() });
@@ -188,13 +188,13 @@ namespace Firesec
 				innerGuardUsers.Add(innerGuardUser);
 			}
 
-			var innerDirections = FiresecConfiguration.part.ToList();
+			var innerDirections = coreConfig.part.ToList();
 			if (innerDirections != null)
 			{
 				innerGuardUsers.AddRange(innerDirections);
 			}
 
-			FiresecConfiguration.part = innerGuardUsers.ToArray();
+			coreConfig.part = innerGuardUsers.ToArray();
 		}
 	}
 }

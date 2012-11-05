@@ -150,6 +150,9 @@ namespace Infrastructure.Client.Login.ViewModels
 			DialogService.ShowWindow(preLoadWindow);
             var serviceAddress = ConfigurationManager.AppSettings["ServiceAddress"];
             Message = FiresecManager.Connect(ClientType, serviceAddress, UserName, Password);
+            if (Message != null)
+            {
+            }
 			preLoadWindow.ForceClose();
 		}
 

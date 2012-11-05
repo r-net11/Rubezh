@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Индикатор ГК",
 				ShortName = "Индикатор ГК",
 				CanEditAddress = false,
-				HasAddress = true,
+                HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 2,
 				MaxAddress = 11,

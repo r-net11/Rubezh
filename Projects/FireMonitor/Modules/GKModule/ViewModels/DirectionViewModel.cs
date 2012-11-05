@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 			{
 				var stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine(Direction.PresentationName);
-				stringBuilder.AppendLine("Состояние: " + DirectionState.StateType.ToDescription());
+				stringBuilder.AppendLine("Состояние: " + DirectionState.StateClass.ToDescription());
 				foreach (var stateType in DirectionState.States)
 				{
 					stringBuilder.AppendLine(stateType.ToDescription());

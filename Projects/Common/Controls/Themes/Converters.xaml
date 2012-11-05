@@ -9,7 +9,7 @@
 	<Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
 	<Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
     <Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
-	<Converters:StateToColorConverter x:Key="StateToColorConverter" />
+    <Converters:StateTypeToColorConverter x:Key="StateTypeToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
     <Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
     <Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />

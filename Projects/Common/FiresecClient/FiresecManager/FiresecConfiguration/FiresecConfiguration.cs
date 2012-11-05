@@ -31,7 +31,7 @@ namespace FiresecClient
 		{
 			if (DeviceConfiguration == null)
 			{
-                FiresecManager.LoadingErrors.AppendLine("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
+                FiresecManager.AddLoadingError("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
 				Logger.Error("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
 				return;
 			}
@@ -44,7 +44,7 @@ namespace FiresecClient
                 device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
                 if (device.Driver == null)
                 {
-                    FiresecManager.LoadingErrors.AppendLine("Не удается найти драйвер для " + device.DriverUID.ToString());
+                    FiresecManager.AddLoadingError("Не удается найти драйвер для " + device.DriverUID.ToString());
                     Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
                     continue;
                 }

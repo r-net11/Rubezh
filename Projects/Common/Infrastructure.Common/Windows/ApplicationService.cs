@@ -14,7 +14,6 @@ namespace Infrastructure.Common.Windows
 	public static class ApplicationService
 	{
 		public static event CancelEventHandler Closing;
-
 		public static Window ApplicationWindow { get; private set; }
 		public static User User { get; set; }
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
@@ -22,20 +21,20 @@ namespace Infrastructure.Common.Windows
 
 		public static void Run(ApplicationViewModel model)
 		{
-			WindowBaseView win = new WindowBaseView(model);
-			win.Closing += new CancelEventHandler(win_Closing);
+			var windowBaseView = new WindowBaseView(model);
+			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
 			model.Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			if (Application.Current.Dispatcher.CheckAccess())
 			{
-				Application.Current.MainWindow = win;
+				Application.Current.MainWindow = windowBaseView;
 				Application.Current.MainWindow.Show();
 				Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 			}
 			else
-				win.Show();
-			ApplicationWindow = win;
+				windowBaseView.Show();
+			ApplicationWindow = windowBaseView;
 		}
 		public static void Run(ShellViewModel model)
 		{
@@ -69,16 +68,16 @@ namespace Infrastructure.Common.Windows
 		}
 		public static void ExecuteThread(Action action)
 		{
-			Thread thread = new Thread(() => action());
+			var thread = new Thread(() => action());
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
 		}
 		public static void CloseAllWindows()
 		{
 			var windows = new List<Window>();
-			foreach (Window win in Application.Current.Windows)
-				if (win != ApplicationWindow)
-					windows.Add(win);
+			foreach (Window window in Application.Current.Windows)
+				if (window != ApplicationWindow)
+					windows.Add(window);
 			foreach (Window window in windows)
 				Invoke(() => window.Close());
 		}
@@ -93,5 +92,12 @@ namespace Infrastructure.Common.Windows
 			if (Closing != null)
 				Closing(sender, e);
 		}
+
+        public static void Restart()
+        {
+            if (Restarting != null)
+                Restarting();
+        }
+        public static event Action Restarting;
 	}
 }

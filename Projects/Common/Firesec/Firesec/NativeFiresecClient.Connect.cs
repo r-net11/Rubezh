@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Threading;
 using Common;
 using FiresecAPI;
-using System.Diagnostics;
 
 namespace Firesec
 {
     public partial class NativeFiresecClient
     {
-        private int _reguestId = 1;
-        private Dispatcher _dispatcher;
+        Dispatcher _dispatcher;
+        int _reguestId = 1;
 
         public NativeFiresecClient()
         {
@@ -26,6 +24,7 @@ namespace Firesec
                         StopLifetimeThread();
                         StopPingThread();
                         StopOperationQueueThread();
+                        StopConnectionTimeoutThread();
                         Marshal.FinalReleaseComObject(Connection);
                         Connection = null;
                         GC.Collect();
@@ -42,10 +41,11 @@ namespace Firesec
             dispatcherThread.SetApartmentState(ApartmentState.STA);
             dispatcherThread.IsBackground = true;
             dispatcherThread.Start();
-            dispatcherThread.Join(100);
+            dispatcherThread.Join(TimeSpan.FromSeconds(1));
         }
 
         FS_Types.IFSC_Connection Connection;
+        bool IsConnected = false;
         string Address;
         int Port;
         string Login;
@@ -64,67 +64,59 @@ namespace Firesec
 
         public OperationResult<bool> DoConnect()
         {
+            IsConnected = false;
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-					ConnectionTimeoutEvent = new AutoResetEvent(false);
-					ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
-					ConnectionTimeoutThread.Start();
+                    StartConnectionTimeoutThread();
 
-					_dispatcher.Invoke(
-					(
-						new Action
-						(
-							() =>
-							{
-								Connection = GetConnection(Address, Port, Login, Password);
-							}
-						)
-					));
-					ConnectionTimeoutEvent.Set();
+                    bool badLogin = false;
+                    _dispatcher.Invoke(
+                    (
+                        new Action
+                        (
+                            () =>
+                            {
+                                var result = GetConnection(Address, Port, Login, Password);
+                                if (result.HasError && result.Error == "Пользователь или пароль неверны. Повторите ввод")
+                                {
+                                    badLogin = true;
+                                }
+                                Connection = result.Result;
+                            }
+                        )
+                    ));
+                    if (badLogin)
+                    {
+                        return new OperationResult<bool>("Неверный логин драйвера Firesec");
+                    }
+                    StopConnectionTimeoutThread();
                     if (Connection != null)
                         break;
                 }
                 if (Connection != null)
-                {
                     break;
-                }
-                else
-                {
-					SocketServerHelper.Restart();
-                }
+                SocketServerHelper.Restart();
             }
             if (Connection == null)
             {
                 FiresecDriver.LoadingErrors.Append("Ошибка при загрузке драйвера firesec");
                 return new OperationResult<bool>("Ошибка при загрузке драйвера firesec");
             }
-			if (IsPing)
-			{
-				StartPingThread();
-			}
 
-			StartLifetimeThread();
-			StartOperationQueueThread();
-
-			SetLastEvent();
-
+            if (IsPing)
+            {
+                StartPingThread();
+            }
+            StartLifetimeThread();
+            StartOperationQueueThread();
+            IsConnected = true;
+            SetLastEvent();
             return new OperationResult<bool>() { Result = true };
         }
 
-        static Thread ConnectionTimeoutThread;
-        static AutoResetEvent ConnectionTimeoutEvent;
-        static void OnConnectionTimeoutThread()
-        {
-            if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(2)))
-            {
-                Logger.Error("NativeFiresecClient.OnConnectionTimeoutThread");
-                SocketServerHelper.Restart();
-            }
-        }
-
-        FS_Types.IFSC_Connection GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+        OperationResult<FS_Types.IFSC_Connection> GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
         {
             try
             {
@@ -140,18 +132,49 @@ namespace Firesec
                 try
                 {
                     FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
-                    return connectoin;
+                    return new OperationResult<FS_Types.IFSC_Connection>() { Result = connectoin };
                 }
                 catch (Exception e)
                 {
                     Logger.Error("NativeFiresecClient.GetConnection " + e.Message);
-                    return null;
+                    return new OperationResult<FS_Types.IFSC_Connection>(e.Message);
                 }
             }
             catch (Exception e)
             {
                 Logger.Error(e, "NativeFiresecClient.GetConnection");
-                return null;
+                return new OperationResult<FS_Types.IFSC_Connection>(e.Message);
+            }
+        }
+
+        static Thread ConnectionTimeoutThread;
+        static AutoResetEvent ConnectionTimeoutEvent;
+        static void StartConnectionTimeoutThread()
+        {
+            ConnectionTimeoutEvent = new AutoResetEvent(false);
+            ConnectionTimeoutThread = new Thread(OnConnectionTimeoutThread);
+            ConnectionTimeoutThread.Start();
+        }
+        static void StopConnectionTimeoutThread()
+        {
+            if (ConnectionTimeoutEvent != null)
+            {
+                ConnectionTimeoutEvent.Set();
+            }
+            if (ConnectionTimeoutThread != null)
+            {
+                ConnectionTimeoutThread.Join(TimeSpan.FromSeconds(1));
+            }
+        }
+        static void OnConnectionTimeoutThread()
+        {
+            if (ConnectionTimeoutEvent != null)
+            {
+                if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(2)))
+                {
+                    Logger.Error("NativeFiresecClient.OnConnectionTimeoutThread");
+                    SocketServerHelper.Restart();
+                }
             }
         }
     }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Common;
 using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Text;
-using Infrastructure.Common.Windows;
-using Common;
 
 namespace FiresecClient
 {
@@ -15,15 +14,27 @@ namespace FiresecClient
         public static ClientCredentials ClientCredentials { get; private set; }
         public static SafeFiresecService FiresecService { get; private set; }
 
-        public static StringBuilder LoadingErrors;
+        static StringBuilder _loadingErrors;
+        static StringBuilder LoadingErrors
+        {
+            get
+            {
+                if (_loadingErrors == null)
+                    _loadingErrors = new StringBuilder();
+                return _loadingErrors;
+            }
+        }
+        public static void AddLoadingError(string message)
+        {
+            LoadingErrors.AppendLine(message);
+        }
+        public static void AddLoadingError(Exception e)
+        {
+            LoadingErrors.AppendLine(e.Message);
+        }
         public static string GetLoadingError()
         {
             return FiresecDriver.LoadingErrors.ToString() + LoadingErrors.ToString();
-        }
-
-        static FiresecManager()
-        {
-            LoadingErrors = new StringBuilder();
         }
 
         public static string Connect(ClientType clientType, string serverAddress, string login, string password)

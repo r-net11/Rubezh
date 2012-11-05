@@ -1,8 +1,7 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
-	public interface ISelectable<T>
-	{
-		void Select(T item);
-	}
+    public interface ISelectable<T>
+    {
+        void Select(T item);
+    }
 }

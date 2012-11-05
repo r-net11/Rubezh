@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SecurityModule.ViewModels;
-using FiresecClient;
-using FiresecAPI.Models;
 
 namespace SecurityModule
 {

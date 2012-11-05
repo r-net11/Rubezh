@@ -14,6 +14,7 @@ namespace FireAdministrator
                 FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string),
                 FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string,
                 FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string,
+                AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string),
 
                 ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string,
                 LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string,

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Common;
 using FiresecAPI;
@@ -28,8 +27,6 @@ namespace Firesec
             }
             if (mustMonitorStates)
             {
-				ForceStateChanged();
-				ForceParametersChanged();
 				FiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
 				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(OnStateChanged);
 				FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
@@ -108,6 +105,10 @@ namespace Firesec
 			{
 				OnParametersChanged(coreParameters.Result);
 			}
+            else
+            {
+                throw new FiresecException("Список параметров драйвера пуст");
+            }
 		}
 
 		public void OnParametersChanged(Firesec.Models.DeviceParameters.config coreParameters)
@@ -161,10 +162,14 @@ namespace Firesec
 		public void ForceStateChanged()
 		{
 			var coreState = FiresecSerializedClient.GetCoreState();
-			if (coreState != null && coreState.Result != null)
-			{
-				OnStateChanged(coreState.Result);
-			}
+            if (coreState != null && coreState.Result != null)
+            {
+                OnStateChanged(coreState.Result);
+            }
+            else
+            {
+                throw new FiresecException("Список состояний драйвера пуст");
+            }
 		}
 
 		void OnStateChanged(Firesec.Models.CoreState.config coreState)

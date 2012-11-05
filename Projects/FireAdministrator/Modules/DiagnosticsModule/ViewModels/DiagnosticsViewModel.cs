@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Windows;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using DevicesModule.ViewModels;
 using DiagnosticsModule.Views;
-using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Firesec.Imitator;
-using Firesec;
-using System.Threading;
-using System.Diagnostics;
-using Common.GK;
-using DevicesModule.ViewModels;
-using FiresecAPI;
 using Microsoft.Win32;
-using System.IO;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -35,6 +26,12 @@ namespace DiagnosticsModule.ViewModels
 			Test4Command = new RelayCommand(OnTest4);
 			Test5Command = new RelayCommand(OnTest5);
 		}
+
+        public void StopThreads()
+        {
+            IsThreadStoping = true;
+        }
+        bool IsThreadStoping = false;
 
 		string _text;
 		public string Text
@@ -90,16 +87,25 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-			while (true)
-			{
-				FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-				FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
-				//FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
-                counter++;
-			}
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    if (IsThreadStoping)
+                        break;
+
+                    FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+                    FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+                    FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+                    FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+                    FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+                    Thread.Sleep(TimeSpan.FromSeconds(10));
+                    Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
+                    counter++;
+                }
+            }));
+            thread.IsBackground = true;
+            thread.Start();
 		}
 
 		public RelayCommand Test3Command { get; private set; }

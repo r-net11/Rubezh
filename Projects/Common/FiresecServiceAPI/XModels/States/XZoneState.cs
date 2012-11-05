@@ -16,21 +16,18 @@ namespace XFiresecAPI
 		}
 
 		bool _isConnectionLost;
-		public bool IsConnectionLost
-		{
-			get
-			{
-				return _isConnectionLost;
-			}
-			set
-			{
-				if (_isConnectionLost != value)
-				{
-					_isConnectionLost = value;
-					OnStateChanged();
-				}
-			}
-		}
+        public bool IsConnectionLost
+        {
+            get { return _isConnectionLost; }
+            set
+            {
+                if (_isConnectionLost != value)
+                {
+                    _isConnectionLost = value;
+                    OnStateChanged();
+                }
+            }
+        }
 
 		List<XStateType> _states;
 		public List<XStateType> States
@@ -65,16 +62,13 @@ namespace XFiresecAPI
 			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
 		}
 
-		public StateType StateType
-		{
-			get
-			{
-				if (IsConnectionLost)
-					return StateType.Unknown;
-				else
-					return XStatesHelper.XStateTypesToState(States);
-			}
-		}
+        public StateType GetStateType()
+        {
+            if (IsConnectionLost)
+                return StateType.Unknown;
+            else
+                return XStatesHelper.XStateTypesToState(States);
+        }
 
 		public event Action StateChanged;
 		void OnStateChanged()

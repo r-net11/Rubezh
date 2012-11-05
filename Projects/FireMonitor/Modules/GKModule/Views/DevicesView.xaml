@@ -1,15 +1,9 @@
 ﻿<UserControl x:Class="GKModule.Views.DevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKModule.Converters"
-             xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Views="clr-namespace:GKModule.Views">
-    <UserControl.Resources>
-        <CommonConverters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-        <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
-    </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="200" />
@@ -33,7 +27,7 @@
                     <DataGridTemplateColumn Header="Адрес" MinWidth="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Device.Address}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <TextBlock Text="{Binding Device.PresentationAddress}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

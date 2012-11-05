@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.Plans.Designer;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Devices = DevicesModule.ViewModels;
-using DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.ViewModels
 {

@@ -6,6 +6,7 @@
         public int FS_Port { get; set; }
         public string FS_Login { get; set; }
         public string FS_Password { get; set; }
+        public bool AutoConnect { get; set; }
 
         public string ServiceAddress { get; set; }
         public string LibVlcDllsPath { get; set; }

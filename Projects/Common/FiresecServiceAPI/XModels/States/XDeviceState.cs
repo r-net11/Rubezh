@@ -17,24 +17,18 @@ namespace XFiresecAPI
 		}
 
 		bool _isConnectionLost;
-		public bool IsConnectionLost
-		{
-			get
-			{
-				if (!Device.IsRealDevice)
-					return false;
-
-				return _isConnectionLost;
-			}
-			set
-			{
-				if (_isConnectionLost != value)
-				{
-					_isConnectionLost = value;
-					OnStateChanged();
-				}
-			}
-		}
+        public bool IsConnectionLost
+        {
+            get { return _isConnectionLost; }
+            set
+            {
+                if (_isConnectionLost != value)
+                {
+                    _isConnectionLost = value;
+                    OnStateChanged();
+                }
+            }
+        }
 
 		List<XStateType> _states;
 		public List<XStateType> States
@@ -63,27 +57,31 @@ namespace XFiresecAPI
 			}
 		}
 
-		//public XStateType MainState
-		//{
-		//    get
-		//    {
-		//        var mainState = XStateType.Norm;
-		//        var minPriority = 100;
-		//        foreach (var state in States)
-		//        {
-		//            var priority = XStatesHelper.XStateTypeToPriority(state);
-		//            if (priority < minPriority)
-		//            {
-		//                minPriority = priority;
-		//            }
-		//        }
-		//        return mainState;
-		//    }
-		//}
+        bool _isService;
+        public bool IsService
+        {
+            get { return _isService; }
+            set
+            {
+                if (_isService != value)
+                {
+                    _isService = value;
+                    OnStateChanged();
+                }
+            }
+        }
 
 		public List<XStateClass> StateClasses
 		{
-			get { return XStateClassHelper.Convert(States, IsConnectionLost); }
+			get
+            {
+                var stateClasses = XStateClassHelper.Convert(States, IsConnectionLost);
+                if (!IsConnectionLost && IsService)
+                {
+                    stateClasses.Add(XStateClass.Service);
+                }
+                return stateClasses;
+            }
 		}
 
 		public XStateClass StateClass
@@ -91,19 +89,16 @@ namespace XFiresecAPI
 			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
 		}
 
-		public StateType StateType
-		{
-			get
-			{
-				if (!Device.IsRealDevice)
-					return StateType.Norm;
+        public StateType GetStateType()
+        {
+            if (!Device.IsRealDevice)
+                return StateType.Norm;
 
-				if (IsConnectionLost)
-					return StateType.Unknown;
-				else
-					return XStatesHelper.XStateTypesToState(States);
-			}
-		}
+            if (IsConnectionLost)
+                return StateType.Unknown;
+            else
+                return XStatesHelper.XStateTypesToState(States);
+        }
 
 		public event Action StateChanged;
 		void OnStateChanged()

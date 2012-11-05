@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Firesec;
+using System.Linq;
 using Firesec.Imitator;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace FiresecClient.Itv
@@ -27,13 +27,28 @@ namespace FiresecClient.Itv
 			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
             {
-				FiresecManager.GetConfiguration();
-				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, true);
-                FiresecManager.FiresecDriver.Synchronyze();
-				FiresecManager.FiresecDriver.StartWatcher(true, true);
-                FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
-                FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
-                FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(Watcher_NewJournalRecords);
+                try
+                {
+                    FiresecManager.GetConfiguration();
+                    var initializeFiresecDriverResult = FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, true);
+                    if (initializeFiresecDriverResult.HasError)
+                    {
+                        return initializeFiresecDriverResult.Error;
+                    }
+                    FiresecManager.FiresecDriver.Synchronyze();
+                    FiresecManager.FiresecDriver.StartWatcher(true, true);
+                    FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
+                    FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
+                    FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(Watcher_NewJournalRecords);
+                }
+                catch (FiresecException e)
+                {
+                    return e.Message;
+                }
+                catch (Exception e)
+                {
+                    return e.Message;
+                }
             }
             return result;
         }

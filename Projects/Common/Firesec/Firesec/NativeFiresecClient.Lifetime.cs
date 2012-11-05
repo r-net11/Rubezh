@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Windows.Threading;
 using Common;
-using FiresecAPI;
-using System.Diagnostics;
 
 namespace Firesec
 {
@@ -21,15 +15,19 @@ namespace Firesec
             {
                 StopLifetimeEvent.Set();
             }
+            if (LifetimeThread != null)
+            {
+                LifetimeThread.Join(TimeSpan.FromSeconds(1));
+            }
         }
 
         void StartLifetimeThread()
         {
-            if (PingThread == null)
+            if (LifetimeThread == null)
             {
                 StopLifetimeEvent = new AutoResetEvent(false);
-                PingThread = new Thread(new ThreadStart(() => { OnLifetime(); }));
-                PingThread.Start();
+                LifetimeThread = new Thread(OnLifetime);
+                LifetimeThread.Start();
             }
         }
 
@@ -37,12 +35,11 @@ namespace Firesec
         {
             while (true)
             {
-                if (IsOperationBuisy)
+                if (IsConnected && IsOperationBuisy)
                 {
                     if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
                     {
                         Logger.Error("NativeFiresecClient.WatchLifetime");
-                        SocketServerHelper.Restart();
                         DoConnect();
                     }
                 }

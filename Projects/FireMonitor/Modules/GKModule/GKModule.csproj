@@ -73,7 +73,6 @@
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
-    <Compile Include="Alarms\ViewModels\AlarmToStateHelper.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
     <Compile Include="Alarms\Views\AlarmGroupsView.xaml.cs">
       <DependentUpon>AlarmGroupsView.xaml</DependentUpon>
@@ -83,8 +82,6 @@
     </Compile>
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
-    <Compile Include="Converters\XStateTypeConverter.cs" />
-    <Compile Include="Converters\XZoneStateToColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
@@ -130,6 +127,7 @@
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Watcher\JournalWatcher.Connection.cs" />
     <Compile Include="Watcher\JournalWatcher.cs" />
     <Compile Include="GKModuleLoader.cs" />
     <Compile Include="Watcher\JournalWatcherManager.cs" />

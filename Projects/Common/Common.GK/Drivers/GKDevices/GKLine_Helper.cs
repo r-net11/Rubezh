@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Линия ГК",
 				ShortName = "Линия ГК",
 				CanEditAddress = false,
-				HasAddress = true,
+                HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 12,
 				MaxAddress = 13,

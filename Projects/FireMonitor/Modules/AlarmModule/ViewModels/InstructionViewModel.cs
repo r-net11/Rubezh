@@ -10,18 +10,16 @@ namespace AlarmModule.ViewModels
 {
 	public class InstructionViewModel : DialogViewModel
 	{
-		public InstructionViewModel(Guid deviceUID, Guid zoneUID, AlarmType alarmType)
+		public InstructionViewModel(Device device, Zone zone, AlarmType alarmType)
 		{
 			Title = "Инструкции";
 			StateType = AlarmTypeToStateType(alarmType);
-			DeviceId = deviceUID;
 
-			Instruction = FindInstruction(deviceUID, zoneUID);
+            Instruction = FindInstruction(device, zone);
 			HasContent = Instruction != null;
 		}
 
 		public bool HasContent { get; private set; }
-		public Guid DeviceId { get; private set; }
 		public StateType StateType { get; private set; }
 		public Instruction Instruction { get; private set; }
 
@@ -52,39 +50,31 @@ namespace AlarmModule.ViewModels
 			}
 		}
 
-		Instruction FindInstruction(Guid deviceUID, Guid zoneUID)
+		Instruction FindInstruction(Device device, Zone zone)
 		{
 			var availableStateTypeInstructions = FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.StateType == StateType);
 
-			if (deviceUID != Guid.Empty)
-			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceId);
-				if (device != null)
-				{
-					foreach (var instruction in availableStateTypeInstructions)
-					{
-						if (instruction.Devices.Contains(deviceUID))
-						{
-							return instruction;
-						}
-					}
-				}
-			}
+            if (device != null)
+            {
+                foreach (var instruction in availableStateTypeInstructions)
+                {
+                    if (instruction.Devices.Contains(device.UID))
+                    {
+                        return instruction;
+                    }
+                }
+            }
 
-			if (zoneUID != Guid.Empty)
-			{
-				var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-				if (zone != null)
-				{
-					foreach (var instruction in availableStateTypeInstructions)
-					{
-						if (instruction.ZoneUIDs.Contains(zoneUID))
-						{
-							return instruction;
-						}
-					}
-				}
-			}
+            if (zone != null)
+            {
+                foreach (var instruction in availableStateTypeInstructions)
+                {
+                    if (instruction.ZoneUIDs.Contains(zone.UID))
+                    {
+                        return instruction;
+                    }
+                }
+            }
 
 			foreach (var instruction in availableStateTypeInstructions)
 			{

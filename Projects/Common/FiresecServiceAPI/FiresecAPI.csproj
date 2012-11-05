@@ -153,6 +153,7 @@
     <Compile Include="DriverConfigurationParametersHelper\MPTHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\MROHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
+    <Compile Include="FiresecException.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="IFiresecService.cs" />

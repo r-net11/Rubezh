@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AlarmModule.Events;
 using AlarmModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -17,10 +16,9 @@ namespace AlarmModule
 
 		public AlarmModuleLoader()
 		{
-			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupListViewModel());
+			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(OnShowAlarms);
 			AlarmsViewModel = new AlarmsViewModel();
-
 			AlarmWatcher = new AlarmWatcher();
 		}
 
@@ -31,7 +29,6 @@ namespace AlarmModule
 
 		public override void Initialize()
 		{
-			AlarmsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

@@ -10,8 +10,8 @@ namespace Firesec.Imitator
 		{
 			ResourceService resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-            //resourceService.AddResource(new ResourceDescription(typeof(Controls.Converters.StateToColorConverter).Assembly, "Themes/Styles.xaml"));
-            //resourceService.AddResource(new ResourceDescription(typeof(Controls.Converters.StateToColorConverter).Assembly, "Themes/ScrollBarStyle.xaml"));
+            //resourceService.AddResource(new ResourceDescription(typeof(Controls.Converters.StateTypeToColorConverter).Assembly, "Themes/Styles.xaml"));
+            //resourceService.AddResource(new ResourceDescription(typeof(Controls.Converters.StateTypeToColorConverter).Assembly, "Themes/ScrollBarStyle.xaml"));
             resourceService.AddResource(new ResourceDescription(typeof(ImitatorService).Assembly, "Imitator/DataTemplates/Dictionary.xaml"));
 		}
 

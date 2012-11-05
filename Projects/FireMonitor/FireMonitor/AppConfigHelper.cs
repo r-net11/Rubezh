@@ -13,6 +13,7 @@ namespace FireMonitor
             appSettings.FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
             appSettings.FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
             appSettings.FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string;
+            appSettings.AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string);
 
 			appSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
 			appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -10,8 +11,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using InstructionsModule.Views;
-using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace InstructionsModule.ViewModels

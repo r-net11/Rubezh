@@ -86,13 +86,11 @@
     <Compile Include="Converters\AlarmTypeToColorConverter.cs" />
     <Compile Include="Converters\AlarmTypeToIconPathConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
-    <Compile Include="Events\AlarmAddedEvent.cs" />
-    <Compile Include="Events\AlarmRemovedEvent.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="AlarmWatcher.cs" />
     <Compile Include="Models\AlarmEntityType.cs" />
     <Compile Include="ViewModels\AlarmsViewModel.cs" />
-    <Compile Include="ViewModels\AlarmGroupListViewModel.cs" />
+    <Compile Include="ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\AlarmViewModel.cs" />
@@ -100,8 +98,8 @@
     <Compile Include="Views\AlarmsView.xaml.cs">
       <DependentUpon>AlarmsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AlarmGroupListView.xaml.cs">
-      <DependentUpon>AlarmGroupListView.xaml</DependentUpon>
+    <Compile Include="Views\AlarmGroupsView.xaml.cs">
+      <DependentUpon>AlarmGroupsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -172,7 +170,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AlarmGroupListView.xaml">
+    <Page Include="Views\AlarmGroupsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

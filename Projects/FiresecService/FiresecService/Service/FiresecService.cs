@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.ViewModels;
-using System.Collections.Generic;
-using System.Threading;
-using System.Runtime.Serialization;
 
 namespace FiresecService.Service
 {

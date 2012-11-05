@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Infrastructure.Common.Validation;
-using XFiresecAPI;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.Validation
 {

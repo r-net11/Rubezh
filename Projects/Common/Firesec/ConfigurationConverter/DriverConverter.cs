@@ -10,9 +10,7 @@ namespace Firesec
 {
 	public static class DriverConverter
 	{
-		public static Firesec.Models.Metadata.config Metadata;
-
-		public static Driver Convert(drvType innerDriver)
+		public static Driver Convert(Firesec.Models.Metadata.config coreDriversConfig, drvType innerDriver)
 		{
 			var driver = new Driver()
 			{
@@ -61,7 +59,7 @@ namespace Firesec
 			if (driver.DriverType == DriverType.Exit)
 				driver.IsPlaceable = false;
 
-			var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
+			var metadataClass = coreDriversConfig.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
 			if (metadataClass != null)
 			{
 				driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
@@ -168,9 +166,9 @@ namespace Firesec
 			}
 
 			var allChildren = new List<drvType>();
-			foreach (var childDriver in Metadata.drv)
+			foreach (var childDriver in coreDriversConfig.drv)
 			{
-				var childClass = Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
+				var childClass = coreDriversConfig.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
 				if (childClass != null && childClass.parent != null && childClass.parent.Any(x => x.clsid == innerDriver.clsid))
 				{
 					if (childDriver.lim_parent != null && childDriver.lim_parent != innerDriver.id)

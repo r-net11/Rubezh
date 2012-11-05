@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using Microsoft.Win32;
+﻿using System.ComponentModel;
 
 namespace Infrastructure.Common.Theme
 {

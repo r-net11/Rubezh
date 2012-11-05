@@ -1,12 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiltersModule.Views;
+using System.Windows.Input;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace FiltersModule.ViewModels

@@ -109,13 +109,13 @@ namespace PlansModule.ViewModels
 			}
 			foreach (var state in XDeviceStates)
 			{
-				if (state.StateType < SelfState)
-					SelfState = state.StateType;
+                if (state.GetStateType() < SelfState)
+                    SelfState = state.GetStateType();
 			}
 			foreach (var state in XZoneStates)
 			{
-				if (state.StateType < SelfState)
-					SelfState = state.StateType;
+                if (state.GetStateType() < SelfState)
+                    SelfState = state.GetStateType();
 			}
 			UpdateState();
 		}
