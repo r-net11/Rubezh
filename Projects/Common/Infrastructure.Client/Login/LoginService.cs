@@ -68,8 +68,8 @@ namespace Infrastructure.Client.Login
         private bool GetIsAutoConnect()
         {
             string setting = ConfigurationManager.AppSettings["AutoConnect"];
-            bool res;
-            return setting == null || !bool.TryParse(setting, out res) ? false : res;
+            bool result;
+            return setting == null || !bool.TryParse(setting, out result) ? false : result;
         }
     }
 }

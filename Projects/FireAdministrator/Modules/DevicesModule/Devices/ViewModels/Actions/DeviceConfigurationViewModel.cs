@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -88,6 +89,11 @@ namespace DevicesModule.ViewModels
 			LocalRootDevice.Parent.Children.Add(RemoteRootDevice);
 			RemoteRootDevice.Parent = LocalRootDevice.Parent;
 			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == LocalRootDevice.UID);
+			if (deviceViewModel == null)
+			{
+				Logger.Error("DeviceConfigurationViewModel.OnReplace deviceViewModel = null");
+				return;
+			}
 			deviceViewModel.CollapseChildren();
 			deviceViewModel.Children.Clear();
 			foreach (var device in RemoteRootDevice.Children)

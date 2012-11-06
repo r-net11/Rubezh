@@ -1,6 +1,8 @@
 ﻿using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecClient;
+using Common;
 
 namespace FireMonitor.Views
 {

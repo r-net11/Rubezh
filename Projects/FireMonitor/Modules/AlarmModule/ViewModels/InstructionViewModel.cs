@@ -54,11 +54,11 @@ namespace AlarmModule.ViewModels
 		{
 			var availableStateTypeInstructions = FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.StateType == StateType);
 
-            if (device != null)
+            if (device != null && device.ParentPanel != null)
             {
                 foreach (var instruction in availableStateTypeInstructions)
                 {
-                    if (instruction.Devices.Contains(device.UID))
+					if (instruction.Devices.Contains(device.ParentPanel.UID))
                     {
                         return instruction;
                     }

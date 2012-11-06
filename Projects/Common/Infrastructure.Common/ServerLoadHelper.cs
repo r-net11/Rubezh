@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using Common;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Infrastructure.Common
 {
@@ -12,8 +14,8 @@ namespace Infrastructure.Common
 #if DEBUG
             return;
 #endif
-			Process[] procs = Process.GetProcessesByName("FiresecService");
-			if (procs.Count() == 0)
+			Process[] processes = Process.GetProcessesByName("FiresecService");
+			if (processes.Count() == 0)
 			{
 				try
 				{
@@ -34,10 +36,27 @@ namespace Infrastructure.Common
 		static void Start()
 		{
 			System.Diagnostics.Process proc = new System.Diagnostics.Process();
-			proc.StartInfo.FileName = "..\\..\\..\\FiresecService\\bin\\Debug\\FiresecService.exe";
+			var fileName = "..\\..\\..\\FiresecService\\bin\\Debug\\FiresecService.exe";
+			
 #if RELEASE
-					proc.StartInfo.FileName = "..\\FiresecService\\FiresecService.exe";
+					fileName = "..\\FiresecService\\FiresecService.exe";
 #endif
+			if (!File.Exists(fileName))
+			{
+				Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
+			}
+			else
+			{
+				var exePath = System.Windows.Application.ResourceAssembly.Location;
+				fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireMonitor\\FireMonitor.exe");
+				fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireAdministrator\\FireAdministrator.exe");
+				if (!File.Exists(fileName))
+				{
+					Logger.Error("ServerLoadHelper.Start File Not Exist 2 " + fileName);
+				}
+			}
+
+			proc.StartInfo.FileName = fileName;
 			proc.Start();
 		}
 	}

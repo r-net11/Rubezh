@@ -21,8 +21,11 @@ namespace FireMonitor
 
 		public static void Run()
 		{
-			ClosingTimer.Tick += new EventHandler(ClosingTimer_Tick);
-			FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
+			if (FiresecManager.FiresecDriver != null && FiresecManager.FiresecDriver.Watcher != null)
+			{
+				ClosingTimer.Tick += new EventHandler(ClosingTimer_Tick);
+				FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
+			}
 		}
 
         public static void Close()

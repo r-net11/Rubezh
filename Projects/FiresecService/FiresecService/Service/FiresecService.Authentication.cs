@@ -80,12 +80,10 @@ namespace FiresecService.Service
 			{
 				if (user == null)
 				{
-					Logger.Error("FiresecService.CheckLogin user = null");
 					return false;
 				}
 				if (!HashHelper.CheckPass(password, user.PasswordHash))
 				{
-					Logger.Error("FiresecService.CheckLogin HashHelper.CheckPass Password=" + password + " User.PasswordHash=" + user.PasswordHash);
 					return false;
 				}
 			}

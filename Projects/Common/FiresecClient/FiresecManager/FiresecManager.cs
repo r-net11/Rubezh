@@ -68,26 +68,32 @@ namespace FiresecClient
             }
         }
 
-        public static string Reconnect(string login, string password)
-        {
-            try
-            {
-                var operationResult = FiresecService.Reconnect(login, password);
-                if (operationResult.HasError)
-                {
-                    return operationResult.Error;
-                }
+		public static string Reconnect(string login, string password)
+		{
+			try
+			{
+				var operationResult = FiresecService.Reconnect(login, password);
+				if (operationResult.HasError)
+				{
+					return operationResult.Error;
+				}
 
-                _userLogin = login;
-                OnUserChanged();
-                return null;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "FiresecManager.Reconnect");
-                return e.Message;
-            }
-        }
+				var securityConfiguration = FiresecManager.FiresecService.GetSecurityConfiguration();
+				if (securityConfiguration != null)
+				{
+					SecurityConfiguration = securityConfiguration;
+				}
+
+				_userLogin = login;
+				OnUserChanged();
+				return null;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecManager.Reconnect");
+				return e.Message;
+			}
+		}
 
         public static event Action UserChanged;
         static void OnUserChanged()
@@ -167,7 +173,20 @@ namespace FiresecClient
         {
             return SafeOperationCall<bool>(() =>
                 {
-                    return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, device.UID);
+					if (isUsb)
+					{
+						var usbConfig = FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb);
+						foreach (var zone in FiresecConfiguration.DeviceConfiguration.Zones)
+						{
+							var zoneCopy = zone.Clone();
+							usbConfig.Zones.Add(zoneCopy);
+						}
+						return FiresecDriver.DeviceWriteConfiguration(usbConfig, device.UID);
+					}
+					else
+					{
+						return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, device.UID);
+					}
                 }, "DeviceWriteConfiguration");
         }
 

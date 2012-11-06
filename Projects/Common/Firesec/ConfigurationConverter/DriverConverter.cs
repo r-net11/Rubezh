@@ -48,7 +48,11 @@ namespace Firesec
 
 				driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
 				driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
-				driver.CanReadJournal = innerDriver.options.Contains("EventSource") && driver.DriverType != DriverType.IndicationBlock;
+				driver.CanReadJournal = innerDriver.options.Contains("EventSource")
+					&& driver.DriverType != DriverType.IndicationBlock
+					&& driver.DriverType != DriverType.PDU
+					&& driver.DriverType != DriverType.PDU_PT
+					&& driver.DriverType != DriverType.UOO_TL;
 				driver.CanSynchonize = innerDriver.options.Contains("HasTimer");
 				driver.CanReboot = innerDriver.options.Contains("RemoteReload");
 				driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");

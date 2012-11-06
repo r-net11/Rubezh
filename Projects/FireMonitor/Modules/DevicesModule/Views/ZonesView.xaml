@@ -39,6 +39,7 @@
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.Setters>
+                                                <Setter Property="Foreground" Value="Black" />
                                                 <Setter Property="BorderBrush" Value="Orange" />
                                                 <Setter Property="TextBlock.FontSize" Value="14" />
                                                 <Setter Property="TextBlock.FontWeight" Value="Bold" />

@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public Zone()
 		{
-            UID = Guid.NewGuid();
+			UID = Guid.NewGuid();
 			ZoneType = ZoneType.Fire;
 			GuardZoneType = GuardZoneType.Ordinary;
 			DetectorCount = 2;
@@ -29,8 +29,8 @@ namespace FiresecAPI.Models
 		public List<Device> DevicesInZoneLogic { get; set; }
 		public List<Device> IndicatorsInZone { get; set; }
 
-        [DataMember]
-        public Guid UID { get; set; }
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public int No { get; set; }
@@ -73,13 +73,32 @@ namespace FiresecAPI.Models
 			get { return No + "." + Name; }
 		}
 
-        public void UpdateExternalDevices()
-        {
-            foreach (var device in DevicesInZoneLogic)
-            {
+		public void UpdateExternalDevices()
+		{
+			foreach (var device in DevicesInZoneLogic)
+			{
 				device.UpdateHasExternalDevices();
-            }
-        }
+			}
+		}
+
+		public Zone Clone()
+		{
+			var zoneCopy = new Zone()
+			{
+				UID = UID,
+				No = No,
+				Name = Name,
+				Description = Description,
+				ZoneType = ZoneType,
+				DetectorCount = DetectorCount,
+				EvacuationTime = EvacuationTime,
+				AutoSet = AutoSet,
+				Delay = Delay,
+				Skipped = Skipped,
+				GuardZoneType = GuardZoneType,
+			};
+			return zoneCopy;
+		}
 
 		public void OnChanged()
 		{

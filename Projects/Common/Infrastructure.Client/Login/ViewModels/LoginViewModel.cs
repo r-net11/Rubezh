@@ -119,7 +119,7 @@ namespace Infrastructure.Client.Login.ViewModels
 					Message = FiresecManager.Reconnect(UserName, Password);
 					break;
 				case PasswordViewType.Validate:
-					Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Валидация не пройдена";
+					Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
 					break;
 			}
 			IsConnected = string.IsNullOrEmpty(Message);

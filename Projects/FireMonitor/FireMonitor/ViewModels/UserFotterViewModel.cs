@@ -18,6 +18,5 @@ namespace FireMonitor.ViewModels
 		{
 			OnPropertyChanged("UserName");
 		}
-
 	}
 }

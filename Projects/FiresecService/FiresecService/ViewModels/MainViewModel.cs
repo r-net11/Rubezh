@@ -12,8 +12,8 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС FireSec-2";
+			Clients = new ObservableCollection<ClientViewModel>();
 		}
 
 		private string _status;
@@ -62,8 +62,11 @@ namespace FiresecService.ViewModels
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
-				Clients.Remove(connectionViewModel);
+				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+				if (connectionViewModel != null)
+				{
+					Clients.Remove(connectionViewModel);
+				}
 			}
 			));
 		}
@@ -72,8 +75,11 @@ namespace FiresecService.ViewModels
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
-				connectionViewModel.UserName = userName;
+				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
+				if (connectionViewModel != null)
+				{
+					connectionViewModel.UserName = userName;
+				}
 			}
 			));
 		}

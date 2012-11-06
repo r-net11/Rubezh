@@ -51,7 +51,6 @@ namespace DevicesModule.ViewModels
 		{
 			AutoDetectDeviceHelper.Run(SelectedDevice);
 		}
-
 		bool CanAutoDetect()
 		{
 			return (SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect);
@@ -63,7 +62,6 @@ namespace DevicesModule.ViewModels
 		{
 			DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
 		}
-
 		bool CanReadDevice(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
