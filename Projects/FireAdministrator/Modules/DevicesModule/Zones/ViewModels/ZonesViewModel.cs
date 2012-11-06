@@ -19,18 +19,18 @@ namespace DevicesModule.ViewModels
 	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
-        public static ZonesViewModel Current { get; private set; }
+		public static ZonesViewModel Current { get; private set; }
 
 		public ZonesViewModel()
 		{
-            Current = this;
+			Current = this;
 			Menu = new ZonesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
 			ZoneDevices = new ZoneDevicesViewModel();
-            RegisterShortcuts();
+			RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -88,7 +88,11 @@ namespace DevicesModule.ViewModels
 
 		public void CreateZone(CreateZoneEventArg createZoneEventArg)
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel();
+		    ZoneDetailsViewModel zoneDetailsViewModel;
+            if(createZoneEventArg.Zone!=null)
+                zoneDetailsViewModel = new ZoneDetailsViewModel(createZoneEventArg.Zone.ZoneType);
+            else
+                zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				FiresecManager.Zones.Add(zoneDetailsViewModel.Zone);
@@ -141,9 +145,9 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				FiresecManager.FiresecConfiguration.AddZone(zoneDetailsViewModel.Zone);
-                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
-                Zones.Add(zoneViewModel);
-                SelectedZone = zoneViewModel;
+				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
+				Zones.Add(zoneViewModel);
+				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
@@ -199,16 +203,16 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public override void OnShow()
-        {
-            base.OnShow();
-            SelectedZone = SelectedZone;
-        }
+		public override void OnShow()
+		{
+			base.OnShow();
+			SelectedZone = SelectedZone;
+		}
 
-        public override void OnHide()
-        {
-            base.OnHide();
-        }
+		public override void OnHide()
+		{
+			base.OnHide();
+		}
 
 		#region ISelectable<Guid> Members
 
@@ -220,11 +224,11 @@ namespace DevicesModule.ViewModels
 
 		#endregion
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 	}
 }

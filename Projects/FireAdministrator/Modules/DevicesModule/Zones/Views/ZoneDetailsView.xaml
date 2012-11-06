@@ -47,7 +47,7 @@
                         <ColumnDefinition SharedSizeGroup="group2" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Назначение зоны" HorizontalAlignment="Right" />
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2">
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2" IsEnabled="{Binding ComboboxIsEnabled}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ., Converter={StaticResource ZoneTypeToStringConverter}}" />

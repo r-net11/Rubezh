@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 
@@ -20,9 +21,14 @@ namespace DevicesModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
             Device = device;
+            IsGuardDevice = (device.Driver.DeviceType == DeviceType.Sequrity);
+
             Zones = new ObservableCollection<ZoneViewModel>();
             foreach (var zone in from zone in FiresecManager.Zones orderby zone.No select zone)
             {
+                var isGuardZone = (zone.ZoneType == ZoneType.Guard);
+                if (isGuardZone ^ IsGuardDevice)
+                    continue;
                 var zoneViewModel = new ZoneViewModel(zone);
                 Zones.Add(zoneViewModel);
             }
@@ -30,6 +36,7 @@ namespace DevicesModule.ViewModels
                 SelectedZone = Zones.FirstOrDefault(x=>x.Zone == Device.Zone);
 		}
 
+        public bool IsGuardDevice { get; private set; }
         public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
 		private ZoneViewModel _selectedZone;
@@ -47,6 +54,11 @@ namespace DevicesModule.ViewModels
 		private void OnCreate()
 		{
 			var createZoneEventArg = new CreateZoneEventArg();
+            createZoneEventArg.Zone = new Zone();
+            if (IsGuardDevice)
+                createZoneEventArg.Zone.ZoneType = ZoneType.Guard;
+            else
+                createZoneEventArg.Zone.ZoneType = ZoneType.Fire;
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
             if (!createZoneEventArg.Cancel)
             {

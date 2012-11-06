@@ -11,9 +11,26 @@ namespace DevicesModule.ViewModels
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Zone Zone;
+		public bool ComboboxIsEnabled { get; private set; }
+		public ZoneDetailsViewModel(ZoneType zoneType)
+		{
+			ComboboxIsEnabled = false;
+			Title = "Создание новой зоны";
+
+			Zone = new Zone()
+			{
+				Name = "Новая зона",
+				No = 1
+			};
+			if (FiresecManager.Zones.Count != 0)
+				Zone.No = FiresecManager.Zones.Select(x => x.No).Max() + 1;
+			Zone.ZoneType = zoneType;
+			CopyProperties();
+		}
 
 		public ZoneDetailsViewModel(Zone zone = null)
 		{
+			ComboboxIsEnabled = true;
 			if (zone == null)
 			{
 				Title = "Создание новой зоны";
