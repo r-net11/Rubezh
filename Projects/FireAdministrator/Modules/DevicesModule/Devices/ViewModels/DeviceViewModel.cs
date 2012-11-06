@@ -263,6 +263,7 @@ namespace DevicesModule.ViewModels
 				DevicesViewModel.UpdateGuardVisibility();
 
 				index = Math.Min(index, parent.Children.Count - 1);
+			    DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
 			}
 		}

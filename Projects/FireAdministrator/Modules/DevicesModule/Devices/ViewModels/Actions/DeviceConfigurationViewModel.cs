@@ -65,6 +65,8 @@ namespace DevicesModule.ViewModels
 				{
 					UnionRootDevice.Children.FirstOrDefault(
 						x => x.PresentationAddressAndDriver == localAndRemote.PresentationAddressAndDriver).IsRemote = true;
+                    if ((localAndRemote.Zone == null) && (remoteChild.Zone != null))
+                        localAndRemote.Zone = remoteChild.Zone;
 				}
 				else
 				{
