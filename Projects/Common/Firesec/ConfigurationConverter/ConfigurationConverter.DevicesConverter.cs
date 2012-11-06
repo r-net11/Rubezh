@@ -267,7 +267,6 @@ namespace Firesec
 		List<paramType> AddParameters(Device device)
 		{
 			var parameters = new List<paramType>();
-			//if (device.Driver.DriverType != DriverType.UOO_TL)
 			{
 				if (device.UID != Guid.Empty)
 				{
@@ -316,7 +315,7 @@ namespace Firesec
 				foreach (var deviceProperty in device.Properties)
 				{
 					var property = device.Driver.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
-					if (property == null || property.IsAUParameter)
+					if (property != null && property.IsAUParameter)
 					{
 						continue;
 					}

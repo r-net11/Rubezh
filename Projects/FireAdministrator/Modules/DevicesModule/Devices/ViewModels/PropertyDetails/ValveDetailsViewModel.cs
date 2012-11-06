@@ -7,24 +7,22 @@ namespace DevicesModule.ViewModels
 {
 	public class ValveDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Device _device;
+		Device Device;
 
 		public ValveDetailsViewModel(Device device)
 		{
 			Title = "Параметры устройства: ШУЗ";
-			_device = device;
+            Actions = new List<string>() { "0", "1" };
+			Device = device;
 
-			var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");
+			var actionProperty = Device.Properties.FirstOrDefault(x => x.Name == "Action");
 			if ((actionProperty == null) || (actionProperty.Value == null))
 				SelectiedAction = "0";
 			else
 				SelectiedAction = actionProperty.Value;
 		}
 
-		public List<string> Actions
-		{
-			get { return new List<string>() { "0", "1" }; }
-		}
+        public List<string> Actions { get; private set; }
 
 		string _selectiedAction;
 		public string SelectiedAction
@@ -39,11 +37,11 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");
+			var actionProperty = Device.Properties.FirstOrDefault(x => x.Name == "Action");
 			if (actionProperty == null)
 			{
 				actionProperty = new Property() { Name = "Action" };
-				_device.Properties.Add(actionProperty);
+				Device.Properties.Add(actionProperty);
 			}
 			actionProperty.Value = SelectiedAction;
 			return base.Save();

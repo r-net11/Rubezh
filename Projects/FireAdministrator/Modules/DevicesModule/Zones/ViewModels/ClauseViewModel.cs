@@ -82,6 +82,8 @@ namespace DevicesModule.ViewModels
 								states = GetAllZoneLogicStates();
 								states.Remove(ZoneLogicState.PumpStationOn);
 								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
+                                states.Remove(ZoneLogicState.AM1TOn);
+                                states.Remove(ZoneLogicState.Firefighting);
 								break;
 						}
 						if ((_device.IntAddress == 3) || (_device.IntAddress == 4))

@@ -17,9 +17,14 @@ namespace Firesec
             FiresecSerializedClient = firesecSerializedClient;
 		}
 
-        public DeviceConfiguration ConvertCoreConfig()
+        public OperationResult<DeviceConfiguration> ConvertCoreConfig()
         {
-            var coreConfig = FiresecSerializedClient.GetCoreConfig().Result;
+            var result = FiresecSerializedClient.GetCoreConfig();
+            if (result.HasError)
+            {
+                return new OperationResult<DeviceConfiguration>(result.Error);
+            }
+            var coreConfig = result.Result;
             if (coreConfig == null)
                 return null;
 
@@ -29,16 +34,21 @@ namespace Firesec
             ConvertGuardUsers(deviceConfiguration, coreConfig);
             ConvertDevices(deviceConfiguration, coreConfig);
             Update(deviceConfiguration);
-            return deviceConfiguration;
+            return new OperationResult<DeviceConfiguration>() { Result = deviceConfiguration };
 		}
 
-        public PlansConfiguration ConvertPlans(DeviceConfiguration deviceConfiguration)
+        public OperationResult<PlansConfiguration> ConvertPlans(DeviceConfiguration deviceConfiguration)
         {
-            var plans = FiresecSerializedClient.GetPlans().Result;
+            var result = FiresecSerializedClient.GetPlans();
+            if (result.HasError)
+            {
+                return new OperationResult<PlansConfiguration>(result.Error);
+            }
+            var plans = result.Result;
             if (plans == null)
                 return null;
             var plansConfiguration = ConvertPlans(plans, deviceConfiguration);
-            return plansConfiguration;
+            return new OperationResult<PlansConfiguration>() { Result = plansConfiguration };
         }
 
         public DeviceConfiguration ConvertDevicesAndZones(Models.CoreConfiguration.config coreConfig)

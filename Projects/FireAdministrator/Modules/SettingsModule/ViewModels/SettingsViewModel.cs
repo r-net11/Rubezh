@@ -32,9 +32,9 @@ namespace SettingsModule.ViewModels
 				{
                     LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
 					var convertstionResult = FiresecManager.FiresecDriver.Convert();
-                    if (!convertstionResult)
+                    if (convertstionResult.HasError)
                     {
-                        MessageBoxService.ShowError("Ошибка при конвертации");
+                        MessageBoxService.ShowError(convertstionResult.Error);
                         return;
                     }
 					ServiceFactory.SaveService.FSChanged = false;

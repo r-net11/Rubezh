@@ -20,6 +20,10 @@ namespace FiresecClient
 			{
 				device.ZoneUID = parentDevice.ZoneUID;
 			}
+            if (driver.DriverType == DriverType.Valve)
+            {
+                device.Properties.Add(new Property() { Name = "Action", Value = "1" });
+            }
 			parentDevice.Children.Add(device);
 			AddAutoCreateChildren(device);
 			AddAutoChildren(device);
@@ -283,6 +287,8 @@ namespace FiresecClient
 			var changeZone = !(device.Driver.IsZoneDevice && driver.IsZoneDevice);
 			device.Driver = driver;
 			device.DriverUID = driver.UID;
+            if (driver.IsRangeEnabled)
+                device.IntAddress = driver.MinAddress;
 			if (changeZone)
 			{
 				RemoveDeviceFromZone(device, null);

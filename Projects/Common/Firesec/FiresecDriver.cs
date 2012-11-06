@@ -59,6 +59,7 @@ namespace Firesec
         public void Synchronyze()
         {
             ConfigurationConverter.SynchronyzeConfiguration();
+            FiresecDriver.LoadingErrors.Append(ConfigurationConverter.DriversError);
         }
 
         public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
@@ -73,33 +74,42 @@ namespace Firesec
             }
         }
 
-		public bool Convert()
-		{
-			try
-			{
-                var deviceConfiguration = ConfigurationConverter.ConvertCoreConfig();
+        public OperationResult<bool> Convert()
+        {
+            try
+            {
+                var result1 = ConfigurationConverter.ConvertCoreConfig();
+                if (result1.HasError)
+                {
+                    return new OperationResult<bool>(result1.Error);
+                }
+                var deviceConfiguration = result1.Result;
                 if (deviceConfiguration == null)
                 {
-                    return false;
+                    return new OperationResult<bool>("Нулевая конфигурация");
                 }
                 ConfigurationCash.DeviceConfiguration = deviceConfiguration;
 
-                var plansConfiguration = ConfigurationConverter.ConvertPlans(deviceConfiguration);
-                if (plansConfiguration == null)
+                var result2 = ConfigurationConverter.ConvertPlans(deviceConfiguration);
+                if (result2.HasError)
                 {
-                    return false;
+                    return new OperationResult<bool>(result2.Error);
                 }
-                ConfigurationCash.PlansConfiguration = plansConfiguration;
+                var plansConfiguration = result2.Result;
+                if (plansConfiguration != null)
+                {
+                    ConfigurationCash.PlansConfiguration = plansConfiguration;
+                }
 
-                return true;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecDriver.Synchronyze");
-				FiresecDriver.LoadingErrors.Append(e.Message);
-                return false;
-			}
-		}
+                return new OperationResult<bool>() { Result = true };
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecDriver.Synchronyze");
+                FiresecDriver.LoadingErrors.Append(e.Message);
+                return new OperationResult<bool>() { Result = true };
+            }
+        }
 
 		public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
