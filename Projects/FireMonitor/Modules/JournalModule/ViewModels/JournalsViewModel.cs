@@ -58,7 +58,9 @@ namespace JournalModule.ViewModels
                 if (journalRecord.StateType == StateType.Fire && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
                 {
                     var confirmationViewModel = new ConfirmationViewModel(journalRecord);
-                    DialogService.ShowWindow(confirmationViewModel);
+					ApplicationService.Invoke(() => {
+						DialogService.ShowWindow(confirmationViewModel);
+					});
                 }
             }
         }

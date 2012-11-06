@@ -166,7 +166,5 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 		#endregion
-		
-		
 	}
 }

@@ -147,9 +147,9 @@ namespace PlansModule.ViewModels
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}
 
-				if (DeviceState.Parameters != null)
+				if (DeviceState.ThreadSafeParameters != null)
 				{
-					foreach (var parameter in DeviceState.Parameters)
+					foreach (var parameter in DeviceState.ThreadSafeParameters)
 					{
 						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
 							continue;

@@ -16,6 +16,7 @@ namespace JournalModule.ViewModels
 		{
 			Title = "Подтверждение критических событий";
             ConfirmCommand = new RelayCommand(OnConfirm);
+			JournalRecord = journalRecord;
 		}
 
         public JournalRecord JournalRecord { get; private set; }

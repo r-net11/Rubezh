@@ -16,6 +16,7 @@ namespace DevicesModule.ViewModels
 
         public MPTTimerViewModel(Device device)
         {
+			Title = device.PresentationAddressAndDriver;
             Device = device;
             _guid = device.UID;
         }
@@ -70,9 +71,9 @@ namespace DevicesModule.ViewModels
         }
 
         #region IWindowIdentity Members
-        public Guid Guid
+        public string Guid
         {
-            get { return _guid; }
+            get { return "MPT_" + _guid.ToString(); }
         }
         #endregion
     }

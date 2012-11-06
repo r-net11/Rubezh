@@ -98,9 +98,9 @@ namespace GKModule.ViewModels
         public List<AUParameterValue> AUParameterValues { get; private set; }
 
         #region IWindowIdentity Members
-        public Guid Guid
+        public string Guid
         {
-            get { return _guid; }
+            get { return _guid.ToString(); }
         }
         #endregion
     }

@@ -18,167 +18,169 @@ using FiresecAPI;
 
 namespace FireMonitor
 {
-    public class Bootstrapper : BaseBootstrapper
-    {
-        public void Initialize()
-        {
-            AppConfigHelper.InitializeAppSettings();
-            VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
-            ServiceFactory.Initialize(new LayoutService(), new SecurityService());
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+	public class Bootstrapper : BaseBootstrapper
+	{
+		public void Initialize()
+		{
+			AppConfigHelper.InitializeAppSettings();
+			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
+			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
-            if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
-            {
-                App.Login = ServiceFactory.LoginService.Login;
-                App.Password = ServiceFactory.LoginService.Password;
-                try
-                {
-                    LoadingService.Show("Чтение конфигурации", 15);
-                    LoadingService.AddCount(GetModuleCount());
+			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
+			{
+				App.Login = ServiceFactory.LoginService.Login;
+				App.Password = ServiceFactory.LoginService.Password;
+				try
+				{
+					LoadingService.Show("Чтение конфигурации", 15);
+					LoadingService.AddCount(GetModuleCount());
 
-                    LoadingService.DoStep("Синхронизация файлов");
-                    FiresecManager.UpdateFiles();
-                    InitializeFs(false);
-                    var loadingError = FiresecManager.GetLoadingError();
-                    if (!String.IsNullOrEmpty(loadingError))
-                    {
-                        MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
-                    }
-                    LoadingService.DoStep("Загрузка конфигурации ГК");
-                    InitializeGk();
+					LoadingService.DoStep("Синхронизация файлов");
+					FiresecManager.UpdateFiles();
+					InitializeFs(false);
+					var loadingError = FiresecManager.GetLoadingError();
+					if (!String.IsNullOrEmpty(loadingError))
+					{
+						MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
+					}
+					LoadingService.DoStep("Загрузка конфигурации ГК");
+					InitializeGk();
 
-                    LoadingService.DoStep("Старт полинга сервера");
-                    FiresecManager.StartPoll(false);
+					LoadingService.DoStep("Старт полинга сервера");
+					FiresecManager.StartPoll(false);
 #if RELEASE
                     LoadingService.DoStep("Проверка HASP-ключа");
                     var operationResult = FiresecManager.FiresecDriver.CheckHaspPresence();
                     if (operationResult.HasError)
                         MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
 #endif
-                    LoadingService.DoStep("Проверка прав пользователя");
-                    if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
-                    {
-                        LoadingService.DoStep("Загрузка клиентских настроек");
-                        ClientSettings.LoadSettings();
+					LoadingService.DoStep("Проверка прав пользователя");
+					if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
+					{
+						LoadingService.DoStep("Загрузка клиентских настроек");
+						ClientSettings.LoadSettings();
 
-                        var shell = new MonitorShellViewModel();
-                        ((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
-                        ((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
-                        RunShell(shell);
-                        ((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
-                        ((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
+						var shell = new MonitorShellViewModel();
+						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
+						RunShell(shell);
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 
-                        SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-                        ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);
-                    }
-                    else
-                    {
-                        MessageBoxService.Show("Нет прав на работу с программой");
-                        FiresecManager.Disconnect();
-                    }
-                    LoadingService.Close();
-                    GKDBHelper.AddMessage("Вход пользователя в систему");
-                }
-                catch (Exception ex)
-                {
-                    MessageBoxService.ShowException(ex);
-                    Application.Current.Shutdown();
-                }
-            }
-            else
-            {
-                Application.Current.Shutdown();
-                return;
-            }
-            //MutexHelper.KeepAlive();
-            ServiceFactory.SubscribeEvents();
+						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+						ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);
+					}
+					else
+					{
+						MessageBoxService.Show("Нет прав на работу с программой");
+						FiresecManager.Disconnect();
+					}
+					LoadingService.Close();
+					GKDBHelper.AddMessage("Вход пользователя в систему");
+				}
+				catch (Exception ex)
+				{
+					MessageBoxService.ShowException(ex);
+					if (Application.Current != null)
+						Application.Current.Shutdown();
+				}
+			}
+			else
+			{
+				if (Application.Current != null)
+					Application.Current.Shutdown();
+				return;
+			}
+			//MutexHelper.KeepAlive();
+			ServiceFactory.SubscribeEvents();
 			ProgressWatcher.Run();
-        }
+		}
 
-        void InitializeFs(bool reconnect = false)
-        {
-            try
-            {
-                LoadingService.DoStep("Загрузка конфигурации с сервера");
-                FiresecManager.GetConfiguration();
+		void InitializeFs(bool reconnect = false)
+		{
+			try
+			{
+				LoadingService.DoStep("Загрузка конфигурации с сервера");
+				FiresecManager.GetConfiguration();
 
-                if (!reconnect)
-                {
-                    LoadingService.DoStep("Инициализация драйвера устройств");
-                    var connectionResult = FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, true);
-                    if (connectionResult.HasError)
-                    {
-                        CloseOnException(connectionResult.Error);
-                        return;
-                    }
-                }
-                LoadingService.DoStep("Синхронизация конфигурации");
-                FiresecManager.FiresecDriver.Synchronyze();
-                LoadingService.DoStep("Старт мониторинга");
-                FiresecManager.FiresecDriver.StartWatcher(true, true);
-                if (!reconnect)
-                {
-                    LoadingService.DoStep("Синхронизация журнала событий");
-                    FiresecManager.SynchrinizeJournal();
-                }
-            }
-            catch (FiresecException e)
-            {
-                Logger.Error(e, "Bootstrapper.InitializeFs");
-                CloseOnException(e.Message);
-            }
-        }
+				if (!reconnect)
+				{
+					LoadingService.DoStep("Инициализация драйвера устройств");
+					var connectionResult = FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, true);
+					if (connectionResult.HasError)
+					{
+						CloseOnException(connectionResult.Error);
+						return;
+					}
+				}
+				LoadingService.DoStep("Синхронизация конфигурации");
+				FiresecManager.FiresecDriver.Synchronyze();
+				LoadingService.DoStep("Старт мониторинга");
+				FiresecManager.FiresecDriver.StartWatcher(true, true);
+				if (!reconnect)
+				{
+					LoadingService.DoStep("Синхронизация журнала событий");
+					FiresecManager.SynchrinizeJournal();
+				}
+			}
+			catch (FiresecException e)
+			{
+				Logger.Error(e, "Bootstrapper.InitializeFs");
+				CloseOnException(e.Message);
+			}
+		}
 
-        void InitializeGk()
-        {
-            GKDriversCreator.Create();
-            XManager.GetConfiguration();
-            XManager.CreateStates();
-            DatabaseManager.Convert();
-        }
+		void InitializeGk()
+		{
+			GKDriversCreator.Create();
+			XManager.GetConfiguration();
+			XManager.CreateStates();
+			DatabaseManager.Convert();
+		}
 
-        bool IsRestarting = false;
-        void OnConfigurationChanged()
-        {
-            try
-            {
-                if (IsRestarting)
-                    return;
-                IsRestarting = true;
-                ProgressWatcher.Close();
-                NativeFiresecClient.IsSuspended = true;
-                ApplicationService.Restart();
+		bool IsRestarting = false;
+		void OnConfigurationChanged()
+		{
+			try
+			{
+				if (IsRestarting)
+					return;
+				IsRestarting = true;
+				ProgressWatcher.Close();
+				NativeFiresecClient.IsSuspended = true;
+				ApplicationService.Restart();
 
-                LoadingService.Show("Перезагрузка конфигурации", 10);
-                LoadingService.AddCount(10);
+				LoadingService.Show("Перезагрузка конфигурации", 10);
+				LoadingService.AddCount(10);
 
-                ApplicationService.CloseAllWindows();
-                ServiceFactory.Layout.Close();
+				ApplicationService.CloseAllWindows();
+				ServiceFactory.Layout.Close();
 
-                InitializeFs(true);
-                InitializeGk();
+				InitializeFs(true);
+				InitializeGk();
 
-                InitializeModules();
-                ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+				InitializeModules();
+				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 
-                LoadingService.Close();
-            }
-            finally
-            {
-                NativeFiresecClient.IsSuspended = false;
-                IsRestarting = false;
-            }
-        }
+				LoadingService.Close();
+			}
+			finally
+			{
+				NativeFiresecClient.IsSuspended = false;
+				IsRestarting = false;
+			}
+		}
 
-        void CloseOnException(string message)
-        {
-            MessageBoxService.ShowError(message);
-            Application.Current.Shutdown();
-        }
+		void CloseOnException(string message)
+		{
+			MessageBoxService.ShowError(message);
+			Application.Current.Shutdown();
+		}
 
-        void OnNotify(string message)
-        {
-            MessageBoxService.Show(message);
-        }
-    }
+		void OnNotify(string message)
+		{
+			MessageBoxService.Show(message);
+		}
+	}
 }

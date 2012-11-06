@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -47,20 +48,20 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public string PresentationZone
-        {
-            get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
-        }
+		public string PresentationZone
+		{
+			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
+		}
 
-        public string PresentationAddress
-        {
-            get { return Device.PresentationAddress; }
-        }
+		public string PresentationAddress
+		{
+			get { return Device.PresentationAddress; }
+		}
 
 		void OnStateChanged()
 		{
 			States = new List<StateViewModel>();
-            foreach (var state in DeviceState.ThreadSafeStates)
+			foreach (var state in DeviceState.ThreadSafeStates)
 			{
 				var stateViewModel = new StateViewModel()
 				{
@@ -70,7 +71,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			ParentStates = new List<StateViewModel>();
-			foreach (var state in DeviceState.ParentStates)
+			foreach (var state in DeviceState.ThreadSafeParentStates)
 			{
 				var stateViewModel = new StateViewModel()
 				{
@@ -82,7 +83,7 @@ namespace DevicesModule.ViewModels
 
 			ChildState = StateType.Norm;
 			HasChildStates = false;
-			foreach (var state in DeviceState.ChildStates)
+			foreach (var state in DeviceState.ThreadSafeChildStates)
 			{
 				if (state.StateType < ChildState)
 				{
@@ -102,7 +103,7 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("ChildState");
 			OnPropertyChanged("HasChildStates");
 
-			//ShowTimerDetails();
+			ShowTimerDetails();
 		}
 
 		public List<StateViewModel> States { get; private set; }
@@ -128,25 +129,22 @@ namespace DevicesModule.ViewModels
 					}
 				}
 
-                foreach (var state in DeviceState.ThreadSafeStates)
+				foreach (var state in DeviceState.ThreadSafeStates)
 				{
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}
 
-				if (DeviceState.Parameters != null)
+				var nullString = "<NULL>";
+				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
-					var nullString = "<NULL>";
-					foreach (var parameter in DeviceState.Parameters)
-					{
-						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == nullString)
-							continue;
-						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
-							continue;
+					if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == nullString)
+						continue;
+					if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
+						continue;
 
-						stringBuilder.Append(parameter.Caption);
-						stringBuilder.Append(" - ");
-						stringBuilder.AppendLine(parameter.Value);
-					}
+					stringBuilder.Append(parameter.Caption);
+					stringBuilder.Append(" - ");
+					stringBuilder.AppendLine(parameter.Value);
 				}
 
 				return stringBuilder.ToString();
@@ -155,9 +153,9 @@ namespace DevicesModule.ViewModels
 
 		void OnParametersChanged()
 		{
-			if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
+			if (DeviceState != null)
 			{
-				foreach (var parameter in DeviceState.Parameters)
+				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
 					string parameterValue = parameter.Value;
 					if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
@@ -198,8 +196,8 @@ namespace DevicesModule.ViewModels
 			get
 			{
 				var parameters = new List<string>();
-				if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
-					foreach (var parameter in DeviceState.Parameters)
+				if (DeviceState != null)
+					foreach (var parameter in DeviceState.ThreadSafeParameters)
 					{
 						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
 							continue;
@@ -303,10 +301,10 @@ namespace DevicesModule.ViewModels
 				FiresecManager.ChangeDisabled(DeviceState);
 			}
 		}
-        public bool CanDisable()
-        {
-            return FiresecManager.CanDisable(DeviceState);
-        }
+		public bool CanDisable()
+		{
+			return FiresecManager.CanDisable(DeviceState);
+		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
@@ -333,7 +331,7 @@ namespace DevicesModule.ViewModels
 			{
 				DeviceState = DeviceState
 			};
-            var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
+			var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
 			FiresecManager.FiresecDriver.ResetStates(resetItems);
@@ -342,7 +340,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanReset(string stateName)
 		{
-            return DeviceState.ThreadSafeStates.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
+			return DeviceState.ThreadSafeStates.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }
@@ -391,28 +389,21 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.AppSettings.CanControl)
 			{
-                if (Device.Driver.DriverType == DriverType.MPT)
-                {
-                    var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
-                    if (deviceDriverState != null)
-                    {
-                        var secondsLeft = 1;
-                        var mptTimerViewModel = new MPTTimerViewModel(Device);
-                        DialogService.ShowWindow(mptTimerViewModel);
-                        mptTimerViewModel.StartTimer(secondsLeft);
-                    }
-                }
-
-				if (Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
+				if (Device.Driver.DriverType == DriverType.MPT)
 				{
-                    var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
+					var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "MPT_On");
 					if (deviceDriverState != null)
 					{
 						if (DateTime.Now > deviceDriverState.Time)
 						{
 							var timeSpan = deviceDriverState.Time - DateTime.Now;
 
-							var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+							foreach (var property in Device.Properties)
+							{
+								Trace.WriteLine(property.Name);
+							}
+
+							var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 							if (timeoutProperty != null)
 							{
 								int timeout = 0;
@@ -420,7 +411,7 @@ namespace DevicesModule.ViewModels
 								{
 									timeout = int.Parse(timeoutProperty.Value);
 								}
-								catch(Exception e)
+								catch (Exception e)
 								{
 									Logger.Error(e, "DeviceViewModel.ShowTimerDetails");
 									return;
@@ -429,9 +420,9 @@ namespace DevicesModule.ViewModels
 								int secondsLeft = timeout - timeSpan.Value.Seconds;
 								if (secondsLeft > 0)
 								{
-									var deviceDetailsViewModel = new DeviceDetailsViewModel(Device);
-									DialogService.ShowWindow(deviceDetailsViewModel);
-									deviceDetailsViewModel.DeviceControlViewModel.StartTimer(secondsLeft);
+									var mptTimerViewModel = new MPTTimerViewModel(Device);
+									DialogService.ShowWindow(mptTimerViewModel);
+									mptTimerViewModel.StartTimer(secondsLeft);
 								}
 							}
 						}

@@ -35,10 +35,6 @@ namespace DevicesModule.DeviceProperties
 		{
 			get { return DriverProperty.IsAUParameter; }
 		}
-        public string Default
-        {
-            get { return DriverProperty.Default; }
-        }
         public bool IsControl
         {
             get { return DriverProperty.IsControl; }

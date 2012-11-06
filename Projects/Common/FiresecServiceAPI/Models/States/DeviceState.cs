@@ -47,6 +47,40 @@ namespace FiresecAPI.Models
 		public List<ChildDeviceState> ChildStates { get; set; }
 		public List<Parameter> Parameters { get; set; }
 
+		public List<ParentDeviceState> ThreadSafeParentStates
+		{
+			get
+			{
+				if (ParentStates == null)
+				{
+					ParentStates = new List<ParentDeviceState>();
+				}
+				return ParentStates.ToList();
+			}
+		}
+		public List<ChildDeviceState> ThreadSafeChildStates
+		{
+			get
+			{
+				if (ChildStates == null)
+				{
+					ChildStates = new List<ChildDeviceState>();
+				}
+				return ChildStates.ToList();
+			}
+		}
+		public List<Parameter> ThreadSafeParameters
+		{
+			get
+			{
+				if (Parameters == null)
+				{
+					Parameters = new List<Parameter>();
+				}
+				return Parameters.ToList();
+			}
+		}
+
 		public DeviceState()
 		{
 			States = new List<DeviceDriverState>();
@@ -69,7 +103,7 @@ namespace FiresecAPI.Models
 					}
 				}
 
-				foreach (var parentDeviceState in ParentStates)
+				foreach (var parentDeviceState in ThreadSafeParentStates)
 				{
 					if (parentDeviceState.DriverState != null)
 					{
@@ -77,7 +111,7 @@ namespace FiresecAPI.Models
 					}
 				}
 
-				foreach (var childDeviceState in ChildStates)
+				foreach (var childDeviceState in ThreadSafeChildStates)
 				{
 					stateTypes.Add(childDeviceState.StateType);
 				}
@@ -104,7 +138,7 @@ namespace FiresecAPI.Models
 			get
 			{
 				var parentStringStates = new List<string>();
-				foreach (var parentDeviceState in ParentStates)
+				foreach (var parentDeviceState in ThreadSafeParentStates)
 				{
 					parentStringStates.Add(parentDeviceState.ParentDevice.Driver.ShortName + " - " + parentDeviceState.DriverState.Name);
 				}

@@ -187,11 +187,10 @@ namespace DevicesModule.ViewModels
             {
                 try
                 {
-                    var v = SelectedDevice.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-					if (v != null)
+                    var driverProperty = SelectedDevice.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (driverProperty != null)
 					{
-						string defValue = v.Default;
-						property.Value = defValue;
+						property.Value = driverProperty.Default;
 					}
 				}
                 catch (Exception)

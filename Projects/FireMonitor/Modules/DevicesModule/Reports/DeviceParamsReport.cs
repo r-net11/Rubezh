@@ -46,27 +46,24 @@ namespace DevicesModule.Reports
 					{
 						if (FiresecManager.Zones.IsNotNullOrEmpty())
 						{
-                            var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+							var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
 							if (zone != null)
 								zonePresentationName = zone.PresentationName;
 						}
 					}
 
 					var deviceState = device.DeviceState;
-					if (deviceState.Parameters != null)
+					var parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));
+					if (parameter != null)
 					{
-						var parameter = deviceState.Parameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));
-						if (parameter != null)
-						{
-							if (string.IsNullOrEmpty(parameter.Value) == false && parameter.Value != "<NULL>")
-								dustiness = parameter.Value;
-						}
-						parameter = deviceState.Parameters.FirstOrDefault(x => (x.Name == "FailureType" && x.Visible));
-						if (parameter != null)
-						{
-							if (string.IsNullOrEmpty(parameter.Value) == false && parameter.Value != "<NULL>")
-								failureType = parameter.Value;
-						}
+						if (string.IsNullOrEmpty(parameter.Value) == false && parameter.Value != "<NULL>")
+							dustiness = parameter.Value;
+					}
+					parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "FailureType" && x.Visible));
+					if (parameter != null)
+					{
+						if (string.IsNullOrEmpty(parameter.Value) == false && parameter.Value != "<NULL>")
+							failureType = parameter.Value;
 					}
 					//DataList.Add(new ReportDeviceParamsModel()
 					//{

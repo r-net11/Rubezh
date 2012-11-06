@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Common;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -54,7 +55,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			ParentStates = new List<StateViewModel>();
-			foreach (var state in DeviceState.ParentStates)
+			foreach (var state in DeviceState.ThreadSafeParentStates)
 			{
 				var stateViewModel = new StateViewModel()
 				{
@@ -63,6 +64,7 @@ namespace DevicesModule.ViewModels
 				};
 				ParentStates.Add(stateViewModel);
 			}
+			OnPropertyChanged("StateType");
 			OnPropertyChanged("States");
 			OnPropertyChanged("ParentStringStates");
             OnPropertyChanged("IsAutomaticOff");
@@ -98,7 +100,6 @@ namespace DevicesModule.ViewModels
 					{
 						var timeSpan = deviceDriverState.Time - DateTime.Now;
 
-						//var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
 						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)
 						{
@@ -159,6 +160,10 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		public StateType StateType
+		{
+			get { return DeviceState.StateType; }
+		}
 		public List<StateViewModel> States { get; private set; }
 		public List<StateViewModel> ParentStates { get; private set; }
 
@@ -167,9 +172,9 @@ namespace DevicesModule.ViewModels
 			get
 			{
 				var parameters = new List<string>();
-				if (DeviceState != null && DeviceState.Parameters != null)
+				if (DeviceState != null)
 				{
-					foreach (var parameter in DeviceState.Parameters)
+					foreach (var parameter in DeviceState.ThreadSafeParameters)
 					{
 						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
 							continue;
@@ -225,9 +230,9 @@ namespace DevicesModule.ViewModels
         }
 
 		#region IWindowIdentity Members
-		public Guid Guid
+		public string Guid
 		{
-			get { return _guid; }
+			get { return _guid.ToString(); }
 		}
 		#endregion
 	}
