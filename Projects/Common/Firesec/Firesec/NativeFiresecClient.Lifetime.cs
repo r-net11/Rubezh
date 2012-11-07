@@ -35,7 +35,7 @@ namespace Firesec
         {
             while (true)
             {
-                if (IsConnected && IsOperationBuisy)
+                if (IsConnected && (IsOperationBuisy || TasksCount > 0))
                 {
                     if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
                     {
