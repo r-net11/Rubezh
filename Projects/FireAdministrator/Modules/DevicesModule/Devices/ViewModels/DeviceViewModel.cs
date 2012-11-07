@@ -223,6 +223,7 @@ namespace DevicesModule.ViewModels
                 //DevicesViewModel.Current.Select(newDeviceViewModel.CreatedDeviceViewModel.Device.UID);
 				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
+				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.CreatedDeviceViewModel);
 			}
 		}
 		public bool CanAdd()
