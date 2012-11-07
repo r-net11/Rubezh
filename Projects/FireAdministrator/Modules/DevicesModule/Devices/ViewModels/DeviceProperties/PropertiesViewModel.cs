@@ -31,6 +31,9 @@ namespace DevicesModule.DeviceProperties
 			EnumProperties = new List<EnumPropertyViewModel>();
 			foreach (var driverProperty in device.Driver.Properties)
 			{
+                if(device.Driver.DriverType == DriverType.Exit)
+                    continue;
+
 				if (driverProperty.IsHidden || driverProperty.IsControl)
 					continue;
 
@@ -68,18 +71,15 @@ namespace DevicesModule.DeviceProperties
 		}
 
 		private bool parameterVis;
-		public bool ParameterVis
-		{
-			get
-			{
-				return parameterVis;
-			}
-			set
-			{
-				parameterVis = value;
-				OnPropertyChanged("ParameterVis");
-			}
-		}
+        public bool ParameterVis
+        {
+            get { return parameterVis; }
+            set
+            {
+                parameterVis = value;
+                OnPropertyChanged("ParameterVis");
+            }
+        }
 		private bool choise = true;
 		public bool Choise
 		{

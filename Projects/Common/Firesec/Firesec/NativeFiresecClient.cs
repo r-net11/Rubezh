@@ -55,7 +55,7 @@ namespace Firesec
 		{
 			return SafeCall<bool>(() =>
 			{
-				_reguestId += 1;
+				_reguestId++;
 				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId);
 				return true;
 			}, "ExecuteCommand");

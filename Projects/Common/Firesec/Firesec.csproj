@@ -91,6 +91,7 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="FiresecDriver.AsyncConfigurationParameters.cs" />
     <Compile Include="FiresecDriver.Reset.cs" />
     <Compile Include="Firesec\FiresecExceptionHelper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Callack.cs" />
