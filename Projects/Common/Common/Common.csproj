@@ -153,6 +153,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SafeContext.cs" />
+    <Compile Include="SystemInfo.cs" />
     <Compile Include="WCF\BindingHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

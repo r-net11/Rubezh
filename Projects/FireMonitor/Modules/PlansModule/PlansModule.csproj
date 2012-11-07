@@ -100,9 +100,15 @@
     </Compile>
     <Compile Include="Converters\StateTypeToPlanColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
+    <Compile Include="Events\ElementXZoneSelectedEvent.cs" />
     <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
     <Compile Include="Events\ElementZoneSelectedEvent.cs" />
+    <Compile Include="ViewModels\Elements\ElementXZoneViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementXDeviceViewModel.cs" />
+    <Compile Include="ViewModels\Elements\IElementDevice.cs" />
+    <Compile Include="Views\Elements\ElementXZoneView.xaml.cs">
+      <DependentUpon>ElementXZoneView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Elements\ElementXDeviceView.xaml.cs">
       <DependentUpon>ElementXDeviceView.xaml</DependentUpon>
     </Compile>
@@ -202,6 +208,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Elements\ElementXZoneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Elements\ElementXDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>

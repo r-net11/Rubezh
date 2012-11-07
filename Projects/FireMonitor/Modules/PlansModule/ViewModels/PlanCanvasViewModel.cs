@@ -22,6 +22,7 @@ namespace PlansModule.ViewModels
 
 		public List<ElementSubPlanViewModel> SubPlans { get; set; }
 		public List<ElementZoneViewModel> Zones { get; set; }
+		public List<ElementXZoneViewModel> XZones { get; set; }
 		public List<ElementDeviceViewModel> Devices { get; set; }
 		public List<ElementXDeviceViewModel> XDevices { get; set; }
 
@@ -33,6 +34,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 			ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
 			ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Subscribe(OnElementZoneSelected);
+			ServiceFactory.Events.GetEvent<ElementXZoneSelectedEvent>().Subscribe(OnElementXZoneSelected);
 		}
 
 		public void Update()
@@ -45,6 +47,7 @@ namespace PlansModule.ViewModels
 		{
 			SubPlans = new List<ElementSubPlanViewModel>();
 			Zones = new List<ElementZoneViewModel>();
+			XZones = new List<ElementXZoneViewModel>();
 			Devices = new List<ElementDeviceViewModel>();
 			XDevices = new List<ElementXDeviceViewModel>();
 
@@ -78,15 +81,27 @@ namespace PlansModule.ViewModels
 			}
 			foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
 			{
-				var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
+				var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon<ElementPolygonZone, ElementRectangleZone>(elementRectangleZone));
 				DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
 				Zones.Add(elementZoneViewModel);
 			}
-            foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
+			foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
 			{
 				var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
 				DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
 				Zones.Add(elementZoneViewModel);
+			}
+			foreach (var elementRectangleXZone in Plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
+			{
+				var elementXZoneViewModel = new ElementXZoneViewModel(RectangleZoneToPolygon<ElementPolygonXZone, ElementRectangleXZone>(elementRectangleXZone));
+				DrawElement(elementXZoneViewModel.ElementXZoneView, elementRectangleXZone, elementXZoneViewModel);
+				XZones.Add(elementXZoneViewModel);
+			}
+			foreach (var elementPolygonXZone in Plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty))
+			{
+				var elementXZoneViewModel = new ElementXZoneViewModel(elementPolygonXZone);
+				DrawElement(elementXZoneViewModel.ElementXZoneView, elementPolygonXZone, elementXZoneViewModel);
+				XZones.Add(elementXZoneViewModel);
 			}
 			foreach (var elementDevice in Plan.ElementDevices)
 			{
@@ -138,21 +153,24 @@ namespace PlansModule.ViewModels
 			Canvas.Children.Add(frameworkElement);
 		}
 
-		ElementPolygonZone RectangleZoneToPolygon(ElementRectangleZone elementRectangleZone)
+		TPolygon RectangleZoneToPolygon<TPolygon, TRectangle>(TRectangle elementRectangleZone)
+			where TRectangle : ElementBaseRectangle, IElementZone
+			where TPolygon : ElementBasePolygon, IElementZone, new()
 		{
-			Rect rect = elementRectangleZone.GetRectangle();
-			var elementPolygonZone = new ElementPolygonZone()
-			{
-				Points = new PointCollection(new Point[] { rect.TopLeft, rect.TopRight, rect.BottomRight, rect.BottomLeft }),
-                ZoneUID = elementRectangleZone.ZoneUID
-			};
-
+			var elementPolygonZone = RectangleToPolygon<TPolygon, TRectangle>(elementRectangleZone);
+			elementPolygonZone.ZoneUID = elementRectangleZone.ZoneUID;
+			return elementPolygonZone;
+		}
+		TPolygon RectangleToPolygon<TPolygon, TRectangle>(TRectangle elementRectangle)
+			where TRectangle : ElementBaseRectangle
+			where TPolygon : ElementBasePolygon, new()
+		{
+			var elementPolygonZone = new TPolygon();
 			elementPolygonZone.Points = new PointCollection();
 			elementPolygonZone.Points.Add(new Point(0, 0));
-			elementPolygonZone.Points.Add(new Point(elementRectangleZone.Width, 0));
-			elementPolygonZone.Points.Add(new Point(elementRectangleZone.Width, elementRectangleZone.Height));
-			elementPolygonZone.Points.Add(new Point(0, elementRectangleZone.Height));
-
+			elementPolygonZone.Points.Add(new Point(elementRectangle.Width, 0));
+			elementPolygonZone.Points.Add(new Point(elementRectangle.Width, elementRectangle.Height));
+			elementPolygonZone.Points.Add(new Point(0, elementRectangle.Height));
 			return elementPolygonZone;
 		}
 
@@ -160,10 +178,13 @@ namespace PlansModule.ViewModels
 		{
 			Devices.ForEach(x => x.IsSelected = false);
 		}
-
 		void OnElementZoneSelected(object obj)
 		{
 			Zones.ForEach(x => x.IsSelected = false);
+		}
+		void OnElementXZoneSelected(object obj)
+		{
+			XZones.ForEach(x => x.IsSelected = false);
 		}
 
 		void _canvas_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -181,7 +202,7 @@ namespace PlansModule.ViewModels
 		public void SelectZone(Guid zoneUID)
 		{
 			Zones.ForEach(x => x.IsSelected = false);
-            Zones.FirstOrDefault(x => x.ZoneUID == zoneUID).IsSelected = true;
+			Zones.FirstOrDefault(x => x.ZoneUID == zoneUID).IsSelected = true;
 		}
 
 		public void SelectXDevice(XDevice device)

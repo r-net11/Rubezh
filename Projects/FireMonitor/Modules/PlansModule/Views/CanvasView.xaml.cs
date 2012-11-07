@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Controls;
 using PlansModule.ViewModels;
+using Infrustructure.Plans.Elements;
+using PlansModule.ViewModels.Elements;
 
 namespace PlansModule.Views
 {
@@ -215,10 +217,10 @@ namespace PlansModule.Views
 				return;
 
 			foreach (var child in canvas.Children)
-				if (child is ElementDeviceView)
+				if (child is ElementDeviceView || child is ElementXDeviceView)
 				{
-					ElementDeviceView elementDeviceView = child as ElementDeviceView;
-					ElementDeviceViewModel viewModel = elementDeviceView.DataContext as ElementDeviceViewModel;
+					FrameworkElement elementDeviceView = child as FrameworkElement;
+					IElementDevice viewModel = elementDeviceView.DataContext as IElementDevice;
 					double k = deviceSlider.Value / scaleTransform.ScaleX;
 					elementDeviceView.Width = k;
 					elementDeviceView.Height = k;

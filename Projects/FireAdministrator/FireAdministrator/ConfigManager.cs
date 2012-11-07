@@ -104,7 +104,7 @@ namespace FireAdministrator
             catch (Exception e)
             {
                 Logger.Error(e, "MenuView.SetNewConfig");
-                MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+				MessageBoxService.ShowError(e.Message, "Ошибка при выполнении операции");
                 return false;
             }
         }

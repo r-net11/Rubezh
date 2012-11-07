@@ -25,7 +25,8 @@ namespace Infrastructure.Client
 	    List<ModuleReg> modulesFromReg = new List<ModuleReg>();
 		public BaseBootstrapper()
 		{
-            modulesFromReg = ModuleReg.LoadModulesFromRegister();
+			Logger.Trace(SystemInfo.GetString());
+			modulesFromReg = ModuleReg.LoadModulesFromRegister();
 			_modules = null;
 			RegisterResource();
 		}
@@ -140,7 +141,13 @@ namespace Infrastructure.Client
 		}
 		private Assembly GetLoadedAssemblyByFileName(string path)
 		{
-			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			//Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			var assemblies = from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
+							 where !(assembly is System.Reflection.Emit.AssemblyBuilder) &&
+							 assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder" &&
+							 !assembly.GlobalAssemblyCache &&
+							 assembly.CodeBase != Assembly.GetExecutingAssembly().CodeBase
+							 select assembly;
 			foreach (Assembly assembly in assemblies)
 				if (assembly.Location == path)
 					return assembly;
