@@ -9,11 +9,11 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Запись ГК" Binding="{Binding GKNo}" />
-                <DataGridTextColumn Header="Дата и Время" Binding="{Binding StringDate}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding EventName}" />
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding EventDescription}" />
-                <DataGridTextColumn Header="Запись КАУ" Binding="{Binding KAUNo}" />
+                <DataGridTextColumn Header="Запись ГК" Binding="{Binding GKJournalRecordNo}" />
+                <DataGridTextColumn Header="Дата и Время" Binding="{Binding DateTime}" />
+                <DataGridTextColumn Header="Событие" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Д/Н" Binding="{Binding YesNo}" />
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding Description}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1">

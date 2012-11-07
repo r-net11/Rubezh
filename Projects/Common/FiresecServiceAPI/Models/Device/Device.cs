@@ -34,12 +34,34 @@ namespace FiresecAPI.Models
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
-		public List<Zone> ZonesInLogic { get; set; }
-		public List<Device> DependentDevices { get; set; }
         public bool IsLocal { get; set; }
         public bool IsRemote { get; set; }
 
-        public bool _hasExternalDevices;
+		List<Zone> _zonesInLogic;
+		public List<Zone> ZonesInLogic
+		{
+			get
+			{
+				if (_zonesInLogic == null)
+					_zonesInLogic = new List<Zone>();
+				return _zonesInLogic;
+			}
+			set { _zonesInLogic = value; }
+		}
+
+		List<Device> _dependentDevices;
+		public List<Device> DependentDevices
+		{
+			get
+			{
+				if (_dependentDevices == null)
+					_dependentDevices = new List<Device>();
+				return _dependentDevices;
+			}
+			set { _dependentDevices = value; }
+		}
+
+        bool _hasExternalDevices;
         public bool HasExternalDevices
         {
             get { return _hasExternalDevices; }
@@ -379,8 +401,30 @@ namespace FiresecAPI.Models
                     }
                 }
             }
+			if (Driver.DriverType == DriverType.MPT)
+			{
+				if (Zone != null)
+				{
+					foreach (var deviceInZone in Zone.DevicesInZone)
+					{
+						if (this.ParentPanel.UID != deviceInZone.ParentPanel.UID)
+						{
+							HasExternalDevices = true;
+							return;
+						}
+					}
+				}
+			}
 			HasExternalDevices = false;
         }
+
+		public void SynchronizeChildern()
+		{
+			if (Children.Count > 0)
+			{
+				Children = new List<Device>(Children.OrderBy(x => { return x.IntAddress; }));
+			}
+		}
 
 		public void OnChanged()
 		{

@@ -135,10 +135,7 @@ namespace FiresecAPI.Models
 		{
 			foreach (var device in Devices)
 			{
-				if (device.Children.Count > 0)
-				{
-					device.Children = new List<Device>(device.Children.OrderBy(x => { return x.IntAddress; }));
-				}
+				device.SynchronizeChildern();
 			}
 		}
 
@@ -150,6 +147,14 @@ namespace FiresecAPI.Models
 				if (guardUser.ZoneUIDs == null)
 				{
 					guardUser.ZoneUIDs = new List<Guid>();
+					result = false;
+				}
+			}
+			foreach (var zone in Zones)
+			{
+				if (zone.UID == Guid.Empty)
+				{
+					zone.UID = Guid.NewGuid();
 					result = false;
 				}
 			}

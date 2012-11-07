@@ -103,7 +103,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
-			for (int i = startAddress; i <= startAddress + Count * GetReserverCount(); i++)
+			for (int i = startAddress; i < startAddress + Count * GetReserverCount(); i++)
 			{
 				if (_parent.Children.Any(x => x.IntAddress == i))
 				{

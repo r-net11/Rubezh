@@ -99,7 +99,7 @@ namespace DiagnosticsModule.ViewModels
                     FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
                     FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
                     FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                    Thread.Sleep(TimeSpan.FromSeconds(20));
+                    Thread.Sleep(TimeSpan.FromSeconds(60));
                     Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
                     counter++;
                 }

@@ -1,13 +1,16 @@
 ﻿using System;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
     public class DeviceDescriptionViewModel : DialogViewModel
     {
-        public DeviceDescriptionViewModel(Guid deviceUID, string description)
+		public DeviceDescriptionViewModel(Device device, string description)
         {
-            Title = "Описание устройства";
+			Title = "Описание устройства " + device.PresentationAddressAndDriver;
+			CloseCommand = new RelayCommand(OnClose);
             Description = description;
         }
 
@@ -21,5 +24,11 @@ namespace DevicesModule.ViewModels
                 OnPropertyChanged("Description");
             }
         }
+
+		public RelayCommand CloseCommand { get; private set; }
+		void OnClose()
+		{
+			Close(true);
+		}
     }
 }

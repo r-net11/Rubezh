@@ -124,6 +124,7 @@
     <Compile Include="About\Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />

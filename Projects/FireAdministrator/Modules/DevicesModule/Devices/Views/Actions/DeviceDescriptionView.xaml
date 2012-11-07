@@ -3,5 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="600" MinHeight="300">
     
-    <Label Content="{Binding Description}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="{Binding Description}" />
+        <Button Grid.Row="1" Content="ОК" Command="{Binding CloseCommand}" HorizontalAlignment="Right" Width="100" Margin="2" />
+    </Grid>
 </UserControl>

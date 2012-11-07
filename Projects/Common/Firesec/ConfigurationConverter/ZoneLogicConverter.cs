@@ -81,7 +81,6 @@ namespace Firesec
 			foreach (var clause in zoneLogic.Clauses)
 			{
 				var innerClause = new clauseType();
-
 				innerClause.state = ((int)clause.State).ToString();
 
 				switch (clause.Operation)
@@ -125,7 +124,6 @@ namespace Firesec
 			}
 
 			innerZoneLogic.clause = innerClauses.ToArray();
-
 			return innerZoneLogic;
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Common;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -24,7 +24,7 @@ namespace FireAdministrator.ViewModels
 			AlarmPlayerHelper.Dispose();
 			if (ServiceFactory.SaveService.HasChanges)
 			{
-                var result = MessageBoxService.ShowQuestion("Применить изменения в настройках?");
+				var result = MessageBoxService.ShowQuestion("Применить изменения в настройках?");
 				switch (result)
 				{
 					case MessageBoxResult.Yes:

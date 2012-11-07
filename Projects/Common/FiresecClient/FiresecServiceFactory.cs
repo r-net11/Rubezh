@@ -25,7 +25,7 @@ namespace FiresecClient
 				{
 					return TryCreate();
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Logger.Error(e, "FiresecServiceFactory.Create");
 					if (serverAddress.StartsWith("net.pipe:"))
@@ -53,7 +53,7 @@ namespace FiresecClient
 					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
 			}
 
-				ChannelFactory.Open();
+			ChannelFactory.Open();
 
 			IFiresecService _firesecService = ChannelFactory.CreateChannel();
 			(_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
@@ -66,8 +66,10 @@ namespace FiresecClient
 			{
 				if (ChannelFactory != null)
 				{
-					//_duplexChannelFactory.Abort();
-					ChannelFactory.Close();
+					if (ChannelFactory.State != CommunicationState.Opened)
+					{
+						ChannelFactory.Close();
+					}
 				}
 			}
 			catch (Exception e)

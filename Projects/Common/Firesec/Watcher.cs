@@ -129,15 +129,17 @@ namespace Firesec
 					{
 						foreach (var parameter in device.DeviceState.Parameters)
 						{
-							if (innerDevice.dev_param != null &&
-								innerDevice.dev_param.Any(x => x.name == parameter.Name))
+							if (innerDevice.dev_param != null && innerDevice.dev_param.Any(x => x.name == parameter.Name))
 							{
 								var innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
-								if (parameter.Value != innerParameter.value)
+								if (innerParameter != null)
 								{
-									ChangedDevices.Add(device.DeviceState);
+									if (parameter.Value != innerParameter.value)
+									{
+										ChangedDevices.Add(device.DeviceState);
+									}
+									parameter.Value = innerParameter.value;
 								}
-								parameter.Value = innerParameter.value;
 							}
 						}
 					}
