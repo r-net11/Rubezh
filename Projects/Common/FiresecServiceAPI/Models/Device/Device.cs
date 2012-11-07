@@ -432,5 +432,12 @@ namespace FiresecAPI.Models
 				Changed();
 		}
         public event Action Changed;
+
+        public void OnAUParametersChanged()
+        {
+            if (AUParametersChanged != null)
+                AUParametersChanged();
+        }
+        public event Action AUParametersChanged;
 	}
 }
