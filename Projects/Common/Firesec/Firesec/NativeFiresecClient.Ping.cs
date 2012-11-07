@@ -43,7 +43,7 @@ namespace Firesec
 
                 if (Connection != null)
                 {
-                    if (TasksCount == 0)
+                    //if (TasksCount == 0)
                     {
                         var result = GetCoreState();
                         if (result.HasError)
