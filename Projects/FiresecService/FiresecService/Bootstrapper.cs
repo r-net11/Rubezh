@@ -19,7 +19,8 @@ namespace FiresecService
         {
             try
             {
-                AppSettingsHelper.InitializeAppSettings();
+				Logger.Trace(SystemInfo.GetString());
+				AppSettingsHelper.InitializeAppSettings();
                 var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
                 Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
 
