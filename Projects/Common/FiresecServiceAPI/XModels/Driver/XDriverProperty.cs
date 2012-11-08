@@ -41,7 +41,7 @@ namespace XFiresecAPI
         public bool IsLowByte { get; set; }
 
         [DataMember]
-        public short Offset { get; set; }
+        public byte Offset { get; set; }
 
         [DataMember]
         public byte Mask { get; set; }
