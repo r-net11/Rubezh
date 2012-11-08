@@ -2,12 +2,15 @@
 using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
 	public class TextBlockPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		ElementTextBlock _elementTextBlock;
+		private ElementTextBlock _elementTextBlock;
+		public List<string> Fonts { get; private set; }
+		public List<string> TextAlignments { get; private set; }
 
 		public TextBlockPropertiesViewModel(ElementTextBlock elementTextBlock)
 		{
@@ -17,9 +20,13 @@ namespace PlansModule.ViewModels
 
 			Fonts = new List<string>();
 			foreach (var fontfamily in System.Drawing.FontFamily.Families)
-			{
 				Fonts.Add(fontfamily.Name);
-			}
+			TextAlignments = new List<string>()
+			{
+				"По левому краю",
+				"По правому краю",
+				"По центру",
+			};
 		}
 
 		void CopyProperties()
@@ -32,6 +39,7 @@ namespace PlansModule.ViewModels
 			FontSize = _elementTextBlock.FontSize;
 			FontFamilyName = _elementTextBlock.FontFamilyName;
 			Stretch = _elementTextBlock.Stretch;
+			TextAlignment = _elementTextBlock.TextAlignment;
 		}
 
 		string _text;
@@ -111,7 +119,16 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		public List<string> Fonts { get; private set; }
+		int _textAlignment;
+		public int TextAlignment
+		{
+			get{return _textAlignment;}
+			set
+			{
+				_textAlignment = value;
+				OnPropertyChanged("TextAlignment");
+			}
+		}
 
 		string _fontFamilyName;
 		public string FontFamilyName
@@ -133,6 +150,7 @@ namespace PlansModule.ViewModels
 			_elementTextBlock.BorderThickness = StrokeThickness;
 			_elementTextBlock.FontSize = FontSize;
 			_elementTextBlock.FontFamilyName = FontFamilyName;
+			_elementTextBlock.TextAlignment = TextAlignment;
 			_elementTextBlock.Stretch = Stretch;
 			return base.Save();
 		}

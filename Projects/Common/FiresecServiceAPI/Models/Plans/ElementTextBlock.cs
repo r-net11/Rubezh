@@ -10,6 +10,7 @@ namespace FiresecAPI.Models
 		public ElementTextBlock()
 		{
 			Stretch = true;
+			TextAlignment = 0;
 		}
 
 		[DataMember]
@@ -22,6 +23,8 @@ namespace FiresecAPI.Models
 		public string FontFamilyName { get; set; }
 		[DataMember]
 		public bool Stretch { get; set; }
+		[DataMember]
+		public int TextAlignment { get; set; }
 
 		[DataMember]
 		public int ZIndex { get; set; }
@@ -36,7 +39,8 @@ namespace FiresecAPI.Models
 				BorderColor = BorderColor,
 				BorderThickness = BorderThickness,
 				FontSize = FontSize,
-				FontFamilyName = FontFamilyName
+				FontFamilyName = FontFamilyName,
+				TextAlignment = TextAlignment
 			};
 			Copy(elementBase);
 			return elementBase;
@@ -56,6 +60,7 @@ namespace FiresecAPI.Models
 			Text = "Надпись";
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
+			TextAlignment = 0;
 			FontFamilyName = "Arial";
 			base.SetDefault();
 			Height = 22;

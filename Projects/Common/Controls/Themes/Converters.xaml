@@ -24,4 +24,5 @@
     <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
     <Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
     <Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
+	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
 </ResourceDictionary>

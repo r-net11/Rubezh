@@ -8,6 +8,7 @@ namespace Infrustructure.Plans.Elements
 		Color ForegroundColor { get; set; }
 		double FontSize { get; set; }
 		string FontFamilyName { get; set; }
+		int TextAlignment { get; set; }
 		bool Stretch { get; set; }
 	}
 }

@@ -15,6 +15,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Текст" />
@@ -27,8 +28,8 @@
 			<Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="Шрифт" />
 			<Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="Растянуть" />
 
-			<TextBox Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True" AcceptsTab="False" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" />
-			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" SelectedItem="{Binding ForegroundColor}" Style="{StaticResource ColorPickerComboBox}" />
+			<TextBox Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True" AcceptsTab="False" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" TextAlignment="{Binding TextAlignment, Converter={StaticResource IntToEnumConverter}}" />
+			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment}"/>
 			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedItem="{Binding ForegroundColor}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" SelectedItem="{Binding BackgroundColor}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" SelectedItem="{Binding BorderColor}" Style="{StaticResource ColorPickerComboBox}" />

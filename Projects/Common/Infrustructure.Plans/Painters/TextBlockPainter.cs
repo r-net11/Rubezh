@@ -12,13 +12,12 @@ namespace Infrustructure.Plans.Painters
 		public FrameworkElement Draw(ElementBase element)
 		{
 			IElementTextBlock elementText = (IElementTextBlock)element;
-			var textBlock = new Label()
+			var textBlock = new TextBlock()
 			{
-				Content = elementText.Text,
+				Text = elementText.Text,
+				TextAlignment = (TextAlignment)elementText.TextAlignment,
 				Background = new SolidColorBrush(element.BackgroundColor),
 				Foreground = new SolidColorBrush(elementText.ForegroundColor),
-				BorderBrush = new SolidColorBrush(element.BorderColor),
-				BorderThickness = new Thickness(element.BorderThickness),
 				FontSize = elementText.FontSize,
 				FontFamily = new FontFamily(elementText.FontFamilyName),
 			};
@@ -28,7 +27,13 @@ namespace Infrustructure.Plans.Painters
 					Stretch = Stretch.Fill,
 					Child = textBlock
 				} : (FrameworkElement)textBlock;
-			return frameworkElement;
+			Border border = new Border()
+			{
+				BorderBrush = new SolidColorBrush(element.BorderColor),
+				BorderThickness = new Thickness(element.BorderThickness),
+				Child = frameworkElement,
+			};
+			return border;
 		}
 		#endregion
 	}
