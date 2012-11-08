@@ -398,11 +398,6 @@ namespace DevicesModule.ViewModels
 						{
 							var timeSpan = deviceDriverState.Time - DateTime.Now;
 
-							foreach (var property in Device.Properties)
-							{
-								Trace.WriteLine(property.Name);
-							}
-
 							var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 							if (timeoutProperty != null)
 							{
