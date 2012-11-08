@@ -38,7 +38,20 @@ namespace FiresecOPCServer
 			UILogger.Log("Соединение с сервером");
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.OPC, AppSettings.ServerAddress, AppSettings.Login, AppSettings.Password);
+                var serviceAddress = AppSettings.ServiceAddress;
+                if (string.IsNullOrEmpty(serviceAddress))
+                {
+                    if (AppSettings.RemoteAddress != "localhost" && AppSettings.RemoteAddress != "127.0.0.1")
+                    {
+                        serviceAddress = "net.tcp://" + AppSettings.RemoteAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
+                    }
+                    else
+                    {
+                        serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
+                    }
+                }
+
+                var message = FiresecManager.Connect(ClientType.OPC, serviceAddress, AppSettings.Login, AppSettings.Password);
 				if (message == null)
 					break;
 				Thread.Sleep(5000);

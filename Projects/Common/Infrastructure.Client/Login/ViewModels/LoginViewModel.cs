@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Client.Properties;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace Infrastructure.Client.Login.ViewModels
 {
@@ -144,17 +145,27 @@ namespace Infrastructure.Client.Login.ViewModels
 			base.OnClosed();
 		}
 
-		private void DoConnect()
-		{
-			ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
-			DialogService.ShowWindow(preLoadWindow);
+        private void DoConnect()
+        {
+            ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
+            DialogService.ShowWindow(preLoadWindow);
             var serviceAddress = ConfigurationManager.AppSettings["ServiceAddress"];
-            Message = FiresecManager.Connect(ClientType, serviceAddress, UserName, Password);
-            if (Message != null)
+            if (string.IsNullOrEmpty(serviceAddress))
             {
+                var remoteAddress = ConfigurationManager.AppSettings["RemoteAddress"] as string;
+                var remotePort = Convert.ToInt32(ConfigurationManager.AppSettings["RemotePort"] as string);
+                if (remoteAddress != "localhost" && remoteAddress != "127.0.0.1")
+                {
+                    serviceAddress = "net.tcp://" + remoteAddress + ":" + remotePort.ToString() + "/FiresecService/";
+                }
+                else
+                {
+                    serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
+                }
             }
-			preLoadWindow.ForceClose();
-		}
+            Message = FiresecManager.Connect(ClientType, serviceAddress, UserName, Password);
+            preLoadWindow.ForceClose();
+        }
 
 		public enum PasswordViewType
 		{

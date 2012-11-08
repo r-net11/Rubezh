@@ -9,6 +9,9 @@
         public bool AutoConnect { get; set; }
 
         public string ServiceAddress { get; set; }
+        public string RemoteAddress { get; set; }
+        public int RemotePort { get; set; }
+
         public string LibVlcDllsPath { get; set; }
 		public bool IsDebug { get; set; }
 		public bool DoNotOverrideFS1 { get; set; }

@@ -17,10 +17,18 @@ namespace FireAdministrator
                 AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string),
 
                 ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string,
+                RemoteAddress = ConfigurationManager.AppSettings["RemoteAddress"] as string,
+                RemotePort = Convert.ToInt32(ConfigurationManager.AppSettings["RemotePort"] as string),
+
                 LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string,
 				DoNotOverrideFS1 = Convert.ToBoolean(ConfigurationManager.AppSettings["DoNotOverrideFS1"] as string),
 				IsExpertMode = Convert.ToBoolean(ConfigurationManager.AppSettings["IsExpertMode"] as string),
             };
+            if (string.IsNullOrEmpty(appSettings.FS_Address))
+                appSettings.FS_Address = appSettings.RemoteAddress;
+            if (appSettings.FS_Address == "localhost")
+                appSettings.FS_Address = "127.0.0.1";
+
 #if DEBUG
             appSettings.IsDebug = true;
 #endif

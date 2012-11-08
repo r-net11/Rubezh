@@ -11,7 +11,11 @@ namespace FiresecOPCServer
         public static int FS_Port { get; set; }
         public static string FS_Login { get; set; }
         public static string FS_Password { get; set; }
-        public static string ServerAddress { get; set; }
+
+        public static string ServiceAddress { get; set; }
+        public static string RemoteAddress { get; set; }
+        public static int RemotePort { get; set; }
+
         public static string Login { get; set; }
         public static string Password { get; set; }
         public static bool IsImitatorEnabled { get; set; }
