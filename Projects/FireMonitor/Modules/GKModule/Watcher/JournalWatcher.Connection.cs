@@ -46,7 +46,7 @@ namespace GKModule
             if (gkDevice == null)
             {
                 var uidEquality = XManager.DeviceConfiguration.Devices.Any(x => x.UID == GkDatabase.RootDevice.UID);
-                Logger.Error("JournalWatcher ConnectionChanged gkDevice = null " + uidEquality.ToString());
+				Logger.Error("JournalWatcher ConnectionChanged gkDevice = null " + uidEquality.ToString() + " " + GkDatabase.RootDevice.UID.ToString());
                 return;
             }
 
