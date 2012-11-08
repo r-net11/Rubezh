@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
             RemoveXDeviceCommand = new RelayCommand(OnRemoveXDevice, CanRemoveXDevice);
             AddXStateCommand = new RelayCommand(OnAddXState, CanAddXState);
             RemoveXStateCommand = new RelayCommand(OnRemoveXState, CanRemoveState);
-
+            Current = this;
             foreach (var libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices)
             {
                 var driver = XManager.DriversConfiguration.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
@@ -41,6 +41,7 @@ namespace GKModule.ViewModels
             SelectedXDevice = XDevices.FirstOrDefault();
         }
 
+        public static XLibraryViewModel Current { get; private set; }
         ObservableCollection<XDeviceViewModel> _xdevices;
         public ObservableCollection<XDeviceViewModel> XDevices
         {

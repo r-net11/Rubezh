@@ -54,7 +54,7 @@ namespace LibraryModule.ViewModels
             {
                 Frame.Image = ImageConverters.Svg2Xaml(openFileDialog.FileName);
                 OnPropertyChanged("XamlOfImage");
-
+                LibraryViewModel.Current.SelectedState = LibraryViewModel.Current.SelectedState;
                 ServiceFactory.SaveService.LibraryChanged = true;
             }
         }

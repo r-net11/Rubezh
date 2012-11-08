@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
             {
                 XFrame.Image = ImageConverters.Svg2Xaml(openFileDialog.FileName);
                 OnPropertyChanged("XamlOfImage");
-
+                XLibraryViewModel.Current.SelectedXState = XLibraryViewModel.Current.SelectedXState;
                 ServiceFactory.SaveService.XLibraryChanged = true;
             }
         }

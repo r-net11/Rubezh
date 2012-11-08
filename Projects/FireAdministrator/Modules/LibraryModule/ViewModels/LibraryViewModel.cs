@@ -20,8 +20,9 @@ namespace LibraryModule.ViewModels
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
             AddStateCommand = new RelayCommand(OnAddState, CanAddState);
             RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
+            Current = this;
         }
-
+        public static LibraryViewModel Current { get; private set; }
         public void Initialize()
         {
             foreach (var libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices)
