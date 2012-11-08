@@ -128,5 +128,16 @@ namespace DevicesModule.DeviceProperties
 			}
 			return false;
 		}
+
+		bool _isAuParametersReady = true;
+		public bool IsAuParametersReady
+		{
+			get { return _isAuParametersReady; }
+			set
+			{
+				_isAuParametersReady = value;
+				OnPropertyChanged("IsAuParametersReady");
+			}
+		}
 	}
 }

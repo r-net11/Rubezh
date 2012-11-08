@@ -48,11 +48,12 @@ namespace Firesec
                 }
                 catch (COMException e)
                 {
+					string exceptionText = "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
                     if (!FiresecExceptionHelper.IsWellKnownComException(e.Message))
                     {
-                        string exceptionText = "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
                         Logger.Error(exceptionText);
                     }
+					Trace.WriteLine(e.Message);
                     if (e.Message == "Пользователь не зарегистрировался на сервере")
                     {
                         Logger.Error("NativeFiresecClient.SafeLoopCall Пользователь не зарегистрировался на сервере");
@@ -62,7 +63,6 @@ namespace Firesec
                     resultData.HasError = true;
                     resultData.Error = e.Message;
                     SocketServerHelper.StartIfNotRunning();
-					Trace.WriteLine(e.Message);
                 }
                 catch (System.Reflection.TargetParameterCountException e)
                 {
@@ -75,7 +75,6 @@ namespace Firesec
                     resultData.HasError = true;
                     resultData.Error = e.Message;
                     SocketServerHelper.StartIfNotRunning();
-					Trace.WriteLine(e.Message);
                 }
                 catch (System.Runtime.InteropServices.InvalidComObjectException e)
                 {

@@ -47,6 +47,7 @@ namespace DevicesModule.ViewModels
         void device_AUParametersChanged()
         {
             UpdataConfigurationProperties();
+			PropertiesViewModel.IsAuParametersReady = true;
         }
 
 		public void UpdataConfigurationProperties()

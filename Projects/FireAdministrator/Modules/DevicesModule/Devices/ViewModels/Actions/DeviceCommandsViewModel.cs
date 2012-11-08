@@ -208,8 +208,9 @@ namespace DevicesModule.ViewModels
                 if (result.HasError)
                 {
                     MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
+					return;
                 }
-
+				SelectedDevice.PropertiesViewModel.IsAuParametersReady = false;
             });
         }
         bool CanGetConfigurationParameters()
@@ -302,32 +303,16 @@ namespace DevicesModule.ViewModels
         {
             LoadingService.ShowProgress("", "Считывание параметров дочерних устройств", SelectedDevice.Children.Count());
 
-            OperationResult<List<Property>> res;
             foreach (var child in SelectedDevice.Children)
             {
-                LoadingService.DoStep(child.Device.Driver.ShortName + " " + child.Address);
-                res = FiresecManager.FiresecDriver.GetConfigurationParameters(child.Device);
-                if (!res.HasError)
+                LoadingService.DoStep(child.Device.PresentationAddressAndDriver);
+                var result = FiresecManager.FiresecDriver.BeginGetConfigurationParameters(child.Device);
+                if (result.HasError)
                 {
-                    foreach (var resultProperty in res.Result)
-                    {
-                        var property = child.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
-                        if (property == null)
-                        {
-                            property = new Property()
-                            {
-                                Name = resultProperty.Name
-                            };
-                            child.Device.Properties.Add(property);
-                        }
-                        property.Value = resultProperty.Value;
-                    }
-                    child.UpdataConfigurationProperties();
+                    MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
+					return;
                 }
-                else
-                {
-                    MessageBoxService.Show("При вызове метода на сервере возникло исключение " + res.Error);
-                }
+				child.PropertiesViewModel.IsAuParametersReady = false;
             };
 
             LoadingService.Close();
@@ -373,31 +358,31 @@ namespace DevicesModule.ViewModels
                     Logger.Info(rndVal.ToString());
                 }
 
-                Logger.Info("Чтение параметров:");
-                OperationResult<List<Property>> result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device);
-                if (!result.HasError)
-                {
-                    foreach (var resultProperty in result.Result)
-                    {
-                        var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
-                        if (property == null)
-                        {
-                            property = new Property()
-                            {
-                                Name = resultProperty.Name
-                            };
-                            SelectedDevice.Device.Properties.Add(property);
-                        }
-                        Logger.Info(resultProperty.Value.ToString());
-                        var drProp = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
-                        if (drProp.DriverPropertyType == DriverPropertyTypeEnum.IntType && !rndVals.Contains(resultProperty.Value))
-                        {
-                            Logger.Error("Ошибка чтения/записи");
-                        }
-                        property.Value = resultProperty.Value;
-                    }
-                    SelectedDevice.UpdataConfigurationProperties();
-                }
+				//Logger.Info("Чтение параметров:");
+				//OperationResult<List<Property>> result = FiresecManager.FiresecDriver.BeginGetConfigurationParameters(SelectedDevice.Device);
+				//if (!result.HasError)
+				//{
+				//    foreach (var resultProperty in result.Result)
+				//    {
+				//        var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+				//        if (property == null)
+				//        {
+				//            property = new Property()
+				//            {
+				//                Name = resultProperty.Name
+				//            };
+				//            SelectedDevice.Device.Properties.Add(property);
+				//        }
+				//        Logger.Info(resultProperty.Value.ToString());
+				//        var drProp = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+				//        if (drProp.DriverPropertyType == DriverPropertyTypeEnum.IntType && !rndVals.Contains(resultProperty.Value))
+				//        {
+				//            Logger.Error("Ошибка чтения/записи");
+				//        }
+				//        property.Value = resultProperty.Value;
+				//    }
+				//    SelectedDevice.UpdataConfigurationProperties();
+				//}
             }
         }
         #endregion

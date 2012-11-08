@@ -61,10 +61,14 @@ namespace FireAdministrator
 				catch (Exception ex)
 				{
 					MessageBoxService.ShowException(ex);
-					Application.Current.Shutdown();
+					if (Application.Current != null)
+						Application.Current.Shutdown();
 				}
 			else
-				Application.Current.Shutdown();
+			{
+				if (Application.Current != null)
+					Application.Current.Shutdown();
+			}
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 
 			MutexHelper.KeepAlive();
@@ -109,7 +113,8 @@ namespace FireAdministrator
 		void CloseOnException(string message)
 		{
 			MessageBoxService.ShowError(message);
-			Application.Current.Shutdown();
+			if (Application.Current != null)
+				Application.Current.Shutdown();
 		}
 	}
 }

@@ -11,134 +11,6 @@ namespace Firesec
 {
     public partial class FiresecDriver
     {
-        public OperationResult<List<Property>> GetConfigurationParameters(Device device)
-        {
-            var properties = new List<Property>();
-            var propertyNos = new HashSet<int>();
-            foreach (var property in device.Driver.Properties)
-            {
-                if (property.IsAUParameter)
-                {
-                    propertyNos.Add(property.No);
-                }
-            }
-
-            int requestId = 0;
-            var requestIds = new List<int>();
-            foreach (var propertyNo in propertyNos)
-            {
-                FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", propertyNo.ToString(), ref requestId);
-                Trace.WriteLine("ReadSimpleParam RequestId: " + requestId.ToString());
-                requestIds.Add(requestId);
-            }
-
-            int count = propertyNos.Count;
-            while (count > 0)
-            {
-                var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
-                //Trace.WriteLine("StateConfigQueries RequestId: " + requestId.ToString());
-                //Trace.WriteLine("GetConfigurationParameters: " + result.Result);
-
-                if (result.HasError)
-                {
-                    return new OperationResult<List<Property>>()
-                    {
-                        Result = null,
-                        HasError = true,
-                        Error = result.Error
-                    };
-                }
-                Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
-                if (requests != null && requests.request.Count() > 0)
-                {
-                    if (requestIds.Contains(requests.request.First().id))
-                    {
-                        int propertyNo = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
-                        int propertyValue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
-                        Trace.WriteLine(propertyNo.ToString() + " " + propertyValue.ToString());
-
-                        count--;
-                        foreach (var driverProperty in device.Driver.Properties.FindAll(x => x.No == propertyNo))
-                        {
-                            if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
-                            {
-                                properties.Add(CreateProperty(propertyValue, driverProperty));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
-                    }
-                }
-                int waitCount = 0;
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-                waitCount++;
-                if (waitCount > 120)
-                {
-                    return new OperationResult<List<Property>>()
-                    {
-                        Result = null,
-                        HasError = true,
-                        Error = "Превышено время выполнения запроса в 2 минуты"
-                    };
-                }
-            }
-            return new OperationResult<List<Property>>()
-            {
-                Result = properties
-            };
-        }
-
-        private static Property CreateProperty(int paramValue, DriverProperty driverProperty)
-        {
-            var offsetParamValue = paramValue;
-
-            var highByteValue = paramValue / 256;
-            var lowByteValue = paramValue - highByteValue * 256;
-
-            if (driverProperty.HighByte)
-                offsetParamValue = highByteValue;
-            else if (driverProperty.LargeValue)
-                offsetParamValue = paramValue;
-            else
-                offsetParamValue = lowByteValue;
-
-            if (driverProperty.MinBit > 0)
-            {
-                byte byteOffsetParamValue = (byte)offsetParamValue;
-                byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinBit);
-                byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinBit);
-                offsetParamValue = byteOffsetParamValue;
-            }
-
-            if (driverProperty.MaxBit > 0)
-            {
-                byte byteOffsetParamValue = (byte)offsetParamValue;
-                byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxBit);
-                byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
-                offsetParamValue = byteOffsetParamValue;
-            }
-
-            if (driverProperty.BitOffset > 0)
-            {
-                offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
-            }
-
-            if (driverProperty.Name == "Задержка включения МРО, сек")
-            {
-                offsetParamValue = offsetParamValue * 5;
-            }
-
-            var property = new Property()
-            {
-                Name = driverProperty.Name,
-                Value = offsetParamValue.ToString()
-            };
-
-            return property;
-        }
-
         public void SetConfigurationParameters(Guid deviceUID, List<Property> properties)
         {
             var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -195,7 +67,6 @@ namespace Firesec
                             intValue = (int)Math.Truncate((double)intValue / 5);
                         }
                     }
-                    Trace.WriteLine(intValue.ToString());
 
                     if (driverProperty.BitOffset > 0)
                     {
@@ -226,7 +97,6 @@ namespace Firesec
             {
                 int requestId = 0;
                 FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", binProperty.ToString(), ref requestId);
-                Trace.WriteLine(binProperty.ToString());
             }
         }
 
