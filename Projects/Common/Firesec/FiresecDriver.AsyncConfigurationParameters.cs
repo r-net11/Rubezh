@@ -42,11 +42,11 @@ namespace Firesec
             while (DevicePropertyRequests.Count > 0)
             {
                 DevicePropertyRequests.RemoveAll(x=>x.IsDeleting);
-                foreach (var devicePropertyRequest in DevicePropertyRequests)
+                foreach (var devicePropertyRequest in DevicePropertyRequests.ToList())
                 {
                     int stateConfigQueriesRequestId = 0;
                     var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(devicePropertyRequest.Device.PlaceInTree, "StateConfigQueries", null, ref stateConfigQueriesRequestId);
-                    if (result.HasError || result.Result == null)
+					if (result == null || result.HasError || result.Result == null)
                     {
                         continue;
                     }
@@ -65,7 +65,7 @@ namespace Firesec
                             {
                                 if (devicePropertyRequest.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
                                 {
-                                    devicePropertyRequest.Properties.Add(CreateProperty2(propertyValue, driverProperty));
+                                    devicePropertyRequest.Properties.Add(CreateProperty(propertyValue, driverProperty));
                                 }
                             }
                         }
@@ -99,7 +99,7 @@ namespace Firesec
             AUParametersThread = null;
         }
 
-        private static Property CreateProperty2(int paramValue, DriverProperty driverProperty)
+        private static Property CreateProperty(int paramValue, DriverProperty driverProperty)
         {
             var offsetParamValue = paramValue;
 
@@ -177,7 +177,12 @@ namespace Firesec
         {
             get
             {
-                return DateTime.Now - StartDateTime > TimeSpan.FromMinutes(5) || RequestIds.Count == 0;
+				var timeoutExpired = DateTime.Now - StartDateTime > TimeSpan.FromMinutes(5) || RequestIds.Count == 0;
+				if (timeoutExpired)
+				{
+					Device.OnAUParametersChanged();
+				}
+				return timeoutExpired;
             }
         }
     }

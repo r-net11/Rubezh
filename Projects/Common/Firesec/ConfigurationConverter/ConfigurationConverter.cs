@@ -102,10 +102,14 @@ namespace Firesec
             var coreConfig = new Firesec.Models.CoreConfiguration.config();
 			if (includeSecurity)
 			{
-				coreConfig = FiresecSerializedClient.GetCoreConfig().Result;
+				var result = FiresecSerializedClient.GetCoreConfig();
+				if (result.HasError)
+				{
+					return null;
+				}
+				coreConfig = result.Result;
                 if (coreConfig == null)
                 {
-                    coreConfig = new Models.CoreConfiguration.config();
                     Logger.Error("ConfigurationConverter.FiresecConfiguration == null");
 					return null;
                 }
