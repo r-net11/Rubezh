@@ -148,8 +148,14 @@ namespace GKModule
                                 paramValue = (ushort)(paramValue << 8);
                             }
 
-                            paramValue = (ushort)(paramValue >> driverProperty.Offset);
-
+                            if (driverProperty.Offset > 0)
+                                paramValue = (ushort)(paramValue >> driverProperty.Offset);
+                            else
+                            {
+                                paramValue = (byte)(paramValue << -driverProperty.Offset);
+                                paramValue = (byte)(paramValue >> -driverProperty.Offset);
+                            }
+                            paramValue = (byte)(paramValue & driverProperty.Mask);
                             var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
                             if (property != null)
                             {

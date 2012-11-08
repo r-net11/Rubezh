@@ -12,7 +12,8 @@ namespace Common.GK
 				Name = propertyName,
 				Caption = propertyName,
 				Default = defaultValue,
-				Offset = offset
+				Offset = offset,
+                Mask = 3
 			};
 			var parameter1 = new XDriverPropertyParameter()
 			{
