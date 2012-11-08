@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="FiresecDriver.AsyncConfigurationParameters.cs" />
     <Compile Include="FiresecDriver.Reset.cs" />
+    <Compile Include="Firesec\EmptyConfigHelper.cs" />
     <Compile Include="Firesec\FiresecExceptionHelper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Callack.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
@@ -156,6 +157,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

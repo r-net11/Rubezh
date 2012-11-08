@@ -31,7 +31,9 @@ namespace FireAdministrator
 
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
-					InitializeFs();
+
+					if (!InitializeFs())
+						return;
 					var loadingError = FiresecManager.GetLoadingError();
 					if (!String.IsNullOrEmpty(loadingError))
 					{
@@ -74,7 +76,7 @@ namespace FireAdministrator
 			MutexHelper.KeepAlive();
 		}
 
-		void InitializeFs()
+		bool InitializeFs()
 		{
 			try
 			{
@@ -85,7 +87,7 @@ namespace FireAdministrator
 				if (connectionResult.HasError)
 				{
 					CloseOnException(connectionResult.Error);
-					return;
+					return false;
 				}
 				LoadingService.DoStep("Синхронизация конфигурации");
 				FiresecManager.FiresecDriver.Synchronyze();
@@ -96,7 +98,9 @@ namespace FireAdministrator
 			{
 				Logger.Error(e, "Bootstrapper.InitializeFs");
 				CloseOnException(e.Message);
+				return false;
 			}
+			return true;
 		}
 
 		void InitializeGk()

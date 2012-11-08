@@ -71,7 +71,7 @@ namespace Firesec
                 {
                     StartConnectionTimeoutThread();
 
-                    bool badLogin = false;
+					string loginError = null;
                     _dispatcher.Invoke(
                     (
                         new Action
@@ -79,17 +79,19 @@ namespace Firesec
                             () =>
                             {
                                 var result = GetConnection(Address, Port, Login, Password);
-                                if (result.HasError && result.Error == "Пользователь или пароль неверны. Повторите ввод")
+                                if (result.HasError &&
+									result.Error == "Пользователь или пароль неверны. Повторите ввод" ||
+									result.Error == "Удаленный доступ с этого компьютера запрещен")
                                 {
-                                    badLogin = true;
+									loginError = result.Error;
                                 }
                                 Connection = result.Result;
                             }
                         )
                     ));
-                    if (badLogin)
+                    if (loginError != null)
                     {
-                        return new OperationResult<bool>("Неверный логин драйвера Firesec");
+						return new OperationResult<bool>("Неверный логин драйвера Firesec: " + loginError);
                     }
                     StopConnectionTimeoutThread();
                     if (Connection != null)
