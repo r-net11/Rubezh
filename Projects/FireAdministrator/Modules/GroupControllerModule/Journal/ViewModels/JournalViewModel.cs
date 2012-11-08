@@ -31,6 +31,7 @@ namespace GKModule.ViewModels
 			if (sendResult.HasError)
 			{
 				MessageBoxService.Show("Ошибка связи с устройством");
+				Close(false);
 				return;
 			}
 			var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);

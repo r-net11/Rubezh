@@ -33,6 +33,7 @@ namespace DevicesModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
 			device.Changed += new Action(device_Changed);
+            device.AUParametersChanged +=new Action(device_AUParametersChanged);
 		}
 
 		void device_Changed()
@@ -42,6 +43,11 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("EditingPresentationZone");
 			OnPropertyChanged("HasExternalDevices");
 		}
+
+        void device_AUParametersChanged()
+        {
+            UpdataConfigurationProperties();
+        }
 
 		public void UpdataConfigurationProperties()
 		{
@@ -223,6 +229,7 @@ namespace DevicesModule.ViewModels
                 //DevicesViewModel.Current.Select(newDeviceViewModel.CreatedDeviceViewModel.Device.UID);
 				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
+				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.CreatedDeviceViewModel);
 			}
 		}
 		public bool CanAdd()

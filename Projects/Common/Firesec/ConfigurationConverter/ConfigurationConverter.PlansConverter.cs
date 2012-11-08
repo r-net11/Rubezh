@@ -380,6 +380,10 @@ namespace Firesec
 				{
 					stringColor = stringColor.Remove(0, 2);
 				}
+				if (stringColor.StartsWith("$"))
+				{
+					stringColor = stringColor.Replace("$", "#");
+				}
 				var color = (Color)ColorConverter.ConvertFromString(stringColor);
 				return color;
 			}

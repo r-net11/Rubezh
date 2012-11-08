@@ -138,37 +138,15 @@ namespace FiresecClient
 
         public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
         {
-            try
-            {
-                return FiresecService.BeginPoll(index, dateTime, asyncCallback, state);
-            }
-            catch
-            {
-                return null;
-            }
+			return SafeOperationCall(() => { return FiresecService.BeginPoll(index, dateTime, asyncCallback, state); }, "BeginPoll");
         }
         public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
         {
-            try
-            {
-                return FiresecService.EndPoll(asyncResult);
-            }
-            catch
-            {
-                return null;
-            }
+			return SafeOperationCall(() => { return FiresecService.EndPoll(asyncResult); }, "EndPoll");
         }
-
         public List<CallbackResult> ShortPoll()
         {
-            try
-            {
-                return FiresecService.ShortPoll();
-            }
-            catch
-            {
-                return null;
-            }
+			return SafeOperationCall(() => { return FiresecService.ShortPoll(); }, "ShortPoll");
         }
     }
 }

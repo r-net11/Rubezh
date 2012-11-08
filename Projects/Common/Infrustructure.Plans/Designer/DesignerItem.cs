@@ -122,33 +122,23 @@ namespace Infrustructure.Plans.Designer
 		public virtual void SetLocation()
 		{
 			var rect = Element.GetRectangle();
-			try
-			{
-				Canvas.SetLeft(this, rect.Left);
-				Canvas.SetTop(this, rect.Top);
-				ItemWidth = rect.Width;
-				ItemHeight = rect.Height;
-			}
-			catch { }
+			Canvas.SetLeft(this, rect.Left);
+			Canvas.SetTop(this, rect.Top);
+			ItemWidth = rect.Width;
+			ItemHeight = rect.Height;
 		}
 		public virtual void Redraw()
 		{
-			try
+			Content = Painter == null ? null : Painter.Draw(Element);
+			MinWidth = Element.BorderThickness;
+			MinHeight = Element.BorderThickness;
+			if (Element is ElementBaseShape)
 			{
-				Content = Painter == null ? null : Painter.Draw(Element);
-				MinWidth = Element.BorderThickness;
-				MinHeight = Element.BorderThickness;
-				if (Element is ElementBaseShape)
-				{
-					MinWidth += 3;
-					MinHeight += 3;
-				}
-				SetLocation();
-				UpdateAdorner();
+				MinWidth += 3;
+				MinHeight += 3;
 			}
-			catch
-			{
-			}
+			SetLocation();
+			UpdateAdorner();
 		}
 
 		public virtual double ItemWidth

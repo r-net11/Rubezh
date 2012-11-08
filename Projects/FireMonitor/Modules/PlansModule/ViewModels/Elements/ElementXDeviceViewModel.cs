@@ -12,12 +12,13 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using PlansModule.ViewModels.Elements;
 
 namespace PlansModule.ViewModels
 {
-	public class ElementXDeviceViewModel : BaseViewModel
+	public class ElementXDeviceViewModel : BaseViewModel, IElementDevice
 	{
-		private ElementXDevice ElementDevice { get; set; }
+		public ElementXDevice ElementDevice { get; private set; }
 		private XDevice XDevice { get; set; }
 		public ElementXDeviceView ElementXDeviceView { get; private set; }
 		public Guid XDeviceUID { get; private set; }

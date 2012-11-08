@@ -25,9 +25,42 @@ namespace FiresecAPI.Models
 
 		public ZoneState ZoneState { get; set; }
 		public Guid SecPanelUID { get; set; }
-		public List<Device> DevicesInZone { get; set; }
-		public List<Device> DevicesInZoneLogic { get; set; }
-		public List<Device> IndicatorsInZone { get; set; }
+
+		List<Device> _devicesInZone;
+		public List<Device> DevicesInZone
+		{
+			get
+			{
+				if (_devicesInZone == null)
+					_devicesInZone = new List<Device>();
+				return _devicesInZone;
+			}
+			set { _devicesInZone = value; }
+		}
+
+		List<Device> _devicesInZoneLogic;
+		public List<Device> DevicesInZoneLogic
+		{
+			get
+			{
+				if (_devicesInZoneLogic == null)
+					_devicesInZoneLogic = new List<Device>();
+				return _devicesInZoneLogic;
+			}
+			set { _devicesInZoneLogic = value; }
+		}
+
+		List<Device> _indicatorsInZone;
+		public List<Device> IndicatorsInZone
+		{
+			get
+			{
+				if (_indicatorsInZone == null)
+					_indicatorsInZone = new List<Device>();
+				return _indicatorsInZone;
+			}
+			set { _indicatorsInZone = value; }
+		}
 
 		[DataMember]
 		public Guid UID { get; set; }

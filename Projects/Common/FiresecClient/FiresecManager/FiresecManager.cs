@@ -175,13 +175,15 @@ namespace FiresecClient
                 {
 					if (isUsb)
 					{
-						var usbConfig = FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb);
-						foreach (var zone in FiresecConfiguration.DeviceConfiguration.Zones)
+						try
 						{
-							var zoneCopy = zone.Clone();
-							usbConfig.Zones.Add(zoneCopy);
+							device.IsAltInterface = true;
+							return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, device.UID);
 						}
-						return FiresecDriver.DeviceWriteConfiguration(usbConfig, device.UID);
+						finally
+						{
+							device.IsAltInterface = false;
+						}
 					}
 					else
 					{

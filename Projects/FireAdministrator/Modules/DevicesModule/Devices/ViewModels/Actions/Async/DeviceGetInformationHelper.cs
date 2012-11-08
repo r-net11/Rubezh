@@ -8,20 +8,20 @@ namespace DevicesModule.ViewModels
 {
     public static class DeviceGetInformationHelper
     {
-        static Device _device;
-        static bool _isUsb;
+        static Device Device;
+        static bool IsUsb;
         static OperationResult<string> _operationResult;
 
         public static void Run(Device device, bool isUsb)
         {
-            _device = device;
-            _isUsb = isUsb;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressAndDriver + ". Чтение информации об устройстве");
+            Device = device;
+            IsUsb = isUsb;
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndDriver + ". Чтение информации об устройстве");
         }
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.DeviceGetInformation(_device, _isUsb);
+            _operationResult = FiresecManager.DeviceGetInformation(Device, IsUsb);
         }
 
         static void OnCompleted()
@@ -31,7 +31,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
                 return;
             }
-			DialogService.ShowModalWindow(new DeviceDescriptionViewModel(_device.UID, _operationResult.Result));
+			DialogService.ShowModalWindow(new DeviceDescriptionViewModel(Device, _operationResult.Result));
         }
     }
 }

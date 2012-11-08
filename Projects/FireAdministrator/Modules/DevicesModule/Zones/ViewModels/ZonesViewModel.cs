@@ -181,7 +181,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedZone.Zone);
+			if (SelectedZone != null)
+			{
+				OnEdit(SelectedZone.Zone);
+			}
 		}
 
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }

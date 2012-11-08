@@ -4,7 +4,7 @@ using System.Media;
 using System.Threading;
 using FiresecAPI.Models;
 
-namespace Common
+namespace Infrastructure.Common
 {
     public static class AlarmPlayerHelper
     {

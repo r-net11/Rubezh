@@ -11,13 +11,14 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using PlansModule.ViewModels.Elements;
 
 namespace PlansModule.ViewModels
 {
-	public class ElementDeviceViewModel : BaseViewModel
+	public class ElementDeviceViewModel : BaseViewModel, IElementDevice
 	{
 		public ElementDeviceView ElementDeviceView { get; private set; }
-		ElementDevice ElementDevice;
+		public ElementDevice ElementDevice { get; private set; }
 		public Guid DeviceUID { get; private set; }
 		Device Device;
 		public DeviceState DeviceState

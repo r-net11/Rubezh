@@ -128,12 +128,6 @@
     <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceTreeViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ConfigurationDeviceProperties\BasePropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ConfigurationDeviceProperties\BoolPropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ConfigurationDeviceProperties\EnumPropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ConfigurationDeviceProperties\PropertiesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ConfigurationDeviceProperties\ShortPropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ConfigurationDeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />

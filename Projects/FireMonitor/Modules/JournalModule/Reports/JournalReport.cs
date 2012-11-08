@@ -16,7 +16,6 @@ namespace JournalModule.Reports
 		}
 
 		#region IFilterableReport Members
-
 		public void Filter(RelayCommand refreshCommand)
 		{
 			var archiveFilterViewModel = new ArchiveFilterViewModel(ReportArchiveFilter.ArchiveFilter);
@@ -26,11 +25,9 @@ namespace JournalModule.Reports
 				refreshCommand.Execute();
 			}
 		}
-
 		#endregion
 
 		#region ISingleReportProvider Members
-
 		public ReportData GetData()
 		{
 			ReportArchiveFilter.LoadArchive();
@@ -51,11 +48,9 @@ namespace JournalModule.Reports
 			data.DataTables.Add(table);
 			return data;
 		}
-
 		#endregion
 
 		#region IReportProvider Members
-
 		public string Template
 		{
 			get { return "Reports/JournalReport.xaml"; }
@@ -70,7 +65,6 @@ namespace JournalModule.Reports
 		{
 			get { return true; }
 		}
-
 		#endregion
 	}
 }

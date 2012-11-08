@@ -167,12 +167,9 @@ namespace DevicesModule.ViewModels
             if (DialogService.ShowModalWindow(pasteAsViewModel))
             {
                 var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, false);
-
                 pasteDevice.DriverUID = pasteAsViewModel.SelectedDriver.UID;
                 pasteDevice.Driver = pasteAsViewModel.SelectedDriver;
-
                 FiresecManager.FiresecConfiguration.SynchronizeChildern(pasteDevice);
-
                 PasteDevice(pasteDevice);
             }
         }

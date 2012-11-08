@@ -15,7 +15,8 @@ namespace FiresecClient
 				IntAddress = device.IntAddress,
 				Description = device.Description,
 				ZoneUID = device.ZoneUID,
-				Zone = device.Zone
+				Zone = device.Zone,
+				HasExternalDevices = device.HasExternalDevices
 			};
 
 			if (fullCopy)
@@ -91,6 +92,8 @@ namespace FiresecClient
 					}
 				}
 			}
+
+			device.SynchronizeChildern();
 		}
 	}
 }
