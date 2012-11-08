@@ -8,7 +8,8 @@ namespace FiresecService
         public static void InitializeAppSettings()
         {
             AppSettings.EnableRemoteConnections = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableRemoteConnections"] as string);
-            AppSettings.Port = Convert.ToInt32(ConfigurationManager.AppSettings["Port"] as string);
+            AppSettings.RemotePort = Convert.ToInt32(ConfigurationManager.AppSettings["RemotePort"] as string);
+            AppSettings.RemoteAddress = ConfigurationManager.AppSettings["RemoteAddress"] as string;
         }
     }
 }

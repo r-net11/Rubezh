@@ -3,6 +3,7 @@
 	public static class AppSettings
 	{
         public static bool EnableRemoteConnections { get; set; }
-        public static int Port { get; set; }
+        public static int RemotePort { get; set; }
+        public static string RemoteAddress { get; set; }
 	}
 }

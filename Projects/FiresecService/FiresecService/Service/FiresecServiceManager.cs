@@ -27,7 +27,8 @@ namespace FiresecService.Service
 #endif
                 if (AppSettings.EnableRemoteConnections)
                 {
-                    _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", tcpBinding, new Uri("net.tcp://127.0.0.1:" + AppSettings.Port.ToString() + "/FiresecService/"));
+                    var remoteAddress = "net.tcp://" + AppSettings.RemoteAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
+                    _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", tcpBinding, new Uri(remoteAddress));
                 }
                 _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", netPipeBinding, new Uri("net.pipe://127.0.0.1/FiresecService/"));
                 _serviceHost.Open();

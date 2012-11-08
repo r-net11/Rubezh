@@ -1,0 +1,8 @@
+﻿<Window x:Class="Diagnostics.DiagnosticsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="250">
+    <Grid>
+        <Button Content="Собрать логи" Command="{Binding GetLogsCommand}" Height="40" Width="250" VerticalAlignment="Top" />
+    </Grid>
+</Window>
