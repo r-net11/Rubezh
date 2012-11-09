@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Infrastructure.Common;
-
+using Microsoft.Win32;
+using System.Management; 
+  
 namespace Diagnostics
 {
     public class DiagnosticsViewModel
@@ -9,6 +12,7 @@ namespace Diagnostics
         public DiagnosticsViewModel()
         {
             GetLogsCommand = new RelayCommand(OnGetLogs);
+            RemLogsCommand = new RelayCommand(OnRemLogs);
         }
         
         public RelayCommand GetLogsCommand { get; private set; }
@@ -51,7 +55,26 @@ namespace Diagnostics
             }
 
             var OS = System.Environment.OSVersion;
-            FileInfo systeminfo = OS
+            var processor_name = Registry.LocalMachine.OpenSubKey(@"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);   //This registry entry contains entry for processor info.
+            System.IO.File.WriteAllText(@"Logs\systeminfo.txt", OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString"));
+        }
+        
+        public RelayCommand RemLogsCommand { get; private set; }
+        public void OnRemLogs()
+        {
+            try
+            {
+                Directory.Delete("Logs", true);
+                var OS = System.Environment.OSVersion;
+                var processor_name = Registry.LocalMachine.OpenSubKey(
+                    @"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);
+                    //This registry entry contains entry for processor info.
+                Directory.CreateDirectory("Logs");
+                System.IO.File.WriteAllText(@"Logs\systeminfo.txt",
+                                            OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString"));
+            }
+            catch
+            {}
         }
     }
 }
