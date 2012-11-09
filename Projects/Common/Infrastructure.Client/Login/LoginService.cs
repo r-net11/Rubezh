@@ -38,7 +38,7 @@ namespace Infrastructure.Client.Login
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
 			bool isAutoconnect = GetIsAutoConnect() && passwordViewType == LoginViewModel.PasswordViewType.Connect;
 #if DEBUG
-			isAutoconnect = true;
+			//isAutoconnect = true;
 #endif
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
 			{

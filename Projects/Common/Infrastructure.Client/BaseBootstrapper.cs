@@ -87,8 +87,14 @@ namespace Infrastructure.Client
             foreach (IModule module in _modules)
             {
                 var moduledescr = module.ToString().Substring(0, module.ToString().LastIndexOf('.'));
-               if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
-                    navigationItems.AddRange(module.CreateNavigation());
+				if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
+				{
+					var items = module.CreateNavigation();
+					if (items != null && items.Count() > 0)
+					{
+						navigationItems.AddRange(items);
+					}
+				}
             }
 		    return navigationItems;
 		}
