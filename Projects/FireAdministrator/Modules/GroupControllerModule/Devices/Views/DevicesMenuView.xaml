@@ -23,11 +23,12 @@
                 <Separator />
                 <MenuItem Command="{Binding SynchroniseTimeCommand}" Header="Синхронизация времени" />
                 <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
-                <MenuItem Command="{Binding GetAllParametersCommand}" Header="Считать все параметры устройств" />
-                <MenuItem Command="{Binding SetAllParametersCommand}" Header="Записать все параметры устройств" />
-                <MenuItem Command="{Binding GetSingleParametersCommand}" Header="Считать параметры устройства" />
-                <MenuItem Command="{Binding SetSingleParametersCommand}" Header="Записать параметры устройства" />
                 <MenuItem Command="{Binding UpdateFirmwhareCommand}" Header="Обновление ПО" />
+                <Separator />
+                <MenuItem Command="{Binding GetAllParametersCommand}" Header="Считать параметры из всех устройств" />
+                <MenuItem Command="{Binding SetAllParametersCommand}" Header="Записать параметры во все устройства" />
+                <MenuItem Command="{Binding GetSingleParametersCommand}" Header="Считать параметры одного устройства" />
+                <MenuItem Command="{Binding SetSingleParametersCommand}" Header="Записать параметры в одно устройство" />
             </MenuItem>
         </Menu>
     </StackPanel>

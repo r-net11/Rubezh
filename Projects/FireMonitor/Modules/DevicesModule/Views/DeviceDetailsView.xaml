@@ -16,11 +16,12 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
                 <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
                 <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="5" VerticalAlignment="Center" Foreground="White" />
+                <TextBlock Text="Автоматика отключена" Visibility="{Binding IsAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
             </StackPanel>
             <StackPanel Grid.Column="1" DataContext="{Binding DeviceControlViewModel}" Visibility="{Binding IsTimerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
                 <Label Content="{Binding TimeLeft}" FontSize="20" Foreground="Red" />
@@ -89,7 +90,6 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <TextBlock Text="Автоматика отключена" Visibility="{Binding IsAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

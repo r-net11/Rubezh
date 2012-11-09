@@ -6,7 +6,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Общая инструкция")]
 		General,
 
-		[DescriptionAttribute("Инструкция для зон и устройств")]
+		[DescriptionAttribute("Инструкция для зон и приборов")]
 		Details
 	}
 }

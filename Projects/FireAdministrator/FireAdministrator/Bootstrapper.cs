@@ -60,9 +60,10 @@ namespace FireAdministrator
 					}
 					LoadingService.Close();
 				}
-				catch (Exception ex)
+				catch (Exception e)
 				{
-					MessageBoxService.ShowException(ex);
+					Logger.Error(e, "Bootstrapper.Initialize");
+					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
 				}

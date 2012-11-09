@@ -25,7 +25,7 @@ namespace GKModule.Reports
                     if (device.Driver.DriverType == XFiresecAPI.XDriverType.System)
                         continue;
 
-                    var type = device.Driver.ShortName;
+                    var type = device.ShortName;
                     var address = device.DottedAddress;
                     var zonePresentationName = XManager.GetPresentationZone(device);
                     table.Rows.Add(type, address, zonePresentationName);

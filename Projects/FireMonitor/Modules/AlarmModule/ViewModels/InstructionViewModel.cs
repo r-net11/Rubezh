@@ -27,6 +27,7 @@ namespace AlarmModule.ViewModels
 		{
 			switch (alarmType)
 			{
+				case AlarmType.Guard:
 				case AlarmType.Fire:
 					return StateType.Fire;
 
@@ -42,6 +43,7 @@ namespace AlarmModule.ViewModels
 				case AlarmType.Info:
 					return StateType.Info;
 
+				case AlarmType.Auto:
 				case AlarmType.Service:
 					return StateType.Service;
 

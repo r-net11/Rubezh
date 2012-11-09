@@ -95,7 +95,17 @@ namespace InstructionsModule.ViewModels
 		}
 		public List<StateType> AvailableStates
 		{
-			get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>()); }
+			get
+			{
+				var stateTypes = new List<StateType>();
+				stateTypes.Add(StateType.Fire);
+				stateTypes.Add(StateType.Attention);
+				stateTypes.Add(StateType.Failure);
+				stateTypes.Add(StateType.Service);
+				stateTypes.Add(StateType.Off);
+				stateTypes.Add(StateType.Info);
+				return stateTypes;
+			}
 		}
 
 		InstructionType _instructionType;

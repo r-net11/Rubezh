@@ -79,9 +79,10 @@ namespace FireMonitor
 					LoadingService.Close();
 					GKDBHelper.AddMessage("Вход пользователя в систему");
 				}
-				catch (Exception ex)
+				catch (Exception e)
 				{
-					MessageBoxService.ShowException(ex);
+					Logger.Error(e, "Bootstrapper.InitializeFs");
+					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
 				}

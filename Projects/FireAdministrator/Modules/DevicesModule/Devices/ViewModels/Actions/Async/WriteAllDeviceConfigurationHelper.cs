@@ -3,18 +3,21 @@ using FiresecAPI;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DevicesModule.ViewModels
 {
 	public static class WriteAllDeviceConfigurationHelper
 	{
 		static OperationResult<bool> _operationResult;
+		static List<string> Errors;
 
 		public static void Run(bool showMessageBoxOnError = true)
 		{
+			Errors = new List<string>();
 			foreach (var device in FiresecManager.Devices)
 			{
-				bool hasError = false;
 				if (device.Driver.CanWriteDatabase)
 				{
 					var deviceName = device.PresentationAddressAndDriver + ". Запись конфигурации в устройство";
@@ -26,20 +29,29 @@ namespace DevicesModule.ViewModels
 								_operationResult = FiresecManager.DeviceWriteConfiguration(device, false);
 								if (_operationResult.HasError)
 								{
-									if (showMessageBoxOnError)
-										MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
-									hasError = true;
-									return;
+									Errors.Add(device.PresentationAddressAndDriver + " " + _operationResult.Error);
 								}
 							}
 							),
 						null, deviceName);
 				}
-				if (hasError)
-					return;
 			}
 			if (showMessageBoxOnError)
-				MessageBoxService.Show("Операция завершилась успешно");
+			{
+				if (Errors.Count > 0)
+				{
+					var stringBuilder = new StringBuilder();
+					foreach (var error in Errors)
+					{
+						stringBuilder.AppendLine(error);
+					}
+					MessageBoxService.Show(stringBuilder.ToString());
+				}
+				else
+				{
+					MessageBoxService.Show("Операция завершилась успешно");
+				}
+			}
 		}
 	}
 }

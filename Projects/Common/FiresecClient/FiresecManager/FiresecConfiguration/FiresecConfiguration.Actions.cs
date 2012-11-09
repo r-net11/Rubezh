@@ -180,16 +180,18 @@ namespace FiresecClient
                     device.Zone.OnChanged();
                 }
                 device.Zone = zone;
-                if (zone != null)
-                {
-                    device.ZoneUID = zone.UID;
-                    zone.DevicesInZone.Add(device);
-                    zone.UpdateExternalDevices();
-                    zone.OnChanged();
-                }
-                else
-                    device.ZoneUID = Guid.Empty;
-
+				if (zone != null)
+				{
+					device.ZoneUID = zone.UID;
+					zone.DevicesInZone.Add(device);
+					zone.UpdateExternalDevices();
+					zone.OnChanged();
+				}
+				else
+				{
+					device.ZoneUID = Guid.Empty;
+				}
+				device.UpdateHasExternalDevices();
 				device.OnChanged();
             }
         }
