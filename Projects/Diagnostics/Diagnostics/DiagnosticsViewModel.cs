@@ -56,18 +56,6 @@ namespace Diagnostics
                 file.CopyTo(temppath, true);
             }
 
-            //var OS = System.Environment.OSVersion;
-            //var processor_name = Registry.LocalMachine.OpenSubKey(@"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);   //This registry entry contains entry for processor info.
-            //var ram = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
-            //var raminfo = "";
-            //foreach (ManagementObject queryObj in ram.Get())
-            //{
-            //    raminfo = "RAM: " + Math.Round(System.Convert.ToDouble(queryObj["Capacity"]) / 1024 / 1024, 2) + "Gb " +
-            // queryObj["Speed"] + "MHz";
-            //}
-            //System.IO.File.WriteAllText(@"Logs\systeminfo.txt", OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString")
-            //    + "\n" + raminfo);
-
 			StringBuilder sb = new StringBuilder(string.Empty);
 			sb.AppendLine("System information");
 			try
@@ -99,14 +87,11 @@ namespace Diagnostics
         {
             try
             {
-                Directory.Delete("Logs", true);
-                var OS = System.Environment.OSVersion;
-                var processor_name = Registry.LocalMachine.OpenSubKey(
-                    @"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);
-                    //This registry entry contains entry for processor info.
-                Directory.CreateDirectory("Logs");
-                System.IO.File.WriteAllText(@"Logs\systeminfo.txt",
-                                            OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString"));
+                var curlogspath = "Logs"; 
+                Console.WriteLine ("Directories under \"{0}\" are...", curlogspath);
+                string[] directories = Directory.GetDirectories (curlogspath);
+                foreach (string directory in directories)
+                    Directory.Delete(directory, true);
             }
             catch
             {}
