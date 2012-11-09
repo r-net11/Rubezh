@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using Infrastructure.Common;
 using Microsoft.Win32;
@@ -54,19 +56,44 @@ namespace Diagnostics
                 file.CopyTo(temppath, true);
             }
 
-            var OS = System.Environment.OSVersion;
-            var processor_name = Registry.LocalMachine.OpenSubKey(@"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);   //This registry entry contains entry for processor info.
-            var ram = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
-            var raminfo = "";
-            foreach (ManagementObject queryObj in ram.Get())
-            {
-                raminfo = "RAM: " + Math.Round(System.Convert.ToDouble(queryObj["Capacity"]) / 1024 / 1024, 2) + "Gb " +
-             queryObj["Speed"] + "MHz";
-            }
-            System.IO.File.WriteAllText(@"Logs\systeminfo.txt", OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString")
-                + "\n" + raminfo);
+            //var OS = System.Environment.OSVersion;
+            //var processor_name = Registry.LocalMachine.OpenSubKey(@"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);   //This registry entry contains entry for processor info.
+            //var ram = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
+            //var raminfo = "";
+            //foreach (ManagementObject queryObj in ram.Get())
+            //{
+            //    raminfo = "RAM: " + Math.Round(System.Convert.ToDouble(queryObj["Capacity"]) / 1024 / 1024, 2) + "Gb " +
+            // queryObj["Speed"] + "MHz";
+            //}
+            //System.IO.File.WriteAllText(@"Logs\systeminfo.txt", OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString")
+            //    + "\n" + raminfo);
+
+			StringBuilder sb = new StringBuilder(string.Empty);
+			sb.AppendLine("System information");
+			try
+			{
+				var process = Process.GetCurrentProcess();
+                sb.AppendFormat("Process [{0}]:    {1} x{2}\n", process.Id, process.ProcessName, GetBitCount(Environment.Is64BitProcess));
+                sb.AppendFormat("Operation System:  {0} {1} Bit Operating System\n", Environment.OSVersion, GetBitCount(Environment.Is64BitOperatingSystem));
+                sb.AppendFormat("ComputerName:      {0}\n", Environment.MachineName);
+				sb.AppendFormat("UserDomainName:    {0}\n", Environment.UserDomainName);
+                sb.AppendFormat("UserName:          {0}\n", Environment.UserName);
+				sb.AppendFormat("Base Directory:    {0}\n", AppDomain.CurrentDomain.BaseDirectory);
+                sb.AppendFormat("SystemDirectory:   {0}\n", Environment.SystemDirectory);
+				sb.AppendFormat("ProcessorCount:    {0}\n", Environment.ProcessorCount);
+				sb.AppendFormat("SystemPageSize:    {0}\n", Environment.SystemPageSize);
+				sb.AppendFormat(".Net Framework:    {0}", Environment.Version);
+			}
+			catch (Exception ex)
+			{
+				sb.Append(ex.ToString());
+			}
+            System.IO.File.WriteAllText(@"Logs\systeminfo.txt", sb.ToString());
         }
-        
+        private static int GetBitCount(bool is64)
+        {
+            return is64 ? 64 : 86;
+        }
         public RelayCommand RemLogsCommand { get; private set; }
         public void OnRemLogs()
         {
