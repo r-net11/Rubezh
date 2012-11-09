@@ -2,10 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using Infrastructure.Common;
-using Microsoft.Win32;
-using System.Management; 
   
 namespace Diagnostics
 {
@@ -88,9 +85,8 @@ namespace Diagnostics
             try
             {
                 var curlogspath = "Logs"; 
-                Console.WriteLine ("Directories under \"{0}\" are...", curlogspath);
-                string[] directories = Directory.GetDirectories (curlogspath);
-                foreach (string directory in directories)
+                var directories = Directory.GetDirectories (curlogspath);
+                foreach (var directory in directories)
                     Directory.Delete(directory, true);
             }
             catch

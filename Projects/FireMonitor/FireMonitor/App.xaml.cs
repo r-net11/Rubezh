@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Common;
@@ -10,6 +11,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Common.GK;
 using Infrastructure.Common.Theme;
+using Microsoft.Win32;
+
 
 namespace FireMonitor
 {
@@ -26,6 +29,19 @@ namespace FireMonitor
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            try
+            {
+                var path = System.Reflection.Assembly.GetExecutingAssembly();
+                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                saveKey.SetValue("FireMonitorPath", path.Location);
+                saveKey.Close();
+            }
+            catch (Exception)
+            {
+                {}
+                throw;
+            }
+
             InitializeCommandLineArguments(e.Args);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
