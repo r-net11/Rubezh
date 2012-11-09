@@ -11,11 +11,9 @@ namespace Infrastructure.Common
 	{
 		public static void Load()
 		{
-#if DEBUG
-            return;
-#endif
 			Process[] processes = Process.GetProcessesByName("FiresecService");
-			if (processes.Count() == 0)
+            Process[] processes2 = Process.GetProcessesByName("FiresecService.vshost");
+			if ((processes.Count() == 0) && (processes2.Count() == 0))
 			{
 				try
 				{
@@ -36,27 +34,27 @@ namespace Infrastructure.Common
 		static void Start()
 		{
 			System.Diagnostics.Process proc = new System.Diagnostics.Process();
-			var fileName = "..\\..\\..\\FiresecService\\bin\\Debug\\FiresecService.exe";
-			
-#if RELEASE
-					fileName = "..\\FiresecService\\FiresecService.exe";
+            var fileName = @"..\FiresecService\FiresecService.exe";
+#if DEBUG
+            fileName = "..\\..\\..\\FiresecService\\bin\\Debug\\FiresecService.exe";
 #endif
-			if (!File.Exists(fileName))
+
+            if (!File.Exists(fileName))
 			{
 				Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
 			}
-			else
-			{
-				var exePath = System.Windows.Application.ResourceAssembly.Location;
-				fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireMonitor\\FireMonitor.exe");
-				fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireAdministrator\\FireAdministrator.exe");
-				if (!File.Exists(fileName))
-				{
-					Logger.Error("ServerLoadHelper.Start File Not Exist 2 " + fileName);
-				}
-			}
+            //else
+            //{
+            //    var exePath = System.Windows.Application.ResourceAssembly.Location;
+            //    fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireMonitor\\FireMonitor.exe");
+            //    fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireAdministrator\\FireAdministrator.exe");
+            //    if (!File.Exists(fileName))
+            //    {
+            //        Logger.Error("ServerLoadHelper.Start File Not Exist 2 " + fileName);
+            //    }
+            //}
 
-			proc.StartInfo.FileName = fileName;
+            proc.StartInfo.FileName = fileName;
 			proc.Start();
 		}
 	}
