@@ -56,7 +56,15 @@ namespace Diagnostics
 
             var OS = System.Environment.OSVersion;
             var processor_name = Registry.LocalMachine.OpenSubKey(@"Hardware\Description\System\CentralProcessor\0", RegistryKeyPermissionCheck.ReadSubTree);   //This registry entry contains entry for processor info.
-            System.IO.File.WriteAllText(@"Logs\systeminfo.txt", OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString"));
+            var ram = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMemory");
+            var raminfo = "";
+            foreach (ManagementObject queryObj in ram.Get())
+            {
+                raminfo = "RAM: " + Math.Round(System.Convert.ToDouble(queryObj["Capacity"]) / 1024 / 1024, 2) + "Gb " +
+             queryObj["Speed"] + "MHz";
+            }
+            System.IO.File.WriteAllText(@"Logs\systeminfo.txt", OS.ToString() + "\n" + processor_name.GetValue("ProcessorNameString")
+                + "\n" + raminfo);
         }
         
         public RelayCommand RemLogsCommand { get; private set; }
