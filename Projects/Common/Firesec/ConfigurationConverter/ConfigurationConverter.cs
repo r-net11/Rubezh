@@ -3,17 +3,16 @@ using System.Text;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
         FiresecSerializedClient FiresecSerializedClient;
-		public StringBuilder DriversError { get; private set; }
 
         public ConfigurationConverter(FiresecSerializedClient firesecSerializedClient)
 		{
-			DriversError = new StringBuilder();
             FiresecSerializedClient = firesecSerializedClient;
 		}
 
@@ -78,7 +77,7 @@ namespace Firesec
                 if (driver == null)
                 {
                     Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
-                    DriversError.AppendLine("Не удается найти данные для драйвера " + innerDriver.name);
+                    LoadingErrorManager.Add("Не удается найти данные для драйвера " + innerDriver.name);
                 }
                 else
                 {
@@ -173,7 +172,7 @@ namespace Firesec
 				}
 				else
 				{
-					DriversError.AppendLine("Для устройства " + device.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-1");
+                    LoadingErrorManager.Add("Для устройства " + device.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-1");
 				}
 			}
             foreach (var firesecDevice in firesecDeviceConfiguration.Devices)
@@ -181,7 +180,7 @@ namespace Firesec
                 var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == firesecDevice.PathId);
                 if (device == null)
                 {
-                    DriversError.AppendLine("Для устройства " + firesecDevice.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-2");
+                    LoadingErrorManager.Add("Для устройства " + firesecDevice.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-2");
                 }
             }
 		}

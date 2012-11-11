@@ -5,6 +5,7 @@ using System.Text;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace Firesec
 {
@@ -14,16 +15,9 @@ namespace Firesec
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
-		public static StringBuilder LoadingErrors { get; private set; }
-
-		static FiresecDriver()
-		{
-			LoadingErrors = new StringBuilder();
-		}
 
 		public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
 		{
-			LoadingErrors = new StringBuilder();
 			try
 			{
 				FiresecSerializedClient = new FiresecSerializedClient();
@@ -51,7 +45,7 @@ namespace Firesec
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecDriver.Synchronyze");
-				FiresecDriver.LoadingErrors.Append(e.Message);
+                LoadingErrorManager.Add(e);
                 return new OperationResult<bool>(e.Message);
 			}
 		}
@@ -59,7 +53,6 @@ namespace Firesec
         public void Synchronyze()
         {
             ConfigurationConverter.SynchronyzeConfiguration();
-            FiresecDriver.LoadingErrors.Append(ConfigurationConverter.DriversError);
         }
 
         public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
@@ -106,7 +99,7 @@ namespace Firesec
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecDriver.Synchronyze");
-                FiresecDriver.LoadingErrors.Append(e.Message);
+                LoadingErrorManager.Add(e);
                 return new OperationResult<bool>() { Result = true };
             }
         }

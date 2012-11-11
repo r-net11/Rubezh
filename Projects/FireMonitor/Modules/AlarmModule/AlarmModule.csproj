@@ -85,7 +85,6 @@
     </Compile>
     <Compile Include="Converters\AlarmTypeToColorConverter.cs" />
     <Compile Include="Converters\AlarmTypeToIconPathConverter.cs" />
-    <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="AlarmWatcher.cs" />
     <Compile Include="Models\AlarmEntityType.cs" />

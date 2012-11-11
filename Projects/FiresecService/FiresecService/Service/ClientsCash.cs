@@ -40,11 +40,11 @@ namespace FiresecService.Service
 			return !FiresecServices.Any(x => x.UID == firesecService.UID || x.ClientCredentials.ClientUID == firesecService.ClientCredentials.ClientUID);
 		}
 
-        public static void OnNewJournalRecord(JournalRecord journalRecord)
+        public static void OnNewJournalRecord(List<JournalRecord> journalRecords)
         {
             foreach (var firesecServices in FiresecServices)
             {
-                firesecServices.CallbackNewJournal(new List<JournalRecord>() { journalRecord });
+                firesecServices.CallbackNewJournal(journalRecords);
             }
         }
 

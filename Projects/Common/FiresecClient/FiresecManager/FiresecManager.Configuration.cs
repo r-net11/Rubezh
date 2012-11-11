@@ -5,6 +5,7 @@ using System.Windows;
 using Common;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
@@ -30,7 +31,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.UpdateFiles");
-                AddLoadingError(e);
+                LoadingErrorManager.Add(e);
             }
         }
 
@@ -43,7 +44,7 @@ namespace FiresecClient
                 {
                     SystemConfiguration = new SystemConfiguration();
                     Logger.Error("FiresecManager.SystemConfiguration = null");
-                    AddLoadingError("Нулевая системная конфигурация");
+                    LoadingErrorManager.Add("Нулевая системная конфигурация");
                 }
 
                 DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
@@ -51,7 +52,7 @@ namespace FiresecClient
                 {
                     DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
                     Logger.Error("FiresecManager.DeviceLibraryConfiguration = null");
-                    AddLoadingError("Нулевая конфигурация библиотеки устройств");
+                    LoadingErrorManager.Add("Нулевая конфигурация библиотеки устройств");
                 }
 
                 XManager.XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
@@ -59,7 +60,7 @@ namespace FiresecClient
                 {
                     XManager.XDeviceLibraryConfiguration = new XDeviceLibraryConfiguration();
                     Logger.Error("FiresecManager.XDeviceLibraryConfiguration = null");
-                    AddLoadingError("Нулевая конфигурация библиотеки устройств ГК");
+                    LoadingErrorManager.Add("Нулевая конфигурация библиотеки устройств ГК");
                 }
 
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
@@ -67,7 +68,7 @@ namespace FiresecClient
                 {
                     PlansConfiguration = new PlansConfiguration();
                     Logger.Error("FiresecManager.PlansConfiguration = null");
-                    AddLoadingError("Нулевая конфигурация графических планов");
+                    LoadingErrorManager.Add("Нулевая конфигурация графических планов");
                 }
 
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
@@ -75,7 +76,7 @@ namespace FiresecClient
                 {
                     SecurityConfiguration = new SecurityConfiguration();
                     Logger.Error("FiresecManager.SecurityConfiguration = null");
-                    AddLoadingError("Нулевая конфигурация безопасности");
+                    LoadingErrorManager.Add("Нулевая конфигурация безопасности");
                 }
 
                 var driversConfiguration = FiresecService.GetDriversConfiguration();
@@ -91,7 +92,7 @@ namespace FiresecClient
                 {
                     deviceConfiguration = new DeviceConfiguration();
                     Logger.Error("FiresecManager.deviceConfiguration = null");
-                    AddLoadingError("Нулевая конфигурация устройств");
+                    LoadingErrorManager.Add("Нулевая конфигурация устройств");
                 }
 
                 FiresecConfiguration = new FiresecConfiguration()
@@ -106,7 +107,7 @@ namespace FiresecClient
             catch (Exception e)
             {
 				Logger.Error(e, "FiresecManager.GetConfiguration");
-                AddLoadingError(e);
+                LoadingErrorManager.Add(e);
             }
         }
 
@@ -121,7 +122,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.UpdateConfiguration");
-                AddLoadingError(e);
+                LoadingErrorManager.Add(e);
             }
         }
 
@@ -151,7 +152,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.UpdatePlansConfiguration");
-                AddLoadingError(e);
+                LoadingErrorManager.Add(e);
             }
         }
 

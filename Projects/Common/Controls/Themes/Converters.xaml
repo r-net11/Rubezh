@@ -25,4 +25,5 @@
     <Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
     <Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
+    <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
 </ResourceDictionary>

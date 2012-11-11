@@ -13,7 +13,7 @@ namespace PlansModule.Converters
 		{
 			ZoneState zoneState = (ZoneState)value;
 			if (zoneState == null)
-				return Brushes.Magenta;
+				return Brushes.Transparent;
 
 			if (zoneState.Zone.ZoneType == ZoneType.Guard)
 			{

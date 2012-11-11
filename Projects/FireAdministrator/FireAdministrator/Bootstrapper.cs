@@ -19,6 +19,7 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
+            LoadingErrorManager.Clear();
 			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -34,10 +35,9 @@ namespace FireAdministrator
 
 					if (!InitializeFs())
 						return;
-					var loadingError = FiresecManager.GetLoadingError();
-					if (!String.IsNullOrEmpty(loadingError))
+                    if (LoadingErrorManager.HasError)
 					{
-						MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
+						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 					}
 
 					LoadingService.DoStep("Загрузка конфигурации ГК");
@@ -84,7 +84,7 @@ namespace FireAdministrator
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
 				FiresecManager.GetConfiguration();
 				LoadingService.DoStep("Загрузка драйвера устройств");
-				var connectionResult = FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, false);
+                var connectionResult = FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, false);
 				if (connectionResult.HasError)
 				{
 					CloseOnException(connectionResult.Error);
@@ -112,6 +112,7 @@ namespace FireAdministrator
 
 		void OnConfigurationChanged(object obj)
 		{
+            LoadingErrorManager.Clear();
 			InitializeModules();
 		}
 

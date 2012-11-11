@@ -56,7 +56,7 @@ namespace FiresecClient
 			ChannelFactory.Open();
 
 			IFiresecService _firesecService = ChannelFactory.CreateChannel();
-			(_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
+			(_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(10);
 			return _firesecService;
 		}
 

@@ -5,6 +5,7 @@ using System.ServiceModel.Security;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Windows.Threading;
 
 namespace FiresecClient
 {
@@ -21,6 +22,12 @@ namespace FiresecClient
             FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
             _serverAddress = serverAddress;
             FiresecService = FiresecServiceFactory.Create(serverAddress);
+
+            StartOperationQueueThread();
+            Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+            {
+                StopOperationQueueThread();
+            };
         }
 
         OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName, bool reconnectOnException = true)

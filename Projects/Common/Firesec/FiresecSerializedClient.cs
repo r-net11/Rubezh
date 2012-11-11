@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common;
 using Firesec.Models.Functions;
 using FiresecAPI;
+using Infrastructure.Common;
 
 namespace Firesec
 {
@@ -19,7 +20,7 @@ namespace Firesec
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecSerializedClient.FiresecSerializedClient");
-                FiresecDriver.LoadingErrors.Append(e.Message);
+                LoadingErrorManager.Add(e);
             }
         }
 

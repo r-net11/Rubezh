@@ -5,6 +5,7 @@ using Common;
 using Firesec.Models.CoreConfiguration;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace Firesec
 {
@@ -17,7 +18,7 @@ namespace Firesec
             if (coreConfig.dev == null || coreConfig.dev.Count() == 0 || coreConfig.drv == null)
             {
                 Logger.Error("ConfigurationConverter.ConvertDevices coreConfig.dev = null");
-                FiresecDriver.LoadingErrors.Append("Пустая коллекция устройств или драйверов при конвертации конфигурации");
+                LoadingErrorManager.Add("Пустая коллекция устройств или драйверов при конвертации конфигурации");
                 return;
             }
 
@@ -56,7 +57,7 @@ namespace Firesec
             if(drvType == null)
             {
                 Logger.Error("ConfigurationConverter.SetInnerDevice drvType = null " + innerDevice.drv.ToString());
-                FiresecDriver.LoadingErrors.Append("Ошибка сопоставления при конвертации конфигурации");
+                LoadingErrorManager.Add("Ошибка сопоставления при конвертации конфигурации");
                 return null;
             }
 			var driverUID = new Guid(drvType.id);
@@ -65,7 +66,7 @@ namespace Firesec
 			if (device.Driver == null)
 			{
 				Logger.Error("ConvertDevices.SetInnerDevice driver = null " + driverUID.ToString());
-				FiresecDriver.LoadingErrors.Append("Неизвестный драйвер устройства " + driverUID.ToString());
+                LoadingErrorManager.Add("Неизвестный драйвер устройства " + driverUID.ToString());
 				return null;
 			}
 

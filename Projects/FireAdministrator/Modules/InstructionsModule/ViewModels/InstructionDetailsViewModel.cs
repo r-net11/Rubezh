@@ -40,7 +40,7 @@ namespace InstructionsModule.ViewModels
 
 			Name = Instruction.Name;
 			Text = Instruction.Text;
-			StateType = Instruction.StateType;
+            AlarmType = Instruction.AlarmType;
 			InstructionType = Instruction.InstructionType;
 			switch (InstructionType)
 			{
@@ -83,29 +83,19 @@ namespace InstructionsModule.ViewModels
 			get { return InstructionType == InstructionType.Details; }
 		}
 
-		StateType _stateType;
-		public StateType StateType
+        AlarmType _alarmType;
+        public AlarmType AlarmType
 		{
-			get { return _stateType; }
+			get { return _alarmType; }
 			set
 			{
-				_stateType = value;
-				OnPropertyChanged("StateTypeFilter");
+				_alarmType = value;
+                OnPropertyChanged("AlarmType");
 			}
 		}
-		public List<StateType> AvailableStates
+        public List<AlarmType> AvailableAlarmTypes
 		{
-			get
-			{
-				var stateTypes = new List<StateType>();
-				stateTypes.Add(StateType.Fire);
-				stateTypes.Add(StateType.Attention);
-				stateTypes.Add(StateType.Failure);
-				stateTypes.Add(StateType.Service);
-				stateTypes.Add(StateType.Off);
-				stateTypes.Add(StateType.Info);
-				return stateTypes;
-			}
+            get { return Enum.GetValues(typeof(AlarmType)).Cast<AlarmType>().ToList(); }
 		}
 
 		InstructionType _instructionType;
@@ -183,7 +173,7 @@ namespace InstructionsModule.ViewModels
 		{
 			Instruction.Name = Name;
 			Instruction.Text = Text;
-			Instruction.StateType = StateType;
+            Instruction.AlarmType = AlarmType;
 			Instruction.InstructionType = InstructionType;
 			if (InstructionType == InstructionType.Details)
 			{

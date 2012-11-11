@@ -50,6 +50,9 @@ namespace DevicesModule.ViewModels
                 if (Devices.Any(x => x.Device.UID == device.UID))
                     continue;
 
+                if (device.ParentChannel != null && device.ParentChannel.UID != Device.ParentChannel.UID)
+                    continue;
+
 				if (Device.Parent.Driver.DriverType == DriverType.PDU)
 				{
 					if (

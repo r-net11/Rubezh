@@ -111,7 +111,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="Views\app.config" />
     <None Include="FiresecOPCServer.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

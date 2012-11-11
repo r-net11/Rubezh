@@ -3,6 +3,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace Infrastructure.Client.Login
 {
@@ -36,10 +37,8 @@ namespace Infrastructure.Client.Login
 		{
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
-			bool isAutoconnect = GetIsAutoConnect() && passwordViewType == LoginViewModel.PasswordViewType.Connect;
-#if DEBUG
-			//isAutoconnect = true;
-#endif
+            bool isAutoconnect = AppSettingsManager.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
+
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
 			{
 				if (login != null && password != null)
@@ -67,12 +66,6 @@ namespace Infrastructure.Client.Login
 			Login = loginViewModel.UserName;
 			Password = loginViewModel.Password;
 			return loginViewModel.IsConnected;
-		}
-		private bool GetIsAutoConnect()
-		{
-			string setting = ConfigurationManager.AppSettings["AutoConnect"];
-			bool result;
-			return setting == null || !bool.TryParse(setting, out result) ? false : result;
 		}
 	}
 }

@@ -22,6 +22,7 @@ namespace FireMonitor
 	{
 		public void Initialize()
 		{
+            LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
@@ -39,10 +40,9 @@ namespace FireMonitor
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 					InitializeFs(false);
-					var loadingError = FiresecManager.GetLoadingError();
-					if (!String.IsNullOrEmpty(loadingError))
+                    if (LoadingErrorManager.HasError)
 					{
-						MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
+                        MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 					}
 					LoadingService.DoStep("Загрузка конфигурации ГК");
 					InitializeGk();
@@ -96,6 +96,7 @@ namespace FireMonitor
 			//MutexHelper.KeepAlive();
 			ServiceFactory.SubscribeEvents();
 			ProgressWatcher.Run();
+            FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StartPingThread();
 		}
 
 		void InitializeFs(bool reconnect = false)
@@ -108,7 +109,7 @@ namespace FireMonitor
 				if (!reconnect)
 				{
 					LoadingService.DoStep("Инициализация драйвера устройств");
-					var connectionResult = FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, true);
+                    var connectionResult = FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, true);
 					if (connectionResult.HasError)
 					{
 						CloseOnException(connectionResult.Error);
@@ -147,6 +148,9 @@ namespace FireMonitor
 			{
 				if (IsRestarting)
 					return;
+                FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StopPingThread();
+                FiresecManager.FiresecService.SuspendPoll = true;
+                LoadingErrorManager.Clear();
 				IsRestarting = true;
 				ProgressWatcher.Close();
 				NativeFiresecClient.IsSuspended = true;
@@ -170,6 +174,8 @@ namespace FireMonitor
 			{
 				NativeFiresecClient.IsSuspended = false;
 				IsRestarting = false;
+                FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StartPingThread();
+                FiresecManager.FiresecService.SuspendPoll = false;
 			}
 		}
 

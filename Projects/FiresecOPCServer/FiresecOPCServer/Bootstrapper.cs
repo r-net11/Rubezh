@@ -21,67 +21,54 @@ namespace FiresecOPCServer
         static MainViewModel MainViewModel;
         static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
-		public static void Run()
-		{
-			AppSettingsHelper.InitializeAppSettings();
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+        public static void Run()
+        {
+            AppSettingsHelper.InitializeAppSettings();
+            var resourceService = new ResourceService();
+            resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+            resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-			WindowThread = new Thread(new ThreadStart(OnWorkThread));
-			WindowThread.Priority = ThreadPriority.Highest;
-			WindowThread.SetApartmentState(ApartmentState.STA);
-			WindowThread.IsBackground = true;
-			WindowThread.Start();
-			MainViewStartedEvent.WaitOne();
+            WindowThread = new Thread(new ThreadStart(OnWorkThread));
+            WindowThread.Priority = ThreadPriority.Highest;
+            WindowThread.SetApartmentState(ApartmentState.STA);
+            WindowThread.IsBackground = true;
+            WindowThread.Start();
+            MainViewStartedEvent.WaitOne();
 
-			UILogger.Log("Соединение с сервером");
-			for (int i = 1; i <= 10; i++)
-			{
-                var serviceAddress = AppSettings.ServiceAddress;
-                if (string.IsNullOrEmpty(serviceAddress))
+            UILogger.Log("Соединение с сервером");
+            for (int i = 1; i <= 10; i++)
+            {
+                var message = FiresecManager.Connect(ClientType.OPC, AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password);
+                if (message == null)
+                    break;
+                Thread.Sleep(5000);
+                if (i == 10)
                 {
-                    if (AppSettings.RemoteAddress != "localhost" && AppSettings.RemoteAddress != "127.0.0.1")
-                    {
-                        serviceAddress = "net.tcp://" + AppSettings.RemoteAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
-                    }
-                    else
-                    {
-                        serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
-                    }
+                    UILogger.Log("Ошибка соединения с сервером: " + message);
+                    return;
                 }
+            }
 
-                var message = FiresecManager.Connect(ClientType.OPC, serviceAddress, AppSettings.Login, AppSettings.Password);
-				if (message == null)
-					break;
-				Thread.Sleep(5000);
-				if (i == 10)
-				{
-					UILogger.Log("Ошибка соединения с сервером: " + message);
-					return;
-				}
-			}
-
-			InitializeFs();
+            InitializeFs();
             //UILogger.Log("Старт полинга сервера");
             //FiresecManager.StartPoll(false);
-			FiresecOPCManager.Start();
-			//SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
-			UILogger.Log("Готово");
-		}
+            FiresecOPCManager.Start();
+            //SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
+            UILogger.Log("Готово");
+        }
 
-		static void InitializeFs()
-		{
-			UILogger.Log("Остановка Socket Server");
-			UILogger.Log("Загрузка конфигурации с сервера");
-			FiresecManager.GetConfiguration();
-			UILogger.Log("Загрузка драйвера устройств");
-			FiresecManager.InitializeFiresecDriver(AppSettings.FS_Address, AppSettings.FS_Port, AppSettings.FS_Login, AppSettings.FS_Password, true);
-			UILogger.Log("Синхронизация конфигурации");
-			FiresecManager.FiresecDriver.Synchronyze();
-			UILogger.Log("Старт мониторинга");
+        static void InitializeFs()
+        {
+            UILogger.Log("Остановка Socket Server");
+            UILogger.Log("Загрузка конфигурации с сервера");
+            FiresecManager.GetConfiguration();
+            UILogger.Log("Загрузка драйвера устройств");
+            FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, true);
+            UILogger.Log("Синхронизация конфигурации");
+            FiresecManager.FiresecDriver.Synchronyze();
+            UILogger.Log("Старт мониторинга");
             FiresecManager.FiresecDriver.StartWatcher(true, false);
-		}
+        }
 
         static void OnWorkThread()
         {

@@ -9,6 +9,16 @@ namespace Firesec
         static AutoResetEvent StopLifetimeEvent;
         Thread LifetimeThread;
 
+        void StartLifetimeThread()
+        {
+            if (LifetimeThread == null)
+            {
+                StopLifetimeEvent = new AutoResetEvent(false);
+                LifetimeThread = new Thread(OnLifetime);
+                LifetimeThread.Start();
+            }
+        }
+
         public void StopLifetimeThread()
         {
             if (StopLifetimeEvent != null)
@@ -18,16 +28,6 @@ namespace Firesec
             if (LifetimeThread != null)
             {
                 LifetimeThread.Join(TimeSpan.FromSeconds(1));
-            }
-        }
-
-        void StartLifetimeThread()
-        {
-            if (LifetimeThread == null)
-            {
-                StopLifetimeEvent = new AutoResetEvent(false);
-                LifetimeThread = new Thread(OnLifetime);
-                LifetimeThread.Start();
             }
         }
 
