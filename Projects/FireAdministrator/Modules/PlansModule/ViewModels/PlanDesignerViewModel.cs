@@ -3,10 +3,11 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
+using Infrastructure.Client.Plans;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlanDesignerViewModel : BaseViewModel
+	public partial class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		public event EventHandler Updated;
 		public DesignerCanvas DesignerCanvas { get; set; }
@@ -71,5 +72,19 @@ namespace PlansModule.ViewModels
 			if (Updated != null)
 				Updated(this, EventArgs.Empty);
 		}
+
+		#region IPlanDesignerViewModel Members
+
+		public object Toolbox
+		{
+			get { return DesignerCanvas.Toolbox; }
+		}
+
+		public object Canvas
+		{
+			get { return DesignerCanvas; }
+		}
+
+		#endregion
 	}
 }

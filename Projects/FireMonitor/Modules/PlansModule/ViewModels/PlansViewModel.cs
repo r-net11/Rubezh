@@ -13,184 +13,105 @@ using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
-    public class PlansViewModel : ViewPartViewModel
-    {
-        public PlanCanvasViewModel SelectedPlanCanvasViewModel { get; set; }
-        public static PlansViewModel Current;
+	public class PlansViewModel : ViewPartViewModel
+	{
+		public PlanTreeViewModel PlanTreeViewModel { get; private set; }
+		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
-        public PlansViewModel()
-        {
-            Current = this;
-            MainCanvas = new Canvas();
-            ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
-        }
-
-        public void Initialize()
-        {
-            FiresecManager.InvalidatePlans();
-            DrawAllPlans();
-
-            Plans = new ObservableCollection<PlanViewModel>();
-            BuildTree();
-            if (Plans.IsNotNullOrEmpty())
-                SelectedPlan = Plans[0];
-        }
-
-        List<PlanCanvasViewModel> PlanCanvasViewModels;
-
-        void DrawAllPlans()
-        {
-            PlanCanvasViewModels = new List<PlanCanvasViewModel>();
-
-            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-            {
-                var planCanvasViewModel = new PlanCanvasViewModel(plan);
-                PlanCanvasViewModels.Add(planCanvasViewModel);
-            }
-        }
-
-        void BuildTree()
-        {
-            if (FiresecManager.PlansConfiguration.Plans.IsNotNullOrEmpty())
-            {
-                foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-                {
-                    var planTreeItemViewModel = new PlanViewModel(plan, Plans)
-                    {
-                        Parent = null,
-                        IsExpanded = true
-                    };
-                    Plans.Add(planTreeItemViewModel);
-                    AddPlan(plan, planTreeItemViewModel);
-                }
-            }
-        }
-
-        void AddPlan(Plan parentPlan, PlanViewModel parentPlanTreeItem)
-        {
-            if (parentPlan.Children != null)
-                foreach (var plan in parentPlan.Children)
-                {
-                    var planTreeItemViewModel = new PlanViewModel(plan, Plans)
-                    {
-                        Parent = parentPlanTreeItem,
-                        IsExpanded = true
-                    };
-                    parentPlanTreeItem.Children.Add(planTreeItemViewModel);
-                    Plans.Add(planTreeItemViewModel);
-                    AddPlan(plan, planTreeItemViewModel);
-                }
-        }
-
-        Canvas _mainCanvas;
-        public Canvas MainCanvas
-        {
-            get { return _mainCanvas; }
-            set
-            {
-                _mainCanvas = value;
-                OnPropertyChanged("MainCanvas");
-            }
-        }
-
-        ObservableCollection<PlanViewModel> _plans;
-        public ObservableCollection<PlanViewModel> Plans
-        {
-            get { return _plans; }
-            set
-            {
-                _plans = value;
-                OnPropertyChanged("Plans");
-            }
-        }
-
-        PlanViewModel _selectedPlan;
-        public PlanViewModel SelectedPlan
-        {
-            get { return _selectedPlan; }
-            set
-            {
-                _selectedPlan = value;
-                if (value != null)
-                {
-                    SelectedPlanCanvasViewModel = PlanCanvasViewModels.FirstOrDefault(x => x.Plan.UID == value.Plan.UID);
-                    MainCanvas = SelectedPlanCanvasViewModel.Canvas;
-                    SelectedPlanCanvasViewModel.Update();
-                }
-                OnPropertyChanged("SelectedPlan");
-            }
-        }
-
-        public void OnSelectPlan(Guid planUID)
-        {
-            SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == planUID);
-        }
-
-        public bool ShowDevice(Guid deviceUID)
-        {
-            foreach (var planViewModel in Plans)
-            {
-                if (planViewModel.DeviceStates.Any(x => x.Device.UID == deviceUID))
-                {
-                    SelectedPlan = planViewModel;
-                    SelectedPlanCanvasViewModel.SelectDevice(deviceUID);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool ShowXDevice(XDevice device)
-        {
-            foreach (var planViewModel in Plans)
-            {
-                if (planViewModel.XDeviceStates.Any(x => x.Device == device))
-                {
-                    SelectedPlan = planViewModel;
-                    SelectedPlanCanvasViewModel.SelectXDevice(device);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-		public bool ShowXZone(XZone zone)
+		public PlansViewModel()
 		{
-			foreach (var planViewModel in Plans)
+			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
+		}
+
+		public void Initialize()
+		{
+			FiresecManager.InvalidatePlans();
+			PlanTreeViewModel = new PlanTreeViewModel();
+			PlanDesignerViewModel = new PlanDesignerViewModel();
+			PlanTreeViewModel.SelectedPlanChanged += (s, e) => OnSelectedPlanChanged();
+			OnSelectedPlanChanged();
+		}
+
+		public PlanViewModel SelectedPlan
+		{
+			get { return PlanTreeViewModel.SelectedPlan; }
+			set { PlanTreeViewModel.SelectedPlan = value; }
+		}
+
+		private void OnSelectedPlanChanged()
+		{
+			PlanDesignerViewModel.Initialize(SelectedPlan);
+			OnPropertyChanged("SelectedPlan");
+		}
+
+		public void OnSelectPlan(Guid planUID)
+		{
+			SelectedPlan = PlanTreeViewModel.Plans.FirstOrDefault(x => x.Plan.UID == planUID);
+		}
+
+		public bool ShowDevice(Guid deviceUID)
+		{
+			foreach (var planViewModel in PlanTreeViewModel.Plans)
 			{
-				if (planViewModel.XZoneStates.Any(x => x.Zone == zone))
+				if (planViewModel.DeviceStates.Any(x => x.Device.UID == deviceUID))
 				{
 					SelectedPlan = planViewModel;
-					SelectedPlanCanvasViewModel.SelectXZone(zone);
+					PlanDesignerViewModel.SelectDevice(deviceUID);
 					return true;
 				}
 			}
 			return false;
 		}
-
-        public void ShowZone(Guid zoneUID)
-        {
-            foreach (var planViewModel in Plans)
-            {
-                foreach (var zone in planViewModel.Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
-                {
-                    if (zone.ZoneUID == zoneUID)
-                    {
-                        SelectedPlan = planViewModel;
-                        SelectedPlanCanvasViewModel.SelectZone(zoneUID);
-                        return;
-                    }
-                }
-                foreach (var zone in planViewModel.Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
-                {
-                    if (zone.ZoneUID == zoneUID)
-                    {
-                        SelectedPlan = planViewModel;
-                        SelectedPlanCanvasViewModel.SelectZone(zoneUID);
-                        return;
-                    }
-                }
-            }
-        }
-    }
+		public bool ShowXDevice(XDevice device)
+		{
+			foreach (var planViewModel in PlanTreeViewModel.Plans)
+			{
+				if (planViewModel.XDeviceStates.Any(x => x.Device == device))
+				{
+					SelectedPlan = planViewModel;
+					PlanDesignerViewModel.SelectXDevice(device);
+					return true;
+				}
+			}
+			return false;
+		}
+		public bool ShowXZone(XZone zone)
+		{
+			foreach (var planViewModel in PlanTreeViewModel.Plans)
+			{
+				if (planViewModel.XZoneStates.Any(x => x.Zone == zone))
+				{
+					SelectedPlan = planViewModel;
+					PlanDesignerViewModel.SelectXZone(zone);
+					return true;
+				}
+			}
+			return false;
+		}
+		public bool ShowZone(Guid zoneUID)
+		{
+			foreach (var planViewModel in PlanTreeViewModel.Plans)
+			{
+				foreach (var zone in planViewModel.Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
+				{
+					if (zone.ZoneUID == zoneUID)
+					{
+						SelectedPlan = planViewModel;
+						PlanDesignerViewModel.SelectZone(zoneUID);
+						return true;
+					}
+				}
+				foreach (var zone in planViewModel.Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
+				{
+					if (zone.ZoneUID == zoneUID)
+					{
+						SelectedPlan = planViewModel;
+						PlanDesignerViewModel.SelectZone(zoneUID);
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
 }

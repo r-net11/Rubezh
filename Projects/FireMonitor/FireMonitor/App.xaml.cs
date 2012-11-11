@@ -48,7 +48,8 @@ namespace FireMonitor
             ThemeHelper.LoadThemeFromRegister();
             ServerLoadHelper.Load();
 #if DEBUG
-			BindingErrorListener.Listen(m => MessageBox.Show(m));
+			bool trace = true;
+			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 
             _bootstrapper = new Bootstrapper();

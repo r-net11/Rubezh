@@ -6,17 +6,22 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using PlansModule.Events;
 using PlansModule.Views;
 using XFiresecAPI;
+using PlansModule.ViewModels.Elements;
 
 namespace PlansModule.ViewModels
 {
-	public class PlanCanvasViewModel : ViewPartViewModel
+	public class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
+		private double _zoom;
+		private double _deviceZoom;
+		public PlanViewModel PlanViewModel { get; private set; }
 		public Plan Plan { get; private set; }
 		public Canvas Canvas { get; private set; }
 
@@ -26,23 +31,30 @@ namespace PlansModule.ViewModels
 		public List<ElementDeviceViewModel> Devices { get; set; }
 		public List<ElementXDeviceViewModel> XDevices { get; set; }
 
-		public PlanCanvasViewModel(Plan plan)
+		public PlanDesignerViewModel()
 		{
-			Plan = plan;
-			DrawPlan();
-
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 			ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
 			ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Subscribe(OnElementZoneSelected);
 			ServiceFactory.Events.GetEvent<ElementXZoneSelectedEvent>().Subscribe(OnElementXZoneSelected);
 		}
 
+		public void Initialize(PlanViewModel planViewModel)
+		{
+			ChangeZoom(1);
+			PlanViewModel = planViewModel;
+			Plan = planViewModel.Plan;
+			DrawPlan();
+			Update();
+			OnPropertyChanged("Plan");
+			OnPropertyChanged("Canvas");
+		}
 		public void Update()
 		{
 			UpdateSubPlans();
-			ResetView();
+			if (Updated != null)
+				Updated(this, EventArgs.Empty);
 		}
-
 		public void DrawPlan()
 		{
 			SubPlans = new List<ElementSubPlanViewModel>();
@@ -59,7 +71,9 @@ namespace PlansModule.ViewModels
 			Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
 
 			if (Plan.BackgroundPixels != null)
-				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
+				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
+			else if (Plan.BackgroundColor == Colors.Transparent)
+				Canvas.Background = PainterHelper.CreateTransparentBrush(_zoom);
 			else
 				Canvas.Background = new SolidColorBrush(Plan.BackgroundColor);
 
@@ -191,30 +205,25 @@ namespace PlansModule.ViewModels
 		{
 			Devices.ForEach(x => x.IsSelected = false);
 			Zones.ForEach(x => x.IsSelected = false);
+			XDevices.ForEach(x => x.IsSelected = false);
+			XZones.ForEach(x => x.IsSelected = false);
 		}
 
 		public void SelectDevice(Guid deviceUID)
 		{
-			Devices.ForEach(x => x.IsSelected = false);
-			Devices.FirstOrDefault(x => x.DeviceUID == deviceUID).IsSelected = true;
+			Devices.ForEach(x => x.IsSelected = x.DeviceUID == deviceUID);
 		}
-
 		public void SelectZone(Guid zoneUID)
 		{
-			Zones.ForEach(x => x.IsSelected = false);
-			Zones.FirstOrDefault(x => x.ZoneUID == zoneUID).IsSelected = true;
+			Zones.ForEach(x => x.IsSelected = x.ZoneUID == zoneUID);
 		}
-
 		public void SelectXDevice(XDevice device)
 		{
-			XDevices.ForEach(x => x.IsSelected = false);
-			XDevices.FirstOrDefault(x => x.XDeviceUID == device.UID).IsSelected = true;
+			XDevices.ForEach(x => x.IsSelected = x.XDeviceUID == device.UID);
 		}
-
 		public void SelectXZone(XZone zone)
 		{
-			//XZones.ForEach(x => x.IsSelected = false);
-			//XZones.FirstOrDefault(x => x.ZoneUID == zone.UID).IsSelected = true;
+			XZones.ForEach(x => x.IsSelected = x.ZoneUID == zone.UID);
 		}
 
 		void OnPlanStateChanged(Guid planUID)
@@ -222,21 +231,54 @@ namespace PlansModule.ViewModels
 			if ((Plan != null) && (Plan.UID == planUID))
 				UpdateSubPlans();
 		}
-
 		void UpdateSubPlans()
 		{
 			foreach (var subPlan in SubPlans)
 			{
-				var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x.Plan.UID == subPlan.ElementSubPlan.PlanUID);
+				var planViewModel = PlanViewModel.Children.FirstOrDefault(x => x.Plan.UID == subPlan.ElementSubPlan.PlanUID);
 				if (planViewModel != null)
 					subPlan.StateType = planViewModel.StateType;
 			}
 		}
 
-		void ResetView()
+		#region IPlanDesignerViewModel Members
+
+		public event EventHandler Updated;
+
+		public object Toolbox
 		{
-			if (CanvasView.Current != null)
-				CanvasView.Current.Reset();
+			get { return null; }
 		}
+
+		object IPlanDesignerViewModel.Canvas
+		{
+			get { return Canvas; }
+		}
+
+		public void ChangeZoom(double zoom)
+		{
+			_zoom = zoom;
+			ChangeDeviceZoom(_deviceZoom);
+		}
+
+		public void ChangeDeviceZoom(double deviceZoom)
+		{
+			_deviceZoom = deviceZoom;
+			if (Canvas == null)
+				return;
+			double _pointZoom = _deviceZoom / _zoom;
+			foreach (var child in Canvas.Children)
+				if (child is ElementDeviceView || child is ElementXDeviceView)
+				{
+					FrameworkElement elementDeviceView = child as FrameworkElement;
+					IElementDevice viewModel = elementDeviceView.DataContext as IElementDevice;
+					elementDeviceView.Width = _pointZoom;
+					elementDeviceView.Height = _pointZoom;
+					Canvas.SetLeft(elementDeviceView, viewModel.Location.X - _pointZoom / 2);
+					Canvas.SetTop(elementDeviceView, viewModel.Location.Y - _pointZoom / 2);
+				}
+		}
+
+		#endregion
 	}
 }

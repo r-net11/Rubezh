@@ -25,24 +25,25 @@ namespace PlansModule
 			PlansViewModel = new PlansViewModel();
 		}
 
-		void OnShowDeviceOnPlan(Guid deviceUID)
+		private void OnShowDeviceOnPlan(Guid deviceUID)
 		{
 			var hasDeviceOnPlan = PlansViewModel.ShowDevice(deviceUID);
 			if (hasDeviceOnPlan)
 				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
-        void OnShowZoneOnPlan(Guid zoneUID)
+		private void OnShowZoneOnPlan(Guid zoneUID)
 		{
-			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-            PlansViewModel.ShowZone(zoneUID);
+			var hasZoneOnPlan = PlansViewModel.ShowZone(zoneUID);
+			if (hasZoneOnPlan)
+				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
-		void OnShowXDeviceOnPlan(XDevice device)
+		private void OnShowXDeviceOnPlan(XDevice device)
 		{
 			var hasDeviceOnPlan = PlansViewModel.ShowXDevice(device);
 			if (hasDeviceOnPlan)
 				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
-		void OnShowXZoneOnPlan(XZone zone)
+		private void OnShowXZoneOnPlan(XZone zone)
 		{
 			var hasZoneOnPlan = PlansViewModel.ShowXZone(zone);
 			if (hasZoneOnPlan)

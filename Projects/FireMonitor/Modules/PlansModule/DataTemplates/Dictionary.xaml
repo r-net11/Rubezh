@@ -1,10 +1,15 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:PlansModule.Views"
-                    xmlns:ViewModels="clr-namespace:PlansModule.ViewModels">
-    
-    <DataTemplate DataType="{x:Type ViewModels:PlansViewModel}">
-        <Views:PlansView />
-    </DataTemplate>
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client" xmlns:ViewModels="clr-namespace:PlansModule.ViewModels" xmlns:Views="clr-namespace:PlansModule.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:PlansViewModel}">
+		<Views:PlansView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PlanTreeViewModel}">
+		<Views:PlanTreeView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PlanDesignerViewModel}">
+		<clientPlans:PlanDesignerView />
+	</DataTemplate>
 
 </ResourceDictionary>

@@ -195,9 +195,6 @@
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
-    <Compile Include="Views\PlanDesignerView.xaml.cs">
-      <DependentUpon>PlanDesignerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlansTreeView.xaml.cs">
       <DependentUpon>PlansTreeView.xaml</DependentUpon>
     </Compile>
@@ -340,10 +337,6 @@
     <Page Include="Views\ToolboxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\PlanDesignerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlansTreeView.xaml">
       <SubType>Designer</SubType>

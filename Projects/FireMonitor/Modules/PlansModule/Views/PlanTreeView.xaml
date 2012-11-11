@@ -9,8 +9,8 @@
         <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
         <LacalConverters:StateTypeToPlanColorConverter x:Key="StateTypeToPlanColorConverter" />
     </UserControl.Resources>
-    
-    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
+
+	<DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название" Width="*">
                 <DataGridTemplateColumn.CellTemplate>

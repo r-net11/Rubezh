@@ -33,17 +33,12 @@ namespace GKModule
 		}
 		public static bool CanShowZone(XZone zone)
 		{
-			return false;
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-				{
+				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
-				}
-				if (plan.ElementRectangleZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
-				{
+				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
-				}
 			}
 			return false;
 		}

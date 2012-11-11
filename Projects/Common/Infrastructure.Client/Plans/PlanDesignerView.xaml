@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PlansModule.Views.PlanDesignerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="Infrastructure.Client.Plans.PlanDesignerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<Grid Visibility="{Binding Plan, Converter={StaticResource NullToVisibilityConverter}}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -6,7 +6,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<ContentPresenter Grid.Row="0" Content="{Binding DesignerCanvas.Toolbox}" DockPanel.Dock="Top" />
+		<ContentPresenter Grid.Row="0" Content="{Binding Toolbox}" DockPanel.Dock="Top" />
 
 		<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 			<Grid Name="_grid">
@@ -15,7 +15,7 @@
 						<ScaleTransform x:Name="scaleTransform" />
 					</TransformGroup>
 				</Grid.LayoutTransform>
-				<ContentControl Name="_contentControl" Content="{Binding DesignerCanvas}" />
+				<ContentControl Name="_contentControl" Content="{Binding Canvas}" />
 			</Grid>
 		</ScrollViewer>
 

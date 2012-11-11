@@ -106,6 +106,7 @@
     <Compile Include="ViewModels\Elements\ElementXZoneViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementXDeviceViewModel.cs" />
     <Compile Include="ViewModels\Elements\IElementDevice.cs" />
+    <Compile Include="ViewModels\PlanTreeViewModel.cs" />
     <Compile Include="Views\Elements\ElementXZoneView.xaml.cs">
       <DependentUpon>ElementXZoneView.xaml</DependentUpon>
     </Compile>
@@ -136,15 +137,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\PlanCanvasViewModel.cs" />
+    <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementZoneViewModel.cs" />
     <Compile Include="Views\Elements\ElementDeviceView.xaml.cs">
       <DependentUpon>ElementDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CanvasView.xaml.cs">
-      <DependentUpon>CanvasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
@@ -226,10 +224,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Elements\ElementZoneView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CanvasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
