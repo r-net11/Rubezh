@@ -23,7 +23,7 @@ namespace FiresecAPI.Models
         public string Name { get; set; }
 
         [DataMember]
-        public StateType StateType { get; set; }
+        public AlarmType AlarmType { get; set; }
 
         [DataMember]
         public InstructionType InstructionType { get; set; }

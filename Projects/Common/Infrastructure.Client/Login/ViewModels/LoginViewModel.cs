@@ -7,171 +7,159 @@ using Infrastructure.Client.Properties;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using Infrastructure.Common;
 
 namespace Infrastructure.Client.Login.ViewModels
 {
-	internal class LoginViewModel : SaveCancelDialogViewModel
-	{
-		private PasswordViewType _passwordViewType;
+    internal class LoginViewModel : SaveCancelDialogViewModel
+    {
+        private PasswordViewType _passwordViewType;
 
-		public LoginViewModel(ClientType clientType)
-			: this(clientType, PasswordViewType.Connect)
-		{
-		}
-		public LoginViewModel(ClientType clientType, PasswordViewType passwordViewType)
-		{
-			ClientType = clientType;
-			_passwordViewType = passwordViewType;
+        public LoginViewModel(ClientType clientType)
+            : this(clientType, PasswordViewType.Connect)
+        {
+        }
+        public LoginViewModel(ClientType clientType, PasswordViewType passwordViewType)
+        {
+            ClientType = clientType;
+            _passwordViewType = passwordViewType;
 
-			switch (_passwordViewType)
-			{
-				case PasswordViewType.Connect:
-					UserName = Settings.Default.UserName;
-					CanEditUserName = true;
-					break;
+            switch (_passwordViewType)
+            {
+                case PasswordViewType.Connect:
+                    UserName = Settings.Default.UserName;
+                    CanEditUserName = true;
+                    break;
 
-				case PasswordViewType.Reconnect:
-					UserName = string.Empty;
-					CanEditUserName = true;
-					break;
+                case PasswordViewType.Reconnect:
+                    UserName = string.Empty;
+                    CanEditUserName = true;
+                    break;
 
-				case PasswordViewType.Validate:
-					UserName = FiresecManager.CurrentUser.Login;
-					CanEditUserName = false;
-					break;
-			}
-			CanSavePassword = _passwordViewType != PasswordViewType.Validate;
-			Password = Settings.Default.SavePassword ? Settings.Default.Password : string.Empty;
-			SavePassword = Settings.Default.SavePassword;
+                case PasswordViewType.Validate:
+                    UserName = FiresecManager.CurrentUser.Login;
+                    CanEditUserName = false;
+                    break;
+            }
+            CanSavePassword = _passwordViewType != PasswordViewType.Validate;
+            Password = Settings.Default.SavePassword ? Settings.Default.Password : string.Empty;
+            SavePassword = Settings.Default.SavePassword;
 
-			IsConnected = false;
-			IsCanceled = false;
-			Message = null;
-			Sizable = false;
-		}
+            IsConnected = false;
+            IsCanceled = false;
+            Message = null;
+            Sizable = false;
+        }
 
-		string _userName;
-		public string UserName
-		{
-			get { return _userName; }
-			set
-			{
-				_userName = value;
-				OnPropertyChanged("UserName");
-			}
-		}
-		string _password;
-		[ObfuscationAttribute(Exclude = true)]
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged("Password");
-			}
-		}
-		private bool _savePassword;
-		public bool SavePassword
-		{
-			get { return _savePassword; }
-			set
-			{
-				_savePassword = value;
-				OnPropertyChanged("SavePassword");
-			}
-		}
-		bool _canEditUserName;
-		public bool CanEditUserName
-		{
-			get { return _canEditUserName; }
-			set
-			{
-				_canEditUserName = value;
-				OnPropertyChanged("CanEditUserName");
-			}
-		}
-		bool _canSavePassword;
-		public bool CanSavePassword
-		{
-			get { return _canSavePassword; }
-			set
-			{
-				_canSavePassword = value;
-				OnPropertyChanged("CanSavePassword");
-			}
-		}
+        string _userName;
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                _userName = value;
+                OnPropertyChanged("UserName");
+            }
+        }
+        string _password;
+        [ObfuscationAttribute(Exclude = true)]
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                _password = value;
+                OnPropertyChanged("Password");
+            }
+        }
+        private bool _savePassword;
+        public bool SavePassword
+        {
+            get { return _savePassword; }
+            set
+            {
+                _savePassword = value;
+                OnPropertyChanged("SavePassword");
+            }
+        }
+        bool _canEditUserName;
+        public bool CanEditUserName
+        {
+            get { return _canEditUserName; }
+            set
+            {
+                _canEditUserName = value;
+                OnPropertyChanged("CanEditUserName");
+            }
+        }
+        bool _canSavePassword;
+        public bool CanSavePassword
+        {
+            get { return _canSavePassword; }
+            set
+            {
+                _canSavePassword = value;
+                OnPropertyChanged("CanSavePassword");
+            }
+        }
 
-		public bool IsConnected { get; private set; }
-		public bool IsCanceled { get; private set; }
-		public string Message { get; private set; }
-		public ClientType ClientType { get; private set; }
+        public bool IsConnected { get; private set; }
+        public bool IsCanceled { get; private set; }
+        public string Message { get; private set; }
+        public ClientType ClientType { get; private set; }
 
-		protected override bool Save()
-		{
-			Close(true);
-			IsCanceled = false;
-			switch (_passwordViewType)
-			{
-				case PasswordViewType.Connect:
-					DoConnect();
-					break;
-				case PasswordViewType.Reconnect:
-					Message = FiresecManager.Reconnect(UserName, Password);
-					break;
-				case PasswordViewType.Validate:
-					Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
-					break;
-			}
-			IsConnected = string.IsNullOrEmpty(Message);
-			if (CanSavePassword && IsConnected)
-			{
-				Settings.Default.UserName = UserName;
-				Settings.Default.Password = SavePassword ? Password : string.Empty;
-				Settings.Default.SavePassword = SavePassword;
-				Settings.Default.Save();
-			}
-			return true;
-		}
-		protected override bool Cancel()
-		{
-			Message = null;
-			return base.Cancel();
-		}
+        protected override bool Save()
+        {
+            Close(true);
+            IsCanceled = false;
+            switch (_passwordViewType)
+            {
+                case PasswordViewType.Connect:
+                    DoConnect();
+                    break;
+                case PasswordViewType.Reconnect:
+                    Message = FiresecManager.Reconnect(UserName, Password);
+                    break;
+                case PasswordViewType.Validate:
+                    Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
+                    break;
+            }
+            IsConnected = string.IsNullOrEmpty(Message);
+            if (CanSavePassword && IsConnected)
+            {
+                Settings.Default.UserName = UserName;
+                Settings.Default.Password = SavePassword ? Password : string.Empty;
+                Settings.Default.SavePassword = SavePassword;
+                Settings.Default.Save();
+            }
+            return true;
+        }
+        protected override bool Cancel()
+        {
+            Message = null;
+            return base.Cancel();
+        }
 
-		public override void OnClosed()
-		{
-			IsCanceled = true;
-			base.OnClosed();
-		}
+        public override void OnClosed()
+        {
+            IsCanceled = true;
+            base.OnClosed();
+        }
 
         private void DoConnect()
         {
             ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
             DialogService.ShowWindow(preLoadWindow);
-            var serviceAddress = ConfigurationManager.AppSettings["ServiceAddress"];
-            if (string.IsNullOrEmpty(serviceAddress))
-            {
-                var remoteAddress = ConfigurationManager.AppSettings["RemoteAddress"] as string;
-                var remotePort = Convert.ToInt32(ConfigurationManager.AppSettings["RemotePort"] as string);
-                if (remoteAddress != "localhost" && remoteAddress != "127.0.0.1")
-                {
-                    serviceAddress = "net.tcp://" + remoteAddress + ":" + remotePort.ToString() + "/FiresecService/";
-                }
-                else
-                {
-                    serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
-                }
-            }
-            Message = FiresecManager.Connect(ClientType, serviceAddress, UserName, Password);
+
+            Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
             preLoadWindow.ForceClose();
         }
 
-		public enum PasswordViewType
-		{
-			Connect,
-			Reconnect,
-			Validate
-		}
-	}
+        public enum PasswordViewType
+        {
+            Connect,
+            Reconnect,
+            Validate
+        }
+    }
 }

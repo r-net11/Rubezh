@@ -15,6 +15,7 @@
             <Button Content="Охранные зоны" Command="{Binding Test6Command}" Width="250" Margin="2" />
             <Button Content="Переход по вкладкам" Command="{Binding Test7Command}" Width="250" Margin="2" />
             <Button Content="Все вместе" Command="{Binding Test8Command}" Width="250" Margin="2" />
+            <Button Content="Сообщение" Command="{Binding Test9Command}" Width="250" Margin="2" />
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <TextBox Text="{Binding Text}" />

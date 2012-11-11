@@ -4,27 +4,19 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-		static void SafeOperationCall(Action action)
-		{
-			try
-			{
-				action();
-			}
-			catch { }
-		}
-
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
 
 		bool isConnected = true;
 		static AutoResetEvent StopPollEvent;
-		static bool suspendPoll = false;
+		public bool SuspendPoll = false;
 		Thread ShortPollThread;
 		bool IsLongPollPeriod;
 
@@ -58,6 +50,9 @@ namespace FiresecClient
 					int sleepInterval = IsLongPollPeriod ? 60000 : 1000;
 					if (!StopPollEvent.WaitOne(sleepInterval))
 					{
+                        if (SuspendPoll)
+                            continue;
+
 						var callbackResults = ShortPoll();
 						if (!IsLongPollPeriod)
 						{
@@ -153,12 +148,8 @@ namespace FiresecClient
 					case CallbackResultType.ConfigurationChanged:
 						SafeOperationCall(() =>
 						{
-							var thread = new Thread(new ThreadStart(() =>
-							{
-								if (ConfigurationChangedEvent != null)
-									ConfigurationChangedEvent();
-							}));
-							thread.Start();
+                            if (ConfigurationChangedEvent != null)
+                                ConfigurationChangedEvent();
 						});
 						break;
 				}
@@ -175,11 +166,10 @@ namespace FiresecClient
 		{
 			if (isConnected == false)
 				return;
-
 			if (ConnectionLost != null)
 				ConnectionLost();
-
 			isConnected = false;
+            ServerLoadHelper.Load();
 		}
 
 		public static event Action ConnectionAppeared;
@@ -198,7 +188,7 @@ namespace FiresecClient
 		{
 			Logger.Error("SafeFiresecService.Recover");
 
-			suspendPoll = true;
+			SuspendPoll = true;
 			try
 			{
 				FiresecServiceFactory.Dispose();
@@ -213,8 +203,20 @@ namespace FiresecClient
 			}
 			finally
 			{
-				suspendPoll = false;
+				SuspendPoll = false;
 			}
 		}
+
+        static void SafeOperationCall(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "SafeFiresecService.SafeOperationCall");
+            }
+        }
 	}
 }

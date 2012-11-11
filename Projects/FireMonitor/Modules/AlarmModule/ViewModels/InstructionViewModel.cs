@@ -14,12 +14,14 @@ namespace AlarmModule.ViewModels
 		{
 			Title = "Инструкции";
 			StateType = AlarmTypeToStateType(alarmType);
+            AlarmType = alarmType;
 
             Instruction = FindInstruction(device, zone);
 			HasContent = Instruction != null;
 		}
 
 		public bool HasContent { get; private set; }
+        public AlarmType AlarmType { get; private set; }
 		public StateType StateType { get; private set; }
 		public Instruction Instruction { get; private set; }
 
@@ -54,7 +56,7 @@ namespace AlarmModule.ViewModels
 
 		Instruction FindInstruction(Device device, Zone zone)
 		{
-			var availableStateTypeInstructions = FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.StateType == StateType);
+            var availableStateTypeInstructions = FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
 
             if (device != null && device.ParentPanel != null)
             {

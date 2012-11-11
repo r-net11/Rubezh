@@ -2,6 +2,7 @@
 using Common;
 using Firesec;
 using FiresecAPI;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
@@ -19,7 +20,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.InitializeFiresecDriver");
-                AddLoadingError(e);
+                LoadingErrorManager.Add(e);
                 return new OperationResult<bool>(e.Message);
             }
         }
@@ -31,7 +32,7 @@ namespace FiresecClient
                 var result = FiresecService.FiresecService.GetJournalLastId();
                 if (result.HasError)
                 {
-                    AddLoadingError("Ошибка при получении индекса последней записи с сервера");
+                    LoadingErrorManager.Add("Ошибка при получении индекса последней записи с сервера");
                 }
 
                 var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(result.Result);
@@ -43,7 +44,7 @@ namespace FiresecClient
             catch (Exception e)
             {
                 Logger.Error(e, "FiresecManager.SynchrinizeJournal");
-                AddLoadingError(e);
+                LoadingErrorManager.Add(e);
             }
         }
     }

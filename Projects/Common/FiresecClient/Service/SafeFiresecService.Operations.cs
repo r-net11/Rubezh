@@ -112,12 +112,17 @@ namespace FiresecClient
 
         public void AddJournalRecords(List<JournalRecord> journalRecords)
         {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
-            }
-                ));
-            thread.Start();
+            AddTask(() =>
+                {
+                    SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
+                });
+
+            //var thread = new Thread(new ThreadStart(() =>
+            //{
+            //    SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
+            //}
+            //    ));
+            //thread.Start();
         }
 
         public List<string> GetFileNamesList(string directory)

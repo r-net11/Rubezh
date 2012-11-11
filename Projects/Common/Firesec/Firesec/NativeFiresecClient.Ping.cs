@@ -9,6 +9,16 @@ namespace Firesec
         static AutoResetEvent StopPingEvent;
         Thread PingThread;
 
+        public void StartPingThread()
+        {
+            if (PingThread == null)
+            {
+                StopPingEvent = new AutoResetEvent(false);
+                PingThread = new Thread(OnPing);
+                PingThread.Start();
+            }
+        }
+
         public void StopPingThread()
         {
             if (StopPingEvent != null)
@@ -18,16 +28,6 @@ namespace Firesec
             if (PingThread != null)
             {
                 PingThread.Join(TimeSpan.FromSeconds(1));
-            }
-        }
-
-        void StartPingThread()
-        {
-            if (PingThread == null)
-            {
-                StopPingEvent = new AutoResetEvent(false);
-                PingThread = new Thread(OnPing);
-                PingThread.Start();
             }
         }
 

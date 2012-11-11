@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Threading;
 using Common;
 using FiresecAPI;
+using Infrastructure.Common;
 
 namespace Firesec
 {
@@ -103,14 +104,14 @@ namespace Firesec
             }
             if (Connection == null)
             {
-                FiresecDriver.LoadingErrors.Append("Ошибка при загрузке драйвера firesec");
+                LoadingErrorManager.Add("Ошибка при загрузке драйвера firesec");
                 return new OperationResult<bool>("Ошибка при загрузке драйвера firesec");
             }
 
-            if (IsPing)
-            {
-                StartPingThread();
-            }
+            //if (IsPing)
+            //{
+            //    StartPingThread();
+            //}
             StartLifetimeThread();
             StartOperationQueueThread();
             IsConnected = true;
@@ -172,7 +173,7 @@ namespace Firesec
         {
             if (ConnectionTimeoutEvent != null)
             {
-                if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(2)))
+                if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(3)))
                 {
                     Logger.Error("NativeFiresecClient.OnConnectionTimeoutThread");
                     SocketServerHelper.Restart();

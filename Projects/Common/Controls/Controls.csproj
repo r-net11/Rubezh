@@ -106,6 +106,7 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
+    <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />

@@ -28,6 +28,7 @@ namespace DiagnosticsModule.ViewModels
             Test6Command = new RelayCommand(OnTest6);
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
+            Test9Command = new RelayCommand(OnTest9);
         }
 
 		public void StopThreads()
@@ -325,6 +326,29 @@ namespace DiagnosticsModule.ViewModels
 					break;
 			}
 		}
+
+        public RelayCommand Test9Command { get; private set; }
+        void OnTest9()
+        {
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                int count = 0;
+                while (true)
+                {
+                    if (NativeFiresecClient.TasksCount > 10)
+                        continue;
+                    Thread.Sleep(TimeSpan.FromMilliseconds(10));
+
+                    FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
+                    if (count % 1000 == 0)
+                    {
+                        Trace.WriteLine("Count = " + count.ToString());
+                    }
+                }
+            }));
+            thread.IsBackground = true;
+            thread.Start();
+        }
     }
 
     internal class DeviceControl

@@ -2,6 +2,8 @@
 using System.Configuration;
 using System.Windows;
 using FiresecClient.Itv;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace ItvIntegration
 {
@@ -14,19 +16,10 @@ namespace ItvIntegration
         public MainViewModel()
         {
             ShowImitatorCommand = new RelayCommand(OnShowImitator);
-
-            var FS_Address = ConfigurationManager.AppSettings["FS_Address"] as string;
-            var FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
-            var FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
-            var FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string;
-            var serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-            var Login = ConfigurationManager.AppSettings["Login"] as string;
-            var Password = ConfigurationManager.AppSettings["Password"] as string;
-
-            var message = ItvManager.Connect(serverAddress, Login, Password, FS_Address, FS_Port, FS_Login, FS_Password);
+            var message = ItvManager.Connect(AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password, AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password);
             if (message != null)
             {
-                MessageBox.Show(message);
+                MessageBoxService.Show(message);
                 return;
             }
 

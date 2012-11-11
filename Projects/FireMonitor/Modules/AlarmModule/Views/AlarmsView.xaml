@@ -10,7 +10,9 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MinHeight="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" MinHeight="100" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
@@ -25,6 +27,7 @@
                 <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="*" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" Width="*" />
                 <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.StateName}" Width="*" />
+                <DataGridTextColumn Header="План" Binding="{Binding PlanName}" Width="*" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -46,7 +49,15 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <Grid Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
+            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding Instruction.Text}" />
+                </ScrollViewer>
+            </Border>
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Включить все" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2" />
             <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" />
         </StackPanel>

@@ -6,6 +6,7 @@ using System.ServiceProcess;
 using System.Threading;
 using Common;
 using Microsoft.Win32;
+using Infrastructure.Common;
 
 namespace Firesec
 {
@@ -159,7 +160,7 @@ namespace Firesec
 					Logger.Error("SocketServerHelper.GetSocketServerPath File3 Not Exists " + filePath3);
 				}
 
-				FiresecDriver.LoadingErrors.Append("Не удалось обнаружить драйвер устройств");
+                LoadingErrorManager.Add("Не удалось обнаружить драйвер устройств");
 				return null;
 
 				//RegistryKey registryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Adv_SocketServer", false);
@@ -172,7 +173,7 @@ namespace Firesec
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetSocketServerPath");
-				FiresecDriver.LoadingErrors.Append(e.Message);
+                LoadingErrorManager.Add(e);
 				return null;
 			}
 		}

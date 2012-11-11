@@ -219,7 +219,7 @@ namespace FiresecService.Service
 			{
 				journalRecords.ForEach(x => x.User = ClientCredentials.UserName);
 				DatabaseHelper.AddJournalRecords(journalRecords);
-				//ClientsCash.OnNewJournalRecord(journalRecord);
+                ClientsCash.OnNewJournalRecord(journalRecords);
 				operationResult.Result = true;
 			}
 			catch (Exception e)

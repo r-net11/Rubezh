@@ -6,7 +6,6 @@
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
-        <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
     </UserControl.Resources>
 
     <ItemsControl ItemsSource="{Binding AlarmGroups}">

@@ -85,6 +85,28 @@ namespace AlarmModule.ViewModels
 
             return FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
         }
+        public string PlanName
+        {
+            get
+            {
+                if (Alarm.Device != null)
+                {
+                    var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
+                    if(plan != null)
+                        return plan.Caption;
+                }
+                if (Alarm.Zone != null)
+                {
+                    var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementRectangleZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
+                    if (plan != null)
+                        return plan.Caption;
+                    plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementPolygonZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
+                    if (plan != null)
+                        return plan.Caption;
+                }
+                return null;
+            }
+        }
 
 		public RelayCommand ShowDeviceCommand { get; private set; }
 		void OnShowDevice()
@@ -116,6 +138,14 @@ namespace AlarmModule.ViewModels
         {
             var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
             return instructionViewModel.HasContent;
+        }
+        public Instruction Instruction
+        {
+            get
+            {
+                var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
+                return instructionViewModel.Instruction;
+            }
         }
 	}
 }

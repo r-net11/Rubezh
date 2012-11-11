@@ -20,6 +20,7 @@
                         <Button Content="Применить" Command="{Binding Test2Command}" Width="300" Margin="2" />
                         <Button Content="Тест 3" Command="{Binding Test3Command}" Width="300" Margin="2" />
                         <Button Content="Путь к файлу" Command="{Binding Test4Command}" Width="300" Margin="2" />
+                        <Button Content="Сообщение" Command="{Binding Test6Command}" Width="300" Margin="2" />
                     </StackPanel>
                     <ScrollViewer Grid.Row="1">
                         <TextBox Text="{Binding Text}" />
@@ -28,7 +29,7 @@
             </Border>
         </TabItem>
         <TabItem Header="FS">
-            <Button Content="Тест 5" Command="{Binding Test5Command}" Width="300" Margin="2" />
+            <Button Content="WCF Test" Command="{Binding Test5Command}" Width="300" Margin="2" />
         </TabItem>
     </TabControl>
 </UserControl>

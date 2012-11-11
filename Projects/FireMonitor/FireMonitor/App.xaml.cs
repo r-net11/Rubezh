@@ -36,10 +36,9 @@ namespace FireMonitor
                 saveKey.SetValue("FireMonitorPath", path.Location);
                 saveKey.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                {}
-                throw;
+                Logger.Error(ex, "App.OnStartup");
             }
 
             InitializeCommandLineArguments(e.Args);
@@ -50,7 +49,6 @@ namespace FireMonitor
 #if DEBUG
 			BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
-
             _bootstrapper = new Bootstrapper();
             using (new DoubleLaunchLocker(SignalId, WaitId, true))
             {
@@ -69,7 +67,6 @@ namespace FireMonitor
 #if RELEASE
                 Restart();
 #endif
-
                 Application.Current.MainWindow.Close();
                 Application.Current.Shutdown();
             }
