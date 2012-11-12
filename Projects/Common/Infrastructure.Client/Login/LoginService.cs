@@ -1,9 +1,12 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Windows;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common;
+using Microsoft.Win32;
 
 namespace Infrastructure.Client.Login
 {
@@ -65,6 +68,17 @@ namespace Infrastructure.Client.Login
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			Login = loginViewModel.UserName;
 			Password = loginViewModel.Password;
+            try
+            {
+                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                saveKey.SetValue("Login", Login);
+                saveKey.SetValue("Password", Password);
+                saveKey.Close();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "LoginService.Execute");
+            }
 			return loginViewModel.IsConnected;
 		}
 	}

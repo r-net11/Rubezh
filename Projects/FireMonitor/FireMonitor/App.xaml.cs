@@ -34,6 +34,10 @@ namespace FireMonitor
                 var path = System.Reflection.Assembly.GetExecutingAssembly();
                 RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
                 saveKey.SetValue("FireMonitorPath", path.Location);
+                var isAutoConnect = saveKey.GetValue("isAutoConnect");
+                if (isAutoConnect != null)
+                    if (isAutoConnect.Equals("True"))
+                        AppSettingsManager.AutoConnect = true;
                 saveKey.Close();
             }
             catch (Exception ex)

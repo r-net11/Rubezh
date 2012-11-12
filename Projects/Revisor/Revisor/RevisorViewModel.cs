@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using Common;
 using Microsoft.Win32;
+using Infrastructure.Common;
 
 namespace Revisor
 {
@@ -9,28 +12,84 @@ namespace Revisor
     {
         public RevisorViewModel()
         {
-            Inspect();
+            StartCommand = new RelayCommand(OnStart);
+            StopCommand = new RelayCommand(OnStop);
         }
         public void Inspect()
         {
             while(true)
             {
-                System.Threading.Thread.Sleep(10000);
-                RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-                var firemonitorpath = (string)readKey.GetValue("FireMonitorPath");
-                readKey.Close();
-                if (!String.IsNullOrEmpty(firemonitorpath))
+                try
                 {
-                    var processes = Process.GetProcessesByName("FireMonitor");
-                    var processes2 = Process.GetProcessesByName("FireMonitor.vshost");
-                    if ((processes.Count() == 0))// && (processes2.Count() == 0))
+                    RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
+                    var firemonitorpath = (string)readKey.GetValue("FireMonitorPath");
+                    var isException = readKey.GetValue("isException");
+                    var Login = readKey.GetValue("Login");
+                    var Password = readKey.GetValue("Password");
+                    readKey.Close();
+
+                    if (!String.IsNullOrEmpty(firemonitorpath))
                     {
-                        var proc = new Process();
-                        proc.StartInfo.FileName = firemonitorpath;
-                        proc.Start();
+                        var processes = Process.GetProcessesByName("FireMonitor");
+                        var processes2 = Process.GetProcessesByName("FireMonitor.vshost");
+                        if(isException != null)
+                        if ((processes.Count() == 0) && (isException.Equals("True")))// && (processes2.Count() == 0))
+                        {
+                            RegistryKey savekey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                            savekey.SetValue("isAutoConnection", true);
+                            Process.Start(firemonitorpath);
+                            savekey.SetValue("isAutoConnection", false);
+                            savekey.Close();
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    throw ex;
+                    Logger.Error(ex, "RevisorViewModel.Inspect");
+                }
+                if (StopLifetimeEvent.WaitOne(10000))
+                    break;
             }
         }
+
+        public RelayCommand StartCommand { get; private set; }
+        public void OnStart()
+        {
+            StartLifetimeThread();
+        }
+
+        public RelayCommand StopCommand { get; private set; }
+        public void OnStop()
+        {
+            LifetimeThread.Abort();
+            LifetimeThread = null;
+        }
+
+        static AutoResetEvent StopLifetimeEvent;
+        Thread LifetimeThread;
+
+        void StartLifetimeThread()
+        {
+            if (LifetimeThread == null)
+            {
+                StopLifetimeEvent = new AutoResetEvent(false);
+                LifetimeThread = new Thread(Inspect);
+                LifetimeThread.Start();
+            }
+        }
+
+        public void StopLifetimeThread()
+        {
+            if (StopLifetimeEvent != null)
+            {
+                StopLifetimeEvent.Set();
+            }
+            if (LifetimeThread != null)
+            {
+                LifetimeThread.Join(TimeSpan.FromSeconds(1));
+            }
+        }
+
     }
 }
