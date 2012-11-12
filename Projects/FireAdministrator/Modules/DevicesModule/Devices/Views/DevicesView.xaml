@@ -1,4 +1,10 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:DevicesModule.Converters"
+             xmlns:Views="clr-namespace:DevicesModule.Views"
+             Focusable="True">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">

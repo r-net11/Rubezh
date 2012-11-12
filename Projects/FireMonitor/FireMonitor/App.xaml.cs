@@ -55,7 +55,7 @@ namespace FireMonitor
             ServerLoadHelper.Load();
 #if DEBUG
 			bool trace = true;
-			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
+			//BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
             _bootstrapper = new Bootstrapper();
             //using (new DoubleLaunchLocker(SignalId, WaitId, true))

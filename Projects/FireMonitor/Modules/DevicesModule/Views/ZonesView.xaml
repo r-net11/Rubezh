@@ -82,17 +82,15 @@
         </Border>
 
         <Grid Grid.Row="1" Margin="0, 5, 0, 0">
-            <DataGrid ItemsSource="{Binding Devices}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство" Width="250">
-                        <DataGridTemplateColumn.CellTemplate>
+            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}">
+                <Controls:TreeListView.Columns>
+                    <GridViewColumn Width="250" Header="Устройство">
+                        <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" />
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
@@ -113,13 +111,13 @@
                                     </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
-                    <DataGridTextColumn Header="Зона" Width="100" Binding="{Binding PresentationZone}" />
-                    <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
-                </DataGrid.Columns>
-            </DataGrid>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding PresentationAddress}" />
+                    <GridViewColumn Header="Зона" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
+                    <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
+                </Controls:TreeListView.Columns>
+            </Controls:TreeListView>
         </Grid>
     </Grid>
 </UserControl>

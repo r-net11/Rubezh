@@ -15,12 +15,12 @@ using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
+    public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public DeviceState DeviceState { get; private set; }
 
-		public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
+		public DeviceViewModel(Device device)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
@@ -30,7 +30,6 @@ namespace DevicesModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ResetCommand = new RelayCommand<string>(OnReset, CanReset);
 
-			Source = sourceDevices;
 			Device = device;
 			DeviceState = Device.DeviceState;
 			if (DeviceState != null)
@@ -425,5 +424,7 @@ namespace DevicesModule.ViewModels
 				}
 			}
 		}
+
+        public bool IsBold { get; set; }
 	}
 }
