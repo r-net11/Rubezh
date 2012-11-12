@@ -167,7 +167,7 @@ namespace DevicesModule.Plans
 
 		#endregion
 
-		private void UpdateDesignerItemDevice(DesignerItem designerItem)
+		private void UpdateDesignerItemDevice(CommonDesignerItem designerItem)
 		{
 			ElementDevice elementDevice = designerItem.Element as ElementDevice;
 			Device device = Designer.Helper.GetDevice(elementDevice);
@@ -175,7 +175,7 @@ namespace DevicesModule.Plans
 				Designer.Helper.SetDevice(elementDevice, device);
 			designerItem.Title = Designer.Helper.GetDeviceTitle((ElementDevice)designerItem.Element);
 		}
-		private void UpdateDesignerItemZone(DesignerItem designerItem)
+		private void UpdateDesignerItemZone(CommonDesignerItem designerItem)
 		{
 			IElementZone elementZone = designerItem.Element as IElementZone;
 			Zone zone = Designer.Helper.GetZone(elementZone);

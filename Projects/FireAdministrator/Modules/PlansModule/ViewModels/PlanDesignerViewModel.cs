@@ -35,18 +35,8 @@ namespace PlansModule.ViewModels
 					DesignerCanvas.Height = plan.Height;
 					OnUpdated();
 
-					foreach (var elementRectangle in plan.ElementRectangles)
-						DesignerCanvas.Create(elementRectangle);
-					foreach (var elementEllipse in plan.ElementEllipses)
-						DesignerCanvas.Create(elementEllipse);
-					foreach (var elementTextBlock in plan.ElementTextBlocks)
-						DesignerCanvas.Create(elementTextBlock);
-					foreach (var elementPolygon in plan.ElementPolygons)
-						DesignerCanvas.Create(elementPolygon);
-					foreach (var elementPolyline in plan.ElementPolylines)
-						DesignerCanvas.Create(elementPolyline);
-					foreach (var elementSubPlan in plan.ElementSubPlans)
-						DesignerCanvas.Create(elementSubPlan);
+					foreach(var elementBase in PlanEnumerator.Enumerate(plan))
+						DesignerCanvas.Create(elementBase);
 					foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 						DesignerCanvas.Create(element);
 					DesignerCanvas.DeselectAll();

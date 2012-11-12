@@ -160,11 +160,11 @@ namespace GKModule.Plans
 
 		#endregion
 
-		private void UpdateDesignerItemXDevice(DesignerItem designerItem)
+		private void UpdateDesignerItemXDevice(CommonDesignerItem designerItem)
 		{
 			designerItem.Title = Helper.GetXDeviceTitle((ElementXDevice)designerItem.Element);
 		}
-		private void UpdateDesignerItemXZone(DesignerItem designerItem)
+		private void UpdateDesignerItemXZone(CommonDesignerItem designerItem)
 		{
 			IElementZone elementZone = designerItem.Element as IElementZone;
 			designerItem.Title = Designer.Helper.GetXZoneTitle(elementZone);

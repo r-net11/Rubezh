@@ -8,17 +8,19 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using Infrustructure.Plans.Presenter;
 using PlansModule.Events;
-using PlansModule.Views;
-using XFiresecAPI;
 using PlansModule.ViewModels.Elements;
+using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
 	public class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
+		private List<IPlanPresenter<Plan>> _planPresenters;
 		private double _zoom;
 		private double _deviceZoom;
 		public PlanViewModel PlanViewModel { get; private set; }
@@ -31,12 +33,19 @@ namespace PlansModule.ViewModels
 		public List<ElementDeviceViewModel> Devices { get; set; }
 		public List<ElementXDeviceViewModel> XDevices { get; set; }
 
-		public PlanDesignerViewModel()
+		public PlanDesignerViewModel(List<IPlanPresenter<Plan>> planPresenters)
 		{
+			_planPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 			ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
 			ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Subscribe(OnElementZoneSelected);
 			ServiceFactory.Events.GetEvent<ElementXZoneSelectedEvent>().Subscribe(OnElementXZoneSelected);
+		}
+
+		private void PresentersAction(Action<IPlanPresenter<Plan>> action)
+		{
+			foreach (var planPresenter in _planPresenters)
+				action(planPresenter);
 		}
 
 		public void Initialize(PlanViewModel planViewModel)
@@ -49,44 +58,29 @@ namespace PlansModule.ViewModels
 			OnPropertyChanged("Plan");
 			OnPropertyChanged("Canvas");
 		}
-		public void Update()
-		{
-			UpdateSubPlans();
-			if (Updated != null)
-				Updated(this, EventArgs.Empty);
-		}
+
 		public void DrawPlan()
 		{
+			UpdateCanvas();
+			CreatePresenters();
+
+
 			SubPlans = new List<ElementSubPlanViewModel>();
 			Zones = new List<ElementZoneViewModel>();
 			XZones = new List<ElementXZoneViewModel>();
 			Devices = new List<ElementDeviceViewModel>();
 			XDevices = new List<ElementXDeviceViewModel>();
 
-			Canvas = new Canvas()
-			{
-				Width = Plan.Width,
-				Height = Plan.Height
-			};
-			Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
-
-			if (Plan.BackgroundPixels != null)
-				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
-			else if (Plan.BackgroundColor == Colors.Transparent)
-				Canvas.Background = PainterHelper.CreateTransparentBrush(_zoom);
-			else
-				Canvas.Background = new SolidColorBrush(Plan.BackgroundColor);
-
-			foreach (var elementRectangle in Plan.ElementRectangles)
-				DrawElement(elementRectangle);
-			foreach (var elementEllipse in Plan.ElementEllipses)
-				DrawElement(elementEllipse);
-			foreach (var elementTextBlock in Plan.ElementTextBlocks)
-				DrawElement(elementTextBlock);
-			foreach (var elementPolygon in Plan.ElementPolygons)
-				DrawElement(elementPolygon);
-			foreach (var elementPolyline in Plan.ElementPolylines)
-				DrawElement(elementPolyline);
+			//foreach (var elementRectangle in Plan.ElementRectangles)
+			//    DrawElement(elementRectangle);
+			//foreach (var elementEllipse in Plan.ElementEllipses)
+			//    DrawElement(elementEllipse);
+			//foreach (var elementTextBlock in Plan.ElementTextBlocks)
+			//    DrawElement(elementTextBlock);
+			//foreach (var elementPolygon in Plan.ElementPolygons)
+			//    DrawElement(elementPolygon);
+			//foreach (var elementPolyline in Plan.ElementPolylines)
+			//    DrawElement(elementPolyline);
 			foreach (var elementSubPlan in Plan.ElementSubPlans)
 			{
 				var subPlanViewModel = new ElementSubPlanViewModel(elementSubPlan);
@@ -144,6 +138,59 @@ namespace PlansModule.ViewModels
 						Canvas.Children.Add(elementXDeviceViewModel.ElementXDeviceView);
 				}
 			}
+		}
+		private void UpdateCanvas()
+		{
+			Canvas = new Canvas()
+			{
+				Width = Plan.Width,
+				Height = Plan.Height
+			};
+
+			if (Plan.BackgroundPixels != null)
+				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
+			else if (Plan.BackgroundColor == Colors.Transparent)
+				Canvas.Background = PainterHelper.CreateTransparentBrush(_zoom);
+			else
+				Canvas.Background = new SolidColorBrush(Plan.BackgroundColor);
+			Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
+		}
+		private void CreatePresenters()
+		{
+			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
+				CreatePresenter(elementBase);
+
+			PresentersAction(planPresenter =>
+				{
+					foreach (var element in planPresenter.LoadPlan(Plan))
+						CreatePresenter(element);
+				});
+		}
+		private void CreatePresenter(ElementBase elementBase)
+		{
+			var presenterItem = new PresenterItem(elementBase);
+			PresentersAction(planPresenter => planPresenter.RegisterPresenterItem(presenterItem));
+			Canvas.Children.Add(presenterItem);
+			presenterItem.Redraw();
+			presenterItem.SetZIndex();
+		}
+
+		public IEnumerable<PresenterItem> Items
+		{
+			get { return Canvas.Children.OfType<PresenterItem>(); }
+		}
+		public PresenterItem SelectedItem
+		{
+			get { return Canvas.Children.OfType<PresenterItem>().FirstOrDefault(item => item.IsSelected); }
+		}
+
+
+
+		public void Update()
+		{
+			UpdateSubPlans();
+			if (Updated != null)
+				Updated(this, EventArgs.Empty);
 		}
 
 		private void DrawElement(ElementBase elementBase)
@@ -277,6 +324,18 @@ namespace PlansModule.ViewModels
 					Canvas.SetLeft(elementDeviceView, viewModel.Location.X - _pointZoom / 2);
 					Canvas.SetTop(elementDeviceView, viewModel.Location.Y - _pointZoom / 2);
 				}
+			//foreach (var item in Items)
+			//{
+			//    var elementBasePoint = item.Element as ElementBasePoint;
+			//    if (elementBasePoint != null)
+			//    {
+			//        var rect = elementBasePoint.GetRectangle();
+			//        Canvas.SetLeft(item, rect.Left - _pointZoom / 2);
+			//        Canvas.SetTop(item, rect.Top - _pointZoom / 2);
+			//        item.ItemWidth = rect.Width + _pointZoom;
+			//        item.ItemHeight = rect.Height + _pointZoom;
+			//    }
+			//}
 		}
 
 		#endregion

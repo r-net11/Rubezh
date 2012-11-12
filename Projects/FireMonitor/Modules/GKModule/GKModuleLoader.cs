@@ -1,47 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.GK;
+using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
+using GKModule.Plans;
+using GKModule.Reports;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 using XFiresecAPI;
-using Infrastructure.Common.Reports;
-using GKModule.Reports;
 
 namespace GKModule
 {
-    public class GKModuleLoader : ModuleBase, IReportProviderModule
+	public class GKModuleLoader : ModuleBase, IReportProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
-        static DirectionsViewModel DirectionsViewModel;
-        NavigationItem _journalNavigationItem;
+		static DirectionsViewModel DirectionsViewModel;
+		NavigationItem _journalNavigationItem;
 		static JournalsViewModel JournalsViewModel;
-        static ArchiveViewModel ArchiveViewModel;
-        static AlarmsViewModel AlarmsViewModel;
+		static ArchiveViewModel ArchiveViewModel;
+		static AlarmsViewModel AlarmsViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
+		private PlanPresenter _planPresenter;
 
 		public GKModuleLoader()
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
-            ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
+			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
-            JournalsViewModel = new JournalsViewModel();
-            ArchiveViewModel = new ArchiveViewModel();
-            AlarmsViewModel = new AlarmsViewModel();
+			JournalsViewModel = new JournalsViewModel();
+			ArchiveViewModel = new ArchiveViewModel();
+			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
+			_planPresenter = new PlanPresenter();
 		}
 
 		void OnShowAlarms(XAlarmType? alarmType)
@@ -49,27 +54,27 @@ namespace GKModule
 			AlarmsViewModel.Sort(alarmType);
 		}
 
-        int _unreadJournalCount;
-        private int UnreadJournalCount
-        {
-            get { return _unreadJournalCount; }
-            set
-            {
-                _unreadJournalCount = value;
-                if (_journalNavigationItem != null)
-                    _journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
-            }
-        }
-        void OnShowJournal(object obj)
-        {
-            UnreadJournalCount = 0;
-            JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
-        }
-        void OnNewJournalRecord(List<JournalItem> journalItems)
-        {
-            if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-                UnreadJournalCount += journalItems.Count;
-        }
+		int _unreadJournalCount;
+		private int UnreadJournalCount
+		{
+			get { return _unreadJournalCount; }
+			set
+			{
+				_unreadJournalCount = value;
+				if (_journalNavigationItem != null)
+					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+			}
+		}
+		void OnShowJournal(object obj)
+		{
+			UnreadJournalCount = 0;
+			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
+		}
+		void OnNewJournalRecord(List<JournalItem> journalItems)
+		{
+			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+				UnreadJournalCount += journalItems.Count;
+		}
 
 		void OnShowXDeviceDetails(Guid deviceUID)
 		{
@@ -82,18 +87,19 @@ namespace GKModule
 			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
-            DirectionsViewModel.Initialize();
+			DirectionsViewModel.Initialize();
 			JournalsViewModel.Initialize();
-            ArchiveViewModel.Initialize();
+			ArchiveViewModel.Initialize();
 
-            JournalWatcherManager.Start();
+			JournalWatcherManager.Start();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty);
-            _journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
-            UnreadJournalCount = 0;
+			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
+			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
@@ -113,16 +119,16 @@ namespace GKModule
 			get { return "Групповой контроллер"; }
 		}
 
-        #region IReportProviderModule Members
-        public IEnumerable<IReportProvider> GetReportProviders()
-        {
-            return new List<IReportProvider>()
+		#region IReportProviderModule Members
+		public IEnumerable<IReportProvider> GetReportProviders()
+		{
+			return new List<IReportProvider>()
 			{
                 new DriverCounterReport(),
                 new DeviceListReport(),
 				new JournalReport()
 			};
-        }
-        #endregion
+		}
+		#endregion
 	}
 }

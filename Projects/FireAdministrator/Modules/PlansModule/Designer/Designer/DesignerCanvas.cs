@@ -153,18 +153,8 @@ namespace PlansModule.Designer
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Children.Add(designerItem);
 			designerItem.Redraw();
-			SetZIndex(designerItem);
+			designerItem.SetZIndex();
 			return designerItem;
-		}
-		private void SetZIndex(DesignerItem designerItem)
-		{
-			int bigConstatnt = 100000;
-
-			if (designerItem.Element is IElementZIndex)
-				Panel.SetZIndex(designerItem, (designerItem.Element as IElementZIndex).ZIndex);
-
-			if (designerItem.Element is IElementZLayer)
-				Panel.SetZIndex(designerItem, ((IElementZLayer)designerItem.Element).ZLayerIndex * bigConstatnt);
 		}
 
 		public override void Update()

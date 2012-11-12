@@ -52,10 +52,12 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
+    <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerItemBorder.cs" />
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Elements\IElementZone.cs" />
+    <Compile Include="Events\RegisterPlanPresenterEvent.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Elements\IElementZIndex.cs" />
     <Compile Include="Events\ShowElementEvent.cs" />
     <Compile Include="IPlanExtension.cs" />
+    <Compile Include="IPlanPresenter.cs" />
     <Compile Include="Painters\DefaultPainter.cs" />
     <Compile Include="Painters\ElipsePainter.cs" />
     <Compile Include="Painters\IPainter.cs" />
@@ -100,6 +103,7 @@
     <Compile Include="Painters\ShapePainter.cs" />
     <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
+    <Compile Include="Presenter\PresenterItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LayerGroupService.cs" />
     <Compile Include="Events\FindElementEvent.cs" />

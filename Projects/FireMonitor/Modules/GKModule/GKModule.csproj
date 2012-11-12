@@ -106,6 +106,7 @@
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectCommandSendHelper.cs" />
+    <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DriverCounterReport.cs" />
     <Compile Include="Reports\JournalReport.cs" />
