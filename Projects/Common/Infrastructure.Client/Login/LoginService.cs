@@ -68,17 +68,17 @@ namespace Infrastructure.Client.Login
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			Login = loginViewModel.UserName;
 			Password = loginViewModel.Password;
-            try
-            {
-                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                saveKey.SetValue("Login", Login);
-                saveKey.SetValue("Password", Password);
-                saveKey.Close();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "LoginService.Execute");
-            }
+            //try
+            //{
+            //    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+            //    saveKey.SetValue("Login", Login);
+            //    saveKey.SetValue("Password", Password);
+            //    saveKey.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Error(ex, "LoginService.Execute");
+            //}
 			return loginViewModel.IsConnected;
 		}
 	}

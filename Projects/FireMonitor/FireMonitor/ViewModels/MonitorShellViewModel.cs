@@ -28,16 +28,6 @@ namespace FireMonitor.ViewModels
 		{
             if (App.IsClosingOnException)
             {
-                try
-                {
-                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                    saveKey.SetValue("isException", true);
-                    saveKey.Close();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "MonitorShellViewModel.OnClosing");
-                }
                 return false;
             }
 		    if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))

@@ -6,6 +6,7 @@ using System.Windows;
 using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using Microsoft.Win32;
 
 namespace Infrastructure.Common.Windows
 {
@@ -27,7 +28,12 @@ namespace Infrastructure.Common.Windows
 				win.AllowsTransparency = allowsTransparency;
 				PrepareWindow(model);
 				bool? result = win.ShowDialog();
-				return result.HasValue ? result.Value : false;
+                if (result == true)
+                {
+                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                    saveKey.SetValue("isException", true);
+                }
+			    return result.HasValue ? result.Value : false;
 			}
 			catch (Exception e)
 			{

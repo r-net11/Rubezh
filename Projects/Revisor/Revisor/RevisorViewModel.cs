@@ -24,8 +24,8 @@ namespace Revisor
                     RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
                     var firemonitorpath = (string)readKey.GetValue("FireMonitorPath");
                     var isException = readKey.GetValue("isException");
-                    var Login = readKey.GetValue("Login");
-                    var Password = readKey.GetValue("Password");
+                    //var Login = readKey.GetValue("Login");
+                    //var Password = readKey.GetValue("Password");
                     readKey.Close();
 
                     if (!String.IsNullOrEmpty(firemonitorpath))
