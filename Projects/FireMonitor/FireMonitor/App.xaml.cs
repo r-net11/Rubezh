@@ -37,7 +37,10 @@ namespace FireMonitor
                 var isAutoConnect = saveKey.GetValue("isAutoConnect");
                 if (isAutoConnect != null)
                     if (isAutoConnect.Equals("True"))
+                    {
                         AppSettingsManager.AutoConnect = true;
+                        saveKey.SetValue("isAutoConnect", false);
+                    }
                 saveKey.Close();
             }
             catch (Exception ex)

@@ -36,9 +36,8 @@ namespace Revisor
                         if ((processes.Count() == 0) && (isException.Equals("True")))// && (processes2.Count() == 0))
                         {
                             RegistryKey savekey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                            savekey.SetValue("isAutoConnection", true);
+                            savekey.SetValue("isAutoConnect", true);
                             Process.Start(firemonitorpath);
-                            savekey.SetValue("isAutoConnection", false);
                             savekey.Close();
                         }
                     }
