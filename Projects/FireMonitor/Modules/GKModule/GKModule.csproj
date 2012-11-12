@@ -130,6 +130,7 @@
     <Compile Include="Watcher\JournalWatcher.Connection.cs" />
     <Compile Include="Watcher\JournalWatcher.cs" />
     <Compile Include="GKModuleLoader.cs" />
+    <Compile Include="Watcher\JournalWatcher.GKSync.cs" />
     <Compile Include="Watcher\JournalWatcherManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -27,6 +27,10 @@ namespace Common.GK
 
 			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Дым" });
 
+			driver.AUParameters.Add(new XAUParameter() { No = 0x86, Name = "Текущая запыленность" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x87, Name = "Порог запыленности предварительный" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x8A, Name = "Порог запыленности критический" });
+
 			return driver;
 		}
 	}

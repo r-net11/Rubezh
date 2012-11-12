@@ -51,7 +51,7 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
+                        <Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToJournalColorConverter}}" />
                     </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 using Common;
 using Common.GK;
 using Infrastructure;
@@ -7,6 +8,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
 using System.Windows.Threading;
+using GKModule.ViewModels;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -34,6 +37,10 @@ namespace GKModule
                 {
                     GetState(binaryObject.BinaryBase, gkDatabase.RootDevice);
                 }
+				foreach (var binaryObject in gkDatabase.BinaryObjects)
+				{
+					GetParameters(binaryObject.BinaryBase, gkDatabase.RootDevice);
+				}
             }
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
         }
@@ -63,6 +70,51 @@ namespace GKModule
 			}
 		}
 
+		static void GetParameters(XBinaryBase binaryBase, XDevice gkParent)
+		{
+			var device = binaryBase as XDevice;
+			if (device == null)
+				return;
+
+			var AUParameterValues = new List<AUParameterValue>();
+			foreach (var auParameter in device.Driver.AUParameters)
+			{
+				var bytes = new List<byte>();
+				var databaseNo = device.GetDatabaseNo(DatabaseType.Kau);
+				bytes.Add((byte)device.Driver.DriverTypeNo);
+				bytes.Add(device.IntAddress);
+				bytes.Add((byte)(device.ShleifNo - 1));
+				bytes.Add(auParameter.No);
+				var result = SendManager.Send(device.KauDatabaseParent, 4, 128, 2, bytes);
+				if (!result.HasError)
+				{
+					if (result.Bytes.Count > 0)
+					{
+						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 0);
+						var auParameterValue = new AUParameterValue()
+						{
+							Name = auParameter.Name,
+							Value = parameterValue
+						};
+						AUParameterValues.Add(auParameterValue);
+					}
+				}
+			}
+
+			var currentDustinessParameter = AUParameterValues.FirstOrDefault(x => x.Name == "Текущая запыленность");
+			var criticalDustinessParameter = AUParameterValues.FirstOrDefault(x => x.Name == "Порог запыленности предварительный");
+			if (currentDustinessParameter != null && criticalDustinessParameter != null)
+			{
+				if (currentDustinessParameter.Value > 0 && currentDustinessParameter.Value > 0)
+				{
+					if (currentDustinessParameter.Value - criticalDustinessParameter.Value > 0)
+					{
+						ApplicationService.Invoke(() => { device.DeviceState.IsService = true; });
+					}
+				}
+			}
+		}
+
 		public static void SetObjectStates(XBinaryBase binaryBase, List<XStateType> states)
 		{
 			if (binaryBase is XDevice)
@@ -79,6 +131,19 @@ namespace GKModule
 			{
 				var direction = binaryBase as XDirection;
 				direction.DirectionState.States = states;
+			}
+		}
+
+		public static void CheckServiceRequired(XBinaryBase binaryBase, JournalItem journalItem)
+		{
+			if(journalItem.Name != "Запыленность")
+				return;
+
+			if (binaryBase is XDevice)
+			{
+				var device = binaryBase as XDevice;
+				bool isDusted = journalItem.YesNo == "Есть";
+				ApplicationService.Invoke(() => { device.DeviceState.IsService = isDusted; });
 			}
 		}
 

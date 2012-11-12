@@ -18,13 +18,10 @@ namespace GKModule
         public bool IsStopped = false;
         GkDatabase GkDatabase;
         int LastId = -1;
-        int LastDBNo;
 
         public JournalWatcher(GkDatabase gkDatabase)
         {
             GkDatabase = gkDatabase;
-            var gkIpAddress = XManager.GetIpAddress(gkDatabase.RootDevice);
-            LastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
         }
 
         public void PingJournal()
@@ -84,12 +81,18 @@ namespace GKModule
                 var journalItem = ReadJournal(index);
                 if (journalItem != null)
                 {
+					ApplicationService.Invoke(() =>
+					{
+						LoadingService.DoStep(journalItem.GKJournalRecordNo.ToString());
+					});
+
                     journalItems.Add(journalItem);
                     var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
                     if (binaryObject != null)
                     {
                         ApplicationService.Invoke(() =>
                         {
+							StatesWatcher.CheckServiceRequired(binaryObject.BinaryBase, journalItem);
                             StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState));
                             ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
                         });
@@ -98,24 +101,8 @@ namespace GKModule
             }
             if (journalItems.Count > 0)
             {
-                foreach (var journalItem in journalItems)
-                {
-                    if (journalItem.GKJournalRecordNo > LastDBNo)
-                    {
-                        GKDBHelper.Add(journalItem);
-                        LastDBNo = journalItem.GKJournalRecordNo.Value;
-                    }
-                }
+				GKDBHelper.AddMany(journalItems);
                 ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
-            }
-        }
-
-        public void GetLastJournalItems(int count)
-        {
-            var lastId = GetLastId();
-            if (lastId != -1)
-            {
-                ReadAndPublish(Math.Max(0, lastId - count), lastId);
             }
         }
     }
