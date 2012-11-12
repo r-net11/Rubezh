@@ -1,23 +1,33 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.ServiceProcess;
 using System.Threading;
-using Common;
 using Microsoft.Win32;
-using Infrastructure.Common;
 
-namespace Revisor
+namespace InspectService
 {
-    public class RevisorViewModel
+    public partial class Inspector : ServiceBase
     {
-        public RevisorViewModel()
+        public Inspector()
         {
-            StartCommand = new RelayCommand(OnStart);
-            StopCommand = new RelayCommand(OnStop);
+            InitializeComponent();
         }
+
+        protected override void OnStart(string[] args)
+        {
+            StartLifetimeThread();
+        }
+
+        protected override void OnStop()
+        {
+            LifetimeThread.Abort();
+            LifetimeThread = null;
+        }
+
         public void Inspect()
         {
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -30,37 +40,23 @@ namespace Revisor
                     {
                         var processes = Process.GetProcessesByName("FireMonitor");
                         var processes2 = Process.GetProcessesByName("FireMonitor.vshost");
-                        if(isException != null)
-                        if ((processes.Count() == 0) && (isException.Equals("True")))// && (processes2.Count() == 0))
-                        {
-                            RegistryKey savekey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                            savekey.SetValue("isAutoConnect", true);
-                            Process.Start(firemonitorpath);
-                            savekey.Close();
-                        }
+                        if (isException != null)
+                            if ((processes.Count() == 0) && (isException.Equals("True")))// && (processes2.Count() == 0))
+                            {
+                                RegistryKey savekey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                                savekey.SetValue("isAutoConnect", true);
+                                Process.Start(firemonitorpath);
+                                savekey.Close();
+                            }
                     }
                 }
                 catch (Exception ex)
                 {
                     throw ex;
-                    Logger.Error(ex, "RevisorViewModel.Inspect");
                 }
-                if (StopLifetimeEvent.WaitOne(10000))
+                if (StopLifetimeEvent.WaitOne(20000))
                     break;
             }
-        }
-
-        public RelayCommand StartCommand { get; private set; }
-        public void OnStart()
-        {
-            StartLifetimeThread();
-        }
-
-        public RelayCommand StopCommand { get; private set; }
-        public void OnStop()
-        {
-            LifetimeThread.Abort();
-            LifetimeThread = null;
         }
 
         static AutoResetEvent StopLifetimeEvent;
@@ -87,6 +83,5 @@ namespace Revisor
                 LifetimeThread.Join(TimeSpan.FromSeconds(1));
             }
         }
-
     }
 }
