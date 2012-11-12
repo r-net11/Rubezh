@@ -65,8 +65,10 @@ namespace Infrastructure.Client
 						{
 							module.Initialize();
 						}
-						catch (Exception)
-						{ };
+						catch (Exception e)
+						{
+							Logger.Error(e, "BaseBootstrapper.InitializeModules");
+						};
                     }
 				}
 				catch (Exception e)

@@ -105,6 +105,10 @@ namespace FiresecClient
             {
                 Logger.Error("FiresecClient.SafeOperationCall CommunicationObjectFaultedException " + methodName);
             }
+			if (e is ObjectDisposedException)
+			{
+				Logger.Error("FiresecClient.SafeOperationCall ObjectDisposedException " + methodName);
+			}
             else
             {
                 Logger.Error(e, "FiresecClient.SafeOperationCall " + methodName);

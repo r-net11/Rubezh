@@ -40,7 +40,10 @@ namespace PlansModule.ViewModels
 
 		private void OnSelectedPlanChanged()
 		{
-			PlanDesignerViewModel.Initialize(SelectedPlan);
+			if (SelectedPlan != null)
+			{
+				PlanDesignerViewModel.Initialize(SelectedPlan);
+			}
 			OnPropertyChanged("SelectedPlan");
 		}
 
