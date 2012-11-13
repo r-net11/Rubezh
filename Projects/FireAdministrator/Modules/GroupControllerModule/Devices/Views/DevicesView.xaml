@@ -26,7 +26,7 @@
             <RowDefinition Height="150" MinHeight="150" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False" VirtualizingStackPanel.IsVirtualizing="True">
+            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged" IsReadOnly="False" VirtualizingStackPanel.IsVirtualizing="True">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Устройство" Width="250">
                         <DataGridTemplateColumn.CellTemplate>

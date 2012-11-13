@@ -24,7 +24,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Не выбранные зоны" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Выбранные зоны" />
                     <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
                 </GridView>
             </ListView.View>

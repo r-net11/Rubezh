@@ -96,13 +96,12 @@ namespace FiresecService.Service
 
         public string Ping()
         {
-            return "Hello";
+            return "Pong";
         }
 
         public void NotifyClientsOnConfigurationChanged()
         {
-            var thread = new Thread(new ThreadStart(() => { ClientsCash.OnConfigurationChanged(); }));
-            thread.Start();
+			ClientsCash.OnConfigurationChanged();
         }
 	}
 }

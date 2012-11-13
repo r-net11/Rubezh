@@ -65,6 +65,7 @@ namespace DevicesModule.ViewModels
         {
             if (deviceUID != Guid.Empty)
             {
+				FillAllDevices();
                 var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
                 if (deviceViewModel != null)
                     deviceViewModel.ExpantToThis();

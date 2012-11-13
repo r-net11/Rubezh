@@ -19,10 +19,10 @@ namespace GKModule.ViewModels
 
 		public AlarmsViewModel()
 		{
-            alarms = new List<Alarm>();
+			alarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
-			TurnOnAllCommand = new RelayCommand(OnTurnOnAll);
-			ResetAllCommand = new RelayCommand(OnResetAll);
+			TurnOnAllCommand = new RelayCommand(OnTurnOnAll, CanTurnOnAll);
+			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChanged);
 		}
@@ -45,7 +45,8 @@ namespace GKModule.ViewModels
 			alarms = new List<Alarm>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (!device.Driver.IsDeviceOnShleif || device.Driver.IsGroupDevice)
+				if ((!device.Driver.IsDeviceOnShleif || device.Driver.IsGroupDevice)
+					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU)
 					continue;
 
 				foreach (var stateType in device.DeviceState.States)
@@ -60,9 +61,9 @@ namespace GKModule.ViewModels
 							alarms.Add(new Alarm(XAlarmType.Failure, device));
 							break;
 
-                        case XStateType.On:
-                            alarms.Add(new Alarm(XAlarmType.Info, device));
-                            break;
+						case XStateType.On:
+							alarms.Add(new Alarm(XAlarmType.Info, device));
+							break;
 
 						case XStateType.Test:
 							alarms.Add(new Alarm(XAlarmType.Info, device));
@@ -81,9 +82,9 @@ namespace GKModule.ViewModels
 				{
 					switch (stateType)
 					{
-                        case XStateType.Fire2:
-                            alarms.Add(new Alarm(XAlarmType.Fire2, zone));
-                            break;
+						case XStateType.Fire2:
+							alarms.Add(new Alarm(XAlarmType.Fire2, zone));
+							break;
 
 						case XStateType.Fire1:
 							alarms.Add(new Alarm(XAlarmType.Fire1, zone));
@@ -183,6 +184,30 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
+		bool CanTurnOnAll()
+		{
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				if (!device.Driver.IsDeviceOnShleif)
+					continue;
+
+				if (device.DeviceState.States.Contains(XStateType.Ignore))
+					return true;
+			}
+
+			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			{
+				if (zone.ZoneState.States.Contains(XStateType.Ignore))
+					return true;
+			}
+
+			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			{
+				if (direction.DirectionState.States.Contains(XStateType.Ignore))
+					return true;
+			}
+			return false;
+		}
 
 		public RelayCommand ResetAllCommand { get; private set; }
 		void OnResetAll()
@@ -198,6 +223,17 @@ namespace GKModule.ViewModels
 					ObjectCommandSendHelper.SendControlCommand(zone, 0x03);
 				}
 			}
+		}
+		bool CanResetAll()
+		{
+			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			{
+				if (zone.ZoneState.States.Contains(XStateType.Fire1))
+					return true;
+				if (zone.ZoneState.States.Contains(XStateType.Fire2))
+					return true;
+			}
+			return false;
 		}
 	}
 }

@@ -4,10 +4,12 @@ using Infrastructure.Common;
 using XFiresecAPI;
 using FiresecClient;
 using FiresecAPI.Models;
+using System.ComponentModel;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceCommandsViewModel
+	public class DeviceCommandsViewModel : BaseViewModel
 	{
 		public XDeviceState DeviceState { get; private set; }
 		public XDevice Device { get { return DeviceState.Device; } }
@@ -20,12 +22,17 @@ namespace GKModule.ViewModels
 			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
 			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
 			TurnOnCommand = new RelayCommand(OnTurnOn, CanTurnOn);
-            TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
-            TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanTurnOnNow);
-            TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanTurnOffNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanTurnOnNow);
+			TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanTurnOffNow);
 			CancelDelayCommand = new RelayCommand(OnCancelDelay, CanCancelDelay);
 			StopCommand = new RelayCommand(OnStop, CanStop);
 			CancelStartCommand = new RelayCommand(OnCancelStart, CanCancelStart);
+
+			AvailableControlRegimes = new List<DeviceControlRegime>();
+			AvailableControlRegimes.Add(DeviceControlRegime.Automatic);
+			AvailableControlRegimes.Add(DeviceControlRegime.Manual);
+			AvailableControlRegimes.Add(DeviceControlRegime.Ignore);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
@@ -35,7 +42,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-            return !DeviceState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return !DeviceState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -45,7 +52,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-            return DeviceState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
+			return DeviceState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
 		}
 
 		public RelayCommand SetAutomaticCommand { get; private set; }
@@ -75,7 +82,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOn()
 		{
-            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand CancelDelayCommand { get; private set; }
@@ -95,7 +102,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOff()
 		{
-            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand StopCommand { get; private set; }
@@ -125,7 +132,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOnNow()
 		{
-            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand TurnOffNowCommand { get; private set; }
@@ -135,7 +142,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOffNow()
 		{
-            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		void SendControlCommand(byte code)
@@ -149,6 +156,51 @@ namespace GKModule.ViewModels
 		public bool CanControl
 		{
 			get { return Device.Driver.IsDeviceOnShleif; }
+		}
+
+		public List<DeviceControlRegime> AvailableControlRegimes { get; private set; }
+
+		public DeviceControlRegime SelectedControlRegime
+		{
+			get
+			{
+				if (DeviceState.States.Contains(XStateType.Ignore))
+					return DeviceControlRegime.Ignore;
+
+				if (DeviceState.States.Contains(XStateType.Norm))
+					return DeviceControlRegime.Automatic;
+
+				return DeviceControlRegime.Manual;
+			}
+			set
+			{
+				switch (value)
+				{
+					case DeviceControlRegime.Automatic:
+						OnSetAutomatic();
+						OnResetIgnore();
+						break;
+
+					case DeviceControlRegime.Manual:
+						OnResetAutomatic();
+						OnResetIgnore();
+						break;
+
+					case DeviceControlRegime.Ignore:
+						OnSetIgnore();
+						OnResetAutomatic();
+						break;
+				}
+
+				OnPropertyChanged("SelectedControlRegime");
+				OnPropertyChanged("IsControlRegime");
+			}
+		}
+
+		public bool IsControlRegime
+		{
+			get { return true; }
+			//get { return SelectedControlRegime == DeviceControlRegime.Manual; }
 		}
 	}
 }

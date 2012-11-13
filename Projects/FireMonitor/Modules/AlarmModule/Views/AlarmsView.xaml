@@ -53,7 +53,9 @@
         <Grid Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <TextBlock Text="{Binding Instruction.Text}" />
+                    <WrapPanel Margin="1">
+                        <TextBlock Text="{Binding Instruction.Text}" Foreground="White" TextWrapping="Wrap" />
+                    </WrapPanel>
                 </ScrollViewer>
             </Border>
         </Grid>

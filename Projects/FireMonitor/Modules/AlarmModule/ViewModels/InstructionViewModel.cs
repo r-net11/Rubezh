@@ -12,12 +12,16 @@ namespace AlarmModule.ViewModels
 	{
 		public InstructionViewModel(Device device, Zone zone, AlarmType alarmType)
 		{
-			Title = "Инструкции";
+			Title = "Инструкция ";
 			StateType = AlarmTypeToStateType(alarmType);
             AlarmType = alarmType;
 
             Instruction = FindInstruction(device, zone);
 			HasContent = Instruction != null;
+			if (Instruction != null)
+			{
+				Title += Instruction.Name;
+			}
 		}
 
 		public bool HasContent { get; private set; }

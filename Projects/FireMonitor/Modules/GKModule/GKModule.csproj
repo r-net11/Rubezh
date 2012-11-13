@@ -114,6 +114,7 @@
     <Compile Include="Reports\JournalReport.cs" />
     <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="ShowOnPlanHelper.cs" />
+    <Compile Include="ViewModels\DeviceControlRegime.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />

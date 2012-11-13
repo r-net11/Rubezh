@@ -4,6 +4,7 @@ using Common;
 using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
+using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {
@@ -28,7 +29,16 @@ namespace FiresecServiceRunner
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Logger.Error((Exception)e.ExceptionObject, "Исключение при вызове App.CurrentDomain_UnhandledException");
+            Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
+
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location
+			};
+			System.Diagnostics.Process.Start(processStartInfo);
+
+			Application.Current.MainWindow.Close();
+			Application.Current.Shutdown();
         }
     }
 }

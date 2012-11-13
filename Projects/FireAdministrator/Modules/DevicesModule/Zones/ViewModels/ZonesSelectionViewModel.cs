@@ -18,7 +18,7 @@ namespace DevicesModule.ViewModels
 
 		public ZonesSelectionViewModel(Device device, List<Guid> zones, ZoneLogicState zoneLogicState)
 		{
-			Title = "Выбор зон";
+			Title = "Выбор зон устройства " + device.PresentationAddressAndDriver;
             AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
@@ -56,6 +56,9 @@ namespace DevicesModule.ViewModels
 
 				if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn) || (zoneLogicState == ZoneLogicState.Firefighting))
 				{
+					if (!zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT))
+						continue;
+
                     //if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneUID == zone.UID) == false)
                     //{
                     //    continue;

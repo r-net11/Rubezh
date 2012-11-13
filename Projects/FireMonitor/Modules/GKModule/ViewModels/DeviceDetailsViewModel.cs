@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Common.GK;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GKModule.ViewModels
 {

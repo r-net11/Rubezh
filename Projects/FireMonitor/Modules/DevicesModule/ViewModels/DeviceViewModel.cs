@@ -386,38 +386,35 @@ namespace DevicesModule.ViewModels
 
 		void ShowTimerDetails()
 		{
-			if (ServiceFactory.AppSettings.CanControl)
+			if (Device.Driver.DriverType == DriverType.MPT)
 			{
-				if (Device.Driver.DriverType == DriverType.MPT)
+				var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "MPT_On");
+				if (deviceDriverState != null)
 				{
-					var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "MPT_On");
-					if (deviceDriverState != null)
+					if (DateTime.Now > deviceDriverState.Time)
 					{
-						if (DateTime.Now > deviceDriverState.Time)
+						var timeSpan = deviceDriverState.Time - DateTime.Now;
+
+						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
+						if (timeoutProperty != null)
 						{
-							var timeSpan = deviceDriverState.Time - DateTime.Now;
-
-							var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
-							if (timeoutProperty != null)
+							int timeout = 0;
+							try
 							{
-								int timeout = 0;
-								try
-								{
-									timeout = int.Parse(timeoutProperty.Value);
-								}
-								catch (Exception e)
-								{
-									Logger.Error(e, "DeviceViewModel.ShowTimerDetails");
-									return;
-								}
+								timeout = int.Parse(timeoutProperty.Value);
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "DeviceViewModel.ShowTimerDetails");
+								return;
+							}
 
-								int secondsLeft = timeout - timeSpan.Value.Seconds;
-								if (secondsLeft > 0)
-								{
-									var mptTimerViewModel = new MPTTimerViewModel(Device);
-									DialogService.ShowWindow(mptTimerViewModel);
-									mptTimerViewModel.StartTimer(secondsLeft);
-								}
+							int secondsLeft = timeout - timeSpan.Value.Seconds;
+							if (secondsLeft > 0)
+							{
+								var mptTimerViewModel = new MPTTimerViewModel(Device);
+								DialogService.ShowWindow(mptTimerViewModel);
+								mptTimerViewModel.StartTimer(secondsLeft);
 							}
 						}
 					}

@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using System;
 using Infrastructure;
 using GKModule.Events;
+using FiresecClient;
 
 namespace GKModule
 {
@@ -26,10 +27,8 @@ namespace GKModule
             JournalWatchers = new List<JournalWatcher>();
             foreach (var gkDatabase in DatabaseManager.GkDatabases)
             {
-                var ipAddress = gkDatabase.RootDevice.GetGKIpAddress();
-                if (string.IsNullOrEmpty(ipAddress))
+				if (!XManager.IsValidIpAddress(gkDatabase.RootDevice))
                 {
-                    Logger.Error("JournalWatcherManager.Start ipAddress = null");
                     continue;
                 }
                 var journalWatcher = new JournalWatcher(gkDatabase);

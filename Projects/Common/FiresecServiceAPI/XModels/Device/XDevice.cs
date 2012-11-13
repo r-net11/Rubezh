@@ -104,6 +104,11 @@ namespace XFiresecAPI
         {
             get
             {
+				if (Driver.DriverType == XDriverType.GK)
+				{
+					return Address;
+				}
+
                 var address = new StringBuilder();
                 foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
                 {
@@ -136,13 +141,10 @@ namespace XFiresecAPI
             }
         }
 
-        public string ShortNameAndDottedAddress
-        {
-            get
-            {
-                return ShortName + " " + DottedAddress;
-            }
-        }
+		public string ShortNameAndDottedAddress
+		{
+			get { return ShortName + " " + DottedAddress; }
+		}
 
         public string PresentationAddressAndDriver
         {
@@ -295,6 +297,26 @@ namespace XFiresecAPI
                 }
             }
         }
+
+		int SortingAddress
+		{
+			get
+			{
+				if (!Driver.HasAddress)
+					return 0;
+				if (Driver.IsDeviceOnShleif)
+					return ShleifNo * 256 + IntAddress;
+				return IntAddress;
+			}
+		}
+
+		public void SynchronizeChildern()
+		{
+			if (Children.Count > 0)
+			{
+				Children = new List<XDevice>(Children.OrderBy(x => { return x.SortingAddress; }));
+			}
+		}
 
         public void OnChanged()
         {

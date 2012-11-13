@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+using System.Text.RegularExpressions;
 
 namespace FiresecClient
 {
@@ -122,6 +123,20 @@ namespace FiresecClient
 					}
 				}
 			}
+		}
+
+		public static bool IsValidIpAddress(XDevice device)
+		{
+			if (device.Driver.DriverType == XDriverType.GK)
+			{
+				const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
+				var address = device.GetGKIpAddress();
+				if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

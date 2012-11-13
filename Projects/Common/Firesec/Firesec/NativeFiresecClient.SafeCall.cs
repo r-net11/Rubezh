@@ -23,7 +23,7 @@ namespace Firesec
 					}
 				)
 			);
-			CheckForRead();
+			//CheckForRead();
 			return safeCallResult;
         }
 

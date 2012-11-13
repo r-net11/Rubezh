@@ -35,18 +35,16 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (!Device.IsRealDevice)
-					return new List<XStateType>();
-
 				if (IsConnectionLost)
 					return new List<XStateType>();
-				else
-				{
-					if (_states == null)
-						_states = new List<XStateType>();
-					_states.Remove(XStateType.Save);
-					return _states;
-				}
+
+				if (!Device.IsRealDevice)
+					return new List<XStateType>() { XStateType.Norm };
+
+				if (_states == null)
+					_states = new List<XStateType>();
+				_states.Remove(XStateType.Save);
+				return _states;
 			}
 			set
 			{

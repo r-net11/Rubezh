@@ -4,6 +4,7 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -11,8 +12,6 @@ namespace FiresecService.Service
     {
         public string Test(string arg)
         {
-            //CallbackNewJournal(new List<JournalRecord>() { new JournalRecord() { Description = "Test JournalRecord" } });
-            CallbackConfigurationChanged();
             return "Test";
         }
 
@@ -42,12 +41,15 @@ namespace FiresecService.Service
             return null;
         }
 
-        public List<CallbackResult> ShortPoll()
-        {
-            var callbackResults = new List<CallbackResult>(CallbackResults);
-            CallbackResults = new List<CallbackResult>();
-            return callbackResults;
-        }
+		public List<CallbackResult> ShortPoll()
+		{
+			lock (CallbackResultsLocker)
+			{
+				var callbackResults = new List<CallbackResult>(CallbackResults);
+				CallbackResults = new List<CallbackResult>();
+				return callbackResults;
+			}
+		}
 
         private void PollCallback(object state)
         {
@@ -108,18 +110,22 @@ namespace FiresecService.Service
             AddCallback(callbackResult);
         }
 
-        void AddCallback(CallbackResult callbackResult)
-        {
-            if (CallbackResults.Count > 10)
-                CallbackResults.RemoveAt(0);
-            CallbackResults.Add(callbackResult);
-            if (StopPingEvent != null)
-            {
-                StopPingEvent.Set();
-            }
-        }
+		void AddCallback(CallbackResult callbackResult)
+		{
+			lock (CallbackResultsLocker)
+			{
+				if (CallbackResults.Count > 10)
+					CallbackResults.RemoveAt(0);
+				CallbackResults.Add(callbackResult);
+				if (StopPingEvent != null)
+				{
+					StopPingEvent.Set();
+				}
+			}
+		}
 
         List<CallbackResult> CallbackResults = new List<CallbackResult>();
         AutoResetEvent StopPingEvent;
+		object CallbackResultsLocker = new object();
     }
 }

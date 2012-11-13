@@ -23,6 +23,7 @@ namespace GKModule.Validation
 				ValidateDeviceLogic(device);
 				ValidateGKNotEmptyChildren(device);
 				ValidateKAUNotEmptyChildren(device);
+				ValidatePumpAddresses(device);
 			}
 		}
 
@@ -41,14 +42,9 @@ namespace GKModule.Validation
 
 		static void ValidateIPAddress(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (!XManager.IsValidIpAddress(device))
 			{
-				const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
-				var address = device.GetGKIpAddress();
-				if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
-				{
-					Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
-				}
+				Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -105,6 +101,15 @@ namespace GKModule.Validation
 			{
 				if (device.Children.Count <= 1)
 					Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		static void ValidatePumpAddresses(XDevice device)
+		{
+			if (device.Driver.DriverType == XDriverType.Pump)
+			{
+				if (device.IntAddress < 1 || device.IntAddress > 8)
+					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 8", ValidationErrorLevel.CannotWrite));
 			}
 		}
 	}
