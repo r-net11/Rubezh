@@ -9,9 +9,9 @@ using FiresecAPI.Models;
 
 namespace Firesec
 {
-    public partial class FiresecDriver
+    public static partial class FiresecDriverAuParametersHelper
     {
-        public void SetConfigurationParameters(Guid deviceUID, List<Property> properties)
+        public static void SetConfigurationParameters(Guid deviceUID, List<Property> properties)
         {
             var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             var binProperties = new List<BinProperty>();
@@ -30,12 +30,6 @@ namespace Firesec
                             No = driverProperty.No
                         };
                         binProperties.Add(binProperty);
-                    }
-                    if (binProperty.No == 0x8e
-                        //&& binProperty.No <= 0xbf
-                    )
-                    {
-                        ;
                     }
 
                     int intValue = 0;
@@ -100,7 +94,7 @@ namespace Firesec
             }
         }
 
-        int ExchengeLowAndHigtBytes(int value)
+        static int ExchengeLowAndHigtBytes(int value)
         {
             return value / 256 + (value - (value / 256) * 256) * 256;
         }

@@ -15,7 +15,8 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceCommandsViewModel : BaseViewModel
     {
-        DevicesViewModel _devicesViewModel;
+        DevicesViewModel DevicesViewModel;
+        public DeviceCommandsAuParametersViewModel DeviceCommandsAuParametersViewModel { get; private set; }
 
         public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
         {
@@ -30,19 +31,14 @@ namespace DevicesModule.ViewModels
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
-            GetConfigurationParametersCommand = new RelayCommand(OnGetConfigurationParameters, CanGetConfigurationParameters);
-            SetConfigurationParametersCommand = new RelayCommand(OnSetConfigurationParameters, CanSetConfigurationParameters);
 
-            ResetConfigurationParametersCommand = new RelayCommand(OnResetConfigurationParameters, CanGetConfigurationParameters);
-            GetAllDeviceConfigurationParametersCommand = new RelayCommand(OnGetAllDeviceConfigurationParameters, CanGetAllDeviceConfigurationParameters);
-            SetAllDeviceConfigurationParametersCommand = new RelayCommand(OnSetAllDeviceConfigurationParameters, CanSetAllDeviceConfigurationParameters);
-
-            _devicesViewModel = devicesViewModel;
+            DevicesViewModel = devicesViewModel;
+            DeviceCommandsAuParametersViewModel = new ViewModels.DeviceCommandsAuParametersViewModel(DevicesViewModel);
         }
 
         public DeviceViewModel SelectedDevice
         {
-            get { return _devicesViewModel.SelectedDevice; }
+            get { return DevicesViewModel.SelectedDevice; }
         }
 
         public RelayCommand AutoDetectCommand { get; private set; }
@@ -176,158 +172,6 @@ namespace DevicesModule.ViewModels
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
         }
-
-        public RelayCommand ResetConfigurationParametersCommand { get; private set; }
-        void OnResetConfigurationParameters()
-        {
-            foreach (var property in SelectedDevice.Device.Properties)
-            {
-                try
-                {
-                    var driverProperty = SelectedDevice.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                    if (driverProperty != null)
-                    {
-                        property.Value = driverProperty.Default;
-                    }
-                }
-                catch (Exception)
-                {
-                }
-                SelectedDevice.UpdataConfigurationProperties();
-            }
-        }
-
-        #region GetConfig
-        public RelayCommand GetConfigurationParametersCommand { get; private set; }
-        void OnGetConfigurationParameters()
-        {
-            WaitHelper.Execute(() =>
-            {
-                OperationResult<bool> result = FiresecManager.FiresecDriver.BeginGetConfigurationParameters(SelectedDevice.Device);
-                if (result.HasError)
-                {
-                    MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
-					return;
-                }
-				SelectedDevice.PropertiesViewModel.IsAuParametersReady = false;
-            });
-        }
-        bool CanGetConfigurationParameters()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
-        }
-        #endregion
-
-        #region SetConfig
-        public RelayCommand SetConfigurationParametersCommand { get; private set; }
-        void OnSetConfigurationParameters()
-        {
-            WaitHelper.Execute(() =>
-            {
-                foreach (var property in SelectedDevice.Device.Properties)
-                {
-                    var driverProperty = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                    if (ValidSet(property, driverProperty))
-                    {
-                        MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
-                        return;
-                    }
-
-                }
-                FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
-            });
-        }
-
-        bool ValidSet(Property property, DriverProperty driverProperty)
-        {
-            int value;
-            return
-                    driverProperty != null &&
-                    driverProperty.IsAUParameter &&
-                    driverProperty.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
-                    (!int.TryParse(property.Value, out value) ||
-                    (value < driverProperty.Min || value > driverProperty.Max));
-        }
-
-        bool CanSetConfigurationParameters()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
-        }
-        #endregion
-
-        #region SetAllCommand
-        public RelayCommand SetAllDeviceConfigurationParametersCommand { get; private set; }
-        void OnSetAllDeviceConfigurationParameters()
-        {
-            LoadingService.ShowProgress("", "Запись параметров в дочерние устройства", SelectedDevice.Children.Count());
-            foreach (var childDevice in SelectedDevice.Children)
-            {
-                foreach (var property in childDevice.Device.Properties)
-                {
-                    var prop = childDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                    if (prop != null &&
-                        prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
-                        (int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
-                        )
-                    {
-                        property.Value = prop.Min.ToString();
-                        MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
-                        return;
-                    }
-                }
-            }
-            foreach (var childDevice in SelectedDevice.Children)
-            {
-                LoadingService.DoStep(childDevice.Device.Driver.ShortName + " " + childDevice.Address);
-                FiresecManager.FiresecDriver.SetConfigurationParameters(childDevice.Device.UID, childDevice.Device.Properties);
-            }
-            LoadingService.Close();
-        }
-        bool CanSetAllDeviceConfigurationParameters()
-        {
-            foreach (var childDevice in SelectedDevice.Children)
-            {
-                if ((childDevice != null) && (childDevice.Device.Driver.HasConfigurationProperties))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        #endregion
-
-        #region GetAllCommand
-        public RelayCommand GetAllDeviceConfigurationParametersCommand { get; private set; }
-        void OnGetAllDeviceConfigurationParameters()
-        {
-            LoadingService.ShowProgress("", "Считывание параметров дочерних устройств", SelectedDevice.Children.Count());
-
-            foreach (var child in SelectedDevice.Children)
-            {
-                LoadingService.DoStep(child.Device.PresentationAddressAndDriver);
-                var result = FiresecManager.FiresecDriver.BeginGetConfigurationParameters(child.Device);
-                if (result.HasError)
-                {
-                    MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
-					return;
-                }
-				child.PropertiesViewModel.IsAuParametersReady = false;
-            };
-
-            LoadingService.Close();
-        }
-        bool CanGetAllDeviceConfigurationParameters()
-        {
-            foreach (var child in SelectedDevice.Children)
-            {
-                if ((child != null) && (child.Device.Driver.HasConfigurationProperties))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        #endregion
 
         public bool IsAlternativeUSB
         {
