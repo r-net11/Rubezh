@@ -29,6 +29,7 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
+            BallonTestCommand = new RelayCommand(OnBallonTest);
         }
 
 		public void StopThreads()
@@ -348,6 +349,12 @@ namespace DiagnosticsModule.ViewModels
             }));
             thread.IsBackground = true;
             thread.Start();
+        }
+
+        public RelayCommand BallonTestCommand { get; private set; }
+        void OnBallonTest()
+        {
+            ;
         }
     }
 
