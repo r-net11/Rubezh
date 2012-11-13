@@ -16,15 +16,17 @@ namespace InstructionsModule.Validation
 		{
 			get { return "FS"; }
 		}
-
-		public override string Source
-		{
-			get { return "Инструкция"; }
-		}
-
 		protected override Guid Key
 		{
 			get { return Object.UID; }
+		}
+		public override string Source
+		{
+			get { return Object.Name; }
+		}
+		public override string Address
+		{
+			get { return ""; }
 		}
 	}
 }
