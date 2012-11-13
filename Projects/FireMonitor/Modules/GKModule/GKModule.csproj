@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />

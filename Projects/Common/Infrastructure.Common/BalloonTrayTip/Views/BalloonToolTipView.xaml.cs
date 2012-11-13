@@ -15,9 +15,6 @@ using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для BalloonToolTipView.xaml
-    /// </summary>
     public partial class BalloonToolTipView : UserControl
     {
         public BalloonToolTipView()
@@ -27,12 +24,14 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void MyNotifyIcon_TrayBalloonTipClosed(object sender, RoutedEventArgs e)
         {
-            MyNotifyIcon.Dispose();
+            //MyNotifyIcon.Dispose();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            MyNotifyIcon.ShowBalloonTip(TitleBlock.Text, TextBlock.Text, MyNotifyIcon.Icon);
+            //MyNotifyIcon.ShowBalloonTip(TitleBlock.Text, TextBlock.Text, MyNotifyIcon.Icon);
         }
     }
 }
+
+//xmlns:tb="http://www.hardcodet.net/taskbar"

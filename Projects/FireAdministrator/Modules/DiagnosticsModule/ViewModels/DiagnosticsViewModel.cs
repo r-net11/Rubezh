@@ -170,7 +170,7 @@ namespace DiagnosticsModule.ViewModels
                 {
                     if (NativeFiresecClient.TasksCount > 10)
                         continue;
-                    Thread.Sleep(TimeSpan.FromMilliseconds(10));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
                     FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
                     if (count % 1000 == 0)
