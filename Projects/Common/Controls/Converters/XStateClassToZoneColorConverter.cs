@@ -5,7 +5,7 @@ using XFiresecAPI;
 
 namespace Controls.Converters
 {
-    public class XStateClassToColorConverter : IValueConverter
+    public class XStateClassToZoneColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -20,29 +20,14 @@ namespace Controls.Converters
                 case XStateClass.Attention:
                     return Brushes.Yellow;
 
-                case XStateClass.Failure:
-                    return Brushes.Pink;
-
-                case XStateClass.Service:
-                    return Brushes.Yellow;
-
                 case XStateClass.Ignore:
                     return Brushes.Yellow;
 
                 case XStateClass.Unknown:
                     return Brushes.Gray;
 
-                case XStateClass.On:
-                    return Brushes.LightBlue;
-
-                case XStateClass.AutoOff:
-                    return Brushes.Yellow;
-
-                case XStateClass.Info:
-                    return Brushes.Transparent;
-
                 case XStateClass.Norm:
-                    return Brushes.Transparent;
+                    return Brushes.Green;
 
                 default:
                     return Brushes.Transparent;

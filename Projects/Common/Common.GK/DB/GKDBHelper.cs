@@ -10,6 +10,22 @@ namespace Common.GK
     {
 		public static object locker = new object();
 
+		public static Journal JournalToJournalItem(JournalItem journalItem)
+		{
+			var journal = new Journal();
+			journal.GKIpAddress = journalItem.GKIpAddress;
+			journal.GKJournalRecordNo = journalItem.GKJournalRecordNo;
+			journal.JournalItemType = (byte)journalItem.JournalItemType;
+			journal.DateTime = journalItem.DateTime;
+			journal.Name = journalItem.Name;
+			journal.YesNo = journalItem.YesNo;
+			journal.Description = journalItem.Description;
+			journal.ObjectUID = journalItem.ObjectUID;
+			journal.ObjectState = journalItem.ObjectState;
+			journal.StateClass = (byte)journalItem.StateClass;
+			return journal;
+		}
+
 		public static void Add(JournalItem journalItem)
         {
 			try
@@ -18,17 +34,7 @@ namespace Common.GK
 				{
 					using (var dataContext = ConnectionManager.CreateGKDataContext())
 					{
-						var journal = new Journal();
-						journal.GKIpAddress = journalItem.GKIpAddress;
-						journal.GKJournalRecordNo = journalItem.GKJournalRecordNo;
-						journal.JournalItemType = (byte)journalItem.JournalItemType;
-						journal.DateTime = journalItem.DateTime;
-						journal.Name = journalItem.Name;
-						journal.YesNo = journalItem.YesNo;
-						journal.Description = journalItem.Description;
-						journal.ObjectUID = journalItem.ObjectUID;
-						journal.ObjectState = journalItem.ObjectState;
-						journal.StateClass = (byte)journalItem.StateClass;
+						var journal = JournalToJournalItem(journalItem);
 						dataContext.Journal.InsertOnSubmit(journal);
 						dataContext.SubmitChanges();
 					}
@@ -39,6 +45,34 @@ namespace Common.GK
 				Logger.Error(e, "GKDBHelper.Add");
 			}
         }
+
+		public static void AddMany(List<JournalItem> journalItems)
+		{
+			try
+			{
+				if (journalItems.Count == 0)
+					return;
+
+				lock (locker)
+				{
+					using (var dataContext = ConnectionManager.CreateGKDataContext())
+					{
+						var journals = new List<Journal>();
+						foreach (var journalItem in journalItems)
+						{
+							var journal = JournalToJournalItem(journalItem);
+							journals.Add(journal);
+						}
+						dataContext.Journal.InsertAllOnSubmit(journals);
+						dataContext.SubmitChanges();
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "GKDBHelper.AddMany");
+			}
+		}
 
         public static void AddMessage(string message)
         {
@@ -155,14 +189,14 @@ namespace Common.GK
 						var firstResult = result.FirstOrDefault();
 						if (firstResult != null)
 							return firstResult.Value;
-						return 0;
+						return -1;
 					}
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "GKDBHelper.GetLastGKID");
-				return 0;
+				return -1;
 			}
         }
 
@@ -188,5 +222,32 @@ namespace Common.GK
 				return new List<string>();
 			}
         }
+
+		public static List<JournalItem> GetTopLast(int count)
+		{
+			var journalItems = new List<JournalItem>();
+			try
+			{
+				lock (locker)
+				{
+					using (var dataContext = ConnectionManager.CreateGKDataContext())
+					{
+						var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY DateTime DESC";
+						var result = dataContext.ExecuteQuery<Journal>(query);
+						foreach (var journal in result)
+						{
+							var journalItem = JournalItem.FromJournal(journal);
+							journalItems.Add(journalItem);
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "GKDBHelper.GetTopLast");
+			}
+			journalItems.Reverse();
+			return journalItems;
+		}
     }
 }

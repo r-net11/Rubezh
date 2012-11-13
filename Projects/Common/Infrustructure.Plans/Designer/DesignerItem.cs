@@ -1,70 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class DesignerItem : ContentControl, INotifyPropertyChanged
+	public abstract class DesignerItem : CommonDesignerItem
 	{
-		#region INotifyPropertyChanged Members
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		#endregion
-
-		public event EventHandler DesignerItemPropertyChanged;
-
-		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
-		public virtual bool IsSelected
-		{
-			get { return (bool)GetValue(IsSelectedProperty); }
-			set
-			{
-				SetValue(IsSelectedProperty, value);
-				if (value)
-					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element);
-			}
-		}
-
-		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
-		public virtual bool IsSelectable
-		{
-			get { return (bool)GetValue(IsSelectableProperty); }
-			set { SetValue(IsSelectableProperty, value); }
-		}
-
-		private bool _isVisibleLayout;
-		public virtual bool IsVisibleLayout
-		{
-			get { return _isVisibleLayout; }
-			set
-			{
-				_isVisibleLayout = value;
-				Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-				if (!value)
-					IsSelected = false;
-			}
-		}
-
-		private bool _isSelectableLayout;
-		public virtual bool IsSelectableLayout
-		{
-			get { return _isSelectableLayout; }
-			set
-			{
-				_isSelectableLayout = value;
-				IsSelectable = value;
-				if (!value)
-					IsSelected = false;
-			}
-		}
-
 		public CommonDesignerCanvas DesignerCanvas
 		{
 			get { return VisualTreeHelper.GetParent(this) as CommonDesignerCanvas; }
@@ -72,35 +13,18 @@ namespace Infrustructure.Plans.Designer
 		public ICommand ShowPropertiesCommand { get; protected set; }
 		public ICommand DeleteCommand { get; protected set; }
 
-		public ElementBase Element { get; protected set; }
-		public IPainter Painter { get; private set; }
 		public ResizeChrome ResizeChrome { get; set; }
-
-		public event Action<DesignerItem> UpdateProperties;
-
-		private string _title;
-		public string Title
-		{
-			get { return _title; }
-			set
-			{
-				_title = value;
-				OnPropertyChanged("Title");
-			}
-		}
 		public string Group { get; set; }
 
 		public DesignerItem(ElementBase element)
+			: base(element)
 		{
-			ResetElement(element);
 			Group = string.Empty;
 		}
 
-		public void ResetElement(ElementBase element)
+		public override void ResetElement(ElementBase element)
 		{
-			Element = element;
-			DataContext = Element;
-			Painter = PainterFactory.Create(Element);
+			base.ResetElement(element);
 			if (DesignerCanvas != null)
 				Redraw();
 		}
@@ -118,38 +42,10 @@ namespace Infrustructure.Plans.Designer
 		public virtual void UpdateZoomPoint()
 		{
 		}
-
-		public virtual void SetLocation()
+		public override void Redraw()
 		{
-			var rect = Element.GetRectangle();
-			Canvas.SetLeft(this, rect.Left);
-			Canvas.SetTop(this, rect.Top);
-			ItemWidth = rect.Width;
-			ItemHeight = rect.Height;
-		}
-		public virtual void Redraw()
-		{
-			Content = Painter == null ? null : Painter.Draw(Element);
-			MinWidth = Element.BorderThickness;
-			MinHeight = Element.BorderThickness;
-			if (Element is ElementBaseShape)
-			{
-				MinWidth += 3;
-				MinHeight += 3;
-			}
-			SetLocation();
+			base.Redraw();
 			UpdateAdorner();
-		}
-
-		public virtual double ItemWidth
-		{
-			get { return Width - Element.BorderThickness; }
-			set { Width = value + Element.BorderThickness; }
-		}
-		public virtual double ItemHeight
-		{
-			get { return Height - Element.BorderThickness; }
-			set { Height = value + Element.BorderThickness; }
 		}
 
 		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
@@ -169,29 +65,7 @@ namespace Infrustructure.Plans.Designer
 			e.Handled = false;
 		}
 
-		public virtual void UpdateElementProperties()
-		{
-			OnUpdateProperties();
-		}
-		protected void OnUpdateProperties()
-		{
-			if (UpdateProperties != null)
-				UpdateProperties(this);
-		}
-
-		protected abstract void CreateContextMenu();
 		protected abstract void OnShowProperties();
 		protected abstract void OnDelete();
-
-		protected void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-		protected void OnDesignerItemPropertyChanged()
-		{
-			if (DesignerItemPropertyChanged != null)
-				DesignerItemPropertyChanged(this, EventArgs.Empty);
-		}
 	}
 }

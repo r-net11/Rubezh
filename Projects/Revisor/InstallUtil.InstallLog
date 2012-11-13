@@ -1,0 +1,206 @@
+﻿
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап установки успешно выполнен, начинается этап фиксации.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап фиксации выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ComponentModel.Win32Exception: Указанная служба уже существует
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+Этап установки успешно выполнен, начинается этап фиксации.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+Этап фиксации выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ComponentModel.Win32Exception: Указанная служба уже существует
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ArgumentOutOfRangeException: Индекс и длина должны указывать на позицию в строке.
+Имя параметра: length
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ArgumentOutOfRangeException: Индекс и длина должны указывать на позицию в строке.
+Имя параметра: length
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ComponentModel.Win32Exception: Имя учетной записи задано неверно или не существует, или же неверен указанный пароль
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ArgumentOutOfRangeException: Индекс и длина должны указывать на позицию в строке.
+Имя параметра: length
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+На этапе установки возникло исключение.
+System.ComponentModel.Win32Exception: Имя учетной записи задано неверно или не существует, или же неверен указанный пароль
+
+Начинается этап отката процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап отката выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап установки успешно выполнен, начинается этап фиксации.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап фиксации выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап установки успешно выполнен, начинается этап фиксации.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап фиксации выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап установки успешно выполнен, начинается этап фиксации.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Release\InspectService.InstallLog.
+
+Этап фиксации выполнен успешно.
+
+Групповая операция установки выполнена.
+
+Выполняется групповая операция установки.
+
+Начинается этап установки процедуры установки.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+Этап установки успешно выполнен, начинается этап фиксации.
+См. файл журнала выполнения операция для сборки H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.exe.
+Данный файл находится в H:\Rubezh1\Projects\Revisor\InspectService\InspectService\bin\Debug\InspectService.InstallLog.
+
+Этап фиксации выполнен успешно.
+
+Групповая операция установки выполнена.

@@ -4,6 +4,8 @@ using Common;
 using Common.GK;
 using Infrastructure.Common.Windows;
 using System;
+using Infrastructure;
+using GKModule.Events;
 
 namespace GKModule
 {
@@ -16,7 +18,10 @@ namespace GKModule
 
         public static void Start()
         {
-            SafeSendManager = new SafeSendManager();
+			SafeSendManager = new Common.GK.SafeSendManager();
+
+			var journalItems = GKDBHelper.GetTopLast(100);
+			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 
             JournalWatchers = new List<JournalWatcher>();
             foreach (var gkDatabase in DatabaseManager.GkDatabases)
@@ -71,7 +76,7 @@ namespace GKModule
             {
                 foreach (var journalWatcher in JournalWatchers)
                 {
-                    journalWatcher.GetLastJournalItems(100);
+					journalWatcher.ReadMissingJournalItems();
                 }
             }
             catch (Exception e)

@@ -14,14 +14,12 @@
             <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
-            <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedDevice, UpdateSourceTrigger=PropertyChanged}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство" MinWidth="250" Width="250">
-                        <DataGridTemplateColumn.CellTemplate>
+            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}"  Name="_devicesDataGrid">
+                <Controls:TreeListView.Columns>
+                    <GridViewColumn Width="250" Header="Устройство">
+                        <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
@@ -38,18 +36,18 @@
                                     </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding PresentationAddress}" />
-                    <DataGridTextColumn Header="Зона" MinWidth="100" Width="100" Binding="{Binding PresentationZone}" />
-                    <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" />
-                    <DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
-                    <DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />
-                    <DataGridTextColumn Header="Дым, %" MinWidth="100" Binding="{Binding Smokiness}" />
-                    <DataGridTextColumn Header="Пыль, %" MinWidth="100" Binding="{Binding Dustiness}" />
-                    <DataGridTextColumn Header="Температура, °С" MinWidth="100" Binding="{Binding Temperature}" />
-                </DataGrid.Columns>
-            </DataGrid>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding PresentationAddress}" />
+                    <GridViewColumn Header="Зона" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
+                    <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
+                    <GridViewColumn Header="Неисправность" Width="200" DisplayMemberBinding="{Binding FailureType}" />
+                    <GridViewColumn Header="Причина тревоги" Width="200" DisplayMemberBinding="{Binding AlarmReason}" />
+                    <GridViewColumn Header="Дым, %" Width="100" DisplayMemberBinding="{Binding Smokiness}" />
+                    <GridViewColumn Header="Пыль, %" Width="100" DisplayMemberBinding="{Binding Dustiness}" />
+                    <GridViewColumn Header="Температура, °С" Width="100" DisplayMemberBinding="{Binding Temperature}" />
+                </Controls:TreeListView.Columns>
+            </Controls:TreeListView>
         </Grid>
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
         <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >

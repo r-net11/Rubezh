@@ -100,10 +100,10 @@ namespace DiagnosticsModule.ViewModels
 
                     FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
                     FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                    FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-                    FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
-                    FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                    Thread.Sleep(TimeSpan.FromSeconds(60));
+                    //FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+                    //FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+                    //FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+                    Thread.Sleep(TimeSpan.FromSeconds(5));
                     Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
                     counter++;
                 }

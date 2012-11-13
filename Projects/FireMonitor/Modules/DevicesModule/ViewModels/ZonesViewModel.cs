@@ -48,45 +48,52 @@ namespace DevicesModule.ViewModels
                 SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+        public void InitializeDevices()
+        {
+            BuildTree();
+            if (RootDevice != null)
+            {
+                RootDevice.IsExpanded = true;
+            }
+            OnPropertyChanged("RootDevices");
+        }
 
-		void InitializeDevices()
-		{
-			if (SelectedZone == null)
-				return;
+        DeviceViewModel _rootDevice;
+        public DeviceViewModel RootDevice
+        {
+            get { return _rootDevice; }
+            private set
+            {
+                _rootDevice = value;
+                OnPropertyChanged("RootDevice");
+            }
+        }
 
-			var devices = new HashSet<Device>();
+        public DeviceViewModel[] RootDevices
+        {
+            get { return new DeviceViewModel[] { RootDevice }; }
+        }
 
-			foreach (var device in FiresecManager.Devices)
-			{
-                if (device.Driver.IsZoneDevice && device.ZoneUID == SelectedZone.Zone.UID)
-				{
-					device.AllParents.ForEach(x => { devices.Add(x); });
-					devices.Add(device);
-				}
-			}
+        void BuildTree()
+        {
+            RootDevice = AddDeviceInternal(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+        }
 
-			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in devices)
-			{
-				Devices.Add(new DeviceViewModel(device, Devices)
-				{
-					IsExpanded = true,
-					IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
-				});
-			}
+        private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+        {
+            var deviceViewModel = new DeviceViewModel(device);
+            deviceViewModel.IsExpanded = true;
+            if (parentDeviceViewModel != null)
+                parentDeviceViewModel.Children.Add(deviceViewModel);
 
-			foreach (var device in Devices)
-			{
-				if (device.Device.Parent != null)
-				{
-					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					device.Parent = parent;
-					parent.Children.Add(device);
-				}
-			}
-
-			OnPropertyChanged("Devices");
-		}
+            foreach (var childDevice in device.Children)
+            {
+                if (SelectedZone.Zone.DevicesInZone.Any(x => x.AllParents.Contains(childDevice)) || SelectedZone.Zone.DevicesInZone.Any(x => x == childDevice))
+                {
+                    AddDeviceInternal(childDevice, deviceViewModel);
+                }
+            }
+            return deviceViewModel;
+        }
 	}
 }

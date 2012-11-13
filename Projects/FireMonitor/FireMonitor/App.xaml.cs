@@ -34,6 +34,13 @@ namespace FireMonitor
                 var path = System.Reflection.Assembly.GetExecutingAssembly();
                 RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
                 saveKey.SetValue("FireMonitorPath", path.Location);
+                var isAutoConnect = saveKey.GetValue("isAutoConnect");
+                if (isAutoConnect != null)
+                    if (isAutoConnect.Equals("True"))
+                    {
+                        AppSettingsManager.AutoConnect = true;
+                        saveKey.SetValue("isAutoConnect", false);
+                    }
                 saveKey.Close();
             }
             catch (Exception ex)
@@ -48,10 +55,10 @@ namespace FireMonitor
             ServerLoadHelper.Load();
 #if DEBUG
 			bool trace = true;
-			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
+			//BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
             _bootstrapper = new Bootstrapper();
-            using (new DoubleLaunchLocker(SignalId, WaitId, true))
+            //using (new DoubleLaunchLocker(SignalId, WaitId, true))
             {
                 _bootstrapper.Initialize();
             }

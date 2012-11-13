@@ -10,16 +10,19 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Events;
 using XFiresecAPI;
+using Infrustructure.Plans;
 
 namespace PlansModule.ViewModels
 {
 	public class PlansViewModel : ViewPartViewModel
 	{
+		private List<IPlanPresenter<Plan>> _planPresenters;
 		public PlanTreeViewModel PlanTreeViewModel { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
 		public PlansViewModel()
 		{
+			_planPresenters = new List<IPlanPresenter<Plan>>();
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 		}
 
@@ -27,7 +30,7 @@ namespace PlansModule.ViewModels
 		{
 			FiresecManager.InvalidatePlans();
 			PlanTreeViewModel = new PlanTreeViewModel();
-			PlanDesignerViewModel = new PlanDesignerViewModel();
+			PlanDesignerViewModel = new PlanDesignerViewModel(_planPresenters);
 			PlanTreeViewModel.SelectedPlanChanged += (s, e) => OnSelectedPlanChanged();
 			OnSelectedPlanChanged();
 		}
@@ -37,16 +40,23 @@ namespace PlansModule.ViewModels
 			get { return PlanTreeViewModel.SelectedPlan; }
 			set { PlanTreeViewModel.SelectedPlan = value; }
 		}
-
 		private void OnSelectedPlanChanged()
 		{
-			PlanDesignerViewModel.Initialize(SelectedPlan);
+			if (SelectedPlan != null)
+			{
+				PlanDesignerViewModel.Initialize(SelectedPlan);
+			}
 			OnPropertyChanged("SelectedPlan");
 		}
-
 		public void OnSelectPlan(Guid planUID)
 		{
 			SelectedPlan = PlanTreeViewModel.Plans.FirstOrDefault(x => x.Plan.UID == planUID);
+		}
+
+		public void RegisterPresenter(IPlanPresenter<Plan> planExtension)
+		{
+			if (!_planPresenters.Contains(planExtension))
+				_planPresenters.Add(planExtension);
 		}
 
 		public bool ShowDevice(Guid deviceUID)
