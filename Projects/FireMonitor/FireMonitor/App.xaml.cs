@@ -61,6 +61,12 @@ namespace FireMonitor
             //using (new DoubleLaunchLocker(SignalId, WaitId, true))
             {
                 _bootstrapper.Initialize();
+
+                if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
+                {
+                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                    saveKey.SetValue("isException", true);
+                }
             }
             bootstrapperLoaded = true;
         }

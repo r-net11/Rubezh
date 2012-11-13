@@ -72,7 +72,7 @@ namespace DevicesModule.Views
 				}
 				else
 				{
-					_serviceConnectionGrid.ToolTip = "Связь с сервером потеряна";
+                    _serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
 				}
 			}
 		}
@@ -91,7 +91,7 @@ namespace DevicesModule.Views
 				}
 				else
 				{
-					_deviceConnectionGrid.ToolTip = "Связь с устройствами потеряна";
+                    _deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
 				}
 			}
 		}

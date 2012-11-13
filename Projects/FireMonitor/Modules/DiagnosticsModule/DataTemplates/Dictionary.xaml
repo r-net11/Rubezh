@@ -9,4 +9,6 @@
     <DataTemplate DataType="{x:Type ViewModels:ImitatorViewModel}">
         <Views:ImitatorView />
     </DataTemplate>
+
+    
 </ResourceDictionary>

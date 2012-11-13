@@ -1,11 +1,8 @@
-﻿using Firesec.Imitator;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using System;
-using FiresecAPI;
 using System.Diagnostics;
-using System.Text;
 using FiresecAPI.Models;
 using System.Threading;
 using System.Collections.Generic;
@@ -13,6 +10,8 @@ using Firesec;
 using Infrastructure;
 using Infrastructure.Events;
 using System.Windows;
+using Infrastructure.Common.BalloonTrayTip;
+
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -29,6 +28,7 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
+            BalloonTestCommand = new RelayCommand(OnBalloonTest);
         }
 
 		public void StopThreads()
@@ -348,6 +348,12 @@ namespace DiagnosticsModule.ViewModels
             }));
             thread.IsBackground = true;
             thread.Start();
+        }
+
+        public RelayCommand BalloonTestCommand { get; private set; }
+        void OnBalloonTest()
+        {
+            BalloonHelper.Show("SampleTitle", "SampleText");
         }
     }
 

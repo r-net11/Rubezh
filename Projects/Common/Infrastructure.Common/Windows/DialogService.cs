@@ -28,11 +28,6 @@ namespace Infrastructure.Common.Windows
 				win.AllowsTransparency = allowsTransparency;
 				PrepareWindow(model);
 				bool? result = win.ShowDialog();
-                if (result == true)
-                {
-                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                    saveKey.SetValue("isException", true);
-                }
 			    return result.HasValue ? result.Value : false;
 			}
 			catch (Exception e)
@@ -51,6 +46,13 @@ namespace Infrastructure.Common.Windows
 				win.Show();
 			}
 		}
+
+        public static void ShowTrayWindow(WindowBaseViewModel model)
+        {
+            WindowBaseView win = new WindowBaseView(model);
+            win.Show();
+            win.Close();
+        }
 
 		private static List<IWindowIdentity> _openedWindows = new List<IWindowIdentity>();
 		private static bool FindWindowIdentity(WindowBaseViewModel model)

@@ -1,11 +1,14 @@
 ﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             >
     <Grid Margin="10">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
         <StackPanel Grid.Row="0">
             <Button Content="Включать" Command="{Binding Test1Command}" Width="250" Margin="2" />
             <Button Content="Выключать" Command="{Binding Test2Command}" Width="250" Margin="2" />
@@ -16,6 +19,7 @@
             <Button Content="Переход по вкладкам" Command="{Binding Test7Command}" Width="250" Margin="2" />
             <Button Content="Все вместе" Command="{Binding Test8Command}" Width="250" Margin="2" />
             <Button Content="Сообщение" Command="{Binding Test9Command}" Width="250" Margin="2" />
+            <Button Content="Простой Balloon" Command="{Binding BalloonTestCommand}" Width="250" Margin="2"/>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <TextBox Text="{Binding Text}" />

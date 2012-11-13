@@ -44,7 +44,7 @@ namespace GKModule.Views
 				}
 				else
 				{
-					_deviceConnectionGrid.ToolTip = "Связь с устройствами ГК потеряна";
+					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
 				}
 			}
 		}

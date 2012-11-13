@@ -43,17 +43,6 @@ namespace Infrastructure.Common
 			{
 				Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
 			}
-            //else
-            //{
-            //    var exePath = System.Windows.Application.ResourceAssembly.Location;
-            //    fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireMonitor\\FireMonitor.exe");
-            //    fileName = exePath.Replace("FiresecService\\FiresecService.exe", "FireAdministrator\\FireAdministrator.exe");
-            //    if (!File.Exists(fileName))
-            //    {
-            //        Logger.Error("ServerLoadHelper.Start File Not Exist 2 " + fileName);
-            //    }
-            //}
-
             proc.StartInfo.FileName = fileName;
 			proc.Start();
 		}
