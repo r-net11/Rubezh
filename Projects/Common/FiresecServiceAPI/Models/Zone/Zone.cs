@@ -108,7 +108,7 @@ namespace FiresecAPI.Models
 				var result = No + "." + Name;
 				if (!string.IsNullOrEmpty(Description))
 				{
-					result += " (" + Description + ")";
+					result += "(" + Description + ")";
 				}
 				return result;
 			}

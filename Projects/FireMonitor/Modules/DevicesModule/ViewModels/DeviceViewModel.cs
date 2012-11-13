@@ -392,7 +392,7 @@ namespace DevicesModule.ViewModels
 				{
 					if (DateTime.Now > deviceDriverState.Time)
 					{
-						var timeSpan = DateTime.Now - deviceDriverState.Time;
+							var timeSpan = DateTime.Now - deviceDriverState.Time;
 
 						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)
@@ -408,7 +408,7 @@ namespace DevicesModule.ViewModels
 								return;
 							}
 
-							int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
+								int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
 							if (secondsLeft > 0)
 							{
 								var mptTimerViewModel = new MPTTimerViewModel(Device);

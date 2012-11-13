@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
                 <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-                <StackPanel>
+                <StackPanel Margin="5, 0, 0, 0">
                     <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="1" />
                     <TextBlock Text="Автоматика отключена" Visibility="{Binding IsAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="White" Margin="1" />
                 </StackPanel>
@@ -35,9 +35,10 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical">
                         <WrapPanel>
-                            <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" Margin="5" />
+                            <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" VerticalAlignment="Center" Margin="5" />
                             <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
                         </WrapPanel>
+                            </WrapPanel>
                         <WrapPanel Margin="1">
                             <TextBlock Text="Устройство: " FontWeight="Bold" Foreground="Orange" />
                             <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />

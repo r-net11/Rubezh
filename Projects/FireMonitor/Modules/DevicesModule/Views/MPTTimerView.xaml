@@ -9,6 +9,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="{Binding Device.Zone.PresentationName}" Foreground="White" FontSize="16" Margin="2" />
-        <Label Grid.Row="1" Content="{Binding TimeLeft}" FontSize="40" Foreground="Red" Margin="2" />
+        <Label Grid.Row="1" Content="{Binding TimeLeft}" FontSize="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="Red" Margin="2" />
     </Grid>
 </UserControl>
