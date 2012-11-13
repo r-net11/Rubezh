@@ -28,11 +28,6 @@ namespace Infrastructure.Common.Windows
 				win.AllowsTransparency = allowsTransparency;
 				PrepareWindow(model);
 				bool? result = win.ShowDialog();
-                if (result == true)
-                {
-                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                    saveKey.SetValue("isException", true);
-                }
 			    return result.HasValue ? result.Value : false;
 			}
 			catch (Exception e)

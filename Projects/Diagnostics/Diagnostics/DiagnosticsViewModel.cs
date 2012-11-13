@@ -3,17 +3,50 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Infrastructure.Common;
-  
+using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
+
 namespace Diagnostics
 {
-    public class DiagnosticsViewModel
+    public class DiagnosticsViewModel:BaseViewModel
     {
         public DiagnosticsViewModel()
         {
             GetLogsCommand = new RelayCommand(OnGetLogs);
             RemLogsCommand = new RelayCommand(OnRemLogs);
         }
-        
+
+        private string fspath;
+        private bool isAuto;
+        public bool IsAuto
+        {
+            get
+            {
+                var readkey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+                if (readkey.GetValue("FiresecService") != null)
+                    fspath = readkey.GetValue("FiresecService").ToString();
+                else
+                {
+                    fspath = @"C:\Program Files\Rubezh\FiresecService\FiresecService.exe";
+                    return false;
+                }
+                readkey.Close();
+                return true;
+            }
+            set
+            {
+                var readkey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+                isAuto = value;
+                if (isAuto)
+                    readkey.SetValue("FiresecService", fspath);
+                else
+                    if (!String.IsNullOrEmpty(readkey.GetValue("FiresecService").ToString()))
+                        readkey.DeleteValue("FiresecService");
+                readkey.Close();
+                OnPropertyChanged("IsAuto");
+            }
+        }
+
         public RelayCommand GetLogsCommand { get; private set; }
         public void OnGetLogs()
         {

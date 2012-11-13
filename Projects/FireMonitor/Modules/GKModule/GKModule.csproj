@@ -81,6 +81,8 @@
       <DependentUpon>AlarmsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />

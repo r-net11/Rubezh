@@ -1,7 +1,10 @@
 ﻿<UserControl x:Class="GKModule.Views.GKConnectionIndicatorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Loaded="UserControl_Loaded">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Image Name="_connectionIndicator" Margin="2, 0, 0, 0" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
             <Image.Style>
@@ -21,6 +24,7 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Grid Name="_deviceConnectionGrid" Background="White" Opacity="0.01" />
+        <Controls:AlarmButton Name="_deviceConnectionControl" Width="50" Height="30" Margin="3 3" OuterBorderThickness="0" GlowColor="Red" IsGlowing ="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}"  IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
+        <Grid Name="_deviceConnectionGrid" Width="50" Height="30" Margin="3 3"  Background="White" Opacity="0.01" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </UserControl>
