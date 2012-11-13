@@ -28,7 +28,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Binding="{Binding Plan.Description}" Header="Описание" Width="*" />
+			<DataGridTextColumn Binding="{Binding Plan.Description, UpdateSourceTrigger=PropertyChanged}" Header="Описание" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

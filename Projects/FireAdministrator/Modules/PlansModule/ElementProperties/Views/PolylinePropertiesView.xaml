@@ -17,8 +17,8 @@
                 <Label Grid.Column="0" Grid.Row="0" Content="Цвет линии" HorizontalAlignment="Right" />
                 <Label Grid.Column="0" Grid.Row="1" Content="Ширина линии" HorizontalAlignment="Right" />
 
-				<ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding StrokeThickness}" Margin="2" />
+				<ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>
