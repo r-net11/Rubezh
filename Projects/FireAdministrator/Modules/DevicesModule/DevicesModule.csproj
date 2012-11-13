@@ -121,6 +121,7 @@
     <Compile Include="Devices\ViewModels\Actions\AutoSearchDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\AutoSearchViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\AutoDetectDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\DeviceCommandsAuParametersViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceConfigurationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceDescriptionViewModel.cs" />

@@ -16,6 +16,7 @@ namespace Firesec
             try
             {
                 NativeFiresecClient = new NativeFiresecClient();
+                FiresecDriverAuParametersHelper.FiresecSerializedClient = this;
             }
             catch (Exception e)
             {

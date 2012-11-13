@@ -36,10 +36,10 @@
                 <MenuItem Name="bindMsButton" Command="{Binding BindMsCommand}" Header="_Привязать" />
                 <MenuItem Name="executeCustomAdminFunctionButton" Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="_Другие функции" />
                 <Separator />
-                <MenuItem Command="{Binding GetAllDeviceConfigurationParametersCommand}" Header="Считать параметры дочерних устройств"/>
-                <MenuItem Command="{Binding SetAllDeviceConfigurationParametersCommand}" Header="Записать параметры в дочерние устройства"/>
-                <MenuItem Command="{Binding GetConfigurationParametersCommand}" Header="Считать параметры устройства"/>
-                <MenuItem Command="{Binding SetConfigurationParametersCommand}" Header="Записать параметры в устройство"/>
+                <MenuItem Command="{Binding DeviceCommandsAuParametersViewModel.GetAllDeviceConfigurationParametersCommand}" Header="Считать параметры дочерних устройств"/>
+                <MenuItem Command="{Binding DeviceCommandsAuParametersViewModel.SetAllDeviceConfigurationParametersCommand}" Header="Записать параметры в дочерние устройства"/>
+                <MenuItem Command="{Binding DeviceCommandsAuParametersViewModel.GetConfigurationParametersCommand}" Header="Считать параметры устройства"/>
+                <MenuItem Command="{Binding DeviceCommandsAuParametersViewModel.SetConfigurationParametersCommand}" Header="Записать параметры в устройство"/>
                 <Separator />
                 <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из прибора" />

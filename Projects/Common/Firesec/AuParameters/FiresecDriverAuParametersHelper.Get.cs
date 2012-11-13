@@ -7,12 +7,34 @@ using FiresecAPI.Models;
 using Common;
 using System.Threading;
 using System.Diagnostics;
+using Infrastructure.Common.Windows;
+using System.Windows.Threading;
 
 namespace Firesec
 {
-    public partial class FiresecDriver
+    public static partial class FiresecDriverAuParametersHelper
     {
-        public OperationResult<bool> BeginGetConfigurationParameters(Device device)
+        public static FiresecSerializedClient FiresecSerializedClient { get; set; }
+        static List<DevicePropertyRequest> DevicePropertyRequests = new List<DevicePropertyRequest>();
+        static Thread AUParametersThread;
+        static AutoResetEvent StopEvent;
+
+        static FiresecDriverAuParametersHelper()
+        {
+            Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+            {
+                if (StopEvent != null)
+                {
+                    StopEvent.Set();
+                }
+                if (AUParametersThread != null)
+                {
+                    AUParametersThread.Join(TimeSpan.FromSeconds(1));
+                }
+            };
+        }
+
+        public static OperationResult<bool> BeginGetConfigurationParameters(Device device)
         {
             var devicePropertyRequest = new DevicePropertyRequest(device);
             foreach (var propertyNo in devicePropertyRequest.PropertyNos)
@@ -30,16 +52,14 @@ namespace Firesec
 
             if (AUParametersThread == null)
             {
+                StopEvent = new AutoResetEvent(false);
                 AUParametersThread = new Thread(AUParametersThreadRun);
                 AUParametersThread.Start();
             }
             return new OperationResult<bool>() { Result = true };
         }
 
-        List<DevicePropertyRequest> DevicePropertyRequests = new List<DevicePropertyRequest>();
-        Thread AUParametersThread;
-
-        void AUParametersThreadRun()
+        static void AUParametersThreadRun()
         {
             while (DevicePropertyRequests.Count > 0)
             {
@@ -100,12 +120,13 @@ namespace Firesec
 							}
 						}
 					}
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                    if (StopEvent.WaitOne(1000))
+                        break;
             }
             AUParametersThread = null;
         }
 
-        private static Property CreateProperty(int paramValue, DriverProperty driverProperty)
+        static Property CreateProperty(int paramValue, DriverProperty driverProperty)
         {
             var offsetParamValue = paramValue;
 
@@ -152,44 +173,6 @@ namespace Firesec
             };
 
             return property;
-        }
-    }
-
-    class DevicePropertyRequest
-    {
-        public DevicePropertyRequest(Device device)
-        {
-            Device = device;
-            Properties = new List<Property>();
-            PropertyNos = new HashSet<int>();
-            RequestIds = new List<int>();
-
-            foreach (var property in device.Driver.Properties)
-            {
-                if (property.IsAUParameter)
-                {
-                    PropertyNos.Add(property.No);
-                }
-            }
-        }
-
-        public Device Device { get; set; }
-        public List<Property> Properties { get; set; }
-        public HashSet<int> PropertyNos { get; set; }
-        public List<int> RequestIds { get; set; }
-
-        DateTime StartDateTime = DateTime.Now;
-        public bool IsDeleting
-        {
-            get
-            {
-				var timeoutExpired = DateTime.Now - StartDateTime > TimeSpan.FromMinutes(5) || RequestIds.Count == 0;
-				if (timeoutExpired)
-				{
-					Device.OnAUParametersChanged();
-				}
-				return timeoutExpired;
-            }
         }
     }
 }
