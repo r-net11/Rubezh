@@ -6,6 +6,7 @@ using FiresecClient;
 using FiresecAPI.Models;
 using System.ComponentModel;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -16,7 +17,6 @@ namespace GKModule.ViewModels
 
 		public DeviceCommandsViewModel(XDeviceState deviceState)
 		{
-			DeviceState = deviceState;
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
@@ -33,6 +33,10 @@ namespace GKModule.ViewModels
 			AvailableControlRegimes.Add(DeviceControlRegime.Automatic);
 			AvailableControlRegimes.Add(DeviceControlRegime.Manual);
 			AvailableControlRegimes.Add(DeviceControlRegime.Ignore);
+
+			DeviceState = deviceState;
+			DeviceState.StateChanged -= new System.Action(OnStateChanged);
+			DeviceState.StateChanged += new System.Action(OnStateChanged);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
@@ -191,16 +195,18 @@ namespace GKModule.ViewModels
 						OnResetAutomatic();
 						break;
 				}
-
-				OnPropertyChanged("SelectedControlRegime");
-				OnPropertyChanged("IsControlRegime");
 			}
 		}
 
 		public bool IsControlRegime
 		{
-			get { return true; }
-			//get { return SelectedControlRegime == DeviceControlRegime.Manual; }
+			get { return SelectedControlRegime == DeviceControlRegime.Manual; }
+		}
+
+		void OnStateChanged()
+		{
+			OnPropertyChanged("SelectedControlRegime");
+			OnPropertyChanged("IsControlRegime");
 		}
 	}
 }

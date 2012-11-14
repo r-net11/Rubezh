@@ -91,7 +91,7 @@ namespace GKModule
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 
-			JournalWatcherManager.Start();
+			WatcherManager.Start();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()

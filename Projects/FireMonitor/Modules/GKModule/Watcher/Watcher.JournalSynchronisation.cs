@@ -13,7 +13,7 @@ using XFiresecAPI;
 
 namespace GKModule
 {
-	public partial class JournalWatcher
+	public partial class Watcher
 	{
 		public void ReadMissingJournalItems()
 		{

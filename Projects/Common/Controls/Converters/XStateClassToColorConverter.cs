@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace Controls.Converters
 {
-	public class XStateClassToJournalColorConverter : IValueConverter
+	public class XStateClassToColorConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

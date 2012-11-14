@@ -19,14 +19,14 @@ namespace XFiresecAPI
         [DescriptionAttribute("Отключено")]
 		Ignore = 4,
 
-		[DescriptionAttribute("Автоматика отключена")]
-		AutoOff = 5,
+		[DescriptionAttribute("Включено")]
+		On = 5,
 
 		[DescriptionAttribute("Требуется обслуживание")]
 		Service = 6,
 
-		[DescriptionAttribute("Включено")]
-		On = 7,
+		[DescriptionAttribute("Автоматика отключена")]
+		AutoOff = 7,
 
 		[DescriptionAttribute("Информация")]
 		Info = 8,

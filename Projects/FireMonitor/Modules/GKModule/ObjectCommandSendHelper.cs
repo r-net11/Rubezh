@@ -12,7 +12,7 @@ namespace GKModule
 			var databaseNo = binaryBase.GetDatabaseNo(DatabaseType.Gk);
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
-            JournalWatcherManager.SafeSendManager.Send(SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);
+            WatcherManager.Send(SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);
 		}
 	}
 }

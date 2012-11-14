@@ -132,11 +132,13 @@
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Watcher\JournalWatcher.Connection.cs" />
-    <Compile Include="Watcher\JournalWatcher.cs" />
+    <Compile Include="Watcher\Watcher.Connection.cs" />
+    <Compile Include="Watcher\Watcher.PingJournal.cs" />
     <Compile Include="GKModuleLoader.cs" />
-    <Compile Include="Watcher\JournalWatcher.GKSync.cs" />
-    <Compile Include="Watcher\JournalWatcherManager.cs" />
+    <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
+    <Compile Include="Watcher\Watcher.Tasks.cs" />
+    <Compile Include="Watcher\Watcher.Threading.cs" />
+    <Compile Include="Watcher\WatcherManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,6 +152,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Watcher\SendPriority.cs" />
     <Compile Include="Watcher\StatesWatcher.cs" />
     <Compile Include="ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />

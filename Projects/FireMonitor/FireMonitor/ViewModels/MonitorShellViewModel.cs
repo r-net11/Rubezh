@@ -30,7 +30,7 @@ namespace FireMonitor.ViewModels
 		{
             if (App.IsClosingOnException)
             {
-                Process.GetCurrentProcess().Kill();
+                //Process.GetCurrentProcess().Kill();
                 return false;
             }
 		    if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
