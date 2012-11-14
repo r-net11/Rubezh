@@ -2,8 +2,6 @@
 
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 
-	
-
 	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
 		<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

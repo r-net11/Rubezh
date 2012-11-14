@@ -68,7 +68,6 @@ namespace Controls
 			base.OnItemsChanged(e);
 		}
 
-
 		protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
 		{
 			var item = e.NewValue as TreeListViewItem;
@@ -86,79 +85,32 @@ namespace Controls
 				var item = e.NewValue as TreeItemViewModel;
 				if (item != null)
 				{
-					treeView.BringTreeViewItemIntoView(item);
-					item.IsSelected = true;
+					var treeViewItem = treeView.BringTreeViewItemIntoView(item);
+					if (treeViewItem != null)
+						treeViewItem.Focus();
 				}
 			}
 		}
 
-		public void Virt(int itemIndex_)
-		{
-			VirtualizingStackPanel vsp = (VirtualizingStackPanel)typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.NonPublic, null, this, null);
-			double scrollHeight = vsp.ScrollOwner.ScrollableHeight;
-			double offset = scrollHeight * itemIndex_ / this.Items.Count; // itemIndex_ is index of the item which we want to show in the middle of the view
-			vsp.SetVerticalOffset(offset);
-		}
-
-	}
-	public class MyVirtualizingStackPanel : VirtualizingStackPanel
-	{
-		public void BringIntoView(int index) { BringIndexIntoView(index); }
-	}
-	public static class TreeViewitemFinder
-	{
-		public static TreeViewItem BringTreeViewItemIntoView(this TreeView treeView, TreeItemViewModel item)
+		private TreeViewItem BringTreeViewItemIntoView(TreeItemViewModel item)
 		{
 			if (item == null)
 				return null;
-			ItemsControl parentContainer = (ItemsControl)treeView.BringTreeViewItemIntoView(item.TreeParent) ?? treeView;
-			return parentContainer.BringItemIntoView(item);
+			ItemsControl parentContainer = (ItemsControl)BringTreeViewItemIntoView(item.TreeParent) ?? this;
+			return BringItemIntoView(parentContainer, item);
 		}
-
-		private static TreeViewItem BringItemIntoView(this ItemsControl container, object item)
+		private TreeViewItem BringItemIntoView(ItemsControl container, object item)
 		{
-			var vsp = container.FindVisualChild<VirtualizingStackPanel>();
-			if (vsp == null)
+			TreeViewItem element = container.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+			if (element != null)
+				element.BringIntoView();
+			else if (container.Items.Contains(item))
 			{
-				var treeViewItem = (TreeViewItem)container.ItemContainerGenerator.ContainerFromItem(item);
-				treeViewItem.BringIntoView();
-				return treeViewItem;
+				var vsp = (VirtualizingStackPanel)typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.NonPublic, null, container, null);
+				vsp.GetType().GetMethod("BringIndexIntoView", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(vsp, new object[] { container.Items.IndexOf(item) });
+				element = container.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
 			}
-			//Use exposed BringIntoView method to render each of the items in order
-			for (int i = 0; i < container.Items.Count; i++)
-			{
-				vsp.Dispatcher.Invoke(DispatcherPriority.ContextIdle, (Action<VirtualizingStackPanel, int>)BringIntoView, vsp, i);
-				var nextitem = (TreeViewItem)container.ItemContainerGenerator.ContainerFromIndex(i);
-				if (nextitem.DataContext == item)
-				{
-					nextitem.Dispatcher.Invoke(DispatcherPriority.ContextIdle, (Action)nextitem.BringIntoView);
-					return nextitem;
-				}
-			}
-			return null;
-		}
-		private static void BringIntoView(VirtualizingStackPanel vsp, int index)
-		{
-			vsp.GetType().GetMethod("BringIndexIntoView", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(vsp, new object[] { index });
-		}
-
-		private static T FindVisualChild<T>(this Visual visual) where T : Visual
-		{
-			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++)
-			{
-				var child = (Visual)VisualTreeHelper.GetChild(visual, i);
-				if (child != null)
-				{
-					var correctlyTyped = child as T;
-					if (correctlyTyped != null)
-						return correctlyTyped;
-					var descendent = FindVisualChild<T>(child);
-					if (descendent != null)
-						return descendent;
-				}
-			}
-			return null;
+			return element;
 		}
 	}
-
 }
