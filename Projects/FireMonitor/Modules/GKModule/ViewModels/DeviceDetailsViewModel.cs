@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
             _guid = deviceUID;
             Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             DeviceState = Device.DeviceState;
-            DeviceState.StateChanged += new Action(deviceState_StateChanged);
+            DeviceState.StateChanged += new Action(OnStateChanged);
             DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 
             Title = Device.Driver.ShortName + " " + Device.DottedAddress;
@@ -30,11 +30,12 @@ namespace GKModule.ViewModels
             UpdateAuParameters();
         }
 
-        void deviceState_StateChanged()
+        void OnStateChanged()
         {
             if (DeviceState != null && _deviceControl != null)
                 _deviceControl.XStateClass = DeviceState.StateClass;
             OnPropertyChanged("DeviceControlContent");
+			OnPropertyChanged("DeviceState");
         }
 
         public object DeviceControlContent

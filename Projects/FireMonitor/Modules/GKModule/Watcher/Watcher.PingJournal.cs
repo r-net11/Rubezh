@@ -13,18 +13,11 @@ using XFiresecAPI;
 
 namespace GKModule
 {
-    public partial class JournalWatcher
+    public partial class Watcher
     {
-        public bool IsStopped = false;
-        GkDatabase GkDatabase;
         int LastId = -1;
 
-        public JournalWatcher(GkDatabase gkDatabase)
-        {
-            GkDatabase = gkDatabase;
-        }
-
-        public void PingJournal()
+        void PingJournal()
         {
             var newLastId = GetLastId();
             if (newLastId == -1)
@@ -41,7 +34,7 @@ namespace GKModule
         int GetLastId()
         {
             var sendResult = SendManager.Send(GkDatabase.RootDevice, 0, 6, 64);
-            if (IsStopped)
+            if (IsStopping)
                 return -1;
             if (sendResult.HasError)
             {
@@ -57,7 +50,7 @@ namespace GKModule
         {
             var data = BitConverter.GetBytes(index).ToList();
             var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
-            if (IsStopped)
+            if (IsStopping)
                 return null;
             if (sendResult.HasError)
             {

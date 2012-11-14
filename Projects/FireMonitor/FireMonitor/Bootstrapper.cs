@@ -97,6 +97,7 @@ namespace FireMonitor
 			ServiceFactory.SubscribeEvents();
 			ProgressWatcher.Run();
             FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StartPingThread();
+			ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
 		}
 
 		void InitializeFs(bool reconnect = false)

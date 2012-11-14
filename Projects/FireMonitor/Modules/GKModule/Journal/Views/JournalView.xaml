@@ -4,6 +4,7 @@
              xmlns:Converters="clr-namespace:GKModule.Converters">
     <UserControl.Resources>
         <Converters:JournalItemTypeToStringConverter x:Key="JournalItemTypeToStringConverter" />
+        <Converters:XStateClassToJournalColorConverter x:Key="XStateClassToJournalColorConverter" />
     </UserControl.Resources>
 
     <Grid>

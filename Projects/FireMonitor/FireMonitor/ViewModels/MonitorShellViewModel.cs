@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using Common;
 using FiresecAPI.Models;
@@ -28,6 +30,7 @@ namespace FireMonitor.ViewModels
 		{
             if (App.IsClosingOnException)
             {
+                //Process.GetCurrentProcess().Kill();
                 return false;
             }
 		    if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
