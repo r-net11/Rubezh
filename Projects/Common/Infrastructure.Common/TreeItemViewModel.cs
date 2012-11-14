@@ -30,6 +30,8 @@ namespace Infrastructure.Common
 				OnPropertyChanged("IsSelected");
 			}
 		}
+
+		public TreeItemViewModel TreeParent { get; protected set; }
 	}
 	public class TreeItemViewModel<T> : TreeItemViewModel
 		where T : TreeItemViewModel<T>
@@ -64,7 +66,9 @@ namespace Infrastructure.Common
 			private set
 			{
 				_parent = value;
+				TreeParent = value;
 				OnPropertyChanged("Parent");
+				OnPropertyChanged("TreeParent");
 			}
 		}
 
