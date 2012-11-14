@@ -41,6 +41,11 @@ namespace FireMonitor
                         AppSettingsManager.AutoConnect = true;
                         saveKey.SetValue("isAutoConnect", false);
                     }
+                var proc = Process.GetProcessesByName("Revisor");
+                if (proc.Count() == 0)
+                {
+                    Process.Start(@"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe");
+                }
                 saveKey.Close();
             }
             catch (Exception ex)
