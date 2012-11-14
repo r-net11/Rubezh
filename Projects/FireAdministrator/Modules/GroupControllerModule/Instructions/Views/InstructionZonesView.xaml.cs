@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using InstructionsModule.ViewModels;
+using GKModule.ViewModels;
 
-namespace InstructionsModule.Views
+namespace GKModule.Views
 {
     public partial class InstructionZonesView : UserControl
     {

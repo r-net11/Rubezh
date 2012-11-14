@@ -1,0 +1,27 @@
+﻿using System.Windows.Controls;
+using GKModule.ViewModels;
+
+namespace GKModule.Views
+{
+	public partial class InstructionsDevicesView : UserControl
+	{
+		public InstructionsDevicesView()
+		{
+			InitializeComponent();
+		}
+
+		private void SelectedAvailableDeviceDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			var viewModel = DataContext as InstructionDevicesViewModel;
+			if (viewModel.AddOneCommand.CanExecute(null))
+				viewModel.AddOneCommand.Execute();
+		}
+
+		private void SelectedInstructionDeviceDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			var viewModel = DataContext as InstructionDevicesViewModel;
+			if (viewModel.RemoveOneCommand.CanExecute(null))
+				viewModel.RemoveOneCommand.Execute();
+		}
+	}
+}

@@ -15,6 +15,7 @@ namespace XFiresecAPI
             Zones = new List<XZone>();
             Directions = new List<XDirection>();
             JournalFilters = new List<XJournalFilter>();
+            Instructions = new List<XInstruction>();
         }
 
         public List<XDevice> Devices { get; set; }
@@ -30,6 +31,9 @@ namespace XFiresecAPI
 
         [DataMember]
         public List<XJournalFilter> JournalFilters { get; set; }
+
+        [DataMember]
+        public List<XInstruction> Instructions { get; set; }
 
         public void Update()
         {
@@ -177,6 +181,12 @@ namespace XFiresecAPI
                     journalFilter.StateClasses = new List<XStateClass>();
                     result = false;
                 }
+            }
+
+            if (Instructions == null)
+            {
+                Instructions = new List<XInstruction>();
+                result = false;
             }
 
 			return result;

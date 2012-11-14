@@ -112,6 +112,7 @@
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />
+    <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\IntToEnumConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Converters\StateTypeToJournalStringConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
+    <Compile Include="Converters\XInstructionTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter.cs" />

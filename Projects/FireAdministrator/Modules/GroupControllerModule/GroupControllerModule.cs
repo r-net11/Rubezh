@@ -21,6 +21,7 @@ namespace GKModule
 		DirectionsViewModel DirectionsViewModel;
         FiltersViewModel FiltersViewModel;
         XLibraryViewModel DeviceLidraryViewModel;
+        InstructionsViewModel InstructionsViewModel;
 		GKPlanExtension _planExtension;
 
 		public GroupControllerModule()
@@ -33,6 +34,7 @@ namespace GKModule
 			DirectionsViewModel = new DirectionsViewModel();
             FiltersViewModel = new FiltersViewModel();
             DeviceLidraryViewModel = new XLibraryViewModel();
+            InstructionsViewModel = new InstructionsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel);
 		}
 
@@ -42,6 +44,7 @@ namespace GKModule
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
             FiltersViewModel.Initialize();
+            InstructionsViewModel.Initialize();
 
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
@@ -55,7 +58,8 @@ namespace GKModule
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
-                    new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png")
+                    new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
+                    new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty)
 				}),
 			};
 		}

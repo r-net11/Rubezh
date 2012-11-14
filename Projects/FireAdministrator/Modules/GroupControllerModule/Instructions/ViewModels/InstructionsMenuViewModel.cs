@@ -1,6 +1,7 @@
 ﻿
 using Infrastructure.Common.Windows.ViewModels;
-namespace InstructionsModule.ViewModels
+
+namespace GKModule.ViewModels
 {
     public class InstructionsMenuViewModel : BaseViewModel
     {

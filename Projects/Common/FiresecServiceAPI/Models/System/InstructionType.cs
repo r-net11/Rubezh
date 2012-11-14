@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+
 namespace FiresecAPI.Models
 {
 	public enum InstructionType

@@ -252,6 +252,8 @@
     <Compile Include="XModels\Filters\XJournalFilter.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
+    <Compile Include="XModels\Instructions\XInstruction.cs" />
+    <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />
     <Compile Include="XModels\Library\LibraryXState.cs" />

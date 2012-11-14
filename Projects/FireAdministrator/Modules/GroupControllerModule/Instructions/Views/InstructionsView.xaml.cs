@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace InstructionsModule.Views
+namespace GKModule.Views
 {
     public partial class InstructionsView : UserControl
     {

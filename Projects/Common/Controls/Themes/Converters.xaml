@@ -13,6 +13,7 @@
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
     <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
+    <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
@@ -25,6 +26,7 @@
     <Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
     <Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
     <Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
-	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
-    <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
+    <Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
+    <Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
+    <Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
 </ResourceDictionary>

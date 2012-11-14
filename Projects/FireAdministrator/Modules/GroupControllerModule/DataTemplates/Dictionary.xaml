@@ -96,4 +96,24 @@
         <Views:XStateDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:InstructionsViewModel}">
+        <Views:InstructionsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:InstructionDetailsViewModel}">
+        <Views:InstructionDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:InstructionsMenuViewModel}">
+        <Views:InstructionsMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:InstructionZonesViewModel}">
+        <Views:InstructionZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:InstructionDevicesViewModel}">
+        <Views:InstructionsDevicesView />
+    </DataTemplate>
+
 </ResourceDictionary>

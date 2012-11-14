@@ -104,6 +104,29 @@
     <Compile Include="FiresecToGKConverter\Views\ConvertationView.xaml.cs">
       <DependentUpon>ConvertationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Instructions\Converters\DevicesToStringConverter.cs" />
+    <Compile Include="Instructions\Converters\ZonesToStringConverter.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionDetailsViewModel.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionDevicesViewModel.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionsMenuViewModel.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionsViewModel.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionViewModel.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionZonesViewModel.cs" />
+    <Compile Include="Instructions\Views\InstructionDetailsView.xaml.cs">
+      <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Instructions\Views\InstructionsDevicesView.xaml.cs">
+      <DependentUpon>InstructionsDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Instructions\Views\InstructionsMenuView.xaml.cs">
+      <DependentUpon>InstructionsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Instructions\Views\InstructionsView.xaml.cs">
+      <DependentUpon>InstructionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Instructions\Views\InstructionZonesView.xaml.cs">
+      <DependentUpon>InstructionZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
     <Compile Include="BinaryFormatViewer\Converters\BytesToStringConverter.cs" />
@@ -320,6 +343,26 @@
     <Page Include="FiresecToGKConverter\Views\ConvertationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Instructions\Views\InstructionDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Instructions\Views\InstructionsDevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Instructions\Views\InstructionsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Instructions\Views\InstructionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Instructions\Views\InstructionZonesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
       <SubType>Designer</SubType>
