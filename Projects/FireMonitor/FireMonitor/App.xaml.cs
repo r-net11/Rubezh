@@ -29,31 +29,31 @@ namespace FireMonitor
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-//            try
-//            {
-//                var path = System.Reflection.Assembly.GetExecutingAssembly();
-//                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-//                saveKey.SetValue("FireMonitorPath", path.Location);
-//                var isAutoConnect = saveKey.GetValue("isAutoConnect");
-//                if (isAutoConnect != null)
-//                    if (isAutoConnect.Equals("True"))
-//                    {
-//                        AppSettingsManager.AutoConnect = true;
-//                        saveKey.SetValue("isAutoConnect", false);
-//                    }
-//#if RELEASE
-//                var proc = Process.GetProcessesByName("Revisor");
-//                if (proc.Count() == 0)
-//                {
-//                    Process.Start(@"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe");
-//                }
-//#endif
-//                saveKey.Close();
-//            }
-//            catch (Exception ex)
-//            {
-//                Logger.Error(ex, "App.OnStartup");
-//            }
+			try
+			{
+				var path = System.Reflection.Assembly.GetExecutingAssembly();
+				RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+				saveKey.SetValue("FireMonitorPath", path.Location);
+				var isAutoConnect = saveKey.GetValue("isAutoConnect");
+				if (isAutoConnect != null)
+					if (isAutoConnect.Equals("True"))
+					{
+						AppSettingsManager.AutoConnect = true;
+						saveKey.SetValue("isAutoConnect", false);
+					}
+#if RELEASE
+                var proc = Process.GetProcessesByName("Revisor");
+                if (proc.Count() == 0)
+                {
+                    Process.Start(@"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe");
+                }
+#endif
+				saveKey.Close();
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "App.OnStartup");
+			}
 
             InitializeCommandLineArguments(e.Args);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -68,11 +68,11 @@ namespace FireMonitor
             {
                 _bootstrapper.Initialize();
 
-				//if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
-				//{
-				//    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-				//    saveKey.SetValue("isException", true);
-				//}
+				if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
+				{
+					RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+					saveKey.SetValue("isException", true);
+				}
             }
             bootstrapperLoaded = true;
         }

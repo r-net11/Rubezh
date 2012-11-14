@@ -4,9 +4,9 @@ using System.Windows.Media;
 using FiresecAPI;
 using XFiresecAPI;
 
-namespace Controls.Converters
+namespace GKModule.Converters
 {
-	public class XStateClassToColorConverter : IValueConverter
+	public class XStateClassToJournalColorConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

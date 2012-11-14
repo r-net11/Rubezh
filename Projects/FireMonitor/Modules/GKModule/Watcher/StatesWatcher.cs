@@ -37,10 +37,10 @@ namespace GKModule
                 {
                     GetState(binaryObject.BinaryBase, gkDatabase.RootDevice);
                 }
-				foreach (var binaryObject in gkDatabase.BinaryObjects)
-				{
-					GetParameters(binaryObject.BinaryBase, gkDatabase.RootDevice);
-				}
+				//foreach (var binaryObject in gkDatabase.BinaryObjects)
+				//{
+				//    GetParameters(binaryObject.BinaryBase, gkDatabase.RootDevice);
+				//}
             }
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
         }

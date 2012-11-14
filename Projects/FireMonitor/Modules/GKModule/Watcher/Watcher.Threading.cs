@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -56,8 +57,9 @@ namespace GKModule
 			{
 				try
 				{
-					PingJournal();
 					CheckTasks();
+					PingJournal();
+					Trace.WriteLine("OnRunThread");
 				}
 				catch (Exception e)
 				{
@@ -66,7 +68,7 @@ namespace GKModule
 
 				if (StopEvent != null)
 				{
-					if (StopEvent.WaitOne(100))
+					if (StopEvent.WaitOne(10))
 						break;
 				}
 			}

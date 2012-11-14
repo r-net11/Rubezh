@@ -48,20 +48,20 @@ namespace GKModule
 						Logger.Error("JournalWatcher.CheckTasks Tasks = null");
 					}
 
-					if (Tasks.Count == 0)
-						return;
-				}
-
-				var action = Tasks.Dequeue();
-				if (action != null)
-				{
-					action();
-					TasksCount = Tasks.Count;
-				}
-				else
-				{
-					Tasks = new Queue<Action>();
-					Logger.Error("JournalWatcher.CheckTasks action = null");
+					while (Tasks.Count > 0)
+					{
+						var action = Tasks.Dequeue();
+						if (action != null)
+						{
+							action();
+							TasksCount = Tasks.Count;
+						}
+						else
+						{
+							Tasks = new Queue<Action>();
+							Logger.Error("JournalWatcher.CheckTasks action = null");
+						}
+					}
 				}
 			}
 			catch (Exception e)

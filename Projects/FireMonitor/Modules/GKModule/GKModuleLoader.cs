@@ -47,6 +47,7 @@ namespace GKModule
 			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
 			_planPresenter = new PlanPresenter();
+			ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Subscribe(OnBootstrapperInitialized);
 		}
 
 		void OnShowAlarms(XAlarmType? alarmType)
@@ -81,6 +82,11 @@ namespace GKModule
 			DialogService.ShowWindow(new DeviceDetailsViewModel(deviceUID));
 		}
 
+		public void OnBootstrapperInitialized(object obj)
+		{
+			WatcherManager.Start();
+		}
+
 		public override void Initialize()
 		{
 			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
@@ -91,7 +97,6 @@ namespace GKModule
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 
-			WatcherManager.Start();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -109,7 +114,7 @@ namespace GKModule
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_journalNavigationItem,
-                    new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+					new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
 				}),
 			};
 		}
