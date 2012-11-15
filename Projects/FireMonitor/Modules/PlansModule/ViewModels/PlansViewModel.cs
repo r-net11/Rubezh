@@ -22,16 +22,18 @@ namespace PlansModule.ViewModels
 
 		public PlansViewModel()
 		{
-			_planPresenters = new List<IPlanPresenter<Plan>>();
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
+			_planPresenters = new List<IPlanPresenter<Plan>>();
+			PlanTreeViewModel = new PlanTreeViewModel();
+			PlanDesignerViewModel = new PlanDesignerViewModel(_planPresenters);
+			PlanTreeViewModel.SelectedPlanChanged += (s, e) => OnSelectedPlanChanged();
 		}
 
 		public void Initialize()
 		{
 			FiresecManager.InvalidatePlans();
-			PlanTreeViewModel = new PlanTreeViewModel();
-			PlanDesignerViewModel = new PlanDesignerViewModel(_planPresenters);
-			PlanTreeViewModel.SelectedPlanChanged += (s, e) => OnSelectedPlanChanged();
+			_planPresenters.Clear();
+			PlanTreeViewModel.Initialize();
 			OnSelectedPlanChanged();
 		}
 
@@ -43,9 +45,7 @@ namespace PlansModule.ViewModels
 		private void OnSelectedPlanChanged()
 		{
 			if (SelectedPlan != null)
-			{
 				PlanDesignerViewModel.Initialize(SelectedPlan);
-			}
 			OnPropertyChanged("SelectedPlan");
 		}
 		public void OnSelectPlan(Guid planUID)

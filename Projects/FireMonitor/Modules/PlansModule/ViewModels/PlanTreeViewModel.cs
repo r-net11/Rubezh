@@ -14,6 +14,11 @@ namespace PlansModule.ViewModels
 		public PlanTreeViewModel()
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
+		}
+
+		public void Initialize()
+		{
+			Plans.Clear();
 			AddPlans(null, FiresecManager.PlansConfiguration.Plans);
 			if (Plans.IsNotNullOrEmpty())
 				SelectedPlan = Plans[0];
