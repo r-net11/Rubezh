@@ -69,10 +69,12 @@ namespace DevicesModule.Views
 				if (value)
 				{
 					_serviceConnectionGrid.ToolTip = "Связь с сервером в норме";
+                    _serviceConnectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
                     _serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
+				    _serviceConnectionIndicator.Opacity = 1;
 				}
 			}
 		}
@@ -88,10 +90,12 @@ namespace DevicesModule.Views
 				if (value)
 				{
 					_deviceConnectionGrid.ToolTip = "Связь с устройствами в норме";
+                    _deviceConnectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
                     _deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
+				    _deviceConnectionIndicator.Opacity = 1;
 				}
 			}
 		}

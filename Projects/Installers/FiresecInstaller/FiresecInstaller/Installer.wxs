@@ -64,6 +64,7 @@
               <Directory Id="Monitor.SoundsFolder" Name="$(var.SoundsFolder)" />
             </Directory>
           </Directory>
+          <Directory Id="DIAGNOSTICSLOCATION" Name="$(var.DiagnosticsName)" />
           <Directory Id="OPCLOCATION" Name="OPC">
             <Directory Id="OPC.LogsFolder" Name="Logs" />
             <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">

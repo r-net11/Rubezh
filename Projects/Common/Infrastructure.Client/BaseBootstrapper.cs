@@ -40,7 +40,7 @@ namespace Infrastructure.Client
 			resourceService.AddResource(new ResourceDescription(typeof(AboutViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
-		}
+        }
 
 		protected void RunShell(ShellViewModel shellViewModel)
 		{

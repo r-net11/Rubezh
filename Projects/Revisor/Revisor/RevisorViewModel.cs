@@ -11,6 +11,10 @@ namespace Revisor
     {
         public RevisorViewModel()
         {
+            RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+            var path = System.Reflection.Assembly.GetExecutingAssembly();
+            saveKey.SetValue("RevisorPath", path.Location);
+            saveKey.Close();
             StartLifetimeThread();
             StartCommand = new RelayCommand(OnStart);
             StopCommand = new RelayCommand(OnStop);

@@ -27,11 +27,11 @@
                     </Style>
                 </Image.Style>
             </Image>
-            <Controls:AlarmButton Name="_serviceConnectionControl" Width="50" Height="30" Margin="3 3" OuterBorderThickness="0" GlowColor="Red" IsGlowing ="{Binding IsServiceConnected, Converter={StaticResource InverseBooleanConverter}}"  IsEnabled="{Binding IsServiceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsServiceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
+            <Controls:AlarmButton Name="_serviceConnectionControl" Width="50" Height="30" Margin="3 3" OuterBorderThickness="0" GlowColor="DarkOrange" IsGlowing ="{Binding IsServiceConnected, Converter={StaticResource InverseBooleanConverter}}"  IsEnabled="{Binding IsServiceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsServiceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
             <Grid Name="_serviceConnectionGrid" Width="50" Height="30" Margin="3 3" Background="White" Opacity="0.01" Visibility="{Binding IsServiceConnected, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </Grid>
         <Grid>
-            <Image Name="_deviceConnectionIndicator" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
+            <Image Name="_deviceConnectionIndicator"  Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
                 <Image.Style>
                     <Style>
                         <Style.Triggers>
@@ -42,15 +42,14 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png"  />
-                                    <Setter Property="Image.Opacity" Value="1" />
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Image.Style>
             </Image>
-            <Controls:AlarmButton Name="_deviceConnectionControl" Width="50" Height="30" Margin="3 3" OuterBorderThickness="0" GlowColor="Red" IsGlowing ="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}"  IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
+            <Controls:AlarmButton Name="_deviceConnectionControl" Width="50" Height="30" Margin="3 3" OuterBorderThickness="0" GlowColor="DarkOrange" IsGlowing ="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}"  IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
             <Grid Name="_deviceConnectionGrid" Width="50" Height="30" Margin="3 3"  Background="White" Opacity="0.01" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}}" />
             <!--<Border BorderBrush="White" Panel.ZIndex="-1" CornerRadius="5">
             <Border.Style>

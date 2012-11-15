@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <Feature Id="Diagnostics.Features" Title="Диагностика" Description="Установка утилиты Диагностика" Level="1"
+         ConfigurableDirectory="DIAGNOSTICSLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="Diagnostics.Files" />
+      <ComponentRef Id="Diagnostics.ProgramsMenuShortcut" />
+      <ComponentRef Id="Diagnostics.DesktopShortcut" />
+    </Feature>
+	</Fragment>
+</Wix>

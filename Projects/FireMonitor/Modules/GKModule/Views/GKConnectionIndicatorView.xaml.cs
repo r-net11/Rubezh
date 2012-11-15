@@ -41,10 +41,12 @@ namespace GKModule.Views
 				if (value)
 				{
 					_deviceConnectionGrid.ToolTip = "Связь с устройствами ГК в норме";
+                    _connectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
 					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
+				    _connectionIndicator.Opacity = 1;
 				}
 			}
 		}

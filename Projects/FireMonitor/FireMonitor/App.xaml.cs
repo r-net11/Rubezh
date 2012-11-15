@@ -43,9 +43,19 @@ namespace FireMonitor
 					}
 #if RELEASE
                 var proc = Process.GetProcessesByName("Revisor");
+                RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
+                var revisorpathobj = readKey.GetValue("RevisorPath");
+                string revisorpath = null;
+                if (revisorpathobj != null)
+                    revisorpath = revisorpathobj.ToString();
+                if (String.IsNullOrEmpty(revisorpath))
+                    revisorpath = @".\Revisor.exe";
+#if DEBUG
+                revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
+#endif
                 if (proc.Count() == 0)
                 {
-                    Process.Start(@"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe");
+                    Process.Start(revisorpath);
                 }
 #endif
 				saveKey.Close();
