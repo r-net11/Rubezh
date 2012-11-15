@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+	<Fragment>
+    <DirectoryRef Id="DIAGNOSTICSLOCATION">
+      <Component Id="Diagnostics.Files" Guid="CB85AFC6-23E7-44A5-997B-27CDB4C8DEAC">
+        <File Id="Diagnostics.Diagnostics.exe" Name="$(var.Diagnostics.TargetFileName)" Source="$(var.Diagnostics.TargetPath)" KeyPath="yes" />
+        <File Id="Diagnostics.Diagnostics.exe.manifest" Name="Diagnostics.exe.manifest" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.Common.dll" Name="Common.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Diagnostics.TargetDir)" />
+        <File Id="Diagnostics.NLog.dll" Name="NLog.dll" Source="$(var.Diagnostics.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+	</Fragment>
+</Wix>

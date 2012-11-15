@@ -50,10 +50,15 @@ namespace Diagnostics
         public RelayCommand GetLogsCommand { get; private set; }
         public void OnGetLogs()
         {
-            var admlogspath = @"..\..\..\..\FireAdministrator\bin\Debug\Logs";
-            var monlogspath = @"..\..\..\..\FireMonitor\bin\Debug\Logs";
-            var srvlogspath = @"..\..\..\..\FiresecService\bin\Debug\Logs";
-            var curlogspath = "Logs\\Logs " + DateTime.Today.Date.ToShortDateString();
+            var admlogspath = @"..\FireAdministrator\Logs";
+            var monlogspath = @"..\FireMonitor\Logs";
+            var srvlogspath = @"..\FiresecService\Logs";
+#if DEBUG
+            admlogspath = @"..\..\..\..\FireAdministrator\bin\Debug\Logs";
+            monlogspath = @"..\..\..\..\FireMonitor\bin\Debug\Logs";
+            srvlogspath = @"..\..\..\..\FiresecService\bin\Debug\Logs";
+#endif
+            var curlogspath = "..\\Logs\\Logs " + DateTime.Today.Date.ToShortDateString();
             var admdir = new DirectoryInfo(admlogspath);
             var mondir = new DirectoryInfo(monlogspath);
             var srvdir = new DirectoryInfo(srvlogspath);
@@ -65,28 +70,37 @@ namespace Diagnostics
             if (!Directory.Exists(curlogspath + "\\FiresecService"))
                 Directory.CreateDirectory(curlogspath + "\\FiresecService");
 
-            FileInfo[] admfiles = admdir.GetFiles();
-            foreach (FileInfo file in admfiles)
+            if (admdir.Exists)
             {
-                var temppath = Path.Combine(curlogspath,"FireAdministrator\\" + file.Name);
-                file.CopyTo(temppath, true);
+                FileInfo[] admfiles = admdir.GetFiles();
+                foreach (FileInfo file in admfiles)
+                {
+                    var temppath = Path.Combine(curlogspath, "FireAdministrator\\" + file.Name);
+                    file.CopyTo(temppath, true);
+                }
             }
 
-            FileInfo[] monfiles = mondir.GetFiles();
-            foreach (FileInfo file in monfiles)
+            if (mondir.Exists)
             {
-                var temppath = Path.Combine(curlogspath, "FireMonitor\\" + file.Name);
-                file.CopyTo(temppath, true);
+                FileInfo[] monfiles = mondir.GetFiles();
+                foreach (FileInfo file in monfiles)
+                {
+                    var temppath = Path.Combine(curlogspath, "FireMonitor\\" + file.Name);
+                    file.CopyTo(temppath, true);
+                }
             }
 
-            FileInfo[] srvfiles = srvdir.GetFiles();
-            foreach (FileInfo file in srvfiles)
+            if (srvdir.Exists)
             {
-                var temppath = Path.Combine(curlogspath, "FiresecService\\" + file.Name);
-                file.CopyTo(temppath, true);
+                FileInfo[] srvfiles = srvdir.GetFiles();
+                foreach (FileInfo file in srvfiles)
+                {
+                    var temppath = Path.Combine(curlogspath, "FiresecService\\" + file.Name);
+                    file.CopyTo(temppath, true);
+                }
             }
 
-			StringBuilder sb = new StringBuilder(string.Empty);
+            StringBuilder sb = new StringBuilder(string.Empty);
 			sb.AppendLine("System information");
 			try
 			{
@@ -106,7 +120,7 @@ namespace Diagnostics
 			{
 				sb.Append(ex.ToString());
 			}
-            System.IO.File.WriteAllText(@"Logs\systeminfo.txt", sb.ToString());
+            System.IO.File.WriteAllText(@"..\Logs\systeminfo.txt", sb.ToString());
         }
         private static int GetBitCount(bool is64)
         {
@@ -117,7 +131,7 @@ namespace Diagnostics
         {
             try
             {
-                var curlogspath = "Logs"; 
+                var curlogspath = "..\\Logs"; 
                 var directories = Directory.GetDirectories (curlogspath);
                 foreach (var directory in directories)
                     Directory.Delete(directory, true);
