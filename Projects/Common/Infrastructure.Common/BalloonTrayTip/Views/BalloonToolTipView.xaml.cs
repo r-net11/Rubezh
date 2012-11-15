@@ -24,12 +24,19 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void MyNotifyIcon_TrayBalloonTipClosed(object sender, RoutedEventArgs e)
         {
-            //MyNotifyIcon.Dispose();
+            MyNotifyIcon.Dispose();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //MyNotifyIcon.ShowBalloonTip(TitleBlock.Text, TextBlock.Text, MyNotifyIcon.Icon);
+            if (BalloonToolTipViewModel.IsCustom)
+            {
+                CustomBalloonView customBalloonView = new CustomBalloonView();
+                MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.Scroll, 4000);
+            }
+            else
+                MyNotifyIcon.ShowBalloonTip(BalloonToolTipViewModel.BalloonTitle, BalloonToolTipViewModel.BalloonText, MyNotifyIcon.Icon);
+            
         }
     }
 }

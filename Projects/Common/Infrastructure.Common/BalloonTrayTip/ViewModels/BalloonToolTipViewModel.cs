@@ -8,22 +8,21 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
     public class BalloonToolTipViewModel: WindowBaseViewModel
     {
-        string balloonTitle;
-        public string BalloonTitle
+        public static string BalloonTitle { get; private set; }
+        public static string BalloonText{get; private set;}
+        public static bool IsCustom { get; set; }
+        
+
+        public BalloonToolTipViewModel(string ttl, string txt, bool cstm = false)
         {
-            get { return balloonTitle; }
+            BalloonTitle = ttl;
+            BalloonText = txt;
+            IsCustom = cstm;
         }
 
-        string balloonText;
-        public string BalloonText
+        public BalloonToolTipViewModel()
         {
-            get { return balloonText; }
-        }
-        
-        public BalloonToolTipViewModel(string ttl, string txt)
-        {
-            balloonTitle = ttl;
-            balloonText = txt;
+            ;
         }
     }
 }

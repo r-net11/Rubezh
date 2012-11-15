@@ -28,7 +28,8 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
-            BalloonTestCommand = new RelayCommand(OnBalloonTest);
+            SimpleBalloonTestCommand = new RelayCommand(OnSimpleBalloonTest);
+            CustomBalloonTestCommand = new RelayCommand(OnCustomBalloonTest);
         }
 
 		public void StopThreads()
@@ -350,10 +351,15 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
         }
 
-        public RelayCommand BalloonTestCommand { get; private set; }
-        void OnBalloonTest()
+        public RelayCommand SimpleBalloonTestCommand { get; private set; }
+        void OnSimpleBalloonTest()
         {
             BalloonHelper.Show("SampleTitle", "SampleText");
+        }
+        public RelayCommand CustomBalloonTestCommand { get; private set; }
+        void OnCustomBalloonTest()
+        {
+            BalloonHelper.ShowCustom("Title", "Text");
         }
     }
 

@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Infrastructure.Common.BalloonTrayTip.Views.CustomBalloonView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:tb="http://www.hardcodet.net/taskbar"
+  x:Name="me"
+  Height="120"
+  Width="240">
+    <Grid x:Name="grid" MouseLeftButtonDown="grid_MouseDown">
+        <Border
+      HorizontalAlignment="Stretch"
+      Margin="5,5,5,5"
+      BorderThickness="1,1,1,1"
+      BorderBrush="#FF997137">
+            <Border.Effect>
+                <DropShadowEffect Color="#FF747474"/>
+            </Border.Effect>
+            <Border.Background>
+                <LinearGradientBrush
+          EndPoint="0.5,1"
+          StartPoint="0.5,0">
+                    <GradientStop
+            Color="#FF4B4B4B"
+            Offset="0" />
+                    <GradientStop
+            Color="#FF8F8F8F"
+            Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <TextBlock Margin="72,10,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonTitle}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
+        <TextBlock Margin="72,30,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonText}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
+        <Path
+      Fill="#FFFFFFFF"
+      Stretch="Fill"
+      Margin="72,28.2,34,0"
+      VerticalAlignment="Top"
+      Height="1"
+      Data="M26,107 L220.04123,107" SnapsToDevicePixels="True">
+            <Path.Stroke>
+                <LinearGradientBrush
+          EndPoint="0.973,0.5"
+          StartPoint="0.005,0.5">
+                    <GradientStop
+            Color="#00ECAD25"
+            Offset="1" />
+                    <GradientStop
+            Color="#87ECAD25"
+            Offset="0" />
+                </LinearGradientBrush>
+            </Path.Stroke>
+        </Path>
+    </Grid>
+</UserControl>

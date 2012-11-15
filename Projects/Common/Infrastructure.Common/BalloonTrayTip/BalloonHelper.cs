@@ -14,5 +14,11 @@ namespace Infrastructure.Common.BalloonTrayTip
             var balloonToolTipViewModel = new BalloonToolTipViewModel(title, text);
             DialogService.ShowTrayWindow(balloonToolTipViewModel);
         }
+
+        public static void ShowCustom(string title, string text)
+        {
+            var balloonToolTipViewModel = new BalloonToolTipViewModel(title, text, true);
+            DialogService.ShowTrayWindow(balloonToolTipViewModel);
+        }
     }
 }
