@@ -110,6 +110,7 @@ namespace Infrustructure.Plans.Designer
 				MinHeight += 3;
 			}
 			SetLocation();
+			CreateContextMenu();
 		}
 		public void SetZIndex()
 		{

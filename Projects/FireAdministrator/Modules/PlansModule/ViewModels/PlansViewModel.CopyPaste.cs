@@ -9,6 +9,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using System.Windows.Input;
 
 namespace PlansModule.ViewModels
 {
@@ -20,7 +21,7 @@ namespace PlansModule.ViewModels
 		{
 			CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
 			CutCommand = new RelayCommand(OnCut, CanCopyCut);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			PasteCommand = new RelayCommand<IInputElement>(OnPaste, CanPaste);
 			Buffer = new List<ElementBase>();
 		}
 
@@ -49,15 +50,15 @@ namespace PlansModule.ViewModels
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
-		bool CanPaste(object obj)
+		bool CanPaste(IInputElement obj)
 		{
 			return Buffer.Count > 0;
 		}
 
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
+		public RelayCommand<IInputElement> PasteCommand { get; private set; }
+		void OnPaste(IInputElement container)
 		{
-			if (NormalizeBuffer())
+			if (NormalizeBuffer(container))
 			{
 				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
@@ -74,10 +75,11 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private bool NormalizeBuffer()
+		private bool NormalizeBuffer(IInputElement container)
 		{
 			if (Buffer.Count > 0)
 			{
+				Point? point = container == null ? null : (Point?)Mouse.GetPosition(container);
 				double minLeft = double.MaxValue;
 				double minTop = double.MaxValue;
 				double maxRight = 0;
@@ -105,10 +107,15 @@ namespace PlansModule.ViewModels
 				if (border.Y < 0)
 					border.Y = 0;
 				if (border.X + border.Width > PlanDesignerViewModel.Plan.Width)
-					border.X -= PlanDesignerViewModel.Plan.Width - border.Width;
+					border.X = PlanDesignerViewModel.Plan.Width - border.Width;
 				if (border.Y + border.Height > PlanDesignerViewModel.Plan.Height)
-					border.Y -= PlanDesignerViewModel.Plan.Height - border.Height;
-				Vector shift = new Vector(minLeft - border.X, minTop - border.Y);
+					border.Y = PlanDesignerViewModel.Plan.Height - border.Height;
+				if (point.HasValue)
+				{
+					border.X = point.Value.X + border.Width <= PlanDesignerViewModel.Plan.Width ? point.Value.X : PlanDesignerViewModel.Plan.Width - border.Width;
+					border.Y = point.Value.Y + border.Height <= PlanDesignerViewModel.Plan.Height ? point.Value.Y : PlanDesignerViewModel.Plan.Height - border.Height;
+				}
+				Vector shift = new Vector(border.X - minLeft, border.Y - minTop);
 				//if (shift.X == 0 && shift.Y == 0)
 				//    shift = new Vector(-minLeft / 2, -minTop / 2);
 				foreach (var elementBase in Buffer)

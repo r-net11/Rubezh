@@ -23,7 +23,7 @@ namespace PlansModule.Designer.DesignerItems
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DeleteCommand = new RelayCommand(OnDelete);
 			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
-			CreateContextMenu();
+			//CreateContextMenu();
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
 		}
@@ -56,6 +56,20 @@ namespace PlansModule.Designer.DesignerItems
 		protected override void CreateContextMenu()
 		{
 			ContextMenu = new ContextMenu();
+			if (DesignerCanvas != null)
+			{
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CopyCommand,
+					Header = "Копировать"
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CutCommand,
+					Header = "Вырезать",
+				});
+				ContextMenu.Items.Add(new Separator());
+			}
 			ContextMenu.Items.Add(new MenuItem()
 			{
 				Command = DeleteCommand,

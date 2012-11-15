@@ -34,13 +34,12 @@ namespace FiresecAPI.Models
 			ElementTextBlock elementBase = new ElementTextBlock()
 			{
 				Text = Text,
-				BackgroundColor = BackgroundColor,
 				ForegroundColor = ForegroundColor,
-				BorderColor = BorderColor,
-				BorderThickness = BorderThickness,
 				FontSize = FontSize,
 				FontFamilyName = FontFamilyName,
-				TextAlignment = TextAlignment
+				Stretch = Stretch,
+				TextAlignment = TextAlignment,
+				ZIndex = ZIndex,
 			};
 			Copy(elementBase);
 			return elementBase;

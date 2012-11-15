@@ -12,6 +12,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using System.Windows.Data;
 
 namespace PlansModule.Designer
 {
@@ -32,6 +33,14 @@ namespace PlansModule.Designer
 			Height = 100;
 
 			DataContext = this;
+			var pasteItem = new MenuItem()
+			{
+				Header = "Вставить",
+				CommandParameter = this
+			};
+			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
+			ContextMenu = new ContextMenu();
+			ContextMenu.Items.Add(pasteItem);
 		}
 
 		public override double Zoom
