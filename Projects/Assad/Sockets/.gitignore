@@ -22,7 +22,7 @@ obj/
 *.ilk
 *.log
 *.resharper
-[Db]ebug*/
+[Dd]ebug*/
 [Rr]elease*/
 [Rr]efactor*/
 _ReSharper*/

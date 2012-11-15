@@ -24,9 +24,12 @@ namespace Infrustructure.Plans.Designer
 			get { return (bool)GetValue(IsSelectedProperty); }
 			set
 			{
-				SetValue(IsSelectedProperty, value);
-				if (value)
-					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element);
+				if (!value || IsSelectable)
+				{
+					SetValue(IsSelectedProperty, value);
+					if (value)
+						EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element);
+				}
 			}
 		}
 
