@@ -28,7 +28,7 @@ namespace DevicesModule.ViewModels
 			if (openFileDialog.ShowDialog() == true)
 			{
 				_fileName = openFileDialog.FileName;
-				ServiceFactory.ProgressService.Run(OnVarifyPropgress, OnVerifyCompleted, _device.PresentationAddressAndDriver + ". Обновление прошивки");
+				ServiceFactory.ProgressService.Run(OnVarifyPropgress, OnVerifyCompleted, _device.PresentationAddressAndName + ". Обновление прошивки");
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (MessageBoxService.ShowQuestion(_operationResult_1.Result) == MessageBoxResult.Yes)
 				{
-					ServiceFactory.ProgressService.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressAndDriver + ". Обновление прошивки");
+					ServiceFactory.ProgressService.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressAndName + ". Обновление прошивки");
 				}
 			}
 		}

@@ -28,7 +28,7 @@ namespace JournalModule.ViewModels
 		{
 			get
 			{
-				var name = Device.Driver.ShortName + " " + Device.DottedAddress + " ";
+				var name = Device.DottedPresentationAddressAndName + " ";
 				if (string.IsNullOrEmpty(Device.Description) == false)
 				{
 					name += " (" + Device.Description + ")";

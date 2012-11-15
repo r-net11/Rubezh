@@ -28,7 +28,7 @@ namespace DevicesModule.ViewModels
 			DeviceState.ParametersChanged += new Action(OnParametersChanged);
 			OnStateChanged();
 
-			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
+			Title = Device.DottedPresentationAddressAndName;
 			TopMost = true;
 		}
 
@@ -45,7 +45,7 @@ namespace DevicesModule.ViewModels
 			//OnPropertyChanged("DeviceState");
 
 			States = new List<StateViewModel>();
-            foreach (var state in DeviceState.ThreadSafeStates)
+			foreach (var state in DeviceState.ThreadSafeStates)
 			{
 				var stateViewModel = new StateViewModel()
 				{
@@ -60,14 +60,14 @@ namespace DevicesModule.ViewModels
 				var stateViewModel = new StateViewModel()
 				{
 					DriverState = state.DriverState,
-					DeviceName = state.ParentDevice.Driver.ShortName + " - " + state.ParentDevice.DottedAddress
+					DeviceName = state.ParentDevice.DottedPresentationAddressAndName
 				};
 				ParentStates.Add(stateViewModel);
 			}
 			OnPropertyChanged("StateType");
 			OnPropertyChanged("States");
 			OnPropertyChanged("ParentStringStates");
-            OnPropertyChanged("IsAutomaticOff");
+			OnPropertyChanged("IsAutomaticOff");
 
 			StartTimer(DriverType.RM_1, "RMOn");
 			StartTimer(DriverType.MRO_2, "MRO_On");
@@ -76,29 +76,29 @@ namespace DevicesModule.ViewModels
 			StartTimer(DriverType.MPT, "MPT_On");
 		}
 
-        public bool IsAutomaticOff
-        {
-            get
-            {
-                foreach (var state in DeviceState.States)
-                {
-                    if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off") || state.DriverState.Code.Contains("Auto_off")))
-                        return true;
-                }
-                return false;
-            }
-        }
+		public bool IsAutomaticOff
+		{
+			get
+			{
+				foreach (var state in DeviceState.States)
+				{
+					if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off") || state.DriverState.Code.Contains("Auto_off")))
+						return true;
+				}
+				return false;
+			}
+		}
 
 		void StartTimer(DriverType driverType, string stateCodeName)
 		{
 			if (Device.Driver.DriverType == driverType)
 			{
-                var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == stateCodeName);
+				var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == stateCodeName);
 				if (deviceDriverState != null)
 				{
 					if (DateTime.Now > deviceDriverState.Time)
 					{
-						var timeSpan = deviceDriverState.Time - DateTime.Now;
+						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
 						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)
@@ -150,7 +150,7 @@ namespace DevicesModule.ViewModels
 						Height = 50,
 						StateType = DeviceState.StateType,
 						AdditionalStateCodes = new List<string>(
-                            from state in DeviceState.ThreadSafeStates
+							from state in DeviceState.ThreadSafeStates
 							select state.DriverState.Code)
 					};
 					_deviceControl.Update();
@@ -187,28 +187,27 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public bool CanControl
-        {
-            get { return ControlDenyMessage == null; }
-        }
-        public bool CanNotControl
-        {
-            get { return ControlDenyMessage != null; }
-        }
+		public bool CanControl
+		{
+			get { return ControlDenyMessage == null; }
+		}
+		public bool CanNotControl
+		{
+			get { return ControlDenyMessage != null; }
+		}
 
-        public string ControlDenyMessage
-        {
-            get
-            {
-                var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
-                if (controlProperty != null)
-                {
-                    if (controlProperty.Value != "1")
-                        return "Управление запрещено настройкой конфигурации";
-                }
+		public string ControlDenyMessage
+		{
+			get
+			{
+				var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
+				if (controlProperty == null || controlProperty.Value != "1")
+				{
+					return "Управление запрещено настройкой конфигурации";
+				}
 
-                if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
-                    return "Управление исполнительными устройствами для данного пользователя запрещено";
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
+					return "Управление исполнительными устройствами для данного пользователя запрещено";
 
 #if DEBUG
 				return null;
@@ -217,17 +216,17 @@ namespace DevicesModule.ViewModels
 				if (!ServiceFactory.AppSettings.HasLicenseToControl)
 					return "Отсутствует лицензия на управление";
 
-                return null;
-            }
-        }
+				return null;
+			}
+		}
 
-        public bool IsControlDevice
-        {
-            get
-            {
-                return Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
-            }
-        }
+		public bool IsControlDevice
+		{
+			get
+			{
+				return Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
+			}
+		}
 
 		#region IWindowIdentity Members
 		public string Guid

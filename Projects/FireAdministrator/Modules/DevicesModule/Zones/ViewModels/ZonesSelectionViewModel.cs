@@ -18,7 +18,7 @@ namespace DevicesModule.ViewModels
 
 		public ZonesSelectionViewModel(Device device, List<Guid> zones, ZoneLogicState zoneLogicState)
 		{
-			Title = "Выбор зон устройства " + device.PresentationAddressAndDriver;
+			Title = "Выбор зон устройства " + device.PresentationAddressAndName;
             AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);

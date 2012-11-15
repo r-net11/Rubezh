@@ -32,7 +32,7 @@ namespace AlarmModule.ViewModels
 			{
                 if (Alarm.Device != null)
                 {
-                    return Alarm.Device.Driver.ShortName + " " + Alarm.Device.DottedAddress;
+					return Alarm.Device.DottedPresentationAddressAndName;
                 }
 				return "";
 			}

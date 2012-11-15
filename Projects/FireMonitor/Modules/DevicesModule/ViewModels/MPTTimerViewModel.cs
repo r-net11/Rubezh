@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
 
         public MPTTimerViewModel(Device device)
         {
-			Title = "Включение: " +  device.PresentationAddressAndDriver;
+			Title = "Включение: " + device.PresentationAddressAndName;
             Device = device;
             _guid = device.UID;
         }

@@ -39,7 +39,7 @@
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
                                   DisplayDate="{Binding StartDate}"
                                   SelectedDate="{Binding StartDate}" />
-                            <extToolkit:TimePicker Width="100" Value="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" Margin="4" VerticalAlignment="Top" />
+                            <extToolkit:TimePicker Width="100" Value="{Binding StartTime}" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <Label Content="По" />
@@ -48,7 +48,7 @@
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
                                   DisplayDate="{Binding EndDate}"
                                   SelectedDate="{Binding EndDate}" />
-                            <extToolkit:TimePicker Value="{Binding EndDateGetParameters, UpdateSourceTrigger=PropertyChanged}" Width="100" Margin="4" VerticalAlignment="Top" />
+                            <extToolkit:TimePicker Value="{Binding EndTime}" Width="100" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                     </Grid>
                     <CheckBox Margin="2" HorizontalAlignment="Center" Foreground="White"

@@ -75,7 +75,7 @@ namespace DevicesModule.ViewModels
 				var stateViewModel = new StateViewModel()
 				{
 					DriverState = state.DriverState,
-					DeviceName = state.ParentDevice.Driver.ShortName + " - " + state.ParentDevice.DottedAddress
+					DeviceName = state.ParentDevice.DottedPresentationAddressAndName
 				};
 				ParentStates.Add(stateViewModel);
 			}
@@ -115,10 +115,7 @@ namespace DevicesModule.ViewModels
 			get
 			{
 				var stringBuilder = new StringBuilder();
-				stringBuilder.Append(Device.PresentationAddress);
-				stringBuilder.Append(" - ");
-				stringBuilder.Append(Device.Driver.ShortName);
-				stringBuilder.Append("\n");
+				stringBuilder.AppendLine(Device.PresentationAddressAndName);
 
 				if (DeviceState.ParentStringStates != null)
 				{
@@ -308,14 +305,16 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			if (DevicesViewModel.Current.SelectedDevice != null)
-			{
-				ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(DevicesViewModel.Current.SelectedDevice.Device.UID);
-			}
-			else
-			{
-				ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
-			}
+			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
+
+			//if (DevicesViewModel.Current.SelectedDevice != null)
+			//{
+			//    ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(DevicesViewModel.Current.SelectedDevice.Device.UID);
+			//}
+			//else
+			//{
+			//    ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
+			//}
 		}
 		bool CanShowProperties()
 		{
@@ -393,7 +392,7 @@ namespace DevicesModule.ViewModels
 				{
 					if (DateTime.Now > deviceDriverState.Time)
 					{
-						var timeSpan = deviceDriverState.Time - DateTime.Now;
+						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
 						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)

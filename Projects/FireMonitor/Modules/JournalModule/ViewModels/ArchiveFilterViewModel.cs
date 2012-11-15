@@ -22,6 +22,8 @@ namespace JournalModule.ViewModels
 
 			StartDate = archiveFilter.StartDate;
 			EndDate = DateTime.Now;
+			StartTime = archiveFilter.StartDate;
+			EndTime = DateTime.Now;
 			UseSystemDate = archiveFilter.UseSystemDate;
 
 			if (archiveFilter.Descriptions.IsNotNullOrEmpty())
@@ -127,14 +129,34 @@ namespace JournalModule.ViewModels
 			}
 		}
 
+		public DateTime StartTime
+		{
+			get { return _startDate; }
+			set
+			{
+				_startDate = value;
+				OnPropertyChanged("StartTime");
+			}
+		}
+
+		public DateTime EndTime
+		{
+			get { return _endDate; }
+			set
+			{
+				_endDate = value;
+				OnPropertyChanged("EndTime");
+			}
+		}
+
 		public List<DeviceViewModel> Devices { get; private set; }
 
 		public ArchiveFilter GetModel()
 		{
 			return new ArchiveFilter()
 			{
-				StartDate = StartDate,
-				EndDate = EndDate,
+				StartDate = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, StartTime.Second),
+				EndDate = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, EndTime.Second),
 				UseSystemDate = UseSystemDate,
 				Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
 				DeviceNames = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseName)),
@@ -145,7 +167,7 @@ namespace JournalModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			StartDate = EndDate = DateTime.Now;
+			StartDate = StartTime = EndDate = EndTime = DateTime.Now;
 			StartDate = StartDate.AddDays(-1);
 			UseSystemDate = false;
 

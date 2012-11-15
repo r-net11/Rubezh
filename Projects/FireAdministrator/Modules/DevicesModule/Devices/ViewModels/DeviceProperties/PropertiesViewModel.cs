@@ -118,6 +118,7 @@ namespace DevicesModule.DeviceProperties
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.RM_1:
+				case DriverType.MRO:
 				case DriverType.MRO_2:
 				case DriverType.MDU:
 				case DriverType.Valve:

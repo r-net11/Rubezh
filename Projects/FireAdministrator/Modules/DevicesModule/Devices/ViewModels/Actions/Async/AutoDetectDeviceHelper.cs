@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
         static void RunAutodetection(bool fastSearch)
         {
             _fastSearch = fastSearch;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _deviceViewModel.Device.PresentationAddressAndDriver + ". Автопоиск устройств");
+			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _deviceViewModel.Device.PresentationAddressAndName + ". Автопоиск устройств");
         }
 
         static void OnPropgress()

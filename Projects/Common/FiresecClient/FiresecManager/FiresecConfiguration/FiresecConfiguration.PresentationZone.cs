@@ -101,7 +101,7 @@ namespace FiresecClient
 
 				if (clause.DeviceUID != Guid.Empty)
 				{
-					result += "Сработка устройства " + clause.Device.PresentationAddress + " - " + clause.Device.Driver.Name;
+					result += "Сработка устройства " + clause.Device.PresentationAddressAndName;
 					continue;
 				}
 
@@ -146,7 +146,7 @@ namespace FiresecClient
 						if (indicatorDevice.IndicatorLogic.DeviceUID != Guid.Empty)
 						{
 							var deviceString = "Устр: ";
-							deviceString += indicatorDevice.IndicatorLogic.Device.PresentationAddressAndDriver;
+							deviceString += indicatorDevice.IndicatorLogic.Device.PresentationAddressAndName;
 							return deviceString;
 						}
 						break;

@@ -39,7 +39,7 @@ namespace DevicesModule.ViewModels
 			get
 			{
 				if (Device.Driver.HasAddress)
-					return Device.PresentationAddress + "-" + Device.Driver.Name;
+					return Device.PresentationAddressAndName;
 				return Device.Driver.Name;
 			}
 		}

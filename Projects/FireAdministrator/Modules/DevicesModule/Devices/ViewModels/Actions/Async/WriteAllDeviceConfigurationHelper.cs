@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (device.Driver.CanWriteDatabase)
 				{
-					var deviceName = device.PresentationAddressAndDriver + ". Запись конфигурации в устройство";
+					var deviceName = device.PresentationAddressAndName + ". Запись конфигурации в устройство";
 					ServiceFactory.ProgressService.Run(
 						new Action
 							(
@@ -29,7 +29,7 @@ namespace DevicesModule.ViewModels
 								_operationResult = FiresecManager.DeviceWriteConfiguration(device, false);
 								if (_operationResult.HasError)
 								{
-									Errors.Add(device.PresentationAddressAndDriver + " " + _operationResult.Error);
+									Errors.Add(device.PresentationAddressAndName + " " + _operationResult.Error);
 								}
 							}
 							),

@@ -11,7 +11,7 @@ namespace Firesec.Imitator.ViewModels
         public DeviceViewModel(DeviceState deviceState)
         {
             DeviceState = deviceState;
-            Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
+			Name = DeviceState.Device.DottedPresentationAddressAndName;
             Level = DeviceState.Device.AllParents.Count;
             ImageSource = DeviceState.Device.Driver.ImageSource;
 

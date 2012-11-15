@@ -132,7 +132,7 @@ namespace PlansModule.ViewModels
 			get
 			{
 				var stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(Device.PresentationAddress + " - " + Device.Driver.ShortName);
+				stringBuilder.AppendLine(Device.PresentationAddressAndName);
 				stringBuilder.AppendLine("Состояние: " + DeviceState.StateType.ToDescription());
 
 				if (DeviceState.ParentStringStates != null)

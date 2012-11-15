@@ -4,7 +4,7 @@
 	</ContentControl.Resources>
 
 	<Grid Name="_grid">
-		<!--Fill="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"-->
+        <!--Fill="{Binding ZoneState, Converter={StaticResource XStateClassToZoneColorConverter}}"-->
 		<Polygon Name="_polygon" Stroke="Pink" StrokeThickness="0" ToolTip="{Binding Tooltip}" Fill="Yellow" MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
 			<!--<Polygon.ContextMenu>
                 <ContextMenu>

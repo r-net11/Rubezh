@@ -4,6 +4,7 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace Firesec
 {
@@ -16,8 +17,16 @@ namespace Firesec
 		bool needToReadParameters = false;
 		bool needToReadJournal = false;
 
+		static HashSet<int> callbackThreadIds = new HashSet<int>();
+
 		public void NewEventsAvailable(int eventMask)
 		{
+			callbackThreadIds.Add(Thread.CurrentThread.ManagedThreadId);
+			if (callbackThreadIds.Count > 1)
+			{
+				Trace.WriteLine("callbackThreadIds.Count = " + callbackThreadIds.Count.ToString());
+			}
+
 			if (IsPing)
 			{
 				needToRead = true;

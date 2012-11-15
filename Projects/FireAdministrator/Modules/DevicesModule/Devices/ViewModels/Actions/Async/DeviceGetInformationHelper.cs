@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
         {
             Device = device;
             IsUsb = isUsb;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndDriver + ". Чтение информации об устройстве");
+			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndName + ". Чтение информации об устройстве");
         }
 
         static void OnPropgress()

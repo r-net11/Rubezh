@@ -29,6 +29,7 @@ namespace DiagnosticsModule.ViewModels
             Test4Command = new RelayCommand(OnTest4);
             Test5Command = new RelayCommand(OnTest5);
             Test6Command = new RelayCommand(OnTest6);
+			Test7Command = new RelayCommand(OnTest7);
         }
 
         public void StopThreads()
@@ -120,16 +121,6 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test4Command { get; private set; }
         void OnTest4()
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var fileName = openFileDialog.FileName;
-                var fileName2 = new FileInfo(fileName).Name;
-                var fileName3 = new FileInfo(fileName).FullName;
-                MessageBoxService.Show(fileName + "\n" + fileName2 + "\n" + fileName3);
-            }
         }
 
         public RelayCommand Test5Command { get; private set; }
@@ -182,5 +173,21 @@ namespace DiagnosticsModule.ViewModels
             thread.IsBackground = true;
             thread.Start();
         }
+
+        public RelayCommand Test7Command { get; private set; }
+		void OnTest7()
+		{
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.CanResetOnPanel)
+						Trace.WriteLine("CanResetOnPanel " + driver.Name.ToString() + " " + state.Name);
+
+					if (state.IsManualReset)
+						Trace.WriteLine("IsManualReset" + driver.Name.ToString() + " " + state.Name);
+				}
+			}
+		}
     }
 }

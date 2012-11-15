@@ -13,7 +13,6 @@ namespace AlarmModule.ViewModels
 		public InstructionViewModel(Device device, Zone zone, AlarmType alarmType)
 		{
 			Title = "Инструкция ";
-			StateType = AlarmTypeToStateType(alarmType);
             AlarmType = alarmType;
 
             Instruction = FindInstruction(device, zone);
@@ -29,47 +28,22 @@ namespace AlarmModule.ViewModels
 		public StateType StateType { get; private set; }
 		public Instruction Instruction { get; private set; }
 
-		StateType AlarmTypeToStateType(AlarmType alarmType)
-		{
-			switch (alarmType)
-			{
-				case AlarmType.Guard:
-				case AlarmType.Fire:
-					return StateType.Fire;
-
-				case AlarmType.Attention:
-					return StateType.Attention;
-
-				case AlarmType.Failure:
-					return StateType.Failure;
-
-				case AlarmType.Off:
-					return StateType.Off;
-
-				case AlarmType.Info:
-					return StateType.Info;
-
-				case AlarmType.Auto:
-				case AlarmType.Service:
-					return StateType.Service;
-
-				default:
-					return StateType.No;
-			}
-		}
-
 		Instruction FindInstruction(Device device, Zone zone)
 		{
             var availableStateTypeInstructions = FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
 
-            if (device != null && device.ParentPanel != null)
+            if (device != null)
             {
                 foreach (var instruction in availableStateTypeInstructions)
                 {
-					if (instruction.Devices.Contains(device.ParentPanel.UID))
+					if (device.ParentPanel != null && instruction.Devices.Contains(device.ParentPanel.UID))
                     {
                         return instruction;
                     }
+					if (instruction.Devices.Contains(device.UID))
+					{
+						return instruction;
+					}
                 }
             }
 

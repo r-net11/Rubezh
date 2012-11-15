@@ -103,15 +103,15 @@ namespace FiresecClient
         {
             if (e is CommunicationObjectFaultedException)
             {
-                Logger.Error("FiresecClient.SafeOperationCall CommunicationObjectFaultedException " + methodName);
+                Logger.Error("FiresecClient.SafeOperationCall CommunicationObjectFaultedException " + e.Message + " " + methodName);
             }
-			if (e is ObjectDisposedException)
+			else if (e is ObjectDisposedException)
 			{
-				Logger.Error("FiresecClient.SafeOperationCall ObjectDisposedException " + methodName);
+				Logger.Error("FiresecClient.SafeOperationCall ObjectDisposedException " + e.Message + " " + methodName);
 			}
             else
             {
-                Logger.Error(e, "FiresecClient.SafeOperationCall " + methodName);
+				Logger.Error(e, "FiresecClient.SafeOperationCall " + e.Message + " " + methodName);
             }
         }
 

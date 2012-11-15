@@ -140,53 +140,6 @@ namespace FiresecAPI.Models
 			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.DriverType != DriverType.FanControl)); }
 		}
 
-		public string EditingPresentationAddress
-		{
-			get
-			{
-				if (Driver.HasAddress == false)
-					return "";
-
-				return AddressConverter.IntToStringAddress(Driver, IntAddress);
-			}
-		}
-
-		public string PresentationAddress
-		{
-			get
-			{
-				if (Driver == null)
-					return "";
-
-				if (Driver.HasAddress == false)
-					return "";
-
-				string address = AddressConverter.IntToStringAddress(Driver, IntAddress);
-
-				if (Driver.IsChildAddressReservedRange)
-				{
-					int reservedCount = GetReservedCount();
-
-					int endAddress = IntAddress + reservedCount;
-					if (endAddress >> 8 != IntAddress >> 8)
-						endAddress = (IntAddress / 256) * 256 + 255;
-					address += " - " + AddressConverter.IntToStringAddress(Driver, endAddress);
-				}
-
-				return address;
-			}
-		}
-
-		public string PresentationAddressAndDriver
-		{
-			get
-			{
-				if (Driver.HasAddress)
-					return PresentationAddress + " - " + Driver.Name;
-				return Driver.Name;
-			}
-		}
-
 		public int GetReservedCount()
 		{
 			int reservedCount = Driver.ChildAddressReserveRangeCount;
@@ -277,34 +230,6 @@ namespace FiresecAPI.Models
 			return currentId;
 		}
 
-		public string DottedAddress
-		{
-			get
-			{
-				var address = new StringBuilder();
-				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
-				{
-					if (parentDevice.Driver.DriverType == DriverType.MPT)
-						continue;
-					if (parentDevice.Driver.IsChildAddressReservedRange)
-						continue;
-
-					address.Append(parentDevice.PresentationAddress);
-					address.Append(".");
-				}
-				if (Driver.HasAddress)
-				{
-					address.Append(PresentationAddress);
-					address.Append(".");
-				}
-
-				if (address.Length > 0 && address[address.Length - 1] == '.')
-					address.Remove(address.Length - 1, 1);
-
-				return address.ToString();
-			}
-		}
-
 		public bool CanEditAddress
 		{
 			get
@@ -371,9 +296,7 @@ namespace FiresecAPI.Models
 				if (Parent == null)
 					return null;
 
-				string parentPart = Parent.Driver.ShortName;
-				if (Parent.Driver.HasAddress)
-					parentPart += " - " + Parent.PresentationAddress;
+				string parentPart = Parent.PresentationAddressAndName;
 
 				if (Parent.ConnectedTo == null || Parent.Parent.ConnectedTo == null)
 					return parentPart;
@@ -423,6 +346,105 @@ namespace FiresecAPI.Models
 			if (Children.Count > 0)
 			{
 				Children = new List<Device>(Children.OrderBy(x => { return x.IntAddress; }));
+			}
+		}
+
+
+		public string EditingPresentationAddress
+		{
+			get
+			{
+				if (Driver.HasAddress == false)
+					return "";
+
+				return AddressConverter.IntToStringAddress(Driver, IntAddress);
+			}
+		}
+
+		public string PresentationAddress
+		{
+			get
+			{
+				if (Driver == null)
+					return "";
+
+				if (Driver.HasAddress == false)
+					return "";
+
+				string address = AddressConverter.IntToStringAddress(Driver, IntAddress);
+
+				if (Driver.IsChildAddressReservedRange)
+				{
+					int reservedCount = GetReservedCount();
+
+					int endAddress = IntAddress + reservedCount;
+					if (endAddress >> 8 != IntAddress >> 8)
+						endAddress = (IntAddress / 256) * 256 + 255;
+					address += " - " + AddressConverter.IntToStringAddress(Driver, endAddress);
+				}
+
+				return address;
+			}
+		}
+
+		public string DottedAddress
+		{
+			get
+			{
+				var address = new StringBuilder();
+				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
+				{
+					if (parentDevice.Driver.DriverType == DriverType.MPT)
+						continue;
+					if (parentDevice.Driver.IsChildAddressReservedRange)
+						continue;
+
+					address.Append(parentDevice.PresentationAddress);
+					address.Append(".");
+				}
+				if (Driver.HasAddress)
+				{
+					address.Append(PresentationAddress);
+					address.Append(".");
+				}
+
+				if (address.Length > 0 && address[address.Length - 1] == '.')
+					address.Remove(address.Length - 1, 1);
+
+				return address.ToString();
+			}
+		}
+
+		public string PresentationName
+		{
+			get
+			{
+				var result = Driver.ShortName;
+				if (!string.IsNullOrEmpty(Description))
+				{
+					result += " (" + Description + ")";
+				}
+				return result;
+			}
+		}
+
+		public string PresentationAddressAndName
+		{
+			get
+			{
+				if (Driver.HasAddress)
+					return PresentationAddress + " - " + PresentationName;
+				return PresentationName;
+			}
+		}
+
+		public string DottedPresentationAddressAndName
+		{
+			get
+			{
+				if (Driver.HasAddress)
+					return DottedAddress + " - " + PresentationName;
+				return PresentationName;
 			}
 		}
 

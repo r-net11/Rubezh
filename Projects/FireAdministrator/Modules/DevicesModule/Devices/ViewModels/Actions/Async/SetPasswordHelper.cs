@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
             _devicePasswordType = devicePasswordType;
             _password = password;
 
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndDriver + ". Установка пароля");
+			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndName + ". Установка пароля");
         }
 
         static void OnPropgress()

@@ -16,7 +16,7 @@ namespace DevicesModule.Guard
 		{
 			_device = device;
 			_users = users;
-			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressAndDriver + ". Запись списка пользователей");
+			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressAndName + ". Запись списка пользователей");
 		}
 
 		static void OnPropgress()

@@ -61,7 +61,7 @@ namespace PlansModule.ViewModels
 
 			if (XDevice != null)
 			{
-				ElementXDeviceView._deviceControl.DriverId = XDevice.DriverUID;
+				ElementXDeviceView._xDeviceControl.XDriverId = XDevice.DriverUID;
 				OnDeviceStateChanged();
 			}
 		}
@@ -100,9 +100,8 @@ namespace PlansModule.ViewModels
 		{
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("ToolTip");
-            ElementXDeviceView._deviceControl.StateType = DeviceState.GetStateType();
-			ElementXDeviceView._deviceControl.AdditionalStateCodes = new List<string>();
-			ElementXDeviceView._deviceControl.Update();
+			ElementXDeviceView._xDeviceControl.XStateClass = DeviceState.StateClass;
+			ElementXDeviceView._xDeviceControl.Update();
 		}
 
 		public string ToolTip

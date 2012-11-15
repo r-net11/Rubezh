@@ -37,7 +37,10 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				InitializeDevices();
+				if (value != null)
+				{
+					InitializeDevices();
+				}
 				OnPropertyChanged("SelectedZone");
 			}
 		}
@@ -57,6 +60,17 @@ namespace DevicesModule.ViewModels
             }
             OnPropertyChanged("RootDevices");
         }
+
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
 
         DeviceViewModel _rootDevice;
         public DeviceViewModel RootDevice

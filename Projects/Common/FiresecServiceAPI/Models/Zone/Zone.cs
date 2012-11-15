@@ -103,7 +103,15 @@ namespace FiresecAPI.Models
 
 		public string PresentationName
 		{
-			get { return No + "." + Name; }
+			get
+			{
+				var result = No + "." + Name;
+				if (!string.IsNullOrEmpty(Description))
+				{
+					result += " (" + Description + ")";
+				}
+				return result;
+			}
 		}
 
 		public void UpdateExternalDevices()

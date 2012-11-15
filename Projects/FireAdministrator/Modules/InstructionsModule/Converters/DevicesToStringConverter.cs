@@ -24,7 +24,7 @@ namespace InstructionsModule.Converters
 				{
 					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceGuid);
 
-					result.Append(device.PresentationAddressAndDriver);
+					result.Append(device.PresentationAddressAndName);
 					result.Append(delimString);
 				}
 

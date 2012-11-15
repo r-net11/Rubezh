@@ -12,9 +12,6 @@ namespace PlansModule.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			ZoneState zoneState = (ZoneState)value;
-			if (zoneState == null)
-				return Brushes.Transparent;
-
 			if (zoneState.Zone.ZoneType == ZoneType.Guard)
 			{
 				if (zoneState.StateType == StateType.Norm)
@@ -39,10 +36,10 @@ namespace PlansModule.Converters
 					return Brushes.Pink;
 
 				case StateType.Service:
-					return Brushes.LightGreen;
+					return Brushes.Yellow;
 
 				case StateType.Off:
-					return Brushes.LightYellow;
+					return Brushes.Yellow;
 
 				case StateType.Unknown:
 					return Brushes.Gray;
@@ -52,6 +49,9 @@ namespace PlansModule.Converters
 
 				case StateType.Norm:
 					return Brushes.LightGreen;
+
+				case StateType.No:
+					return Brushes.White;
 
 				default:
 					return Brushes.Black;

@@ -11,5 +11,5 @@
     </Grid.ContextMenu>
     <Rectangle Name="_mouseOverRectangle" Stroke="Red" StrokeThickness="0" Margin="-1" />
     <Rectangle Name="_selectationRectangle" Stroke="Orange" StrokeThickness="0" Margin="-1" />
-    <Devices:DeviceControl Name="_deviceControl" PreviewMouseDown="_deviceControl_PreviewMouseDown" />
+    <Devices:XDeviceControl Name="_xDeviceControl" PreviewMouseDown="_deviceControl_PreviewMouseDown" />
 </Grid>

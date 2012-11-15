@@ -82,7 +82,7 @@
         </Border>
 
         <Grid Grid.Row="1" Margin="0, 5, 0, 0">
-            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}">
+            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
                 <Controls:TreeListView.Columns>
                     <GridViewColumn Width="250" Header="Устройство">
                         <GridViewColumn.CellTemplate>

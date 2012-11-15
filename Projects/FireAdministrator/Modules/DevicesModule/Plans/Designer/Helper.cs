@@ -83,7 +83,7 @@ namespace DevicesModule.Plans.Designer
 		public static string GetDeviceTitle(ElementDevice element)
 		{
 			var device = GetDevice(element);
-			return device == null ? "Неизвестное устройство" : device.DottedAddress + " " + device.Driver.ShortName;
+			return device == null ? "Неизвестное устройство" : device.DottedPresentationAddressAndName;
 		}
 	}
 }

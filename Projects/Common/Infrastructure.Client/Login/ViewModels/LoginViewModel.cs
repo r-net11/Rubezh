@@ -21,6 +21,7 @@ namespace Infrastructure.Client.Login.ViewModels
         }
         public LoginViewModel(ClientType clientType, PasswordViewType passwordViewType)
         {
+			TopMost = true;
             ClientType = clientType;
             _passwordViewType = passwordViewType;
 

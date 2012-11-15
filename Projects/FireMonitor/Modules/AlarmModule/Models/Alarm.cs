@@ -102,6 +102,7 @@ namespace AlarmModule
 
 			switch (AlarmType)
 			{
+				case AlarmType.Guard:
 				case AlarmType.Fire:
 				case AlarmType.Attention:
 				case AlarmType.Info:

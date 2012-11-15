@@ -26,8 +26,8 @@ namespace AlarmModule
         void OnDevicesStateChanged(object obj)
         {
             Alarms = new List<Alarm>();
+			UpdateZoneAlarms();
             UpdateDeviceAlarms();
-            UpdateZoneAlarms();
             AlarmsViewModel.Current.Update(Alarms);
             AlarmGroupsViewModel.Current.Update(Alarms);
         }

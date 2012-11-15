@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
         public static void Run(Device device)
         {
             _device = device;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, _device.PresentationAddressAndDriver + ". Получение списка устройств");
+			ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, _device.PresentationAddressAndName + ". Получение списка устройств");
         }
 
         static void OnPropgress()

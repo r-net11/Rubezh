@@ -61,11 +61,11 @@ namespace DevicesModule.ViewModels
 						}
 					}
 				}
-				var localAndRemote = LocalRootDevice.Children.FirstOrDefault(x => x.PresentationAddressAndDriver == remoteChild.PresentationAddressAndDriver);
+				var localAndRemote = LocalRootDevice.Children.FirstOrDefault(x => x.PresentationAddressAndName == remoteChild.PresentationAddressAndName);
 				if (localAndRemote != null)
 				{
 					UnionRootDevice.Children.FirstOrDefault(
-						x => x.PresentationAddressAndDriver == localAndRemote.PresentationAddressAndDriver).IsRemote = true;
+						x => x.PresentationAddressAndName == localAndRemote.PresentationAddressAndName).IsRemote = true;
                     if ((localAndRemote.Zone == null) && (remoteChild.Zone != null))
                         localAndRemote.Zone = remoteChild.Zone;
 				}

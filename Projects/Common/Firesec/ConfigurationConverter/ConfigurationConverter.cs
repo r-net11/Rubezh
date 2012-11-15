@@ -172,7 +172,7 @@ namespace Firesec
 				}
 				else
 				{
-                    LoadingErrorManager.Add("Для устройства " + device.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-1");
+					LoadingErrorManager.Add("Для устройства " + device.PresentationAddressAndName + " не найдено устройство в конфигурации firesec-1");
 				}
 			}
             foreach (var firesecDevice in firesecDeviceConfiguration.Devices)
@@ -180,7 +180,7 @@ namespace Firesec
                 var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == firesecDevice.PathId);
                 if (device == null)
                 {
-                    LoadingErrorManager.Add("Для устройства " + firesecDevice.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-2");
+					LoadingErrorManager.Add("Для устройства " + firesecDevice.PresentationAddressAndName + " не найдено устройство в конфигурации firesec-2");
                 }
             }
 		}

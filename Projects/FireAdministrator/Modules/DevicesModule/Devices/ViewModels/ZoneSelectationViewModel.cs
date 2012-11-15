@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
 
         public ZoneSelectationViewModel(Device device)
 		{
-			Title = "Выбор зоны устройства " + device.PresentationAddress + " - " + device.Driver.ShortName;
+			Title = "Выбор зоны устройства " + device.PresentationAddressAndName;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 

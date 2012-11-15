@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Common;
 using FiresecAPI;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Firesec
 {
@@ -10,6 +12,8 @@ namespace Firesec
     {
         public static bool IsOperationBuisy = false;
         public static DateTime OperationDateTime;
+
+		static HashSet<int> threadIds = new HashSet<int>();
 
         OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
         {
@@ -19,6 +23,11 @@ namespace Firesec
 				(
 					() =>
 					{
+						threadIds.Add(Thread.CurrentThread.ManagedThreadId);
+						if (threadIds.Count > 1)
+						{
+							Trace.WriteLine("threadIds.Count = " + threadIds.Count.ToString());
+						}
 						return SafeLoopCall(func, methodName);
 					}
 				)

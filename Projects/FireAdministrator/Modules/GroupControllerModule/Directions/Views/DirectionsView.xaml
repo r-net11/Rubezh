@@ -26,8 +26,8 @@
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="1*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="1*" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
         </Grid>
@@ -36,8 +36,8 @@
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="1*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="1*" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
         </Grid>

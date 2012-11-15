@@ -162,7 +162,7 @@ namespace DevicesModule.ViewModels
                 LoadingService.ShowProgress("", "Считывание параметров дочерних устройств", SelectedDevice.Children.Count());
                 foreach (var child in SelectedDevice.Children)
                 {
-                    LoadingService.DoStep(child.Device.PresentationAddressAndDriver);
+					LoadingService.DoStep(child.Device.PresentationAddressAndName);
                     var result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(child.Device);
                     if (result.HasError)
                     {

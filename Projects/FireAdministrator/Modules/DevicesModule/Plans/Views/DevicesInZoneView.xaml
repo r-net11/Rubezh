@@ -10,10 +10,7 @@
             <DataGridTemplateColumn Header="Устройство" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Device.Driver.ShortName}" />
-                            <TextBlock Text="{Binding Device.DottedAddress}" Margin="5, 0, 0, 0" />
-                        </StackPanel>
+                        <TextBlock Text="{Binding Device.DottedPresentationAddressAndName}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

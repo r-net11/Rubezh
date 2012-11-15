@@ -41,7 +41,7 @@ namespace DevicesModule.DeviceProperties
 			{
 				if (property.Value == null)
 				{
-					Logger.Error("EnumPropertyViewModel property.Value = null " + device.PresentationAddressAndDriver + " - " + driverProperty.Name);
+					Logger.Error("EnumPropertyViewModel property.Value = null " + device.PresentationAddressAndName + " - " + driverProperty.Name);
 					return;
 				}
 				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);

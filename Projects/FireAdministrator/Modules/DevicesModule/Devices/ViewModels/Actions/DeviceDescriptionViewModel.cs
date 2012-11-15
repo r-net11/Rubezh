@@ -9,7 +9,7 @@ namespace DevicesModule.ViewModels
     {
 		public DeviceDescriptionViewModel(Device device, string description)
         {
-			Title = "Описание устройства " + device.PresentationAddressAndDriver;
+			Title = "Описание устройства " + device.PresentationAddressAndName;
 			CloseCommand = new RelayCommand(OnClose);
             Description = description;
         }
