@@ -3,50 +3,26 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:tb="http://www.hardcodet.net/taskbar"
   x:Name="me"
+  MaxWidth="220"
+  Height="Auto"
  >
-    <Grid x:Name="grid" MouseLeftButtonDown="grid_MouseDown">
-        <Border
-      HorizontalAlignment="Stretch"
-      Margin="5,5,5,5"
-      BorderThickness="1,1,1,1"
-      BorderBrush="#FF997137">
+        <Border x:Name="grid" MouseLeftButtonDown="grid_MouseDown" Width="220" Height="Auto"
+            CornerRadius="5"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource WindowBorderBrush}" Background="{DynamicResource BackgroundBrush}">
             <Border.Effect>
-                <DropShadowEffect Color="#FF747474"/>
+                <DropShadowEffect Color="#747474"/>
             </Border.Effect>
-            <Border.Background>
-                <LinearGradientBrush
-          EndPoint="0.5,1"
-          StartPoint="0.5,0">
-                    <GradientStop
-            Color="#FF4B4B4B"
-            Offset="0" />
-                    <GradientStop
-            Color="#FF8F8F8F"
-            Offset="1" />
-                </LinearGradientBrush>
-            </Border.Background>
+            <StackPanel>
+                <TextBlock Margin="10 5 10 0" VerticalAlignment="Top" Text="{Binding BalloonTitle}" TextWrapping="Wrap" Foreground="#ECAD25" FontWeight="Bold"/>
+                <Path
+                    Margin="10 0"
+                    Stretch="Fill"
+                    Height="1"
+                    Data="M26,107 L220.04123,107" SnapsToDevicePixels="True"
+                    Stroke="{DynamicResource WindowBorderBrush}">
+                 </Path>
+                <TextBlock Margin="10 0 10 5" VerticalAlignment="Bottom" Text="{Binding BalloonText}" TextWrapping="Wrap" Foreground="#ECAD25" FontWeight="Bold"/>
+            </StackPanel>
         </Border>
-        <TextBlock Margin="10,10,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonTitle}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
-        <TextBlock Margin="10,30,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonText}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
-        <Path
-      Fill="#FFFFFFFF"
-      Stretch="Fill"
-      Margin="10,28.2,10,0"
-      VerticalAlignment="Top"
-      Height="1"
-      Data="M26,107 L220.04123,107" SnapsToDevicePixels="True">
-            <Path.Stroke>
-                <LinearGradientBrush
-          EndPoint="0.973,0.5"
-          StartPoint="0.005,0.5">
-                    <GradientStop
-            Color="#00ECAD25"
-            Offset="1" />
-                    <GradientStop
-            Color="#87ECAD25"
-            Offset="0" />
-                </LinearGradientBrush>
-            </Path.Stroke>
-        </Path>
-    </Grid>
 </UserControl>

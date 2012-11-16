@@ -359,7 +359,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand CustomBalloonTestCommand { get; private set; }
         void OnCustomBalloonTest()
         {
-            BalloonHelper.ShowCustom("Title", "Text");
+            BalloonHelper.ShowCustom("Title", "skdfpjkfopsdkfowkdfopkwepfokweopfkwpoefkwopefkweopfkwepokpweofkwepfkweopfkopwe");
         }
     }
 
