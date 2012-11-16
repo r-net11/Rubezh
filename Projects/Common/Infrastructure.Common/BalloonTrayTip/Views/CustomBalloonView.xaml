@@ -3,8 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:tb="http://www.hardcodet.net/taskbar"
   x:Name="me"
-  Height="120"
-  Width="240">
+ >
     <Grid x:Name="grid" MouseLeftButtonDown="grid_MouseDown">
         <Border
       HorizontalAlignment="Stretch"
@@ -27,12 +26,12 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <TextBlock Margin="72,10,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonTitle}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
-        <TextBlock Margin="72,30,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonText}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
+        <TextBlock Margin="10,10,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonTitle}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
+        <TextBlock Margin="10,30,10,0" VerticalAlignment="Top" Height="23.2" Text="{Binding BalloonText}" TextWrapping="Wrap" Foreground="#FFECAD25" FontWeight="Bold"/>
         <Path
       Fill="#FFFFFFFF"
       Stretch="Fill"
-      Margin="72,28.2,34,0"
+      Margin="10,28.2,10,0"
       VerticalAlignment="Top"
       Height="1"
       Data="M26,107 L220.04123,107" SnapsToDevicePixels="True">

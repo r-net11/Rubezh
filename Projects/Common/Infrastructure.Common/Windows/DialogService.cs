@@ -50,8 +50,8 @@ namespace Infrastructure.Common.Windows
         public static void ShowTrayWindow(WindowBaseViewModel model)
         {
             WindowBaseView win = new WindowBaseView(model);
+            win.Visibility = Visibility.Hidden;
             win.Show();
-            win.Close();
         }
 
 		private static List<IWindowIdentity> _openedWindows = new List<IWindowIdentity>();

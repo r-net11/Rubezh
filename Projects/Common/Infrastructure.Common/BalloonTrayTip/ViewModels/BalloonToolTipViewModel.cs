@@ -8,6 +8,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
     public class BalloonToolTipViewModel: WindowBaseViewModel
     {
+
         public static string BalloonTitle { get; private set; }
         public static string BalloonText{get; private set;}
         public static bool IsCustom { get; set; }
@@ -15,6 +16,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 
         public BalloonToolTipViewModel(string ttl, string txt, bool cstm = false)
         {
+            Title = "";
             BalloonTitle = ttl;
             BalloonText = txt;
             IsCustom = cstm;

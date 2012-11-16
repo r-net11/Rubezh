@@ -8,7 +8,8 @@
         <!--<tb:TaskbarIcon
       x:Name="MyNotifyIcon"
       IconSource="../Icons/Error.ico"
-      ToolTipText="{Binding Txt}"
+      ToolTipText=""
+            MouseDown="MyNotifyIcon_MouseDown"
       TrayBalloonTipClicked="MyNotifyIcon_TrayBalloonTipClosed"
       TrayBalloonTipClosed="MyNotifyIcon_TrayBalloonTipClosed"
             />-->

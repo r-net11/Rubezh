@@ -38,6 +38,11 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             //    MyNotifyIcon.ShowBalloonTip(BalloonToolTipViewModel.BalloonTitle, BalloonToolTipViewModel.BalloonText, MyNotifyIcon.Icon);
             
         }
+
+        private void MyNotifyIcon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MyNotifyIcon.Dispose();
+        }
     }
 }
 
