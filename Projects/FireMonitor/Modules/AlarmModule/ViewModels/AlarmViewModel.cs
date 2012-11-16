@@ -53,12 +53,10 @@ namespace AlarmModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			var x = Alarm.CanReset();
 			Alarm.Reset();
 		}
         public bool CanReset()
         {
-			return true;
             return Alarm.CanReset();
         }
 

@@ -139,7 +139,7 @@ namespace Firesec
 				hasNewRecords = false;
 
 				var result = ReadEvents(oldJournalNo, 100);
-				if (result == null && result.HasError)
+				if (result == null || result.HasError)
 				{
 					return new List<JournalRecord>();
 				}
