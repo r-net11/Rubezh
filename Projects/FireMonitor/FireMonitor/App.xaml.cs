@@ -30,18 +30,18 @@ namespace FireMonitor
 		{
 			base.OnStartup(e);
 			try
-			{
-				var path = System.Reflection.Assembly.GetExecutingAssembly();
-				RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-				saveKey.SetValue("FireMonitorPath", path.Location);
-				var isAutoConnect = saveKey.GetValue("isAutoConnect");
-				if (isAutoConnect != null)
-					if (isAutoConnect.Equals("True"))
-					{
-						AppSettingsManager.AutoConnect = true;
-						saveKey.SetValue("isAutoConnect", false);
-					}
-#if RELEASE
+            {
+                var path = System.Reflection.Assembly.GetExecutingAssembly();
+                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                saveKey.SetValue("FireMonitorPath", path.Location);
+                var isAutoConnect = saveKey.GetValue("isAutoConnect");
+                if (isAutoConnect != null)
+                    if (isAutoConnect.Equals("True"))
+                    {
+                        AppSettingsManager.AutoConnect = true;
+                        saveKey.SetValue("isAutoConnect", false);
+                    }
+
                 var proc = Process.GetProcessesByName("Revisor");
                 RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
                 var revisorpathobj = readKey.GetValue("RevisorPath");
@@ -49,17 +49,19 @@ namespace FireMonitor
                 if (revisorpathobj != null)
                     revisorpath = revisorpathobj.ToString();
                 if (String.IsNullOrEmpty(revisorpath))
+                {
                     revisorpath = @".\Revisor.exe";
 #if DEBUG
-                revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
+                    revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
 #endif
-                if (proc.Count() == 0)
+                }
+                if ((proc.Count() == 0)&&(Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost"))
                 {
                     Process.Start(revisorpath);
                 }
-#endif
-				saveKey.Close();
-			}
+
+                saveKey.Close();
+            }
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");

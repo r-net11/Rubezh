@@ -1,5 +1,7 @@
 ﻿using System.Configuration;
+using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -151,8 +153,19 @@ namespace Infrastructure.Client.Login.ViewModels
         {
             ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
             DialogService.ShowWindow(preLoadWindow);
-
-            Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
+            for (int i = 1; i <= 100; i++)
+            {
+                Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
+                if (Message == null)
+                    break;
+                if (Process.GetProcessesByName("FiresecService").Length == 0)
+                    return;
+                Thread.Sleep(100);
+                if (i == 100)
+                {
+                    return;
+                }
+            }
             preLoadWindow.ForceClose();
         }
 
