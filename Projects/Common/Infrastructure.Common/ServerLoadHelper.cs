@@ -13,7 +13,7 @@ namespace Infrastructure.Common
 		{
 			Process[] processes = Process.GetProcessesByName("FiresecService");
             Process[] processes2 = Process.GetProcessesByName("FiresecService.vshost");
-			if ((processes.Count() == 0) && (processes2.Count() == 0))
+			if ((processes.Count() == 0))// && (processes2.Count() == 0))
 			{
 				try
 				{
