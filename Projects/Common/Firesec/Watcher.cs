@@ -27,11 +27,14 @@ namespace Firesec
             }
             if (mustMonitorStates)
             {
-				FiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
-				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(OnStateChanged);
-				FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
+				//FiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
+				//FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(OnStateChanged);
+				//FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
+				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
+				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.StateChanged += new Action<Models.CoreState.config>(OnStateChanged);
+				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.ParametersChanged += new Action<Models.DeviceParameters.config>(OnParametersChanged);
 			}
-            FiresecSerializedClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
+			FiresecSerializedClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
 		}
 
 		void SetLastEvent()

@@ -11,8 +11,8 @@ namespace Firesec
 {
 	public partial class FiresecDriver
 	{
-		NativeFiresecClient NativeFiresecClient { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
+		public static FiresecSerializedClient MonitoringFiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
@@ -20,8 +20,15 @@ namespace Firesec
 		{
 			try
 			{
+				MonitoringFiresecSerializedClient = new FiresecSerializedClient();
+				var connectResult1 = MonitoringFiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, false);
+				if (connectResult1.HasError)
+				{
+					return connectResult1;
+				}
+
 				FiresecSerializedClient = new FiresecSerializedClient();
-				var connectResult = FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
+				var connectResult = FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, false);
                 if (connectResult.HasError)
                 {
                     return connectResult;

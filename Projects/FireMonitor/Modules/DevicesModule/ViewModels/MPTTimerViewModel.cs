@@ -11,8 +11,8 @@ namespace DevicesModule.ViewModels
 {
     public class MPTTimerViewModel : DialogViewModel, IWindowIdentity
     {
-        Device Device;
-        private Guid _guid;
+		public Device Device { get; private set; }
+        Guid _guid;
 
         public MPTTimerViewModel(Device device)
         {

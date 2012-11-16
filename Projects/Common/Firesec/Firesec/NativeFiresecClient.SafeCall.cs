@@ -62,7 +62,7 @@ namespace Firesec
                     {
                         Logger.Error(exceptionText);
                     }
-					Trace.WriteLine(e.Message);
+					Trace.WriteLine(exceptionText);
                     if (e.Message == "Пользователь не зарегистрировался на сервере")
                     {
                         Logger.Error("NativeFiresecClient.SafeLoopCall Пользователь не зарегистрировался на сервере");

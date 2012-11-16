@@ -59,7 +59,7 @@ namespace DiagnosticsModule.ViewModels
 						break;
 					if (NativeFiresecClient.TasksCount > 10)
 						continue;
-					Thread.Sleep(TimeSpan.FromSeconds(10));
+					Thread.Sleep(TimeSpan.FromSeconds(1));
 
 					var index = random.Next(0, 10);
 					switch(index)

@@ -51,7 +51,7 @@ namespace Firesec
         int Port;
         string Login;
         string Password;
-        bool IsPing;
+		public bool IsPing { get; set; }
 
         public OperationResult<bool> Connect(string address, int port, string login, string password, bool isPing)
         {
