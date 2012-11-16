@@ -15,54 +15,47 @@ namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel : MenuViewPartViewModel
 	{
-		List<ElementBase> Buffer;
+		private List<ElementBase> _buffer;
 
-		void InitializeCopyPaste()
+		private void InitializeCopyPaste()
 		{
 			CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
 			CutCommand = new RelayCommand(OnCut, CanCopyCut);
 			PasteCommand = new RelayCommand<IInputElement>(OnPaste, CanPaste);
-			Buffer = new List<ElementBase>();
-		}
-
-		bool CanCopyCut(object obj)
-		{
-			return DesignerCanvas.SelectedItems.Count() > 0;
+			_buffer = new List<ElementBase>();
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+		private void OnCopy()
 		{
 			PlanDesignerViewModel.Save();
-			Buffer = new List<ElementBase>();
+			_buffer = new List<ElementBase>();
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
 				designerItem.UpdateElementProperties();
-				Buffer.Add(designerItem.Element.Clone());
+				_buffer.Add(designerItem.Element.Clone());
 			}
 		}
-
 		public RelayCommand CutCommand { get; private set; }
-		void OnCut()
+		private void OnCut()
 		{
 			OnCopy();
 			DesignerCanvas.RemoveAllSelected();
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
-
-		bool CanPaste(IInputElement obj)
+		private bool CanCopyCut(object obj)
 		{
-			return Buffer.Count > 0;
+			return DesignerCanvas.SelectedItems.Count() > 0;
 		}
 
 		public RelayCommand<IInputElement> PasteCommand { get; private set; }
-		void OnPaste(IInputElement container)
+		private void OnPaste(IInputElement container)
 		{
 			if (NormalizeBuffer(container))
 			{
 				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
-				foreach (var elementBase in Buffer)
+				foreach (var elementBase in _buffer)
 				{
 					var element = elementBase.Clone();
 					element.UID = Guid.NewGuid();
@@ -74,17 +67,21 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
+		private bool CanPaste(IInputElement obj)
+		{
+			return _buffer.Count > 0;
+		}
 
 		private bool NormalizeBuffer(IInputElement container)
 		{
-			if (Buffer.Count > 0)
+			if (_buffer.Count > 0)
 			{
 				Point? point = container == null ? null : (Point?)Mouse.GetPosition(container);
 				double minLeft = double.MaxValue;
 				double minTop = double.MaxValue;
 				double maxRight = 0;
 				double maxBottom = 0;
-				foreach (var elementBase in Buffer)
+				foreach (var elementBase in _buffer)
 				{
 					Rect rect = elementBase.GetRectangle();
 					if (minLeft > rect.Left)
@@ -118,7 +115,7 @@ namespace PlansModule.ViewModels
 				Vector shift = new Vector(border.X - minLeft, border.Y - minTop);
 				//if (shift.X == 0 && shift.Y == 0)
 				//    shift = new Vector(-minLeft / 2, -minTop / 2);
-				foreach (var elementBase in Buffer)
+				foreach (var elementBase in _buffer)
 					elementBase.Position += shift;
 			}
 			return true;
