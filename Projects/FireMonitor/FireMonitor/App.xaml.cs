@@ -77,7 +77,7 @@ namespace FireMonitor
 			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.Load();
 #if DEBUG
-			bool trace = true;
+			bool trace = false;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 			_bootstrapper = new Bootstrapper();

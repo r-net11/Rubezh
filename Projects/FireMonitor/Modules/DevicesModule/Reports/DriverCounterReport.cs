@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Linq;
 using CodeReason.Reports;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -18,7 +19,7 @@ namespace DevicesModule.Reports
 			DataTable table = new DataTable("Devices");
 			table.Columns.Add("Driver");
 			table.Columns.Add("Count");
-			foreach (var driver in FiresecManager.Drivers)
+			foreach (var driver in (from Driver x in FiresecManager.Drivers orderby x.ShortName select x))
 			{
 				if (driver.IsAutoCreate || driver.DriverType == DriverType.Computer)
 					continue;

@@ -163,6 +163,13 @@ namespace DiagnosticsModule.ViewModels
                         continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
+                    //var safeFiresecService = new SafeFiresecService("net.pipe://127.0.0.1/FiresecService/");
+                    //safeFiresecService.Connect(new ClientCredentials() { ClientType = ClientType.Administrator, ClientUID = Guid.NewGuid(), UserName = "adm", Password = "" }, true);
+                    //safeFiresecService.StartShortPoll(false);
+                    //safeFiresecService.ShortPoll();
+                    //safeFiresecService.Dispose();
+                    //Trace.WriteLine("Count = " + count++.ToString());
+
                     FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
                     if (count % 1000 == 0)
                     {
@@ -177,17 +184,20 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test7Command { get; private set; }
 		void OnTest7()
 		{
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.CanResetOnPanel)
-						Trace.WriteLine("CanResetOnPanel " + driver.Name.ToString() + " " + state.Name);
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                int count = 0;
+                while (true)
+                {
+                    if (IsThreadStoping)
+                        break;
 
-					if (state.IsManualReset)
-						Trace.WriteLine("IsManualReset" + driver.Name.ToString() + " " + state.Name);
-				}
-			}
+                    FiresecManager.FiresecService.ShortPoll();
+                    Thread.Sleep(100);
+                }
+            }));
+            thread.IsBackground = true;
+            thread.Start();
 		}
     }
 }

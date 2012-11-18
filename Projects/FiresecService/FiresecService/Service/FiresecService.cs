@@ -12,7 +12,7 @@ using FiresecService.ViewModels;
 
 namespace FiresecService.Service
 {
-    [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
+    [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
     InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class FiresecService : IFiresecService
     {

@@ -33,11 +33,11 @@ namespace FireAdministrator.Views
         {
             if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
             {
-				if (CanChangeConfig == false)
+                if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 				{
 					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+                    return;
 				}
-
 				ConfigManager.SetNewConfig();
             }
         }
@@ -45,11 +45,6 @@ namespace FireAdministrator.Views
         void OnCreateNew(object sender, RoutedEventArgs e)
         {
 			ConfigManager.CreateNew();
-        }
-
-        public bool CanChangeConfig
-        {
-            get { return (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig)); }
         }
 
         void OnValidate(object sender, RoutedEventArgs e)

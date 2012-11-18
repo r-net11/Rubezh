@@ -124,7 +124,7 @@ namespace FiresecClient
 			{
 				if (device.Zone != null)
 					return device.Zone.PresentationName;
-				return "";
+				return null;
 			}
 
 			if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
@@ -134,7 +134,7 @@ namespace FiresecClient
 			if ((device.Driver.DriverType == DriverType.PDUDirection) && (device.PDUGroupLogic != null))
 				return device.PDUGroupLogic.ToString();
 
-			return "";
+			return null;
 		}
 
 		public string GetIndicatorString(Device indicatorDevice)

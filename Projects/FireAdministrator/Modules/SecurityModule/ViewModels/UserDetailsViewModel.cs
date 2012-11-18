@@ -180,20 +180,26 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		void SaveProperties()
-		{
-			User.Login = Login;
-			User.Name = Name;
+        void SaveProperties()
+        {
+            User.Login = Login;
+            User.Name = Name;
 
-			if (IsChangePassword)
-				User.PasswordHash = HashHelper.GetHashFromString(Password);
+            if (IsChangePassword)
+                User.PasswordHash = HashHelper.GetHashFromString(Password);
 
-			User.RoleId = UserRole.Id;
-			User.Permissions = new List<PermissionType>(
-				Permissions.Where(x => x.IsEnable).Select(x => x.PermissionType)
-			);
-			User.RemoreAccess = RemoteAccess.GetModel();
-		}
+            User.RoleId = UserRole.Id;
+            PreventAdminPermissions();
+            User.Permissions = new List<PermissionType>();
+            foreach (var permission in Permissions)
+            {
+                if (permission.IsEnable)
+                {
+                    User.Permissions.Add(permission.PermissionType);
+                }
+            }
+            User.RemoreAccess = RemoteAccess.GetModel();
+        }
 
 		protected override bool Save()
 		{
@@ -243,5 +249,23 @@ namespace SecurityModule.ViewModels
 			}
 			return true;
 		}
+
+        void PreventAdminPermissions()
+        {
+            if (FiresecManager.CurrentUser.Id == User.Id && FiresecManager.CurrentUser.Permissions.Contains(PermissionType.Adm_Security))
+            {
+                var Adm_SecurityPermission = Permissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_Security);
+                if (Adm_SecurityPermission != null)
+                {
+                    Adm_SecurityPermission.IsEnable = true;
+                }
+
+                var Adm_SetNewConfigPermission = Permissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_SetNewConfig);
+                if (Adm_SetNewConfigPermission != null)
+                {
+                    Adm_SetNewConfigPermission.IsEnable = true;
+                }
+            }
+        }
 	}
 }

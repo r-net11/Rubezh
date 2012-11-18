@@ -34,10 +34,10 @@
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" Margin="5" />
-                            <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" Foreground="White" />
-                        </StackPanel>
+                            <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
+                        </WrapPanel>
                         <WrapPanel Margin="1">
                             <TextBlock Text="Устройство: " FontWeight="Bold" Foreground="Orange" />
                             <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />

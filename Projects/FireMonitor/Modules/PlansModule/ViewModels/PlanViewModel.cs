@@ -107,6 +107,11 @@ namespace PlansModule.ViewModels
 				if (state.StateType < SelfState)
 					SelfState = state.StateType;
 			}
+            foreach (var state in ZoneStates)
+            {
+                if (state.StateType < SelfState)
+                    SelfState = state.StateType;
+            }
 			foreach (var state in XDeviceStates)
 			{
                 if (state.GetStateType() < SelfState)

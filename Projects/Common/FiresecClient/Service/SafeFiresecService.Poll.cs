@@ -20,6 +20,15 @@ namespace FiresecClient
 		Thread ShortPollThread;
 		bool IsLongPollPeriod;
 
+        public void StartShortPoll(bool isLongPollPeriod)
+        {
+            IsLongPollPeriod = isLongPollPeriod;
+            StopPollEvent = new AutoResetEvent(false);
+            ShortPollThread = new Thread(OnShortPoll);
+            ShortPollThread.IsBackground = true;
+            ShortPollThread.Start();
+        }
+
 		public void StopPoll()
 		{
 			if (StopPollEvent != null)
@@ -30,15 +39,6 @@ namespace FiresecClient
 			{
 				ShortPollThread.Join(2000);
 			}
-		}
-
-		public void StartShortPoll(bool isLongPollPeriod)
-		{
-			IsLongPollPeriod = isLongPollPeriod;
-			StopPollEvent = new AutoResetEvent(false);
-			ShortPollThread = new Thread(OnShortPoll);
-			ShortPollThread.IsBackground = true;
-			ShortPollThread.Start();
 		}
 
 		void OnShortPoll()

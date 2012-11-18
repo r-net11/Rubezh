@@ -35,7 +35,7 @@
         <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
-      <Component Id="Server.DB" Guid="*" Permanent='yes'>
+      <Component Id="Server.DB" Guid="040A38D7-2390-43EA-A6EB-F6DBC39DF92E" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
 
@@ -46,16 +46,16 @@
     </DirectoryRef>
 
     <DirectoryRef Id="Server.ConfigFolder">
-      <Component Id="Server.SecurityConfiguration.xml" Guid="*" Permanent='yes'>
+      <Component Id="Server.SecurityConfiguration.xml" Guid="5591C855-9479-4C66-8209-2EDE24789584" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
-      <Component Id="Server.DeviceLibraryConfiguration.xml" Guid="*" Permanent='yes'>
+      <Component Id="Server.DeviceLibraryConfiguration.xml" Guid="8B2F76D9-1757-45BE-8212-55011B675A3B" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.DeviceLibraryConfiguration.xml" Name="DeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
-      <Component Id="Server.XDeviceLibraryConfiguration.xml" Guid="*" Permanent='yes'>
+      <Component Id="Server.XDeviceLibraryConfiguration.xml" Guid="3BEAADE1-E45B-41EA-B61D-8C26A4977BCD" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.XDeviceLibraryConfiguration.xml" Name="XDeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
-      <Component Id="Server.DriversConfiguration.xml" Guid="*" Permanent='yes'>
+      <Component Id="Server.DriversConfiguration.xml" Guid="5B08EF5C-4971-46FB-9C30-610C800EBD0A" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.DriversConfiguration.xml" Name="DriversConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
     </DirectoryRef>

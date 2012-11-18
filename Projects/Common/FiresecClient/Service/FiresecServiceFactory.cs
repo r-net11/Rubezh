@@ -13,17 +13,14 @@ namespace FiresecClient
 	public class FiresecServiceFactory
 	{
 		ChannelFactory<IFiresecService> ChannelFactory;
-		string ServerAddress;
 
 		public IFiresecService Create(string serverAddress)
 		{
-			ServerAddress = serverAddress;
-
 			for (int i = 0; i < 3; i++)
 			{
 				try
 				{
-					return TryCreate();
+                    return DoCreate(serverAddress);
 				}
 				catch (Exception e)
 				{
@@ -39,7 +36,7 @@ namespace FiresecClient
 			return null;
 		}
 
-		public IFiresecService TryCreate()
+        IFiresecService DoCreate(string ServerAddress)
 		{
 			Binding binding = BindingHelper.CreateBindingFromAddress(ServerAddress);
 
@@ -55,9 +52,9 @@ namespace FiresecClient
 
 			ChannelFactory.Open();
 
-			IFiresecService _firesecService = ChannelFactory.CreateChannel();
-			(_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(10);
-			return _firesecService;
+			IFiresecService firesecService = ChannelFactory.CreateChannel();
+			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(1);
+			return firesecService;
 		}
 
 		public void Dispose()

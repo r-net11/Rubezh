@@ -10,7 +10,7 @@
       <ComponentRef Id="Monitor.Hasp" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
-      <ComponentRef Id="Monitor.Revisor" />
+      <!--<ComponentRef Id="Monitor.Revisor" />-->
     </Feature>
 	</Fragment>
 </Wix>
