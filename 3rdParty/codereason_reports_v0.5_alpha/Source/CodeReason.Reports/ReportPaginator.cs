@@ -55,6 +55,7 @@ namespace CodeReason.Reports
 		/// <exception cref="ArgumentException">Flow document can have only one report footer section</exception>
 		public ReportPaginator(ReportDocument report, ReportData data)
 		{
+			TotalPageCount = -1;
 			PageShift = 0;
 			_report = report;
 			_data = data;
@@ -459,7 +460,8 @@ namespace CodeReason.Reports
 							cv.Value = pageNumber + PageShift;
 							break;
 						case ReportContextValueType.PageCount:
-							cv.Value = _pageCount;
+							cv.Value = TotalPageCount == -1 ? PageCount : TotalPageCount;;
+							Console.WriteLine(cv.Value);
 							break;
 						case ReportContextValueType.ReportName:
 							cv.Value = _report.ReportName;
@@ -476,6 +478,7 @@ namespace CodeReason.Reports
 		}
 
 		public int PageShift { get; set; }
+		public int TotalPageCount {get;set;}
 
 		/// <summary>
 		/// This is most important method, modifies the original 
@@ -582,5 +585,6 @@ namespace CodeReason.Reports
 		{
 			get { return _paginator.Source; }
 		}
+
 	}
 }

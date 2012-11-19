@@ -26,19 +26,30 @@ namespace CodeReason.Reports
 			// create a list of report paginators and compute page counts
 			_pageCount = 0;
 			int dataCount = 0;
+			int totalPages = 0;
+			foreach (ReportData rd in data)
+			{
+				if (rd == null)
+					continue;
+				ReportPaginator temp = new ReportPaginator(report, rd);
+				DocumentPage dp = temp.GetPage(0);
+				totalPages += temp.PageCount;
+			}
 			foreach (ReportData rd in data)
 			{
 				if (rd == null)
 					continue;
 				ReportPaginator paginator = new ReportPaginator(report, rd);
 				_reportPaginators.Add(paginator);
+				paginator.PageShift = _pageCount;
+				paginator.TotalPageCount = totalPages;
 				DocumentPage dp = paginator.GetPage(0);
 				if ((dp != DocumentPage.Missing) && (dp.Size != Size.Empty))
 					_pageSize = paginator.PageSize;
 				_pageCount += paginator.PageCount;
 				dataCount++;
 			}
-			if ((_reportPaginators.Count <= 0) || (dataCount < 2))
+			if (_reportPaginators.Count <= 0)
 				throw new ArgumentException("Need at least two ReportData objects");
 		}
 
@@ -66,6 +77,7 @@ namespace CodeReason.Reports
 			if (pagePaginator == null)
 				return DocumentPage.Missing;
 			pagePaginator.PageShift = currentPage;
+			pagePaginator.TotalPageCount = PageCount;
 			DocumentPage dp = pagePaginator.GetPage(pageNumber - currentPage);
 			if (dp == DocumentPage.Missing)
 				return DocumentPage.Missing;
