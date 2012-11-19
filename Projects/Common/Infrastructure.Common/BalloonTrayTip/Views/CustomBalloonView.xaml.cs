@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//using Hardcodet.Wpf.TaskbarNotification;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
@@ -24,9 +24,9 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-            //taskbarIcon.CloseBalloon();
-            //taskbarIcon.Dispose();
+            TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
+            taskbarIcon.CloseBalloon();
+            taskbarIcon.Dispose();
         }
     }
 }
