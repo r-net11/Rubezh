@@ -1,27 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrustructure.Plans;
+using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Events;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using DevicesModule.Plans.Designer;
+using Infrastructure.Common;
 
 namespace DevicesModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan>
 	{
+		private Dictionary<Plan, PlanMonitor> _monitors;
+		public PlanPresenter()
+		{
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/DeviceMenuView.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/ZoneMenuView.xaml"));
+
+			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
+			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			_monitors = new Dictionary<Plan, PlanMonitor>();
+		}
+
 		#region IPlanPresenter<Plan> Members
+
+		public void SubscribeStateChanged(Plan plan, Action callBack)
+		{
+			var monitor = new PlanMonitor(plan, callBack);
+			_monitors.Add(plan, monitor);
+		}
+		public int GetState(Plan plan)
+		{
+			return (int)(_monitors.ContainsKey(plan) ? _monitors[plan].GetState() : StateType.No);
+		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			return new List<ElementBase>();
+			foreach (var element in plan.ElementDevices.Where(x => x.DeviceUID != Guid.Empty))
+				yield return element;
+			foreach (var element in plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
+				yield return element;
+			foreach (var element in plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
+				yield return element;
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
+			DevicePainter devicePainter = presenterItem.Painter as DevicePainter;
+			if (devicePainter != null)
+				devicePainter.Bind(presenterItem);
+			else if (presenterItem.Element is IElementZone)
+				presenterItem.OverridePainter(new ZonePainter(presenterItem));
 		}
 
 		#endregion
+
+		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		{
+			ElementDevice elementDevice = args.Element as ElementDevice;
+			if (elementDevice != null)
+				args.Painter = new DevicePainter();
+		}
+
+		private void OnShowDeviceOnPlan(Guid deviceUID)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementDevices)
+					if (element.DeviceUID == deviceUID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+		}
+		private void OnShowZoneOnPlan(Guid zoneUID)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementRectangleZones)
+					if (element.ZoneUID == zoneUID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementPolygonZones)
+					if (element.ZoneUID == zoneUID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using DeviceControls;
+using DevicesModule.Plans.Designer;
 using DevicesModule.Plans.InstrumentAdorners;
 using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
@@ -131,7 +131,7 @@ namespace DevicesModule.Plans
 		{
 			if (designerItem.Element is ElementRectangleZone || designerItem.Element is ElementPolygonZone)
 			{
-				designerItem.DesignerItemPropertyChanged += new EventHandler(ZonePropertyChanged);
+				designerItem.ItemPropertyChanged += new EventHandler(ZonePropertyChanged);
 				OnZonePropertyChanged(designerItem);
 				designerItem.Group = "Zone";
 				designerItem.UpdateProperties += UpdateDesignerItemZone;
@@ -139,7 +139,7 @@ namespace DevicesModule.Plans
 			}
 			else if (designerItem.Element is ElementDevice)
 			{
-				designerItem.DesignerItemPropertyChanged += new EventHandler(DevicePropertyChanged);
+				designerItem.ItemPropertyChanged += new EventHandler(DevicePropertyChanged);
 				OnDevicePropertyChanged(designerItem);
 				designerItem.Group = "Devices";
 				designerItem.UpdateProperties += UpdateDesignerItemDevice;

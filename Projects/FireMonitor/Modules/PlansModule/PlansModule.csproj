@@ -100,29 +100,8 @@
     </Compile>
     <Compile Include="Converters\StateTypeToPlanColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
-    <Compile Include="Events\ElementXZoneSelectedEvent.cs" />
-    <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
-    <Compile Include="Events\ElementZoneSelectedEvent.cs" />
-    <Compile Include="ViewModels\Elements\ElementXZoneViewModel.cs" />
-    <Compile Include="ViewModels\Elements\ElementXDeviceViewModel.cs" />
-    <Compile Include="ViewModels\Elements\IElementDevice.cs" />
+    <Compile Include="Designer\MonitorSubPlanPainter.cs" />
     <Compile Include="ViewModels\PlanTreeViewModel.cs" />
-    <Compile Include="Views\Elements\ElementXZoneView.xaml.cs">
-      <DependentUpon>ElementXZoneView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Elements\ElementXDeviceView.xaml.cs">
-      <DependentUpon>ElementXDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Elements\ElementSubPlanView.xaml.cs">
-      <DependentUpon>ElementSubPlanView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Events\PlanStateChangedEvent.cs" />
-    <Compile Include="Events\SelectPlanEvent.cs" />
-    <Compile Include="Views\Elements\ElementZoneView.xaml.cs">
-      <DependentUpon>ElementZoneView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\Elements\ElementDeviceViewModel.cs" />
-    <Compile Include="ViewModels\Elements\ElementSubPlanViewModel.cs" />
     <Compile Include="PlansModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -140,10 +119,6 @@
     <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
-    <Compile Include="ViewModels\Elements\ElementZoneViewModel.cs" />
-    <Compile Include="Views\Elements\ElementDeviceView.xaml.cs">
-      <DependentUpon>ElementDeviceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
     </Compile>
@@ -207,23 +182,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Elements\ElementXZoneView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Elements\ElementXDeviceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Elements\ElementSubPlanView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Elements\ElementDeviceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Elements\ElementZoneView.xaml">
+    <Page Include="Designer\PresenterItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,6 +195,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

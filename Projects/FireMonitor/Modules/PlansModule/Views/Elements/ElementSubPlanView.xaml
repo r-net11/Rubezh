@@ -1,8 +1,0 @@
-﻿<ContentControl x:Class="PlansModule.ElementSubPlanView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Rectangle Name="_polygon"
-               Fill="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}"
-               ToolTip="{Binding ElementSubPlan.Caption}"
-               MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave"
-               PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown"
-               Opacity="0.6" Stroke="Orange" StrokeThickness="0" />
-</ContentControl>

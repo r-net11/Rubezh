@@ -57,7 +57,10 @@
     <Compile Include="Designer\DesignerItemBorder.cs" />
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Elements\IElementZone.cs" />
+    <Compile Include="Events\NavigateToPlanElementEvent.cs" />
+    <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\RegisterPlanPresenterEvent.cs" />
+    <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Painters\ShapePainter.cs" />
     <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
+    <Compile Include="Presenter\BorderHelper.cs" />
     <Compile Include="Presenter\PresenterItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LayerGroupService.cs" />

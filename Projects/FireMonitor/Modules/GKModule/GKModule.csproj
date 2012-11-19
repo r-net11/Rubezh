@@ -110,7 +110,10 @@
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectCommandSendHelper.cs" />
+    <Compile Include="Plans\Designer\XDevicePainter.cs" />
+    <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
+    <Compile Include="Plans\Designer\XZonePainter.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DriverCounterReport.cs" />
     <Compile Include="Reports\JournalReport.cs" />
@@ -226,6 +229,14 @@
     <Resource Include="Reports\JournalReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Plans\Designer\XDeviceMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Designer\XZoneMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

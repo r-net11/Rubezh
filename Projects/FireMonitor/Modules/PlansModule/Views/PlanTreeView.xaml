@@ -10,21 +10,19 @@
         <LacalConverters:StateTypeToPlanColorConverter x:Key="StateTypeToPlanColorConverter" />
     </UserControl.Resources>
 
-	<DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Название" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" VerticalAlignment="Center">
-                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Plan.Caption}" ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}"
-                                Background="{Binding StateType, Converter={StaticResource StateTypeToPlanColorConverter}}" Margin="2, 0, 0, 0" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+	<Controls:TreeListView ItemsSource="{Binding Plans}" SelectedObject="{Binding SelectedPlan}">
+		<Controls:TreeListView.Columns>
+			<GridViewColumn Header="Название">
+				<GridViewColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+							<TextBlock Text="{Binding Plan.Caption}" ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Background="{Binding StateType, Converter={StaticResource StateTypeToPlanColorConverter}}" Margin="2, 0, 0, 0" VerticalAlignment="Center" />
+						</StackPanel>
+					</DataTemplate>
+				</GridViewColumn.CellTemplate>
+			</GridViewColumn>
+		</Controls:TreeListView.Columns>
+	</Controls:TreeListView>
+
 </UserControl>

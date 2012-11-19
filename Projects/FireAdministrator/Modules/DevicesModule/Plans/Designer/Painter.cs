@@ -5,8 +5,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using DeviceControls;
 
-namespace DeviceControls
+namespace DevicesModule.Plans.Designer
 {
 	public class Painter : IPainter
 	{

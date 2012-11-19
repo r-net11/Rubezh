@@ -16,7 +16,7 @@ namespace Infrustructure.Plans.Designer
 
 		#endregion
 
-		public event EventHandler DesignerItemPropertyChanged;
+		public event EventHandler ItemPropertyChanged;
 
 		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
 		public virtual bool IsSelected
@@ -67,7 +67,7 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public ElementBase Element { get; protected set; }
-		public IPainter Painter { get; private set; }
+		public IPainter Painter { get; protected set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -156,8 +156,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void OnDesignerItemPropertyChanged()
 		{
-			if (DesignerItemPropertyChanged != null)
-				DesignerItemPropertyChanged(this, EventArgs.Empty);
+			if (ItemPropertyChanged != null)
+				ItemPropertyChanged(this, EventArgs.Empty);
 		}
 	}
 }

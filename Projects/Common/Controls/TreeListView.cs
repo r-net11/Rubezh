@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Controls
 {
@@ -106,12 +107,15 @@ namespace Controls
 				element.BringIntoView();
 			else if (container.Items.Contains(item))
 			{
+				container.UpdateLayout();
 				var vsp = (VirtualizingStackPanel)typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.NonPublic, null, container, null);
 				if (vsp != null)
 				{
 					vsp.GetType().GetMethod("BringIndexIntoView", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(vsp, new object[] { container.Items.IndexOf(item) });
 					element = container.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
 				}
+				else
+					Debug.WriteLine("VirtualizingStackPanel NOT FOUND!!!");
 			}
 			return element;
 		}

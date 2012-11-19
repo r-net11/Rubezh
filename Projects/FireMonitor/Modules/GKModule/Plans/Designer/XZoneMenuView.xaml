@@ -1,0 +1,5 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<ContextMenu x:Key="XZoneMenuView" x:Shared="False">
+		<MenuItem Command="{Binding ShowInTreeCommand}" Header="Показать в списке" />
+	</ContextMenu>
+</ResourceDictionary>

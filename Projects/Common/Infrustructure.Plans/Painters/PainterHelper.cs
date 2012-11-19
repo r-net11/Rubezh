@@ -19,7 +19,22 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static PointCollection GetPoints(ElementBase element)
 		{
-			return element is ElementBaseShape ? Normalize(element.GetRectangle().TopLeft, ((ElementBaseShape)element).Points, element.BorderThickness) : new PointCollection();
+			return
+				element is ElementBaseShape ?
+					Normalize(element.GetRectangle().TopLeft, ((ElementBaseShape)element).Points, element.BorderThickness) :
+				element is ElementBaseRectangle ?
+					Normalize(element.GetRectangle(), element.BorderThickness) :
+					new PointCollection();
+		}
+		public static PointCollection Normalize(Rect rectangle, double thickness)
+		{
+			double shift = thickness / 2;
+			var pointCollection = new PointCollection();
+			pointCollection.Add(new Point(shift, shift));
+			pointCollection.Add(new Point(rectangle.Width + shift, shift));
+			pointCollection.Add(new Point(rectangle.Width + shift, rectangle.Height + shift));
+			pointCollection.Add(new Point(shift, rectangle.Height + shift));
+			return pointCollection;
 		}
 		public static PointCollection Normalize(Point topLeftPoint, PointCollection points, double thickness)
 		{

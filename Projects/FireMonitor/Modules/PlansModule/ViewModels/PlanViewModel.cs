@@ -1,93 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Events;
-using XFiresecAPI;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {
-	public class PlanViewModel : TreeBaseViewModel<PlanViewModel>
+	public class PlanViewModel : TreeItemViewModel<PlanViewModel>
 	{
+		private PlansViewModel _plansViewModel;
 		public Plan Plan { get; private set; }
-        public List<DeviceState> DeviceStates { get; private set; }
-		public List<ZoneState> ZoneStates { get; private set; }
-		public List<XDeviceState> XDeviceStates { get; private set; }
-		public List<XZoneState> XZoneStates { get; private set; }
-		StateType SelfState = StateType.No;
 
-		public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
+		public PlanViewModel(PlansViewModel plansViewModel, Plan plan)
 		{
+			_plansViewModel = plansViewModel;
 			Plan = plan;
-			Source = source;
-
-			DeviceStates = new List<DeviceState>();
-			foreach (var elementDevice in plan.ElementDevices)
-			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-				if (device != null)
-				{
-					DeviceStates.Add(device.DeviceState);
-					device.DeviceState.StateChanged += new Action(UpdateSelfState);
-				}
-			}
-			ZoneStates = new List<ZoneState>();
-			foreach (var elementRectangleZone in plan.ElementRectangleZones)
-			{
-				if (elementRectangleZone.ZoneUID != Guid.Empty)
-				{
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == elementRectangleZone.ZoneUID);
-					if (zone != null)
-						ZoneStates.Add(zone.ZoneState);
-				}
-			}
-			foreach (var elementPolygonZone in plan.ElementPolygonZones)
-			{
-                if (elementPolygonZone.ZoneUID != Guid.Empty)
-				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == elementPolygonZone.ZoneUID);
-					if (zone != null)
-						ZoneStates.Add(zone.ZoneState);
-				}
-			}
-			XDeviceStates = new List<XDeviceState>();
-			foreach (var elementXDevice in plan.ElementXDevices)
-			{
-				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
-				if (device != null)
-				{
-					XDeviceStates.Add(device.DeviceState);
-					device.DeviceState.StateChanged += new Action(UpdateSelfState);
-				}
-			}
-			XZoneStates = new List<XZoneState>();
-			foreach (var elementRectangleXZone in plan.ElementRectangleXZones)
-			{
-				if (elementRectangleXZone.ZoneUID != Guid.Empty)
-				{
-					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == elementRectangleXZone.ZoneUID);
-					if (zone != null)
-						XZoneStates.Add(zone.ZoneState);
-				}
-			}
-			foreach (var elementPolygonXZone in plan.ElementPolygonXZones)
-			{
-				if (elementPolygonXZone.ZoneUID != Guid.Empty)
-				{
-					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == elementPolygonXZone.ZoneUID);
-					if (zone != null)
-						XZoneStates.Add(zone.ZoneState);
-				}
-			}
-			UpdateSelfState();
 		}
 
-		StateType _stateType;
+		private StateType _stateType;
 		public StateType StateType
 		{
 			get { return _stateType; }
@@ -99,28 +30,19 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		public void UpdateSelfState()
+		private StateType _selfState;
+		public StateType SelfState
 		{
-			SelfState = StateType.No;
-            foreach (var state in DeviceStates)
+			get { return _selfState; }
+			set
 			{
-				if (state.StateType < SelfState)
-					SelfState = state.StateType;
+				_selfState = value;
+				OnPropertyChanged(() => SelfState);
+				UpdateState();
 			}
-			foreach (var state in XDeviceStates)
-			{
-                if (state.GetStateType() < SelfState)
-                    SelfState = state.GetStateType();
-			}
-			foreach (var state in XZoneStates)
-			{
-                if (state.GetStateType() < SelfState)
-                    SelfState = state.GetStateType();
-			}
-			UpdateState();
 		}
 
-		public void UpdateState()
+		private void UpdateState()
 		{
 			StateType = SelfState;
 			foreach (var child in Children)
@@ -130,6 +52,23 @@ namespace PlansModule.ViewModels
 			}
 			if (Parent != null)
 				Parent.UpdateState();
+		}
+
+		public void RegisterPresenter(IPlanPresenter<Plan> planPresenter)
+		{
+			planPresenter.SubscribeStateChanged(Plan, StateChanged);
+			StateChanged();
+		}
+		private void StateChanged()
+		{
+			var state = StateType.No;
+			foreach (var planPresenter in _plansViewModel.PlanPresenters)
+			{
+				var presenterState = (StateType)planPresenter.GetState(Plan);
+				if (presenterState < state)
+					state = presenterState;
+			}
+			SelfState = state;
 		}
 	}
 }

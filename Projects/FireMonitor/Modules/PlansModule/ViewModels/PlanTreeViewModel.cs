@@ -5,21 +5,28 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using Infrastructure;
+using Infrustructure.Plans;
+using System.Linq;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
 	{
 		public event EventHandler SelectedPlanChanged;
+		public List<PlanViewModel> AllPlans { get; private set; }
+		private PlansViewModel _plansViewModel;
 
-		public PlanTreeViewModel()
+		public PlanTreeViewModel(PlansViewModel plansViewModel)
 		{
-			Plans = new ObservableCollection<PlanViewModel>();
+			_plansViewModel = plansViewModel;
 		}
 
 		public void Initialize()
 		{
-			Plans.Clear();
+			AllPlans = new List<PlanViewModel>();
+			Plans = new ObservableCollection<PlanViewModel>();
 			AddPlans(null, FiresecManager.PlansConfiguration.Plans);
+			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
 			if (Plans.IsNotNullOrEmpty())
 				SelectedPlan = Plans[0];
 		}
@@ -29,14 +36,13 @@ namespace PlansModule.ViewModels
 			if (plans != null)
 				foreach (var plan in plans)
 				{
-					var planViewModel = new PlanViewModel(plan, Plans)
-					{
-						Parent = parent,
-						IsExpanded = true
-					};
+					var planViewModel = new PlanViewModel(_plansViewModel, plan);
+					AllPlans.Add(planViewModel);
+					planViewModel.IsExpanded = true;
 					if (parent != null)
 						parent.Children.Add(planViewModel);
-					Plans.Add(planViewModel);
+					else
+						Plans.Add(planViewModel);
 					AddPlans(planViewModel, plan.Children);
 				}
 		}
@@ -48,7 +54,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedPlan = value;
-				OnPropertyChanged("SelectedPlan");
+				OnPropertyChanged(() => SelectedPlan);
 				if (SelectedPlanChanged != null)
 					SelectedPlanChanged(this, EventArgs.Empty);
 			}
@@ -58,11 +64,21 @@ namespace PlansModule.ViewModels
 		public ObservableCollection<PlanViewModel> Plans
 		{
 			get { return _plans; }
-			set
+			private set
 			{
 				_plans = value;
 				OnPropertyChanged("Plans");
 			}
+		}
+
+		public PlanViewModel FindPlan(Guid planUID)
+		{
+			return AllPlans.FirstOrDefault(item => item.Plan.UID == planUID);
+		}
+
+		public void AddPlanPresenter(IPlanPresenter<Plan> planPresenter)
+		{
+			AllPlans.ForEach(planViewModel => planViewModel.RegisterPresenter(planPresenter));
 		}
 	}
 }

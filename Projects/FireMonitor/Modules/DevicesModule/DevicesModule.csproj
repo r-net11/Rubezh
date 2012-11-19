@@ -106,6 +106,9 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DevicesModuleLoader.cs" />
+    <Compile Include="Plans\Designer\ZonePainter.cs" />
+    <Compile Include="Plans\Designer\DevicePainter.cs" />
+    <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -181,6 +184,14 @@
     <Resource Include="Reports\DriverCounterReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Plans\Designer\DeviceMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plans\Designer\ZoneMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConnectionIndicatorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
