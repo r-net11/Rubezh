@@ -2,11 +2,15 @@
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Infrustructure.Plans.Presenter
 {
 	public class PresenterItem : CommonDesignerItem
 	{
+		private double _zoom;
+		private double _pointZoom;
+
 		public static readonly RoutedEvent FlushEvent = EventManager.RegisterRoutedEvent("Flush", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(PresenterItem));
 		public event RoutedEventHandler Flush
 		{
@@ -51,12 +55,32 @@ namespace Infrustructure.Plans.Presenter
 			RaiseEvent(new RoutedEventArgs(PresenterItem.FlushEvent));
 		}
 
-		public void UpdateZoom(double zoom)
+		private void UpdateZoom(double zoom)
 		{
+			_zoom = zoom;
 			AdornerThickness = 3 / zoom;
 			AdornerMargin = -AdornerThickness;
 			OnPropertyChanged("AdornerThickness");
 			OnPropertyChanged("AdornerMargin");
+		}
+		public void UpdateDeviceZoom(double zoom, double pointZoom)
+		{
+			UpdateZoom(zoom);
+			_pointZoom = pointZoom;
+			SetLocation();
+		}
+		public override void SetLocation()
+		{
+			if (IsPoint)
+			{
+				var rect = Element.GetRectangle();
+				Canvas.SetLeft(this, rect.Left - _pointZoom / 2);
+				Canvas.SetTop(this, rect.Top - _pointZoom / 2);
+				ItemWidth = rect.Width + _pointZoom;
+				ItemHeight = rect.Height + _pointZoom;
+			}
+			else
+				base.SetLocation();
 		}
 	}
 }

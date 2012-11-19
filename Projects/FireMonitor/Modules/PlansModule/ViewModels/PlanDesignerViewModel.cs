@@ -126,8 +126,6 @@ namespace PlansModule.ViewModels
 			_zoom = zoom;
 			if (Plan != null)
 				UpdateCanvas();
-			foreach (PresenterItem presenterItem in Items)
-				presenterItem.UpdateZoom(zoom);
 			ChangeDeviceZoom(_deviceZoom);
 		}
 
@@ -138,14 +136,7 @@ namespace PlansModule.ViewModels
 				return;
 			double _pointZoom = _deviceZoom / _zoom;
 			foreach (var item in Canvas.Children.OfType<PresenterItem>())
-				if (item.IsPoint)
-				{
-					var rect = item.Element.GetRectangle();
-					Canvas.SetLeft(item, rect.Left - _pointZoom / 2);
-					Canvas.SetTop(item, rect.Top - _pointZoom / 2);
-					item.ItemWidth = rect.Width + _pointZoom;
-					item.ItemHeight = rect.Height + _pointZoom;
-				}
+				item.UpdateDeviceZoom(_zoom, _pointZoom);
 		}
 
 		#endregion
