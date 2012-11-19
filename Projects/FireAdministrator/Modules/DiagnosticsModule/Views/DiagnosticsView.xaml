@@ -18,7 +18,7 @@
                         <Button Content="JournalTest" Command="{Binding JournalTestCommand}" Width="300" Margin="2" />
                         <Button Content="Записать" Command="{Binding Test1Command}" Width="300" Margin="2" />
                         <Button Content="Применить" Command="{Binding Test2Command}" Width="300" Margin="2" />
-                        <Button Content="Тест 3" Command="{Binding Test3Command}" Width="300" Margin="2" />
+                        <Button Content="SVG Converter" Command="{Binding Test3Command}" Width="300" Margin="2" />
                         <Button Content="Сообщение" Command="{Binding Test6Command}" Width="300" Margin="2" />
                         <Button Content="Driver Reset Info" Command="{Binding Test7Command}" Width="300" Margin="2" />
                     </StackPanel>
