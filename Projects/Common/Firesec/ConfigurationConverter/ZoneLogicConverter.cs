@@ -123,7 +123,7 @@ namespace Firesec
 
 				if (clause.DeviceUID != Guid.Empty)
 				{
-					innerClause.device = new deviceType[0];
+					innerClause.device = new deviceType[1];
 					innerClause.device[0] = new deviceType() { UID = clause.DeviceUID.ToString() };
 				}
 
