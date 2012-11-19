@@ -71,7 +71,7 @@ namespace Infrastructure.Common
 
     public class DoubleLaunchLocker : IDisposable
     {
-        private const int TIMEOUT = 300000;
+        private const int TIMEOUT = 3000;
         public string SignalId { get; private set; }
         public string WaitId { get; private set; }
 
@@ -94,11 +94,14 @@ namespace Infrastructure.Common
                     terminate = true;
                 if (!terminate)
                 {
-                    _waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
-                    if (_signalHandler.Set())
-                        terminate = !_waitHandler.WaitOne(TIMEOUT);
-                    else
-                        terminate = true;
+					_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId, out isNew);
+					if (!isNew)
+					{
+						if (_signalHandler.Set())
+							terminate = !_waitHandler.WaitOne(TIMEOUT);
+						else
+							terminate = true;
+					}
                 }
                 if (terminate)
                 {
@@ -116,19 +119,19 @@ namespace Infrastructure.Common
         }
         private void WaitingHandler(object startInfo)
         {
-            try
+			_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, (string)startInfo);
+			try
             {
-                _signalHandler.WaitOne();
+				_signalHandler.WaitOne();
                 TryShutdown();
+				Thread.Sleep(300);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                ForceShutdown();
             }
             finally
             {
-                _waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, (string)startInfo);
                 _waitHandler.Set();
                 ForceShutdown();
             }
@@ -138,7 +141,7 @@ namespace Infrastructure.Common
             if (!_force && Application.Current != null)
             {
                 Application.Current.Dispatcher.InvokeShutdown();
-                ApplicationService.DoEvents();
+				//ApplicationService.DoEvents();
             }
         }
         private void ForceShutdown()
