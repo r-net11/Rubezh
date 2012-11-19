@@ -40,6 +40,7 @@ namespace DevicesModule.Validation
                 ValidateDeviceRangeAddress(device);
                 ValidateMRK30(device);
                 ValidatePumpStation(device);
+				ValidatePanelZonesCount(device);
             }
         }
 
@@ -269,23 +270,23 @@ namespace DevicesModule.Validation
 
         void ValidateDeviceSecurityPanel(Device device)
         {
-            var driverSecurityDeviceCountProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
-            if (driverSecurityDeviceCountProperty != null)
+            var property = device.Driver.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
+            if (property != null)
             {
-                var securityDeviceCountPropertyValue = driverSecurityDeviceCountProperty.Parameters.First(x => x.Value == driverSecurityDeviceCountProperty.Default).Name;
+                var value = property.Parameters.First(x => x.Value == property.Default).Name;
                 var deviceSecurityDeviceCountProperty = device.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
                 if (deviceSecurityDeviceCountProperty != null)
-                    securityDeviceCountPropertyValue = deviceSecurityDeviceCountProperty.Value;
+                    value = deviceSecurityDeviceCountProperty.Value;
 
-                if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[0].Name)
+				if (value == property.Parameters[0].Name || value == property.Parameters[0].Value)
                     ValidateDeviceCountAndOrderOnShlief(device, 64, 0);
-                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[1].Name)
+				else if (value == property.Parameters[1].Name || value == property.Parameters[1].Value)
                     ValidateDeviceCountAndOrderOnShlief(device, 48, 16);
-                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[2].Name)
+				else if (value == property.Parameters[2].Name || value == property.Parameters[2].Value)
                     ValidateDeviceCountAndOrderOnShlief(device, 32, 32);
-                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[3].Name)
+				else if (value == property.Parameters[3].Name || value == property.Parameters[3].Value)
                     ValidateDeviceCountAndOrderOnShlief(device, 16, 48);
-                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[4].Name)
+				else if (value == property.Parameters[4].Name || value == property.Parameters[4].Value)
                     ValidateDeviceCountAndOrderOnShlief(device, 0, 64);
             }
         }
@@ -387,6 +388,19 @@ namespace DevicesModule.Validation
                     _errors.Add(new DeviceValidationError(device, "Отсутствуют настроенные режимы срабатывания", ValidationErrorLevel.CannotWrite));
             }
         }
+
+		void ValidatePanelZonesCount(Device device)
+		{
+			if (device.Driver.IsPanel)
+			{
+				foreach (var child in device.Children)
+				{
+					if (child.Driver.IsZoneDevice && child.ZoneUID != Guid.Empty)
+						return;
+				}
+				_errors.Add(new DeviceValidationError(device, "Менее одной зоны в приборе", ValidationErrorLevel.CannotWrite));
+			}
+		}
 
         bool ValidateString(string str)
         {

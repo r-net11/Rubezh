@@ -113,12 +113,15 @@ namespace DevicesModule.ViewModels
 			var commandName = SelectedBlock.SelectedCommand.Name;
 			if (Device.Driver.DriverType == DriverType.Valve)
 			{
-				if (!HasActionProprty())
+				switch (commandName)
 				{
-					if (commandName == "BoltOpen")
-						return "BoltClose";
-					if (commandName == "BoltClose")
-						return "BoltOpen";
+					case "BoltStart":
+						commandName = HasActionProprty() ? "BoltOpen" : "BoltClose";
+						break;
+
+					case "BoltStop":
+						commandName = HasActionProprty() ? "BoltClose" : "BoltOpen";
+						break;
 				}
 			}
 			return commandName;

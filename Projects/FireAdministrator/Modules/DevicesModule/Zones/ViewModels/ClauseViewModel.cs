@@ -84,6 +84,7 @@ namespace DevicesModule.ViewModels
 								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
                                 states.Remove(ZoneLogicState.AM1TOn);
                                 states.Remove(ZoneLogicState.Firefighting);
+								states.Add(ZoneLogicState.PCN);
 								break;
 						}
 						if ((_device.IntAddress == 3) || (_device.IntAddress == 4))
@@ -111,7 +112,7 @@ namespace DevicesModule.ViewModels
 			states.Add(ZoneLogicState.Alarm);
 			states.Add(ZoneLogicState.GuardSet);
 			states.Add(ZoneLogicState.GuardUnSet);
-			states.Add(ZoneLogicState.PCN);
+			//states.Add(ZoneLogicState.PCN);
 			states.Add(ZoneLogicState.Lamp);
 			states.Add(ZoneLogicState.Failure);
 			states.Add(ZoneLogicState.AM1TOn);
@@ -190,6 +191,10 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedState = value;
 				OnPropertyChanged("SelectedState");
+				if (value == ZoneLogicState.PCN)
+				{
+					SelectedOperation = ZoneLogicOperation.Any;
+				}
 				Update();
 			}
 		}

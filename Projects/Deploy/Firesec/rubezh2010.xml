@@ -970,6 +970,86 @@
       <detalization class="6" dictionary="Радио_Дымовой_Неисправности" />    
     
     </deviceTable>
+
+    <deviceTable tableType="22" recordType="device"
+      deviceDriverID ="713702A8-E3A1-4328-9A43-DE9CB5167133"
+	  deviceClassID= "89C01469-69B7-4AAD-907A-0868DF5E167C"
+      deviceName="Модуль речевого оповещения (исполнение 2)"
+      shortName="МРО-2(исп.2)"
+      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
+      minOutputDeviceCount="1"
+      maxOutputDeviceCount="-1"
+      IgnoreInZoneState="1"
+      IsOutDevice="1"
+      Icon="МРО"
+      type="fire"
+      category="effector">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>
+
+    <deviceTable tableType="-1" recordType="composite"
+      deviceDriverID ="6636AF15-F8D7-44F8-8AA3-62DA77B41B42"
+	  deviceClassID= "8EA0168B-C139-44C7-8670-82ACE6C3D6A2"
+      deviceName="Шкаф управления вентиляцией"
+      shortName="ШУВ"
+      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
+      minOutputDeviceCount="-1"
+      maxOutputDeviceCount="0"
+      IgnoreInZoneState="1"
+      IsOutDevice="0"
+	  deviceCount="2"
+      Icon="МПТ"
+      type="fire"
+      category="transport">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>	
+	
+    <deviceTable tableType="23" recordType="outputDevice"
+      deviceDriverID ="8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B"
+	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
+      deviceName="Вентилятор"
+      shortName="Вентилятор"
+      minOutputDeviceCount="0"
+      maxOutputDeviceCount="1"
+      IgnoreInZoneState="1"
+      IsOutDevice="1"
+      Icon="МПТ"
+      type="fire"
+      category="effector">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>	
+
+    <deviceTable tableType="24" recordType="outputDevice"
+      deviceDriverID ="8A18E2E6-7ED7-4D3F-8DFA-1E042671F072"
+	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
+      deviceName="Клапан"
+      shortName="Клапан"
+      minOutputDeviceCount="1"
+      maxOutputDeviceCount="2"
+      IgnoreInZoneState="1"
+      IsOutDevice="0"
+      Icon="МПТ"
+      type="fire"
+      category="effector">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>	
+
 	
 <!-- групповые устройства -->
 
@@ -1824,7 +1904,19 @@
     <devicePropInfo tableType="18" class="1" name="Run" command1="$03" shiftInMemory="$80" commandDev="$06" maskCmdDev="$06" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="ClapanOn1e"/>
     <devicePropInfo tableType="18" class="1" name="RunWODelay" command1="$03" shiftInMemory="$80" commandDev="$04" maskCmdDev="$06" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="ClapanOn1e"/>
     <devicePropInfo tableType="18" class="1" name="Stop" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$06" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="ClapanOn1e"/>
+
+  	<!-- МРО-2 исп.2 -->
+    <devicePropInfo tableType="22" class="1" name="Run" command1="$0F" shiftInMemory="$80" commandDev="$01" maskCmdDev="$43" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="RunWODelay" command1="$0F" shiftInMemory="$80" commandDev="$41" maskCmdDev="$43" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="Stop" command1="$0F" shiftInMemory="$80" commandDev="$00" maskCmdDev="$01" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="MRO_On"/>
+
+    <devicePropInfo tableType="22" class="1" name="LineOn" command1="$0F" shiftInMemory="$80" commandDev="$43" maskCmdDev="$43" caption="Включить воспроизведение" hint="Запуск устройства" hidden="0" blockName="Линейный вход" imageIndex="5" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="LineOff" command1="$0F" shiftInMemory="$80" commandDev="$00" maskCmdDev="$03" caption="Остановить воспроизведение" hint="Останов устройства" hidden="0" blockName="Линейный вход" imageIndex="6" off="1"/>
+
+    <devicePropInfo tableType="22" class="1" name="TestRun" command1="$0F" shiftInMemory="$05" commandDev="$04" maskCmdDev="$04" caption="Тест. вкл." hint="Тестовый запуск устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="TestRunWODelay" command1="$0F" shiftInMemory="$05" commandDev="$04" maskCmdDev="$0C" caption="Тест. вкл. без задержки" hint="Тестовый запуск устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="TestStop" command1="$0F" shiftInMemory="$05" commandDev="$00" maskCmdDev="$0C" caption="Тест. выкл." hint="Тестовый останов устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
 	
-	</devicePropInfos>
+</devicePropInfos>
     
 </driverConfig>
