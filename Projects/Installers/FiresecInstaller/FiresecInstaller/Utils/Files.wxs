@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables.wxi?>
 	<Fragment>
-    <DirectoryRef Id="DIAGNOSTICSLOCATION">
+    <!--<DirectoryRef Id="DIAGNOSTICSLOCATION">
       <Component Id="Diagnostics.Files" Guid="CB85AFC6-23E7-44A5-997B-27CDB4C8DEAC">
         <File Id="Diagnostics.Diagnostics.exe" Name="$(var.Diagnostics.TargetFileName)" Source="$(var.Diagnostics.TargetPath)" KeyPath="yes" />
         <File Id="Diagnostics.Diagnostics.exe.manifest" Name="Diagnostics.exe.manifest" Source="$(var.Diagnostics.TargetDir)" />
@@ -16,6 +16,6 @@
         <File Id="Diagnostics.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Diagnostics.TargetDir)" />
         <File Id="Diagnostics.NLog.dll" Name="NLog.dll" Source="$(var.Diagnostics.TargetDir)" />
       </Component>
-    </DirectoryRef>
+    </DirectoryRef>-->
 	</Fragment>
 </Wix>

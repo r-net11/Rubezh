@@ -63,10 +63,10 @@
         <File Id="Monitor.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
-      <Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">
-        <File Id="Monitor.Revisor.exe" Name="$(var.Revisor.TargetFileName)" Source="$(var.Revisor.TargetPath)" KeyPath="yes" />
-        <File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Revisor.TargetDir)" />
-      </Component>
+      <!--<Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">
+        --><!--<File Id="Monitor.Revisor.exe" Name="$(var.Revisor.TargetFileName)" Source="$(var.Revisor.TargetPath)" KeyPath="yes" />
+        <File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Revisor.TargetDir)" />--><!--
+      </Component>-->
       
     </DirectoryRef>
 

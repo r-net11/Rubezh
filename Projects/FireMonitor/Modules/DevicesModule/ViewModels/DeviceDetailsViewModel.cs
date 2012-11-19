@@ -114,7 +114,7 @@ namespace DevicesModule.ViewModels
 								return;
 							}
 
-							int secondsLeft = timeout - timeSpan.Value.Seconds;
+							int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
 							if (secondsLeft > 0)
 							{
 								DeviceControlViewModel.StartTimer(secondsLeft);

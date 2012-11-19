@@ -68,8 +68,17 @@ namespace DevicesModule.ViewModels
 			{
 				try
 				{
-					var thread = new Thread(DoConfirm);
-					thread.Start();
+                    FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.AddTask(() =>
+                        {
+                            DoConfirm();
+                        });
+                    var thread = new Thread(() =>
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(5));
+                        Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand");
+                        }));
+                    });
+                    thread.Start();
 				}
 				catch (Exception e)
 				{
@@ -88,7 +97,6 @@ namespace DevicesModule.ViewModels
 			{
 				Logger.Error(e, "DeviceControlViewModel.DoConfirm.ExecuteCommand");
 			}
-
 			try
 			{
 				Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));

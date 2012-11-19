@@ -9,6 +9,7 @@ using FiresecClient;
 using FiresecAPI.Models;
 using Firesec;
 using Common;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -49,6 +50,7 @@ namespace DevicesModule.ViewModels
                 }
                 SelectedDevice.UpdataConfigurationProperties();
             }
+            ServiceFactory.SaveService.FSChanged = true;
         }
 
         public RelayCommand GetConfigurationParametersCommand { get; private set; }
@@ -64,6 +66,7 @@ namespace DevicesModule.ViewModels
                 }
                 SelectedDevice.PropertiesViewModel.IsAuParametersReady = false;
             });
+            ServiceFactory.SaveService.FSChanged = true;
         }
         bool CanGetConfigurationParameters()
         {
@@ -170,6 +173,7 @@ namespace DevicesModule.ViewModels
                         return;
                     }
                     child.PropertiesViewModel.IsAuParametersReady = false;
+                    ServiceFactory.SaveService.FSChanged = true;
                 };
             }
             catch (Exception e)

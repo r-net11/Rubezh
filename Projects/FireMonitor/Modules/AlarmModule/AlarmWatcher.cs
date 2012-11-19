@@ -28,6 +28,7 @@ namespace AlarmModule
             Alarms = new List<Alarm>();
 			UpdateZoneAlarms();
             UpdateDeviceAlarms();
+            Alarms = (from Alarm alarm in Alarms orderby alarm.StateType select alarm).ToList<Alarm>();
             AlarmsViewModel.Current.Update(Alarms);
             AlarmGroupsViewModel.Current.Update(Alarms);
         }

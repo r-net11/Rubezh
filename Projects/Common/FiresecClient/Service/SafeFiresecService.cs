@@ -9,7 +9,6 @@ using System.Windows.Threading;
 
 namespace FiresecClient
 {
-    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
     public partial class SafeFiresecService : IFiresecService
     {
         FiresecServiceFactory FiresecServiceFactory;
