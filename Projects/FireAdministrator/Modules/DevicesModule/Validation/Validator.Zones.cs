@@ -33,6 +33,7 @@ namespace DevicesModule.Validation
                 }
 
                 ValidateZoneHasDevicesFromDifferentNetworks(zone);
+				ValidateZoneHasDifferentDevices(zone);
                 ValidateZoneNumber(zone);
                 ValidateZoneNameLength(zone);
                 ValidateZoneDescriptionLength(zone);
@@ -54,6 +55,24 @@ namespace DevicesModule.Validation
             if (deviceUIDs.Count > 1)
                 _errors.Add(new ZoneValidationError(zone, "В зоне указано устройство, находящееся в другой сети RS-485", ValidationErrorLevel.CannotWrite));
         }
+
+		void ValidateZoneHasDifferentDevices(Zone zone)
+		{
+			if (zone.ZoneType == ZoneType.Guard)
+			{
+				var deviceUIDs = new HashSet<Guid>();
+				foreach (var device in zone.DevicesInZone)
+				{
+					deviceUIDs.Add(device.ParentPanel.UID);
+				}
+				foreach (var device in zone.DevicesInZoneLogic)
+				{
+					deviceUIDs.Add(device.ParentPanel.UID);
+				}
+				if (deviceUIDs.Count > 1)
+					_errors.Add(new ZoneValidationError(zone, "В охранной зоне указано устройство, находящееся в другом приборе", ValidationErrorLevel.CannotWrite));
+			}
+		}
 
         void ValidateGuardZonesCount()
         {

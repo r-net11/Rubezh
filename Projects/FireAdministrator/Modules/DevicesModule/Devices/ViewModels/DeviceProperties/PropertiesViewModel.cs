@@ -34,6 +34,9 @@ namespace DevicesModule.DeviceProperties
                 if(device.Driver.DriverType == DriverType.Exit)
                     continue;
 
+				if (device.Driver.DriverType == DriverType.PumpStation && driverProperty.Name == "AllowControl")
+					continue;
+
 				if (driverProperty.IsHidden || driverProperty.IsControl)
 					continue;
 

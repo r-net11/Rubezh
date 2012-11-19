@@ -115,18 +115,21 @@ namespace Infrastructure.Client.Login.ViewModels
         {
             Close(true);
             IsCanceled = false;
-            switch (_passwordViewType)
-            {
-                case PasswordViewType.Connect:
-                    DoConnect();
-                    break;
-                case PasswordViewType.Reconnect:
-                    Message = FiresecManager.Reconnect(UserName, Password);
-                    break;
-                case PasswordViewType.Validate:
-                    Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
-                    break;
-            }
+			switch (_passwordViewType)
+			{
+				case PasswordViewType.Connect:
+					var preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
+					DialogService.ShowWindow(preLoadWindow);
+					DoConnect();
+					preLoadWindow.ForceClose();
+					break;
+				case PasswordViewType.Reconnect:
+					Message = FiresecManager.Reconnect(UserName, Password);
+					break;
+				case PasswordViewType.Validate:
+					Message = HashHelper.CheckPass(Password, FiresecManager.CurrentUser.PasswordHash) ? null : "Неверный пароль";
+					break;
+			}
             IsConnected = string.IsNullOrEmpty(Message);
             if (CanSavePassword && IsConnected)
             {
@@ -151,8 +154,6 @@ namespace Infrastructure.Client.Login.ViewModels
 
         private void DoConnect()
         {
-            ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
-            DialogService.ShowWindow(preLoadWindow);
             for (int i = 1; i <= 100; i++)
             {
                 Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
@@ -166,7 +167,6 @@ namespace Infrastructure.Client.Login.ViewModels
                     return;
                 }
             }
-            preLoadWindow.ForceClose();
         }
 
         public enum PasswordViewType

@@ -22,18 +22,17 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
-                                        <TextBlock.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                                <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
-                                                <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
-                                                <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                <MenuItem Header="Снять с охраны" Command="{Binding UnsetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                            </ContextMenu>
-                                        </TextBlock.ContextMenu>
-                                    </TextBlock>
+                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" />
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                            <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
+                                            <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+                                            <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <MenuItem Header="Снять с охраны" Command="{Binding UnsetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                        </ContextMenu>
+                                        </StackPanel.ContextMenu>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

@@ -56,7 +56,7 @@ namespace Firesec
                     else
                     {
                         intValue = int.Parse(property.Value);
-                        if (driverProperty.Name == "Задержка включения МРО, сек")
+                        if (driverProperty.Caption == "Задержка включения МРО, сек")
                         {
                             intValue = (int)Math.Truncate((double)intValue / 5);
                         }

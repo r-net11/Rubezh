@@ -19,7 +19,7 @@ namespace DevicesModule.Reports
 			DataTable table = new DataTable("Devices");
 			table.Columns.Add("Driver");
 			table.Columns.Add("Count");
-			foreach (var driver in (from Driver x in FiresecManager.Drivers orderby x.ShortName select x))
+			foreach (var driver in from Driver d in FiresecManager.Drivers orderby d.ShortName select d)
 			{
 				if (driver.IsAutoCreate || driver.DriverType == DriverType.Computer)
 					continue;

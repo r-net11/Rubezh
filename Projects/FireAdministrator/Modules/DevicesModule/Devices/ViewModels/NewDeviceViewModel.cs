@@ -98,24 +98,30 @@ namespace DevicesModule.ViewModels
 			if (SelectedDriver.HasAddress == false)
 			{
 				Device device = FiresecManager.FiresecConfiguration.AddDevice(_parent, SelectedDriver, 0);
-                CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 				return;
 			}
 
 			int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
-			for (int i = startAddress; i < startAddress + Count * GetReserverCount(); i++)
+			int endAddress = startAddress + Count * GetReserverCount();
+			if (SelectedDriver.MaxAddress > 0)
+			{
+				if (endAddress > SelectedDriver.MaxAddress)
+					endAddress = SelectedDriver.MaxAddress + 1;
+			}
+			for (int i = startAddress; i < endAddress; i++)
 			{
 				if (_parent.Children.Any(x => x.IntAddress == i))
 				{
-                    MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
+					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
 					return;
 				}
 			}
 
-            if (_parent.Driver.IsChildAddressReservedRange)
-            {
-                Count = Math.Min(Count, _parent.GetReservedCount());
-            }
+			if (_parent.Driver.IsChildAddressReservedRange)
+			{
+				Count = Math.Min(Count, _parent.GetReservedCount());
+			}
 
 			int shleifNo = startAddress / 256;
 			for (int i = 0; i < Count; i++)
@@ -125,9 +131,14 @@ namespace DevicesModule.ViewModels
 				{
 					return;
 				}
+				if (SelectedDriver.MaxAddress > 0)
+				{
+					if (address > SelectedDriver.MaxAddress)
+						return;
+				}
 
 				Device device = FiresecManager.FiresecConfiguration.AddDevice(_parent, SelectedDriver, address);
-                CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 			}
 		}
 

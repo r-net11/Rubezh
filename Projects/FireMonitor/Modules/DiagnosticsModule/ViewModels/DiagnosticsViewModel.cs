@@ -28,7 +28,6 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
-            SimpleBalloonTestCommand = new RelayCommand(OnSimpleBalloonTest);
             CustomBalloonTestCommand = new RelayCommand(OnCustomBalloonTest);
         }
 
@@ -60,7 +59,7 @@ namespace DiagnosticsModule.ViewModels
 						break;
 					if (NativeFiresecClient.TasksCount > 10)
 						continue;
-					Thread.Sleep(TimeSpan.FromSeconds(10));
+					Thread.Sleep(TimeSpan.FromSeconds(1));
 
 					var index = random.Next(0, 10);
 					switch(index)
@@ -351,11 +350,6 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
         }
 
-        public RelayCommand SimpleBalloonTestCommand { get; private set; }
-        void OnSimpleBalloonTest()
-        {
-            BalloonHelper.Show("SampleTitle", "SampleText");
-        }
         public RelayCommand CustomBalloonTestCommand { get; private set; }
         void OnCustomBalloonTest()
         {

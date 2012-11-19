@@ -12,10 +12,10 @@ namespace Firesec
     {
         public static bool IsSuspended { get; set; }
 		int LastJournalNo = 0;
-		bool needToRead = false;
-		bool needToReadStates = false;
-		bool needToReadParameters = false;
-		bool needToReadJournal = false;
+		static bool needToRead = false;
+		static bool needToReadStates = false;
+		static bool needToReadParameters = false;
+		static bool needToReadJournal = false;
 
 		static HashSet<int> callbackThreadIds = new HashSet<int>();
 
@@ -33,11 +33,12 @@ namespace Firesec
 				needToReadJournal = ((eventMask & 1) == 1);
 				needToReadStates = ((eventMask & 2) == 2);
 				needToReadParameters = ((eventMask & 8) == 8);
-				CheckForRead();
+				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.CheckForRead();
+				//CheckForRead();
 			}
 		}
 
-		void CheckForRead()
+		public void CheckForRead()
 		{
             if (IsSuspended)
                 return;
@@ -138,7 +139,7 @@ namespace Firesec
 				hasNewRecords = false;
 
 				var result = ReadEvents(oldJournalNo, 100);
-				if (result.HasError)
+				if (result == null || result.HasError)
 				{
 					return new List<JournalRecord>();
 				}

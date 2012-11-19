@@ -108,6 +108,10 @@ namespace FiresecClient
 			{
 				Logger.Error("FiresecClient.SafeOperationCall ObjectDisposedException " + e.Message + " " + methodName);
 			}
+			else if (e is CommunicationException)
+			{
+				Logger.Error("FiresecClient.SafeOperationCall CommunicationException " + e.Message + " " + methodName);
+			}
             else
             {
 				Logger.Error(e, "FiresecClient.SafeOperationCall " + e.Message + " " + methodName);

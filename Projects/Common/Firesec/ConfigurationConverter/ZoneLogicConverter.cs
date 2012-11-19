@@ -34,6 +34,17 @@ namespace Firesec
                             }
 						}
 					}
+					if (innerClause.device != null)
+					{
+						var innerDevice = innerClause.device.FirstOrDefault();
+						if (innerDevice != null)
+						{
+							if (!string.IsNullOrEmpty(innerDevice.UID))
+							{
+								clause.DeviceUID = GuidHelper.ToGuid(innerDevice.UID);
+							}
+						}
+					}
 
 					clause.State = (ZoneLogicState)int.Parse(innerClause.state);
 
@@ -62,9 +73,6 @@ namespace Firesec
 							zoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
 							break;
 					}
-
-					if (innerClause.device != null)
-						clause.DeviceUID = GuidHelper.ToGuid(innerClause.device[0].UID);
 
 					zoneLogic.Clauses.Add(clause);
 				}
@@ -115,7 +123,7 @@ namespace Firesec
 
 				if (clause.DeviceUID != Guid.Empty)
 				{
-					innerClause.device = new deviceType[0];
+					innerClause.device = new deviceType[1];
 					innerClause.device[0] = new deviceType() { UID = clause.DeviceUID.ToString() };
 				}
 

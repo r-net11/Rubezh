@@ -7,6 +7,7 @@ namespace FiresecAPI.Models
         {
             switch (alarmType)
             {
+				case AlarmType.Guard:
                 case AlarmType.Fire:
                     return StateType.Fire;
 

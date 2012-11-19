@@ -36,10 +36,10 @@ namespace FiresecClient.Itv
                         return initializeFiresecDriverResult.Error;
                     }
                     FiresecManager.FiresecDriver.Synchronyze();
-                    FiresecManager.FiresecDriver.StartWatcher(true, true);
                     FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
                     FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
                     FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(Watcher_NewJournalRecords);
+					FiresecManager.FiresecDriver.StartWatcher(true, true);
                 }
                 catch (FiresecException e)
                 {

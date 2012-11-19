@@ -180,7 +180,7 @@ namespace FiresecAPI.Models
                     }
                     clause.ZoneUIDs = zoneUIDs;
 
-                    if ((clause.Device != null) || (clause.ZoneUIDs.Count > 0) || clause.State == ZoneLogicState.Failure)
+                    if ((clause.DeviceUID != Guid.Empty) || (clause.ZoneUIDs.Count > 0) || clause.State == ZoneLogicState.Failure)
                         clauses.Add(clause);
                 }
                 device.ZoneLogic.Clauses = clauses;
