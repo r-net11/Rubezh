@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
@@ -32,7 +22,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             if (BalloonToolTipViewModel.IsCustom)
             {
                 CustomBalloonView customBalloonView = new CustomBalloonView();
-                MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.Scroll, 10000);
+                MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 4000);
             }
             else
                 MyNotifyIcon.ShowBalloonTip(BalloonToolTipViewModel.BalloonTitle, BalloonToolTipViewModel.BalloonText, MyNotifyIcon.Icon);

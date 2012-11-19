@@ -76,6 +76,9 @@
     <Reference Include="CodeReason.Reports">
       <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\3rdParty\Hardcodet.Wpf.TaskbarNotification\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -337,10 +340,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\3rdParty\NotifyIconWpf\NotifyIconWpf.csproj">
-      <Project>{7AC63864-7638-41C4-969C-D3197EF2BED9}</Project>
-      <Name>NotifyIconWpf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
