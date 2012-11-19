@@ -37,7 +37,6 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property2);
 
 			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x80, "источник воспроизведения (только чтение)", 1, "память", "линейный вход");
-					
 		}
 	}
 }

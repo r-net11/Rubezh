@@ -38,7 +38,6 @@
                             <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" VerticalAlignment="Center" Margin="5" />
                             <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
                         </WrapPanel>
-                            </WrapPanel>
                         <WrapPanel Margin="1">
                             <TextBlock Text="Устройство: " FontWeight="Bold" Foreground="Orange" />
                             <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />
