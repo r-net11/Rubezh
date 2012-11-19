@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="Firesec.Features" Title="Драйвер FireSec" Description="Установка драйверов оборудования Адресной системы Рубеж" Level="1" Display="expand"
+		<Feature Id="Firesec.Features" Title="Драйвер FireSec" Description="Установка драйверов оборудования Адресной системы Рубеж" Level="2" Display="expand"
           ConfigurableDirectory="FIRESECLOCATION" AllowAdvertise="no" Absent='allow' InstallDefault="local">
       <ComponentRef Id="Firesec.Files" />
       <ComponentRef Id="Firesec.fbintl.dll" />

@@ -15,7 +15,7 @@
         <ComponentRef Id="Administrator.FS_MODULE" />
         <ComponentRef Id="Monitor.FS_MODULE" />
       </Feature>
-      <Feature Id="GK.Features" Title="ГК" Description="Устанавливает компопненты для работы Группового Контроллера" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="GK.Features" Title="ГК" Description="Устанавливает компопненты для работы Группового Контроллера" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>

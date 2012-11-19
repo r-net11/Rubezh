@@ -25,7 +25,7 @@ namespace Revisor
             {
                 try
                 {
-                    RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
+                    RegistryKey readKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
                     var firemonitorpath = (string)readKey.GetValue("FireMonitorPath");
                     var isException = readKey.GetValue("isException");
                     readKey.Close();
