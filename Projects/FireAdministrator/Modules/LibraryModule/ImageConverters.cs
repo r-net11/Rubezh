@@ -36,6 +36,19 @@ namespace LibraryModule
             }
         }
 
+        public static string Svg2Xaml2(string svgFileName)
+        {
+            string result = null;
+            using (var memoryStream = new MemoryStream())
+            {
+                XamlWriter.Save(XamlTune.ConvertUtility.LoadSvg(svgFileName), memoryStream);
+                string str = new StreamReader(memoryStream).ReadToEnd();
+                byte[] buffer = memoryStream.GetBuffer();
+                result = Encoding.UTF8.GetString(buffer);
+            }
+            return result;
+        }
+
         public static void Xaml2Svg(string xaml, string svgFileName)
         {
             if (CheckXaml2SvgFiles() == false)
