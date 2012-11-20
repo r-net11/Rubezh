@@ -100,9 +100,9 @@ namespace FiresecClient
                     }
                 }
                 orderedZones = orderedZones.OrderBy(x => x).ToList();
-                int prevZoneNo = 0;
-                if (orderedZones.Count > 0)
-                    prevZoneNo = orderedZones[0];
+				int prevZoneNo = 0;
+				if(orderedZones.Count != 0)
+					prevZoneNo = orderedZones[0];
                 var groupOfZones = new List<List<int>>();
 
                 for (int i = 0; i < orderedZones.Count; i++)

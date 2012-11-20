@@ -115,6 +115,7 @@ namespace DevicesModule.ViewModels
                     var local = (Device)remote.Clone();
                     local.HasDifferences = true;
                     localRootDevice.Children.Add(local);
+					}
                 }
                 else
                 {
@@ -140,6 +141,13 @@ namespace DevicesModule.ViewModels
                         IntoRemoteDevice(remote, localAndRemote);
                 }
             }
+
+			//foreach(var device in UnionRootDevice.Children)
+			//{
+			//    if (device.ZonesInLogic != null)
+			//    foreach (var clause in device.ZoneLogic.Clauses)
+			//        var zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == cl);					
+			//}
         }
 
 	    public DeviceTreeViewModel LocalDevices { get; private set; }
