@@ -19,14 +19,8 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (BalloonToolTipViewModel.IsCustom)
-            {
-                CustomBalloonView customBalloonView = new CustomBalloonView();
-                MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 4000);
-            }
-            else
-                MyNotifyIcon.ShowBalloonTip(BalloonToolTipViewModel.BalloonTitle, BalloonToolTipViewModel.BalloonText, MyNotifyIcon.Icon);
-            
+            CustomBalloonView customBalloonView = new CustomBalloonView();
+            MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 4000);
         }
 
         private void MyNotifyIcon_MouseDown(object sender, MouseButtonEventArgs e)

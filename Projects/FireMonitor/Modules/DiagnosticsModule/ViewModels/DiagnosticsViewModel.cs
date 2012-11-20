@@ -28,7 +28,9 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
-            CustomBalloonTestCommand = new RelayCommand(OnCustomBalloonTest);
+            WarningTestCommand = new RelayCommand(OnWarningTest);
+            NotificationTestCommand = new RelayCommand(OnNotificationTest);
+            ConflagrationTestCommand = new RelayCommand(OnConflagrationTest);
         }
 
 		public void StopThreads()
@@ -350,10 +352,20 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
         }
 
-        public RelayCommand CustomBalloonTestCommand { get; private set; }
-        void OnCustomBalloonTest()
+        public RelayCommand WarningTestCommand { get; private set; }
+        void OnWarningTest()
         {
-            BalloonHelper.ShowCustom("Title", "skdfpjkfopsdkfowkdfopkwepfokweopfkwpoefkwopefkweopfkwepokpweofkwepfkweopfkopwe");
+            BalloonHelper.ShowWarning("Предупреждение", "Это текст предупреждения. Он предупреждает.");
+        }
+        public RelayCommand NotificationTestCommand { get; private set; }
+        void OnNotificationTest()
+        {
+            BalloonHelper.ShowNotification("Уведомление", "Уведомления текст это. Уведомляет он.");
+        }
+        public RelayCommand ConflagrationTestCommand { get; private set; }
+        void OnConflagrationTest()
+        {
+            BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
         }
     }
 
