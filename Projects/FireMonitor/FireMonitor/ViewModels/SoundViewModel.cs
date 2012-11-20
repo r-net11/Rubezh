@@ -19,7 +19,7 @@ namespace FireMonitor.ViewModels
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
-			CurrentStateType = StateType.No;
+			CurrentStateType = StateType.Norm;
 			IsSoundOn = true;
 			IsEnabled = false;
 			OnDevicesStateChanged(Guid.Empty);
@@ -55,7 +55,7 @@ namespace FireMonitor.ViewModels
 
 		public void OnDevicesStateChanged(object obj)
 		{
-			var minState = StateType.No;
+			var minState = StateType.Norm;
 
 			foreach (var device in FiresecManager.Devices)
 				if (device.DeviceState.StateType < minState)
@@ -69,7 +69,6 @@ namespace FireMonitor.ViewModels
 				IsEnabled = false;
 			else
 				IsEnabled = true;
-			StopPlayAlarm();
 			PlayAlarm();
 		}
 
@@ -87,12 +86,8 @@ namespace FireMonitor.ViewModels
 					AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName), sound.BeeperType, sound.IsContinious);
 					return;
 				}
+				AlarmPlayerHelper.Stop();
 			}
-		}
-
-		public void StopPlayAlarm()
-		{
-			AlarmPlayerHelper.Stop();
 		}
 
 		public RelayCommand PlaySoundCommand { get; private set; }
@@ -100,7 +95,7 @@ namespace FireMonitor.ViewModels
 		{
 			if (IsSoundOn)
 			{
-				StopPlayAlarm();
+				AlarmPlayerHelper.Stop();
 				IsSoundOn = false;
 			}
 			else

@@ -31,6 +31,7 @@
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.XamlTune.dll" Name="XamlTune.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
       <Component Id="Administrator.FS_MODULE" Guid="4EF4953F-8CCD-4E73-8E61-7D7235A6E0AD">

@@ -17,35 +17,51 @@ namespace LibraryModule
 
         public static string Svg2Xaml(string svgFileName)
         {
-            if (File.Exists(svgFileName) == false ||
-                File.Exists(Svg2XamlXslFile) == false) return null;
+			try
+			{
+				if (File.Exists(svgFileName) == false || File.Exists(Svg2XamlXslFile) == false)
+					return null;
 
-            var xslt = new XslCompiledTransform();
-            var settings = new XsltSettings(true, true);
-            xslt.Load(Svg2XamlXslFile, settings, new XmlUrlResolver());
+				var xslt = new XslCompiledTransform();
+				var settings = new XsltSettings(true, true);
+				xslt.Load(Svg2XamlXslFile, settings, new XmlUrlResolver());
 
-            var xamlOfSvg = new StringBuilder();
-            var xmlReaderSettings = new XmlReaderSettings();
-            xmlReaderSettings.ConformanceLevel = ConformanceLevel.Document;
-            xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
-            using (var xmlReader = XmlReader.Create(svgFileName, xmlReaderSettings))
-            using (var xmlWriter = XmlWriter.Create(xamlOfSvg))
-            {
-                xslt.Transform(xmlReader, xmlWriter);
-                return xamlOfSvg.ToString();
-            }
+				var xamlOfSvg = new StringBuilder();
+				var xmlReaderSettings = new XmlReaderSettings();
+				xmlReaderSettings.ConformanceLevel = ConformanceLevel.Document;
+				xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
+				using (var xmlReader = XmlReader.Create(svgFileName, xmlReaderSettings))
+				using (var xmlWriter = XmlWriter.Create(xamlOfSvg))
+				{
+					xslt.Transform(xmlReader, xmlWriter);
+					return xamlOfSvg.ToString();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ImageConverters.Svg2Xaml");
+				return null;
+			}
         }
 
         public static string Svg2Xaml2(string svgFileName)
         {
             string result = null;
-            using (var memoryStream = new MemoryStream())
-            {
-                XamlWriter.Save(XamlTune.ConvertUtility.LoadSvg(svgFileName), memoryStream);
-                string str = new StreamReader(memoryStream).ReadToEnd();
-                byte[] buffer = memoryStream.GetBuffer();
-                result = Encoding.UTF8.GetString(buffer);
-            }
+			try
+			{
+				using (var memoryStream = new MemoryStream())
+				{
+					XamlWriter.Save(XamlTune.ConvertUtility.LoadSvg(svgFileName), memoryStream);
+					byte[] buffer = memoryStream.GetBuffer();
+					result = Encoding.UTF8.GetString(buffer);
+					var lastIndex = result.LastIndexOf("</Canvas>");
+					result = result.Substring(0, lastIndex + "</Canvas>".Length);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ImageConverters.Svg2Xaml2");
+			}
             return result;
         }
 

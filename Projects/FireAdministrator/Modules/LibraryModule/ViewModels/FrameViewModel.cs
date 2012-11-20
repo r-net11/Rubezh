@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using Infrastructure.Common.Windows;
 
 namespace LibraryModule.ViewModels
 {
@@ -52,7 +53,17 @@ namespace LibraryModule.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Frame.Image = ImageConverters.Svg2Xaml2(openFileDialog.FileName);
+				var result = ImageConverters.Svg2Xaml2(openFileDialog.FileName);
+				if (result == null)
+				{
+					result = ImageConverters.Svg2Xaml(openFileDialog.FileName);
+					if (result == null)
+					{
+						MessageBoxService.ShowError("Ошибка при конвертировании файла");
+						return;
+					}
+				}
+				Frame.Image = result;
                 OnPropertyChanged("XamlOfImage");
                 LibraryViewModel.Current.SelectedState = LibraryViewModel.Current.SelectedState;
                 ServiceFactory.SaveService.LibraryChanged = true;

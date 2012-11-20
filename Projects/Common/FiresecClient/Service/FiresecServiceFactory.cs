@@ -63,10 +63,15 @@ namespace FiresecClient
 			{
 				if (ChannelFactory != null)
 				{
-					if (ChannelFactory.State != CommunicationState.Opened)
+					try
 					{
-						ChannelFactory.Close();
+						ChannelFactory.Abort();
 					}
+					catch { }
+					//if (ChannelFactory.State != CommunicationState.Opened)
+					//{
+					//    ChannelFactory.Close();
+					//}
 				}
 			}
 			catch (Exception e)
