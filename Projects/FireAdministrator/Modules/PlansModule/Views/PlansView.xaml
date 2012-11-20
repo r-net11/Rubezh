@@ -7,7 +7,7 @@
 			<ColumnDefinition Width="3*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 
-		<TabControl Grid.Column="0" ItemsSource="{Binding TabPages}" SelectedIndex="0" />
+		<TabControl Grid.Column="0" ItemsSource="{Binding TabPages}" SelectedIndex="{Binding SelectedTabIndex}" />
 
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<DockPanel Grid.Column="2">

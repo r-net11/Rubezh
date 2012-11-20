@@ -13,8 +13,10 @@ namespace PlansModule.ViewModels
 {
 	public class ElementsViewModel : BaseViewModel
 	{
+		private bool _isSelectedEvent;
 		public ElementsViewModel(DesignerCanvas designerCanvas)
 		{
+			_isSelectedEvent = false;
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementAdded);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
@@ -41,6 +43,8 @@ namespace PlansModule.ViewModels
 			{
 				_selectedElement = value;
 				OnPropertyChanged("SelectedElement");
+				if (!_isSelectedEvent && _selectedElement != null && _selectedElement.ShowOnPlanCommand != null)
+					_selectedElement.ShowOnPlanCommand.Execute();
 			}
 		}
 
@@ -86,13 +90,13 @@ namespace PlansModule.ViewModels
 
 		#endregion
 
-		void UpdateHasChildren()
+		private void UpdateHasChildren()
 		{
 			foreach (var group in Groups.Values)
 				group.OnPropertyChanged("HasChildren");
 		}
 
-		void AddElement(ElementViewModel elementViewModel)
+		private void AddElement(ElementViewModel elementViewModel)
 		{
 			ElementGroupViewModel parentElementViewModel = Groups.ContainsKey(elementViewModel.DesignerItem.Group) ? Groups[elementViewModel.DesignerItem.Group] : null;
 			if (parentElementViewModel == null)
@@ -107,7 +111,7 @@ namespace PlansModule.ViewModels
 			AllElements.Add(elementViewModel);
 		}
 
-		void OnElementAdded(List<ElementBase> elements)
+		private void OnElementAdded(List<ElementBase> elements)
 		{
 			foreach (var elementBase in elements)
 			{
@@ -119,8 +123,7 @@ namespace PlansModule.ViewModels
 				Select(elements[elements.Count - 1].UID);
 			UpdateHasChildren();
 		}
-
-		void OnElementRemoved(List<ElementBase> elements)
+		private void OnElementRemoved(List<ElementBase> elements)
 		{
 			foreach (var elementBase in elements)
 			{
@@ -136,18 +139,18 @@ namespace PlansModule.ViewModels
 			}
 			UpdateHasChildren();
 		}
-
-		void OnElementChanged(List<ElementBase> elements)
+		private void OnElementChanged(List<ElementBase> elements)
 		{
 
 		}
-
-		void OnElementSelected(ElementBase element)
+		private void OnElementSelected(ElementBase element)
 		{
+			_isSelectedEvent = true;
 			Select(element.UID);
+			_isSelectedEvent = false;
 		}
 
-		void CollapseChild(ElementBaseViewModel parentElementViewModel)
+		private void CollapseChild(ElementBaseViewModel parentElementViewModel)
 		{
 			parentElementViewModel.IsExpanded = false;
 
@@ -156,8 +159,7 @@ namespace PlansModule.ViewModels
 				CollapseChild(elementViewModel);
 			}
 		}
-
-		void ExpandChild(ElementBaseViewModel parentElementViewModel)
+		private void ExpandChild(ElementBaseViewModel parentElementViewModel)
 		{
 			parentElementViewModel.IsExpanded = true;
 			foreach (var elementViewModel in parentElementViewModel.Children)

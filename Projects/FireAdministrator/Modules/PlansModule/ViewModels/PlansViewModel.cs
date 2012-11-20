@@ -56,6 +56,7 @@ namespace PlansModule.ViewModels
 			}
 
 			SelectedPlan = null;
+			SelectedTabIndex = 0;
 		}
 
 		PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)

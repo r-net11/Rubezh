@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -44,6 +45,11 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged("IsSelectable");
 				((DesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
 			}
+		}
+
+		public override ContextMenu ContextMenu
+		{
+			get { return DesignerItem.ContextMenu; }
 		}
 
 		void OnShowOnPlan()

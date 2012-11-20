@@ -60,7 +60,7 @@
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 
-							<StackPanel Grid.Column="1" Orientation="Horizontal">
+							<StackPanel Grid.Column="1" Orientation="Horizontal" ContextMenu="{Binding ContextMenu}">
 								<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
 								<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />
 								<TextBlock Margin="1" Text="{Binding Name}">

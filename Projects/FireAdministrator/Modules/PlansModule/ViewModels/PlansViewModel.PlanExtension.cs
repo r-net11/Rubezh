@@ -70,7 +70,16 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged("TabPages");
 			}
 		}
-
+		private int _selectedTabIndex;
+		public int SelectedTabIndex
+		{
+			get { return _selectedTabIndex; }
+			set
+			{
+				_selectedTabIndex = value;
+				OnPropertyChanged("SelectedTabIndex");
+			}
+		}
 		private void CreatePages()
 		{
 			var layers = new TabItem()
