@@ -52,7 +52,7 @@ namespace LibraryModule.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Frame.Image = ImageConverters.Svg2Xaml(openFileDialog.FileName);
+                Frame.Image = ImageConverters.Svg2Xaml2(openFileDialog.FileName);
                 OnPropertyChanged("XamlOfImage");
                 LibraryViewModel.Current.SelectedState = LibraryViewModel.Current.SelectedState;
                 ServiceFactory.SaveService.LibraryChanged = true;

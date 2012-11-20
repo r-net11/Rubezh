@@ -59,6 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\Debug\WPFToolkit.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="XamlTune, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\SVG2XAML\XamlTune.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
