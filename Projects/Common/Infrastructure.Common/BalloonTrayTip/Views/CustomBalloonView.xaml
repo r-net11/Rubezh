@@ -4,13 +4,14 @@
              xmlns:tb="http://www.hardcodet.net/taskbar"
              x:Name="me"
              MaxWidth="220"
-             Height="Auto">
+             Height="Auto"
+             Opacity="0.7">
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
             <BeginStoryboard>
                 <Storyboard TargetProperty="Opacity">
                     <DoubleAnimation From="0" 
-                                     To="1" 
+                                     To="0.7" 
                                      Duration="0:0:1"/>
                 </Storyboard>
             </BeginStoryboard>
@@ -18,7 +19,7 @@
         <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonClosing">
             <BeginStoryboard>
                 <Storyboard TargetProperty="Opacity">
-                    <DoubleAnimation From="1" 
+                    <DoubleAnimation From="0.7" 
                                      To="0" 
                                      Duration="0:0:1"/>
                 </Storyboard>
@@ -33,7 +34,7 @@
             CornerRadius="5"
             BorderThickness="1"
             BorderBrush="{DynamicResource WindowBorderBrush}" 
-            Background="{DynamicResource BackgroundBrush}">
+            Background="{Binding BackgroundColor}">
         <Border.Effect>
             <DropShadowEffect Color="#747474"/>
         </Border.Effect>
@@ -49,7 +50,7 @@
                 Margin="10 0"
                 Stretch="Fill"
                 Height="1"
-                Data="M26,107 L220.04123,107" SnapsToDevicePixels="True"
+                Data="M26,107 L220.04123,107" 
                 Stroke="{DynamicResource WindowBorderBrush}"/>
             <TextBlock 
                 Margin="10 0 10 5" 
