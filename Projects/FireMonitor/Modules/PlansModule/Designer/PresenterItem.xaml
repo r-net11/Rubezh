@@ -8,28 +8,18 @@
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}">
 						<ContentPresenter Content="{Binding Content}" IsHitTestVisible="True" />
 						<ContentPresenter x:Name="border" Content="{Binding Border}" Visibility="Hidden" />
-						<Rectangle x:Name="flush_item" StrokeThickness="10" Stroke="Red" Opacity="0">
-							<Rectangle.Triggers>
-								<EventTrigger RoutedEvent="Flush">
-									<BeginStoryboard>
-										<Storyboard>
-											<DoubleAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:5" AutoReverse="True" />
-										</Storyboard>
-									</BeginStoryboard>
-								</EventTrigger>
-							</Rectangle.Triggers>
-						</Rectangle>
+						<Rectangle x:Name="flush_item" StrokeThickness="10" Stroke="Red" Opacity="0" Margin="-10" />
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
 							<Setter TargetName="border" Property="Visibility" Value="Visible" />
 						</Trigger>
 						<EventTrigger RoutedEvent="Flush">
-							<!--<BeginStoryboard>
+							<BeginStoryboard>
 								<Storyboard>
-									<DoubleAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:5" AutoReverse="True" />
+									<DoubleAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2" AutoReverse="True" />
 								</Storyboard>
-							</BeginStoryboard>-->
+							</BeginStoryboard>
 						</EventTrigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

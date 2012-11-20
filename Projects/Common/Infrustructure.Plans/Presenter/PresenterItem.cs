@@ -52,6 +52,7 @@ namespace Infrustructure.Plans.Presenter
 
 		public void Navigate()
 		{
+			UpdateLayout();
 			RaiseEvent(new RoutedEventArgs(PresenterItem.FlushEvent));
 		}
 
