@@ -30,7 +30,7 @@ namespace DevicesModule.Plans.Designer
 
 		public ZonePainter(PresenterItem presenterItem)
 		{
-			ShowInTreeCommand = new RelayCommand(OnShowInTree);
+			ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
 			EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
 			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
@@ -141,18 +141,23 @@ namespace DevicesModule.Plans.Designer
 		{
 			_devices = new List<Device>();
 			_deviceStates = new List<DeviceState>();
-			foreach (var device in FiresecManager.Devices)
-				if ((device != null) && (device.Driver != null) && (device.ZoneUID == _zone.UID) && (device.Driver.CanDisable))
-				{
-					_devices.Add(device);
-					_deviceStates.Add(device.DeviceState);
-				}
+			if (_zone != null && FiresecManager.Devices != null)
+				foreach (var device in FiresecManager.Devices)
+					if (device != null && device.Driver != null && device.ZoneUID == _zone.UID && device.Driver.CanDisable)
+					{
+						_devices.Add(device);
+						_deviceStates.Add(device.DeviceState);
+					}
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zone.UID);
+		}
+		bool CanShowInTree()
+		{
+			return _zone != null;
 		}
 
 		public RelayCommand DisableAllCommand { get; private set; }
