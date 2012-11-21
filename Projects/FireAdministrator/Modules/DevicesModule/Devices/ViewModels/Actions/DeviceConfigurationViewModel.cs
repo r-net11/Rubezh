@@ -64,10 +64,12 @@ namespace DevicesModule.ViewModels
 				var localAndRemote = LocalRootDevice.Children.FirstOrDefault(x => x.PresentationAddressAndName == remoteChild.PresentationAddressAndName);
 				if (localAndRemote != null)
 				{
-					UnionRootDevice.Children.FirstOrDefault(
-						x => x.PresentationAddressAndName == localAndRemote.PresentationAddressAndName).IsRemote = true;
+					var unionRootDevice = UnionRootDevice.Children.FirstOrDefault(x => x.PresentationAddressAndName == localAndRemote.PresentationAddressAndName);
+                    unionRootDevice.IsRemote = true;
                     if ((localAndRemote.Zone == null) && (remoteChild.Zone != null))
-                        localAndRemote.Zone = remoteChild.Zone;
+                        unionRootDevice.Zone = remoteChild.Zone;
+                    if ((localAndRemote.ZonesInLogic == null) && (remoteChild.ZonesInLogic != null))
+                        unionRootDevice.ZonesInLogic = remoteChild.ZonesInLogic;
 				}
 				else
 				{
