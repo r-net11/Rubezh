@@ -9,29 +9,31 @@ namespace FiresecClient
 {
 	public partial class FiresecConfiguration
 	{
-		public string GetCommaSeparatedZones(List<Guid> zoneUIDs)
+		public string GetCommaSeparatedZones(List<Zone> zones)
 		{
-			if (zoneUIDs.Count == 1)
+			if (zones.Count == 1)
 			{
-				var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs.First());
-				if (zone != null)
+                var Zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == zones[0].PresentationName);
+				if (Zone != null)
 				{
-					return zone.PresentationName;
+					return Zone.PresentationName;
 				}
 			}
-			if (zoneUIDs.Count > 0)
+			if (zones.Count > 0)
 			{
                 var orderedZones = new List<int>();
-                foreach (var zoneUID in zoneUIDs)
+                foreach (var zone in zones)
                 {
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                    if (zone != null)
+                    var Zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == zone.PresentationName);
+                    if (Zone != null)
                     {
-                        orderedZones.Add(zone.No);
+                        orderedZones.Add(Zone.No);
                     }
                 }
                 orderedZones = orderedZones.OrderBy(x => x).ToList();
-				int prevZoneNo = orderedZones[0];
+                int prevZoneNo = 0;
+                if (orderedZones.Count > 0)
+                    prevZoneNo = orderedZones[0];
 				var groupOfZones = new List<List<int>>();
 
 				for (int i = 0; i < orderedZones.Count; i++)
@@ -76,6 +78,75 @@ namespace FiresecClient
 			return "";
 		}
 
+        public string GetCommaSeparatedZones(List<Guid> zoneUIDs)
+        {
+            if (zoneUIDs.Count == 1)
+            {
+                var Zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs.First());
+                if (Zone != null)
+                {
+                    return Zone.PresentationName;
+                }
+            }
+            if (zoneUIDs.Count > 0)
+            {
+                var orderedZones = new List<int>();
+                foreach (var zoneUID in zoneUIDs)
+                {
+                    var Zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    if (Zone != null)
+                    {
+                        orderedZones.Add(Zone.No);
+                    }
+                }
+                orderedZones = orderedZones.OrderBy(x => x).ToList();
+                int prevZoneNo = 0;
+                if (orderedZones.Count > 0)
+                    prevZoneNo = orderedZones[0];
+                var groupOfZones = new List<List<int>>();
+
+                for (int i = 0; i < orderedZones.Count; i++)
+                {
+                    var zoneNo = orderedZones[i];
+
+                    if (orderedZones.Any(x => x == prevZoneNo + 1))
+                    {
+                        if (groupOfZones.Count == 0)
+                        {
+                            groupOfZones.Add(new List<int>() { zoneNo });
+                        }
+                        else
+                        {
+                            groupOfZones.Last().Add(zoneNo);
+                        }
+                    }
+                    else
+                    {
+                        groupOfZones.Add(new List<int>() { zoneNo });
+                    }
+                    prevZoneNo = zoneNo;
+                }
+
+                var presenrationZones = new StringBuilder();
+                for (int i = 0; i < groupOfZones.Count; i++)
+                {
+                    var zoneGroup = groupOfZones[i];
+
+                    if (i > 0)
+                        presenrationZones.Append(", ");
+
+                    presenrationZones.Append(zoneGroup.First().ToString());
+                    if (zoneGroup.Count > 1)
+                    {
+                        presenrationZones.Append(" - " + zoneGroup.Last().ToString());
+                    }
+                }
+
+                return presenrationZones.ToString();
+            }
+            return "";
+        }
+
 		public string GetPresentationZone(ZoneLogic zoneLogic)
 		{
 			string result = "";
@@ -112,7 +183,7 @@ namespace FiresecClient
 				}
 
 				result += "состояние " + clause.State.ToDescription();
-                result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.ZoneUIDs);
+                result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.Zones);
 			}
 
 			return result;
@@ -154,7 +225,7 @@ namespace FiresecClient
 				case IndicatorLogicType.Zone:
 					{
                         if (indicatorDevice.IndicatorLogic.ZoneUIDs.Count > 0)
-                            return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.ZoneUIDs);
+                            return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.Zones);
 						break;
 					}
 			}

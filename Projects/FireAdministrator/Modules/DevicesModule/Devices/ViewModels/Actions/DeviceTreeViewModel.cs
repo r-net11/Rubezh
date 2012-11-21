@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
@@ -48,6 +50,16 @@ namespace DevicesModule.ViewModels
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
             var deviceViewModel = new DeviceViewModel(device);
+            if (IsRemote)
+            {
+                var localDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.AddressFullPath == device.AddressFullPath);
+                if ((localDevice != null)&&(localDevice.ZonesInLogic == null))
+                    deviceViewModel.XXXPresentationZone = DeviceConfiguration.GetPresentationZone(device);
+                else
+                    deviceViewModel.XXXPresentationZone = deviceViewModel.PresentationZone;
+            }
+            else
+                deviceViewModel.XXXPresentationZone = deviceViewModel.PresentationZone;
 			//parentDeviceViewModel.Children.Add(deviceViewModel);
 
             var indexOf = Devices.IndexOf(parentDeviceViewModel);
@@ -55,10 +67,10 @@ namespace DevicesModule.ViewModels
 
             foreach (var childDevice in device.Children)
             {
-				if (IsRemote)
-				{
-					ClearExternalZones(childDevice);
-				}
+                //if (IsRemote)
+                //{
+                //    ClearExternalZones(childDevice);
+                //}
                 var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
                 deviceViewModel.Children.Add(childDeviceViewModel);
             }

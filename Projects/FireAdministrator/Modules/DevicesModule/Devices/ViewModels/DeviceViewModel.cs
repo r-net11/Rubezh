@@ -92,6 +92,9 @@ namespace DevicesModule.ViewModels
 			get { return Device.IsRemote; }
 			set { }
 		}
+
+        public string XXXPresentationZone { get; set; }
+
 		public string Description
 		{
 			get { return Device.Description; }

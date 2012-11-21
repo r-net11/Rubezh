@@ -78,7 +78,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="{Binding PresentationZone}" Style="{StaticResource LocalDiffStyle}" />
+                                    <TextBlock Text="{Binding XXXPresentationZone}" Style="{StaticResource LocalDiffStyle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -109,7 +109,7 @@
                     <DataGridTemplateColumn Header="Зона" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PresentationZone}" Style="{StaticResource RemoteDiffStyle}"/>
+                                <TextBlock Text="{Binding XXXPresentationZone}" Style="{StaticResource RemoteDiffStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

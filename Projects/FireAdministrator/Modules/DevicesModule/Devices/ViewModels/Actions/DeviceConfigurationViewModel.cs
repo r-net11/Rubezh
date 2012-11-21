@@ -68,8 +68,11 @@ namespace DevicesModule.ViewModels
                     unionRootDevice.IsRemote = true;
                     if ((localAndRemote.Zone == null) && (remoteChild.Zone != null))
                         unionRootDevice.Zone = remoteChild.Zone;
-                    if ((localAndRemote.ZonesInLogic == null) && (remoteChild.ZonesInLogic != null))
+                    if (((localAndRemote.ZonesInLogic != null)&&(localAndRemote.ZonesInLogic.Count == 0)) && (remoteChild.ZonesInLogic != null))
+                    {
                         unionRootDevice.ZonesInLogic = remoteChild.ZonesInLogic;
+                        unionRootDevice.ZoneLogic = remoteChild.ZoneLogic;
+                    }
 				}
 				else
 				{
@@ -77,8 +80,8 @@ namespace DevicesModule.ViewModels
 				}
 			}
 
-			LocalDevices = new DeviceTreeViewModel(UnionRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration, true);
-			RemoteDevices = new DeviceTreeViewModel(UnionRootDevice, RemoteDeviceConfiguration, false);
+			LocalDevices = new DeviceTreeViewModel(UnionRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration, false);
+			RemoteDevices = new DeviceTreeViewModel(UnionRootDevice, RemoteDeviceConfiguration, true);
 		}
 
 		public DeviceTreeViewModel LocalDevices { get; private set; }
@@ -101,15 +104,50 @@ namespace DevicesModule.ViewModels
 			foreach (var device in RemoteRootDevice.Children)
 			{
 				DevicesViewModel.Current.AddDevice(device, deviceViewModel);
-				if (device.Zone == null)
-					continue;
-				if (FiresecManager.Zones.Any(x => (x.No == device.Zone.No)&&(x.ZoneType == device.Zone.ZoneType)))
-					device.Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.Zone.No);
-				else
-				{
-					FiresecManager.FiresecConfiguration.AddZone(device.Zone);
-					ZonesViewModel.Current.Zones.Add(new ZoneViewModel(device.Zone));
-				}
+                if (device.Zone != null)
+                {
+                    if (FiresecManager.Zones.Any(x => (x.No == device.Zone.No) && (x.ZoneType == device.Zone.ZoneType)))
+                        device.Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.Zone.No);
+                    else
+                    {
+                        FiresecManager.FiresecConfiguration.AddZone(device.Zone);
+                        ZonesViewModel.Current.Zones.Add(new ZoneViewModel(device.Zone));
+                    }
+                }
+
+                if ((device.ZonesInLogic != null) && (device.ZonesInLogic.Count > 0))
+                {
+                    var localDevice = LocalRootDevice.Children.FirstOrDefault(x => x.AddressFullPath == device.AddressFullPath);
+                    if ((localDevice != null) && (localDevice.ZonesInLogic != null) && (localDevice.ZonesInLogic.Count > 0))
+                    {
+                        device.ZonesInLogic = localDevice.ZonesInLogic;
+                        device.ZoneLogic = localDevice.ZoneLogic;
+                    }
+                    else
+                    {
+                        List<Zone> tempZonesInLogic = new List<Zone>();
+                        foreach (var zoneInLogic in device.ZonesInLogic)
+                        {
+                            if (
+                                FiresecManager.Zones.Any(
+                                    x => (x.No == zoneInLogic.No) && (x.ZoneType == zoneInLogic.ZoneType)))
+                                tempZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => x.No == zoneInLogic.No));
+                            else
+                            {
+                                FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
+                                ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
+                            }
+                        }
+                        device.ZonesInLogic = tempZonesInLogic;
+                        device.ZoneLogic.Clauses[0].Zones = tempZonesInLogic;
+                        device.ZoneLogic.Clauses[0].ZoneUIDs = new List<Guid>();
+                        foreach (var tempZoneInLogic in tempZonesInLogic)
+                        {
+                            device.ZoneLogic.Clauses[0].ZoneUIDs.Add(tempZoneInLogic.UID);
+                        }
+                    }
+                }
+
 			}
 			deviceViewModel.ExpandChildren();
 
