@@ -11,9 +11,9 @@ using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using FiresecAPI.Models;
 using System.Collections.Generic;
-using Firesec;
 using System.Windows.Markup;
 using System.Text;
+using System.Security.Policy;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -24,7 +24,7 @@ namespace DiagnosticsModule.ViewModels
             ShowDriversCommand = new RelayCommand(OnShowDrivers);
             ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
             ShowTreeCommand = new RelayCommand(OnShowTree);
-            JournalTestCommand = new RelayCommand(OnJournalTest);
+            DomainTestCommand = new RelayCommand(OnDomainTest);
             Test1Command = new RelayCommand(OnTest1);
             Test2Command = new RelayCommand(OnTest2);
             Test3Command = new RelayCommand(OnTest3);
@@ -65,12 +65,38 @@ namespace DiagnosticsModule.ViewModels
             driversView.ShowDialog();
         }
 
-        public RelayCommand JournalTestCommand { get; private set; }
-        void OnJournalTest()
+        public RelayCommand DomainTestCommand { get; private set; }
+        void OnDomainTest()
         {
-            var JournalTestViewModel = new JournalTestViewModel();
-            DialogService.ShowModalWindow(JournalTestViewModel);
+			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+
+			DomainHelper = new DomainHelper();
+			DomainHelper.CreateDomain();
+
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				int count = 0;
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+
+					DomainHelper.DomainRunner.AddUserMessage("Test Message " + count++.ToString());
+					if (count % 1000 == 0)
+					{
+						Trace.WriteLine("Count = " + count.ToString());
+					}
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
         }
+
+		void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			DomainHelper.CloseDomain();
+		}
+
+		DomainHelper DomainHelper;
 
         public RelayCommand ShowTreeCommand { get; private set; }
         void OnShowTree()
@@ -169,8 +195,8 @@ namespace DiagnosticsModule.ViewModels
                 int count = 0;
                 while (true)
                 {
-                    if (NativeFiresecClient.TasksCount > 10)
-                        continue;
+					//if (Firesec.NativeFiresecClient.TasksCount > 10)
+					//    continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
                     //var safeFiresecService = new SafeFiresecService("net.pipe://127.0.0.1/FiresecService/");
@@ -210,4 +236,42 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
 		}
     }
+
+	[Serializable]
+	public class DomainHelper
+	{
+		AppDomain FsDomain;
+		public FiresecDomain.DomainRunner DomainRunner { get; set; }
+
+		public void CreateDomain()
+		{
+			FsDomain = AppDomain.CreateDomain("FSDomain");
+			DomainRunner = (FiresecDomain.DomainRunner)FsDomain.CreateInstanceAndUnwrap("FiresecDomain", "FiresecDomain.DomainRunner");
+			DomainRunner.Exit += new Action(DomainRunner_Exit);
+			DomainRunner.Start(true);
+			DomainRunner.NewEvent += new Action<List<JournalRecord>>(DomainRunner_NewEvent);
+		}
+
+		public void CloseDomain()
+		{
+			if (FsDomain != null)
+			{
+				AppDomain.Unload(FsDomain);
+			}
+		}
+
+		void DomainRunner_NewEvent(List<JournalRecord> journalRecords)
+		{
+			foreach (var journalRecord in journalRecords)
+			{
+				Trace.WriteLine(journalRecord.Description);
+			}
+		}
+
+		public void DomainRunner_Exit()
+		{
+			CloseDomain();
+			CreateDomain();
+		}
+	}
 }

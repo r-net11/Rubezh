@@ -6,7 +6,7 @@ using FiresecAPI;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Firesec
+namespace FiresecDomain
 {
     public partial class NativeFiresecClient
     {

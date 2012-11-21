@@ -59,7 +59,6 @@ namespace GKModule
 				{
 					CheckTasks();
 					PingJournal();
-					Trace.WriteLine("OnRunThread");
 				}
 				catch (Exception e)
 				{

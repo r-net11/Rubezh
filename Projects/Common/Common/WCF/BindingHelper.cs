@@ -29,8 +29,9 @@ namespace Common
 				OpenTimeout = TimeSpan.FromMinutes(1),
 				ReceiveTimeout = TimeSpan.FromMinutes(1),
 				MaxBufferSize = Int32.MaxValue,
-				MaxReceivedMessageSize = Int32.MaxValue
+				MaxReceivedMessageSize = Int32.MaxValue,
 			};
+			binding.Security.Mode = NetNamedPipeSecurityMode.None;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
@@ -51,6 +52,7 @@ namespace Common
 				MaxBufferSize = Int32.MaxValue,
 				MaxReceivedMessageSize = Int32.MaxValue
 			};
+			binding.Security.Mode = SecurityMode.None;
 			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;

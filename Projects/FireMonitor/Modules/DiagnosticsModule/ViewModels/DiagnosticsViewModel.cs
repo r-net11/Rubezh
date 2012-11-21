@@ -6,11 +6,13 @@ using System.Diagnostics;
 using FiresecAPI.Models;
 using System.Threading;
 using System.Collections.Generic;
-using Firesec;
 using Infrastructure;
 using Infrastructure.Events;
 using System.Windows;
 using Infrastructure.Common.BalloonTrayTip;
+using Firesec;
+using Infrastructure.Common.Windows;
+using Common;
 
 
 namespace DiagnosticsModule.ViewModels
@@ -28,6 +30,7 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
+			DomainTestCommand = new RelayCommand(OnDomainTest);
             WarningTestCommand = new RelayCommand(OnWarningTest);
             NotificationTestCommand = new RelayCommand(OnNotificationTest);
             ConflagrationTestCommand = new RelayCommand(OnConflagrationTest);
@@ -367,7 +370,93 @@ namespace DiagnosticsModule.ViewModels
         {
             BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
         }
+
+		public RelayCommand DomainTestCommand { get; private set; }
+		void OnDomainTest()
+		{
+			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+
+			DomainHelper = new DomainHelper();
+			DomainHelper.CreateDomain();
+			DomainHelper.NewEvent += new Action<List<JournalRecord>>(DomainHelper_NewEvent);
+
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				int count = 0;
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+
+					//DomainHelper.DomainRunner.AddUserMessage("Test Message " + count++.ToString());
+					if (count % 1000 == 0)
+					{
+						Trace.WriteLine("Count = " + count.ToString());
+					}
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
+
+		void DomainHelper_NewEvent(List<JournalRecord> journalRecords)
+		{
+			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+		}
+
+		void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			DomainHelper.CloseDomain();
+		}
+
+		DomainHelper DomainHelper;
     }
+
+	[Serializable]
+	public class DomainHelper
+	{
+		AppDomain FsDomain;
+		public FiresecDomain.DomainRunner DomainRunner { get; set; }
+
+		public void CreateDomain()
+		{
+			FsDomain = AppDomain.CreateDomain("FSDomain");
+			DomainRunner = (FiresecDomain.DomainRunner)FsDomain.CreateInstanceAndUnwrap("FiresecDomain", "FiresecDomain.DomainRunner");
+			DomainRunner.Exit += new Action(DomainRunner_Exit);
+			DomainRunner.Start(true);
+			DomainRunner.NewEvent += new Action<List<JournalRecord>>(DomainRunner_NewEvent);
+		}
+
+		public void CloseDomain()
+		{
+			if (FsDomain != null)
+			{
+				AppDomain.Unload(FsDomain);
+			}
+		}
+
+		void DomainRunner_NewEvent(List<JournalRecord> journalRecords)
+		{
+			OnNewEvent(journalRecords);
+		}
+
+		public event Action<List<JournalRecord>> NewEvent;
+		public void OnNewEvent(List<JournalRecord> journalRecords)
+		{
+			foreach (var journalRecord in journalRecords)
+			{
+				Trace.WriteLine(journalRecord.Description);
+			}
+			if (NewEvent != null)
+				NewEvent(journalRecords);
+		}
+
+		public void DomainRunner_Exit()
+		{
+			Logger.Error("DomainRunner_Exit");
+			CloseDomain();
+			CreateDomain();
+		}
+	}
 
     internal class DeviceControl
     {

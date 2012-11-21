@@ -5,8 +5,9 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using FiresecDomain;
 
-namespace Firesec
+namespace FiresecDomain
 {
     public partial class NativeFiresecClient
     {
@@ -25,7 +26,8 @@ namespace Firesec
 				needToReadJournal = ((eventMask & 1) == 1);
 				needToReadStates = ((eventMask & 2) == 2);
 				needToReadParameters = ((eventMask & 8) == 8);
-				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.CheckForRead();
+				DomainRunner.MonitoringNativeFiresecClient.CheckForRead();
+				//FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.CheckForRead();
 			}
 		}
 

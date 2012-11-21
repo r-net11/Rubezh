@@ -1,8 +1,10 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI
 {
     [DataContract]
+	[Serializable]
     public class OperationResult<T>
     {
         public OperationResult()

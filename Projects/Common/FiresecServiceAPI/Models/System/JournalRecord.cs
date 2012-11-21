@@ -7,6 +7,7 @@ namespace FiresecAPI.Models
 {
 	[Table(Name = "Journal")]
 	[DataContract]
+	[Serializable]
 	public class JournalRecord : IEqualityComparer<JournalRecord>
 	{
 		[Column(AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true, Name = "Id")]
