@@ -8,6 +8,8 @@
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}">
 						<ContentPresenter Content="{Binding Content}" IsHitTestVisible="True" />
 						<ContentPresenter x:Name="border" Content="{Binding Border}" Visibility="Hidden" />
+
+						<Rectangle x:Name="flush_border" StrokeThickness="3" Stroke="Red" Opacity="0" Margin="-3"/>
 						<Grid x:Name="flush_item" Opacity="0">
 							<Ellipse Stroke="Red" StrokeThickness="3" />
 							<Ellipse Stroke="Red" StrokeThickness="2" Margin="50" />
@@ -23,8 +25,16 @@
 						<EventTrigger RoutedEvent="Flush">
 							<BeginStoryboard>
 								<Storyboard>
-									<DoubleAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:2" AutoReverse="True" />
-									<ThicknessAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Margin" From="-200" To="0" Duration="0:0:2" AutoReverse="True" />
+									<DoubleAnimationUsingKeyFrames Storyboard.TargetName="flush_border" Storyboard.TargetProperty="Opacity" Duration="0:0:2">
+										<LinearDoubleKeyFrame Value="1" KeyTime="0:0:0" />
+										<LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.5" />
+										<LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.7" />
+										<LinearDoubleKeyFrame Value="0" KeyTime="0:0:1.2" />
+										<LinearDoubleKeyFrame Value="1" KeyTime="0:0:1.4" />
+										<LinearDoubleKeyFrame Value="0" KeyTime="0:0:2" />
+									</DoubleAnimationUsingKeyFrames>
+									<DoubleAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1" AutoReverse="True" />
+									<ThicknessAnimation Storyboard.TargetName="flush_item" Storyboard.TargetProperty="Margin" From="-200" To="0" Duration="0:0:1" AutoReverse="True" />
 								</Storyboard>
 							</BeginStoryboard>
 						</EventTrigger>

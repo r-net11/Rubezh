@@ -28,7 +28,6 @@ namespace GKModule.Plans.Designer
 		{
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			_xdeviceControl = new XDeviceControl();
 		}
 
 		public void Bind(PresenterItem presenterItem)
@@ -44,6 +43,7 @@ namespace GKModule.Plans.Designer
 				_xdevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.XDeviceUID);
 				if (_xdevice != null)
 				{
+					_xdeviceControl = new XDeviceControl();
 					_xdeviceControl.XDriverId = _xdevice.DriverUID;
 					_xdeviceControl.XStateClass = _xdevice.DeviceState.StateClass;
 					_xdevice.DeviceState.StateChanged += OnPropertyChanged;
@@ -60,6 +60,8 @@ namespace GKModule.Plans.Designer
 		}
 		private string GetDeviceTooltip()
 		{
+			if (_xdevice == null)
+				return null;
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append(_xdevice.PresentationAddressAndDriver);
 			stringBuilder.Append(" - ");
@@ -75,6 +77,8 @@ namespace GKModule.Plans.Designer
 
 		public FrameworkElement Draw(ElementBase element)
 		{
+			if (_xdevice == null)
+				return null;
 			_xdeviceControl.Update();
 			return _xdeviceControl;
 		}

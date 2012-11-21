@@ -129,6 +129,8 @@ namespace DevicesModule.Plans.Designer
 
 		public FrameworkElement Draw(ElementBase element)
 		{
+			if (_zone == null)
+				return null;
 			var shape = (Shape)_painter.Draw(element);
 			shape.Fill = GetStateBrush();
 			shape.Opacity = 1;

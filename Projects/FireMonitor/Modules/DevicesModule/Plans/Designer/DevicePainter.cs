@@ -31,7 +31,6 @@ namespace DevicesModule.Plans.Designer
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			_deviceControl = new DeviceControl();
 		}
 
 		public void Bind(PresenterItem presenterItem)
@@ -47,6 +46,7 @@ namespace DevicesModule.Plans.Designer
 				_device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 				if (_device != null)
 				{
+					_deviceControl = new DeviceControl();
 					_deviceControl.DriverId = _device.Driver.UID;
 					_deviceControl.StateType = _device.DeviceState.StateType;
 					_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
@@ -68,6 +68,8 @@ namespace DevicesModule.Plans.Designer
 		}
 		private string GetDeviceTooltip()
 		{
+			if (_device == null)
+				return null;
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(_device.PresentationAddressAndName);
 			stringBuilder.AppendLine("Состояние: " + _device.DeviceState.StateType.ToDescription());
@@ -98,6 +100,8 @@ namespace DevicesModule.Plans.Designer
 
 		public FrameworkElement Draw(ElementBase element)
 		{
+			if (_device == null)
+				return null;
 			_deviceControl.Update();
 			return _deviceControl;
 		}

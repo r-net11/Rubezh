@@ -28,7 +28,7 @@ namespace GKModule.Plans.Designer
 
 		public XZonePainter(PresenterItem presenterItem)
 		{
-			ShowInTreeCommand = new RelayCommand(OnShowInTree);
+			ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 			_presenterItem = presenterItem;
 			_painter = presenterItem.Painter;
 			Bind();
@@ -69,6 +69,8 @@ namespace GKModule.Plans.Designer
 
 		public FrameworkElement Draw(ElementBase element)
 		{
+			if (_zone == null)
+				return null;
 			var shape = (Shape)_painter.Draw(element);
 			shape.Fill = GetStateBrush();
 			shape.Opacity = 1;
@@ -81,6 +83,10 @@ namespace GKModule.Plans.Designer
 		void OnShowInTree()
 		{
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(_zone.UID);
+		}
+		bool CanShowInTree()
+		{
+			return _zone != null;
 		}
 	}
 }
