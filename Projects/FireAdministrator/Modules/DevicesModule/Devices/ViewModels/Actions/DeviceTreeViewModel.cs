@@ -51,26 +51,14 @@ namespace DevicesModule.ViewModels
         {
             var deviceViewModel = new DeviceViewModel(device);
             if (IsRemote)
-            {
-                var localDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.AddressFullPath == device.AddressFullPath);
-                if ((localDevice != null)&&(localDevice.ZonesInLogic == null))
-                    deviceViewModel.XXXPresentationZone = DeviceConfiguration.GetPresentationZone(device);
-                else
-                    deviceViewModel.XXXPresentationZone = deviceViewModel.PresentationZone;
-            }
+                deviceViewModel.XXXPresentationZone = DeviceConfiguration.GetPresentationZone(device);
             else
                 deviceViewModel.XXXPresentationZone = deviceViewModel.PresentationZone;
-			//parentDeviceViewModel.Children.Add(deviceViewModel);
-
             var indexOf = Devices.IndexOf(parentDeviceViewModel);
             Devices.Insert(indexOf + 1, deviceViewModel);
 
             foreach (var childDevice in device.Children)
             {
-                //if (IsRemote)
-                //{
-                //    ClearExternalZones(childDevice);
-                //}
                 var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
                 deviceViewModel.Children.Add(childDeviceViewModel);
             }

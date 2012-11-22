@@ -117,39 +117,29 @@ namespace DevicesModule.ViewModels
 
                 if ((device.ZonesInLogic != null) && (device.ZonesInLogic.Count > 0))
                 {
-                    var localDevice = LocalRootDevice.Children.FirstOrDefault(x => x.AddressFullPath == device.AddressFullPath);
-                    if ((localDevice != null) && (localDevice.ZonesInLogic != null) && (localDevice.ZonesInLogic.Count > 0))
+                    List<Zone> tempZonesInLogic = new List<Zone>();
+                    foreach (var zoneInLogic in device.ZonesInLogic)
                     {
-                        device.ZonesInLogic = localDevice.ZonesInLogic;
-                        device.ZoneLogic = localDevice.ZoneLogic;
+                        if (
+                            FiresecManager.Zones.Any(
+                                x => (x.No == zoneInLogic.No) && (x.ZoneType == zoneInLogic.ZoneType)))
+                            tempZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => x.No == zoneInLogic.No));
+                        else
+                        {
+                            FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
+                            ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
+                        }
                     }
-                    else
+                    device.ZonesInLogic = tempZonesInLogic;
+                    device.ZoneLogic.Clauses[0].Zones = tempZonesInLogic;
+                    device.ZoneLogic.Clauses[0].ZoneUIDs = new List<Guid>();
+                    foreach (var tempZoneInLogic in tempZonesInLogic)
                     {
-                        List<Zone> tempZonesInLogic = new List<Zone>();
-                        foreach (var zoneInLogic in device.ZonesInLogic)
-                        {
-                            if (
-                                FiresecManager.Zones.Any(
-                                    x => (x.No == zoneInLogic.No) && (x.ZoneType == zoneInLogic.ZoneType)))
-                                tempZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => x.No == zoneInLogic.No));
-                            else
-                            {
-                                FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
-                                ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
-                            }
-                        }
-                        device.ZonesInLogic = tempZonesInLogic;
-                        device.ZoneLogic.Clauses[0].Zones = tempZonesInLogic;
-                        device.ZoneLogic.Clauses[0].ZoneUIDs = new List<Guid>();
-                        foreach (var tempZoneInLogic in tempZonesInLogic)
-                        {
-                            device.ZoneLogic.Clauses[0].ZoneUIDs.Add(tempZoneInLogic.UID);
-                        }
+                        device.ZoneLogic.Clauses[0].ZoneUIDs.Add(tempZoneInLogic.UID);
                     }
                 }
-
-			}
-			deviceViewModel.ExpandChildren();
+            }
+            deviceViewModel.ExpandChildren();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.FSChanged = true;
