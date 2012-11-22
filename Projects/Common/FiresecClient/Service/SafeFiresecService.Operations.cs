@@ -10,14 +10,14 @@ namespace FiresecClient
 {
     public partial class SafeFiresecService
     {
-        public OperationResult<bool> Reconnect(string userName, string password)
+        public OperationResult<bool> Reconnect(Guid uid, string userName, string password)
         {
-            return SafeOperationCall(() => { return FiresecService.Reconnect(userName, password); }, "Reconnect");
+            return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
         }
 
-        public void Disconnect()
+		public void Disconnect(Guid uid)
         {
-            SafeOperationCall(() => { FiresecService.Disconnect(); }, "Disconnect");
+            SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
         }
 
         public void NotifyClientsOnConfigurationChanged()

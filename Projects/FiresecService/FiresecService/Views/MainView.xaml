@@ -14,7 +14,7 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
                         <DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
-                        <DataGridTextColumn Binding="{Binding UserName}" Header="Пользователь" Width="*" />
+                        <DataGridTextColumn Binding="{Binding FriendlyUserName}" Header="Пользователь" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

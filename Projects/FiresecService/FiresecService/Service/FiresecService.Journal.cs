@@ -217,7 +217,7 @@ namespace FiresecService.Service
 			var operationResult = new OperationResult<bool>();
 			try
 			{
-				journalRecords.ForEach(x => x.User = ClientCredentials.UserName);
+				//journalRecords.ForEach(x => x.User = ClientCredentials.UserName);
 				DatabaseHelper.AddJournalRecords(journalRecords);
                 //ClientsCash.OnNewJournalRecord(journalRecords);
 				operationResult.Result = true;
@@ -238,6 +238,26 @@ namespace FiresecService.Service
 				dataContext.JournalRecords.InsertAllOnSubmit(journalRecords);
 				dataContext.SubmitChanges();
 			}
+		}
+
+		void AddInfoMessage(string userName, string mesage)
+		{
+			var journalRecord = new JournalRecord()
+			{
+				DeviceTime = DateTime.Now,
+				SystemTime = DateTime.Now,
+				StateType = StateType.Info,
+				Description = mesage,
+				User = userName,
+				DeviceDatabaseId = "",
+				DeviceName = "",
+				PanelDatabaseId = "",
+				PanelName = "",
+				ZoneName = ""
+			};
+
+			DatabaseHelper.AddJournalRecord(journalRecord);
+			CallbackNewJournal(new List<JournalRecord>() { journalRecord });
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FiresecService.ViewModels
 {
@@ -41,12 +42,12 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		public void AddClient(FiresecService.Service.FiresecService firesecService)
+		public void AddClient(ClientCredentials clientCredentials)
 		{
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = new ClientViewModel(firesecService);
+				var connectionViewModel = new ClientViewModel(clientCredentials);
 				Clients.Add(connectionViewModel);
 			}
 			));
@@ -72,7 +73,7 @@ namespace FiresecService.ViewModels
 				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 				{
-					connectionViewModel.UserName = userName;
+					connectionViewModel.FriendlyUserName = userName;
 				}
 			}
 			));

@@ -7,18 +7,19 @@ using XFiresecAPI;
 
 namespace FiresecAPI
 {
-    [ServiceContract(SessionMode = SessionMode.Required)]
+    //[ServiceContract(SessionMode = SessionMode.Required)]
+	[ServiceContract]
     public interface IFiresecService : IFiresecServiceSKUD
     {
         #region Service
         [OperationContract]
-        OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew);
+        OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
 
         [OperationContract]
-        OperationResult<bool> Reconnect(string userName, string password);
+        OperationResult<bool> Reconnect(Guid uid, string userName, string password);
 
         [OperationContract(IsOneWay = true)]
-        void Disconnect();
+		void Disconnect(Guid uid);
 
         [OperationContract]
         string GetStatus();
@@ -130,7 +131,7 @@ namespace FiresecAPI
         List<CallbackResult> EndPoll(IAsyncResult asyncResult);
 
         [OperationContract]
-        List<CallbackResult> ShortPoll();
+		List<CallbackResult> ShortPoll(Guid uid);
 		#endregion
     }
 }

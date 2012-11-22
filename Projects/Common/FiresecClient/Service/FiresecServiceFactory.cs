@@ -12,6 +12,7 @@ namespace FiresecClient
 {
 	public class FiresecServiceFactory
 	{
+		public static Guid UID = Guid.NewGuid();
 		ChannelFactory<IFiresecService> ChannelFactory;
 
 		public IFiresecService Create(string serverAddress)
@@ -36,11 +37,11 @@ namespace FiresecClient
 			return null;
 		}
 
-        IFiresecService DoCreate(string ServerAddress)
+        IFiresecService DoCreate(string serverAddress)
 		{
-			Binding binding = BindingHelper.CreateBindingFromAddress(ServerAddress);
+			var binding = BindingHelper.CreateWSHttpBinding();
 
-			var endpointAddress = new EndpointAddress(new Uri(ServerAddress));
+			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
 			ChannelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);
 
 			foreach (OperationDescription operationDescription in ChannelFactory.Endpoint.Contract.Operations)
@@ -65,13 +66,14 @@ namespace FiresecClient
 				{
 					try
 					{
+						ChannelFactory.Close();
+					}
+					catch { }
+					try
+					{
 						ChannelFactory.Abort();
 					}
 					catch { }
-					//if (ChannelFactory.State != CommunicationState.Opened)
-					//{
-					//    ChannelFactory.Close();
-					//}
 				}
 			}
 			catch (Exception e)

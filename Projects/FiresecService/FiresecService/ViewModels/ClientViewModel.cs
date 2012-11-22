@@ -7,30 +7,30 @@ namespace FiresecService.ViewModels
 {
     public class ClientViewModel : BaseViewModel
     {
-		public FiresecService.Service.FiresecService FiresecService { get; private set; }
+		public ClientCredentials ClientCredentials { get; private set; }
 		public string ClientType { get; private set; }
 		public Guid UID { get; private set; }
         public string IpAddress { get; private set; }
 
-		public ClientViewModel(FiresecService.Service.FiresecService firesecService)
+		public ClientViewModel(ClientCredentials clientCredentials)
 		{
-			FiresecService = firesecService;
-			ClientType = firesecService.ClientCredentials.ClientType.ToDescription();
-			UID = firesecService.UID;
-			UserName = firesecService.ClientCredentials.UserName;
-			IpAddress = firesecService.ClientIpAddressAndPort;
+			ClientCredentials = clientCredentials;
+			ClientType = clientCredentials.ClientType.ToDescription();
+			UID = ClientCredentials.ClientUID;
+			FriendlyUserName = clientCredentials.FriendlyUserName;
+			IpAddress = clientCredentials.ClientIpAddressAndPort;
 			if (IpAddress.StartsWith("127.0.0.1"))
 				IpAddress = "localhost";
 		}
 
-        string _userName;
-        public string UserName
+        string _friendlyUserName;
+        public string FriendlyUserName
         {
-            get { return _userName; }
+            get { return _friendlyUserName; }
             set
             {
-                _userName = value;
-                OnPropertyChanged("UserName");
+                _friendlyUserName = value;
+				OnPropertyChanged("FriendlyUserName");
             }
         }
     }

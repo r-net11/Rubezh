@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Common;
@@ -10,10 +11,19 @@ namespace FiresecService.Service
 {
     public partial class FiresecService
     {
-        public string Test(string arg)
-        {
-            return "Test";
-        }
+		public string Test(string arg)
+		{
+			var journalRecords = new List<JournalRecord>();
+			var journalRecord = new JournalRecord()
+			{
+				DeviceTime = DateTime.Now,
+				SystemTime = DateTime.Now,
+				Description = arg
+			};
+			journalRecords.Add(journalRecord);
+			CallbackNewJournal(journalRecords);
+			return "Test";
+		}
 
         public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
         {
@@ -41,10 +51,19 @@ namespace FiresecService.Service
             return null;
         }
 
-		public List<CallbackResult> ShortPoll()
+		public List<CallbackResult> ShortPoll(Guid uid)
 		{
 			lock (CallbackResultsLocker)
 			{
+				var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
+				if (clientInfo != null)
+				{
+					var result = CallbackManager.Get(clientInfo.CallbackIndex);
+					clientInfo.CallbackIndex = CallbackManager.GetLastIndex();
+					return result;
+				}
+				return new List<CallbackResult>();
+
 				var callbackResults = new List<CallbackResult>(CallbackResults);
 				CallbackResults = new List<CallbackResult>();
 				return callbackResults;
@@ -114,6 +133,9 @@ namespace FiresecService.Service
 		{
 			lock (CallbackResultsLocker)
 			{
+				CallbackManager.Add(callbackResult);
+				return;
+
 				if (CallbackResults.Count > 10)
 					CallbackResults.RemoveAt(0);
 				CallbackResults.Add(callbackResult);

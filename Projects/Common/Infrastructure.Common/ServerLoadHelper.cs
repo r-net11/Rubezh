@@ -33,6 +33,10 @@ namespace Infrastructure.Common
 
 		static void Start()
 		{
+#if DEBUG
+			return;
+#endif
+
 			System.Diagnostics.Process proc = new System.Diagnostics.Process();
             var fileName = @"..\FiresecService\FiresecService.exe";
 #if DEBUG

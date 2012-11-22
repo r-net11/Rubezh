@@ -13,80 +13,84 @@ using FiresecService.ViewModels;
 namespace FiresecService.Service
 {
     [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
-    InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class FiresecService : IFiresecService
     {
         public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
-        public Guid UID { get; private set; }
-        public ClientCredentials ClientCredentials { get; private set; }
-        public string ClientIpAddress { get; private set; }
-        public string ClientIpAddressAndPort { get; private set; }
 
-        public FiresecService()
-        {
-            UID = Guid.NewGuid();
-        }
+		void InitializeClientCredentials(ClientCredentials clientCredentials)
+		{
+			clientCredentials.ClientIpAddress = "127.0.0.1";
+			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";
+			clientCredentials.FriendlyUserName = clientCredentials.UserName;
+			try
+			{
+				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+				{
+					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+					clientCredentials.ClientIpAddress = endpoint.Address;
+					clientCredentials.ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecService.InitializeClientCredentials");
+			}
+		}
 
-		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
+		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
         {
             CallbackResults = new List<CallbackResult>();
 
-            ClientCredentials = clientCredentials;
-            ClientIpAddress = "127.0.0.1";
-            ClientIpAddressAndPort = "127.0.0.1:0";
-            try
-            {
-                if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
-                {
-                    var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-                    ClientIpAddress = endpoint.Address;
-                    ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "FiresecService.Connect");
-            }
+			clientCredentials.ClientUID = uid;
+			InitializeClientCredentials(clientCredentials);
 
-            var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
+            var operationResult = Authenticate(clientCredentials);
             if (operationResult.HasError)
                 return operationResult;
 
-            if (ClientsCash.IsNew(this))
-            {
-            }
-
-            ClientsCash.Add(this);
-            DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Вход пользователя в систему(Firesec-2)");
+			ClientsManager.Add(uid, clientCredentials);
+			AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec-2)");
 
             return operationResult;
         }
 
-        public OperationResult<bool> Reconnect(string login, string password)
+        public OperationResult<bool> Reconnect(Guid uid, string login, string password)
         {
             CallbackResults = new List<CallbackResult>();
 
-            var oldUserName = ClientCredentials.UserName;
+			var clientCredentials = ClientsManager.Get(uid);
+			if (clientCredentials == null)
+			{
+				return new OperationResult<bool>("Не найден пользователь");
+			}
+			InitializeClientCredentials(clientCredentials);
 
-            var operationResult = Authenticate(login, password);
+            var oldUserName = clientCredentials.FriendlyUserName;
+
+			var operationResult = Authenticate(clientCredentials);
             if (operationResult.HasError)
                 return operationResult;
 
-            MainViewModel.Current.EditClient(UID, login);
+			MainViewModel.Current.EditClient(uid, login);
 
-            DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
-            DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Дежурство принял(Firesec-2)");
+            AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
+            AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
 
-            ClientCredentials.UserName = login;
+            clientCredentials.UserName = login;
 
             operationResult.Result = true;
             return operationResult;
         }
 
-        public void Disconnect()
+        public void Disconnect(Guid uid)
         {
-            DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
-            ClientsCash.Remove(this);
+			var clientCredentials = ClientsManager.Get(uid);
+			if (clientCredentials != null)
+			{
+				AddInfoMessage(clientCredentials.FriendlyUserName, "Выход пользователя из системы(Firesec-2)");
+			}
+			ClientsManager.Remove(uid);
         }
 
         public string GetStatus()
@@ -101,7 +105,7 @@ namespace FiresecService.Service
 
         public void NotifyClientsOnConfigurationChanged()
         {
-			ClientsCash.OnConfigurationChanged();
+			CallbackConfigurationChanged();
         }
 	}
 }

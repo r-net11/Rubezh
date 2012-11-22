@@ -110,7 +110,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Service\ClientsCash.cs" />
+    <Compile Include="Service\CallbackManager.cs" />
+    <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.Poll.cs" />

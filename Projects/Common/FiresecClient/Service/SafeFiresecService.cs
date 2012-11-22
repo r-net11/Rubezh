@@ -118,14 +118,14 @@ namespace FiresecClient
             }
         }
 
-        public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
+        public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
         {
             _clientCredentials = clientCredentials;
             return SafeOperationCall(() =>
             {
                 try
                 {
-                    return FiresecService.Connect(clientCredentials, isNew);
+                    return FiresecService.Connect(uid, clientCredentials, isNew);
                 }
                 catch (EndpointNotFoundException) { }
                 catch (System.IO.PipeException) { }
@@ -145,7 +145,7 @@ namespace FiresecClient
 
         public void Dispose()
         {
-            Disconnect();
+            Disconnect(FiresecServiceFactory.UID);
             StopPoll();
             FiresecServiceFactory.Dispose();
         }
@@ -158,9 +158,9 @@ namespace FiresecClient
         {
 			return SafeOperationCall(() => { return FiresecService.EndPoll(asyncResult); }, "EndPoll");
         }
-        public List<CallbackResult> ShortPoll()
+        public List<CallbackResult> ShortPoll(Guid uid)
         {
-			return SafeOperationCall(() => { return FiresecService.ShortPoll(); }, "ShortPoll");
+			return SafeOperationCall(() => { return FiresecService.ShortPoll(uid); }, "ShortPoll");
         }
     }
 }

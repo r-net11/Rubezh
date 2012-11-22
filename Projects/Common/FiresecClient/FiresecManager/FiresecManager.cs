@@ -23,12 +23,12 @@ namespace FiresecClient
                     UserName = login,
                     Password = password,
                     ClientType = clientType,
-                    ClientUID = Guid.NewGuid()
+					ClientUID = FiresecServiceFactory.UID
                 };
 
                 FiresecService = new SafeFiresecService(serverAddress);
 
-                var operationResult = FiresecService.Connect(ClientCredentials, true);
+                var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
                 if (operationResult.HasError)
                 {
                     return operationResult.Error;
@@ -49,7 +49,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				var operationResult = FiresecService.Reconnect(login, password);
+				var operationResult = FiresecService.Reconnect(FiresecServiceFactory.UID, login, password);
 				if (operationResult.HasError)
 				{
 					return operationResult.Error;

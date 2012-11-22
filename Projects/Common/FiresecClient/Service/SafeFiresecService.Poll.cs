@@ -43,6 +43,9 @@ namespace FiresecClient
 
 		void OnShortPoll()
 		{
+			if (IsLongPollPeriod)
+				return;
+
 			while (true)
 			{
 				try
@@ -53,7 +56,7 @@ namespace FiresecClient
                         if (SuspendPoll)
                             continue;
 
-						var callbackResults = ShortPoll();
+						var callbackResults = ShortPoll(FiresecServiceFactory.UID);
 						if (!IsLongPollPeriod)
 						{
 							ProcessCallbackResult(callbackResults);
@@ -194,7 +197,7 @@ namespace FiresecClient
 				FiresecServiceFactory.Dispose();
 				FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
 				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-				FiresecService.Connect(_clientCredentials, false);
+				FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
 				return true;
 			}
 			catch

@@ -61,5 +61,13 @@ namespace Common
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			return binding;
 		}
+
+		public static WSHttpBinding CreateWSHttpBinding()
+		{
+			var binding = new WSHttpBinding(SecurityMode.None);
+			binding.MaxReceivedMessageSize = Int32.MaxValue;
+			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			return binding;
+		}
 	}
 }

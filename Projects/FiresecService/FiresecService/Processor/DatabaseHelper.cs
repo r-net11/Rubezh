@@ -26,7 +26,7 @@ namespace FiresecService.Database
             }
         }
 
-        static bool AddJournalRecord(JournalRecord journalRecord)
+        public static bool AddJournalRecord(JournalRecord journalRecord)
         {
             try
             {
@@ -73,26 +73,6 @@ namespace FiresecService.Database
                 Logger.Error(e, "Исключение при вызове DatabaseHelper.GetLastOldId");
             }
             return -1;
-        }
-
-        public static void AddInfoMessage(string userName, string mesage)
-        {
-            var journalRecord = new JournalRecord()
-            {
-                DeviceTime = DateTime.Now,
-                SystemTime = DateTime.Now,
-                StateType = StateType.Info,
-                Description = mesage,
-                User = userName,
-                DeviceDatabaseId = "",
-                DeviceName = "",
-                PanelDatabaseId = "",
-                PanelName = "",
-                ZoneName = ""
-            };
-
-            AddJournalRecord(journalRecord);
-            ClientsCash.OnNewJournalRecord(new List<JournalRecord>() { journalRecord });
         }
     }
 }

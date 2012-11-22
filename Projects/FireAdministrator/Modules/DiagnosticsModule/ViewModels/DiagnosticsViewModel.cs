@@ -32,6 +32,7 @@ namespace DiagnosticsModule.ViewModels
             Test5Command = new RelayCommand(OnTest5);
             Test6Command = new RelayCommand(OnTest6);
 			Test7Command = new RelayCommand(OnTest7);
+			Test8Command = new RelayCommand(OnTest8);
         }
 
         public void StopThreads()
@@ -217,6 +218,12 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
         }
 
+		public RelayCommand Test8Command { get; private set; }
+		void OnTest8()
+		{
+			FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
+		}
+
         public RelayCommand Test7Command { get; private set; }
 		void OnTest7()
 		{
@@ -228,8 +235,8 @@ namespace DiagnosticsModule.ViewModels
                     if (IsThreadStoping)
                         break;
 
-                    FiresecManager.FiresecService.ShortPoll();
-                    Thread.Sleep(100);
+					FiresecManager.FiresecService.Test("Hello " + count++.ToString());//.ShortPoll(FiresecServiceFactory.UID);
+                    Thread.Sleep(1000);
                 }
             }));
             thread.IsBackground = true;

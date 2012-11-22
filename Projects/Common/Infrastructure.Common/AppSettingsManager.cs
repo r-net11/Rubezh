@@ -50,15 +50,19 @@ namespace Infrastructure.Common
         {
             get
             {
-                var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
-                if (string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
-                {
-                    if (AppSettingsManager.RemoteAddress != "localhost" && AppSettingsManager.RemoteAddress != "127.0.0.1")
-                    {
-                        serviceAddress = "net.tcp://" + AppSettingsManager.RemoteAddress + ":" + AppSettingsManager.RemotePort.ToString() + "/FiresecService/";
-                    }
-                }
-                return serviceAddress;
+				string remoteAddress = "127.0.0.1";
+				string remotePort = AppSettingsManager.RemotePort.ToString();
+
+				if (string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
+				{
+					if (AppSettingsManager.RemoteAddress != "localhost" && AppSettingsManager.RemoteAddress != "127.0.0.1")
+					{
+						remoteAddress = AppSettingsManager.RemoteAddress;
+					}
+				}
+
+				var serviceAddress = "http://" + remoteAddress + ":" + remotePort + "/FiresecService/";
+				return serviceAddress;
             }
         }
     }

@@ -17,5 +17,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public Guid ClientUID { get; set; }
+
+		public string FriendlyUserName { get; set; }
+		public string ClientIpAddress { get; set; }
+		public string ClientIpAddressAndPort { get; set; }
 	}
 }

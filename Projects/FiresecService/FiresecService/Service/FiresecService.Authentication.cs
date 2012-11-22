@@ -11,33 +11,33 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		OperationResult<bool> Authenticate(string login, string password)
+		OperationResult<bool> Authenticate(ClientCredentials clientCredentials)
 		{
 			var operationResult = new OperationResult<bool>();
 
-			if (CheckLogin(login, password) == false)
+			if (CheckLogin(clientCredentials) == false)
 			{
 				operationResult.HasError = true;
 				operationResult.Error = "Неверный логин или пароль";
 				return operationResult;
 			}
-			if (CheckRemoteAccessPermissions(login) == false)
+			if (CheckRemoteAccessPermissions(clientCredentials) == false)
 			{
 				operationResult.HasError = true;
-				operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + ClientIpAddressAndPort;
+				operationResult.Error = "У пользователя " + clientCredentials.UserName + " нет прав на подкючение к удаленному серверу c хоста: " + clientCredentials.ClientIpAddressAndPort;
 				return operationResult;
 			}
 			return operationResult;
 		}
 
-		bool CheckRemoteAccessPermissions(string login)
+		bool CheckRemoteAccessPermissions(ClientCredentials clientCredentials)
 		{
-			if (CheckHostIps("localhost"))
+			if (CheckHostIps(clientCredentials, "localhost"))
 				return true;
-			if (CheckHostIps("127.0.0.1"))
+			if (CheckHostIps(clientCredentials, "127.0.0.1"))
 				return true;
 
-			var remoteAccessPermissions = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
+			var remoteAccessPermissions = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName).RemoreAccess;
 			if (remoteAccessPermissions == null)
 				return false;
 
@@ -52,7 +52,7 @@ namespace FiresecService.Service
 				case RemoteAccessType.SelectivelyAllowed:
 					foreach (var hostNameOrIpAddress in remoteAccessPermissions.HostNameOrAddressList)
 					{
-						if (CheckHostIps(hostNameOrIpAddress))
+						if (CheckHostIps(clientCredentials, hostNameOrIpAddress))
 							return true;
 					}
 					break;
@@ -60,12 +60,12 @@ namespace FiresecService.Service
 			return false;
 		}
 
-		bool CheckHostIps(string hostNameOrIpAddress)
+		bool CheckHostIps(ClientCredentials clientCredentials, string hostNameOrIpAddress)
 		{
 			try
 			{
 				var addressList = Dns.GetHostEntry(hostNameOrIpAddress).AddressList;
-				return addressList.Any(ip => ip.ToString() == ClientIpAddress);
+				return addressList.Any(ip => ip.ToString() == clientCredentials.ClientIpAddress);
 			}
 			catch (Exception e)
 			{
@@ -74,25 +74,25 @@ namespace FiresecService.Service
 			}
 		}
 
-		bool CheckLogin(string login, string password)
+		bool CheckLogin(ClientCredentials clientCredentials)
 		{
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
+			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
 			{
 				if (user == null)
 				{
 					return false;
 				}
-				if (!HashHelper.CheckPass(password, user.PasswordHash))
+				if (!HashHelper.CheckPass(clientCredentials.Password, user.PasswordHash))
 				{
 					return false;
 				}
 			}
 
-			SetUserFullName(login);
+			SetUserFullName(clientCredentials);
 			return true;
 		}
 
-		void SetUserFullName(string login)
+		void SetUserFullName(ClientCredentials clientCredentials)
 		{
 			string userIp = "127.0.0.1";
 			try
@@ -109,8 +109,8 @@ namespace FiresecService.Service
 			if (addressList.Any(ip => ip.ToString() == userIp))
 				userIp = "localhost";
 
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
-			ClientCredentials.UserName = user.Name + " (" + userIp + ")";
+			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+			clientCredentials.FriendlyUserName = user.Name + " (" + userIp + ")";
 		}
 	}
 }

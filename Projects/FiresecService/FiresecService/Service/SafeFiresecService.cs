@@ -85,19 +85,19 @@ namespace FiresecService.Service
             }
         }
 
-        public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
+        public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
         {
-            return SafeOperationCall(() => { return FiresecService.Connect(clientCredentials, isNew); }, "Connect");
+            return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials, isNew); }, "Connect");
         }
 
-        public OperationResult<bool> Reconnect(string userName, string password)
+		public OperationResult<bool> Reconnect(Guid uid, string userName, string password)
         {
-            return SafeOperationCall(() => { return FiresecService.Reconnect(userName, password); }, "Reconnect");
+            return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
         }
 
-        public void Disconnect()
+        public void Disconnect(Guid uid)
         {
-            SafeOperationCall(() => { FiresecService.Disconnect(); }, "Disconnect");
+            SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
         }
 
         public void NotifyClientsOnConfigurationChanged()
@@ -285,9 +285,9 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.EndPoll(asyncResult));
         }
-        public List<CallbackResult> ShortPoll()
+        public List<CallbackResult> ShortPoll(Guid uid)
         {
-            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.ShortPoll());
+            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.ShortPoll(uid));
         }
     }
 }
