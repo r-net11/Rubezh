@@ -20,7 +20,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             CustomBalloonView customBalloonView = new CustomBalloonView();
-            MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 4000);
+            MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
         }
 
         private void MyNotifyIcon_MouseDown(object sender, MouseButtonEventArgs e)

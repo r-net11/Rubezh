@@ -47,11 +47,26 @@ namespace Infrastructure.Common.Windows
 			}
 		}
 
-        public static void ShowTrayWindow(WindowBaseViewModel model)
+        public static bool ShowTrayWindow(WindowBaseViewModel model, bool allowsTransparency = true)
         {
-            WindowBaseView win = new WindowBaseView(model);
-            win.Visibility = Visibility.Hidden;
-            win.Show();
+            //WindowBaseView win = new WindowBaseView(model);
+            //win.Visibility = Visibility.Hidden;
+            //win.Show();
+            try
+            {
+                WindowBaseView win = new WindowBaseView(model);
+                win.Visibility = Visibility.Hidden;
+                win.AllowsTransparency = allowsTransparency;
+                PrepareWindow(model);
+                bool? result = win.ShowDialog();
+                return result.HasValue ? result.Value : false;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Исключение при вызове DialogService.ShowModalWindow");
+                //throw;
+            }
+            return false;
         }
 
 		private static List<IWindowIdentity> _openedWindows = new List<IWindowIdentity>();
