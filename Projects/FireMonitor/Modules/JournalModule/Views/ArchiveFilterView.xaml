@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
              MinWidth="700" MinHeight="500">
 
     <UserControl.Resources>
@@ -27,30 +27,21 @@
         <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
             <TabItem Header="Временной диапазон" Padding="3">
                 <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,23,0">
-                            <Label Content="С" />
-                            <Calendar SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
-                                  DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
-                                  DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
-                                  DisplayDate="{Binding StartDate}"
-                                  SelectedDate="{Binding StartDate}" />
-                            <extToolkit:TimePicker Width="100" Value="{Binding StartTime}" Margin="4" VerticalAlignment="Top" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Label Content="По" />
-                            <Calendar SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
-                                  DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
-                                  DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
-                                  DisplayDate="{Binding EndDate}"
-                                  SelectedDate="{Binding EndDate}" />
-                            <extToolkit:TimePicker Value="{Binding EndTime}" Width="100" Margin="4" VerticalAlignment="Top" />
-                        </StackPanel>
-                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="С"/>
+                        <loya:Dameer ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding StartDateTime}"/>
+
+                        <Label Content="По"/>
+                        <loya:Dameer ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding EndDateTime}"/>
+                    </StackPanel>
                     <CheckBox Margin="2" HorizontalAlignment="Center" Foreground="White"
                               Content="Использовать дату регистрации события в системе (иначе дату возникновения)"
                               IsChecked="{Binding UseSystemDate}" />

@@ -31,8 +31,6 @@ namespace DiagnosticsModule.ViewModels
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
 			DomainTestCommand = new RelayCommand(OnDomainTest);
-            //NotificationTestCommand = new RelayCommand(OnNotificationTest);
-            //ConflagrationTestCommand = new RelayCommand(OnConflagrationTest);
             ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
             ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
             ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);

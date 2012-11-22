@@ -20,10 +20,9 @@ namespace JournalModule.ViewModels
 
 			Initialize();
 
-			StartDate = archiveFilter.StartDate;
-			EndDate = DateTime.Now;
-			StartTime = archiveFilter.StartDate;
-			EndTime = DateTime.Now;
+            StartDateTime = archiveFilter.StartDate;
+            EndDateTime = DateTime.Now;
+
 			UseSystemDate = archiveFilter.UseSystemDate;
 
 			if (archiveFilter.Descriptions.IsNotNullOrEmpty())
@@ -107,57 +106,37 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		DateTime _startDate;
-		public DateTime StartDate
-		{
-			get { return _startDate; }
-			set
-			{
-				_startDate = value;
-				OnPropertyChanged("StartDate");
-			}
-		}
+        DateTime _startDateTime;
+        public DateTime StartDateTime
+        {
+            get { return _startDateTime; }
+            set
+            {
+                _startDateTime = value;
+                OnPropertyChanged("startDateTime");
+            }
+        }
 
-		DateTime _endDate;
-		public DateTime EndDate
-		{
-			get { return _endDate; }
-			set
-			{
-				_endDate = value;
-				OnPropertyChanged("EndDate");
-			}
-		}
+        DateTime _endDateTime;
+        public DateTime EndDateTime
+        {
+            get { return _endDateTime; }
+            set
+            {
+                _endDateTime = value;
+                OnPropertyChanged("endDateTime");
+            }
+        }
 
-		public DateTime StartTime
-		{
-			get { return _startDate; }
-			set
-			{
-				_startDate = value;
-				OnPropertyChanged("StartTime");
-			}
-		}
-
-		public DateTime EndTime
-		{
-			get { return _endDate; }
-			set
-			{
-				_endDate = value;
-				OnPropertyChanged("EndTime");
-			}
-		}
-
-		public List<DeviceViewModel> Devices { get; private set; }
+        public List<DeviceViewModel> Devices { get; private set; }
 
 		public ArchiveFilter GetModel()
 		{
 			return new ArchiveFilter()
 			{
-				StartDate = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, StartTime.Second),
-				EndDate = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, EndTime.Second),
-				UseSystemDate = UseSystemDate,
+                StartDate = StartDateTime,
+                EndDate = EndDateTime,
+                UseSystemDate = UseSystemDate,
 				Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
 				DeviceNames = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseName)),
 				Subsystems = new List<SubsystemType>(Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)),
@@ -167,9 +146,9 @@ namespace JournalModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			StartDate = StartTime = EndDate = EndTime = DateTime.Now;
-			StartDate = StartDate.AddDays(-1);
-			UseSystemDate = false;
+            StartDateTime = EndDateTime = DateTime.Now;
+            StartDateTime = StartDateTime.AddDays(-1);
+            UseSystemDate = false;
 
 			JournalTypes.ForEach(x => x.IsEnable = false);
 			JournalEvents.ForEach(x => x.IsEnable = false);
@@ -179,7 +158,7 @@ namespace JournalModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (StartDate > EndDate)
+			if (StartDateTime > EndDateTime)
 			{
 				MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
 				return;
