@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using System.Windows;
 using Infrastructure.Common.BalloonTrayTip;
 using Firesec;
+using FiresecAPI;
 using Infrastructure.Common.Windows;
 using Common;
 
@@ -31,6 +32,7 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
+			Test10Command = new RelayCommand(OnTest10);
 			DomainTestCommand = new RelayCommand(OnDomainTest);
             ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
             ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
@@ -355,6 +357,86 @@ namespace DiagnosticsModule.ViewModels
             thread.IsBackground = true;
             thread.Start();
         }
+
+		public RelayCommand Test10Command { get; private set; }
+		void OnTest10()
+		{
+			firesecSerializedClient = new FiresecSerializedClient();
+			var connectResult = firesecSerializedClient.Connect("localhost", 211, "adm", "", false);
+
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				int count = 0;
+				while (true)
+				{
+					if (NativeFiresecClient.TasksCount > 10)
+						continue;
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+
+					var journalRecords = GetEventsFromLastId(LastJournalNo);
+					if (journalRecords != null && journalRecords.Count > 0)
+					{
+						foreach (var journalRecord in journalRecords)
+						{
+							journalRecord.Description = "xxx " + journalRecord.Description;
+						}
+						if (Application.Current != null && Application.Current.Dispatcher != null)
+							Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+								{
+									ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+								}));
+					}
+
+					if (count++ % 1000 == 0)
+					{
+						Trace.WriteLine("Count = " + count.ToString());
+					}
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
+
+		FiresecSerializedClient firesecSerializedClient;
+		int LastJournalNo = 0;
+
+		List<JournalRecord> GetEventsFromLastId(int oldJournalNo)
+		{
+			var journalRecords = new List<JournalRecord>();
+
+			var hasNewRecords = true;
+			for (int i = 0; i < 100; i++)
+			{
+				hasNewRecords = false;
+
+				var result = firesecSerializedClient.ReadEvents(oldJournalNo, 100);
+				if (result == null || result.HasError)
+				{
+					return new List<JournalRecord>();
+				}
+
+				var document = result.Result;
+				if (document != null && document.Journal.IsNotNullOrEmpty())
+				{
+					foreach (var innerJournalItem in document.Journal)
+					{
+						var eventId = int.Parse(innerJournalItem.IDEvents);
+						if (eventId > oldJournalNo)
+						{
+							LastJournalNo = eventId;
+							oldJournalNo = eventId;
+							var journalRecord = JournalConverter.Convert(innerJournalItem);
+							journalRecords.Add(journalRecord);
+							hasNewRecords = true;
+						}
+					}
+				}
+				if (!hasNewRecords)
+					break;
+			}
+
+			return journalRecords;
+		}
 
         void OnWarningTest(object obj)
         {

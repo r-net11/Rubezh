@@ -53,7 +53,7 @@ namespace Infrastructure.Common
 				string remoteAddress = "127.0.0.1";
 				string remotePort = AppSettingsManager.RemotePort.ToString();
 
-				if (string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
+				if (!string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
 				{
 					if (AppSettingsManager.RemoteAddress != "localhost" && AppSettingsManager.RemoteAddress != "127.0.0.1")
 					{

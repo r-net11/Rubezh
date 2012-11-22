@@ -30,6 +30,7 @@ namespace Firesec
 			}
 		}
 
+		[Obsolete]
 		public static void StopNTServiceIfRunning()
 		{
 			var service = (from srv in System.ServiceProcess.ServiceController.GetServices()
@@ -120,7 +121,7 @@ namespace Firesec
 		public static void Restart()
 		{
 			Logger.Error("SocketServerHelper.Restart");
-			Stop();
+			//Stop();
 			StartIfNotRunning();
 		}
 
