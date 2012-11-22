@@ -34,8 +34,7 @@ namespace FiresecAPI.Models
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
-        public bool IsLocal { get; set; }
-        public bool IsRemote { get; set; }
+        public bool HasDifferences { get; set; }
 
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic

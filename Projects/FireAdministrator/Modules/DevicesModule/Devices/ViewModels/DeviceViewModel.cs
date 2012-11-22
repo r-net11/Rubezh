@@ -82,14 +82,9 @@ namespace DevicesModule.ViewModels
             }
         }
 
-		public bool IsLocal
+        public bool HasDifferences
 		{
-			get { return Device.IsLocal; }
-			set { }
-		}
-		public bool IsRemote
-		{
-			get { return Device.IsRemote; }
+			get { return Device.HasDifferences; }
 			set { }
 		}
 

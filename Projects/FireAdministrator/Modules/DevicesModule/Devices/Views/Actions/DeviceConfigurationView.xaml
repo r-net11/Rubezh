@@ -4,39 +4,13 @@
     xmlns:Views="clr-namespace:DevicesModule.Views"
     MinWidth="800" MinHeight="800">
     <UserControl.Resources>
-        <Style x:Key="LocalDiffStyle" TargetType="{x:Type TextBlock}">
+        <Style x:Key="DiffStyle" TargetType="{x:Type TextBlock}">
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLocal}" Value="false"/>
-                        <Condition Binding="{Binding IsRemote}" Value="true"/>
+                        <Condition Binding="{Binding HasDifferences}" Value="true"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Foreground" Value="#ACA899"/>
-                </MultiDataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLocal}" Value="true"/>
-                        <Condition Binding="{Binding IsRemote}" Value="false"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="RemoteDiffStyle" TargetType="{x:Type TextBlock}">
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLocal}" Value="true"/>
-                        <Condition Binding="{Binding IsRemote}" Value="false"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Foreground" Value="#ACA899"/>
-                </MultiDataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsLocal}" Value="false"/>
-                        <Condition Binding="{Binding IsRemote}" Value="true"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="FontWeight" Value="Bold"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -61,7 +35,7 @@
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsEnabled="False" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Name="textBlock" Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Style="{StaticResource LocalDiffStyle}" />
+                                    <TextBlock Name="textBlock" Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Style="{StaticResource DiffStyle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -69,7 +43,7 @@
                     <DataGridTemplateColumn Header="Адрес" Width="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" Style="{StaticResource LocalDiffStyle}"/>
+                                <TextBlock Text="{Binding Address}" Style="{StaticResource DiffStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -78,7 +52,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="{Binding XXXPresentationZone}" Style="{StaticResource LocalDiffStyle}" />
+                                    <TextBlock Text="{Binding XXXPresentationZone}" Style="{StaticResource DiffStyle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -94,7 +68,7 @@
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsEnabled="False" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Style="{StaticResource RemoteDiffStyle}"/>
+                                    <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Style="{StaticResource DiffStyle}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -102,14 +76,14 @@
                     <DataGridTemplateColumn Header="Адрес" Width="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" Style="{StaticResource RemoteDiffStyle}"/>
+                                <TextBlock Text="{Binding Address}" Style="{StaticResource DiffStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Зона" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding XXXPresentationZone}" Style="{StaticResource RemoteDiffStyle}"/>
+                                <TextBlock Text="{Binding XXXPresentationZone}" Style="{StaticResource DiffStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
