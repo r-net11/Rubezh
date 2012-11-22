@@ -123,12 +123,10 @@ namespace FireMonitor
 				FiresecManager.FiresecDriver.StartWatcher(true, true);
 				if (!reconnect)
 				{
-					//LoadingService.DoStep("Синхронизация журнала событий");
-					//FiresecManager.SynchrinizeJournal();
+					LoadingService.DoStep("Синхронизация журнала событий");
+					FiresecManager.SynchrinizeJournal();
 				}
-#if RELEASE
 				FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.IsPing = true;
-#endif
 			}
 			catch (FiresecException e)
 			{

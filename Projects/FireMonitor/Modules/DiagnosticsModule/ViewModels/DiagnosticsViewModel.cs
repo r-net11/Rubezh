@@ -17,6 +17,7 @@ using Common;
 
 namespace DiagnosticsModule.ViewModels
 {
+	[Serializable]
     public class DiagnosticsViewModel : ViewPartViewModel
     {
         public DiagnosticsViewModel()
@@ -374,25 +375,8 @@ namespace DiagnosticsModule.ViewModels
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 
 			DomainHelper = new DomainHelper();
+			//DomainHelper.NewEvent += new Action<List<JournalRecord>>(DomainHelper_NewEvent);
 			DomainHelper.CreateDomain();
-			DomainHelper.NewEvent += new Action<List<JournalRecord>>(DomainHelper_NewEvent);
-
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				int count = 0;
-				while (true)
-				{
-					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-
-					//DomainHelper.DomainRunner.AddUserMessage("Test Message " + count++.ToString());
-					if (count % 1000 == 0)
-					{
-						Trace.WriteLine("Count = " + count.ToString());
-					}
-				}
-			}));
-			thread.IsBackground = true;
-			thread.Start();
 		}
 
 		void DomainHelper_NewEvent(List<JournalRecord> journalRecords)
@@ -433,23 +417,14 @@ namespace DiagnosticsModule.ViewModels
 
 		void DomainRunner_NewEvent(List<JournalRecord> journalRecords)
 		{
-			OnNewEvent(journalRecords);
-		}
-
-		public event Action<List<JournalRecord>> NewEvent;
-		public void OnNewEvent(List<JournalRecord> journalRecords)
-		{
 			foreach (var journalRecord in journalRecords)
 			{
 				Trace.WriteLine(journalRecord.Description);
 			}
-			if (NewEvent != null)
-				NewEvent(journalRecords);
 		}
 
 		public void DomainRunner_Exit()
 		{
-			Logger.Error("DomainRunner_Exit");
 			CloseDomain();
 			CreateDomain();
 		}

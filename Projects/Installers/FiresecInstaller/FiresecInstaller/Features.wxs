@@ -9,7 +9,7 @@
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
       <FeatureRef Id="OPC.Features" />
-      <!--<FeatureRef Id="Diagnostics.Features" />-->
+      <FeatureRef Id="Diagnostics.Features" />
       
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Description="Устанавливает компопненты для работы  адресной системой Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.FS_MODULE" />

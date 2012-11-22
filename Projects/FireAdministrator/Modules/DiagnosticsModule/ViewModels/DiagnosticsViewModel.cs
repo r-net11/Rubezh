@@ -254,9 +254,17 @@ namespace DiagnosticsModule.ViewModels
 
 		public void CloseDomain()
 		{
+			DomainRunner.Stop();
 			if (FsDomain != null)
 			{
-				AppDomain.Unload(FsDomain);
+				try
+				{
+					AppDomain.Unload(FsDomain);
+				}
+				catch (Exception e)
+				{
+					;
+				}
 			}
 		}
 
