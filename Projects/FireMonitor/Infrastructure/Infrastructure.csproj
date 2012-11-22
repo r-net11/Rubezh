@@ -99,6 +99,8 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\BootstrapperInitializedEvent.cs" />
+    <Compile Include="Events\ConflagrationItemEvent.cs" />
+    <Compile Include="Events\NotificationItemEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowXAlarmsEvent.cs" />
     <Compile Include="Events\DevicesStateChangedEvent.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Events\ShowXZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
+    <Compile Include="Events\WarningItemEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="Events\ShowXDeviceEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />

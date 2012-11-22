@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Infrastructure;
+using Infrastructure.Events;
 
 
 
@@ -23,7 +25,23 @@ namespace DiagnosticsModule.Views
             InitializeComponent();
         }
 
+        private void WarningButton_Click(object sender, RoutedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<WarningItemEvent>().Publish(null);
+        }
+
+        private void NotificationButton_Click(object sender, RoutedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<NotificationItemEvent>().Publish(null);
+        }
+
+        private void ConflagrationButton_Click(object sender, RoutedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Publish(null);
+        }
+        
         
 
     }
+
 }

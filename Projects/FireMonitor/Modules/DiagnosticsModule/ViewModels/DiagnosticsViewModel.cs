@@ -31,9 +31,11 @@ namespace DiagnosticsModule.ViewModels
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
 			DomainTestCommand = new RelayCommand(OnDomainTest);
-            WarningTestCommand = new RelayCommand(OnWarningTest);
-            NotificationTestCommand = new RelayCommand(OnNotificationTest);
-            ConflagrationTestCommand = new RelayCommand(OnConflagrationTest);
+            //NotificationTestCommand = new RelayCommand(OnNotificationTest);
+            //ConflagrationTestCommand = new RelayCommand(OnConflagrationTest);
+            ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
+            ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
+            ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);
         }
 
 		public void StopThreads()
@@ -301,7 +303,7 @@ namespace DiagnosticsModule.ViewModels
 			{
 				case 0:
 					ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
-					break;
+                    break;
 				case 1:
 					ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
 					break;
@@ -355,18 +357,15 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
         }
 
-        public RelayCommand WarningTestCommand { get; private set; }
-        void OnWarningTest()
+        void OnWarningTest(object obj)
         {
             BalloonHelper.ShowWarning("Предупреждение", "Это текст предупреждения. Он предупреждает.");
         }
-        public RelayCommand NotificationTestCommand { get; private set; }
-        void OnNotificationTest()
+        void OnNotificationTest(object obj)
         {
             BalloonHelper.ShowNotification("Уведомление", "Уведомления текст это. Уведомляет он.");
         }
-        public RelayCommand ConflagrationTestCommand { get; private set; }
-        void OnConflagrationTest()
+        void OnConflagrationTest(object obj)
         {
             BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
         }
