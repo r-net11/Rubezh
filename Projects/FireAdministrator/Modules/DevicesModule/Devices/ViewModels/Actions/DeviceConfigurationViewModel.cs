@@ -62,8 +62,33 @@ namespace DevicesModule.ViewModels
                     }
                 }
 
+            RemoteRootClone.Children = new List<Device>();
+            if (RemoteRootDevice.Children != null)
+                foreach (var children in RemoteRootDevice.Children)
+                {
+                    var childrenClone = (Device)children.Clone();
+                    RemoteRootClone.Children.Add(childrenClone);
+                    if (children.Children != null)
+                    {
+                        var remotechch =
+                            RemoteRootClone.Children.FirstOrDefault(
+                                x =>
+                                ((x.PresentationName == children.PresentationName) &&
+                                 (x.AddressFullPath == children.AddressFullPath)));
+                        remotechch.Children = new List<Device>();
+                        foreach (var chch in children.Children)
+                        {
+                            var chchClone = (Device)chch.Clone();
+                            remotechch.Children.Add(chchClone);
+                        }
+                    }
+                }
+
             IntoLocalDevice(LocalRootDevice, RemoteRootClone);
             IntoRemoteDevice(RemoteRootDevice, LocalRootClone);
+
+            Sort(LocalRootClone);
+            Sort(RemoteRootClone);
 
             LocalDevices = new DeviceTreeViewModel(LocalRootClone, FiresecManager.FiresecConfiguration.DeviceConfiguration, false);
             RemoteDevices = new DeviceTreeViewModel(RemoteRootClone, RemoteDeviceConfiguration, true);
@@ -77,7 +102,9 @@ namespace DevicesModule.ViewModels
                 if (remoteAndLocal == null)
                 {
                     var remote = (Device)local.Clone();
+                    remote.Children = new List<Device>();
                     remote.HasDifferences = true;
+                    remoteAndLocal = remote;
                     remoteRootDevice.Children.Add(remote);
                 }
                 else
@@ -113,7 +140,9 @@ namespace DevicesModule.ViewModels
                 if (localAndRemote == null)
                 {
                     var local = (Device)remote.Clone();
+                    local.Children = new List<Device>();
                     local.HasDifferences = true;
+                    localAndRemote = local;
                     localRootDevice.Children.Add(local);
                 }
                 else
@@ -136,7 +165,6 @@ namespace DevicesModule.ViewModels
                 }
                 if ((remote.Children != null) && (remote.Children.Count > 0))
                 {
-                    if (localAndRemote != null)
                         IntoRemoteDevice(remote, localAndRemote);
                 }
             }
@@ -149,68 +177,92 @@ namespace DevicesModule.ViewModels
 			//}
         }
 
+        void Sort(Device device)
+        {
+            if (device.Children != null)
+            {
+                device.Children = device.Children.OrderBy(x => x.AddressFullPath).ToList();
+                device.Children = device.Children.OrderBy(x => x.PresentationName).ToList();
+            }
+                foreach (var child in device.Children)
+                {
+                    if (child.Children !=null)
+                        Sort(child);
+                }
+        }
+
 	    public DeviceTreeViewModel LocalDevices { get; private set; }
 		public DeviceTreeViewModel RemoteDevices { get; private set; }
 
 		public RelayCommand ReplaceCommand { get; private set; }
 		void OnReplace()
 		{
-			LocalRootDevice.Parent.Children.Remove(LocalRootDevice);
-			LocalRootDevice.Parent.Children.Add(RemoteRootDevice);
-			RemoteRootDevice.Parent = LocalRootDevice.Parent;
-			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == LocalRootDevice.UID);
-			if (deviceViewModel == null)
-			{
-				Logger.Error("DeviceConfigurationViewModel.OnReplace deviceViewModel = null");
-				return;
-			}
-			deviceViewModel.CollapseChildren();
-			deviceViewModel.Children.Clear();
-			foreach (var device in RemoteRootDevice.Children)
-			{
-			    device.UID =
-			        FiresecManager.Devices.FirstOrDefault(
-			            x => (x.AddressFullPath == device.AddressFullPath) && (x.PresentationName == device.PresentationName)).
-			            UID;
-				DevicesViewModel.Current.AddDevice(device, deviceViewModel);
-                if (device.Zone != null)
-                {
-                    if (!FiresecManager.Zones.Any(x => (x.No == device.Zone.No) && (x.ZoneType == device.Zone.ZoneType)))
-                    {
-                        FiresecManager.FiresecConfiguration.AddZone(device.Zone);
-                        ZonesViewModel.Current.Zones.Add(new ZoneViewModel(device.Zone));
-                    }
-                    device.Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.Zone.No);
-                    FiresecManager.FiresecConfiguration.AddDeviceToZone(device, device.Zone);
-                }
+            LocalRootDevice.Parent.Children.Remove(LocalRootDevice);
+		    LocalRootDevice.Parent.Children.Add(RemoteRootDevice);
 
-                if ((device.ZonesInLogic != null) && (device.ZonesInLogic.Count > 0))
+		    var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == LocalRootDevice.UID);
+		    if (deviceViewModel == null)
+		    {
+		        Logger.Error("DeviceConfigurationViewModel.OnReplace deviceViewModel = null");
+		        return;
+		    }
+
+		    //deviceViewModel.CollapseChildren();
+		    deviceViewModel.Children.Clear();
+
+		    foreach (var device in RemoteRootDevice.Children)
+		    {
+                DevicesViewModel.Current.AddDevice(device, deviceViewModel);
+		        BuildZones(device);
+		    }
+		    
+            deviceViewModel.ExpandChildren();
+		    FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
+		    ServiceFactory.SaveService.FSChanged = true;
+		    DevicesViewModel.UpdateGuardVisibility();
+            FiresecManager.FiresecConfiguration.UpdateConfiguration();
+            Close(true);
+		}
+
+        public void BuildZones(Device device)
+        {
+            if (device.Zone != null)
+            {
+                if (!FiresecManager.Zones.Any(x => (x.No == device.Zone.No)))
                 {
-                    List<Zone> tempZonesInLogic = new List<Zone>();
-                    foreach (var zoneInLogic in device.ZonesInLogic)
+                    FiresecManager.FiresecConfiguration.AddZone(device.Zone);
+                    ZonesViewModel.Current.Zones.Add(new ZoneViewModel(device.Zone));
+                }
+                device.Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.Zone.No);
+                FiresecManager.FiresecConfiguration.AddDeviceToZone(device, device.Zone);
+            }
+
+            if ((device.ZonesInLogic != null) && (device.ZonesInLogic.Count > 0))
+            {
+                List<Zone> tempZonesInLogic = new List<Zone>();
+                foreach (var zoneInLogic in device.ZonesInLogic)
+                {
+                    if (!FiresecManager.Zones.Any(x => (x.No == zoneInLogic.No)))
                     {
-                        if (!FiresecManager.Zones.Any(x => (x.No == zoneInLogic.No) && (x.ZoneType == zoneInLogic.ZoneType)))
-                        {
-                            FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
-                            ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
-                        }
-                        tempZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => x.No == zoneInLogic.No));
+                        FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
+                        ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
                     }
-                    device.ZonesInLogic = tempZonesInLogic;
-                    device.ZoneLogic.Clauses[0].Zones = tempZonesInLogic;
-                    device.ZoneLogic.Clauses[0].ZoneUIDs = new List<Guid>();
-                    foreach (var tempZoneInLogic in tempZonesInLogic)
-                    {
-                        device.ZoneLogic.Clauses[0].ZoneUIDs.Add(tempZoneInLogic.UID);
-                    }
+                    tempZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => x.No == zoneInLogic.No));
+                }
+                device.ZonesInLogic = tempZonesInLogic;
+                device.ZoneLogic.Clauses[0].Zones = tempZonesInLogic;
+                device.ZoneLogic.Clauses[0].ZoneUIDs = new List<Guid>();
+                foreach (var tempZoneInLogic in tempZonesInLogic)
+                {
+                    device.ZoneLogic.Clauses[0].ZoneUIDs.Add(tempZoneInLogic.UID);
                 }
             }
-            deviceViewModel.ExpandChildren();
 
-			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.FSChanged = true;
-			DevicesViewModel.UpdateGuardVisibility();
-			Close(true);
-		}
+            if(device.Children != null)
+                foreach (var child in device.Children)
+                {
+                    BuildZones(child);
+                }
+        }
 	}
 }

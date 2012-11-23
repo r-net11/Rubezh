@@ -30,7 +30,7 @@
                 <MenuItem Name="writeDeviceButton" Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Записать конфигурацию в прибор" />
                 <MenuItem Name="writeAllDeviceButton" Command="{Binding WriteAllDeviceCommand}" Header="_Записать конфигурацию во все приборы" />
                 <Separator />
-                <MenuItem Name="synchronizeDeviceButton" Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Синзронизировать часы прибора с системными" />
+                <MenuItem Name="synchronizeDeviceButton" Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Синхронизировать часы прибора с системными" />
                 <MenuItem Name="updateSoftButton" Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource False}" Header="_Обновление ПО" />
                 <MenuItem Name="setPasswordButton" Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource False}" Header="_Задать пароль" />
                 <MenuItem Name="bindMsButton" Command="{Binding BindMsCommand}" Header="_Привязать" />
@@ -48,7 +48,7 @@
                     <Separator />
                     <MenuItem Name="usbWriteDeviceButton" Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Записать конфигурацию в прибор" />
                     <Separator />
-                    <MenuItem Name="usbSynchronize" Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Синзронизировать часы прибора с системными" />
+                    <MenuItem Name="usbSynchronize" Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Синхронизировать часы прибора с системными" />
                     <MenuItem Name="usbUpdateSoftButton" Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource True}" Header="_Обновление ПО" />
                     <MenuItem Name="usbSetPasswordButton" Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource True}" Header="_Задать пароль" />
                     <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="_Другие функции" />
