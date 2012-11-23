@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {

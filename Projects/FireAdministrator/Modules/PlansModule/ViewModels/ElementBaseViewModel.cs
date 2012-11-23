@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {

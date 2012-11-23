@@ -1,9 +1,9 @@
 ﻿using System;
 using FiresecAPI.Models;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
-using Infrastructure.Client.Plans;
 
 namespace PlansModule.ViewModels
 {
