@@ -8,9 +8,9 @@ using System.Diagnostics;
 
 namespace Firesec
 {
-    public partial class NativeFiresecClient
-    {
-        public static bool IsSuspended { get; set; }
+	public partial class NativeFiresecClient
+	{
+		public static bool IsSuspended { get; set; }
 		int LastJournalNo = 0;
 		static bool needToRead = false;
 		static bool needToReadStates = false;
@@ -31,8 +31,13 @@ namespace Firesec
 
 		public void CheckForRead()
 		{
-            if (IsSuspended)
-                return;
+			needToRead = true;
+			needToReadStates = true;
+			needToReadParameters = true;
+			needToReadJournal = true;
+
+			if (IsSuspended)
+				return;
 
 			if (needToRead)
 			{
@@ -158,39 +163,39 @@ namespace Firesec
 			return journalRecords;
 		}
 
-        OperationResult<T> ConvertResultData<T>(OperationResult<string> result)
-        {
-            var resultData = new OperationResult<T>();
-            resultData.HasError = result.HasError;
-            resultData.Error = result.Error;
-            if (result.HasError == false)
-                resultData.Result = SerializerHelper.Deserialize<T>(result.Result);
-            return resultData;
-        }
+		OperationResult<T> ConvertResultData<T>(OperationResult<string> result)
+		{
+			var resultData = new OperationResult<T>();
+			resultData.HasError = result.HasError;
+			resultData.Error = result.Error;
+			if (result.HasError == false)
+				resultData.Result = SerializerHelper.Deserialize<T>(result.Result);
+			return resultData;
+		}
 
-        public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
-        {
-            if (IsSuspended)
-                return true;
+		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
+		{
+			if (IsSuspended)
+				return true;
 
-            try
-            {
-                if (ProgressEvent != null)
-                {
-                    return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
-                return false;
-            }
-        }
+			try
+			{
+				if (ProgressEvent != null)
+				{
+					return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+				}
+				return true;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
+				return false;
+			}
+		}
 
 		public event Action<List<JournalRecord>> NewJournalRecords;
-        public event Action<Firesec.Models.CoreState.config> StateChanged;
-        public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
-        public event Func<int, string, int, int, bool> ProgressEvent;
-    }
+		public event Action<Firesec.Models.CoreState.config> StateChanged;
+		public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
+		public event Func<int, string, int, int, bool> ProgressEvent;
+	}
 }

@@ -6,6 +6,9 @@ using Firesec;
 using FiresecAPI;
 using System.Threading;
 using System.Diagnostics;
+using FiresecAPI.Models;
+using System.Windows.Threading;
+using Common;
 
 namespace FiresecEventTest
 {
@@ -19,24 +22,50 @@ namespace FiresecEventTest
 			thread.Start();
 		}
 
-		public static void OnRun()
+		static void OnRun()
 		{
-			NativeFiresecClient = new NativeFiresecClient();
-			NativeFiresecClient.Connect("localhost", 211, "adm", "", true);
-			NativeFiresecClient.NewJournalRecords += new Action<List<FiresecAPI.Models.JournalRecord>>(NativeFiresecClient_NewJournalRecords);
+			try
+			{
+				NativeFiresecClient = new NativeFiresecClient();
+				NativeFiresecClient.Connect("localhost", 211, "adm", "", true);
+				NativeFiresecClient.NewJournalRecords += new Action<List<FiresecAPI.Models.JournalRecord>>(OnNewJournalRecords);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "OnRun");
+			}
 
 			while (true)
 			{
-				Thread.Sleep(TimeSpan.FromSeconds(1));
-				NativeFiresecClient.CheckForRead();
+				try
+				{
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+					NativeFiresecClient.CheckForRead();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "OnRun.while");
+				}
 			}
 		}
 
-		static void NativeFiresecClient_NewJournalRecords(List<FiresecAPI.Models.JournalRecord> journalRecords)
+		static void OnNewJournalRecords(List<JournalRecord> journalRecords)
 		{
-			foreach(var journalRecord in journalRecords)
+			try
 			{
-				Trace.WriteLine(journalRecord.Description);
+				foreach (var journalRecord in journalRecords)
+				{
+					MainWindow.Current.Dispatcher.Invoke(new Action(() =>
+					{
+						MainWindow.Current.JournalItems.Insert(0, journalRecord.SystemTime.ToString() + " - " + journalRecord.Description);
+						;
+					}));
+					Trace.WriteLine(journalRecord.Description);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "OnRun.OnNewJournalRecords");
 			}
 		}
 	}

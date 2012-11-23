@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.ServiceProcess;
 using System.Threading;
 using Common;
 using Microsoft.Win32;
@@ -12,44 +11,6 @@ namespace Firesec
 {
 	public class SocketServerHelper
 	{
-		[Obsolete]
-		public static void StartNTServiceIfNotRunning()
-		{
-			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
-			if ((service != null) && (service.Status != System.ServiceProcess.ServiceControllerStatus.Running))
-			{
-				try
-				{
-					service.Start();
-					service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(10000));
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове NativeFiresecClient.StartNTServiceIfNotRunning");
-				}
-			}
-		}
-
-		[Obsolete]
-		public static void StopNTServiceIfRunning()
-		{
-			var service = (from srv in System.ServiceProcess.ServiceController.GetServices()
-						   where srv.ServiceName == "Borland Advanced Socket Server"
-						   select srv).FirstOrDefault();
-			if ((service != null) && (service.Status == System.ServiceProcess.ServiceControllerStatus.Running))
-			{
-				try
-				{
-					service.Stop();
-					service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(10000));
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове NativeFiresecClient.StopNTServiceIfNotRunning");
-				}
-			}
-		}
-
 		public static void StartIfNotRunning()
 		{
 			foreach (var process in Process.GetProcesses())
@@ -88,8 +49,6 @@ namespace Firesec
 
 		static void Stop()
 		{
-			StopNTServiceIfRunning();
-
 			foreach (var process in Process.GetProcesses())
 			{
 				if (process.ProcessName == "FS_SER~1")

@@ -26,7 +26,7 @@ namespace Firesec
 				SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
 				StateType = (StateType)int.Parse(innerJournalRecord.IDTypeEvents),
 			};
-			SetDeviceCatogory(journalRecord);
+			//SetDeviceCatogory(journalRecord);
 
 			return journalRecord;
 		}
