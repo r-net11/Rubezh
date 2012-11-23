@@ -15,10 +15,11 @@ namespace FiresecService.Service
 		{
 			CallbackResultSavers.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
 
+			Index++;
 			var callbackResultSaver = new CallbackResultSaver()
 			{
 				CallbackResult = callbackResult,
-				Index = Index++,
+				Index = Index,
 				DateTime = DateTime.Now
 			};
 			CallbackResultSavers.Add(callbackResultSaver);

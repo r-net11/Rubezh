@@ -13,7 +13,6 @@ using Common.GK;
 using Infrastructure.Common.Theme;
 using Microsoft.Win32;
 
-
 namespace FireMonitor
 {
 	public partial class App : Application
@@ -54,7 +53,7 @@ namespace FireMonitor
                     revisorpath = revisorpathobj.ToString();
                 if (String.IsNullOrEmpty(revisorpath))
                 {
-                    revisorpath = @".\Revisor.exe";
+                    revisorpath = @"Revisor.exe";
 #if DEBUG
                     revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
 #endif

@@ -22,6 +22,14 @@ namespace FiresecService.Service
 				_firesecService = new FiresecService();
 				_serviceHost = new ServiceHost(_firesecService);
 
+#if DEBUG
+				var netpipeAddress = "net.pipe://127.0.0.1/FiresecService/";
+				_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
+				UILogger.Log("Локальный адрес: " + netpipeAddress, false);
+				_serviceHost.Open();
+				return true;
+#endif
+
 				if (AppSettings.EnableRemoteConnections)
 				{
 					try
