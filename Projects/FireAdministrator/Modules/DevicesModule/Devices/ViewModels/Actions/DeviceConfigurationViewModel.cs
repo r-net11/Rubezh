@@ -161,6 +161,10 @@ namespace DevicesModule.ViewModels
 			deviceViewModel.Children.Clear();
 			foreach (var device in RemoteRootDevice.Children)
 			{
+			    device.UID =
+			        FiresecManager.Devices.FirstOrDefault(
+			            x => (x.AddressFullPath == device.AddressFullPath) && (x.PresentationName == device.PresentationName)).
+			            UID;
 				DevicesViewModel.Current.AddDevice(device, deviceViewModel);
                 if (device.Zone != null)
                 {
@@ -170,6 +174,7 @@ namespace DevicesModule.ViewModels
                         ZonesViewModel.Current.Zones.Add(new ZoneViewModel(device.Zone));
                     }
                     device.Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.Zone.No);
+                    FiresecManager.FiresecConfiguration.AddDeviceToZone(device, device.Zone);
                 }
 
                 if ((device.ZonesInLogic != null) && (device.ZonesInLogic.Count > 0))
