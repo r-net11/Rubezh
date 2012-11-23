@@ -67,6 +67,11 @@ namespace Common
 			var binding = new WSHttpBinding(SecurityMode.None);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
 			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
+			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
+			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
+			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
+			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			return binding;
 		}
 	}

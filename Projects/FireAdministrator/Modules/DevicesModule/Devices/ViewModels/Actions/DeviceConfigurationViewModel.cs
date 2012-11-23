@@ -115,7 +115,6 @@ namespace DevicesModule.ViewModels
                     var local = (Device)remote.Clone();
                     local.HasDifferences = true;
                     localRootDevice.Children.Add(local);
-					}
                 }
                 else
                 {
