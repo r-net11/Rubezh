@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient.ITV", "..\Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDomain", "..\Common\FiresecDomain\FiresecDomain.csproj", "{FB421ABD-1DAB-4760-ABD1-AA622CB94127}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecEventTest", "..\Common\FiresecEventTest\FiresecEventTest.csproj", "{77B6C887-5205-4288-91BD-D818C2BE5E3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -379,6 +381,18 @@ Global
 		{FB421ABD-1DAB-4760-ABD1-AA622CB94127}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FB421ABD-1DAB-4760-ABD1-AA622CB94127}.Release|x64.ActiveCfg = Release|Any CPU
 		{FB421ABD-1DAB-4760-ABD1-AA622CB94127}.Release|x86.ActiveCfg = Release|Any CPU
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Debug|x64.ActiveCfg = Debug|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Debug|x86.ActiveCfg = Debug|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Debug|x86.Build.0 = Debug|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Release|Any CPU.ActiveCfg = Release|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Release|x64.ActiveCfg = Release|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Release|x86.ActiveCfg = Release|x86
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -405,5 +419,6 @@ Global
 		{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{BA3B2046-3E62-4BCC-814D-33B1ABE17211} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{FB421ABD-1DAB-4760-ABD1-AA622CB94127} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{77B6C887-5205-4288-91BD-D818C2BE5E3C} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 	EndGlobalSection
 EndGlobal
