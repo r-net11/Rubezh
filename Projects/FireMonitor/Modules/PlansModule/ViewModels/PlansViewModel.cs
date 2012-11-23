@@ -74,7 +74,10 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var presenterItem in PlanDesignerViewModel.Items)
 				if (presenterItem.Element.UID == elementUID)
+				{
 					presenterItem.Navigate();
+					PlanDesignerViewModel.Navigate(presenterItem);
+				}
 		}
 		private void OnFindElementEvent(Guid deviceUID)
 		{

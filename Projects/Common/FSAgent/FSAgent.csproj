@@ -133,6 +133,10 @@
       <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
       <Name>FSAgentAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="FS_Types">

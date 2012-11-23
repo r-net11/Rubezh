@@ -8,6 +8,10 @@
 		<Views:PlanTreeView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:FlushViewModel}">
+		<Views:FlushView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:PlanDesignerViewModel}">
 		<clientPlans:PlanDesignerView />
 	</DataTemplate>

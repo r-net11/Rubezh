@@ -8,7 +8,6 @@
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}">
 						<ContentPresenter Content="{Binding Content}" IsHitTestVisible="True" />
 						<ContentPresenter x:Name="border" Content="{Binding Border}" Visibility="Hidden" />
-
 						<Rectangle x:Name="flush_border" StrokeThickness="3" Stroke="Red" Opacity="0" Margin="-3"/>
 						<Grid x:Name="flush_item" Opacity="0">
 							<Ellipse Stroke="Red" StrokeThickness="3" />
@@ -22,6 +21,9 @@
 						<Trigger Property="IsMouseOver" Value="True">
 							<Setter TargetName="border" Property="Visibility" Value="Visible" />
 						</Trigger>
+						<DataTrigger Binding="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}" Value="True">
+							<Setter TargetName="border" Property="Visibility" Value="Visible" />
+						</DataTrigger>
 						<EventTrigger RoutedEvent="Flush">
 							<BeginStoryboard>
 								<Storyboard>
