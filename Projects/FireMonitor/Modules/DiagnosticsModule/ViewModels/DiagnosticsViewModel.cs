@@ -324,7 +324,10 @@ namespace DiagnosticsModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
 					break;
 				case 7:
-					ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+					if (FiresecManager.PlansConfiguration.Plans.Count > 0)
+					{
+						ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+					}
 					break;
 				case 8:
 					ServiceFactory.Events.GetEvent<ShowReportsEvent>().Publish(null);

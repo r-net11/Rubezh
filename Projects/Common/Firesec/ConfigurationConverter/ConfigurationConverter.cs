@@ -156,7 +156,7 @@ namespace Firesec
             var result = FiresecSerializedClient.GetCoreConfig();
             if (result.HasError || result.Result == null)
 			{
-                throw new FiresecException("Ощибка при пполучении конфигурации устройств из драйвера Firesec");
+                throw new FiresecException("Ошибка при пполучении конфигурации устройств из драйвера Firesec");
 			}
 
             var firesecDeviceConfiguration = ConvertOnlyDevices(result.Result);

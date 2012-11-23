@@ -66,7 +66,6 @@ namespace DevicesModule.DeviceProperties
 				Device.Properties.Add(newProperty);
 			}
 			Device.OnChanged();
-			ServiceFactory.SaveService.FSChanged = true;
 		}
 	}
 }
