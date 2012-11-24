@@ -41,6 +41,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,10 +60,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FiresecSerializedClient.cs" />
+    <Compile Include="FSAgentContract.cs" />
     <Compile Include="JournalConverter.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="SerializerHelper.cs" />
     <Compile Include="ServerHost.cs" />
+    <Compile Include="Watcher.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -132,6 +135,10 @@
     <ProjectReference Include="..\FSAgentAPI\FSAgentAPI.csproj">
       <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
       <Name>FSAgentAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

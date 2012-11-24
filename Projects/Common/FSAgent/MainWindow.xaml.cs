@@ -24,7 +24,7 @@ namespace FSAgent
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Runner.Run();
+            ServerHost.Open();
 		}
 	}
 }

@@ -14,7 +14,9 @@ namespace FiresecEventTest
 {
 	public static class Runner
 	{
-		static NativeFiresecClient NativeFiresecClient;
+		//static NativeFiresecClient NativeFiresecClient;
+        static FiresecSerializedClient FiresecSerializedClient;
+        static Watcher Watcher;
 
 		public static void Run()
 		{
@@ -26,9 +28,13 @@ namespace FiresecEventTest
 		{
 			try
 			{
-				NativeFiresecClient = new NativeFiresecClient();
-				NativeFiresecClient.Connect("localhost", 211, "adm", "", true);
-				NativeFiresecClient.NewJournalRecords += new Action<List<FiresecAPI.Models.JournalRecord>>(OnNewJournalRecords);
+                FiresecSerializedClient = new FiresecSerializedClient();
+                FiresecSerializedClient.Connect("localhost", 211, "adm", "", true);
+                Watcher = new Watcher(FiresecSerializedClient, true, true);
+                Watcher.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
+                Watcher.DevicesStateChanged += new Action<List<DeviceState>>(OnDevicesStateChanged);
+                Watcher.DevicesParametersChanged += new Action<List<DeviceState>>(OnDevicesParametersChanged);
+                Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZonesStateChanged);
 			}
 			catch (Exception e)
 			{
@@ -40,7 +46,7 @@ namespace FiresecEventTest
 				try
 				{
 					Thread.Sleep(TimeSpan.FromSeconds(1));
-					NativeFiresecClient.CheckForRead();
+                    FiresecSerializedClient.NativeFiresecClient.CheckForRead();
 				}
 				catch (Exception e)
 				{
@@ -68,5 +74,20 @@ namespace FiresecEventTest
 				Logger.Error(e, "OnRun.OnNewJournalRecords");
 			}
 		}
+
+        static void OnDevicesStateChanged(List<DeviceState> deviceStates)
+        {
+            Trace.WriteLine("OnDevicesStateChanged");
+        }
+
+        static void OnDevicesParametersChanged(List<DeviceState> deviceStates)
+        {
+            Trace.WriteLine("OnDevicesParametersChanged");
+        }
+
+        static void OnZonesStateChanged(List<ZoneState> zoneStates)
+        {
+            Trace.WriteLine("OnZonesStateChanged");
+        }
 	}
 }

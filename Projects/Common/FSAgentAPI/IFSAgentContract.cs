@@ -11,15 +11,9 @@ namespace FSAgentAPI
 	public interface IFSAgentContract
 	{
 		[OperationContract]
-		void GetStatus();
+		string GetStatus();
 
 		[OperationContract]
-		void GetEvents();
-
-		[OperationContract]
-		void GetStates();
-
-		[OperationContract]
-		void GetParameters();
+        List<ChangeResult> GetChangeResult();
 	}
 }
