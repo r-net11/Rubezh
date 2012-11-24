@@ -100,6 +100,8 @@
     </Compile>
     <Compile Include="Converters\StateTypeToPlanColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
+    <Compile Include="Designer\FlushAdorner.cs" />
+    <Compile Include="ViewModels\FlushViewModel.cs" />
     <Compile Include="Designer\MonitorSubPlanPainter.cs" />
     <Compile Include="ViewModels\PlanTreeViewModel.cs" />
     <Compile Include="PlansModuleLoader.cs" />
@@ -119,6 +121,9 @@
     <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
+    <Compile Include="Views\FlushView.xaml.cs">
+      <DependentUpon>FlushView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
     </Compile>
@@ -183,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Designer\PresenterItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FlushView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

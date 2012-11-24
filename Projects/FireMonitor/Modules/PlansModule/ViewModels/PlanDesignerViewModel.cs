@@ -20,6 +20,7 @@ namespace PlansModule.ViewModels
 	public class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		private PlansViewModel _plansViewModel;
+		private FlushAdorner _flushAdorner;
 		private double _zoom;
 		private double _deviceZoom;
 		public PlanViewModel PlanViewModel { get; private set; }
@@ -30,6 +31,7 @@ namespace PlansModule.ViewModels
 		{
 			_plansViewModel = plansViewModel;
 			Canvas = new Canvas();
+			_flushAdorner = new FlushAdorner(Canvas);
 		}
 
 		public void Initialize(PlanViewModel planViewModel)
@@ -105,6 +107,10 @@ namespace PlansModule.ViewModels
 		{
 			if (Updated != null)
 				Updated(this, EventArgs.Empty);
+		}
+		public void Navigate(PresenterItem presenterItem)
+		{
+			_flushAdorner.Show(presenterItem);
 		}
 
 		#region IPlanDesignerViewModel Members
