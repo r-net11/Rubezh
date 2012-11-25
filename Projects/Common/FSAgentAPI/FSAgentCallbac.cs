@@ -8,7 +8,7 @@ using FiresecAPI.Models;
 namespace FSAgentAPI
 {
     [DataContract]
-    public class ChangeResult
+    public class FSAgentCallbac
     {
         [DataMember]
         public List<JournalRecord> JournalRecords { get; set; }

@@ -10,11 +10,6 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class Device: ICloneable
 	{
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
-
 		public Device()
 		{
 			UID = Guid.NewGuid();
@@ -460,5 +455,10 @@ namespace FiresecAPI.Models
                 AUParametersChanged();
         }
         public event Action AUParametersChanged;
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
 	}
 }

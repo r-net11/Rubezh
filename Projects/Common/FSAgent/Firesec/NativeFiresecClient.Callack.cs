@@ -17,11 +17,12 @@ namespace Firesec
 		static bool needToReadParameters = false;
 		static bool needToReadJournal = false;
 
+        static int count = 0;
+
 		public void NewEventsAvailable(int eventMask)
 		{
-            Trace.WriteLine("Callback Thread Id = " + Thread.CurrentThread.ManagedThreadId.ToString());
-            //return;
-            //if (IsPing)
+            Trace.WriteLine("NewEventsAvailable " + count++.ToString());
+            if (IsPing)
 			{
 				needToRead = true;
 				needToReadJournal = ((eventMask & 1) == 1);
@@ -30,12 +31,15 @@ namespace Firesec
 			}
 		}
 
-		public void CheckForRead()
+		public void CheckForRead(bool force = false)
 		{
-            //needToRead = true;
-            //needToReadStates = true;
-            //needToReadParameters = true;
-            //needToReadJournal = true;
+            if (force)
+            {
+                needToRead = true;
+                needToReadStates = true;
+                needToReadParameters = true;
+                needToReadJournal = true;
+            }
 
 			if (IsSuspended)
 				return;
@@ -43,7 +47,6 @@ namespace Firesec
 			if (needToRead)
 			{
 				needToRead = false;
-                Trace.WriteLine("Direct Thread Id = " + Thread.CurrentThread.ManagedThreadId.ToString());
 
 				SuspendOperationQueueEvent = new AutoResetEvent(false);
 				try

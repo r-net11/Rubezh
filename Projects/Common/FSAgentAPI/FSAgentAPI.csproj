@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangeResult.cs" />
+    <Compile Include="FSAgentCallbac.cs" />
     <Compile Include="IFSAgentContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -5,27 +5,27 @@ using System.Text;
 using System.ServiceModel;
 using Common;
 using System.Net;
+using FSAgent.Service;
 
 namespace FSAgent
 {
-	public class ServerHost
+	public class FSAgentServiceHost
 	{
-        static ServiceHost _serviceHost;
-        static FSAgentContract _fsAgentContract;
+        static ServiceHost ServiceHost;
+        static FSAgentContract FsAgentContract;
 
-        public static bool Open()
+        public static bool Start()
         {
             try
             {
-                Close();
+                Stop();
 
-                _fsAgentContract = new FSAgentContract();
-                _fsAgentContract.Run();
-                _serviceHost = new ServiceHost(_fsAgentContract);
+                FsAgentContract = new FSAgentContract();
+                ServiceHost = new ServiceHost(FsAgentContract);
 
                 var netpipeAddress = "net.pipe://127.0.0.1/FSAgent/";
-                _serviceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
-                _serviceHost.Open();
+                ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
+                ServiceHost.Open();
                 return true;
             }
             catch (Exception e)
@@ -35,10 +35,10 @@ namespace FSAgent
             }
         }
 
-        public static void Close()
+        public static void Stop()
         {
-            if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
-                _serviceHost.Close();
+            if (ServiceHost != null && ServiceHost.State != CommunicationState.Closed && ServiceHost.State != CommunicationState.Closing)
+                ServiceHost.Close();
         }
 
         static string GetIPAddress()

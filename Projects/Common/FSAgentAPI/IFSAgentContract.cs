@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using FiresecAPI.Models;
 
 namespace FSAgentAPI
 {
@@ -14,6 +15,6 @@ namespace FSAgentAPI
 		string GetStatus();
 
 		[OperationContract]
-        List<ChangeResult> GetChangeResult();
+        List<FSAgentCallbac> Poll(Guid clientUID);
 	}
 }

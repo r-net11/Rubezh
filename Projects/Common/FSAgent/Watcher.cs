@@ -4,6 +4,9 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FSAgent;
+using FSAgentAPI;
+using FSAgent.Service;
 
 namespace Firesec
 {
@@ -122,7 +125,7 @@ namespace Firesec
 
 			try
 			{
-				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+                foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 				{
 					var innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == device.PlaceInTree);
 					if (innerDevice != null)
@@ -209,7 +212,7 @@ namespace Firesec
                 return;
             }
 
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.PlaceInTree == null)
 				{
@@ -284,16 +287,16 @@ namespace Firesec
 
 		void PropogateStatesDown()
 		{
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				device.DeviceState.ParentStates.ForEach(x => x.IsDeleting = true);
 			}
 
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				foreach (var state in device.DeviceState.States.Where(x => x.DriverState.AffectChildren))
 				{
-					foreach (var childDevice in ConfigurationCash.DeviceConfiguration.Devices)
+                    foreach (var childDevice in ConfigurationManager.DeviceConfiguration.Devices)
 					{
 						if (childDevice.PlaceInTree == null)
 						{
@@ -325,7 +328,7 @@ namespace Firesec
 				}
 			}
 
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				for (int i = device.DeviceState.ParentStates.Count(); i > 0; i--)
 				{
@@ -341,7 +344,7 @@ namespace Firesec
 
 		void PropogateStatesUp()
 		{
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.DeviceState.ChildStates == null)
 				{
@@ -351,7 +354,7 @@ namespace Firesec
 				device.DeviceState.ChildStates.ForEach(x => x.IsDeleting = true);
 			}
 
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.ChildAddressReserveRangeCount == 0)
 					continue;
@@ -387,7 +390,7 @@ namespace Firesec
 				}
 			}
 
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+            foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				for (int i = device.DeviceState.ChildStates.Count(); i > 0; i--)
 				{
@@ -405,10 +408,10 @@ namespace Firesec
 		{
 			try
 			{
-				foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
+                foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
 				{
 					StateType minZoneStateType = StateType.Norm;
-					var devices = ConfigurationCash.DeviceConfiguration.Devices.
+                    var devices = ConfigurationManager.DeviceConfiguration.Devices.
                         Where(x => x.ZoneUID == zone.UID && !x.Driver.IgnoreInZoneState);
 
 					foreach (var device in devices)
@@ -417,7 +420,7 @@ namespace Firesec
 							minZoneStateType = device.DeviceState.StateType;
 					}
 
-                    if (ConfigurationCash.DeviceConfiguration.Devices.Any(x => x.ZoneUID == zone.UID) == false)
+                    if (ConfigurationManager.DeviceConfiguration.Devices.Any(x => x.ZoneUID == zone.UID) == false)
 						minZoneStateType = StateType.Unknown;
 
 					if (zone.ZoneState.StateType != minZoneStateType)
@@ -438,32 +441,24 @@ namespace Firesec
 			return innerDevices != null ? innerDevices.FirstOrDefault(a => a.name == PlaceInTree) : null;
 		}
 
-		public event Action<List<DeviceState>> DevicesStateChanged;
 		void OnDevicesStateChanged(List<DeviceState> deviceStates)
 		{
-			if (DevicesStateChanged != null)
-				DevicesStateChanged(deviceStates);
+            CallbackManager.Add(new FSAgentCallbac() { DeviceStates = deviceStates });
 		}
 
-		public event Action<List<DeviceState>> DevicesParametersChanged;
 		void OnDevicesParametersChanged(List<DeviceState> deviceStates)
 		{
-			if (DevicesParametersChanged != null)
-				DevicesParametersChanged(deviceStates);
+            CallbackManager.Add(new FSAgentCallbac() { DeviceParameters = deviceStates });
 		}
 
-		public event Action<List<ZoneState>> ZonesStateChanged;
 		void OnZonesStateChanged(List<ZoneState> zoneStates)
 		{
-			if (ZonesStateChanged != null)
-				ZonesStateChanged(zoneStates);
+            CallbackManager.Add(new FSAgentCallbac() { ZoneStates = zoneStates });
 		}
 
-		public event Action<List<JournalRecord>> NewJournalRecords;
 		void OnNewJournalRecords(List<JournalRecord> journalRecords)
 		{
-			if (NewJournalRecords != null)
-				NewJournalRecords(journalRecords);
+            CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
 		}
 
         public event Func<int, string, int, int, bool> Progress;

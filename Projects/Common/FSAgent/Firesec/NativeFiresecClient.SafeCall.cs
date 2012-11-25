@@ -15,17 +15,7 @@ namespace Firesec
 
         OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
         {
-			var safeCallResult = (OperationResult<T>)_dispatcher.Invoke
-			(
-				new Func<OperationResult<T>>
-				(
-					() =>
-					{
-						return SafeLoopCall(func, methodName);
-					}
-				)
-			);
-			return safeCallResult;
+            return SafeLoopCall(func, methodName);
         }
 
         OperationResult<T> SafeLoopCall<T>(Func<T> f, string methodName)
