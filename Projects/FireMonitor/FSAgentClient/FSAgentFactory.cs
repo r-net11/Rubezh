@@ -37,14 +37,8 @@ namespace FSAgentClient
 
         IFSAgentContract DoCreate(string serverAddress)
         {
-#if DEBUG
             serverAddress = "net.pipe://127.0.0.1/FSAgent/";
             var binding = BindingHelper.CreateNetNamedPipeBinding();
-#endif
-
-#if RELEASE
-var binding = BindingHelper.CreateWSHttpBinding();
-#endif
 
             var endpointAddress = new EndpointAddress(new Uri(serverAddress));
             ChannelFactory = new ChannelFactory<IFSAgentContract>(binding, endpointAddress);

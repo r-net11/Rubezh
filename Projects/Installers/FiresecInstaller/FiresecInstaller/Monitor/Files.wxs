@@ -33,6 +33,8 @@
         <File Id="Monitor.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
       <Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB" Permanent='yes'>
