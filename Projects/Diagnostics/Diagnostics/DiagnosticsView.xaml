@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Менеджер логов" MaxHeight="300" MaxWidth="220" MinHeight="300" MinWidth="220" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="300" d:DesignWidth="220" SizeToContent="WidthAndHeight">
     <StackPanel Background="LightBlue">
-        <Button Background="Green" Content="Собрать логи" Command="{Binding GetLogsCommand}" Height="30" Width="210" VerticalAlignment="Top" FontSize="15"/>
-        <Button Background="Red" Content="Удалить логи" Command="{Binding RemLogsCommand}" Height="30" Width="210" VerticalAlignment="Top" FontSize="15" />
+        <Button Background="#C0C0C0" Content="Собрать логи" Command="{Binding GetLogsCommand}" Height="30" Width="210" VerticalAlignment="Top" FontSize="15"/>
+        <Button Background="#C0C0C0" Content="Удалить логи" Command="{Binding RemLogsCommand}" Height="30" Width="210" VerticalAlignment="Top" FontSize="15" />
         <CheckBox Content="Автозапуск сервиса при старте системы" IsChecked="{Binding IsAuto}" />
     </StackPanel>
 </Window>

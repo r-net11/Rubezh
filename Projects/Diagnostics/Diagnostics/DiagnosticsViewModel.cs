@@ -76,7 +76,8 @@ namespace Diagnostics
 				foreach (FileInfo file in admfiles)
 				{
 					var temppath = Path.Combine(curlogspath, "FireAdministrator\\" + file.Name);
-					file.CopyTo(temppath, true);
+                    if (file.Length > 0)
+                        file.CopyTo(temppath, true);
 				}
 			}
 
@@ -86,7 +87,8 @@ namespace Diagnostics
 				foreach (FileInfo file in monfiles)
 				{
 					var temppath = Path.Combine(curlogspath, "FireMonitor\\" + file.Name);
-					file.CopyTo(temppath, true);
+                    if (file.Length > 0)
+                        file.CopyTo(temppath, true);
 				}
 			}
 
@@ -96,7 +98,8 @@ namespace Diagnostics
 				foreach (FileInfo file in srvfiles)
 				{
 					var temppath = Path.Combine(curlogspath, "FiresecService\\" + file.Name);
-					file.CopyTo(temppath, true);
+                    if (file.Length > 0)
+                        file.CopyTo(temppath, true);
 				}
 			}
 
