@@ -443,7 +443,8 @@ namespace DiagnosticsModule.ViewModels
 
         void OnWarningTest(object obj)
         {
-            BalloonHelper.ShowWarning("Предупреждение", "Это текст предупреждения. Он предупреждает.");
+            Random rnd = new Random();
+            BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
         }
         void OnNotificationTest(object obj)
         {

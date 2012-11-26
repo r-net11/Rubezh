@@ -39,7 +39,7 @@ namespace FiresecClient
 
         IFiresecService DoCreate(string serverAddress)
 		{
-            Binding binding = BindingHelper.CreateWSHttpBinding();
+            //Binding binding = BindingHelper.CreateWSHttpBinding();
 #if DEBUG
 			serverAddress = "net.pipe://127.0.0.1/FiresecService/";
 			binding = BindingHelper.CreateNetNamedPipeBinding();

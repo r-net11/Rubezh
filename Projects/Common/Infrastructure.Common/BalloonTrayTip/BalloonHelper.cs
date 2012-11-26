@@ -10,9 +10,11 @@ namespace Infrastructure.Common.BalloonTrayTip
 {
     public class BalloonHelper
     {
+        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel("", "", System.Windows.Media.Brushes.OldLace);
+
         public static void Show(string title, string text, System.Windows.Media.Brush clr)
         {
-            var balloonToolTipViewModel = new BalloonToolTipViewModel(title, text, clr);
+            balloonToolTipViewModel.AddNote(title, text, clr);
             DialogService.ShowTrayWindow(balloonToolTipViewModel);
         }
 

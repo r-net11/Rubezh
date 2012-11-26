@@ -27,10 +27,6 @@ namespace DiagnosticsModule.Views
 
         private void WarningButton_Click(object sender, RoutedEventArgs e)
         {
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    ServiceFactory.Events.GetEvent<WarningItemEvent>().Publish(null);
-            //}
             ServiceFactory.Events.GetEvent<WarningItemEvent>().Publish(null);
         }
 
