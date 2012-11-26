@@ -197,8 +197,9 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ReplaceCommand { get; private set; }
 		void OnReplace()
 		{
-            LocalRootDevice.Parent.Children.Remove(LocalRootDevice);
-		    LocalRootDevice.Parent.Children.Add(RemoteRootDevice);
+
+            LocalRootDevice.Children = new List<Device>();
+		    LocalRootDevice.Children = RemoteRootDevice.Children;
 
 		    var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == LocalRootDevice.UID);
 		    if (deviceViewModel == null)
@@ -207,10 +208,10 @@ namespace DevicesModule.ViewModels
 		        return;
 		    }
 
-		    //deviceViewModel.CollapseChildren();
+		    deviceViewModel.CollapseChildren();
 		    deviceViewModel.Children.Clear();
 
-		    foreach (var device in RemoteRootDevice.Children)
+            foreach (var device in LocalRootDevice.Children)
 		    {
                 DevicesViewModel.Current.AddDevice(device, deviceViewModel);
 		        BuildZones(device);

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Hardcodet.Wpf.TaskbarNotification;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
@@ -18,8 +19,12 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         private void grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-            taskbarIcon.CloseBalloon();
-            taskbarIcon.Dispose();
+            taskbarIcon.ResetBalloonCloseTimer();
+            if (BalloonToolTipViewModel.isEmpty)
+            {
+                taskbarIcon.CloseBalloon();
+                taskbarIcon.Dispose();
+            }
         }
 
         private void OnBalloonClosing(object sender, RoutedEventArgs e)
@@ -28,12 +33,20 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             isClosing = true;
         }
 
-        private void grid_MouseEnter(object sender, MouseEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (isClosing) 
-                return;
             TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
             taskbarIcon.ResetBalloonCloseTimer();
+            if (BalloonToolTipViewModel.isEmpty)
+            {
+                taskbarIcon.CloseBalloon();
+                taskbarIcon.Dispose();
+            }
         }
+    }
+
+    public class UnstyledButton : Button
+    {
+        
     }
 }
