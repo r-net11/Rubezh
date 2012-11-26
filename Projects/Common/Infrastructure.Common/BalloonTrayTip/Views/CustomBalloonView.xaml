@@ -13,7 +13,7 @@
                 <Storyboard TargetProperty="Opacity">
                     <DoubleAnimation From="0" 
                                      To="1" 
-                                     Duration="0:0:0.1"/>
+                                     Duration="0:0:0.5"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
@@ -22,7 +22,7 @@
                 <Storyboard TargetProperty="Opacity">
                     <DoubleAnimation From="1" 
                                      To="0" 
-                                     Duration="0:0:0.1"/>
+                                     Duration="0:0:0.5"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
@@ -42,27 +42,13 @@
         </Border.Effect>
         <Grid>
             <StackPanel>
-                <DockPanel>
-                    <local:UnstyledButton 
-                        Command="{Binding Test1Command}" 
-                        Click="Button_Click"
-                        DockPanel.Dock="Right"
-                        Background="{Binding BackgroundColor}">
-                        <Image 
-                            Width="10" 
-                            Height="10" 
-                            Stretch="Fill" 
-                            Source="../Images/Close.png"/>
-                    </local:UnstyledButton>
-                    <TextBlock 
-                        Margin="10 5 10 0" 
-                        VerticalAlignment="Top" 
-                        Text="{Binding BalloonTitle}" 
-                        TextWrapping="Wrap" 
-                        Foreground="White" 
-                        FontWeight="Bold"/>
-
-                </DockPanel>
+                <TextBlock 
+                    Margin="10 5 10 0" 
+                    VerticalAlignment="Top" 
+                    Text="{Binding BalloonTitle}" 
+                    TextWrapping="Wrap" 
+                    Foreground="White" 
+                    FontWeight="Bold"/>
                 <Path
                     Margin="10 0"
                     Stretch="Fill"

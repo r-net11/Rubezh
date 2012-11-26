@@ -5,8 +5,4 @@
     <DataTemplate DataType="{x:Type ViewModels:BalloonToolTipViewModel}">
       <Views:BalloonToolTipView />
     </DataTemplate>
-
-    <!--<DataTemplate DataType="{x:Type ViewModels:CustomBalloonViewModel}">
-        <Views:CustomBalloonView />
-    </DataTemplate>-->
 </ResourceDictionary>

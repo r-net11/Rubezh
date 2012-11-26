@@ -8,8 +8,6 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 {
     public partial class CustomBalloonView : UserControl
     {
-        bool isClosing = false;
-        
         public CustomBalloonView()
         {
             InitializeComponent();
@@ -19,34 +17,15 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         private void grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-            taskbarIcon.ResetBalloonCloseTimer();
-            if (BalloonToolTipViewModel.isEmpty)
-            {
-                taskbarIcon.CloseBalloon();
-                taskbarIcon.Dispose();
-            }
+            taskbarIcon.CloseBalloon();
+            taskbarIcon.Dispose();
         }
 
         private void OnBalloonClosing(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            isClosing = true;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-            taskbarIcon.ResetBalloonCloseTimer();
-            if (BalloonToolTipViewModel.isEmpty)
-            {
-                taskbarIcon.CloseBalloon();
-                taskbarIcon.Dispose();
-            }
+            BalloonToolTipViewModel.isShown = false;
         }
     }
 
-    public class UnstyledButton : Button
-    {
-        
-    }
 }

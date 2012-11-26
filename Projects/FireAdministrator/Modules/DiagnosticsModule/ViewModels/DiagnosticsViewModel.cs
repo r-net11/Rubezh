@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Windows.Markup;
 using System.Text;
 using System.Security.Policy;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -33,6 +34,7 @@ namespace DiagnosticsModule.ViewModels
             Test6Command = new RelayCommand(OnTest6);
 			Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
+            BalloonTestCommand = new RelayCommand(OnBalloonTest);
         }
 
         public void StopThreads()
@@ -214,5 +216,11 @@ namespace DiagnosticsModule.ViewModels
             thread.IsBackground = true;
             thread.Start();
 		}
+
+        public RelayCommand BalloonTestCommand { get; private set; }
+        void OnBalloonTest()
+        {
+            BalloonHelper.ShowWarning("Предупреждение", "Это текст предупреждения");
+        }
     }
 }
