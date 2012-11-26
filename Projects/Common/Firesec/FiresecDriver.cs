@@ -147,12 +147,12 @@ namespace Firesec
 			return FiresecSerializedClient.DeviceDatetimeSync(firesecConfiguration, device.GetPlaceInTree());
 		}
 
-		public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
-			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceGetInformation(firesecConfiguration, device.GetPlaceInTree());
-		}
+        public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            var firesecConfiguration = ConvertBack(deviceConfiguration, false);
+            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            return FiresecSerializedClient.DeviceGetInformation(firesecConfiguration, device.GetPlaceInTree());
+        }
 
 		public OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{

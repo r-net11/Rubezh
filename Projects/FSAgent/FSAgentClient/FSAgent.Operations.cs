@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FSAgentAPI;
 using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace FSAgentClient
 {
@@ -48,5 +49,10 @@ namespace FSAgentClient
 		{
 			SafeOperationCall(() => { FSAgentContract.AddUserMessage(message); }, "AddUserMessage");
 		}
+
+        public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
+        {
+            return SafeOperationCall(() => { return FSAgentContract.DeviceGetInformation(coreConfig, devicePath); }, "DeviceGetInformation");
+        }
     }
 }

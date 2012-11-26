@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace FSAgentAPI
 {
@@ -34,5 +35,8 @@ namespace FSAgentAPI
 
 		[OperationContract]
 		void AddUserMessage(string message);
+
+        [OperationContract]
+        OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath);
 	}
 }

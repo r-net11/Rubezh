@@ -56,5 +56,10 @@ namespace FiresecClient
 		{
 			FSAgent.AddUserMessage(message);
 		}
+
+        public OperationResult<string> DeviceGetInformation(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return FSAgent.DeviceGetInformation(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath);
+        }
 	}
 }

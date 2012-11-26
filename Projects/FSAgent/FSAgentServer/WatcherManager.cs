@@ -46,7 +46,7 @@ namespace FSAgentServer
                 StartLifetimeThread();
 
 				var testThread = new Thread(OnTest);
-				//testThread.Start();
+				testThread.Start();
             }
         }
 
@@ -55,10 +55,17 @@ namespace FSAgentServer
 			while (true)
 			{
 				Thread.Sleep(TimeSpan.FromSeconds(5));
-				AddTask(new Action(() =>
-				{
-					FiresecSerializedClient.NativeFiresecClient.AddUserMessage("UserMessage");
-				}));
+                OperationResult<string> result = (OperationResult<string>)Invoke(new Func<object>(() =>
+                    {
+                        return FiresecSerializedClient.NativeFiresecClient.GetMetadata();
+                    }));
+
+                Trace.WriteLine(result.Result);
+
+                //AddTask(new Action(() =>
+                //{
+                //    FiresecSerializedClient.NativeFiresecClient.AddUserMessage("UserMessage");
+                //}));
 			}
 		}
 
@@ -109,6 +116,12 @@ namespace FSAgentServer
 								action();
 						}
 
+                        while (DelegateTasks.Count > 0)
+                        {
+                            var dispatcherItem = DelegateTasks.Dequeue();
+                            dispatcherItem.Execute();
+                        }
+
                         FiresecSerializedClient.NativeFiresecClient.CheckForRead(force);
                     }
                     catch (Exception e)
@@ -145,5 +158,34 @@ namespace FSAgentServer
 
 		Queue<Action> Tasks = new Queue<Action>();
 		object locker = new object();
+
+        public object Invoke(Func<object> func)
+        {
+            var dispatcherItem = new DispatcherItem(func);
+            DelegateTasks.Enqueue(dispatcherItem);
+            dispatcherItem.FuncInvokeEvent.WaitOne(TimeSpan.FromSeconds(100));
+            return dispatcherItem.Result;
+        }
+
+        Queue<DispatcherItem> DelegateTasks = new Queue<DispatcherItem>();
 	}
+
+    public class DispatcherItem
+    {
+        public Func<object> Method { get; set; }
+        public object Result { get; set; }
+        public AutoResetEvent FuncInvokeEvent { get; set; }
+
+        public DispatcherItem(Func<object> method)
+        {
+            Method = method;
+            FuncInvokeEvent = new AutoResetEvent(false);
+        }
+
+        public void Execute()
+        {
+            Result = Method();
+            FuncInvokeEvent.Set();
+        }
+    }
 }

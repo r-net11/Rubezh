@@ -7,6 +7,7 @@ using System.ServiceModel;
 using FiresecAPI.Models;
 using System.Threading;
 using Common;
+using FiresecAPI;
 
 namespace FSAgentServer
 {
@@ -75,5 +76,13 @@ namespace FSAgentServer
 				WatcherManager.Current.FiresecSerializedClient.AddUserMessage(message);
 			});
 		}
+
+        public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
+        {
+            return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+                {
+                    return WatcherManager.Current.FiresecSerializedClient.NativeFiresecClient.DeviceGetInformation(coreConfig, devicePath);
+                }));
+        }
     }
 }

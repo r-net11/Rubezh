@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FSAgentClient;
 
 namespace Firesec
 {
 	public partial class NativeFiresecClient : FS_Types.IFS_CallBack
 	{
+        public FSAgent FSAgent { get; set; }
+
 		public OperationResult<string> GetCoreConfig()
 		{
 			return SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreConfig()); }, "GetCoreConfig");
@@ -133,10 +136,11 @@ namespace Firesec
 		{
 			return SafeCall<bool>(() => { Connection.DeviceDatetimeSync(coreConfig, devicePath); return true; }, "DeviceDatetimeSync");
 		}
-		public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
-		{
-			return SafeCall<string>(() => { return Connection.DeviceGetInformation(coreConfig, devicePath); }, "DeviceGetInformation");
-		}
+        public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
+        {
+            return FSAgent.DeviceGetInformation(coreConfig, devicePath);
+            //return SafeCall<string>(() => { return Connection.DeviceGetInformation(coreConfig, devicePath); }, "DeviceGetInformation");
+        }
 		public OperationResult<string> DeviceGetSerialList(string coreConfig, string devicePath)
 		{
 			return SafeCall<string>(() => { return Connection.DeviceGetSerialList(coreConfig, devicePath); }, "DeviceGetSerialList");
