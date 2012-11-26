@@ -51,50 +51,26 @@ namespace PlansModule.ViewModels
 
 			for (int i = 0; i < Plans.Count; i++)
 			{
-				CollapseChild(Plans[i]);
-				ExpandChild(Plans[i]);
+				Plans[i].CollapseChildren();
+				Plans[i].ExpandChildren();
 			}
 
 			SelectedPlan = null;
 			SelectedTabIndex = 0;
 		}
-
-		PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
-			var planViewModel = new PlanViewModel(plan, Plans);
-			planViewModel.Parent = parentPlanViewModel;
-
-			var indexOf = Plans.IndexOf(parentPlanViewModel);
-			Plans.Insert(indexOf + 1, planViewModel);
+			var planViewModel = new PlanViewModel(plan);
+			if (parentPlanViewModel == null)
+				Plans.Add(planViewModel);
+			else
+				parentPlanViewModel.Children.Add(planViewModel);
 
 			foreach (var childPlan in plan.Children)
-			{
-				var childPlanViewModel = AddPlan(childPlan, planViewModel);
-				planViewModel.Children.Add(childPlanViewModel);
-			}
-
-			return planViewModel;
+				AddPlan(childPlan, planViewModel);
 		}
 
-		void CollapseChild(PlanViewModel parentPlanViewModel)
-		{
-			parentPlanViewModel.IsExpanded = false;
-			foreach (var planViewModel in parentPlanViewModel.Children)
-			{
-				CollapseChild(planViewModel);
-			}
-		}
-
-		void ExpandChild(PlanViewModel parentPlanViewModel)
-		{
-			parentPlanViewModel.IsExpanded = true;
-			foreach (var planViewModel in parentPlanViewModel.Children)
-			{
-				ExpandChild(planViewModel);
-			}
-		}
-
-		ObservableCollection<PlanViewModel> _plans;
+		private ObservableCollection<PlanViewModel> _plans;
 		public ObservableCollection<PlanViewModel> Plans
 		{
 			get { return _plans; }
@@ -105,7 +81,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		PlanViewModel _selectedPlan;
+		private PlanViewModel _selectedPlan;
 		public PlanViewModel SelectedPlan
 		{
 			get { return _selectedPlan; }
@@ -127,7 +103,7 @@ namespace PlansModule.ViewModels
 
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
 
-		DesignerCanvas _designerCanvas;
+		private DesignerCanvas _designerCanvas;
 		public DesignerCanvas DesignerCanvas
 		{
 			get { return _designerCanvas; }
@@ -138,19 +114,14 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		bool CanAddEditRemove()
-		{
-			return SelectedPlan != null;
-		}
-
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				var plan = planDetailsViewModel.Plan;
-				var planViewModel = new PlanViewModel(plan, Plans);
+				var planViewModel = new PlanViewModel(plan);
 				Plans.Add(planViewModel);
 				SelectedPlan = planViewModel;
 
@@ -160,27 +131,24 @@ namespace PlansModule.ViewModels
 			}
 		}
 		public RelayCommand AddSubPlanCommand { get; private set; }
-		void OnAddSubPlan()
+		private void OnAddSubPlan()
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				var plan = planDetailsViewModel.Plan;
-				var planViewModel = new PlanViewModel(plan, Plans);
-
+				var planViewModel = new PlanViewModel(plan);
 				SelectedPlan.Children.Add(planViewModel);
 				SelectedPlan.Plan.Children.Add(plan);
-				planViewModel.Parent = SelectedPlan;
-				plan.Parent = SelectedPlan.Plan;
-
 				SelectedPlan.Update();
 				SelectedPlan = planViewModel;
+
 				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
 			if (MessageBoxService.ShowConfirmation(string.Format("Вы уверены, что хотите удалить план '{0}'?", SelectedPlan.Plan.Caption)) == System.Windows.MessageBoxResult.Yes)
 			{
@@ -190,13 +158,11 @@ namespace PlansModule.ViewModels
 
 				if (parent == null)
 				{
-					selectedPlan.IsExpanded = false;
 					Plans.Remove(selectedPlan);
 					FiresecManager.PlansConfiguration.Plans.Remove(plan);
 				}
 				else
 				{
-					parent.IsExpanded = false;
 					parent.Children.Remove(selectedPlan);
 					parent.Plan.Children.Remove(plan);
 					parent.Update();
@@ -209,7 +175,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(SelectedPlan.Plan);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
@@ -220,8 +186,12 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
+		private bool CanAddEditRemove()
+		{
+			return SelectedPlan != null;
+		}
 
-		void OnShowElement(Guid elementUID)
+		private void OnShowElement(Guid elementUID)
 		{
 			DesignerCanvas.Toolbox.SetDefault();
 			DesignerCanvas.DeselectAll();
@@ -230,9 +200,11 @@ namespace PlansModule.ViewModels
 				if (designerItem.Element.UID == elementUID && designerItem.IsSelectable)
 					designerItem.IsSelected = true;
 		}
-		void OnShowElementDevice(Guid deviceUID)
+		private void OnShowElementDevice(Guid deviceUID)
 		{
-			foreach (var plan in Plans)
+			var plans = new List<PlanViewModel>();
+			GetAllPlans(plans, Plans);
+			foreach (var plan in plans)
 				foreach (var elementDevice in plan.Plan.ElementUnion)
 					if (elementDevice.UID == deviceUID)
 					{
@@ -240,6 +212,15 @@ namespace PlansModule.ViewModels
 						OnShowElement(deviceUID);
 						return;
 					}
+		}
+		private void GetAllPlans(List<PlanViewModel> allPlans, IEnumerable<PlanViewModel> plans)
+		{
+			if (plans != null)
+				foreach (var planViewModel in plans)
+				{
+					allPlans.Add(planViewModel);
+					GetAllPlans(allPlans, planViewModel.Children);
+				}
 		}
 
 		public override void OnShow()

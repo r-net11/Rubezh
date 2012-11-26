@@ -5,7 +5,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementSubPlan : ElementBaseRectangle, IPrimitive, IElementZLayer
+	public class ElementSubPlan : ElementBaseRectangle, IPrimitive
 	{
 		[DataMember]
 		public Guid PlanUID { get; set; }
@@ -29,15 +29,6 @@ namespace FiresecAPI.Models
 		public Primitive Primitive
 		{
 			get { return Infrustructure.Plans.Elements.Primitive.SubPlan; }
-		}
-
-		#endregion
-
-		#region IElementZLayer Members
-
-		public int ZLayerIndex
-		{
-			get { return 1; }
 		}
 
 		#endregion

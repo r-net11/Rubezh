@@ -170,7 +170,7 @@ namespace GKModule.Plans
 			designerItem.Title = Designer.Helper.GetXZoneTitle(elementZone);
 			XZone zone = Designer.Helper.GetXZone(elementZone);
 			elementZone.BackgroundColor = Designer.Helper.GetXZoneColor(zone);
-			elementZone.ZLayerIndex = zone == null ? 5 : 6;
+			elementZone.SetZLayer(zone == null ? 5 : 6);
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

@@ -4,14 +4,11 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolygon : ElementBasePolygon, IElementZIndex, IPrimitive
+	public class ElementPolygon : ElementBasePolygon, IPrimitive
 	{
 		public ElementPolygon()
 		{
 		}
-
-		[DataMember]
-		public int ZIndex { get; set; }
 
 		public override ElementBase Clone()
 		{

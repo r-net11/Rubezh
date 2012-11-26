@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -28,22 +29,12 @@ namespace PlansModule.ViewModels
 		{
 			int maxZIndex = 0;
 			foreach (var designerItem in DesignerCanvas.Items)
-			{
-				IElementZIndex iZIndexedElement = designerItem.Element as IElementZIndex;
-				if (iZIndexedElement != null)
-				{
-					maxZIndex = System.Math.Max(iZIndexedElement.ZIndex, maxZIndex);
-				}
-			}
+				maxZIndex = System.Math.Max(designerItem.Element.ZIndex, maxZIndex);
 
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
-				IElementZIndex iZIndexedElement = designerItem.Element as IElementZIndex;
-				if (iZIndexedElement != null)
-				{
-					iZIndexedElement.ZIndex = maxZIndex + 1;
-					Panel.SetZIndex(designerItem, maxZIndex + 1);
-				}
+				designerItem.Element.ZIndex = maxZIndex + 1;
+				designerItem.SetZIndex();
 			}
 
 			ServiceFactory.SaveService.PlansChanged = true;
@@ -53,22 +44,12 @@ namespace PlansModule.ViewModels
 		{
 			int minZIndex = 0;
 			foreach (var designerItem in DesignerCanvas.Items)
-			{
-				IElementZIndex iZIndexedElement = designerItem.Element as IElementZIndex;
-				if (iZIndexedElement != null)
-				{
-					minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
-				}
-			}
+				minZIndex = System.Math.Min(designerItem.Element.ZIndex, minZIndex);
 
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
-				IElementZIndex iZIndexedElement = designerItem.Element as IElementZIndex;
-				if (iZIndexedElement != null)
-				{
-					iZIndexedElement.ZIndex = minZIndex - 1;
-					Panel.SetZIndex(designerItem, minZIndex - 1);
-				}
+				designerItem.Element.ZIndex = minZIndex - 1;
+				designerItem.SetZIndex();
 			}
 
 			ServiceFactory.SaveService.PlansChanged = true;
@@ -78,12 +59,8 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
-				IElementZIndex iZIndexedElement = designerItem.Element as IElementZIndex;
-				if (iZIndexedElement != null)
-				{
-					iZIndexedElement.ZIndex++;
-					Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
-				}
+				designerItem.Element.ZIndex++;
+				designerItem.SetZIndex();
 			}
 
 			ServiceFactory.SaveService.PlansChanged = true;
@@ -93,12 +70,8 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
-				IElementZIndex iZIndexedElement = designerItem.Element as IElementZIndex;
-				if (iZIndexedElement != null)
-				{
-					iZIndexedElement.ZIndex--;
-					Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
-				}
+				designerItem.Element.ZIndex--;
+				designerItem.SetZIndex();
 			}
 
 			ServiceFactory.SaveService.PlansChanged = true;
@@ -106,9 +79,19 @@ namespace PlansModule.ViewModels
 
 		private void NormalizeZIndex()
 		{
-			var items = DesignerCanvas.Items.OfType<IElementZIndex>().OrderBy(item => item.ZIndex).ToList();
-			for (int i = 0; i < items.Count; i++)
-				items[i].ZIndex = i;
+			Dictionary<int, List<ElementBase>> map = new Dictionary<int, List<ElementBase>>();
+			foreach (var item in DesignerCanvas.Items)
+			{
+				if (!map.ContainsKey(item.Element.ZLayer))
+					map.Add(item.Element.ZLayer, new List<ElementBase>());
+				map[item.Element.ZLayer].Add(item.Element);
+			}
+			foreach (int key in map.Keys)
+			{
+				var list = map[key].OrderBy(item => item.ZIndex).ToList();
+				for (int i = 0; i < list.Count; i++)
+					list[i].ZIndex = i;
+			}
 		}
 	}
 }

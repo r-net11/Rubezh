@@ -47,7 +47,7 @@
 								</Controls:TreeGridViewRowPresenter.Resources>
 								<Controls:TreeGridViewRowPresenter.Expander>
 									<Grid>
-										<ToggleButton Name="Expander" Width="19" Height="18" ClickMode="Press" IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}}">
+										<ToggleButton Name="Expander" Width="21" Height="20" Margin="-1" ClickMode="Press" IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}}">
 											<ToggleButton.Style>
 												<Style TargetType="ToggleButton">
 													<Setter Property="UIElement.Focusable" Value="False" />
@@ -56,8 +56,13 @@
 													<Setter Property="Control.Template">
 														<Setter.Value>
 															<ControlTemplate TargetType="ToggleButton">
-																<Path x:Name="CheckMark" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Gray" UseLayoutRounding="False" />
+																<Border Background="Transparent">
+																	<Path x:Name="CheckMark" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Gray" UseLayoutRounding="False" />
+																</Border>
 																<ControlTemplate.Triggers>
+																	<Trigger Property="IsMouseOver" Value="True">
+																		<Setter TargetName="CheckMark" Property="Fill" Value="{DynamicResource HighlightedBackgoundBrush}" />
+																	</Trigger>
 																	<Trigger Property="IsChecked" Value="False">
 																		<Setter TargetName="CheckMark" Property="Data" Value="M2,2 L14,7 L2,14 z" />
 																	</Trigger>
@@ -112,9 +117,10 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
 							<GridViewHeaderRowPresenter Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</ScrollViewer>
+						<Rectangle Grid.Row="0" Grid.Column="1" Fill="{DynamicResource BackgroundBrush}" SnapsToDevicePixels="True" />
 						<ScrollContentPresenter Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.Column="0" CanContentScroll="{TemplateBinding CanContentScroll}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" KeyboardNavigation.DirectionalNavigation="Local" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						<ScrollBar Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="1" Cursor="Arrow" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0.0" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						<ScrollBar Name="PART_HorizontalScrollBar" Grid.Row="2" Grid.Column="0" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0.0" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />

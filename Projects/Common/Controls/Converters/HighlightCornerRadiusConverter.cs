@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 
-namespace Controls
+namespace Controls.Converters
 {
     public class HighlightCornerRadiusConverter : IValueConverter
     {

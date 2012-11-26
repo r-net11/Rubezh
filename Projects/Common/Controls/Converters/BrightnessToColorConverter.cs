@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Controls
+namespace Controls.Converters
 {
     public class BrightnessToColorConverter : IValueConverter
     {

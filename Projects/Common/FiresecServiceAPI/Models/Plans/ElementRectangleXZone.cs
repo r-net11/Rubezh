@@ -5,16 +5,16 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementRectangleXZone : ElementBaseRectangle, IElementZone, IPrimitive, IElementZLayer
+	public class ElementRectangleXZone : ElementBaseRectangle, IElementZone, IPrimitive
 	{
 		[DataMember]
-        public Guid ZoneUID { get; set; }
+		public Guid ZoneUID { get; set; }
 
 		public override ElementBase Clone()
 		{
 			ElementRectangleZone elementBase = new ElementRectangleZone()
 			{
-                ZoneUID = ZoneUID
+				ZoneUID = ZoneUID
 			};
 			Copy(elementBase);
 			return elementBase;
@@ -29,10 +29,14 @@ namespace FiresecAPI.Models
 
 		#endregion
 
-		#region IElementZLayer Members
-
-		public int ZLayerIndex {get;set;}
-
-		#endregion
+		private int _zlayer;
+		public override int ZLayer
+		{
+			get { return _zlayer; }
+		}
+		public void SetZLayer(int zlayer)
+		{
+			_zlayer = zlayer;
+		}
 	}
 }

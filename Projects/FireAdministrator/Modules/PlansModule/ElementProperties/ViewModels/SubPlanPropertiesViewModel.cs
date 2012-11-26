@@ -8,69 +8,44 @@ namespace PlansModule.ViewModels
 {
 	public class SubPlanPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		ElementSubPlan _elementSubPlan;
+		private ElementSubPlan _elementSubPlan;
 
 		public SubPlanPropertiesViewModel(ElementSubPlan elementSubPlan)
 		{
 			Title = "Свойства фигуры: Подплан";
 			_elementSubPlan = elementSubPlan;
 			Initialize();
-			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == elementSubPlan.PlanUID);
 		}
 
-		void Initialize()
+		private void Initialize()
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-			{
 				AddPlan(plan, null);
-			}
 
 			for (int i = 0; i < Plans.Count; i++)
 			{
-				CollapseChild(Plans[i]);
-				ExpandChild(Plans[i]);
+				Plans[i].CollapseChildren();
+				Plans[i].ExpandChildren();
 			}
 		}
-
-		PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
-			var planViewModel = new PlanViewModel(plan, Plans);
-			planViewModel.Parent = parentPlanViewModel;
-
-			var indexOf = Plans.IndexOf(parentPlanViewModel);
-			Plans.Insert(indexOf + 1, planViewModel);
+			var planViewModel = new PlanViewModel(plan);
+			if (parentPlanViewModel == null)
+				Plans.Add(planViewModel);
+			else
+				parentPlanViewModel.Children.Add(planViewModel);
+			if (plan.UID == _elementSubPlan.PlanUID)
+				SelectedPlan = planViewModel;
 
 			foreach (var childPlan in plan.Children)
-			{
-				var childPlanViewModel = AddPlan(childPlan, planViewModel);
-				planViewModel.Children.Add(childPlanViewModel);
-			}
-
-			return planViewModel;
-		}
-
-		void CollapseChild(PlanViewModel parentPlanViewModel)
-		{
-			parentPlanViewModel.IsExpanded = false;
-			foreach (var planViewModel in parentPlanViewModel.Children)
-			{
-				CollapseChild(planViewModel);
-			}
-		}
-
-		void ExpandChild(PlanViewModel parentPlanViewModel)
-		{
-			parentPlanViewModel.IsExpanded = true;
-			foreach (var planViewModel in parentPlanViewModel.Children)
-			{
-				ExpandChild(planViewModel);
-			}
+				AddPlan(childPlan, planViewModel);
 		}
 
 		public ObservableCollection<PlanViewModel> Plans { get; set; }
 
-		PlanViewModel _selectedPlan;
+		private PlanViewModel _selectedPlan;
 		public PlanViewModel SelectedPlan
 		{
 			get { return _selectedPlan; }

@@ -3,10 +3,10 @@ using System.Windows.Media;
 
 namespace Infrustructure.Plans.Elements
 {
-	public interface IElementZone : IElementZLayer
+	public interface IElementZone
 	{
-		int ZLayerIndex { get; set; }
-        Guid ZoneUID { get; set; }
+		Guid ZoneUID { get; set; }
 		Color BackgroundColor { get; set; }
+		void SetZLayer(int zlayer);
 	}
 }

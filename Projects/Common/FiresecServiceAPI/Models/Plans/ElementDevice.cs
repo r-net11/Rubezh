@@ -5,7 +5,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementDevice : ElementBasePoint, IElementZLayer
+	public class ElementDevice : ElementBasePoint
 	{
 		public ElementDevice()
 		{
@@ -25,13 +25,9 @@ namespace FiresecAPI.Models
 			return elementBase;
 		}
 
-		#region IElementZLayer Members
-
-		public int ZLayerIndex
+		public override int ZLayer
 		{
-			get { return 5; }
+			get { return 7; }
 		}
-
-		#endregion
 	}
 }

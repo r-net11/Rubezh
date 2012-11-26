@@ -72,7 +72,6 @@
     <Compile Include="Elements\ElementType.cs" />
     <Compile Include="Designer\DesignerItem.cs" />
     <Compile Include="Elements\IElementTextBlock.cs" />
-    <Compile Include="Elements\IElementZLayer.cs" />
     <Compile Include="Elements\IPrimitive.cs" />
     <Compile Include="Elements\Primitive.cs" />
     <Compile Include="EventService.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="Elements\ElementBaseRectangle.cs" />
     <Compile Include="Elements\ElementBaseShape.cs" />
     <Compile Include="Elements\ElementBase.cs" />
-    <Compile Include="Elements\IElementZIndex.cs" />
     <Compile Include="Events\ShowElementEvent.cs" />
     <Compile Include="IPlanExtension.cs" />
     <Compile Include="IPlanPresenter.cs" />

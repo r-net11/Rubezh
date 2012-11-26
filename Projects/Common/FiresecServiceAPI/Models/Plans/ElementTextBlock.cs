@@ -5,7 +5,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementTextBlock : ElementBaseRectangle, IElementTextBlock, IElementZIndex, IPrimitive
+	public class ElementTextBlock : ElementBaseRectangle, IElementTextBlock, IPrimitive
 	{
 		public ElementTextBlock()
 		{
@@ -26,9 +26,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int TextAlignment { get; set; }
 
-		[DataMember]
-		public int ZIndex { get; set; }
-
 		public override ElementBase Clone()
 		{
 			ElementTextBlock elementBase = new ElementTextBlock()
@@ -39,7 +36,6 @@ namespace FiresecAPI.Models
 				FontFamilyName = FontFamilyName,
 				Stretch = Stretch,
 				TextAlignment = TextAlignment,
-				ZIndex = ZIndex,
 			};
 			Copy(elementBase);
 			return elementBase;

@@ -1,13 +1,10 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common;
-using System.Windows.Media;
-using System.Windows.Threading;
-using System;
-using System.Reflection;
-using System.Diagnostics;
 
 namespace Controls
 {

@@ -34,6 +34,13 @@ namespace Infrustructure.Plans.Elements
 		public Color BackgroundColor { get; set; }
 		[DataMember]
 		public byte[] BackgroundPixels { get; set; }
+		[DataMember]
+		public int ZIndex { get; set; }
+
+		public virtual int ZLayer
+		{
+			get { return 0; }
+		}
 
 		public Point Position
 		{
@@ -57,6 +64,7 @@ namespace Infrustructure.Plans.Elements
 			element.BorderThickness = BorderThickness;
 			element.BackgroundColor = BackgroundColor;
 			element.BackgroundPixels = BackgroundPixels;
+			element.ZIndex = ZIndex;
 		}
 	}
 }

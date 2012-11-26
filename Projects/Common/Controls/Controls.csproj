@@ -153,15 +153,16 @@
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
+    <Compile Include="TextBoxHelper.cs" />
     <Compile Include="ToggleButton.cs" />
     <Compile Include="ToolBarRadioButton.cs" />
     <Compile Include="DataGridProperties.cs" />
     <Compile Include="DigitalPasswordHelper.cs" />
     <Compile Include="MiddleButtonScrollHelper.cs" />
     <Compile Include="PasswordBoxControl.cs" />
-    <Compile Include="BrightnessToColorConverter.cs" />
-    <Compile Include="ColorToAlphaColorConverter.cs" />
-    <Compile Include="HighlightCornerRadiusConverter.cs" />
+    <Compile Include="Converters\BrightnessToColorConverter.cs" />
+    <Compile Include="Converters\ColorToAlphaColorConverter.cs" />
+    <Compile Include="Converters\HighlightCornerRadiusConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

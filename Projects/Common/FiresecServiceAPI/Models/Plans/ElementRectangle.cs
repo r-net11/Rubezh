@@ -4,7 +4,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementRectangle : ElementBaseRectangle, IElementZIndex, IPrimitive
+	public class ElementRectangle : ElementBaseRectangle, IPrimitive
 	{
 		public ElementRectangle()
 		{

@@ -4,14 +4,11 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementEllipse : ElementBaseRectangle, IElementZIndex, IPrimitive
+	public class ElementEllipse : ElementBaseRectangle, IPrimitive
 	{
 		public ElementEllipse()
 		{
 		}
-
-		[DataMember]
-		public int ZIndex { get; set; }
 
 		public override ElementBase Clone()
 		{

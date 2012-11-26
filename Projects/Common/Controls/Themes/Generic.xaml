@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:Controls.Converters" xmlns:loc="clr-namespace:Controls">
 
-	<loc:ColorToAlphaColorConverter x:Key="ColorToAlphaColorConverter" />
-	<loc:BrightnessToColorConverter x:Key="BrightnessToColorConverter" />
-	<loc:HighlightCornerRadiusConverter x:Key="HighlightCornerRadiusConverter" />
+	<converters:ColorToAlphaColorConverter x:Key="ColorToAlphaColorConverter" />
+	<converters:BrightnessToColorConverter x:Key="BrightnessToColorConverter" />
+	<converters:HighlightCornerRadiusConverter x:Key="HighlightCornerRadiusConverter" />
 	<converters:NullToImageConverter x:Key="NullToImageConverter" />
 
 	<Storyboard x:Key="GlowOn" AutoReverse="True" RepeatBehavior="Forever">

@@ -10,6 +10,8 @@ namespace Infrustructure.Plans.Designer
 {
 	public abstract class CommonDesignerItem : ContentControl, INotifyPropertyChanged
 	{
+		public const int BigConstatnt = 100000;
+
 		#region INotifyPropertyChanged Members
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -117,13 +119,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		public void SetZIndex()
 		{
-			int bigConstatnt = 100000;
-
-			if (Element is IElementZIndex)
-				Panel.SetZIndex(this, ((IElementZIndex)Element).ZIndex);
-
-			if (Element is IElementZLayer)
-				Panel.SetZIndex(this, ((IElementZLayer)Element).ZLayerIndex * bigConstatnt);
+			Panel.SetZIndex(this, Element.ZIndex + Element.ZLayer * BigConstatnt);
 		}
 
 		public virtual double ItemWidth
