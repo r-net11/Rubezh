@@ -11,38 +11,30 @@ namespace Firesec
 {
     public partial class NativeFiresecClient
     {
-        Dispatcher _dispatcher;
         int _reguestId = 1;
 
         public NativeFiresecClient()
         {
             Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
             {
-                if (_dispatcher != null)
+                if (Connection != null)
                 {
-                    if (Connection != null)
-                    {
-                        StopLifetimeThread();
-                        StopPingThread();
-                        StopOperationQueueThread();
-                        StopConnectionTimeoutThread();
-                        Marshal.FinalReleaseComObject(Connection);
-                        Connection = null;
-                        GC.Collect();
-                    }
-                    _dispatcher.InvokeShutdown();
+                    StopOperationQueueThread();
+                    StopConnectionTimeoutThread();
+                    Marshal.FinalReleaseComObject(Connection);
+                    Connection = null;
+                    GC.Collect();
                 }
             };
-            var dispatcherThread = new Thread(new ParameterizedThreadStart(obj =>
-            {
-                _dispatcher = Dispatcher.CurrentDispatcher;
-                Dispatcher.Run();
-                Debug.WriteLine("Native Dispatcher Stopped");
-            }));
-            dispatcherThread.SetApartmentState(ApartmentState.STA);
-            dispatcherThread.IsBackground = true;
-            dispatcherThread.Start();
-            dispatcherThread.Join(TimeSpan.FromSeconds(1));
+
+            //var dispatcherThread = new Thread(new ParameterizedThreadStart(obj =>
+            //{
+            //    Dispatcher.Run();
+            //}));
+            //dispatcherThread.SetApartmentState(ApartmentState.STA);
+            //dispatcherThread.IsBackground = true;
+            //dispatcherThread.Start();
+            //dispatcherThread.Join(TimeSpan.FromSeconds(1));
         }
 
         FS_Types.IFSC_Connection Connection;
@@ -72,27 +64,20 @@ namespace Firesec
                 {
                     StartConnectionTimeoutThread();
 
-					string loginError = null;
-                    _dispatcher.Invoke(
-                    (
-                        new Action
-                        (
-                            () =>
-                            {
-                                var result = GetConnection(Address, Port, Login, Password);
-                                if (result.HasError &&
-									result.Error == "Пользователь или пароль неверны. Повторите ввод" ||
-									result.Error == "Удаленный доступ с этого компьютера запрещен")
-                                {
-									loginError = result.Error;
-                                }
-                                Connection = result.Result;
-                            }
-                        )
-                    ));
+                    string loginError = null;
+
+                    var result = GetConnection(Address, Port, Login, Password);
+                    if (result.HasError &&
+                        result.Error == "Пользователь или пароль неверны. Повторите ввод" ||
+                        result.Error == "Удаленный доступ с этого компьютера запрещен")
+                    {
+                        loginError = result.Error;
+                    }
+                    Connection = result.Result;
+
                     if (loginError != null)
                     {
-						return new OperationResult<bool>("Неверный логин драйвера Firesec: " + loginError);
+                        return new OperationResult<bool>("Неверный логин драйвера Firesec: " + loginError);
                     }
                     StopConnectionTimeoutThread();
                     if (Connection != null)
@@ -112,7 +97,6 @@ namespace Firesec
             //{
             //    StartPingThread();
             //}
-            StartLifetimeThread();
             StartOperationQueueThread();
             IsConnected = true;
             SetLastEvent();

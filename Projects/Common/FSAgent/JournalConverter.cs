@@ -3,6 +3,7 @@ using System.Linq;
 using Firesec.Models.Journals;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FSAgent.Service;
 
 namespace Firesec
 {
@@ -26,24 +27,27 @@ namespace Firesec
 				SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
 				StateType = (StateType)int.Parse(innerJournalRecord.IDTypeEvents),
 			};
-			//SetDeviceCatogory(journalRecord);
+			SetDeviceCatogory(journalRecord);
 
 			return journalRecord;
 		}
 
 		static void SetDeviceCatogory(JournalRecord journalRecord)
 		{
+            if (ConfigurationManager.DeviceConfiguration == null)
+                return;
+
 			Device device = null;
-			if (ConfigurationCash.DeviceConfiguration.Devices != null)
+            if (ConfigurationManager.DeviceConfiguration.Devices != null)
 			{
 				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
 				{
-					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(
+                    device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
 						 x => x.DatabaseId == journalRecord.DeviceDatabaseId);
 				}
 				else
 				{
-					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(
+                    device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
 						   x => x.DatabaseId == journalRecord.PanelDatabaseId);
 				}
 			}

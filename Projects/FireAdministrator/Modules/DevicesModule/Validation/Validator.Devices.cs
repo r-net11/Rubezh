@@ -391,7 +391,7 @@ namespace DevicesModule.Validation
 
 		void ValidatePanelZonesCount(Device device)
 		{
-			if (device.Driver.IsPanel)
+            if (device.Driver.IsPanel && device.Driver.DriverType != DriverType.IndicationBlock && device.Driver.DriverType != DriverType.PDU && device.Driver.DriverType != DriverType.PDU_PT)
 			{
 				foreach (var child in device.Children)
 				{

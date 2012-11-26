@@ -65,10 +65,6 @@ namespace DevicesModule.Validation
 				{
 					deviceUIDs.Add(device.ParentPanel.UID);
 				}
-				foreach (var device in zone.DevicesInZoneLogic)
-				{
-					deviceUIDs.Add(device.ParentPanel.UID);
-				}
 				if (deviceUIDs.Count > 1)
 					_errors.Add(new ZoneValidationError(zone, "В охранной зоне указано устройство, находящееся в другом приборе", ValidationErrorLevel.CannotWrite));
 			}

@@ -32,8 +32,7 @@ namespace Infrastructure.Common.Windows
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове DialogService.ShowModalWindow");
-				//throw;
+				Logger.Error(e, "DialogService.ShowModalWindow");
 			}
 			return false;
 		}
@@ -63,8 +62,7 @@ namespace Infrastructure.Common.Windows
             }
             catch (Exception e)
             {
-                Logger.Error(e, "Исключение при вызове DialogService.ShowModalWindow");
-                //throw;
+                Logger.Error(e, "DialogService.ShowTrayWindow");
             }
             return false;
         }

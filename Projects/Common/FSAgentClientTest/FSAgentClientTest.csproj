@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{41A3AB29-E109-4949-860A-006D37430954}</ProjectGuid>
+    <ProjectGuid>{FE412C34-B72E-49D7-95A6-234B4889B43B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FSAgent</RootNamespace>
-    <AssemblyName>FSAgent</AssemblyName>
+    <RootNamespace>FSAgentClientTest</RootNamespace>
+    <AssemblyName>FSAgentClientTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -26,7 +26,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -36,7 +35,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -58,11 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FiresecSerializedClient.cs" />
-    <Compile Include="JournalConverter.cs" />
-    <Compile Include="Runner.cs" />
-    <Compile Include="SerializerHelper.cs" />
-    <Compile Include="ServerHost.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,32 +64,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Firesec\FiresecExceptionHelper.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Callack.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Lifetime.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.OperationQueue.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Ping.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.SafeCall.cs" />
-    <Compile Include="Firesec\SocketServerHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\DeviceConfigurationParameters.cs" />
-    <Compile Include="Models\DeviceCustomFunctions.cs" />
-    <Compile Include="Models\GetCoreConfig.cs" />
-    <Compile Include="Models\GetCoreDeviceParams.cs" />
-    <Compile Include="Models\GetCoreState.cs" />
-    <Compile Include="Models\GetMetaData.cs" />
-    <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\IndicatorLogic.cs" />
-    <Compile Include="Models\Plan.cs" />
-    <Compile Include="Models\ReadEvents.cs" />
-    <Compile Include="Models\ZoneLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,9 +94,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common %28Common\Common%29</Name>
+    <ProjectReference Include="..\..\FireMonitor\FSAgentClient\FSAgentClient.csproj">
+      <Project>{31F451DF-6C15-4867-A2A3-241D9B1A882C}</Project>
+      <Name>FSAgentClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
@@ -133,30 +106,6 @@
       <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
       <Name>FSAgentAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
-      <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="FS_Types">
-      <Guid>{B86C6AD7-5766-4233-AF55-707B45661224}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="mscoree">
-      <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

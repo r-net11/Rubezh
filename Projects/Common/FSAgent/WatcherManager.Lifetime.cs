@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using Common;
 
-namespace Firesec
+namespace FSAgent
 {
-    public partial class NativeFiresecClient
+    public partial class WatcherManager
     {
-        static AutoResetEvent StopLifetimeEvent;
+        AutoResetEvent StopLifetimeEvent;
         Thread LifetimeThread;
 
         void StartLifetimeThread()
@@ -19,7 +22,7 @@ namespace Firesec
             }
         }
 
-        public void StopLifetimeThread()
+        void StopLifetimeThread()
         {
             if (StopLifetimeEvent != null)
             {
@@ -35,12 +38,11 @@ namespace Firesec
         {
             while (true)
             {
-                if (IsConnected && (IsOperationBuisy || TasksCount > 0))
+                if (IsOperationBuisy)
                 {
                     if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
                     {
-                        Logger.Error("NativeFiresecClient.WatchLifetime");
-                        DoConnect();
+                        Logger.Error("WatcherManager.WatchLifetime");
                     }
                 }
 

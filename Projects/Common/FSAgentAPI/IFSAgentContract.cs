@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using FiresecAPI.Models;
 
 namespace FSAgentAPI
 {
@@ -11,15 +12,9 @@ namespace FSAgentAPI
 	public interface IFSAgentContract
 	{
 		[OperationContract]
-		void GetStatus();
+		string GetStatus();
 
 		[OperationContract]
-		void GetEvents();
-
-		[OperationContract]
-		void GetStates();
-
-		[OperationContract]
-		void GetParameters();
+        List<FSAgentCallbac> Poll(Guid clientUID);
 	}
 }
