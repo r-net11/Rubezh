@@ -235,7 +235,7 @@ namespace DiagnosticsModule.ViewModels
 					devices.Add(device);
 				}
 			}
-			FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+			FiresecManager.RemoveFromIgnoreList(devices);
 		}
 
 		void AddToIgnoreList()
@@ -250,7 +250,7 @@ namespace DiagnosticsModule.ViewModels
 					devices.Add(device);
 				}
 			}
-			FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+			FiresecManager.AddToIgnoreList(devices);
 		}
 
 		void ControlDevice()
@@ -351,7 +351,7 @@ namespace DiagnosticsModule.ViewModels
                         continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(10));
 
-                    FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
+                    FiresecManager.AddUserMessage("Test Message " + count++.ToString());
                     if (count % 1000 == 0)
                     {
                         Trace.WriteLine("Count = " + count.ToString());

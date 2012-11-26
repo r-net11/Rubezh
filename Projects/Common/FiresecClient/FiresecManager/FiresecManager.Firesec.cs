@@ -3,17 +3,22 @@ using Common;
 using Firesec;
 using FiresecAPI;
 using Infrastructure.Common;
+using FSAgentClient;
 
 namespace FiresecClient
 {
     public partial class FiresecManager
     {
         public static FiresecDriver FiresecDriver { get; private set; }
+		public static FSAgent FSAgent { get; private set; }
 
         static public OperationResult<bool> InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
         {
             try
             {
+				FSAgent = new FSAgent(AppSettingsManager.FSAgentServerAddress);
+				FSAgent.Start();
+
                 FiresecDriver = new FiresecDriver();
                 return FiresecDriver.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
             }

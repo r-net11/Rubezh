@@ -143,6 +143,7 @@
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
+    <Compile Include="FSAgentLoadHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="ServerLoadHelper.cs" />

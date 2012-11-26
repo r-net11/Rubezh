@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Database;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -101,9 +102,12 @@ namespace FiresecService.Service
 
 		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-			var result = OnGetFilteredArchive(archiveFilter);
-            CallbackArchiveCompleted(result.Result);
-            //CallbackWrapper.GetFilteredArchiveCompleted(result.Result);
+			var thread = new Thread(new ThreadStart((new Action(() =>
+			{
+				var result = OnGetFilteredArchive(archiveFilter);
+				CallbackArchiveCompleted(result.Result);
+			}))));
+			thread.Start();
 		}
 
 		OperationResult<List<JournalRecord>> OnGetFilteredArchive(ArchiveFilter archiveFilter)

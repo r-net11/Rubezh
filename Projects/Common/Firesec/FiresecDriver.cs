@@ -277,50 +277,50 @@ namespace Firesec
 			return FiresecSerializedClient.DeviceGetMDS5Data(firesecConfiguration, device.GetPlaceInTree());
 		}
 
-		public void AddToIgnoreList(List<Device> devices)
-		{
-			var devicePaths = new List<string>();
-			foreach (var device in devices)
-			{
-				devicePaths.Add(device.PlaceInTree);
-			}
+		//public void AddToIgnoreList(List<Device> devices)
+		//{
+		//    var devicePaths = new List<string>();
+		//    foreach (var device in devices)
+		//    {
+		//        devicePaths.Add(device.PlaceInTree);
+		//    }
 
-			FiresecSerializedClient.AddToIgnoreList(devicePaths);
-		}
+		//    FiresecSerializedClient.AddToIgnoreList(devicePaths);
+		//}
 
-		public void RemoveFromIgnoreList(List<Device> devices)
-		{
-			var devicePaths = new List<string>();
-			foreach (var device in devices)
-			{
-				devicePaths.Add(device.PlaceInTree);
-			}
+		//public void RemoveFromIgnoreList(List<Device> devices)
+		//{
+		//    var devicePaths = new List<string>();
+		//    foreach (var device in devices)
+		//    {
+		//        devicePaths.Add(device.PlaceInTree);
+		//    }
 
-			FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
-		}
+		//    FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
+		//}
 
-		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
-		{
-			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
-			if (device != null)
-			{
-				FiresecSerializedClient.SetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
-			}
-		}
+		//public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
+		//{
+		//    var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
+		//    if (device != null)
+		//    {
+		//        FiresecSerializedClient.SetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
+		//    }
+		//}
 
-		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
-		{
-			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
-			if (device != null)
-			{
-				FiresecSerializedClient.UnSetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
-			}
-		}
+		//public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
+		//{
+		//    var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
+		//    if (device != null)
+		//    {
+		//        FiresecSerializedClient.UnSetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
+		//    }
+		//}
 
-		public void AddUserMessage(string message)
-		{
-			FiresecSerializedClient.AddUserMessage(message);
-		}
+		//public void AddUserMessage(string message)
+		//{
+		//    FiresecSerializedClient.AddUserMessage(message);
+		//}
 
         public OperationResult<bool> ExecuteCommand(Device device, string methodName)
         {

@@ -103,6 +103,8 @@ namespace FiresecClient
         {
             try
             {
+				FSAgent.Stop();
+
                 if (!IsDisconnected)
                 {
                     if (FiresecService != null)

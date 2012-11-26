@@ -135,7 +135,7 @@ namespace AlarmModule.ViewModels
 
             if (ServiceFactory.SecurityService.Validate())
             {
-                FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+                FiresecManager.RemoveFromIgnoreList(devices);
             }
         }
 		public bool CanRemoveAllFromIgnoreList()

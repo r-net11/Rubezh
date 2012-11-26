@@ -84,12 +84,12 @@ namespace FiresecClient.Itv
 
         public static void AddToIgnoreList(List<Device> devices)
         {
-            FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+            FiresecManager.AddToIgnoreList(devices);
         }
 
         public static void RemoveFromIgnoreList(List<Device> devices)
         {
-            FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+            FiresecManager.RemoveFromIgnoreList(devices);
         }
 
         public static void ShowImitator()

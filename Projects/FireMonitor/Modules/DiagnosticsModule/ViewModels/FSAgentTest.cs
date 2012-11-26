@@ -8,6 +8,7 @@ using System.Windows;
 using FiresecClient;
 using FiresecAPI.Models;
 using Infrastructure.Events;
+using Infrastructure.Common;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -17,7 +18,7 @@ namespace DiagnosticsModule.ViewModels
 
 		public void Start()
 		{
-			FSAgent = new FSAgent("net.pipe://127.0.0.1/FSAgent/");
+			FSAgent = new FSAgent(AppSettingsManager.FSAgentServerAddress);
 			FSAgent.Start();
 			SubscribeEvents();
 		}
