@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\FSAgentTest.cs" />
     <Compile Include="ViewModels\ImitatorViewModel.cs" />
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
@@ -116,10 +117,6 @@
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\FiresecDomain\FiresecDomain.csproj">
-      <Project>{FB421ABD-1DAB-4760-ABD1-AA622CB94127}</Project>
-      <Name>FiresecDomain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
@@ -128,6 +125,10 @@
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FSAgentAPI\FSAgentAPI.csproj">
+      <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
+      <Name>FSAgentAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
       <Name>Infrastructure.Client</Name>
@@ -135,6 +136,10 @@
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FSAgentClient\FSAgentClient.csproj">
+      <Project>{31F451DF-6C15-4867-A2A3-241D9B1A882C}</Project>
+      <Name>FSAgentClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>

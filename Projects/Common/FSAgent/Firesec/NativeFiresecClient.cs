@@ -79,42 +79,27 @@ namespace Firesec
 		}
 		public void AddToIgnoreList(List<string> devicePaths)
 		{
-			AddTask(() =>
-				{
-					SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
-				});
+			SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
 		}
 		public void RemoveFromIgnoreList(List<string> devicePaths)
 		{
-			AddTask(() =>
-				{
-					SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
-				});
+			SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
 		}
 		public void ResetStates(string states)
 		{
-			AddTask(() =>
-				{
-					SafeCall<bool>(() =>
-					{
-						Connection.ResetStates(states);
-						return true;
-					}, "ResetStates");
-				});
+			SafeCall<bool>(() =>
+			{
+				Connection.ResetStates(states);
+				return true;
+			}, "ResetStates");
 		}
 		public void SetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			AddTask(() =>
-			{
-				SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
-			});
+			SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
 		}
 		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			AddTask(() =>
-			{
-				SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
-			});
+			SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
 		}
 		public OperationResult<bool> AddUserMessage(string message)
 		{

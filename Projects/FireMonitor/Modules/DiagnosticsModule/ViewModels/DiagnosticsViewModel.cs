@@ -14,6 +14,7 @@ using Firesec;
 using FiresecAPI;
 using Infrastructure.Common.Windows;
 using Common;
+using FSAgentClient;
 
 
 namespace DiagnosticsModule.ViewModels
@@ -33,7 +34,7 @@ namespace DiagnosticsModule.ViewModels
 			Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
 			Test10Command = new RelayCommand(OnTest10);
-			DomainTestCommand = new RelayCommand(OnDomainTest);
+			FSAgentTestCommand = new RelayCommand(OnFSAgentTest);
             ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
             ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
             ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);
@@ -455,66 +456,19 @@ namespace DiagnosticsModule.ViewModels
             BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
         }
 
-		public RelayCommand DomainTestCommand { get; private set; }
-		void OnDomainTest()
+		public RelayCommand FSAgentTestCommand { get; private set; }
+		void OnFSAgentTest()
 		{
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-
-			DomainHelper = new DomainHelper();
-			//DomainHelper.NewEvent += new Action<List<JournalRecord>>(DomainHelper_NewEvent);
-			DomainHelper.CreateDomain();
+			FSAgentTest = new FSAgentTest();
+			FSAgentTest.Start();
+			Dispatcher.ShutdownStarted += (s, e) =>
+			{
+				FSAgentTest.Stop();
+			};
 		}
 
-		void DomainHelper_NewEvent(List<JournalRecord> journalRecords)
-		{
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
-		}
-
-		void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			DomainHelper.CloseDomain();
-		}
-
-		DomainHelper DomainHelper;
+		FSAgentTest FSAgentTest;
     }
-
-	[Serializable]
-	public class DomainHelper
-	{
-		AppDomain FsDomain;
-		public FiresecDomain.DomainRunner DomainRunner { get; set; }
-
-		public void CreateDomain()
-		{
-			FsDomain = AppDomain.CreateDomain("FSDomain");
-			DomainRunner = (FiresecDomain.DomainRunner)FsDomain.CreateInstanceAndUnwrap("FiresecDomain", "FiresecDomain.DomainRunner");
-			DomainRunner.Exit += new Action(DomainRunner_Exit);
-			DomainRunner.Start(true);
-			DomainRunner.NewEvent += new Action<List<JournalRecord>>(DomainRunner_NewEvent);
-		}
-
-		public void CloseDomain()
-		{
-			if (FsDomain != null)
-			{
-				AppDomain.Unload(FsDomain);
-			}
-		}
-
-		void DomainRunner_NewEvent(List<JournalRecord> journalRecords)
-		{
-			foreach (var journalRecord in journalRecords)
-			{
-				Trace.WriteLine(journalRecord.Description);
-			}
-		}
-
-		public void DomainRunner_Exit()
-		{
-			CloseDomain();
-			CreateDomain();
-		}
-	}
 
     internal class DeviceControl
     {

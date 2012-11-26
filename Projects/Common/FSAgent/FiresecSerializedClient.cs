@@ -100,9 +100,9 @@ namespace Firesec
             NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
         }
 
-        public void ResetStates(Firesec.Models.CoreState.config coreState)
+		public void ResetStates(string states)
         {
-            NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.config>(coreState));
+			NativeFiresecClient.ResetStates(states);
         }
 
         public void SetZoneGuard(string placeInTree, string localZoneNo)

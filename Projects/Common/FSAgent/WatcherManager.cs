@@ -14,14 +14,20 @@ namespace FSAgent
 {
     public partial class WatcherManager
 	{
+		public static WatcherManager Current { get; private set; }
         AutoResetEvent StopEvent;
         Thread RunThread;
-        FiresecSerializedClient FiresecSerializedClient;
+		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
         FiresecSerializedClient CallbackFiresecSerializedClient;
         Watcher Watcher;
         int PollIndex = 0;
         bool IsOperationBuisy;
         DateTime OperationDateTime;
+
+		public WatcherManager()
+		{
+			Current = this;
+		}
 
         public void Start()
         {
@@ -81,6 +87,13 @@ namespace FSAgent
                     IsOperationBuisy = true;
                     try
                     {
+						while (Tasks.Count > 0)
+						{
+							var action = Tasks.Dequeue();
+							if (action != null)
+								action();
+						}
+
                         FiresecSerializedClient.NativeFiresecClient.CheckForRead(force);
                     }
                     catch (Exception e)
@@ -98,5 +111,24 @@ namespace FSAgent
 				}
 			}
 		}
+
+		public void AddTask(Action task)
+		{
+			try
+			{
+				lock (locker)
+				{
+					Tasks.Enqueue(task);
+					Monitor.Pulse(locker);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FSAgentContract.AddTask");
+			}
+		}
+
+		Queue<Action> Tasks = new Queue<Action>();
+		object locker = new object();
 	}
 }

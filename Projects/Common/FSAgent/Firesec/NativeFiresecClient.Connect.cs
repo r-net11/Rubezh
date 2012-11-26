@@ -19,22 +19,12 @@ namespace Firesec
             {
                 if (Connection != null)
                 {
-                    StopOperationQueueThread();
                     StopConnectionTimeoutThread();
                     Marshal.FinalReleaseComObject(Connection);
                     Connection = null;
                     GC.Collect();
                 }
             };
-
-            //var dispatcherThread = new Thread(new ParameterizedThreadStart(obj =>
-            //{
-            //    Dispatcher.Run();
-            //}));
-            //dispatcherThread.SetApartmentState(ApartmentState.STA);
-            //dispatcherThread.IsBackground = true;
-            //dispatcherThread.Start();
-            //dispatcherThread.Join(TimeSpan.FromSeconds(1));
         }
 
         FS_Types.IFSC_Connection Connection;
@@ -93,11 +83,6 @@ namespace Firesec
                 return new OperationResult<bool>("Ошибка при загрузке драйвера firesec");
             }
 
-            //if (IsPing)
-            //{
-            //    StartPingThread();
-            //}
-            StartOperationQueueThread();
             IsConnected = true;
             SetLastEvent();
             return new OperationResult<bool>() { Result = true };

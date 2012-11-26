@@ -36,7 +36,7 @@ namespace FSAgentClientTest
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             FSAgent = new FSAgent("net.pipe://127.0.0.1/FSAgent/");
-            FSAgent.Run();
+            FSAgent.Start();
             FSAgent.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
         }
 

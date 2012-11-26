@@ -46,24 +46,20 @@ namespace Infrastructure.Common
             }
         }
 
-        public static string ServerAddress
-        {
-            get
-            {
-				string remoteAddress = "127.0.0.1";
-				string remotePort = AppSettingsManager.RemotePort.ToString();
-
-				if (!string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
+		public static string ServerAddress
+		{
+			get
+			{
+				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
+				if (string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
 				{
 					if (AppSettingsManager.RemoteAddress != "localhost" && AppSettingsManager.RemoteAddress != "127.0.0.1")
 					{
-						remoteAddress = AppSettingsManager.RemoteAddress;
+						serviceAddress = "net.tcp://" + AppSettingsManager.RemoteAddress + ":" + AppSettingsManager.RemotePort.ToString() + "/FiresecService/";
 					}
 				}
-
-				var serviceAddress = "http://" + remoteAddress + ":" + remotePort + "/FiresecService/";
 				return serviceAddress;
-            }
-        }
+			}
+		}
     }
 }

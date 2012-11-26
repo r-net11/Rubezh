@@ -69,35 +69,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand DomainTestCommand { get; private set; }
         void OnDomainTest()
         {
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-
-			DomainHelper = new DomainHelper();
-			DomainHelper.CreateDomain();
-
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				int count = 0;
-				while (true)
-				{
-					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-
-					DomainHelper.DomainRunner.AddUserMessage("Test Message " + count++.ToString());
-					if (count % 1000 == 0)
-					{
-						Trace.WriteLine("Count = " + count.ToString());
-					}
-				}
-			}));
-			thread.IsBackground = true;
-			thread.Start();
         }
-
-		void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			DomainHelper.CloseDomain();
-		}
-
-		DomainHelper DomainHelper;
 
         public RelayCommand ShowTreeCommand { get; private set; }
         void OnShowTree()
@@ -243,50 +215,4 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
 		}
     }
-
-	[Serializable]
-	public class DomainHelper
-	{
-		AppDomain FsDomain;
-		public FiresecDomain.DomainRunner DomainRunner { get; set; }
-
-		public void CreateDomain()
-		{
-			FsDomain = AppDomain.CreateDomain("FSDomain");
-			DomainRunner = (FiresecDomain.DomainRunner)FsDomain.CreateInstanceAndUnwrap("FiresecDomain", "FiresecDomain.DomainRunner");
-			DomainRunner.Exit += new Action(DomainRunner_Exit);
-			DomainRunner.Start(true);
-			DomainRunner.NewEvent += new Action<List<JournalRecord>>(DomainRunner_NewEvent);
-		}
-
-		public void CloseDomain()
-		{
-			DomainRunner.Stop();
-			if (FsDomain != null)
-			{
-				try
-				{
-					AppDomain.Unload(FsDomain);
-				}
-				catch (Exception e)
-				{
-					;
-				}
-			}
-		}
-
-		void DomainRunner_NewEvent(List<JournalRecord> journalRecords)
-		{
-			foreach (var journalRecord in journalRecords)
-			{
-				Trace.WriteLine(journalRecord.Description);
-			}
-		}
-
-		public void DomainRunner_Exit()
-		{
-			CloseDomain();
-			CreateDomain();
-		}
-	}
 }

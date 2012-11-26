@@ -16,5 +16,23 @@ namespace FSAgentAPI
 
 		[OperationContract]
         List<FSAgentCallbac> Poll(Guid clientUID);
+
+		[OperationContract]
+		void AddToIgnoreList(List<string> devicePaths);
+
+		[OperationContract]
+		void RemoveFromIgnoreList(List<string> devicePaths);
+
+		[OperationContract]
+		void ResetStates(string states);
+
+		[OperationContract]
+		void SetZoneGuard(string placeInTree, string localZoneNo);
+
+		[OperationContract]
+		void UnSetZoneGuard(string placeInTree, string localZoneNo);
+
+		[OperationContract]
+		void AddUserMessage(string message);
 	}
 }

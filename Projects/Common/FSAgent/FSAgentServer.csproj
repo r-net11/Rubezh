@@ -83,7 +83,6 @@
     <Compile Include="Firesec\NativeFiresecClient.Callack.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.OperationQueue.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SafeCall.cs" />
     <Compile Include="Firesec\SocketServerHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">

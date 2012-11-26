@@ -39,11 +39,15 @@ namespace FiresecClient
 
         IFiresecService DoCreate(string serverAddress)
 		{
+<<<<<<< HEAD
             //Binding binding = BindingHelper.CreateWSHttpBinding();
 #if DEBUG
 			serverAddress = "net.pipe://127.0.0.1/FiresecService/";
 			binding = BindingHelper.CreateNetNamedPipeBinding();
 #endif
+=======
+			Binding binding = BindingHelper.CreateBindingFromAddress(serverAddress);
+>>>>>>> bugfix
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
 			ChannelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{77B6C887-5205-4288-91BD-D818C2BE5E3C}</ProjectGuid>
+    <ProjectGuid>{41A3AB29-E109-4949-860A-006D37430954}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FiresecEventTest</RootNamespace>
-    <AssemblyName>FiresecEventTest</AssemblyName>
+    <RootNamespace>FSAgent</RootNamespace>
+    <AssemblyName>FSAgent</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -31,21 +31,16 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -67,6 +62,7 @@
     <Compile Include="JournalConverter.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="SerializerHelper.cs" />
+    <Compile Include="ServerHost.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -125,6 +121,20 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FSAgentAPI\FSAgentAPI.csproj">
+      <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
+      <Name>FSAgentAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <COMReference Include="FS_Types">
       <Guid>{B86C6AD7-5766-4233-AF55-707B45661224}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -143,24 +153,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common %28Common\Common%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
-      <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
-      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
-      <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

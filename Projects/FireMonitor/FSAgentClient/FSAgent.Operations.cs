@@ -18,5 +18,35 @@ namespace FSAgentClient
         {
             return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "GetChangeResult");
         }
+
+		public void AddToIgnoreList(List<string> devicePaths)
+		{
+			SafeOperationCall(() => { FSAgentContract.AddToIgnoreList(devicePaths); }, "AddToIgnoreList");
+		}
+
+		public void RemoveFromIgnoreList(List<string> devicePaths)
+		{
+			SafeOperationCall(() => { FSAgentContract.RemoveFromIgnoreList(devicePaths); }, "RemoveFromIgnoreList");
+		}
+
+		public void ResetStates(string states)
+		{
+			SafeOperationCall(() => { FSAgentContract.ResetStates(states); }, "ResetStates");
+		}
+
+		public void SetZoneGuard(string placeInTree, string localZoneNo)
+		{
+			SafeOperationCall(() => { FSAgentContract.SetZoneGuard(placeInTree, localZoneNo); }, "SetZoneGuard");
+		}
+
+		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
+		{
+			SafeOperationCall(() => { FSAgentContract.UnSetZoneGuard(placeInTree, localZoneNo); }, "UnSetZoneGuard");
+		}
+
+		public void AddUserMessage(string message)
+		{
+			SafeOperationCall(() => { FSAgentContract.AddUserMessage(message); }, "AddUserMessage");
+		}
     }
 }

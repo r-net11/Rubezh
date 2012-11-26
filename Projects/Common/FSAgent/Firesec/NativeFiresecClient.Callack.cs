@@ -48,7 +48,6 @@ namespace Firesec
 			{
 				needToRead = false;
 
-				SuspendOperationQueueEvent = new AutoResetEvent(false);
 				try
 				{
 					if (needToReadStates)
@@ -96,10 +95,6 @@ namespace Firesec
 				}
 				finally
 				{
-					if (SuspendOperationQueueEvent != null)
-					{
-						SuspendOperationQueueEvent.Set();
-					}
 				}
 			}
 		}
