@@ -8,16 +8,11 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceTreeViewModel : BaseViewModel
     {
-		bool IsRemote;
         Device RootDevice;
-        DeviceConfiguration DeviceConfiguration;
 
-        public DeviceTreeViewModel(Device rootDevice, DeviceConfiguration deviceConfiguration, bool isRemote)
+        public DeviceTreeViewModel(Device rootDevice)
         {
-			IsRemote = isRemote;
             RootDevice = rootDevice;
-            DeviceConfiguration = deviceConfiguration;
-			DeviceConfiguration.Reorder();
 
             BuildTree(rootDevice);
             if (Devices.Count > 0)
@@ -50,10 +45,7 @@ namespace DevicesModule.ViewModels
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
             var deviceViewModel = new DeviceViewModel(device);
-            if (IsRemote)
-                deviceViewModel.XXXPresentationZone = DeviceConfiguration.GetPresentationZone(device);
-            else
-                deviceViewModel.XXXPresentationZone = deviceViewModel.PresentationZone;
+            deviceViewModel.XXXPresentationZone = device.ZonesConfiguration.GetPresentationZone(device);
             var indexOf = Devices.IndexOf(parentDeviceViewModel);
             Devices.Insert(indexOf + 1, deviceViewModel);
 

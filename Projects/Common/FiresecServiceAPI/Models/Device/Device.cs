@@ -24,7 +24,10 @@ namespace FiresecAPI.Models
 			ShapeIds = new List<string>();
 			ZonesInLogic = new List<Zone>();
 			DependentDevices = new List<Device>();
+            ZonesConfiguration = new DeviceConfiguration();
 		}
+
+        public DeviceConfiguration ZonesConfiguration { get; set; }
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
