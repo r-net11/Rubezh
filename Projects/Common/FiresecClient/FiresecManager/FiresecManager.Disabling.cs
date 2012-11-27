@@ -33,9 +33,9 @@ namespace FiresecClient
                 if ((deviceState != null) && (CanDisable(deviceState)))
                 {
                     if (deviceState.IsDisabled)
-                        RemoveFromIgnoreList(new List<Device>() { deviceState.Device });
+						FiresecDriver.RemoveFromIgnoreList(new List<Device>() { deviceState.Device });
                     else
-                        AddToIgnoreList(new List<Device>() { deviceState.Device });
+						FiresecDriver.AddToIgnoreList(new List<Device>() { deviceState.Device });
                 }
             }
             catch (Exception e)

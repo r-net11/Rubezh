@@ -9,20 +9,23 @@ using System.Diagnostics;
 using FiresecAPI.Models;
 using System.Windows.Threading;
 using Common;
+using FSAgentAPI;
 
 namespace FSAgentServer
 {
     public partial class WatcherManager
 	{
 		public static WatcherManager Current { get; private set; }
-        AutoResetEvent StopEvent;
+        AutoResetEvent StopEvent = new AutoResetEvent(false);
         Thread RunThread;
-		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
-        FiresecSerializedClient CallbackFiresecSerializedClient;
+		public FiresecSerializedClient AdministratorClient { get; private set; }
+		public FiresecSerializedClient MonitorClient { get; private set; }
+        FiresecSerializedClient CallbackClient;
         Watcher Watcher;
         int PollIndex = 0;
         bool IsOperationBuisy;
         DateTime OperationDateTime;
+		public static AutoResetEvent PoolSleepEvent = new AutoResetEvent(false);
 
 		public WatcherManager()
 		{
@@ -33,9 +36,8 @@ namespace FSAgentServer
         {
             if (RunThread == null)
             {
-
-                CallbackFiresecSerializedClient = new FiresecSerializedClient();
-                CallbackFiresecSerializedClient.Connect("localhost", 211, "adm", "", true);
+                CallbackClient = new FiresecSerializedClient();
+                CallbackClient.Connect("localhost", 211, "adm", "", true);
 
                 StopEvent = new AutoResetEvent(false);
                 RunThread = new Thread(OnRun);
@@ -45,8 +47,8 @@ namespace FSAgentServer
 
                 StartLifetimeThread();
 
-				var testThread = new Thread(OnTest);
-				testThread.Start();
+				//var testThread = new Thread(OnTest);
+				//testThread.Start();
             }
         }
 
@@ -57,7 +59,7 @@ namespace FSAgentServer
 				Thread.Sleep(TimeSpan.FromSeconds(5));
                 OperationResult<string> result = (OperationResult<string>)Invoke(new Func<object>(() =>
                     {
-                        return FiresecSerializedClient.NativeFiresecClient.GetMetadata();
+                        return MonitorClient.NativeFiresecClient.GetMetadata();
                     }));
 
                 Trace.WriteLine(result.Result);
@@ -83,14 +85,23 @@ namespace FSAgentServer
             }
         }
 
+		public static void WaikeOnEvent()
+		{
+			PoolSleepEvent.Set();
+		}
+
 		void OnRun()
 		{
 			try
 			{
-                FiresecSerializedClient = new FiresecSerializedClient();
-                FiresecSerializedClient.Connect("localhost", 211, "adm", "", false);
+				AdministratorClient = new FiresecSerializedClient();
+				AdministratorClient.Connect("localhost", 211, "adm", "", false);
+				AdministratorClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnAdministratorProgress);
 
-                Watcher = new Watcher(FiresecSerializedClient, true, true);
+                MonitorClient = new FiresecSerializedClient();
+                MonitorClient.Connect("localhost", 211, "adm", "", false);
+
+                Watcher = new Watcher(MonitorClient, true, true);
 			}
 			catch (Exception e)
 			{
@@ -101,7 +112,9 @@ namespace FSAgentServer
 			{
 				try
 				{
-					Thread.Sleep(TimeSpan.FromSeconds(1));
+					PoolSleepEvent = new AutoResetEvent(false);
+					PoolSleepEvent.WaitOne(TimeSpan.FromSeconds(1));
+					//Thread.Sleep(100);
                     PollIndex++;
                     var force = PollIndex % 100 == 0;
 
@@ -122,7 +135,7 @@ namespace FSAgentServer
                             dispatcherItem.Execute();
                         }
 
-                        FiresecSerializedClient.NativeFiresecClient.CheckForRead(force);
+                        MonitorClient.NativeFiresecClient.CheckForRead(force);
                     }
                     catch (Exception e)
                     {
@@ -148,6 +161,7 @@ namespace FSAgentServer
 				{
 					Tasks.Enqueue(task);
 					Monitor.Pulse(locker);
+					PoolSleepEvent.Set();
 				}
 			}
 			catch (Exception e)
@@ -163,11 +177,28 @@ namespace FSAgentServer
         {
             var dispatcherItem = new DispatcherItem(func);
             DelegateTasks.Enqueue(dispatcherItem);
+			PoolSleepEvent.Set();
             dispatcherItem.FuncInvokeEvent.WaitOne(TimeSpan.FromSeconds(100));
             return dispatcherItem.Result;
         }
 
         Queue<DispatcherItem> DelegateTasks = new Queue<DispatcherItem>();
+
+		bool OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
+		{
+			Trace.WriteLine("comment = " + comment);
+			LastFSProgressInfo = new FSProgressInfo()
+			{
+				Stage = stage,
+				Comment = comment,
+				PercentComplete = percentComplete,
+				BytesRW = bytesRW
+			};
+			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
+			return true;
+		}
+
+		public FSProgressInfo LastFSProgressInfo { get; set; }
 	}
 
     public class DispatcherItem

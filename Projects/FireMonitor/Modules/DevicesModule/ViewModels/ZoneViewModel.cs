@@ -122,7 +122,7 @@ namespace DevicesModule.ViewModels
 		void OnDisableAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
-				FiresecManager.AddToIgnoreList(devices);
+				FiresecManager.FiresecDriver.AddToIgnoreList(devices);
 		}
 		bool CanDisableAll()
 		{
@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
 		void OnEnableAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
-				FiresecManager.RemoveFromIgnoreList(devices);
+				FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
 		}
 		bool CanEnableAll()
 		{

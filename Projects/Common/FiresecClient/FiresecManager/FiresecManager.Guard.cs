@@ -16,7 +16,7 @@ namespace FiresecClient
                     var localNo = FiresecConfiguration.GetZoneLocalSecNo(zone);
                     if (localNo > 0)
                     {
-                        SetZoneGuard(zone.SecPanelUID, localNo);
+						FiresecDriver.SetZoneGuard(zone.SecPanelUID, localNo);
                     }
                 }
             }
@@ -35,7 +35,7 @@ namespace FiresecClient
                     var localNo = FiresecConfiguration.GetZoneLocalSecNo(zone);
                     if (localNo > 0)
                     {
-                        UnSetZoneGuard(zone.SecPanelUID, localNo);
+						FiresecDriver.UnSetZoneGuard(zone.SecPanelUID, localNo);
                     }
                 }
             }
@@ -49,7 +49,7 @@ namespace FiresecClient
         {
             try
             {
-                SetZoneGuard(device.UID, 0);
+				FiresecDriver.SetZoneGuard(device.UID, 0);
             }
             catch (Exception e)
             {
@@ -61,7 +61,7 @@ namespace FiresecClient
         {
             try
             {
-                UnSetZoneGuard(device.UID, 0);
+				FiresecDriver.UnSetZoneGuard(device.UID, 0);
             }
             catch (Exception e)
             {

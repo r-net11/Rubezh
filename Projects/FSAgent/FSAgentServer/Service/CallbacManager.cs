@@ -23,6 +23,8 @@ namespace FSAgentServer
                 DateTime = DateTime.Now
             };
             FSAgentCallbacCashes.Add(callbackResultSaver);
+
+			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
         }
 
         public static List<FSAgentCallbac> Get(int index)

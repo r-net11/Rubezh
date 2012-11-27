@@ -75,11 +75,6 @@ namespace FSAgentServer
             return NativeFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
-        {
-            return NativeFiresecClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, ref reguestId);
-        }
-
         public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
         {
             return NativeFiresecClient.ExecuteCommand(devicePath, methodName);

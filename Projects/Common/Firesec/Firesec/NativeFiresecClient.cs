@@ -13,41 +13,61 @@ namespace Firesec
 
 		public OperationResult<string> GetCoreConfig()
 		{
-			return SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreConfig()); }, "GetCoreConfig");
+			return FSAgent.GetCoreConfig();
+			//return SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreConfig()); }, "GetCoreConfig");
 		}
 		public OperationResult<string> GetPlans()
 		{
-			return SafeCall<string>(() => { return Connection.GetCoreAreasW(); }, "GetPlans");
+			return FSAgent.GetPlans();
+			//return SafeCall<string>(() => { return Connection.GetCoreAreasW(); }, "GetPlans");
 		}
 		public OperationResult<string> GetMetadata()
 		{
-			return SafeCall<string>(() => { return ReadFromStream(Connection.GetMetaData()); }, "GetMetadata");
+			return FSAgent.GetMetadata();
+			//return SafeCall<string>(() => { return ReadFromStream(Connection.GetMetaData()); }, "GetMetadata");
 		}
 		public OperationResult<string> GetCoreState()
 		{
-			return SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
+			return FSAgent.GetCoreState();
+			//return SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
 		}
 		public OperationResult<string> GetCoreDeviceParams()
 		{
-			return SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
+			return FSAgent.GetCoreDeviceParams();
+			//return SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
 		}
 		public OperationResult<bool> SetNewConfig(string coreConfig)
 		{
-			return SafeCall<bool>(() => { Connection.SetNewConfig(coreConfig); return true; }, "SetNewConfig");
+			return FSAgent.SetNewConfig(coreConfig);
+			//return SafeCall<bool>(() => { Connection.SetNewConfig(coreConfig); return true; }, "SetNewConfig");
 		}
 
 		public OperationResult<string> ReadEvents(int fromId, int limit)
 		{
-			return SafeCall<string>(() => { return Connection.ReadEvents(fromId, limit); }, "ReadEvents");
+			return FSAgent.ReadEvents(fromId, limit);
+			//return SafeCall<string>(() => { return Connection.ReadEvents(fromId, limit); }, "ReadEvents");
 		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
 		{
-			_reguestId++;
-			reguestId = _reguestId;
-			return SafeCall<string>(() =>
+			var operationResult = FSAgent.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
+			var result = new OperationResult<string>()
 			{
-				return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId);
-			}, "ExecuteRuntimeDeviceMethod");
+				Error = operationResult.Error,
+				HasError = operationResult.HasError
+			};
+			if (operationResult.Result != null)
+			{
+				reguestId = operationResult.Result.ReguestId;
+				result.Result = operationResult.Result.Result;
+			}
+			return result;
+
+			//_reguestId++;
+			//reguestId = _reguestId;
+			//return SafeCall<string>(() =>
+			//{
+			//    return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId);
+			//}, "ExecuteRuntimeDeviceMethod");
 		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
@@ -56,85 +76,96 @@ namespace Firesec
 
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			return SafeCall<bool>(() =>
-			{
-				_reguestId++;
-				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId);
-				return true;
-			}, "ExecuteCommand");
+			return FSAgent.ExecuteCommand(devicePath, methodName);
+			//return SafeCall<bool>(() =>
+			//{
+			//    _reguestId++;
+			//    var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId);
+			//    return true;
+			//}, "ExecuteCommand");
 		}
 		public OperationResult<bool> CheckHaspPresence()
 		{
-			return SafeCall<bool>(() =>
-			{
-				string errorMessage = "";
-				try
-				{
-					var result = Connection.CheckHaspPresence(out errorMessage);
-					return result;
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове NativeFiresecClient.CheckHaspPresence");
-					return true;
-				}
-			}, "CheckHaspPresence");
+			return FSAgent.CheckHaspPresence();
+			//return SafeCall<bool>(() =>
+			//{
+			//    string errorMessage = "";
+			//    try
+			//    {
+			//        var result = Connection.CheckHaspPresence(out errorMessage);
+			//        return result;
+			//    }
+			//    catch (Exception e)
+			//    {
+			//        Logger.Error(e, "Исключение при вызове NativeFiresecClient.CheckHaspPresence");
+			//        return true;
+			//    }
+			//}, "CheckHaspPresence");
 		}
 		public void AddToIgnoreList(List<string> devicePaths)
 		{
-			AddTask(() =>
-				{
-					SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
-				});
+			FSAgent.AddToIgnoreList(devicePaths);
+			//AddTask(() =>
+			//    {
+			//        SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
+			//    });
 		}
 		public void RemoveFromIgnoreList(List<string> devicePaths)
 		{
-			AddTask(() =>
-				{
-					SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
-				});
+			FSAgent.RemoveFromIgnoreList(devicePaths);
+			//AddTask(() =>
+			//    {
+			//        SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
+			//    });
 		}
 		public void ResetStates(string states)
 		{
-			AddTask(() =>
-				{
-					SafeCall<bool>(() =>
-					{
-						Connection.ResetStates(states);
-						return true;
-					}, "ResetStates");
-				});
+			FSAgent.ResetStates(states);
+			//AddTask(() =>
+			//    {
+			//        SafeCall<bool>(() =>
+			//        {
+			//            Connection.ResetStates(states);
+			//            return true;
+			//        }, "ResetStates");
+			//    });
 		}
 		public void SetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			AddTask(() =>
-			{
-				SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
-			});
+			FSAgent.SetZoneGuard(placeInTree, localZoneNo);
+			//AddTask(() =>
+			//{
+			//    SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
+			//});
 		}
 		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			AddTask(() =>
-			{
-				SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
-			});
+			FSAgent.UnSetZoneGuard(placeInTree, localZoneNo);
+			//AddTask(() =>
+			//{
+			//    SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
+			//});
 		}
-		public OperationResult<bool> AddUserMessage(string message)
+		public void AddUserMessage(string message)
 		{
-			return SafeCall<bool>(() => { Connection.StoreUserMessage(message); return true; }, "AddUserMessage");
+			FSAgent.AddUserMessage(message);
+			//return SafeCall<bool>(() => { Connection.StoreUserMessage(message); return true; }, "AddUserMessage");
 		}
 
 		public OperationResult<bool> DeviceWriteConfig(string coreConfig, string devicePath)
 		{
-			return SafeCall<bool>(() => { Connection.DeviceWriteConfig(coreConfig, devicePath); return true; }, "DeviceWriteConfig");
+			return FSAgent.DeviceWriteConfig(coreConfig, devicePath);
+			//return SafeCall<bool>(() => { Connection.DeviceWriteConfig(coreConfig, devicePath); return true; }, "DeviceWriteConfig");
 		}
 		public OperationResult<bool> DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
 		{
-			return SafeCall<bool>(() => { Connection.DeviceSetPassword(coreConfig, devicePath, password, deviceUser); return true; }, "DeviceSetPassword");
+			return FSAgent.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
+			//return SafeCall<bool>(() => { Connection.DeviceSetPassword(coreConfig, devicePath, password, deviceUser); return true; }, "DeviceSetPassword");
 		}
 		public OperationResult<bool> DeviceDatetimeSync(string coreConfig, string devicePath)
 		{
-			return SafeCall<bool>(() => { Connection.DeviceDatetimeSync(coreConfig, devicePath); return true; }, "DeviceDatetimeSync");
+			return FSAgent.DeviceDatetimeSync(coreConfig, devicePath);
+			//return SafeCall<bool>(() => { Connection.DeviceDatetimeSync(coreConfig, devicePath); return true; }, "DeviceDatetimeSync");
 		}
         public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
         {
@@ -143,47 +174,58 @@ namespace Firesec
         }
 		public OperationResult<string> DeviceGetSerialList(string coreConfig, string devicePath)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceGetSerialList(coreConfig, devicePath); }, "DeviceGetSerialList");
+			return FSAgent.DeviceGetSerialList(coreConfig, devicePath);
+			//return SafeCall<string>(() => { return Connection.DeviceGetSerialList(coreConfig, devicePath); }, "DeviceGetSerialList");
 		}
 		public OperationResult<string> DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceUpdateFirmware(coreConfig, devicePath, fileName); }, "DeviceUpdateFirmware");
+			return FSAgent.DeviceUpdateFirmware(coreConfig, devicePath, fileName);
+			//return SafeCall<string>(() => { return Connection.DeviceUpdateFirmware(coreConfig, devicePath, fileName); }, "DeviceUpdateFirmware");
 		}
 		public OperationResult<string> DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName); }, "DeviceVerifyFirmwareVersion");
+			return FSAgent.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
+			//return SafeCall<string>(() => { return Connection.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName); }, "DeviceVerifyFirmwareVersion");
 		}
 		public OperationResult<string> DeviceReadConfig(string coreConfig, string devicePath)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceReadConfig(coreConfig, devicePath); }, "DeviceReadConfig");
+			return FSAgent.DeviceReadConfig(coreConfig, devicePath);
+			//return SafeCall<string>(() => { return Connection.DeviceReadConfig(coreConfig, devicePath); }, "DeviceReadConfig");
 		}
 		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceReadEventLog(coreConfig, devicePath, 0); }, "DeviceReadEventLog");
+			return FSAgent.DeviceReadEventLog(coreConfig, devicePath);
+			//return SafeCall<string>(() => { return Connection.DeviceReadEventLog(coreConfig, devicePath, 0); }, "DeviceReadEventLog");
 		}
 		public OperationResult<string> DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch); }, "DeviceAutoDetectChildren");
+			return FSAgent.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch);
+			//return SafeCall<string>(() => { return Connection.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch); }, "DeviceAutoDetectChildren");
 		}
 		public OperationResult<string> DeviceCustomFunctionList(string driverUID)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceCustomFunctionList(driverUID); }, "DeviceCustomFunctionList");
+			return FSAgent.DeviceCustomFunctionList(driverUID);
+			//return SafeCall<string>(() => { return Connection.DeviceCustomFunctionList(driverUID); }, "DeviceCustomFunctionList");
 		}
 		public OperationResult<string> DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName); }, "DeviceCustomFunctionExecute");
+			return FSAgent.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
+			//return SafeCall<string>(() => { return Connection.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName); }, "DeviceCustomFunctionExecute");
 		}
 		public OperationResult<string> DeviceGetGuardUsersList(string coreConfig, string devicePath)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceGetGuardUsersList(coreConfig, devicePath); }, "DeviceGetGuardUsersList");
+			return FSAgent.DeviceGetGuardUsersList(coreConfig, devicePath);
+			//return SafeCall<string>(() => { return Connection.DeviceGetGuardUsersList(coreConfig, devicePath); }, "DeviceGetGuardUsersList");
 		}
 		public OperationResult<bool> DeviceSetGuardUsersList(string coreConfig, string devicePath, string users)
 		{
-			return SafeCall<bool>(() => { Connection.DeviceSetGuardUsersList(coreConfig, devicePath, users); return true; }, "DeviceSetGuardUsersList");
+			return FSAgent.DeviceSetGuardUsersList(coreConfig, devicePath, users);
+			//return SafeCall<bool>(() => { Connection.DeviceSetGuardUsersList(coreConfig, devicePath, users); return true; }, "DeviceSetGuardUsersList");
 		}
 		public OperationResult<string> DeviceGetMDS5Data(string coreConfig, string devicePath)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceGetMDS5Data(coreConfig, devicePath); }, "DeviceGetMDS5Data");
+			return FSAgent.DeviceGetMDS5Data(coreConfig, devicePath);
+			//return SafeCall<string>(() => { return Connection.DeviceGetMDS5Data(coreConfig, devicePath); }, "DeviceGetMDS5Data");
 		}
 
 		string ConvertDeviceList(List<string> devicePaths)

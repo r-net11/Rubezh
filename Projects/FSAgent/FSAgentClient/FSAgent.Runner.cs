@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using FiresecAPI.Models;
+using FSAgentAPI;
+using System.Diagnostics;
 
 namespace FSAgentClient
 {
@@ -34,7 +36,7 @@ namespace FSAgentClient
 				if (IsClosing)
 					return;
 
-				Thread.Sleep(TimeSpan.FromSeconds(1));
+				//Thread.Sleep(1000);
 				var changeResults = Poll(FSAgentFactory.UID);
 				if (changeResults != null)
 				{
@@ -51,8 +53,18 @@ namespace FSAgentClient
 
 						if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
 							OnNewJournalRecords(changeResult.JournalRecords);
+
+						if (changeResult.FSProgressInfo != null)
+							OnProgress(changeResult.FSProgressInfo);
 					}
 				}
+
+				//var fsProgressInfo = PollAdministratorProgress();
+				//if (fsProgressInfo != null)
+				//{
+				//    Trace.WriteLine("fsProgressInfo.Comment = " + fsProgressInfo.Comment);
+				//    OnProgress(fsProgressInfo);
+				//}
 			}
 		}
 
@@ -82,6 +94,13 @@ namespace FSAgentClient
 		{
 			if (NewJournalRecords != null)
 				NewJournalRecords(journalRecords);
+		}
+
+		public event Action<FSProgressInfo> Progress;
+		void OnProgress(FSProgressInfo deviceStates)
+		{
+			if (Progress != null)
+				Progress(deviceStates);
 		}
 	}
 }

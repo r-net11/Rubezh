@@ -20,8 +20,7 @@ namespace FiresecClient
 				FSAgent.Start();
 
                 FiresecDriver = new FiresecDriver();
-                var result = FiresecDriver.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
-                FiresecDriver.FiresecSerializedClient.NativeFiresecClient.FSAgent = FSAgent;
+                var result = FiresecDriver.Connect(FSAgent, FS_Address, FS_Port, FS_Login, FS_Password, isPing);
                 return result;
             }
             catch (Exception e)

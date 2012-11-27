@@ -28,6 +28,7 @@ namespace FSAgentServer
 				needToReadJournal = ((eventMask & 1) == 1);
 				needToReadStates = ((eventMask & 2) == 2);
 				needToReadParameters = ((eventMask & 8) == 8);
+				WatcherManager.WaikeOnEvent();
 			}
 		}
 

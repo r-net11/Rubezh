@@ -3,6 +3,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FSAgentAPI;
 
 namespace FireAdministrator.ViewModels
 {
@@ -17,37 +18,40 @@ namespace FireAdministrator.ViewModels
 			CloseOnEscape = false;
 			AllowClose = false;
 			StopCommand = new RelayCommand(OnStop);
-            FiresecManager.FiresecDriver.Watcher.Progress -= new Func<int, string, int, int, bool>(Progress);
-            FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Progress);
+			FiresecManager.FSAgent.Progress -= new Action<FSProgressInfo>(Progress);
+			FiresecManager.FSAgent.Progress += new Action<FSProgressInfo>(Progress);
+
+			//FiresecManager.FiresecDriver.Watcher.Progress -= new Func<int, string, int, int, bool>(Progress);
+			//FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Progress);
 		}
 
 		public void CloseProgress()
 		{
-            FiresecManager.FiresecDriver.Watcher.Progress -= new Func<int, string, int, int, bool>(Progress);
+			FiresecManager.FSAgent.Progress -= new Action<FSProgressInfo>(Progress);
 			Close(true);
 		}
 
-		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
+		public void Progress(FSProgressInfo fsProgressInfo)
 		{
-            ApplicationService.Invoke(() => OnProgress(stage, comment, percentComplete, bytesRW));
-            return !IsCanceling;
+			ApplicationService.Invoke(() => OnProgress(fsProgressInfo));
+            //return !IsCanceling;
 		}
 
-		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+		void OnProgress(FSProgressInfo fsProgressInfo)
 		{
-			Description = comment;
-			if (percentComplete >= 0)
+			Description = fsProgressInfo.Comment;
+			if (fsProgressInfo.PercentComplete >= 0)
 			{
-				Percent = percentComplete;
+				Percent = fsProgressInfo.PercentComplete;
 			}
 
-			if (stage == -100)
+			if (fsProgressInfo.Stage == -100)
 				CancelText = "Остановить";
 
-			if (stage > 0)
+			if (fsProgressInfo.Stage > 0)
 			{
-				int stageNo = stage / (256 * 256);
-				int stageCount = stage - stageNo * 256 * 256;
+				int stageNo = fsProgressInfo.Stage / (256 * 256);
+				int stageCount = fsProgressInfo.Stage - stageNo * 256 * 256;
 			}
 		}
 

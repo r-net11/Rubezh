@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace FSAgentServer
 {
@@ -28,7 +29,13 @@ namespace FSAgentServer
 
     public class ClientInfo
     {
+		public ClientInfo()
+		{
+			PollWaitEvent = new AutoResetEvent(false);
+		}
+
         public Guid UID { get; set; }
         public int CallbackIndex { get; set; }
+		public AutoResetEvent PollWaitEvent { get; set; }
     }
 }

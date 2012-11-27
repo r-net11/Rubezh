@@ -116,9 +116,9 @@ namespace Firesec
             NativeFiresecClient.UnSetZoneGuard(placeInTree, localZoneNo);
         }
 
-        public OperationResult<bool> AddUserMessage(string message)
+        public void AddUserMessage(string message)
         {
-            return NativeFiresecClient.AddUserMessage(message);
+            NativeFiresecClient.AddUserMessage(message);
         }
 
         public OperationResult<bool> DeviceSetPassword(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath, string password, int deviceUser)

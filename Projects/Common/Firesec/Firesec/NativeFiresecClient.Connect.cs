@@ -16,6 +16,7 @@ namespace Firesec
 
         public NativeFiresecClient()
         {
+			return;
             Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
             {
                 if (_dispatcher != null)
@@ -65,6 +66,7 @@ namespace Firesec
 
         public OperationResult<bool> DoConnect()
         {
+			return new OperationResult<bool>() { Result = true };
             IsConnected = false;
             for (int i = 0; i < 3; i++)
             {

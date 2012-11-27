@@ -181,7 +181,7 @@ namespace DiagnosticsModule.ViewModels
                     //safeFiresecService.Dispose();
                     //Trace.WriteLine("Count = " + count++.ToString());
 
-                    FiresecManager.AddUserMessage("Test Message " + count++.ToString());
+                    FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
                     if (count % 1000 == 0)
                     {
                         Trace.WriteLine("Count = " + count.ToString());
@@ -195,7 +195,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test8Command { get; private set; }
 		void OnTest8()
 		{
-			FiresecManager.AddUserMessage("Single Test Message");
+			FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
 		}
 
         public RelayCommand Test7Command { get; private set; }

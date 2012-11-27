@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FSAgentAPI;
 
 namespace FSAgentServer
 {
@@ -37,7 +38,21 @@ namespace FSAgentServer
 		{
 			return SafeCall<string>(() => { return Connection.ReadEvents(fromId, limit); }, "ReadEvents");
 		}
-		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
+		public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		{
+			_reguestId++;
+			return SafeCall<StringRequestIdResult>(() =>
+			{
+				var stringResult = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId);
+				var result = new StringRequestIdResult()
+				{
+					Result = stringResult,
+					ReguestId = _reguestId
+				};
+				return result;
+			}, "ExecuteRuntimeDeviceMethod");
+		}
+		public OperationResult<string> ExecuteRuntimeDeviceMethodRequest(string devicePath, string methodName, string parameters, ref int reguestId)
 		{
 			_reguestId++;
 			reguestId = _reguestId;
@@ -45,10 +60,6 @@ namespace FSAgentServer
 			{
 				return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId);
 			}, "ExecuteRuntimeDeviceMethod");
-		}
-		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
-		{
-			return SafeCall<string>(() => { Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId++); return null; }, "ExecuteRuntimeDeviceMethod");
 		}
 
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
@@ -95,11 +106,11 @@ namespace FSAgentServer
 		}
 		public void SetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
+			SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethodRequest(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
 		}
 		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
+			SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethodRequest(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
 		}
 		public OperationResult<bool> AddUserMessage(string message)
 		{

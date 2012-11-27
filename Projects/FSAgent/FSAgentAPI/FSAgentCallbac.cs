@@ -21,5 +21,8 @@ namespace FSAgentAPI
 
         [DataMember]
         public List<ZoneState> ZoneStates { get; set; }
+
+		[DataMember]
+		public FSProgressInfo FSProgressInfo { get; set; }
     }
 }

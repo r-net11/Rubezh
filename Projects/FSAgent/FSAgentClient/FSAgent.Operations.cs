@@ -20,6 +20,21 @@ namespace FSAgentClient
             return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "GetChangeResult");
         }
 
+		public FSProgressInfo PollAdministratorProgress()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.PollAdministratorProgress(); }, "PollAdministratorProgress");
+		}
+
+		public FSProgressInfo PollMonitorProgress()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.PollMonitorProgress(); }, "PollMonitorProgress");
+		}
+
+		public void CancelAdministratorProgress()
+		{
+			SafeOperationCall(() => { FSAgentContract.CancelAdministratorProgress(); }, "CancelAdministratorProgress");
+		}
+
 		public void AddToIgnoreList(List<string> devicePaths)
 		{
 			SafeOperationCall(() => { FSAgentContract.AddToIgnoreList(devicePaths); }, "AddToIgnoreList");
@@ -50,9 +65,124 @@ namespace FSAgentClient
 			SafeOperationCall(() => { FSAgentContract.AddUserMessage(message); }, "AddUserMessage");
 		}
 
-        public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
-        {
-            return SafeOperationCall(() => { return FSAgentContract.DeviceGetInformation(coreConfig, devicePath); }, "DeviceGetInformation");
-        }
+		public OperationResult<string> GetCoreConfig()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetCoreConfig(); }, "GetCoreConfig");
+		}
+		public OperationResult<string> GetPlans()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetPlans(); }, "GetPlans");
+		}
+		public OperationResult<string> GetMetadata()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetMetadata(); }, "GetMetadata");
+		}
+		public OperationResult<string> GetCoreState()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetCoreState(); }, "GetCoreState");
+		}
+		public OperationResult<string> GetCoreDeviceParams()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
+		}
+		public OperationResult<bool> SetNewConfig(string coreConfig)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.SetNewConfig(coreConfig); }, "SetNewConfig");
+		}
+
+		public OperationResult<string> ReadEvents(int fromId, int limit)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.ReadEvents(fromId, limit); }, "ReadEvents");
+		}
+
+		public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters); }, "ExecuteRuntimeDeviceMethod");
+		}
+
+		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.ExecuteCommand(devicePath, methodName); }, "ExecuteCommand");
+		}
+
+		public OperationResult<bool> CheckHaspPresence()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.CheckHaspPresence(); }, "CheckHaspPresence");
+		}
+
+		public OperationResult<bool> DeviceWriteConfig(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceWriteConfig(coreConfig, devicePath); }, "DeviceWriteConfig");
+		}
+
+		public OperationResult<bool> DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceSetPassword(coreConfig, devicePath, password, deviceUser); }, "DeviceSetPassword");
+		}
+
+		public OperationResult<bool> DeviceDatetimeSync(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceDatetimeSync(coreConfig, devicePath); }, "DeviceDatetimeSync");
+		}
+
+		public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceGetInformation(coreConfig, devicePath); }, "DeviceGetInformation");
+		}
+
+		public OperationResult<string> DeviceGetSerialList(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceGetSerialList(coreConfig, devicePath); }, "DeviceGetSerialList");
+		}
+
+		public OperationResult<string> DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceUpdateFirmware(coreConfig, devicePath, fileName); }, "DeviceUpdateFirmware");
+		}
+
+		public OperationResult<string> DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName); }, "DeviceVerifyFirmwareVersion");
+		}
+
+		public OperationResult<string> DeviceReadConfig(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceReadConfig(coreConfig, devicePath); }, "DeviceReadConfig");
+		}
+
+		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceReadEventLog(coreConfig, devicePath); }, "DeviceReadEventLog");
+		}
+
+		public OperationResult<string> DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch); }, "DeviceAutoDetectChildren");
+		}
+
+		public OperationResult<string> DeviceCustomFunctionList(string driverUID)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceCustomFunctionList(driverUID); }, "DeviceCustomFunctionList");
+		}
+
+		public OperationResult<string> DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName); }, "DeviceCustomFunctionExecute");
+		}
+
+		public OperationResult<string> DeviceGetGuardUsersList(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceGetGuardUsersList(coreConfig, devicePath); }, "DeviceGetGuardUsersList");
+		}
+
+		public OperationResult<bool> DeviceSetGuardUsersList(string coreConfig, string devicePath, string users)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceSetGuardUsersList(coreConfig, devicePath, users); }, "DeviceSetGuardUsersList");
+		}
+
+		public OperationResult<string> DeviceGetMDS5Data(string coreConfig, string devicePath)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.DeviceGetMDS5Data(coreConfig, devicePath); }, "DeviceGetMDS5Data");
+		}
     }
 }

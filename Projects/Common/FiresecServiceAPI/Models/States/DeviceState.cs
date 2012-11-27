@@ -140,7 +140,8 @@ namespace FiresecAPI.Models
 				var parentStringStates = new List<string>();
 				foreach (var parentDeviceState in ThreadSafeParentStates)
 				{
-					parentStringStates.Add(parentDeviceState.ParentDevice.Driver.ShortName + " - " + parentDeviceState.DriverState.Name);
+					if (parentDeviceState.ParentDevice.Driver != null)
+						parentStringStates.Add(parentDeviceState.ParentDevice.Driver.ShortName + " - " + parentDeviceState.DriverState.Name);
 				}
 				return parentStringStates;
 			}

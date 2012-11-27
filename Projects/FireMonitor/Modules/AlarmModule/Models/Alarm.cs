@@ -40,7 +40,7 @@ namespace AlarmModule
 			if (Device != null)
 			{
 				if (FiresecManager.CanDisable(Device.DeviceState) && Device.DeviceState.IsDisabled)
-					FiresecManager.RemoveFromIgnoreList(new List<Device>() { Device.DeviceState.Device });
+					FiresecManager.FiresecDriver.RemoveFromIgnoreList(new List<Device>() { Device.DeviceState.Device });
 			}
 		}
 
