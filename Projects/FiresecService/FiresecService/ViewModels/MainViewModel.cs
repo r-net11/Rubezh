@@ -4,6 +4,7 @@ using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecService.ViewModels
 {
@@ -97,7 +98,7 @@ namespace FiresecService.ViewModels
 			));
 		}
 
-		string _lastLog = "";
+        string _lastLog = "";
 		public string LastLog
 		{
 			get { return _lastLog; }

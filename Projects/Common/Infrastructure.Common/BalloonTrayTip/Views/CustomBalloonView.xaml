@@ -27,7 +27,9 @@
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
-    
+    <UserControl.InputBindings>
+        <MouseBinding MouseAction="LeftClick" Command="{Binding Test1Command}" />
+    </UserControl.InputBindings>
     <Border x:Name="grid" 
             MouseDown="grid_MouseDown"  
             Width="220" 

@@ -11,6 +11,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
     public class BalloonToolTipViewModel: WindowBaseViewModel
     {
         public static bool isShown = false;
+        public static bool isEmpty = false;
 
         List<string> titles = new List<string>();
         List<string> texts = new List<string>();
@@ -48,11 +49,15 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 
         public BalloonToolTipViewModel(string ttl, string txt, System.Windows.Media.Brush clr)
         {
+            texts.Clear();
+            titles.Clear();
+            colors.Clear();
             Title = "";
             BalloonTitle = ttl;
             BalloonText = txt;
             BackgroundColor = clr;
             Test1Command = new RelayCommand(OnTest1);
+            isEmpty = false;
         }
 
         public void AddNote(string ttl, string txt, System.Windows.Media.Brush clr)
@@ -64,12 +69,28 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
         public RelayCommand Test1Command { get; private set; }
         void OnTest1()
         {
-            
+            if (!chkEmpty())
+            {
+                titles.Remove(titles.Last());
+                OnPropertyChanged("BalloonTitle");
+                texts.Remove(texts.Last());
+                OnPropertyChanged("BalloonText");
+                colors.Remove(colors.Last());
+                OnPropertyChanged("BackgroundColor");
+            }
         }
         public BalloonToolTipViewModel()
         {
             Title = "";
-            Test1Command = new RelayCommand(OnTest1); 
+            Test1Command = new RelayCommand(OnTest1);
+            isEmpty = false;
+        }
+
+        bool chkEmpty()
+        {
+            if(titles.Count < 3)
+                isEmpty = true;
+            return isEmpty;
         }
     }
 }

@@ -5,6 +5,8 @@ using System.ServiceModel.Description;
 using Common;
 using FiresecService.ViewModels;
 using System.Net;
+using System.Windows.Forms;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecService.Service
 {
@@ -34,7 +36,8 @@ namespace FiresecService.Service
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
 				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message, true);
-				return false;
+                BalloonHelper.ShowWarning("Ошибка при запуске хоста сервиса", e.Message);
+                return false;
 			}
 		}
 

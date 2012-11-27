@@ -12,9 +12,7 @@ using System.Windows;
 using Infrastructure.Common.BalloonTrayTip;
 using Firesec;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
-using Common;
-using FSAgentClient;
+
 
 
 namespace DiagnosticsModule.ViewModels
@@ -110,19 +108,19 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
 		{
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				while (true)
-				{
-					if (NativeFiresecClient.TasksCount > 10)
-						continue;
-					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    if (NativeFiresecClient.TasksCount > 10)
+                        continue;
+                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-					RemoveFromIgnoreList();
-				}
-			}));
-			thread.IsBackground = true;
-			thread.Start();
+                    RemoveFromIgnoreList();
+                }
+            }));
+            thread.IsBackground = true;
+            thread.Start();
 		}
 
         public RelayCommand Test2Command { get; private set; }

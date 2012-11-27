@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace DevicesModule.Views
 {
@@ -75,6 +76,7 @@ namespace DevicesModule.Views
 				{
                     _serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
 				    _serviceConnectionIndicator.Opacity = 1;
+                    BalloonHelper.ShowWarning("Связь с сервером потеряна", "");
 				}
 			}
 		}

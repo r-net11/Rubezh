@@ -6,6 +6,7 @@ using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace FiresecService
 {
@@ -27,6 +28,7 @@ namespace FiresecService
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+                resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
 
                 WindowThread = new Thread(new ThreadStart(OnWorkThread));
                 WindowThread.Priority = ThreadPriority.Highest;

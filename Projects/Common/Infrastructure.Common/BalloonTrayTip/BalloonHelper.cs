@@ -16,23 +16,22 @@ namespace Infrastructure.Common.BalloonTrayTip
     {
         static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel("", "", System.Windows.Media.Brushes.OldLace);
         
-
         public static void Show(string title, string text, System.Windows.Media.Brush clr)
         {
             balloonToolTipViewModel.AddNote(title, text, clr);
             if (BalloonToolTipViewModel.isShown == false)
             {
+
+                //DialogService.ShowModalWindow(balloonToolTipViewModel);
                 ShowTrayWindow(balloonToolTipViewModel);
                 BalloonToolTipViewModel.isShown = true;
+                BalloonToolTipViewModel.isEmpty = false;
             }
                 
         }
-        
+
         static bool ShowTrayWindow(WindowBaseViewModel model, bool allowsTransparency = true)
         {
-            //WindowBaseView win = new WindowBaseView(model);
-            //win.Visibility = Visibility.Hidden;
-            //win.Show();
             try
             {
                 WindowBaseView win = new WindowBaseView(model);
@@ -47,6 +46,7 @@ namespace Infrastructure.Common.BalloonTrayTip
             }
             return false;
         }
+
 
         public static void ShowConflagration(string title, string text)
         {

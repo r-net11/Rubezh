@@ -16,9 +16,12 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-            taskbarIcon.CloseBalloon();
-            taskbarIcon.Dispose();
+            if (BalloonToolTipViewModel.isEmpty)
+            {
+                TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
+                taskbarIcon.CloseBalloon();
+                taskbarIcon.Dispose();
+            }
         }
 
         private void OnBalloonClosing(object sender, RoutedEventArgs e)
