@@ -68,17 +68,16 @@ namespace DevicesModule.ViewModels
 			{
 				try
 				{
-                    FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.AddTask(() =>
-                        {
-                            DoConfirm();
-                        });
-                    var thread = new Thread(() =>
-                    {
-                        Thread.Sleep(TimeSpan.FromSeconds(5));
-                        Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand");
-                        }));
-                    });
-                    thread.Start();
+					DoConfirm();
+					var thread = new Thread(() =>
+					{
+						Thread.Sleep(TimeSpan.FromSeconds(5));
+						Dispatcher.BeginInvoke(new Action(() =>
+						{
+							IsBuisy = false; OnPropertyChanged("ConfirmCommand");
+						}));
+					});
+					thread.Start();
 				}
 				catch (Exception e)
 				{

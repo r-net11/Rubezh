@@ -95,14 +95,7 @@
     <Compile Include="AuParameters\FiresecDriverAuParametersHelper.Get.cs" />
     <Compile Include="FiresecDriver.Reset.cs" />
     <Compile Include="Firesec\EmptyConfigHelper.cs" />
-    <Compile Include="Firesec\FiresecExceptionHelper.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Callack.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Lifetime.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Ping.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.SafeCall.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.OperationQueue.cs" />
     <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -132,42 +132,42 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.GetCoreConfig();
+				return WatcherManager.Current.AdministratorClient.GetCoreConfig();
 			}));
 		}
 		public OperationResult<string> GetPlans()
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.GetPlans();
+				return WatcherManager.Current.AdministratorClient.GetPlans();
 			}));
 		}
 		public OperationResult<string> GetMetadata()
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.GetMetadata();
+				return WatcherManager.Current.AdministratorClient.GetMetadata();
 			}));
 		}
 		public OperationResult<string> GetCoreState()
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.GetCoreState();
+				return WatcherManager.Current.AdministratorClient.GetCoreState();
 			}));
 		}
 		public OperationResult<string> GetCoreDeviceParams()
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.GetCoreDeviceParams();
+				return WatcherManager.Current.AdministratorClient.GetCoreDeviceParams();
 			}));
 		}
 		public OperationResult<bool> SetNewConfig(string coreConfig)
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.SetNewConfig(coreConfig);
+				return WatcherManager.Current.AdministratorClient.SetNewConfig(coreConfig);
 			}));
 		}
 
@@ -175,23 +175,15 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.ReadEvents(fromId, limit);
+				return WatcherManager.Current.AdministratorClient.ReadEvents(fromId, limit);
 			}));
 		}
-
-		//public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
-		//{
-		//    return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
-		//    {
-		//        return WatcherManager.Current.AdministratorClient.NativeFiresecClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, ref reguestId);
-		//    }));
-		//}
 
 		public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
 			return (OperationResult<StringRequestIdResult>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
+				return WatcherManager.Current.AdministratorClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
 			}));
 		}
 
@@ -199,7 +191,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.ExecuteCommand(devicePath, methodName);
+				return WatcherManager.Current.AdministratorClient.ExecuteCommand(devicePath, methodName);
 			}));
 		}
 
@@ -207,7 +199,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.CheckHaspPresence();
+				return WatcherManager.Current.AdministratorClient.CheckHaspPresence();
 			}));
 		}
 
@@ -215,7 +207,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceWriteConfig(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceWriteConfig(coreConfig, devicePath);
 			}));
 		}
 
@@ -223,7 +215,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
+				return WatcherManager.Current.AdministratorClient.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
 			}));
 		}
 
@@ -231,7 +223,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceDatetimeSync(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceDatetimeSync(coreConfig, devicePath);
 			}));
 		}
 
@@ -239,7 +231,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceGetInformation(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceGetInformation(coreConfig, devicePath);
 			}));
 		}
 
@@ -247,7 +239,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceGetSerialList(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceGetSerialList(coreConfig, devicePath);
 			}));
 		}
 
@@ -255,7 +247,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceUpdateFirmware(coreConfig, devicePath, fileName);
+				return WatcherManager.Current.AdministratorClient.DeviceUpdateFirmware(coreConfig, devicePath, fileName);
 			}));
 		}
 
@@ -263,7 +255,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
+				return WatcherManager.Current.AdministratorClient.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
 			}));
 		}
 
@@ -271,7 +263,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceReadConfig(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceReadConfig(coreConfig, devicePath);
 			}));
 		}
 
@@ -279,7 +271,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceReadEventLog(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceReadEventLog(coreConfig, devicePath);
 			}));
 		}
 
@@ -287,7 +279,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch);
+				return WatcherManager.Current.AdministratorClient.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch);
 			}));
 		}
 
@@ -295,7 +287,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceCustomFunctionList(driverUID);
+				return WatcherManager.Current.AdministratorClient.DeviceCustomFunctionList(driverUID);
 			}));
 		}
 
@@ -303,7 +295,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
+				return WatcherManager.Current.AdministratorClient.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
 			}));
 		}
 
@@ -311,7 +303,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceGetGuardUsersList(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceGetGuardUsersList(coreConfig, devicePath);
 			}));
 		}
 
@@ -319,7 +311,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceSetGuardUsersList(coreConfig, devicePath, users);
+				return WatcherManager.Current.AdministratorClient.DeviceSetGuardUsersList(coreConfig, devicePath, users);
 			}));
 		}
 
@@ -327,7 +319,7 @@ namespace FSAgentServer
 		{
 			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
 			{
-				return WatcherManager.Current.AdministratorClient.NativeFiresecClient.DeviceGetMDS5Data(coreConfig, devicePath);
+				return WatcherManager.Current.AdministratorClient.DeviceGetMDS5Data(coreConfig, devicePath);
 			}));
 		}
     }

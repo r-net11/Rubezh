@@ -18,9 +18,9 @@ namespace FSAgentServer
 		public static WatcherManager Current { get; private set; }
         AutoResetEvent StopEvent = new AutoResetEvent(false);
         Thread RunThread;
-		public FiresecSerializedClient AdministratorClient { get; private set; }
-		public FiresecSerializedClient MonitorClient { get; private set; }
-        FiresecSerializedClient CallbackClient;
+		public NativeFiresecClient AdministratorClient { get; private set; }
+		public NativeFiresecClient MonitorClient { get; private set; }
+		NativeFiresecClient CallbackClient;
         Watcher Watcher;
         int PollIndex = 0;
         bool IsOperationBuisy;
@@ -36,7 +36,7 @@ namespace FSAgentServer
         {
             if (RunThread == null)
             {
-                CallbackClient = new FiresecSerializedClient();
+				CallbackClient = new NativeFiresecClient();
                 CallbackClient.Connect("localhost", 211, "adm", "", true);
 
                 StopEvent = new AutoResetEvent(false);
@@ -72,11 +72,11 @@ namespace FSAgentServer
 		{
 			try
 			{
-				AdministratorClient = new FiresecSerializedClient();
+				AdministratorClient = new NativeFiresecClient();
 				AdministratorClient.Connect("localhost", 211, "adm", "", false);
-				AdministratorClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnAdministratorProgress);
+				AdministratorClient.ProgressEvent += new Func<int, string, int, int, bool>(OnAdministratorProgress);
 
-                MonitorClient = new FiresecSerializedClient();
+				MonitorClient = new NativeFiresecClient();
                 MonitorClient.Connect("localhost", 211, "adm", "", false);
 
                 Watcher = new Watcher(MonitorClient, true, true);
@@ -112,7 +112,7 @@ namespace FSAgentServer
                             dispatcherItem.Execute();
                         }
 
-                        MonitorClient.NativeFiresecClient.CheckForRead(force);
+                        MonitorClient.CheckForRead(force);
                     }
                     catch (Exception e)
                     {

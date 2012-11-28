@@ -27,9 +27,9 @@ namespace Firesec
             }
             if (mustMonitorStates)
             {
-				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
-				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.StateChanged += new Action<Models.CoreState.config>(OnStateChanged);
-				FiresecDriver.MonitoringFiresecSerializedClient.NativeFiresecClient.ParametersChanged += new Action<Models.DeviceParameters.config>(OnParametersChanged);
+				FiresecDriver.FiresecSerializedClient.NativeFiresecClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
+				FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StateChanged += new Action<Models.CoreState.config>(OnStateChanged);
+				FiresecDriver.FiresecSerializedClient.NativeFiresecClient.ParametersChanged += new Action<Models.DeviceParameters.config>(OnParametersChanged);
 			}
 			FiresecSerializedClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
 		}

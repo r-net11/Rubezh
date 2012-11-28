@@ -11,60 +11,6 @@ namespace FSAgentServer
 {
 	public static class SerializerHelper
 	{
-		public static expr GetZoneLogic(string zoneLogicString)
-		{
-			try
-			{
-				return Deserialize<expr>(zoneLogicString);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове SerializerHelper.GetZoneLogic");
-				return null;
-			}
-		}
-
-		public static string SetZoneLogic(expr zoneLogic)
-		{
-			return Serialize<expr>(zoneLogic);
-		}
-
-		public static LEDProperties GetIndicatorLogic(string indicatorLogicString)
-		{
-			try
-			{
-				return Deserialize<LEDProperties>(indicatorLogicString);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове SerializerHelper.GetIndicatorLogic");
-				return null;
-			}
-		}
-
-		public static string SetIndicatorLogic(LEDProperties indicatorLogic)
-		{
-			return Serialize<LEDProperties>(indicatorLogic);
-		}
-
-		public static RCGroupProperties GetGroupProperties(string groupPropertyString)
-		{
-			try
-			{
-				return Deserialize<RCGroupProperties>(groupPropertyString);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове SerializerHelper.GetGroupProperties");
-				return null;
-			}
-		}
-
-		public static string SeGroupProperty(RCGroupProperties groupProperty)
-		{
-			return Serialize<RCGroupProperties>(groupProperty);
-		}
-
 		public static T Deserialize<T>(string input)
 		{
 			try

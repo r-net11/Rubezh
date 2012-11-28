@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FSAgentAPI;
+using System.Diagnostics;
 
 namespace FSAgentServer
 {
@@ -42,11 +43,16 @@ namespace FSAgentServer
 			lock (locker)
 			{
 				var result = new List<FSAgentCallbac>();
-				var maxIndex = FSAgentCallbacCashes.Max(x => x.Index);
-				foreach (var callbackResultSaver in FSAgentCallbacCashes)
+				var safeCopy = FSAgentCallbacCashes.ToList();
+				var maxIndex = safeCopy.Max(x => x.Index);
+				foreach (var callbackResultSaver in safeCopy)
 				{
 					if (callbackResultSaver.Index > clientInfo.CallbackIndex)
 					{
+						foreach (var journalRecord in callbackResultSaver.FSAgentCallbac.JournalRecords)
+						{
+							Trace.WriteLine("Callback journal no = " + journalRecord.No.ToString());
+						}
 						result.Add(callbackResultSaver.FSAgentCallbac);
 					}
 				}
@@ -56,10 +62,10 @@ namespace FSAgentServer
 		}
 	}
 
-    public class FSAgentCallbacCash
-    {
-        public FSAgentCallbac FSAgentCallbac { get; set; }
-        public int Index { get; set; }
-        public DateTime DateTime { get; set; }
-    }
+	public class FSAgentCallbacCash
+	{
+		public FSAgentCallbac FSAgentCallbac { get; set; }
+		public int Index { get; set; }
+		public DateTime DateTime { get; set; }
+	}
 }

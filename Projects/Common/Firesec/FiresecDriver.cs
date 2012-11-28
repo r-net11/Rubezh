@@ -12,8 +12,7 @@ namespace Firesec
 {
 	public partial class FiresecDriver
 	{
-		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
-		public static FiresecSerializedClient MonitoringFiresecSerializedClient { get; private set; }
+		public static FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
@@ -21,29 +20,12 @@ namespace Firesec
 		{
 			try
 			{
-				MonitoringFiresecSerializedClient = new FiresecSerializedClient();
-				MonitoringFiresecSerializedClient.NativeFiresecClient.FSAgent = fsAgent;
-				MonitoringFiresecSerializedClient.NativeFiresecClient.SubscribeFsAgentEvents();
-
-				var connectResult1 = MonitoringFiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, false);
-				if (connectResult1.HasError)
-				{
-					return connectResult1;
-				}
-
 				FiresecSerializedClient = new FiresecSerializedClient();
 				FiresecSerializedClient.NativeFiresecClient.FSAgent = fsAgent;
-				var connectResult = FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, false);
-                if (connectResult.HasError)
-                {
-                    return connectResult;
-                }
+				FiresecSerializedClient.NativeFiresecClient.SubscribeFsAgentEvents();
+
                 ConfigurationConverter = new ConfigurationConverter(FiresecSerializedClient);
 				var result = ConfigurationConverter.ConvertMetadataFromFiresec();
-                if (connectResult.HasError)
-                {
-                    return connectResult;
-                }
                 if (result != null)
                 {
                     ConfigurationCash.DriversConfiguration = result;

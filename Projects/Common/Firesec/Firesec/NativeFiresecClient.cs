@@ -8,9 +8,14 @@ using FiresecAPI.Models;
 
 namespace Firesec
 {
-	public partial class NativeFiresecClient : FS_Types.IFS_CallBack
+	public partial class NativeFiresecClient
 	{
         public FSAgent FSAgent { get; set; }
+
+		public event Action<List<JournalRecord>> NewJournalRecords;
+		public event Action<Firesec.Models.CoreState.config> StateChanged;
+		public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
+		public event Func<int, string, int, int, bool> ProgressEvent;
 
 		public void SubscribeFsAgentEvents()
 		{
@@ -116,7 +121,18 @@ namespace Firesec
 		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
-			return SafeCall<string>(() => { Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId++); return null; }, "ExecuteRuntimeDeviceMethod");
+			var operationResult = FSAgent.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
+			var result = new OperationResult<string>()
+			{
+				Error = operationResult.Error,
+				HasError = operationResult.HasError
+			};
+			if (operationResult.Result != null)
+			{
+				result.Result = operationResult.Result.Result;
+			}
+			return result;
+			//return SafeCall<string>(() => { Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId++); return null; }, "ExecuteRuntimeDeviceMethod");
 		}
 
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
@@ -281,39 +297,6 @@ namespace Firesec
 				devicePatsString.AppendLine(device);
 			}
 			return devicePatsString.ToString().TrimEnd();
-		}
-
-		string ReadFromStream(mscoree.IStream stream)
-		{
-			var stringBuilder = new StringBuilder();
-			try
-			{
-				unsafe
-				{
-					byte* unsafeBytes = stackalloc byte[1024];
-					while (true)
-					{
-						var _intPtr = new IntPtr(unsafeBytes);
-						uint bytesRead = 0;
-						stream.Read(_intPtr, 1024, out bytesRead);
-						if (bytesRead == 0)
-							break;
-
-						var bytes = new byte[bytesRead];
-						for (int i = 0; i < bytesRead; ++i)
-						{
-							bytes[i] = unsafeBytes[i];
-						}
-						stringBuilder.Append(Encoding.Default.GetString(bytes));
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове NativeFiresecClient.ReadFromStream");
-			}
-
-			return stringBuilder.ToString();
 		}
 	}
 }

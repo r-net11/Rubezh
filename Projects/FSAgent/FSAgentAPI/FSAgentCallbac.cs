@@ -10,6 +10,11 @@ namespace FSAgentAPI
     [DataContract]
     public class FSAgentCallbac
     {
+		public FSAgentCallbac()
+		{
+			JournalRecords = new List<JournalRecord>();
+		}
+
         [DataMember]
         public List<JournalRecord> JournalRecords { get; set; }
 

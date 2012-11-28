@@ -96,7 +96,6 @@ namespace FireMonitor
 			//MutexHelper.KeepAlive();
 			ServiceFactory.SubscribeEvents();
 			ProgressWatcher.Run();
-            FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StartPingThread();
 			ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
 		}
 
@@ -150,12 +149,10 @@ namespace FireMonitor
 			{
 				if (IsRestarting)
 					return;
-                FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StopPingThread();
                 FiresecManager.FiresecService.SuspendPoll = true;
                 LoadingErrorManager.Clear();
 				IsRestarting = true;
 				ProgressWatcher.Close();
-				NativeFiresecClient.IsSuspended = true;
 				ApplicationService.Restart();
 
 				LoadingService.Show("Перезагрузка конфигурации", 10);
@@ -174,9 +171,7 @@ namespace FireMonitor
 			}
 			finally
 			{
-				NativeFiresecClient.IsSuspended = false;
 				IsRestarting = false;
-                FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.StartPingThread();
                 FiresecManager.FiresecService.SuspendPoll = false;
 			}
 		}

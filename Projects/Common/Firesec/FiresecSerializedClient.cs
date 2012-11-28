@@ -25,11 +25,6 @@ namespace Firesec
             }
         }
 
-        public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
-        {
-            return NativeFiresecClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
-        }
-
         public OperationResult<Firesec.Models.CoreConfiguration.config> GetCoreConfig()
         {
             var result = NativeFiresecClient.GetCoreConfig();

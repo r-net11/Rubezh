@@ -14,8 +14,6 @@ using System.Windows.Shapes;
 using Infrastructure;
 using Infrastructure.Events;
 
-
-
 namespace DiagnosticsModule.Views
 {
     public partial class DiagnosticsView : UserControl
@@ -39,9 +37,5 @@ namespace DiagnosticsModule.Views
         {
             ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Publish(null);
         }
-        
-        
-
     }
-
 }
