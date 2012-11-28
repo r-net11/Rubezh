@@ -118,7 +118,6 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="FiresecManager\FiresecManager.FSAgent.cs" />
     <Compile Include="Service\FileHelper.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Actions.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.cs" />

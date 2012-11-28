@@ -23,6 +23,8 @@ namespace Firesec
 			{
 				MonitoringFiresecSerializedClient = new FiresecSerializedClient();
 				MonitoringFiresecSerializedClient.NativeFiresecClient.FSAgent = fsAgent;
+				MonitoringFiresecSerializedClient.NativeFiresecClient.SubscribeFsAgentEvents();
+
 				var connectResult1 = MonitoringFiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, false);
 				if (connectResult1.HasError)
 				{

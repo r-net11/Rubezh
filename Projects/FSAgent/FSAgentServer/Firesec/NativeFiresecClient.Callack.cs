@@ -17,6 +17,9 @@ namespace FSAgentServer
 		static bool needToReadParameters = false;
 		static bool needToReadJournal = false;
 
+		string PrevCoreState = "";
+		string PrevCoreDeviceParams = "";
+
         static int count = 0;
 
 		public void NewEventsAvailable(int eventMask)
@@ -34,13 +37,13 @@ namespace FSAgentServer
 
 		public void CheckForRead(bool force = false)
 		{
-            if (force)
-            {
-                needToRead = true;
-                needToReadStates = true;
-                needToReadParameters = true;
-                needToReadJournal = true;
-            }
+			if (force)
+			{
+				needToRead = true;
+				needToReadStates = true;
+				needToReadParameters = true;
+				needToReadJournal = true;
+			}
 
 			if (IsSuspended)
 				return;
@@ -57,12 +60,12 @@ namespace FSAgentServer
 						var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
 						if (result != null && result.Result != null)
 						{
-							var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
-							if (coreState.Result != null)
+							if (PrevCoreState != result.Result)
 							{
 								if (StateChanged != null)
-									StateChanged(coreState.Result);
+									StateChanged(result.Result);
 							}
+							PrevCoreState = result.Result;
 						}
 						else
 							App.Restart();
@@ -74,12 +77,12 @@ namespace FSAgentServer
 						var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
 						if (result != null && result.Result != null)
 						{
-							var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
-							if (coreParameters.Result != null)
+							if (PrevCoreDeviceParams != result.Result)
 							{
 								if (ParametersChanged != null)
-									ParametersChanged(coreParameters.Result);
+									ParametersChanged(result.Result);
 							}
+							PrevCoreDeviceParams = result.Result;
 						}
 						else
 							App.Restart();
@@ -201,8 +204,8 @@ namespace FSAgentServer
 		}
 
 		public event Action<List<JournalRecord>> NewJournalRecords;
-		public event Action<Firesec.Models.CoreState.config> StateChanged;
-		public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
+		public event Action<string> StateChanged;
+		public event Action<string> ParametersChanged;
 		public event Func<int, string, int, int, bool> ProgressEvent;
 	}
 }

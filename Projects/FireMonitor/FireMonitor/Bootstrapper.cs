@@ -126,7 +126,7 @@ namespace FireMonitor
 					//LoadingService.DoStep("Синхронизация журнала событий");
 					//FiresecManager.SynchrinizeJournal();
 				}
-				FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.IsPing = true;
+				//FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.IsPing = true;
 			}
 			catch (FiresecException e)
 			{

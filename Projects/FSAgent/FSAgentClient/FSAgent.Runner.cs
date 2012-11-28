@@ -36,20 +36,16 @@ namespace FSAgentClient
 				if (IsClosing)
 					return;
 
-				//Thread.Sleep(1000);
 				var changeResults = Poll(FSAgentFactory.UID);
 				if (changeResults != null)
 				{
 					foreach (var changeResult in changeResults)
 					{
-						if (changeResult.DeviceStates != null && changeResult.DeviceStates.Count > 0)
-							OnDevicesStateChanged(changeResult.DeviceStates);
+						if (changeResult.CoreCongig != null)
+							OnCoreConfigChanged(changeResult.CoreCongig);
 
-						if (changeResult.DeviceParameters != null && changeResult.DeviceParameters.Count > 0)
-							OnDevicesParametersChanged(changeResult.DeviceParameters);
-
-						if (changeResult.ZoneStates != null && changeResult.ZoneStates.Count > 0)
-							OnZonesStateChanged(changeResult.ZoneStates);
+						if (changeResult.CoreDeviceParams != null)
+							OnCoreDeviceParamsChanged(changeResult.CoreDeviceParams);
 
 						if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
 							OnNewJournalRecords(changeResult.JournalRecords);
@@ -58,35 +54,21 @@ namespace FSAgentClient
 							OnProgress(changeResult.FSProgressInfo);
 					}
 				}
-
-				//var fsProgressInfo = PollAdministratorProgress();
-				//if (fsProgressInfo != null)
-				//{
-				//    Trace.WriteLine("fsProgressInfo.Comment = " + fsProgressInfo.Comment);
-				//    OnProgress(fsProgressInfo);
-				//}
 			}
 		}
 
-		public event Action<List<DeviceState>> DevicesStateChanged;
-		void OnDevicesStateChanged(List<DeviceState> deviceStates)
+		public event Action<string> CoreConfigChanged;
+		void OnCoreConfigChanged(string coreConfig)
 		{
-			if (DevicesStateChanged != null)
-				DevicesStateChanged(deviceStates);
+			if (CoreConfigChanged != null)
+				CoreConfigChanged(coreConfig);
 		}
 
-		public event Action<List<DeviceState>> DevicesParametersChanged;
-		void OnDevicesParametersChanged(List<DeviceState> deviceStates)
+		public event Action<string> CoreDeviceParamsChanged;
+		void OnCoreDeviceParamsChanged(string coreDeviceParams)
 		{
-			if (DevicesParametersChanged != null)
-				DevicesParametersChanged(deviceStates);
-		}
-
-		public event Action<List<ZoneState>> ZonesStateChanged;
-		void OnZonesStateChanged(List<ZoneState> zoneStates)
-		{
-			if (ZonesStateChanged != null)
-				ZonesStateChanged(zoneStates);
+			if (CoreDeviceParamsChanged != null)
+				CoreDeviceParamsChanged(coreDeviceParams);
 		}
 
 		public event Action<List<JournalRecord>> NewJournalRecords;

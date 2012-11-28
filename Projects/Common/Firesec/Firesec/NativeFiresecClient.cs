@@ -4,12 +4,57 @@ using System.Text;
 using Common;
 using FiresecAPI;
 using FSAgentClient;
+using FiresecAPI.Models;
 
 namespace Firesec
 {
 	public partial class NativeFiresecClient : FS_Types.IFS_CallBack
 	{
         public FSAgent FSAgent { get; set; }
+
+		public void SubscribeFsAgentEvents()
+		{
+			FSAgent.NewJournalRecords += new Action<List<FiresecAPI.Models.JournalRecord>>(FSAgent_NewJournalRecords);
+			FSAgent.CoreConfigChanged += new Action<string>(FSAgent_CoreConfigChanged);
+			FSAgent.CoreDeviceParamsChanged += new Action<string>(FSAgent_CoreDeviceParamsChanged);
+		}
+
+		void FSAgent_NewJournalRecords(List<JournalRecord> journalRecords)
+		{
+			foreach (var journalRecord in journalRecords)
+			{
+				JournalConverter.SetDeviceCatogory(journalRecord);
+			}
+			if (NewJournalRecords != null)
+				NewJournalRecords(journalRecords);
+		}
+
+		void FSAgent_CoreConfigChanged(string result)
+		{
+			var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
+			if (coreState.Result != null)
+			{
+				if (StateChanged != null)
+					StateChanged(coreState.Result);
+			}
+		}
+
+		void FSAgent_CoreDeviceParamsChanged(string result)
+		{
+			var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
+			if (coreParameters.Result != null)
+			{
+				if (ParametersChanged != null)
+					ParametersChanged(coreParameters.Result);
+			}
+		}
+
+		OperationResult<T> ConvertResultData<T>(string result)
+		{
+			var resultData = new OperationResult<T>();
+			resultData.Result = SerializerHelper.Deserialize<T>(result);
+			return resultData;
+		}
 
 		public OperationResult<string> GetCoreConfig()
 		{

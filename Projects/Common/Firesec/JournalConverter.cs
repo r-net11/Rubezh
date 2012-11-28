@@ -31,7 +31,7 @@ namespace Firesec
 			return journalRecord;
 		}
 
-		static void SetDeviceCatogory(JournalRecord journalRecord)
+		public static void SetDeviceCatogory(JournalRecord journalRecord)
 		{
 			Device device = null;
 			if (ConfigurationCash.DeviceConfiguration.Devices != null)
