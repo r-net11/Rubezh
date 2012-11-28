@@ -84,7 +84,7 @@ namespace DiagnosticsModule.ViewModels
 							break;
 
 						case 3:
-							ControlDevice();
+							//ControlDevice();
 							break;
 
 						case 4:

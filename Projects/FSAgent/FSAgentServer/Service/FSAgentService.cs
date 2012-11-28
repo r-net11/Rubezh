@@ -28,7 +28,7 @@ namespace FSAgentServer
             var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
             if (clientInfo != null)
             {
-                var result = CallbackManager.Get(clientInfo.CallbackIndex);
+                var result = CallbackManager.Get(clientInfo);
 				if (result.Count == 0)
 				{
 					if (WatcherManager.Current.LastFSProgressInfo != null)
@@ -51,9 +51,8 @@ namespace FSAgentServer
 					}
 
 					clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromSeconds(10));
-					result = CallbackManager.Get(clientInfo.CallbackIndex);
+					result = CallbackManager.Get(clientInfo);
 				}
-                clientInfo.CallbackIndex = CallbackManager.LastIndex;
                 return result;
             }
             return new List<FSAgentCallbac>();

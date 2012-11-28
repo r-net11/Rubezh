@@ -90,15 +90,6 @@ namespace FSAgentServer
 			return result;
 		}
 
-		void OnNewEvent()
-		{
-			var journalRecords = GetEventsFromLastId(LastJournalNo);
-			if (journalRecords.Count > 0)
-			{
-				OnNewJournalRecords(journalRecords);
-			}
-		}
-
 		public void OnParametersChanged(string deviceParameters)
 		{
 			CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = deviceParameters });

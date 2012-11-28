@@ -46,30 +46,8 @@ namespace FSAgentServer
                 RunThread.Start();
 
                 StartLifetimeThread();
-
-				//var testThread = new Thread(OnTest);
-				//testThread.Start();
             }
         }
-
-		void OnTest()
-		{
-			while (true)
-			{
-				Thread.Sleep(TimeSpan.FromSeconds(5));
-                OperationResult<string> result = (OperationResult<string>)Invoke(new Func<object>(() =>
-                    {
-                        return MonitorClient.NativeFiresecClient.GetMetadata();
-                    }));
-
-                Trace.WriteLine(result.Result);
-
-                //AddTask(new Action(() =>
-                //{
-                //    FiresecSerializedClient.NativeFiresecClient.AddUserMessage("UserMessage");
-                //}));
-			}
-		}
 
         public void Stop()
         {
@@ -114,7 +92,6 @@ namespace FSAgentServer
 				{
 					PoolSleepEvent = new AutoResetEvent(false);
 					PoolSleepEvent.WaitOne(TimeSpan.FromSeconds(1));
-					//Thread.Sleep(100);
                     PollIndex++;
                     var force = PollIndex % 100 == 0;
 
