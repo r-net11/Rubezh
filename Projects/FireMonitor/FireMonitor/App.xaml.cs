@@ -34,36 +34,20 @@ namespace FireMonitor
                 AppSettingsManager.AutoConnect = true;
 #endif
                 var path = System.Reflection.Assembly.GetExecutingAssembly();
-                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                saveKey.SetValue("FireMonitorPath", path.Location);
-                saveKey.SetValue("IsException", false);
-                var isAutoConnect = saveKey.GetValue("isAutoConnect");
-                if (isAutoConnect != null)
-                    if (isAutoConnect.Equals("True"))
-                    {
-                        AppSettingsManager.AutoConnect = true;
-                        saveKey.SetValue("isAutoConnect", false);
-                    }
-
-                var proc = Process.GetProcessesByName("Revisor");
-                RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-                var revisorpathobj = readKey.GetValue("RevisorPath");
-                string revisorpath = null;
-                if (revisorpathobj != null)
-                    revisorpath = revisorpathobj.ToString();
-                if (String.IsNullOrEmpty(revisorpath))
+                var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                if (saveKey != null)
                 {
-                    revisorpath = @"Revisor.exe";
-#if DEBUG
-                    revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
-#endif
+                    saveKey.SetValue("FireMonitorPath", path.Location);
+                    saveKey.SetValue("IsException", false);
+                    var isAutoConnect = saveKey.GetValue("isAutoConnect");
+                    if (isAutoConnect != null)
+                        if (isAutoConnect.Equals("True"))
+                        {
+                            AppSettingsManager.AutoConnect = true;
+                            saveKey.SetValue("isAutoConnect", false);
+                        }
                 }
-                if ((proc.Count() == 0)&&(Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost"))
-                {
-                    Process.Start(revisorpath);
-                }
-
-                saveKey.Close();
+                RevisorLoadHelper.Load();
             }
 			catch (Exception ex)
 			{

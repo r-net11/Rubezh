@@ -148,6 +148,7 @@
     <Compile Include="FSAgentLoadHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
+    <Compile Include="RevisorLoadHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />
     <Compile Include="TreeItemViewModel.cs" />
     <Compile Include="KnownServiceType.cs" />
