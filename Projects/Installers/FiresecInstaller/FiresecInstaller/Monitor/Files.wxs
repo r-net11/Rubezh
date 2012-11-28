@@ -22,20 +22,23 @@
         <File Id="Monitor.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Manual.pdf" Name="Manual.pdf" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
+
+      <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
+        <File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
+      </Component>
 
       <Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB" Permanent='yes'>
         <File Id="Monitor.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />

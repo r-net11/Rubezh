@@ -64,6 +64,9 @@
               <Directory Id="Monitor.SoundsFolder" Name="$(var.SoundsFolder)" />
             </Directory>
           </Directory>
+          <Directory Id="FSAGENTLOCATION" Name="FSAgent">
+            <Directory Id="FSAgent.LogsFolder" Name="Logs" />
+          </Directory>
           <Directory Id="DIAGNOSTICSLOCATION" Name="$(var.DiagnosticsName)" />
           <Directory Id="OPCLOCATION" Name="OPC">
             <Directory Id="OPC.LogsFolder" Name="Logs" />

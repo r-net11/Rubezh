@@ -31,6 +31,7 @@
   <ItemGroup>
     <Compile Include="Binary.wxs" />
     <Compile Include="Common.wxs" />
+    <Compile Include="FSAgent\Files.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
     <Compile Include="Administrator\Features.wxs" />
@@ -89,6 +90,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FSAgent\Variables.wxi" />
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\CopyLogs.bat" />
     <Content Include="Data\Monitor.ico" />
@@ -111,6 +113,7 @@
     <Content Include="Data\Up.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FSAgent" />
     <Folder Include="Data" />
     <Folder Include="Utils" />
     <Folder Include="OPC" />

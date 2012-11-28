@@ -15,6 +15,9 @@
     <msbuild project="..\Projects\FireAdministrator\FireAdministrator.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
+    <msbuild project="..\Projects\FSAgent\FSAgentServer.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
     <msbuild project="..\Projects\Diagnostics\Diagnostics.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
