@@ -44,7 +44,6 @@ namespace FSAgentServer
 			{
 				var result = new List<FSAgentCallbac>();
 				var safeCopy = FSAgentCallbacCashes.ToList();
-				var maxIndex = safeCopy.Max(x => x.Index);
 				foreach (var callbackResultSaver in safeCopy)
 				{
 					if (callbackResultSaver.Index > clientInfo.CallbackIndex)
@@ -56,7 +55,10 @@ namespace FSAgentServer
 						result.Add(callbackResultSaver.FSAgentCallbac);
 					}
 				}
-				clientInfo.CallbackIndex = maxIndex;// CallbackManager.GetLastIndex();
+				if (safeCopy.Count > 0)
+				{
+					clientInfo.CallbackIndex = safeCopy.Max(x => x.Index);// CallbackManager.GetLastIndex();
+				}
 				return result;
 			}
 		}
