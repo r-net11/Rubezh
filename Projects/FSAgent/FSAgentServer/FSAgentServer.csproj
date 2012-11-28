@@ -65,7 +65,6 @@
     <Compile Include="Service\CallbacManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="FiresecSerializedClient.cs" />
-    <Compile Include="Service\ConfigurationManager.cs" />
     <Compile Include="Service\FSAgentService.cs" />
     <Compile Include="JournalConverter.cs" />
     <Compile Include="WatcherManager.cs" />

@@ -14,13 +14,10 @@ namespace FSAgentAPI
         public List<JournalRecord> JournalRecords { get; set; }
 
         [DataMember]
-        public List<DeviceState> DeviceStates { get; set; }
+        public string CoreCongig { get; set; }
 
         [DataMember]
-        public List<DeviceState> DeviceParameters { get; set; }
-
-        [DataMember]
-        public List<ZoneState> ZoneStates { get; set; }
+		public string CoreDeviceParams { get; set; }
 
 		[DataMember]
 		public FSProgressInfo FSProgressInfo { get; set; }

@@ -26,39 +26,36 @@ namespace FSAgentServer
 				SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
 				StateType = (StateType)int.Parse(innerJournalRecord.IDTypeEvents),
 			};
-			SetDeviceCatogory(journalRecord);
+			//SetDeviceCatogory(journalRecord);
 
 			return journalRecord;
 		}
 
-		static void SetDeviceCatogory(JournalRecord journalRecord)
-		{
-            if (ConfigurationManager.DeviceConfiguration == null)
-                return;
-
-			Device device = null;
-            if (ConfigurationManager.DeviceConfiguration.Devices != null)
-			{
-				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
-				{
-                    device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
-						 x => x.DatabaseId == journalRecord.DeviceDatabaseId);
-				}
-				else
-				{
-                    device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
-						   x => x.DatabaseId == journalRecord.PanelDatabaseId);
-				}
-			}
-			if (device != null)
-			{
-				journalRecord.DeviceCategory = (int)device.Driver.Category;
-			}
-			else
-			{
-				journalRecord.DeviceCategory = (int)DeviceCategoryType.None;
-			}
-		}
+		//static void SetDeviceCatogory(JournalRecord journalRecord)
+		//{
+		//    Device device = null;
+		//    if (ConfigurationManager.DeviceConfiguration.Devices != null)
+		//    {
+		//        if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+		//        {
+		//            device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
+		//                 x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+		//        }
+		//        else
+		//        {
+		//            device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
+		//                   x => x.DatabaseId == journalRecord.PanelDatabaseId);
+		//        }
+		//    }
+		//    if (device != null)
+		//    {
+		//        journalRecord.DeviceCategory = (int)device.Driver.Category;
+		//    }
+		//    else
+		//    {
+		//        journalRecord.DeviceCategory = (int)DeviceCategoryType.None;
+		//    }
+		//}
 
 		public static DateTime ConvertTime(string firesecTime)
 		{

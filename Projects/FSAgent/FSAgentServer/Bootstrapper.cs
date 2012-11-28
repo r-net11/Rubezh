@@ -13,7 +13,6 @@ namespace FSAgentServer
 
         public static void Run()
         {
-            ConfigurationManager.GetConfiruration();
             FSAgentServiceHost.Start();
 			FSAgentLoadHelper.NotifyStartCompleted();
             WatcherManager = new WatcherManager();
