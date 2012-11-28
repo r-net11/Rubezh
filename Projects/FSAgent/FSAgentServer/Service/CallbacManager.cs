@@ -50,7 +50,7 @@ namespace FSAgentServer
 					{
 						foreach (var journalRecord in callbackResultSaver.FSAgentCallbac.JournalRecords)
 						{
-							Trace.WriteLine("Callback journal no = " + journalRecord.No.ToString());
+							Trace.WriteLine("Callback journal no = " + journalRecord.OldId.ToString());
 						}
 						result.Add(callbackResultSaver.FSAgentCallbac);
 					}
