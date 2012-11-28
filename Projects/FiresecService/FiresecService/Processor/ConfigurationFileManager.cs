@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using Infrastructure.Common;
 
 namespace FiresecService.Configuration
 {
@@ -135,11 +136,20 @@ namespace FiresecService.Configuration
 				if (File.Exists(ConfigurationDirectory(fileName)))
 				{
 					T configuration = null;
-					using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
-					{
-						var dataContractSerializer = new DataContractSerializer(typeof(T));
-						configuration = (T)dataContractSerializer.ReadObject(fileStream);
-					}
+				    var memStream = ConfigHelper.FromZip(fileName);
+                        if (memStream == null)
+                        {
+                            using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
+                            {
+                                memStream = new MemoryStream();
+                                memStream.SetLength(fileStream.Length);
+                                fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
+                            }
+                        }
+
+                    var dataContractSerializer = new DataContractSerializer(typeof (T));
+                    configuration = (T) dataContractSerializer.ReadObject(memStream);
+
 					if (!configuration.ValidateVersion())
 					{
 						Set<T>(configuration, fileName);
@@ -174,6 +184,7 @@ namespace FiresecService.Configuration
                     using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Create))
                     {
                         fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+                        ConfigHelper.IntoZip(fileName, memoryStream);
                     }
                 }
             }
