@@ -58,31 +58,9 @@ namespace FSAgentServer
             return new List<FSAgentCallbac>();
         }
 
-		public FSProgressInfo PollAdministratorProgress()
+		public void CanceProgress()
 		{
-			if (WatcherManager.Current.LastFSProgressInfo == null)
-			{
-				return null;
-			}
-			var fsProgressInfo = new FSProgressInfo()
-			{
-				Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
-				Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
-				PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
-				BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
-			};
-			WatcherManager.Current.LastFSProgressInfo = null;
-			Trace.WriteLine("fsProgressInfo.Comment = " + fsProgressInfo.Comment);
-			return fsProgressInfo;
-		}
-
-		public FSProgressInfo PollMonitorProgress()
-		{
-			return null;
-		}
-
-		public void CancelAdministratorProgress()
-		{
+			NativeFiresecClient.ContinueProgress = false;
 		}
 
 		public void AddToIgnoreList(List<string> devicePaths)
@@ -322,5 +300,5 @@ namespace FSAgentServer
 				return WatcherManager.Current.AdministratorClient.DeviceGetMDS5Data(coreConfig, devicePath);
 			}));
 		}
-    }
+	}
 }

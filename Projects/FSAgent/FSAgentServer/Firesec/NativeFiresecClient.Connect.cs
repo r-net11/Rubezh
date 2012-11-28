@@ -12,6 +12,9 @@ namespace FSAgentServer
     public partial class NativeFiresecClient
     {
         int _reguestId = 1;
+		FS_Types.IFSC_Connection Connection;
+		bool IsConnected = false;
+		public bool IsPing { get; set; }
 
         public NativeFiresecClient()
         {
@@ -27,20 +30,8 @@ namespace FSAgentServer
             };
         }
 
-        FS_Types.IFSC_Connection Connection;
-        bool IsConnected = false;
-        string Address;
-        int Port;
-        string Login;
-        string Password;
-		public bool IsPing { get; set; }
-
-        public OperationResult<bool> Connect(string address, int port, string login, string password, bool isPing)
+        public OperationResult<bool> Connect(bool isPing)
         {
-            Address = address;
-            Port = port;
-            Login = login;
-            Password = password;
             IsPing = isPing;
             return DoConnect();
         }
@@ -56,7 +47,7 @@ namespace FSAgentServer
 
                     string loginError = null;
 
-                    var result = GetConnection(Address, Port, Login, Password);
+					var result = GetConnection(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.Password);
                     if (result.HasError &&
                         result.Error == "Пользователь или пароль неверны. Повторите ввод" ||
                         result.Error == "Удаленный доступ с этого компьютера запрещен")

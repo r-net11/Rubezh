@@ -16,13 +16,13 @@ namespace Firesec
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
-		public OperationResult<bool> Connect(FSAgent fsAgent, string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
+		public OperationResult<bool> Connect(FSAgent fsAgent, bool isPing)
 		{
 			try
 			{
 				FiresecSerializedClient = new FiresecSerializedClient();
-				FiresecSerializedClient.NativeFiresecClient.FSAgent = fsAgent;
-				FiresecSerializedClient.NativeFiresecClient.SubscribeFsAgentEvents();
+				FiresecSerializedClient.FSAgent = fsAgent;
+				FiresecSerializedClient.SubscribeFsAgentEvents();
 
                 ConfigurationConverter = new ConfigurationConverter(FiresecSerializedClient);
 				var result = ConfigurationConverter.ConvertMetadataFromFiresec();

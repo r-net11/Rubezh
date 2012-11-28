@@ -30,7 +30,7 @@ namespace FiresecClient.Itv
                 try
                 {
                     FiresecManager.GetConfiguration();
-                    var initializeFiresecDriverResult = FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, true);
+                    var initializeFiresecDriverResult = FiresecManager.InitializeFiresecDriver(true);
                     if (initializeFiresecDriverResult.HasError)
                     {
                         return initializeFiresecDriverResult.Error;

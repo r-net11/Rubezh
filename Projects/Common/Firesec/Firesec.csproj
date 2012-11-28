@@ -95,7 +95,6 @@
     <Compile Include="AuParameters\FiresecDriverAuParametersHelper.Get.cs" />
     <Compile Include="FiresecDriver.Reset.cs" />
     <Compile Include="Firesec\EmptyConfigHelper.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -111,7 +110,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Firesec\SocketServerHelper.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.DevicesConverter.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.DirectionsConverter.cs" />

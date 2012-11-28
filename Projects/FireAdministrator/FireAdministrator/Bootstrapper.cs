@@ -84,7 +84,7 @@ namespace FireAdministrator
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
 				FiresecManager.GetConfiguration();
 				LoadingService.DoStep("Загрузка драйвера устройств");
-                var connectionResult = FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, false);
+                var connectionResult = FiresecManager.InitializeFiresecDriver(false);
 				if (connectionResult.HasError)
 				{
 					CloseOnException(connectionResult.Error);

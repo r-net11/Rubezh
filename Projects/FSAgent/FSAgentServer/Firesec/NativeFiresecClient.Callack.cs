@@ -24,7 +24,6 @@ namespace FSAgentServer
 
 		public void NewEventsAvailable(int eventMask)
 		{
-            Trace.WriteLine("NewEventsAvailable " + count++.ToString());
             if (IsPing)
 			{
 				needToRead = true;
@@ -192,7 +191,10 @@ namespace FSAgentServer
 			{
 				if (ProgressEvent != null)
 				{
-					return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+					bool continueProgress = ContinueProgress;
+					ContinueProgress = true;
+					ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+					return continueProgress;
 				}
 				return true;
 			}
@@ -202,6 +204,8 @@ namespace FSAgentServer
 				return false;
 			}
 		}
+
+		public static bool ContinueProgress = true;
 
 		public event Action<List<JournalRecord>> NewJournalRecords;
 		public event Action<string> StateChanged;

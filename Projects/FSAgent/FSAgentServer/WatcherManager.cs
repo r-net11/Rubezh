@@ -37,7 +37,7 @@ namespace FSAgentServer
             if (RunThread == null)
             {
 				CallbackClient = new NativeFiresecClient();
-                CallbackClient.Connect("localhost", 211, "adm", "", true);
+                CallbackClient.Connect(true);
 
                 StopEvent = new AutoResetEvent(false);
                 RunThread = new Thread(OnRun);
@@ -73,13 +73,13 @@ namespace FSAgentServer
 			try
 			{
 				AdministratorClient = new NativeFiresecClient();
-				AdministratorClient.Connect("localhost", 211, "adm", "", false);
+				AdministratorClient.Connect(false);
 				AdministratorClient.ProgressEvent += new Func<int, string, int, int, bool>(OnAdministratorProgress);
 
 				MonitorClient = new NativeFiresecClient();
-                MonitorClient.Connect("localhost", 211, "adm", "", false);
+                MonitorClient.Connect(false);
 
-                Watcher = new Watcher(MonitorClient, true, true);
+                Watcher = new Watcher(MonitorClient);
 			}
 			catch (Exception e)
 			{
@@ -163,7 +163,6 @@ namespace FSAgentServer
 
 		bool OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			Trace.WriteLine("comment = " + comment);
 			LastFSProgressInfo = new FSProgressInfo()
 			{
 				Stage = stage,

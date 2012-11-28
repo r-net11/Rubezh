@@ -116,6 +116,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> UpdateSoftCommand { get; private set; }
         void OnUpdateSoft(bool isUsb)
         {
+			if (AppSettingsManager.IsRemote)
+			{
+				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
+				return;
+			}
             FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanUpdateSoft(bool isUsb)

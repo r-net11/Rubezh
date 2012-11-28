@@ -12,7 +12,7 @@ namespace FiresecClient
         public static FiresecDriver FiresecDriver { get; private set; }
 		public static FSAgent FSAgent { get; private set; }
 
-        static public OperationResult<bool> InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
+        static public OperationResult<bool> InitializeFiresecDriver(bool isPing)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace FiresecClient
 				FSAgent.Start();
 
                 FiresecDriver = new FiresecDriver();
-                var result = FiresecDriver.Connect(FSAgent, FS_Address, FS_Port, FS_Login, FS_Password, isPing);
+                var result = FiresecDriver.Connect(FSAgent, isPing);
                 return result;
             }
             catch (Exception e)

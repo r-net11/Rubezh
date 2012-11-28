@@ -3,9 +3,6 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using Common;
-using Firesec.Groups;
-using Firesec.Models.IndicatorsLogic;
-using Firesec.Models.ZonesLogic;
 
 namespace FSAgentServer
 {

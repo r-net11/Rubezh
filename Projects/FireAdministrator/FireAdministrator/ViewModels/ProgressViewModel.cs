@@ -9,8 +9,6 @@ namespace FireAdministrator.ViewModels
 {
 	public class ProgressViewModel : DialogViewModel
 	{
-        bool IsCanceling = false;
-
 		public ProgressViewModel(string title)
 		{
 			Title = title;
@@ -20,9 +18,6 @@ namespace FireAdministrator.ViewModels
 			StopCommand = new RelayCommand(OnStop);
 			FiresecManager.FSAgent.Progress -= new Action<FSProgressInfo>(Progress);
 			FiresecManager.FSAgent.Progress += new Action<FSProgressInfo>(Progress);
-
-			//FiresecManager.FiresecDriver.Watcher.Progress -= new Func<int, string, int, int, bool>(Progress);
-			//FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Progress);
 		}
 
 		public void CloseProgress()
@@ -34,7 +29,6 @@ namespace FireAdministrator.ViewModels
 		public void Progress(FSProgressInfo fsProgressInfo)
 		{
 			ApplicationService.Invoke(() => OnProgress(fsProgressInfo));
-            //return !IsCanceling;
 		}
 
 		void OnProgress(FSProgressInfo fsProgressInfo)
@@ -91,8 +85,7 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-            IsCanceling = true;
-			//FiresecManager.FiresecDriver.CancelProgress();
+			FiresecManager.FSAgent.CanceProgress();
 		}
 	}
 }

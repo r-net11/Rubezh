@@ -19,13 +19,7 @@ namespace FSAgentAPI
         List<FSAgentCallbac> Poll(Guid clientUID);
 
 		[OperationContract]
-		FSProgressInfo PollAdministratorProgress();
-
-		[OperationContract]
-		FSProgressInfo PollMonitorProgress();
-
-		[OperationContract]
-		void CancelAdministratorProgress();
+		void CanceProgress();
 
 		[OperationContract]
 		void AddToIgnoreList(List<string> devicePaths);

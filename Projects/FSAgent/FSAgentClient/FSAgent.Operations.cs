@@ -20,19 +20,9 @@ namespace FSAgentClient
             return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "GetChangeResult");
         }
 
-		public FSProgressInfo PollAdministratorProgress()
+		public void CanceProgress()
 		{
-			return SafeOperationCall(() => { return FSAgentContract.PollAdministratorProgress(); }, "PollAdministratorProgress");
-		}
-
-		public FSProgressInfo PollMonitorProgress()
-		{
-			return SafeOperationCall(() => { return FSAgentContract.PollMonitorProgress(); }, "PollMonitorProgress");
-		}
-
-		public void CancelAdministratorProgress()
-		{
-			SafeOperationCall(() => { FSAgentContract.CancelAdministratorProgress(); }, "CancelAdministratorProgress");
+			SafeOperationCall(() => { FSAgentContract.CanceProgress(); }, "CancelAdministratorProgress");
 		}
 
 		public void AddToIgnoreList(List<string> devicePaths)

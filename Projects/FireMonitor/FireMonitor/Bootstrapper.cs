@@ -109,7 +109,7 @@ namespace FireMonitor
 				if (!reconnect)
 				{
 					LoadingService.DoStep("Инициализация драйвера устройств");
-                    var connectionResult = FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, true);
+                    var connectionResult = FiresecManager.InitializeFiresecDriver(true);
 					if (connectionResult.HasError)
 					{
 						CloseOnException(connectionResult.Error);

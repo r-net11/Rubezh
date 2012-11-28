@@ -22,7 +22,7 @@ namespace FSAgentServer
 
 		public static void Add(FSAgentCallbac fsAgentCallbac)
 		{
-			lock (locker)
+			lock (FSAgentCallbacCashes)
 			{
 				FSAgentCallbacCashes.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
 
@@ -40,7 +40,7 @@ namespace FSAgentServer
 
 		public static List<FSAgentCallbac> Get(ClientInfo clientInfo)
 		{
-			lock (locker)
+			lock (FSAgentCallbacCashes)
 			{
 				var result = new List<FSAgentCallbac>();
 				var safeCopy = FSAgentCallbacCashes.ToList();
@@ -51,13 +51,21 @@ namespace FSAgentServer
 						foreach (var journalRecord in callbackResultSaver.FSAgentCallbac.JournalRecords)
 						{
 							Trace.WriteLine("Callback journal no = " + journalRecord.OldId.ToString());
+							if (clientInfo.TempOldCode > 0)
+							{
+								if (journalRecord.OldId - clientInfo.TempOldCode != 1)
+								{
+									Trace.WriteLine("Queue is not continuous " + journalRecord.OldId.ToString());
+								}
+							}
+							clientInfo.TempOldCode = journalRecord.OldId;
 						}
 						result.Add(callbackResultSaver.FSAgentCallbac);
 					}
 				}
 				if (safeCopy.Count > 0)
 				{
-					clientInfo.CallbackIndex = safeCopy.Max(x => x.Index);// CallbackManager.GetLastIndex();
+					clientInfo.CallbackIndex = safeCopy.Max(x => x.Index);
 				}
 				return result;
 			}

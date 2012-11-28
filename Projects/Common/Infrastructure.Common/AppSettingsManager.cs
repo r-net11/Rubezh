@@ -36,8 +36,8 @@ namespace Infrastructure.Common
 				RemoteFSAgentPort = Convert.ToInt32(ConfigurationManager.AppSettings["RemoteFSAgentPort"] as string);
 
                 FS_Address = RemoteAddress;
-                if (FS_Address == "localhost")
-                    FS_Address = "127.0.0.1";
+				if (RemoteAddress == "localhost")
+					RemoteAddress = "127.0.0.1";
 
                 Login = ConfigurationManager.AppSettings["Login"] as string;
                 Password = ConfigurationManager.AppSettings["Password"] as string;
@@ -53,11 +53,11 @@ namespace Infrastructure.Common
 			get
 			{
 				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
-				if (string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
+				if (string.IsNullOrEmpty(RemoteAddress))
 				{
-					if (AppSettingsManager.RemoteAddress != "localhost" && AppSettingsManager.RemoteAddress != "127.0.0.1")
+					if (IsRemote)
 					{
-						serviceAddress = "http://" + AppSettingsManager.RemoteAddress + ":" + AppSettingsManager.RemotePort.ToString() + "/FiresecService/";
+						serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
 					}
 				}
 				return serviceAddress;
@@ -69,14 +69,22 @@ namespace Infrastructure.Common
 			get
 			{
 				var serviceAddress = "net.pipe://127.0.0.1/FSAgent/";
-				if (string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
+				if (string.IsNullOrEmpty(RemoteAddress))
 				{
-					if (AppSettingsManager.RemoteAddress != "localhost" && AppSettingsManager.RemoteAddress != "127.0.0.1")
+					if (IsRemote)
 					{
-						serviceAddress = "http://" + AppSettingsManager.RemoteAddress + ":" + AppSettingsManager.RemotePort.ToString() + "/FSAgent/";
+						serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FSAgent/";
 					}
 				}
 				return serviceAddress;
+			}
+		}
+
+		public static bool IsRemote
+		{
+			get
+			{
+				return (RemoteAddress != "localhost" && RemoteAddress != "127.0.0.1");
 			}
 		}
     }

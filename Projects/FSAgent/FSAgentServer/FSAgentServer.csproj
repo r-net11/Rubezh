@@ -67,7 +67,7 @@
     <Compile Include="Service\FSAgentService.cs" />
     <Compile Include="JournalConverter.cs" />
     <Compile Include="WatcherManager.cs" />
-    <Compile Include="SerializerHelper.cs" />
+    <Compile Include="Models\SerializerHelper.cs" />
     <Compile Include="Service\FSAgentServiceHost.cs" />
     <Compile Include="Watcher.cs" />
     <Compile Include="WatcherManager.Lifetime.cs" />
@@ -91,17 +91,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\DeviceConfigurationParameters.cs" />
-    <Compile Include="Models\DeviceCustomFunctions.cs" />
-    <Compile Include="Models\GetCoreConfig.cs" />
-    <Compile Include="Models\GetCoreDeviceParams.cs" />
-    <Compile Include="Models\GetCoreState.cs" />
-    <Compile Include="Models\GetMetaData.cs" />
-    <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\IndicatorLogic.cs" />
-    <Compile Include="Models\Plan.cs" />
     <Compile Include="Models\ReadEvents.cs" />
-    <Compile Include="Models\ZoneLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

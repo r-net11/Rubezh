@@ -63,7 +63,7 @@ namespace FiresecOPCServer
             UILogger.Log("Загрузка конфигурации с сервера");
             FiresecManager.GetConfiguration();
             UILogger.Log("Загрузка драйвера устройств");
-            FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, true);
+            FiresecManager.InitializeFiresecDriver(true);
             UILogger.Log("Синхронизация конфигурации");
             FiresecManager.FiresecDriver.Synchronyze();
             UILogger.Log("Старт мониторинга");
