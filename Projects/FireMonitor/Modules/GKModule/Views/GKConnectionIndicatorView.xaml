@@ -24,7 +24,7 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Controls:AlarmButton Name="_deviceConnectionControl" Width="50" Height="30" Margin="3 3" OuterBorderThickness="0" GlowColor="DarkOrange" IsGlowing ="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}"  IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
+        <Border Name="_deviceConnectionControl" CornerRadius="5" Panel.ZIndex="-1" Background="{DynamicResource HighlightedBackgoundBrush}" Width="50" Height="30" Margin="3 3" IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
         <Grid Name="_deviceConnectionGrid" Width="50" Height="30" Margin="3 3"  Background="White" Opacity="0.01" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </UserControl>
