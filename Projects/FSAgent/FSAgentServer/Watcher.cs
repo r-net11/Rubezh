@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FSAgentAPI;
+using System.Diagnostics;
 
 namespace FSAgentServer
 {
@@ -34,8 +35,23 @@ namespace FSAgentServer
 			return resultData;
 		}
 
+		int TempOldCode = 0;
+
 		void OnNewJournalRecords(List<JournalRecord> journalRecords)
 		{
+			foreach (var journalRecord in journalRecords)
+			{
+				//Trace.WriteLine("Callback journal no = " + journalRecord.OldId.ToString());
+				if (TempOldCode > 0)
+				{
+					if (journalRecord.OldId - TempOldCode != 1)
+					{
+						Trace.WriteLine("Queue is not continuous " + journalRecord.OldId.ToString());
+					}
+				}
+				TempOldCode = journalRecord.OldId;
+			}
+
 			CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
 		}
 

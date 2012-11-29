@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
 using Common;
@@ -144,7 +145,7 @@ namespace FSAgentServer
 			{
 				hasNewRecords = false;
 
-				var result = ReadEvents(oldJournalNo, 100);
+				var result = ReadEvents(LastJournalNo, 100);
 				if (result == null || result.HasError)
 				{
 					return new List<JournalRecord>();
@@ -158,8 +159,10 @@ namespace FSAgentServer
 						var eventId = int.Parse(innerJournalItem.IDEvents);
 						if (eventId > oldJournalNo)
 						{
-							LastJournalNo = eventId;
-							oldJournalNo = eventId;
+							if (eventId > LastJournalNo)
+							{
+								LastJournalNo = eventId;
+							}
 							var journalRecord = JournalConverter.Convert(innerJournalItem);
 							journalRecords.Add(journalRecord);
 							hasNewRecords = true;
@@ -170,6 +173,7 @@ namespace FSAgentServer
 					break;
 			}
 
+			journalRecords = journalRecords.OrderBy(x => x.OldId).ToList();
 			return journalRecords;
 		}
 

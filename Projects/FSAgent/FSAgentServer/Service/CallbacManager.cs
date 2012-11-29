@@ -40,26 +40,23 @@ namespace FSAgentServer
 
 		public static List<FSAgentCallbac> Get(ClientInfo clientInfo)
 		{
-			lock (WatcherManager.Current.LastFSProgressInfo)
+			if (WatcherManager.Current.LastFSProgressInfo != null)
 			{
-				if (WatcherManager.Current.LastFSProgressInfo != null)
+				var fsProgressInfo = new FSProgressInfo()
 				{
-					var fsProgressInfo = new FSProgressInfo()
-					{
-						Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
-						Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
-						PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
-						BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
-					};
-					WatcherManager.Current.LastFSProgressInfo = null;
-					var result = new List<FSAgentCallbac>();
-					var fsAgentCallbac = new FSAgentCallbac()
-					{
-						FSProgressInfo = fsProgressInfo
-					};
-					result.Add(fsAgentCallbac);
-					return result;
-				}
+					Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
+					Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
+					PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
+					BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
+				};
+				WatcherManager.Current.LastFSProgressInfo = null;
+				var result = new List<FSAgentCallbac>();
+				var fsAgentCallbac = new FSAgentCallbac()
+				{
+					FSProgressInfo = fsProgressInfo
+				};
+				result.Add(fsAgentCallbac);
+				return result;
 			}
 
 			lock (FSAgentCallbacCashes)
@@ -72,7 +69,7 @@ namespace FSAgentServer
 					{
 						foreach (var journalRecord in callbackResultSaver.FSAgentCallbac.JournalRecords)
 						{
-							Trace.WriteLine("Callback journal no = " + journalRecord.OldId.ToString());
+							//Trace.WriteLine("Callback journal no = " + journalRecord.OldId.ToString());
 							if (clientInfo.TempOldCode > 0)
 							{
 								if (journalRecord.OldId - clientInfo.TempOldCode != 1)
