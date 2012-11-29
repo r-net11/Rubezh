@@ -6,6 +6,7 @@ using System.Threading;
 using FiresecAPI.Models;
 using FSAgentAPI;
 using System.Diagnostics;
+using Common;
 
 namespace FSAgentClient
 {
@@ -18,14 +19,23 @@ namespace FSAgentClient
 		{
 			RunThread = new Thread(OnRun);
 			RunThread.Start();
+			StartLifetime();
 		}
 
 		public void Stop()
 		{
+			StopLifetime();
 			if (RunThread != null)
 			{
 				IsClosing = true;
-				RunThread.Join(TimeSpan.FromSeconds(5));
+				if (!RunThread.Join(TimeSpan.FromSeconds(5)))
+				{
+					try
+					{
+						RunThread.Abort();
+					}
+					catch { }
+				}
 			}
 		}
 
@@ -33,26 +43,39 @@ namespace FSAgentClient
 		{
 			while (true)
 			{
-				if (IsClosing)
-					return;
-
-				var changeResults = Poll(FSAgentFactory.UID);
-				if (changeResults != null)
+				IsOperationByisy = true;
+				StartOperationDateTime = DateTime.Now;
+				try
 				{
-					foreach (var changeResult in changeResults)
+					if (IsClosing)
+						return;
+
+					var changeResults = Poll(FSAgentFactory.UID);
+					if (changeResults != null)
 					{
-						if (changeResult.CoreCongig != null)
-							OnCoreConfigChanged(changeResult.CoreCongig);
+						foreach (var changeResult in changeResults)
+						{
+							if (changeResult.CoreCongig != null)
+								OnCoreConfigChanged(changeResult.CoreCongig);
 
-						if (changeResult.CoreDeviceParams != null)
-							OnCoreDeviceParamsChanged(changeResult.CoreDeviceParams);
+							if (changeResult.CoreDeviceParams != null)
+								OnCoreDeviceParamsChanged(changeResult.CoreDeviceParams);
 
-						if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
-							OnNewJournalRecords(changeResult.JournalRecords);
+							if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
+								OnNewJournalRecords(changeResult.JournalRecords);
 
-						if (changeResult.FSProgressInfo != null)
-							OnProgress(changeResult.FSProgressInfo);
+							if (changeResult.FSProgressInfo != null)
+								OnProgress(changeResult.FSProgressInfo);
+						}
 					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "FSAgentClient.OnRun");
+				}
+				finally
+				{
+					IsOperationByisy = false;
 				}
 			}
 		}

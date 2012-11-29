@@ -6,8 +6,8 @@ namespace Common
 {
 	public static class Logger
 	{
-		private static NLog.Logger _logger;// = LogManager.GetCurrentClassLogger();
-		private static object[] _empty;// = new object[0];
+		private static NLog.Logger _logger;
+		private static object[] _empty;
 
 		static Logger()
 		{
@@ -26,6 +26,7 @@ namespace Common
 		}
 		public static void Error(Exception ex, string message, params object[] args)
 		{
+			System.Diagnostics.Trace.WriteLine(message);
 			_logger.LogException(LogLevel.Error, string.Format(message, args), ex);
 		}
 		public static void Error(string message)
@@ -34,6 +35,7 @@ namespace Common
 		}
 		public static void Error(string message, params object[] args)
 		{
+			System.Diagnostics.Trace.WriteLine(message);
 			WriteLog(LogLevel.Error, message, args);
 		}
 		public static void Warn(string message)
