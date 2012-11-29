@@ -133,10 +133,10 @@ namespace FiresecService.Configuration
 		{
 			try
 			{
-				if (File.Exists(ConfigurationDirectory(fileName)))
+                var memStream = ConfigHelper.FromZip(fileName);
+				if ((File.Exists(ConfigurationDirectory(fileName)))||( memStream != null))
 				{
 					T configuration = null;
-				    var memStream = ConfigHelper.FromZip(fileName);
                         if (memStream == null)
                         {
                             using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
