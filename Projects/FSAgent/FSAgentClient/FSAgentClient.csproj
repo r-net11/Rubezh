@@ -45,7 +45,7 @@
     <Compile Include="FSAgentFactory.cs" />
     <Compile Include="FSAgent.cs" />
     <Compile Include="FSAgent.Operations.cs" />
-    <Compile Include="FSAgent.Runner.cs" />
+    <Compile Include="FSAgent.Poll.cs" />
     <Compile Include="FSAgent.SafeCall.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

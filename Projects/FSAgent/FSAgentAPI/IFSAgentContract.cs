@@ -13,9 +13,6 @@ namespace FSAgentAPI
 	public interface IFSAgentContract
 	{
 		[OperationContract]
-		string GetStatus();
-
-		[OperationContract]
         List<FSAgentCallbac> Poll(Guid clientUID);
 
 		[OperationContract]

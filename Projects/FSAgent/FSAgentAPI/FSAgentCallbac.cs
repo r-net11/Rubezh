@@ -26,5 +26,8 @@ namespace FSAgentAPI
 
 		[DataMember]
 		public FSProgressInfo FSProgressInfo { get; set; }
+
+		[DataMember]
+		public bool IsConnectionLost { get; set; }
     }
 }

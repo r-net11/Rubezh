@@ -74,6 +74,7 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WatcherManager.Tasks.cs" />
     <Compile Include="WatcherManager.cs" />
     <Compile Include="Models\SerializerHelper.cs" />
     <Compile Include="Service\FSAgentServiceHost.cs" />

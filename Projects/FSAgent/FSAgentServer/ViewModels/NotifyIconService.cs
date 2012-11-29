@@ -22,7 +22,7 @@ namespace FSAgentServer.ViewModels
 
 			_notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
 			var menuItem1 = new System.Windows.Forms.MenuItem();
-			menuItem1.Text = "Показать консоль";
+			menuItem1.Text = "Показать";
 			menuItem1.Click += new EventHandler(onShow);
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
 

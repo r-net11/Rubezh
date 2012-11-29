@@ -16,11 +16,6 @@ namespace FSAgentServer
     InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class FSAgentContract : IFSAgentContract
     {
-        public string GetStatus()
-        {
-            return null;
-        }
-
         public List<FSAgentCallbac> Poll(Guid clientUID)
         {
             ClientsManager.Add(clientUID);
@@ -46,42 +41,42 @@ namespace FSAgentServer
 
 		public void AddToIgnoreList(List<string> devicePaths)
 		{
-			WatcherManager.Current.AddTask(() =>
+			WatcherManager.Current.AddNonBlockingTask(() =>
 			{
 				WatcherManager.Current.MonitorClient.AddToIgnoreList(devicePaths);
 			});
 		}
 		public void RemoveFromIgnoreList(List<string> devicePaths)
 		{
-			WatcherManager.Current.AddTask(() =>
+			WatcherManager.Current.AddNonBlockingTask(() =>
 			{
 				WatcherManager.Current.MonitorClient.RemoveFromIgnoreList(devicePaths);
 			});
 		}
 		public void ResetStates(string states)
 		{
-			WatcherManager.Current.AddTask(() =>
+			WatcherManager.Current.AddNonBlockingTask(() =>
 			{
 				WatcherManager.Current.MonitorClient.ResetStates(states);
 			});
 		}
 		public void SetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			WatcherManager.Current.AddTask(() =>
+			WatcherManager.Current.AddNonBlockingTask(() =>
 			{
 				WatcherManager.Current.MonitorClient.SetZoneGuard(placeInTree, localZoneNo);
 			});
 		}
 		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
 		{
-			WatcherManager.Current.AddTask(() =>
+			WatcherManager.Current.AddNonBlockingTask(() =>
 			{
 				WatcherManager.Current.MonitorClient.UnSetZoneGuard(placeInTree, localZoneNo);
 			});
 		}
 		public void AddUserMessage(string message)
 		{
-			WatcherManager.Current.AddTask(() =>
+			WatcherManager.Current.AddNonBlockingTask(() =>
 			{
 				WatcherManager.Current.MonitorClient.AddUserMessage(message);
 			});
@@ -89,42 +84,42 @@ namespace FSAgentServer
 
 		public OperationResult<string> GetCoreConfig()
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.GetCoreConfig();
 			}));
 		}
 		public OperationResult<string> GetPlans()
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.GetPlans();
 			}));
 		}
 		public OperationResult<string> GetMetadata()
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.GetMetadata();
 			}));
 		}
 		public OperationResult<string> GetCoreState()
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.GetCoreState();
 			}));
 		}
 		public OperationResult<string> GetCoreDeviceParams()
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.GetCoreDeviceParams();
 			}));
 		}
 		public OperationResult<bool> SetNewConfig(string coreConfig)
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.SetNewConfig(coreConfig);
 			}));
@@ -132,7 +127,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> ReadEvents(int fromId, int limit)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.ReadEvents(fromId, limit);
 			}));
@@ -140,7 +135,7 @@ namespace FSAgentServer
 
 		public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
-			return (OperationResult<StringRequestIdResult>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<StringRequestIdResult>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
 			}));
@@ -148,7 +143,7 @@ namespace FSAgentServer
 
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.ExecuteCommand(devicePath, methodName);
 			}));
@@ -156,7 +151,7 @@ namespace FSAgentServer
 
 		public OperationResult<bool> CheckHaspPresence()
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.CheckHaspPresence();
 			}));
@@ -164,7 +159,7 @@ namespace FSAgentServer
 
 		public OperationResult<bool> DeviceWriteConfig(string coreConfig, string devicePath)
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceWriteConfig(coreConfig, devicePath);
 			}));
@@ -172,7 +167,7 @@ namespace FSAgentServer
 
 		public OperationResult<bool> DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
 			}));
@@ -180,7 +175,7 @@ namespace FSAgentServer
 
 		public OperationResult<bool> DeviceDatetimeSync(string coreConfig, string devicePath)
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceDatetimeSync(coreConfig, devicePath);
 			}));
@@ -188,7 +183,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceGetInformation(coreConfig, devicePath);
 			}));
@@ -196,7 +191,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceGetSerialList(string coreConfig, string devicePath)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceGetSerialList(coreConfig, devicePath);
 			}));
@@ -204,7 +199,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceUpdateFirmware(coreConfig, devicePath, fileName);
 			}));
@@ -212,7 +207,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
 			}));
@@ -220,7 +215,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceReadConfig(string coreConfig, string devicePath)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceReadConfig(coreConfig, devicePath);
 			}));
@@ -228,7 +223,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceReadEventLog(coreConfig, devicePath);
 			}));
@@ -236,7 +231,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch);
 			}));
@@ -244,7 +239,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceCustomFunctionList(string driverUID)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceCustomFunctionList(driverUID);
 			}));
@@ -252,7 +247,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
 			}));
@@ -260,7 +255,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceGetGuardUsersList(string coreConfig, string devicePath)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceGetGuardUsersList(coreConfig, devicePath);
 			}));
@@ -268,7 +263,7 @@ namespace FSAgentServer
 
 		public OperationResult<bool> DeviceSetGuardUsersList(string coreConfig, string devicePath, string users)
 		{
-			return (OperationResult<bool>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceSetGuardUsersList(coreConfig, devicePath, users);
 			}));
@@ -276,7 +271,7 @@ namespace FSAgentServer
 
 		public OperationResult<string> DeviceGetMDS5Data(string coreConfig, string devicePath)
 		{
-			return (OperationResult<string>)WatcherManager.Current.Invoke(new Func<object>(() =>
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return WatcherManager.Current.AdministratorClient.DeviceGetMDS5Data(coreConfig, devicePath);
 			}));

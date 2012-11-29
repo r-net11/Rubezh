@@ -37,6 +37,7 @@
 				case "Указанный прибор не имеет модели базы данных":
 				case "Ошибка на сервере":
 				case "Ошибка при системном вызове":
+				case "internal gds software consistency check (can't continue after bugcheck)":
 					return true;
 			}
 			if (name.StartsWith("Предотвращена возможная взаимная блокировка"))

@@ -94,6 +94,10 @@ namespace FSAgentClient
             {
                 Logger.Error("FiresecClient.SafeOperationCall CommunicationException " + e.Message + " " + methodName);
             }
+			else if (e is TimeoutException)
+			{
+				Logger.Error("FiresecClient.SafeOperationCall TimeoutException " + e.Message + " " + methodName);
+			}
             else
             {
                 Logger.Error(e, "FiresecClient.SafeOperationCall " + e.Message + " " + methodName);
@@ -118,25 +122,25 @@ namespace FSAgentClient
         public static event Action ConnectionLost;
         void OnConnectionLost()
         {
-            if (isConnected == false)
-                return;
-            if (ConnectionLost != null)
-                ConnectionLost();
-            isConnected = false;
-			FSAgentLoadHelper.Load();
+			if (isConnected)
+			{
+				if (ConnectionLost != null)
+					ConnectionLost();
+				isConnected = false;
+				FSAgentLoadHelper.Load();
+			}
         }
 
         public static event Action ConnectionAppeared;
-        void OnConnectionAppeared()
-        {
-            if (isConnected == true)
-                return;
-
-            if (ConnectionAppeared != null)
-                ConnectionAppeared();
-
-            isConnected = true;
-        }
+		void OnConnectionAppeared()
+		{
+			if (!isConnected)
+			{
+				if (ConnectionAppeared != null)
+					ConnectionAppeared();
+				isConnected = true;
+			}
+		}
 
         bool Recover()
         {

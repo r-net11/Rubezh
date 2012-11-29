@@ -11,6 +11,8 @@ namespace FSAgentServer
     {
         AutoResetEvent StopLifetimeEvent;
         Thread LifetimeThread;
+		bool IsOperationBuisy;
+		DateTime OperationDateTime;
 
         void StartLifetimeThread()
         {

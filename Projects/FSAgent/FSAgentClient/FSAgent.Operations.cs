@@ -10,19 +10,14 @@ namespace FSAgentClient
 {
     public partial class FSAgent
     {
-        public string GetStatus()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.GetStatus(); }, "GetStatus");
-        }
-
         public List<FSAgentCallbac> Poll(Guid clientUID)
         {
-            return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "GetChangeResult");
+			return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "Poll");
         }
 
 		public void CanceProgress()
 		{
-			SafeOperationCall(() => { FSAgentContract.CanceProgress(); }, "CancelAdministratorProgress");
+			SafeOperationCall(() => { FSAgentContract.CanceProgress(); }, "CanceProgress");
 		}
 
 		public void AddToIgnoreList(List<string> devicePaths)

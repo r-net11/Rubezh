@@ -12,44 +12,44 @@ namespace FSAgentClient
 {
 	public partial class FSAgent
 	{
-		Thread RunThread;
+		Thread PollThread;
 		bool IsClosing = false;
 
 		public void Start()
 		{
-			StartRunThread();
+			StartPollThread();
 			StartLifetime();
 		}
 
 		public void Stop()
 		{
 			StopLifetime();
-			StopRunThread();
+			StopPollThread();
 		}
 
-		public void StartRunThread()
+		public void StartPollThread()
 		{
-			RunThread = new Thread(OnRun);
-			RunThread.Start();
+			PollThread = new Thread(OnPoll);
+			PollThread.Start();
 		}
 
-		public void StopRunThread()
+		public void StopPollThread()
 		{
-			if (RunThread != null)
+			if (PollThread != null)
 			{
 				IsClosing = true;
-				if (!RunThread.Join(TimeSpan.FromSeconds(5)))
+				if (!PollThread.Join(TimeSpan.FromSeconds(5)))
 				{
 					try
 					{
-						RunThread.Abort();
+						PollThread.Abort();
 					}
 					catch { }
 				}
 			}
 		}
 
-		void OnRun()
+		void OnPoll()
 		{
 			while (true)
 			{
@@ -87,6 +87,16 @@ namespace FSAgentClient
 							{
 								if (Progress != null)
 									Progress(changeResult.FSProgressInfo);
+							}
+							if (changeResult.IsConnectionLost)
+							{
+								if (ConnectionLost != null)
+									ConnectionLost();
+							}
+							else
+							{
+								if (ConnectionAppeared != null)
+									ConnectionAppeared();
 							}
 						}
 					}

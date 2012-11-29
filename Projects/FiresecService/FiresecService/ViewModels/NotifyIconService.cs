@@ -13,13 +13,13 @@ namespace FiresecService.Service
             RefreshTaskbarNotificationArea();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             _notifyIcon = new System.Windows.Forms.NotifyIcon();
-            Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/FiresecService;component/Firesec.ico")).Stream;
+			Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/FiresecService;component/Firesec.ico")).Stream;
             _notifyIcon.Icon = new System.Drawing.Icon(iconStream);
             _notifyIcon.Visible = true;
 
             _notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
             var menuItem1 = new System.Windows.Forms.MenuItem();
-            menuItem1.Text = "Показать консоль";
+            menuItem1.Text = "Показать";
             menuItem1.Click += new EventHandler(onShow);
             _notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
 

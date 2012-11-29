@@ -22,9 +22,8 @@ namespace FSAgentServer
 		public NativeFiresecClient MonitorClient { get; private set; }
 		NativeFiresecClient CallbackClient;
         int PollIndex = 0;
-        bool IsOperationBuisy;
-        DateTime OperationDateTime;
 		public static AutoResetEvent PoolSleepEvent = new AutoResetEvent(false);
+		public FSProgressInfo LastFSProgressInfo { get; set; }
 
 		public WatcherManager()
 		{
@@ -96,19 +95,8 @@ namespace FSAgentServer
                     IsOperationBuisy = true;
                     try
                     {
-						while (Tasks.Count > 0)
-						{
-							var action = Tasks.Dequeue();
-							if (action != null)
-								action();
-						}
-
-                        while (DelegateTasks.Count > 0)
-                        {
-                            var dispatcherItem = DelegateTasks.Dequeue();
-                            dispatcherItem.Execute();
-                        }
-
+						CheckNonBlockingTasks();
+						CheckBlockingTasks();
                         MonitorClient.CheckForRead(force);
                     }
                     catch (Exception e)
@@ -134,37 +122,6 @@ namespace FSAgentServer
 				Progress(stage, comment, percentComplete, bytesRW);
 		}
 
-		public void AddTask(Action task)
-		{
-			try
-			{
-				lock (locker)
-				{
-					Tasks.Enqueue(task);
-					Monitor.Pulse(locker);
-					PoolSleepEvent.Set();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FSAgentContract.AddTask");
-			}
-		}
-
-		Queue<Action> Tasks = new Queue<Action>();
-		object locker = new object();
-
-        public object Invoke(Func<object> func)
-        {
-            var dispatcherItem = new DispatcherItem(func);
-            DelegateTasks.Enqueue(dispatcherItem);
-			PoolSleepEvent.Set();
-            dispatcherItem.FuncInvokeEvent.WaitOne(TimeSpan.FromSeconds(100));
-            return dispatcherItem.Result;
-        }
-
-        Queue<DispatcherItem> DelegateTasks = new Queue<DispatcherItem>();
-
 		void OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			LastFSProgressInfo = new FSProgressInfo()
@@ -176,26 +133,5 @@ namespace FSAgentServer
 			};
 			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
 		}
-
-		public FSProgressInfo LastFSProgressInfo { get; set; }
 	}
-
-    public class DispatcherItem
-    {
-        public Func<object> Method { get; set; }
-        public object Result { get; set; }
-        public AutoResetEvent FuncInvokeEvent { get; set; }
-
-        public DispatcherItem(Func<object> method)
-        {
-            Method = method;
-            FuncInvokeEvent = new AutoResetEvent(false);
-        }
-
-        public void Execute()
-        {
-            Result = Method();
-            FuncInvokeEvent.Set();
-        }
-    }
 }
