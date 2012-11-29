@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using Common;
 using Infrastructure.Common.BalloonTrayTip;
+using FSAgentClient;
 
 namespace DevicesModule.Views
 {
@@ -21,45 +22,15 @@ namespace DevicesModule.Views
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			IsServiceConnected = true;
 			_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
 			SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
 			SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
 
-			OnDevicesStateChanged(Guid.Empty);
-
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			FSAgent.ConnectionLost += new Action(FSAgent_ConnectionLost);
+			FSAgent.ConnectionAppeared += new Action(FSAgent_ConnectionAppeared);
 		}
 
-		void OnDevicesStateChanged(object obj)
-		{
-			IsDeviceConnected = !HasLostDevices();
-			_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
-		}
-
-		bool HasLostDevices()
-		{
-			foreach (var device in FiresecManager.Devices)
-			{
-				try
-				{
-                    foreach (var state in device.DeviceState.ThreadSafeStates)
-					{
-						if (state.DriverState.Name.Contains("Потеря связи") || state.DriverState.Name.Contains("Связь с панелью потеряна"))
-							return true;
-
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "ConnectionIndicatorView.HasLostDevices");
-				}
-			}
-			return false;
-		}
-
-		bool _isServiceConnected;
+		bool _isServiceConnected = true;
 		public bool IsServiceConnected
 		{
 			get { return _isServiceConnected; }
@@ -81,7 +52,7 @@ namespace DevicesModule.Views
 			}
 		}
 
-		bool _isDeviceConnected;
+		bool _isDeviceConnected = true;
 		public bool IsDeviceConnected
 		{
 			get { return _isDeviceConnected; }
@@ -138,6 +109,24 @@ namespace DevicesModule.Views
 			{
 				IsServiceConnected = true;
 				_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
+			}));
+		}
+
+		void FSAgent_ConnectionLost()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsDeviceConnected = false;
+				_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
+			}));
+		}
+
+		void FSAgent_ConnectionAppeared()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsDeviceConnected = true;
+				_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
 			}));
 		}
 

@@ -17,14 +17,24 @@ namespace FSAgentClient
 
 		public void Start()
 		{
-			RunThread = new Thread(OnRun);
-			RunThread.Start();
+			StartRunThread();
 			StartLifetime();
 		}
 
 		public void Stop()
 		{
 			StopLifetime();
+			StopRunThread();
+		}
+
+		public void StartRunThread()
+		{
+			RunThread = new Thread(OnRun);
+			RunThread.Start();
+		}
+
+		public void StopRunThread()
+		{
 			if (RunThread != null)
 			{
 				IsClosing = true;
@@ -56,16 +66,28 @@ namespace FSAgentClient
 						foreach (var changeResult in changeResults)
 						{
 							if (changeResult.CoreCongig != null)
-								OnCoreConfigChanged(changeResult.CoreCongig);
+							{
+								if (CoreConfigChanged != null)
+									CoreConfigChanged(changeResult.CoreCongig);
+							}
 
 							if (changeResult.CoreDeviceParams != null)
-								OnCoreDeviceParamsChanged(changeResult.CoreDeviceParams);
+							{
+								if (CoreDeviceParamsChanged != null)
+									CoreDeviceParamsChanged(changeResult.CoreDeviceParams);
+							}
 
 							if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
-								OnNewJournalRecords(changeResult.JournalRecords);
+							{
+								if (NewJournalRecords != null)
+									NewJournalRecords(changeResult.JournalRecords);
+							}
 
 							if (changeResult.FSProgressInfo != null)
-								OnProgress(changeResult.FSProgressInfo);
+							{
+								if (Progress != null)
+									Progress(changeResult.FSProgressInfo);
+							}
 						}
 					}
 				}
@@ -81,31 +103,8 @@ namespace FSAgentClient
 		}
 
 		public event Action<string> CoreConfigChanged;
-		void OnCoreConfigChanged(string coreConfig)
-		{
-			if (CoreConfigChanged != null)
-				CoreConfigChanged(coreConfig);
-		}
-
 		public event Action<string> CoreDeviceParamsChanged;
-		void OnCoreDeviceParamsChanged(string coreDeviceParams)
-		{
-			if (CoreDeviceParamsChanged != null)
-				CoreDeviceParamsChanged(coreDeviceParams);
-		}
-
 		public event Action<List<JournalRecord>> NewJournalRecords;
-		void OnNewJournalRecords(List<JournalRecord> journalRecords)
-		{
-			if (NewJournalRecords != null)
-				NewJournalRecords(journalRecords);
-		}
-
 		public event Action<FSProgressInfo> Progress;
-		void OnProgress(FSProgressInfo deviceStates)
-		{
-			if (Progress != null)
-				Progress(deviceStates);
-		}
 	}
 }

@@ -21,7 +21,6 @@ namespace FSAgentServer
 		public NativeFiresecClient AdministratorClient { get; private set; }
 		public NativeFiresecClient MonitorClient { get; private set; }
 		NativeFiresecClient CallbackClient;
-        Watcher Watcher;
         int PollIndex = 0;
         bool IsOperationBuisy;
         DateTime OperationDateTime;
@@ -74,12 +73,10 @@ namespace FSAgentServer
 			{
 				AdministratorClient = new NativeFiresecClient();
 				AdministratorClient.Connect(false);
-				AdministratorClient.ProgressEvent += new Func<int, string, int, int, bool>(OnAdministratorProgress);
+				AdministratorClient.ProgressEvent += new Action<int, string, int, int>(OnAdministratorProgress);
 
 				MonitorClient = new NativeFiresecClient();
                 MonitorClient.Connect(false);
-
-                Watcher = new Watcher(MonitorClient);
 			}
 			catch (Exception e)
 			{
@@ -130,6 +127,13 @@ namespace FSAgentServer
 			}
 		}
 
+		public event Action<int, string, int, int> Progress;
+		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+		{
+			if (Progress != null)
+				Progress(stage, comment, percentComplete, bytesRW);
+		}
+
 		public void AddTask(Action task)
 		{
 			try
@@ -161,7 +165,7 @@ namespace FSAgentServer
 
         Queue<DispatcherItem> DelegateTasks = new Queue<DispatcherItem>();
 
-		bool OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
+		void OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			LastFSProgressInfo = new FSProgressInfo()
 			{
@@ -171,7 +175,6 @@ namespace FSAgentServer
 				BytesRW = bytesRW
 			};
 			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
-			return true;
 		}
 
 		public FSProgressInfo LastFSProgressInfo { get; set; }

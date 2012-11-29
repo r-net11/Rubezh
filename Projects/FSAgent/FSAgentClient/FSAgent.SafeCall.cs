@@ -5,6 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using Common;
 using FiresecAPI;
+using Infrastructure.Common;
 
 namespace FSAgentClient
 {
@@ -122,7 +123,7 @@ namespace FSAgentClient
             if (ConnectionLost != null)
                 ConnectionLost();
             isConnected = false;
-            //ServerLoadHelper.Load();
+			FSAgentLoadHelper.Load();
         }
 
         public static event Action ConnectionAppeared;

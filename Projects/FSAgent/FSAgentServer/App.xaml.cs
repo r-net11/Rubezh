@@ -17,7 +17,7 @@ namespace FSAgentServer
 		{
 			base.OnStartup(e);
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-			//ThemeHelper.LoadThemeFromRegister();
+			ThemeHelper.LoadThemeFromRegister();
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				Bootstrapper.Run();

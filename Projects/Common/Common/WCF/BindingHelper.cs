@@ -23,6 +23,9 @@ namespace Common
 		public static NetNamedPipeBinding CreateNetNamedPipeBinding()
 		{
 			var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+			binding.OpenTimeout = TimeSpan.FromMinutes(10);
+			binding.SendTimeout = TimeSpan.FromMinutes(10);
+			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
@@ -35,6 +38,9 @@ namespace Common
 		public static NetTcpBinding CreateNetTcpBinding()
 		{
 			var binding = new NetTcpBinding(SecurityMode.Message);
+			binding.OpenTimeout = TimeSpan.FromMinutes(10);
+			binding.SendTimeout = TimeSpan.FromMinutes(10);
+			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
 			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
@@ -48,6 +54,9 @@ namespace Common
 		public static WSHttpBinding CreateWSHttpBinding()
 		{
 			var binding = new WSHttpBinding(SecurityMode.None);
+			binding.OpenTimeout = TimeSpan.FromMinutes(10);
+			binding.SendTimeout = TimeSpan.FromMinutes(10);
+			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
 			binding.MaxReceivedMessageSize = Int32.MaxValue;
 			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;

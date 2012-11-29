@@ -45,6 +45,8 @@ namespace FSAgentClient
 					if ((DateTime.Now - StartOperationDateTime) > TimeSpan.FromMinutes(10))
 					{
 						Logger.Error("FSAgent.OnRunLifetime Time Expired");
+						StopRunThread();
+						StartRunThread();
 					}
 				}
 			}

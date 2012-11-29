@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using FSAgentAPI;
 
 namespace FSAgentServer
 {
@@ -21,11 +22,8 @@ namespace FSAgentServer
 		string PrevCoreState = "";
 		string PrevCoreDeviceParams = "";
 
-        //static int count = 0;
-
 		public void NewEventsAvailable(int eventMask)
 		{
-            //Trace.WriteLine("NewEventsAvailable " + count++.ToString());
             if (IsPing)
 			{
 				needToRead = true;
@@ -63,8 +61,7 @@ namespace FSAgentServer
 						{
 							if (PrevCoreState != result.Result)
 							{
-								if (StateChanged != null)
-									StateChanged(result.Result);
+								CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
 							}
 							PrevCoreState = result.Result;
 						}
@@ -80,8 +77,7 @@ namespace FSAgentServer
 						{
 							if (PrevCoreDeviceParams != result.Result)
 							{
-								if (ParametersChanged != null)
-									ParametersChanged(result.Result);
+								CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
 							}
 							PrevCoreDeviceParams = result.Result;
 						}
@@ -94,8 +90,10 @@ namespace FSAgentServer
 						needToReadJournal = false;
 						var journalRecords = GetEventsFromLastId(LastJournalNo);
 
-						if (NewJournalRecords != null)
-							NewJournalRecords(journalRecords);
+						if (journalRecords != null)
+						{
+							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
+						}
 						else
 							App.Restart();
 					}
@@ -211,10 +209,6 @@ namespace FSAgentServer
 		}
 
 		public static bool ContinueProgress = true;
-
-		public event Action<List<JournalRecord>> NewJournalRecords;
-		public event Action<string> StateChanged;
-		public event Action<string> ParametersChanged;
-		public event Func<int, string, int, int, bool> ProgressEvent;
+		public event Action<int, string, int, int> ProgressEvent;
 	}
 }
