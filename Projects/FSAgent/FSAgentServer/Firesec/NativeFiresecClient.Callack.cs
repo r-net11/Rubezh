@@ -20,10 +20,11 @@ namespace FSAgentServer
 		string PrevCoreState = "";
 		string PrevCoreDeviceParams = "";
 
-        static int count = 0;
+        //static int count = 0;
 
 		public void NewEventsAvailable(int eventMask)
 		{
+            //Trace.WriteLine("NewEventsAvailable " + count++.ToString());
             if (IsPing)
 			{
 				needToRead = true;
