@@ -21,13 +21,20 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
                 TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
                 taskbarIcon.CloseBalloon();
                 taskbarIcon.Dispose();
-            }
+            }   
         }
 
         private void OnBalloonClosing(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
             BalloonToolTipViewModel.isShown = false;
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
+            taskbarIcon.CloseBalloon();
+            taskbarIcon.Dispose();
         }
     }
 }

@@ -12,20 +12,10 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             InitializeComponent();
         }
 
-        private void MyNotifyIcon_TrayBalloonTipClosed(object sender, RoutedEventArgs e)
-        {
-            MyNotifyIcon.Dispose();
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             CustomBalloonView customBalloonView = new CustomBalloonView();
             MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
-        }
-
-        private void MyNotifyIcon_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MyNotifyIcon.Dispose();
         }
     }
 }

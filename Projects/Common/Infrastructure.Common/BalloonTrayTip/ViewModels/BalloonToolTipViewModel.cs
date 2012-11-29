@@ -5,92 +5,96 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Drawing;
 using System.Windows;
+using Common;
+
 
 namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
-    public class BalloonToolTipViewModel : WindowBaseViewModel
+    public class BalloonToolTipViewModel: WindowBaseViewModel
     {
         public static bool isShown = false;
         public static bool isEmpty = false;
 
-        List<string> titles = new List<string>();
-        List<string> texts = new List<string>();
-        List<System.Windows.Media.Brush> colors = new List<System.Windows.Media.Brush>();
-
+        
+        private List<Item> items = new List<Item>();
+        
         public string BalloonTitle
         {
-            get { return titles.Last(); }
-            set
-            {
-                titles.Add(value);
-                OnPropertyChanged("BalloonTitle");
-            }
+            get { return items.Last().title; }
         }
 
         public string BalloonText
         {
-            get { return texts.Last(); }
-            set
-            {
-                texts.Add(value);
-                OnPropertyChanged("BalloonText");
-            }
+            get { return items.Last().text; }
         }
 
         public System.Windows.Media.Brush BackgroundColor
         {
-            get { return colors.Last(); }
-            set
-            {
-                colors.Add(value);
-                OnPropertyChanged("BackgroundColor");
-            }
+            get { return items.Last().color; }
         }
 
         public BalloonToolTipViewModel(string ttl, string txt, System.Windows.Media.Brush clr)
         {
-            texts.Clear();
-            titles.Clear();
-            colors.Clear();
+            items.Clear();
             Title = "";
-            BalloonTitle = ttl;
-            BalloonText = txt;
-            BackgroundColor = clr;
-            Test1Command = new RelayCommand(OnTest1);
+            AddNote(ttl, txt, clr);
+            OnPropertyChanged("BalloonTitle");
+            OnPropertyChanged("BalloonText");
+            OnPropertyChanged("BackgroundColor");
+            RemoveItemCommand = new RelayCommand(OnRemoveItem);
             isEmpty = false;
         }
 
         public void AddNote(string ttl, string txt, System.Windows.Media.Brush clr)
         {
-            BalloonTitle = ttl;
-            BalloonText = txt;
-            BackgroundColor = clr;
+            items.Add(new Item { title = ttl, text = txt, color = clr });
+            OnPropertyChanged("BalloonTitle");
+            OnPropertyChanged("BalloonText");
+            OnPropertyChanged("BackgroundColor");
         }
-        public RelayCommand Test1Command { get; private set; }
-        void OnTest1()
+        public RelayCommand RemoveItemCommand { get; private set; }
+        void OnRemoveItem()
         {
-            if (!chkEmpty())
+            try
             {
-                titles.Remove(titles.Last());
-                OnPropertyChanged("BalloonTitle");
-                texts.Remove(texts.Last());
-                OnPropertyChanged("BalloonText");
-                colors.Remove(colors.Last());
-                OnPropertyChanged("BackgroundColor");
+                if (!chkEmpty())
+                {
+                    items.Remove(items.Last());
+                    OnPropertyChanged("BalloonTitle");
+                    OnPropertyChanged("BalloonText");
+                    OnPropertyChanged("BackgroundColor");
+                }
+                else
+                {
+                    items.Clear();
+                }
             }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Balloon.RemoveItem");
+            }
+            
         }
+
         public BalloonToolTipViewModel()
         {
             Title = "";
-            Test1Command = new RelayCommand(OnTest1);
+            RemoveItemCommand = new RelayCommand(OnRemoveItem);
             isEmpty = false;
         }
 
         bool chkEmpty()
         {
-            if (titles.Count < 3)
+            if(items.Count < 2)
                 isEmpty = true;
             return isEmpty;
+        }
+
+        class Item
+        {
+            public string title;
+            public string text;
+            public System.Windows.Media.Brush color;
         }
     }
 }

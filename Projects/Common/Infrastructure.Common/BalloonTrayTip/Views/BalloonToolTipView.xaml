@@ -7,11 +7,6 @@
     <Grid>
         <tb:TaskbarIcon
             x:Name="MyNotifyIcon"
-            IconSource="../Icons/Error.ico"
-            ToolTipText=""
-            MouseDown="MyNotifyIcon_MouseDown"
-            TrayBalloonTipClicked="MyNotifyIcon_TrayBalloonTipClosed"
-            TrayBalloonTipClosed="MyNotifyIcon_TrayBalloonTipClosed"
             Visibility="Hidden"/>
     </Grid>
 </UserControl>

@@ -28,42 +28,44 @@
         </EventTrigger>
     </UserControl.Triggers>
     <UserControl.InputBindings>
-        <MouseBinding MouseAction="LeftClick" Command="{Binding Test1Command}" />
+        <MouseBinding MouseAction="LeftClick" 
+                      Command="{Binding RemoveItemCommand}" />
     </UserControl.InputBindings>
-    <Border x:Name="grid" 
-            MouseDown="grid_MouseDown"  
+    <Border x:Name="grid"
+            MouseLeftButtonDown="grid_MouseDown"
             Width="220" 
             Height="Auto"
             CornerRadius="5"
             BorderThickness="1"
             BorderBrush="{DynamicResource WindowBorderBrush}" 
-            Background="{Binding BackgroundColor}"
-            >
+            Background="{Binding BackgroundColor}">
         <Border.Effect>
             <DropShadowEffect Color="#747474"/>
         </Border.Effect>
-        <Grid>
-            <StackPanel>
-                <TextBlock 
-                    Margin="10 5 10 0" 
-                    VerticalAlignment="Top" 
-                    Text="{Binding BalloonTitle}" 
-                    TextWrapping="Wrap" 
-                    Foreground="White" 
-                    FontWeight="Bold"/>
-                <Path
-                    Margin="10 0"
+        <StackPanel>
+            <DockPanel>
+                <Image Source="..\Images\fileclose.png" 
+                        Height="20" 
+                        MouseDown="Image_MouseDown"
+                        DockPanel.Dock="Right"
+                        VerticalAlignment="Top"/>
+                <TextBlock Margin="10 5 10 0" 
+                            VerticalAlignment="Top" 
+                            Text="{Binding BalloonTitle}" 
+                            TextWrapping="Wrap" 
+                            Foreground="White" 
+                            FontWeight="Bold"/>
+            </DockPanel>
+            <Path Margin="10 0"
                     Stretch="Fill"
                     Height="1"
                     Data="M26,107 L220.04123,107" 
                     Stroke="{DynamicResource WindowBorderBrush}"/>
-                <TextBlock 
-                    Margin="10 0 10 5" 
-                    VerticalAlignment="Bottom" 
-                    Text="{Binding BalloonText}" 
-                    TextWrapping="Wrap" 
-                    Foreground="White"/>
-            </StackPanel>
-        </Grid>
+            <TextBlock Margin="10 0 10 5" 
+                        VerticalAlignment="Bottom" 
+                        Text="{Binding BalloonText}" 
+                        TextWrapping="Wrap" 
+                        Foreground="White"/>
+        </StackPanel>
     </Border>
 </UserControl>
