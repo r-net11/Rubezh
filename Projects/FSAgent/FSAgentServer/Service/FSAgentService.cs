@@ -31,26 +31,7 @@ namespace FSAgentServer
                 var result = CallbackManager.Get(clientInfo);
 				if (result.Count == 0)
 				{
-					if (WatcherManager.Current.LastFSProgressInfo != null)
-					{
-						var fsProgressInfo = new FSProgressInfo()
-						{
-							Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
-							Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
-							PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
-							BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
-						};
-						WatcherManager.Current.LastFSProgressInfo = null;
-						result = new List<FSAgentCallbac>();
-						var fsAgentCallbac = new FSAgentCallbac()
-						{
-							FSProgressInfo = fsProgressInfo
-						};
-						result.Add(fsAgentCallbac);
-						return result;
-					}
-
-					clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromSeconds(10));
+					clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromSeconds(60));
 					result = CallbackManager.Get(clientInfo);
 				}
                 return result;

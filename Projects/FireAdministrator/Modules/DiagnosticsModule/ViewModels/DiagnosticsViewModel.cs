@@ -172,7 +172,7 @@ namespace DiagnosticsModule.ViewModels
                 {
 					//if (Firesec.NativeFiresecClient.TasksCount > 10)
 					//    continue;
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
 
                     //var safeFiresecService = new SafeFiresecService("net.pipe://127.0.0.1/FiresecService/");
                     //safeFiresecService.Connect(new ClientCredentials() { ClientType = ClientType.Administrator, ClientUID = Guid.NewGuid(), UserName = "adm", Password = "" }, true);

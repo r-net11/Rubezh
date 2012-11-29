@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FSAgent.Lifetime.cs" />
     <Compile Include="FSAgentFactory.cs" />
     <Compile Include="FSAgent.cs" />
     <Compile Include="FSAgent.Operations.cs" />
