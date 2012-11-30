@@ -104,18 +104,6 @@ namespace FSAgentClient
             }
         }
 
-        static void SafeOperationCall(Action action)
-        {
-            try
-            {
-                action();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "SafeFiresecService.SafeOperationCall");
-            }
-        }
-
         bool isConnected = true;
         public bool SuspendPoll = false;
 
@@ -127,7 +115,6 @@ namespace FSAgentClient
 				if (ConnectionLost != null)
 					ConnectionLost();
 				isConnected = false;
-				FSAgentLoadHelper.Load();
 			}
         }
 

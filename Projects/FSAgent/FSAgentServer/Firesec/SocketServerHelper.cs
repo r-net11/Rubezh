@@ -82,7 +82,6 @@ namespace FSAgentServer
 			Logger.Error("SocketServerHelper.Restart");
 			//Stop();
 			StartIfNotRunning();
-			App.Restart();
 		}
 
 		static string GetSocketServerPath()

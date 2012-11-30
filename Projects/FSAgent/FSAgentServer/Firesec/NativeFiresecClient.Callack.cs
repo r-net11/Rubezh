@@ -12,6 +12,7 @@ namespace FSAgentServer
 {
 	public partial class NativeFiresecClient
 	{
+		public bool IsPing { get; set; }
 		public static bool IsSuspended { get; set; }
 		int LastJournalNo = 0;
 		static bool needToRead = false;
@@ -57,7 +58,7 @@ namespace FSAgentServer
 					{
 						needToReadStates = false;
 						var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
-						if (result != null && result.Result != null)
+						if (result != null && result.Result != null && result.HasError == false)
 						{
 							if (PrevCoreState != result.Result)
 							{
@@ -66,14 +67,16 @@ namespace FSAgentServer
 							PrevCoreState = result.Result;
 						}
 						else
-							App.Restart();
+						{
+							OnCriticalError();
+						}
 					}
 
 					if (needToReadParameters)
 					{
 						needToReadParameters = false;
 						var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
-						if (result != null && result.Result != null)
+						if (result != null && result.Result != null && result.HasError == false)
 						{
 							if (PrevCoreDeviceParams != result.Result)
 							{
@@ -82,7 +85,9 @@ namespace FSAgentServer
 							PrevCoreDeviceParams = result.Result;
 						}
 						else
-							App.Restart();
+						{
+							OnCriticalError();
+						}
 					}
 
 					if (needToReadJournal)
@@ -95,15 +100,14 @@ namespace FSAgentServer
 							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
 						}
 						else
-							App.Restart();
+						{
+							OnCriticalError();
+						}
 					}
 				}
 				catch (Exception e)
 				{
 					Logger.Error(e, "NativeFiresecClient.NewEventsAvailable");
-				}
-				finally
-				{
 				}
 			}
 		}
@@ -113,8 +117,9 @@ namespace FSAgentServer
 			try
 			{
 				var result = ReadEvents(0, 100);
-				if (result.HasError)
+				if (result == null || result.Result == null || result.HasError)
 				{
+					OnCriticalError();
 					LastJournalNo = 0;
 				}
 				var document = SerializerHelper.Deserialize<Firesec.Models.Journals.document>(result.Result);
@@ -144,8 +149,9 @@ namespace FSAgentServer
 				hasNewRecords = false;
 
 				var result = ReadEvents(LastJournalNo, 100);
-				if (result == null || result.HasError)
+				if (result == null || result.Result == null || result.HasError)
 				{
+					OnCriticalError();
 					return new List<JournalRecord>();
 				}
 
@@ -171,18 +177,9 @@ namespace FSAgentServer
 					break;
 			}
 
-			journalRecords = journalRecords.OrderBy(x => x.OldId).ToList();
+			if (journalRecords.Count > 0)
+				journalRecords = journalRecords.OrderBy(x => x.OldId).ToList();
 			return journalRecords;
-		}
-
-		OperationResult<T> ConvertResultData<T>(OperationResult<string> result)
-		{
-			var resultData = new OperationResult<T>();
-			resultData.HasError = result.HasError;
-			resultData.Error = result.Error;
-			if (result.HasError == false)
-				resultData.Result = SerializerHelper.Deserialize<T>(result.Result);
-			return resultData;
 		}
 
 		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
@@ -210,5 +207,19 @@ namespace FSAgentServer
 
 		public static bool ContinueProgress = true;
 		public event Action<int, string, int, int> ProgressEvent;
+
+		void OnCriticalError()
+		{
+			CallbackManager.SetConnectionLost(true);
+			var result = Connect();
+			if (result == null || result.Result == null || result.HasError)
+			{
+				App.Restart();
+			}
+			else
+			{
+				CallbackManager.SetConnectionLost(false);
+			}
+		}
 	}
 }

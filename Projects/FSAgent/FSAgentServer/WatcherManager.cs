@@ -18,8 +18,7 @@ namespace FSAgentServer
 		public static WatcherManager Current { get; private set; }
         AutoResetEvent StopEvent = new AutoResetEvent(false);
         Thread RunThread;
-		public NativeFiresecClient AdministratorClient { get; private set; }
-		public NativeFiresecClient MonitorClient { get; private set; }
+		public NativeFiresecClient DirectClient { get; private set; }
 		NativeFiresecClient CallbackClient;
         int PollIndex = 0;
 		public static AutoResetEvent PoolSleepEvent = new AutoResetEvent(false);
@@ -35,7 +34,8 @@ namespace FSAgentServer
             if (RunThread == null)
             {
 				CallbackClient = new NativeFiresecClient();
-                CallbackClient.Connect(true);
+                CallbackClient.Connect();
+				CallbackClient.IsPing = true;
 
                 StopEvent = new AutoResetEvent(false);
                 RunThread = new Thread(OnRun);
@@ -70,12 +70,9 @@ namespace FSAgentServer
 		{
 			try
 			{
-				AdministratorClient = new NativeFiresecClient();
-				AdministratorClient.Connect(false);
-				AdministratorClient.ProgressEvent += new Action<int, string, int, int>(OnAdministratorProgress);
-
-				MonitorClient = new NativeFiresecClient();
-                MonitorClient.Connect(false);
+				DirectClient = new NativeFiresecClient();
+				DirectClient.Connect();
+				DirectClient.ProgressEvent += new Action<int, string, int, int>(OnAdministratorProgress);
 			}
 			catch (Exception e)
 			{
@@ -91,21 +88,15 @@ namespace FSAgentServer
                     PollIndex++;
                     var force = PollIndex % 100 == 0;
 
-                    OperationDateTime = DateTime.Now;
-                    IsOperationBuisy = true;
                     try
                     {
 						CheckNonBlockingTasks();
 						CheckBlockingTasks();
-                        MonitorClient.CheckForRead(force);
+                        DirectClient.CheckForRead(force);
                     }
                     catch (Exception e)
                     {
                         Logger.Error(e, "OnRun.while");
-                    }
-                    finally
-                    {
-                        IsOperationBuisy = false;
                     }
 				}
 				catch (Exception e)

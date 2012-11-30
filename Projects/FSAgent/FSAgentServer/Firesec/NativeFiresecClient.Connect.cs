@@ -14,7 +14,6 @@ namespace FSAgentServer
         int _reguestId = 1;
 		FS_Types.IFSC_Connection Connection;
 		bool IsConnected = false;
-		public bool IsPing { get; set; }
 
         public NativeFiresecClient()
         {
@@ -30,13 +29,7 @@ namespace FSAgentServer
             };
         }
 
-        public OperationResult<bool> Connect(bool isPing)
-        {
-            IsPing = isPing;
-            return DoConnect();
-        }
-
-        public OperationResult<bool> DoConnect()
+        public OperationResult<bool> Connect()
         {
             IsConnected = false;
             for (int i = 0; i < 3; i++)
@@ -133,7 +126,7 @@ namespace FSAgentServer
         {
             if (ConnectionTimeoutEvent != null)
             {
-                if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(3)))
+                if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
                     Logger.Error("NativeFiresecClient.OnConnectionTimeoutThread");
                     SocketServerHelper.Restart();

@@ -40,7 +40,7 @@ namespace FSAgentServer
 		{
 			var blockingTask = new BlockingTask(func);
 			BlockingTasks.Enqueue(blockingTask);
-			blockingTask.ReadyEvent.WaitOne(TimeSpan.FromSeconds(100));
+			blockingTask.ReadyEvent.WaitOne(TimeSpan.FromMinutes(8));
 			PoolSleepEvent.Set();
 			return blockingTask.Result;
 		}
@@ -53,7 +53,22 @@ namespace FSAgentServer
 				{
 					var action = NonBlockingTasks.Dequeue();
 					if (action != null)
-						action();
+					{
+						OperationDateTime = DateTime.Now;
+						IsOperationBuisy = true;
+						try
+						{
+							action();
+						}
+						catch (Exception ex)
+						{
+							Logger.Error(ex, "WatcherManager.CheckNonBlockingTasks.Action");
+						}
+						finally
+						{
+							IsOperationBuisy = false;
+						}
+					}
 				}
 			}
 			catch (Exception e)
@@ -69,7 +84,23 @@ namespace FSAgentServer
 				while (BlockingTasks.Count > 0)
 				{
 					var dispatcherItem = BlockingTasks.Dequeue();
-					dispatcherItem.Execute();
+					if (dispatcherItem != null)
+					{
+						OperationDateTime = DateTime.Now;
+						IsOperationBuisy = true;
+						try
+						{
+							dispatcherItem.Execute();
+						}
+						catch (Exception ex)
+						{
+							Logger.Error(ex, "WatcherManager.CheckBlockingTasks.Action");
+						}
+						finally
+						{
+							IsOperationBuisy = false;
+						}
+					}
 				}
 			}
 			catch (Exception e)

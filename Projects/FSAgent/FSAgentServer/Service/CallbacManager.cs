@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FSAgentAPI;
 using System.Diagnostics;
+using System.Threading;
 
 namespace FSAgentServer
 {
@@ -12,13 +13,6 @@ namespace FSAgentServer
 		static object locker = new object();
 		static List<FSAgentCallbacCash> FSAgentCallbacCashes = new List<FSAgentCallbacCash>();
 		static int LastIndex { get; set; }
-		public static int GetLastIndex()
-		{
-			lock (locker)
-			{
-				return LastIndex;
-			}
-		}
 
 		public static void Add(FSAgentCallbac fsAgentCallbac)
 		{
@@ -40,6 +34,17 @@ namespace FSAgentServer
 
 		public static List<FSAgentCallbac> Get(ClientInfo clientInfo)
 		{
+			if (IsConnectionLost)
+			{
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+				var result = new List<FSAgentCallbac>();
+				var fsAgentCallbac = new FSAgentCallbac()
+				{
+					IsConnectionLost = IsConnectionLost
+				};
+				result.Add(fsAgentCallbac);
+				return result;
+			}
 			if (WatcherManager.Current.LastFSProgressInfo != null)
 			{
 				var fsProgressInfo = new FSProgressInfo()
@@ -88,6 +93,13 @@ namespace FSAgentServer
 				}
 				return result;
 			}
+		}
+
+		static bool IsConnectionLost = false;
+		public static void SetConnectionLost(bool value)
+		{
+			IsConnectionLost = value;
+			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
 		}
 	}
 
