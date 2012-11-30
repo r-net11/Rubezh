@@ -10,27 +10,14 @@ namespace FSAgentServer
 {
 	public partial class NativeFiresecClient
 	{
-		public static bool IsOperationBuisy = false;
-		public static DateTime OperationDateTime;
-
 		OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
-		{
-			return SafeLoopCall(func, methodName);
-		}
-
-		OperationResult<T> SafeLoopCall<T>(Func<T> f, string methodName)
 		{
 			var resultData = new OperationResult<T>();
 			for (int i = 0; i < 3; i++)
 			{
 				try
 				{
-					IsOperationBuisy = true;
-					OperationDateTime = DateTime.Now;
-
-					var result = f();
-
-					IsOperationBuisy = false;
+					var result = func();
 
 					resultData.Result = result;
 					resultData.HasError = false;
@@ -55,7 +42,7 @@ namespace FSAgentServer
 					if (e.Message == "Пользователь не зарегистрировался на сервере")
 					{
 						Logger.Error("NativeFiresecClient.SafeLoopCall Пользователь не зарегистрировался на сервере");
-						DoConnect();
+						Connect();
 					}
 					resultData.Result = default(T);
 					resultData.HasError = true;
@@ -92,10 +79,6 @@ namespace FSAgentServer
 					resultData.Error = e.Message;
 					SocketServerHelper.Restart();
 					Trace.WriteLine(e.Message);
-				}
-				finally
-				{
-					IsOperationBuisy = false;
 				}
 			}
 			return resultData;

@@ -119,14 +119,6 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test3Command { get; private set; }
         void OnTest3()
         {
-            var filename = @"C:/x/4.svg";
-            using (var memoryStream = new MemoryStream())
-            {
-                XamlWriter.Save(XamlTune.ConvertUtility.LoadSvg(filename), memoryStream);
-                string str = new StreamReader(memoryStream).ReadToEnd();
-                byte[] buffer = memoryStream.GetBuffer();
-                string result = Encoding.UTF8.GetString(buffer); 
-            }
         }
 
         public RelayCommand Test4Command { get; private set; }

@@ -7,6 +7,7 @@ using System.ServiceModel;
 using Common;
 using System.Threading;
 using System.ServiceModel.Description;
+using Infrastructure.Common;
 
 namespace FSAgentClient
 {
@@ -17,6 +18,7 @@ namespace FSAgentClient
 
         public IFSAgentContract Create(string serverAddress)
         {
+			FSAgentLoadHelper.Load();
             for (int i = 0; i < 3; i++)
             {
                 try
@@ -37,7 +39,10 @@ namespace FSAgentClient
 
         IFSAgentContract DoCreate(string serverAddress)
         {
-            serverAddress = "net.pipe://127.0.0.1/FSAgent/";
+			if (serverAddress.StartsWith("net.pipe:"))
+			{
+			}
+
             var binding = BindingHelper.CreateNetNamedPipeBinding();
 
             var endpointAddress = new EndpointAddress(new Uri(serverAddress));
@@ -53,7 +58,7 @@ namespace FSAgentClient
             ChannelFactory.Open();
 
             IFSAgentContract firesecService = ChannelFactory.CreateChannel();
-            (firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(1);
+            (firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(10);
             return firesecService;
         }
 
