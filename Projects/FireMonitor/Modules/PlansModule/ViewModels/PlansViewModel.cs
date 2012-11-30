@@ -12,6 +12,7 @@ using XFiresecAPI;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrastructure.Events;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -92,6 +93,7 @@ namespace PlansModule.ViewModels
 		}
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
+			Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 			OnSelectPlan(args.PlanUID);
 			OnShowElement(args.ElementUID);

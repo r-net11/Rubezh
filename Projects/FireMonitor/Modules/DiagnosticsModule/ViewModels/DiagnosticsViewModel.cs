@@ -12,31 +12,33 @@ using System.Windows;
 using Infrastructure.Common.BalloonTrayTip;
 using Firesec;
 using FiresecAPI;
+using Infrustructure.Plans.Events;
 
 
 
 namespace DiagnosticsModule.ViewModels
 {
 	[Serializable]
-    public class DiagnosticsViewModel : ViewPartViewModel
-    {
-        public DiagnosticsViewModel()
-        {
-            Test1Command = new RelayCommand(OnTest1);
-            Test2Command = new RelayCommand(OnTest2);
-            Test3Command = new RelayCommand(OnTest3);
-            Test4Command = new RelayCommand(OnTest4);
-            Test5Command = new RelayCommand(OnTest5);
-            Test6Command = new RelayCommand(OnTest6);
-            Test7Command = new RelayCommand(OnTest7);
+	public class DiagnosticsViewModel : ViewPartViewModel
+	{
+		public DiagnosticsViewModel()
+		{
+			Test1Command = new RelayCommand(OnTest1);
+			Test2Command = new RelayCommand(OnTest2);
+			Test3Command = new RelayCommand(OnTest3);
+			Test4Command = new RelayCommand(OnTest4);
+			Test5Command = new RelayCommand(OnTest5);
+			Test6Command = new RelayCommand(OnTest6);
+			Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
-            Test9Command = new RelayCommand(OnTest9);
+			Test9Command = new RelayCommand(OnTest9);
 			Test10Command = new RelayCommand(OnTest10);
+			Test11Command = new RelayCommand(OnTest11);
 			FSAgentTestCommand = new RelayCommand(OnFSAgentTest);
-            ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
-            ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
-            ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);
-        }
+			ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
+			ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
+			ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);
+		}
 
 		public void StopThreads()
 		{
@@ -44,30 +46,30 @@ namespace DiagnosticsModule.ViewModels
 		}
 		bool IsThreadStoping = false;
 
-        string _text;
-        public string Text
-        {
-            get { return _text; }
-            set
-            {
-                _text = value;
-                OnPropertyChanged("Text");
-            }
-        }
+		string _text;
+		public string Text
+		{
+			get { return _text; }
+			set
+			{
+				_text = value;
+				OnPropertyChanged("Text");
+			}
+		}
 
-        public RelayCommand Test8Command { get; private set; }
-        void OnTest8()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
+		public RelayCommand Test8Command { get; private set; }
+		void OnTest8()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
 					if (IsThreadStoping)
 						break;
 					Thread.Sleep(TimeSpan.FromSeconds(1));
 
 					var index = random.Next(0, 10);
-					switch(index)
+					switch (index)
 					{
 						case 0:
 							RemoveFromIgnoreList();
@@ -78,7 +80,8 @@ namespace DiagnosticsModule.ViewModels
 							break;
 
 						case 2:
-							FiresecManager.ResetAllStates();;
+							FiresecManager.ResetAllStates();
+							;
 							break;
 
 						case 3:
@@ -97,112 +100,112 @@ namespace DiagnosticsModule.ViewModels
 							Application.Current.Dispatcher.Invoke(new Action(Navigate));
 							break;
 					}
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
 		{
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-                    RemoveFromIgnoreList();
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+					RemoveFromIgnoreList();
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
 		}
 
-        public RelayCommand Test2Command { get; private set; }
-        void OnTest2()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+		public RelayCommand Test2Command { get; private set; }
+		void OnTest2()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 					AddToIgnoreList();
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
 		Random random = new Random(1);
 
-        public RelayCommand Test3Command { get; private set; }
-        void OnTest3()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-                    FiresecManager.ResetAllStates();
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+		public RelayCommand Test3Command { get; private set; }
+		void OnTest3()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+					FiresecManager.ResetAllStates();
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
-        public RelayCommand Test4Command { get; private set; }
-        void OnTest4()
-        {
-            throw new Exception("Unknown exception");
-        }
+		public RelayCommand Test4Command { get; private set; }
+		void OnTest4()
+		{
+			throw new Exception("Unknown exception");
+		}
 
-        public RelayCommand Test5Command { get; private set; }
-        void OnTest5()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+		public RelayCommand Test5Command { get; private set; }
+		void OnTest5()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 					ControlDevice();
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
-        bool IsGuardZoneInverse;
+		bool IsGuardZoneInverse;
 
-        public RelayCommand Test6Command { get; private set; }
-        void OnTest6()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+		public RelayCommand Test6Command { get; private set; }
+		void OnTest6()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 					ChangeGuardZone();
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
-        public RelayCommand Test7Command { get; private set; }
-        void OnTest7()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(5000));
+		public RelayCommand Test7Command { get; private set; }
+		void OnTest7()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(5000));
 
 					Application.Current.Dispatcher.Invoke(new Action(Navigate));
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
 		void RemoveFromIgnoreList()
 		{
@@ -286,7 +289,7 @@ namespace DiagnosticsModule.ViewModels
 			{
 				case 0:
 					ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
-                    break;
+					break;
 				case 1:
 					ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
 					break;
@@ -320,54 +323,83 @@ namespace DiagnosticsModule.ViewModels
 			}
 		}
 
-        public RelayCommand Test9Command { get; private set; }
-        void OnTest9()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                int count = 0;
-                while (true)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(10));
+		public RelayCommand Test9Command { get; private set; }
+		void OnTest9()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				int count = 0;
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(10));
 					FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
-                    if (count % 1000 == 0)
-                    {
-                        Trace.WriteLine("Count = " + count.ToString());
-                    }
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+					if (count % 1000 == 0)
+					{
+						Trace.WriteLine("Count = " + count.ToString());
+					}
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
 		public RelayCommand Test10Command { get; private set; }
 		void OnTest10()
 		{
 		}
 
-        void OnWarningTest(object obj)
-        {
-            Random rnd = new Random();
-            BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
-        }
-        void OnNotificationTest(object obj)
-        {
-            BalloonHelper.ShowNotification("Уведомление", "Уведомления текст это. Уведомляет он.");
-        }
-        void OnConflagrationTest(object obj)
-        {
-            BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
-        }
+		public RelayCommand Test11Command { get; private set; }
+		void OnTest11()
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementDevices)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementRectangleZones)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementPolygonZones)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementRectangles)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementEllipses)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementTextBlocks)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementPolygons)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementPolylines)
+					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+		}
+
+		void OnWarningTest(object obj)
+		{
+			Random rnd = new Random();
+			BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
+		}
+		void OnNotificationTest(object obj)
+		{
+			BalloonHelper.ShowNotification("Уведомление", "Уведомления текст это. Уведомляет он.");
+		}
+		void OnConflagrationTest(object obj)
+		{
+			BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
+		}
 
 		public RelayCommand FSAgentTestCommand { get; private set; }
 		void OnFSAgentTest()
 		{
 		}
-    }
+	}
 
-    internal class DeviceControl
-    {
-        public Device Device { get; set; }
-        public DriverProperty DriverProperty { get; set; }
-    }
+	internal class DeviceControl
+	{
+		public Device Device { get; set; }
+		public DriverProperty DriverProperty { get; set; }
+	}
 }
