@@ -6,6 +6,7 @@ using FiresecAPI;
 using Infrastructure.Common;
 using FSAgentClient;
 using FiresecAPI.Models;
+using FSAgentAPI;
 
 namespace Firesec
 {
@@ -28,6 +29,7 @@ namespace Firesec
 			FSAgent.NewJournalRecords += new Action<List<FiresecAPI.Models.JournalRecord>>(FSAgent_NewJournalRecords);
 			FSAgent.CoreConfigChanged += new Action<string>(FSAgent_CoreConfigChanged);
 			FSAgent.CoreDeviceParamsChanged += new Action<string>(FSAgent_CoreDeviceParamsChanged);
+			FSAgent.Progress += new Action<FSAgentAPI.FSProgressInfo>(FSAgent_Progress);
 		}
 
 		void FSAgent_NewJournalRecords(List<JournalRecord> journalRecords)
@@ -57,6 +59,15 @@ namespace Firesec
 			{
 				if (ParametersChanged != null)
 					ParametersChanged(coreParameters.Result);
+			}
+		}
+
+		void FSAgent_Progress(FSProgressInfo fsProgressInfo)
+		{
+			if (fsProgressInfo != null)
+			{
+				if (ProgressEvent != null)
+					ProgressEvent(fsProgressInfo.Stage, fsProgressInfo.Comment, fsProgressInfo.PercentComplete, fsProgressInfo.BytesRW);
 			}
 		}
 
