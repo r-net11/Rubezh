@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using DevicesModule.ViewModels;
 using DiagnosticsModule.Views;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using Microsoft.Win32;
 using FiresecAPI.Models;
 using System.Collections.Generic;
@@ -15,6 +18,8 @@ using System.Windows.Markup;
 using System.Text;
 using System.Security.Policy;
 using Infrastructure.Common.BalloonTrayTip;
+using Ionic.Zip;
+using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -34,6 +39,7 @@ namespace DiagnosticsModule.ViewModels
             Test6Command = new RelayCommand(OnTest6);
 			Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
+            Test9Command = new RelayCommand(OnTest9);
             BalloonTestCommand = new RelayCommand(OnBalloonTest);
         }
 
@@ -216,6 +222,45 @@ namespace DiagnosticsModule.ViewModels
             thread.IsBackground = true;
             thread.Start();
 		}
+
+        public RelayCommand Test9Command { get; private set; }
+        void OnTest9()
+        {
+            FiresecManager.DeviceLibraryConfiguration = null;
+            FiresecManager.DeviceLibraryConfiguration = GetConfig(FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
+            ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+        }
+
+        T GetConfig<T>(T configuration, string fileName)
+            where T : VersionedConfiguration, new()
+        {
+            var stream = FiresecManager.FiresecService.GetConfig();
+            using (Stream file = File.Create("Configuration\\config.fscp"))
+            {
+                CopyStream(stream, file);
+                file.Close();
+                var unzip = ZipFile.Read("Configuration\\config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+                var xmlstream = new MemoryStream();
+                var entry = unzip["DeviceLibraryConfiguration.xml"];
+                if (entry != null)
+                {
+                    entry.Extract(xmlstream);
+                    xmlstream.Position = 0;
+                    configuration = SerializeHelper.DeSerialize<T>(xmlstream);
+                }
+                return configuration;
+            }
+        }
+
+        public static void CopyStream(Stream input, Stream output)
+        {
+            byte[] buffer = new byte[8 * 1024];
+            int len;
+            while ((len = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, len);
+            }
+        }
 
         public RelayCommand BalloonTestCommand { get; private set; }
         void OnBalloonTest()

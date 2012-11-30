@@ -22,5 +22,11 @@ namespace FiresecService.Service
             var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
+
+        public Stream GetConfig()
+        {
+            var filePath = ConfigurationFileManager.ConfigurationDirectory("config.fscp");
+            return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        }
     }
 }

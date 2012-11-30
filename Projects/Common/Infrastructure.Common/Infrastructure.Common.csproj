@@ -101,6 +101,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activities" />
     <Reference Include="System.Windows.Forms" />
@@ -151,6 +152,7 @@
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
+    <Compile Include="SerializeHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />
     <Compile Include="TreeItemViewModel.cs" />
     <Compile Include="KnownServiceType.cs" />

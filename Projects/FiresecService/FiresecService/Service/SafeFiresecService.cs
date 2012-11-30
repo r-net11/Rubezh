@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using Common;
 using FiresecAPI;
@@ -213,6 +214,11 @@ namespace FiresecService.Service
         public System.IO.Stream GetFile(string dirAndFileName)
         {
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
+        }
+
+        public Stream GetConfig()
+        {
+            return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
         }
 
 		public void SetJournal(List<JournalRecord> journalRecords)

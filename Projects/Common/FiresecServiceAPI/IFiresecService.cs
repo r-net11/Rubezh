@@ -103,8 +103,10 @@ namespace FiresecAPI
 
         [OperationContract]
         Stream GetFile(string dirAndFileName);
-        #endregion
 
+        [OperationContract]
+        Stream GetConfig();
+        #endregion
         #region Convertation
         [OperationContract]
         void SetJournal(List<JournalRecord> journalRecords);

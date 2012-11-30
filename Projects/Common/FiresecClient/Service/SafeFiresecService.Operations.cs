@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.IO;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
+
 
 namespace FiresecClient
 {
@@ -138,6 +139,11 @@ namespace FiresecClient
         public System.IO.Stream GetFile(string dirAndFileName)
         {
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
+        }
+
+        public Stream GetConfig()
+        {
+            return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
         }
 
 		public void SetJournal(List<JournalRecord> journalRecords)
