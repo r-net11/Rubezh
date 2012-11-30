@@ -25,6 +25,7 @@ namespace FireAdministrator
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			if (ServiceFactory.LoginService.ExecuteConnect())
+			{
 				try
 				{
 					LoadingService.Show("Чтение конфигурации", 4);
@@ -35,7 +36,7 @@ namespace FireAdministrator
 
 					if (!InitializeFs())
 						return;
-                    if (LoadingErrorManager.HasError)
+					if (LoadingErrorManager.HasError)
 					{
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 					}
@@ -59,6 +60,9 @@ namespace FireAdministrator
 						RunShell(shell);
 					}
 					LoadingService.Close();
+
+					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
+					MutexHelper.KeepAlive();
 				}
 				catch (Exception e)
 				{
@@ -66,15 +70,15 @@ namespace FireAdministrator
 					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
+					return;
 				}
+			}
 			else
 			{
 				if (Application.Current != null)
 					Application.Current.Shutdown();
+				return;
 			}
-			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
-
-			MutexHelper.KeepAlive();
 		}
 
 		bool InitializeFs()
@@ -94,6 +98,7 @@ namespace FireAdministrator
 				FiresecManager.FiresecDriver.Synchronyze();
 				LoadingService.DoStep("Старт мониторинга");
 				FiresecManager.FiresecDriver.StartWatcher(false, false);
+				FiresecManager.FSAgent.Start();
 			}
 			catch (FiresecException e)
 			{

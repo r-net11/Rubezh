@@ -27,20 +27,13 @@ namespace FSAgentServer.ViewModels
 			}
 		}
 
-		public void AddLog(string message, bool isError = false)
+		public void AddLog(string message)
 		{
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				LastLog = message;
-				if (isError)
-				{
-					ErrorLog += message + "\n";
-				}
-				else
-				{
-					InfoLog += message + "\n";
-				}
+				InfoLog += message + "\n";
 			}
 			));
 		}
@@ -64,17 +57,6 @@ namespace FSAgentServer.ViewModels
 			{
 				_infoLog = value;
 				OnPropertyChanged("InfoLog");
-			}
-		}
-
-		string _errorLog = "";
-		public string ErrorLog
-		{
-			get { return _errorLog; }
-			set
-			{
-				_errorLog = value;
-				OnPropertyChanged("ErrorLog");
 			}
 		}
 

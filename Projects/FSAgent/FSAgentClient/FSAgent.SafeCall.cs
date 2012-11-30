@@ -6,6 +6,7 @@ using System.ServiceModel;
 using Common;
 using FiresecAPI;
 using Infrastructure.Common;
+using System.Threading;
 
 namespace FSAgentClient
 {
@@ -84,11 +85,11 @@ namespace FSAgentClient
         {
             if (e is CommunicationObjectFaultedException)
             {
-                Logger.Error("FiresecClient.SafeOperationCall CommunicationObjectFaultedException " + e.Message + " " + methodName);
+				Logger.Error("FSAgent.SafeOperationCall CommunicationObjectFaultedException " + e.Message + " " + methodName);
             }
             else if (e is ObjectDisposedException)
             {
-                Logger.Error("FiresecClient.SafeOperationCall ObjectDisposedException " + e.Message + " " + methodName);
+				Logger.Error("FSAgent.SafeOperationCall ObjectDisposedException " + e.Message + " " + methodName);
             }
             else if (e is CommunicationException)
             {
@@ -96,16 +97,15 @@ namespace FSAgentClient
             }
 			else if (e is TimeoutException)
 			{
-				Logger.Error("FiresecClient.SafeOperationCall TimeoutException " + e.Message + " " + methodName);
+				Logger.Error("FSAgent.SafeOperationCall TimeoutException " + e.Message + " " + methodName);
 			}
             else
             {
-                Logger.Error(e, "FiresecClient.SafeOperationCall " + e.Message + " " + methodName);
+				Logger.Error(e, "FSAgent.SafeOperationCall " + e.Message + " " + methodName);
             }
         }
 
         bool isConnected = true;
-        public bool SuspendPoll = false;
 
         public static event Action ConnectionLost;
         void OnConnectionLost()
@@ -131,7 +131,8 @@ namespace FSAgentClient
 
         bool Recover()
         {
-            Logger.Error("SafeFiresecService.Recover");
+			Logger.Error("FSAgent.Recover");
+			Thread.Sleep(TimeSpan.FromSeconds(1));
 
             SuspendPoll = true;
             try

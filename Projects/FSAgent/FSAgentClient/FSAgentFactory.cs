@@ -18,7 +18,6 @@ namespace FSAgentClient
 
         public IFSAgentContract Create(string serverAddress)
         {
-			FSAgentLoadHelper.Load();
             for (int i = 0; i < 3; i++)
             {
                 try
@@ -41,6 +40,7 @@ namespace FSAgentClient
         {
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
+				FSAgentLoadHelper.Load();
 			}
 
             var binding = BindingHelper.CreateNetNamedPipeBinding();

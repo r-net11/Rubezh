@@ -68,6 +68,7 @@ namespace FiresecOPCServer
             FiresecManager.FiresecDriver.Synchronyze();
             UILogger.Log("Старт мониторинга");
             FiresecManager.FiresecDriver.StartWatcher(true, false);
+			FiresecManager.FSAgent.Start();
         }
 
         static void OnWorkThread()

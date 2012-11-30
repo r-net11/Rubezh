@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="ViewModels\FSAgentTest.cs" />
     <Compile Include="ViewModels\ImitatorViewModel.cs" />
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>

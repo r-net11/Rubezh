@@ -37,6 +37,7 @@ namespace FSAgentServer
 				UILogger.Log("Открытие хоста");
 				FSAgentServiceHost.Start();
 				FSAgentLoadHelper.NotifyStartCompleted();
+				UILogger.Log("Соединение с драйвером");
 				WatcherManager = new WatcherManager();
 				WatcherManager.Start();
 				UILogger.Log("Готово");
@@ -44,7 +45,7 @@ namespace FSAgentServer
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
-				UILogger.Log("Ошибка при запуске сервера", true);
+				UILogger.Log("Ошибка при запуске сервера");
 				Close();
 			}
 		}

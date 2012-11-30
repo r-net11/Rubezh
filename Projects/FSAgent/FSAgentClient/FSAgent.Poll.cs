@@ -12,6 +12,7 @@ namespace FSAgentClient
 {
 	public partial class FSAgent
 	{
+		public bool SuspendPoll = false;
 		Thread PollThread;
 		bool IsClosing = false;
 
@@ -53,12 +54,18 @@ namespace FSAgentClient
 		{
 			while (true)
 			{
-				IsOperationByisy = true;
-				StartOperationDateTime = DateTime.Now;
 				try
 				{
 					if (IsClosing)
 						return;
+
+					if (SuspendPoll)
+					{
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+					}
+
+					IsOperationByisy = true;
+					StartOperationDateTime = DateTime.Now;
 
 					var changeResults = Poll(FSAgentFactory.UID);
 					if (changeResults != null)

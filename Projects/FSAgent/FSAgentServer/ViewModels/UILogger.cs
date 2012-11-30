@@ -7,11 +7,11 @@ namespace FSAgentServer.ViewModels
 {
 	public static class UILogger
 	{
-		public static void Log(string message, bool isError = false)
+		public static void Log(string message)
 		{
 			if (MainViewModel.Current != null)
 			{
-				MainViewModel.Current.AddLog(message, isError);
+				MainViewModel.Current.AddLog(message);
 			}
 		}
 	}

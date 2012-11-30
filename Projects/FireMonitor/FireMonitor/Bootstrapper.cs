@@ -78,6 +78,11 @@ namespace FireMonitor
 					}
 					LoadingService.Close();
 					GKDBHelper.AddMessage("Вход пользователя в систему");
+
+					//MutexHelper.KeepAlive();
+					ServiceFactory.SubscribeEvents();
+					ProgressWatcher.Run();
+					ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
 				}
 				catch (Exception e)
 				{
@@ -85,6 +90,7 @@ namespace FireMonitor
 					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
+					return;
 				}
 			}
 			else
@@ -93,10 +99,6 @@ namespace FireMonitor
 					Application.Current.Shutdown();
 				return;
 			}
-			//MutexHelper.KeepAlive();
-			ServiceFactory.SubscribeEvents();
-			ProgressWatcher.Run();
-			ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
 		}
 
 		void InitializeFs(bool reconnect = false)
@@ -122,10 +124,10 @@ namespace FireMonitor
 				FiresecManager.FiresecDriver.StartWatcher(true, true);
 				if (!reconnect)
 				{
-					//LoadingService.DoStep("Синхронизация журнала событий");
-					//FiresecManager.SynchrinizeJournal();
+					LoadingService.DoStep("Синхронизация журнала событий");
+					FiresecManager.SynchrinizeJournal();
 				}
-				//FiresecManager.FiresecDriver.FiresecSerializedClient.NativeFiresecClient.IsPing = true;
+				FiresecManager.FSAgent.Start();
 			}
 			catch (FiresecException e)
 			{
@@ -150,6 +152,7 @@ namespace FireMonitor
 				if (IsRestarting)
 					return;
                 FiresecManager.FiresecService.SuspendPoll = true;
+				FiresecManager.FSAgent.SuspendPoll = true;
                 LoadingErrorManager.Clear();
 				IsRestarting = true;
 				ProgressWatcher.Close();
@@ -173,6 +176,7 @@ namespace FireMonitor
 			{
 				IsRestarting = false;
                 FiresecManager.FiresecService.SuspendPoll = false;
+				FiresecManager.FSAgent.SuspendPoll = false;
 			}
 		}
 

@@ -41,7 +41,7 @@ namespace FSAgentServer
 			{
 				var netpipeAddress = "net.pipe://127.0.0.1/FSAgent/";
 				ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
-				UILogger.Log("Локальный адрес: " + netpipeAddress, false);
+				UILogger.Log("Локальный адрес: " + netpipeAddress);
 			}
 			catch (Exception e)
 			{
@@ -58,7 +58,7 @@ namespace FSAgentServer
 				{
 					var remoteAddress = "http://" + ipAddress + ":" + AppSettings.RemotePort.ToString() + "/FSAgent/";
 					ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
-					UILogger.Log("Удаленный адрес: " + remoteAddress, false);
+					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
 			}
 			catch (Exception e)
