@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
-    public class BalloonToolTipViewModel: WindowBaseViewModel
+    public class BalloonToolTipViewModel : WindowBaseViewModel
     {
         public static bool isShown = false;
         public static bool isEmpty = false;
@@ -88,7 +88,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 
         bool chkEmpty()
         {
-            if(titles.Count < 3)
+            if (titles.Count < 3)
                 isEmpty = true;
             return isEmpty;
         }

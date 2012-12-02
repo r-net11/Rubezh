@@ -47,21 +47,24 @@ namespace FSAgentServer
 			}
 			if (WatcherManager.Current.LastFSProgressInfo != null)
 			{
-				var fsProgressInfo = new FSProgressInfo()
-				{
-					Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
-					Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
-					PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
-					BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
-				};
-				WatcherManager.Current.LastFSProgressInfo = null;
-				var result = new List<FSAgentCallbac>();
-				var fsAgentCallbac = new FSAgentCallbac()
-				{
-					FSProgressInfo = fsProgressInfo
-				};
-				result.Add(fsAgentCallbac);
-				return result;
+                lock (WatcherManager.Current.LastFSProgressInfo)
+                {
+                    var fsProgressInfo = new FSProgressInfo()
+                    {
+                        Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
+                        Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
+                        PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
+                        BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
+                    };
+                    WatcherManager.Current.LastFSProgressInfo = null;
+                    var result = new List<FSAgentCallbac>();
+                    var fsAgentCallbac = new FSAgentCallbac()
+                    {
+                        FSProgressInfo = fsProgressInfo
+                    };
+                    result.Add(fsAgentCallbac);
+                    return result;
+                }
 			}
 
 			lock (FSAgentCallbacCashes)

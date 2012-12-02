@@ -15,110 +15,60 @@ namespace FiresecClient
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
 
 		bool isConnected = true;
-		static AutoResetEvent StopPollEvent;
 		public bool SuspendPoll = false;
-		Thread ShortPollThread;
-		bool IsLongPollPeriod;
+		Thread PollThread;
+		bool MustReactOnCallback;
 
-        public void StartShortPoll(bool isLongPollPeriod)
+        public void StartPoll(bool mustReactOnCallback)
         {
-            IsLongPollPeriod = isLongPollPeriod;
-            StopPollEvent = new AutoResetEvent(false);
-            ShortPollThread = new Thread(OnShortPoll);
-            ShortPollThread.IsBackground = true;
-            ShortPollThread.Start();
+            MustReactOnCallback = mustReactOnCallback;
+            PollThread = new Thread(OnPoll);
+            PollThread.IsBackground = true;
+            PollThread.Start();
         }
 
 		public void StopPoll()
 		{
-			if (StopPollEvent != null)
-			{
-				StopPollEvent.Set();
-			}
-			if (ShortPollThread != null)
-			{
-				ShortPollThread.Join(2000);
-			}
+            if (PollThread != null)
+            {
+                try
+                {
+                    if (!PollThread.Join(TimeSpan.FromSeconds(2)))
+                    {
+                        PollThread.Abort();
+                    }
+                }
+                catch { }
+            }
 		}
 
-		void OnShortPoll()
-		{
-			if (IsLongPollPeriod)
-				return;
+        void OnPoll()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (IsDisconnecting)
+                        return;
 
-			while (true)
-			{
-				try
-				{
-					int sleepInterval = IsLongPollPeriod ? 60000 : 1000;
-					if (!StopPollEvent.WaitOne(sleepInterval))
-					{
-                        if (SuspendPoll)
-                            continue;
+                    if (SuspendPoll)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(5));
+                        continue;
+                    }
 
-						var callbackResults = ShortPoll(FiresecServiceFactory.UID);
-						if (!IsLongPollPeriod)
-						{
-							ProcessCallbackResult(callbackResults);
-						}
-					}
-					else
-					{
-						return;
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "SafeFiresecService.OnPoll");
-				}
-			}
-		}
-
-		public void StartPoll()
-		{
-			try
-			{
-				BeginPoll(0, DateTime.Now, new AsyncCallback(CallbackPall), (IFiresecService)this);
-			}
-			catch
-			{
-				OnConnectionLost();
-				Recover();
-
-				StopPollEvent = new AutoResetEvent(false);
-				if (StopPollEvent.WaitOne(5000))
-				{
-					if (!FiresecManager.IsDisconnected)
-					{
-						StartPoll();
-					}
-				}
-			}
-		}
-
-		void CallbackPall(IAsyncResult asyncResult)
-		{
-			try
-			{
-				IFiresecService firesecService = asyncResult.AsyncState as IFiresecService;
-				if (firesecService != null)
-				{
-					List<CallbackResult> callbackResults = firesecService.EndPoll(asyncResult);
-					ProcessCallbackResult(callbackResults);
-				}
-			}
-			catch (Exception)
-			{
-				;
-			}
-			finally
-			{
-				if (!FiresecManager.IsDisconnected)
-				{
-					StartPoll();
-				}
-			}
-		}
+                    var callbackResults = Poll(FiresecServiceFactory.UID);
+                    if (!MustReactOnCallback)
+                    {
+                        ProcessCallbackResult(callbackResults);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, "SafeFiresecService.OnPoll");
+                }
+            }
+        }
 
 		void ProcessCallbackResult(List<CallbackResult> callbackResults)
 		{
@@ -158,68 +108,5 @@ namespace FiresecClient
 				}
 			}
 		}
-
-		public string Ping()
-		{
-			return null;
-		}
-
-		public static event Action ConnectionLost;
-		void OnConnectionLost()
-		{
-			if (isConnected == false)
-				return;
-			if (ConnectionLost != null)
-				ConnectionLost();
-			isConnected = false;
-            ServerLoadHelper.Load();
-		}
-
-		public static event Action ConnectionAppeared;
-		void OnConnectionAppeared()
-		{
-			if (isConnected == true)
-				return;
-
-			if (ConnectionAppeared != null)
-				ConnectionAppeared();
-
-			isConnected = true;
-		}
-
-		bool Recover()
-		{
-			Logger.Error("SafeFiresecService.Recover");
-
-			SuspendPoll = true;
-			try
-			{
-				FiresecServiceFactory.Dispose();
-				FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
-				FiresecService = FiresecServiceFactory.Create(_serverAddress);
-				FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-			finally
-			{
-				SuspendPoll = false;
-			}
-		}
-
-        static void SafeOperationCall(Action action)
-        {
-            try
-            {
-                action();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "SafeFiresecService.SafeOperationCall");
-            }
-        }
 	}
 }

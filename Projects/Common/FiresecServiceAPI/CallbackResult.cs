@@ -18,6 +18,7 @@ namespace FiresecAPI
     {
         NewEvents,
         ArchiveCompleted,
-        ConfigurationChanged
+        ConfigurationChanged,
+        Disconnecting
     }
 }

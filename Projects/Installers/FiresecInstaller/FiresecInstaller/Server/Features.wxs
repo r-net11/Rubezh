@@ -2,7 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-    <ComponentGroup Id="ServerComponents" Directory="SERVERLOCATION">
+    <Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="hidden"
+						 ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
       <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.DB" />
@@ -18,6 +19,6 @@
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->
-    </ComponentGroup>
+    </Feature>
 	</Fragment>
 </Wix>

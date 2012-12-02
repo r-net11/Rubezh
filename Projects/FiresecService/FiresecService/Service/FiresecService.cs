@@ -12,7 +12,7 @@ using FiresecService.ViewModels;
 
 namespace FiresecService.Service
 {
-    [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
+    [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
     InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class FiresecService : IFiresecService
     {
@@ -40,8 +40,6 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
         {
-            CallbackResults = new List<CallbackResult>();
-
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
@@ -57,9 +55,7 @@ namespace FiresecService.Service
 
         public OperationResult<bool> Reconnect(Guid uid, string login, string password)
         {
-            CallbackResults = new List<CallbackResult>();
-
-			var clientCredentials = ClientsManager.Get(uid);
+            var clientCredentials = ClientsManager.GetClientCredentials(uid);
 			if (clientCredentials == null)
 			{
 				return new OperationResult<bool>("Не найден пользователь");
@@ -85,27 +81,22 @@ namespace FiresecService.Service
 
         public void Disconnect(Guid uid)
         {
-			var clientCredentials = ClientsManager.Get(uid);
-			if (clientCredentials != null)
+            var clientInfo = ClientsManager.GetClientInfo(uid);
+            if (clientInfo != null)
 			{
-				AddInfoMessage(clientCredentials.FriendlyUserName, "Выход пользователя из системы(Firesec-2)");
+                clientInfo.IsDisconnecting = true;
+                clientInfo.WaitEvent.Set();
+                if (clientInfo.ClientCredentials != null)
+                {
+                    AddInfoMessage(clientInfo.ClientCredentials.FriendlyUserName, "Выход пользователя из системы(Firesec-2)");
+                }
 			}
 			ClientsManager.Remove(uid);
         }
 
-        public string GetStatus()
-        {
-            return null;
-        }
-
-        public string Ping()
-        {
-            return "Pong";
-        }
-
         public void NotifyClientsOnConfigurationChanged()
         {
-			CallbackConfigurationChanged();
+			NotifyConfigurationChanged();
         }
 	}
 }

@@ -10,7 +10,6 @@ namespace JournalModule.Views
 		public ArchiveFilterView()
 		{
 			InitializeComponent();
-			//Microsoft.Windows.Controls.TimePicker
 		}
 
 		void CheckBox_Checked(object sender, RoutedEventArgs e)

@@ -10,6 +10,8 @@ using FiresecAPI.Models;
 using System.Windows.Threading;
 using Common;
 using FSAgentAPI;
+using FSAgentServer.ViewModels;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
@@ -33,8 +35,14 @@ namespace FSAgentServer
         {
             if (RunThread == null)
             {
+                UILogger.Log("Запуск драйвера для администрирования");
 				CallbackClient = new NativeFiresecClient();
-                CallbackClient.Connect();
+                var connectResult = CallbackClient.Connect();
+                if (connectResult.HasError)
+                {
+                    UILogger.Log("Ошибка соединения с драйвером для администрирования");
+                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+                }
 				CallbackClient.IsPing = true;
 
                 StopEvent = new AutoResetEvent(false);
@@ -59,6 +67,11 @@ namespace FSAgentServer
             {
                 RunThread.Join(TimeSpan.FromSeconds(1));
             }
+
+            if (DirectClient != null)
+                DirectClient.Close();
+            if (CallbackClient != null)
+                CallbackClient.Close();
         }
 
 		public static void WaikeOnEvent()
@@ -70,9 +83,15 @@ namespace FSAgentServer
 		{
 			try
 			{
+                UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();
-				DirectClient.Connect();
-				DirectClient.ProgressEvent += new Action<int, string, int, int>(OnAdministratorProgress);
+				var connectResult = DirectClient.Connect();
+                if (connectResult.HasError)
+                {
+                    UILogger.Log("Ошибка соединения с драйвером для мониторинга");
+                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
+                }
+                Bootstrapper.BootstrapperLoadEvent.Set();
 			}
 			catch (Exception e)
 			{
@@ -86,13 +105,21 @@ namespace FSAgentServer
 					PoolSleepEvent = new AutoResetEvent(false);
 					PoolSleepEvent.WaitOne(TimeSpan.FromSeconds(1));
                     PollIndex++;
-                    var force = PollIndex % 100 == 0;
 
                     try
                     {
 						CheckNonBlockingTasks();
 						CheckBlockingTasks();
-                        DirectClient.CheckForRead(force);
+
+                        var force = PollIndex % 100 == 0;
+                        if (PollIndex % 200 == 0)
+                        {
+                            CallbackClient.CheckForRead(true);
+                        }
+                        else
+                        {
+                            DirectClient.CheckForRead(force);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -106,14 +133,7 @@ namespace FSAgentServer
 			}
 		}
 
-		public event Action<int, string, int, int> Progress;
-		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			if (Progress != null)
-				Progress(stage, comment, percentComplete, bytesRW);
-		}
-
-		void OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
+		public void OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			LastFSProgressInfo = new FSProgressInfo()
 			{

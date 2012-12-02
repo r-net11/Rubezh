@@ -42,9 +42,10 @@ namespace FSAgentServer
             {
                 if (IsOperationBuisy)
                 {
-                    if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
+                    if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(15))
                     {
                         Logger.Error("WatcherManager.WatchLifetime");
+                        App.Restart();
                     }
                 }
 

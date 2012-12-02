@@ -6,6 +6,7 @@ using System.ServiceModel;
 using Common;
 using System.Net;
 using FSAgentServer.ViewModels;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
@@ -31,6 +32,8 @@ namespace FSAgentServer
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
+                UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
+                BalloonHelper.ShowWarning("Ошибка при запуске хоста сервиса", e.Message);
 				return false;
 			}
 		}

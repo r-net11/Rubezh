@@ -105,7 +105,7 @@ namespace FiresecService.Service
 			var thread = new Thread(new ThreadStart((new Action(() =>
 			{
 				var result = OnGetFilteredArchive(archiveFilter);
-				CallbackArchiveCompleted(result.Result);
+				NotifyArchiveCompleted(result.Result);
 			}))));
 			thread.Start();
 		}
@@ -261,7 +261,7 @@ namespace FiresecService.Service
 			};
 
 			DatabaseHelper.AddJournalRecord(journalRecord);
-			CallbackNewJournal(new List<JournalRecord>() { journalRecord });
+			NotifyNewJournal(new List<JournalRecord>() { journalRecord });
 		}
 	}
 }

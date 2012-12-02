@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Common;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
@@ -21,13 +22,10 @@ namespace Infrastructure.Common.BalloonTrayTip
             balloonToolTipViewModel.AddNote(title, text, clr);
             if (BalloonToolTipViewModel.isShown == false)
             {
-
-                //DialogService.ShowModalWindow(balloonToolTipViewModel);
                 ShowTrayWindow(balloonToolTipViewModel);
                 BalloonToolTipViewModel.isShown = true;
                 BalloonToolTipViewModel.isEmpty = false;
             }
-                
         }
 
         static bool ShowTrayWindow(WindowBaseViewModel model, bool allowsTransparency = true)
@@ -55,7 +53,17 @@ namespace Infrastructure.Common.BalloonTrayTip
 
         public static void ShowWarning(string title, string text)
         {
-            Show(title, text, System.Windows.Media.Brushes.Goldenrod);
+            try
+            {
+                Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+                {
+                    Show(title, text, System.Windows.Media.Brushes.Goldenrod);
+                }));
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "BalloonHelper.ShowWarning");
+            }
         }
 
         public static void ShowNotification(string title, string text)

@@ -131,6 +131,9 @@ namespace FSAgentClient
 
         bool Recover()
         {
+            if (IsDisconnecting)
+                return false;
+
 			Logger.Error("FSAgent.Recover");
 			Thread.Sleep(TimeSpan.FromSeconds(1));
 

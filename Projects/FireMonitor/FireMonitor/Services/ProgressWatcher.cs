@@ -24,7 +24,7 @@ namespace FireMonitor
 			if (FiresecManager.FiresecDriver != null && FiresecManager.FiresecDriver.Watcher != null)
 			{
 				ClosingTimer.Tick += new EventHandler(ClosingTimer_Tick);
-				FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
+				FiresecManager.FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(Watcher_Progress);
 			}
 		}
 
@@ -33,7 +33,7 @@ namespace FireMonitor
             progressViewModel.Close();
         }
 
-		static bool Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
+		static void Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
@@ -52,7 +52,6 @@ namespace FireMonitor
 					}
 				}
 			});
-			return true;
 		}
 
 		static void ClosingTimer_Tick(object sender, EventArgs e)

@@ -6,23 +6,23 @@
     <DirectoryRef Id="FSAGENTLOCATION">
       <Component Id="FSAgent.AutorunComponent" Guid="9ED06B92-B7DD-4989-A218-FDD744D86237">
         <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-          <RegistryValue KeyPath="yes" Name="FSAgentServer" Type="string" Value="[OPCLOCATION]FSAgentServer.exe" />
+          <RegistryValue KeyPath="yes" Name="FSAgentServer" Type="string" Value="[FSAGENTLOCATION]FSAgentServer.exe" />
         </RegistryKey>
       </Component>
 
       <Component Id="FSAgent.Files" Guid="158C9E40-CE23-462D-A007-CE634CE4AE1F">
         <File Id="FSAgent.FSAgentServer.exe" Name="FSAgentServer.exe" Source="$(var.FSAgent.TargetDir)" KeyPath="yes" />
         <File Id="FSAgent.FSAgentServer.exe.config" Name="FSAgentServer.exe.config" Source="$(var.FSAgent.TargetDir)" />
-        <!--<File Id="OPC.FiresecOPCServer.exe.manifest" Name="FiresecOPCServer.exe.manifest" Source="$(var.OPC.TargetDir)" />-->
+        <File Id="FSAgent.FSAgentServer.exe.manifest" Name="FSAgentServer.exe.manifest" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.FSAgent.TargetDir)" />
-        <File Id="FSAgent.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FSAgent.TargetDir)" />
-        <File Id="FSAgent.Common.dll" Name="Common.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.FSAgent.TargetDir)" />
-        <File Id="FSAgent.NLog.dll" Name="NLog.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.Common.dll" Name="Common.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.Controls.dll" Name="Controls.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.FSAgent.TargetDir)" />
-        <!--<File Id="FSAgent.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.FSAgent.TargetDir)" />-->
+        <File Id="FSAgent.NLog.dll" Name="NLog.dll" Source="$(var.FSAgent.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>

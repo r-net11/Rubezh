@@ -35,7 +35,7 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message, true);
+				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
                 BalloonHelper.ShowWarning("Ошибка при запуске хоста сервиса", e.Message);
                 return false;
 			}
@@ -47,7 +47,7 @@ namespace FiresecService.Service
 			{
 				var netpipeAddress = "net.pipe://127.0.0.1/FiresecService/";
 				ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
-				UILogger.Log("Локальный адрес: " + netpipeAddress, false);
+				UILogger.Log("Локальный адрес: " + netpipeAddress);
 			}
 			catch (Exception e)
 			{
@@ -64,7 +64,7 @@ namespace FiresecService.Service
 				{
 					var remoteAddress = "http://" + ipAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
 					ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
-					UILogger.Log("Удаленный адрес: " + remoteAddress, false);
+					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
 			}
 			catch (Exception e)
@@ -82,7 +82,7 @@ namespace FiresecService.Service
 				{
 					var remoteAddress = "net.tcp://" + ipAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
 					ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", Common.BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
-					UILogger.Log("Удаленный адрес: " + remoteAddress, false);
+					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
 			}
 			catch (Exception e)

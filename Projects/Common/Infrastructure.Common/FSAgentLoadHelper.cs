@@ -10,71 +10,112 @@ using Microsoft.Win32;
 
 namespace Infrastructure.Common
 {
-	public class FSAgentLoadHelper
-	{
-		public static void NotifyStarting()
-		{
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-			registryKey.SetValue("FSAgentServerPath", System.Reflection.Assembly.GetExecutingAssembly().Location);
-			registryKey.SetValue("FSAgentServerState", "Starting");
-		}
+    public class FSAgentLoadHelper
+    {
+        public static void SetLocation()
+        {
+            RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+            registryKey.SetValue("FSAgentServerPath", System.Reflection.Assembly.GetExecutingAssembly().Location);
+        }
 
-		public static void NotifyStartCompleted()
-		{
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-			registryKey.SetValue("FSAgentServerState", "Ready");
-		}
+        public static string GetLocation()
+        {
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
+            if (registryKey != null)
+            {
+                var value = registryKey.GetValue("FSAgentServerPath");
+                if (value != null)
+                {
+                    if (File.Exists((string)value))
+                        return (string)value;
+                }
+            }
+            return null;
+        }
 
-		public static void Load()
-		{
-			Process[] processes = Process.GetProcessesByName("FSAgentServer");
-			if (processes.Count() == 0)
-			{
-				try
-				{
-					Start();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "FSAgentLoadHelper.Load");
-				}
-			}
-		}
+        public static void SetStatus(FSAgentState fsAgentState)
+        {
+            RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+            registryKey.SetValue("FSAgentServerState", (int)fsAgentState);
+        }
 
-		public static void Reload()
-		{
-			Start();
-			for (int i = 0; i < 100; i++)
-			{
-				RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-				if (registryKey != null)
-				{
-					var value = registryKey.GetValue("FSAgentServerState");
-					if (value != null)
-					{
-						if (value == "Ready")
-							return;
-					}
-				}
-				Thread.Sleep(TimeSpan.FromSeconds(1));
-			}
-		}
+        public static FSAgentState GetStatus()
+        {
+            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
+            if (registryKey != null)
+            {
+                var value = registryKey.GetValue("FSAgentServerState");
+                if (value != null)
+                {
+                    return (FSAgentState)value;
+                }
+            }
 
-		static void Start()
-		{
+            return FSAgentState.Closed;
+        }
+
+        public static bool WaitUntinlStarted()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var fsAgentState = GetStatus();
+                if (fsAgentState == FSAgentState.Opened)
+                    return true;
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            return false;
+        }
+
+        public static bool Load()
+        {
 #if DEBUG
-			return;
+            return true;
 #endif
 
-			System.Diagnostics.Process proc = new System.Diagnostics.Process();
-			var fileName = @"..\FSAgent\FSAgentServer.exe";
+            Process[] processes = Process.GetProcessesByName("FSAgentServer");
+            if (processes.Count() == 0)
+            {
+                try
+                {
+                    SetStatus(FSAgentState.Closed);
+                    if (!Start())
+                        return false;
+                    if (!WaitUntinlStarted())
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, "FSAgentLoadHelper.Load");
+                    return false;
+                }
+            }
+            return true;
+        }
 
-			if (!File.Exists(fileName))
-			{
-				Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
-			}
-			proc.StartInfo.FileName = fileName;
-			proc.Start();
-		}
-	}
+        static bool Start()
+        {
+            var fileName = GetLocation();
+            if (fileName != null)
+            {
+                fileName = @"..\FSAgent\FSAgentServer.exe";
+            }
+
+            if (!File.Exists(fileName))
+            {
+                Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
+                return false;
+            }
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = fileName;
+            process.Start();
+            return true;
+        }
+    }
+
+    public enum FSAgentState
+    {
+        Closed = 0,
+        Opening = 1,
+        Opened = 2
+    }
 }

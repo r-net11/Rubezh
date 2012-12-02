@@ -58,7 +58,6 @@ namespace FireMonitor
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ThemeHelper.LoadThemeFromRegister();
-			ServerLoadHelper.Load();
 #if DEBUG
 			bool trace = false;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });

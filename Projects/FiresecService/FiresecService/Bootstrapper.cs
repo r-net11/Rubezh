@@ -7,6 +7,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecService
 {
@@ -40,11 +41,13 @@ namespace FiresecService
                 UILogger.Log("Открытие хоста");
                 FiresecServiceManager.Open();
                 UILogger.Log("Готово");
+                ServerLoadHelper.SetStatus(FSServerState.Opened);
             }
             catch (Exception e)
             {
                 Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
-                UILogger.Log("Ошибка при запуске сервера", true);
+                UILogger.Log("Ошибка при запуске сервера");
+                BalloonHelper.ShowWarning("Сервер приложений Firesec", "Ошибка во время загрузки");
                 Close();
             }
         }
@@ -59,6 +62,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
+                BalloonHelper.ShowWarning("Сервер приложений Firesec", "Ошибка во время загрузки");
             }
             MainViewStartedEvent.Set();
             System.Windows.Threading.Dispatcher.Run();
@@ -66,12 +70,12 @@ namespace FiresecService
 
         public static void Close()
         {
+            ServerLoadHelper.SetStatus(FSServerState.Closed);
             if (WindowThread != null)
             {
                 WindowThread.Interrupt();
                 WindowThread = null;
             }
-
             System.Environment.Exit(1);
         }
     }

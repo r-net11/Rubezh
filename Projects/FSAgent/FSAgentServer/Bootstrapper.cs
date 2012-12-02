@@ -8,6 +8,7 @@ using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using Infrastructure.Common.Windows;
 using FSAgentServer.ViewModels;
 using Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
@@ -15,7 +16,7 @@ namespace FSAgentServer
 	{
 		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
-		static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
+		public static AutoResetEvent BootstrapperLoadEvent = new AutoResetEvent(false);
 		static WatcherManager WatcherManager;
 
 		public static void Run()
@@ -32,15 +33,24 @@ namespace FSAgentServer
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
 				WindowThread.Start();
-				MainViewStartedEvent.WaitOne();
+                if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
+                {
+                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
+                }
+                BootstrapperLoadEvent = new AutoResetEvent(false);
 
 				UILogger.Log("Открытие хоста");
 				FSAgentServiceHost.Start();
-				FSAgentLoadHelper.NotifyStartCompleted();
 				UILogger.Log("Соединение с драйвером");
 				WatcherManager = new WatcherManager();
 				WatcherManager.Start();
+                if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
+                {
+                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
+                    UILogger.Log("Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
+                }
 				UILogger.Log("Готово");
+                FSAgentLoadHelper.SetStatus(FSAgentState.Opened);
 			}
 			catch (Exception e)
 			{
@@ -61,18 +71,22 @@ namespace FSAgentServer
 			{
 				Logger.Error(e, "Bootstrapper.OnWorkThread");
 			}
-			MainViewStartedEvent.Set();
+			BootstrapperLoadEvent.Set();
 			System.Windows.Threading.Dispatcher.Run();
 		}
 
 		public static void Close()
 		{
+            FSAgentLoadHelper.SetStatus(FSAgentState.Closed);
+            if (WatcherManager.Current != null)
+            {
+                WatcherManager.Current.Stop();
+            }
 			if (WindowThread != null)
 			{
 				WindowThread.Interrupt();
 				WindowThread = null;
 			}
-
 			System.Environment.Exit(1);
 		}
 	}

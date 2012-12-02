@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using System.Diagnostics;
 using FSAgentAPI;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
@@ -187,32 +188,28 @@ namespace FSAgentServer
 			if (IsSuspended)
 				return true;
 
-			try
-			{
-				if (ProgressEvent != null)
-				{
-					bool continueProgress = ContinueProgress;
-					ContinueProgress = true;
-					ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
-					return continueProgress;
-				}
-				return true;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
-				return false;
-			}
+            try
+            {
+                bool continueProgress = ContinueProgress;
+                ContinueProgress = true;
+                WatcherManager.Current.OnAdministratorProgress(Stage, Comment, PercentComplete, BytesRW);
+                return continueProgress;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
+                return false;
+            }
 		}
 
 		public static bool ContinueProgress = true;
-		public event Action<int, string, int, int> ProgressEvent;
 
 		void OnCriticalError()
 		{
+            BalloonHelper.ShowWarning("Агент Firesec", "Потеря соединения с драйвером");
 			CallbackManager.SetConnectionLost(true);
 			var result = Connect();
-			if (result == null || result.Result == null || result.HasError)
+			if (result == null || result.Result == false || result.HasError)
 			{
 				App.Restart();
 			}

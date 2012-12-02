@@ -5,8 +5,10 @@
     <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
              AllowAdvertise="no" Absent="allow" InstallDefault="local">
       <FeatureRef Id="Firesec.Features" />
+      <FeatureRef Id="Server.Features" />
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
+      <FeatureRef Id="Diagnostics.Features" />
       <FeatureRef Id="OPC.Features" />
       
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Description="Устанавливает компопненты для работы  адресной системой Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
@@ -15,7 +17,7 @@
         <ComponentRef Id="FSAgent.Files" />
         <ComponentRef Id="FSAgent.AutorunComponent" />
       </Feature>
-      <Feature Id="GK.Features" Title="ГК" Description="Устанавливает компопненты для работы Группового Контроллера" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="GK.Features" Title="ГК" Description="Устанавливает компопненты для работы Группового Контроллера" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
@@ -32,8 +34,6 @@
       <ComponentRef Id="OPC.Remove" />
       <ComponentRef Id="Server.Remove" />-->
 
-      <ComponentGroupRef Id="ServerComponents" />
-      <ComponentGroupRef Id="DiagnosticsComponents" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
       <ComponentRef Id="Monitor.PLANS_MODULE" />
       <ComponentRef Id="LogScript" />

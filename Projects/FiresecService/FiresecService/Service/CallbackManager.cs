@@ -8,43 +8,56 @@ namespace FiresecService.Service
 {
 	public static class CallbackManager
 	{
-		static List<CallbackResultSaver> CallbackResultSavers = new List<CallbackResultSaver>();
+		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
 		static int Index = 0;
 
 		public static void Add(CallbackResult callbackResult)
 		{
-			CallbackResultSavers.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
+            lock (CallbackResultItems)
+            {
+                CallbackResultItems.RemoveAll(x => (DateTime.Now - x.DateTime) > TimeSpan.FromMinutes(1));
 
-			Index++;
-			var callbackResultSaver = new CallbackResultSaver()
-			{
-				CallbackResult = callbackResult,
-				Index = Index,
-				DateTime = DateTime.Now
-			};
-			CallbackResultSavers.Add(callbackResultSaver);
+                Index++;
+                var callbackResultSaver = new CallbackResultItem()
+                {
+                    CallbackResult = callbackResult,
+                    Index = Index,
+                    DateTime = DateTime.Now
+                };
+                CallbackResultItems.Add(callbackResultSaver);
+
+                ClientsManager.ClientInfos.ForEach(x=>x.WaitEvent.Set());
+            }
 		}
 
-		public static List<CallbackResult> Get(int index)
+        public static List<CallbackResult> Get(ClientInfo clientInfo)
 		{
-			var result = new List<CallbackResult>();
-			foreach (var callbackResultSaver in CallbackResultSavers)
-			{
-				if (callbackResultSaver.Index > index)
-				{
-					result.Add(callbackResultSaver.CallbackResult);
-				}
-			}
-			return result;
-		}
-
-		public static int GetLastIndex()
-		{
-			return Index;
+            lock (CallbackResultItems)
+            {
+                var result = new List<CallbackResult>();
+                if (clientInfo.IsDisconnecting)
+                {
+                    var callbackResult = new CallbackResult()
+                    {
+                        CallbackResultType = CallbackResultType.Disconnecting
+                    };
+                    result.Add(callbackResult);
+                    return result;
+                }
+                foreach (var callbackResultSaver in CallbackResultItems)
+                {
+                    if (callbackResultSaver.Index > clientInfo.CallbackIndex)
+                    {
+                        result.Add(callbackResultSaver.CallbackResult);
+                    }
+                }
+                clientInfo.CallbackIndex = Index;
+                return result;
+            }
 		}
 	}
 
-	public class CallbackResultSaver
+	public class CallbackResultItem
 	{
 		public CallbackResult CallbackResult { get; set; }
 		public int Index { get; set; }
