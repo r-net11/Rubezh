@@ -1,30 +1,26 @@
 ﻿<UserControl x:Class="GKModule.Views.GKConnectionIndicatorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" Loaded="UserControl_Loaded">
-    <UserControl.Resources>
-        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </UserControl.Resources>
     <Grid>
-        <Image Name="_connectionIndicator" Margin="2, 0, 0, 0" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
-            <Image.Style>
-                <Style>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
-                            <DataTrigger.Setters>
-                                <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
-                            <DataTrigger.Setters>
-                                <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
-        <Border Name="_deviceConnectionControl" CornerRadius="5" Panel.ZIndex="-1" Background="{DynamicResource HighlightedBackgoundBrush}" Width="50" Height="30" Margin="3 3" IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
-        <Grid Name="_deviceConnectionGrid" Width="50" Height="30" Margin="3 3"  Background="White" Opacity="0.01" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <Border Name="_deviceConnectionControl" ToolTip="Связь с устройствами ГК в норме" CornerRadius="5" Width="50" Height="30" Margin="3 3" >
+            <Image Name="_connectionIndicator" Margin="2, 0, 0, 0" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
+                <Image.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Border>
     </Grid>
 </UserControl>

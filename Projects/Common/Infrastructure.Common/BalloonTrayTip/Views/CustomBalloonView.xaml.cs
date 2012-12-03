@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Hardcodet.Wpf.TaskbarNotification;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
+using System.Windows.Media.Imaging;
+using System;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
@@ -14,20 +16,20 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             TaskbarIcon.AddBalloonClosingHandler(this, OnBalloonClosing);
         }
 
-        private void grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (BalloonToolTipViewModel.isEmpty)
-            {
-                TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-                taskbarIcon.CloseBalloon();
-                taskbarIcon.Dispose();
-            }
-        }
-
         private void OnBalloonClosing(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            BalloonToolTipViewModel.isShown = false;
+            BalloonToolTipViewModel.IsShown = false;
+        }
+
+        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        {
+            close_Cross.Source = new BitmapImage(new Uri(@"pack://application:,,,/Infrastructure.Common;component/balloontraytip/Images/fileclose_mouseenter.png"));
+        }
+
+        private void Image_MouseLeave(object sender, MouseEventArgs e)
+        {
+            close_Cross.Source = new BitmapImage(new Uri(@"pack://application:,,,/Infrastructure.Common;component/balloontraytip/Images/fileclose.png"));
         }
     }
 }

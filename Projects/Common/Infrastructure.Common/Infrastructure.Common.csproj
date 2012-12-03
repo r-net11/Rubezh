@@ -371,19 +371,10 @@
     <None Include="Windows\ViewModels\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Bulb.ico" />
+    <Resource Include="BalloonTrayTip\Images\fileclose.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Computers.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Error.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Inactive.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\NetDrives.ico" />
+    <Resource Include="BalloonTrayTip\Images\fileclose_mouseenter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,48 +9,48 @@
     
     <StackPanel Orientation="Horizontal">
         <Grid>
-            <Image Name="_serviceConnectionIndicator" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4">
-                <Image.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsServiceConnected, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-C.png" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsServiceConnected, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxC.png" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-            <Border Name="_serviceConnectionControl" CornerRadius="5" Panel.ZIndex="-1" Background="{DynamicResource HighlightedBackgoundBrush}" Width="50" Height="30" Margin="3 3" IsEnabled="{Binding IsServiceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsServiceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
-            <Grid Name="_serviceConnectionGrid" Width="50" Height="30" Margin="3 3" Background="White" Opacity="0.01" Visibility="{Binding IsServiceConnected, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <Border Name="_serviceConnectionControl" ToolTip="Связь с сервером в норме" CornerRadius="5" Width="50" Height="30" Margin="3 3">
+                <Image Name="_serviceConnectionIndicator" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4">
+                    <Image.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsServiceConnected, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-C.png" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsServiceConnected, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxC.png" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Border>
         </Grid>
         <Grid>
-            <Image Name="_deviceConnectionIndicator"  Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
-                <Image.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-            <Border Name="_deviceConnectionControl" CornerRadius="5" Panel.ZIndex="-1" Background="{DynamicResource HighlightedBackgoundBrush}" Width="50" Height="30" Margin="3 3" IsEnabled="{Binding IsDeviceConnected, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}"/>
-            <Grid Name="_deviceConnectionGrid" Width="50" Height="30" Margin="3 3"  Background="White" Opacity="0.01" Visibility="{Binding IsDeviceConnected, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Border Name="_deviceConnectionControl" ToolTip="Связь с устройствами в норме" CornerRadius="5"  Width="50" Height="30" Margin="3 3" >
+                <Image Name="_deviceConnectionIndicator"  Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
+                    <Image.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Border>
         </Grid>
     </StackPanel>
 </UserControl>

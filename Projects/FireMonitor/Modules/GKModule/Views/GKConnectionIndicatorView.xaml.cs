@@ -2,8 +2,10 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Infrastructure;
+using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
 
 namespace GKModule.Views
@@ -38,16 +40,19 @@ namespace GKModule.Views
 			{
 				_isDeviceConnected = value;
 				OnPropertyChanged("IsDeviceConnected");
-				if (value)
-				{
-					_deviceConnectionGrid.ToolTip = "Связь с устройствами ГК в норме";
+                if (value)
+                {
+                    _deviceConnectionControl.ToolTip = "Связь с устройствами ГК в норме";
+                    _deviceConnectionControl.Background = Brushes.Transparent;
                     _connectionIndicator.Opacity = 0.4;
-				}
-				else
-				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
-				    _connectionIndicator.Opacity = 1;
-				}
+                }
+                else
+                {
+                    _deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
+                    _deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+                    _connectionIndicator.Opacity = 1;
+                    BalloonHelper.ShowWarning("Связь с ГК потеряна", "");
+                }
 			}
 		}
 

@@ -1,30 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Windows.Media;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using Infrastructure.Common.Windows;
-using System.Drawing;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Common;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
     public class BalloonHelper
     {
-        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel("", "", System.Windows.Media.Brushes.OldLace);
+        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
         
-        public static void Show(string title, string text, System.Windows.Media.Brush clr)
+        public static void ShowWarning(string title, string text = "")
         {
-            balloonToolTipViewModel.AddNote(title, text, clr);
-            if (BalloonToolTipViewModel.isShown == false)
+            ShowWarning(title, text, Brushes.Black, Brushes.White);
+        }
+        public static void ShowWarning(string title, string text, Brush foregroundColor, Brush backgroundColor)
+        {
+            try
             {
-                ShowTrayWindow(balloonToolTipViewModel);
-                BalloonToolTipViewModel.isShown = true;
-                BalloonToolTipViewModel.isEmpty = false;
+                balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
+                if (BalloonToolTipViewModel.IsShown == false)
+                {
+                    ShowTrayWindow(balloonToolTipViewModel);
+                    BalloonToolTipViewModel.IsShown = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "BalloonHelper.Show");
             }
         }
 
@@ -43,32 +48,6 @@ namespace Infrastructure.Common.BalloonTrayTip
                 Logger.Error(e, "DialogService.ShowTrayWindow");
             }
             return false;
-        }
-
-
-        public static void ShowConflagration(string title, string text)
-        {
-            Show(title, text, System.Windows.Media.Brushes.Tomato);
-        }
-
-        public static void ShowWarning(string title, string text)
-        {
-            try
-            {
-                Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-                {
-                    Show(title, text, System.Windows.Media.Brushes.Goldenrod);
-                }));
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "BalloonHelper.ShowWarning");
-            }
-        }
-
-        public static void ShowNotification(string title, string text)
-        {
-            Show(title, text, System.Windows.Media.Brushes.CornflowerBlue);
         }
     }
 }
