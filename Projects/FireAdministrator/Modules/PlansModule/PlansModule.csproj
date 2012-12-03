@@ -156,6 +156,7 @@
       <DependentUpon>TextBlockPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\TextBlockPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\PlanDesignerViewModel.Align.cs" />
     <Compile Include="ViewModels\PlansTreeViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.PlanExtension.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />

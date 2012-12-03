@@ -1,8 +1,8 @@
-﻿using Infrustructure.Plans.Designer;
+﻿using System.Windows;
+using System.Windows.Controls;
+using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace Infrustructure.Plans.Presenter
 {
@@ -55,6 +55,7 @@ namespace Infrustructure.Plans.Presenter
 			UpdateLayout();
 			RaiseEvent(new RoutedEventArgs(PresenterItem.FlushEvent));
 		}
+
 
 		private void UpdateZoom(double zoom)
 		{

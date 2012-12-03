@@ -183,7 +183,9 @@ namespace Firesec
 				Top = Parse(innerElement.rect[0].top),
 				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
 				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
-				Stretch = true
+				Stretch = true,
+				FontBold = false,
+				FontItalic = false,
 			};
 
 			FontFamily fontFamily = new FontFamily("Arial");

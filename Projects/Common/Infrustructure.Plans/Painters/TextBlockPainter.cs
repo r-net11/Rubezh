@@ -19,6 +19,8 @@ namespace Infrustructure.Plans.Painters
 				Background = new SolidColorBrush(element.BackgroundColor),
 				Foreground = new SolidColorBrush(elementText.ForegroundColor),
 				FontSize = elementText.FontSize,
+				FontWeight = elementText.FontBold ? FontWeights.Bold : FontWeights.Normal,
+				FontStyle = elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal,
 				FontFamily = new FontFamily(elementText.FontFamilyName),
 			};
 			FrameworkElement frameworkElement = elementText.Stretch ?

@@ -68,8 +68,9 @@ namespace PlansModule.Designer
 				adornerLayer.Remove(this);
 		}
 
-		public void UpdateZoom()
+		public void UpdateDeviceZoom(double zoom, double pointZoom)
 		{
+			_flushControl.UpdateDeviceZoom(zoom, pointZoom);
 		}
 	}
 }

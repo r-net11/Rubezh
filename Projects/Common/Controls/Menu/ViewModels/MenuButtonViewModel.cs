@@ -5,11 +5,12 @@ namespace Controls.Menu.ViewModels
 {
 	public class MenuButtonViewModel : BaseViewModel
 	{
-		public MenuButtonViewModel(ICommand command = null, string imageSource = null, string toolTip = null)
+		public MenuButtonViewModel(ICommand command = null, string imageSource = null, string toolTip = null, object commandParameter = null)
 		{
 			Command = command;
 			ImageSource = imageSource;
 			ToolTip = toolTip;
+			CommandParameter = commandParameter;
 		}
 
 		private string _toolTip;
@@ -42,6 +43,17 @@ namespace Controls.Menu.ViewModels
 			{
 				_command = value;
 				OnPropertyChanged("Command");
+			}
+		}
+
+		private object _commandParameter;
+		public object CommandParameter
+		{
+			get { return _commandParameter; }
+			set
+			{
+				_commandParameter = value;
+				OnPropertyChanged("CommandParameter");
 			}
 		}
 	}

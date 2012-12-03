@@ -1,12 +1,14 @@
-﻿<UserControl x:Class="PlansModule.Views.TextBlockPropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" MinWidth="400" MinHeight="400">
+﻿<UserControl x:Class="PlansModule.Views.TextBlockPropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" MinWidth="400" MinHeight="430">
 
 	<Border Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" MinWidth="150" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -26,10 +28,22 @@
 			<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
 			<Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="Размер шрифта" />
 			<Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="Шрифт" />
-			<Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="Растянуть" />
+			<Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="Жирный" />
+			<Label Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Content="Курсив" />
+			<Label Grid.Row="10" Grid.Column="0" HorizontalAlignment="Right" Content="Растянуть" />
 
-			<TextBox Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True" AcceptsTab="False" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" TextAlignment="{Binding TextAlignment, Converter={StaticResource IntToEnumConverter}}" />
-			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}"/>
+			<TextBox Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True"
+			         AcceptsTab="False"
+			         Background="{Binding BackgroundColor, Converter={StaticResource ColorToBrushConverter}}"
+			         FontFamily="{Binding FontFamilyName}"
+			         FontSize="{Binding FontSize}"
+			         Foreground="{Binding ForegroundColor, Converter={StaticResource ColorToBrushConverter}}"
+			         HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" 
+					 TextAlignment="{Binding TextAlignment, Converter={StaticResource IntToEnumConverter}}" 
+					 FontStyle="{Binding FontItalic, Converter={StaticResource BoolToFontStyleConverter}}" 
+					 FontWeight="{Binding FontBold, Converter={StaticResource BoolToFontWeightConverter}}" 
+					 TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" />
+			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedItem="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" SelectedItem="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" SelectedItem="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
@@ -42,7 +56,9 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<CheckBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontBold, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>

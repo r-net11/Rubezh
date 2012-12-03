@@ -10,5 +10,7 @@ namespace Infrustructure.Plans.Elements
 		string FontFamilyName { get; set; }
 		int TextAlignment { get; set; }
 		bool Stretch { get; set; }
+		bool FontItalic { get; set; }
+		bool FontBold { get; set; }
 	}
 }

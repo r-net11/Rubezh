@@ -143,6 +143,7 @@ namespace PlansModule.ViewModels
 			double _pointZoom = _deviceZoom / _zoom;
 			foreach (var item in Canvas.Children.OfType<PresenterItem>())
 				item.UpdateDeviceZoom(_zoom, _pointZoom);
+			_flushAdorner.UpdateDeviceZoom(_zoom, _pointZoom);
 		}
 
 		#endregion

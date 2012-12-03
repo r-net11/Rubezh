@@ -78,8 +78,63 @@ namespace PlansModule.Designer.DesignerItems
 			ContextMenu.Items.Add(new MenuItem()
 			{
 				Command = ShowPropertiesCommand,
-				Header = "Свойства"
+				Header = "Свойства",
 			});
+			if (DesignerCanvas != null)
+			{
+				ContextMenu.Items.Add(new Separator());
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand,
+					Header = "Вверх"
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand,
+					Header = "Вниз"
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand,
+					Header = "Выше"
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand,
+					Header = "Ниже",
+				});
+				ContextMenu.Items.Add(new Separator());
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalLeftCommand,
+					Header = "Выровнить по левому краю",
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand,
+					Header = "Выровнить по горизонтали",
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalRightCommand,
+					Header = "Выровнить по правому краю",
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalTopCommand,
+					Header = "Выровнить по верхнему краю",
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand,
+					Header = "Выровнить по вертикали",
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand,
+					Header = "Выровнить по нижнему краю",
+				});
+			}
 		}
 	}
 }

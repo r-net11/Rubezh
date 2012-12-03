@@ -16,6 +16,7 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel()
 		{
 			InitializeZIndexCommands();
+			InitializeAlignCommands();
 		}
 
 		public void Initialize(Plan plan)
@@ -35,7 +36,7 @@ namespace PlansModule.ViewModels
 					DesignerCanvas.Height = plan.Height;
 					OnUpdated();
 
-					foreach(var elementBase in PlanEnumerator.Enumerate(plan))
+					foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 						DesignerCanvas.Create(elementBase);
 					foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 						DesignerCanvas.Create(element);

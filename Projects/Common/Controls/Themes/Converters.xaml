@@ -29,4 +29,6 @@
     <Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
     <Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
     <Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
+	<Converters:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter" />
+	<Converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
 </ResourceDictionary>

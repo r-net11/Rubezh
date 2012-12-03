@@ -36,6 +36,8 @@ namespace PlansModule.ViewModels
 			BorderColor = _elementTextBlock.BorderColor;
 			StrokeThickness = _elementTextBlock.BorderThickness;
 			FontSize = _elementTextBlock.FontSize;
+			FontItalic = _elementTextBlock.FontItalic;
+			FontBold = _elementTextBlock.FontBold;
 			FontFamilyName = _elementTextBlock.FontFamilyName;
 			Stretch = _elementTextBlock.Stretch;
 			TextAlignment = _elementTextBlock.TextAlignment;
@@ -107,6 +109,28 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		bool _fontBold;
+		public bool FontBold
+		{
+			get { return _fontBold; }
+			set
+			{
+				_fontBold = value;
+				OnPropertyChanged("FontBold");
+			}
+		}
+
+		bool _fontItalic;
+		public bool FontItalic
+		{
+			get { return _fontItalic; }
+			set
+			{
+				_fontItalic = value;
+				OnPropertyChanged("FontItalic");
+			}
+		}
+
 		bool _stretch;
 		public bool Stretch
 		{
@@ -148,6 +172,8 @@ namespace PlansModule.ViewModels
 			_elementTextBlock.BorderColor = BorderColor;
 			_elementTextBlock.BorderThickness = StrokeThickness;
 			_elementTextBlock.FontSize = FontSize;
+			_elementTextBlock.FontBold = FontBold;
+			_elementTextBlock.FontItalic = FontItalic;
 			_elementTextBlock.FontFamilyName = FontFamilyName;
 			_elementTextBlock.TextAlignment = TextAlignment;
 			_elementTextBlock.Stretch = Stretch;
