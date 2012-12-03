@@ -31,7 +31,7 @@ namespace Firesec
 				FiresecSerializedClient.StateChanged += new Action<Models.CoreState.config>(OnStateChanged);
 				FiresecSerializedClient.ParametersChanged += new Action<Models.DeviceParameters.config>(OnParametersChanged);
 			}
-			FiresecSerializedClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
+			FiresecSerializedClient.ProgressEvent += new Action<int, string, int, int>(OnProgress);
 		}
 
 		void SetLastEvent()
@@ -466,12 +466,11 @@ namespace Firesec
 				NewJournalRecords(journalRecords);
 		}
 
-        public event Func<int, string, int, int, bool> Progress;
-		bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+        public event Action<int, string, int, int> Progress;
+		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			if (Progress != null)
-				return Progress(stage, comment, percentComplete, bytesRW);
-            return true;
+				Progress(stage, comment, percentComplete, bytesRW);
 		}
 	}
 }

@@ -19,10 +19,11 @@
         <File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Server.TargetDir)" />
-        <!--<File Id="Server.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Server.TargetDir)" />-->
       </Component>
 
       <Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">

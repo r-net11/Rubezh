@@ -22,7 +22,7 @@ namespace Firesec
 		public event Action<List<JournalRecord>> NewJournalRecords;
 		public event Action<Firesec.Models.CoreState.config> StateChanged;
 		public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
-		public event Func<int, string, int, int, bool> ProgressEvent;
+		public event Action<int, string, int, int> ProgressEvent;
 
 		public void SubscribeFsAgentEvents()
 		{

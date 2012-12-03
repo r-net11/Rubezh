@@ -5,6 +5,7 @@ using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using System.Diagnostics;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecServiceRunner
 {
@@ -18,9 +19,21 @@ namespace FiresecServiceRunner
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             ThemeHelper.LoadThemeFromRegister();
+            ServerLoadHelper.SetLocation();
+            ServerLoadHelper.SetStatus(FSServerState.Opening);
 
             using (new DoubleLaunchLocker(SignalId, WaitId, true))
-                Bootstrapper.Run();
+            {
+                try
+                {
+                    Bootstrapper.Run();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "App.OnStartup");
+                    BalloonHelper.ShowWarning("Сервер приложений Firesec", "Ошибка во время загрузки");
+                }
+            }
         }
         protected override void OnExit(ExitEventArgs e)
         {
@@ -30,13 +43,13 @@ namespace FiresecServiceRunner
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
-
+            BalloonHelper.ShowWarning("Сервер приложений Firesec", "Перезагрузка");
 			var processStartInfo = new ProcessStartInfo()
 			{
 				FileName = Application.ResourceAssembly.Location
 			};
 			System.Diagnostics.Process.Start(processStartInfo);
-
+            Bootstrapper.Close();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
         }

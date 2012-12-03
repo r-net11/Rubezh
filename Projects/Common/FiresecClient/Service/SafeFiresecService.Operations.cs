@@ -21,14 +21,14 @@ namespace FiresecClient
             SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
         }
 
+        public List<CallbackResult> Poll(Guid uid)
+        {
+            return SafeOperationCall(() => { return FiresecService.Poll(uid); }, "Poll");
+        }
+
         public void NotifyClientsOnConfigurationChanged()
         {
             SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
-        }
-
-        public string GetStatus()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetStatus(); }, "GetStatus");
         }
 
 		public DriversConfiguration GetDriversConfiguration()
@@ -117,13 +117,6 @@ namespace FiresecClient
                 {
                     SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
                 });
-
-            //var thread = new Thread(new ThreadStart(() =>
-            //{
-            //    SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
-            //}
-            //    ));
-            //thread.Start();
         }
 
         public List<string> GetFileNamesList(string directory)

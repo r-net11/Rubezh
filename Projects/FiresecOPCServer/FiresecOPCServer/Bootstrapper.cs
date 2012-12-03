@@ -50,10 +50,7 @@ namespace FiresecOPCServer
             }
 
             InitializeFs();
-            //UILogger.Log("Старт полинга сервера");
-            //FiresecManager.StartPoll(false);
             FiresecOPCManager.Start();
-            //SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
             UILogger.Log("Готово");
         }
 
@@ -96,16 +93,6 @@ namespace FiresecOPCServer
             }
 
             System.Environment.Exit(1);
-        }
-
-        static void OnConfigurationChangedEvent()
-        {
-            UILogger.Log("Перезагрузка конфигурации");
-            FiresecManager.GetConfiguration();
-            UILogger.Log("Синхронизация конфигурации");
-            FiresecManager.FiresecDriver.Synchronyze();
-            UILogger.Log("Перезапуск OPC Сервера");
-            FiresecOPCManager.OPCRefresh();
         }
     }
 }

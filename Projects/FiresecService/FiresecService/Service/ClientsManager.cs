@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecService.ViewModels;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -31,14 +32,19 @@ namespace FiresecService.Service
 			MainViewModel.Current.RemoveClient(uid);
 		}
 
-		public static ClientCredentials Get(Guid uid)
+        public static ClientInfo GetClientInfo(Guid uid)
+		{
+			return ClientInfos.FirstOrDefault(x=>x.UID == uid);
+		}
+
+        public static ClientCredentials GetClientCredentials(Guid uid)
 		{
 			var clientInfo = ClientInfos.FirstOrDefault(x=>x.UID == uid);
-			if (clientInfo != null)
-			{
-				return clientInfo.ClientCredentials;
-			}
-			return null;
+            if (clientInfo != null)
+            {
+                return clientInfo.ClientCredentials;
+            }
+            return null;
 		}
 	}
 
@@ -47,5 +53,7 @@ namespace FiresecService.Service
 		public Guid UID { get; set; }
 		public ClientCredentials ClientCredentials { get; set; }
 		public int CallbackIndex { get; set; }
+        public AutoResetEvent WaitEvent = new AutoResetEvent(false);
+        public bool IsDisconnecting { get; set; }
 	}
 }

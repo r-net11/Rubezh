@@ -98,22 +98,26 @@ namespace FiresecClient
 			}
 		}
 
+        static object locker = new object();
 		public static bool IsDisconnected { get; private set; }
 		public static void Disconnect()
 		{
 			try
 			{
-				if (FSAgent != null)
-					FSAgent.Stop();
+                lock (locker)
+                {
+                    if (!IsDisconnected)
+                    {
+                        if (FSAgent != null)
+                            FSAgent.Stop();
 
-				if (!IsDisconnected)
-				{
-					if (FiresecService != null)
-					{
-						FiresecService.Dispose();
-					}
-				}
-				IsDisconnected = true;
+                        if (FiresecService != null)
+                        {
+                            FiresecService.Dispose();
+                        }
+                    }
+                    IsDisconnected = true;
+                }
 			}
 			catch (Exception e)
 			{
@@ -121,11 +125,11 @@ namespace FiresecClient
 			}
 		}
 
-		public static void StartPoll(bool isLongPollPeriod)
+		public static void StartPoll(bool mustReactOnCallback)
 		{
 			try
 			{
-				FiresecService.StartShortPoll(isLongPollPeriod);
+				FiresecService.StartPoll(mustReactOnCallback);
 			}
 			catch (Exception e)
 			{

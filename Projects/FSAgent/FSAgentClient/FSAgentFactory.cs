@@ -8,6 +8,7 @@ using Common;
 using System.Threading;
 using System.ServiceModel.Description;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentClient
 {
@@ -18,19 +19,16 @@ namespace FSAgentClient
 
         public IFSAgentContract Create(string serverAddress)
         {
-            for (int i = 0; i < 3; i++)
+            try
             {
-                try
+                return DoCreate(serverAddress);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FSAgentClient.Create");
+                if (serverAddress.StartsWith("net.pipe:"))
                 {
-                    return DoCreate(serverAddress);
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e, "FSAgentClient.Create");
-                    if (serverAddress.StartsWith("net.pipe:"))
-                    {
-                        Thread.Sleep(TimeSpan.FromSeconds(5));
-                    }
+                    Thread.Sleep(TimeSpan.FromSeconds(5));
                 }
             }
             return null;
@@ -40,7 +38,8 @@ namespace FSAgentClient
         {
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
-				FSAgentLoadHelper.Load();
+				if(!FSAgentLoadHelper.Load())
+                    BalloonHelper.ShowWarning("Агент Firesec", "Не удается соединиться с агентом");
 			}
 
             var binding = BindingHelper.CreateNetNamedPipeBinding();
@@ -78,6 +77,7 @@ namespace FSAgentClient
                         ChannelFactory.Abort();
                     }
                     catch { }
+                    ChannelFactory = null;
                 }
             }
             catch (Exception e)

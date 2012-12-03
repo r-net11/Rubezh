@@ -15,7 +15,7 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "Сервер ОПС FireSec-2";
+			Title = "Сервер приложений ОПС FireSec-2";
 			Clients = new ObservableCollection<ClientViewModel>();
 		}
 
@@ -80,20 +80,13 @@ namespace FiresecService.ViewModels
 			));
 		}
 
-		public void AddLog(string message, bool isError = false)
+		public void AddLog(string message)
 		{
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				LastLog = message;
-				if (isError)
-				{
-					ErrorLog += message + "\n";
-				}
-				else
-				{
-					InfoLog += message + "\n";
-				}
+                InfoLog += message + "\n";
 			}
 			));
 		}
@@ -117,17 +110,6 @@ namespace FiresecService.ViewModels
 			{
 				_infoLog = value;
 				OnPropertyChanged("InfoLog");
-			}
-		}
-
-		string _errorLog = "";
-		public string ErrorLog
-		{
-			get { return _errorLog; }
-			set
-			{
-				_errorLog = value;
-				OnPropertyChanged("ErrorLog");
 			}
 		}
 

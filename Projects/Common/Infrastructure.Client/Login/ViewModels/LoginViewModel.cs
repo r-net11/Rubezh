@@ -154,19 +154,7 @@ namespace Infrastructure.Client.Login.ViewModels
 
         private void DoConnect()
         {
-            for (int i = 1; i <= 100; i++)
-            {
-                Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
-                if (Message == null)
-                    break;
-                if (Process.GetProcessesByName("FiresecService").Length == 0)
-                    return;
-                Thread.Sleep(100);
-                if (i == 100)
-                {
-                    return;
-                }
-            }
+            Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
         }
 
         public enum PasswordViewType

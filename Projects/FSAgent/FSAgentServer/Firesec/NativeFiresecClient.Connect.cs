@@ -19,14 +19,19 @@ namespace FSAgentServer
         {
             Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
             {
-                if (Connection != null)
-                {
-                    StopConnectionTimeoutThread();
-                    Marshal.FinalReleaseComObject(Connection);
-                    Connection = null;
-                    GC.Collect();
-                }
+                Close();
             };
+        }
+
+        public void Close()
+        {
+            if (Connection != null)
+            {
+                StopConnectionTimeoutThread();
+                Marshal.FinalReleaseComObject(Connection);
+                Connection = null;
+                GC.Collect();
+            }
         }
 
         public OperationResult<bool> Connect()

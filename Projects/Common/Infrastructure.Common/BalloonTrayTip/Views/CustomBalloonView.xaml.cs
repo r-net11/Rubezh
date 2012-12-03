@@ -30,5 +30,4 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             BalloonToolTipViewModel.isShown = false;
         }
     }
-
 }

@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Windows.Threading;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
@@ -15,6 +16,7 @@ namespace FiresecClient
         public IFiresecService FiresecService { get; set; }
         string _serverAddress;
         ClientCredentials _clientCredentials;
+        bool IsDisconnecting = false;
 
         public SafeFiresecService(string serverAddress)
         {
@@ -98,6 +100,18 @@ namespace FiresecClient
             }
         }
 
+        static void SafeOperationCall(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "SafeFiresecService.SafeOperationCall");
+            }
+        }
+
         void LogException(Exception e, string methodName)
         {
             if (e is CommunicationObjectFaultedException)
@@ -115,6 +129,54 @@ namespace FiresecClient
             else
             {
 				Logger.Error(e, "FiresecClient.SafeOperationCall " + e.Message + " " + methodName);
+            }
+        }
+
+        public static event Action ConnectionLost;
+        void OnConnectionLost()
+        {
+            if (isConnected == false)
+                return;
+            if (ConnectionLost != null)
+                ConnectionLost();
+            isConnected = false;
+        }
+
+        public static event Action ConnectionAppeared;
+        void OnConnectionAppeared()
+        {
+            if (isConnected == true)
+                return;
+
+            if (ConnectionAppeared != null)
+                ConnectionAppeared();
+
+            isConnected = true;
+        }
+
+        bool Recover()
+        {
+            if (IsDisconnecting)
+                return false;
+
+            Logger.Error("SafeFiresecService.Recover");
+
+            SuspendPoll = true;
+            try
+            {
+                FiresecServiceFactory.Dispose();
+                FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
+                FiresecService = FiresecServiceFactory.Create(_serverAddress);
+                FiresecService.Connect(FiresecServiceFactory.UID, _clientCredentials, false);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                SuspendPoll = false;
             }
         }
 
@@ -145,22 +207,10 @@ namespace FiresecClient
 
         public void Dispose()
         {
+            IsDisconnecting = true;
             Disconnect(FiresecServiceFactory.UID);
             StopPoll();
             FiresecServiceFactory.Dispose();
-        }
-
-        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
-        {
-			return SafeOperationCall(() => { return FiresecService.BeginPoll(index, dateTime, asyncCallback, state); }, "BeginPoll");
-        }
-        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
-        {
-			return SafeOperationCall(() => { return FiresecService.EndPoll(asyncResult); }, "EndPoll");
-        }
-        public List<CallbackResult> ShortPoll(Guid uid)
-        {
-			return SafeOperationCall(() => { return FiresecService.ShortPoll(uid); }, "ShortPoll");
         }
     }
 }

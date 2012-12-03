@@ -21,133 +21,56 @@ namespace FiresecService.Service
 				Description = arg
 			};
 			journalRecords.Add(journalRecord);
-			CallbackNewJournal(journalRecords);
+			NotifyNewJournal(journalRecords);
 			return "Test";
 		}
 
-        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
+        public List<CallbackResult> Poll(Guid uid)
         {
-            PollAsyncResult pollAsyncResult = new PollAsyncResult(index, dateTime, asyncCallback, state);
-            ThreadPool.QueueUserWorkItem(new WaitCallback(PollCallback), pollAsyncResult);
-            return pollAsyncResult;
-        }
-
-        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
-        {
-            if (asyncResult != null)
+            var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
+            if (clientInfo != null)
             {
-                using (PollAsyncResult pollAsyncResult = asyncResult as PollAsyncResult)
+                var result = CallbackManager.Get(clientInfo);
+                if (result.Count == 0)
                 {
-                    if (pollAsyncResult == null)
+                    clientInfo.WaitEvent = new AutoResetEvent(false);
+                    if (clientInfo.WaitEvent.WaitOne(TimeSpan.FromMinutes(5)))
                     {
-                        Logger.Error("FiresecService.EndPoll PollAsyncResult = null");
-                        return null;
+                        result = CallbackManager.Get(clientInfo);
                     }
-
-                    pollAsyncResult.AsyncWait.WaitOne();
-                    return pollAsyncResult.Result;
                 }
-            }
-            return null;
-        }
-
-		public List<CallbackResult> ShortPoll(Guid uid)
-		{
-			lock (CallbackResultsLocker)
-			{
-				var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);
-				if (clientInfo != null)
-				{
-					var result = CallbackManager.Get(clientInfo.CallbackIndex);
-					clientInfo.CallbackIndex = CallbackManager.GetLastIndex();
-					return result;
-				}
-				return new List<CallbackResult>();
-
-				var callbackResults = new List<CallbackResult>(CallbackResults);
-				CallbackResults = new List<CallbackResult>();
-				return callbackResults;
-			}
-		}
-
-        private void PollCallback(object state)
-        {
-            PollAsyncResult asyncResult = state as PollAsyncResult;
-            try
-            {
-                asyncResult.Result = InternalPoll(asyncResult.index, asyncResult.dateTime);
-                StopPingEvent = null;
-                CallbackResults = new List<CallbackResult>();
-            }
-            finally
-            {
-                asyncResult.Complete();
-            }
-        }
-
-        private List<CallbackResult> InternalPoll(int index, DateTime dateTime)
-        {
-            if (CallbackResults.Count > 0)
-            {
-                return new List<CallbackResult>(CallbackResults);
-            }
-            CallbackResults = new List<CallbackResult>();
-            StopPingEvent = new AutoResetEvent(false);
-            if (StopPingEvent.WaitOne(500000))
-            {
-                return new List<CallbackResult>(CallbackResults);
+                return result;
             }
             return new List<CallbackResult>();
         }
 
-        public void CallbackNewJournal(List<JournalRecord> journalRecords)
+        public void NotifyNewJournal(List<JournalRecord> journalRecords)
         {
             var callbackResult = new CallbackResult()
             {
                 CallbackResultType = CallbackResultType.NewEvents,
                 JournalRecords = journalRecords
             };
-            AddCallback(callbackResult);
+            CallbackManager.Add(callbackResult);
         }
 
-        public void CallbackArchiveCompleted(List<JournalRecord> journalRecords)
+        public void NotifyArchiveCompleted(List<JournalRecord> journalRecords)
         {
             var callbackResult = new CallbackResult()
             {
                 CallbackResultType = CallbackResultType.ArchiveCompleted,
                 JournalRecords = journalRecords
             };
-            AddCallback(callbackResult);
+            CallbackManager.Add(callbackResult);
         }
 
-        public void CallbackConfigurationChanged()
+        public void NotifyConfigurationChanged()
         {
             var callbackResult = new CallbackResult()
             {
                 CallbackResultType = CallbackResultType.ConfigurationChanged
             };
-            AddCallback(callbackResult);
+            CallbackManager.Add(callbackResult);
         }
-
-		void AddCallback(CallbackResult callbackResult)
-		{
-			lock (CallbackResultsLocker)
-			{
-				CallbackManager.Add(callbackResult);
-				return;
-
-				if (CallbackResults.Count > 10)
-					CallbackResults.RemoveAt(0);
-				CallbackResults.Add(callbackResult);
-				if (StopPingEvent != null)
-				{
-					StopPingEvent.Set();
-				}
-			}
-		}
-
-        List<CallbackResult> CallbackResults = new List<CallbackResult>();
-        AutoResetEvent StopPingEvent;
-		object CallbackResultsLocker = new object();
     }
 }

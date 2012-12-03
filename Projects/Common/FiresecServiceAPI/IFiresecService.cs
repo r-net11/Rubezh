@@ -7,7 +7,6 @@ using XFiresecAPI;
 
 namespace FiresecAPI
 {
-    //[ServiceContract(SessionMode = SessionMode.Required)]
 	[ServiceContract]
     public interface IFiresecService : IFiresecServiceSKUD
     {
@@ -22,10 +21,7 @@ namespace FiresecAPI
 		void Disconnect(Guid uid);
 
         [OperationContract]
-        string GetStatus();
-
-        [OperationContract]
-        string Ping();
+        List<CallbackResult> Poll(Guid uid);
 
         [OperationContract]
         string Test(string arg);
@@ -107,6 +103,7 @@ namespace FiresecAPI
         [OperationContract]
         Stream GetConfig();
         #endregion
+
         #region Convertation
         [OperationContract]
         void SetJournal(List<JournalRecord> journalRecords);
@@ -125,15 +122,5 @@ namespace FiresecAPI
         [OperationContract]
         XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration();
         #endregion
-
-		#region Poll
-        [OperationContract(AsyncPattern = true)]
-        IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state);
-
-        List<CallbackResult> EndPoll(IAsyncResult asyncResult);
-
-        [OperationContract]
-		List<CallbackResult> ShortPoll(Guid uid);
-		#endregion
     }
 }

@@ -69,6 +69,7 @@ namespace DevicesModule.Views
 				{
                     _deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
 				    _deviceConnectionIndicator.Opacity = 1;
+                    BalloonHelper.ShowWarning("Связь с агентом потеряна", "");
 				}
 			}
 		}

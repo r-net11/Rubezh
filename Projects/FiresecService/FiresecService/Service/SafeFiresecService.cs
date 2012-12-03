@@ -101,14 +101,14 @@ namespace FiresecService.Service
             SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
         }
 
+        public List<CallbackResult> Poll(Guid uid)
+        {
+            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
+        }
+
         public void NotifyClientsOnConfigurationChanged()
         {
 			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
-        }
-
-        public string GetStatus()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetStatus(); }, "GetStatus");
         }
 
 		public DriversConfiguration GetDriversConfiguration()
@@ -226,11 +226,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.SetJournal(journalRecords); }, "ConvertJournal");
         }
 
-        public string Ping()
-        {
-            return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
-        }
-
         public string Test(string arg)
         {
             return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
@@ -281,19 +276,6 @@ namespace FiresecService.Service
         public IEnumerable<EmployeePosition> GetEmployeePositions()
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
-        }
-
-        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
-        {
-            return SafeContext.Execute<IAsyncResult>(() => FiresecService.BeginPoll(index, dateTime, asyncCallback, state));
-        }
-        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
-        {
-            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.EndPoll(asyncResult));
-        }
-        public List<CallbackResult> ShortPoll(Guid uid)
-        {
-            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.ShortPoll(uid));
         }
     }
 }

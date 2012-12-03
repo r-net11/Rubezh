@@ -21,7 +21,16 @@ namespace FiresecOPCServer
                 ThemeHelper.LoadThemeFromRegister();
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 using (new DoubleLaunchLocker(SignalId, WaitId, true))
-                    Bootstrapper.Run();
+                {
+                    try
+                    {
+                        Bootstrapper.Run();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error("App.OnStartup");
+                    }
+                }
             }
             catch (Exception ex)
             {

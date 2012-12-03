@@ -7,6 +7,7 @@ using Common;
 using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecClient
 {
@@ -15,30 +16,28 @@ namespace FiresecClient
 		public static Guid UID = Guid.NewGuid();
 		ChannelFactory<IFiresecService> ChannelFactory;
 
-		public IFiresecService Create(string serverAddress)
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				try
-				{
-                    return DoCreate(serverAddress);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "FiresecServiceFactory.Create");
-					if (serverAddress.StartsWith("net.pipe:"))
-					{
-						ServerLoadHelper.Reload();
-						Thread.Sleep(TimeSpan.FromSeconds(5));
-					}
-				}
-			}
-			MessageBoxService.Show("Невозможно соединиться с сервером");
-			return null;
-		}
+        public IFiresecService Create(string serverAddress)
+        {
+            try
+            {
+                return DoCreate(serverAddress);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecServiceFactory.Create");
+            }
+            MessageBoxService.Show("Невозможно соединиться с сервером");
+            return null;
+        }
 
         IFiresecService DoCreate(string serverAddress)
 		{
+            if (serverAddress.StartsWith("net.pipe:"))
+            {
+                if (!ServerLoadHelper.Load())
+                    BalloonHelper.ShowWarning("Сервер приложений Firesec", "Не удается соединиться с сервером");
+            }
+
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
@@ -54,7 +53,7 @@ namespace FiresecClient
 			ChannelFactory.Open();
 
 			IFiresecService firesecService = ChannelFactory.CreateChannel();
-			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(1);
+			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(10);
 			return firesecService;
 		}
 
@@ -74,6 +73,7 @@ namespace FiresecClient
 						ChannelFactory.Abort();
 					}
 					catch { }
+                    ChannelFactory = null;
 				}
 			}
 			catch (Exception e)
