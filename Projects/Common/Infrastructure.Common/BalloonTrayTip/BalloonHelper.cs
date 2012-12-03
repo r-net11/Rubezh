@@ -9,22 +9,29 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Common;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
     public class BalloonHelper
     {
-        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel("", "", System.Windows.Media.Brushes.OldLace);
+        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
         
         public static void Show(string title, string text, System.Windows.Media.Brush clr)
         {
-            balloonToolTipViewModel.AddNote(title, text, clr);
-            if (BalloonToolTipViewModel.isShown == false)
+            try
             {
-                ShowTrayWindow(balloonToolTipViewModel);
-                BalloonToolTipViewModel.isShown = true;
-                BalloonToolTipViewModel.isEmpty = false;
+                balloonToolTipViewModel.AddNote(title, text, clr);
+                if (BalloonToolTipViewModel.isShown == false)
+                {
+
+                    ShowTrayWindow(balloonToolTipViewModel);
+                    BalloonToolTipViewModel.isShown = true;
+                    BalloonToolTipViewModel.isEmpty = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "BalloonHelper.Show");
             }
         }
 
@@ -46,27 +53,17 @@ namespace Infrastructure.Common.BalloonTrayTip
         }
 
 
-        public static void ShowConflagration(string title, string text)
+        public static void ShowConflagration(string title, string text="")
         {
             Show(title, text, System.Windows.Media.Brushes.Tomato);
         }
 
-        public static void ShowWarning(string title, string text)
+        public static void ShowWarning(string title, string text="")
         {
-            try
-            {
-                Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-                {
-                    Show(title, text, System.Windows.Media.Brushes.Goldenrod);
-                }));
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "BalloonHelper.ShowWarning");
-            }
+            Show(title, text, System.Windows.Media.Brushes.Goldenrod);
         }
 
-        public static void ShowNotification(string title, string text)
+        public static void ShowNotification(string title, string text="")
         {
             Show(title, text, System.Windows.Media.Brushes.CornflowerBlue);
         }

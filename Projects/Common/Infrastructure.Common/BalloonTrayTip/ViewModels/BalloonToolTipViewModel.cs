@@ -1,96 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Drawing;
-using System.Windows;
+using Common;
+using Hardcodet.Wpf.TaskbarNotification;
+
 
 namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
-    public class BalloonToolTipViewModel : WindowBaseViewModel
+    public class BalloonToolTipViewModel: WindowBaseViewModel
     {
+        #region StaticFields
         public static bool isShown = false;
         public static bool isEmpty = false;
+        #endregion
 
-        List<string> titles = new List<string>();
-        List<string> texts = new List<string>();
-        List<System.Windows.Media.Brush> colors = new List<System.Windows.Media.Brush>();
+        #region Fields
+        private List<Item> items = new List<Item>();
+        #endregion
 
+        #region Properties
         public string BalloonTitle
         {
-            get { return titles.Last(); }
-            set
-            {
-                titles.Add(value);
-                OnPropertyChanged("BalloonTitle");
-            }
+            get { return items.Last().title; }
         }
 
         public string BalloonText
         {
-            get { return texts.Last(); }
-            set
-            {
-                texts.Add(value);
-                OnPropertyChanged("BalloonText");
-            }
+            get { return items.Last().text; }
         }
 
         public System.Windows.Media.Brush BackgroundColor
         {
-            get { return colors.Last(); }
-            set
-            {
-                colors.Add(value);
-                OnPropertyChanged("BackgroundColor");
-            }
+            get { return items.Last().color; }
         }
-
-        public BalloonToolTipViewModel(string ttl, string txt, System.Windows.Media.Brush clr)
-        {
-            texts.Clear();
-            titles.Clear();
-            colors.Clear();
-            Title = "";
-            BalloonTitle = ttl;
-            BalloonText = txt;
-            BackgroundColor = clr;
-            Test1Command = new RelayCommand(OnTest1);
-            isEmpty = false;
-        }
-
+        #endregion
+        
+        #region Methods
         public void AddNote(string ttl, string txt, System.Windows.Media.Brush clr)
         {
-            BalloonTitle = ttl;
-            BalloonText = txt;
-            BackgroundColor = clr;
+            items.Add(new Item { title = ttl, text = txt, color = clr });
+            OnPropertyChanged("BalloonTitle");
+            OnPropertyChanged("BalloonText");
+            OnPropertyChanged("BackgroundColor");
         }
-        public RelayCommand Test1Command { get; private set; }
-        void OnTest1()
+        bool chkEmpty()
         {
-            if (!chkEmpty())
-            {
-                titles.Remove(titles.Last());
-                OnPropertyChanged("BalloonTitle");
-                texts.Remove(texts.Last());
-                OnPropertyChanged("BalloonText");
-                colors.Remove(colors.Last());
-                OnPropertyChanged("BackgroundColor");
-            }
+            if (items.Count < 2)
+                isEmpty = true;
+            return isEmpty;
+        }
+        #endregion
+
+        #region Constructors
+        public BalloonToolTipViewModel(string ttl, string txt, System.Windows.Media.Brush clr)
+        {
+            items.Clear();
+            Title = "";
+            AddNote(ttl, txt, clr);
+            OnPropertyChanged("BalloonTitle");
+            OnPropertyChanged("BalloonText");
+            OnPropertyChanged("BackgroundColor");
+            RemoveItemCommand = new RelayCommand(OnRemoveItem);
+            ClearCommand = new RelayCommand(OnClear);
+            isEmpty = false;
         }
         public BalloonToolTipViewModel()
         {
             Title = "";
-            Test1Command = new RelayCommand(OnTest1);
+            RemoveItemCommand = new RelayCommand(OnRemoveItem);
+            ClearCommand = new RelayCommand(OnClear);
             isEmpty = false;
         }
+        #endregion
 
-        bool chkEmpty()
+        #region Commands
+        public RelayCommand RemoveItemCommand { get; private set; }
+        void OnRemoveItem()
         {
-            if (titles.Count < 3)
-                isEmpty = true;
-            return isEmpty;
+            try
+            {
+                if (!chkEmpty())
+                {
+                    items.Remove(items.Last());
+                    OnPropertyChanged("BalloonTitle");
+                    OnPropertyChanged("BalloonText");
+                    OnPropertyChanged("BackgroundColor");
+                }
+                else
+                {
+                    items.Clear();
+                    this.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Balloon.RemoveItem");
+            }
+
         }
+
+        public RelayCommand ClearCommand { get; private set; }
+        void OnClear()
+        {
+            try
+            {
+                items.Clear();
+                chkEmpty();
+                this.Close();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Balloon.ClearItem");
+            }
+
+        }
+        #endregion
+
+        #region Classes
+        class Item
+        {
+            public string title;
+            public string text;
+            public System.Windows.Media.Brush color;
+        }
+        #endregion
     }
 }

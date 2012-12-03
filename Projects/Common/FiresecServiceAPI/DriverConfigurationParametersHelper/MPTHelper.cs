@@ -140,8 +140,8 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Включить после паузы на заданное время и выключить", 5);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать постоянно", 6);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы", 7);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать заданное время и оставить выключенным", 8);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы, переключать заданное время и оставить выключенным", 9);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать заданное время и оставить включенным", 8);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы, переключать заданное время и оставить включенным", 9);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать заданное время и оставить выключенным", 10);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы, переключать заданное время и оставить выключенным", 11);
 			driver.Properties.Add(property);

@@ -103,7 +103,7 @@ namespace DevicesModule.ViewModels
             foreach (var local in localRootDevice.Children)
             {
                 var remoteAndLocal =
-                    remoteRootDevice.Children.FirstOrDefault(x => (x.PresentationName == local.PresentationName) && (x.AddressFullPath == local.AddressFullPath));
+                    remoteRootDevice.Children.FirstOrDefault(x => (x.Driver.ShortName == local.Driver.ShortName) && (x.AddressFullPath == local.AddressFullPath));
                 if (remoteAndLocal == null)
                 {
                     var remote = (Device)local.Clone();
@@ -146,7 +146,7 @@ namespace DevicesModule.ViewModels
             localRootDevice.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
             foreach (var remote in remoteRootDevice.Children)
             {
-                var localAndRemote = localRootDevice.Children.FirstOrDefault(x => (x.PresentationName == remote.PresentationName) && (x.AddressFullPath == remote.AddressFullPath));
+				var localAndRemote = localRootDevice.Children.FirstOrDefault(x => (x.Driver.ShortName == remote.Driver.ShortName) && (x.AddressFullPath == remote.AddressFullPath));
                 if (localAndRemote == null)
                 {
                     var local = (Device)remote.Clone();
