@@ -12,7 +12,8 @@ namespace FSAgentServer
         AutoResetEvent StopLifetimeEvent;
         Thread LifetimeThread;
 		bool IsOperationBuisy;
-		DateTime OperationDateTime;
+		DateTime OperationDateTime = DateTime.Now;
+		DateTime CircleDateTime = DateTime.Now;
 
         void StartLifetimeThread()
         {
@@ -48,6 +49,11 @@ namespace FSAgentServer
                         App.Restart();
                     }
                 }
+				if (DateTime.Now - CircleDateTime > TimeSpan.FromMinutes(15))
+				{
+					Logger.Error("WatcherManager.WatchLifetime");
+					App.Restart();
+				}
 
                 if (StopLifetimeEvent.WaitOne(10000))
                     break;

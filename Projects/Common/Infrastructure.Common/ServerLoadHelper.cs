@@ -94,7 +94,7 @@ namespace Infrastructure.Common
         static bool Start()
         {
             var fileName = GetLocation();
-            if (fileName != null)
+            if (fileName == null)
             {
                 fileName = @"..\FiresecService\FiresecService.exe";
             }

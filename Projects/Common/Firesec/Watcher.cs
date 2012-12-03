@@ -89,15 +89,6 @@ namespace Firesec
 			return result;
 		}
 
-		void OnNewEvent()
-		{
-			var journalRecords = GetEventsFromLastId(LastJournalNo);
-			if (journalRecords.Count > 0)
-			{
-				OnNewJournalRecords(journalRecords);
-			}
-		}
-
 		public void ForceParametersChanged()
 		{
 			var coreParameters = FiresecSerializedClient.GetDeviceParams();

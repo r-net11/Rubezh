@@ -7,8 +7,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
     {
         public BalloonToolTipView()
         {
-            InitializeComponent();
-            
+			InitializeComponent();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -24,5 +23,3 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         }
     }
 }
-
-//xmlns:tb="http://www.hardcodet.net/taskbar"

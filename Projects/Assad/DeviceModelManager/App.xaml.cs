@@ -3,6 +3,7 @@ using FiresecClient;
 using System.Configuration;
 using FiresecAPI.Models;
 using System;
+using Infrastructure.Common;
 
 namespace DeviveModelManager
 {
@@ -10,17 +11,14 @@ namespace DeviveModelManager
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var FS_Address = ConfigurationManager.AppSettings["FS_Address"] as string;
-            var FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
-            var FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
-            var FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string;
             var serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-            var Login = ConfigurationManager.AppSettings["Login"] as string;
-            var Password = ConfigurationManager.AppSettings["Password"] as string;
+            var login = ConfigurationManager.AppSettings["Login"] as string;
+            var password = ConfigurationManager.AppSettings["Password"] as string;
 
-            FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
+			AppSettingsManager.RemoteAddress = serverAddress;
+            FiresecManager.Connect(ClientType.Assad, serverAddress, login, password);
             FiresecManager.GetConfiguration();
-            FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, true);
+            FiresecManager.InitializeFiresecDriver(false);
             FiresecManager.FiresecDriver.Synchronyze();
             FiresecManager.FiresecDriver.StartWatcher(false, false);
 

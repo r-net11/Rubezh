@@ -21,5 +21,10 @@ namespace FiresecAPI.Models
 		public string FriendlyUserName { get; set; }
 		public string ClientIpAddress { get; set; }
 		public string ClientIpAddressAndPort { get; set; }
+
+		public string UniqueId
+		{
+			get { return ClientType.ToString() + "." + ClientIpAddress == null ? "" : ClientIpAddress; }
+		}
 	}
 }

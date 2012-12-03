@@ -118,7 +118,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			switch (_passwordViewType)
 			{
 				case PasswordViewType.Connect:
-					var preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
+					var preLoadWindow = new ConnectionViewModel();
 					DialogService.ShowWindow(preLoadWindow);
 					DoConnect();
 					preLoadWindow.ForceClose();

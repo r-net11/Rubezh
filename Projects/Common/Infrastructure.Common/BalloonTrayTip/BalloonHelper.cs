@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Common;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
@@ -14,7 +15,12 @@ namespace Infrastructure.Common.BalloonTrayTip
         
         public static void ShowWarning(string title, string text = "")
         {
-            ShowWarning(title, text, Brushes.Black, Brushes.White);
+#if DEBUG
+			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			{
+				ShowWarning(title, text, Brushes.Black, Brushes.White);
+			}));
+#endif
         }
         public static void ShowWarning(string title, string text, Brush foregroundColor, Brush backgroundColor)
         {

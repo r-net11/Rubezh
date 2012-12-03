@@ -57,10 +57,13 @@ namespace JournalModule.ViewModels
 			var operationResult = FiresecClient.FiresecManager.FiresecService.GetDistinctDescriptions();
 			if (operationResult.HasError == false)
 			{
-				foreach (var journalRecord in operationResult.Result)
+				if (operationResult.Result.Count > 0)
 				{
-					var eventViewModel = new EventViewModel(journalRecord.StateType, journalRecord.Description);
-					JournalEvents.Add(eventViewModel);
+					foreach (var journalRecord in operationResult.Result.Take(2000))
+					{
+						var eventViewModel = new EventViewModel(journalRecord.StateType, journalRecord.Description);
+						JournalEvents.Add(eventViewModel);
+					}
 				}
 			}
 

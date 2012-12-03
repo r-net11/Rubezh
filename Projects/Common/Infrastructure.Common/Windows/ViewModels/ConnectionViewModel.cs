@@ -1,10 +1,14 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
 	public sealed class ConnectionViewModel : WindowBaseViewModel
 	{
 		public ConnectionViewModel(bool restrictClose = true)
 		{
+			var serverAddress = "";
+			if(AppSettingsManager.IsRemote)
+				serverAddress = AppSettingsManager.RemoteAddress;
+			Title = "Соединение с сервером " + serverAddress;
+
 			Sizable = false;
 			TopMost = true;
 			RestrictClose = restrictClose;

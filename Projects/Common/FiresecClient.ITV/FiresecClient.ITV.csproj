@@ -80,6 +80,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FSAgent\FSAgentAPI\FSAgentAPI.csproj">
+      <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
+      <Name>FSAgentAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FSAgent\FSAgentClient\FSAgentClient.csproj">
+      <Project>{31F451DF-6C15-4867-A2A3-241D9B1A882C}</Project>
+      <Name>FSAgentClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient</Name>
@@ -90,7 +98,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
+      <Name>Firesec %28Firesec\Firesec%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

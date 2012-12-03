@@ -16,8 +16,8 @@ namespace ItvIntegration
 
         void OnNewJournalRecord(JournalRecord journalRecord)
         {
-            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() => { JournalRecords.Add(journalRecord); }));
-            OnPropertyChanged("JournalRecords");
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() => { JournalRecords.Add(journalRecord); }));
+			OnPropertyChanged("JournalRecords");
         }
 
         public List<JournalRecord> JournalRecords { get; private set; }

@@ -20,7 +20,7 @@
             <Button Content="Переход по вкладкам" Command="{Binding Test7Command}" Width="250" Margin="2" />
             <Button Content="Все вместе" Command="{Binding Test8Command}" Width="250" Margin="2" />
             <Button Content="Сообщение" Command="{Binding Test9Command}" Width="250" Margin="2" />
-            <Button Content="FSAgentTestCommand" Command="{Binding FSAgentTestCommand}" Width="250" Margin="2" />
+            <Button Content="TestBalloonCommand" Command="{Binding TestBalloonCommand}" Width="250" Margin="2" />
 			<Button Content="NativeFiresecClient.Listen" Command="{Binding Test10Command}" Width="250" Margin="2" />
 			<Button Content="Plan Navigate" Command="{Binding Test11Command}" Width="250" Margin="2" />
             <Button Click="WarningButton_Click" Content="Предупреждение из трея" Width="250" Margin="2"/>

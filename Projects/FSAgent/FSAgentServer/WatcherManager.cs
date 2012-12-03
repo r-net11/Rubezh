@@ -83,6 +83,11 @@ namespace FSAgentServer
 		{
 			try
 			{
+				//Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+				//    {
+				//        BalloonHelper.ShowWarning("Hello", "Hello");
+				//    }));
+				
                 UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();
 				var connectResult = DirectClient.Connect();
@@ -102,6 +107,7 @@ namespace FSAgentServer
 			{
 				try
 				{
+					CircleDateTime = DateTime.Now;
 					PoolSleepEvent = new AutoResetEvent(false);
 					PoolSleepEvent.WaitOne(TimeSpan.FromSeconds(1));
                     PollIndex++;
