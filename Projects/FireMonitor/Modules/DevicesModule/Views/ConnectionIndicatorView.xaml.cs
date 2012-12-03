@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using FiresecClient;
 using Infrastructure;
@@ -40,12 +41,15 @@ namespace DevicesModule.Views
 				OnPropertyChanged("IsServiceConnected");
 				if (value)
 				{
-					_serviceConnectionGrid.ToolTip = "Связь с сервером в норме";
+                    _serviceConnectionControl.ToolTip = "Связь с сервером в норме";
+				    _serviceConnectionControl.Background = Brushes.Transparent;
                     _serviceConnectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
                     _serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
+                    _serviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+                    _serviceConnectionControl.Background = Brushes.DarkOrange;
 				    _serviceConnectionIndicator.Opacity = 1;
                     BalloonHelper.ShowWarning("Связь с сервером потеряна", "");
 				}
@@ -62,12 +66,14 @@ namespace DevicesModule.Views
 				OnPropertyChanged("IsDeviceConnected");
 				if (value)
 				{
-					_deviceConnectionGrid.ToolTip = "Связь с устройствами в норме";
+                    _deviceConnectionControl.ToolTip = "Связь с устройствами в норме";
+                    _deviceConnectionControl.Background = Brushes.Transparent;
                     _deviceConnectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
                     _deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
+                    _deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
 				    _deviceConnectionIndicator.Opacity = 1;
                     BalloonHelper.ShowWarning("Связь с агентом потеряна", "");
 				}
