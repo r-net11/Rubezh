@@ -19,7 +19,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         private void OnBalloonClosing(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            BalloonToolTipViewModel.isShown = false;
+            BalloonToolTipViewModel.IsShown = false;
         }
 
         private void Image_MouseEnter(object sender, MouseEventArgs e)

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Windows.Media;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using Infrastructure.Common.Windows;
-using System.Drawing;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Common;
@@ -16,17 +12,19 @@ namespace Infrastructure.Common.BalloonTrayTip
     {
         static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
         
-        public static void Show(string title, string text, System.Windows.Media.Brush clr)
+        public static void ShowWarning(string title, string text = "")
+        {
+            ShowWarning(title, text, Brushes.Black, Brushes.White);
+        }
+        public static void ShowWarning(string title, string text, Brush foregroundColor, Brush backgroundColor)
         {
             try
             {
-                balloonToolTipViewModel.AddNote(title, text, clr);
-                if (BalloonToolTipViewModel.isShown == false)
+                balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
+                if (BalloonToolTipViewModel.IsShown == false)
                 {
-
                     ShowTrayWindow(balloonToolTipViewModel);
-                    BalloonToolTipViewModel.isShown = true;
-                    BalloonToolTipViewModel.isEmpty = false;
+                    BalloonToolTipViewModel.IsShown = true;
                 }
             }
             catch (Exception e)
@@ -50,22 +48,6 @@ namespace Infrastructure.Common.BalloonTrayTip
                 Logger.Error(e, "DialogService.ShowTrayWindow");
             }
             return false;
-        }
-
-
-        public static void ShowConflagration(string title, string text="")
-        {
-            Show(title, text, System.Windows.Media.Brushes.Tomato);
-        }
-
-        public static void ShowWarning(string title, string text="")
-        {
-            Show(title, text, System.Windows.Media.Brushes.Goldenrod);
-        }
-
-        public static void ShowNotification(string title, string text="")
-        {
-            Show(title, text, System.Windows.Media.Brushes.CornflowerBlue);
         }
     }
 }

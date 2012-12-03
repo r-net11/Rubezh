@@ -36,8 +36,6 @@ namespace DiagnosticsModule.ViewModels
 			Test11Command = new RelayCommand(OnTest11);
 			FSAgentTestCommand = new RelayCommand(OnFSAgentTest);
 			ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
-			ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
-			ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);
 		}
 
 		public void StopThreads()
@@ -382,16 +380,8 @@ namespace DiagnosticsModule.ViewModels
 			Random rnd = new Random();
 			BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
 		}
-		void OnNotificationTest(object obj)
-		{
-			BalloonHelper.ShowNotification("Уведомление", "Уведомления текст это. Уведомляет он.");
-		}
-		void OnConflagrationTest(object obj)
-		{
-			BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
-		}
-
-		public RelayCommand FSAgentTestCommand { get; private set; }
+		
+        public RelayCommand FSAgentTestCommand { get; private set; }
 		void OnFSAgentTest()
 		{
 		}

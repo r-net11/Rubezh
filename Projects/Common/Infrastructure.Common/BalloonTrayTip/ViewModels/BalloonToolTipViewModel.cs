@@ -3,94 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using Common;
-using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows.Media;
 
 
 namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
     public class BalloonToolTipViewModel: WindowBaseViewModel
     {
-        #region StaticFields
-        public static bool isShown = false;
-        public static bool isEmpty = false;
-        #endregion
-
-        #region Fields
-        private List<Item> items = new List<Item>();
-        #endregion
-
-        #region Properties
-        public string BalloonTitle
-        {
-            get { return items.Last().title; }
-        }
-
-        public string BalloonText
-        {
-            get { return items.Last().text; }
-        }
-
-        public System.Windows.Media.Brush BackgroundColor
-        {
-            get { return items.Last().color; }
-        }
-        #endregion
+        public static bool IsShown = false;
         
-        #region Methods
-        public void AddNote(string ttl, string txt, System.Windows.Media.Brush clr)
+        private List<Item> items = new List<Item>();
+        public Item LastItem
         {
-            items.Add(new Item { title = ttl, text = txt, color = clr });
-            OnPropertyChanged("BalloonTitle");
-            OnPropertyChanged("BalloonText");
-            OnPropertyChanged("BackgroundColor");
+            get { return items.LastOrDefault();}
         }
-        bool chkEmpty()
-        {
-            if (items.Count < 2)
-                isEmpty = true;
-            return isEmpty;
-        }
-        #endregion
 
-        #region Constructors
-        public BalloonToolTipViewModel(string ttl, string txt, System.Windows.Media.Brush clr)
+        public void AddNote(string title, string text, Brush foregroundColor, Brush backgroundColor)
+        {
+            items.Add(new Item { Title = title, Text = text, ForegroundColor = foregroundColor, BackgroundColor = backgroundColor });
+            OnPropertyChanged("LastItem");
+        }
+
+        public BalloonToolTipViewModel(string title, string text, Brush foregroundColor, Brush backgroundColor)
         {
             items.Clear();
             Title = "";
-            AddNote(ttl, txt, clr);
-            OnPropertyChanged("BalloonTitle");
-            OnPropertyChanged("BalloonText");
-            OnPropertyChanged("BackgroundColor");
+            AddNote(title, text, foregroundColor, backgroundColor);
+            OnPropertyChanged("LastItem");
             RemoveItemCommand = new RelayCommand(OnRemoveItem);
             ClearCommand = new RelayCommand(OnClear);
-            isEmpty = false;
         }
         public BalloonToolTipViewModel()
         {
             Title = "";
             RemoveItemCommand = new RelayCommand(OnRemoveItem);
             ClearCommand = new RelayCommand(OnClear);
-            isEmpty = false;
         }
-        #endregion
-
-        #region Commands
+        
         public RelayCommand RemoveItemCommand { get; private set; }
         void OnRemoveItem()
         {
             try
             {
-                if (!chkEmpty())
+                items.Remove(items.Last());
+                if (items.Count == 0)
                 {
-                    items.Remove(items.Last());
-                    OnPropertyChanged("BalloonTitle");
-                    OnPropertyChanged("BalloonText");
-                    OnPropertyChanged("BackgroundColor");
+                    this.Close();
                 }
                 else
                 {
-                    items.Clear();
-                    this.Close();
+                    OnPropertyChanged("LastItem");
                 }
             }
             catch (Exception e)
@@ -106,24 +68,20 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
             try
             {
                 items.Clear();
-                chkEmpty();
                 this.Close();
             }
             catch (Exception e)
             {
                 Logger.Error(e, "Balloon.ClearItem");
             }
-
         }
-        #endregion
-
-        #region Classes
-        class Item
+        
+        public class Item
         {
-            public string title;
-            public string text;
-            public System.Windows.Media.Brush color;
+            public string Title{ get; set;}
+            public string Text{ get; set;}
+            public System.Windows.Media.Brush ForegroundColor { get; set; }
+            public System.Windows.Media.Brush BackgroundColor { get; set; }
         }
-        #endregion
     }
 }

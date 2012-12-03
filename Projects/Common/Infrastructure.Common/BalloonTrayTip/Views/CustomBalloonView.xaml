@@ -3,75 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:local="clr-namespace:Infrastructure.Common.BalloonTrayTip.Views"
-             MaxWidth="220"
-             Height="Auto"
-             Opacity="1">
+             MaxWidth="220" Height="Auto" Opacity="1">
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
             <BeginStoryboard>
                 <Storyboard TargetProperty="Opacity">
-                    <DoubleAnimation From="0" 
-                                     To="1" 
-                                     Duration="0:0:0.5"/>
+                    <DoubleAnimation From="0" To="1" Duration="0:0:0.5"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
         <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonClosing">
             <BeginStoryboard>
                 <Storyboard TargetProperty="Opacity">
-                    <DoubleAnimation From="1" 
-                                     To="0" 
-                                     Duration="0:0:0.5"/>
+                    <DoubleAnimation From="1" To="0" Duration="0:0:0.5"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
     <UserControl.InputBindings>
-        <MouseBinding MouseAction="LeftClick" 
-                      Command="{Binding RemoveItemCommand}" />
+        <MouseBinding MouseAction="LeftClick" Command="{Binding RemoveItemCommand}" />
     </UserControl.InputBindings>
-    <Border x:Name="grid"
-            Width="220" 
-            Height="Auto"
-            CornerRadius="5"
-            BorderThickness="1"
-            BorderBrush="{DynamicResource WindowBorderBrush}" 
-            Background="{Binding BackgroundColor}">
-        <Border.Effect>
-            <DropShadowEffect Color="#747474"/>
-        </Border.Effect>
+    <Border x:Name="grid" Width="220" Height="Auto" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBrush}" Background="{Binding LastItem.BackgroundColor}">
         <StackPanel>
             <DockPanel>
-                <Image x:Name="close_Cross"
-                       Source="..\Images\fileclose.png" 
-                       Height="20"
-                       MouseEnter="Image_MouseEnter"
-                       MouseLeave="Image_MouseLeave"
-                       DockPanel.Dock="Right"
-                       VerticalAlignment="Top">
+                <Image x:Name="close_Cross" Source="..\Images\fileclose.png" Height="20" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" DockPanel.Dock="Right" VerticalAlignment="Top">
                     <Image.InputBindings>
-                        <MouseBinding MouseAction="LeftClick" 
-                                      Command="{Binding ClearCommand}"
-                                      />
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding ClearCommand}"/>
                     </Image.InputBindings>
                 </Image>
-                <TextBlock Margin="10 5 10 0" 
-                            VerticalAlignment="Top" 
-                            Text="{Binding BalloonTitle}" 
-                            TextWrapping="Wrap" 
-                            Foreground="White" 
-                            FontWeight="Bold"/>
+                <TextBlock Margin="10 5 10 0" VerticalAlignment="Top" Text="{Binding LastItem.Title}" TextWrapping="Wrap" Foreground="{Binding LastItem.ForegroundColor}" FontWeight="Bold"/>
             </DockPanel>
-            <Path Margin="10 0"
-                    Stretch="Fill"
-                    Height="1"
-                    Data="M26,107 L220.04123,107" 
-                    Stroke="{DynamicResource WindowBorderBrush}"/>
-            <TextBlock Margin="10 0 10 5" 
-                        VerticalAlignment="Bottom" 
-                        Text="{Binding BalloonText}" 
-                        TextWrapping="Wrap" 
-                        Foreground="White"/>
+            <TextBlock Margin="10 0 10 5" VerticalAlignment="Bottom" Text="{Binding LastItem.Text}" TextWrapping="Wrap" Foreground="{Binding LastItem.ForegroundColor}"/>
         </StackPanel>
     </Border>
 </UserControl>
