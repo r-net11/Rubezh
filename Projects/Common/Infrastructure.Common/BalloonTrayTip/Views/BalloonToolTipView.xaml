@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Loaded="UserControl_Loaded"
              xmlns:tb="http://www.hardcodet.net/taskbar"
-             Visibility="Hidden">
+             Visibility="Hidden" Name="control">
     <Grid>
         <tb:TaskbarIcon
-            x:Name="MyNotifyIcon"
-            Visibility="Hidden"/>
+            x:Name="taskbarIcon"
+            Visibility="Hidden"
+            Unloaded="taskbarIcon_Unloaded"/>
     </Grid>
 </UserControl>

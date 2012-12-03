@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:local="clr-namespace:Infrastructure.Common.BalloonTrayTip.Views"
-             x:Name="me"
              MaxWidth="220"
              Height="Auto"
              Opacity="1">
@@ -32,7 +31,6 @@
                       Command="{Binding RemoveItemCommand}" />
     </UserControl.InputBindings>
     <Border x:Name="grid"
-            MouseLeftButtonDown="grid_MouseDown"
             Width="220" 
             Height="Auto"
             CornerRadius="5"
@@ -44,11 +42,19 @@
         </Border.Effect>
         <StackPanel>
             <DockPanel>
-                <Image Source="..\Images\fileclose.png" 
-                        Height="20" 
-                        MouseDown="Image_MouseDown"
-                        DockPanel.Dock="Right"
-                        VerticalAlignment="Top"/>
+                <Image x:Name="close_Cross"
+                       Source="..\Images\fileclose.png" 
+                       Height="20"
+                       MouseEnter="Image_MouseEnter"
+                       MouseLeave="Image_MouseLeave"
+                       DockPanel.Dock="Right"
+                       VerticalAlignment="Top">
+                    <Image.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" 
+                                      Command="{Binding ClearCommand}"
+                                      />
+                    </Image.InputBindings>
+                </Image>
                 <TextBlock Margin="10 5 10 0" 
                             VerticalAlignment="Top" 
                             Text="{Binding BalloonTitle}" 

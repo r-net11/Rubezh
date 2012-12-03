@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
@@ -10,12 +8,19 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         public BalloonToolTipView()
         {
             InitializeComponent();
+            
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             CustomBalloonView customBalloonView = new CustomBalloonView();
-            MyNotifyIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
+            taskbarIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
+        }
+
+        private void taskbarIcon_Unloaded(object sender, RoutedEventArgs e)
+        {
+            taskbarIcon.CloseBalloon();
+            taskbarIcon.Dispose();
         }
     }
 }
