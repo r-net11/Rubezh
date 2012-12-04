@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
-using Infrastructure;
 using Infrustructure.Plans;
-using System.Linq;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
@@ -53,10 +52,13 @@ namespace PlansModule.ViewModels
 			get { return _selectedPlan; }
 			set
 			{
-				_selectedPlan = value;
-				OnPropertyChanged(() => SelectedPlan);
-				if (SelectedPlanChanged != null)
-					SelectedPlanChanged(this, EventArgs.Empty);
+				if (SelectedPlan != value)
+				{
+					_selectedPlan = value;
+					OnPropertyChanged(() => SelectedPlan);
+					if (SelectedPlanChanged != null)
+						SelectedPlanChanged(this, EventArgs.Empty);
+				}
 			}
 		}
 

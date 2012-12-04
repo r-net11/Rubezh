@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Controls;
-using FiresecAPI;
+using System.Diagnostics;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
+using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
-using Infrastructure.Events;
-using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {

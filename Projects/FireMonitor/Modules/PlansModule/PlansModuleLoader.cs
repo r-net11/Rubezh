@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.Models;
+﻿using System.Collections.Generic;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -8,9 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using Infrustructure.Plans;
-using Infrustructure.Plans.Events;
 using PlansModule.ViewModels;
-using XFiresecAPI;
 
 namespace PlansModule
 {
