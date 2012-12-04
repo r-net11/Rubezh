@@ -20,6 +20,8 @@ namespace FireMonitor.ViewModels
 
         public void Add(string item)
         {
+			if (string.IsNullOrEmpty(item))
+				return;
             if (ProgressItems.Count == 0)
                 ProgressItems.Add(item);
             else

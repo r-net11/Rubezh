@@ -12,10 +12,18 @@ namespace FiresecService.Service
 	{
 		public static List<ClientInfo> ClientInfos = new List<ClientInfo>();
 
-		public static void Add(Guid uid, ClientCredentials clientCredentials)
+		public static bool Add(Guid uid, ClientCredentials clientCredentials)
 		{
 			if (ClientInfos.Any(x => x.UID == uid))
-				return;
+				return false;
+
+			var result = true;
+			var existingClientInfo = ClientInfos.FirstOrDefault(x => x.ClientCredentials.UniqueId == clientCredentials.UniqueId);
+			if (existingClientInfo != null)
+			{
+				Remove(uid);
+				result = false;
+			}
 
 			var clientInfo = new ClientInfo();
 			clientInfo.UID = uid;
@@ -23,6 +31,7 @@ namespace FiresecService.Service
 			ClientInfos.Add(clientInfo);
 
 			MainViewModel.Current.AddClient(clientCredentials);
+			return result;
 		}
 
 		public static void Remove(Guid uid)

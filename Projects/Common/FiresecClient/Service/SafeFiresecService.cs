@@ -126,6 +126,10 @@ namespace FiresecClient
 			{
 				Logger.Error("FiresecClient.SafeOperationCall CommunicationException " + e.Message + " " + methodName);
 			}
+			else if (e is TimeoutException)
+			{
+				Logger.Error("FiresecClient.SafeOperationCall TimeoutException " + e.Message + " " + methodName);
+			}
             else
             {
 				Logger.Error(e, "FiresecClient.SafeOperationCall " + e.Message + " " + methodName);

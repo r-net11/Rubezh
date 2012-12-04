@@ -12,10 +12,11 @@ namespace Infrastructure.Common
 {
     public class FSAgentLoadHelper
     {
-        public static void SetLocation()
+        public static void SetLocation(string path)
         {
             RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-            registryKey.SetValue("FSAgentServerPath", System.Reflection.Assembly.GetExecutingAssembly().Location);
+			var x = System.Reflection.Assembly.GetExecutingAssembly().Location;
+			registryKey.SetValue("FSAgentServerPath", path);
         }
 
         public static string GetLocation()
@@ -95,7 +96,7 @@ namespace Infrastructure.Common
         static bool Start()
         {
             var fileName = GetLocation();
-            if (fileName != null)
+            if (fileName == null)
             {
                 fileName = @"..\FSAgent\FSAgentServer.exe";
             }

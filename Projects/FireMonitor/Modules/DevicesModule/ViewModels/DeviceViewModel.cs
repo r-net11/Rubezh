@@ -385,7 +385,7 @@ namespace DevicesModule.ViewModels
 
 		void ShowTimerDetails()
 		{
-			if (Device.Driver.DriverType == DriverType.MPT)
+			if (Device.Driver.DriverType == DriverType.MPT && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
 			{
 				var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "MPT_On");
 				if (deviceDriverState != null)

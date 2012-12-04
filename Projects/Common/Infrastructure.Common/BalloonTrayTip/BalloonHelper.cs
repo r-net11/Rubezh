@@ -1,74 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Windows.Media;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using Infrastructure.Common.Windows;
-using System.Drawing;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using Common;
 using System.Windows;
 using System.Windows.Threading;
+using Infrastructure.Common.Windows;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
     public class BalloonHelper
     {
-        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel("", "", System.Windows.Media.Brushes.OldLace);
+        static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
+        static TaskbarIcon taskbarIcon;
         
-        public static void Show(string title, string text, System.Windows.Media.Brush clr)
+        public static void Initialize()
         {
-            balloonToolTipViewModel.AddNote(title, text, clr);
-            if (BalloonToolTipViewModel.isShown == false)
+        }
+        
+        public static void ShowWarning(string title, string text = "")
+        {
+			return;
+#if DEBUG
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			{
+                if (taskbarIcon == null || taskbarIcon.IsDisposed)
+                {
+                    taskbarIcon = new TaskbarIcon();
+                    taskbarIcon.Visibility = Visibility.Hidden;
+                }
+                ShowWarning(title, text, Brushes.Black, Brushes.White);
+			}));
+#endif
+        }
+        public static void ShowWarning(string title, string text, Brush foregroundColor, Brush backgroundColor)
+        {
+            try
             {
-                ShowTrayWindow(balloonToolTipViewModel);
-                BalloonToolTipViewModel.isShown = true;
-                BalloonToolTipViewModel.isEmpty = false;
+                balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
+                if (BalloonToolTipViewModel.IsShown == false)
+                {
+                    //ShowTrayWindow(balloonToolTipViewModel);
+                    Views.CustomBalloonView customBalloonView = new Views.CustomBalloonView();
+                    customBalloonView.DataContext = balloonToolTipViewModel;
+                    taskbarIcon.Visibility = Visibility.Hidden;
+                    taskbarIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
+                    BalloonToolTipViewModel.IsShown = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "BalloonHelper.Show");
             }
         }
 
-        static bool ShowTrayWindow(WindowBaseViewModel model, bool allowsTransparency = true)
+        static void ShowTrayWindow(WindowBaseViewModel model)
         {
             try
             {
                 WindowBaseView win = new WindowBaseView(model);
                 win.Visibility = Visibility.Hidden;
-                win.AllowsTransparency = allowsTransparency;
-                bool? result = win.ShowDialog();
-                return result.HasValue ? result.Value : false;
+                win.AllowsTransparency = true;
+                win.Show();
             }
             catch (Exception e)
             {
                 Logger.Error(e, "DialogService.ShowTrayWindow");
             }
-            return false;
-        }
-
-
-        public static void ShowConflagration(string title, string text)
-        {
-            Show(title, text, System.Windows.Media.Brushes.Tomato);
-        }
-
-        public static void ShowWarning(string title, string text)
-        {
-            try
-            {
-                Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-                {
-                    Show(title, text, System.Windows.Media.Brushes.Goldenrod);
-                }));
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "BalloonHelper.ShowWarning");
-            }
-        }
-
-        public static void ShowNotification(string title, string text)
-        {
-            Show(title, text, System.Windows.Media.Brushes.CornflowerBlue);
         }
     }
 }

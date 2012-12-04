@@ -16,7 +16,7 @@ namespace ItvIntegration
         public MainViewModel()
         {
             ShowImitatorCommand = new RelayCommand(OnShowImitator);
-            var message = ItvManager.Connect(AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password, AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password);
+            var message = ItvManager.Connect(AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password);
             if (message != null)
             {
                 MessageBoxService.Show(message);

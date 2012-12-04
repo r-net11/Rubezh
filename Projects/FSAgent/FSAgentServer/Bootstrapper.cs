@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using FSAgentServer.ViewModels;
 using Common;
 using Infrastructure.Common.BalloonTrayTip;
+using System.Windows.Threading;
 
 namespace FSAgentServer
 {
@@ -28,7 +29,7 @@ namespace FSAgentServer
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
 
-				WindowThread = new Thread(new ThreadStart(OnWorkThread));
+                WindowThread = new Thread(new ThreadStart(OnWorkThread));
 				WindowThread.Priority = ThreadPriority.Highest;
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
@@ -38,7 +39,7 @@ namespace FSAgentServer
                     BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
                 }
                 BootstrapperLoadEvent = new AutoResetEvent(false);
-
+                
 				UILogger.Log("Открытие хоста");
 				FSAgentServiceHost.Start();
 				UILogger.Log("Соединение с драйвером");
@@ -51,7 +52,10 @@ namespace FSAgentServer
                 }
 				UILogger.Log("Готово");
                 FSAgentLoadHelper.SetStatus(FSAgentState.Opened);
-			}
+
+                BalloonHelper.Initialize();
+                BalloonHelper.ShowWarning("Hello", "Hello");
+            }
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");

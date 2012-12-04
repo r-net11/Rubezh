@@ -17,6 +17,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
+using Infrastructure.Common.BalloonTrayTip.Views;
 
 namespace Infrastructure.Client
 {

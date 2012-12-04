@@ -183,7 +183,7 @@ namespace FSAgentServer
 			return journalRecords;
 		}
 
-		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
+		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			if (IsSuspended)
 				return true;
@@ -192,7 +192,14 @@ namespace FSAgentServer
             {
                 bool continueProgress = ContinueProgress;
                 ContinueProgress = true;
-                WatcherManager.Current.OnAdministratorProgress(Stage, Comment, PercentComplete, BytesRW);
+				var fsProgressInfo = new FSProgressInfo()
+				{
+					Stage = stage,
+					Comment = comment,
+					PercentComplete = percentComplete,
+					BytesRW = bytesRW
+				};
+				CallbackManager.Add(new FSAgentCallbac() { FSProgressInfo = fsProgressInfo });
                 return continueProgress;
             }
             catch (Exception e)

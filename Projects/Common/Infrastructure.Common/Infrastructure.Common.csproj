@@ -137,9 +137,6 @@
     <Compile Include="AppSettingsManager.cs" />
     <Compile Include="BalloonTrayTip\BalloonHelper.cs" />
     <Compile Include="BalloonTrayTip\ViewModels\BalloonToolTipViewModel.cs" />
-    <Compile Include="BalloonTrayTip\Views\BalloonToolTipView.xaml.cs">
-      <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BalloonTrayTip\Views\CustomBalloonView.xaml.cs">
       <DependentUpon>CustomBalloonView.xaml</DependentUpon>
     </Compile>
@@ -278,10 +275,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BalloonTrayTip\Views\BalloonToolTipView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="BalloonTrayTip\Views\CustomBalloonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -350,7 +343,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common %28Common\Common%29</Name>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
@@ -371,19 +364,10 @@
     <None Include="Windows\ViewModels\ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Bulb.ico" />
+    <Resource Include="BalloonTrayTip\Images\fileclose.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Computers.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Error.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\Inactive.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="BalloonTrayTip\Icons\NetDrives.ico" />
+    <Resource Include="BalloonTrayTip\Images\fileclose_mouseenter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

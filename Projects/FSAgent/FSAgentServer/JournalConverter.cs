@@ -3,6 +3,7 @@ using System.Linq;
 using Firesec.Models.Journals;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace FSAgentServer
 {
@@ -32,6 +33,15 @@ namespace FSAgentServer
 
 		public static DateTime ConvertTime(string firesecTime)
 		{
+			if (string.IsNullOrEmpty(firesecTime) || firesecTime.Length < 18)
+				return DateTime.MinValue;
+
+			if (firesecTime.Length < 18)
+			{
+				Logger.Error("JournalConverter.ConvertTime firesecTime = " + firesecTime);
+				return DateTime.MinValue;
+			}
+
 			return new DateTime(
 				int.Parse(firesecTime.Substring(0, 4)),
 				int.Parse(firesecTime.Substring(4, 2)),

@@ -1,2 +1,0 @@
-sc delete FireMonitorInspector
-pause

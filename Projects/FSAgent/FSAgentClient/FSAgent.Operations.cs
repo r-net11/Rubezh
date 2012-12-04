@@ -15,9 +15,13 @@ namespace FSAgentClient
         {
 			return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "Poll");
         }
-		public void CanceProgress()
+		public void CancelPoll(Guid clientUID)
 		{
-			SafeOperationCall(() => { FSAgentContract.CanceProgress(); }, "CanceProgress");
+			SafeOperationCall(() => { FSAgentContract.CancelPoll(clientUID); }, "CancelPoll");
+		}
+		public void CancelProgress()
+		{
+			SafeOperationCall(() => { FSAgentContract.CancelProgress(); }, "CanceProgress");
 		}
         #endregion
 

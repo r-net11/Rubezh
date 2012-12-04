@@ -15,6 +15,7 @@ using Common.GK;
 using Microsoft.Win32;
 using Common;
 using FiresecAPI;
+using System.Threading;
 
 namespace FireMonitor
 {

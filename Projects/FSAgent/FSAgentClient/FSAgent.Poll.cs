@@ -38,17 +38,29 @@ namespace FSAgentClient
 
 		public void StopPollThread()
 		{
-			if (PollThread != null)
+			try
 			{
 				IsClosing = true;
-				if (!PollThread.Join(TimeSpan.FromSeconds(5)))
+				if (PollThread != null)
 				{
-					try
+					CancelPoll(FSAgentFactory.UID);
+					if (!PollThread.Join(TimeSpan.FromSeconds(5)))
 					{
-						PollThread.Abort();
+						try
+						{
+							PollThread.Abort();
+						}
+						catch { }
 					}
-					catch { }
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, ".StopPollThread");
+			}
+			finally
+			{
+				IsClosing = false;
 			}
 		}
 
@@ -58,7 +70,7 @@ namespace FSAgentClient
 			{
 				try
 				{
-					if (IsClosing)
+					if (IsClosing || IsDisconnecting)
 						return;
 
 					if (SuspendPoll)
@@ -68,6 +80,7 @@ namespace FSAgentClient
 
 					IsOperationByisy = true;
 					StartOperationDateTime = DateTime.Now;
+					CircleDateTime = DateTime.Now;
 
 					var changeResults = Poll(FSAgentFactory.UID);
 					if (changeResults != null)
@@ -110,9 +123,10 @@ namespace FSAgentClient
 						}
 					}
 				}
+				catch (ThreadAbortException) { }
 				catch (Exception e)
 				{
-					Logger.Error(e, "FSAgentClient.OnRun");
+					Logger.Error(e, "FSAgentClient.OnPoll");
 				}
 				finally
 				{

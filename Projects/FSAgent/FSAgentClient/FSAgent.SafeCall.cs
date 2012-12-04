@@ -83,6 +83,9 @@ namespace FSAgentClient
 
         void LogException(Exception e, string methodName)
         {
+			if (IsDisconnecting)
+				return;
+
             if (e is CommunicationObjectFaultedException)
             {
 				Logger.Error("FSAgent.SafeOperationCall CommunicationObjectFaultedException " + e.Message + " " + methodName);
@@ -93,7 +96,7 @@ namespace FSAgentClient
             }
             else if (e is CommunicationException)
             {
-                Logger.Error("FiresecClient.SafeOperationCall CommunicationException " + e.Message + " " + methodName);
+				Logger.Error("FSAgent.SafeOperationCall CommunicationException " + e.Message + " " + methodName);
             }
 			else if (e is TimeoutException)
 			{
@@ -110,6 +113,9 @@ namespace FSAgentClient
         public static event Action ConnectionLost;
         void OnConnectionLost()
         {
+			if (IsDisconnecting)
+				return;
+
 			if (isConnected)
 			{
 				if (ConnectionLost != null)

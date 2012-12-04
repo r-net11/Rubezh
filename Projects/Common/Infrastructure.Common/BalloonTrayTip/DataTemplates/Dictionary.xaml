@@ -3,6 +3,7 @@
                     xmlns:Views="clr-namespace:Infrastructure.Common.BalloonTrayTip.Views"
                     xmlns:ViewModels="clr-namespace:Infrastructure.Common.BalloonTrayTip.ViewModels">
     <DataTemplate DataType="{x:Type ViewModels:BalloonToolTipViewModel}">
-      <Views:BalloonToolTipView />
+        <Views:CustomBalloonView />
     </DataTemplate>
+    
 </ResourceDictionary>

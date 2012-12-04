@@ -5,7 +5,7 @@ namespace FiresecAPI.Models
 	{
 		public static void Create(Driver driver)
 		{
-			driver.HasConfigurationProperties = true;
+			//driver.HasConfigurationProperties = true;
 
 			//ConfigurationDriverHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			//ConfigurationDriverHelper.AddIntProprety(driver, 0x8b, "Время разновременного пуска, с", 0, 1, 1, 255);
@@ -81,13 +81,6 @@ namespace FiresecAPI.Models
 			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "Наличие в прошивке логики работы с УЗН", 7,
 			//    "0 нет",
 			//    "1 есть", 0, 0, 0, false, true, "0");
-
-			for (byte i = 0; i <= 0xfe; i++)
-			{
-				ConfigurationDriverHelper.AddPlainEnumProprety(driver, i, i.ToString(), 0,
-				"0 нет",
-				"1 есть", 0, 0, 0, false, false, "0");
-			}
-		}
+        }
 	}
 }

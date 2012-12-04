@@ -39,19 +39,21 @@ namespace FiresecService.Service
 		}
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
-        {
+		{
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
-            var operationResult = Authenticate(clientCredentials);
-            if (operationResult.HasError)
-                return operationResult;
+			var operationResult = Authenticate(clientCredentials);
+			if (operationResult.HasError)
+				return operationResult;
 
-			ClientsManager.Add(uid, clientCredentials);
-			AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec-2)");
+			if (ClientsManager.Add(uid, clientCredentials))
+			{
+				AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec-2)");
+			}
 
-            return operationResult;
-        }
+			return operationResult;
+		}
 
         public OperationResult<bool> Reconnect(Guid uid, string login, string password)
         {

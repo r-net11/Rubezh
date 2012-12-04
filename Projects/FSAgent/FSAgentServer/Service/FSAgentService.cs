@@ -16,13 +16,10 @@ namespace FSAgentServer
     InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class FSAgentContract : IFSAgentContract
     {
-        NativeFiresecClient DirectClient
-        {
-            get
-            {
-                return WatcherManager.Current.DirectClient;
-            }
-        }
+		NativeFiresecClient DirectClient
+		{
+			get { return WatcherManager.Current.DirectClient; }
+		}
 
         #region Main
         public List<FSAgentCallbac> Poll(Guid clientUID)
@@ -51,7 +48,16 @@ namespace FSAgentServer
             }
         }
 
-		public void CanceProgress()
+		public void CancelPoll(Guid clientUID)
+		{
+			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
+			if (clientInfo != null)
+			{
+				clientInfo.PollWaitEvent.Set();
+			}
+		}
+
+		public void CancelProgress()
 		{
 			NativeFiresecClient.ContinueProgress = false;
 		}

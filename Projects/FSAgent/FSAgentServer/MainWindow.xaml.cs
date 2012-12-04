@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
@@ -18,7 +19,13 @@ namespace FSAgentServer
 	{
 		public MainWindow()
 		{
-			InitializeComponent();
-		}
+            InitializeComponent();
+            //BalloonHelper.Initialize();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
 	}
 }

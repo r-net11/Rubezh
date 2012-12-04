@@ -22,7 +22,7 @@ namespace FiresecClient.Itv
             get { return FiresecManager.DeviceLibraryConfiguration; }
         }
 
-        public static string Connect(string serverAddress, string login="adm", string password="", string FS_Address="localhost", int FS_Port=211, string FS_Login="adm", string FS_Password="")
+        public static string Connect(string serverAddress, string login="adm", string password="", string FS_Address="localhost")
         {
 			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
@@ -36,10 +36,12 @@ namespace FiresecClient.Itv
                         return initializeFiresecDriverResult.Error;
                     }
                     FiresecManager.FiresecDriver.Synchronyze();
+					FiresecManager.FiresecDriver.StartWatcher(true, true);
                     FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
                     FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
                     FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(Watcher_NewJournalRecords);
 					FiresecManager.FiresecDriver.StartWatcher(true, true);
+					FiresecManager.FSAgent.Start();
                 }
                 catch (FiresecException e)
                 {

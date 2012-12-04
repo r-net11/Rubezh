@@ -22,9 +22,12 @@ namespace AssadProcessor
 
 		public void Start()
 		{
+			AppSettingsManager.RemoteAddress = "127.0.0.1";
+			AppSettingsManager.Login = "adm";
+			AppSettingsManager.Password = "adm";
             FiresecManager.Connect(ClientType.Assad, AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password);
 			FiresecManager.GetConfiguration();
-            FiresecManager.InitializeFiresecDriver(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.FS_Password, false);
+            FiresecManager.InitializeFiresecDriver(true);
             FiresecManager.FiresecDriver.Synchronyze();
 			FiresecManager.FiresecDriver.StartWatcher(true, false);
 

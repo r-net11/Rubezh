@@ -34,10 +34,8 @@ namespace DiagnosticsModule.ViewModels
 			Test9Command = new RelayCommand(OnTest9);
 			Test10Command = new RelayCommand(OnTest10);
 			Test11Command = new RelayCommand(OnTest11);
-			FSAgentTestCommand = new RelayCommand(OnFSAgentTest);
+			TestBalloonCommand = new RelayCommand(OnTestBalloon);
 			ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
-			ServiceFactory.Events.GetEvent<NotificationItemEvent>().Subscribe(OnNotificationTest);
-			ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Subscribe(OnConflagrationTest);
 		}
 
 		public void StopThreads()
@@ -380,20 +378,24 @@ namespace DiagnosticsModule.ViewModels
 		void OnWarningTest(object obj)
 		{
 			Random rnd = new Random();
+            BalloonHelper.Initialize();
 			BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
 		}
-		void OnNotificationTest(object obj)
+		
+        public RelayCommand TestBalloonCommand { get; private set; }
+		void OnTestBalloon()
 		{
-			BalloonHelper.ShowNotification("Уведомление", "Уведомления текст это. Уведомляет он.");
-		}
-		void OnConflagrationTest(object obj)
-		{
-			BalloonHelper.ShowConflagration("ПОЖАР", "АААААААААААААААААААААААААААААААА!!!!!!!!!!!");
+			Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowWarning("Hi, there", "Hi, there");
+			var thread = new Thread(OnTestBalloonRun);
+			thread.Start();
 		}
 
-		public RelayCommand FSAgentTestCommand { get; private set; }
-		void OnFSAgentTest()
+		void OnTestBalloonRun()
 		{
+			System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			{
+				Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowWarning("Hello", "Hello");
+			}));
 		}
 	}
 
