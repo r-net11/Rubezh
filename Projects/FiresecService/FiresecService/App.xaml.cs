@@ -19,7 +19,7 @@ namespace FiresecServiceRunner
             base.OnStartup(e);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             ThemeHelper.LoadThemeFromRegister();
-            ServerLoadHelper.SetLocation();
+			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
             ServerLoadHelper.SetStatus(FSServerState.Opening);
 
             using (new DoubleLaunchLocker(SignalId, WaitId, true))

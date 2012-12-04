@@ -23,7 +23,7 @@ namespace FSAgentServer
                 {
                     AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                     ThemeHelper.LoadThemeFromRegister();
-                    FSAgentLoadHelper.SetLocation();
+					FSAgentLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
                     FSAgentLoadHelper.SetStatus(FSAgentState.Opening);
                     Bootstrapper.Run();
                 }

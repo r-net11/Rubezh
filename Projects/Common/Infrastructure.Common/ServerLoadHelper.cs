@@ -11,10 +11,10 @@ namespace Infrastructure.Common
 {
     public static class ServerLoadHelper
     {
-        public static void SetLocation()
+        public static void SetLocation(string path)
         {
             RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-            registryKey.SetValue("FiresecServerPath", System.Reflection.Assembly.GetExecutingAssembly().Location);
+			registryKey.SetValue("FiresecServerPath", path);
         }
 
         public static string GetLocation()
