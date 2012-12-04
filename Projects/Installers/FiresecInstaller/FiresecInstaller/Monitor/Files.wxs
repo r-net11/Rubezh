@@ -69,8 +69,8 @@
       </Component>
 
       <Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">
-        <File Id="Monitor.Revisor.exe" Name="$(var.Revisor.TargetFileName)" Source="$(var.Revisor.TargetPath)" KeyPath="yes" />
-        <File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Revisor.TargetDir)" />
+        <File Id="Monitor.Revisor.exe" Name="Revisor.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+        <File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
       </Component>
       
     </DirectoryRef>

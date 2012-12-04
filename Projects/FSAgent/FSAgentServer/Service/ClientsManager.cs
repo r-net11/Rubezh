@@ -37,6 +37,5 @@ namespace FSAgentServer
         public Guid UID { get; set; }
         public int CallbackIndex { get; set; }
 		public AutoResetEvent PollWaitEvent { get; set; }
-		public int TempOldCode { get; set; }
     }
 }

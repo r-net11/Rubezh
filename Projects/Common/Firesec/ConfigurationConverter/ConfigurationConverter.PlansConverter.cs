@@ -5,12 +5,13 @@ using System.Windows.Media;
 using Common;
 using Firesec.Models.Plans;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-        PlansConfiguration ConvertPlans(surfaces innerPlans, DeviceConfiguration deviceConfiguration)
+		PlansConfiguration ConvertPlans(surfaces innerPlans, DeviceConfiguration deviceConfiguration)
 		{
 			var plansConfiguration = new PlansConfiguration();
 
@@ -88,7 +89,7 @@ namespace Firesec
 										{
 											if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
 											{
-                                                zoneUID = zone.UID;
+												zoneUID = zone.UID;
 											}
 										}
 									}
@@ -137,7 +138,7 @@ namespace Firesec
 							case "Устройства":
 								foreach (var innerElement in innerLayer.elements)
 								{
-                                    AddDevice(plan, innerElement, deviceConfiguration);
+									AddDevice(plan, innerElement, deviceConfiguration);
 								}
 								break;
 						}
@@ -146,7 +147,11 @@ namespace Firesec
 				}
 			}
 
-			DeleteDirectory(Environment.CurrentDirectory + "\\Pictures");
+			var picturesDirectory = GetPicturesDirectory();
+			if (picturesDirectory != null)
+			{
+				DeleteDirectory(Environment.CurrentDirectory + "\\Pictures");
+			}
 			return plansConfiguration;
 		}
 
@@ -233,7 +238,7 @@ namespace Firesec
 			plan.ElementPolygons.Add(elementPolygon);
 		}
 
-        void AddDevice(Plan plan, surfacesSurfaceLayerElementsElement innerElement, DeviceConfiguration deviceConfiguration)
+		void AddDevice(Plan plan, surfacesSurfaceLayerElementsElement innerElement, DeviceConfiguration deviceConfiguration)
 		{
 			if (innerElement.rect != null)
 			{
@@ -265,13 +270,13 @@ namespace Firesec
 			}
 		}
 
-        void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
+		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
 		{
 			if (innerElement.points != null)
 			{
 				var elementPolygonZone = new ElementPolygonZone()
 				{
-                    ZoneUID = zoneUID
+					ZoneUID = zoneUID
 				};
 				elementPolygonZone.Points = GetPointCollection(innerElement);
 				//elementPolygonZone.Normalize();
@@ -279,11 +284,11 @@ namespace Firesec
 			};
 		}
 
-        void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
+		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
 		{
 			var elementRectangleZone = new ElementRectangleZone()
 			{
-                ZoneUID = zoneUID,
+				ZoneUID = zoneUID,
 				Left = Math.Min(Parse(innerElement.rect[0].left), Parse(innerElement.rect[0].right)),
 				Top = Math.Min(Parse(innerElement.rect[0].top), Parse(innerElement.rect[0].bottom)),
 				Width = Math.Abs(Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)),
@@ -300,7 +305,10 @@ namespace Firesec
 				if (string.IsNullOrEmpty(innerPicture.idx))
 					innerPicture.idx = pictureIndex++.ToString();
 
-				var directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+				var picturesDirectory = GetPicturesDirectory();
+				if (picturesDirectory == null)
+					continue;
+				var directoryInfo = new DirectoryInfo(picturesDirectory + "\\Sample" + innerPicture.idx + "." + innerPicture.ext);
 				if (File.Exists(directoryInfo.FullName) == false)
 					continue;
 
@@ -308,7 +316,7 @@ namespace Firesec
 				{
 					var metafile = new Metafile(directoryInfo.FullName);
 					innerPicture.ext = "bmp";
-					directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+					directoryInfo = new DirectoryInfo(picturesDirectory + "\\Sample" + innerPicture.idx + "." + innerPicture.ext);
 					metafile.Save(directoryInfo.FullName, ImageFormat.Bmp);
 					metafile.Dispose();
 				}
@@ -411,6 +419,17 @@ namespace Firesec
 				result = Double.Parse(input);
 				return result;
 			}
+		}
+
+		string GetPicturesDirectory()
+		{
+			var agentLocation = FSAgentLoadHelper.GetLocation();
+			if (agentLocation != null)
+			{
+				var fileInfo = new FileInfo(agentLocation);
+				return fileInfo.DirectoryName + "\\Pictures";
+			}
+			return null;
 		}
 	}
 }

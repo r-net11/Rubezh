@@ -21,9 +21,6 @@
     <msbuild project="..\Projects\Diagnostics\Diagnostics.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\Projects\Revisor\Revisor.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
     <msbuild project="..\Projects\FiresecOPCServer\FiresecOPCServer.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>

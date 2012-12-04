@@ -13,7 +13,8 @@ namespace FSAgentClient
 	public partial class FSAgent
 	{
 		bool IsOperationByisy = false;
-		DateTime StartOperationDateTime;
+		DateTime StartOperationDateTime = DateTime.Now;
+		DateTime CircleDateTime = DateTime.Now;
 		Thread LifetimeThread;
 		AutoResetEvent LifetimeEvent;
 
@@ -42,12 +43,18 @@ namespace FSAgentClient
 
 				if (IsOperationByisy)
 				{
-					if ((DateTime.Now - StartOperationDateTime) > TimeSpan.FromMinutes(10))
+					if ((DateTime.Now - StartOperationDateTime) > TimeSpan.FromMinutes(15))
 					{
-						Logger.Error("FSAgent.OnRunLifetime Time Expired");
+						Logger.Error("FSAgent.OnRunLifetime StartOperationDateTime Expired");
 						StopPollThread();
 						StartPollThread();
 					}
+				}
+				if ((DateTime.Now - CircleDateTime) > TimeSpan.FromMinutes(15))
+				{
+					Logger.Error("FSAgent.OnRunLifetime CircleDateTime Expired");
+					StopPollThread();
+					StartPollThread();
 				}
 			}
 		}

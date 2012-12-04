@@ -5,8 +5,4 @@
   <?define Monitor.TargetFileName="FireMonitor.exe"?>
   <?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
-
-  <?define Revisor.TargetDir="..\..\..\..\..\Revisor\Revisor\bin\Release\"?>
-  <?define Revisor.TargetFileName="Revisor.exe"?>
-  <?define Revisor.TargetPath="..\..\..\..\..\Revisor\Revisor\bin\Release\Revisor.exe"?>
 </Include>

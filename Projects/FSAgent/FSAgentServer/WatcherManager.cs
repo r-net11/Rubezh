@@ -24,7 +24,6 @@ namespace FSAgentServer
 		NativeFiresecClient CallbackClient;
         int PollIndex = 0;
 		public static AutoResetEvent PoolSleepEvent = new AutoResetEvent(false);
-		public FSProgressInfo LastFSProgressInfo { get; set; }
 
         public WatcherManager()
         {
@@ -132,18 +131,6 @@ namespace FSAgentServer
 					Logger.Error(e, "OnRun.while2");
 				}
 			}
-		}
-
-		public void OnAdministratorProgress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			LastFSProgressInfo = new FSProgressInfo()
-			{
-				Stage = stage,
-				Comment = comment,
-				PercentComplete = percentComplete,
-				BytesRW = bytesRW
-			};
-			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
 		}
 	}
 }

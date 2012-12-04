@@ -15,6 +15,7 @@ namespace Infrastructure.Common
         public static void SetLocation()
         {
             RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+			var x = System.Reflection.Assembly.GetExecutingAssembly().Location;
             registryKey.SetValue("FSAgentServerPath", System.Reflection.Assembly.GetExecutingAssembly().Location);
         }
 

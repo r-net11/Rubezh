@@ -45,27 +45,6 @@ namespace FSAgentServer
 				result.Add(fsAgentCallbac);
 				return result;
 			}
-			if (WatcherManager.Current.LastFSProgressInfo != null)
-			{
-                lock (WatcherManager.Current.LastFSProgressInfo)
-                {
-                    var fsProgressInfo = new FSProgressInfo()
-                    {
-                        Stage = WatcherManager.Current.LastFSProgressInfo.Stage,
-                        Comment = WatcherManager.Current.LastFSProgressInfo.Comment,
-                        PercentComplete = WatcherManager.Current.LastFSProgressInfo.PercentComplete,
-                        BytesRW = WatcherManager.Current.LastFSProgressInfo.BytesRW
-                    };
-                    WatcherManager.Current.LastFSProgressInfo = null;
-                    var result = new List<FSAgentCallbac>();
-                    var fsAgentCallbac = new FSAgentCallbac()
-                    {
-                        FSProgressInfo = fsProgressInfo
-                    };
-                    result.Add(fsAgentCallbac);
-                    return result;
-                }
-			}
 
 			lock (FSAgentCallbacCashes)
 			{
@@ -75,18 +54,6 @@ namespace FSAgentServer
 				{
 					if (callbackResultSaver.Index > clientInfo.CallbackIndex)
 					{
-						foreach (var journalRecord in callbackResultSaver.FSAgentCallbac.JournalRecords)
-						{
-							//Trace.WriteLine("Callback journal no = " + journalRecord.OldId.ToString());
-							if (clientInfo.TempOldCode > 0)
-							{
-								if (journalRecord.OldId - clientInfo.TempOldCode != 1)
-								{
-									Trace.WriteLine("Queue is not continuous " + journalRecord.OldId.ToString());
-								}
-							}
-							clientInfo.TempOldCode = journalRecord.OldId;
-						}
 						result.Add(callbackResultSaver.FSAgentCallbac);
 					}
 				}

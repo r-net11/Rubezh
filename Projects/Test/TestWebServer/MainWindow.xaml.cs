@@ -12,16 +12,36 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestClient
+namespace TestWebServer
 {
-	/// <summary>
-	/// Логика взаимодействия для MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window
 	{
+		static MainWindow Current;
+
 		public MainWindow()
 		{
+			Current = this;
 			InitializeComponent();
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			ServerHost.Run();
+		}
+
+		public static void AddText(string text)
+		{
+			try
+			{
+				if (Current != null)
+				{
+					Current.Dispatcher.Invoke(new Action(() =>
+					{
+						Current.textBox.Text += text + "\n";
+					}));
+				}
+			}
+			catch { ;}
 		}
 	}
 }

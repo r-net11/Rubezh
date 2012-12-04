@@ -16,8 +16,11 @@ namespace FSAgentAPI
         [OperationContract]
         List<FSAgentCallbac> Poll(Guid clientUID);
 
+		[OperationContract]
+		void CancelPoll(Guid clientUID);
+
         [OperationContract]
-        void CanceProgress();
+        void CancelProgress();
         #endregion
 
         #region Common
