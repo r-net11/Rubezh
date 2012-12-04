@@ -26,10 +26,10 @@ namespace FSAgentServer
 		public static AutoResetEvent PoolSleepEvent = new AutoResetEvent(false);
 		public FSProgressInfo LastFSProgressInfo { get; set; }
 
-		public WatcherManager()
-		{
-			Current = this;
-		}
+        public WatcherManager()
+        {
+            Current = this;
+        }
 
         public void Start()
         {
@@ -83,10 +83,12 @@ namespace FSAgentServer
 		{
 			try
 			{
-				//Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-				//    {
-				//        BalloonHelper.ShowWarning("Hello", "Hello");
-				//    }));
+                //Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+                //    {
+                //        BalloonHelper.Initialize();
+                //        BalloonHelper.ShowWarning("Hello", "Hello");
+                //    }));
+                BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
 				
                 UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();

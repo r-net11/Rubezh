@@ -378,6 +378,7 @@ namespace DiagnosticsModule.ViewModels
 		void OnWarningTest(object obj)
 		{
 			Random rnd = new Random();
+            BalloonHelper.Initialize();
 			BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
 		}
 		

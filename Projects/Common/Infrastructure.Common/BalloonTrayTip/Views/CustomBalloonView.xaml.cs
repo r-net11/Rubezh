@@ -31,5 +31,12 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         {
             close_Cross.Source = new BitmapImage(new Uri(@"pack://application:,,,/Infrastructure.Common;component/balloontraytip/Images/fileclose.png"));
         }
+
+        private void image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
+            taskbarIcon.CloseBalloon();
+            taskbarIcon.Dispose();
+        }
     }
 }

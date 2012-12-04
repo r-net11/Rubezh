@@ -137,9 +137,6 @@
     <Compile Include="AppSettingsManager.cs" />
     <Compile Include="BalloonTrayTip\BalloonHelper.cs" />
     <Compile Include="BalloonTrayTip\ViewModels\BalloonToolTipViewModel.cs" />
-    <Compile Include="BalloonTrayTip\Views\BalloonToolTipView.xaml.cs">
-      <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BalloonTrayTip\Views\CustomBalloonView.xaml.cs">
       <DependentUpon>CustomBalloonView.xaml</DependentUpon>
     </Compile>
@@ -277,10 +274,6 @@
     <Page Include="BalloonTrayTip\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BalloonTrayTip\Views\BalloonToolTipView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BalloonTrayTip\Views\CustomBalloonView.xaml">
       <SubType>Designer</SubType>

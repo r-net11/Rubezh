@@ -45,7 +45,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 		{
 			try
 			{
-				Items.Remove(Items.Last());
+				Items.Remove(Items.LastOrDefault());
 				if (Items.Count == 0)
 				{
 					this.Close();

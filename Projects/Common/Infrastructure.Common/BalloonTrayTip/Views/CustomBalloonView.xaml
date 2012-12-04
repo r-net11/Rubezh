@@ -26,7 +26,7 @@
     <Border x:Name="grid" Width="220" Height="Auto" CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBrush}" Background="{Binding LastItem.BackgroundColor}">
         <StackPanel>
             <DockPanel>
-                <Image x:Name="close_Cross" Source="..\Images\fileclose.png" Height="20" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" DockPanel.Dock="Right" VerticalAlignment="Top">
+                <Image x:Name="close_Cross" Source="..\Images\fileclose.png" Height="20" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" DockPanel.Dock="Right" VerticalAlignment="Top" MouseUp="image_MouseUp">
                     <Image.InputBindings>
                         <MouseBinding MouseAction="LeftClick" Command="{Binding ClearCommand}"/>
                     </Image.InputBindings>

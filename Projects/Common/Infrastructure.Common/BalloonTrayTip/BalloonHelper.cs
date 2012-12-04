@@ -6,19 +6,31 @@ using Infrastructure.Common.Windows.Views;
 using Common;
 using System.Windows;
 using System.Windows.Threading;
+using Infrastructure.Common.Windows;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace Infrastructure.Common.BalloonTrayTip
 {
     public class BalloonHelper
     {
         static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
+        static TaskbarIcon taskbarIcon;
+        
+        public static void Initialize()
+        {
+        }
         
         public static void ShowWarning(string title, string text = "")
         {
 #if DEBUG
-			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
-				ShowWarning(title, text, Brushes.Black, Brushes.White);
+                if (taskbarIcon == null || taskbarIcon.IsDisposed)
+                {
+                    taskbarIcon = new TaskbarIcon();
+                    taskbarIcon.Visibility = Visibility.Hidden;
+                }
+                ShowWarning(title, text, Brushes.Black, Brushes.White);
 			}));
 #endif
         }
@@ -29,7 +41,11 @@ namespace Infrastructure.Common.BalloonTrayTip
                 balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
                 if (BalloonToolTipViewModel.IsShown == false)
                 {
-                    ShowTrayWindow(balloonToolTipViewModel);
+                    //ShowTrayWindow(balloonToolTipViewModel);
+                    Views.CustomBalloonView customBalloonView = new Views.CustomBalloonView();
+                    customBalloonView.DataContext = balloonToolTipViewModel;
+                    taskbarIcon.Visibility = Visibility.Hidden;
+                    taskbarIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
                     BalloonToolTipViewModel.IsShown = true;
                 }
             }
@@ -39,21 +55,19 @@ namespace Infrastructure.Common.BalloonTrayTip
             }
         }
 
-        static bool ShowTrayWindow(WindowBaseViewModel model, bool allowsTransparency = true)
+        static void ShowTrayWindow(WindowBaseViewModel model)
         {
             try
             {
                 WindowBaseView win = new WindowBaseView(model);
                 win.Visibility = Visibility.Hidden;
-                win.AllowsTransparency = allowsTransparency;
-                bool? result = win.ShowDialog();
-                return result.HasValue ? result.Value : false;
+                win.AllowsTransparency = true;
+                win.Show();
             }
             catch (Exception e)
             {
                 Logger.Error(e, "DialogService.ShowTrayWindow");
             }
-            return false;
         }
     }
 }

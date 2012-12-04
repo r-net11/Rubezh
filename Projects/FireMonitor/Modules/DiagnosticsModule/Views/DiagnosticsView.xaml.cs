@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace DiagnosticsModule.Views
 {
@@ -17,14 +18,9 @@ namespace DiagnosticsModule.Views
             ServiceFactory.Events.GetEvent<WarningItemEvent>().Publish(null);
         }
 
-        private void NotificationButton_Click(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<NotificationItemEvent>().Publish(null);
-        }
-
-        private void ConflagrationButton_Click(object sender, RoutedEventArgs e)
-        {
-            ServiceFactory.Events.GetEvent<ConflagrationItemEvent>().Publish(null);
+            //BalloonHelper.Initialize();
         }
     }
 }
