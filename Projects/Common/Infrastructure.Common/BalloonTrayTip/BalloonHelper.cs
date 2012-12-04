@@ -22,6 +22,7 @@ namespace Infrastructure.Common.BalloonTrayTip
         
         public static void ShowWarning(string title, string text = "")
         {
+			return;
 #if DEBUG
             Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{

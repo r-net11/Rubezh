@@ -83,13 +83,6 @@ namespace FSAgentServer
 		{
 			try
 			{
-                //Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-                //    {
-                //        BalloonHelper.Initialize();
-                //        BalloonHelper.ShowWarning("Hello", "Hello");
-                //    }));
-                BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
-				
                 UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();
 				var connectResult = DirectClient.Connect();
