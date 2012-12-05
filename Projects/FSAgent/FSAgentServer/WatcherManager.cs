@@ -34,15 +34,15 @@ namespace FSAgentServer
         {
             if (RunThread == null)
             {
-                UILogger.Log("Запуск драйвера для администрирования");
-				CallbackClient = new NativeFiresecClient();
-                var connectResult = CallbackClient.Connect();
-                if (connectResult.HasError)
-                {
-                    UILogger.Log("Ошибка соединения с драйвером для администрирования");
-                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
-                }
-				CallbackClient.IsPing = true;
+				//UILogger.Log("Запуск драйвера для администрирования");
+				//CallbackClient = new NativeFiresecClient();
+				//var connectResult = CallbackClient.Connect();
+				//if (connectResult.HasError)
+				//{
+				//    UILogger.Log("Ошибка соединения с драйвером для администрирования");
+				//    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+				//}
+				//CallbackClient.IsPing = true;
 
                 StopEvent = new AutoResetEvent(false);
                 RunThread = new Thread(OnRun);
@@ -82,10 +82,20 @@ namespace FSAgentServer
 		{
             try
 			{
+				UILogger.Log("Запуск драйвера для администрирования");
+				CallbackClient = new NativeFiresecClient();
+				var connectResult1 = CallbackClient.Connect();
+				if (connectResult1.HasError)
+				{
+					UILogger.Log("Ошибка соединения с драйвером для администрирования");
+					BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+				}
+				CallbackClient.IsPing = true;
+
                 UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();
-				var connectResult = DirectClient.Connect();
-                if (connectResult.HasError)
+				var connectResult2 = DirectClient.Connect();
+                if (connectResult2.HasError)
                 {
                     UILogger.Log("Ошибка соединения с драйвером для мониторинга");
                     BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
