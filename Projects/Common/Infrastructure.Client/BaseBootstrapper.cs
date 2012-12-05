@@ -65,6 +65,10 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules)
                 try
                 {
+					if (module.Name.Contains("Video"))
+					{
+						;
+					}
                     LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
                     try
                     {
@@ -92,6 +96,10 @@ namespace Infrastructure.Client
 			var navigationItems = new List<NavigationItem>();
             foreach (IModule module in _modules)
             {
+				if (module.Name.Contains("Video"))
+				{
+					;
+				}
                 var items = module.CreateNavigation();
                 if (items != null && items.Count() > 0)
                 {
@@ -124,6 +132,7 @@ namespace Infrastructure.Client
                     var moduledescr = moduleElement.AssemblyFile.Substring(0, moduleElement.AssemblyFile.ToString().LastIndexOf('.'));
                     if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
                     {
+					}
                         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
                         if (File.Exists(path))
                         {
