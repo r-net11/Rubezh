@@ -41,22 +41,22 @@ namespace Infrastructure.Common.Module
                 if (registryKey != null)
                 {
                     var moduleNames = registryKey.GetValueNames();
-					if (moduleNames != null)
-					{
-						foreach (var moduleName in moduleNames)
-						{
-							var status = registryKey.GetValue(moduleName);
-							if (status != null)
-							{
-								var module = modules.FirstOrDefault(x => x.Name == moduleName);
-								if (module != null)
-								{
-									module.IsEnabled = !status.Equals("False");
-								}
-							}
-						}
-					}
-					registryKey.Close();
+                    if (moduleNames != null)
+                    {
+                        foreach (var moduleName in moduleNames)
+                        {
+                            var status = registryKey.GetValue(moduleName);
+                            if (status != null)
+                            {
+                                var module = modules.FirstOrDefault(x => x.Name == moduleName);
+                                if (module != null)
+                                {
+                                    module.IsEnabled = !status.Equals("False");
+                                }
+                            }
+                        }
+                    }
+                    registryKey.Close();
                 }
             }
             catch (Exception e)

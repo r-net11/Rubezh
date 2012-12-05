@@ -58,7 +58,11 @@ namespace GKModule.ViewModels
             }
         }
 
-        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+        public DeviceViewModel RootDevice { get; private set; }
+        public DeviceViewModel[] RootDevices
+        {
+            get { return new DeviceViewModel[] { RootDevice }; }
+        }
 
         void InitializeDevices()
         {
@@ -76,27 +80,26 @@ namespace GKModule.ViewModels
                 }
             }
 
-            Devices = new ObservableCollection<DeviceViewModel>();
+            var deviceViewModels = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                Devices.Add(new DeviceViewModel(device, Devices)
+                deviceViewModels.Add(new DeviceViewModel(device)
                 {
                     IsExpanded = true,
-                    IsBold = device.ZoneUIDs.Contains(SelectedZone.Zone.UID)
                 });
             }
 
-            foreach (var device in Devices)
+            foreach (var device in deviceViewModels)
             {
                 if (device.Device.Parent != null)
                 {
-                    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    device.Parent = parent;
+                    var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
                     parent.Children.Add(device);
                 }
             }
 
-            OnPropertyChanged("Devices");
+            RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
+            OnPropertyChanged("RootDevices");
         }
     }
 }

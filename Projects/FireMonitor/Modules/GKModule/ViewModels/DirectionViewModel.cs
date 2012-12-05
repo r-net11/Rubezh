@@ -44,13 +44,13 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(Direction.PresentationName);
+                var stringBuilder = new StringBuilder(Direction.PresentationName);
 				stringBuilder.AppendLine("Состояние: " + DirectionState.StateClass.ToDescription());
 				foreach (var stateType in DirectionState.States)
 				{
 					stringBuilder.AppendLine(stateType.ToDescription());
 				}
+                stringBuilder.AppendLine("Задержка: " + Direction.Delay.ToString());
 				return stringBuilder.ToString();
 			}
 		}

@@ -10,7 +10,7 @@
             <TextBlock.ContextMenu>
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                    <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}" IsEnabled="{Binding CanControl}">
+                    <!--<MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}" IsEnabled="{Binding CanControl}">
                         <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
                         <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
                         <Separator />
@@ -24,7 +24,7 @@
                         <MenuItem Command="{Binding StopCommand}" Header="Остановить" Visibility="Collapsed" />
                         <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" Visibility="Collapsed" />
                         <MenuItem Command="{Binding CancelStartCommand}" Header="Запретить пуск" Visibility="Collapsed" />
-                    </MenuItem>
+                    </MenuItem>-->
                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                 </ContextMenu>
             </TextBlock.ContextMenu>

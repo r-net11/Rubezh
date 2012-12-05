@@ -23,6 +23,21 @@ namespace Infrastructure.Common
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
+        public virtual void Load()
+        {
+
+        }
+
+        public virtual void Reload()
+        {
+
+        }
+
+        public virtual void CreateViewModels()
+        {
+
+        }
+
         public abstract void Initialize();
         public abstract IEnumerable<NavigationItem> CreateNavigation();
 

@@ -16,107 +16,90 @@ namespace GKModule.ViewModels
             Current = this;
         }
 
-		public void Initialize()
-		{
-			StatesWatcher.RequestAllStates();
+        public void Initialize()
+        {
+            BuildTree();
+            if (RootDevice != null)
+            {
+                RootDevice.IsExpanded = true;
+                SelectedDevice = RootDevice;
+            }
+            OnPropertyChanged("RootDevices");
+        }
 
-			BuildDeviceTree();
-			if (Devices.Count > 0)
-			{
-				CollapseChild(Devices[0]);
-				ExpandChild(Devices[0]);
-				SelectedDevice = Devices[0];
-			}
-		}
+        #region DeviceSelection
+        public List<DeviceViewModel> AllDevices;
 
-		ObservableCollection<DeviceViewModel> _devices;
-		public ObservableCollection<DeviceViewModel> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
-		}
+        public void FillAllDevices()
+        {
+            AllDevices = new List<DeviceViewModel>();
+            AddChildPlainDevices(RootDevice);
+        }
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
-		{
-			get { return _selectedDevice; }
-			set
-			{
-				_selectedDevice = value;
-				if (value != null)
-					value.ExpantToThis();
-				OnPropertyChanged("SelectedDevice");
-			}
-		}
+        void AddChildPlainDevices(DeviceViewModel parentViewModel)
+        {
+            AllDevices.Add(parentViewModel);
+            foreach (var childViewModel in parentViewModel.Children)
+                AddChildPlainDevices(childViewModel);
+        }
 
-		void BuildDeviceTree()
-		{
-			Devices = new ObservableCollection<DeviceViewModel>();
-			AllDevices = new List<DeviceViewModel>();
-			AddDevice(XManager.DeviceConfiguration.RootDevice, null);
-		}
+        public void Select(Guid deviceUID)
+        {
+            if (deviceUID != Guid.Empty)
+            {
+                var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+                if (deviceViewModel != null)
+                    deviceViewModel.ExpantToThis();
+                SelectedDevice = deviceViewModel;
+            }
+        }
+        #endregion
 
-		DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new DeviceViewModel(device, Devices) { Parent = parentDeviceViewModel };
-			AllDevices.Add(deviceViewModel);
+        DeviceViewModel _selectedDevice;
+        public DeviceViewModel SelectedDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                _selectedDevice = value;
+                if (value != null)
+                    value.ExpantToThis();
+                OnPropertyChanged("SelectedDevice");
+            }
+        }
 
-			Devices.Insert(Devices.IndexOf(parentDeviceViewModel) + 1, deviceViewModel);
-			foreach (var childDevice in device.Children)
-			{
-				if (childDevice.IsNotUsed)
-					continue;
+        DeviceViewModel _rootDevice;
+        public DeviceViewModel RootDevice
+        {
+            get { return _rootDevice; }
+            private set
+            {
+                _rootDevice = value;
+                OnPropertyChanged("RootDevice");
+            }
+        }
 
-				var deviceState = childDevice.DeviceState;
-				deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
-			}
+        public DeviceViewModel[] RootDevices
+        {
+            get { return new DeviceViewModel[] { RootDevice }; }
+        }
 
-			return deviceViewModel;
-		}
+        void BuildTree()
+        {
+            RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+            FillAllDevices();
+        }
 
-		void CollapseChild(DeviceViewModel parentDeviceViewModel)
-		{
-			parentDeviceViewModel.IsExpanded = false;
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
-			{
-				CollapseChild(deviceViewModel);
-			}
-		}
+        private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+        {
+            var deviceViewModel = new DeviceViewModel(device);
+            if (parentDeviceViewModel != null)
+                parentDeviceViewModel.Children.Add(deviceViewModel);
 
-		void ExpandChild(DeviceViewModel parentDeviceViewModel)
-		{
-			if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.System) ||
-				(parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK) ||
-				(parentDeviceViewModel.Device.Driver.DriverType == XDriverType.KAU))
-			{
-				parentDeviceViewModel.IsExpanded = true;
-				foreach (var deviceViewModel in parentDeviceViewModel.Children)
-				{
-					ExpandChild(deviceViewModel);
-				}
-			}
-		}
-
-		#region DeviceSelection
-        public List<DeviceViewModel> AllDevices { get; private set; }
-
-		public void Select(Guid deviceUID)
-		{
-			if (deviceUID != Guid.Empty)
-			{
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-				if (deviceViewModel != null)
-				{
-					deviceViewModel.ExpantToThis();
-					SelectedDevice = deviceViewModel;
-				}
-			}
-		}
-		#endregion
+            foreach (var childDevice in device.Children)
+                AddDeviceInternal(childDevice, deviceViewModel);
+            return deviceViewModel;
+        }
 
 		public override void OnShow()
 		{

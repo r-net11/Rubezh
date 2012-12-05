@@ -10,15 +10,14 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
+    public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
 		public XDeviceState DeviceState { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
-		public DeviceViewModel(XDevice device, ObservableCollection<DeviceViewModel> sourceDevices)
+		public DeviceViewModel(XDevice device)
 		{
-			Source = sourceDevices;
 			Device = device;
 			DeviceState = Device.DeviceState;
 			DeviceState.StateChanged += new Action(OnStateChanged);
@@ -54,5 +53,7 @@ namespace GKModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
+
+        public bool IsBold { get; set; }
 	}
 }
