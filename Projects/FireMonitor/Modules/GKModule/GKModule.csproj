@@ -120,6 +120,7 @@
     <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="ShowOnPlanHelper.cs" />
     <Compile Include="ViewModels\DeviceControlRegime.cs" />
+    <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
@@ -129,6 +130,9 @@
     </Compile>
     <Compile Include="Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DirectionDetailsView.xaml.cs">
+      <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
@@ -250,6 +254,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DirectionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

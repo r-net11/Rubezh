@@ -11,9 +11,9 @@ namespace GKModule.ViewModels
 {
     public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
     {
+        Guid _guid;
         public XDevice Device { get; private set; }
         public XDeviceState DeviceState { get; private set; }
-        private Guid _guid;
         DeviceControls.XDeviceControl _deviceControl;
         public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 
             Title = Device.Driver.ShortName + " " + Device.DottedAddress;
             TopMost = true;
-            UpdateAuParameters();
+            //UpdateAuParameters();
         }
 
         void OnStateChanged()

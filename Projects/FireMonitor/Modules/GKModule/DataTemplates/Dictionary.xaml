@@ -18,8 +18,12 @@
     <DataTemplate DataType="{x:Type ViewModels:DirectionsViewModel}">
         <Views:DirectionsView />
     </DataTemplate>
-    
-	<DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
+
+    <DataTemplate DataType="{x:Type ViewModels:DirectionDetailsViewModel}">
+        <Views:DirectionDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
 		<Views:GKConnectionIndicatorView />
 	</DataTemplate>
 
