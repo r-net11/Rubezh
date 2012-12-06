@@ -30,7 +30,19 @@ namespace FSAgentServer
             Current = this;
         }
 
-        public void Start()
+		public void Start()
+		{
+			StartRunThread();
+			StartLifetimeThread();
+		}
+
+		public void Stop()
+		{
+			StopLifetimeThread();
+			StopRunThread();
+		}
+
+        public void StartRunThread()
         {
             if (RunThread == null)
             {
@@ -49,15 +61,11 @@ namespace FSAgentServer
                 RunThread.SetApartmentState(ApartmentState.STA);
                 RunThread.IsBackground = true;
                 RunThread.Start();
-
-                StartLifetimeThread();
             }
         }
 
-        public void Stop()
+		public void StopRunThread()
         {
-            StopLifetimeThread();
-
             if (StopEvent != null)
             {
                 StopEvent.Set();
