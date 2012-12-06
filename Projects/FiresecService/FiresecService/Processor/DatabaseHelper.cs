@@ -60,8 +60,9 @@ namespace FiresecService.Database
                     var result = new SqlCeCommand(query, dataContext);
                     dataContext.Open();
                     var reader = result.ExecuteReader();
-                    reader.Read();
-                    var firstResult = reader[0];
+                    int? firstResult = null;
+                    if (reader.Read() != false)
+                        firstResult = (int)reader[0];
                     dataContext.Close();
                     if (firstResult != null)
                         return (int)firstResult;
