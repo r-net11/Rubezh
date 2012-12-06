@@ -22,10 +22,10 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Padding" Value="0" />
-                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Margin" Value="0" />
                                     <Setter Property="VerticalContentAlignment" Value="Center" />
                                     <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}"/>
+                                    <Setter Property="Background" Value="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}" />
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="Foreground" Value="Black" />
@@ -87,24 +87,20 @@
             </Grid>
         </Border>
 
-        <Grid Grid.Row="1" Margin="0, 5, 0, 0">
-            <DataGrid ItemsSource="{Binding Devices}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство" Width="250">
-                        <DataGridTemplateColumn.CellTemplate>
+        <Grid Grid.Row="1" Margin="0, 5, 0, 0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
+            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}">
+                <Controls:TreeListView.Columns>
+                    <GridViewColumn Width="250" Header="Устройство">
+                        <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Views:DeviceView />
-                                </StackPanel>
+                                <Views:DeviceView />
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
-                    <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
-                </DataGrid.Columns>
-            </DataGrid>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" />
+                    <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
+                </Controls:TreeListView.Columns>
+            </Controls:TreeListView>
         </Grid>
     </Grid>
 </UserControl>

@@ -43,6 +43,11 @@ namespace Infrastructure.Client
             resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
         }
 
+        protected void CreateModules()
+        {
+
+        }
+
 		protected void RunShell(ShellViewModel shellViewModel)
 		{
 			LoadingService.DoStep("Загрузка модулей приложения");
@@ -58,31 +63,27 @@ namespace Infrastructure.Client
 		{
 			ReadConfiguration();
 			foreach (IModule module in _modules)
-				try
-				{
-                    var moduledescr = module.ToString().Substring(0,module.ToString().LastIndexOf('.'));
-                    if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
+                try
+                {
+                    LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+                    try
                     {
-                        LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
-						try
-						{
-							module.Initialize();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "BaseBootstrapper.InitializeModules");
-						};
+                        module.Initialize();
                     }
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e);
-					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					LoadingService.Close();
-					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
-					Application.Current.Shutdown();
-					return false;
-				}
+                    catch (Exception e)
+                    {
+                        Logger.Error(e, "BaseBootstrapper.InitializeModules");
+                    };
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e);
+                    Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                    LoadingService.Close();
+                    MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
+                    Application.Current.Shutdown();
+                    return false;
+                }
 			return true;
 		}
 		protected List<NavigationItem> GetNavigationItems()
@@ -91,15 +92,11 @@ namespace Infrastructure.Client
 			var navigationItems = new List<NavigationItem>();
             foreach (IModule module in _modules)
             {
-                var moduledescr = module.ToString().Substring(0, module.ToString().LastIndexOf('.'));
-				if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
-				{
-					var items = module.CreateNavigation();
-					if (items != null && items.Count() > 0)
-					{
-						navigationItems.AddRange(items);
-					}
-				}
+                var items = module.CreateNavigation();
+                if (items != null && items.Count() > 0)
+                {
+                    navigationItems.AddRange(items);
+                }
             }
 		    return navigationItems;
 		}
@@ -124,14 +121,18 @@ namespace Infrastructure.Client
 				_modules = new List<IModule>();
                 foreach (ModuleElement moduleElement in section.Modules)
                 {
-                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
-                    if (File.Exists(path))
+                    var moduledescr = moduleElement.AssemblyFile.Substring(0, moduleElement.AssemblyFile.ToString().LastIndexOf('.'));
+                    if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
                     {
-                        Assembly assembly = GetAssemblyByFileName(path);
-                        if (assembly != null)
-                            foreach (Type t in assembly.GetExportedTypes())
-                                if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-                                    _modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+                        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
+                        if (File.Exists(path))
+                        {
+                            Assembly assembly = GetAssemblyByFileName(path);
+                            if (assembly != null)
+                                foreach (Type t in assembly.GetExportedTypes())
+                                    if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
+                                        _modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+                        }
                     }
                 }
 				ApplicationService.RegisterModules(_modules);

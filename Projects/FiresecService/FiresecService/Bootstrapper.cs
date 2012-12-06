@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
+using System.Reflection;
 
 namespace FiresecService
 {
@@ -23,8 +24,7 @@ namespace FiresecService
             {
 				Logger.Trace(SystemInfo.GetString());
 				AppSettingsHelper.InitializeAppSettings();
-                var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-                Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
+				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
