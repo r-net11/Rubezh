@@ -24,7 +24,8 @@ namespace FSAgentServer
 		{
 			try
 			{
-				var resourceService = new ResourceService();
+                BalloonHelper.Initialize();
+                var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
@@ -45,6 +46,7 @@ namespace FSAgentServer
 				UILogger.Log("Соединение с драйвером");
 				WatcherManager = new WatcherManager();
 				WatcherManager.Start();
+                
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
                     BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
@@ -52,9 +54,6 @@ namespace FSAgentServer
                 }
 				UILogger.Log("Готово");
                 FSAgentLoadHelper.SetStatus(FSAgentState.Opened);
-
-                BalloonHelper.Initialize();
-                BalloonHelper.ShowWarning("Hello", "Hello");
             }
 			catch (Exception e)
 			{

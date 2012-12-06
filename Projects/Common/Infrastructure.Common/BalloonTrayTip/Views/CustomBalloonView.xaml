@@ -3,23 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:local="clr-namespace:Infrastructure.Common.BalloonTrayTip.Views"
-             MaxWidth="220" Height="Auto" Opacity="1">
-    <UserControl.Triggers>
-        <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
-            <BeginStoryboard>
-                <Storyboard TargetProperty="Opacity">
-                    <DoubleAnimation From="0" To="1" Duration="0:0:0.5"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-        <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonClosing">
-            <BeginStoryboard>
-                <Storyboard TargetProperty="Opacity">
-                    <DoubleAnimation From="1" To="0" Duration="0:0:0.5"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </UserControl.Triggers>
+             MaxWidth="220" Height="Auto" Opacity="1" Loaded="UserControl_Loaded" MouseUp="grid_MouseUp">
+    <UserControl.Resources>
+        <Storyboard x:Key="OpeningAnimation" TargetProperty="Opacity">
+            <DoubleAnimation From="0" To="1" Duration="0:0:0.5"/>
+        </Storyboard>
+        <Storyboard x:Key="ClosingAnimation" TargetProperty="Opacity">
+            <DoubleAnimation From="1" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+    </UserControl.Resources>
     <UserControl.InputBindings>
         <MouseBinding MouseAction="LeftClick" Command="{Binding RemoveItemCommand}" />
     </UserControl.InputBindings>
@@ -31,7 +23,7 @@
                         <MouseBinding MouseAction="LeftClick" Command="{Binding ClearCommand}"/>
                     </Image.InputBindings>
                 </Image>
-                <TextBlock Margin="10 5 10 0" VerticalAlignment="Top" Text="{Binding LastItem.Title}" TextWrapping="Wrap" Foreground="{Binding LastItem.ForegroundColor}" FontWeight="Bold"/>
+                <TextBlock x:Name="Title" TargetUpdated="Title_TargetUpdated" Margin="10 5 10 0" VerticalAlignment="Top" Text="{Binding LastItem.Title, NotifyOnTargetUpdated=True}" TextWrapping="Wrap" Foreground="{Binding LastItem.ForegroundColor}" FontWeight="Bold"/>
             </DockPanel>
             <TextBlock Margin="10 0 10 5" VerticalAlignment="Bottom" Text="{Binding LastItem.Text}" TextWrapping="Wrap" Foreground="{Binding LastItem.ForegroundColor}"/>
         </StackPanel>

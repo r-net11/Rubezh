@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using Common;
 using FiresecAPI;
 using System.Threading;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FireMonitor
 {
@@ -28,6 +29,7 @@ namespace FireMonitor
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            BalloonHelper.Initialize();
 
 			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
 			{

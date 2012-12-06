@@ -80,7 +80,7 @@ namespace FSAgentServer
 
 		void OnRun()
 		{
-			try
+            try
 			{
                 UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();
@@ -125,7 +125,7 @@ namespace FSAgentServer
                     {
                         Logger.Error(e, "OnRun.while");
                     }
-				}
+                }
 				catch (Exception e)
 				{
 					Logger.Error(e, "OnRun.while2");

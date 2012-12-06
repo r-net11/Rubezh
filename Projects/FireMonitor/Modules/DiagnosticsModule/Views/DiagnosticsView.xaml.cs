@@ -20,7 +20,7 @@ namespace DiagnosticsModule.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //BalloonHelper.Initialize();
+            
         }
     }
 }

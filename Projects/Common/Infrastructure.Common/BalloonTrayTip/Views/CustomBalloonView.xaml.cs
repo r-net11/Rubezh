@@ -5,21 +5,34 @@ using Hardcodet.Wpf.TaskbarNotification;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using System.Windows.Media.Imaging;
 using System;
+using System.Windows.Media.Animation;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
     public partial class CustomBalloonView : UserControl
     {
+        System.Windows.Threading.DispatcherTimer dispatcherTimer;
+
         public CustomBalloonView()
         {
             InitializeComponent();
-            TaskbarIcon.AddBalloonClosingHandler(this, OnBalloonClosing);
+            this.Visibility = Visibility.Hidden;
         }
 
-        private void OnBalloonClosing(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            e.Handled = true;
-            BalloonToolTipViewModel.IsShown = false;
+            
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            Storyboard sb = this.FindResource("ClosingAnimation") as Storyboard;
+            sb.Completed += new EventHandler(Closing_Completed);
+            BeginStoryboard(sb);
         }
 
         private void Image_MouseEnter(object sender, MouseEventArgs e)
@@ -34,9 +47,45 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            TaskbarIcon taskbarIcon = TaskbarIcon.GetParentTaskbarIcon(this);
-            taskbarIcon.CloseBalloon();
-            taskbarIcon.Dispose();
+            HideBalloon();
         }
+
+        private void Title_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            if (this.Visibility == Visibility.Hidden)
+            {
+                ShowBalloon();
+            }
+            dispatcherTimer.Stop();
+            dispatcherTimer.Start();
+        }
+
+        private void grid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (BalloonToolTipViewModel.IsEmpty)
+                HideBalloon();
+        }
+
+        private void ShowBalloon()
+        {
+            this.Visibility = Visibility.Visible;
+            Storyboard sb = this.FindResource("OpeningAnimation") as Storyboard;
+            BeginStoryboard(sb);
+        }
+
+        private void HideBalloon()
+        {
+            Storyboard sb = this.FindResource("ClosingAnimation") as Storyboard;
+            sb.Completed += new EventHandler(Closing_Completed);
+            BeginStoryboard(sb);
+        }
+
+        private void Closing_Completed(object sender, EventArgs e)
+        {
+            this.Visibility = Visibility.Hidden;
+        }
+
+        
+
     }
 }

@@ -10,7 +10,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
 	public class BalloonToolTipViewModel : WindowBaseViewModel
 	{
-		public static bool IsShown = false;
+		public static bool IsEmpty = false;
 
 		List<Item> Items = new List<Item>();
 		public Item LastItem
@@ -48,7 +48,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 				Items.Remove(Items.LastOrDefault());
 				if (Items.Count == 0)
 				{
-					this.Close();
+                    IsEmpty = true;
 				}
 				else
 				{
