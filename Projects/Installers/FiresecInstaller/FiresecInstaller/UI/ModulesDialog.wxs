@@ -10,7 +10,7 @@
                 <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />
                 <Control Id="Tree" Type="SelectionTree" X="25" Y="60" Width="175" Height="150" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="Tree of selections" />
                 <Control Id="Box" Type="GroupBox" X="210" Y="60" Width="140" Height="150" />
-                <Control Id="ItemDescription" Type="Text" X="215" Y="75" Width="131" Height="30">
+                <Control Id="ItemDescription" Type="Text" X="215" Y="75" Width="131" Height="100">
                     <Text>Описание выбранного компонента</Text>
                     <Subscribe Event="SelectionDescription" Attribute="Text" />
                 </Control>
