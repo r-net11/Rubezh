@@ -67,6 +67,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Selectors" />
@@ -98,6 +99,11 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="FiresecDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Processor\FiresecDbConverter.designer.cs">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
@@ -159,6 +165,17 @@
     </Compile>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="FiresecDataSet.xsc">
+      <DependentUpon>FiresecDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="FiresecDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FiresecDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="FiresecDataSet.xss">
+      <DependentUpon>FiresecDataSet.xsd</DependentUpon>
     </None>
     <None Include="FiresecService.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

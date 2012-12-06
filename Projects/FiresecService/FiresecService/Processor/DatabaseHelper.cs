@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Common;
-using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecService.Service;
+using FiresecService.Properties;
+using System.Data.SqlServerCe;
 
 namespace FiresecService.Database
 {
@@ -14,10 +13,9 @@ namespace FiresecService.Database
         {
             try
             {
-                using (var dataContext = ConnectionManager.CreateFiresecDataContext())
+                foreach (var journalRecord in journalRecords)
                 {
-                    dataContext.JournalRecords.InsertAllOnSubmit(journalRecords);
-                    dataContext.SubmitChanges();
+                    InsertJournalRecordToDB(journalRecord);
                 }
             }
             catch (Exception e)
@@ -30,21 +28,19 @@ namespace FiresecService.Database
         {
             try
             {
-                using (var dataContext = ConnectionManager.CreateFiresecDataContext())
+                using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
                 {
-                    var query =
-                    "SELECT * FROM Journal WHERE " +
-                    "\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                    "\n AND OldId = " + journalRecord.OldId.ToString();
-
-                    var result = dataContext.ExecuteQuery<JournalRecord>(query);
-
-                    if (result.Count() == 0)
+                    var query = "SELECT * FROM Journal WHERE " +
+                                "\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                                "\n AND OldId = " + journalRecord.OldId;
+                    var result = new SqlCeCommand(query, dataContext);
+                    dataContext.Open();
+                    var reader = result.ExecuteReader();
+                    if (reader.Read() == false)
                     {
-                        dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-                        dataContext.SubmitChanges();
-                        return true;
+                        InsertJournalRecordToDB(journalRecord);
                     }
+                    return true;
                 }
             }
             catch (Exception e)
@@ -58,21 +54,54 @@ namespace FiresecService.Database
         {
             try
             {
-                using (var dataContext = ConnectionManager.CreateFiresecDataContext())
+                using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
                 {
                     var query = "SELECT MAX(OldId) FROM Journal";
-                    var result = dataContext.ExecuteQuery<int?>(query);
-                    var firstResult = result.FirstOrDefault();
+                    var result = new SqlCeCommand(query, dataContext);
+                    dataContext.Open();
+                    var reader = result.ExecuteReader();
+                    reader.Read();
+                    var firstResult = reader[0];
+                    dataContext.Close();
                     if (firstResult != null)
-                        return firstResult.Value;
+                        return (int)firstResult;
                     return -1;
                 }
             }
             catch (Exception e)
+                {
+                    Logger.Error(e, "Исключение при вызове DatabaseHelper.GetLastOldId");
+                }
+                return -1;
+        }
+
+        public static void InsertJournalRecordToDB(JournalRecord journalRecord)
+        {
+            using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
             {
-                Logger.Error(e, "Исключение при вызове DatabaseHelper.GetLastOldId");
+                dataContext.Open();
+                var cmd = new SqlCeCommand();
+                cmd.Connection = dataContext;
+                cmd.CommandText = @"Insert Into Journal" +
+                                  "(Description,Detalization,DeviceCategory,DeviceDatabaseId,DeviceName,DeviceTime,OldId,PanelDatabaseId,PanelName,StateType,SubsystemType,SystemTime,UserName,ZoneName) Values" +
+                                  "(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
+                cmd.Parameters.AddWithValue("@p1", (object)journalRecord.Description ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p2", (object)journalRecord.Detalization ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p3", (object)journalRecord.DeviceCategory ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p4", (object)journalRecord.DeviceDatabaseId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p5", (object)journalRecord.DeviceName ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p6", (object)journalRecord.DeviceTime ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p7", (object)journalRecord.OldId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p8", (object)journalRecord.PanelDatabaseId ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p9", (object)journalRecord.PanelName ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p10", (object)journalRecord.StateType ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p11", (object)journalRecord.SubsystemType ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p12", (object)journalRecord.SystemTime ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p13", (object)journalRecord.User ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@p14", (object)journalRecord.ZoneName ?? DBNull.Value);
+                cmd.ExecuteNonQuery();
+                dataContext.Close();
             }
-            return -1;
         }
     }
 }

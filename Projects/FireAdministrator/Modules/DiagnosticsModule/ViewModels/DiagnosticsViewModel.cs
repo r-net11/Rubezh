@@ -233,7 +233,7 @@ namespace DiagnosticsModule.ViewModels
                 file.Close();
                 var unzip = ZipFile.Read("Configuration\\config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
                 var xmlstream = new MemoryStream();
-                var entry = unzip["DeviceLibraryConfiguration.xml"];
+                var entry = unzip[fileName];
                 if (entry != null)
                 {
                     entry.Extract(xmlstream);
