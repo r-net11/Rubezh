@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.SKUD", "Fire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDB", "FiresecDB\FiresecDB.csproj", "{2D008E4B-D69F-4248-B92E-AF54D2D19196}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +128,18 @@ Global
 		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x64.ActiveCfg = Release|Any CPU
 		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|x64.ActiveCfg = Release|Any CPU
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,5 +150,6 @@ Global
 		{FE37B6D4-73E5-40F2-A770-A974561430B8} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{D57CB190-A30E-4A3D-A674-F1766CE1CC72} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{DA2A8431-7328-4AE8-926F-E191700577A1} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{2D008E4B-D69F-4248-B92E-AF54D2D19196} = {55FE10AF-A462-4908-B710-8824101701E1}
 	EndGlobalSection
 EndGlobal

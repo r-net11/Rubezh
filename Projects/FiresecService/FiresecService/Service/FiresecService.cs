@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlServerCe;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Threading;
@@ -8,6 +9,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.DatabaseConverter;
+using FiresecService.Properties;
 using FiresecService.ViewModels;
 
 namespace FiresecService.Service
@@ -16,7 +18,8 @@ namespace FiresecService.Service
     InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class FiresecService : IFiresecService
     {
-        public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
+        public static readonly SqlCeConnection DataBaseContext =
+            new SqlCeConnection(Settings.Default.FiresecConnectionString);
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{

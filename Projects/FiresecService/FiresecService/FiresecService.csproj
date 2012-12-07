@@ -108,7 +108,6 @@
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
     <Compile Include="Processor\ConnectionManager.cs" />
-    <Compile Include="Processor\DatabaseHelper.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\FiresecDbConverter1.designer.cs">
@@ -219,6 +218,10 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecDB\FiresecDB.csproj">
+      <Project>{2D008E4B-D69F-4248-B92E-AF54D2D19196}</Project>
+      <Name>FiresecDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
       <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>
