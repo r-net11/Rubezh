@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="Caption">Полная установка FireSec-2</String>
+  <String Id="Title">FireSec-2</String>
+  <String Id="InstallAcceptCheckbox">Я согласен</String>
+  <String Id="ConfirmCancelMessage">Вы уверены, что хотите отменить установку FireSec-2</String>
+  <String Id="ProgressHeader">Процесс установки</String>
+  <String Id="Progress">Процесс</String>
+  <String Id="FailureHeader">Ошибка</String>
+  <String Id="FailureHyperlinkLogText">В процессе установки произошла ошибка</String>
+  <String Id="InstallInstallButton">Установить</String>
+  <String Id="InstallCloseButton">Выход</String>
+  <String Id="ProgressCancelButton">Отмена</String>
+  <String Id="FailureCloseButton">Закрыть</String>
+</WixLocalization>
