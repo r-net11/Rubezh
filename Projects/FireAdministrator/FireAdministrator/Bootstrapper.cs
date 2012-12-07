@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FireAdministrator
 {
@@ -23,6 +24,7 @@ namespace FireAdministrator
 			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            BalloonHelper.Initialize();
 
 			if (ServiceFactory.LoginService.ExecuteConnect())
 			{

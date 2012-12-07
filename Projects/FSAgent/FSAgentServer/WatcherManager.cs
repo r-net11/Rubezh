@@ -30,34 +30,42 @@ namespace FSAgentServer
             Current = this;
         }
 
-        public void Start()
+		public void Start()
+		{
+			StartRunThread();
+			StartLifetimeThread();
+		}
+
+		public void Stop()
+		{
+			StopLifetimeThread();
+			StopRunThread();
+		}
+
+        public void StartRunThread()
         {
             if (RunThread == null)
             {
-                UILogger.Log("Запуск драйвера для администрирования");
-				CallbackClient = new NativeFiresecClient();
-                var connectResult = CallbackClient.Connect();
-                if (connectResult.HasError)
-                {
-                    UILogger.Log("Ошибка соединения с драйвером для администрирования");
-                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
-                }
-				CallbackClient.IsPing = true;
+				//UILogger.Log("Запуск драйвера для администрирования");
+				//CallbackClient = new NativeFiresecClient();
+				//var connectResult = CallbackClient.Connect();
+				//if (connectResult.HasError)
+				//{
+				//    UILogger.Log("Ошибка соединения с драйвером для администрирования");
+				//    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+				//}
+				//CallbackClient.IsPing = true;
 
                 StopEvent = new AutoResetEvent(false);
                 RunThread = new Thread(OnRun);
                 RunThread.SetApartmentState(ApartmentState.STA);
                 RunThread.IsBackground = true;
                 RunThread.Start();
-
-                StartLifetimeThread();
             }
         }
 
-        public void Stop()
+		public void StopRunThread()
         {
-            StopLifetimeThread();
-
             if (StopEvent != null)
             {
                 StopEvent.Set();
@@ -80,12 +88,22 @@ namespace FSAgentServer
 
 		void OnRun()
 		{
-			try
+            try
 			{
+				UILogger.Log("Запуск драйвера для администрирования");
+				CallbackClient = new NativeFiresecClient();
+				var connectResult1 = CallbackClient.Connect();
+				if (connectResult1.HasError)
+				{
+					UILogger.Log("Ошибка соединения с драйвером для администрирования");
+					BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+				}
+				CallbackClient.IsPing = true;
+
                 UILogger.Log("Запуск драйвера для мониторинга");
 				DirectClient = new NativeFiresecClient();
-				var connectResult = DirectClient.Connect();
-                if (connectResult.HasError)
+				var connectResult2 = DirectClient.Connect();
+                if (connectResult2.HasError)
                 {
                     UILogger.Log("Ошибка соединения с драйвером для мониторинга");
                     BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
@@ -125,7 +143,7 @@ namespace FSAgentServer
                     {
                         Logger.Error(e, "OnRun.while");
                     }
-				}
+                }
 				catch (Exception e)
 				{
 					Logger.Error(e, "OnRun.while2");

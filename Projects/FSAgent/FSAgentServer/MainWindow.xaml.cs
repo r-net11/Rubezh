@@ -20,12 +20,6 @@ namespace FSAgentServer
 		public MainWindow()
 		{
             InitializeComponent();
-            //BalloonHelper.Initialize();
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-	}
+    }
 }

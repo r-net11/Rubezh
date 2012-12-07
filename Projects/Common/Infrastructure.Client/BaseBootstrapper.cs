@@ -24,7 +24,7 @@ namespace Infrastructure.Client
 	public class BaseBootstrapper
 	{
 		public List<IModule> _modules;
-	    List<ModuleReg> modulesFromReg = new List<ModuleReg>();
+		List<ModuleReg> modulesFromReg = new List<ModuleReg>();
 		public BaseBootstrapper()
 		{
 			Logger.Trace(SystemInfo.GetString());
@@ -40,13 +40,13 @@ namespace Infrastructure.Client
 			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(AboutViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
-        }
+			resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
+		}
 
-        protected void CreateModules()
-        {
+		protected void CreateModules()
+		{
 
-        }
+		}
 
 		protected void RunShell(ShellViewModel shellViewModel)
 		{
@@ -63,42 +63,50 @@ namespace Infrastructure.Client
 		{
 			ReadConfiguration();
 			foreach (IModule module in _modules)
-                try
-                {
-                    LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
-                    try
-                    {
-                        module.Initialize();
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error(e, "BaseBootstrapper.InitializeModules");
-                    };
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e);
-                    Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                    LoadingService.Close();
-                    MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
-                    Application.Current.Shutdown();
-                    return false;
-                }
+				try
+				{
+					if (module.Name.Contains("Video"))
+					{
+						;
+					}
+					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+					try
+					{
+						module.Initialize();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "BaseBootstrapper.InitializeModules");
+					};
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e);
+					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+					LoadingService.Close();
+					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
+					Application.Current.Shutdown();
+					return false;
+				}
 			return true;
 		}
 		protected List<NavigationItem> GetNavigationItems()
 		{
 			ReadConfiguration();
 			var navigationItems = new List<NavigationItem>();
-            foreach (IModule module in _modules)
-            {
-                var items = module.CreateNavigation();
-                if (items != null && items.Count() > 0)
-                {
-                    navigationItems.AddRange(items);
-                }
-            }
-		    return navigationItems;
+			foreach (IModule module in _modules)
+			{
+				if (module.Name.Contains("Video"))
+				{
+					;
+				}
+				var items = module.CreateNavigation();
+				if (items != null && items.Count() > 0)
+				{
+					navigationItems.AddRange(items);
+				}
+			}
+			return navigationItems;
 		}
 
 		protected int GetModuleCount()
@@ -119,24 +127,24 @@ namespace Infrastructure.Client
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection section = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
-                foreach (ModuleElement moduleElement in section.Modules)
-                {
-                    var moduledescr = moduleElement.AssemblyFile.Substring(0, moduleElement.AssemblyFile.ToString().LastIndexOf('.'));
-                    if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
-                    {
-                        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
-                        if (File.Exists(path))
-                        {
-                            Assembly assembly = GetAssemblyByFileName(path);
-                            if (assembly != null)
-                                foreach (Type t in assembly.GetExportedTypes())
-                                    if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-                                        _modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
-                        }
-                    }
-                }
-				ApplicationService.RegisterModules(_modules);
+				foreach (ModuleElement moduleElement in section.Modules)
+				{
+					var moduledescr = moduleElement.AssemblyFile.Substring(0, moduleElement.AssemblyFile.ToString().LastIndexOf('.'));
+					if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
+					{
+					}
+					string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
+					if (File.Exists(path))
+					{
+						Assembly assembly = GetAssemblyByFileName(path);
+						if (assembly != null)
+							foreach (Type t in assembly.GetExportedTypes())
+								if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
+									_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+					}
+				}
 			}
+			ApplicationService.RegisterModules(_modules);
 		}
 		private Assembly GetAssemblyByFileName(string path)
 		{

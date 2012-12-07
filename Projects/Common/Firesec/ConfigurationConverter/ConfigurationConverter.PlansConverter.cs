@@ -157,189 +157,254 @@ namespace Firesec
 
 		void AddRectangle(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
 		{
-			var elementRectangle = new ElementRectangle()
+			try
 			{
-				Left = Parse(innerElement.rect[0].left),
-				Top = Parse(innerElement.rect[0].top),
-				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
-				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)
-			};
-			plan.ElementRectangles.Add(elementRectangle);
+				var elementRectangle = new ElementRectangle()
+				{
+					Left = Parse(innerElement.rect[0].left),
+					Top = Parse(innerElement.rect[0].top),
+					Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+					Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)
+				};
+				plan.ElementRectangles.Add(elementRectangle);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddRectangle");
+			}
 		}
 
 		void AddEllipse(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
 		{
-			var elementEllipse = new ElementEllipse()
+			try
 			{
-				Left = Parse(innerElement.rect[0].left),
-				Top = Parse(innerElement.rect[0].top),
-				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
-				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)
-			};
-			plan.ElementEllipses.Add(elementEllipse);
+				var elementEllipse = new ElementEllipse()
+				{
+					Left = Parse(innerElement.rect[0].left),
+					Top = Parse(innerElement.rect[0].top),
+					Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+					Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)
+				};
+				plan.ElementEllipses.Add(elementEllipse);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddEllipse");
+			}
 		}
 
 		void AddLabel(Plan plan, surfacesSurfaceLayerElementsElement innerElement, bool stretch = false)
 		{
-			var elementTextBlock = new ElementTextBlock()
+			try
 			{
-				Text = innerElement.caption,
-				Left = Parse(innerElement.rect[0].left),
-				Top = Parse(innerElement.rect[0].top),
-				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
-				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
-				Stretch = true,
-				FontBold = false,
-				FontItalic = false,
-			};
-
-			FontFamily fontFamily = new FontFamily("Arial");
-			double fontDpiSize = elementTextBlock.Height / 2;
-			double fontHeight = Math.Ceiling(fontDpiSize * fontFamily.LineSpacing);
-			elementTextBlock.FontSize = fontHeight;
-
-
-			if (innerElement.brush != null)
-				try
+				var elementTextBlock = new ElementTextBlock()
 				{
-					elementTextBlock.BackgroundColor = ConvertColor(innerElement.brush[0].color);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans");
-				}
+					Text = innerElement.caption,
+					Left = Parse(innerElement.rect[0].left),
+					Top = Parse(innerElement.rect[0].top),
+					Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+					Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
+					Stretch = true,
+					FontBold = false,
+					FontItalic = false,
+				};
 
-			if (innerElement.pen != null)
-				try
-				{
-					elementTextBlock.ForegroundColor = ConvertColor(innerElement.pen[0].color);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
-				}
+				FontFamily fontFamily = new FontFamily("Arial");
+				double fontDpiSize = elementTextBlock.Height / 2;
+				double fontHeight = Math.Ceiling(fontDpiSize * fontFamily.LineSpacing);
+				elementTextBlock.FontSize = fontHeight;
 
-			plan.ElementTextBlocks.Add(elementTextBlock);
+
+				if (innerElement.brush != null)
+					try
+					{
+						elementTextBlock.BackgroundColor = ConvertColor(innerElement.brush[0].color);
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans");
+					}
+
+				if (innerElement.pen != null)
+					try
+					{
+						elementTextBlock.ForegroundColor = ConvertColor(innerElement.pen[0].color);
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
+					}
+
+				plan.ElementTextBlocks.Add(elementTextBlock);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddLabel");
+			}
 		}
 
 		void AddPolyLine(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
 		{
-			var elementPolyline = new ElementPolyline();
-			elementPolyline.Points = GetPointCollection(innerElement);
-			//elementPolyline.Normalize();
-			plan.ElementPolylines.Add(elementPolyline);
+			try
+			{
+				var elementPolyline = new ElementPolyline();
+				elementPolyline.Points = GetPointCollection(innerElement);
+				//elementPolyline.Normalize();
+				plan.ElementPolylines.Add(elementPolyline);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddPolyLine");
+			}
 		}
 
 		void AddPolygon(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
 		{
-			var elementPolygon = new ElementPolygon();
-			elementPolygon.Points = GetPointCollection(innerElement);
-			//elementPolygon.Normalize();
-			plan.ElementPolygons.Add(elementPolygon);
+			try
+			{
+				var elementPolygon = new ElementPolygon();
+				elementPolygon.Points = GetPointCollection(innerElement);
+				//elementPolygon.Normalize();
+				plan.ElementPolygons.Add(elementPolygon);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddPolygon");
+			}
 		}
 
 		void AddDevice(Plan plan, surfacesSurfaceLayerElementsElement innerElement, DeviceConfiguration deviceConfiguration)
 		{
-			if (innerElement.rect != null)
+			try
 			{
-				var innerRect = innerElement.rect[0];
-
-				long longId = long.Parse(innerElement.id);
-				int intId = (int)longId;
-
-				var height = Parse(innerRect.bottom) - Parse(innerRect.top);
-				var width = Parse(innerRect.right) - Parse(innerRect.left);
-				var elementDevice = new ElementDevice()
+				if (innerElement.rect != null)
 				{
-					Left = Parse(innerRect.left) + height / 2,
-					Top = Parse(innerRect.top) + width / 2
-				};
-				plan.ElementDevices.Add(elementDevice);
+					var innerRect = innerElement.rect[0];
 
-				foreach (var device in deviceConfiguration.Devices)
-				{
-					foreach (var deviceShapeId in device.ShapeIds)
+					long longId = long.Parse(innerElement.id);
+					int intId = (int)longId;
+
+					var height = Parse(innerRect.bottom) - Parse(innerRect.top);
+					var width = Parse(innerRect.right) - Parse(innerRect.left);
+					var elementDevice = new ElementDevice()
 					{
-						if ((deviceShapeId == longId.ToString()) || (deviceShapeId == intId.ToString()))
+						Left = Parse(innerRect.left) + height / 2,
+						Top = Parse(innerRect.top) + width / 2
+					};
+					plan.ElementDevices.Add(elementDevice);
+
+					foreach (var device in deviceConfiguration.Devices)
+					{
+						foreach (var deviceShapeId in device.ShapeIds)
 						{
-							elementDevice.DeviceUID = device.UID;
-							device.PlanElementUIDs.Add(elementDevice.UID);
+							if ((deviceShapeId == longId.ToString()) || (deviceShapeId == intId.ToString()))
+							{
+								elementDevice.DeviceUID = device.UID;
+								device.PlanElementUIDs.Add(elementDevice.UID);
+							}
 						}
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddPolygonZone");
 			}
 		}
 
 		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
 		{
-			if (innerElement.points != null)
+			try
 			{
-				var elementPolygonZone = new ElementPolygonZone()
+				if (innerElement.points != null)
 				{
-					ZoneUID = zoneUID
+					var elementPolygonZone = new ElementPolygonZone()
+					{
+						ZoneUID = zoneUID
+					};
+					elementPolygonZone.Points = GetPointCollection(innerElement);
+					//elementPolygonZone.Normalize();
+					plan.ElementPolygonZones.Add(elementPolygonZone);
 				};
-				elementPolygonZone.Points = GetPointCollection(innerElement);
-				//elementPolygonZone.Normalize();
-				plan.ElementPolygonZones.Add(elementPolygonZone);
-			};
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddPolygonZone");
+			}
 		}
 
 		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
 		{
-			var elementRectangleZone = new ElementRectangleZone()
+			try
 			{
-				ZoneUID = zoneUID,
-				Left = Math.Min(Parse(innerElement.rect[0].left), Parse(innerElement.rect[0].right)),
-				Top = Math.Min(Parse(innerElement.rect[0].top), Parse(innerElement.rect[0].bottom)),
-				Width = Math.Abs(Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)),
-				Height = Math.Abs(Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top))
-			};
-
-			plan.ElementRectangleZones.Add(elementRectangleZone);
+				var elementRectangleZone = new ElementRectangleZone()
+				{
+					ZoneUID = zoneUID,
+					Left = Math.Min(Parse(innerElement.rect[0].left), Parse(innerElement.rect[0].right)),
+					Top = Math.Min(Parse(innerElement.rect[0].top), Parse(innerElement.rect[0].bottom)),
+					Width = Math.Abs(Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)),
+					Height = Math.Abs(Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top))
+				};
+				plan.ElementRectangleZones.Add(elementRectangleZone);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddRectangleZone");
+			}
 		}
 
 		void AddPictire(Plan plan, surfacesSurfaceLayerElementsElement innerElement, ref int pictureIndex)
 		{
-			foreach (var innerPicture in innerElement.picture)
+			try
 			{
-				if (string.IsNullOrEmpty(innerPicture.idx))
-					innerPicture.idx = pictureIndex++.ToString();
+				if (innerElement.picture == null)
+					return;
 
-				var picturesDirectory = GetPicturesDirectory();
-				if (picturesDirectory == null)
-					continue;
-				var directoryInfo = new DirectoryInfo(picturesDirectory + "\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-				if (File.Exists(directoryInfo.FullName) == false)
-					continue;
-
-				if (innerPicture.ext == "emf")
+				foreach (var innerPicture in innerElement.picture)
 				{
-					var metafile = new Metafile(directoryInfo.FullName);
-					innerPicture.ext = "bmp";
-					directoryInfo = new DirectoryInfo(picturesDirectory + "\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-					metafile.Save(directoryInfo.FullName, ImageFormat.Bmp);
-					metafile.Dispose();
+					if (string.IsNullOrEmpty(innerPicture.idx))
+						innerPicture.idx = pictureIndex++.ToString();
+
+					var picturesDirectory = GetPicturesDirectory();
+					if (picturesDirectory == null)
+						continue;
+					var directoryInfo = new DirectoryInfo(picturesDirectory + "\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+					if (File.Exists(directoryInfo.FullName) == false)
+						continue;
+
+					if (innerPicture.ext == "emf")
+					{
+						var metafile = new Metafile(directoryInfo.FullName);
+						innerPicture.ext = "bmp";
+						directoryInfo = new DirectoryInfo(picturesDirectory + "\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+						metafile.Save(directoryInfo.FullName, ImageFormat.Bmp);
+						metafile.Dispose();
+					}
+
+					byte[] backgroundPixels = File.ReadAllBytes(directoryInfo.FullName);
+
+					var elementRectanglePicture = new ElementRectangle()
+					{
+						Left = Parse(innerElement.rect[0].left),
+						Top = Parse(innerElement.rect[0].top),
+						Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+						Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
+						BackgroundPixels = backgroundPixels
+					};
+
+					if ((elementRectanglePicture.Left == 0) && (elementRectanglePicture.Top == 0) && (elementRectanglePicture.Width == plan.Width) && (elementRectanglePicture.Height == plan.Height))
+					{
+						plan.BackgroundPixels = elementRectanglePicture.BackgroundPixels;
+					}
+					else
+					{
+						plan.ElementRectangles.Add(elementRectanglePicture);
+					}
 				}
-
-				byte[] backgroundPixels = File.ReadAllBytes(directoryInfo.FullName);
-
-				var elementRectanglePicture = new ElementRectangle()
-				{
-					Left = Parse(innerElement.rect[0].left),
-					Top = Parse(innerElement.rect[0].top),
-					Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
-					Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
-					BackgroundPixels = backgroundPixels
-				};
-
-				if ((elementRectanglePicture.Left == 0) && (elementRectanglePicture.Top == 0) && (elementRectanglePicture.Width == plan.Width) && (elementRectanglePicture.Height == plan.Height))
-				{
-					plan.BackgroundPixels = elementRectanglePicture.BackgroundPixels;
-				}
-				else
-				{
-					plan.ElementRectangles.Add(elementRectanglePicture);
-				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.AddPictire");
 			}
 		}
 
@@ -366,15 +431,22 @@ namespace Firesec
 		static PointCollection GetPointCollection(surfacesSurfaceLayerElementsElement innerElementLayer)
 		{
 			var pointCollection = new PointCollection();
-			foreach (var innerPoint in innerElementLayer.points)
+			try
 			{
-				var point = new System.Windows.Point()
+				foreach (var innerPoint in innerElementLayer.points)
 				{
-					X = Parse(innerPoint.x),
-					Y = Parse(innerPoint.y)
-				};
+					var point = new System.Windows.Point()
+					{
+						X = Parse(innerPoint.x),
+						Y = Parse(innerPoint.y)
+					};
 
-				pointCollection.Add(point);
+					pointCollection.Add(point);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.GetPointCollection");
 			}
 			return pointCollection;
 		}
@@ -423,13 +495,21 @@ namespace Firesec
 
 		string GetPicturesDirectory()
 		{
-			var agentLocation = FSAgentLoadHelper.GetLocation();
-			if (agentLocation != null)
+			try
 			{
-				var fileInfo = new FileInfo(agentLocation);
-				return fileInfo.DirectoryName + "\\Pictures";
+				var agentLocation = FSAgentLoadHelper.GetLocation();
+				if (agentLocation != null)
+				{
+					var fileInfo = new FileInfo(agentLocation);
+					return fileInfo.DirectoryName + "\\Pictures";
+				}
+				return null;
 			}
-			return null;
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationConverter.GetPicturesDirectory");
+				return null;
+			}
 		}
 	}
 }

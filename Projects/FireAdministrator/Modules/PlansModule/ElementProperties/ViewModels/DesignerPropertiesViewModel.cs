@@ -13,12 +13,7 @@ namespace PlansModule.ViewModels
 		{
 			Title = "Свойства элемента: План";
 			ImagePropertiesViewModel = new ViewModels.ImagePropertiesViewModel();
-			Plan = plan ?? new Plan()
-			{
-				Width = 400,
-				Height = 400,
-				//BackgroundColor = Colors.Transparent
-			};
+			Plan = plan ?? new Plan();
 			CopyProperties();
 		}
 

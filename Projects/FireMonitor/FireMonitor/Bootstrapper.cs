@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using Common;
 using FiresecAPI;
 using System.Threading;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FireMonitor
 {
@@ -28,6 +29,7 @@ namespace FireMonitor
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            BalloonHelper.Initialize();
 
 			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
 			{
@@ -125,8 +127,8 @@ namespace FireMonitor
 				FiresecManager.FiresecDriver.StartWatcher(true, true);
 				if (!reconnect)
 				{
-					LoadingService.DoStep("Синхронизация журнала событий");
-					FiresecManager.SynchrinizeJournal();
+					//LoadingService.DoStep("Синхронизация журнала событий");
+					//FiresecManager.SynchrinizeJournal();
 				}
 				FiresecManager.FSAgent.Start();
 			}

@@ -15,60 +15,49 @@ namespace Infrastructure.Common.BalloonTrayTip
     {
         static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
         static TaskbarIcon taskbarIcon;
+        static Views.CustomBalloonView customBalloonView;
         
         public static void Initialize()
         {
+            try
+            {
+                if (taskbarIcon == null)
+                {
+                    taskbarIcon = new TaskbarIcon();
+                    taskbarIcon.Visibility = Visibility.Hidden;
+                    customBalloonView = new Views.CustomBalloonView();
+                    customBalloonView.DataContext = balloonToolTipViewModel;
+                    taskbarIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, null);
+                    customBalloonView.Visibility = Visibility.Hidden;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "BalloonHelper.Initialize");
+            }
+            
         }
         
         public static void ShowWarning(string title, string text = "")
         {
-			return;
 #if DEBUG
-            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-			{
-                if (taskbarIcon == null || taskbarIcon.IsDisposed)
-                {
-                    taskbarIcon = new TaskbarIcon();
-                    taskbarIcon.Visibility = Visibility.Hidden;
-                }
-                ShowWarning(title, text, Brushes.Black, Brushes.White);
-			}));
+            ShowWarning(title, text, Brushes.Black, Brushes.White);
 #endif
         }
+
         public static void ShowWarning(string title, string text, Brush foregroundColor, Brush backgroundColor)
         {
-            try
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
             {
-                balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
-                if (BalloonToolTipViewModel.IsShown == false)
+                try
                 {
-                    //ShowTrayWindow(balloonToolTipViewModel);
-                    Views.CustomBalloonView customBalloonView = new Views.CustomBalloonView();
-                    customBalloonView.DataContext = balloonToolTipViewModel;
-                    taskbarIcon.Visibility = Visibility.Hidden;
-                    taskbarIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, 40000);
-                    BalloonToolTipViewModel.IsShown = true;
+                    balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
                 }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "BalloonHelper.Show");
-            }
-        }
-
-        static void ShowTrayWindow(WindowBaseViewModel model)
-        {
-            try
-            {
-                WindowBaseView win = new WindowBaseView(model);
-                win.Visibility = Visibility.Hidden;
-                win.AllowsTransparency = true;
-                win.Show();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "DialogService.ShowTrayWindow");
-            }
+                catch (Exception e)
+                {
+                    Logger.Error(e, "BalloonHelper.Show");
+                }
+            }));
         }
     }
 }

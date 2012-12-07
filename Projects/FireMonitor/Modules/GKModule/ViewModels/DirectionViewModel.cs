@@ -7,6 +7,8 @@ using XFiresecAPI;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -28,6 +30,8 @@ namespace GKModule.ViewModels
             TurnOffCommand = new RelayCommand(OnTurnOff, CanControl);
             TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanControl);
             TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanControl);
+
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 			DirectionState = directionState;
 			DirectionState.StateChanged += new System.Action(OnStateChanged);
@@ -131,5 +135,11 @@ namespace GKModule.ViewModels
 			bytes.Add(code);
             WatcherManager.Send(SendPriority.Normal, Direction.GkDatabaseParent, 3, 13, 0, bytes);
 		}
+
+        public RelayCommand ShowPropertiesCommand { get; private set; }
+        void OnShowProperties()
+        {
+            DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
+        }
 	}
 }

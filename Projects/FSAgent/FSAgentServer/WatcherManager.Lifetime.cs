@@ -14,6 +14,7 @@ namespace FSAgentServer
 		bool IsOperationBuisy;
 		DateTime OperationDateTime = DateTime.Now;
 		DateTime CircleDateTime = DateTime.Now;
+		int LifetimeRecoveryCount;
 
         void StartLifetimeThread()
         {
@@ -46,17 +47,26 @@ namespace FSAgentServer
                     if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(15))
                     {
                         Logger.Error("WatcherManager.WatchLifetime");
-                        App.Restart();
+						LifetimeRecoveryCount++;
+						StopRunThread();
+						StartRunThread();
                     }
                 }
 				if (DateTime.Now - CircleDateTime > TimeSpan.FromMinutes(15))
 				{
 					Logger.Error("WatcherManager.WatchLifetime");
+					LifetimeRecoveryCount++;
+					StopRunThread();
+					StartRunThread();
+				}
+
+				if (LifetimeRecoveryCount > 1)
+				{
 					App.Restart();
 				}
 
                 if (StopLifetimeEvent.WaitOne(10000))
-                    break;
+                    return;
             }
         }
     }

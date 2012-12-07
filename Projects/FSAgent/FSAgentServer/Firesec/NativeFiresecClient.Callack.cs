@@ -21,8 +21,8 @@ namespace FSAgentServer
 		static bool needToReadParameters = false;
 		static bool needToReadJournal = false;
 
-		string PrevCoreState = "";
-		string PrevCoreDeviceParams = "";
+        //string PrevCoreState = "";
+        //string PrevCoreDeviceParams = "";
 
 		public void NewEventsAvailable(int eventMask)
 		{
@@ -61,11 +61,12 @@ namespace FSAgentServer
 						var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
 						if (result != null && result.Result != null && result.HasError == false)
 						{
-							if (PrevCoreState != result.Result)
-							{
-								CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
-							}
-							PrevCoreState = result.Result;
+                            CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
+                            //if (PrevCoreState != result.Result)
+                            //{
+                            //    CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
+                            //}
+                            //PrevCoreState = result.Result;
 						}
 						else
 						{
@@ -79,11 +80,12 @@ namespace FSAgentServer
 						var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
 						if (result != null && result.Result != null && result.HasError == false)
 						{
-							if (PrevCoreDeviceParams != result.Result)
-							{
-								CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
-							}
-							PrevCoreDeviceParams = result.Result;
+                            CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
+                            //if (PrevCoreDeviceParams != result.Result)
+                            //{
+                            //    CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
+                            //}
+                            //PrevCoreDeviceParams = result.Result;
 						}
 						else
 						{
