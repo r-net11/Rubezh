@@ -13,5 +13,18 @@
         <Setter Property="Foreground" Value="SteelBlue" />
         <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
     </Style>
-    
+
+    <Style x:Key="HyperlinkStyle2" TargetType="{x:Type Hyperlink}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Orange" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+    </Style>
+
 </ResourceDictionary>

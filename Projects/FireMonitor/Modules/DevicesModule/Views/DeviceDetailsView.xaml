@@ -46,15 +46,31 @@
                         </WrapPanel>
                         <WrapPanel Margin="1">
                             <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
-                            <TextBlock Text="{Binding Device.ConnectedTo}" Foreground="White" />
+                            <TextBlock TextWrapping="Wrap">
+                                <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
+                                    <TextBlock Text="{Binding Device.ConnectedTo}" />
+                                </Hyperlink>
+                            </TextBlock>
                         </WrapPanel>
                         <WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                             <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
-                            <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
+                            <TextBlock TextWrapping="Wrap">
+                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+                                    <TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+                                </Hyperlink>
+                            </TextBlock>
                         </WrapPanel>
                         <WrapPanel Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                             <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Orange" />
                             <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
+                        </WrapPanel>
+                        <WrapPanel Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
+                            <TextBlock Text="План: " FontWeight="Bold" Foreground="Orange" />
+                            <TextBlock TextWrapping="Wrap">
+                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                    <TextBlock Text="{Binding PlanName}" />
+                                </Hyperlink>
+                            </TextBlock>
                         </WrapPanel>
                     </StackPanel>
                 </ScrollViewer>

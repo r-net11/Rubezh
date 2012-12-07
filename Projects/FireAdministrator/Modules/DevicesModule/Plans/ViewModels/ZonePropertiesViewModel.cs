@@ -22,7 +22,7 @@ namespace DevicesModule.Plans.ViewModels
             CreateCommand = new RelayCommand(OnCreate);
             EditCommand = new RelayCommand(OnEdit, CanEdit);
             Title = "Свойства фигуры: Зона";
-            Zones = new ObservableCollection<Zone>(FiresecManager.Zones);
+            Zones = new ObservableCollection<Zone>(from zone in FiresecManager.Zones orderby zone.No select zone);
             if (iElementZone.ZoneUID != Guid.Empty)
                 SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
         }

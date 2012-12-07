@@ -7,6 +7,8 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Common;
 using FiresecAPI;
+using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -20,6 +22,9 @@ namespace DevicesModule.ViewModels
 
 		public DeviceDetailsViewModel(Device device)
 		{
+			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			Device = device;
 			_guid = device.UID;
 			DeviceState = Device.DeviceState;
@@ -226,6 +231,53 @@ namespace DevicesModule.ViewModels
 			{
 				return Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
 			}
+		}
+
+		public RelayCommand ShowZoneCommand { get; private set; }
+		void OnShowZone()
+		{
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.Zone.UID);
+		}
+		bool CanShowZone()
+		{
+			return Device.Zone != null;
+		}
+
+		public RelayCommand ShowParentCommand { get; private set; }
+		void OnShowParent()
+		{
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.Parent.UID);
+		}
+		bool CanShowParent()
+		{
+			return Device.Parent != null;
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
+		}
+		bool CanShowOnPlan()
+		{
+			var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementDevices.Any(y => y.DeviceUID == Device.UID); });
+			return plan != null;
+		}
+
+		public string PlanName
+		{
+			get
+			{
+				var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementDevices.Any(y => y.DeviceUID == Device.UID); });
+				if (plan != null)
+					return plan.Caption;
+				return null;
+			}
+		}
+
+		public bool IsOnPlan
+		{
+			get { return PlanName != null; }
 		}
 
 		#region IWindowIdentity Members

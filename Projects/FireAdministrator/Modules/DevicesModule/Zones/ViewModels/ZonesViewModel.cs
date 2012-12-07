@@ -172,7 +172,6 @@ namespace DevicesModule.ViewModels
 				}
 				Zones = new ObservableCollection<ZoneViewModel>(tempZones);
 				SelectedZone = Zones.FirstOrDefault();
-				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.FSChanged = true;
 				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}

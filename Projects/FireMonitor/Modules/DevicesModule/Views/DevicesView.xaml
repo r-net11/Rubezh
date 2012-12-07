@@ -32,7 +32,10 @@
                                             <MenuItem Header="Снять с охраны" Command="{Binding UnsetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
                                             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                         </ContextMenu>
-                                        </StackPanel.ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <StackPanel.InputBindings>
+                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                                    </StackPanel.InputBindings>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

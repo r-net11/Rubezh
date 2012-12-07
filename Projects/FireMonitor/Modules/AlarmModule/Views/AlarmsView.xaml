@@ -17,17 +17,57 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Состояние" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+                                <TextBlock Text="{Binding Alarm.StateName}" />
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="*" />
+
+                <DataGridTemplateColumn Header="Устройство" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Command="{Binding ShowDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                    <TextBlock Text="{Binding DeviceName}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Зона" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+                                    <TextBlock Text="{Binding ZoneName}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="План" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                    <TextBlock Text="{Binding PlanName}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--<DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="*" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" Width="*" />
                 <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.StateName}" Width="*" />
-                <DataGridTextColumn Header="План" Binding="{Binding PlanName}" Width="*" />
+                <DataGridTextColumn Header="План" Binding="{Binding PlanName}" Width="*" />-->
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">

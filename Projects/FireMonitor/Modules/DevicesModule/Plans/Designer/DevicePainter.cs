@@ -136,6 +136,5 @@ namespace DevicesModule.Plans.Designer
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
 		}
-
 	}
 }

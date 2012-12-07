@@ -21,8 +21,6 @@ namespace DevicesModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
-			Devices = new ObservableCollection<DeviceViewModel>();
-			AvailableDevices = new ObservableCollection<DeviceViewModel>();
 		}
 
 		public void Initialize(Zone zone)
@@ -59,7 +57,7 @@ namespace DevicesModule.ViewModels
 				}
 			}
 
-			Devices.Clear();
+			deviceViewModels = new List<DeviceViewModel>();
 			foreach (var device in devices)
 			{
 				var deviceViewModel = new DeviceViewModel(device)
@@ -67,16 +65,16 @@ namespace DevicesModule.ViewModels
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
 				};
-				Devices.Add(deviceViewModel);
+				deviceViewModels.Add(deviceViewModel);
 			}
 
-			foreach (var device in Devices.Where(x => x.Device.Parent != null))
+			foreach (var device in deviceViewModels.Where(x => x.Device.Parent != null))
 			{
-				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+				var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
 				parent.Children.Add(device);
 			}
 
-			AvailableDevices.Clear();
+			availableDeviceViewModels = new List<DeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
 				var deviceViewModel = new DeviceViewModel(device)
@@ -84,35 +82,57 @@ namespace DevicesModule.ViewModels
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice
 				};
-				AvailableDevices.Add(deviceViewModel);
+				availableDeviceViewModels.Add(deviceViewModel);
 			}
 
-			foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
+			foreach (var device in availableDeviceViewModels.Where(x => x.Device.Parent != null))
 			{
-				var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+				var parent = availableDeviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
 				parent.Children.Add(device);
 			}
 
-			OnPropertyChanged("Devices");
+			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
+			AvailableRootDevice = availableDeviceViewModels.FirstOrDefault(x => x.Parent == null);
 
-			SelectedDevice = Devices.LastOrDefault();
-			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
+			OnPropertyChanged("RootDevices");
+			OnPropertyChanged("AvailableRootDevices");
+
+			SelectedDevice = deviceViewModels.FirstOrDefault();
+			SelectedAvailableDevice = availableDeviceViewModels.FirstOrDefault();
 		}
 
 		public void Clear()
 		{
-			Devices.Clear();
-			AvailableDevices.Clear();
+			deviceViewModels.Clear();
+			availableDeviceViewModels.Clear();
 			SelectedDevice = null;
 			SelectedAvailableDevice = null;
 		}
 
-		public void UpdateAvailableDevices()
+		List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();
+		List<DeviceViewModel> availableDeviceViewModels = new List<DeviceViewModel>();
+
+		public DeviceViewModel RootDevice{get;private set;}
+		public DeviceViewModel[] RootDevices
 		{
-			OnPropertyChanged("AvailableDevices");
+			get
+			{
+				if (RootDevice == null)
+					return new DeviceViewModel[0];
+				return new DeviceViewModel[] { RootDevice };
+			}
 		}
 
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+		public DeviceViewModel AvailableRootDevice { get; private set; }
+		public DeviceViewModel[] AvailableRootDevices
+		{
+			get
+			{
+				if (AvailableRootDevice == null)
+					return new DeviceViewModel[0];
+				return new DeviceViewModel[] { AvailableRootDevice };
+			}
+		}
 
 		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
@@ -124,8 +144,6 @@ namespace DevicesModule.ViewModels
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
-
-		public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
 
 		DeviceViewModel _selectedAvailableDevice;
 		public DeviceViewModel SelectedAvailableDevice
@@ -141,18 +159,17 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var oldIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
+			var oldIndex = availableDeviceViewModels.IndexOf(SelectedAvailableDevice);
 			var oldDeviceUID = SelectedAvailableDevice.Device.UID;
 
             FiresecManager.FiresecConfiguration.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
             Initialize(Zone);
-			UpdateAvailableDevices();
 
-			SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
-			if (AvailableDevices.Count > 0)
+			SelectedDevice = deviceViewModels.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
+			if (availableDeviceViewModels.Count > 0)
 			{
-				var newIndex = System.Math.Min(oldIndex, AvailableDevices.Count - 1);
-				SelectedAvailableDevice = AvailableDevices[newIndex];
+				var newIndex = System.Math.Min(oldIndex, availableDeviceViewModels.Count - 1);
+				SelectedAvailableDevice = availableDeviceViewModels[newIndex];
 			}
 			else
 			{
@@ -169,18 +186,17 @@ namespace DevicesModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var oldIndex = Devices.IndexOf(SelectedDevice);
+			var oldIndex = deviceViewModels.IndexOf(SelectedDevice);
 			var oldDeviceUID = SelectedDevice.Device.UID;
 
-            FiresecManager.FiresecConfiguration.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
-            Initialize(Zone);
-			UpdateAvailableDevices();
+			FiresecManager.FiresecConfiguration.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
+			Initialize(Zone);
 
-			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
-			if (Devices.Count > 0)
+			SelectedAvailableDevice = availableDeviceViewModels.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
+			if (deviceViewModels.Count > 0)
 			{
-				var newIndex = System.Math.Min(oldIndex, Devices.Count - 1);
-				SelectedDevice = Devices[newIndex];
+				var newIndex = System.Math.Min(oldIndex, deviceViewModels.Count - 1);
+				SelectedDevice = deviceViewModels[newIndex];
 			}
 			else
 			{

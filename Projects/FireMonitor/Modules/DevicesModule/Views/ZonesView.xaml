@@ -62,6 +62,9 @@
                                                 <MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
                                             </ContextMenu>
                                         </Grid.ContextMenu>
+                                        <Grid.InputBindings>
+                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                                        </Grid.InputBindings>
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </Grid>
                                 </DataTemplate>
@@ -91,12 +94,6 @@
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
-                                        <TextBlock.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                            </ContextMenu>
-                                        </TextBlock.ContextMenu>
                                         <TextBlock.Style>
                                             <Style>
                                                 <Style.Triggers>
@@ -109,6 +106,15 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
+                                    <StackPanel.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                            <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                        </ContextMenu>
+                                    </StackPanel.ContextMenu>
+                                    <StackPanel.InputBindings>
+                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                                    </StackPanel.InputBindings>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

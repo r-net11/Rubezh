@@ -80,10 +80,16 @@ namespace AlarmModule.ViewModels
 		}
         bool CanShowOnPlan()
         {
-            if (Alarm.Device == null)
-                return false;
-
-            return FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
+			if (Alarm.Device != null)
+			{
+				return FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
+			}
+			if (Alarm.Zone != null)
+			{
+				return FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonZones.Any(y => y.ZoneUID == Alarm.Zone.UID); }) ||
+					FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
+			}
+			return false;
         }
         public string PlanName
         {
