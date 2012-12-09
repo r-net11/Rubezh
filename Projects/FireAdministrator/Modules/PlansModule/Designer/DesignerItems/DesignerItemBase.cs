@@ -7,6 +7,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -23,7 +25,6 @@ namespace PlansModule.Designer.DesignerItems
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DeleteCommand = new RelayCommand(OnDelete);
 			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
-			//CreateContextMenu();
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
 		}
@@ -55,9 +56,9 @@ namespace PlansModule.Designer.DesignerItems
 		}
 		protected override void CreateContextMenu()
 		{
-			ContextMenu = new ContextMenu();
-			if (DesignerCanvas != null)
+			if (ContextMenu == null)
 			{
+				ContextMenu = new ContextMenu();
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CopyCommand,
@@ -69,19 +70,16 @@ namespace PlansModule.Designer.DesignerItems
 					Header = "Вырезать",
 				});
 				ContextMenu.Items.Add(new Separator());
-			}
-			ContextMenu.Items.Add(new MenuItem()
-			{
-				Command = DeleteCommand,
-				Header = "Удалить"
-			});
-			ContextMenu.Items.Add(new MenuItem()
-			{
-				Command = ShowPropertiesCommand,
-				Header = "Свойства",
-			});
-			if (DesignerCanvas != null)
-			{
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = DeleteCommand,
+					Header = "Удалить"
+				});
+				ContextMenu.Items.Add(new MenuItem()
+				{
+					Command = ShowPropertiesCommand,
+					Header = "Свойства",
+				});
 				ContextMenu.Items.Add(new Separator());
 				ContextMenu.Items.Add(new MenuItem()
 				{
@@ -134,7 +132,7 @@ namespace PlansModule.Designer.DesignerItems
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand,
 					Header = "Выровнить по нижнему краю",
 				});
-			}
+			};
 		}
 	}
 }

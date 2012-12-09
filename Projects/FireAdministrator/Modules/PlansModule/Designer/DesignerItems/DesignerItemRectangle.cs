@@ -3,6 +3,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer.Adorners;
 using PlansModule.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -33,7 +34,8 @@ namespace PlansModule.Designer.DesignerItems
 				Group = LayerGroupService.SubPlanAlias;
 			}
 		}
-		protected override Infrastructure.Common.Windows.ViewModels.SaveCancelDialogViewModel CreatePropertiesViewModel()
+
+		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
 			if (Element is ElementRectangle)
 				return new RectanglePropertiesViewModel(Element as ElementRectangle);

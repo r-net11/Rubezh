@@ -9,6 +9,9 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Windows.Shapes;
+using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 
 namespace DeviceControls
 {
@@ -49,74 +52,74 @@ namespace DeviceControls
 		}
 
 		List<StateViewModel> _stateViewModelList;
-        List<XStateViewModel> _xstateViewModelList;
+		List<XStateViewModel> _xstateViewModelList;
 
 		public void Update()
 		{
-            var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
-            if (libraryDevice == null)
-            {
-                Logger.Error("DeviceControl.Update libraryDevice = null " + DriverId.ToString());
-                return;
-            }
+			var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+			if (libraryDevice == null)
+			{
+				Logger.Error("DeviceControl.Update libraryDevice = null " + DriverId.ToString());
+				return;
+			}
 
-            var additionalLibraryStates = new List<LibraryState>();
-            foreach (var additionalStateCode in AdditionalStateCodes)
-            {
-                var additionalState = libraryDevice.States.FirstOrDefault(x => x.Code == additionalStateCode);
-                if (additionalState != null)
-                {
-                    if (additionalState.StateType == StateType)
-                    {
-                        additionalLibraryStates.Add(additionalState);
-                    }
-                }
-            }
+			var additionalLibraryStates = new List<LibraryState>();
+			foreach (var additionalStateCode in AdditionalStateCodes)
+			{
+				var additionalState = libraryDevice.States.FirstOrDefault(x => x.Code == additionalStateCode);
+				if (additionalState != null)
+				{
+					if (additionalState.StateType == StateType)
+					{
+						additionalLibraryStates.Add(additionalState);
+					}
+				}
+			}
 
-            var resultLibraryStates = new List<LibraryState>();
+			var resultLibraryStates = new List<LibraryState>();
 
 			if (_xstateViewModelList.IsNotNullOrEmpty())
 				_stateViewModelList.ForEach(x => x.Dispose());
 			_stateViewModelList = new List<StateViewModel>();
 
 			var libraryState = libraryDevice.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType);
-            if (libraryState == null)
-            {
-                if (!additionalLibraryStates.Any(x=>x.StateType == StateType))
-                {
-                    libraryState = libraryDevice.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
-                    if (libraryState == null)
-                    {
-                        Logger.Error("DeviceControl.Update libraryState = null " + DriverId.ToString());
-                        return;
-                    }
-                }
-            }
+			if (libraryState == null)
+			{
+				if (!additionalLibraryStates.Any(x => x.StateType == StateType))
+				{
+					libraryState = libraryDevice.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
+					if (libraryState == null)
+					{
+						Logger.Error("DeviceControl.Update libraryState = null " + DriverId.ToString());
+						return;
+					}
+				}
+			}
 
-            if (libraryState!= null)
-            {
-                resultLibraryStates.Add(libraryState);
-            }
-            foreach (var additionalLibraryState in additionalLibraryStates)
-            {
-                resultLibraryStates.Add(additionalLibraryState);
-            }
+			if (libraryState != null)
+			{
+				resultLibraryStates.Add(libraryState);
+			}
+			foreach (var additionalLibraryState in additionalLibraryStates)
+			{
+				resultLibraryStates.Add(additionalLibraryState);
+			}
 
 			var sortedResultLibraryStates = from LibraryState state in resultLibraryStates
 											orderby state.Layer
 											select state;
-            var canvases = new List<Canvas>();
+			var canvases = new List<Canvas>();
 			foreach (var libraryStates in sortedResultLibraryStates)
-            {
-                _stateViewModelList.Add(new StateViewModel(libraryStates, canvases));
-            }
+			{
+				_stateViewModelList.Add(new StateViewModel(libraryStates, canvases));
+			}
 
 			_canvas.Children.Clear();
 			foreach (var canvas in canvases)
 				_canvas.Children.Add(new Viewbox() { Child = canvas });
 		}
 
-        public static FrameworkElement GetDefaultPicture(Guid DriverId)
+		public static FrameworkElement GetDefaultPicture(Guid DriverId)
 		{
 			UIElement content = null;
 
@@ -134,7 +137,7 @@ namespace DeviceControls
 					Text = "?",
 					Background = Brushes.Transparent
 				};
-			return new Border()
+			var result = new Border()
 			{
 				BorderThickness = new Thickness(0),
 				Background = Brushes.Transparent,
@@ -143,7 +146,17 @@ namespace DeviceControls
 					Child = content
 				}
 			};
+
+			//DrawingVisual drawingVisual = new DrawingVisual();
+			//using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+			//{
+			//    VisualBrush visualBrush = new VisualBrush(result);
+			//    drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(), new Size(width, height)));
+			//}
+
+			return result;
 		}
+
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void OnPropertyChanged(string propertyName)

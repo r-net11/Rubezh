@@ -21,13 +21,11 @@ namespace PlansModule.Designer.DesignerItems
 			ItemWidth = rect.Width + DesignerCanvas.PointZoom;
 			ItemHeight = rect.Height + DesignerCanvas.PointZoom;
 		}
-
 		public override void UpdateZoomPoint()
 		{
 			base.UpdateZoomPoint();
 			SetLocation();
 		}
-
 		public override void UpdateElementProperties()
 		{
 			base.UpdateElementProperties();

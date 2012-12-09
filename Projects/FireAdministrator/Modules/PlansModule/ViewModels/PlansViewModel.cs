@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Common;
 
 namespace PlansModule.ViewModels
 {
@@ -89,15 +90,18 @@ namespace PlansModule.ViewModels
 			{
 				if (SelectedPlan == value)
 					return;
-				_selectedPlan = value;
-				OnPropertyChanged("SelectedPlan");
-				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null;
-				PlanDesignerViewModel.Save();
-				PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
-				if (value != null)
-					ElementsViewModel.Update();
-				ResetHistory();
-				DesignerCanvas.Toolbox.SetDefault();
+				using (new TimeCounter("PlansViewModel.SelectedPlan: {0}"))
+				{
+					_selectedPlan = value;
+					OnPropertyChanged("SelectedPlan");
+					DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null;
+					PlanDesignerViewModel.Save();
+					PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
+					if (value != null)
+						ElementsViewModel.Update();
+					ResetHistory();
+					DesignerCanvas.Toolbox.SetDefault();
+				}
 			}
 		}
 

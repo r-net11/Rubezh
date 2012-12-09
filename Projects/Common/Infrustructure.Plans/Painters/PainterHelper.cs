@@ -56,6 +56,7 @@ namespace Infrustructure.Plans.Painters
 				return new ImageBrush(bitmapImage);
 			}
 		}
+
 		public static Brush CreateTransparentBrush(double zoom = 1)
 		{
 			BitmapImage bi = new BitmapImage();

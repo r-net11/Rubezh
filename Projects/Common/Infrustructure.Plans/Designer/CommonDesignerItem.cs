@@ -87,6 +87,7 @@ namespace Infrustructure.Plans.Designer
 		public CommonDesignerItem(ElementBase element)
 		{
 			ResetElement(element);
+			ContextMenuOpening += (s, e) => CreateContextMenu();
 		}
 
 		public virtual void ResetElement(ElementBase element)
@@ -99,14 +100,14 @@ namespace Infrustructure.Plans.Designer
 		public virtual void SetLocation()
 		{
 			var rect = Element.GetRectangle();
-			Canvas.SetLeft(this, rect.Left);
-			Canvas.SetTop(this, rect.Top);
 			ItemWidth = rect.Width;
 			ItemHeight = rect.Height;
+			Canvas.SetLeft(this, rect.Left);
+			Canvas.SetTop(this, rect.Top);
 		}
 		public virtual void Redraw()
 		{
-			Content = Painter == null ? null : Painter.Draw(Element);
+			RedrawContent();
 			MinWidth = Element.BorderThickness;
 			MinHeight = Element.BorderThickness;
 			if (Element is ElementBaseShape)
@@ -115,7 +116,10 @@ namespace Infrustructure.Plans.Designer
 				MinHeight += 3;
 			}
 			SetLocation();
-			CreateContextMenu();
+		}
+		public void RedrawContent()
+		{
+			Content = Painter == null ? null : Painter.Draw(Element);
 		}
 		public void SetZIndex()
 		{

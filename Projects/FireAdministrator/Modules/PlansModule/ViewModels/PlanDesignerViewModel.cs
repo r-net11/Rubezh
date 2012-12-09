@@ -4,6 +4,9 @@ using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
+using Common;
+using Infrustructure.Plans.Painters;
+using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -21,28 +24,79 @@ namespace PlansModule.ViewModels
 
 		public void Initialize(Plan plan)
 		{
-			Plan = plan;
-			OnPropertyChanged("Plan");
-			if (Plan != null)
+			using (new TimeCounter("PlanDesignerViewModel.Initialize: {0}"))
 			{
-				using (new WaitWrapper())
+				Plan = plan;
+				using (new TimeCounter("======= #1: {0}"))
+					OnPropertyChanged("Plan");
+				if (Plan != null)
 				{
-					ChangeZoom(1);
-					DesignerCanvas.Plan = plan;
-					DesignerCanvas.PlanDesignerViewModel = this;
-					DesignerCanvas.Update();
-					DesignerCanvas.Children.Clear();
-					DesignerCanvas.Width = plan.Width;
-					DesignerCanvas.Height = plan.Height;
-					OnUpdated();
+					using (new WaitWrapper())
+					{
+						using (new TimeCounter("======= #2: {0}"))
+							DesignerCanvas.Children.Clear();
+						using (new TimeCounter("======= #3: {0}"))
+							ChangeZoom(1);
+						using (new TimeCounter("======= #4: {0}"))
+						{
+							DesignerCanvas.Plan = plan;
+							DesignerCanvas.PlanDesignerViewModel = this;
+							DesignerCanvas.Update();
+						}
 
-					foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-						DesignerCanvas.Create(elementBase);
-					foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
-						DesignerCanvas.Create(element);
-					DesignerCanvas.DeselectAll();
+						using (new TimeCounter("DesignerItem.Create: {0}"))
+						{
+							foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+								DesignerCanvas.Create(elementBase);
+							foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
+								DesignerCanvas.Create(element);
+							//int count = 1000;
+							//    //for (int i = 0; i < count; i++)
+							//    //{
+							//    //    var element = new ElementRectangle()
+							//    //    {
+							//    //        Left = 3 * i,
+							//    //        Top = 3 * i,
+							//    //        Width = 3,
+							//    //        Height = 3,
+							//    //    };
+							//    //    var painter = PainterFactory.Create(element);
+							//    //    var content = painter.Draw(element);
+
+							//    //    var container = new ContentControl();
+							//    //    container.Content = content;
+							//    //    container.Width = element.Width;
+							//    //    container.Height = element.Height;
+
+							//    //    System.Windows.Controls.Canvas.SetLeft(container, 3 * i);
+							//    //    System.Windows.Controls.Canvas.SetTop(container, 3 * i);
+							//    //    DesignerCanvas.Children.Add(container);
+							//    //}
+							//    for (int i = 0; i < count; i++)
+							//    {
+							//        var element = new ElementRectangle()
+							//        {
+							//            Left = 3 * i,
+							//            Top = 3 * i,
+							//            Width = 300,
+							//            Height = 300,
+							//        };
+							//        DesignerCanvas.Create(element);
+							//        //var designerItem = DesignerItemFactory.Create(element);
+							//        //System.Windows.Controls.Canvas.SetLeft(designerItem, 3 * i);
+							//        //System.Windows.Controls.Canvas.SetTop(designerItem, 3 * i);
+							//        //DesignerCanvas.Children.Add(designerItem);
+							//    }
+						}
+						//using (new TimeCounter("DesignerCanvas.Painte: {0}"))
+						//    foreach (var designerItem in DesignerCanvas.Items)
+						//        if (designerItem.Painter != null)
+						//            designerItem.Painter.Draw(designerItem.Element);
+						//DesignerCanvas.DeselectAll();
+					}
+					using (new TimeCounter("======= #5: {0}"))
+						OnUpdated();
 				}
-				OnUpdated();
 			}
 		}
 
