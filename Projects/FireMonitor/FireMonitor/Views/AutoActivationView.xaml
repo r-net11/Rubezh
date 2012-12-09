@@ -11,7 +11,7 @@
                                 <DataTrigger.Setters>
                                     <Setter Property="ContentControl.Content">
                                         <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
+                                            <Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="Button.ToolTip" Value="Автоматическая активация ВКЛючена" />
@@ -21,7 +21,7 @@
                                 <DataTrigger.Setters>
                                     <Setter Property="ContentControl.Content">
                                         <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
+                                            <Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="Button.ToolTip" Value="Автоматическая активация ВЫКЛючена" />
@@ -42,7 +42,7 @@
                                 <DataTrigger.Setters>
                                     <Setter Property="ContentControl.Content">
                                         <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
+                                            <Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВКЛючена" />
@@ -52,7 +52,7 @@
                                 <DataTrigger.Setters>
                                     <Setter Property="ContentControl.Content">
                                         <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
+                                            <Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
                                         </Setter.Value>
                                     </Setter>
                                     <Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВЫКЛючена" />

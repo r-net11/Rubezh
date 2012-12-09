@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace AlarmModule.ViewModels
 {
@@ -12,6 +13,7 @@ namespace AlarmModule.ViewModels
 		public AlarmGroupsViewModel()
 		{
             Current = this;
+            ResetCommand = new RelayCommand(OnReset);
 			AlarmGroups = new List<AlarmGroupViewModel>();
 			foreach (AlarmType alarmType in Enum.GetValues(typeof(AlarmType)))
 			{
@@ -28,6 +30,12 @@ namespace AlarmModule.ViewModels
                 alarmGroup.Alarms = alarms.Where(x => x.AlarmType == alarmGroup.AlarmType).ToList<Alarm>();
                 alarmGroup.Update();
             }
+        }
+
+        public RelayCommand ResetCommand { get; private set; }
+        void OnReset()
+        {
+            AlarmsViewModel.Current.ResetAllCommand.Execute();
         }
 	}
 }

@@ -98,7 +98,7 @@ namespace Firesec
 			}
             else
             {
-                throw new FiresecException("Список параметров драйвера пуст");
+                Logger.Error("Watcher.ForceParametersChanged Список параметров драйвера пуст");
             }
 		}
 
