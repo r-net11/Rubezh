@@ -62,11 +62,6 @@ namespace FSAgentServer
 						if (result != null && result.Result != null && result.HasError == false)
 						{
                             CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
-                            //if (PrevCoreState != result.Result)
-                            //{
-                            //    CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
-                            //}
-                            //PrevCoreState = result.Result;
 						}
 						else
 						{
@@ -81,11 +76,6 @@ namespace FSAgentServer
 						if (result != null && result.Result != null && result.HasError == false)
 						{
                             CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
-                            //if (PrevCoreDeviceParams != result.Result)
-                            //{
-                            //    CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
-                            //}
-                            //PrevCoreDeviceParams = result.Result;
 						}
 						else
 						{

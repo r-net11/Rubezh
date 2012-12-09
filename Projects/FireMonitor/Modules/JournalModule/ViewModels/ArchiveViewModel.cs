@@ -232,9 +232,9 @@ namespace JournalModule.ViewModels
                     JournalRecords.Add(journalRecordViewModel);
                 }
             }
-            SelectedRecord = JournalRecords.FirstOrDefault();
+            //SelectedRecord = JournalRecords.FirstOrDefault();
 
-            Status = null;
+            Status = "Количество записей: " + JournalRecords.Count.ToString();
         }
 
         public override void OnShow()

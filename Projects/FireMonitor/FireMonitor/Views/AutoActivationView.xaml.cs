@@ -82,7 +82,7 @@ namespace FireMonitor.Views
                         var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
                         if (journalDevice != null)
                         {
-                            //if (journalDevice.DeviceState.StateType <= globalStateType)
+                            if (journalDevice.DeviceState.StateType <= globalStateType)
                             {
                                 var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
                                 if (existsOnPlan)
