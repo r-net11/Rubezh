@@ -24,7 +24,11 @@ namespace FiresecAPI.Models
 
 		public string UniqueId
 		{
-			get { return ClientType.ToString() + "." + ClientIpAddress == null ? "" : ClientIpAddress; }
+			get
+			{
+				var uniqueId = ClientType.ToString() + "." + ClientIpAddress == null ? "" : ClientIpAddress;
+				return uniqueId;
+			}
 		}
 	}
 }

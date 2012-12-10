@@ -44,6 +44,9 @@ namespace FiresecAPI.Models
         Oper_SecurityZone = 107,
 
         [DescriptionAttribute("ОЗ: Управление исполнительными устройствами")]
-        Oper_ControlDevices = 108
+        Oper_ControlDevices = 108,
+
+        [DescriptionAttribute("ОЗ: Управление интерфейсом")]
+        Oper_ChangeView = 109
     }
 }

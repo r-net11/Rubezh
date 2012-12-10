@@ -13,6 +13,7 @@ namespace SecurityModule.ViewModels
 	public class RoleDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public UserRole Role { get; private set; }
+		public Guid UID { get; private set; }
 
 		public RoleDetailsViewModel(UserRole role = null)
 		{
@@ -24,11 +25,7 @@ namespace SecurityModule.ViewModels
 			else
 			{
 				Title = "Создание новой роли";
-
-				if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
-					Role = new UserRole() { Id = FiresecManager.SecurityConfiguration.UserRoles.Max(x => x.Id) + 1 };
-				else
-					Role = new UserRole() { Id = 1 };
+				Role = new UserRole();
 			}
 
 			CopyProperties();
@@ -40,6 +37,7 @@ namespace SecurityModule.ViewModels
 			foreach (PermissionType permissionType in Enum.GetValues(typeof(PermissionType)))
 				Permissions.Add(new PermissionViewModel(permissionType));
 
+			UID = Role.UID;
 			Name = Role.Name;
 			if (Role.Permissions.IsNotNullOrEmpty())
 			{
@@ -63,7 +61,8 @@ namespace SecurityModule.ViewModels
 
 		void SaveProperties()
 		{
-			Role = new UserRole() { Id = Role.Id };
+			Role = new UserRole();
+			Role.UID = UID;
 			Role.Name = Name;
 			Role.Permissions = new List<PermissionType>(
 				Permissions.Where(x => x.IsEnable).Select(x => x.PermissionType)

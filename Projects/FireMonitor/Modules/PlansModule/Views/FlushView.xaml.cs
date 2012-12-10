@@ -2,9 +2,6 @@
 
 namespace PlansModule.Views
 {
-	/// <summary>
-	/// Interaction logic for FlushView.xaml
-	/// </summary>
 	public partial class FlushView : UserControl
 	{
 		public FlushView()

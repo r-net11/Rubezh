@@ -10,6 +10,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Designer;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
@@ -28,6 +29,7 @@ namespace PlansModule.ViewModels
 			_plansViewModel = plansViewModel;
 			Canvas = new Canvas();
 			_flushAdorner = new FlushAdorner(Canvas);
+			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermissionsToScale"); });
 		}
 
 		public void Initialize(PlanViewModel planViewModel)
@@ -140,6 +142,11 @@ namespace PlansModule.ViewModels
 			foreach (var item in Canvas.Children.OfType<PresenterItem>())
 				item.UpdateDeviceZoom(_zoom, _pointZoom);
 			_flushAdorner.UpdateDeviceZoom(_zoom, _pointZoom);
+		}
+
+		public bool HasPermissionsToScale
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
 		}
 
 		#endregion

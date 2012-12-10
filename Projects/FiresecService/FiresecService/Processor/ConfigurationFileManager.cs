@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using XFiresecAPI;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace FiresecService.Configuration
 {
@@ -78,13 +79,74 @@ namespace FiresecService.Configuration
             Set<PlansConfiguration>(plansConfiguration, PlansConfigurationFileName);
         }
 
-        public static SecurityConfiguration GetSecurityConfiguration()
-        {
-            return Get<SecurityConfiguration>(SecurityConfigurationFileName);
-        }
+		public static SecurityConfiguration GetSecurityConfiguration()
+		{
+			var securityConfiguration = Get<SecurityConfiguration>(SecurityConfigurationFileName);
+			foreach (var user in securityConfiguration.Users)
+			{
+				if (user.Permissions.Count > 0)
+				{
+					user.PermissionStrings = new List<string>();
+					foreach (var permission in user.Permissions)
+					{
+						user.PermissionStrings.Add(permission.ToString());
+					}
+				}
+				user.Permissions = new List<PermissionType>();
+				foreach (var permissionString in user.PermissionStrings)
+				{
+					PermissionType permissionType;
+					var result = Enum.TryParse<PermissionType>(permissionString, out permissionType);
+					if (result)
+					{
+						user.Permissions.Add(permissionType);
+					}
+				}
+			}
+			foreach (var userRole in securityConfiguration.UserRoles)
+			{
+				if (userRole.Permissions.Count > 0)
+				{
+					userRole.PermissionStrings = new List<string>();
+					foreach (var permission in userRole.Permissions)
+					{
+						userRole.PermissionStrings.Add(permission.ToString());
+					}
+				}
+				userRole.Permissions = new List<PermissionType>();
+				foreach (var permissionString in userRole.PermissionStrings)
+				{
+					PermissionType permissionType;
+					var result = Enum.TryParse<PermissionType>(permissionString, out permissionType);
+					if (result)
+					{
+						userRole.Permissions.Add(permissionType);
+					}
+				}
+			}
+			return securityConfiguration;
+		}
 
         public static void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
         {
+			foreach (var user in securityConfiguration.Users)
+			{
+				user.PermissionStrings = new List<string>();
+				foreach (var permission in user.Permissions)
+				{
+					user.PermissionStrings.Add(permission.ToString());
+				}
+				user.Permissions = new List<PermissionType>();
+			}
+			foreach (var userRole in securityConfiguration.UserRoles)
+			{
+				userRole.PermissionStrings = new List<string>();
+				foreach (var permission in userRole.Permissions)
+				{
+					userRole.PermissionStrings.Add(permission.ToString());
+				}
+				userRole.Permissions = new List<PermissionType>();
+			}
             Set<SecurityConfiguration>(securityConfiguration, SecurityConfigurationFileName);
         }
 

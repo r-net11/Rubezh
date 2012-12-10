@@ -13,5 +13,6 @@ namespace Infrastructure.Client.Plans
 
 		void ChangeZoom(double zoom);
 		void ChangeDeviceZoom(double deviceZoom);
+		bool HasPermissionsToScale { get; }
 	}
 }

@@ -30,7 +30,7 @@ namespace DiagnosticsModule.ViewModels
             ShowDriversCommand = new RelayCommand(OnShowDrivers);
             ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
             ShowTreeCommand = new RelayCommand(OnShowTree);
-            DomainTestCommand = new RelayCommand(OnDomainTest);
+            SecurityTestCommand = new RelayCommand(OnSecurityTest);
             Test1Command = new RelayCommand(OnTest1);
             Test2Command = new RelayCommand(OnTest2);
             Test3Command = new RelayCommand(OnTest3);
@@ -74,9 +74,28 @@ namespace DiagnosticsModule.ViewModels
             driversView.ShowDialog();
         }
 
-        public RelayCommand DomainTestCommand { get; private set; }
-        void OnDomainTest()
+        public RelayCommand SecurityTestCommand { get; private set; }
+        void OnSecurityTest()
         {
+			foreach (var user in FiresecManager.SecurityConfiguration.Users)
+			{
+
+			}
+
+			foreach (var userRole in FiresecManager.SecurityConfiguration.UserRoles)
+			{
+				userRole.PermissionStrings = new List<string>();
+				foreach (var permission in userRole.Permissions)
+				{
+					var stringPermission = permission.ToString();
+					Trace.WriteLine(stringPermission);
+					userRole.PermissionStrings.Add(stringPermission);
+				}
+			}
+
+			PermissionType permissionType;
+			var result = Enum.TryParse<PermissionType>("none", out permissionType);
+			result = Enum.TryParse<PermissionType>("Adm_ViewConfig", out permissionType);
         }
 
         public RelayCommand ShowTreeCommand { get; private set; }

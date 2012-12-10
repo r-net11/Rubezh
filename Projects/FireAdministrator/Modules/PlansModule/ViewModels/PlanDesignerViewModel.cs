@@ -132,6 +132,9 @@ namespace PlansModule.ViewModels
 			get { return DesignerCanvas; }
 		}
 
+		public bool HasPermissionsToScale
+		{ get { return true; } }
+
 		#endregion
 	}
 }
