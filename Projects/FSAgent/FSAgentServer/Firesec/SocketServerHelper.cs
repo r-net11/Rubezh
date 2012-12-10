@@ -80,7 +80,13 @@ namespace FSAgentServer
 		public static void Restart()
 		{
 			Logger.Error("SocketServerHelper.Restart");
-			//Stop();
+			Stop();
+			StartIfNotRunning();
+		}
+
+		public static void RestartIfNotRunning()
+		{
+			Logger.Error("SocketServerHelper.RestartIfNotRunning");
 			StartIfNotRunning();
 		}
 

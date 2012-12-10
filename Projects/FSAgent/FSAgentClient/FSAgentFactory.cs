@@ -42,7 +42,7 @@ namespace FSAgentClient
                     BalloonHelper.ShowWarning("Агент Firesec", "Не удается соединиться с агентом");
 			}
 
-            var binding = BindingHelper.CreateNetNamedPipeBinding();
+			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
 
             var endpointAddress = new EndpointAddress(new Uri(serverAddress));
             ChannelFactory = new ChannelFactory<IFSAgentContract>(binding, endpointAddress);

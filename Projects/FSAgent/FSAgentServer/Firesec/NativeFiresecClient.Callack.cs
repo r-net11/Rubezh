@@ -15,18 +15,16 @@ namespace FSAgentServer
 	{
 		public bool IsPing { get; set; }
 		public static bool IsSuspended { get; set; }
-		int LastJournalNo = 0;
+		static int LastJournalNo = 0;
 		static bool needToRead = false;
 		static bool needToReadStates = false;
 		static bool needToReadParameters = false;
 		static bool needToReadJournal = false;
-
-        //string PrevCoreState = "";
-        //string PrevCoreDeviceParams = "";
+		static int CriticalErrorsCount = 0;
 
 		public void NewEventsAvailable(int eventMask)
 		{
-            if (IsPing)
+			if (IsPing)
 			{
 				needToRead = true;
 				needToReadJournal = ((eventMask & 1) == 1);
@@ -61,7 +59,7 @@ namespace FSAgentServer
 						var result = SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
 						if (result != null && result.Result != null && result.HasError == false)
 						{
-                            CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
+							CallbackManager.Add(new FSAgentCallbac() { CoreCongig = result.Result });
 						}
 						else
 						{
@@ -75,7 +73,7 @@ namespace FSAgentServer
 						var result = SafeCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
 						if (result != null && result.Result != null && result.HasError == false)
 						{
-                            CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
+							CallbackManager.Add(new FSAgentCallbac() { CoreDeviceParams = result.Result });
 						}
 						else
 						{
@@ -180,10 +178,10 @@ namespace FSAgentServer
 			if (IsSuspended)
 				return true;
 
-            try
-            {
-                bool continueProgress = ContinueProgress;
-                ContinueProgress = true;
+			try
+			{
+				bool continueProgress = ContinueProgress;
+				ContinueProgress = true;
 				var fsProgressInfo = new FSProgressInfo()
 				{
 					Stage = stage,
@@ -192,30 +190,34 @@ namespace FSAgentServer
 					BytesRW = bytesRW
 				};
 				CallbackManager.Add(new FSAgentCallbac() { FSProgressInfo = fsProgressInfo });
-                return continueProgress;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
-                return false;
-            }
+				return continueProgress;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
+				return false;
+			}
 		}
 
 		public static bool ContinueProgress = true;
 
 		void OnCriticalError()
 		{
-            BalloonHelper.ShowWarning("Агент Firesec", "Потеря соединения с драйвером");
+			BalloonHelper.ShowWarning("Агент Firesec", "Потеря соединения с драйвером");
 			CallbackManager.SetConnectionLost(true);
 			var result = Connect();
 			if (result == null || result.Result == false || result.HasError)
 			{
 				App.Restart();
+				return;
 			}
 			else
 			{
 				CallbackManager.SetConnectionLost(false);
 			}
+
+			if (CriticalErrorsCount++ > 2)
+				App.Restart();
 		}
 	}
 }

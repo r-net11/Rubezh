@@ -47,7 +47,7 @@ namespace FSAgentServer
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
-					SocketServerHelper.Restart();
+					SocketServerHelper.RestartIfNotRunning();
 				}
 				catch (System.Reflection.TargetParameterCountException e)
 				{
@@ -59,7 +59,7 @@ namespace FSAgentServer
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
-					SocketServerHelper.Restart();
+					SocketServerHelper.RestartIfNotRunning();
 				}
 				catch (System.Runtime.InteropServices.InvalidComObjectException e)
 				{
@@ -68,7 +68,7 @@ namespace FSAgentServer
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
-					SocketServerHelper.Restart();
+					SocketServerHelper.RestartIfNotRunning();
 				}
 				catch (Exception e)
 				{
@@ -77,7 +77,7 @@ namespace FSAgentServer
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
-					SocketServerHelper.Restart();
+					SocketServerHelper.RestartIfNotRunning();
 					Trace.WriteLine(e.Message);
 				}
 			}
