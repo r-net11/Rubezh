@@ -68,7 +68,7 @@ namespace Infrastructure.Common
 				var serviceAddress = "net.pipe://127.0.0.1/FSAgent/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FSAgent/";
+					serviceAddress = "http://" + RemoteAddress + ":" + RemoteFSAgentPort.ToString() + "/FSAgent/";
 				}
 				return serviceAddress;
 			}

@@ -13,59 +13,41 @@ namespace OPCModule.ViewModels
 		public void Initialize()
 		{
 			BuildTree();
-			if (Devices.Count > 0)
+			if (RootDevice != null)
 			{
-				CollapseChild(Devices[0]);
-				ExpandChild(Devices[0]);
-				SelectedDevice = Devices[0];
+				RootDevice.IsExpanded = true;
+				SelectedDevice = RootDevice;
 			}
+			OnPropertyChanged("RootDevices");
 		}
 
 		#region DeviceSelection
-
 		public List<OPCDeviceViewModel> AllDevices;
 
 		public void FillAllDevices()
 		{
 			AllDevices = new List<OPCDeviceViewModel>();
-			AddChildPlainDevices(Devices[0]);
+			AddChildPlainDevices(RootDevice);
 		}
 
 		void AddChildPlainDevices(OPCDeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
 			foreach (var childViewModel in parentViewModel.Children)
-			{
 				AddChildPlainDevices(childViewModel);
-			}
 		}
 
 		public void Select(Guid deviceUID)
 		{
-			Initialize();
 			if (deviceUID != Guid.Empty)
 			{
-				FillAllDevices();
-
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpantToThis();
 				SelectedDevice = deviceViewModel;
 			}
 		}
-
 		#endregion
-
-		ObservableCollection<OPCDeviceViewModel> _devices;
-		public ObservableCollection<OPCDeviceViewModel> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
-		}
 
 		OPCDeviceViewModel _selectedDevice;
 		public OPCDeviceViewModel SelectedDevice
@@ -80,49 +62,152 @@ namespace OPCModule.ViewModels
 			}
 		}
 
-		void BuildTree()
+		OPCDeviceViewModel _rootDevice;
+		public OPCDeviceViewModel RootDevice
 		{
-			Devices = new ObservableCollection<OPCDeviceViewModel>();
-			AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+			get { return _rootDevice; }
+			private set
+			{
+				_rootDevice = value;
+				OnPropertyChanged("RootDevice");
+			}
 		}
 
-		public OPCDeviceViewModel AddDevice(Device device, OPCDeviceViewModel parentDeviceViewModel)
+		public OPCDeviceViewModel[] RootDevices
 		{
-			var deviceViewModel = new OPCDeviceViewModel(device, Devices);
-			deviceViewModel.Parent = parentDeviceViewModel;
+			get { return new OPCDeviceViewModel[] { RootDevice }; }
+		}
 
-			var indexOf = Devices.IndexOf(parentDeviceViewModel);
-			Devices.Insert(indexOf + 1, deviceViewModel);
+		void BuildTree()
+		{
+			RootDevice = AddDeviceInternal(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+			FillAllDevices();
+		}
+
+		private OPCDeviceViewModel AddDeviceInternal(Device device, OPCDeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new OPCDeviceViewModel(device);
+			if (parentDeviceViewModel != null)
+				parentDeviceViewModel.Children.Add(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
-			{
-				var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-				deviceViewModel.Children.Add(childDeviceViewModel);
-			}
-
+				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
 		}
 
-		public void CollapseChild(OPCDeviceViewModel parentDeviceViewModel)
-		{
-			parentDeviceViewModel.IsExpanded = false;
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
-			{
-				CollapseChild(deviceViewModel);
-			}
-		}
+		//public void Initialize()
+		//{
+		//    BuildTree();
+		//    if (Devices.Count > 0)
+		//    {
+		//        CollapseChild(Devices[0]);
+		//        ExpandChild(Devices[0]);
+		//        SelectedDevice = Devices[0];
+		//    }
+		//}
 
-		public void ExpandChild(OPCDeviceViewModel parentDeviceViewModel)
-		{
-			if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
-			{
-				parentDeviceViewModel.IsExpanded = true;
-				foreach (var deviceViewModel in parentDeviceViewModel.Children)
-				{
-					ExpandChild(deviceViewModel);
-				}
-			}
-		}
+		//#region DeviceSelection
+
+		//public List<OPCDeviceViewModel> AllDevices;
+
+		//public void FillAllDevices()
+		//{
+		//    AllDevices = new List<OPCDeviceViewModel>();
+		//    AddChildPlainDevices(Devices[0]);
+		//}
+
+		//void AddChildPlainDevices(OPCDeviceViewModel parentViewModel)
+		//{
+		//    AllDevices.Add(parentViewModel);
+		//    foreach (var childViewModel in parentViewModel.Children)
+		//    {
+		//        AddChildPlainDevices(childViewModel);
+		//    }
+		//}
+
+		//public void Select(Guid deviceUID)
+		//{
+		//    Initialize();
+		//    if (deviceUID != Guid.Empty)
+		//    {
+		//        FillAllDevices();
+
+		//        var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+		//        if (deviceViewModel != null)
+		//            deviceViewModel.ExpantToThis();
+		//        SelectedDevice = deviceViewModel;
+		//    }
+		//}
+
+		//#endregion
+
+		//ObservableCollection<OPCDeviceViewModel> _devices;
+		//public ObservableCollection<OPCDeviceViewModel> Devices
+		//{
+		//    get { return _devices; }
+		//    set
+		//    {
+		//        _devices = value;
+		//        OnPropertyChanged("Devices");
+		//    }
+		//}
+
+		//OPCDeviceViewModel _selectedDevice;
+		//public OPCDeviceViewModel SelectedDevice
+		//{
+		//    get { return _selectedDevice; }
+		//    set
+		//    {
+		//        _selectedDevice = value;
+		//        if (value != null)
+		//            value.ExpantToThis();
+		//        OnPropertyChanged("SelectedDevice");
+		//    }
+		//}
+
+		//void BuildTree()
+		//{
+		//    Devices = new ObservableCollection<OPCDeviceViewModel>();
+		//    AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+		//}
+
+		//public OPCDeviceViewModel AddDevice(Device device, OPCDeviceViewModel parentDeviceViewModel)
+		//{
+		//    var deviceViewModel = new OPCDeviceViewModel(device, Devices);
+		//    deviceViewModel.Parent = parentDeviceViewModel;
+
+		//    var indexOf = Devices.IndexOf(parentDeviceViewModel);
+		//    Devices.Insert(indexOf + 1, deviceViewModel);
+
+		//    foreach (var childDevice in device.Children)
+		//    {
+		//        var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+		//        deviceViewModel.Children.Add(childDeviceViewModel);
+		//    }
+
+		//    return deviceViewModel;
+		//}
+
+		//public void CollapseChild(OPCDeviceViewModel parentDeviceViewModel)
+		//{
+		//    parentDeviceViewModel.IsExpanded = false;
+		//    foreach (var deviceViewModel in parentDeviceViewModel.Children)
+		//    {
+		//        CollapseChild(deviceViewModel);
+		//    }
+		//}
+
+		//public void ExpandChild(OPCDeviceViewModel parentDeviceViewModel)
+		//{
+		//    if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
+		//    {
+		//        parentDeviceViewModel.IsExpanded = true;
+		//        foreach (var deviceViewModel in parentDeviceViewModel.Children)
+		//        {
+		//            ExpandChild(deviceViewModel);
+		//        }
+		//    }
+		//}
 
         public override void OnShow()
         {
