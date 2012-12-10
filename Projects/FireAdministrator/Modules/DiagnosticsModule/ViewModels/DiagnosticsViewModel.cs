@@ -257,7 +257,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand BalloonTestCommand { get; private set; }
         void OnBalloonTest()
         {
-            BalloonHelper.ShowWarning("Предупреждение", "Это текст предупреждения");
+            BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
         }
     }
 }

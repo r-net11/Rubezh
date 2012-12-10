@@ -135,10 +135,10 @@
     </Compile>
     <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="AppSettingsManager.cs" />
-    <Compile Include="BalloonTrayTip\BalloonHelper.cs" />
-    <Compile Include="BalloonTrayTip\ViewModels\BalloonToolTipViewModel.cs" />
-    <Compile Include="BalloonTrayTip\Views\CustomBalloonView.xaml.cs">
-      <DependentUpon>CustomBalloonView.xaml</DependentUpon>
+    <Compile Include="BalloonToolTip\BalloonHelper.cs" />
+    <Compile Include="BalloonToolTip\ViewModels\BalloonToolTipViewModel.cs" />
+    <Compile Include="BalloonToolTip\Views\BalloonToolTipView.xaml.cs">
+      <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="ConfigHelper.cs" />
@@ -271,11 +271,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BalloonTrayTip\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BalloonTrayTip\Views\CustomBalloonView.xaml">
+    <Page Include="BalloonToolTip\Views\BalloonToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

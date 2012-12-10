@@ -1,19 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Hardcodet.Wpf.TaskbarNotification;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using System.Windows.Media.Imaging;
 using System;
 using System.Windows.Media.Animation;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
-    public partial class CustomBalloonView : UserControl
+    public partial class BalloonToolTipView : UserControl
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer;
 
-        public CustomBalloonView()
+        public BalloonToolTipView()
         {
             InitializeComponent();
             this.Visibility = Visibility.Hidden;
@@ -21,12 +19,10 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(40);
             dispatcherTimer.Start();
-            
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -34,16 +30,6 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
             Storyboard sb = this.FindResource("ClosingAnimation") as Storyboard;
             sb.Completed += new EventHandler(Closing_Completed);
             BeginStoryboard(sb);
-        }
-
-        private void Image_MouseEnter(object sender, MouseEventArgs e)
-        {
-            close_Cross.Source = new BitmapImage(new Uri(@"pack://application:,,,/Infrastructure.Common;component/balloontraytip/Images/fileclose_mouseenter.png"));
-        }
-
-        private void Image_MouseLeave(object sender, MouseEventArgs e)
-        {
-            close_Cross.Source = new BitmapImage(new Uri(@"pack://application:,,,/Infrastructure.Common;component/balloontraytip/Images/fileclose.png"));
         }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
@@ -85,8 +71,5 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         {
             this.Visibility = Visibility.Hidden;
         }
-
-        
-
     }
 }

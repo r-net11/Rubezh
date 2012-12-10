@@ -15,7 +15,7 @@ namespace Infrastructure.Common.BalloonTrayTip
     {
         static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
         static TaskbarIcon taskbarIcon;
-        static Views.CustomBalloonView customBalloonView;
+        static Views.BalloonToolTipView customBalloonView;
         
         public static void Initialize()
         {
@@ -25,7 +25,7 @@ namespace Infrastructure.Common.BalloonTrayTip
                 {
                     taskbarIcon = new TaskbarIcon();
                     taskbarIcon.Visibility = Visibility.Hidden;
-                    customBalloonView = new Views.CustomBalloonView();
+                    customBalloonView = new Views.BalloonToolTipView();
                     customBalloonView.DataContext = balloonToolTipViewModel;
                     taskbarIcon.ShowCustomBalloon(customBalloonView, System.Windows.Controls.Primitives.PopupAnimation.None, null);
                     customBalloonView.Visibility = Visibility.Hidden;
@@ -38,20 +38,20 @@ namespace Infrastructure.Common.BalloonTrayTip
             
         }
         
-        public static void ShowWarning(string title, string text = "")
+        public static void Show(string title, string text = "")
         {
 #if DEBUG
-            ShowWarning(title, text, Brushes.Black, Brushes.White);
+            Show(title, text, Brushes.Black, Brushes.White);
 #endif
         }
 
-        public static void ShowWarning(string title, string text, Brush foregroundColor, Brush backgroundColor)
+        public static void Show(string title, string text, Brush foregroundColor, Brush backgroundColor)
         {
             Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
             {
                 try
                 {
-                    balloonToolTipViewModel.AddNote(title, text, foregroundColor, backgroundColor);
+                    balloonToolTipViewModel.Add(title, text, foregroundColor, backgroundColor);
                 }
                 catch (Exception e)
                 {

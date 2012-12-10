@@ -29,7 +29,7 @@ namespace FSAgentServer
                 }
                 catch(Exception ex)
                 {
-                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки");
+                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки");
                     Logger.Error(ex, "App.OnStartup");
                 }
             }
@@ -51,7 +51,7 @@ namespace FSAgentServer
 #if DEBUG
             return;
 #endif
-            BalloonHelper.ShowWarning("Агент Firesec", "Перезапуск");
+            BalloonHelper.Show("Агент Firesec", "Перезапуск");
             Bootstrapper.Close();
             var processStartInfo = new ProcessStartInfo()
             {

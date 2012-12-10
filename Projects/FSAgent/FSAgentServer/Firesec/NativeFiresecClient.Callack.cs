@@ -203,7 +203,7 @@ namespace FSAgentServer
 
 		void OnCriticalError()
 		{
-			BalloonHelper.ShowWarning("Агент Firesec", "Потеря соединения с драйвером");
+            BalloonHelper.Show("Агент Firesec", "Потеря соединения с драйвером");
 			CallbackManager.SetConnectionLost(true);
 			var result = Connect();
 			if (result == null || result.Result == false || result.HasError)
