@@ -1,12 +1,10 @@
 ﻿using System;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
-using Common;
-using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -46,6 +44,13 @@ namespace PlansModule.ViewModels
 
 						using (new TimeCounter("DesignerItem.Create: {0}"))
 						{
+
+							// 1. Painter -> return Visual
+							// 2. DesignerItem inherite FramworkElement
+							// 3. DesignerItem cache (use ResetElement)
+							// 4. Change ResizeDecorator/ResizeAdorner
+
+
 							foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 								DesignerCanvas.Create(elementBase);
 							foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))

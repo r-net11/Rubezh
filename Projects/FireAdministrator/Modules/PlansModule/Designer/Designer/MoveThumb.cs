@@ -42,6 +42,7 @@ namespace PlansModule.Designer
 		{
 			if (_wasMoved)
 				DesignerCanvas.EndChange();
+			DesignerCanvas.InvalidateMeasure();
 		}
 		private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
 		{
@@ -66,15 +67,9 @@ namespace PlansModule.Designer
 					designerItem.Element.Position += shift;
 					designerItem.SetLocation();
 				}
-				DesignerCanvas.InvalidateMeasure();
 				e.Handled = true;
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
-		}
-
-		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
-		{
-			base.OnPreviewMouseDown(e);
 		}
 	}
 }

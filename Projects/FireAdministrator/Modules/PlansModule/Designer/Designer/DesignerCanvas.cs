@@ -55,10 +55,11 @@ namespace PlansModule.Designer
 
 		public void RemoveAllSelected()
 		{
-			if (SelectedElements.Count == 0)
+			var elements = SelectedElements;
+			if (elements.Count() == 0)
 				return;
 
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>(SelectedElements));
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
 			for (int i = Items.Count() - 1; i >= 0; i--)
 			{
 				var designerItem = Children[i] as DesignerItem;
@@ -221,8 +222,10 @@ namespace PlansModule.Designer
 			//    Update();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
+			{
 				designerItem.UpdateZoom();
-			UpdateZoomPoint();
+				designerItem.UpdateZoomPoint();
+			}
 		}
 		public void UpdateZoomPoint()
 		{

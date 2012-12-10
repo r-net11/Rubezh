@@ -63,7 +63,7 @@ namespace PlansModule.ViewModels
 					designerItem.IsSelected = true;
 				}
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
-				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements);
+				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

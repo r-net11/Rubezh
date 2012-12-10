@@ -16,7 +16,7 @@ namespace PlansModule.Designer.DesignerItems
 	{
 		static DesignerItemBase()
 		{
-			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerItem), new FrameworkPropertyMetadata(typeof(DesignerItem)));
+			//FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerItem), new FrameworkPropertyMetadata(typeof(DesignerItem)));
 		}
 
 		public DesignerItemBase(ElementBase element)
@@ -38,7 +38,7 @@ namespace PlansModule.Designer.DesignerItems
 				if (DialogService.ShowModalWindow(property))
 				{
 					OnDesignerItemPropertyChanged();
-					Redraw();
+					RedrawContent();
 					ServiceFactory.SaveService.PlansChanged = true;
 					DesignerCanvas.EndChange();
 				}

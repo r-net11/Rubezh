@@ -6,9 +6,15 @@ namespace Infrustructure.Plans.Designer
 {
 	public abstract class DesignerItem : CommonDesignerItem
 	{
+		private CommonDesignerCanvas _designerCanvas;
 		public CommonDesignerCanvas DesignerCanvas
 		{
-			get { return VisualTreeHelper.GetParent(this) as CommonDesignerCanvas; }
+			get
+			{
+				if (_designerCanvas == null)
+					_designerCanvas = VisualTreeHelper.GetParent(this) as CommonDesignerCanvas;
+				return _designerCanvas;
+			}
 		}
 		public ICommand ShowPropertiesCommand { get; protected set; }
 		public ICommand DeleteCommand { get; protected set; }

@@ -29,14 +29,9 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return from item in this.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
 		}
-		public List<ElementBase> SelectedElements
+		public IEnumerable<ElementBase> SelectedElements
 		{
-			get
-			{
-				return (from item in this.Children.OfType<DesignerItem>()
-						where item.IsSelected == true
-						select item.Element).ToList();
-			}
+			get { return from item in this.Children.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
 		}
 
 		public void SelectAll()
