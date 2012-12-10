@@ -21,6 +21,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 		public void AddNote(string title, string text, Brush foregroundColor, Brush backgroundColor)
 		{
 			Items.Add(new Item { Title = title, Text = text, ForegroundColor = foregroundColor, BackgroundColor = backgroundColor });
+            IsEmpty = false;
 			OnPropertyChanged("LastItem");
 		}
 
@@ -68,6 +69,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 			try
 			{
 				Items.Clear();
+                IsEmpty = true;
 				this.Close();
 			}
 			catch (Exception e)
