@@ -94,7 +94,7 @@ namespace FiresecClient
 					Device = device
 				};
 				foreach (var parameter in device.Driver.Parameters)
-					deviceState.ThreadSafeParameters.Add(parameter.Copy());
+					deviceState.Parameters.Add(parameter.Copy());
 				device.DeviceState = deviceState;
 			}
 

@@ -44,7 +44,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
-                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding ZoneName}" />
                                 </Hyperlink>
                             </TextBlock>
@@ -56,18 +56,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
-                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding PlanName}" />
                                 </Hyperlink>
                             </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-                <!--<DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="*" />
-                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" Width="*" />
-                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.StateName}" Width="*" />
-                <DataGridTextColumn Header="План" Binding="{Binding PlanName}" Width="*" />-->
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">

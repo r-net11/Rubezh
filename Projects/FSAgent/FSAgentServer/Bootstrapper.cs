@@ -28,8 +28,7 @@ namespace FSAgentServer
                 var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
-
+				
                 WindowThread = new Thread(new ThreadStart(OnWorkThread));
 				WindowThread.Priority = ThreadPriority.Highest;
 				WindowThread.SetApartmentState(ApartmentState.STA);
@@ -37,7 +36,7 @@ namespace FSAgentServer
 				WindowThread.Start();
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
-                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
+                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
                 }
                 BootstrapperLoadEvent = new AutoResetEvent(false);
                 
@@ -49,7 +48,7 @@ namespace FSAgentServer
                 
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
-                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
+                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
                     UILogger.Log("Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
                 }
 				UILogger.Log("Готово");

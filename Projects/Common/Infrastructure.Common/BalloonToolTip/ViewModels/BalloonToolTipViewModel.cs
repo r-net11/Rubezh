@@ -10,34 +10,36 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 {
 	public class BalloonToolTipViewModel : WindowBaseViewModel
 	{
-		public static bool IsEmpty = false;
+		public static bool IsEmpty
+        {
+            get { return Items.Count == 0; } 
+        }
 
-		List<Item> Items = new List<Item>();
+		static List<Item> Items = new List<Item>();
 		public Item LastItem
 		{
 			get { return Items.LastOrDefault(); }
 		}
 
-		public void AddNote(string title, string text, Brush foregroundColor, Brush backgroundColor)
+        public BalloonToolTipViewModel(string title, string text, Brush foregroundColor, Brush backgroundColor)
+        {
+            Items.Clear();
+            Title = "";
+            Add(title, text, foregroundColor, backgroundColor);
+            OnPropertyChanged("LastItem");
+            RemoveItemCommand = new RelayCommand(OnRemoveItem);
+            ClearCommand = new RelayCommand(OnClear);
+        }
+        public BalloonToolTipViewModel()
+        {
+            Title = "";
+            RemoveItemCommand = new RelayCommand(OnRemoveItem);
+            ClearCommand = new RelayCommand(OnClear);
+        }
+        public void Add(string title, string text, Brush foregroundColor, Brush backgroundColor)
 		{
 			Items.Add(new Item { Title = title, Text = text, ForegroundColor = foregroundColor, BackgroundColor = backgroundColor });
-			OnPropertyChanged("LastItem");
-		}
-
-		public BalloonToolTipViewModel(string title, string text, Brush foregroundColor, Brush backgroundColor)
-		{
-			Items.Clear();
-			Title = "";
-			AddNote(title, text, foregroundColor, backgroundColor);
-			OnPropertyChanged("LastItem");
-			RemoveItemCommand = new RelayCommand(OnRemoveItem);
-			ClearCommand = new RelayCommand(OnClear);
-		}
-		public BalloonToolTipViewModel()
-		{
-			Title = "";
-			RemoveItemCommand = new RelayCommand(OnRemoveItem);
-			ClearCommand = new RelayCommand(OnClear);
+            OnPropertyChanged("LastItem");
 		}
 
 		public RelayCommand RemoveItemCommand { get; private set; }
@@ -46,11 +48,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 			try
 			{
 				Items.Remove(Items.LastOrDefault());
-				if (Items.Count == 0)
-				{
-                    IsEmpty = true;
-				}
-				else
+				if (Items.Count != 0)
 				{
 					OnPropertyChanged("LastItem");
 				}
@@ -68,7 +66,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 			try
 			{
 				Items.Clear();
-				this.Close();
+                this.Close();
 			}
 			catch (Exception e)
 			{

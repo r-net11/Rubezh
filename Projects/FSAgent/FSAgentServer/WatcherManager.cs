@@ -96,7 +96,7 @@ namespace FSAgentServer
 				if (connectResult1.HasError)
 				{
 					UILogger.Log("Ошибка соединения с драйвером для администрирования");
-					BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+					BalloonHelper.Show("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
 				}
 				CallbackClient.IsPing = true;
 
@@ -106,7 +106,7 @@ namespace FSAgentServer
                 if (connectResult2.HasError)
                 {
                     UILogger.Log("Ошибка соединения с драйвером для мониторинга");
-                    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
+                    BalloonHelper.Show("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
                 }
                 Bootstrapper.BootstrapperLoadEvent.Set();
 			}

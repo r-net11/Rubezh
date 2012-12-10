@@ -7,12 +7,12 @@
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Grid>
+    <Grid TextBlock.FontSize="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" DataContext="{Binding JournalRecord}" Background="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" TextElement.Foreground="White">
+        <Grid Grid.Row="0" DataContext="{Binding JournalRecord}" Background="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" Opacity="0.5" TextElement.Foreground="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />

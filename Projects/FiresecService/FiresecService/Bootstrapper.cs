@@ -29,8 +29,7 @@ namespace FiresecService
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-                resourceService.AddResource(new ResourceDescription(typeof(BalloonToolTipViewModel).Assembly, "BalloonTrayTip/DataTemplates/Dictionary.xaml"));
-
+                
                 BalloonHelper.Initialize();
                 
                 WindowThread = new Thread(new ThreadStart(OnWorkThread));
@@ -49,7 +48,7 @@ namespace FiresecService
             {
                 Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
                 UILogger.Log("Ошибка при запуске сервера");
-                BalloonHelper.ShowWarning("Сервер приложений Firesec", "Ошибка во время загрузки");
+                BalloonHelper.Show("Сервер приложений Firesec", "Ошибка во время загрузки");
                 Close();
             }
         }
@@ -64,7 +63,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
-                BalloonHelper.ShowWarning("Сервер приложений Firesec", "Ошибка во время загрузки");
+                BalloonHelper.Show("Сервер приложений Firesec", "Ошибка во время загрузки");
             }
             MainViewStartedEvent.Set();
             System.Windows.Threading.Dispatcher.Run();

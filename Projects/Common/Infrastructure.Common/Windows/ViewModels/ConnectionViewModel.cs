@@ -7,7 +7,7 @@
 			var serverAddress = "";
 			if(AppSettingsManager.IsRemote)
 				serverAddress = AppSettingsManager.RemoteAddress;
-			Title = "Соединение с сервером " + serverAddress;
+			Title = "Соединение с сервером \n" + serverAddress;
 
 			Sizable = false;
 			TopMost = true;

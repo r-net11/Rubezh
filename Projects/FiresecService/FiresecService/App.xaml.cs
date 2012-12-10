@@ -31,7 +31,7 @@ namespace FiresecServiceRunner
                 catch (Exception ex)
                 {
                     Logger.Error(ex, "App.OnStartup");
-                    BalloonHelper.ShowWarning("Сервер приложений Firesec", "Ошибка во время загрузки");
+                    BalloonHelper.Show("Сервер приложений Firesec", "Ошибка во время загрузки");
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace FiresecServiceRunner
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
-            BalloonHelper.ShowWarning("Сервер приложений Firesec", "Перезагрузка");
+            BalloonHelper.Show("Сервер приложений Firesec", "Перезагрузка");
 			var processStartInfo = new ProcessStartInfo()
 			{
 				FileName = Application.ResourceAssembly.Location
