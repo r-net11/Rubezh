@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -15,23 +17,38 @@ namespace Infrustructure.Plans.Designer
 		public CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{
 			EventService.RegisterEventAggregator(eventAggregator);
+			Items = new List<DesignerItem>();
 		}
 
 		public abstract void BeginChange(IEnumerable<DesignerItem> designerItems);
 		public abstract void BeginChange();
 		public abstract void EndChange();
 
-		public IEnumerable<DesignerItem> Items
+		public void Clear()
 		{
-			get { return from item in this.Children.OfType<DesignerItem>() select item; }
+			Children.Clear();
+			Items.Clear();
 		}
+		public void Remove(DesignerItem designerItem)
+		{
+			Children.Remove(designerItem);
+			Items.Remove(designerItem);
+		}
+		public void Add(DesignerItem designerItem)
+		{
+			designerItem.DesignerCanvas = this;
+			Children.Add(designerItem);
+			Items.Add(designerItem);
+		}
+
+		public List<DesignerItem> Items { get; private set; }
 		public IEnumerable<DesignerItem> SelectedItems
 		{
-			get { return from item in this.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
+			get { return from item in Items where item.IsSelected select item; }
 		}
 		public IEnumerable<ElementBase> SelectedElements
 		{
-			get { return from item in this.Children.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
+			get { return from item in Items where item.IsSelected select item.Element; }
 		}
 
 		public void SelectAll()

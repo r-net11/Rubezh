@@ -60,12 +60,8 @@ namespace PlansModule.Designer
 				return;
 
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
-			for (int i = Items.Count() - 1; i >= 0; i--)
-			{
-				var designerItem = Children[i] as DesignerItem;
-				if (designerItem.IsSelected)
-					RemoveElement(designerItem);
-			}
+			foreach (var designerItem in SelectedItems.ToList())
+				Remove(designerItem);
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
@@ -149,7 +145,7 @@ namespace PlansModule.Designer
 				Plan.ElementSubPlans.Remove(designerItem.Element as ElementSubPlan);
 			else
 				Toolbox.PlansViewModel.ElementRemoved(designerItem.Element);
-			Children.Remove(designerItem);
+			Remove(designerItem);
 		}
 		public void RemoveElement(ElementBase elementBase)
 		{
@@ -162,7 +158,7 @@ namespace PlansModule.Designer
 		{
 			var designerItem = DesignerItemFactory.Create(elementBase);
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
-			Children.Add(designerItem);
+			Add(designerItem);
 			designerItem.Redraw();
 			designerItem.SetZIndex();
 			return designerItem;
@@ -172,13 +168,12 @@ namespace PlansModule.Designer
 		{
 			Width = Plan.Width;
 			Height = Plan.Height;
-			using (new TimeCounter("DesignerCanvas.Background: {0}"))
-				if (Plan.BackgroundPixels != null)
-					Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
-				else if (Plan.BackgroundColor == Colors.Transparent)
-					Background = PainterHelper.CreateTransparentBrush(Zoom);
-				else
-					Background = new SolidColorBrush(Plan.BackgroundColor);
+			if (Plan.BackgroundPixels != null)
+				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
+			else if (Plan.BackgroundColor == Colors.Transparent)
+				Background = PainterHelper.CreateTransparentBrush(Zoom);
+			else
+				Background = new SolidColorBrush(Plan.BackgroundColor);
 		}
 		public override void Remove(List<Guid> elementUIDs)
 		{

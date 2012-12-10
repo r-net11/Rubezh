@@ -2,14 +2,11 @@
 
 	<Style TargetType="{x:Type loc:DesignerItemBase}">
 		<Setter Property="SnapsToDevicePixels" Value="true" />
-		<Setter Property="Background" Value="Red" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type loc:DesignerItemBase}">
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}">
-						<Grid x:Name="PART_Adorners" Visibility="{Binding IsSelectable, Converter={StaticResource BoolToVisibilityConverter}}">
-							<resize:ResizeDecorator x:Name="PART_ResizeDecoratorRectangle" ShowDecorator="{Binding IsSelected}" />
-						</Grid>
+						<resize:ResizeDecorator ShowDecorator="{Binding IsSelected}" Visibility="{Binding IsSelectable, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<designer:MoveThumb />
 					</Grid>
 				</ControlTemplate>

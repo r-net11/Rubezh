@@ -5,10 +5,11 @@ using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : ContentControl, INotifyPropertyChanged
+	public abstract class CommonDesignerItem : Control, INotifyPropertyChanged
 	{
 		public const int BigConstatnt = 100000;
 
@@ -76,6 +77,7 @@ namespace Infrustructure.Plans.Designer
 
 		public ElementBase Element { get; protected set; }
 		public IPainter Painter { get; protected set; }
+		public Visual Content { get; protected set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -130,6 +132,7 @@ namespace Infrustructure.Plans.Designer
 				MinHeight += 3;
 			}
 			Content = Painter == null ? null : Painter.Draw(Element);
+			OnPropertyChanged("Content");
 		}
 		public void SetZIndex()
 		{

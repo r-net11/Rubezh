@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
+using Common;
 
 namespace PlansModule.ViewModels
 {
@@ -164,7 +165,8 @@ namespace PlansModule.ViewModels
 					case Key.A:
 						var designerCanvas = PlansViewModel.DesignerCanvas;
 						if (designerCanvas != null)
-							designerCanvas.SelectAll();
+							using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
+								designerCanvas.SelectAll();
 						break;
 				}
 			else if (e.Key == Key.Delete)

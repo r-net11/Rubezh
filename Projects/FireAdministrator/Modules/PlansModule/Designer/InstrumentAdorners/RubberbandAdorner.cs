@@ -67,7 +67,7 @@ namespace PlansModule.InstrumentAdorners
 		private void UpdateSelection()
 		{
 			Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
-			foreach (DesignerItem designerItem in DesignerCanvas.Children)
+			foreach (DesignerItem designerItem in DesignerCanvas.Items)
 			{
 				if (designerItem.IsVisibleLayout && designerItem.IsSelectableLayout)
 				{

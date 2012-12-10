@@ -53,6 +53,7 @@ namespace Infrustructure.Plans.Painters
 				bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
 				bitmapImage.StreamSource = imageStream;
 				bitmapImage.EndInit();
+				bitmapImage.Freeze();
 				return new ImageBrush(bitmapImage);
 			}
 		}

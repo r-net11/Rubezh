@@ -108,8 +108,12 @@ namespace Controls
 				var vsp = (VirtualizingStackPanel)typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.NonPublic, null, container, null);
 				if (vsp != null)
 				{
-					vsp.GetType().GetMethod("BringIndexIntoView", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(vsp, new object[] { container.Items.IndexOf(item) });
-					element = container.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+					var index = container.Items.IndexOf(item);
+					if (index >= 0)
+					{
+						vsp.GetType().GetMethod("BringIndexIntoView", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(vsp, new object[] { index });
+						element = container.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+					}
 				}
 				else
 					Debug.WriteLine("VirtualizingStackPanel NOT FOUND!!!");

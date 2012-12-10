@@ -119,6 +119,13 @@ namespace DeviceControls
 				_canvas.Children.Add(new Viewbox() { Child = canvas });
 		}
 
+		public event PropertyChangedEventHandler PropertyChanged;
+		protected void OnPropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+
 		public static FrameworkElement GetDefaultPicture(Guid DriverId)
 		{
 			UIElement content = null;
@@ -141,10 +148,11 @@ namespace DeviceControls
 			{
 				BorderThickness = new Thickness(0),
 				Background = Brushes.Transparent,
-				Child = new Viewbox()
-				{
-					Child = content
-				}
+				//Child = new Viewbox()
+				//{
+				//    Child = content
+				//}
+				Child = content
 			};
 
 			//DrawingVisual drawingVisual = new DrawingVisual();
@@ -155,14 +163,6 @@ namespace DeviceControls
 			//}
 
 			return result;
-		}
-
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		protected void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

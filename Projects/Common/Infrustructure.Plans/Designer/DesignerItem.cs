@@ -1,21 +1,13 @@
 ﻿using System.Windows.Input;
-using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
+using System.Windows;
 
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class DesignerItem : CommonDesignerItem
 	{
-		private CommonDesignerCanvas _designerCanvas;
-		public CommonDesignerCanvas DesignerCanvas
-		{
-			get
-			{
-				if (_designerCanvas == null)
-					_designerCanvas = VisualTreeHelper.GetParent(this) as CommonDesignerCanvas;
-				return _designerCanvas;
-			}
-		}
+		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
 		public ICommand ShowPropertiesCommand { get; protected set; }
 		public ICommand DeleteCommand { get; protected set; }
 

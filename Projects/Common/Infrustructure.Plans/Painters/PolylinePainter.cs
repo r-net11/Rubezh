@@ -7,7 +7,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public class PolylinePainter : ShapePainter<Polyline>
 	{
-		public override FrameworkElement Draw(ElementBase element)
+		public override Visual Draw(ElementBase element)
 		{
 			var shape = CreateShape(element);
 			shape.Fill = Brushes.Transparent;
