@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
-	<String Id="Caption">Полная установка FireSec-2</String>
+  <String Id="InstallHeader">Полная Установка FireSec-2</String>
+  <String Id="InstallMessage">Программа установит Microsoft .NET Framework 4.0 и FireSec-2 на Ваш компьютер</String>
+  <String Id="InstallVersion">1.0</String>
+  <String Id="Caption">Полная установка FireSec-2</String>
   <String Id="Title">FireSec-2</String>
-  <String Id="InstallAcceptCheckbox">Я согласен</String>
   <String Id="ConfirmCancelMessage">Вы уверены, что хотите отменить установку FireSec-2</String>
-  <String Id="ProgressHeader">Процесс установки</String>
-  <String Id="Progress">Процесс</String>
-  <String Id="FailureHeader">Ошибка</String>
-  <String Id="FailureHyperlinkLogText">В процессе установки произошла ошибка</String>
+  <String Id="HelpHeader">Помощь</String>
+  <String Id="HelpCloseButton">Закрыть</String>
+  <String Id="InstallLicenseLinkText">Лицензионное соглашение</String>
+  <String Id="InstallAcceptCheckbox">Я согласен</String>
+  <String Id="InstallOptionsButton">Опции</String>
   <String Id="InstallInstallButton">Установить</String>
   <String Id="InstallCloseButton">Выход</String>
+  <String Id="OptionsHeader">Опции</String>
+  <String Id="OptionsLocationLabel">Путь установки</String>
+  <String Id="OptionsBrowseButton">Просмотр</String>
+  <String Id="OptionsOkButton">OK</String>
+  <String Id="OptionsCancelButton">Отмена</String>
+  <String Id="ProgressHeader">Процесс установки</String>
+  <String Id="ProgressLabel">Прогресс</String>
+  <String Id="OverallProgressPackageText">Инициализация</String>
   <String Id="ProgressCancelButton">Отмена</String>
+  <String Id="ModifyHeader">Изменить</String>
+  <String Id="ModifyRepairButton">Изменить</String>
+  <String Id="ModifyUninstallButton">Удалить</String>
+  <String Id="ModifyCloseButton">Закрыть</String>
+  <String Id="SuccessHeader">Установка завершена успешно</String>
+  <String Id="SuccessLaunchButton">Запустить</String>
+  <String Id="SuccessRestartText">Рекомендуется перезгрузить компьютер, если вы установили хотя бы один драйвер.</String>
+  <String Id="SuccessRestartButton">Перезагрузить</String>
+  <String Id="SuccessCloseButton">Закрыть</String>
+  <String Id="FailureHeader">Ошибка</String>
+  <String Id="FailureHyperlinkLogText">В процессе установки произошла ошибка</String>
+  <String Id="FailureRestartText">Вы должны перезагрузить компьютер для завершения отката ПО</String>
+  <String Id="FailureRestartButton">Перезагрузить</String>
   <String Id="FailureCloseButton">Закрыть</String>
 </WixLocalization>

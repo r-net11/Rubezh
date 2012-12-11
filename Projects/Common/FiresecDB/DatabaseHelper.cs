@@ -347,7 +347,7 @@ namespace FiresecDB
             operationResult.Result = new List<JournalDescriptionItem>();
             try
             {
-                string query = "SELECT DISTINCT StateType, Description FROM Journal ORDER BY Description";
+				string query = "SELECT DISTINCT TOP (1000) StateType, Description FROM Journal ORDER BY Description";
                 using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
                     DataBaseContext.ConnectionString = ConnectionString;
@@ -385,7 +385,6 @@ namespace FiresecDB
                     var result = new SqlCeCommand(query, DataBaseContext);
                     DataBaseContext.Open();
                     var reader = result.ExecuteReader();
-                    var dateTime = new DateTime();
                     if (reader.Read())
                     {
                         operationResult.Result = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
