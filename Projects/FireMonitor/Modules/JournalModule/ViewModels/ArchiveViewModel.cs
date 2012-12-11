@@ -229,10 +229,9 @@ namespace JournalModule.ViewModels
                 foreach (var journalRecord in journalRecords)
                 {
                     var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-                    JournalRecords.Add(journalRecordViewModel);
+					JournalRecords.Add(journalRecordViewModel);
                 }
             }
-            //SelectedRecord = JournalRecords.FirstOrDefault();
 
             Status = "Количество записей: " + JournalRecords.Count.ToString();
         }

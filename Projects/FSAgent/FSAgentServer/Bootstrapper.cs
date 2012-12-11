@@ -10,6 +10,7 @@ using FSAgentServer.ViewModels;
 using Common;
 using Infrastructure.Common.BalloonTrayTip;
 using System.Windows.Threading;
+using FiresecDB;
 
 namespace FSAgentServer
 {
@@ -24,6 +25,10 @@ namespace FSAgentServer
 		{
 			try
 			{
+				DatabaseHelper.ConnectionString = @"Data Source=..\FiresecService\Firesec.sdf;Password=adm;Max Database Size=2048";
+#if DEBUG
+				DatabaseHelper.ConnectionString = @"Data Source=..\..\..\..\FiresecService\bin\Debug\Firesec.sdf;Password=adm;Max Database Size=2048";
+#endif
                 BalloonHelper.Initialize();
                 var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));

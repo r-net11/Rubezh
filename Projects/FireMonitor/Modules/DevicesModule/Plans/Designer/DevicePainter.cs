@@ -98,7 +98,7 @@ namespace DevicesModule.Plans.Designer
 
 		#region IPainter Members
 
-		public FrameworkElement Draw(ElementBase element)
+        public Visual Draw(ElementBase element)
 		{
 			if (_device == null)
 				return null;

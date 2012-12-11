@@ -90,13 +90,13 @@ namespace FSAgentServer
 		{
             try
 			{
-				UILogger.Log("Запуск драйвера для администрирования");
+                UILogger.Log("Запуск драйвера для администрирования");
 				CallbackClient = new NativeFiresecClient();
 				var connectResult1 = CallbackClient.Connect();
 				if (connectResult1.HasError)
 				{
 					UILogger.Log("Ошибка соединения с драйвером для администрирования");
-					BalloonHelper.Show("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
+                    BalloonHelper.Show("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
 				}
 				CallbackClient.IsPing = true;
 

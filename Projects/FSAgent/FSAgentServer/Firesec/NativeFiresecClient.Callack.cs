@@ -8,6 +8,7 @@ using FiresecAPI.Models;
 using System.Diagnostics;
 using FSAgentAPI;
 using Infrastructure.Common.BalloonTrayTip;
+using FiresecDB;
 
 namespace FSAgentServer
 {
@@ -88,6 +89,7 @@ namespace FSAgentServer
 
 						if (journalRecords != null)
 						{
+                            DatabaseHelper.AddJournalRecords(journalRecords);
 							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
 						}
 						else

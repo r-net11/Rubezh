@@ -5,8 +5,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Data.SqlServerCe;
-using FiresecDB.Properties;
-using System.Threading;
 
 
 namespace FiresecDB
@@ -14,6 +12,7 @@ namespace FiresecDB
     public static class DatabaseHelper
     {
 
+        public static string ConnectionString { get; set; }
         public static void AddJournalRecords(List<JournalRecord> journalRecords)
         {
             try
@@ -33,7 +32,7 @@ namespace FiresecDB
         {
             try
             {
-                using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var dataContext = new SqlCeConnection(ConnectionString))
                 {
                     var query = "SELECT * FROM Journal WHERE " +
                                 "\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
@@ -59,7 +58,7 @@ namespace FiresecDB
         {
             try
             {
-                using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var dataContext = new SqlCeConnection(ConnectionString))
                 {
                     var query = "SELECT MAX(OldId) FROM Journal";
                     var result = new SqlCeCommand(query, dataContext);
@@ -83,8 +82,9 @@ namespace FiresecDB
 
         public static void InsertJournalRecordToDb(JournalRecord journalRecord)
         {
-            using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+            using (var dataContext = new SqlCeConnection(ConnectionString))
             {
+                dataContext.ConnectionString = ConnectionString;
                 dataContext.Open();
                 var cmd = new SqlCeCommand();
                 cmd.Connection = dataContext;
@@ -175,8 +175,9 @@ namespace FiresecDB
 
                 query += "\n ORDER BY SystemTime DESC";
 
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
+                    DataBaseContext.ConnectionString = ConnectionString;
                     var result = new SqlCeCommand(query, DataBaseContext);
                     DataBaseContext.Open();
                     var reader = result.ExecuteReader();
@@ -273,11 +274,12 @@ namespace FiresecDB
                 }
 
                 query += "\n ORDER BY " + dateInQuery + " DESC";
+				//query = "SELECT * FROM Journal";
 
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
+                    DataBaseContext.ConnectionString = ConnectionString;
                     var journalRecords = new List<JournalRecord>();
-
                     var result = new SqlCeCommand(query, DataBaseContext);
                     DataBaseContext.Open();
                     var reader = result.ExecuteReader();
@@ -306,7 +308,7 @@ namespace FiresecDB
                             journalRecord.No = reader.GetInt32(reader.GetOrdinal("Id"));
                             operationResult.Result.Add(journalRecord);
                             journalRecords.Add(journalRecord);
-                            if (journalRecords.Count > 10)
+                            if (journalRecords.Count > 1000)
                             {
                                 if (ArchivePortionReady != null)
                                     ArchivePortionReady(journalRecords.ToList());
@@ -314,8 +316,9 @@ namespace FiresecDB
                                 journalRecords.Clear();
                             }
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+							Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
                         }
                     }
                     if (journalRecords.Count > 0)
@@ -345,8 +348,9 @@ namespace FiresecDB
             try
             {
                 string query = "SELECT DISTINCT StateType, Description FROM Journal ORDER BY Description";
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
+                    DataBaseContext.ConnectionString = ConnectionString;
                     var result = new SqlCeCommand(query, DataBaseContext);
                     DataBaseContext.Open();
                     var reader = result.ExecuteReader();
@@ -375,10 +379,10 @@ namespace FiresecDB
             try
             {
                 string query = "SELECT MIN(SystemTime) AS SystemTime FROM Journal";
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
+                    DataBaseContext.ConnectionString = ConnectionString;
                     var result = new SqlCeCommand(query, DataBaseContext);
-
                     DataBaseContext.Open();
                     var reader = result.ExecuteReader();
                     var dateTime = new DateTime();
@@ -401,8 +405,9 @@ namespace FiresecDB
 
         public static void SetJournal(List<JournalRecord> journalRecords)
         {
-            using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+            using (var DataBaseContext = new SqlCeConnection(ConnectionString))
             {
+                DataBaseContext.ConnectionString = ConnectionString;
                 var result = new SqlCeCommand("DELETE FROM Journal", DataBaseContext);
                 DataBaseContext.Open();
                 result.ExecuteReader();

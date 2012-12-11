@@ -45,7 +45,6 @@ namespace FSAgentServer
 
                     string loginError = null;
 
-					AppSettingsManager.FS_Address = "172.16.5.234";
 					var result = GetConnection(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.Password);
                     if (result.HasError &&
                         result.Error == "Пользователь или пароль неверны. Повторите ввод" ||

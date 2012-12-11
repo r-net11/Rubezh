@@ -22,16 +22,14 @@ namespace FiresecService
         {
             try
             {
+				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=2048";
 				Logger.Trace(SystemInfo.GetString());
 				AppSettingsHelper.InitializeAppSettings();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-                
                 BalloonHelper.Initialize();
-                
                 WindowThread = new Thread(new ThreadStart(OnWorkThread));
                 WindowThread.Priority = ThreadPriority.Highest;
                 WindowThread.SetApartmentState(ApartmentState.STA);
