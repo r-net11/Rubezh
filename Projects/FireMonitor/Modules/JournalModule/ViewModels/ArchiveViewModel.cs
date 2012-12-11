@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
+using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace JournalModule.ViewModels
 {
@@ -43,8 +45,8 @@ namespace JournalModule.ViewModels
             }
         }
 
-        ObservableCollection<JournalRecordViewModel> _journalRecords;
-        public ObservableCollection<JournalRecordViewModel> JournalRecords
+		ObservableRangeCollection<JournalRecordViewModel> _journalRecords;
+		public ObservableRangeCollection<JournalRecordViewModel> JournalRecords
         {
             get { return _journalRecords; }
             private set
@@ -194,7 +196,7 @@ namespace JournalModule.ViewModels
             if (_updateThread == null)
             {
                 Status = "Загрузка данных";
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
                 _updateThread = new Thread(OnUpdate);
                 _updateThread.Start();
             }
@@ -210,7 +212,7 @@ namespace JournalModule.ViewModels
                 else
                     archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
                 FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
             }
             catch (Exception e)
@@ -223,14 +225,16 @@ namespace JournalModule.ViewModels
         void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
         {
             if (JournalRecords == null)
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
             if (journalRecords != null)
             {
-                foreach (var journalRecord in journalRecords)
-                {
-                    var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					JournalRecords.Add(journalRecordViewModel);
-                }
+				var journalRecordViewModels = new List<JournalRecordViewModel>();
+				foreach (var journalRecord in journalRecords)
+				{
+					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+					journalRecordViewModels.Add(journalRecordViewModel);
+				}
+				JournalRecords.AddRange(journalRecordViewModels);
             }
 
             Status = "Количество записей: " + JournalRecords.Count.ToString();
@@ -241,4 +245,31 @@ namespace JournalModule.ViewModels
             Update(false);
         }
     }
+
+	public class ObservableRangeCollection<T> : ObservableCollection<T>
+	{
+		private bool _suppressNotification = false;
+
+		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+		{
+			if (!_suppressNotification)
+				base.OnCollectionChanged(e);
+		}
+
+		public void AddRange(IEnumerable<T> list)
+		{
+			if (list == null)
+				throw new ArgumentNullException("list");
+
+			_suppressNotification = true;
+
+			foreach (T item in list)
+			{
+				Add(item);
+			}
+			_suppressNotification = false;
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+		}
+	}
+
 }
