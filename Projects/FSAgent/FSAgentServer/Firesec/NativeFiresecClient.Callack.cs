@@ -14,13 +14,6 @@ namespace FSAgentServer
 {
 	public partial class NativeFiresecClient
 	{
-        static NativeFiresecClient()
-        {
-            DatabaseHelper.ConnectionString = @"Data Source=..\FiresecService\Firesec.sdf;Password=adm";
-#if DEBUG
-            DatabaseHelper.ConnectionString = @"Data Source=..\..\..\..\FiresecService\bin\Debug\Firesec.sdf;Password=adm";
-#endif
-        }
 		public bool IsPing { get; set; }
 		public static bool IsSuspended { get; set; }
 		static int LastJournalNo = 0;

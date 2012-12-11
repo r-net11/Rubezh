@@ -9,10 +9,6 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-        static FiresecService()
-        {
-            FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm";
-        }
 		public OperationResult<int> GetJournalLastId()
 		{
 			return new OperationResult<int>()

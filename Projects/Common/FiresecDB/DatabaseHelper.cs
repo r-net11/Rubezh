@@ -5,8 +5,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Data.SqlServerCe;
-using FiresecDB.Properties;
-using System.Threading;
 
 
 namespace FiresecDB
@@ -34,9 +32,8 @@ namespace FiresecDB
         {
             try
             {
-                using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var dataContext = new SqlCeConnection(ConnectionString))
                 {
-                    dataContext.ConnectionString = ConnectionString;
                     var query = "SELECT * FROM Journal WHERE " +
                                 "\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                                 "\n AND OldId = " + journalRecord.OldId;
@@ -61,9 +58,8 @@ namespace FiresecDB
         {
             try
             {
-                using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var dataContext = new SqlCeConnection(ConnectionString))
                 {
-                    dataContext.ConnectionString = ConnectionString;
                     var query = "SELECT MAX(OldId) FROM Journal";
                     var result = new SqlCeCommand(query, dataContext);
                     dataContext.Open();
@@ -86,7 +82,7 @@ namespace FiresecDB
 
         public static void InsertJournalRecordToDb(JournalRecord journalRecord)
         {
-            using (var dataContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+            using (var dataContext = new SqlCeConnection(ConnectionString))
             {
                 dataContext.ConnectionString = ConnectionString;
                 dataContext.Open();
@@ -179,7 +175,7 @@ namespace FiresecDB
 
                 query += "\n ORDER BY SystemTime DESC";
 
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
                     DataBaseContext.ConnectionString = ConnectionString;
                     var result = new SqlCeCommand(query, DataBaseContext);
@@ -279,7 +275,7 @@ namespace FiresecDB
 
                 query += "\n ORDER BY " + dateInQuery + " DESC";
 
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
                     DataBaseContext.ConnectionString = ConnectionString;
                     var journalRecords = new List<JournalRecord>();
@@ -350,7 +346,7 @@ namespace FiresecDB
             try
             {
                 string query = "SELECT DISTINCT StateType, Description FROM Journal ORDER BY Description";
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
                     DataBaseContext.ConnectionString = ConnectionString;
                     var result = new SqlCeCommand(query, DataBaseContext);
@@ -381,7 +377,7 @@ namespace FiresecDB
             try
             {
                 string query = "SELECT MIN(SystemTime) AS SystemTime FROM Journal";
-                using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+                using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
                     DataBaseContext.ConnectionString = ConnectionString;
                     var result = new SqlCeCommand(query, DataBaseContext);
@@ -407,7 +403,7 @@ namespace FiresecDB
 
         public static void SetJournal(List<JournalRecord> journalRecords)
         {
-            using (var DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString))
+            using (var DataBaseContext = new SqlCeConnection(ConnectionString))
             {
                 DataBaseContext.ConnectionString = ConnectionString;
                 var result = new SqlCeCommand("DELETE FROM Journal", DataBaseContext);
