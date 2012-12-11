@@ -5,10 +5,11 @@ using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : ContentControl, INotifyPropertyChanged
+	public abstract class CommonDesignerItem : Control, INotifyPropertyChanged
 	{
 		public const int BigConstatnt = 100000;
 
@@ -48,10 +49,13 @@ namespace Infrustructure.Plans.Designer
 			get { return _isVisibleLayout; }
 			set
 			{
-				_isVisibleLayout = value;
-				Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-				if (!value)
-					IsSelected = false;
+				if (_isVisibleLayout != value)
+				{
+					_isVisibleLayout = value;
+					Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+					if (!value)
+						IsSelected = false;
+				}
 			}
 		}
 
@@ -61,15 +65,19 @@ namespace Infrustructure.Plans.Designer
 			get { return _isSelectableLayout; }
 			set
 			{
-				_isSelectableLayout = value;
-				IsSelectable = value;
-				if (!value)
-					IsSelected = false;
+				if (_isSelectableLayout != value)
+				{
+					_isSelectableLayout = value;
+					IsSelectable = value;
+					if (!value)
+						IsSelected = false;
+				}
 			}
 		}
 
 		public ElementBase Element { get; protected set; }
 		public IPainter Painter { get; protected set; }
+		public Visual Content { get; protected set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -100,14 +108,22 @@ namespace Infrustructure.Plans.Designer
 		public virtual void SetLocation()
 		{
 			var rect = Element.GetRectangle();
-			ItemWidth = rect.Width;
-			ItemHeight = rect.Height;
-			Canvas.SetLeft(this, rect.Left);
-			Canvas.SetTop(this, rect.Top);
+			if (ItemWidth != rect.Width)
+				ItemWidth = rect.Width;
+			if (ItemHeight != rect.Height)
+				ItemHeight = rect.Height;
+			if (Canvas.GetLeft(this) != rect.Left)
+				Canvas.SetLeft(this, rect.Left);
+			if (Canvas.GetTop(this) != rect.Top)
+				Canvas.SetTop(this, rect.Top);
 		}
 		public virtual void Redraw()
 		{
 			RedrawContent();
+			SetLocation();
+		}
+		public void RedrawContent()
+		{
 			MinWidth = Element.BorderThickness;
 			MinHeight = Element.BorderThickness;
 			if (Element is ElementBaseShape)
@@ -115,11 +131,8 @@ namespace Infrustructure.Plans.Designer
 				MinWidth += 3;
 				MinHeight += 3;
 			}
-			SetLocation();
-		}
-		public void RedrawContent()
-		{
 			Content = Painter == null ? null : Painter.Draw(Element);
+			OnPropertyChanged("Content");
 		}
 		public void SetZIndex()
 		{

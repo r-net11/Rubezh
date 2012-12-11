@@ -9,7 +9,7 @@ namespace Infrustructure.Plans.Painters
 	{
 		#region IPainter Members
 
-		public FrameworkElement Draw(ElementBase element)
+		public Visual Draw(ElementBase element)
 		{
 			IElementTextBlock elementText = (IElementTextBlock)element;
 			var textBlock = new TextBlock()

@@ -1,12 +1,10 @@
 ﻿using System;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
-using Common;
-using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -24,32 +22,42 @@ namespace PlansModule.ViewModels
 
 		public void Initialize(Plan plan)
 		{
-			using (new TimeCounter("PlanDesignerViewModel.Initialize: {0}"))
+			using (new TimeCounter("\tPlanDesignerViewModel.Initialize: {0}"))
 			{
 				Plan = plan;
-				using (new TimeCounter("======= #1: {0}"))
-					OnPropertyChanged("Plan");
+				OnPropertyChanged("Plan");
 				if (Plan != null)
 				{
 					using (new WaitWrapper())
 					{
-						using (new TimeCounter("======= #2: {0}"))
-							DesignerCanvas.Children.Clear();
-						using (new TimeCounter("======= #3: {0}"))
-							ChangeZoom(1);
-						using (new TimeCounter("======= #4: {0}"))
-						{
-							DesignerCanvas.Plan = plan;
-							DesignerCanvas.PlanDesignerViewModel = this;
+						using (new TimeCounter("\t\tDesignerCanvas.Clear: {0}"))
+							DesignerCanvas.Clear();
+						ChangeZoom(1);
+						DesignerCanvas.Plan = plan;
+						DesignerCanvas.PlanDesignerViewModel = this;
+						using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
 							DesignerCanvas.Update();
-						}
 
-						using (new TimeCounter("DesignerItem.Create: {0}"))
+						using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 						{
+
+							// 1. Painter -> return Visual					+
+							// 2. DesignerItem inherite FramworkElement		+/- Control
+
+							// 3. DesignerItem cache (use ResetElement)		???
+							// 4. Change ResizeDecorator/ResizeAdorner		-
+
+
 							foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 								DesignerCanvas.Create(elementBase);
 							foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 								DesignerCanvas.Create(element);
+
+
+							//using (new TimeCounter("\t\t\tPainter.Draw: {0}"))
+							//    foreach (var designerItem in DesignerCanvas.Items)
+							//    designerItem.Painter.Draw(designerItem.Element);
+
 							//int count = 1000;
 							//    //for (int i = 0; i < count; i++)
 							//    //{
@@ -88,14 +96,8 @@ namespace PlansModule.ViewModels
 							//        //DesignerCanvas.Children.Add(designerItem);
 							//    }
 						}
-						//using (new TimeCounter("DesignerCanvas.Painte: {0}"))
-						//    foreach (var designerItem in DesignerCanvas.Items)
-						//        if (designerItem.Painter != null)
-						//            designerItem.Painter.Draw(designerItem.Element);
-						//DesignerCanvas.DeselectAll();
 					}
-					using (new TimeCounter("======= #5: {0}"))
-						OnUpdated();
+					OnUpdated();
 				}
 			}
 		}

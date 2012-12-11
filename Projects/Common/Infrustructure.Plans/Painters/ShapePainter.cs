@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -15,7 +16,7 @@ namespace Infrustructure.Plans.Painters
 			return shape;
 		}
 
-		public virtual FrameworkElement Draw(ElementBase element)
+		public virtual Visual Draw(ElementBase element)
 		{
 			return CreateShape(element);
 		}

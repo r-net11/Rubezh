@@ -195,10 +195,10 @@ namespace Firesec
 
 		void SetStates(Firesec.Models.CoreState.config coreState)
 		{
-            if (coreState == null || coreState.dev == null)
-            {
-                return;
-            }
+			if (coreState == null)
+				coreState = new Models.CoreState.config();
+			if (coreState.dev == null)
+				coreState.dev = new Models.CoreState.devType[0];
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{

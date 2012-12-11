@@ -9,6 +9,9 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.ComponentModel;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -24,6 +27,14 @@ namespace PlansModule.Designer.DesignerItems
 		{
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DeleteCommand = new RelayCommand(OnDelete);
+			//MouseLeftButtonDown += (s, e) =>
+			//    {
+			//        if (e.ClickCount == 2)
+			//        {
+			//            ShowPropertiesCommand.Execute(null);
+			//            e.Handled = true;
+			//        }
+			//    };
 			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
@@ -38,7 +49,7 @@ namespace PlansModule.Designer.DesignerItems
 				if (DialogService.ShowModalWindow(property))
 				{
 					OnDesignerItemPropertyChanged();
-					Redraw();
+					RedrawContent();
 					ServiceFactory.SaveService.PlansChanged = true;
 					DesignerCanvas.EndChange();
 				}

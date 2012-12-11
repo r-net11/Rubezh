@@ -11,6 +11,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
 using Common;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -102,6 +103,7 @@ namespace PlansModule.ViewModels
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
 				}
+				Debug.WriteLine("===========================================");
 			}
 		}
 

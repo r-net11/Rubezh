@@ -9,7 +9,7 @@ namespace Infrustructure.Plans.Painters
 	{
 		#region IPainter Members
 
-		public override FrameworkElement Draw(ElementBase element)
+		public override Visual Draw(ElementBase element)
 		{
 			var shape = CreateShape(element);
 			shape.Fill = Brushes.Black;

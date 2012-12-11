@@ -378,13 +378,13 @@ namespace DiagnosticsModule.ViewModels
 		void OnWarningTest(object obj)
 		{
 			Random rnd = new Random();
-            BalloonHelper.ShowWarning("Предупреждение", rnd.Next(100).ToString());
+            BalloonHelper.Show("Предупреждение", rnd.Next(100).ToString());
 		}
 		
         public RelayCommand TestBalloonCommand { get; private set; }
 		void OnTestBalloon()
 		{
-			Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowWarning("Hi, there", "Hi, there");
+			Infrastructure.Common.BalloonTrayTip.BalloonHelper.Show("Hi, there", "Hi, there");
 			var thread = new Thread(OnTestBalloonRun);
 			thread.Start();
 		}
@@ -393,7 +393,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
-				Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowWarning("Hello", "Hello");
+				Infrastructure.Common.BalloonTrayTip.BalloonHelper.Show("Hello", "Hello");
 			}));
 		}
 	}

@@ -5,15 +5,13 @@ using Infrastructure.Common;
 
 namespace OPCModule.ViewModels
 {
-	public class OPCDeviceViewModel : TreeBaseViewModel<OPCDeviceViewModel>
+	public class OPCDeviceViewModel : TreeItemViewModel<OPCDeviceViewModel>
 	{
 		public Device Device { get; private set; }
 
-		public OPCDeviceViewModel(Device device, ObservableCollection<OPCDeviceViewModel> sourceDevices)
+		public OPCDeviceViewModel(Device device)
 		{
 			Device = device;
-			Children = new ObservableCollection<OPCDeviceViewModel>();
-			Source = sourceDevices;
 		}
 
         public bool CanOPCUsed
