@@ -206,6 +206,7 @@
     </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
+    <Compile Include="Plans\Designer\PainterCache.cs" />
     <Compile Include="Plans\InstrumentAdorners\ZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\ZoneRectangleAdorner.cs" />
     <Compile Include="Plans\PlanExtension.cs" />

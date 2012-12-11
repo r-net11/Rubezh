@@ -128,9 +128,12 @@ namespace DeviceControls
 
 		public static FrameworkElement GetDefaultPicture(Guid DriverId)
 		{
-			UIElement content = null;
-
 			var device = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+			return GetDefaultPicture(device);
+		}
+		public static FrameworkElement GetDefaultPicture(LibraryDevice device)
+		{
+			UIElement content = null;
 			if (device != null)
 			{
 				var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
@@ -148,11 +151,10 @@ namespace DeviceControls
 			{
 				BorderThickness = new Thickness(0),
 				Background = Brushes.Transparent,
-				//Child = new Viewbox()
-				//{
-				//    Child = content
-				//}
-				Child = content
+				Child = new Viewbox()
+				{
+				    Child = content
+				}
 			};
 
 			//DrawingVisual drawingVisual = new DrawingVisual();

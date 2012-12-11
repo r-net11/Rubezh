@@ -5,7 +5,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type loc:DesignerItemBase}">
-					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}">
+					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}" IsHitTestVisible="{Binding IsSelectable}">
 						<resize:ResizeDecorator ShowDecorator="{Binding IsSelected}" Visibility="{Binding IsSelectable, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<designer:MoveThumb />
 					</Grid>

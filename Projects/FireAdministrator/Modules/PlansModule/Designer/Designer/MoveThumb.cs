@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
+using System.Windows.Shapes;
 
 namespace PlansModule.Designer
 {

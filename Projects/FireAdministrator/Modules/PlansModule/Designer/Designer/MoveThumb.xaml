@@ -4,7 +4,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<ContentPresenter Content="{Binding Content}" IsHitTestVisible="{Binding IsSelectable}" />
+					<ContentPresenter Content="{Binding Content}" ContentSource=""/>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

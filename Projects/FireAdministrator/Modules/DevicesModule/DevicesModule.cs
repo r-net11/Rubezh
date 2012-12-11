@@ -59,6 +59,7 @@ namespace DevicesModule
 			_zonesViewModel.Initialize();
 			_directionsViewModel.Initialize();
 			_guardViewModel.Initialize();
+			_planExtension.Initialize();
 
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
