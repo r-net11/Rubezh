@@ -34,7 +34,6 @@ namespace SecurityModule.ViewModels
 
 				User = new User()
 				{
-					Id = FiresecManager.SecurityConfiguration.Users.Max(x => x.Id) + 1,
 					Name = "",
 					Login = "",
 					PasswordHash = HashHelper.GetHashFromString("")
@@ -59,7 +58,7 @@ namespace SecurityModule.ViewModels
 			}
 			else
 			{
-				UserRole = Roles.FirstOrDefault(role => role.Id == User.RoleId);
+				UserRole = Roles.FirstOrDefault(role => role.UID == User.RoleUID);
 			}
 
 			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
@@ -153,7 +152,7 @@ namespace SecurityModule.ViewModels
 
 		void CheckPermissions()
 		{
-			if (UserRole.Id != User.RoleId && UserRole.Permissions.IsNotNullOrEmpty())
+			if (UserRole.UID != User.RoleUID && UserRole.Permissions.IsNotNullOrEmpty())
 				return;
 
 			foreach (var permissionType in User.Permissions)
@@ -188,7 +187,7 @@ namespace SecurityModule.ViewModels
             if (IsChangePassword)
                 User.PasswordHash = HashHelper.GetHashFromString(Password);
 
-            User.RoleId = UserRole.Id;
+			User.RoleUID = UserRole.UID;
             PreventAdminPermissions();
             User.Permissions = new List<PermissionType>();
             foreach (var permission in Permissions)
@@ -252,7 +251,7 @@ namespace SecurityModule.ViewModels
 
         void PreventAdminPermissions()
         {
-            if (FiresecManager.CurrentUser.Id == User.Id && FiresecManager.CurrentUser.Permissions.Contains(PermissionType.Adm_Security))
+			if (FiresecManager.CurrentUser.UID == User.UID && FiresecManager.CurrentUser.Permissions.Contains(PermissionType.Adm_Security))
             {
                 var Adm_SecurityPermission = Permissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_Security);
                 if (Adm_SecurityPermission != null)

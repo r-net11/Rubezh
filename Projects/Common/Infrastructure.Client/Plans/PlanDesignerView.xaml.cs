@@ -54,6 +54,9 @@ namespace Infrastructure.Client.Plans
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
+			if (!((IPlanDesignerViewModel)DataContext).HasPermissionsToScale)
+				return;
+
 			lastMousePositionOnTarget = Mouse.GetPosition(_grid);
 
 			if (e.Delta > 0)

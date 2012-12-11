@@ -19,7 +19,7 @@
 			</Grid>
 		</ScrollViewer>
 
-		<Grid Grid.Row="2">
+		<Grid Grid.Row="2" Visibility="{Binding HasPermissionsToScale, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />

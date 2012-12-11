@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using System.Collections.Generic;
+using System;
 
 namespace FireMonitor.Views
 {
@@ -21,6 +22,12 @@ namespace FireMonitor.Views
 			ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
 			ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
+			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermission"); });
+		}
+
+		public bool HasPermission
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
 		}
 
 		public bool IsAutoActivation

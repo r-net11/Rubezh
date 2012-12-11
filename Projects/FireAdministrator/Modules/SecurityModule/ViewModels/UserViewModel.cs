@@ -23,7 +23,7 @@ namespace SecurityModule.ViewModels
                 RoleName = string.Empty;
                 if (value != null)
                 {
-                    var role = FiresecManager.SecurityConfiguration.UserRoles.FirstOrDefault(x => x.Id == value.RoleId);
+					var role = FiresecManager.SecurityConfiguration.UserRoles.FirstOrDefault(x => x.UID == value.RoleUID);
                     if (role != null)
                         RoleName = role.Name;
                 }
