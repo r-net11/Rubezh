@@ -274,6 +274,7 @@ namespace FiresecDB
                 }
 
                 query += "\n ORDER BY " + dateInQuery + " DESC";
+				//query = "SELECT * FROM Journal";
 
                 using (var DataBaseContext = new SqlCeConnection(ConnectionString))
                 {
@@ -307,7 +308,7 @@ namespace FiresecDB
                             journalRecord.No = reader.GetInt32(reader.GetOrdinal("Id"));
                             operationResult.Result.Add(journalRecord);
                             journalRecords.Add(journalRecord);
-                            if (journalRecords.Count > 10)
+                            if (journalRecords.Count > 1000)
                             {
                                 if (ArchivePortionReady != null)
                                     ArchivePortionReady(journalRecords.ToList());
@@ -315,8 +316,9 @@ namespace FiresecDB
                                 journalRecords.Clear();
                             }
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+							Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
                         }
                     }
                     if (journalRecords.Count > 0)

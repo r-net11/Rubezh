@@ -22,7 +22,7 @@ namespace FiresecService
         {
             try
             {
-                FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm";
+				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=2048";
 				Logger.Trace(SystemInfo.GetString());
 				AppSettingsHelper.InitializeAppSettings();
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
