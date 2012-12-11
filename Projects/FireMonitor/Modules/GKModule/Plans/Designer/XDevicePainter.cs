@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
 using Infrustructure.Plans.Painters;
 using System.Windows;
 using Infrustructure.Plans.Elements;
@@ -75,7 +76,7 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
-		public FrameworkElement Draw(ElementBase element)
+        public Visual Draw(ElementBase element)
 		{
 			if (_xdevice == null)
 				return null;

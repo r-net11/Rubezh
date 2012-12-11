@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using FireMonitor.ViewModels;
@@ -86,6 +87,11 @@ namespace FireMonitor
 					ServiceFactory.SubscribeEvents();
 					ProgressWatcher.Run();
 					ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
+                    if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
+                    {
+                        RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                        saveKey.SetValue("isException", true);
+                    }
 				}
 				catch (Exception e)
 				{

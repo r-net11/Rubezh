@@ -67,7 +67,7 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
-		public FrameworkElement Draw(ElementBase element)
+        public Visual Draw(ElementBase element)
 		{
 			if (_zone == null)
 				return null;
