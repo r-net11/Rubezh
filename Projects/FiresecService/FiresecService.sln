@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.SKUD", "Fire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDB", "FiresecDB\FiresecDB.csproj", "{2D008E4B-D69F-4248-B92E-AF54D2D19196}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDB", "..\Common\FiresecDB\FiresecDB.csproj", "{2D008E4B-D69F-4248-B92E-AF54D2D19196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

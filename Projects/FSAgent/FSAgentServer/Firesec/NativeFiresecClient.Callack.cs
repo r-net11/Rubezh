@@ -8,11 +8,19 @@ using FiresecAPI.Models;
 using System.Diagnostics;
 using FSAgentAPI;
 using Infrastructure.Common.BalloonTrayTip;
+using FiresecDB;
 
 namespace FSAgentServer
 {
 	public partial class NativeFiresecClient
 	{
+        static NativeFiresecClient()
+        {
+            DatabaseHelper.ConnectionString = @"Data Source=..\FiresecService\Firesec.sdf;Password=adm";
+#if DEBUG
+            DatabaseHelper.ConnectionString = @"Data Source=..\..\..\..\FiresecService\bin\Debug\Firesec.sdf;Password=adm";
+#endif
+        }
 		public bool IsPing { get; set; }
 		public static bool IsSuspended { get; set; }
 		int LastJournalNo = 0;
@@ -90,6 +98,7 @@ namespace FSAgentServer
 
 						if (journalRecords != null)
 						{
+                            DatabaseHelper.AddJournalRecords(journalRecords);
 							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
 						}
 						else
