@@ -74,6 +74,7 @@
       <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <Compile Include="DevicePictureCache.cs" />
     <Compile Include="StateViewModel.cs" />
     <Compile Include="XDeviceControl.xaml.cs">
       <DependentUpon>XDeviceControl.xaml</DependentUpon>

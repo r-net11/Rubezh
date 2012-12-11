@@ -7,7 +7,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public class SubPlanPainter : ShapePainter<Rectangle>
 	{
-		public override Visual Draw(ElementBase element)
+		public override UIElement Draw(ElementBase element)
 		{
 			var shape = CreateShape(element);
 			shape.Opacity = 0.5;

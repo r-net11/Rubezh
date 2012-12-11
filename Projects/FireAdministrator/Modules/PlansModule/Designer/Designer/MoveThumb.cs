@@ -16,9 +16,9 @@ namespace PlansModule.Designer
 		{
 			get { return DataContext as DesignerItem; }
 		}
-		private DesignerCanvas DesignerCanvas
+		private CommonDesignerCanvas DesignerCanvas
 		{
-			get { return VisualTreeHelper.GetParent(DesignerItem) as DesignerCanvas; }
+			get { return DesignerItem.DesignerCanvas; }
 		}
 
 		public MoveThumb()

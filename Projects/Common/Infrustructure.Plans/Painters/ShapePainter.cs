@@ -16,7 +16,7 @@ namespace Infrustructure.Plans.Painters
 			return shape;
 		}
 
-		public virtual Visual Draw(ElementBase element)
+		public virtual UIElement Draw(ElementBase element)
 		{
 			return CreateShape(element);
 		}

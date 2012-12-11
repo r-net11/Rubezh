@@ -17,12 +17,12 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using Devices = DevicesModule.ViewModels;
+using DeviceControls;
 
 namespace DevicesModule.Plans
 {
 	public class PlanExtension : IPlanExtension<Plan>
 	{
-		private PainterCache _cache;
 		private DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		public PlanExtension(Devices.DevicesViewModel devicesViewModel)
@@ -38,12 +38,11 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
 
 			_devicesViewModel = new DevicesViewModel(devicesViewModel);
-			_cache = new PainterCache();
 		}
 
 		public void Initialize()
 		{
-			_cache.LoadCache();
+			DevicePictureCache.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -239,7 +238,7 @@ namespace DevicesModule.Plans
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			if (args.Element is ElementDevice)
-				args.Painter = new Painter(_cache);
+				args.Painter = new Painter();
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

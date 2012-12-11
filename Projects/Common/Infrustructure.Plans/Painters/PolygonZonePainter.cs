@@ -7,7 +7,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public class PolygonZonePainter : ShapePainter<Polygon>
 	{
-		public override Visual Draw(ElementBase element)
+		public override UIElement Draw(ElementBase element)
 		{
 			var shape = CreateShape(element);
 			shape.Points = PainterHelper.GetPoints(element);

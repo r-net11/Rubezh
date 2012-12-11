@@ -16,18 +16,14 @@ namespace DevicesModule.Plans.Designer
 {
 	internal class Painter : IPainter
 	{
-		private PainterCache _cache;
-		public Painter(PainterCache cache)
+		public Painter()
 		{
-			_cache = cache;
 		}
 
-		public Visual Draw(ElementBase element)
+		public UIElement Draw(ElementBase element)
 		{
-			ElementDevice elementDevice = (ElementDevice)element;
-			var device = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
-			var imageSource = _cache.GetImageSource(device);
+			var device = Helper.GetDevice((ElementDevice)element);
+			var imageSource = DevicePictureCache.GetImageSource(device);
 			return new Image()
 			{
 				Source = imageSource
