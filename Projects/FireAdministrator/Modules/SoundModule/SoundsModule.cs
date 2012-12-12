@@ -9,22 +9,22 @@ namespace SoundsModule
 {
 	public class SoundsModule : ModuleBase
 	{
-		SoundsViewModel _soundsViewModel;
+		SoundsViewModel SoundsViewModel;
 
-		public SoundsModule()
+		public override void CreateViewModels()
 		{
-			_soundsViewModel = new SoundsViewModel();
+			SoundsViewModel = new SoundsViewModel();
 		}
 
 		public override void Initialize()
 		{
-			_soundsViewModel.Initialize();
+			SoundsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSoundsEvent>(_soundsViewModel, "Звуки", "/Controls;component/Images/music.png"),
+				new NavigationItem<ShowSoundsEvent>(SoundsViewModel, "Звуки", "/Controls;component/Images/music.png"),
 			};
 		}
 		public override string Name

@@ -13,18 +13,18 @@ namespace PlansModule
 {
 	public class PlansModule : ModuleBase
 	{
-		PlansViewModel _plansViewModel;
+		PlansViewModel PlansViewModel;
 
-		public PlansModule()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnSave);
-			_plansViewModel = new PlansViewModel();
+			PlansViewModel = new PlansViewModel();
 		}
 
 		void OnSave(object obj)
 		{
-			_plansViewModel.PlanDesignerViewModel.Save();
+			PlansViewModel.PlanDesignerViewModel.Save();
 		}
 
 		public override void RegisterResource()
@@ -40,13 +40,13 @@ namespace PlansModule
 		}
 		public override void Initialize()
 		{
-			_plansViewModel.Initialize();
+			PlansViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы","/Controls;component/Images/map.png"),
+				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
 			};
 		}
 		public override string Name
@@ -56,7 +56,7 @@ namespace PlansModule
 
 		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)
 		{
-			_plansViewModel.RegisterExtension(planExtension);
+			PlansViewModel.RegisterExtension(planExtension);
 		}
 	}
 }

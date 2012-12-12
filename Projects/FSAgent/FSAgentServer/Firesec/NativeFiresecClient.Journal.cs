@@ -85,15 +85,5 @@ namespace FSAgentServer
 				journalRecords = journalRecords.OrderBy(x => x.OldId).ToList();
 			return journalRecords;
 		}
-
-		public void SynchrinizeJournal()
-		{
-			var oldJournalNo = DatabaseHelper.GetLastOldId();
-			if (oldJournalNo == -1)
-				return;
-
-			var journalRecords = GetEventsFromLastId(oldJournalNo);
-			DatabaseHelper.AddJournalRecords(journalRecords);
-		}
 	}
 }

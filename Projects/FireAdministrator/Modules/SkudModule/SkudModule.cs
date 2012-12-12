@@ -18,7 +18,7 @@ namespace SkudModule
 		private EmployeePositionsViewModel _employeePositionsViewModel;
 		private EmployeeGroupsViewModel _employeeGroupsViewModel;
 
-		public SkudModule()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Unsubscribe(OnShowSkud);
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Subscribe(OnShowSkud);

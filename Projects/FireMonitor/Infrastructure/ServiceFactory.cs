@@ -88,7 +88,6 @@ namespace Infrastructure
 		}
 		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)
 		{
-			//FiresecManager.FiresecService.AddJournalRecords(journalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
 		}
 
@@ -100,11 +99,6 @@ namespace Infrastructure
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);
-		}
-
-		static void OnNotify(string message)
-		{
-			ServiceFactory.Events.GetEvent<NotifyEvent>().Publish(message);
 		}
 
 		public static void SafeCall(Action action)

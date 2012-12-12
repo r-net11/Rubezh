@@ -15,6 +15,7 @@ using Common;
 using DevicesModule.Plans;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Events;
+using FiresecAPI;
 
 namespace DevicesModule
 {
@@ -24,7 +25,7 @@ namespace DevicesModule
 		private ZonesViewModel ZonesViewModel;
 		private NavigationItem _zonesNavigationItem;
 
-		public DevicesModuleLoader()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Layout.AddToolbarItem(new ConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
@@ -70,12 +71,43 @@ namespace DevicesModule
 		{
 			return new List<IReportProvider>()
 			{
+				new DriverCounterReport(),
 				new DeviceParamsReport(),
 				new DeviceListReport(),
-				new DriverCounterReport(),
 				new IndicationBlockReport(),
 			};
 		}
 		#endregion
+
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			LoadingService.DoStep("Загрузка конфигурации с сервера");
+			FiresecManager.GetConfiguration();
+
+			if (firstTime)
+			{
+				LoadingService.DoStep("Инициализация драйвера устройств");
+				var connectionResult = FiresecManager.InitializeFiresecDriver(true);
+				if (connectionResult.HasError)
+				{
+					MessageBoxService.ShowError(connectionResult.Error);
+					return false;
+				}
+			}
+
+			LoadingService.DoStep("Синхронизация конфигурации");
+			FiresecManager.FiresecDriver.Synchronyze();
+			LoadingService.DoStep("Старт мониторинга");
+			FiresecManager.FiresecDriver.StartWatcher(true, true);
+
+			FiresecManager.FSAgent.Start();
+			return true;
+		}
+
+		public override void AfterInitialize()
+		{
+			ServiceFactory.SubscribeEvents();
+			//ProgressWatcher.Run();
+		}
 	}
 }

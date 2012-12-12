@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -13,7 +14,7 @@ namespace ReportsModule
 	{
 		private ReportsViewModel _reportViewModel;
 
-		public ReportsModuleLoader()
+		public override void CreateViewModels()
 		{
 			_reportViewModel = new ReportsViewModel();
 		}

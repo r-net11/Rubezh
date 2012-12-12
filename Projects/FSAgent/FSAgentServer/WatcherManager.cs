@@ -46,16 +46,6 @@ namespace FSAgentServer
         {
             if (RunThread == null)
             {
-				//UILogger.Log("Запуск драйвера для администрирования");
-				//CallbackClient = new NativeFiresecClient();
-				//var connectResult = CallbackClient.Connect();
-				//if (connectResult.HasError)
-				//{
-				//    UILogger.Log("Ошибка соединения с драйвером для администрирования");
-				//    BalloonHelper.ShowWarning("Агент Firesec", "Ошибка соединения с драйвером для администрирования");
-				//}
-				//CallbackClient.IsPing = true;
-
                 StopEvent = new AutoResetEvent(false);
                 RunThread = new Thread(OnRun);
                 RunThread.SetApartmentState(ApartmentState.STA);
@@ -109,9 +99,6 @@ namespace FSAgentServer
                     BalloonHelper.Show("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
                 }
 
-				UILogger.Log("Синхронизация журнала событий");
-				DirectClient.SynchrinizeJournal();
-
                 Bootstrapper.BootstrapperLoadEvent.Set();
 			}
 			catch (Exception e)
@@ -125,7 +112,10 @@ namespace FSAgentServer
 				{
 					CircleDateTime = DateTime.Now;
 					PoolSleepEvent = new AutoResetEvent(false);
-					PoolSleepEvent.WaitOne(TimeSpan.FromSeconds(1));
+					if (DirectClient.NextStepSynchrinizeJournal())
+					{
+						PoolSleepEvent.WaitOne(TimeSpan.FromSeconds(1));
+					}
                     PollIndex++;
 
                     try

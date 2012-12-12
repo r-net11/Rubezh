@@ -11,7 +11,7 @@ namespace VideoModule
 {
     public class VideoModuleLoader : ModuleBase
     {
-        public VideoModuleLoader()
+		public override void CreateViewModels()
         {
             ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
             ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);

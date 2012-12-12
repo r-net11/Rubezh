@@ -129,7 +129,6 @@
     <Compile Include="Events\ShowXDeviceEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowXJournalEvent.cs" />
-    <Compile Include="Events\NotifyEvent.cs" />
     <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="LicenseHelper.cs" />

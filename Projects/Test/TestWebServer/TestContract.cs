@@ -9,9 +9,10 @@ namespace TestWebServer
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
 	public class TestContract : ITestContract
 	{
-		public void NewEventsAvailable(int mask)
+		public string NewEventsAvailable(string mask)
 		{
 			MainWindow.AddText("NewEvent mask = " + mask.ToString());
+			return "done";
 		}
 	}
 }
