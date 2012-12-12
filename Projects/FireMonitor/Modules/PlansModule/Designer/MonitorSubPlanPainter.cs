@@ -47,7 +47,7 @@ namespace PlansModule.Designer
 
 		#region IPainter Members
 
-        public Visual Draw(ElementBase element)
+		public UIElement Draw(ElementBase element)
 		{
 			var shape = (Shape)_painter.Draw(element);
 			shape.Fill = GetStateBrush();

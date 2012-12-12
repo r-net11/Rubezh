@@ -20,6 +20,7 @@ namespace DeviceControls
 		public static void LoadCache()
 		{
 			_imageSources.Clear();
+			RegisterImageSource(null);
 			FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(item => RegisterImageSource(item));
 		}
 		private static void RegisterImageSource(LibraryDevice libraryDevice)
@@ -33,7 +34,7 @@ namespace DeviceControls
 			imageSource.Render(frameworkElement);
 			//RenderOptions.SetCachingHint(imageSource, CachingHint.Cache);
 			imageSource.Freeze();
-			_imageSources.Add(libraryDevice.DriverId, imageSource);
+			_imageSources.Add(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId, imageSource);
 		}
 		public static ImageSource GetImageSource(Device device)
 		{
@@ -50,7 +51,14 @@ namespace DeviceControls
 			if (!_imageSources.ContainsKey(driverUID))
 			{
 				var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driverUID);
-				RegisterImageSource(libraryDevice);
+				if (libraryDevice == null)
+				{
+					if (!_imageSources.ContainsKey(Guid.Empty))
+						RegisterImageSource(null);
+					return _imageSources[Guid.Empty];
+				}
+				else
+					RegisterImageSource(libraryDevice);
 			}
 			return _imageSources[driverUID];
 		}

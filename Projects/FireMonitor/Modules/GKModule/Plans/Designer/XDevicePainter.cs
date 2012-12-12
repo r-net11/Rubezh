@@ -76,7 +76,7 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
-        public Visual Draw(ElementBase element)
+		public UIElement Draw(ElementBase element)
 		{
 			if (_xdevice == null)
 				return null;

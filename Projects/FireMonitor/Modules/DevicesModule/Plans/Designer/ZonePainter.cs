@@ -127,7 +127,7 @@ namespace DevicesModule.Plans.Designer
 
 		#region IPainter Members
 
-        public Visual Draw(ElementBase element)
+		public UIElement Draw(ElementBase element)
 		{
 			if (_zone == null)
 				return null;
