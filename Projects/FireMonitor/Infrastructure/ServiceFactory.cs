@@ -88,7 +88,7 @@ namespace Infrastructure
 		}
 		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)
 		{
-			FiresecManager.FiresecService.AddJournalRecords(journalRecords);
+			//FiresecManager.FiresecService.AddJournalRecords(journalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
 		}
 

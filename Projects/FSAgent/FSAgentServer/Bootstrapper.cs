@@ -11,6 +11,7 @@ using Common;
 using Infrastructure.Common.BalloonTrayTip;
 using System.Windows.Threading;
 using FiresecDB;
+using System.Diagnostics;
 
 namespace FSAgentServer
 {
@@ -95,6 +96,11 @@ namespace FSAgentServer
 				WindowThread = null;
 			}
 			System.Environment.Exit(1);
+
+#if DEBUG
+			return;
+#endif
+			Process.GetCurrentProcess().Kill();
 		}
 	}
 }

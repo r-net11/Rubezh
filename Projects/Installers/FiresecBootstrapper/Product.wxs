@@ -10,12 +10,19 @@ xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
         LocalizationFile="Theme.wxl" />
     </BootstrapperApplicationRef>
     <Chain>
+      <ExePackage
+              Id="dotNetFx40_Full_x86_x64.exe"
+              Vital="no"
+              SourceFile="..\..\..\3rdParty\dotNetFx40_Full_x86_x64.exe"
+              DownloadUrl="http://www.microsoft.com/download/en/details.aspx?id=17851"
+              InstallCommand="/q /norestart /log %TEMP%\dotNetFx40install.log"
+              DetectCondition="(NetFX40Install >= 1) OR (NetFX40x64Install >= 1)"
+              InstallCondition="NOT NetFX40Install OR (VersionNT64 AND NOT NetFX40x64Install)"
+              Name ="NETFX40.exe" />
+
       <MsiPackage Id="Firesec2Installer" SourceFile="..\FiresecInstaller\FiresecInstaller\bin\Release\Firesec-2.msi" Compressed="no" EnableFeatureSelection="yes" Vital="yes">
         <MsiProperty Name="ALLUSERS" Value="1"/>
       </MsiPackage>
-
-      <ExePackage Id="NetFx4Installer" SourceFile="C:\FiresecBootstrapper\dotNetFx40_Full_x86_x64.exe">
-      </ExePackage>
     </Chain>
   </Bundle>
 </Wix>

@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace FiresecService
 {
@@ -76,6 +77,11 @@ namespace FiresecService
                 WindowThread = null;
             }
             System.Environment.Exit(1);
+
+#if DEBUG
+			return;
+#endif
+			Process.GetCurrentProcess().Kill();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace FiresecService.Service
 			var existingClientInfo = ClientInfos.FirstOrDefault(x => x.ClientCredentials.UniqueId == clientCredentials.UniqueId);
 			if (existingClientInfo != null)
 			{
-				//Remove(existingClientInfo.UID);
+				Remove(existingClientInfo.UID);
 				result = false;
 			}
 

@@ -108,6 +108,10 @@ namespace FSAgentServer
                     UILogger.Log("Ошибка соединения с драйвером для мониторинга");
                     BalloonHelper.Show("Агент Firesec", "Ошибка соединения с драйвером для мониторинга");
                 }
+
+				UILogger.Log("Синхронизация журнала событий");
+				DirectClient.SynchrinizeJournal();
+
                 Bootstrapper.BootstrapperLoadEvent.Set();
 			}
 			catch (Exception e)

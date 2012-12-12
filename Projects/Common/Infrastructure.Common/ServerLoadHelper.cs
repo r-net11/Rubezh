@@ -93,17 +93,18 @@ namespace Infrastructure.Common
 
         static bool Start()
         {
-            var fileName = GetLocation();
-            if (fileName == null)
-            {
-                fileName = @"..\FiresecService\FiresecService.exe";
-            }
-
-            if (!File.Exists(fileName))
-            {
-                Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
-                return false;
-            }
+			var fileName = @"..\FiresecService\FiresecService.exe";
+			if (!File.Exists(fileName))
+			{
+				fileName = GetLocation();
+				if (fileName == null)
+					return false;
+			}
+			if (!File.Exists(fileName))
+			{
+				Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
+				return false;
+			}
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             process.StartInfo.FileName = fileName;
             process.Start();

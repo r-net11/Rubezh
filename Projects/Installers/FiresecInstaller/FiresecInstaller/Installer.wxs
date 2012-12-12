@@ -94,7 +94,8 @@
       <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
       <Custom Action="InstallHaspDriver" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.HASP=3]]></Custom>
 
-      <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
+      <Custom Action="StartFiresecServiceOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
+      <Custom Action="StartFSAgentOnExit" After="StartFiresecServiceOnExit">INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 
       <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->
