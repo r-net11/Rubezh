@@ -9,6 +9,7 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
+	    public static Thread CurrentThread;
 		public OperationResult<int> GetJournalLastId()
 		{
 			return new OperationResult<int>()
@@ -24,29 +25,32 @@ namespace FiresecService.Service
 
 		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-            return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter);
+            
+            return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter,true);
 		}
-
 		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-			var thread = new Thread(new ThreadStart((new Action(() =>
-			{
+            if (CurrentThread != null)
+            {
+                FiresecDB.DatabaseHelper.IsAbort = true;
+                CurrentThread.Join();
+                CurrentThread = null;
+            }
+            FiresecDB.DatabaseHelper.IsAbort = false;
+            var thread = new Thread(new ThreadStart((new Action(() =>
+            {
                 FiresecDB.DatabaseHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
                 FiresecDB.DatabaseHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				var result = OnGetFilteredArchive(archiveFilter);
-			}))));
-			thread.Start();
-		}
+                FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, false);
+            }))));
+            CurrentThread = thread;
+            thread.Start();
+        }
 
         void DatabaseHelper_ArchivePortionReady(List<JournalRecord> obj)
         {
             FiresecService.NotifyArchivePortionCompleted(obj);
         }
-
-		static OperationResult<List<JournalRecord>> OnGetFilteredArchive(ArchiveFilter archiveFilter)
-		{
-            return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter);
-		}
 
 		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
 		{
