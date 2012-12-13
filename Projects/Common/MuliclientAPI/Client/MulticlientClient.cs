@@ -9,12 +9,12 @@ namespace MuliclientAPI
 	public static class MulticlientClient
 	{
 		static DuplexChannelFactory<IMuliclient> ChannelFactory;
-		static MuliclientCallback MuliclientCallback;
+		static IMuliclientCallback MuliclientCallback;
 		public static IMuliclient Muliclient;
 
-		public static void Start()
+        public static void Start(IMuliclientCallback muliclientCallback)
 		{
-			MuliclientCallback = new MuliclientCallback();
+            MuliclientCallback = muliclientCallback;
 
 			var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 			var endpointAddress = new EndpointAddress(new Uri("net.pipe://localhost/MulticlientServer"));

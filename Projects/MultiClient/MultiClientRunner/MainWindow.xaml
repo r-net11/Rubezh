@@ -8,17 +8,16 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Add Server" Click="Button_Click_5" Width="100" Margin="2" />
-            <Button Content="Start Server" Click="Button_Click_2" Width="100" Margin="2" />
-            <Button Content="Start process" Click="Button_Click" Width="100" Margin="2" />
-            <Button Content="Stop process" Click="Button_Click_1" Width="100" Margin="2" />
-            <Button Content="Show All" Click="Button_Click_3" Width="100" Margin="2" />
-            <Button Content="Hide All" Click="Button_Click_4" Width="100" Margin="2" />
+            <Button Content="Add" Click="OnAdd" Width="100" Margin="2" />
+            <Button Content="Close all" Click="OnKillAll" Width="100" Margin="2" />
+            <Button Content="Test" Click="OnTest" Width="100" Margin="2" />
         </StackPanel>
-        <ListBox Grid.Row="1">
+        <ListBox Grid.Row="1" ItemsSource="{Binding AppItems}" SelectedItem="{Binding SelectedAppItem}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

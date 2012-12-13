@@ -13,6 +13,7 @@ using Infrastructure.Common.BalloonTrayTip;
 using Firesec;
 using FiresecAPI;
 using Infrustructure.Plans.Events;
+using Infrastructure.Common.Windows;
 
 
 
@@ -154,7 +155,8 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
-			throw new Exception("Unknown exception");
+            MessageBoxService.Show("ApplicationService.ApplicationWindow.Left = " + ApplicationService.ApplicationWindow.Left.ToString());
+			//throw new Exception("Unknown exception");
 		}
 
 		public RelayCommand Test5Command { get; private set; }

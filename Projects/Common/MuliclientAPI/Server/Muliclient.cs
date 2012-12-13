@@ -10,36 +10,66 @@ namespace MuliclientAPI
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
 	public class Muliclient : IMuliclient
 	{
-		List<IMuliclientCallback> Callbacks = new List<IMuliclientCallback>();
+        List<CallbackItem> CallbackItems = new List<CallbackItem>();
 
-		public void Connect(int clientId)
+        public void Connect(string clientId)
 		{
-			var callback = OperationContext.Current.GetCallbackChannel<IMuliclientCallback>();
-			Callbacks.Add(callback);
+            var callbackItem = new CallbackItem();
+            callbackItem.ClientId = clientId;
+            callbackItem.Callback = OperationContext.Current.GetCallbackChannel<IMuliclientCallback>();
+            CallbackItems.Add(callbackItem);
 		}
 
-		public void Loaded(int clientId)
-		{
-		}
-
-		public void Closed(int clientId)
+        public void Loaded(string clientId)
 		{
 		}
 
-		public void ShowAll()
+        public void Closed(string clientId)
 		{
-			foreach (var callback in Callbacks)
-			{
-				callback.Show();
-			}
 		}
 
-		public void HideAll()
+        public void Show(string clientId)
 		{
-			foreach (var callback in Callbacks)
-			{
-				callback.Hide();
-			}
+            var callbackItem = CallbackItems.FirstOrDefault(x => x.ClientId == clientId);
+            if (callbackItem != null)
+            {
+                callbackItem.Callback.Show();
+            }
 		}
+
+        public void Hide(string clientId)
+		{
+            var callbackItem = CallbackItems.FirstOrDefault(x => x.ClientId == clientId);
+            if (callbackItem != null)
+            {
+                callbackItem.Callback.Hide();
+            }
+		}
+
+
+        public WindowSize GetWindowSize(string clientId)
+        {
+            var callbackItem = CallbackItems.FirstOrDefault(x => x.ClientId == clientId);
+            if (callbackItem != null)
+            {
+                return callbackItem.Callback.GetWindowSize();
+            }
+            return null;
+        }
+
+        public void SetWindowSize(string clientId, WindowSize windowSize)
+        {
+            var callbackItem = CallbackItems.FirstOrDefault(x => x.ClientId == clientId);
+            if (callbackItem != null)
+            {
+                callbackItem.Callback.SetWindowSize(windowSize);
+            }
+        }
 	}
+
+    public class CallbackItem
+    {
+        public IMuliclientCallback Callback { get; set; }
+        public string ClientId { get; set; }
+    }
 }

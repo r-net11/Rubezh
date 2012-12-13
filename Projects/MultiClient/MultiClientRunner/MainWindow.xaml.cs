@@ -13,48 +13,59 @@ namespace MultiClientRunner
 		{
 			InitializeComponent();
 			MulticlientServer.Start();
+            AppItemsViewModels = new AppItemsViewModels();
+            DataContext = AppItemsViewModels;
+
+            MulticlientDatas = new List<MulticlientData>();
+            var multiclientData1 = new MulticlientData()
+            {
+                Name = "Server1",
+                RemoteAddress = "localhost",
+                RemotePort = 0,
+                Login = "adm",
+                Password = ""
+            };
+            MulticlientDatas.Add(multiclientData1);
+            var multiclientData2 = new MulticlientData()
+            {
+                Name = "Server2",
+                RemoteAddress = "localhost",
+                RemotePort = 0,
+                Login = "adm",
+                Password = ""
+            };
+            MulticlientDatas.Add(multiclientData2);
 		}
 
-		List<Process> Processes = new List<Process>();
+        public AppItemsViewModels AppItemsViewModels { get; private set; }
+        List<MulticlientData> MulticlientDatas;
 
-		List<AppItem> AppItems = new List<AppItem>();
-
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void OnKillAll(object sender, RoutedEventArgs e)
 		{
-
+            foreach (var process in Process.GetProcesses())
+            {
+                if (process.ProcessName == "FireMonitor")
+                {
+                    process.Kill();
+                }
+            }
 		}
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
+        int clientId = 0;
+
+		private void OnAdd(object sender, RoutedEventArgs e)
 		{
-			var process = Processes.LastOrDefault();
-			if (process != null)
-			{
-				process.Kill();
-				Processes.Remove(process);
-			}
+            foreach (var multiclientData in MulticlientDatas)
+            {
+                var appItem = new AppItem();
+                appItem.Run(multiclientData, (clientId++).ToString());
+                AppItemsViewModels.AppItems.Add(appItem);
+            }
 		}
 
-		private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void OnTest(object sender, RoutedEventArgs e)
 		{
-			
-		}
-
-		private void Button_Click_3(object sender, RoutedEventArgs e)
-		{
-			MulticlientServer.Muliclient.ShowAll();
-		}
-
-		private void Button_Click_4(object sender, RoutedEventArgs e)
-		{
-			MulticlientServer.Muliclient.HideAll();
-		}
-
-		private void Button_Click_5(object sender, RoutedEventArgs e)
-		{
-			var appItem = new AppItem();
-			appItem.Initialize();
-			appItem.Run();
-			AppItems.Add(appItem);
-		}
+            MessageBox.Show(AppItemsViewModels.SelectedAppItem.GetWindowSize().Left.ToString());
+        }
 	}
 }

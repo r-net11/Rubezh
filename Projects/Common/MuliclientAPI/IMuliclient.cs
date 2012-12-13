@@ -10,12 +10,12 @@ namespace MuliclientAPI
 	public interface IMuliclient
 	{
 		[OperationContract]
-		void Connect(int clientId);
+		void Connect(string clientId);
 
 		[OperationContract]
-		void Loaded(int clientId);
+        void Loaded(string clientId);
 
 		[OperationContract]
-		void Closed(int clientId);
+        void Closed(string clientId);
 	}
 }

@@ -26,6 +26,8 @@ namespace FireMonitor
 		public static string Login;
 		public static string Password;
 		public static bool IsMulticlient = false;
+        public static string MulticlientClientId;
+        public static MuliclientCallback MuliclientCallback;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -43,10 +45,9 @@ namespace FireMonitor
 				}
 				if (IsMulticlient)
 				{
-					MulticlientClient.Start();
-					MulticlientClient.Muliclient.Connect(0);
-					MuliclientCallback.HideEvent += new Action(MuliclientCallback_HideEvent);
-					MuliclientCallback.ShowEvent += new Action(MuliclientCallback_ShowEvent);
+                    MuliclientCallback = new MuliclientCallback();
+                    MulticlientClient.Start(MuliclientCallback);
+                    MulticlientClient.Muliclient.Connect(MulticlientClientId);
 				}
             }
 			catch (Exception ex)
@@ -74,17 +75,6 @@ namespace FireMonitor
 				_bootstrapper.Initialize();
 			}
 			bootstrapperLoaded = true;
-		}
-
-		void MuliclientCallback_ShowEvent()
-		{
-			ApplicationService.ApplicationWindow.Show();
-			ApplicationService.ApplicationWindow.Activate();
-		}
-
-		void MuliclientCallback_HideEvent()
-		{
-			ApplicationService.ApplicationWindow.Hide();
 		}
 
 		void StartRevisor()
@@ -181,6 +171,11 @@ namespace FireMonitor
 							{
 								IsMulticlient = true;
 							}
+						}
+                        if (arg.StartsWith("ClientId='") && arg.EndsWith("'"))
+						{
+                            MulticlientClientId = arg.Replace("ClientId='", "");
+                            MulticlientClientId = MulticlientClientId.Replace("'", "");
 						}
 					}
 				}

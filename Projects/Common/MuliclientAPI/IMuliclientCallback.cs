@@ -14,5 +14,11 @@ namespace MuliclientAPI
 
 		[OperationContract(IsOneWay = true)]
 		void Hide();
+
+		[OperationContract]
+        WindowSize GetWindowSize();
+
+        [OperationContract]
+        void SetWindowSize(WindowSize windowSize);
 	}
 }
