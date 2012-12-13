@@ -24,10 +24,21 @@ namespace FireMonitor.ViewModels
 			Width = 1100;
             MinWidth = 980;
 			MinHeight = 550;
+			HideInTaskbar = App.IsMulticlient;
+			AllowHelp = !App.IsMulticlient;
+			AllowMaximize = !App.IsMulticlient;
+			AllowMinimize = !App.IsMulticlient;
+			AllowClose = !App.IsMulticlient;
 		}
 
 		public override bool OnClosing(bool isCanceled)
 		{
+			if (App.IsMulticlient)
+			{
+				isCanceled = true;
+				return true;
+			}
+
             if (App.IsClosingOnException)
             {
 #if DEBUG

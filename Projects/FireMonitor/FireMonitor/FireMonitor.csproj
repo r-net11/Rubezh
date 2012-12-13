@@ -248,6 +248,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\MuliclientAPI\MuliclientAPI.csproj">
+      <Project>{32CADE88-7A8C-45B9-BF15-C60918EC6B5D}</Project>
+      <Name>MuliclientAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\FSAgent\FSAgentAPI\FSAgentAPI.csproj">
       <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
       <Name>FSAgentAPI</Name>

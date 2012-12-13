@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E465C5AC-19D1-4928-A523-90A86FB2D195}</ProjectGuid>
+    <ProjectGuid>{41D4B526-16ED-449D-883C-684C7EA59FD7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultiClientRunner</RootNamespace>
-    <AssemblyName>MultiClientRunner</AssemblyName>
+    <RootNamespace>TestUSB</RootNamespace>
+    <AssemblyName>TestUSB</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -36,9 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibUsbDotNet">
+      <HintPath>C:\Program Files\LibUsbDotNet\Src\LibWinUsb\bin\Debug\LibUsbDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,7 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AppItem.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,16 +95,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
-      <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\MuliclientAPI\MuliclientAPI.csproj">
-      <Project>{32CADE88-7A8C-45B9-BF15-C60918EC6B5D}</Project>
-      <Name>MuliclientAPI</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

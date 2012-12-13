@@ -6,7 +6,7 @@ using System.ServiceModel;
 
 namespace TestWebServer
 {
-	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults=true)]
 	public class TestContract : ITestContract
 	{
 		public string NewEventsAvailable(string mask)

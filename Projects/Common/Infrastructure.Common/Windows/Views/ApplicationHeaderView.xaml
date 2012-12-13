@@ -27,8 +27,8 @@
 			<Button Click="OnMaximize" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
 			</Button>
-			<Button Click="OnClose" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть">
-				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Close.png" />
+            <Button Click="OnClose" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Image Height="12" Margin="-2" Source="/Controls;component/Images/Close.png" />
 			</Button>
 		</StackPanel>
 		<ContentPresenter Grid.Row="1" Grid.ColumnSpan="3" Content="{Binding Content.Toolbar}" />

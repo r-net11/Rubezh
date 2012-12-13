@@ -11,28 +11,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.ComponentModel;
+using System.IO.Ports;
 
-namespace Test
+namespace TestUSB
 {
-	public partial class MainWindow : Window, INotifyPropertyChanged
+	public partial class MainWindow : Window
 	{
 		public MainWindow()
 		{
 			InitializeComponent();
-			DataContext = this;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			ServerHost.Run();
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		void OnPropertyChamged(string propertyName)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			ReadPolling.Run();
 		}
 	}
 }
