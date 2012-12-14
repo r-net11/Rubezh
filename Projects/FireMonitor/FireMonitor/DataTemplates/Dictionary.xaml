@@ -11,7 +11,11 @@
         <Views:ToolbarView />
     </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SoundViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MulticlientControlViewModel}">
+        <Views:MulticlientControlView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SoundViewModel}">
 		<Views:SoundView />
 	</DataTemplate>
 

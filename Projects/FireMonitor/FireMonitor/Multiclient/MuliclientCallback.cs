@@ -13,11 +13,13 @@ namespace FireMonitor
         {
             ApplicationService.ApplicationWindow.Show();
             ApplicationService.ApplicationWindow.Activate();
+			ApplicationService.ApplicationWindow.ShowInTaskbar = true;
         }
 
         public void Hide()
         {
             ApplicationService.ApplicationWindow.Hide();
+			ApplicationService.ApplicationWindow.ShowInTaskbar = false;
         }
 
         public WindowSize GetWindowSize()
@@ -29,7 +31,6 @@ namespace FireMonitor
                 Width = ApplicationService.ApplicationWindow.Width,
                 Height = ApplicationService.ApplicationWindow.Height
             };
-            //MessageBoxService.Show("ApplicationService.ApplicationWindow.Left = " + ApplicationService.ApplicationWindow.Left.ToString());
             return windowSize;
         }
 

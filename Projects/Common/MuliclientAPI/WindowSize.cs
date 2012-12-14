@@ -20,5 +20,8 @@ namespace MuliclientAPI
 
         [DataMember]
         public double Height { get; set; }
+
+		[DataMember]
+		public bool IsMaximized { get; set; }
     }
 }

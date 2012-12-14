@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ServiceModel;
+using MuliclientAPI;
 
-namespace MuliclientAPI
+namespace MultiClientRunner
 {
 	public static class MulticlientServer
 	{
 		static ServiceHost ServiceHost;
 		public static Muliclient Muliclient { get; set; }
+		public static List<MulticlientData> MulticlientDatas { get; set; }
 
 		public static void Start()
 		{

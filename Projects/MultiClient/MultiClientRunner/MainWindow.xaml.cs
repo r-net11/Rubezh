@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using MuliclientAPI;
+using System.Threading;
+using System;
 
 namespace MultiClientRunner
 {
@@ -12,13 +14,14 @@ namespace MultiClientRunner
 		public MainWindow()
 		{
 			InitializeComponent();
+			AppItemsViewModels = new AppItemsViewModels();
 			MulticlientServer.Start();
-            AppItemsViewModels = new AppItemsViewModels();
             DataContext = AppItemsViewModels;
 
             MulticlientDatas = new List<MulticlientData>();
             var multiclientData1 = new MulticlientData()
             {
+				Id = "0",
                 Name = "Server1",
                 RemoteAddress = "localhost",
                 RemotePort = 0,
@@ -28,13 +31,26 @@ namespace MultiClientRunner
             MulticlientDatas.Add(multiclientData1);
             var multiclientData2 = new MulticlientData()
             {
+				Id = "1",
                 Name = "Server2",
                 RemoteAddress = "localhost",
                 RemotePort = 0,
                 Login = "adm",
                 Password = ""
             };
-            MulticlientDatas.Add(multiclientData2);
+			MulticlientDatas.Add(multiclientData2);
+			//var multiclientData3 = new MulticlientData()
+			//{
+			//    Id = "2",
+			//    Name = "Server3",
+			//    RemoteAddress = "localhost",
+			//    RemotePort = 0,
+			//    Login = "adm",
+			//    Password = ""
+			//};
+			//MulticlientDatas.Add(multiclientData3);
+
+			MulticlientServer.MulticlientDatas = MulticlientDatas;
 		}
 
         public AppItemsViewModels AppItemsViewModels { get; private set; }
@@ -57,9 +73,11 @@ namespace MultiClientRunner
 		{
             foreach (var multiclientData in MulticlientDatas)
             {
+				clientId++;
                 var appItem = new AppItem();
-                appItem.Run(multiclientData, (clientId++).ToString());
+                appItem.Run(multiclientData, clientId.ToString());
                 AppItemsViewModels.AppItems.Add(appItem);
+				Thread.Sleep(TimeSpan.FromSeconds(5));
             }
 		}
 

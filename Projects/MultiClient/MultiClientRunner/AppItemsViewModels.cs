@@ -11,12 +11,15 @@ namespace MultiClientRunner
 {
     public class AppItemsViewModels : BaseViewModel
     {
+		public static AppItemsViewModels Current;
         public AppItemsViewModels()
         {
+			Current = this;
             AppItems = new ObservableCollection<AppItem>();
         }
 
         public ObservableCollection<AppItem> AppItems { get; private set; }
+		public AppItem CurrentAppItem { get; set; }
 
         AppItem _selectedAppItem;
         public AppItem SelectedAppItem
@@ -24,12 +27,6 @@ namespace MultiClientRunner
             get { return _selectedAppItem; }
             set
             {
-                foreach (var appItem in AppItems)
-                {
-                    var windowSize = appItem.GetWindowSize();
-                    Trace.WriteLine(windowSize.Left);
-                }
-
                 if (_selectedAppItem != value)
                 {
                     WindowSize windowSize = null;
@@ -38,8 +35,6 @@ namespace MultiClientRunner
                         windowSize = _selectedAppItem.GetWindowSize();
                     }
 
-                    _selectedAppItem = value;
-                    OnPropertyChanged("SelectedAppItem");
                     foreach (var appItem in AppItems)
                     {
                         if (appItem != value)
@@ -52,6 +47,9 @@ namespace MultiClientRunner
                         value.Show(windowSize);
                     }
                 }
+
+                    _selectedAppItem = value;
+					OnPropertyChanged("SelectedAppItem");
             }
         }
     }

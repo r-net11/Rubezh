@@ -13,9 +13,12 @@ namespace MuliclientAPI
 		void Connect(string clientId);
 
 		[OperationContract]
-        void Loaded(string clientId);
+        void SetStatus(string clientId, string status);
 
 		[OperationContract]
-        void Closed(string clientId);
+		List<MulticlientData> GetMulticlientData();
+
+		[OperationContract]
+		void Activate(string oldClientId, string newClientId, WindowSize windowSize);
 	}
 }

@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace MultiClientRunner
+namespace MuliclientAPI
 {
     [DataContract]
     public class MulticlientData
     {
+		[DataMember]
+		public string Id { get; set; }
+
         [DataMember]
         public string Name { get; set; }
 
