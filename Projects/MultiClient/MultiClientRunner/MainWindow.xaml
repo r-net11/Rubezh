@@ -8,9 +8,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Add" Click="OnAdd" Width="100" Margin="2" />
             <Button Content="Close all" Click="OnKillAll" Width="100" Margin="2" />
-            <Button Content="Test" Click="OnTest" Width="100" Margin="2" />
         </StackPanel>
         <ListBox Grid.Row="1" ItemsSource="{Binding AppItems}">
             <ListBox.ItemTemplate>
@@ -18,8 +16,6 @@
                     <StackPanel Orientation="Horizontal">
                         <Button Content="Select" Command="{Binding SelectCommand}" Margin="1" />
                         <TextBlock Text="{Binding Name}" Margin="1" />
-                        <TextBlock Text="{Binding ClientId}" Margin="1" />
-                        <TextBlock Text="{Binding CurrentLeft}" Margin="1" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

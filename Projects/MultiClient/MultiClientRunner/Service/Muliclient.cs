@@ -18,11 +18,14 @@ namespace MultiClientRunner
 			callbackItem.ClientId = clientId;
 			callbackItem.Callback = OperationContext.Current.GetCallbackChannel<IMuliclientCallback>();
 			CallbackItems.Add(callbackItem);
+
+            if (CallbackItems.Count == 1)
+            {
+            }
 		}
 
 		public void SetStatus(string clientId, string status)
 		{
-
 		}
 
 		public List<MulticlientData> GetMulticlientData()
@@ -38,14 +41,6 @@ namespace MultiClientRunner
 				newCallbackItem.Callback.SetWindowSize(windowSize);
 				newCallbackItem.Callback.Show();
 			}
-
-			//foreach (var callbackItem in CallbackItems)
-			//{
-			//    if (callbackItem.ClientId != oldClientId)
-			//    {
-			//        callbackItem.Callback.Hide();
-			//    }
-			//}
 		}
 
 		public void Show(string clientId)

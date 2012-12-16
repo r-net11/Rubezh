@@ -17,24 +17,11 @@ namespace MultiClientRunner
 		}
 
 		Process Process;
-
 		public string Name { get; private set; }
 		public string ClientId { get; set; }
 
-		double _currentLeft;
-		public double CurrentLeft
+		public void Run(MulticlientData multiclientData)
 		{
-			get { return _currentLeft; }
-			set
-			{
-				_currentLeft = value;
-				OnPropertyChanged("CurrentLeft");
-			}
-		}
-
-		public void Run(MulticlientData multiclientData, string clientId)
-		{
-			ClientId = multiclientData.Id;// clientId;
 			Name = multiclientData.Name;
 			var commandLineArguments = "regime='multiclient' " +
 				"ClientId='" + ClientId +
@@ -45,7 +32,7 @@ namespace MultiClientRunner
 
 			var processStartInfo = new ProcessStartInfo()
 			{
-				FileName = @"D:/Projects/Projects/FireMonitor/bin/Debug/FireMonitor.exe",
+				FileName = @"E:/Projects/Projects/FireMonitor/bin/Debug/FireMonitor.exe",
 				Arguments = commandLineArguments
 			};
 			Process = System.Diagnostics.Process.Start(processStartInfo);
@@ -78,23 +65,23 @@ namespace MultiClientRunner
 		public RelayCommand SelectCommand { get; private set; }
 		void OnSelect()
 		{
-			if (AppItemsViewModels.Current.CurrentAppItem == this)
-				return;
+            //if (AppItemsViewModels.Current.CurrentAppItem == this)
+            //    return;
 
-			WindowSize windowSize = null;
-			if (AppItemsViewModels.Current.CurrentAppItem != null)
-			{
-				windowSize = AppItemsViewModels.Current.CurrentAppItem.GetWindowSize();
-			}
+            //WindowSize windowSize = null;
+            //if (AppItemsViewModels.Current.CurrentAppItem != null)
+            //{
+            //    windowSize = AppItemsViewModels.Current.CurrentAppItem.GetWindowSize();
+            //}
 
-			Show(windowSize);
-			foreach (var appItem in AppItemsViewModels.Current.AppItems)
-			{
-				if (appItem != this)
-					appItem.Hide();
-			}
+            //Show(windowSize);
+            //foreach (var appItem in AppItemsViewModels.Current.AppItems)
+            //{
+            //    if (appItem != this)
+            //        appItem.Hide();
+            //}
 
-			AppItemsViewModels.Current.CurrentAppItem = this;
+            //AppItemsViewModels.Current.CurrentAppItem = this;
 		}
 	}
 }

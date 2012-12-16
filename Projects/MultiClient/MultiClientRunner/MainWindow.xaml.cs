@@ -51,6 +51,8 @@ namespace MultiClientRunner
 			//MulticlientDatas.Add(multiclientData3);
 
 			MulticlientServer.MulticlientDatas = MulticlientDatas;
+
+            Run();
 		}
 
         public AppItemsViewModels AppItemsViewModels { get; private set; }
@@ -69,21 +71,15 @@ namespace MultiClientRunner
 
         int clientId = 0;
 
-		private void OnAdd(object sender, RoutedEventArgs e)
+		void Run()
 		{
             foreach (var multiclientData in MulticlientDatas)
             {
-				clientId++;
+                multiclientData.Id = (clientId++).ToString();
                 var appItem = new AppItem();
-                appItem.Run(multiclientData, clientId.ToString());
+                appItem.Run(multiclientData);
                 AppItemsViewModels.AppItems.Add(appItem);
-				Thread.Sleep(TimeSpan.FromSeconds(5));
             }
 		}
-
-        private void OnTest(object sender, RoutedEventArgs e)
-		{
-            MessageBox.Show(AppItemsViewModels.SelectedAppItem.GetWindowSize().Left.ToString());
-        }
 	}
 }
