@@ -221,7 +221,7 @@ namespace FiresecService.Configuration
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.Get<T> typeof(T) = " + typeof(T).ToString());
+				Logger.Error(e, "ConfigurationFileManager.Get<T> typeof(T) = " + typeof(T).ToString());
 			}
 			T newConfiguration = new T();
 			Set<T>(newConfiguration, fileName);

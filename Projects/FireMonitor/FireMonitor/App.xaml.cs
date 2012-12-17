@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Common.GK;
 using Infrastructure.Common.Theme;
 using Microsoft.Win32;
+using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -33,28 +34,22 @@ namespace FireMonitor
 #if DEBUG
                 AppSettingsManager.AutoConnect = true;
 #endif
-                var path = System.Reflection.Assembly.GetExecutingAssembly();
-                var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                if (saveKey != null)
-                {
-                    saveKey.SetValue("FireMonitorPath", path.Location);
-                    saveKey.SetValue("IsException", false);
-                    var isAutoConnect = saveKey.GetValue("isAutoConnect");
-                    if (isAutoConnect != null)
-                        if (isAutoConnect.Equals("True"))
-                        {
-                            AppSettingsManager.AutoConnect = true;
-                            saveKey.SetValue("isAutoConnect", false);
-                        }
-                }
-                RevisorLoadHelper.Load();
+				InitializeCommandLineArguments(e.Args);
+
+				if (!MulticlientHelper.IsMulticlient)
+				{
+					StartRevisor();
+				}
+				if (MulticlientHelper.IsMulticlient)
+				{
+					MulticlientHelper.Start();
+				}
             }
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");
 			}
 
-			InitializeCommandLineArguments(e.Args);
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ThemeHelper.LoadThemeFromRegister();
@@ -63,11 +58,37 @@ namespace FireMonitor
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 			_bootstrapper = new Bootstrapper();
-			using (new DoubleLaunchLocker(SignalId, WaitId, true))
+			if (!MulticlientHelper.IsMulticlient)
+			{
+				using (new DoubleLaunchLocker(SignalId, WaitId, true))
+				{
+					_bootstrapper.Initialize();
+				}
+			}
+			else
 			{
 				_bootstrapper.Initialize();
 			}
 			bootstrapperLoaded = true;
+		}
+
+		void StartRevisor()
+		{
+			var path = System.Reflection.Assembly.GetExecutingAssembly();
+			var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+			if (saveKey != null)
+			{
+				saveKey.SetValue("FireMonitorPath", path.Location);
+				saveKey.SetValue("IsException", false);
+				var isAutoConnect = saveKey.GetValue("isAutoConnect");
+				if (isAutoConnect != null)
+					if (isAutoConnect.Equals("True"))
+					{
+						AppSettingsManager.AutoConnect = true;
+						saveKey.SetValue("isAutoConnect", false);
+					}
+			}
+			RevisorLoadHelper.Load();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -136,6 +157,20 @@ namespace FireMonitor
 						{
 							Password = arg.Replace("password='", "");
 							Password = Password.Replace("'", "");
+						}
+						if (arg.StartsWith("regime='") && arg.EndsWith("'"))
+						{
+							var regime = arg.Replace("regime='", "");
+							regime = regime.Replace("'", "");
+							if (regime == "multiclient")
+							{
+								MulticlientHelper.IsMulticlient = true;
+							}
+						}
+                        if (arg.StartsWith("ClientId='") && arg.EndsWith("'"))
+						{
+							MulticlientHelper.MulticlientClientId = arg.Replace("ClientId='", "");
+							MulticlientHelper.MulticlientClientId = MulticlientHelper.MulticlientClientId.Replace("'", "");
 						}
 					}
 				}

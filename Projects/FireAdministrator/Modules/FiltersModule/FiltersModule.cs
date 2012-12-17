@@ -9,22 +9,22 @@ namespace FiltersModule
 {
 	public class FilterModule : ModuleBase
 	{
-		FiltersViewModel _filtersViewModel;
+		FiltersViewModel FiltersViewModel;
 
-		public FilterModule()
+		public override void CreateViewModels()
 		{
-			_filtersViewModel = new FiltersViewModel();
+			FiltersViewModel = new FiltersViewModel();
 		}
 
 		public override void Initialize()
 		{
-			_filtersViewModel.Initialize();
+			FiltersViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowJournalEvent>(_filtersViewModel, "Фильтры журнала", "/Controls;component/Images/filter.png"),
+				new NavigationItem<ShowJournalEvent>(FiltersViewModel, "Фильтры журнала", "/Controls;component/Images/filter.png"),
 			};
 		}
 		public override string Name

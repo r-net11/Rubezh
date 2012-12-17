@@ -17,7 +17,7 @@ namespace JournalModule
 		JournalsViewModel JournalsViewModel;
 		ArchiveViewModel ArchiveViewModel;
 
-		public JournalModuleLoader()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);

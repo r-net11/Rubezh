@@ -9,22 +9,22 @@ namespace SettingsModule
 {
 	public class SettingsModule : ModuleBase
 	{
-		SettingsViewModel _settingsViewModel;
+		SettingsViewModel SettingsViewModel;
 
-		public SettingsModule()
+		public override void CreateViewModels()
 		{
-			_settingsViewModel = new SettingsViewModel();
+			SettingsViewModel = new SettingsViewModel();
 		}
 
 		public override void Initialize()
 		{
-            _settingsViewModel.Initialize();
+            SettingsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSettingsEvent>(_settingsViewModel, "Настройки", "/Controls;component/Images/settings.png"),
+				new NavigationItem<ShowSettingsEvent>(SettingsViewModel, "Настройки", "/Controls;component/Images/settings.png"),
 			};
 		}
 		public override string Name

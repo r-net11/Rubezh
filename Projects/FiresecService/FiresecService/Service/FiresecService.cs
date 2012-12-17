@@ -11,6 +11,7 @@ using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
+using FiresecService.Configuration;
 
 namespace FiresecService.Service
 {
@@ -43,6 +44,8 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
+			ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
@@ -89,6 +92,15 @@ namespace FiresecService.Service
             var clientInfo = ClientsManager.GetClientInfo(uid);
             if (clientInfo != null)
 			{
+                if (clientInfo.ClientCredentials.ClientType == ClientType.Monitor)
+                {
+                    if (FiresecService.CurrentThread != null)
+                    {
+                        FiresecDB.DatabaseHelper.IsAbort = true;
+                        CurrentThread.Join();
+                        CurrentThread = null;
+                    }
+                }
                 clientInfo.IsDisconnecting = true;
                 clientInfo.WaitEvent.Set();
                 if (clientInfo.ClientCredentials != null)

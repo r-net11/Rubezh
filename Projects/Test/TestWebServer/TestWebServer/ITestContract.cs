@@ -10,6 +10,6 @@ namespace TestWebServer
 	public interface ITestContract
 	{
 		[OperationContract]
-		void NewEventsAvailable(int mask);
+		string NewEventsAvailable(string mask);
 	}
 }

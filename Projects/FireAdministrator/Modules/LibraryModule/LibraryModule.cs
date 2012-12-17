@@ -11,7 +11,7 @@ namespace LibraryModule
 	{
 		LibraryViewModel LibraryViewModel;
 
-		public LibraryModule()
+		public override void CreateViewModels()
 		{
 			LibraryViewModel = new LibraryViewModel();
 		}

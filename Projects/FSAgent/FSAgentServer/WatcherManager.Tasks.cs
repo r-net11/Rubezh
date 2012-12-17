@@ -54,6 +54,7 @@ namespace FSAgentServer
 					var action = NonBlockingTasks.Dequeue();
 					if (action != null)
 					{
+						CircleDateTime = DateTime.Now;
 						OperationDateTime = DateTime.Now;
 						IsOperationBuisy = true;
 						try
@@ -86,6 +87,7 @@ namespace FSAgentServer
 					var dispatcherItem = BlockingTasks.Dequeue();
 					if (dispatcherItem != null)
 					{
+						CircleDateTime = DateTime.Now;
 						OperationDateTime = DateTime.Now;
 						IsOperationBuisy = true;
 						try

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Printing;
@@ -143,6 +144,12 @@ namespace ReportsModule.ViewModels
 		{
 			foreach (var reportProvider in reportProviders)
 				Reports.Add(new ReportViewModel(reportProvider));
+		}
+
+		public override void OnShow()
+		{
+			if (SelectedReport == null)
+				SelectedReport = Reports.FirstOrDefault();
 		}
 	}
 }

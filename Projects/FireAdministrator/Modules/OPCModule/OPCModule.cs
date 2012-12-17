@@ -15,7 +15,7 @@ namespace OPCModule
 		OPCDevicesViewModel OPCDevicesViewModel;
 		OPCZonesViewModel OPCZonesViewModel;
 
-		public OPCModule()
+		public override void CreateViewModels()
 		{
 			OPCDevicesViewModel = new OPCDevicesViewModel();
 			OPCZonesViewModel = new OPCZonesViewModel();

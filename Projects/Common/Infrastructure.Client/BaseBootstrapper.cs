@@ -44,12 +44,62 @@ namespace Infrastructure.Client
 
 		protected void CreateModules()
 		{
+			ReadConfiguration();
+		}
 
+		protected void BeforeInitialize(bool firstTime)
+		{
+			foreach (IModule module in _modules)
+				try
+				{
+					var result = module.BeforeInitialize(firstTime);
+					if (!result)
+					{
+						Application.Current.Shutdown();
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "BaseBootstrapper.PreInitialize");
+					MessageBoxService.ShowError(e.Message);
+					Application.Current.Shutdown();
+				}
+		}
+
+		protected void AterInitialize()
+		{
+			foreach (IModule module in _modules)
+				try
+				{
+					module.AfterInitialize();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "BaseBootstrapper.AterInitialize");
+					MessageBoxService.ShowError(e.Message);
+					Application.Current.Shutdown();
+				}
+		}
+
+		protected void CreateViewModels()
+		{
+			foreach (IModule module in _modules)
+				try
+				{
+					module.CreateViewModels();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "BaseBootstrapper.Create");
+					MessageBoxService.ShowError(e.Message);
+					Application.Current.Shutdown();
+				}
 		}
 
 		protected void RunShell(ShellViewModel shellViewModel)
 		{
 			LoadingService.DoStep("Загрузка модулей приложения");
+			CreateViewModels();
 			shellViewModel.NavigationItems = GetNavigationItems();
 			if (InitializeModules())
 			{
@@ -64,23 +114,12 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules)
 				try
 				{
-					if (module.Name.Contains("Video"))
-					{
-						;
-					}
 					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
-					try
-					{
-						module.Initialize();
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "BaseBootstrapper.InitializeModules");
-					};
+					module.Initialize();
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e);
+					Logger.Error(e, "BaseBootstrapper.InitializeModules");
 					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 					LoadingService.Close();
 					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
@@ -95,10 +134,6 @@ namespace Infrastructure.Client
 			var navigationItems = new List<NavigationItem>();
 			foreach (IModule module in _modules)
 			{
-				if (module.Name.Contains("Video"))
-				{
-					;
-				}
 				var items = module.CreateNavigation();
 				if (items != null && items.Count() > 0)
 				{

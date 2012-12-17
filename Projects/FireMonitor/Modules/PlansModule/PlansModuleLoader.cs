@@ -15,7 +15,7 @@ namespace PlansModule
 		private PlansViewModel _plansViewModel;
 		private NavigationItem _planNavigationItem;
 
-		public PlansModuleLoader()
+		public override void CreateViewModels()
 		{
 			EventService.RegisterEventAggregator(ServiceFactory.Events);
 			_plansViewModel = new PlansViewModel();

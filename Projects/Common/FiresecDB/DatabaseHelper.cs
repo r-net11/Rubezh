@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -215,8 +216,8 @@ namespace FiresecDB
             }
             return operationResult;
         }
-
-        public static OperationResult<List<JournalRecord>> OnGetFilteredArchive(ArchiveFilter archiveFilter)
+        public static bool IsAbort { get; set; }
+        public static OperationResult<List<JournalRecord>> OnGetFilteredArchive(ArchiveFilter archiveFilter, bool isReport)
         {
             var operationResult = new OperationResult<List<JournalRecord>>();
             operationResult.Result = new List<JournalRecord>();
@@ -285,6 +286,8 @@ namespace FiresecDB
                     var reader = result.ExecuteReader();
                     while (reader.Read())
                     {
+                        if (IsAbort)
+                            break;
                         try
                         {
                             var journalRecord = new JournalRecord();
@@ -307,13 +310,16 @@ namespace FiresecDB
                             journalRecord.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
                             journalRecord.No = reader.GetInt32(reader.GetOrdinal("Id"));
                             operationResult.Result.Add(journalRecord);
-                            journalRecords.Add(journalRecord);
-                            if (journalRecords.Count > 1000)
+                            if (!isReport)
                             {
-                                if (ArchivePortionReady != null)
-                                    ArchivePortionReady(journalRecords.ToList());
+                                journalRecords.Add(journalRecord);
+                                if (journalRecords.Count > 100)
+                                {
+                                    if (ArchivePortionReady != null)
+                                        ArchivePortionReady(journalRecords.ToList());
 
-                                journalRecords.Clear();
+                                    journalRecords.Clear();
+                                }
                             }
                         }
                         catch (Exception e)
@@ -321,7 +327,7 @@ namespace FiresecDB
 							Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
                         }
                     }
-                    if (journalRecords.Count > 0)
+                    if ((journalRecords.Count > 0)&&(!isReport))
                     {
                         if (ArchivePortionReady != null)
                             ArchivePortionReady(journalRecords.ToList());

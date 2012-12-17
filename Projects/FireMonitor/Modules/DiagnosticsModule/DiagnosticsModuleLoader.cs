@@ -12,7 +12,7 @@ namespace DiagnosticsModule
     {
         DiagnosticsViewModel DiagnosticsViewModel;
 
-        public DiagnosticsModuleLoader()
+		public override void CreateViewModels()
         {
             ServiceFactory.Layout.AddToolbarItem(new ImitatorViewModel());
             ServiceFactory.Events.GetEvent<ShowDiagnosticsEvent>().Subscribe(OnShowDiagnostics);

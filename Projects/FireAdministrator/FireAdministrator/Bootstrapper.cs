@@ -30,21 +30,20 @@ namespace FireAdministrator
 			{
 				try
 				{
+					CreateModules();
+
 					LoadingService.Show("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount());
 
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 
-					if (!InitializeFs())
-						return;
+					BeforeInitialize(true);
+
 					if (LoadingErrorManager.HasError)
 					{
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 					}
-
-					LoadingService.DoStep("Загрузка конфигурации ГК");
-					InitializeGk();
 
 					LoadingService.DoStep("Старт полинга сервера");
 					FiresecManager.StartPoll(true);
@@ -62,6 +61,8 @@ namespace FireAdministrator
 						RunShell(shell);
 					}
 					LoadingService.Close();
+
+					AterInitialize();
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					MutexHelper.KeepAlive();
@@ -81,40 +82,6 @@ namespace FireAdministrator
 					Application.Current.Shutdown();
 				return;
 			}
-		}
-
-		bool InitializeFs()
-		{
-			try
-			{
-				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				FiresecManager.GetConfiguration();
-				LoadingService.DoStep("Загрузка драйвера устройств");
-                var connectionResult = FiresecManager.InitializeFiresecDriver(false);
-				if (connectionResult.HasError)
-				{
-					CloseOnException(connectionResult.Error);
-					return false;
-				}
-				LoadingService.DoStep("Синхронизация конфигурации");
-				FiresecManager.FiresecDriver.Synchronyze();
-				LoadingService.DoStep("Старт мониторинга");
-				FiresecManager.FiresecDriver.StartWatcher(false, false);
-				FiresecManager.FSAgent.Start();
-			}
-			catch (FiresecException e)
-			{
-				Logger.Error(e, "Bootstrapper.InitializeFs");
-				CloseOnException(e.Message);
-				return false;
-			}
-			return true;
-		}
-
-		void InitializeGk()
-		{
-			GKDriversCreator.Create();
-			XManager.GetConfiguration();
 		}
 
 		void OnConfigurationChanged(object obj)
