@@ -2,17 +2,17 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables.wxi?>
 	<Fragment>
-    <DirectoryRef Id="DIAGNOSTICSLOCATION">
-      <Component Id="Diagnostics.Files" Guid="CB85AFC6-23E7-44A5-997B-27CDB4C8DEAC">
-        <File Id="Diagnostics.Diagnostics.exe" Name="$(var.Diagnostics.TargetFileName)" Source="$(var.Diagnostics.TargetPath)" KeyPath="yes" />
-        <File Id="Diagnostics.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.Common.dll" Name="Common.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Diagnostics.TargetDir)" />
-        <File Id="Diagnostics.NLog.dll" Name="NLog.dll" Source="$(var.Diagnostics.TargetDir)" />
+    <DirectoryRef Id="MANAGEMENTCONSOLELOCATION">
+      <Component Id="ManagementConsole.Files" Guid="CB85AFC6-23E7-44A5-997B-27CDB4C8DEAC">
+        <File Id="ManagementConsole.ManagementConsole.exe" Name="$(var.ManagementConsole.TargetFileName)" Source="$(var.ManagementConsole.TargetPath)" KeyPath="yes" />
+        <File Id="ManagementConsole.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Common.dll" Name="Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.NLog.dll" Name="NLog.dll" Source="$(var.ManagementConsole.TargetDir)" />
       </Component>
     </DirectoryRef>
 	</Fragment>

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Diagnostics
+namespace ManagementConsole
 {
 	public partial class App : Application
 	{

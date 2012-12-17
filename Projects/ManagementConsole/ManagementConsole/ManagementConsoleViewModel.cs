@@ -2,18 +2,35 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using MessageBox = System.Windows.MessageBox;
 
-namespace Diagnostics
+namespace ManagementConsole
 {
-	public class DiagnosticsViewModel : BaseViewModel
+	public class ManagementConsoleViewModel : BaseViewModel
 	{
-		public DiagnosticsViewModel()
+        static string admlogspath = @"..\FireAdministrator\Logs";
+        static string monlogspath = @"..\FireMonitor\Logs";
+        static string srvlogspath = @"..\FiresecService\Logs";
+        static string agnlogspath = @"..\FSAgent\Logs";
+        static string srvconfpath = @"..\FiresecService\Configuration";
+
+		public ManagementConsoleViewModel()
 		{
+#if DEBUG
+            admlogspath = @"..\..\..\..\FireAdministrator\bin\Debug\Logs";
+            monlogspath = @"..\..\..\..\FireMonitor\bin\Debug\Logs";
+            srvlogspath = @"..\..\..\..\FiresecService\bin\Debug\Logs";
+            agnlogspath = @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\Logs";
+            srvconfpath = @"..\..\..\..\FiresecService\bin\Debug\Configuration";
+#endif
 			GetLogsCommand = new RelayCommand(OnGetLogs);
 			RemLogsCommand = new RelayCommand(OnRemLogs);
+            SelectFolderCommand = new RelayCommand(OnSelectFolder);
+            OpenFolderCommand = new RelayCommand(OnOpenFolder);
 		}
 
 		private string fspath;
@@ -52,6 +69,41 @@ namespace Diagnostics
 			}
 		}
 
+        private bool isFSAgentAuto;
+        public bool IsFSAgentAuto
+        {
+            get
+            {
+                var readkey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+                if (readkey != null)
+                {
+                    if (readkey.GetValue("FSAgentServer") != null)
+                        fspath = readkey.GetValue("FSAgentServer").ToString();
+                    else
+                    {
+                        fspath = @"C:\Program Files\Rubezh\FSAgent\FSAgentServer.exe";
+                        return false;
+                    }
+                    readkey.Close();
+                }
+                return true;
+            }
+            set
+            {
+                var readkey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+                isServerAuto = value;
+                if (isServerAuto)
+                {
+                    if (readkey != null) readkey.SetValue("FSAgentServer", fspath);
+                }
+                else
+                    if (!String.IsNullOrEmpty(readkey.GetValue("FSAgentServer").ToString()))
+                        readkey.DeleteValue("FSAgentServer");
+                if (readkey != null) readkey.Close();
+                OnPropertyChanged("IsFSAgentAuto");
+            }
+        }
+
         private string opcpath;
         private bool isOpcServerAuto;
         public bool IsOpcServerAuto
@@ -88,20 +140,34 @@ namespace Diagnostics
             }
         }
 
+        static string rootlogspath = "..\\Logs";
+        static string curlogspath
+        {
+            get
+            {
+                return rootlogspath + "\\Logs " + DateTime.Today.Date.ToShortDateString();
+            }
+        }
+        
+        public string Rootlogspath
+	    {
+	        get 
+            {
+                var dir = new DirectoryInfo(rootlogspath);
+                return dir.FullName ;
+            }
+            set
+            {
+                rootlogspath = value;
+                OnPropertyChanged("Rootlogspath");
+            }
+	    }
+
 		public RelayCommand GetLogsCommand { get; private set; }
 		public void OnGetLogs()
 		{
-			var admlogspath = @"..\FireAdministrator\Logs";
-			var monlogspath = @"..\FireMonitor\Logs";
-			var srvlogspath = @"..\FiresecService\Logs";
-            var srvconfpath = @"..\FiresecService\Configuration";
-#if DEBUG
-			admlogspath = @"..\..\..\..\FireAdministrator\bin\Debug\Logs";
-			monlogspath = @"..\..\..\..\FireMonitor\bin\Debug\Logs";
-			srvlogspath = @"..\..\..\..\FiresecService\bin\Debug\Logs";
-            srvconfpath = @"..\..\..\..\FiresecService\bin\Debug\Configuration";
-#endif
-			var curlogspath = "..\\Logs\\Logs " + DateTime.Today.Date.ToShortDateString();
+
+
 			var admdir = new DirectoryInfo(admlogspath);
 			var mondir = new DirectoryInfo(monlogspath);
 			var srvdir = new DirectoryInfo(srvlogspath);
@@ -180,7 +246,7 @@ namespace Diagnostics
 			{
 				sb.Append(ex.ToString());
 			}
-            System.IO.File.WriteAllText(@"..\Logs\systeminfo.txt", sb.ToString(), Encoding.GetEncoding(1252));
+            System.IO.File.WriteAllText(Rootlogspath + "\\systeminfo.txt", sb.ToString(), Encoding.GetEncoding(1252));
 		}
 		private static int GetBitCount(bool is64)
 		{
@@ -191,13 +257,47 @@ namespace Diagnostics
 		{
 			try
 			{
-				var curlogspath = "..\\Logs";
-				var directories = Directory.GetDirectories(curlogspath);
-				foreach (var directory in directories)
-					Directory.Delete(directory, true);
+                if (Directory.Exists(admlogspath))
+                    Directory.Delete(admlogspath, true);
+                if (Directory.Exists(monlogspath))
+                    Directory.Delete(monlogspath, true);
+                if (Directory.Exists(srvlogspath))
+                    Directory.Delete(srvlogspath, true);
 			}
 			catch
 			{ }
 		}
+
+        public RelayCommand SelectFolderCommand { get; private set; }
+        void OnSelectFolder()
+        {
+            try
+            {
+                var folder = new FolderBrowserDialog();
+                folder.Description = "Choose a Folder";
+                folder.SelectedPath = @"C:\";
+                if (folder.ShowDialog() == DialogResult.OK)
+                {
+                    Rootlogspath = folder.SelectedPath;
+                }
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+            }
+        }
+
+        public RelayCommand OpenFolderCommand { get; private set; }
+        void OnOpenFolder()
+        {
+            if (Directory.Exists(Rootlogspath))
+                Process.Start(Rootlogspath);
+            else
+            {
+                MessageBox.Show("Выбранная папка отсутствует, пожалуйста выберите новую", "Невозможно открыть папку");
+                OnSelectFolder();
+            }
+        }
 	}
 }

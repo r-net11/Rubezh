@@ -8,8 +8,8 @@
     <ProjectGuid>{0186C5AB-BE2D-4EC2-B42E-DE272399FC78}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Diagnostics</RootNamespace>
-    <AssemblyName>Diagnostics</AssemblyName>
+    <RootNamespace>ManagementConsole</RootNamespace>
+    <AssemblyName>ManagementConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -43,15 +43,16 @@
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>Diagnostics.exe.manifest</ApplicationManifest>
+    <ApplicationManifest>ManagementConsole.exe.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Diagnostics.ico</ApplicationIcon>
+    <ApplicationIcon>ManagementConsole.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -69,7 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="DiagnosticsView.xaml">
+    <Page Include="ManagementConsoleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -79,10 +80,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiagnosticsView.xaml.cs">
-      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
+    <Compile Include="ManagementConsoleView.xaml.cs">
+      <DependentUpon>ManagementConsoleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DiagnosticsViewModel.cs" />
+    <Compile Include="ManagementConsoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,7 +116,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Diagnostics.ico" />
+    <Resource Include="ManagementConsole.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

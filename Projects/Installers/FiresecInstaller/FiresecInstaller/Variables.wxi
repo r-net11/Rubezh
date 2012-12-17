@@ -9,7 +9,7 @@
   <?define BrandName="FireSec-2"?>
   <?define ServerName="FiresecService"?>
   <?define MonitorName="FireMonitor"?>
-  <?define DiagnosticsName="Diagnostics"?>
+  <?define ManagementConsoleName="ManagementConsole"?>
   <?define AdministratorName="FireAdministrator"?>
   <?define ConfigurationFolder="Configuration"?>
   <?define SoundsFolder="Sounds"?>

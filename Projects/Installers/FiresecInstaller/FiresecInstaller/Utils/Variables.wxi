@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define DiagnosticsName="Диагностика ОПС FireSec-2" ?>
-  <?define Diagnostics.TargetDir="..\..\..\..\..\Diagnostics\Diagnostics\bin\Release\"?>
-  <?define Diagnostics.TargetFileName="Diagnostics.exe"?>
-  <?define Diagnostics.TargetPath="..\..\..\..\..\Diagnostics\Diagnostics\bin\Release\Diagnostics.exe"?>
+  <?define ManagementConsoleName="Диагностика ОПС FireSec-2" ?>
+  <?define ManagementConsole.TargetDir="..\..\..\..\..\ManagementConsole\ManagementConsole\bin\Release\"?>
+  <?define ManagementConsole.TargetFileName="ManagementConsole.exe"?>
+  <?define ManagementConsole.TargetPath="..\..\..\..\..\ManagementConsole\ManagementConsole\bin\Release\ManagementConsole.exe"?>
 </Include>

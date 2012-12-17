@@ -33,7 +33,7 @@ namespace FiresecService.Service
             if (CurrentThread != null)
             {
                 FiresecDB.DatabaseHelper.IsAbort = true;
-                CurrentThread.Join();
+                CurrentThread.Join(TimeSpan.FromMinutes(1));
                 CurrentThread = null;
             }
             FiresecDB.DatabaseHelper.IsAbort = false;

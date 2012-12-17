@@ -8,7 +8,7 @@
       <FeatureRef Id="Server.Features" />
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
-      <FeatureRef Id="Diagnostics.Features" />
+      <FeatureRef Id="ManagementConsole.Features" />
       <FeatureRef Id="OPC.Features" />
       
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-4а, Рубеж-2ОП, БУНС">
