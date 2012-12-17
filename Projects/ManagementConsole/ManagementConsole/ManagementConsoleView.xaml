@@ -1,22 +1,20 @@
 ﻿<Window x:Class="ManagementConsole.ManagementConsoleView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Менеджер логов" MaxHeight="300" MaxWidth="300" MinHeight="300" MinWidth="310" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="300" d:DesignWidth="220" SizeToContent="WidthAndHeight">
+        Title="Консоль управления" MaxHeight="300" MaxWidth="300" MinHeight="300" MinWidth="310" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="300" d:DesignWidth="220" SizeToContent="WidthAndHeight">
     <TabControl>
         <TabItem Header="Автозапуск">
             <StackPanel Background="LightBlue" Margin="1">
-                <CheckBox Content="Автозапуск сервера при старте системы" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12"/>
-                <CheckBox Content="Автозапуск opc-сервера при старте системы" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12"/>
-                <CheckBox Content="Автозапуск агента при старте системы" IsChecked="{Binding IsFSAgentAuto}" Margin="5 1" FontSize="12"/>
+                <TextBlock Text="Следующие приложения будут запускаться при старте системы:" TextWrapping="Wrap" FontSize="12" Margin="2"/>
+                <CheckBox Content="FS-Сервер" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12"/>
+                <CheckBox Content="OPC-Сервер" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12"/>
+                <CheckBox Content="FS-Агент" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12"/>
             </StackPanel>
         </TabItem>
         <TabItem Header="Сбор логов">
             <StackPanel Background="LightBlue" Margin="1">
                 <Button Background="#C0C0C0" Content="Собрать логи" Command="{Binding GetLogsCommand}" Height="25" FontSize="13" Margin="1"/>
                 <Button Background="#C0C0C0" Content="Удалить логи" Command="{Binding RemLogsCommand}" Height="25" FontSize="13" Margin="1"/>
-                <Button Background="#C0C0C0" Command="{Binding SelectFolderCommand}" Height="25" Content="Выбрать папку Logs" ToolTip="Выбрать папку Logs" FontSize="13" Margin="1"/>
-                <Button Background="#C0C0C0" Command="{Binding OpenFolderCommand}" Height="25" Content="Открыть папку в проводнике Windows" FontSize="13" Margin="1"/>
-                <TextBlock Text="{Binding Rootlogspath}" ToolTip="{Binding Rootlogspath}" TextWrapping="Wrap" FontSize="12" Margin="2"/>
             </StackPanel>
         </TabItem>
     </TabControl>
