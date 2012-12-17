@@ -94,6 +94,11 @@ namespace Infrastructure.Common
 			ProcessAllChildren((T)this, withSelf, item => item.IsExpanded = true);
 		}
 
+		public void ResetParent()
+		{
+			Parent = null;
+		}
+
 		private List<T> GetAllParents()
 		{
 			if (Parent == null)

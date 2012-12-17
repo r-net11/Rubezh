@@ -137,6 +137,7 @@ namespace PlansModule.ViewModels
 				var plan = planDetailsViewModel.Plan;
 				var planViewModel = new PlanViewModel(plan);
 				Plans.Add(planViewModel);
+				DesignerCanvas.RegisterPlan(plan);
 				SelectedPlan = planViewModel;
 
 				FiresecManager.PlansConfiguration.Plans.Add(plan);
@@ -155,6 +156,7 @@ namespace PlansModule.ViewModels
 				SelectedPlan.Children.Add(planViewModel);
 				SelectedPlan.Plan.Children.Add(plan);
 				SelectedPlan.Update();
+				DesignerCanvas.RegisterPlan(plan);
 				SelectedPlan = planViewModel;
 
 				FiresecManager.PlansConfiguration.Update();
@@ -170,15 +172,29 @@ namespace PlansModule.ViewModels
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
 
+				DesignerCanvas.RemovePlan();
 				if (parent == null)
 				{
 					Plans.Remove(selectedPlan);
 					FiresecManager.PlansConfiguration.Plans.Remove(plan);
+					foreach (var childPlanViewModel in selectedPlan.Children)
+					{
+						Plans.Add(childPlanViewModel);
+						FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
+						childPlanViewModel.Plan.Parent = null;
+						childPlanViewModel.ResetParent();
+					}
 				}
 				else
 				{
 					parent.Children.Remove(selectedPlan);
 					parent.Plan.Children.Remove(plan);
+					foreach (var childPlanViewModel in selectedPlan.Children)
+					{
+						parent.Children.Add(childPlanViewModel);
+						parent.Plan.Children.Add(childPlanViewModel.Plan);
+						childPlanViewModel.Plan.Parent = parent.Plan;
+					}
 					parent.Update();
 					parent.IsExpanded = true;
 				}

@@ -27,7 +27,7 @@ namespace Infrustructure.Plans.Painters
 				new Viewbox()
 				{
 					Stretch = Stretch.Fill,
-					Child = textBlock
+					Child = textBlock,
 				} : (FrameworkElement)textBlock;
 			Border border = new Border()
 			{

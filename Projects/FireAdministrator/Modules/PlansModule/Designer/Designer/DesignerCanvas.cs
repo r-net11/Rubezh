@@ -31,6 +31,8 @@ namespace PlansModule.Designer
 		{
 			_canvasMap = new Dictionary<Plan, Canvas>();
 			Background = Brushes.Orange;
+			Width = 100;
+			Height = 100;
 		}
 
 		public override double Zoom
@@ -49,6 +51,7 @@ namespace PlansModule.Designer
 		}
 		public void RegisterPlan(Plan plan)
 		{
+			DeselectAll();
 			AddCanvas();
 			SelectedCanvas.AllowDrop = true;
 			CanvasBackground = new SolidColorBrush(Colors.DarkGray);
@@ -67,6 +70,16 @@ namespace PlansModule.Designer
 				Update(plan);
 			_canvasMap.Add(plan, SelectedCanvas);
 			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
+		}
+		public void RemovePlan()
+		{
+			if (SelectedCanvas != null)
+			{
+				DeselectAll();
+				RemoveCanvas();
+				_canvasMap.Remove(Plan);
+				Plan = null;
+			}
 		}
 		public void ShowPlan(Plan plan)
 		{
