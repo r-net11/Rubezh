@@ -5,36 +5,45 @@ using System.Text;
 using System.Windows.Forms;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Ionic.Zip;
 using Microsoft.Win32;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ManagementConsole
 {
 	public class ManagementConsoleViewModel : BaseViewModel
-	{
+    {
+        #region RELEASE PATHS
         static string admlogspath = @"..\FireAdministrator\Logs";
         static string monlogspath = @"..\FireMonitor\Logs";
         static string srvlogspath = @"..\FiresecService\Logs";
         static string agnlogspath = @"..\FSAgent\Logs";
+        static string opclogspath = @"..\FiresecOPCServer\Logs";
         static string srvconfpath = @"..\FiresecService\Configuration";
-
-		public ManagementConsoleViewModel()
+        static string fspath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\FiresecService\FiresecService.exe");
+        static string agnpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\FSAgent\FSAgentServer.exe");
+        static string opcpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\FiresecOPCServer\FiresecOPCServer.exe");
+        #endregion
+        public ManagementConsoleViewModel()
 		{
+            #region DEBUG PATHS
 #if DEBUG
+
             admlogspath = @"..\..\..\..\FireAdministrator\bin\Debug\Logs";
             monlogspath = @"..\..\..\..\FireMonitor\bin\Debug\Logs";
             srvlogspath = @"..\..\..\..\FiresecService\bin\Debug\Logs";
             agnlogspath = @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\Logs";
+            opclogspath = @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\Logs";
             srvconfpath = @"..\..\..\..\FiresecService\bin\Debug\Configuration";
+            fspath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\FiresecService\bin\Debug\FiresecService.exe");
+            agnpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\FSAgentServer.exe");
+            opcpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\FiresecOPCServer.exe");
 #endif
-			GetLogsCommand = new RelayCommand(OnGetLogs);
+            #endregion
+            GetLogsCommand = new RelayCommand(OnGetLogs);
 			RemLogsCommand = new RelayCommand(OnRemLogs);
-            SelectFolderCommand = new RelayCommand(OnSelectFolder);
-            OpenFolderCommand = new RelayCommand(OnOpenFolder);
 		}
 
-		private string fspath;
-		private bool isServerAuto;
 		public bool IsServerAuto
 		{
 			get
@@ -42,13 +51,8 @@ namespace ManagementConsole
 				var readkey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
 			    if (readkey != null)
 			    {
-			        if (readkey.GetValue("FiresecService") != null)
-			            fspath = readkey.GetValue("FiresecService").ToString();
-			        else
-			        {
-			            fspath = @"C:\Program Files\Rubezh\FiresecService\FiresecService.exe";
-			            return false;
-			        }
+			        if (readkey.GetValue("FiresecService") == null)
+                        return false;
 			        readkey.Close();
 			    }
 			    return true;
@@ -56,34 +60,27 @@ namespace ManagementConsole
 			set
 			{
 				var readkey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-                isServerAuto = value;
-                if (isServerAuto)
-				{
-				    if (readkey != null) readkey.SetValue("FiresecService", fspath);
-				}
-				else
-					if (!String.IsNullOrEmpty(readkey.GetValue("FiresecService").ToString()))
-						readkey.DeleteValue("FiresecService");
-			    if (readkey != null) readkey.Close();
-                OnPropertyChanged("IsServerAuto");
+                if (readkey != null)
+                {
+                    if (value)
+                        readkey.SetValue("FiresecService", fspath);
+                    else
+                        readkey.DeleteValue("FiresecService");
+                    readkey.Close();
+                }
+			    OnPropertyChanged("IsServerAuto");
 			}
 		}
 
-        private bool isFSAgentAuto;
-        public bool IsFSAgentAuto
+        public bool IsFsAgentAuto
         {
             get
             {
                 var readkey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
                 if (readkey != null)
                 {
-                    if (readkey.GetValue("FSAgentServer") != null)
-                        fspath = readkey.GetValue("FSAgentServer").ToString();
-                    else
-                    {
-                        fspath = @"C:\Program Files\Rubezh\FSAgent\FSAgentServer.exe";
+                    if (readkey.GetValue("FSAgentServer") == null)
                         return false;
-                    }
                     readkey.Close();
                 }
                 return true;
@@ -91,21 +88,18 @@ namespace ManagementConsole
             set
             {
                 var readkey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-                isServerAuto = value;
-                if (isServerAuto)
+                if (readkey != null)
                 {
-                    if (readkey != null) readkey.SetValue("FSAgentServer", fspath);
-                }
-                else
-                    if (!String.IsNullOrEmpty(readkey.GetValue("FSAgentServer").ToString()))
+                    if (value)
+                        readkey.SetValue("FSAgentServer", agnpath);
+                    else
                         readkey.DeleteValue("FSAgentServer");
-                if (readkey != null) readkey.Close();
+                    readkey.Close();
+                }
                 OnPropertyChanged("IsFSAgentAuto");
             }
         }
 
-        private string opcpath;
-        private bool isOpcServerAuto;
         public bool IsOpcServerAuto
         {
             get
@@ -113,13 +107,8 @@ namespace ManagementConsole
                 var readkey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
                 if (readkey != null)
                 {
-                    if (readkey.GetValue("FiresecOPCServer") != null)
-                        opcpath = readkey.GetValue("FiresecOPCServer").ToString();
-                    else
-                    {
-                        opcpath = @"C:\Program Files\Rubezh\FiresecOPCServer\FiresecOPCServer.exe";
+                    if (readkey.GetValue("FiresecOPCServer") == null)
                         return false;
-                    }
                     readkey.Close();
                 }
                 return true;
@@ -127,20 +116,19 @@ namespace ManagementConsole
             set
             {
                 var readkey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-                isOpcServerAuto = value;
-                if (isOpcServerAuto)
+                if (readkey != null)
                 {
-                    if (readkey != null) readkey.SetValue("FiresecOPCServer", opcpath);
-                }
-                else
-                    if (!String.IsNullOrEmpty(readkey.GetValue("FiresecOPCServer").ToString()))
+                    if (value)
+                        readkey.SetValue("FiresecOPCServer", opcpath);
+                    else
                         readkey.DeleteValue("FiresecOPCServer");
-                if (readkey != null) readkey.Close();
+                    readkey.Close();
+                }
                 OnPropertyChanged("IsOpcServerAuto");
             }
         }
 
-        static string rootlogspath = "..\\Logs";
+        static string rootlogspath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\Logs");
         static string curlogspath
         {
             get
@@ -149,84 +137,64 @@ namespace ManagementConsole
             }
         }
         
-        public string Rootlogspath
-	    {
-	        get 
-            {
-                var dir = new DirectoryInfo(rootlogspath);
-                return dir.FullName ;
-            }
-            set
-            {
-                rootlogspath = value;
-                OnPropertyChanged("Rootlogspath");
-            }
-	    }
-
 		public RelayCommand GetLogsCommand { get; private set; }
 		public void OnGetLogs()
 		{
-
-
+            if (!OnSelectFolder())
+                return;
+            if (File.Exists(curlogspath + ".zip"))
+                File.Delete(curlogspath + ".zip");
+            var zip = new ZipFile(curlogspath + ".zip");
 			var admdir = new DirectoryInfo(admlogspath);
 			var mondir = new DirectoryInfo(monlogspath);
 			var srvdir = new DirectoryInfo(srvlogspath);
+            var agndir = new DirectoryInfo(agnlogspath);
+		    var opcdir = new DirectoryInfo(opclogspath);
             var srvconfdir = new DirectoryInfo(srvconfpath);
-
-			if (!Directory.Exists(curlogspath + "\\FireAdministrator"))
-				Directory.CreateDirectory(curlogspath + "\\FireAdministrator");
-			if (!Directory.Exists(curlogspath + "\\FireMonitor"))
-				Directory.CreateDirectory(curlogspath + "\\FireMonitor");
-			if (!Directory.Exists(curlogspath + "\\FiresecService"))
-				Directory.CreateDirectory(curlogspath + "\\FiresecService");
-            if (!Directory.Exists(curlogspath + "\\Configuration"))
-                Directory.CreateDirectory(curlogspath + "\\Configuration");
-
 			if (admdir.Exists)
 			{
-				FileInfo[] admfiles = admdir.GetFiles();
-				foreach (FileInfo file in admfiles)
-				{
-					var temppath = Path.Combine(curlogspath, "FireAdministrator\\" + file.Name);
-                    if (file.Length > 0)
-                        file.CopyTo(temppath, true);
-				}
+				var admfiles = admdir.GetFiles();
+				foreach (var file in admfiles)
+                    zip.AddFile(file.FullName, "FireAdministrator");
 			}
 
-			if (mondir.Exists)
-			{
-				FileInfo[] monfiles = mondir.GetFiles();
-				foreach (FileInfo file in monfiles)
-				{
-					var temppath = Path.Combine(curlogspath, "FireMonitor\\" + file.Name);
-                    if (file.Length > 0)
-                        file.CopyTo(temppath, true);
-				}
-			}
+            if (mondir.Exists)
+            {
+                var monfiles = mondir.GetFiles();
+                foreach (var file in monfiles)
+                    zip.AddFile(file.FullName, "FireMonitor");
+            }
 
-			if (srvdir.Exists)
-			{
-				FileInfo[] srvfiles = srvdir.GetFiles();
-				foreach (FileInfo file in srvfiles)
-				{
-					var temppath = Path.Combine(curlogspath, "FiresecService\\" + file.Name);
-                    if (file.Length > 0)
-                        file.CopyTo(temppath, true);
-				}
-			}
+            if (srvdir.Exists)
+            {
+                var srvfiles = srvdir.GetFiles();
+                foreach (var file in srvfiles)
+                    zip.AddFile(file.FullName, "FiresecService");
+            }
+
+            if (agndir.Exists)
+            {
+                var agnfiles = agndir.GetFiles();
+                foreach (var file in agnfiles)
+                    zip.AddFile(file.FullName, "FSAgentServer");
+            }
+
+            if (opcdir.Exists)
+            {
+                var opcfiles = opcdir.GetFiles();
+                foreach (var file in opcfiles)
+                    zip.AddFile(file.FullName, "FiresecOPCServer");
+            }
 
             if (srvconfdir.Exists)
             {
-                FileInfo[] srvfiles = srvconfdir.GetFiles();
-                foreach (FileInfo file in srvfiles)
-                {
-                    var temppath = Path.Combine(curlogspath, "Configuration\\" + file.Name);
-                    if ((file.Length > 0)&&(file.Extension == ".xml"))
-                        file.CopyTo(temppath, true);
-                }
+                var srvfiles = srvconfdir.GetFiles();
+                foreach (var file in srvfiles)
+                    zip.AddFile(file.FullName, "Configuration");
             }
 
-			StringBuilder sb = new StringBuilder(string.Empty);
+            zip.Save();
+			var sb = new StringBuilder(string.Empty);
 			sb.AppendLine("System information");
 			try
 			{
@@ -246,7 +214,7 @@ namespace ManagementConsole
 			{
 				sb.Append(ex.ToString());
 			}
-            System.IO.File.WriteAllText(Rootlogspath + "\\systeminfo.txt", sb.ToString(), Encoding.GetEncoding(1252));
+            File.WriteAllText(rootlogspath + "\\systeminfo.txt", sb.ToString(), Encoding.GetEncoding(1252));
 		}
 		private static int GetBitCount(bool is64)
 		{
@@ -255,48 +223,34 @@ namespace ManagementConsole
 		public RelayCommand RemLogsCommand { get; private set; }
 		public void OnRemLogs()
 		{
-			try
-			{
-                if (Directory.Exists(admlogspath))
-                    Directory.Delete(admlogspath, true);
-                if (Directory.Exists(monlogspath))
-                    Directory.Delete(monlogspath, true);
-                if (Directory.Exists(srvlogspath))
-                    Directory.Delete(srvlogspath, true);
-			}
-			catch
-			{ }
-		}
+            if (Directory.Exists(admlogspath))
+                try{Directory.Delete(admlogspath, true);} catch{ }
+            if (Directory.Exists(monlogspath))
+                try{Directory.Delete(monlogspath, true);} catch{ }
+            if (Directory.Exists(srvlogspath))
+                try{Directory.Delete(srvlogspath, true);} catch{ }
+            if (Directory.Exists(opclogspath))
+                try{Directory.Delete(opclogspath, true);} catch{ }
+            if (Directory.Exists(agnlogspath))
+                try{Directory.Delete(agnlogspath, true);} catch{ }
+        }
 
-        public RelayCommand SelectFolderCommand { get; private set; }
-        void OnSelectFolder()
+	    static bool OnSelectFolder()
         {
             try
             {
-                var folder = new FolderBrowserDialog();
-                folder.Description = "Choose a Folder";
-                folder.SelectedPath = @"C:\";
+                var folder = new FolderBrowserDialog {Description = "Choose a Folder"};
                 if (folder.ShowDialog() == DialogResult.OK)
                 {
-                    Rootlogspath = folder.SelectedPath;
+                    rootlogspath = folder.SelectedPath;
+                    return true;
                 }
-
+                return false;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Ошибка при выполнении операции");
-            }
-        }
-
-        public RelayCommand OpenFolderCommand { get; private set; }
-        void OnOpenFolder()
-        {
-            if (Directory.Exists(Rootlogspath))
-                Process.Start(Rootlogspath);
-            else
-            {
-                MessageBox.Show("Выбранная папка отсутствует, пожалуйста выберите новую", "Невозможно открыть папку");
-                OnSelectFolder();
+                return false;
             }
         }
 	}
