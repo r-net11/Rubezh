@@ -31,6 +31,9 @@ namespace Infrustructure.Plans.Designer
 			if (ResizeChrome != null)
 				ResizeChrome.Initialize();
 		}
+		public virtual void UpdateAdornerLayout()
+		{
+		}
 
 		public virtual void UpdateZoom()
 		{

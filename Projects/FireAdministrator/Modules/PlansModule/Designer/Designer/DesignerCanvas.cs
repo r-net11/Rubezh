@@ -69,6 +69,7 @@ namespace PlansModule.Designer
 			using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
 				Update(plan);
 			_canvasMap.Add(plan, SelectedCanvas);
+			//Canvas.SetZIndex(SelectedCanvas, 0);
 			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
 		}
 		public void RemovePlan()
@@ -87,6 +88,7 @@ namespace PlansModule.Designer
 			if (SelectedCanvas != null)
 			{
 				DeselectAll();
+				//Canvas.SetZIndex(SelectedCanvas, 0);
 				SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
 				SelectedCanvas = null;
 			}
@@ -95,6 +97,7 @@ namespace PlansModule.Designer
 				SelectedCanvas = _canvasMap[plan];
 				Height = SelectedCanvas.Height;
 				Width = SelectedCanvas.Width;
+				//Canvas.SetZIndex(SelectedCanvas, 1);
 				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
 			}
 		}

@@ -2,7 +2,7 @@
 
 	<Style TargetType="{x:Type loc:DesignerItemBase}">
 		<Setter Property="SnapsToDevicePixels" Value="false" />
-		<Setter Property="Template">
+		<!--<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type loc:DesignerItemBase}">
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}" IsHitTestVisible="{Binding IsSelectable}">
@@ -11,7 +11,7 @@
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
-		</Setter>
+		</Setter>-->
 	</Style>
 	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemRectangle}" />
 	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemPoint}" />

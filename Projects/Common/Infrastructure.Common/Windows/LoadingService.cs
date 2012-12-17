@@ -34,6 +34,7 @@ namespace Infrastructure.Common.Windows
 			if (ApplicationService.ApplicationWindow != null)
 				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = true);
 		}
+
 		public static void DoStep(string title)
 		{
 			if (_progress != null)
@@ -44,6 +45,5 @@ namespace Infrastructure.Common.Windows
 			if (_progress != null)
 				_progress.StepCount += count;
 		}
-
 	}
 }

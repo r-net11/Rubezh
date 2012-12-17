@@ -33,6 +33,7 @@ namespace PlansModule.Designer.DesignerItems
 				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
 				Group = LayerGroupService.SubPlanAlias;
 			}
+			UpdateLayout();
 		}
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()

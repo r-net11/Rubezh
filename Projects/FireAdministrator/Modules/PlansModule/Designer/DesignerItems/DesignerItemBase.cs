@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.ComponentModel;
+using PlansModule.Designer.Resize;
+using System.Windows.Data;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -19,7 +21,7 @@ namespace PlansModule.Designer.DesignerItems
 	{
 		static DesignerItemBase()
 		{
-			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerItem), new FrameworkPropertyMetadata(typeof(DesignerItem)));
+			//FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerItem), new FrameworkPropertyMetadata(typeof(DesignerItem)));
 		}
 
 		public DesignerItemBase(ElementBase element)
@@ -38,6 +40,26 @@ namespace PlansModule.Designer.DesignerItems
 			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
+		}
+
+		public override void UpdateAdornerLayout()
+		{
+			LoadTemplate();
+			base.UpdateAdornerLayout();
+		}
+		private void LoadTemplate()
+		{
+			var grid = new Grid();
+			grid.SetBinding(ToolTipProperty, new Binding("Title"));
+			grid.SetBinding(IsHitTestVisibleProperty, new Binding("IsSelectable"));
+			grid.DataContext = this;
+			var decorator = new ResizeDecorator();
+			decorator.SetBinding(ResizeDecorator.ShowDecoratorProperty, new Binding("IsSelected"));
+			decorator.SetBinding(ResizeDecorator.VisibilityProperty, new Binding("IsSelectable") { Converter = new BooleanToVisibilityConverter() });
+			grid.Children.Add(decorator);
+			grid.Children.Add(new MoveThumb());
+			Content = grid;
+			//UpdateLayout();
 		}
 
 		protected override void OnShowProperties()

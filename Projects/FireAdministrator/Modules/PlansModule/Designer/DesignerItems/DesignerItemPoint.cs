@@ -10,6 +10,7 @@ namespace PlansModule.Designer.DesignerItems
 			: base(element)
 		{
 			ResizeChrome = new ResizeChromePoint(this);
+			UpdateLayout();
 		}
 
 		public override void SetLocation()

@@ -51,6 +51,7 @@ namespace Infrustructure.Plans.Designer
 		public void Add(DesignerItem designerItem)
 		{
 			designerItem.DesignerCanvas = this;
+			designerItem.UpdateAdornerLayout();
 			SelectedCanvas.Children.Add(designerItem);
 			//Items.Add(designerItem);
 		}

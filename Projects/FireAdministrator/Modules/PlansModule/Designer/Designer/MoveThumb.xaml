@@ -4,7 +4,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<ContentPresenter Content="{Binding Content}" ContentSource=""/>
+					<ContentPresenter Content="{Binding Presenter}" ContentSource=""/>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

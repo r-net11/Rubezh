@@ -20,11 +20,11 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-            LoadingErrorManager.Clear();
+			LoadingErrorManager.Clear();
 			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            BalloonHelper.Initialize();
+			BalloonHelper.Initialize();
 
 			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
@@ -33,7 +33,7 @@ namespace FireAdministrator
 					CreateModules();
 
 					LoadingService.Show("Чтение конфигурации", 4);
-					LoadingService.AddCount(GetModuleCount());
+					LoadingService.AddCount(GetModuleCount() + 6);
 
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
@@ -86,7 +86,7 @@ namespace FireAdministrator
 
 		void OnConfigurationChanged(object obj)
 		{
-            LoadingErrorManager.Clear();
+			LoadingErrorManager.Clear();
 			InitializeModules();
 		}
 

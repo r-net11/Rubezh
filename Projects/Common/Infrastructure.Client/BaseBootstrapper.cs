@@ -111,7 +111,7 @@ namespace Infrastructure.Client
 		protected bool InitializeModules()
 		{
 			ReadConfiguration();
-			foreach (IModule module in _modules)
+			foreach (IModule module in _modules.OrderBy(module => module.Order))
 				try
 				{
 					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));

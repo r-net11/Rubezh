@@ -15,6 +15,10 @@ namespace PlansModule
 	{
 		PlansViewModel PlansViewModel;
 
+		public override int Order
+		{
+			get { return 100; }
+		}
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);

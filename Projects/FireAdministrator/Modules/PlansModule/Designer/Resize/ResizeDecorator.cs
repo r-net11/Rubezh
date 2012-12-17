@@ -30,12 +30,21 @@ namespace PlansModule.Designer.Resize
 
 		public ResizeDecorator()
 		{
-			Unloaded += new RoutedEventHandler(ResizeDecorator_Unloaded);
-			ShowAdorner();
-			HideAdorner();
+			Unloaded += (s, e) => UnloadAdorner();
+			DataContextChanged += (s, e) =>
+				{
+					//UnloadAdorner();
+					//DesignerItem designerItem = DataContext as DesignerItem;
+					//if (designerItem != null)
+					//{
+					//    _adorner = new ResizeAdorner(designerItem);
+					//    _adorner.Visibility = Visibility.Hidden;
+					//    AdornerLayer.Add(_adorner);
+					//}
+				};
 		}
 
-		private void ResizeDecorator_Unloaded(object sender, RoutedEventArgs e)
+		private void UnloadAdorner()
 		{
 			if (_adorner != null)
 			{

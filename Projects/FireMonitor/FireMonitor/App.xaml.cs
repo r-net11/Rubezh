@@ -1,18 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using Common;
+using Common.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Common.GK;
 using Infrastructure.Common.Theme;
+using Infrastructure.Common.Windows;
 using Microsoft.Win32;
-using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -30,9 +28,9 @@ namespace FireMonitor
 		{
 			base.OnStartup(e);
 			try
-            {
+			{
 #if DEBUG
-                AppSettingsManager.AutoConnect = true;
+				AppSettingsManager.AutoConnect = true;
 #endif
 				InitializeCommandLineArguments(e.Args);
 
@@ -44,7 +42,7 @@ namespace FireMonitor
 				{
 					MulticlientHelper.Start();
 				}
-            }
+			}
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");
@@ -113,8 +111,9 @@ namespace FireMonitor
 		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			GKDBHelper.AddMessage("Выход пользователя из системы");
-			foreach (var module in ApplicationService.Modules)
-				module.Dispose();
+			if (ApplicationService.Modules != null)
+				foreach (var module in ApplicationService.Modules)
+					module.Dispose();
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
@@ -167,7 +166,7 @@ namespace FireMonitor
 								MulticlientHelper.IsMulticlient = true;
 							}
 						}
-                        if (arg.StartsWith("ClientId='") && arg.EndsWith("'"))
+						if (arg.StartsWith("ClientId='") && arg.EndsWith("'"))
 						{
 							MulticlientHelper.MulticlientClientId = arg.Replace("ClientId='", "");
 							MulticlientHelper.MulticlientClientId = MulticlientHelper.MulticlientClientId.Replace("'", "");
