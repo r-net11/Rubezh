@@ -67,10 +67,6 @@ namespace Infrastructure.Common
 
         public static bool Load()
         {
-#if DEBUG
-            return true;
-#endif
-
             Process[] processes = Process.GetProcessesByName("FiresecService");
             if (processes.Count() == 0)
             {

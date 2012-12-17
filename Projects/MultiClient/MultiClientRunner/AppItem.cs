@@ -32,7 +32,7 @@ namespace MultiClientRunner
 
 			var processStartInfo = new ProcessStartInfo()
 			{
-				FileName = @"E:/Projects/Projects/FireMonitor/bin/Debug/FireMonitor.exe",
+				FileName = @"D:/Projects/Projects/FireMonitor/bin/Debug/FireMonitor.exe",
 				Arguments = commandLineArguments
 			};
 			Process = System.Diagnostics.Process.Start(processStartInfo);

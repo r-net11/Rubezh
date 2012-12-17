@@ -69,10 +69,6 @@ namespace Infrastructure.Common
 
         public static bool Load()
         {
-#if DEBUG
-            return true;
-#endif
-
             Process[] processes = Process.GetProcessesByName("FSAgentServer");
             if (processes.Count() == 0)
             {

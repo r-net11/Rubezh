@@ -22,9 +22,28 @@ namespace TestUSB
 			InitializeComponent();
 		}
 
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			usbRunner = new UsbRunner();
+			usbRunner.Open();
+		}
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			usbRunner.Close();
+		}
+
+		UsbRunner usbRunner;
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			ReadPolling.Run();
+			var bytes = new List<byte>(0);
+			bytes.Add(0x02);
+			bytes.Add(0x01);
+			bytes.Add(0x01);
+			bytes.Add(0x01);
+
+			usbRunner.Send(bytes);
 		}
 	}
 }
