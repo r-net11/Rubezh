@@ -11,17 +11,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
-namespace TestWebServer
+namespace Test
 {
-	public partial class MainWindow : Window
+	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
-		static MainWindow Current;
-
 		public MainWindow()
 		{
-			Current = this;
 			InitializeComponent();
+			DataContext = this;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -29,19 +28,11 @@ namespace TestWebServer
 			ServerHost.Run();
 		}
 
-		public static void AddText(string text)
+		public event PropertyChangedEventHandler PropertyChanged;
+		void OnPropertyChamged(string propertyName)
 		{
-			try
-			{
-				if (Current != null)
-				{
-					Current.Dispatcher.Invoke(new Action(() =>
-					{
-						Current.textBox.Text += text + "\n";
-					}));
-				}
-			}
-			catch { ;}
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

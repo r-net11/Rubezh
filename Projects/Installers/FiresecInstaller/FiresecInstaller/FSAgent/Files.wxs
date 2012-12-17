@@ -20,10 +20,21 @@
         <File Id="FSAgent.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Common.dll" Name="Common.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Controls.dll" Name="Controls.dll" Source="$(var.FSAgent.TargetDir)" />
-        <File Id="FSAgent.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.NLog.dll" Name="NLog.dll" Source="$(var.FSAgent.TargetDir)" />
+      </Component>
+
+      <Component Id="FSAgent.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">
+        <File Id="FSAgent.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.FSAgent.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>

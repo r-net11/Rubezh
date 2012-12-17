@@ -38,18 +38,20 @@ namespace FireMonitor
 				App.Password = ServiceFactory.LoginService.Password;
 				try
 				{
+					CreateModules();
+
 					LoadingService.Show("Чтение конфигурации", 15);
 					LoadingService.AddCount(GetModuleCount());
 
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
-					InitializeFs(false);
+
+					BeforeInitialize(true);
+
                     if (LoadingErrorManager.HasError)
 					{
                         MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 					}
-					LoadingService.DoStep("Загрузка конфигурации ГК");
-					InitializeGk();
 
 					LoadingService.DoStep("Старт полинга сервера");
 					FiresecManager.StartPoll(false);
@@ -73,7 +75,6 @@ namespace FireMonitor
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-						ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);
 					}
 					else
 					{
@@ -81,10 +82,10 @@ namespace FireMonitor
 						FiresecManager.Disconnect();
 					}
 					LoadingService.Close();
-					GKDBHelper.AddMessage("Вход пользователя в систему");
+
+					AterInitialize();
 
 					//MutexHelper.KeepAlive();
-					ServiceFactory.SubscribeEvents();
 					ProgressWatcher.Run();
 					ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
                     if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
@@ -110,49 +111,6 @@ namespace FireMonitor
 			}
 		}
 
-		void InitializeFs(bool reconnect = false)
-		{
-			try
-			{
-				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				FiresecManager.GetConfiguration();
-
-				if (!reconnect)
-				{
-					LoadingService.DoStep("Инициализация драйвера устройств");
-                    var connectionResult = FiresecManager.InitializeFiresecDriver(true);
-					if (connectionResult.HasError)
-					{
-						CloseOnException(connectionResult.Error);
-						return;
-					}
-				}
-				LoadingService.DoStep("Синхронизация конфигурации");
-				FiresecManager.FiresecDriver.Synchronyze();
-				LoadingService.DoStep("Старт мониторинга");
-				FiresecManager.FiresecDriver.StartWatcher(true, true);
-				if (!reconnect)
-				{
-					//LoadingService.DoStep("Синхронизация журнала событий");
-					//FiresecManager.SynchrinizeJournal();
-				}
-				FiresecManager.FSAgent.Start();
-			}
-			catch (FiresecException e)
-			{
-				Logger.Error(e, "Bootstrapper.InitializeFs");
-				CloseOnException(e.Message);
-			}
-		}
-
-		void InitializeGk()
-		{
-			GKDriversCreator.Create();
-			XManager.GetConfiguration();
-			XManager.CreateStates();
-			DatabaseManager.Convert();
-		}
-
 		bool IsRestarting = false;
 		void OnConfigurationChanged()
 		{
@@ -173,9 +131,7 @@ namespace FireMonitor
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();
 
-				InitializeFs(true);
-				InitializeGk();
-
+				BeforeInitialize(false);
 				InitializeModules();
 				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 
@@ -193,11 +149,6 @@ namespace FireMonitor
 		{
 			MessageBoxService.ShowError(message);
 			Application.Current.Shutdown();
-		}
-
-		void OnNotify(string message)
-		{
-			MessageBoxService.Show(message);
 		}
 	}
 }

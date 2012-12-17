@@ -15,6 +15,7 @@
         <ComponentRef Id="Administrator.FS_MODULE" />
         <ComponentRef Id="Monitor.FS_MODULE" />
         <ComponentRef Id="FSAgent.Files" />
+        <ComponentRef Id="FSAgent.DB" />
         <ComponentRef Id="FSAgent.AutorunComponent" />
       </Feature>
       <Feature Id="GK.Features" Title="ГК" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">

@@ -8,10 +8,10 @@ namespace Infrastructure.Common
     {
         string Name { get; }
         void RegisterResource();
-        void Load();
-        void Reload();
-        void CreateViewModels();
+		bool BeforeInitialize(bool firstTime);
         void Initialize();
+		void AfterInitialize();
+		void CreateViewModels();
         IEnumerable<NavigationItem> CreateNavigation();
     }
 }

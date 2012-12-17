@@ -11,55 +11,100 @@ namespace Infrustructure.Plans.Designer
 {
 	public abstract class CommonDesignerCanvas : Canvas
 	{
+		protected virtual Canvas SelectedCanvas { get; set; }
 		public virtual double Zoom { get { return 1; } }
 		public virtual double PointZoom { get { return 10; } }
 
 		public CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{
+			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
-			Items = new List<DesignerItem>();
+			//Items = new List<DesignerItem>();
 		}
 
 		public abstract void BeginChange(IEnumerable<DesignerItem> designerItems);
 		public abstract void BeginChange();
 		public abstract void EndChange();
 
-		public void Clear()
+		public virtual void Clear()
 		{
 			Children.Clear();
-			Items.Clear();
+			//Items.Clear();
 		}
+		protected void AddCanvas()
+		{
+			SelectedCanvas = new Canvas();
+			Children.Add(SelectedCanvas);
+		}
+
 		public void Remove(DesignerItem designerItem)
 		{
-			Children.Remove(designerItem);
-			Items.Remove(designerItem);
+			SelectedCanvas.Children.Remove(designerItem);
+			//Items.Remove(designerItem);
 		}
 		public void Add(DesignerItem designerItem)
 		{
 			designerItem.DesignerCanvas = this;
-			Children.Add(designerItem);
-			Items.Add(designerItem);
+			SelectedCanvas.Children.Add(designerItem);
+			//Items.Add(designerItem);
+		}
+		public double CanvasWidth
+		{
+			get { return SelectedCanvas.Width; }
+			set
+			{
+				Width = value;
+				SelectedCanvas.Width = value;
+			}
+		}
+		public double CanvasHeight
+		{
+			get { return SelectedCanvas.Height; }
+			set
+			{
+				Height = value;
+				SelectedCanvas.Height = value;
+			}
+		}
+		public Brush CanvasBackground
+		{
+			get { return SelectedCanvas.Background; }
+			set { SelectedCanvas.Background = value; }
 		}
 
-		public List<DesignerItem> Items { get; private set; }
+		//public List<DesignerItem> Items { get; private set; }
+		//public IEnumerable<DesignerItem> SelectedItems
+		//{
+		//    get { return from item in Items where item.IsSelected select item; }
+		//}
+		//public IEnumerable<ElementBase> SelectedElements
+		//{
+		//    get { return from item in Items where item.IsSelected select item.Element; }
+		//}
+		public IEnumerable<DesignerItem> Items
+		{
+			get { return SelectedCanvas==null? Enumerable.Empty<DesignerItem>():  from item in SelectedCanvas.Children.OfType<DesignerItem>() select item; }
+		}
 		public IEnumerable<DesignerItem> SelectedItems
 		{
-			get { return from item in Items where item.IsSelected select item; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
 		}
 		public IEnumerable<ElementBase> SelectedElements
 		{
-			get { return from item in Items where item.IsSelected select item.Element; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<ElementBase>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
 		}
 
 		public void SelectAll()
 		{
-			foreach (var designerItem in Items)
-				designerItem.IsSelected = true;
+			if (SelectedCanvas != null)
+				foreach (var designerItem in Items)
+					designerItem.IsSelected = true;
 		}
 		public void DeselectAll()
 		{
-			foreach (DesignerItem item in this.SelectedItems)
-				item.IsSelected = false;
+			if (SelectedCanvas != null)
+				foreach (DesignerItem item in this.SelectedItems)
+					item.IsSelected = false;
 		}
 
 		public abstract void Update();

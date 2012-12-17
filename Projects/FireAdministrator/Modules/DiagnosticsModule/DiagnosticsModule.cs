@@ -11,7 +11,7 @@ namespace DiagnosticsModule
 	{
         DiagnosticsViewModel DiagnosticsViewModel;
 
-        public DiagnosticsModule()
+		public override void CreateViewModels()
 		{
             DiagnosticsViewModel = new DiagnosticsViewModel();
 		}

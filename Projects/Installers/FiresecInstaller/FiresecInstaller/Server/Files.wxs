@@ -35,11 +35,11 @@
         <File Id="Server.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
       <Component Id="Server.DB" Guid="040A38D7-2390-43EA-A6EB-F6DBC39DF92E" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
-        <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
       <Component Id="Server.SKUD_MODULE" Guid="C9D9C6A5-6D49-4E76-919E-F4831BEEE135">
@@ -49,7 +49,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="Server.ConfigFolder">
-      <Component Id="Server.SecurityConfiguration.xml" Guid="5591C855-9479-4C66-8209-2EDE24789584" Permanent='yes' NeverOverwrite='yes'>
+      <!--<Component Id="Server.SecurityConfiguration.xml" Guid="5591C855-9479-4C66-8209-2EDE24789584" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
       <Component Id="Server.DeviceLibraryConfiguration.xml" Guid="8B2F76D9-1757-45BE-8212-55011B675A3B" Permanent='yes' NeverOverwrite='yes'>
@@ -60,6 +60,9 @@
       </Component>
       <Component Id="Server.DriversConfiguration.xml" Guid="5B08EF5C-4971-46FB-9C30-610C800EBD0A" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.DriversConfiguration.xml" Name="DriversConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
+      </Component>-->
+      <Component Id="Server.config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
+        <File Id="Server.config.fscp" Name="config.fscp" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

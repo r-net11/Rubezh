@@ -12,22 +12,22 @@ namespace InstructionsModule
 {
 	public class InstructionsModule : ModuleBase, IValidationModule
 	{
-		InstructionsViewModel _instructionsViewModel;
+		InstructionsViewModel InstructionsViewModel;
 
-		public InstructionsModule()
+		public override void CreateViewModels()
 		{
-			_instructionsViewModel = new InstructionsViewModel();
+			InstructionsViewModel = new InstructionsViewModel();
 		}
 
 		public override void Initialize()
 		{
-			_instructionsViewModel.Initialize();
+			InstructionsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowInstructionsEvent, Guid>(_instructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
+				new NavigationItem<ShowInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 			};
 		}
 		public override string Name

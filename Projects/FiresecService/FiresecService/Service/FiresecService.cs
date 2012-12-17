@@ -11,6 +11,7 @@ using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
+using FiresecService.Configuration;
 
 namespace FiresecService.Service
 {
@@ -43,6 +44,8 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
+			ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 

@@ -30,14 +30,6 @@ namespace FireMonitor.ViewModels
 		public ToolbarViewModel()
 		{
 			ToolbarItems = new ObservableCollection<BaseViewModel>();
-
-			//<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
-			//    <Views:SoundView x:Name="soundView" Margin="2" />
-			//    <Views:ConnectionIndicatorView Margin="2" />
-			//    <Views:GKConnectionIndicator Margin="2" />
-			//    <Views:UserView Margin="2" />
-			//    <Views:AutoActivationView Margin="2" />
-			//</StackPanel>
-	}
+		}
 	}
 }

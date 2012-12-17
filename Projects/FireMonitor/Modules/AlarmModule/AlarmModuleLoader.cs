@@ -14,7 +14,7 @@ namespace AlarmModule
 		AlarmWatcher AlarmWatcher;
 		AlarmsViewModel AlarmsViewModel;
 
-		public AlarmModuleLoader()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(OnShowAlarms);

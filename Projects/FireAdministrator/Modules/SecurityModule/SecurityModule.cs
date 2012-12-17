@@ -11,19 +11,19 @@ namespace SecurityModule
 {
 	public class SecurityModule : ModuleBase
 	{
-		UsersViewModel _usersViewModel;
-		RolesViewModel _groupsViewModel;
+		UsersViewModel UsersViewModel;
+		RolesViewModel RolesViewModel;
 
-		public SecurityModule()
+		public override void CreateViewModels()
 		{
-			_usersViewModel = new UsersViewModel();
-			_groupsViewModel = new RolesViewModel();
+			UsersViewModel = new UsersViewModel();
+			RolesViewModel = new RolesViewModel();
 		}
 
 		public override void Initialize()
 		{
-			_usersViewModel.Initialize();
-			_groupsViewModel.Initialize();
+			UsersViewModel.Initialize();
+			RolesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -34,8 +34,8 @@ namespace SecurityModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("Права доступа", null, new List<NavigationItem>(){
-					new NavigationItem<ShowUsersEvent>(_usersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
-					new NavigationItem<ShowUserGroupsEvent>(_groupsViewModel, "Группы", "/Controls;component/Images/users.png"),
+					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
+					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Группы", "/Controls;component/Images/users.png"),
 				}),
 			};
 		}

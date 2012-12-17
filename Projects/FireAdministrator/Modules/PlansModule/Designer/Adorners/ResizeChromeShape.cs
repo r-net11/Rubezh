@@ -84,13 +84,13 @@ namespace PlansModule.Designer.Adorners
 					double x = element.Points[index].X + e.HorizontalChange;
 					if (x < 0)
 						x = 0;
-					else if (x > DesignerCanvas.Width)
-						x = DesignerCanvas.Width;
+					else if (x > DesignerCanvas.CanvasWidth)
+						x = DesignerCanvas.CanvasWidth;
 					double y = element.Points[index].Y + e.VerticalChange;
 					if (y < 0)
 						y = 0;
-					else if (y > DesignerCanvas.Height)
-						y = DesignerCanvas.Height;
+					else if (y > DesignerCanvas.CanvasHeight)
+						y = DesignerCanvas.CanvasHeight;
 					element.Points[index] = new Point(x, y);
 					DesignerItem.Redraw();
 					Rect rect = element.GetRectangle();

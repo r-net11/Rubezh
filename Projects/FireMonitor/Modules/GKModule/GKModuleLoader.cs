@@ -31,7 +31,7 @@ namespace GKModule
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
 
-		public GKModuleLoader()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
@@ -82,7 +82,7 @@ namespace GKModule
 
 		public void OnBootstrapperInitialized(object obj)
 		{
-			WatcherManager.Start();
+			//WatcherManager.Start();
 		}
 
 		public override void Initialize()
@@ -132,5 +132,21 @@ namespace GKModule
 			};
 		}
 		#endregion
+
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			LoadingService.DoStep("Загрузка конфигурации ГК");
+			GKDriversCreator.Create();
+			XManager.GetConfiguration();
+			XManager.CreateStates();
+			DatabaseManager.Convert();
+			return true;
+		}
+
+		public override void AfterInitialize()
+		{
+			GKDBHelper.AddMessage("Вход пользователя в систему");
+			WatcherManager.Start();
+		}
 	}
 }

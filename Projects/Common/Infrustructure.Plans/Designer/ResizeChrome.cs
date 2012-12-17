@@ -87,8 +87,8 @@ namespace Infrustructure.Plans.Designer
 				{
 					if (rect.Height + dragDeltaVertical < DesignerItem.MinHeight)
 						dragDeltaVertical = DesignerItem.MinHeight - rect.Height;
-					if (rect.Bottom + dragDeltaVertical > DesignerCanvas.Height)
-						dragDeltaVertical = DesignerCanvas.Height - rect.Bottom;
+					if (rect.Bottom + dragDeltaVertical > DesignerCanvas.CanvasHeight)
+						dragDeltaVertical = DesignerCanvas.CanvasHeight - rect.Bottom;
 				}
 				if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
 				{
@@ -101,8 +101,8 @@ namespace Infrustructure.Plans.Designer
 				{
 					if (rect.Width + dragDeltaHorizontal < DesignerItem.MinWidth)
 						dragDeltaHorizontal = DesignerItem.MinWidth - rect.Width;
-					if (rect.Right + dragDeltaHorizontal > DesignerCanvas.Width)
-						dragDeltaHorizontal = DesignerCanvas.Width - rect.Right;
+					if (rect.Right + dragDeltaHorizontal > DesignerCanvas.CanvasWidth)
+						dragDeltaHorizontal = DesignerCanvas.CanvasWidth - rect.Right;
 				}
 			}
 			return new Vector(dragDeltaHorizontal, dragDeltaVertical);

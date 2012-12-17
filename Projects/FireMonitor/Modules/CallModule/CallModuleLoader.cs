@@ -12,7 +12,7 @@ namespace CallModule
     {
         CallViewModel CallViewModel;
 
-        public CallModuleLoader()
+		public override void CreateViewModels()
         {
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(OnShowCall);
 			CallViewModel = new CallViewModel();

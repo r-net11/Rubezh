@@ -33,6 +33,7 @@
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.MuliclientAPI.dll" Name="MuliclientAPI.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
       <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">

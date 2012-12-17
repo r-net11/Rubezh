@@ -78,5 +78,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("Toolbar");
 			}
 		}
+
+		private BaseViewModel _headerTop;
+		public BaseViewModel HeaderTop
+		{
+			get { return _headerTop; }
+			set
+			{
+				_headerTop = value;
+				OnPropertyChanged("HeaderTop");
+			}
+		}
 	}
 }

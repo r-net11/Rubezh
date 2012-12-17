@@ -47,18 +47,26 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-				AddPlan(plan, null);
-
-			for (int i = 0; i < Plans.Count; i++)
+			using (new TimeCounter("PlansViewModel.Initialize: {0}"))
 			{
-				Plans[i].CollapseChildren();
-				Plans[i].ExpandChildren();
-			}
+				Plans = new ObservableCollection<PlanViewModel>();
+				DesignerCanvas.Clear();
+				DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
+				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+				{
+					PlanDesignerViewModel.Initialize(plan);
+					AddPlan(plan, null);
+				}
 
-			SelectedPlan = null;
-			SelectedTabIndex = 0;
+				for (int i = 0; i < Plans.Count; i++)
+				{
+					Plans[i].CollapseChildren();
+					Plans[i].ExpandChildren();
+				}
+
+				SelectedPlan = null;
+				SelectedTabIndex = 0;
+			}
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
@@ -97,7 +105,7 @@ namespace PlansModule.ViewModels
 					OnPropertyChanged("SelectedPlan");
 					DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null;
 					PlanDesignerViewModel.Save();
-					PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
+					PlanDesignerViewModel.SelectPlan(value == null ? null : value.Plan);
 					if (value != null)
 						ElementsViewModel.Update();
 					ResetHistory();

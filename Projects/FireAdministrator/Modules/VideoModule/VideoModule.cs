@@ -10,23 +10,23 @@ namespace VideoModule
 {
 	public class VideoModule : ModuleBase
 	{
-		CamerasViewModel _camerasViewModel;
+		CamerasViewModel CamerasViewModel;
 
-		public VideoModule()
+		public override void CreateViewModels()
 		{
-			_camerasViewModel = new CamerasViewModel();
+			CamerasViewModel = new CamerasViewModel();
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 		}
 
 		public override void Initialize()
 		{
-			_camerasViewModel.Initialize();
+			CamerasViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowVideoEvent>(_camerasViewModel,"Видео", "/Controls;component/Images/Video1.png"),
+				new NavigationItem<ShowVideoEvent>(CamerasViewModel,"Видео", "/Controls;component/Images/Video1.png"),
 			};
 		}
 		public override string Name

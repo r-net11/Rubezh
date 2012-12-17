@@ -6,12 +6,13 @@ using System.ServiceModel;
 
 namespace TestWebServer
 {
-	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults=true)]
 	public class TestContract : ITestContract
 	{
-		public void NewEventsAvailable(int mask)
+		public string NewEventsAvailable(string mask)
 		{
 			MainWindow.AddText("NewEvent mask = " + mask.ToString());
+			return "done";
 		}
 	}
 }

@@ -23,6 +23,7 @@ namespace JournalModule.ViewModels
         ArchiveDefaultState _archiveDefaultState;
         ArchiveFilter _archiveFilter;
         Thread _updateThread;
+		bool firstTime = true;
 
         public ArchiveViewModel()
         {
@@ -222,27 +223,29 @@ namespace JournalModule.ViewModels
             _updateThread = null;
         }
 
-        void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
-        {
-            if (JournalRecords == null)
+		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
+		{
+			if (JournalRecords == null)
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
-            if (journalRecords != null)
-            {
-				var journalRecordViewModels = new List<JournalRecordViewModel>();
-				foreach (var journalRecord in journalRecords)
-				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					journalRecordViewModels.Add(journalRecordViewModel);
-				}
-				JournalRecords.AddRange(journalRecordViewModels);
-            }
 
-            Status = "Количество записей: " + JournalRecords.Count.ToString();
-        }
+			var journalRecordViewModels = new List<JournalRecordViewModel>();
+			foreach (var journalRecord in journalRecords)
+			{
+				var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+				journalRecordViewModels.Add(journalRecordViewModel);
+			}
+			JournalRecords.AddRange(journalRecordViewModels);
+
+			Status = "Количество записей: " + JournalRecords.Count.ToString();
+		}
 
         public override void OnShow()
         {
-            Update(false);
+			if (firstTime)
+			{
+				firstTime = false;
+				Update(false);
+			}
         }
     }
 

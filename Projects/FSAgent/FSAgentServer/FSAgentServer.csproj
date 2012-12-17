@@ -68,6 +68,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Journal.cs" />
+    <Compile Include="Firesec\NativeFiresecClient.SyncronizeJournal.cs" />
     <Compile Include="Service\CallbacManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FSAgentService.cs" />
@@ -96,7 +97,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Firesec\FiresecExceptionHelper.cs" />
-    <Compile Include="Firesec\NativeFiresecClient.Callack.cs" />
+    <Compile Include="Firesec\NativeFiresecClient.Callback.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SafeCall.cs" />
@@ -191,6 +192,9 @@
     <Resource Include="FSAgent.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy $(SolutionDir)..\..\3rdParty\MSSQLCEv35 $(TargetDir) /e /y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

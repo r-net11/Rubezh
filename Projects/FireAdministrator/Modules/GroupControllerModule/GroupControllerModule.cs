@@ -11,6 +11,9 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Common.GK;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace GKModule
 {
@@ -24,7 +27,7 @@ namespace GKModule
         InstructionsViewModel InstructionsViewModel;
 		GKPlanExtension _planExtension;
 
-		public GroupControllerModule()
+		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateXZone);
 			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditXZone);
@@ -90,6 +93,14 @@ namespace GKModule
 		private void OnEditXZone(Guid zoneUID)
 		{
             ZonesViewModel.EditZone(zoneUID);
+		}
+
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			LoadingService.DoStep("Загрузка конфигурации ГК");
+			GKDriversCreator.Create();
+			XManager.GetConfiguration();
+			return true;
 		}
 	}
 }
