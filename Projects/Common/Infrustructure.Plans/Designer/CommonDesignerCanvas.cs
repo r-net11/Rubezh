@@ -20,6 +20,7 @@ namespace Infrustructure.Plans.Designer
 			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
 			//Items = new List<DesignerItem>();
+			ClipToBounds = true;
 		}
 
 		public abstract void BeginChange(IEnumerable<DesignerItem> designerItems);
@@ -35,6 +36,11 @@ namespace Infrustructure.Plans.Designer
 		{
 			SelectedCanvas = new Canvas();
 			Children.Add(SelectedCanvas);
+		}
+		protected void RemoveCanvas()
+		{
+			Children.Remove(SelectedCanvas);
+			SelectedCanvas = null;
 		}
 
 		public void Remove(DesignerItem designerItem)
@@ -83,7 +89,7 @@ namespace Infrustructure.Plans.Designer
 		//}
 		public IEnumerable<DesignerItem> Items
 		{
-			get { return SelectedCanvas==null? Enumerable.Empty<DesignerItem>():  from item in SelectedCanvas.Children.OfType<DesignerItem>() select item; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() select item; }
 		}
 		public IEnumerable<DesignerItem> SelectedItems
 		{

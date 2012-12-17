@@ -15,8 +15,8 @@ namespace FiresecAPI.Models
 			Children = new List<Plan>();
 			ElementSubPlans = new List<ElementSubPlan>();
 			Caption = "Новый план";
-			Width = 297;
-			Height = 210;
+			Width = 400;
+			Height = 400;
 			BackgroundColor = Colors.White;
 			ClearElements();
 		}
