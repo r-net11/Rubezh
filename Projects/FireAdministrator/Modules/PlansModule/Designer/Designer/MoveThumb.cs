@@ -53,12 +53,12 @@ namespace PlansModule.Designer
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
 					Rect rect = new Rect(Canvas.GetLeft(designerItem), Canvas.GetTop(designerItem), designerItem.ActualWidth, designerItem.ActualHeight);
-					if (rect.Right + shift.X > DesignerCanvas.Width)
-						shift.X = DesignerCanvas.Width - rect.Right;
+					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
+						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
 					if (rect.Left + shift.X < 0)
 						shift.X = -rect.Left;
-					if (rect.Bottom + shift.Y > DesignerCanvas.Height)
-						shift.Y = DesignerCanvas.Height - rect.Bottom;
+					if (rect.Bottom + shift.Y > DesignerCanvas.CanvasHeight)
+						shift.Y = DesignerCanvas.CanvasHeight - rect.Bottom;
 					if (rect.Top + shift.Y < 0)
 						shift.Y = -rect.Top;
 				}

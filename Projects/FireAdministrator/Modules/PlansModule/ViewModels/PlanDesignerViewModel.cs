@@ -23,35 +23,35 @@ namespace PlansModule.ViewModels
 		public void Initialize(Plan plan)
 		{
 			using (new TimeCounter("\tPlanDesignerViewModel.Initialize: {0}"))
+				if (plan != null)
+				{
+					using (new TimeCounter("\t\tDesignerCanvas.RegisterPlan: {0}"))
+						DesignerCanvas.RegisterPlan(plan);
+
+					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
+					{
+						// 1. Override standart Painters				+
+						// 4. Change ResizeDecorator/ResizeAdorner		-
+						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+							DesignerCanvas.Create(elementBase);
+						foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
+							DesignerCanvas.Create(element);
+					}
+				}
+		}
+		public void SelectPlan(Plan plan)
+		{
+			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}"))
 			{
 				Plan = plan;
 				OnPropertyChanged("Plan");
-				if (Plan != null)
-				{
-					using (new WaitWrapper())
+				DesignerCanvas.ShowPlan(plan);
+				using (new WaitWrapper())
+					if (Plan != null)
 					{
-						using (new TimeCounter("\t\tDesignerCanvas.Clear: {0}"))
-							DesignerCanvas.Clear();
 						ChangeZoom(1);
-						DesignerCanvas.Plan = plan;
-						DesignerCanvas.PlanDesignerViewModel = this;
-						using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
-							DesignerCanvas.Update();
-
-						using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-						{
-
-							// 1. Override standart Painters				+
-							// 4. Change ResizeDecorator/ResizeAdorner		-
-
-							foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-								DesignerCanvas.Create(elementBase);
-							foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
-								DesignerCanvas.Create(element);
-						}
+						OnUpdated();
 					}
-					OnUpdated();
-				}
 			}
 		}
 

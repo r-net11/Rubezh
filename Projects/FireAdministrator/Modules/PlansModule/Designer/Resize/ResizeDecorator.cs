@@ -31,6 +31,8 @@ namespace PlansModule.Designer.Resize
 		public ResizeDecorator()
 		{
 			Unloaded += new RoutedEventHandler(ResizeDecorator_Unloaded);
+			ShowAdorner();
+			HideAdorner();
 		}
 
 		private void ResizeDecorator_Unloaded(object sender, RoutedEventArgs e)

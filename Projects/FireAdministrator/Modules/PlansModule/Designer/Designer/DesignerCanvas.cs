@@ -19,29 +19,18 @@ namespace PlansModule.Designer
 {
 	public class DesignerCanvas : CommonDesignerCanvas
 	{
-		public Plan Plan { get; set; }
+		public Plan Plan { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
+		private Dictionary<Plan, Canvas> _canvasMap;
 
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			AllowDrop = true;
-			Background = new SolidColorBrush(Colors.DarkGray);
-			Width = 100;
-			Height = 100;
-
-			DataContext = this;
-			var pasteItem = new MenuItem()
-			{
-				Header = "Вставить",
-				CommandParameter = this
-			};
-			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
-			ContextMenu = new ContextMenu();
-			ContextMenu.Items.Add(pasteItem);
+			_canvasMap = new Dictionary<Plan, Canvas>();
+			Background = Brushes.Orange;
 		}
 
 		public override double Zoom
@@ -51,6 +40,50 @@ namespace PlansModule.Designer
 		public override double PointZoom
 		{
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
+		}
+
+		public override void Clear()
+		{
+			base.Clear();
+			_canvasMap.Clear();
+		}
+		public void RegisterPlan(Plan plan)
+		{
+			AddCanvas();
+			SelectedCanvas.AllowDrop = true;
+			CanvasBackground = new SolidColorBrush(Colors.DarkGray);
+			CanvasWidth = 100;
+			CanvasHeight = 100;
+			SelectedCanvas.DataContext = this;
+			var pasteItem = new MenuItem()
+			{
+				Header = "Вставить",
+				CommandParameter = this
+			};
+			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
+			SelectedCanvas.ContextMenu = new ContextMenu();
+			SelectedCanvas.ContextMenu.Items.Add(pasteItem);
+			using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
+				Update(plan);
+			_canvasMap.Add(plan, SelectedCanvas);
+			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
+		}
+		public void ShowPlan(Plan plan)
+		{
+			Plan = plan;
+			if (SelectedCanvas != null)
+			{
+				DeselectAll();
+				SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
+				SelectedCanvas = null;
+			}
+			if (plan != null)
+			{
+				SelectedCanvas = _canvasMap[plan];
+				Height = SelectedCanvas.Height;
+				Width = SelectedCanvas.Width;
+				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
+			}
 		}
 
 		public void RemoveAllSelected()
@@ -166,14 +199,18 @@ namespace PlansModule.Designer
 
 		public override void Update()
 		{
-			Width = Plan.Width;
-			Height = Plan.Height;
-			if (Plan.BackgroundPixels != null)
-				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
-			else if (Plan.BackgroundColor == Colors.Transparent)
-				Background = PainterHelper.CreateTransparentBrush(Zoom);
+			Update(Plan);
+		}
+		private void Update(Plan plan)
+		{
+			CanvasWidth = plan.Width;
+			CanvasHeight = plan.Height;
+			if (plan.BackgroundPixels != null)
+				CanvasBackground = PainterHelper.CreateBrush(plan.BackgroundPixels);
+			else if (plan.BackgroundColor == Colors.Transparent)
+				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
 			else
-				Background = new SolidColorBrush(Plan.BackgroundColor);
+				CanvasBackground = new SolidColorBrush(plan.BackgroundColor);
 		}
 		public override void Remove(List<Guid> elementUIDs)
 		{
