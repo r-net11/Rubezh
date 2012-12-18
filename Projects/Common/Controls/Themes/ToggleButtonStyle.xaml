@@ -38,5 +38,36 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style TargetType="{x:Type ToggleButton}">
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Name="border" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Padding="2" Margin="2" CornerRadius="2"
+                            ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="UIElement.IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+                            <Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

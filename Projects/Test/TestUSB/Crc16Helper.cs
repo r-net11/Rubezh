@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestUSB
 {
-	public class Crc16CcittKermit
+	public class Crc16Helper
 	{
 		private static ushort[] table = {
 			0x0000, 0x1189, 0x2312, 0x329B, 0x4624, 0x57AD, 0x6536, 0x74BF,

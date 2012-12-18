@@ -65,7 +65,7 @@ namespace TestUSB
 			int bytesWrite;
 			var errorCode = writer.Write(output, 2000, out bytesWrite);
 
-			WriteTrace("Sending", output);
+			//WriteTrace("Sending", output);
 		}
 
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
@@ -79,7 +79,9 @@ namespace TestUSB
 
 					if (b == 0x3E)
 					{
-						WriteTrace("OnDataRecieved", result);
+						//var resultString = WriteTrace("OnDataRecieved", result);
+						if (DataRecieved != null)
+							DataRecieved(result);
 						result = new List<byte>();
 					}
 				}
@@ -136,15 +138,20 @@ namespace TestUSB
 			return bytes;
 		}
 
-		void WriteTrace(string name, IEnumerable<byte> bytes)
+		string WriteTrace(string name, IEnumerable<byte> bytes)
 		{
+			var result = "";
 			Trace.WriteLine("");
 			Trace.WriteLine(name + ": ");
 			foreach (var b in bytes)
 			{
 				var hexByte = b.ToString("x2");
 				Trace.Write(hexByte + " ");
+				result += hexByte + " ";
 			}
+			return result;
 		}
+
+		public event Action<List<byte>> DataRecieved;
 	}
 }
