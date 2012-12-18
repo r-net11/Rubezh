@@ -23,6 +23,12 @@ namespace FireMonitor
 {
 	public class Bootstrapper : BaseBootstrapper
 	{
+		public bool IsMulticlient { get; private set; }
+		public Bootstrapper(bool isMulticlient)
+		{
+			IsMulticlient = isMulticlient;
+		}
+
 		public void Initialize()
 		{
             LoadingErrorManager.Clear();
@@ -49,9 +55,7 @@ namespace FireMonitor
 					BeforeInitialize(true);
 
                     if (LoadingErrorManager.HasError)
-					{
                         MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
-					}
 
 					LoadingService.DoStep("Старт полинга сервера");
 					FiresecManager.StartPoll(false);
