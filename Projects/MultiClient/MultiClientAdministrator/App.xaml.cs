@@ -1,21 +1,18 @@
 ﻿using System.Windows;
-using MultiClient.Services;
+using MultiClient.ViewModels;
 
 namespace MultiClient
 {
-    public partial class App : Application
-    {
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            var shellView = new ShellView();
+	public partial class App : Application
+	{
+		private void Application_Startup(object sender, StartupEventArgs e)
+		{
+			Bootstrapper.Run();
 
-            var layoutService = new LayoutService();
-            layoutService.Initialize(shellView);
-            ServiceFactory.Layout = layoutService;
-            ServiceFactory.UserDialogs = new UserDialogService();
-
-            shellView.Show();
-        }
-
-    }
+			var shellView = new ShellView();
+			var shellViewModel = new ShellViewModel();
+			shellView.DataContext = shellViewModel;
+			shellView.Show();
+		}
+	}
 }

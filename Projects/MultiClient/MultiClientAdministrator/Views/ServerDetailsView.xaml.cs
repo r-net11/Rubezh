@@ -2,11 +2,11 @@
 
 namespace MultiClient.Views
 {
-    public partial class ServerDetailsView : UserControl
-    {
-        public ServerDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ServerDetailsView : UserControl
+	{
+		public ServerDetailsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

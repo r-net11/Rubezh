@@ -192,29 +192,32 @@ namespace ManagementConsole
                 foreach (var file in srvfiles)
                     zip.AddFile(file.FullName, "Configuration");
             }
-
-            zip.Save();
-			var sb = new StringBuilder(string.Empty);
-			sb.AppendLine("System information");
+            
+            var memoryStream = new MemoryStream();
+		    var sb = new StreamWriter(memoryStream);
+            sb.WriteLine("System information");
 			try
 			{
 				var process = Process.GetCurrentProcess();
-                sb.AppendFormat("Process [{0}]:    {1} x{2}", process.Id, process.ProcessName, GetBitCount(Environment.Is64BitProcess)); sb.AppendLine();
-                sb.AppendFormat("Operation System:  {0} {1} Bit Operating System", Environment.OSVersion, GetBitCount(Environment.Is64BitOperatingSystem)); sb.AppendLine();
-                sb.AppendFormat("ComputerName:      {0}", Environment.MachineName); sb.AppendLine();
-                sb.AppendFormat("UserDomainName:    {0}", Environment.UserDomainName); sb.AppendLine();
-                sb.AppendFormat("UserName:          {0}", Environment.UserName); sb.AppendLine();
-                sb.AppendFormat("Base Directory:    {0}", AppDomain.CurrentDomain.BaseDirectory); sb.AppendLine();
-                sb.AppendFormat("SystemDirectory:   {0}", Environment.SystemDirectory); sb.AppendLine();
-                sb.AppendFormat("ProcessorCount:    {0}", Environment.ProcessorCount); sb.AppendLine();
-                sb.AppendFormat("SystemPageSize:    {0}", Environment.SystemPageSize); sb.AppendLine();
-				sb.AppendFormat(".Net Framework:    {0}", Environment.Version);
+                sb.WriteLine("Process [{0}]:    {1} x{2}", process.Id, process.ProcessName, GetBitCount(Environment.Is64BitProcess));
+                sb.WriteLine("Operation System:  {0} {1} Bit Operating System", Environment.OSVersion, GetBitCount(Environment.Is64BitOperatingSystem));
+                sb.WriteLine("ComputerName:      {0}", Environment.MachineName); 
+                sb.WriteLine("UserDomainName:    {0}", Environment.UserDomainName);
+                sb.WriteLine("UserName:          {0}", Environment.UserName);
+                sb.WriteLine("Base Directory:    {0}", AppDomain.CurrentDomain.BaseDirectory);
+                sb.WriteLine("SystemDirectory:   {0}", Environment.SystemDirectory);
+                sb.WriteLine("ProcessorCount:    {0}", Environment.ProcessorCount);
+                sb.WriteLine("SystemPageSize:    {0}", Environment.SystemPageSize);
+                sb.WriteLine(".Net Framework:    {0}", Environment.Version);
 			}
 			catch (Exception ex)
 			{
-				sb.Append(ex.ToString());
+                sb.WriteLine(ex.ToString());
 			}
-            File.WriteAllText(rootlogspath + "\\systeminfo.txt", sb.ToString(), Encoding.GetEncoding(1252));
+            sb.Flush();
+		    memoryStream.Position = 0;
+            zip.AddEntry("systeminfo.txt", memoryStream);
+            zip.Save();
 		}
 		private static int GetBitCount(bool is64)
 		{

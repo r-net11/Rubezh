@@ -14,14 +14,11 @@ using System.Windows.Shapes;
 
 namespace MultiClient.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ServerView.xaml
-    /// </summary>
-    public partial class ServerView : UserControl
-    {
-        public ServerView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ServerView : UserControl
+	{
+		public ServerView()
+		{
+			InitializeComponent();
+		}
+	}
 }

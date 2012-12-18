@@ -55,23 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Services\BaseViewModel.cs" />
-    <Compile Include="Services\DialogContent.cs" />
-    <Compile Include="Services\DialogWindow.xaml.cs">
-      <DependentUpon>DialogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Services\IDialogContent.cs" />
-    <Compile Include="Services\IViewPart.cs" />
-    <Compile Include="Services\LayoutService.cs" />
-    <Compile Include="Services\RegionViewModel.cs" />
-    <Compile Include="Services\RelayCommand.cs" />
-    <Compile Include="Services\ServiceFactory.cs" />
-    <Compile Include="Services\UserDialogService.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ServerDetailsViewModel.cs" />
-    <Compile Include="ViewModels\ServerViewModel.cs" />
+    <Compile Include="ViewModels\AppItemViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ServerDetailsView.xaml.cs">
       <DependentUpon>ServerDetailsView.xaml</DependentUpon>
     </Compile>
@@ -86,10 +75,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Services\DialogWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,9 +113,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\MuliclientAPI\MuliclientAPI.csproj">
+      <Project>{32CADE88-7A8C-45B9-BF15-C60918EC6B5D}</Project>
+      <Name>MuliclientAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

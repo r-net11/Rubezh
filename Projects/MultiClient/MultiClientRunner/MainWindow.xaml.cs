@@ -75,7 +75,8 @@ namespace MultiClientRunner
 		{
             foreach (var multiclientData in MulticlientDatas)
             {
-                multiclientData.Id = (clientId++).ToString();
+				clientId++;
+                multiclientData.Id = (clientId).ToString();
                 var appItem = new AppItem();
                 appItem.Run(multiclientData);
                 AppItemsViewModels.AppItems.Add(appItem);

@@ -6,7 +6,7 @@ using System.ServiceModel;
 
 namespace TestWebServer
 {
-	[ServiceContract]
+	[ServiceContract(Namespace="Firesec")]
 	public interface ITestContract
 	{
 		[OperationContract]

@@ -5,7 +5,8 @@
         <ItemsControl ItemsSource="{Binding Multiclients}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding MulticlientData.Name}" Command="{Binding SelectCommand}" Margin="1" />
+                    <ToggleButton Content="{Binding MulticlientData.Name}" Command="{Binding SelectCommand}" Margin="1" />
+                    <!--<Button Content="{Binding MulticlientData.Name}" Command="{Binding SelectCommand}" Margin="1" />-->
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
