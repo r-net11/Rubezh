@@ -6,9 +6,9 @@
         <TabItem Header="Автозапуск">
             <StackPanel Background="LightBlue" Margin="1">
                 <TextBlock Text="Следующие приложения будут запускаться при старте системы:" TextWrapping="Wrap" FontSize="12" Margin="2"/>
-                <CheckBox Content="FS-Сервер" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12"/>
-                <CheckBox Content="OPC-Сервер" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12"/>
-                <CheckBox Content="FS-Агент" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12"/>
+                <CheckBox Content="Сервер приложений ОПС FireSec-2" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12"/>
+                <CheckBox Content="OPC Сервер ОПС FireSec-2" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12"/>
+                <CheckBox Content="Агент FireSec-2" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12"/>
             </StackPanel>
         </TabItem>
         <TabItem Header="Сбор логов">
