@@ -45,6 +45,7 @@
     <Compile Include="IMuliclient.cs" />
     <Compile Include="IMuliclientCallback.cs" />
     <Compile Include="Client\MulticlientClient.cs" />
+    <Compile Include="MulticlientConfiguration.cs" />
     <Compile Include="MulticlientData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowSize.cs" />

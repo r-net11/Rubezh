@@ -24,8 +24,8 @@ namespace MultiClientRunner
 			MulticlientData = multiclientData;
 			var commandLineArguments = "regime='multiclient' " +
 				"ClientId='" + multiclientData.Id +
-				"' RemoteAddress='" + multiclientData.RemoteAddress +
-				"' RemotePort='" + multiclientData.RemotePort.ToString() +
+				"' RemoteAddress='" + multiclientData.Address +
+				"' RemotePort='" + multiclientData.Port.ToString() +
 				"' login='" + multiclientData.Login +
 				"' password='" + multiclientData.Password + "'";
 

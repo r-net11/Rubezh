@@ -196,22 +196,22 @@ namespace FiresecService.Configuration
 		{
 			try
 			{
-                var memStream = ConfigHelper.FromZip(fileName);
-				if ((File.Exists(ConfigurationDirectory(fileName)))||( memStream != null))
+                var memoryStream = ConfigHelper.FromZip(fileName);
+				if ((File.Exists(ConfigurationDirectory(fileName)))||( memoryStream != null))
 				{
 					T configuration = null;
-                        if (memStream == null)
+                        if (memoryStream == null)
                         {
                             using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
                             {
-                                memStream = new MemoryStream();
-                                memStream.SetLength(fileStream.Length);
-                                fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
+                                memoryStream = new MemoryStream();
+                                memoryStream.SetLength(fileStream.Length);
+                                fileStream.Read(memoryStream.GetBuffer(), 0, (int)fileStream.Length);
                             }
                         }
 
                     var dataContractSerializer = new DataContractSerializer(typeof (T));
-                    configuration = (T) dataContractSerializer.ReadObject(memStream);
+                    configuration = (T) dataContractSerializer.ReadObject(memoryStream);
 
 					if (!configuration.ValidateVersion())
 					{
@@ -244,11 +244,11 @@ namespace FiresecService.Configuration
                     var dataContractSerializer = new DataContractSerializer(typeof(T));
                     dataContractSerializer.WriteObject(memoryStream, configuration);
 
-                    using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Create))
-                    {
-                        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-                        ConfigHelper.IntoZip(fileName, memoryStream);
-                    }
+					//using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Create))
+					//{
+					//    fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+					//}
+					ConfigHelper.IntoZip(fileName, memoryStream);
                 }
             }
             catch (Exception e)

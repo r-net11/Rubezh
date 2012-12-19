@@ -23,8 +23,8 @@ namespace MultiClientRunner
             {
 				Id = "0",
                 Name = "Server1",
-                RemoteAddress = "localhost",
-                RemotePort = 0,
+                Address = "localhost",
+                Port = 0,
                 Login = "adm",
                 Password = ""
             };
@@ -33,8 +33,8 @@ namespace MultiClientRunner
             {
 				Id = "1",
                 Name = "Server2",
-                RemoteAddress = "localhost",
-                RemotePort = 0,
+                Address = "localhost",
+                Port = 0,
                 Login = "adm",
                 Password = ""
             };
