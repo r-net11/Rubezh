@@ -23,6 +23,12 @@ namespace FireMonitor
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
+		public bool IsMulticlient { get; set; }
+
+		public App()
+		{
+			IsMulticlient = false;
+		}
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -33,15 +39,10 @@ namespace FireMonitor
 				AppSettingsManager.AutoConnect = true;
 #endif
 				InitializeCommandLineArguments(e.Args);
-
 				if (!MulticlientHelper.IsMulticlient)
-				{
 					StartRevisor();
-				}
 				if (MulticlientHelper.IsMulticlient)
-				{
 					MulticlientHelper.Start();
-				}
 			}
 			catch (Exception ex)
 			{
@@ -55,18 +56,10 @@ namespace FireMonitor
 			bool trace = false;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-			_bootstrapper = new Bootstrapper();
-			if (!MulticlientHelper.IsMulticlient)
-			{
+			DoubleLaunchLocker.IsEnable = !MulticlientHelper.IsMulticlient && !IsMulticlient;
+			_bootstrapper = new Bootstrapper(IsMulticlient);
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
-				{
 					_bootstrapper.Initialize();
-				}
-			}
-			else
-			{
-				_bootstrapper.Initialize();
-			}
 			bootstrapperLoaded = true;
 		}
 

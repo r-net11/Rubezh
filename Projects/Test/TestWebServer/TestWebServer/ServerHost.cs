@@ -21,10 +21,10 @@ namespace TestWebServer
 
 			SelfHost.AddServiceEndpoint(typeof(ITestContract), myBinding, "CoreServices");
 
-			ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-			smb.HttpGetEnabled = true;
-			smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy12;
-			SelfHost.Description.Behaviors.Add(smb);
+			var serviceMetadataBehavior = new ServiceMetadataBehavior();
+			serviceMetadataBehavior.HttpGetEnabled = true;
+			serviceMetadataBehavior.MetadataExporter.PolicyVersion = PolicyVersion.Policy12;
+			SelfHost.Description.Behaviors.Add(serviceMetadataBehavior);
 
 			SelfHost.AddServiceEndpoint(ServiceMetadataBehavior.MexContractName, MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
 

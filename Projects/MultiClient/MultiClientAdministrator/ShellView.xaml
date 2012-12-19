@@ -3,20 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ShellView" Height="300" Width="300">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0">
-            <StackPanel>
-                <Button Content="Test" Click="Button_Click" />
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Column="1">
-            <ContentControl Name="_mainRegionHost" />
-        </Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="2">
+            <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
+            <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
+        </StackPanel>
+        <ListBox Grid.Row="1" ItemsSource="{Binding AppItems}" SelectedItem="{Binding SelectedAppItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" Foreground="Black" Margin="1" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

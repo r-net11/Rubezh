@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +17,13 @@ namespace MultiClientRunner
 		}
 
 		Process Process;
-		public string Name { get; private set; }
-		public string ClientId { get; set; }
+		public MulticlientData MulticlientData { get; private set; }
 
 		public void Run(MulticlientData multiclientData)
 		{
-			Name = multiclientData.Name;
+			MulticlientData = multiclientData;
 			var commandLineArguments = "regime='multiclient' " +
-				"ClientId='" + ClientId +
+				"ClientId='" + multiclientData.Id +
 				"' RemoteAddress='" + multiclientData.RemoteAddress +
 				"' RemotePort='" + multiclientData.RemotePort.ToString() +
 				"' login='" + multiclientData.Login +
@@ -32,7 +31,7 @@ namespace MultiClientRunner
 
 			var processStartInfo = new ProcessStartInfo()
 			{
-				FileName = @"E:/Projects/Projects/FireMonitor/bin/Debug/FireMonitor.exe",
+				FileName = @"D:/Projects/Projects/FireMonitor/bin/Debug/FireMonitor.exe",
 				Arguments = commandLineArguments
 			};
 			Process = System.Diagnostics.Process.Start(processStartInfo);
@@ -45,21 +44,21 @@ namespace MultiClientRunner
 
 		public void Hide()
 		{
-			MulticlientServer.Muliclient.Hide(ClientId);
+			MulticlientServer.Muliclient.Hide(MulticlientData.Id);
 		}
 
 		public void Show(WindowSize windowSize)
 		{
 			if (windowSize != null)
 			{
-				MulticlientServer.Muliclient.SetWindowSize(ClientId, windowSize);
+				MulticlientServer.Muliclient.SetWindowSize(MulticlientData.Id, windowSize);
 			}
-			MulticlientServer.Muliclient.Show(ClientId);
+			MulticlientServer.Muliclient.Show(MulticlientData.Id);
 		}
 
 		public WindowSize GetWindowSize()
 		{
-			return MulticlientServer.Muliclient.GetWindowSize(ClientId);
+			return MulticlientServer.Muliclient.GetWindowSize(MulticlientData.Id);
 		}
 
 		public RelayCommand SelectCommand { get; private set; }

@@ -6,7 +6,7 @@ using System.ServiceModel;
 
 namespace TestWebServer
 {
-	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults=true)]
+	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true, Namespace = "Firesec")]
 	public class TestContract : ITestContract
 	{
 		public string NewEventsAvailable(string mask)
