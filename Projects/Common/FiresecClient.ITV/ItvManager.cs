@@ -29,7 +29,7 @@ namespace FiresecClient.Itv
             {
                 try
                 {
-                    FiresecManager.GetConfiguration("Configuration\\config.fscp", FiresecManager.FiresecService.GetConfig());
+                    FiresecManager.GetConfiguration();
                     var initializeFiresecDriverResult = FiresecManager.InitializeFiresecDriver(true);
                     if (initializeFiresecDriverResult.HasError)
                     {
