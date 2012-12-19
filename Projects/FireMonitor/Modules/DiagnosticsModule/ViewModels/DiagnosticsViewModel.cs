@@ -291,7 +291,7 @@ namespace DiagnosticsModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 					break;
 				case 1:
-					ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
+					//ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
 					break;
 				case 2:
 					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
