@@ -143,7 +143,7 @@ namespace PlansModule.Designer.DesignerItems
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand,
-					Header = "Выровнять по горизонтали",
+                    Header = "Выровнять по вертикали",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
@@ -158,7 +158,7 @@ namespace PlansModule.Designer.DesignerItems
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand,
-					Header = "Выровнять по вертикали",
+                    Header = "Выровнять по горизонтали",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{

@@ -82,7 +82,7 @@ namespace DevicesModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
-			FiresecManager.GetConfiguration();
+            FiresecManager.GetConfiguration("Configuration\\config.fscp", FiresecManager.FiresecService.GetConfig());
 
 			if (firstTime)
 			{

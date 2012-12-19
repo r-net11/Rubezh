@@ -99,7 +99,7 @@ namespace DevicesModule
 			try
 			{
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				FiresecManager.GetConfiguration();
+                FiresecManager.GetConfiguration("Configuration\\config.fscp", FiresecManager.FiresecService.GetConfig());
 				LoadingService.DoStep("Загрузка драйвера устройств");
 				var connectionResult = FiresecManager.InitializeFiresecDriver(false);
 				if (connectionResult.HasError)

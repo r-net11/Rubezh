@@ -46,30 +46,26 @@ namespace FiresecClient
             {
                 output.Write(buffer, 0, len);
             }
+            output.Close();
         }
 
-        public static void GetConfiguration()
+        public static void GetConfiguration(string fileFullName, Stream stream)
         {
             try
             {
-
                 FiresecConfiguration = new FiresecConfiguration();
-                var stream = FiresecManager.FiresecService.GetConfig();
                 var configurationsList = new ConfigurationsList();
-                using (Stream file = File.Create("Configuration\\config.fscp"))
+                if (File.Exists(fileFullName))
+                    File.Delete(fileFullName);
+                CopyStream(stream, File.Create(fileFullName));
+                var unzip = ZipFile.Read(fileFullName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+                var xmlstream = new MemoryStream();
+                var entry = unzip["Info.xml"];
+                if (entry != null)
                 {
-                    CopyStream(stream, file);
-                    file.Close();
-                    var unzip = ZipFile.Read("Configuration\\config.fscp",
-                                             new ReadOptions {Encoding = Encoding.GetEncoding("cp866")});
-                    var xmlstream = new MemoryStream();
-                    var entry = unzip["Info.xml"];
-                    if (entry != null)
-                    {
-                        entry.Extract(xmlstream);
-                        xmlstream.Position = 0;
-                        configurationsList = SerializeHelper.DeSerialize<ConfigurationsList>(xmlstream);
-                    }
+                    entry.Extract(xmlstream);
+                    xmlstream.Position = 0;
+                    configurationsList = SerializeHelper.DeSerialize<ConfigurationsList>(xmlstream);
                 }
 
                 if (configurationsList == null)
