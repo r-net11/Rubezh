@@ -146,6 +146,7 @@
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="FSAgentLoadHelper.cs" />
+    <Compile Include="InfoXmlHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="RevisorLoadHelper.cs" />

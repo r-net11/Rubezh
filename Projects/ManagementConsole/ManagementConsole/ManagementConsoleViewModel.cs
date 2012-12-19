@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Input;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
+using Cursor = System.Windows.Input.Cursor;
+using Cursors = System.Windows.Input.Cursors;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ManagementConsole
@@ -20,9 +24,9 @@ namespace ManagementConsole
         static string agnlogspath = @"..\FSAgent\Logs";
         static string opclogspath = @"..\FiresecOPCServer\Logs";
         static string srvconfpath = @"..\FiresecService\Configuration";
-        static string fspath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\FiresecService\FiresecService.exe");
-        static string agnpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\FSAgent\FSAgentServer.exe");
-        static string opcpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\FiresecOPCServer\FiresecOPCServer.exe");
+        static string fspath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecService\FiresecService.exe");
+        static string agnpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FSAgent\FSAgentServer.exe");
+        static string opcpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecOPCServer\FiresecOPCServer.exe");
         #endregion
         public ManagementConsoleViewModel()
 		{
@@ -35,9 +39,9 @@ namespace ManagementConsole
             agnlogspath = @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\Logs";
             opclogspath = @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\Logs";
             srvconfpath = @"..\..\..\..\FiresecService\bin\Debug\Configuration";
-            fspath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\FiresecService\bin\Debug\FiresecService.exe");
-            agnpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\FSAgentServer.exe");
-            opcpath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\FiresecOPCServer.exe");
+            fspath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FiresecService\bin\Debug\FiresecService.exe");
+            agnpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\FSAgentServer.exe");
+            opcpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\FiresecOPCServer.exe");
 #endif
             #endregion
             GetLogsCommand = new RelayCommand(OnGetLogs);
@@ -128,7 +132,7 @@ namespace ManagementConsole
             }
         }
 
-        static string rootlogspath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + @"..\Logs");
+        static string rootlogspath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\Logs");
         static string curlogspath
         {
             get
@@ -204,7 +208,7 @@ namespace ManagementConsole
                 sb.WriteLine("ComputerName:      {0}", Environment.MachineName); 
                 sb.WriteLine("UserDomainName:    {0}", Environment.UserDomainName);
                 sb.WriteLine("UserName:          {0}", Environment.UserName);
-                sb.WriteLine("Base Directory:    {0}", AppDomain.CurrentDomain.BaseDirectory);
+                sb.WriteLine("Base Directory:    {0}", Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
                 sb.WriteLine("SystemDirectory:   {0}", Environment.SystemDirectory);
                 sb.WriteLine("ProcessorCount:    {0}", Environment.ProcessorCount);
                 sb.WriteLine("SystemPageSize:    {0}", Environment.SystemPageSize);
@@ -217,7 +221,9 @@ namespace ManagementConsole
             sb.Flush();
 		    memoryStream.Position = 0;
             zip.AddEntry("systeminfo.txt", memoryStream);
+		    Mouse.OverrideCursor = Cursors.Wait;
             zip.Save();
+            Mouse.OverrideCursor = Cursors.Arrow;
 		}
 		private static int GetBitCount(bool is64)
 		{

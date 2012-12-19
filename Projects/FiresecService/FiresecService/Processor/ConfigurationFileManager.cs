@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Common;
 using FiresecAPI;
@@ -24,7 +25,7 @@ namespace FiresecService.Configuration
 
         public static string ConfigurationDirectory(string FileNameOrDirectory)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", FileNameOrDirectory);
+            return Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configuration", FileNameOrDirectory);
         }
 
         public static DeviceConfiguration GetDeviceConfiguration()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using FiresecAPI.Models;
 using Ionic.Zip;
 
 namespace Infrastructure.Common

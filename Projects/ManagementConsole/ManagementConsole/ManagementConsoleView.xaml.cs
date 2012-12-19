@@ -1,14 +1,12 @@
-﻿using System.Windows;
-
-namespace ManagementConsole
+﻿namespace ManagementConsole
 {
-	public partial class ManagementConsoleView : Window
-	{
+	public partial class ManagementConsoleView
+    {
 		public ManagementConsoleView()
 		{
 			InitializeComponent();
-			var ManagementConsoleViewModel = new ManagementConsoleViewModel();
-			DataContext = ManagementConsoleViewModel;
+			var managementConsoleViewModel = new ManagementConsoleViewModel();
+			DataContext = managementConsoleViewModel;
 		}
 	}
 }

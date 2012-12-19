@@ -23,6 +23,7 @@ namespace FiresecService
         {
             try
             {
+                InfoXmlHelper.CreateInfoFile();
 				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=4000";
 				Logger.Trace(SystemInfo.GetString());
 				AppSettingsHelper.InitializeAppSettings();

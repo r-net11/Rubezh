@@ -6,15 +6,16 @@ namespace Infrastructure.Common
 {
     public class SerializeHelper
     {
-        public static void Serialize<T>(T configuration)
+        public static MemoryStream Serialize<T>(T configuration)
             where T : VersionedConfiguration
         {
             configuration.Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 };
-            using (var memoryStream = new MemoryStream())
-            {
+            var memoryStream = new MemoryStream();
+            
                 var dataContractSerializer = new DataContractSerializer(typeof(T));
                 dataContractSerializer.WriteObject(memoryStream, configuration);
-            }
+                return memoryStream;
+            
         }
 
         public static T DeSerialize<T>(MemoryStream memStream)

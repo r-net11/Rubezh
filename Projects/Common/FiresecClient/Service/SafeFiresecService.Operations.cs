@@ -56,6 +56,13 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetSystemConfiguration(); }, "GetSystemConfiguration");
         }
 
+        public T GetConfiguration<T>(string filename)
+            where T : VersionedConfiguration, new()
+        {
+            var config = new T();
+            return SafeOperationCall(() => config, filename);
+        }
+
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             SafeOperationCall(() => { FiresecService.SetSystemConfiguration(systemConfiguration); }, "SetSystemConfiguration");

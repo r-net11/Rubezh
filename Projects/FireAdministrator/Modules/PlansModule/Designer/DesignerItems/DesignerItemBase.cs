@@ -138,32 +138,32 @@ namespace PlansModule.Designer.DesignerItems
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalLeftCommand,
-					Header = "Выровнить по левому краю",
+					Header = "Выровнять по левому краю",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand,
-					Header = "Выровнить по горизонтали",
+					Header = "Выровнять по горизонтали",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalRightCommand,
-					Header = "Выровнить по правому краю",
+					Header = "Выровнять по правому краю",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalTopCommand,
-					Header = "Выровнить по верхнему краю",
+					Header = "Выровнять по верхнему краю",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand,
-					Header = "Выровнить по вертикали",
+					Header = "Выровнять по вертикали",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand,
-					Header = "Выровнить по нижнему краю",
+					Header = "Выровнять по нижнему краю",
 				});
 			};
 		}
