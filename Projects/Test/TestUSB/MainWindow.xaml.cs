@@ -35,18 +35,6 @@ namespace TestUSB
 			usbRunner.DataRecieved += new Action<List<byte>>(usbRunner_DataRecieved);
 		}
 
-		int BitArrayToInt(System.Collections.BitArray bitArray, int startIndex, int endIndex)
-		{
-			int result = 0;
-			for(int i = startIndex; i <= endIndex; i++)
-			{
-				var boolValue = bitArray.Get(i);
-				var intValue = boolValue ? 1 : 0;
-				result += intValue << (i - startIndex);
-			}
-			return result;
-		}
-
 		object locker = new object();
 
 		void usbRunner_DataRecieved(List<byte> bytes)
@@ -84,122 +72,127 @@ namespace TestUSB
 				if (funcCodeBitArray.Get(6) == false)
 					return;
 				if (funcCodeBitArray.Get(7))
+				{
+					Trace.WriteLine("\n Error = " + bytes[1].ToString());
+					//Dispatcher.BeginInvoke(new Action(() =>
+					//{
+					//    textBox1.Text += "\n Error = " + bytes[1].ToString();
+					//}));
 					return;
+				}
 				byte funcCode = bytes[0];
 				funcCode = (byte)(funcCode << 2);
 				funcCode = (byte)(funcCode >> 2);
 				if (funcCode != usbRequest.FuncCode)
 					return;
-				//bytes.RemoveRange(0, 1);
+				bytes.RemoveRange(0, 1);
 
 				if (bytes.Count < 5)
 					return;
 
 				var message = WriteTrace("", bytes);
-				Dispatcher.BeginInvoke(new Action(() =>
-				{
-					textBox1.Text += "\n" + message;
-				}));
-				bytes.RemoveRange(0, 1);
-				//return;
+				Trace.WriteLine("\n" + message);
+				//Dispatcher.BeginInvoke(new Action(() =>
+				//{
+				//    textBox1.Text += "\n" + message;
+				//}));
 
-				try
-				{
-					var bits = new BitArray(bytes.GetRange(0, 4).ToArray());
+				var timeBytes = bytes.GetRange(1, 4);
 
-					string timeBits = "";
-					foreach (var b in bits)
-					{
-						var intValue = (bool)b ? 1 : 0;
-						timeBits += intValue.ToString();
-					}
-					Dispatcher.BeginInvoke(new Action(() =>
-					{
-						textBox1.Text += "\n timeBits = " + timeBits;
-					}));
+				var bitsExtracter = new BitsExtracter(timeBytes);
 
-					var day = BitArrayToInt(bits, 0, 4);
-					var month = BitArrayToInt(bits, 5, 8);
-					var year = BitArrayToInt(bits, 9, 14);
-					var hour = BitArrayToInt(bits, 15, 19);
-					var min = BitArrayToInt(bits, 20, 25);
-					var sec = BitArrayToInt(bits, 26, 31);
+				Trace.WriteLine("timeBits = " + bitsExtracter.ToString());
+				//Dispatcher.BeginInvoke(new Action(() =>
+				//{
+				//    textBox1.Text += "\n timeBits = " + bitsExtracter.ToString();
+				//}));
 
-					string eventName = "";
-					switch (bytes[4])
-					{
-						case 0x02:
-							eventName = "Тест  ИП";
-							break;
+				var day = bitsExtracter.Get(0, 4);
+				var month = bitsExtracter.Get(5, 8);
+				var year = bitsExtracter.Get(9, 14);
+				var hour = bitsExtracter.Get(15, 19);
+				var min = bitsExtracter.Get(20, 25);
+				var sec = bitsExtracter.Get(26, 31);
 
-						case 0x09:
-							eventName = "Потеря связи с устройством";
-							break;
+				string eventName = EventsHelper.Get(bytes[0]);
+				//switch (bytes[0])
+				//{
+				//    case 0x02:
+				//        eventName = "Тест  ИП";
+				//        break;
 
-						case 0x23:
-							eventName = "Неисправность устройства";
-							break;
+				//    case 0x09:
+				//        eventName = "Потеря связи с устройством";
+				//        break;
 
-						case 0x25:
-							eventName = "Предварительная запыленность извещателя";
-							break;
+				//    case 0x23:
+				//        eventName = "Неисправность устройства";
+				//        break;
 
-						case 0x27:
-							eventName = "Критическая запыленность извещателя";
-							break;
+				//    case 0x25:
+				//        eventName = "Предварительная запыленность извещателя";
+				//        break;
 
-						case 0x05:
-							eventName = "Запущено ИУ";
-							break;
+				//    case 0x27:
+				//        eventName = "Критическая запыленность извещателя";
+				//        break;
 
-						case 0x04:
-							eventName = "Отмена автозапуска АСПТ(МУКО и/или СПТ) в зоне";
-							break;
+				//    case 0x05:
+				//        eventName = "Запущено ИУ";
+				//        break;
 
-						case 0x34:
-							eventName = "Обойдено устройство";
-							break;
+				//    case 0x04:
+				//        eventName = "Отмена автозапуска АСПТ(МУКО и/или СПТ) в зоне";
+				//        break;
 
-						case 0x07:
-							eventName = "Неисправность системы";
-							break;
+				//    case 0x34:
+				//        eventName = "Обойдено устройство";
+				//        break;
 
-						case 0x36:
-							eventName = "Тест системы";
-							break;
+				//    case 0x07:
+				//        eventName = "Неисправность системы";
+				//        break;
 
-						case 0x0F:
-							eventName = "Проблема со шлейфом";
-							break;
+				//    case 0x36:
+				//        eventName = "Тест системы";
+				//        break;
 
-						case 0x31:
-							eventName = "Зона на охране";
-							break;
+				//    case 0x0F:
+				//        eventName = "Проблема со шлейфом";
+				//        break;
 
-						case 0x0C:
-							eventName = "Вскрытие/корпус закрыт";
-							break;
+				//    case 0x31:
+				//        eventName = "Зона на охране";
+				//        break;
 
-						case 0x01:
-							eventName = "Пожар/пожар от обойденного ИП";
-							break;
+				//    case 0x0C:
+				//        eventName = "Вскрытие/корпус закрыт";
+				//        break;
 
-						case 0x3A:
-							eventName = "Сообщение от технологических меток";
-							break;
+				//    case 0x01:
+				//        eventName = "Пожар/пожар от обойденного ИП";
+				//        break;
 
-						default:
-							eventName = "Неизвестно " + bytes[4].ToString("x2");
-							break;
-					}
+				//    case 0x3A:
+				//        eventName = "Сообщение от технологических меток";
+				//        break;
 
-					Dispatcher.BeginInvoke(new Action(() =>
-					{
-						textBox1.Text += "\n" + day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString() +
-							" " + eventName;
-					}));
-				}
-				catch { }
+				//    case 0x28:
+				//        eventName = "Получена команда управления устройством";
+				//        break;
+
+				//    default:
+				//        eventName = "Неизвестно " + bytes[0].ToString("x2");
+				//        break;
+				//}
+
+				Trace.WriteLine(usbRequest.Id.ToString() + ": " + day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString() +
+						" " + eventName);
+				//Dispatcher.BeginInvoke(new Action(() =>
+				//{
+				//    textBox1.Text += "\n" + day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString() +
+				//        " " + eventName;
+				//}));
 			}
 		}
 
@@ -212,12 +205,13 @@ namespace TestUSB
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			for (int i = 1; i < 2; i++)
+			for (int i = 1; i < 1000; i++)
 			{
 				lock (locker)
 				{
 					GetJournalItem(i);
 				}
+				Thread.Sleep(100);
 			}
 		}
 
@@ -230,7 +224,7 @@ namespace TestUSB
 			bytes.Add(0x01);
 			bytes.Add(0x01);
 			bytes.Add(0x20);
-			bytes.Add(0x01);
+			bytes.Add(0x00);
 			bytes.AddRange(BitConverter.GetBytes(journalNo).Reverse());
 
 			var usbRequest = new UsbRequest()
@@ -242,22 +236,108 @@ namespace TestUSB
 			};
 			UsbRequests.Add(usbRequest);
 
-			usbRunner.Send(bytes);
-			Thread.Sleep(1);
+			for (int i = 0; i < 5; i++)
+			{
+				usbRunner.Send(bytes);
+				Thread.Sleep(10);
+			}
 		}
 
 		string WriteTrace(string name, IEnumerable<byte> bytes)
 		{
 			var result = "";
-			Trace.WriteLine("");
-			Trace.WriteLine(name + ": ");
+			//Trace.WriteLine("");
+			//Trace.WriteLine(name + ": ");
 			foreach (var b in bytes)
 			{
 				var hexByte = b.ToString("x2");
-				Trace.Write(hexByte + " ");
+				//Trace.Write(hexByte + " ");
 				result += hexByte + " ";
 			}
 			return result;
+		}
+
+		private void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			var timeBytes = new List<byte>() { 0x82, 0x97, 0x95, 0x08 };
+
+			var bitsExtracter = new BitsExtracter(timeBytes);
+			textBox1.Text += "\n timeBits = " + bitsExtracter.ToString();
+
+			var day = bitsExtracter.Get(0, 4);
+			var month = bitsExtracter.Get(5, 8);
+			var year = bitsExtracter.Get(9, 14);
+			var hour = bitsExtracter.Get(15, 19);
+			var min = bitsExtracter.Get(20, 25);
+			var sec = bitsExtracter.Get(26, 31);
+
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				textBox1.Text += "\n" + day.ToString() + "/" + month.ToString() + "/" + year.ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString();
+			}));
+		}
+
+		int BitArrayToInt(BitArray bitArray, int startIndex, int endIndex)
+		{
+			int result = 0;
+			for (int i = startIndex; i <= endIndex; i++)
+			{
+				var boolValue = bitArray.Get(bitArray.Count - 1 - i);
+				var intValue = boolValue ? 1 : 0;
+				result += intValue << (i - startIndex);
+			}
+			return result;
+		}
+	}
+
+	public class BitsExtracter
+	{
+		List<bool> bits;
+		public BitsExtracter(List<byte> bytes)
+		{
+			bits = new List<bool>();
+			foreach (var b in bytes)
+			{
+				bits.Add(b.GetBit(7));
+				bits.Add(b.GetBit(6));
+				bits.Add(b.GetBit(5));
+				bits.Add(b.GetBit(4));
+				bits.Add(b.GetBit(3));
+				bits.Add(b.GetBit(2));
+				bits.Add(b.GetBit(1));
+				bits.Add(b.GetBit(0));
+			}
+		}
+
+		public int Get(int startIndex, int endIndex)
+		{
+			int result = 0;
+			for (int i = startIndex; i <= endIndex; i++)
+			{
+				var boolValue = bits[i];
+				var intValue = boolValue ? 1 : 0;
+				result += intValue << (endIndex - i);
+			}
+			return result;
+		}
+
+		public override string ToString()
+		{
+			string timeBits = "";
+			foreach (var b in bits)
+			{
+				var intValue = (bool)b ? 1 : 0;
+				timeBits += intValue.ToString();
+			}
+			return timeBits;
+		}
+	}
+
+	public static class BitHelper
+	{
+		public static bool GetBit(this byte b, int bitNumber)
+		{
+			return (b & (1 << bitNumber)) != 0;
 		}
 	}
 

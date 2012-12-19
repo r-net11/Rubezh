@@ -33,6 +33,7 @@ namespace TestUSB
 
 			reader = UsbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
 			reader.DataReceived += (OnDataRecieved);
+			reader.ReadBufferSize = 64;
 			reader.DataReceivedEnabled = true;
 
 			writer = UsbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
@@ -63,13 +64,14 @@ namespace TestUSB
 		{
 			var output = CreateOutputBytes(data).ToArray();
 			int bytesWrite;
-			var errorCode = writer.Write(output, 2000, out bytesWrite);
-
 			//WriteTrace("Sending", output);
+			var errorCode = writer.Write(output, 2000, out bytesWrite);
 		}
 
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
+			//WriteTrace("OnDataRecieved", e.Buffer);
+
 			var result = new List<byte>();
 			foreach (var b in e.Buffer)
 			{
@@ -79,7 +81,6 @@ namespace TestUSB
 
 					if (b == 0x3E)
 					{
-						//var resultString = WriteTrace("OnDataRecieved", result);
 						if (DataRecieved != null)
 							DataRecieved(result);
 						result = new List<byte>();
@@ -126,10 +127,11 @@ namespace TestUSB
 				bytes.Add(b);
 			}
 			bytes.Add(0x3e);
+			var bytesCount = bytes.Count;
 
-			if (bytes.Count < 64)
+			if (bytesCount < 64)
 			{
-				for (int i = 0; i < 64 - bytes.Count; i++)
+				for (int i = 0; i < 64 - bytesCount; i++)
 				{
 					bytes.Add(0);
 				}
@@ -138,18 +140,23 @@ namespace TestUSB
 			return bytes;
 		}
 
+		object locker = new object();
+
 		string WriteTrace(string name, IEnumerable<byte> bytes)
 		{
-			var result = "";
-			Trace.WriteLine("");
-			Trace.WriteLine(name + ": ");
-			foreach (var b in bytes)
+			lock (locker)
 			{
-				var hexByte = b.ToString("x2");
-				Trace.Write(hexByte + " ");
-				result += hexByte + " ";
+				var result = "";
+				Trace.WriteLine("");
+				Trace.WriteLine(name + ": ");
+				foreach (var b in bytes)
+				{
+					var hexByte = b.ToString("x2");
+					Trace.Write(hexByte + " ");
+					result += hexByte + " ";
+				}
+				return result;
 			}
-			return result;
 		}
 
 		public event Action<List<byte>> DataRecieved;
