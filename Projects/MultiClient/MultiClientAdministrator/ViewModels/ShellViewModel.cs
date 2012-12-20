@@ -40,12 +40,15 @@ namespace MultiClient.ViewModels
 		{
 			try
 			{
+				EncryptHelper.DecryptFile("Configuration.xml", "TempConfiguration.xml");
+
 				var memStream = new MemoryStream();
-				using (var fileStream = new FileStream("Configuration.xml", FileMode.Open))
+				using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Open))
 				{
 					memStream.SetLength(fileStream.Length);
 					fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
 				}
+				File.Delete("TempConfiguration.xml");
 				var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
 				var configuration = (MulticlientConfiguration)dataContractSerializer.ReadObject(memStream);
 				if (configuration == null)
@@ -68,10 +71,12 @@ namespace MultiClient.ViewModels
 					var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
                     dataContractSerializer.WriteObject(memoryStream, configuration);
 
-					using (var fileStream = new FileStream("Configuration.xml", FileMode.Create))
-                    {
-                        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-                    }
+					using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Create))
+					{
+						fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+					}
+					EncryptHelper.EncryptFile("TempConfiguration.xml", "Configuration.xml");
+					File.Delete("TempConfiguration.xml");
                 }
 			}
 			catch (Exception e)

@@ -70,7 +70,8 @@ namespace Infrastructure.Common
         public static bool Load()
         {
             Process[] processes = Process.GetProcessesByName("FSAgentServer");
-            if (processes.Count() == 0)
+			Process[] processesVsHost = Process.GetProcessesByName("FSAgentServer.vshost");
+			if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
             {
                 try
                 {

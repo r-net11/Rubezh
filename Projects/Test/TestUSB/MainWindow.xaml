@@ -10,11 +10,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Test" Click="Button_Click" Margin="2" />
-            <Button Content="Convert time" Click="Button_Click_1" Margin="2" />
+            <Button Content="Request journal items" Click="Button_Click" Margin="2" />
+            <Button Content="Show journal items" Click="Button_Click_1" Margin="2" />
         </StackPanel>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+        <DataGrid  Grid.Row="1" ItemsSource="{Binding JournalItems}" />
+        <!--<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
             <TextBox Name="textBox1" />
-        </ScrollViewer>
+        </ScrollViewer>-->
     </Grid>
 </Window>

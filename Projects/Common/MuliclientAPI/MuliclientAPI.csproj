@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncryptHelper.cs" />
     <Compile Include="IMuliclient.cs" />
     <Compile Include="IMuliclientCallback.cs" />
     <Compile Include="Client\MulticlientClient.cs" />

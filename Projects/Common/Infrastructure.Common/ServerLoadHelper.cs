@@ -68,7 +68,8 @@ namespace Infrastructure.Common
         public static bool Load()
         {
             Process[] processes = Process.GetProcessesByName("FiresecService");
-            if (processes.Count() == 0)
+			Process[] processesVsHost = Process.GetProcessesByName("FiresecService.vshost");
+			if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
             {
                 try
                 {

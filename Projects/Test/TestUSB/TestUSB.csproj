@@ -59,7 +59,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Crc16Helper.cs" />
-    <Compile Include="EventsHelper.cs" />
+    <Compile Include="JournalItem.cs" />
+    <Compile Include="MetadataHelper.cs" />
+    <Compile Include="rubezh2010.cs" />
+    <Compile Include="TimeParceHelper.cs" />
     <Compile Include="UsbRunner.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -92,11 +95,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="xsd.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="rubezh2010.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,17 +15,24 @@ using System.IO.Ports;
 using System.Diagnostics;
 using System.Threading;
 using System.Collections;
+using System.ComponentModel;
 
 namespace TestUSB
 {
-	public partial class MainWindow : Window
+	public partial class MainWindow : Window, INotifyPropertyChanged
 	{
 		UsbRunner usbRunner;
 		List<UsbRequest> UsbRequests = new List<UsbRequest>();
+		public List<JournalItem> JournalItems { get; set; }
 
 		public MainWindow()
 		{
 			InitializeComponent();
+			JournalItems = new List<JournalItem>();
+			//JournalItems.Add(new JournalItem() { EventName = "event 1" });
+			//JournalItems.Add(new JournalItem() { EventName = "event 2" });
+			//JournalItems.Add(new JournalItem() { EventName = "event 3" });
+			DataContext = this;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -41,6 +48,8 @@ namespace TestUSB
 		{
 			lock (locker)
 			{
+				var journalItem = new JournalItem();
+
 				if (bytes.Count < 2)
 					return;
 				if ((bytes.First() != 0x7E) || (bytes.Last() != 0x3E))
@@ -74,10 +83,6 @@ namespace TestUSB
 				if (funcCodeBitArray.Get(7))
 				{
 					Trace.WriteLine("\n Error = " + bytes[1].ToString());
-					//Dispatcher.BeginInvoke(new Action(() =>
-					//{
-					//    textBox1.Text += "\n Error = " + bytes[1].ToString();
-					//}));
 					return;
 				}
 				byte funcCode = bytes[0];
@@ -87,42 +92,25 @@ namespace TestUSB
 					return;
 				bytes.RemoveRange(0, 1);
 
-				if (bytes.Count < 5)
+				if (bytes.Count < 32)
 					return;
 
-				var message = WriteTrace("", bytes);
+				var message = BytesToString(bytes);
 				Trace.WriteLine("\n" + message);
-				//Dispatcher.BeginInvoke(new Action(() =>
-				//{
-				//    textBox1.Text += "\n" + message;
-				//}));
 
 				var timeBytes = bytes.GetRange(1, 4);
+				journalItem.No = usbRequest.Id;
+				journalItem.Date = TimeParceHelper.Parce(timeBytes);
+				journalItem.EventName = MetadataHelper.GetEventByCode(bytes[0]);
+				Trace.WriteLine(journalItem.Date + " " + journalItem.EventName);
+				journalItem.ShleifNo = bytes[6] + 1;
+				journalItem.IntType = bytes[7];
+				journalItem.Address = bytes[8];
+				journalItem.State = bytes[9];
+				journalItem.ZoneNo = bytes[10] * 256 + bytes[11];
+				journalItem.DescriptorNo = bytes[12] * 256 * 256 + bytes[13] * 256 + bytes[14];
 
-				var bitsExtracter = new BitsExtracter(timeBytes);
-
-				Trace.WriteLine("timeBits = " + bitsExtracter.ToString());
-				//Dispatcher.BeginInvoke(new Action(() =>
-				//{
-				//    textBox1.Text += "\n timeBits = " + bitsExtracter.ToString();
-				//}));
-
-				var day = bitsExtracter.Get(0, 4);
-				var month = bitsExtracter.Get(5, 8);
-				var year = bitsExtracter.Get(9, 14);
-				var hour = bitsExtracter.Get(15, 19);
-				var min = bitsExtracter.Get(20, 25);
-				var sec = bitsExtracter.Get(26, 31);
-
-				string eventName = EventsHelper.Get(bytes[0]);
-
-				Trace.WriteLine(usbRequest.Id.ToString() + ": " + day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString() +
-						" " + eventName);
-				//Dispatcher.BeginInvoke(new Action(() =>
-				//{
-				//    textBox1.Text += "\n" + day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString() +
-				//        " " + eventName;
-				//}));
+				JournalItems.Add(journalItem);
 			}
 		}
 
@@ -135,7 +123,8 @@ namespace TestUSB
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			for (int i = 1; i < 1000; i++)
+			MetadataHelper.Initialize();
+			for (int i = 1; i < 100; i++)
 			{
 				lock (locker)
 				{
@@ -173,15 +162,12 @@ namespace TestUSB
 			}
 		}
 
-		string WriteTrace(string name, IEnumerable<byte> bytes)
+		string BytesToString(IEnumerable<byte> bytes)
 		{
 			var result = "";
-			//Trace.WriteLine("");
-			//Trace.WriteLine(name + ": ");
 			foreach (var b in bytes)
 			{
 				var hexByte = b.ToString("x2");
-				//Trace.Write(hexByte + " ");
 				result += hexByte + " ";
 			}
 			return result;
@@ -189,85 +175,15 @@ namespace TestUSB
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			var timeBytes = new List<byte>() { 0x82, 0x97, 0x95, 0x08 };
-
-			var bitsExtracter = new BitsExtracter(timeBytes);
-			textBox1.Text += "\n timeBits = " + bitsExtracter.ToString();
-
-			var day = bitsExtracter.Get(0, 4);
-			var month = bitsExtracter.Get(5, 8);
-			var year = bitsExtracter.Get(9, 14);
-			var hour = bitsExtracter.Get(15, 19);
-			var min = bitsExtracter.Get(20, 25);
-			var sec = bitsExtracter.Get(26, 31);
-
-			Dispatcher.BeginInvoke(new Action(() =>
-			{
-				textBox1.Text += "\n" + day.ToString() + "/" + month.ToString() + "/" + year.ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString();
-			}));
+			JournalItems = new List<JournalItem>(JournalItems);
+			OnPropertyChanged("JournalItems");
 		}
 
-		int BitArrayToInt(BitArray bitArray, int startIndex, int endIndex)
+		public event PropertyChangedEventHandler PropertyChanged;
+		void OnPropertyChanged(string propertytName)
 		{
-			int result = 0;
-			for (int i = startIndex; i <= endIndex; i++)
-			{
-				var boolValue = bitArray.Get(bitArray.Count - 1 - i);
-				var intValue = boolValue ? 1 : 0;
-				result += intValue << (i - startIndex);
-			}
-			return result;
-		}
-	}
-
-	public class BitsExtracter
-	{
-		List<bool> bits;
-		public BitsExtracter(List<byte> bytes)
-		{
-			bits = new List<bool>();
-			foreach (var b in bytes)
-			{
-				bits.Add(b.GetBit(7));
-				bits.Add(b.GetBit(6));
-				bits.Add(b.GetBit(5));
-				bits.Add(b.GetBit(4));
-				bits.Add(b.GetBit(3));
-				bits.Add(b.GetBit(2));
-				bits.Add(b.GetBit(1));
-				bits.Add(b.GetBit(0));
-			}
-		}
-
-		public int Get(int startIndex, int endIndex)
-		{
-			int result = 0;
-			for (int i = startIndex; i <= endIndex; i++)
-			{
-				var boolValue = bits[i];
-				var intValue = boolValue ? 1 : 0;
-				result += intValue << (endIndex - i);
-			}
-			return result;
-		}
-
-		public override string ToString()
-		{
-			string timeBits = "";
-			foreach (var b in bits)
-			{
-				var intValue = (bool)b ? 1 : 0;
-				timeBits += intValue.ToString();
-			}
-			return timeBits;
-		}
-	}
-
-	public static class BitHelper
-	{
-		public static bool GetBit(this byte b, int bitNumber)
-		{
-			return (b & (1 << bitNumber)) != 0;
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertytName));
 		}
 	}
 
