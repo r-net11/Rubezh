@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using MuliclientAPI;
 
 namespace MultiClient.ViewModels
 {
 	public class AppItemViewModel : BaseViewModel
 	{
-		public AppItemViewModel()
-		{
-			Name = "Название сервера";
-			Address = "localhost";
-			Port = 8000;
-			Login = "adm";
-			Password = "";
-		}
+        public AppItemViewModel(MulticlientData multiclientData)
+        {
+            _name = multiclientData.Name;
+            _address = multiclientData.Address;
+            _port = multiclientData.Port;
+            _login = multiclientData.Login;
+            _password = multiclientData.Password;
+        }
 
 		string _name;
 		public string Name
@@ -25,6 +26,7 @@ namespace MultiClient.ViewModels
 			{
 				_name = value;
 				OnPropertyChanged("Name");
+                ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -36,6 +38,7 @@ namespace MultiClient.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
+                ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -47,6 +50,7 @@ namespace MultiClient.ViewModels
 			{
 				_port = value;
 				OnPropertyChanged("Port");
+                ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -58,6 +62,7 @@ namespace MultiClient.ViewModels
 			{
 				_login = value;
 				OnPropertyChanged("Login");
+                ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -69,6 +74,7 @@ namespace MultiClient.ViewModels
 			{
 				_password = value;
 				OnPropertyChanged("Password");
+                ShellViewModel.HasChanges = true;
 			}
 		}
 	}

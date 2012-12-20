@@ -9,6 +9,15 @@ namespace MuliclientAPI
     [DataContract]
     public class MulticlientData
     {
+        public MulticlientData()
+        {
+            Name = "Название сервера";
+            Address = "localhost";
+            Port = 8000;
+            Login = "adm";
+            Password = "";
+        }
+
 		[DataMember]
 		public string Id { get; set; }
 

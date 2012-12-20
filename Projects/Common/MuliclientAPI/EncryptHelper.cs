@@ -9,32 +9,40 @@ namespace MuliclientAPI
 {
 	public static class EncryptHelper
 	{
-		public static void EncryptFile(string inputFile, string outputFile)
+        static string FormatPassword(string password)
+        {
+            if (password == null)
+                password = "";
+            if (password.Length > 8)
+                return password.Substring(0, 8);
+            if (password.Length < 8)
+                password += new string(' ', 8 - password.Length);
+            return password;
+        }
+
+        public static void EncryptFile(string inputFile, string outputFile, string password)
 		{
 			try
-			{
-				string password = @"myKey123";
-				UnicodeEncoding UE = new UnicodeEncoding();
-				byte[] key = UE.GetBytes(password);
+            {
+				var unicodeEncoding = new UnicodeEncoding();
+				byte[] key = unicodeEncoding.GetBytes(FormatPassword(password));
 
 				string cryptFile = outputFile;
 				FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
 
-				RijndaelManaged RMCrypto = new RijndaelManaged();
+				var rijndaelManaged = new RijndaelManaged();
 
-				CryptoStream cs = new CryptoStream(fsCrypt,
-					RMCrypto.CreateEncryptor(key, key),
-					CryptoStreamMode.Write);
+				var cryptoStream = new CryptoStream(fsCrypt, rijndaelManaged.CreateEncryptor(key, key), CryptoStreamMode.Write);
 
 				FileStream fsIn = new FileStream(inputFile, FileMode.Open);
 
 				int data;
 				while ((data = fsIn.ReadByte()) != -1)
-					cs.WriteByte((byte)data);
+					cryptoStream.WriteByte((byte)data);
 
 
 				fsIn.Close();
-				cs.Close();
+				cryptoStream.Close();
 				fsCrypt.Close();
 			}
 			catch
@@ -42,30 +50,26 @@ namespace MuliclientAPI
 			}
 		}
 
-		public static void DecryptFile(string inputFile, string outputFile)
+        public static void DecryptFile(string inputFile, string outputFile, string password)
 		{
 			{
-				string password = @"myKey123";
-
-				UnicodeEncoding UE = new UnicodeEncoding();
-				byte[] key = UE.GetBytes(password);
+				var unicodeEncoding = new UnicodeEncoding();
+                byte[] key = unicodeEncoding.GetBytes(FormatPassword(password));
 
 				FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
 
-				RijndaelManaged RMCrypto = new RijndaelManaged();
+				var rijndaelManaged = new RijndaelManaged();
 
-				CryptoStream cs = new CryptoStream(fsCrypt,
-					RMCrypto.CreateDecryptor(key, key),
-					CryptoStreamMode.Read);
+				var cryptoStream = new CryptoStream(fsCrypt, rijndaelManaged.CreateDecryptor(key, key), CryptoStreamMode.Read);
 
 				FileStream fsOut = new FileStream(outputFile, FileMode.Create);
 
 				int data;
-				while ((data = cs.ReadByte()) != -1)
+				while ((data = cryptoStream.ReadByte()) != -1)
 					fsOut.WriteByte((byte)data);
 
 				fsOut.Close();
-				cs.Close();
+				cryptoStream.Close();
 				fsCrypt.Close();
 			}
 		}

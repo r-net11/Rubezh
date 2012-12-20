@@ -9,6 +9,7 @@ using System.IO;
 using MuliclientAPI;
 using System.Runtime.Serialization;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace MultiClient.ViewModels
 {
@@ -18,72 +19,20 @@ namespace MultiClient.ViewModels
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			SaveCommand = new RelayCommand(OnSave);
+			SaveCommand = new RelayCommand(OnSave, CanSave);
 			AppItems = new ObservableCollection<AppItemViewModel>();
-
-			var configuration = LoadData();
-			foreach (var multiclientData in configuration.MulticlientDatas)
-			{
-				var appItemViewModel = new AppItemViewModel()
-				{
-					Name = multiclientData.Name,
-					Address = multiclientData.Address,
-					Port = multiclientData.Port,
-					Login = multiclientData.Login,
-					Password = multiclientData.Password
-				};
-				AppItems.Add(appItemViewModel);
-			}
 		}
 
-		public MulticlientConfiguration LoadData()
-		{
-			try
-			{
-				EncryptHelper.DecryptFile("Configuration.xml", "TempConfiguration.xml");
-
-				var memStream = new MemoryStream();
-				using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Open))
-				{
-					memStream.SetLength(fileStream.Length);
-					fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
-				}
-				File.Delete("TempConfiguration.xml");
-				var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
-				var configuration = (MulticlientConfiguration)dataContractSerializer.ReadObject(memStream);
-				if (configuration == null)
-					return new MulticlientConfiguration();
-				return configuration;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ShellViewModel.LoadData");
-			}
-			return new MulticlientConfiguration();
-		}
-
-		public void SaveData(MulticlientConfiguration configuration)
-		{
-			try
-			{
-                using (var memoryStream = new MemoryStream())
-                {
-					var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
-                    dataContractSerializer.WriteObject(memoryStream, configuration);
-
-					using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Create))
-					{
-						fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-					}
-					EncryptHelper.EncryptFile("TempConfiguration.xml", "Configuration.xml");
-					File.Delete("TempConfiguration.xml");
-                }
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ShellViewModel.SaveData");
-			}
-		}
+        public void Initialize(string password)
+        {
+            var configuration = MulticlientConfigurationHelper.LoadConfiguration(password);
+            foreach (var multiclientData in configuration.MulticlientDatas)
+            {
+                var appItemViewModel = new AppItemViewModel(multiclientData);
+                AppItems.Add(appItemViewModel);
+            }
+            SelectedAppItem = AppItems.FirstOrDefault();
+        }
 
 		public ObservableCollection<AppItemViewModel> AppItems { get; private set; }
 
@@ -101,9 +50,10 @@ namespace MultiClient.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var appItemViewModel = new AppItemViewModel();
+			var appItemViewModel = new AppItemViewModel(new MulticlientData());
 			AppItems.Add(appItemViewModel);
 			SelectedAppItem = AppItems.LastOrDefault();
+            HasChanges = true;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -111,6 +61,7 @@ namespace MultiClient.ViewModels
 		{
 			AppItems.Remove(SelectedAppItem);
 			SelectedAppItem = AppItems.FirstOrDefault();
+            HasChanges = true;
 		}
 		bool CanRemove()
 		{
@@ -120,6 +71,12 @@ namespace MultiClient.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
+            var passwordViewModel = new PasswordViewModel();
+            DialogService.ShowModalWindow(passwordViewModel);
+            var password = passwordViewModel.Password;
+            if (string.IsNullOrEmpty(password))
+                return;
+
 			var configuration = new MulticlientConfiguration();
 			foreach (var appItem in AppItems)
 			{
@@ -133,7 +90,23 @@ namespace MultiClient.ViewModels
 				};
 				configuration.MulticlientDatas.Add(multiclientData);
 			}
-			SaveData(configuration);
+            MulticlientConfigurationHelper.SaveConfiguration(configuration, password);
+            HasChanges = false;
 		}
+        bool CanSave()
+        {
+            return HasChanges;
+        }
+
+        public static bool HasChanges = false;
+
+        public void SaveOnClose()
+        {
+            if (HasChanges)
+            {
+                if (MessageBoxService.ShowQuestion("Сохранить изменения") == System.Windows.MessageBoxResult.Yes)
+                    OnSave();
+            }
+        }
 	}
 }

@@ -3,8 +3,8 @@
                     xmlns:Views="clr-namespace:MultiClient.Views"
                     xmlns:ViewModels="clr-namespace:MultiClient.ViewModels">
 
-    <!--<DataTemplate DataType="{x:Type ViewModels:ServerViewModel}">
-        <Views:ServerView />
-    </DataTemplate>-->
+    <DataTemplate DataType="{x:Type ViewModels:PasswordViewModel}">
+        <Views:PasswordView />
+    </DataTemplate>
     
 </ResourceDictionary>
