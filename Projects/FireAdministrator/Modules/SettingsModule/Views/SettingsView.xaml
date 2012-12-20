@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SettingsModule.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:SettingsModule.Views" xmlns:Converters="clr-namespace:SettingsModule.Converters" xmlns:System="clr-namespace:System;assembly=mscorlib">
+             xmlns:Views="clr-namespace:SettingsModule.Views" xmlns:Converters="clr-namespace:SettingsModule.Converters" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
     <UserControl.Resources>
         <Converters:ThemeConverter x:Key="ThemeConverter" />
@@ -38,6 +38,14 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+        </TabItem>
+        <TabItem Header="Поддержка формата *.fsc2">
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <StackPanel Margin="10">
+                    <Button Command="{Binding LoadFromFileOldCommand}" Width="300" Content="Считать конфигурацию из файла" ToolTip="Считать конфигурацию из файла" />
+                    <Button Command="{Binding SaveToFileOldCommand}" Width="300" Content="Сохранить конфигурацию в файл" ToolTip="Сохранить конфигурацию в файл" />
+                </StackPanel>
+            </Border>
         </TabItem>
     </TabControl>
 </UserControl>
