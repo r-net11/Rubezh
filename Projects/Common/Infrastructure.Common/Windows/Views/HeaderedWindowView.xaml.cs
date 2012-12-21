@@ -25,7 +25,7 @@ namespace Infrastructure.Common.Windows.Views
 		}
 		private void Header_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed && Window != null)
 				Window.DragMove();
 		}
 	}

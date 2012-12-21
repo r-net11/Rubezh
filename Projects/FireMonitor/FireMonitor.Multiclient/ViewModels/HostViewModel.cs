@@ -35,6 +35,7 @@ namespace FireMonitor.Multiclient.ViewModels
 			{
 				var content = _controller.GetContent();
 				_win = new Window();
+				_win.SetResourceReference(Window.BackgroundProperty, "BaseWindowBackgroundBrush");
 				_win.Closed += (s, e) => { _win.Content = null; _win = null; };
 				_win.Content = content;
 				_win.Show();
