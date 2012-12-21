@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using System.Windows.Controls;
 using Infrastructure.Common.Windows.DataTemplates;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace Infrastructure.Common.Windows
 {
@@ -44,9 +46,7 @@ namespace Infrastructure.Common.Windows
 			return new ContentControl()
 			{
 				Content = model,
-				//ContentTemplateSelector = new HierarhicalDataTemplateSelector(),
-				MinHeight = 100,
-				MinWidth = 100,
+				ContentTemplateSelector = new MulticlientDataTemplateSelector(),
 			};
 		}
 		public static void Run(ShellViewModel model)

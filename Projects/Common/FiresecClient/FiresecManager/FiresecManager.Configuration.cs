@@ -56,9 +56,9 @@ namespace FiresecClient
                 var stream = FiresecManager.FiresecService.GetConfig();
                 FiresecConfiguration = new FiresecConfiguration();
                 var configurationsList = new ConfigurationsList();
-                if (File.Exists("config.fscp"))
-                    File.Delete("config.fscp");
-                CopyStream(stream, File.Create("config.fscp"));
+				//if (File.Exists("config.fscp"))
+				//    File.Delete("config.fscp");
+				//CopyStream(stream, File.Create("config.fscp"));
                 var unzip = ZipFile.Read("config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
                 var xmlstream = new MemoryStream();
                 var entry = unzip["Info.xml"];

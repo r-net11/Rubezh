@@ -46,5 +46,10 @@ namespace FireMonitor
 		private void app_Exit(object sender, ExitEventArgs e)
 		{
 		}
+
+		public override object InitializeLifetimeService()
+		{
+			return null;
+		}
 	}
 }

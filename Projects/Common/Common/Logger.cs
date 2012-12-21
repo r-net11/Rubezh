@@ -28,7 +28,13 @@ namespace Common
 		{
 			System.Diagnostics.Trace.WriteLine(message);
 			lock (_logger)
-				_logger.LogException(LogLevel.Error, string.Format(message, args), ex);
+				try
+				{
+					_logger.LogException(LogLevel.Error, string.Format(message, args), ex);
+				}
+				catch
+				{
+				}
 		}
 		public static void Error(string message)
 		{
@@ -67,7 +73,13 @@ namespace Common
 		private static void WriteLog(LogLevel level, string message, params object[] args)
 		{
 			lock (_logger)
-				_logger.Log(level, message, args);
+				try
+				{
+					_logger.Log(level, message, args);
+				}
+				catch
+				{
+				}
 		}
 	}
 }

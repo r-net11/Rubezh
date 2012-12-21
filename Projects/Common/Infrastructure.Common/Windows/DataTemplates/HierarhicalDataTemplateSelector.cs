@@ -38,16 +38,21 @@ namespace Infrastructure.Common.Windows.DataTemplates
 				if (item is HeaderedWindowViewModel)
 					type = typeof(HeaderedWindowViewModel);
 			}
-
+			template = SelectTamplate(type, container);
+			return template ?? base.SelectTemplate(item, container);
+		}
+		protected DataTemplate SelectTamplate(Type type, DependencyObject container)
+		{
+			DataTemplate template = null;
 			if (type != null)
 			{
 				FrameworkElement element = container as FrameworkElement;
 				var key = new DataTemplateKey(type);
 				template = (DataTemplate)element.FindResource(key);
 			}
-			return template ?? base.SelectTemplate(item, container);
+			return template;
 		}
-		private DependencyObject GetLogicalRoot(DependencyObject container)
+		protected DependencyObject GetLogicalRoot(DependencyObject container)
 		{
 			var root = container;
 			DependencyObject obj = container;

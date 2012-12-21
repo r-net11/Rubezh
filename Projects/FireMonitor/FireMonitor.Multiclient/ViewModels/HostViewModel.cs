@@ -2,43 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
-using System.ComponentModel;
-using System.AddIn.Contract;
+using Controls.Menu.ViewModels;
+using Infrastructure.Common;
+using System.Windows.Input;
 using System.Windows;
-using System.AddIn.Pipeline;
-using System.Windows.Shapes;
-using System.Windows.Media;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
-	[Serializable]
-	public class HostViewModel : ViewPartViewModel
+	public class HostViewModel : MenuButtonViewModel
 	{
-		private AppDomain _domain;
 		public int Index { get; private set; }
-		public MulticlientControllerWrapper Controller { get; private set; }
-		public FrameworkElement Content { get; private set; }
+		private MulticlientControllerWrapper _controller;
+		private Window _win;
 
 		public HostViewModel(int index)
+			: base(null, "/Controls;component/Images/Maximize.png", index.ToString())
 		{
-			App.Current.Exit += (s, e) => Controller.ShutDown();
 			Index = index;
-			_domain = AppDomain.CreateDomain("Instance" + index.ToString());
-			Type type = typeof(MulticlientController);
-			var controller = (MulticlientController)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
-			Controller = new MulticlientControllerWrapper(controller);
-			Controller.ControlChanged += ControlChanged;
-			Controller.Start();
+			Command = new RelayCommand(OnClick, CanClick);
+			_controller = new MulticlientControllerWrapper(index);
+			_controller.ControlChanged += new EventHandler(ControlChanged);
+			_controller.Start();
 		}
-		private void ControlChanged(INativeHandleContract contract)
+
+		private void ControlChanged(object sender, EventArgs e)
 		{
-			ApplicationService.Invoke(() =>
-				{
-					Content = FrameworkElementAdapters.ContractToViewAdapter(contract);
-					OnPropertyChanged(() => Content);
-				});
+			CommandManager.InvalidateRequerySuggested();
+		}
+		private void OnClick()
+		{
+			if (_win == null)
+			{
+				var content = _controller.GetContent();
+				_win = new Window();
+				_win.Closed += (s, e) => { _win.Content = null; _win = null; };
+				_win.Content = content;
+				_win.Show();
+				_win.Activate();
+			}
+			else
+			{
+				if (_win.WindowState == WindowState.Minimized)
+					_win.WindowState = WindowState.Normal;
+				_win.Activate();
+			}
+		}
+		private bool CanClick()
+		{
+			return _controller.Contract != null;
 		}
 	}
 }
