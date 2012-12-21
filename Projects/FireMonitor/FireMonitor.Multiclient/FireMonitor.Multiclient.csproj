@@ -73,6 +73,9 @@
     <Compile Include="ServiceFactory.cs" />
     <Compile Include="ViewModels\HostViewModel.cs" />
     <Compile Include="ViewModels\MulticlientViewModel.cs" />
+    <Compile Include="Views\HostView.xaml.cs">
+      <DependentUpon>HostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MulticlientView.xaml.cs">
       <DependentUpon>MulticlientView.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HostView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MulticlientView.xaml">
       <SubType>Designer</SubType>

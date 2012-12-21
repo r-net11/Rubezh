@@ -1,56 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Windows;
+using System.Windows.Input;
 using Controls.Menu.ViewModels;
 using Infrastructure.Common;
-using System.Windows.Input;
-using System.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
-	public class HostViewModel : MenuButtonViewModel
+	public class HostViewModel : BaseViewModel
 	{
 		public int Index { get; private set; }
 		private MulticlientControllerWrapper _controller;
-		private Window _win;
 
 		public HostViewModel(int index)
-			: base(null, "/Controls;component/Images/Maximize.png", index.ToString())
+			: base()
 		{
 			Index = index;
-			Command = new RelayCommand(OnClick, CanClick);
 			_controller = new MulticlientControllerWrapper(index);
 			_controller.ControlChanged += new EventHandler(ControlChanged);
 			_controller.Start();
 		}
 
+		public bool IsReady
+		{
+			get { return _controller.Contract != null; }
+		}
+
 		private void ControlChanged(object sender, EventArgs e)
 		{
-			CommandManager.InvalidateRequerySuggested();
+			ApplicationService.Invoke(() =>
+				{
+					CommandManager.InvalidateRequerySuggested();
+					HostControl = _controller.GetContent();
+					OnPropertyChanged(() => HostControl);
+				});
 		}
-		private void OnClick()
+
+		public FrameworkElement HostControl { get; private set; }
+		public string Caption
 		{
-			if (_win == null)
-			{
-				var content = _controller.GetContent();
-				_win = new Window();
-				_win.SetResourceReference(Window.BackgroundProperty, "BaseWindowBackgroundBrush");
-				_win.Closed += (s, e) => { _win.Content = null; _win = null; };
-				_win.Content = content;
-				_win.Show();
-				_win.Activate();
-			}
-			else
-			{
-				if (_win.WindowState == WindowState.Minimized)
-					_win.WindowState = WindowState.Normal;
-				_win.Activate();
-			}
+			get { return _controller.AppDomain.FriendlyName; }
 		}
-		private bool CanClick()
-		{
-			return _controller.Contract != null;
-		}
+
+		//private Window _win;
+		//private void OnClick()
+		//{
+		//    if (_win == null)
+		//    {
+		//        var content = _controller.GetContent();
+		//        _win = new Window();
+		//        _win.SetResourceReference(Window.BackgroundProperty, "BaseWindowBackgroundBrush");
+		//        _win.Closed += (s, e) => { _win.Content = null; _win = null; };
+		//        _win.Content = content;
+		//        _win.Show();
+		//        _win.Activate();
+		//    }
+		//    else
+		//    {
+		//        if (_win.WindowState == WindowState.Minimized)
+		//            _win.WindowState = WindowState.Normal;
+		//        _win.Activate();
+		//    }
+		//}
+		//private bool CanClick()
+		//{
+		//    return _controller.Contract != null;
+		//}
 	}
 }

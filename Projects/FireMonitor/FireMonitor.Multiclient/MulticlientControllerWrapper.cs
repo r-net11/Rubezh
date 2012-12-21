@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.AddIn.Contract;
-using System.Windows;
 using System.AddIn.Pipeline;
+using System.Windows;
+using Infrastructure.Common.Windows;
 
 namespace FireMonitor.Multiclient
 {
@@ -12,9 +10,9 @@ namespace FireMonitor.Multiclient
 	{
 		public event EventHandler ControlChanged;
 
-		private AppDomain _domain;
 		private FrameworkElement _frameworkElement;
 		public int Index { get; private set; }
+		public AppDomain AppDomain { get; private set; }
 		public MulticlientController Controller { get; private set; }
 		public INativeHandleContract Contract { get; private set; }
 
@@ -22,9 +20,9 @@ namespace FireMonitor.Multiclient
 		{
 			App.Current.Exit += (s, e) => Controller.ShutDown();
 			Index = index;
-			_domain = AppDomain.CreateDomain("Instance" + index.ToString());
+			AppDomain = AppDomain.CreateDomain("Instance" + index.ToString());
 			Type type = typeof(MulticlientController);
-			Controller = (MulticlientController)_domain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
+			Controller = (MulticlientController)AppDomain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
 		}
 		public void Start()
 		{

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace FireMonitor.Multiclient.Views
 {
 	/// <summary>
-	/// Interaction logic for MulticlientView.xaml
+	/// Interaction logic for HostView.xaml
 	/// </summary>
-	public partial class MulticlientView : UserControl
+	public partial class HostView : UserControl
 	{
-		public MulticlientView()
+		public HostView()
 		{
 			InitializeComponent();
 		}

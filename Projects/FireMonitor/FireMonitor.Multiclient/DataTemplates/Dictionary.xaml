@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:FireMonitor.Multiclient.Views" xmlns:ViewModels="clr-namespace:FireMonitor.Multiclient.ViewModels">
 
-	<!--<DataTemplate DataType="{x:Type ViewModels:HostViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:HostViewModel}">
 		<Views:HostView />
-	</DataTemplate>-->
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:MulticlientViewModel}">
 		<Views:MulticlientView />

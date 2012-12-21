@@ -13,13 +13,13 @@ namespace FireMonitor.Multiclient
 {
 	public partial class App : Application
 	{
-		private const int InstanceCount = 5;
+		private const int InstanceCount = 10;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
 			ServiceFactory.Initialize();
-			ApplicationService.Run(new ViewModels.MulticlientViewModel(InstanceCount));
+			ApplicationService.Run(new ViewModels.MulticlientViewModel(InstanceCount), true);
 		}
 
 		protected override void OnExit(ExitEventArgs e)

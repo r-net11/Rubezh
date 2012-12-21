@@ -24,9 +24,15 @@ namespace Infrastructure.Common.Windows
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 
-		public static void Run(ApplicationViewModel model)
+		public static void Run(ApplicationViewModel model, bool simpleMode = false)
 		{
 			var windowBaseView = new WindowBaseView(model);
+			if (simpleMode)
+			{
+				windowBaseView.ClearValue(Window.AllowsTransparencyProperty);
+				windowBaseView.ClearValue(Window.WindowStyleProperty);
+				windowBaseView.ClearValue(Window.BackgroundProperty);
+			}
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
@@ -41,13 +47,24 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.Show();
 			ApplicationWindow = windowBaseView;
 		}
-		public static FrameworkElement BuildControl(ApplicationViewModel model)
+		public static FrameworkElement BuildControl(ShellViewModel model)
 		{
-			return new ContentControl()
+			model.Width = double.NaN;
+			model.Height = double.NaN;
+			var frameworkElement = new ScrollViewer()
 			{
-				Content = model,
-				ContentTemplateSelector = new MulticlientDataTemplateSelector(),
+				Content = new ContentControl()
+				{
+					Content = model,
+					ContentTemplateSelector = new MulticlientDataTemplateSelector(),
+					MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 100,
+					MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth - 100,
+				},
+				HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+				VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
 			};
+			frameworkElement.SetResourceReference(ScrollViewer.BackgroundProperty, "BaseWindowBackgroundBrush");
+			return frameworkElement;
 		}
 		public static void Run(ShellViewModel model)
 		{
