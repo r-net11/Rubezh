@@ -13,23 +13,23 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public string Product
 		{
-			get { return ((AssemblyProductAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyProductAttribute), false)).Product; }
+			get { return ((AssemblyProductAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(), typeof(AssemblyProductAttribute), false)).Product; }
 		}
 		public string Copyright
 		{
-			get { return ((AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyCopyrightAttribute), false)).Copyright; }
+			get { return ((AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute), false)).Copyright; }
 		}
 		public string Trademark
 		{
-			get { return ((AssemblyTrademarkAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyTrademarkAttribute), false)).Trademark; }
+			get { return ((AssemblyTrademarkAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(), typeof(AssemblyTrademarkAttribute), false)).Trademark; }
 		}
 		public string Company
 		{
-			get { return ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyCompanyAttribute), false)).Company; }
+			get { return ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(), typeof(AssemblyCompanyAttribute), false)).Company; }
 		}
 		public string Version
 		{
-			get { return Assembly.GetEntryAssembly().GetName().Version.ToString(); }
+			get { return (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).GetName().Version.ToString(); }
 		}
 	}
 }

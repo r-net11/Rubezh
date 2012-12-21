@@ -27,7 +27,8 @@ namespace Common
 		public static void Error(Exception ex, string message, params object[] args)
 		{
 			System.Diagnostics.Trace.WriteLine(message);
-			_logger.LogException(LogLevel.Error, string.Format(message, args), ex);
+			lock (_logger)
+				_logger.LogException(LogLevel.Error, string.Format(message, args), ex);
 		}
 		public static void Error(string message)
 		{
@@ -65,7 +66,8 @@ namespace Common
 
 		private static void WriteLog(LogLevel level, string message, params object[] args)
 		{
-			_logger.Log(level, message, args);
+			lock (_logger)
+				_logger.Log(level, message, args);
 		}
 	}
 }

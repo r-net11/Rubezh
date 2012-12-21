@@ -36,7 +36,7 @@ namespace FireMonitor
 			{
 				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", false);
 				object shell = shellRegistryKey.GetValue("Shell");
-				return shell != null && shell.ToString() == Assembly.GetEntryAssembly().Location;
+				return shell != null && shell.ToString() == (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).Location;
 			}
 		}
 		public static void ShutDown()

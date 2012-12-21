@@ -77,9 +77,11 @@
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.AddIn.Contract" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -108,6 +110,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
+    <Compile Include="MulticlientController.cs" />
     <Compile Include="Multiclient\MuliclientCallback.cs" />
     <Compile Include="Multiclient\MulticlientHelper.cs" />
     <Compile Include="Multiclient\MulticlientViewModel.cs" />

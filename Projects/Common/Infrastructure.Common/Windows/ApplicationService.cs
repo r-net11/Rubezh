@@ -8,6 +8,8 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using System.Windows.Controls;
+using Infrastructure.Common.Windows.DataTemplates;
 
 namespace Infrastructure.Common.Windows
 {
@@ -16,6 +18,7 @@ namespace Infrastructure.Common.Windows
 		public static event CancelEventHandler Closing;
 		public static Window ApplicationWindow { get; private set; }
 		public static User User { get; set; }
+		public static Action<FrameworkElement> ApplicationController { get; set; }
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 
@@ -36,16 +39,36 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.Show();
 			ApplicationWindow = windowBaseView;
 		}
+		public static FrameworkElement BuildControl(ApplicationViewModel model)
+		{
+			return new ContentControl()
+			{
+				Content = model,
+				//ContentTemplateSelector = new HierarhicalDataTemplateSelector(),
+				MinHeight = 100,
+				MinWidth = 100,
+			};
+		}
 		public static void Run(ShellViewModel model)
 		{
 			Layout = new LayoutService(model);
-			Run((ApplicationViewModel)model);
+			if (ApplicationController == null)
+				Run((ApplicationViewModel)model);
+			else
+			{
+				var frameworkElement = BuildControl(model);
+				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				ApplicationController(frameworkElement);
+			}
 		}
 		public static void ShutDown()
 		{
-			if (Application.Current.MainWindow != null)
-				Application.Current.MainWindow.Close();
-			Application.Current.Shutdown();
+			Invoke(() =>
+				{
+					if (Application.Current.MainWindow != null)
+						Application.Current.MainWindow.Close();
+					Application.Current.Shutdown();
+				});
 		}
 		public static void DoEvents()
 		{
@@ -93,11 +116,11 @@ namespace Infrastructure.Common.Windows
 				Closing(sender, e);
 		}
 
-        public static void Restart()
-        {
-            if (Restarting != null)
-                Restarting();
-        }
-        public static event Action Restarting;
+		public static void Restart()
+		{
+			if (Restarting != null)
+				Restarting();
+		}
+		public static event Action Restarting;
 	}
 }

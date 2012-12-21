@@ -16,37 +16,37 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinWidth = 800;
 			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
-            MinimizeCommand = new RelayCommand(OnMinimize);
+			MinimizeCommand = new RelayCommand(OnMinimize);
 		}
 
-        public RelayCommand MinimizeCommand { get; private set; }
-        void OnMinimize()
-        {
-            TextVisibility = TextVisibility ? false : true;
-            MinimizeButtonContent = TextVisibility ? "<<" : ">>";
-        }
+		public RelayCommand MinimizeCommand { get; private set; }
+		void OnMinimize()
+		{
+			TextVisibility = TextVisibility ? false : true;
+			MinimizeButtonContent = TextVisibility ? "<<" : ">>";
+		}
 
-	    private string minimizeButtonContent = "<<";
-	    public string MinimizeButtonContent
-	    {
-	        get { return minimizeButtonContent; }
-            set
-            {
-                minimizeButtonContent = value;
-                OnPropertyChanged("MinimizeButtonContent");
-            }
-	    }
+		private string minimizeButtonContent = "<<";
+		public string MinimizeButtonContent
+		{
+			get { return minimizeButtonContent; }
+			set
+			{
+				minimizeButtonContent = value;
+				OnPropertyChanged("MinimizeButtonContent");
+			}
+		}
 
-        private bool textVisibility = true;
-        public bool TextVisibility
-        {
-            get { return textVisibility; }
-            set
-            {
-                textVisibility = value;
-                OnPropertyChanged("TextVisibility");
-            }
-        }
+		private bool textVisibility = true;
+		public bool TextVisibility
+		{
+			get { return textVisibility; }
+			set
+			{
+				textVisibility = value;
+				OnPropertyChanged("TextVisibility");
+			}
+		}
 
 		private BaseViewModel _contentHeader;
 		public BaseViewModel ContentHeader
@@ -75,15 +75,15 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_navigationItems = value;
-                foreach (var navigationItem in _navigationItems)
-                {
-                    navigationItem.Context = this;
-                    if (navigationItem.Childs != null)
-                    foreach (var navigationItemChild in navigationItem.Childs)
-                    {
-                        navigationItemChild.Context = this;
-                    }
-                }
+				foreach (var navigationItem in _navigationItems)
+				{
+					navigationItem.Context = this;
+					if (navigationItem.Childs != null)
+						foreach (var navigationItemChild in navigationItem.Childs)
+						{
+							navigationItemChild.Context = this;
+						}
+				}
 				OnPropertyChanged("NavigationItems1");
 			}
 		}

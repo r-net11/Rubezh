@@ -71,7 +71,6 @@ namespace Infrastructure.Common
 
 	public class DoubleLaunchLocker : IDisposable
 	{
-		public static bool IsEnable { get; set; }
 		private const int TIMEOUT = 3000;
 		public string SignalId { get; private set; }
 		public string WaitId { get; private set; }
@@ -80,9 +79,9 @@ namespace Infrastructure.Common
 		private EventWaitHandle _waitHandler;
 		private bool _force = false;
 
-		public DoubleLaunchLocker(string signalId, string waitId, bool force = false)
+		public DoubleLaunchLocker(string signalId, string waitId, bool force = false, bool isEnable = true)
 		{
-			if (IsEnable)
+			if (isEnable)
 			{
 				_force = force;
 				SignalId = signalId;

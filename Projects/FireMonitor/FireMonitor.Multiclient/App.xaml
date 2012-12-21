@@ -3,6 +3,8 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/Infrastructure.Common;component/Windows/DataTemplates/Dictionary.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/FireMonitor.Multiclient;component/DataTemplates/Dictionary.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

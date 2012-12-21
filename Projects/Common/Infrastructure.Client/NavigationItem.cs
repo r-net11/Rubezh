@@ -22,12 +22,13 @@ namespace Infrastructure.Client
 		public W Arg { get; private set; }
 		public ViewPartViewModel ViewPartViewModel { get; set; }
 
-		public NavigationItem(ViewPartViewModel viewPartViewModel, string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null, W arg = default(W))
+		public NavigationItem(ViewPartViewModel viewPartViewModel, string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null, W arg = default(W), bool subscribe = true)
 			: base(title, icon, childs, permission)
 		{
 			ViewPartViewModel = viewPartViewModel;
 			Arg = arg;
-			Subscribe();
+			if (subscribe)
+				Subscribe();
 			IsSelectionAllowed = true;
 		}
 		public override void Execute()
@@ -41,17 +42,18 @@ namespace Infrastructure.Client
 
 		private void Subscribe()
 		{
-			ServiceFactoryBase.Events.GetEvent<T>().Subscribe(arg => 
-			{ 
-				IsSelected = true;
-				if (ViewPartViewModel != null)
-				{
-					var selectable = ViewPartViewModel as ISelectable<W>;
-					if (selectable != null)
-						selectable.Select(arg);
-					ApplicationService.Layout.Show(ViewPartViewModel);
-				}
-			});
+			ServiceFactoryBase.Events.GetEvent<T>().Subscribe(ShowViewPart);
+		}
+		public void ShowViewPart(W arg)
+		{
+			IsSelected = true;
+			if (ViewPartViewModel != null)
+			{
+				var selectable = ViewPartViewModel as ISelectable<W>;
+				if (selectable != null)
+					selectable.Select(arg);
+				ApplicationService.Layout.Show(ViewPartViewModel);
+			}
 		}
 	}
 }

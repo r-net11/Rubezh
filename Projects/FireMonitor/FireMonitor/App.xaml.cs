@@ -56,10 +56,9 @@ namespace FireMonitor
 			bool trace = false;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-			DoubleLaunchLocker.IsEnable = !MulticlientHelper.IsMulticlient && !IsMulticlient;
 			_bootstrapper = new Bootstrapper(IsMulticlient);
-				using (new DoubleLaunchLocker(SignalId, WaitId, true))
-					_bootstrapper.Initialize();
+			using (new DoubleLaunchLocker(SignalId, WaitId, true, !MulticlientHelper.IsMulticlient && !IsMulticlient))
+				_bootstrapper.Initialize();
 			bootstrapperLoaded = true;
 		}
 
