@@ -13,6 +13,7 @@
         <File Id="ManagementConsole.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.NLog.dll" Name="NLog.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.ManagementConsole.TargetDir)" />
       </Component>
     </DirectoryRef>
 	</Fragment>

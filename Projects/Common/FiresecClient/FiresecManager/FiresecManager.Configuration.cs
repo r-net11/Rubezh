@@ -56,10 +56,14 @@ namespace FiresecClient
                 var stream = FiresecManager.FiresecService.GetConfig();
                 FiresecConfiguration = new FiresecConfiguration();
                 var configurationsList = new ConfigurationsList();
-				//if (File.Exists("config.fscp"))
-				//    File.Delete("config.fscp");
-				//CopyStream(stream, File.Create("config.fscp"));
+
+                //var tempDirrectoryName = "Temp/" + Guid.NewGuid().ToString();
+                //Directory.CreateDirectory(tempDirrectoryName);
+                //if (File.Exists(tempDirrectoryName + "/config.fscp"))
+                //    File.Delete(tempDirrectoryName + "/config.fscp");
+                //CopyStream(stream, File.Create(tempDirrectoryName + "/config.fscp"));
                 var unzip = ZipFile.Read("config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
                 var xmlstream = new MemoryStream();
                 var entry = unzip["Info.xml"];
                 if (entry != null)
@@ -154,6 +158,8 @@ namespace FiresecClient
 
                 UpdateConfiguration();
                 FiresecConfiguration.CreateStates();
+
+                //Directory.Delete(tempDirrectoryName, true);
             }
             catch (Exception e)
             {
