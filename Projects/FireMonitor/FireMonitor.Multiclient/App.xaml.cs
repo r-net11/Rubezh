@@ -13,7 +13,7 @@ namespace FireMonitor.Multiclient
 {
 	public partial class App : Application
 	{
-		private const int InstanceCount = 10;
+		private const int InstanceCount = 7;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
