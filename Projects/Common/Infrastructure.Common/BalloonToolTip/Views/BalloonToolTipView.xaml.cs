@@ -1,28 +1,29 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
-using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using System;
 using System.Windows.Media.Animation;
+using Infrastructure.Common.BalloonTrayTip.ViewModels;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {
-    public partial class BalloonToolTipView : UserControl
+    public partial class BalloonToolTipView : Window
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer;
 
         public BalloonToolTipView()
         {
             InitializeComponent();
-            this.Visibility = Visibility.Hidden;
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = TimeSpan.FromSeconds(40);
             dispatcherTimer.Start();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -39,7 +40,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void Title_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
         {
-            if (this.Visibility == Visibility.Hidden)
+            if (this.Visibility == Visibility.Collapsed)
             {
                 ShowBalloon();
             }
@@ -69,7 +70,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void Closing_Completed(object sender, EventArgs e)
         {
-            this.Visibility = Visibility.Hidden;
+            this.Visibility = Visibility.Collapsed;
         }
     }
 }
