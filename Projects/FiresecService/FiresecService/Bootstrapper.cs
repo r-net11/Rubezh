@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using Common;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.BalloonTrayTip.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
-using System.Reflection;
-using System.Diagnostics;
+using Infrastructure.Common.Windows;
 
 namespace FiresecService
 {
@@ -24,14 +23,13 @@ namespace FiresecService
             try
             {
                 InfoXmlHelper.CreateInfoFile();
-				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=4000";
-				Logger.Trace(SystemInfo.GetString());
-				AppSettingsHelper.InitializeAppSettings();
-				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=4000";
+                Logger.Trace(SystemInfo.GetString());
+                AppSettingsHelper.InitializeAppSettings();
+                Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-                BalloonHelper.Initialize();
                 WindowThread = new Thread(new ThreadStart(OnWorkThread));
                 WindowThread.Priority = ThreadPriority.Highest;
                 WindowThread.SetApartmentState(ApartmentState.STA);
@@ -53,7 +51,7 @@ namespace FiresecService
             }
         }
 
-        static void OnWorkThread()
+        private static void OnWorkThread()
         {
             try
             {
@@ -82,7 +80,7 @@ namespace FiresecService
 #if DEBUG
 			return;
 #endif
-			Process.GetCurrentProcess().Kill();
+            Process.GetCurrentProcess().Kill();
         }
     }
 }
