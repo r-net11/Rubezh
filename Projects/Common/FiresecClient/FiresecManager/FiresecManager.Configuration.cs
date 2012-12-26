@@ -57,12 +57,13 @@ namespace FiresecClient
                 FiresecConfiguration = new FiresecConfiguration();
                 var configurationsList = new ConfigurationsList();
 
-                //var tempDirrectoryName = "Temp/" + Guid.NewGuid().ToString();
-                //Directory.CreateDirectory(tempDirrectoryName);
-                //if (File.Exists(tempDirrectoryName + "/config.fscp"))
-                //    File.Delete(tempDirrectoryName + "/config.fscp");
-                //CopyStream(stream, File.Create(tempDirrectoryName + "/config.fscp"));
-                var unzip = ZipFile.Read("config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+                var tempDirrectoryName = "Temp/" + Guid.NewGuid().ToString();
+                Directory.CreateDirectory(tempDirrectoryName);
+                if (File.Exists(tempDirrectoryName + "/config.fscp"))
+                    File.Delete(tempDirrectoryName + "/config.fscp");
+                var configFileStream = File.Create(tempDirrectoryName + "/config.fscp");
+                CopyStream(stream, configFileStream);
+                var unzip = ZipFile.Read(tempDirrectoryName + "/config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
                 var xmlstream = new MemoryStream();
                 var entry = unzip["Info.xml"];
@@ -159,7 +160,8 @@ namespace FiresecClient
                 UpdateConfiguration();
                 FiresecConfiguration.CreateStates();
 
-                //Directory.Delete(tempDirrectoryName, true);
+                unzip.Dispose();
+                Directory.Delete(tempDirrectoryName, true);
             }
             catch (Exception e)
             {

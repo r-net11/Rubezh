@@ -14,7 +14,7 @@
             <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
-            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" Name="_devicesDataGrid">
+            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
                 <Controls:TreeListView.Columns>
                     <GridViewColumn Width="250" Header="Устройство">
                         <GridViewColumn.CellTemplate>
