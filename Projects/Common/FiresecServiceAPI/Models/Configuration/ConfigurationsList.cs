@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ConfigurationsList:VersionedConfiguration
+    public class ConfigurationsList : VersionedConfiguration
     {
         public ConfigurationsList()
         {
@@ -13,5 +13,4 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<Configuration> Configurations { get; set; }
     }
-
 }

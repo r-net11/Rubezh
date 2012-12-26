@@ -77,6 +77,27 @@ namespace FiresecClient
                 if (configurationsList == null)
                     return;
 
+                foreach (var configuration in configurationsList.Configurations)
+                {
+                    var configurationEntry = unzip[configuration.Name + ".xml"];
+                    if (configurationEntry != null)
+                    {
+                        var configurationMemoryStream = new MemoryStream();
+                        configurationEntry.Extract(configurationMemoryStream);
+                        configurationMemoryStream.Position = 0;
+                        switch (configuration.Name)
+                        {
+                            case "SystemConfiguration":
+                                SystemConfiguration = SerializeHelper.DeSerialize<SystemConfiguration>(configurationMemoryStream);
+                                break;
+
+                            case "DeviceLibraryConfiguration":
+                                DeviceLibraryConfiguration = SerializeHelper.DeSerialize<DeviceLibraryConfiguration>(configurationMemoryStream);
+                                break;
+                        }
+                    }
+                }
+
                 if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "SystemConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
                 {
                     SystemConfiguration = FiresecService.GetSystemConfiguration();
