@@ -28,13 +28,15 @@ namespace FiresecOPCServer
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error("App.OnStartup");
+                        //MessageBox.Show(ex.Message.ToString() + "\n" + ex.StackTrace);
+                        Logger.Error("App.OnStartup 1");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "App.OnStartup");
+                //MessageBox.Show(ex.Message.ToString() + "\n" + ex.StackTrace);
+                Logger.Error(ex, "App.OnStartup 2");
             }
         }
 

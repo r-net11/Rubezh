@@ -19,7 +19,6 @@ namespace FireMonitor
 		const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
 		const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
 		Bootstrapper _bootstrapper;
-		bool bootstrapperLoaded = false;
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
@@ -30,75 +29,77 @@ namespace FireMonitor
 			IsMulticlient = false;
 		}
 
-		protected override void OnStartup(StartupEventArgs e)
-		{
-			base.OnStartup(e);
-			try
-			{
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            try
+            {
 #if DEBUG
-				AppSettingsManager.AutoConnect = true;
+                AppSettingsManager.AutoConnect = true;
 #endif
-				InitializeCommandLineArguments(e.Args);
-				if (!MulticlientHelper.IsMulticlient)
-					StartRevisor();
-				if (MulticlientHelper.IsMulticlient)
-					MulticlientHelper.Start();
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(ex, "App.OnStartup");
-			}
+                InitializeCommandLineArguments(e.Args);
+                if (MulticlientHelper.IsMulticlient)
+                    MulticlientHelper.Start();
 
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-			ThemeHelper.LoadThemeFromRegister();
+                ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+                ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
-			bool trace = false;
-			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
+                bool trace = false;
+                BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-			_bootstrapper = new Bootstrapper(IsMulticlient);
-			using (new DoubleLaunchLocker(SignalId, WaitId, true, !MulticlientHelper.IsMulticlient && !IsMulticlient))
-				_bootstrapper.Initialize();
-			bootstrapperLoaded = true;
-		}
+                _bootstrapper = new Bootstrapper(IsMulticlient);
+                using (new DoubleLaunchLocker(SignalId, WaitId, true, !MulticlientHelper.IsMulticlient && !IsMulticlient))
+                    _bootstrapper.Initialize();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "App.OnStartup");
+                MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
+            }
+
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
+            if (!MulticlientHelper.IsMulticlient)
+                StartRevisor();
+        }
 
 		void StartRevisor()
 		{
-			var path = System.Reflection.Assembly.GetExecutingAssembly();
-			var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-			if (saveKey != null)
-			{
-				saveKey.SetValue("FireMonitorPath", path.Location);
-				saveKey.SetValue("IsException", false);
-				var isAutoConnect = saveKey.GetValue("isAutoConnect");
-				if (isAutoConnect != null)
-					if (isAutoConnect.Equals("True"))
-					{
-						AppSettingsManager.AutoConnect = true;
-						saveKey.SetValue("isAutoConnect", false);
-					}
-			}
-			RevisorLoadHelper.Load();
+            try
+            {
+                var path = System.Reflection.Assembly.GetExecutingAssembly();
+                var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+                if (saveKey != null)
+                {
+                    saveKey.SetValue("FireMonitorPath", path.Location);
+                    saveKey.SetValue("IsException", false);
+                    var isAutoConnect = saveKey.GetValue("isAutoConnect");
+                    if (isAutoConnect != null)
+                        if (isAutoConnect.Equals("True"))
+                        {
+                            AppSettingsManager.AutoConnect = true;
+                            saveKey.SetValue("isAutoConnect", false);
+                        }
+                }
+                RevisorLoadHelper.Load();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "App.StartRevisor");
+            }
 		}
 
-		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			IsClosingOnException = true;
-			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            IsClosingOnException = true;
+            Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 
-			if (bootstrapperLoaded)
-			{
 #if RELEASE
                 Restart();
 #endif
-				Application.Current.MainWindow.Close();
-				Application.Current.Shutdown();
-			}
-			else
-			{
-				MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
-			}
-		}
+            Application.Current.MainWindow.Close();
+            Application.Current.Shutdown();
+        }
 
 		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{

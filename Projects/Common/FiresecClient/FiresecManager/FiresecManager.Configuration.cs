@@ -56,10 +56,15 @@ namespace FiresecClient
                 var stream = FiresecManager.FiresecService.GetConfig();
                 FiresecConfiguration = new FiresecConfiguration();
                 var configurationsList = new ConfigurationsList();
-				if (File.Exists("config.fscp"))
-					File.Delete("config.fscp");
-				CopyStream(stream, File.Create("config.fscp"));
-                var unzip = ZipFile.Read("config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+                var tempDirrectoryName = "Temp/" + Guid.NewGuid().ToString();
+                Directory.CreateDirectory(tempDirrectoryName);
+                if (File.Exists(tempDirrectoryName + "/config.fscp"))
+                    File.Delete(tempDirrectoryName + "/config.fscp");
+                var configFileStream = File.Create(tempDirrectoryName + "/config.fscp");
+                CopyStream(stream, configFileStream);
+                var unzip = ZipFile.Read(tempDirrectoryName + "/config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
                 var xmlstream = new MemoryStream();
                 var entry = unzip["Info.xml"];
                 if (entry != null)
@@ -71,6 +76,27 @@ namespace FiresecClient
 
                 if (configurationsList == null)
                     return;
+
+                foreach (var configuration in configurationsList.Configurations)
+                {
+                    var configurationEntry = unzip[configuration.Name + ".xml"];
+                    if (configurationEntry != null)
+                    {
+                        var configurationMemoryStream = new MemoryStream();
+                        configurationEntry.Extract(configurationMemoryStream);
+                        configurationMemoryStream.Position = 0;
+                        switch (configuration.Name)
+                        {
+                            case "SystemConfiguration":
+                                SystemConfiguration = SerializeHelper.DeSerialize<SystemConfiguration>(configurationMemoryStream);
+                                break;
+
+                            case "DeviceLibraryConfiguration":
+                                DeviceLibraryConfiguration = SerializeHelper.DeSerialize<DeviceLibraryConfiguration>(configurationMemoryStream);
+                                break;
+                        }
+                    }
+                }
 
                 if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "SystemConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
                 {
@@ -154,6 +180,9 @@ namespace FiresecClient
 
                 UpdateConfiguration();
                 FiresecConfiguration.CreateStates();
+
+                unzip.Dispose();
+                Directory.Delete(tempDirrectoryName, true);
             }
             catch (Exception e)
             {

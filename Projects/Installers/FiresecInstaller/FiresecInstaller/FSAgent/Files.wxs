@@ -17,7 +17,6 @@
         <File Id="FSAgent.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.FSAgent.TargetDir)" />
-        <File Id="FSAgent.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Common.dll" Name="Common.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Controls.dll" Name="Controls.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.FSAgent.TargetDir)" />

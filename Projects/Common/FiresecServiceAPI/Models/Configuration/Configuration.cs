@@ -6,7 +6,7 @@ namespace FiresecAPI.Models
     public class Configuration
     {
         [DataMember]
-        public string Name{ get; set; }
+        public string Name { get; set; }
         [DataMember]
         public int MajorVersion { get; set; }
         [DataMember]

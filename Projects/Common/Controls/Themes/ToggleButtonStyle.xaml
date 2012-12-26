@@ -5,7 +5,7 @@
 
     <Converters:NullToImageConverter x:Key="NullToImageConverter" />
 
-    <Style TargetType="{x:Type local:ToggleButton}">
+    <Style x:Key="ToggleButtonImageStyle" TargetType="{x:Type local:ToggleButton}">
         <Setter Property="Height" Value="28" />
         <Setter Property="Width" Value="28" />
         <Setter Property="Template">
@@ -39,7 +39,7 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type ToggleButton}">
+    <!--<Style TargetType="{x:Type ToggleButton}">
         <Setter Property="Height" Value="28" />
         <Setter Property="Width" Value="28" />
         <Setter Property="Template">
@@ -68,6 +68,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
 </ResourceDictionary>

@@ -20,7 +20,6 @@
         <File Id="Administrator.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Hardcodet.Wpf.TaskbarNotification.dll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Administrator.TargetDir)" />
