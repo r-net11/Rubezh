@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
 using Common;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
@@ -165,6 +166,7 @@ namespace PlansModule.ViewModels
 					case Key.A:
 						var designerCanvas = PlansViewModel.DesignerCanvas;
 						if (designerCanvas != null)
+							using (new WaitWrapper())
 							using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
 								designerCanvas.SelectAll();
 						break;

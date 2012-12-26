@@ -19,11 +19,11 @@ namespace DevicesModule.Plans.ViewModels
 		public DevicesViewModel(Devices.DevicesViewModel devicesViewModel)
 		{
 			_devicesViewModel = devicesViewModel;
-			_devicesViewModel.PropertyChanged += (s, e) =>
-				{
-					if (e.PropertyName == "SelectedDevice")
-						OnPropertyChanged(e.PropertyName);
-				};
+			//_devicesViewModel.PropertyChanged += (s, e) =>
+			//    {
+			//        if (e.PropertyName == "SelectedDevice")
+			//            OnPropertyChanged(e.PropertyName);
+			//    };
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);

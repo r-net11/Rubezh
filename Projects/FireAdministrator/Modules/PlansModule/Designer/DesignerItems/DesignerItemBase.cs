@@ -53,9 +53,9 @@ namespace PlansModule.Designer.DesignerItems
 			grid.SetBinding(ToolTipProperty, new Binding("Title"));
 			grid.SetBinding(IsHitTestVisibleProperty, new Binding("IsSelectable"));
 			grid.DataContext = this;
-			var decorator = new ResizeDecorator();
-			decorator.SetBinding(ResizeDecorator.ShowDecoratorProperty, new Binding("IsSelected"));
-			decorator.SetBinding(ResizeDecorator.VisibilityProperty, new Binding("IsSelectable") { Converter = new BooleanToVisibilityConverter() });
+			var decorator = new ResizeDecorator2();
+			decorator.SetBinding(ResizeDecorator2.ShowDecoratorProperty, new Binding("IsSelected"));
+			decorator.SetBinding(ResizeDecorator2.VisibilityProperty, new Binding("IsSelectable") { Converter = new BooleanToVisibilityConverter() });
 			grid.Children.Add(decorator);
 			grid.Children.Add(new MoveThumb());
 			Content = grid;

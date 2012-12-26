@@ -117,7 +117,7 @@ namespace PlansModule.Designer
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
 			base.OnMouseDown(e);
-			if (e.Source == this && e.ChangedButton == MouseButton.Left)
+			if (e.Source == SelectedCanvas && e.ChangedButton == MouseButton.Left)
 			{
 				_startPoint = new Point?(e.GetPosition(this));
 				Toolbox.Apply(_startPoint);
