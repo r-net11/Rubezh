@@ -12,6 +12,7 @@ using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
@@ -253,6 +254,7 @@ namespace DevicesModule.Plans
 		public void UpdateDeviceInZones()
 		{
 			var deviceInZones = new Dictionary<Device, Guid>();
+			using (new WaitWrapper())
 			using (new TimeCounter("\tUpdateDeviceInZones: {0}"))
 				foreach (var designerItem in _designerCanvas.Items)
 				{

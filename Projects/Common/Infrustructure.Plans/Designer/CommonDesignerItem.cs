@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : ContentControl, INotifyPropertyChanged
+	public abstract class CommonDesignerItem : Decorator, INotifyPropertyChanged
 	{
 		public const int BigConstatnt = 100000;
 
@@ -21,27 +21,40 @@ namespace Infrustructure.Plans.Designer
 
 		public event EventHandler ItemPropertyChanged;
 
-		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
+		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false, IsSelectedChanged, IsSelectedCoerce));
 		public virtual bool IsSelected
 		{
 			get { return (bool)GetValue(IsSelectedProperty); }
-			set
-			{
-				if (!value || IsSelectable)
-				{
-					SetValue(IsSelectedProperty, value);
-					if (value)
-						EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element);
-				}
-			}
+			set { SetValue(IsSelectedProperty, value); }
 		}
 
-		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
+		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false, IsSelectableChanged, IsSelectableCoerce));
 		public virtual bool IsSelectable
 		{
 			get { return (bool)GetValue(IsSelectableProperty); }
 			set { SetValue(IsSelectableProperty, value); }
 		}
+		private static void IsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			// TODO: FIX IT
+			if (e.Property == IsSelectedProperty && (bool)e.NewValue)
+				EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
+		}
+		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.Property == IsSelectableProperty && !(bool)e.NewValue)
+				d.SetValue(IsSelectedProperty, false);
+		}
+		private static object IsSelectedCoerce(DependencyObject d, object e)
+		{
+			CommonDesignerItem designerItem = d as CommonDesignerItem;
+			return designerItem != null && !designerItem.IsSelectable ? false : e;
+		}
+		private static object IsSelectableCoerce(DependencyObject d, object e)
+		{
+			return e;
+		}
+
 
 		private bool _isVisibleLayout;
 		public virtual bool IsVisibleLayout

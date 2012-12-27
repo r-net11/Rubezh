@@ -42,16 +42,5 @@ namespace PlansModule.Designer.Resize
 				}
 			}
 		}
-
-		protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-		{
-			base.OnPropertyChanged(e);
-			if (e.Property == ResizeDecorator2.VisibilityProperty)
-			{
-				DesignerItem designerItem = DataContext as DesignerItem;
-				designerItem.IsSelected = false;
-				Child.Visibility = _hidden;
-			}
-		}
 	}
 }

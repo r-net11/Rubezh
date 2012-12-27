@@ -22,11 +22,11 @@ namespace FiresecService
         {
             try
             {
-                InfoXmlHelper.CreateInfoFile();
+				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+				InfoXmlHelper.CreateInfoFile();
                 FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=4000";
                 Logger.Trace(SystemInfo.GetString());
                 AppSettingsHelper.InitializeAppSettings();
-                Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

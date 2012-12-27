@@ -29,15 +29,15 @@ namespace PlansModule.Designer.DesignerItems
 		{
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DeleteCommand = new RelayCommand(OnDelete);
-			//MouseLeftButtonDown += (s, e) =>
-			//    {
-			//        if (e.ClickCount == 2)
-			//        {
-			//            ShowPropertiesCommand.Execute(null);
-			//            e.Handled = true;
-			//        }
-			//    };
-			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
+			MouseLeftButtonDown += (s, e) =>
+				{
+					if (e.ClickCount == 2)
+					{
+						ShowPropertiesCommand.Execute(null);
+						e.Handled = true;
+					}
+				};
+			//MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
 		}
@@ -58,7 +58,7 @@ namespace PlansModule.Designer.DesignerItems
 			decorator.SetBinding(ResizeDecorator2.VisibilityProperty, new Binding("IsSelectable") { Converter = new BooleanToVisibilityConverter() });
 			grid.Children.Add(decorator);
 			grid.Children.Add(new MoveThumb());
-			Content = grid;
+			Child = grid;
 			//UpdateLayout();
 		}
 
