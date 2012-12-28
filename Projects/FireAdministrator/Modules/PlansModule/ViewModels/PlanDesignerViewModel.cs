@@ -30,8 +30,6 @@ namespace PlansModule.ViewModels
 
 					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 					{
-						// 1. Override standart Painters				+
-						// 4. Change ResizeDecorator/ResizeAdorner		-
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							DesignerCanvas.Create(elementBase);
 						foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))

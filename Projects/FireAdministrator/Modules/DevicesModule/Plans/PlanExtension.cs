@@ -261,8 +261,10 @@ namespace DevicesModule.Plans
 					ElementDevice elementDevice = designerItem.Element as ElementDevice;
 					if (elementDevice != null)
 					{
-						var designerItemCenterX = Canvas.GetLeft(designerItem) + designerItem.Width / 2;
-						var designerItemCenterY = Canvas.GetTop(designerItem) + designerItem.Height / 2;
+						//var designerItemCenterX = Canvas.GetLeft(designerItem) + designerItem.Width / 2;
+						//var designerItemCenterY = Canvas.GetTop(designerItem) + designerItem.Height / 2;
+						var designerItemCenterX = elementDevice.Left;
+						var designerItemCenterY = elementDevice.Top;
 						var device = Designer.Helper.GetDevice(elementDevice);
 						if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
 							continue;

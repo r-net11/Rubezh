@@ -1,12 +1,80 @@
-﻿using System.Windows.Input;
-using Infrustructure.Plans.Elements;
-using System.Windows.Media;
+﻿using System.Linq;
 using System.Windows;
+using System.Windows.Input;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class DesignerItem : CommonDesignerItem
 	{
+		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false, IsSelectedChanged, IsSelectedCoerce));
+		public virtual bool IsSelected
+		{
+			get { return (bool)GetValue(IsSelectedProperty); }
+			set { SetValue(IsSelectedProperty, value); }
+		}
+
+		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false, IsSelectableChanged, IsSelectableCoerce));
+		public virtual bool IsSelectable
+		{
+			get { return (bool)GetValue(IsSelectableProperty); }
+			set { SetValue(IsSelectableProperty, value); }
+		}
+
+		private static void IsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var designerItem = d as DesignerItem;
+			if (e.Property == IsSelectedProperty && (bool)e.NewValue && designerItem != null && designerItem.DesignerCanvas != null && designerItem.DesignerCanvas.SelectedItems.Count() == 1)
+				EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
+		}
+		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.Property == IsSelectableProperty && !(bool)e.NewValue)
+				d.SetValue(IsSelectedProperty, false);
+		}
+		private static object IsSelectedCoerce(DependencyObject d, object e)
+		{
+			DesignerItem designerItem = d as DesignerItem;
+			return designerItem != null && !designerItem.IsSelectable ? false : e;
+		}
+		private static object IsSelectableCoerce(DependencyObject d, object e)
+		{
+			return e;
+		}
+
+		private bool _isVisibleLayout;
+		public virtual bool IsVisibleLayout
+		{
+			get { return _isVisibleLayout; }
+			set
+			{
+				if (_isVisibleLayout != value)
+				{
+					_isVisibleLayout = value;
+					Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+					if (!value)
+						IsSelected = false;
+				}
+			}
+		}
+
+		private bool _isSelectableLayout;
+		public virtual bool IsSelectableLayout
+		{
+			get { return _isSelectableLayout; }
+			set
+			{
+				if (_isSelectableLayout != value)
+				{
+					_isSelectableLayout = value;
+					IsSelectable = value;
+					if (!value)
+						IsSelected = false;
+				}
+			}
+		}
+
 		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
 		public ICommand ShowPropertiesCommand { get; protected set; }
 		public ICommand DeleteCommand { get; protected set; }

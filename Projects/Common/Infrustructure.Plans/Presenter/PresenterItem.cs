@@ -25,8 +25,8 @@ namespace Infrustructure.Plans.Presenter
 		public PresenterItem(ElementBase element)
 			: base(element)
 		{
-			IsVisibleLayout = true;
-			IsSelectableLayout = false;
+			//IsVisibleLayout = true;
+			//IsSelectableLayout = false;
 			IsPoint = false;
 		}
 

@@ -40,6 +40,7 @@ namespace PlansModule.Designer.DesignerItems
 			//MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
+			IsSelected = true;
 		}
 
 		public override void UpdateAdornerLayout()
@@ -53,12 +54,17 @@ namespace PlansModule.Designer.DesignerItems
 			grid.SetBinding(ToolTipProperty, new Binding("Title"));
 			grid.SetBinding(IsHitTestVisibleProperty, new Binding("IsSelectable"));
 			grid.DataContext = this;
-			var decorator = new ResizeDecorator2();
-			decorator.SetBinding(ResizeDecorator2.ShowDecoratorProperty, new Binding("IsSelected"));
-			decorator.SetBinding(ResizeDecorator2.VisibilityProperty, new Binding("IsSelectable") { Converter = new BooleanToVisibilityConverter() });
-			grid.Children.Add(decorator);
+			//var decorator = new ResizeDecorator2();
+			//decorator.SetBinding(ResizeDecorator2.ShowDecoratorProperty, new Binding("IsSelected"));
+			//decorator.SetBinding(ResizeDecorator2.VisibilityProperty, new Binding("IsSelectable") { Converter = new BooleanToVisibilityConverter() });
+			//grid.Children.Add(decorator);
+			if (ResizeChrome != null)
+			{
+				ResizeChrome.SetBinding(ResizeChrome.VisibilityProperty, new Binding("IsSelected") { Converter = new BooleanToVisibilityConverter() });
+				grid.Children.Add(ResizeChrome);
+			}
 			grid.Children.Add(new MoveThumb());
-			Child = grid;
+			Content = grid;
 			//UpdateLayout();
 		}
 

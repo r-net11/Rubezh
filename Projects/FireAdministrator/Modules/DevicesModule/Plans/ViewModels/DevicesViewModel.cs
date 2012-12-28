@@ -14,16 +14,19 @@ namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicesViewModel : BaseViewModel
 	{
+		private bool _lockSelection;
 		private Devices.DevicesViewModel _devicesViewModel;
 
 		public DevicesViewModel(Devices.DevicesViewModel devicesViewModel)
 		{
+			_lockSelection = false;
 			_devicesViewModel = devicesViewModel;
-			//_devicesViewModel.PropertyChanged += (s, e) =>
-			//    {
-			//        if (e.PropertyName == "SelectedDevice")
-			//            OnPropertyChanged(e.PropertyName);
-			//    };
+			// TODO: FIX IT
+			_devicesViewModel.PropertyChanged += (s, e) =>
+				{
+					if (e.PropertyName == "SelectedDevice")
+						OnPropertyChanged(e.PropertyName);
+				};
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
@@ -66,8 +69,11 @@ namespace DevicesModule.Plans.ViewModels
 			{
 				device.Update();
 				// TODO: FIX IT
-				device.ExpantToThis();
-				SelectedDevice = device;
+				if (!_lockSelection)
+				{
+					device.ExpantToThis();
+					SelectedDevice = device;
+				}
 			}
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
@@ -77,12 +83,21 @@ namespace DevicesModule.Plans.ViewModels
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
 			elements.ForEach(element =>
 				{
 					ElementDevice elementDevice = element as ElementDevice;
 					if (elementDevice != null)
-						OnDeviceChanged(elementDevice.DeviceUID);
+					{
+						if (guid != Guid.Empty)
+							OnDeviceChanged(guid);
+						guid = elementDevice.DeviceUID;
+					}
 				});
+			_lockSelection = false;
+			if (guid != Guid.Empty)
+				OnDeviceChanged(guid);
 		}
 
 		private void OnElementSelected(ElementBase element)

@@ -96,10 +96,6 @@ namespace PlansModule.ViewModels
 		{
 			get { return Canvas.Children.OfType<PresenterItem>(); }
 		}
-		public PresenterItem SelectedItem
-		{
-			get { return Canvas.Children.OfType<PresenterItem>().FirstOrDefault(item => item.IsSelected); }
-		}
 
 		public void Update()
 		{

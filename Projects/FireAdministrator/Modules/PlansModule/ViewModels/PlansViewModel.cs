@@ -110,6 +110,7 @@ namespace PlansModule.ViewModels
 						ElementsViewModel.Update();
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
+					DesignerCanvas.DeselectAll();
 				}
 				Debug.WriteLine("===========================================");
 			}
