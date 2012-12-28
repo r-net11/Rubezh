@@ -102,6 +102,9 @@ namespace FiresecAPI
 
         [OperationContract]
         Stream GetConfig();
+
+        [OperationContract]
+        void SetConfig(Stream stream);
         #endregion
 
         #region Convertation

@@ -12,7 +12,7 @@ namespace Infrastructure.Common
 			configuration.Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 };
 			var memoryStream = new MemoryStream();
 
-			var dataContractSerializer = new DataContractSerializer(typeof(T));
+            var dataContractSerializer = new DataContractSerializer(configuration.GetType());
 			dataContractSerializer.WriteObject(memoryStream, configuration);
 			return memoryStream;
 		}

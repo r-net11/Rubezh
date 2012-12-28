@@ -138,11 +138,12 @@
       <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
-    <Compile Include="ConfigHelper.cs" />
+    <Compile Include="FSCP\ConfigHelper.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="FSAgentLoadHelper.cs" />
+    <Compile Include="FSCP\ConfigActualizeHelper.cs" />
     <Compile Include="InfoXmlHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
@@ -361,6 +362,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Windows\ViewModels\ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Wait\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

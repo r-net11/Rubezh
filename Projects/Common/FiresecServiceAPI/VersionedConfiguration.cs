@@ -10,6 +10,10 @@ namespace FiresecAPI
             Version = new ConfigurationVersion();
         }
 
+        public virtual void Initialize()
+        {
+        }
+
         public virtual bool ValidateVersion()
         {
 			return true;

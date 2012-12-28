@@ -86,10 +86,10 @@ namespace FireAdministrator
 			try
 			{
 				var openDialog = new OpenFileDialog()
-									 {
-										 Filter = "firesec2 files|*.fscp",
-										 DefaultExt = "firesec2 files|*.fscp"
-									 };
+					{
+						Filter = "firesec2 files|*.fscp",
+						DefaultExt = "firesec2 files|*.fscp"
+					};
 				if (openDialog.ShowDialog().Value)
 				{
 					var ms = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read);
@@ -190,7 +190,6 @@ namespace FireAdministrator
 				}
 			}
 
-
 			if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "XDeviceConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
 			{
 				entry = unzip["XDeviceConfiguration.xml"];
@@ -211,6 +210,5 @@ namespace FireAdministrator
 				}
 			}
 		}
-
 	}
 }

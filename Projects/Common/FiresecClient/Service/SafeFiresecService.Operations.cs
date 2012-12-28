@@ -141,10 +141,15 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
         }
 
-        public Stream GetConfig()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
-        }
+		public Stream GetConfig()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
+		}
+
+		public void SetConfig(Stream stream)
+		{
+			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
+		}
 
 		public void SetJournal(List<JournalRecord> journalRecords)
         {

@@ -221,6 +221,11 @@ namespace FiresecService.Service
             return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
         }
 
+        public void SetConfig(Stream stream)
+        {
+            SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
+        }
+
 		public void SetJournal(List<JournalRecord> journalRecords)
         {
 			SafeOperationCall(() => { FiresecService.SetJournal(journalRecords); }, "ConvertJournal");

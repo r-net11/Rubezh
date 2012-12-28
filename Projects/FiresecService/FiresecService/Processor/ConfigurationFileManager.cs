@@ -28,6 +28,11 @@ namespace FiresecService.Configuration
             return Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configuration", FileNameOrDirectory);
         }
 
+        public static void ActualizeConfiguration()
+        {
+
+        }
+
         public static DeviceConfiguration GetDeviceConfiguration()
         {
             var deviceConfiguration = Get<DeviceConfiguration>(DeviceConfigurationFileName);
@@ -83,48 +88,7 @@ namespace FiresecService.Configuration
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
 			var securityConfiguration = Get<SecurityConfiguration>(SecurityConfigurationFileName);
-			foreach (var user in securityConfiguration.Users)
-			{
-				if (user.Permissions.Count > 0)
-				{
-					user.PermissionStrings = new List<string>();
-					foreach (var permission in user.Permissions)
-					{
-						user.PermissionStrings.Add(permission.ToString());
-					}
-				}
-				user.Permissions = new List<PermissionType>();
-				foreach (var permissionString in user.PermissionStrings)
-				{
-					PermissionType permissionType;
-					var result = Enum.TryParse<PermissionType>(permissionString, out permissionType);
-					if (result)
-					{
-						user.Permissions.Add(permissionType);
-					}
-				}
-			}
-			foreach (var userRole in securityConfiguration.UserRoles)
-			{
-				if (userRole.Permissions.Count > 0)
-				{
-					userRole.PermissionStrings = new List<string>();
-					foreach (var permission in userRole.Permissions)
-					{
-						userRole.PermissionStrings.Add(permission.ToString());
-					}
-				}
-				userRole.Permissions = new List<PermissionType>();
-				foreach (var permissionString in userRole.PermissionStrings)
-				{
-					PermissionType permissionType;
-					var result = Enum.TryParse<PermissionType>(permissionString, out permissionType);
-					if (result)
-					{
-						userRole.Permissions.Add(permissionType);
-					}
-				}
-			}
+            securityConfiguration.Initialize();
 			return securityConfiguration;
 		}
 
@@ -244,10 +208,6 @@ namespace FiresecService.Configuration
                     var dataContractSerializer = new DataContractSerializer(typeof(T));
                     dataContractSerializer.WriteObject(memoryStream, configuration);
 
-					//using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Create))
-					//{
-					//    fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-					//}
 					ConfigHelper.IntoZip(fileName, memoryStream);
                 }
             }

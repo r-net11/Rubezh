@@ -42,6 +42,4 @@ namespace Infrastructure.Common
 			}
 		}
 	}
-
-
 }

@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using System.IO;
 
 namespace FireAdministrator
 {
@@ -52,6 +53,10 @@ namespace FireAdministrator
                             MessageBoxService.ShowError(result.Error);
                         }
                     }
+
+					ConfigFileHelper.SaveToFile();
+					var fileStream = new FileStream("TempConfig.fscp", FileMode.Open);
+					FiresecManager.FiresecService.SetConfig(fileStream);
 
                     if (ServiceFactory.SaveService.PlansChanged)
                     {
