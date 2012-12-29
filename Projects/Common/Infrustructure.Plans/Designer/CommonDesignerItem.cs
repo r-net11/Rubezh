@@ -35,6 +35,7 @@ namespace Infrustructure.Plans.Designer
 			{
 				_title = value;
 				OnPropertyChanged("Title");
+				TitleChanged();
 			}
 		}
 
@@ -117,6 +118,10 @@ namespace Infrustructure.Plans.Designer
 		{
 			if (ItemPropertyChanged != null)
 				ItemPropertyChanged(this, EventArgs.Empty);
+		}
+
+		protected virtual void TitleChanged()
+		{
 		}
 	}
 }

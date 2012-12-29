@@ -10,6 +10,8 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrustructure.Plans.Designer;
+using Common;
 
 namespace PlansModule.ViewModels
 {
@@ -28,20 +30,26 @@ namespace PlansModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
-			PlanDesignerViewModel.Save();
-			_buffer = new List<ElementBase>();
-			foreach (var designerItem in DesignerCanvas.SelectedItems)
+			using (new WaitWrapper())
 			{
-				designerItem.UpdateElementProperties();
-				_buffer.Add(designerItem.Element.Clone());
+				PlanDesignerViewModel.Save();
+				_buffer = new List<ElementBase>();
+				foreach (var designerItem in DesignerCanvas.SelectedItems)
+				{
+					designerItem.UpdateElementProperties();
+					_buffer.Add(designerItem.Element.Clone());
+				}
 			}
 		}
 		public RelayCommand CutCommand { get; private set; }
 		private void OnCut()
 		{
-			OnCopy();
-			DesignerCanvas.RemoveAllSelected();
-			ServiceFactory.SaveService.PlansChanged = true;
+			using (new WaitWrapper())
+			{
+				OnCopy();
+				DesignerCanvas.RemoveAllSelected();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
 		}
 		private bool CanCopyCut(object obj)
 		{
@@ -51,21 +59,25 @@ namespace PlansModule.ViewModels
 		public RelayCommand<IInputElement> PasteCommand { get; private set; }
 		private void OnPaste(IInputElement container)
 		{
-			if (NormalizeBuffer(container))
-			{
-				DesignerCanvas.Toolbox.SetDefault();
-				DesignerCanvas.DeselectAll();
-				foreach (var elementBase in _buffer)
+			using (new WaitWrapper())
+			using (new TimeCounter("Command.Paste: {0}"))
+				if (NormalizeBuffer(container))
 				{
-					var element = elementBase.Clone();
-					element.UID = Guid.NewGuid();
-					var designerItem = DesignerCanvas.AddElement(element);
-					designerItem.IsSelected = true;
+					var designerItems = new List<DesignerItem>();
+					DesignerCanvas.Toolbox.SetDefault();
+					//DesignerCanvas.DeselectAll();
+					foreach (var elementBase in _buffer)
+					{
+						var element = elementBase.Clone();
+						element.UID = Guid.NewGuid();
+						var designerItem = DesignerCanvas.AddElement(element);
+						designerItems.Add(designerItem);
+					}
+					PlanDesignerViewModel.MoveToFrontCommand.Execute();
+					ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
+					ServiceFactory.SaveService.PlansChanged = true;
+					designerItems.ForEach(item => item.IsSelected = true);
 				}
-				PlanDesignerViewModel.MoveToFrontCommand.Execute();
-				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
-				ServiceFactory.SaveService.PlansChanged = true;
-			}
 		}
 		private bool CanPaste(IInputElement obj)
 		{

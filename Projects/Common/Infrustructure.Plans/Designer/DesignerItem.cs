@@ -25,13 +25,21 @@ namespace Infrustructure.Plans.Designer
 		private static void IsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var designerItem = d as DesignerItem;
-			if (e.Property == IsSelectedProperty && (bool)e.NewValue && designerItem != null && designerItem.DesignerCanvas != null && designerItem.DesignerCanvas.SelectedItems.Count() == 1)
-				EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
+			if (e.Property == IsSelectedProperty)
+			{
+				if ((bool)e.NewValue && designerItem != null && designerItem.DesignerCanvas != null && designerItem.DesignerCanvas.SelectedItems.Count() == 1)
+					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
+				designerItem.IsSelectedChanged();
+			}
 		}
 		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if (e.Property == IsSelectableProperty && !(bool)e.NewValue)
-				d.SetValue(IsSelectedProperty, false);
+			if (e.Property == IsSelectableProperty)
+			{
+				if (!(bool)e.NewValue)
+					d.SetValue(IsSelectedProperty, false);
+				((DesignerItem)d).IsSelectableChanged();
+			}
 		}
 		private static object IsSelectedCoerce(DependencyObject d, object e)
 		{
@@ -136,5 +144,12 @@ namespace Infrustructure.Plans.Designer
 
 		protected abstract void OnShowProperties();
 		protected abstract void OnDelete();
+
+		protected virtual void IsSelectableChanged()
+		{
+		}
+		protected virtual void IsSelectedChanged()
+		{
+		}
 	}
 }

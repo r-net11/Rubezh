@@ -5,7 +5,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type presenter:PresenterItem}">
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" ToolTip="{Binding Title}">
-						<ContentPresenter Content="{Binding Content}" IsHitTestVisible="True" />
+						<ContentPresenter Content="{Binding Presenter}" IsHitTestVisible="True" />
 						<ContentPresenter x:Name="border" Content="{Binding Border}" Visibility="Hidden" />
 						<Rectangle x:Name="flush_border" StrokeThickness="{Binding AdornerThickness}" Stroke="Red" Opacity="0" Margin="{Binding AdornerMargin}"/>
 					</Grid>

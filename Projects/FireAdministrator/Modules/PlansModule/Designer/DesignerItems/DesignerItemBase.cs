@@ -40,7 +40,7 @@ namespace PlansModule.Designer.DesignerItems
 			//MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
-			IsSelected = true;
+			//IsSelected = true;
 		}
 
 		public override void UpdateAdornerLayout()
@@ -51,8 +51,8 @@ namespace PlansModule.Designer.DesignerItems
 		private void LoadTemplate()
 		{
 			var grid = new Grid();
-			grid.SetBinding(ToolTipProperty, new Binding("Title"));
-			grid.SetBinding(IsHitTestVisibleProperty, new Binding("IsSelectable"));
+			//grid.SetBinding(ToolTipProperty, new Binding("Title"));
+			//grid.SetBinding(IsHitTestVisibleProperty, new Binding("IsSelectable"));
 			grid.DataContext = this;
 			//var decorator = new ResizeDecorator2();
 			//decorator.SetBinding(ResizeDecorator2.ShowDecoratorProperty, new Binding("IsSelected"));
@@ -60,11 +60,14 @@ namespace PlansModule.Designer.DesignerItems
 			//grid.Children.Add(decorator);
 			if (ResizeChrome != null)
 			{
-				ResizeChrome.SetBinding(ResizeChrome.VisibilityProperty, new Binding("IsSelected") { Converter = new BooleanToVisibilityConverter() });
+				//ResizeChrome.SetBinding(ResizeChrome.VisibilityProperty, new Binding("IsSelected") { Converter = new BooleanToVisibilityConverter() });
 				grid.Children.Add(ResizeChrome);
 			}
 			grid.Children.Add(new MoveThumb());
 			Content = grid;
+			IsSelectableChanged();
+			IsSelectedChanged();
+			TitleChanged();
 			//UpdateLayout();
 		}
 
@@ -149,7 +152,7 @@ namespace PlansModule.Designer.DesignerItems
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand,
-                    Header = "Выровнять по вертикали",
+					Header = "Выровнять по вертикали",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
@@ -164,7 +167,7 @@ namespace PlansModule.Designer.DesignerItems
 				ContextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand,
-                    Header = "Выровнять по горизонтали",
+					Header = "Выровнять по горизонтали",
 				});
 				ContextMenu.Items.Add(new MenuItem()
 				{
@@ -172,6 +175,25 @@ namespace PlansModule.Designer.DesignerItems
 					Header = "Выровнять по нижнему краю",
 				});
 			};
+		}
+
+		protected override void IsSelectableChanged()
+		{
+			base.IsSelectableChanged();
+			if (Content != null)
+				((FrameworkElement)Content).IsHitTestVisible = IsSelectable;
+		}
+		protected override void IsSelectedChanged()
+		{
+			base.IsSelectedChanged();
+			if (ResizeChrome != null)
+				ResizeChrome.Visibility = IsSelected ? Visibility.Visible : Visibility.Hidden;
+		}
+		protected override void TitleChanged()
+		{
+			base.TitleChanged();
+			if (Content != null)
+				((FrameworkElement)Content).ToolTip = Title;
 		}
 	}
 }
