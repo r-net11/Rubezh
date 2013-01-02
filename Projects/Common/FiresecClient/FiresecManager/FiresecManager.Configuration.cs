@@ -40,11 +40,11 @@ namespace FiresecClient
 
         public static void CopyStream(Stream input, Stream output)
         {
-            byte[] buffer = new byte[8 * 1024];
-            int len;
-            while ((len = input.Read(buffer, 0, buffer.Length)) > 0)
+            var buffer = new byte[8 * 1024];
+            int length;
+            while ((length = input.Read(buffer, 0, buffer.Length)) > 0)
             {
-                output.Write(buffer, 0, len);
+                output.Write(buffer, 0, length);
             }
             output.Close();
         }
@@ -55,159 +55,16 @@ namespace FiresecClient
             {
                 var stream = FiresecManager.FiresecService.GetConfig();
                 FiresecConfiguration = new FiresecConfiguration();
-                var configurationsList = new ConfigurationsList();
 
-                var tempDirrectoryName = "Temp/" + Guid.NewGuid().ToString();
-                Directory.CreateDirectory(tempDirrectoryName);
-                if (File.Exists(tempDirrectoryName + "/config.fscp"))
-                    File.Delete(tempDirrectoryName + "/config.fscp");
-                var configFileStream = File.Create(tempDirrectoryName + "/config.fscp");
+				var tempFileName = Path.GetTempFileName();
+				var configFileStream = File.Create(tempFileName);
                 CopyStream(stream, configFileStream);
-                var unzip = ZipFile.Read(tempDirrectoryName + "/config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
-                var xmlstream = new MemoryStream();
-                var entry = unzip["Info.xml"];
-                if (entry != null)
-                {
-                    entry.Extract(xmlstream);
-                    xmlstream.Position = 0;
-                    configurationsList = SerializeHelper.DeSerialize<ConfigurationsList>(xmlstream);
-                }
-
-                if (configurationsList == null)
-                    return;
-
-                foreach (var configuration in configurationsList.Configurations)
-                {
-                    var configurationEntry = unzip[configuration.Name + ".xml"];
-                    if (configurationEntry != null)
-                    {
-                        var configurationMemoryStream = new MemoryStream();
-                        configurationEntry.Extract(configurationMemoryStream);
-                        configurationMemoryStream.Position = 0;
-                        switch (configuration.Name)
-                        {
-                            case "SecurityConfiguration":
-                                SecurityConfiguration = SerializeHelper.DeSerialize<SecurityConfiguration>(configurationMemoryStream);
-                                SecurityConfiguration.Initialize();
-                                break;
-
-                            case "PlansConfiguration":
-                                PlansConfiguration = SerializeHelper.DeSerialize<PlansConfiguration>(configurationMemoryStream);
-                                break;
-
-                            case "SystemConfiguration":
-                                SystemConfiguration = SerializeHelper.DeSerialize<SystemConfiguration>(configurationMemoryStream);
-                                break;
-
-                            case "DriversConfiguration":
-                                FiresecConfiguration.DriversConfiguration = SerializeHelper.DeSerialize<DriversConfiguration>(configurationMemoryStream);
-                                break;
-
-                            case "DeviceConfiguration":
-                                FiresecConfiguration.DeviceConfiguration = SerializeHelper.DeSerialize<DeviceConfiguration>(configurationMemoryStream);
-                                break;
-
-                            case "DeviceLibraryConfiguration":
-                                DeviceLibraryConfiguration = SerializeHelper.DeSerialize<DeviceLibraryConfiguration>(configurationMemoryStream);
-                                break;
-
-                            case "XDeviceConfiguration":
-                                XManager.DeviceConfiguration = SerializeHelper.DeSerialize<XDeviceConfiguration>(configurationMemoryStream);
-                                break;
-
-                            case "XDeviceLibraryConfiguration":
-                                XManager.XDeviceLibraryConfiguration = SerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationMemoryStream);
-                                break;
-                        }
-                    }
-                }
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "SystemConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    SystemConfiguration = FiresecService.GetSystemConfiguration();
-                //    if (SystemConfiguration == null)
-                //    {
-                //        SystemConfiguration = new SystemConfiguration();
-                //        Logger.Error("FiresecManager.SystemConfiguration = null");
-                //        LoadingErrorManager.Add("Нулевая системная конфигурация");
-                //    }
-                //}
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "DeviceLibraryConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
-                //    if (DeviceLibraryConfiguration == null)
-                //    {
-                //        DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
-                //        Logger.Error("FiresecManager.DeviceLibraryConfiguration = null");
-                //        LoadingErrorManager.Add("Нулевая конфигурация библиотеки устройств");
-                //    }
-                //}
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "XDeviceLibraryConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    XManager.XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
-                //    if (XManager.XDeviceLibraryConfiguration == null)
-                //    {
-                //        XManager.XDeviceLibraryConfiguration = new XDeviceLibraryConfiguration();
-                //        Logger.Error("FiresecManager.XDeviceLibraryConfiguration = null");
-                //        LoadingErrorManager.Add("Нулевая конфигурация библиотеки устройств ГК");
-                //    }
-                //}
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "PlansConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    PlansConfiguration = FiresecService.GetPlansConfiguration();
-                //    if (PlansConfiguration == null)
-                //    {
-                //        PlansConfiguration = new PlansConfiguration();
-                //        Logger.Error("FiresecManager.PlansConfiguration = null");
-                //        LoadingErrorManager.Add("Нулевая конфигурация графических планов");
-                //    }
-                //}
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "SecurityConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    SecurityConfiguration = FiresecService.GetSecurityConfiguration();
-                //    if (SecurityConfiguration == null)
-                //    {
-                //        SecurityConfiguration = new SecurityConfiguration();
-                //        Logger.Error("FiresecManager.SecurityConfiguration = null");
-                //        LoadingErrorManager.Add("Нулевая конфигурация безопасности");
-                //    }
-                //}
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "DriversConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    var driversConfiguration = FiresecService.GetDriversConfiguration();
-                //    if ((driversConfiguration == null) || (driversConfiguration.Drivers == null) ||
-                //        (driversConfiguration.Drivers.Count == 0))
-                //    {
-                //        driversConfiguration = new DriversConfiguration();
-                //        Logger.Error("FiresecManager.driversConfiguration = null");
-                //        MessageBox.Show("Нулевая конфигурация драйверов");
-                //    }
-                //    FiresecConfiguration.DriversConfiguration = driversConfiguration;
-                //}
-
-                //if (configurationsList.Configurations.FirstOrDefault(x => (x.Name == "DeviceConfiguration") && (x.MajorVersion == 1) && (x.MinorVersion == 1)) != null)
-                //{
-                //    var deviceConfiguration = FiresecService.GetDeviceConfiguration();
-                //    if (deviceConfiguration == null)
-                //    {
-                //        deviceConfiguration = new DeviceConfiguration();
-                //        Logger.Error("FiresecManager.deviceConfiguration = null");
-                //        LoadingErrorManager.Add("Нулевая конфигурация устройств");
-                //    }
-                //    FiresecConfiguration.DeviceConfiguration = deviceConfiguration;
-                //}
+				LoadFromZipFile(tempFileName);
+				File.Delete(tempFileName);
 
                 UpdateConfiguration();
                 FiresecConfiguration.CreateStates();
-
-                unzip.Dispose();
-                Directory.Delete(tempDirrectoryName, true);
             }
             catch (Exception e)
             {

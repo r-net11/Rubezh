@@ -138,20 +138,18 @@
       <DependentUpon>BalloonToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
-    <Compile Include="FSCP\ConfigHelper.cs" />
+    <Compile Include="FSCP\ZipConfigHelper.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="FSAgentLoadHelper.cs" />
-    <Compile Include="FSCP\ConfigActualizeHelper.cs" />
-    <Compile Include="InfoXmlHelper.cs" />
+    <Compile Include="FSCP\ZipConfigActualizeHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
-    <Compile Include="SerializeHelper.cs" />
+    <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />
-    <Compile Include="TreeItemViewModel.cs" />
-    <Compile Include="KnownServiceType.cs" />
+    <Compile Include="Tree\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />
     <Compile Include="Reports\IReportPrintExtension.cs" />
     <Compile Include="Reports\IMultiReportProvider.cs" />
@@ -199,13 +197,13 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="Resources\ResourceService.cs" />
     <Compile Include="SingleLaunchHelper.cs" />
-    <Compile Include="TreeBaseViewModel.cs" />
+    <Compile Include="Tree\TreeBaseViewModel.cs" />
     <Compile Include="Video\VideoService.cs" />
     <Compile Include="Video\VideoWindow.xaml.cs">
       <DependentUpon>VideoWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WaitHelper.cs" />
-    <Compile Include="WaitWrapper.cs" />
+    <Compile Include="Wait\WaitHelper.cs" />
+    <Compile Include="Wait\WaitWrapper.cs" />
     <Compile Include="Windows\SaveSizeAttribute.cs" />
     <Compile Include="Windows\ViewModels\IWindowIdentity.cs" />
     <Compile Include="Windows\ApplicationService.cs" />
@@ -363,9 +361,7 @@
     </None>
     <None Include="Windows\ViewModels\ClassDiagram1.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Wait\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,7 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SecurityModule.ViewModels
 {
@@ -8,13 +9,23 @@ namespace SecurityModule.ViewModels
 	{
 		public PermissionViewModel(PermissionType permissionType)
 		{
-			PermissionType = permissionType;
-			PermissionTypeName = permissionType.ToDescription();
+			Name = permissionType.ToString();
+			Desciption = permissionType.ToDescription();
 		}
 
-		public PermissionType PermissionType { get; private set; }
+		public PermissionViewModel(string name)
+		{
+			Name = name;
+			PermissionType permissionType;
+			var result = Enum.TryParse<PermissionType>(name, out permissionType);
+			if (result)
+			{
+				Desciption = permissionType.ToDescription();
+			}
+		}
 
-		public string PermissionTypeName { get; private set; }
+		public string Name { get; private set; }
+		public string Desciption { get; private set; }
 
 		bool _isEnable;
 		public bool IsEnable

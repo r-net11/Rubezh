@@ -1,0 +1,131 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using Common;
+using FiresecAPI;
+using FiresecAPI.Models;
+using XFiresecAPI;
+using Infrastructure.Common;
+using System.Collections.Generic;
+using Ionic.Zip;
+using System.Text;
+
+namespace FiresecService.Configuration
+{
+	public static class ZipFileManager
+	{
+		public static string ConfigurationDirectory(string fileName)
+		{
+			return Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configuration", fileName);
+		}
+
+		public static SecurityConfiguration GetSecurityConfiguration()
+		{
+			var fileName = ConfigurationDirectory("config.fscp");
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+			var securityConfiguration = (SecurityConfiguration)GetConfigurationFomZip(zipFile, "SecurityConfiguration.xml", typeof(SecurityConfiguration));
+			securityConfiguration.AfterLoad();
+			zipFile.Dispose();
+			return securityConfiguration;
+		}
+
+		public static void ActualizeZipConfiguration()
+		{
+			var configurationNames = new Dictionary<string, Type>();
+			configurationNames.Add("SecurityConfiguration.xml", typeof(SecurityConfiguration));
+			configurationNames.Add("SystemConfiguration.xml", typeof(SystemConfiguration));
+			configurationNames.Add("PlansConfiguration.xml", typeof(PlansConfiguration));
+			configurationNames.Add("DriversConfiguration.xml", typeof(DriversConfiguration));
+			configurationNames.Add("DeviceConfiguration.xml", typeof(DeviceConfiguration));
+			configurationNames.Add("DeviceLibraryConfiguration.xml", typeof(DeviceLibraryConfiguration));
+			configurationNames.Add("XDeviceConfiguration.xml", typeof(XDeviceConfiguration));
+			configurationNames.Add("XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
+
+			var fileName = ConfigurationDirectory("config.fscp");
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+			foreach (var configurationName in configurationNames)
+			{
+				var configuration = GetConfigurationFomZip(zipFile, configurationName.Key, configurationName.Value);
+				if (configuration == null)
+				{
+					configuration = GetConfigurationFromDisk(configurationName.Key, configurationName.Value);
+					AddConfigurationToZip(zipFile, configuration, configurationName.Key);
+				}
+				if (File.Exists(ConfigurationDirectory(configurationName.Key)))
+					File.Delete(ConfigurationDirectory(configurationName.Key));
+			}
+
+			var zipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("SecurityConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("SystemConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("PlansConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DriversConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceLibraryConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceConfiguration", 1, 1));
+			zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceLibraryConfiguration", 1, 1));
+			AddConfigurationToZip(zipFile, zipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml");
+
+			zipFile.Save(fileName);
+		}
+
+		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
+		{
+			try
+			{
+				var configurationEntry = zipFile[fileName];
+				if (configurationEntry != null)
+				{
+					var configurationMemoryStream = new MemoryStream();
+					configurationEntry.Extract(configurationMemoryStream);
+					configurationMemoryStream.Position = 0;
+
+					var dataContractSerializer = new DataContractSerializer(type);
+					return (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+			}
+			return null;
+		}
+
+		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
+		{
+			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
+			if (!zipFile.Entries.Any(x => x.FileName == fileName))
+			{
+				configuarationMemoryStream.Position = 0;
+				zipFile.AddEntry(fileName, configuarationMemoryStream);
+			}
+		}
+
+		static VersionedConfiguration GetConfigurationFromDisk(string fileName, Type type)
+		{
+			try
+			{
+				var memoryStream = new MemoryStream();
+				using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
+				{
+					memoryStream.SetLength(fileStream.Length);
+					fileStream.Read(memoryStream.GetBuffer(), 0, (int)fileStream.Length);
+				}
+
+				var dataContractSerializer = new DataContractSerializer(type);
+				var configuration = (VersionedConfiguration)dataContractSerializer.ReadObject(memoryStream);
+				return configuration;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigurationFileManager.Get<T> typeof(T) = " + type.Name.ToString());
+			}
+			VersionedConfiguration newConfiguration = (VersionedConfiguration)Activator.CreateInstance(type);
+			return newConfiguration;
+		}
+	}
+}

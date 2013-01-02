@@ -51,13 +51,13 @@ namespace SettingsModule.ViewModels
                     LoadingService.DoStep("Обновление конфигурации");
 					FiresecManager.UpdateConfiguration();
                     LoadingService.DoStep("Сохранение конфигурации планов");
-					FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+					//FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
                     LoadingService.DoStep("Сохранение конфигурации устройств");
-					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-					if (result.HasError)
-					{
-						MessageBoxService.ShowError(result.Error);
-					}
+					//var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+					//if (result.HasError)
+					//{
+					//    MessageBoxService.ShowError(result.Error);
+					//}
                     LoadingService.DoStep("Оповещение клиентов об изменении конфигурации");
                     FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
                     LoadingService.Close();

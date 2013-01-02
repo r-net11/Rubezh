@@ -104,7 +104,7 @@ namespace Infrastructure.Common.Navigation
 		}
 		private bool HavePermission(NavigationItem item)
 		{
-			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.Permissions.Any(x => x == item.Permission.Value);
+			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.HasPermission(item.Permission.Value);
 		}
 	}
 }

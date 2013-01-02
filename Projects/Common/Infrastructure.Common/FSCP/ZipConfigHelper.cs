@@ -5,7 +5,7 @@ using Ionic.Zip;
 
 namespace Infrastructure.Common
 {
-	public static class ConfigHelper
+	public static class ZipConfigHelper
 	{
 		public static void IntoZip(string fileName, MemoryStream stream)
 		{
@@ -18,7 +18,6 @@ namespace Infrastructure.Common
 				zip.RemoveEntry(fileName);
 			stream.Position = 0;
 			zip.AddEntry(fileName, stream);
-			//zip.AddFile(filePath, "");
 			zip.Save(zipPath);
 		}
 

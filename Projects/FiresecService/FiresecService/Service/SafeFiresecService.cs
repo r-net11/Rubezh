@@ -111,60 +111,10 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
         }
 
-		public DriversConfiguration GetDriversConfiguration()
-        {
-			return SafeOperationCall(() => { return FiresecService.GetDriversConfiguration(); }, "GetDriversConfiguration");
-        }
-
-        public FiresecAPI.Models.DeviceConfiguration GetDeviceConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetDeviceConfiguration(); }, "GetDeviceConfiguration");
-        }
-
-        public OperationResult<bool> SetDeviceConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
-        {
-            return SafeOperationCall(() => { return FiresecService.SetDeviceConfiguration(deviceConfiguration); }, "SetDeviceConfiguration");
-        }
-
-        public FiresecAPI.Models.SystemConfiguration GetSystemConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetSystemConfiguration(); }, "GetSystemConfiguration");
-        }
-
-        public void SetSystemConfiguration(FiresecAPI.Models.SystemConfiguration systemConfiguration)
-        {
-            SafeOperationCall(() => { FiresecService.SetSystemConfiguration(systemConfiguration); }, "SetSystemConfiguration");
-        }
-
-        public FiresecAPI.Models.DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetDeviceLibraryConfiguration(); }, "GetDeviceLibraryConfiguration");
-        }
-
-        public void SetDeviceLibraryConfiguration(FiresecAPI.Models.DeviceLibraryConfiguration deviceLibraryConfiguration)
-        {
-            SafeOperationCall(() => { FiresecService.SetDeviceLibraryConfiguration(deviceLibraryConfiguration); }, "SetDeviceLibraryConfiguration");
-        }
-
-        public FiresecAPI.Models.PlansConfiguration GetPlansConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetPlansConfiguration(); }, "GetPlansConfiguration");
-        }
-
-        public void SetPlansConfiguration(FiresecAPI.Models.PlansConfiguration plansConfiguration)
-        {
-            SafeOperationCall(() => { FiresecService.SetPlansConfiguration(plansConfiguration); }, "SetPlansConfiguration");
-        }
-
-        public FiresecAPI.Models.SecurityConfiguration GetSecurityConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
-        }
-
-        public void SetSecurityConfiguration(FiresecAPI.Models.SecurityConfiguration securityConfiguration)
-        {
-            SafeOperationCall(() => { FiresecService.SetSecurityConfiguration(securityConfiguration); }, "SetSecurityConfiguration");
-        }
+		public SecurityConfiguration GetSecurityConfiguration()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
+		}
 
         public OperationResult<int> GetJournalLastId()
         {
@@ -234,24 +184,6 @@ namespace FiresecService.Service
         public string Test(string arg)
         {
             return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
-        }
-
-        public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)
-        {
-            SafeOperationCall(() => { FiresecService.SetXDeviceConfiguration(xDeviceConfiguration); }, "SetXDeviceConfiguration");
-        }
-        public XFiresecAPI.XDeviceConfiguration GetXDeviceConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetXDeviceConfiguration(); }, "GetXDeviceConfiguration");
-        }
-
-        public XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetXDeviceLibraryConfiguration(); }, "GetXDeviceLibraryConfiguration");
-        }
-        public void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration)
-        {
-            SafeOperationCall(() => { FiresecService.SetXDeviceLibraryConfiguration(xDeviceLibraryConfiguration); }, "SetXDeviceLibraryConfiguration");
         }
 
         public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)

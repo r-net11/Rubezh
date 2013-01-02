@@ -121,7 +121,6 @@
     </Compile>
     <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ConfigFileHelper.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="FileConfigurationHelper.cs" />
     <Compile Include="Services\LayoutService.cs" />

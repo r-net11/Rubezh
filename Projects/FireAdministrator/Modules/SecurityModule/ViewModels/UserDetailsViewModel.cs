@@ -136,7 +136,7 @@ namespace SecurityModule.ViewModels
 						Roles.RemoveAt(0);
 
 					Permissions = new ObservableCollection<PermissionViewModel>(
-						_userRole.Permissions.Select(permissionType => new PermissionViewModel(permissionType) { IsEnable = true })
+						_userRole.PermissionStrings.Select(x => new PermissionViewModel(x) { IsEnable = true })
 					);
 
 					CheckPermissions();
@@ -152,18 +152,18 @@ namespace SecurityModule.ViewModels
 
 		void CheckPermissions()
 		{
-			if (UserRole.UID != User.RoleUID && UserRole.Permissions.IsNotNullOrEmpty())
+			if (UserRole.UID != User.RoleUID)
 				return;
 
-			foreach (var permissionType in User.Permissions)
+			foreach (var permissionString in User.PermissionStrings)
 			{
-				if (!Permissions.Any(x => x.PermissionType == permissionType))
-					User.Permissions.Remove(permissionType);
+				if (!Permissions.Any(x => x.Name == permissionString))
+					User.PermissionStrings.Remove(permissionString);
 			}
 
 			foreach (var permission in Permissions)
 			{
-				if (!User.Permissions.Any(x => x == permission.PermissionType))
+				if (!User.PermissionStrings.Any(x => x == permission.Name))
 					permission.IsEnable = false;
 			}
 		}
@@ -189,12 +189,12 @@ namespace SecurityModule.ViewModels
 
 			User.RoleUID = UserRole.UID;
             PreventAdminPermissions();
-            User.Permissions = new List<PermissionType>();
+            User.PermissionStrings = new List<string>();
             foreach (var permission in Permissions)
             {
                 if (permission.IsEnable)
                 {
-                    User.Permissions.Add(permission.PermissionType);
+                    User.PermissionStrings.Add(permission.Name);
                 }
             }
             User.RemoreAccess = RemoteAccess.GetModel();
@@ -251,15 +251,15 @@ namespace SecurityModule.ViewModels
 
         void PreventAdminPermissions()
         {
-			if (FiresecManager.CurrentUser.UID == User.UID && FiresecManager.CurrentUser.Permissions.Contains(PermissionType.Adm_Security))
+			if (FiresecManager.CurrentUser.UID == User.UID && FiresecManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
             {
-                var Adm_SecurityPermission = Permissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_Security);
+                var Adm_SecurityPermission = Permissions.FirstOrDefault(x => x.Name == PermissionType.Adm_Security.ToString());
                 if (Adm_SecurityPermission != null)
                 {
                     Adm_SecurityPermission.IsEnable = true;
                 }
 
-                var Adm_SetNewConfigPermission = Permissions.FirstOrDefault(x => x.PermissionType == PermissionType.Adm_SetNewConfig);
+				var Adm_SetNewConfigPermission = Permissions.FirstOrDefault(x => x.Name == PermissionType.Adm_SetNewConfig.ToString());
                 if (Adm_SetNewConfigPermission != null)
                 {
                     Adm_SetNewConfigPermission.IsEnable = true;

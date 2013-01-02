@@ -39,11 +39,8 @@ namespace SecurityModule.ViewModels
 
 			UID = Role.UID;
 			Name = Role.Name;
-			if (Role.Permissions.IsNotNullOrEmpty())
-			{
-				foreach (var permissionType in Role.Permissions)
-					Permissions.First(permission => permission.PermissionType == permissionType).IsEnable = true;
-			}
+				foreach (var permissionString in Role.PermissionStrings)
+					Permissions.First(permission => permission.Name == permissionString).IsEnable = true;
 		}
 
 		string _name;
@@ -64,8 +61,8 @@ namespace SecurityModule.ViewModels
 			Role = new UserRole();
 			Role.UID = UID;
 			Role.Name = Name;
-			Role.Permissions = new List<PermissionType>(
-				Permissions.Where(x => x.IsEnable).Select(x => x.PermissionType)
+			Role.PermissionStrings = new List<string>(
+				Permissions.Where(x => x.IsEnable).Select(x => x.Name)
 			);
 		}
 

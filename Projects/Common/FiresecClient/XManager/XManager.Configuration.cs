@@ -9,7 +9,6 @@ namespace FiresecClient
 	{
 		public static void GetConfiguration()
 		{
-			DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
 			UpdateConfiguration();
 		}
 
