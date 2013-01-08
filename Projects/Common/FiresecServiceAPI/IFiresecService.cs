@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
-using XFiresecAPI;
 
 namespace FiresecAPI
 {

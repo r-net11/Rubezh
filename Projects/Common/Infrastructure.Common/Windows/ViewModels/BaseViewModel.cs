@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

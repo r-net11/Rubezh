@@ -7,9 +7,20 @@
 			Content = content;
 		}
 
+		bool _showIconAndTitle;
+		public bool ShowIconAndTitle
+		{
+			get { return _showIconAndTitle; }
+			set
+			{
+				_showIconAndTitle = value;
+				OnPropertyChanged("ShowIconAndTitle");
+			}
+		}
+
 		#region ICaptionedHeaderViewModel Members
 
-		private HeaderedWindowViewModel _content;
+		HeaderedWindowViewModel _content;
 		public HeaderedWindowViewModel Content
 		{
 			get { return _content; }

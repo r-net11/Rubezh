@@ -1,9 +1,9 @@
 ﻿using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer.Adorners;
 using PlansModule.ViewModels;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
 {

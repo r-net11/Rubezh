@@ -1,9 +1,9 @@
 ﻿using System;
 using FiresecClient;
+using FSAgentAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FSAgentAPI;
 
 namespace FireAdministrator.ViewModels
 {

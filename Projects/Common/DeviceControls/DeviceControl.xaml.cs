@@ -9,9 +9,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using System.Windows.Shapes;
-using System.Windows.Markup;
-using System.Windows.Media.Imaging;
 
 namespace DeviceControls
 {

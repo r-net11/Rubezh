@@ -1,7 +1,7 @@
-﻿using FiresecAPI;
+﻿using System;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
 
 namespace SecurityModule.ViewModels
 {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecClient;
-using FiresecAPI.Models;
 using System.Windows;
-using DeviceControls;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using FiresecAPI.Models;
+using FiresecClient;
 using XFiresecAPI;
 
 namespace DeviceControls

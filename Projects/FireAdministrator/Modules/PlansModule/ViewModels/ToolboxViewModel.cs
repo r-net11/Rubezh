@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Common;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
-using Common;
-using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {

@@ -7,13 +7,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.ComponentModel;
-using PlansModule.Designer.Resize;
-using System.Windows.Data;
 
 namespace PlansModule.Designer.DesignerItems
 {

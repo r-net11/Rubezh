@@ -13,7 +13,7 @@ namespace FireMonitor.Multiclient.ViewModels
 		public MulticlientViewModel(int count)
 		{
 			_count = count;
-			Title = "Multiclient FireSec-2";
+			Title = "Мультисерверная Оперативная Задача FireSec-2";
 			HideInTaskbar = false;
 			AllowHelp = false;
 			AllowMaximize = true;

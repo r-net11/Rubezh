@@ -1,25 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Text;
 using System.Threading;
 using DevicesModule.ViewModels;
 using DiagnosticsModule.Views;
+using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Microsoft.Win32;
-using FiresecAPI.Models;
-using System.Collections.Generic;
-using System.Windows.Markup;
-using System.Text;
-using System.Security.Policy;
-using Infrastructure.Common.BalloonTrayTip;
 using Ionic.Zip;
-using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {

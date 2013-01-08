@@ -16,10 +16,10 @@ namespace FireMonitor
 
 		public void Start()
 		{
-			Thread thread = new Thread(() =>
+			var thread = new Thread(() =>
 			{
 				ApplicationService.ApplicationController = OnControlChanged;
-				App app = new App();
+				var app = new App();
 				app.Exit += new ExitEventHandler(app_Exit);
 				app.IsMulticlient = true;
 				app.InitializeComponent();

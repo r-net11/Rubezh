@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Windows;
-using Common;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 using Ionic.Zip;
 using XFiresecAPI;
-using Infrastructure.Common;
 
 namespace FiresecClient
 {

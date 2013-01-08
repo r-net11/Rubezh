@@ -1,16 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
+using DeviceControls;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using DeviceControls;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Collections.Generic;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
 
 namespace DevicesModule.Plans.Designer
 {

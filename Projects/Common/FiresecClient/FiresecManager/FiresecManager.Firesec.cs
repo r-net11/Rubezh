@@ -2,8 +2,8 @@
 using Common;
 using Firesec;
 using FiresecAPI;
-using Infrastructure.Common;
 using FSAgentClient;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {

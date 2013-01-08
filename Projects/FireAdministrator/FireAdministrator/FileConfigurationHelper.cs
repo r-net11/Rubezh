@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Windows;
 using Common;
 using FiresecAPI;
@@ -13,7 +11,6 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
-using XFiresecAPI;
 
 namespace FireAdministrator
 {

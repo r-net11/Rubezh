@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
@@ -13,7 +14,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using Common;
 
 namespace PlansModule.Designer
 {
