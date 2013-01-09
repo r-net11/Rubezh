@@ -32,11 +32,11 @@ namespace GKModule
                 };
                 if (isConnected)
                 {
-                    journalItem.Description = "Восстановление связи с прибором";
+                    journalItem.Name = "Восстановление связи с прибором";
                 }
                 else
                 {
-                    journalItem.Description = "Потеря связи с прибором";
+                    journalItem.Name = "Потеря связи с прибором";
                 }
                 ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
                 GKDBHelper.Add(journalItem);

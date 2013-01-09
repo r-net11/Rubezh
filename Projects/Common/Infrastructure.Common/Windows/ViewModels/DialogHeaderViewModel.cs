@@ -5,9 +5,10 @@
 		public DialogHeaderViewModel(DialogViewModel content)
 		{
 			Content = content;
+			ShowIconAndTitle = true;
 		}
 
-		#region ICaptionedHeaderViewModel Members
+		#region IHeaderViewModel Members
 
 		private HeaderedWindowViewModel _content;
 		public HeaderedWindowViewModel Content
@@ -19,6 +20,8 @@
 				OnPropertyChanged("Content");
 			}
 		}
+
+		public bool ShowIconAndTitle { get; set; }
 
 		#endregion
 	}

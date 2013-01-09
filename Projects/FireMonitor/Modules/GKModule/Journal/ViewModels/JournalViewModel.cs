@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
             }
         }
 
-        void OnNewJournal(List<JournalItem> journalItems)
+        public void OnNewJournal(List<JournalItem> journalItems)
         {
             foreach (var journalItem in journalItems)
             {

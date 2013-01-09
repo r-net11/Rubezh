@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -90,8 +89,8 @@ namespace SecurityModule.ViewModels
             var roleDetailsViewModel = new RoleDetailsViewModel(SelectedRole.Role);
 			if (DialogService.ShowModalWindow(roleDetailsViewModel))
             {
-				RemovePermissionsFromUsersWithRole(SelectedRole.Role.UID, SelectedRole.Role.Permissions, roleDetailsViewModel.Role.Permissions);
-				AddPermissionsToUsersWithRole(SelectedRole.Role.UID, SelectedRole.Role.Permissions, roleDetailsViewModel.Role.Permissions);
+				RemovePermissionsFromUsersWithRole(SelectedRole.Role.UID, SelectedRole.Role.PermissionStrings, roleDetailsViewModel.Role.PermissionStrings);
+				AddPermissionsToUsersWithRole(SelectedRole.Role.UID, SelectedRole.Role.PermissionStrings, roleDetailsViewModel.Role.PermissionStrings);
 
                 FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
                 SelectedRole.Role = roleDetailsViewModel.Role;
@@ -101,21 +100,21 @@ namespace SecurityModule.ViewModels
             }
         }
 
-		void RemovePermissionsFromUsersWithRole(Guid roleUID, List<PermissionType> oldPermissions, List<PermissionType> newPermissions)
+		void RemovePermissionsFromUsersWithRole(Guid roleUID, List<string> oldPermissions, List<string> newPermissions)
         {
             foreach (var permissionType in oldPermissions.Where(x => newPermissions.Contains(x) == false))
             {
 				foreach (var user in FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleUID == roleUID))
-                    user.Permissions.Remove(permissionType);
+					user.PermissionStrings.Remove(permissionType);
             }
         }
 
-		void AddPermissionsToUsersWithRole(Guid roleUID, List<PermissionType> oldPermissions, List<PermissionType> newPermissions)
+		void AddPermissionsToUsersWithRole(Guid roleUID, List<string> oldPermissions, List<string> newPermissions)
         {
             foreach (var permissionType in newPermissions.Where(x => oldPermissions.Contains(x) == false))
             {
 				foreach (var user in FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleUID == roleUID))
-                    user.Permissions.Add(permissionType);
+					user.PermissionStrings.Add(permissionType);
             }
         }
 

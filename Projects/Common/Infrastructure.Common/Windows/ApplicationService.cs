@@ -4,14 +4,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System.Windows.Controls;
-using Infrastructure.Common.Windows.DataTemplates;
-using System.Windows.Shapes;
-using System.Windows.Media;
 
 namespace Infrastructure.Common.Windows
 {
@@ -49,6 +47,11 @@ namespace Infrastructure.Common.Windows
 		}
 		public static FrameworkElement BuildControl(ShellViewModel model)
 		{
+			model.Header.ShowIconAndTitle = false;
+			model.AllowClose = false;
+			model.AllowHelp = false;
+			model.AllowMaximize = false;
+			model.AllowMinimize = false;
 			model.Width = double.NaN;
 			model.Height = double.NaN;
 			var frameworkElement = new ScrollViewer()

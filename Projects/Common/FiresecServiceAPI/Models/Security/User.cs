@@ -9,7 +9,6 @@ namespace FiresecAPI.Models
     {
         public User()
         {
-            Permissions = new List<PermissionType>();
 			PermissionStrings = new List<string>();
 			UID = Guid.NewGuid();
         }
@@ -20,14 +19,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid RoleUID { get; set; }
 
-		[Obsolete]
-        [DataMember]
-        public UInt64 Id { get; set; }
-
-		[Obsolete]
-        [DataMember]
-        public UInt64 RoleId { get; set; }
-
         [DataMember]
         public string Login { get; set; }
 
@@ -37,13 +28,23 @@ namespace FiresecAPI.Models
         [DataMember]
         public string PasswordHash { get; set; }
 
-        [DataMember]
-        public List<PermissionType> Permissions { get; set; }
-
 		[DataMember]
 		public List<string> PermissionStrings { get; set; }
 
         [DataMember]
         public RemoteAccess RemoreAccess { get; set; }
+
+		public bool HasPermission(PermissionType permissionType)
+		{
+			return PermissionStrings.Contains(permissionType.ToString());
+		}
+
+		[Obsolete]
+		[DataMember]
+		public UInt64 Id { get; set; }
+
+		[Obsolete]
+		[DataMember]
+		public UInt64 RoleId { get; set; }
     }
 }

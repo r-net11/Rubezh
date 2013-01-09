@@ -142,6 +142,15 @@ namespace FiresecAPI.Models
         public override bool ValidateVersion()
         {
 			var result = true;
+			if (RootDevice == null)
+			{
+				var device = new Device()
+				{
+					DriverUID = new Guid(DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.Computer).DriverId)
+				};
+				RootDevice = device;
+				result = false;
+			}
 			foreach (var guardUser in GuardUsers)
 			{
 				if (guardUser.ZoneUIDs == null)

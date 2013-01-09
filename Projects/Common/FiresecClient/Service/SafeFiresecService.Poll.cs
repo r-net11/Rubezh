@@ -4,7 +4,6 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 
 namespace FiresecClient
 {

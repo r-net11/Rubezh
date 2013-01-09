@@ -1,25 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Text;
 using System.Threading;
 using DevicesModule.ViewModels;
 using DiagnosticsModule.Views;
+using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Microsoft.Win32;
-using FiresecAPI.Models;
-using System.Collections.Generic;
-using System.Windows.Markup;
-using System.Text;
-using System.Security.Policy;
-using Infrastructure.Common.BalloonTrayTip;
 using Ionic.Zip;
-using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -77,25 +73,6 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand SecurityTestCommand { get; private set; }
         void OnSecurityTest()
         {
-			foreach (var user in FiresecManager.SecurityConfiguration.Users)
-			{
-
-			}
-
-			foreach (var userRole in FiresecManager.SecurityConfiguration.UserRoles)
-			{
-				userRole.PermissionStrings = new List<string>();
-				foreach (var permission in userRole.Permissions)
-				{
-					var stringPermission = permission.ToString();
-					Trace.WriteLine(stringPermission);
-					userRole.PermissionStrings.Add(stringPermission);
-				}
-			}
-
-			PermissionType permissionType;
-			var result = Enum.TryParse<PermissionType>("none", out permissionType);
-			result = Enum.TryParse<PermissionType>("Adm_ViewConfig", out permissionType);
         }
 
         public RelayCommand ShowTreeCommand { get; private set; }
@@ -128,9 +105,6 @@ namespace DiagnosticsModule.ViewModels
                         break;
 
                     FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                    FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                    //FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-                    //FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
                     //FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
                     Thread.Sleep(TimeSpan.FromSeconds(5));
                     Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
@@ -257,7 +231,7 @@ namespace DiagnosticsModule.ViewModels
                 {
                     entry.Extract(xmlstream);
                     xmlstream.Position = 0;
-                    configuration = SerializeHelper.DeSerialize<T>(xmlstream);
+                    configuration = ZipSerializeHelper.DeSerialize<T>(xmlstream);
                 }
                 return configuration;
             }

@@ -24,6 +24,9 @@ namespace GKModule.ViewModels
             SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
             SetManualStateCommand = new RelayCommand(OnSetManualState);
             SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
+			TurnOnCommand = new RelayCommand(OnTurnOn);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff);
 
             Title = Direction.PresentationName;
             TopMost = true;
@@ -32,6 +35,8 @@ namespace GKModule.ViewModels
         void OnStateChanged()
         {
             OnPropertyChanged("DirectionState");
+			OnPropertyChanged("ControlRegime");
+			OnPropertyChanged("IsControlRegime");
         }
 
         public DeviceControlRegime ControlRegime
@@ -47,6 +52,11 @@ namespace GKModule.ViewModels
                 return DeviceControlRegime.Manual;
             }
         }
+
+		public bool IsControlRegime
+		{
+			get { return ControlRegime == DeviceControlRegime.Manual; }
+		}
 
         void SendControlCommand(byte code)
         {
@@ -73,6 +83,24 @@ namespace GKModule.ViewModels
             SendControlCommand(0x86);
             SendControlCommand(0x00);
         }
+
+		public RelayCommand TurnOnCommand { get; private set; }
+		void OnTurnOn()
+		{
+			SendControlCommand(0x8b);
+		}
+
+		public RelayCommand TurnOnNowCommand { get; private set; }
+		void OnTurnOnNow()
+		{
+			SendControlCommand(0x90);
+		}
+
+		public RelayCommand TurnOffCommand { get; private set; }
+		void OnTurnOff()
+		{
+			SendControlCommand(0x8d);
+		}
 
         #region IWindowIdentity Members
         public string Guid

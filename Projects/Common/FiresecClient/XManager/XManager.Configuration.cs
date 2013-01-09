@@ -7,12 +7,6 @@ namespace FiresecClient
 {
 	public partial class XManager
 	{
-		public static void GetConfiguration()
-		{
-			DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
-			UpdateConfiguration();
-		}
-
 		public static void Invalidate()
 		{
 			ClearAllReferences();

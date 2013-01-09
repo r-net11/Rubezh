@@ -6,7 +6,6 @@ using System.Windows;
 using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using Microsoft.Win32;
 
 namespace Infrastructure.Common.Windows
 {

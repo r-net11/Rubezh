@@ -9,7 +9,7 @@ namespace FiresecService
 
         static ConfigurationCash()
         {
-            SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+            SecurityConfiguration = ZipFileManager.GetSecurityConfiguration();
         }
     }
 }

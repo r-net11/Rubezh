@@ -84,7 +84,6 @@ namespace FireMonitor
 
                     //MutexHelper.KeepAlive();
                     ProgressWatcher.Run();
-                    ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Publish(null);
                     if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
                     {
                         RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");

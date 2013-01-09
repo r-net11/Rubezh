@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
-using Infrastructure;
 using Common;
+using Infrastructure;
 
 namespace FireAdministrator
 {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
-using System.Threading;
 using Common;
 using FiresecAPI;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows;
 
 namespace FiresecClient
 {

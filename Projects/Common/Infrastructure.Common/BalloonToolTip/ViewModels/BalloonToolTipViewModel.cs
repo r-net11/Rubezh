@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
-using Common;
 using System.Windows.Media;
+using Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 
 namespace Infrastructure.Common.BalloonTrayTip.ViewModels

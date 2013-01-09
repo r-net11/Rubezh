@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Common;
 using Firesec;
 using FiresecAPI;
@@ -89,7 +88,7 @@ namespace FiresecClient
 			{
 				if (CurrentUser == null)
 					return false;
-				return CurrentUser.Permissions.Any(x => x == permissionType);
+				return CurrentUser.HasPermission(permissionType);
 			}
 			catch (Exception e)
 			{

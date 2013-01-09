@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
-using FiresecAPI.Models;
-using FiresecAPI;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Controls.Converters
 {
