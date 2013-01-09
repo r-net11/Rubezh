@@ -17,8 +17,10 @@
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <TextBlock Text="{Binding DirectionState.StateClass}" FontWeight="Bold" Foreground="Orange" />
-                        <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" Foreground="Orange" />
+                            <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -30,7 +32,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <TextBlock Text="Режим" Foreground="White" HorizontalAlignment="Center" Margin="2" />
-                        <TextBlock Text="{Binding SelectedControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Margin="2" />
+                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Foreground="White" Margin="2" />
                     </StackPanel>
                     <Grid Grid.Row="1" Background="White">
                         <Grid.ColumnDefinitions>

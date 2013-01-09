@@ -21,6 +21,9 @@ namespace GKModule.ViewModels
 
             ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
             ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+
+			var journalItems = GKDBHelper.GetTopLast(100);
+			Journals.ForEach(x => x.OnNewJournal(journalItems));
         }
 
         public void Initialize()

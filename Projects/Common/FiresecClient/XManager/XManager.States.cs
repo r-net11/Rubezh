@@ -9,10 +9,7 @@ namespace FiresecClient
         {
             foreach (var device in DeviceConfiguration.Devices)
             {
-                var deviceState = new XDeviceState()
-                {
-                    Device = device
-                };
+                var deviceState = new XDeviceState(device);
 				device.DeviceState = deviceState;
             }
             foreach (var zone in DeviceConfiguration.Zones)

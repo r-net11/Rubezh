@@ -7,11 +7,6 @@ namespace FiresecClient
 {
 	public partial class XManager
 	{
-		public static void GetConfiguration()
-		{
-			UpdateConfiguration();
-		}
-
 		public static void Invalidate()
 		{
 			ClearAllReferences();

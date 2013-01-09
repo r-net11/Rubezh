@@ -18,8 +18,8 @@ namespace GKModule
 
         public static void Start()
         {
-			var journalItems = GKDBHelper.GetTopLast(100);
-			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
+			//var journalItems = GKDBHelper.GetTopLast(100);
+			//ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 
             Watchers = new List<Watcher>();
             foreach (var gkDatabase in DatabaseManager.GkDatabases)

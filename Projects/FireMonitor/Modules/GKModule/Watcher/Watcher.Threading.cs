@@ -53,12 +53,15 @@ namespace GKModule
 
 		void OnRunThread()
 		{
+            GetAllStates();
+
 			while (true)
 			{
 				try
 				{
 					CheckTasks();
 					PingJournal();
+					//GetNextParameter();
 				}
 				catch (Exception e)
 				{
@@ -72,5 +75,7 @@ namespace GKModule
 				}
 			}
 		}
+
+
 	}
 }

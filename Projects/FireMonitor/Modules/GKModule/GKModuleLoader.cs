@@ -45,7 +45,6 @@ namespace GKModule
 			ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
-			ServiceFactory.Events.GetEvent<BootstrapperInitializedEvent>().Subscribe(OnBootstrapperInitialized);
 		}
 
 		void OnShowAlarms(XAlarmType? alarmType)
@@ -78,11 +77,6 @@ namespace GKModule
 		void OnShowXDeviceDetails(Guid deviceUID)
 		{
 			DialogService.ShowWindow(new DeviceDetailsViewModel(deviceUID));
-		}
-
-		public void OnBootstrapperInitialized(object obj)
-		{
-			//WatcherManager.Start();
 		}
 
 		public override void Initialize()
@@ -137,7 +131,7 @@ namespace GKModule
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
-			XManager.GetConfiguration();
+            XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DatabaseManager.Convert();
 			return true;
