@@ -98,7 +98,6 @@ namespace FireAdministrator
 					}
 					File.Delete(tempFileName);
 
-
                     if (ServiceFactory.SaveService.FSChanged ||
                         ServiceFactory.SaveService.PlansChanged ||
                         ServiceFactory.SaveService.GKChanged)

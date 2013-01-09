@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -12,6 +13,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using Ionic.Zip;
 
 namespace SettingsModule.ViewModels
 {
@@ -39,31 +41,52 @@ namespace SettingsModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
-                    LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
+					LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
 					var convertstionResult = FiresecManager.FiresecDriver.Convert();
-                    if (convertstionResult.HasError)
-                    {
-                        MessageBoxService.ShowError(convertstionResult.Error);
-                        return;
-                    }
+					if (convertstionResult.HasError)
+					{
+						MessageBoxService.ShowError(convertstionResult.Error);
+						return;
+					}
 					ServiceFactory.SaveService.FSChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;
-                    LoadingService.DoStep("Обновление конфигурации");
+					LoadingService.DoStep("Обновление конфигурации");
 					FiresecManager.UpdateConfiguration();
-                    LoadingService.DoStep("Сохранение конфигурации планов");
-					//FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-                    LoadingService.DoStep("Сохранение конфигурации устройств");
-					//var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-					//if (result.HasError)
-					//{
-					//    MessageBoxService.ShowError(result.Error);
-					//}
-                    LoadingService.DoStep("Оповещение клиентов об изменении конфигурации");
-                    FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                    LoadingService.Close();
+
+					LoadingService.DoStep("Сохранение конфигурации");
+					var tempFileName = Path.GetTempFileName() + "_";
+					var zipFile = new ZipFile(tempFileName);
+					TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+					AddConfiguration(zipFile, FiresecManager.FiresecConfiguration.DeviceConfiguration, "DeviceConfiguration.xml", 1, 1);
+					AddConfiguration(zipFile, FiresecManager.PlansConfiguration, "PlansConfiguration.xml", 1, 1);
+					AddConfiguration(zipFile, TempZipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml", 1, 1);
+					zipFile.Save(tempFileName);
+					zipFile.Dispose();
+					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
+					{
+						FiresecManager.FiresecService.SetConfig(fileStream);
+					}
+					File.Delete(tempFileName);
+
+					LoadingService.DoStep("Оповещение клиентов об изменении конфигурации");
+					FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+					LoadingService.Close();
 				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
+		}
+
+		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+
+		static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
+		{
+			configuration.BeforeSave();
+			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+			var configurationStream = ZipSerializeHelper.Serialize(configuration);
+			if (zipFile.Entries.Any(x => x.FileName == name))
+				zipFile.RemoveEntry(name);
+			configurationStream.Position = 0;
+			zipFile.AddEntry(name, configurationStream);
 		}
 
         public RelayCommand LoadFromFileOldCommand { get; private set; }

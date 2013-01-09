@@ -5,6 +5,7 @@
 		public DialogHeaderViewModel(DialogViewModel content)
 		{
 			Content = content;
+			ShowIconAndTitle = true;
 		}
 
 		#region IHeaderViewModel Members

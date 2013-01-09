@@ -109,16 +109,20 @@ namespace FiresecService.Configuration
 		{
 			try
 			{
-				var memoryStream = new MemoryStream();
-				using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
+				var fullFileName = ConfigurationDirectory(fileName);
+				if (File.Exists(fullFileName))
 				{
-					memoryStream.SetLength(fileStream.Length);
-					fileStream.Read(memoryStream.GetBuffer(), 0, (int)fileStream.Length);
-				}
+					var memoryStream = new MemoryStream();
+					using (var fileStream = new FileStream(fullFileName, FileMode.Open))
+					{
+						memoryStream.SetLength(fileStream.Length);
+						fileStream.Read(memoryStream.GetBuffer(), 0, (int)fileStream.Length);
+					}
 
-				var dataContractSerializer = new DataContractSerializer(type);
-				var configuration = (VersionedConfiguration)dataContractSerializer.ReadObject(memoryStream);
-				return configuration;
+					var dataContractSerializer = new DataContractSerializer(type);
+					var configuration = (VersionedConfiguration)dataContractSerializer.ReadObject(memoryStream);
+					return configuration;
+				}
 			}
 			catch (Exception e)
 			{
