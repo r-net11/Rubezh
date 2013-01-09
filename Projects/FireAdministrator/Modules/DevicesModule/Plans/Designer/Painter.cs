@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
