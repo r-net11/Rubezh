@@ -17,7 +17,7 @@ namespace FireMonitor.Multiclient
 		{
 			base.OnStartup(e);
 			ServiceFactory.Initialize();
-			ApplicationService.Run(new ViewModels.MulticlientViewModel(1), true);
+			ApplicationService.Run(new ViewModels.MulticlientViewModel(2), true);
 		}
 
 		protected override void OnExit(ExitEventArgs e)

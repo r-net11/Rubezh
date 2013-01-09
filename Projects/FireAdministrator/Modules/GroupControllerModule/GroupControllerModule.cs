@@ -99,7 +99,7 @@ namespace GKModule
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
-			XManager.GetConfiguration();
+			XManager.UpdateConfiguration();
 			return true;
 		}
 	}

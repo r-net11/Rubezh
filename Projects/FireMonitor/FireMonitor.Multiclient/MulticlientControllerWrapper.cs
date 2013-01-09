@@ -10,7 +10,7 @@ namespace FireMonitor.Multiclient
 	{
 		public event EventHandler ControlChanged;
 
-		private FrameworkElement _frameworkElement;
+		FrameworkElement _frameworkElement;
 		public int Index { get; private set; }
 		public AppDomain AppDomain { get; private set; }
 		public MulticlientController Controller { get; private set; }
@@ -26,15 +26,22 @@ namespace FireMonitor.Multiclient
 		}
 		public void Start()
 		{
+			Controller.StateChanged += new Action<FiresecAPI.StateType>(OnStateChanged);
 			Controller.ControlChanged += OnControlChanged;
 			Controller.Start();
 		}
+
+		void OnStateChanged(FiresecAPI.StateType obj)
+		{
+			;
+		}
+
 		public void ShutDown()
 		{
 			Controller.ShutDown();
 		}
 
-		private void OnControlChanged(INativeHandleContract contract)
+		void OnControlChanged(INativeHandleContract contract)
 		{
 			Contract = contract;
 			_frameworkElement = null;

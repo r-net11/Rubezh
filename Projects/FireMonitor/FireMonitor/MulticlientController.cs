@@ -7,12 +7,32 @@ using Infrastructure.Common.Windows;
 using System.AddIn.Contract;
 using System.Windows;
 using System.AddIn.Pipeline;
+using FiresecAPI;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace FireMonitor
 {
 	public class MulticlientController : MarshalByRefObject
 	{
+		public event Action<StateType> StateChanged;
 		public event Action<INativeHandleContract> ControlChanged;
+		public static MulticlientController Current;
+
+		public MulticlientController()
+		{
+			Current = this;
+		}
+		public void SuscribeMulticlientStateChanged()
+		{
+			ServiceFactory.Events.GetEvent<MulticlientStateChanged>().Subscribe(OnMulticlientStateChanged);
+		}
+
+		void OnMulticlientStateChanged(StateType stateType)
+		{
+			if (StateChanged != null)
+				StateChanged(stateType);
+		}
 
 		public void Start()
 		{
@@ -21,7 +41,7 @@ namespace FireMonitor
 				ApplicationService.ApplicationController = OnControlChanged;
 				var app = new App();
 				app.Exit += new ExitEventHandler(app_Exit);
-				app.IsMulticlient = true;
+				App.IsMulticlient = true;
 				app.InitializeComponent();
 				app.Run();
 			});
@@ -43,7 +63,7 @@ namespace FireMonitor
 						ControlChanged(contract);
 				});
 		}
-		private void app_Exit(object sender, ExitEventArgs e)
+		void app_Exit(object sender, ExitEventArgs e)
 		{
 		}
 

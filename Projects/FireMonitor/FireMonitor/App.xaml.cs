@@ -22,7 +22,7 @@ namespace FireMonitor
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
-		public bool IsMulticlient { get; set; }
+		public static bool IsMulticlient { get; set; }
 
 		public App()
 		{
@@ -38,8 +38,6 @@ namespace FireMonitor
                 AppSettingsManager.AutoConnect = true;
 #endif
                 InitializeCommandLineArguments(e.Args);
-                if (MulticlientHelper.IsMulticlient)
-                    MulticlientHelper.Start();
 
                 ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
                 ThemeHelper.LoadThemeFromRegister();
@@ -48,7 +46,7 @@ namespace FireMonitor
                 BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
                 _bootstrapper = new Bootstrapper(IsMulticlient);
-                using (new DoubleLaunchLocker(SignalId, WaitId, true, !MulticlientHelper.IsMulticlient && !IsMulticlient))
+                using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
                     _bootstrapper.Initialize();
             }
             catch (Exception ex)
@@ -59,8 +57,10 @@ namespace FireMonitor
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            if (!MulticlientHelper.IsMulticlient)
+            if (!IsMulticlient)
                 StartRevisor();
+			if (IsMulticlient)
+				MulticlientController.Current.SuscribeMulticlientStateChanged();
         }
 
 		void StartRevisor()
@@ -149,20 +149,6 @@ namespace FireMonitor
 						{
 							Password = arg.Replace("password='", "");
 							Password = Password.Replace("'", "");
-						}
-						if (arg.StartsWith("regime='") && arg.EndsWith("'"))
-						{
-							var regime = arg.Replace("regime='", "");
-							regime = regime.Replace("'", "");
-							if (regime == "multiclient")
-							{
-								MulticlientHelper.IsMulticlient = true;
-							}
-						}
-						if (arg.StartsWith("ClientId='") && arg.EndsWith("'"))
-						{
-							MulticlientHelper.MulticlientClientId = arg.Replace("ClientId='", "");
-							MulticlientHelper.MulticlientClientId = MulticlientHelper.MulticlientClientId.Replace("'", "");
 						}
 					}
 				}

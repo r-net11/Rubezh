@@ -5,6 +5,7 @@
 		public ApplicationHeaderViewModel(ApplicationViewModel content)
 		{
 			Content = content;
+			ShowIconAndTitle = true;
 		}
 
 		bool _showIconAndTitle;

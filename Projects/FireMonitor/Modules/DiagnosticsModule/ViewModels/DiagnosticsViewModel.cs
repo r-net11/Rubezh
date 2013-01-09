@@ -36,6 +36,7 @@ namespace DiagnosticsModule.ViewModels
 			Test10Command = new RelayCommand(OnTest10);
 			Test11Command = new RelayCommand(OnTest11);
 			TestBalloonCommand = new RelayCommand(OnTestBalloon);
+			MulticlientTestCommand = new RelayCommand(OnMulticlientTest);
 			ServiceFactory.Events.GetEvent<WarningItemEvent>().Subscribe(OnWarningTest);
 		}
 
@@ -155,7 +156,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
-            MessageBoxService.Show("ApplicationService.ApplicationWindow.Left = " + ApplicationService.ApplicationWindow.Left.ToString());
+			MessageBoxService.Show("ApplicationService.ApplicationWindow.Left = " + ApplicationService.ApplicationWindow.Left.ToString());
 			//throw new Exception("Unknown exception");
 		}
 
@@ -380,10 +381,10 @@ namespace DiagnosticsModule.ViewModels
 		void OnWarningTest(object obj)
 		{
 			Random rnd = new Random();
-            BalloonHelper.Show("Предупреждение", rnd.Next(100).ToString());
+			BalloonHelper.Show("Предупреждение", rnd.Next(100).ToString());
 		}
-		
-        public RelayCommand TestBalloonCommand { get; private set; }
+
+		public RelayCommand TestBalloonCommand { get; private set; }
 		void OnTestBalloon()
 		{
 			Infrastructure.Common.BalloonTrayTip.BalloonHelper.Show("Hi, there", "Hi, there");
@@ -397,6 +398,12 @@ namespace DiagnosticsModule.ViewModels
 			{
 				Infrastructure.Common.BalloonTrayTip.BalloonHelper.Show("Hello", "Hello");
 			}));
+		}
+
+		public RelayCommand MulticlientTestCommand { get; private set; }
+		void OnMulticlientTest()
+		{
+			ServiceFactory.Events.GetEvent<MulticlientStateChanged>().Publish(StateType.Fire);
 		}
 	}
 
