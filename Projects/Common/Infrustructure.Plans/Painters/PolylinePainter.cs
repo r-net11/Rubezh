@@ -5,14 +5,15 @@ using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class PolylinePainter : ShapePainter<Polyline>
+	public class PolylinePainter : PolygonPainter
 	{
-		public override UIElement Draw(ElementBase element)
+		public override bool IsClosed
 		{
-			var shape = CreateShape(element);
-			shape.Fill = Brushes.Transparent;
-			shape.Points = PainterHelper.GetPoints(element);
-			return shape;
+			get { return false; }
+		}
+		protected override Brush GetBrush(ElementBase element)
+		{
+			return null;
 		}
 	}
 }

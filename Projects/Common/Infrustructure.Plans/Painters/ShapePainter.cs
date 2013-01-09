@@ -5,20 +5,25 @@ using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class ShapePainter<T> : IPainter
-		where T : Shape, new()
+	public abstract class ShapePainter : IPainter
 	{
-		protected T CreateShape(ElementBase element)
-		{
-			T shape = new T();
-			PainterHelper.SetStyle(shape, element);
-			//shape.IsHitTestVisible = false;
-			return shape;
-		}
+		protected abstract Geometry CreateShape(ElementBase element);
 
-		public virtual UIElement Draw(ElementBase element)
+		protected virtual Brush GetBrush(ElementBase element)
 		{
-			return CreateShape(element);
+			return PainterCache.GetBrush(element.BackgroundColor, element.BackgroundPixels);
+		}
+		protected virtual Pen GetPen(ElementBase element)
+		{
+			return PainterCache.GetPen(element.BorderColor, element.BorderThickness);
+		}
+		protected Geometry Geometry { get; private set; }
+		protected Rect Rect { get; private set; }
+		public virtual void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		{
+			Rect = rect;
+			Geometry = CreateShape(element);
+			drawingContext.DrawGeometry(GetBrush(element), GetPen(element), Geometry);
 		}
 	}
 }

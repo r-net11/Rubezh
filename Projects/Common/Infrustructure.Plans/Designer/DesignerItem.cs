@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Input;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -14,8 +16,7 @@ namespace Infrustructure.Plans.Designer
 			get { return (bool)GetValue(IsSelectedProperty); }
 			set { SetValue(IsSelectedProperty, value); }
 		}
-
-		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false, IsSelectableChanged, IsSelectableCoerce));
+		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(true, IsSelectableChanged, IsSelectableCoerce));
 		public virtual bool IsSelectable
 		{
 			get { return (bool)GetValue(IsSelectableProperty); }
@@ -30,6 +31,7 @@ namespace Infrustructure.Plans.Designer
 				if ((bool)e.NewValue && designerItem != null && designerItem.DesignerCanvas != null && designerItem.DesignerCanvas.SelectedItems.Count() == 1)
 					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
 				designerItem.IsSelectedChanged();
+				designerItem.Redraw();
 			}
 		}
 		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -51,49 +53,30 @@ namespace Infrustructure.Plans.Designer
 			return e;
 		}
 
-		private bool _isVisibleLayout;
-		public virtual bool IsVisibleLayout
+		public override bool IsVisibleLayout
 		{
-			get { return _isVisibleLayout; }
+			get { return base.IsVisibleLayout; }
 			set
 			{
-				if (_isVisibleLayout != value)
-				{
-					_isVisibleLayout = value;
-					Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-					if (!value)
-						IsSelected = false;
-				}
+				if (IsVisibleLayout != value && !value)
+					IsSelected = false;
+				base.IsVisibleLayout = value;
 			}
 		}
-
-		private bool _isSelectableLayout;
-		public virtual bool IsSelectableLayout
-		{
-			get { return _isSelectableLayout; }
-			set
-			{
-				if (_isSelectableLayout != value)
-				{
-					_isSelectableLayout = value;
-					IsSelectable = value;
-					if (!value)
-						IsSelected = false;
-				}
-			}
-		}
-
-		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
 		public ICommand ShowPropertiesCommand { get; protected set; }
 		public ICommand DeleteCommand { get; protected set; }
 
-		public ResizeChrome ResizeChrome { get; set; }
+		public ResizeChrome ResizeChrome { get; protected set; }
 		public string Group { get; set; }
+		protected bool IsDragging { get; private set; }
+		protected bool IsMoved { get; private set; }
+		private Point _previousPosition;
 
 		public DesignerItem(ElementBase element)
 			: base(element)
 		{
 			Group = string.Empty;
+			IsVisibleLayout = true;
 		}
 
 		public override void ResetElement(ElementBase element)
@@ -104,32 +87,34 @@ namespace Infrustructure.Plans.Designer
 		}
 		public void UpdateAdorner()
 		{
-			if (ResizeChrome != null)
-				ResizeChrome.Initialize();
+			//if (ResizeChrome != null)
+			//    ResizeChrome.Initialize();
 		}
 		public virtual void UpdateAdornerLayout()
 		{
 		}
 
-		public virtual void UpdateZoom()
+		public override void UpdateZoom()
 		{
-			if (ResizeChrome != null)
-				ResizeChrome.UpdateZoom();
-		}
-		public virtual void UpdateZoomPoint()
-		{
+			//if (ResizeChrome != null)
+			//    ResizeChrome.UpdateZoom();
 		}
 		public override void Redraw()
 		{
-			base.Redraw();
 			UpdateAdorner();
+			base.Redraw();
+		}
+		protected override void Render(DrawingContext drawingContext)
+		{
+			base.Render(drawingContext);
+			if (IsSelected)
+				drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), Element.GetRectangle());
 		}
 
-		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+		protected override void MouseDown(MouseButtonEventArgs e)
 		{
-			base.OnPreviewMouseDown(e);
-
-			if (DesignerCanvas != null)
+			base.MouseDown(e);
+			if (IsSelectable && DesignerCanvas != null)
 			{
 				if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
 					IsSelected = !IsSelected;
@@ -138,18 +123,121 @@ namespace Infrustructure.Plans.Designer
 					DesignerCanvas.DeselectAll();
 					IsSelected = true;
 				}
+				if (!IsDragging)
+				{
+					e.Handled = true;
+					_previousPosition = e.GetPosition(DesignerCanvas);
+					DragStarted();
+				}
 			}
-			e.Handled = false;
+		}
+		protected override void MouseMove(MouseEventArgs e)
+		{
+			base.MouseMove(e);
+			if (IsSelectable && DesignerCanvas != null && IsDragging)
+			{
+				if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+				{
+					Point position = e.GetPosition(DesignerCanvas);
+					if (_previousPosition != position)
+					{
+						DragDelta(new Vector(position.X - _previousPosition.X, position.Y - _previousPosition.Y));
+						_previousPosition = position;
+						e.Handled = true;
+					}
+				}
+				else
+					DragCompleted();
+			}
+		}
+		protected override void MouseUp(MouseButtonEventArgs e)
+		{
+			base.MouseUp(e);
+			if (IsSelectable && DesignerCanvas != null && IsDragging)
+			{
+				e.Handled = true;
+				DragCompleted();
+			}
+		}
+		protected override void MouseDoubleClick(MouseButtonEventArgs e)
+		{
+			base.MouseDoubleClick(e);
+			if (IsSelected && DesignerCanvas != null)
+				ShowPropertiesCommand.Execute(null);
+		}
+		internal override void SetIsMouseOver(bool value)
+		{
+			base.SetIsMouseOver(value);
+			DesignerCanvas.Cursor = value && IsSelectable ? Cursors.SizeAll : Cursors.Arrow;
+		}
+		internal override ContextMenu ContextMenuOpening()
+		{
+			if (IsSelectable)
+			{
+				if (!IsSelected)
+				{
+					DesignerCanvas.DeselectAll();
+					IsSelected = true;
+				}
+				return base.ContextMenuOpening();
+			}
+			else
+				return null;
 		}
 
 		protected abstract void OnShowProperties();
 		protected abstract void OnDelete();
 
-		protected virtual void IsSelectableChanged()
+		protected void IsSelectableChanged()
 		{
+			SetIsMouseOver(false);
 		}
-		protected virtual void IsSelectedChanged()
+		protected void IsSelectedChanged()
 		{
+			if (ResizeChrome != null)
+				ResizeChrome.Visibility = IsSelected ? Visibility.Visible : Visibility.Hidden;
+		}
+
+		protected virtual void DragStarted()
+		{
+			IsBusy = true;
+			IsDragging = true;
+			IsMoved = false;
+			DesignerCanvas.BeginChange();
+			DesignerCanvas.SurfaceCaptureMouse();
+		}
+		protected virtual void DragCompleted()
+		{
+			IsBusy = false;
+			IsDragging = false;
+			if (DesignerCanvas.IsSurfaceMouseCaptured)
+				DesignerCanvas.SurfaceReleaseMouseCapture();
+			if (IsMoved)
+				DesignerCanvas.EndChange();
+		}
+		protected virtual void DragDelta(Vector shift)
+		{
+			if (IsSelected)
+			{
+				IsMoved = true;
+				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+				{
+					var rect = designerItem.GetVisualRect();
+					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
+						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
+					if (rect.Left + shift.X < 0)
+						shift.X = -rect.Left;
+					if (rect.Bottom + shift.Y > DesignerCanvas.CanvasHeight)
+						shift.Y = DesignerCanvas.CanvasHeight - rect.Bottom;
+					if (rect.Top + shift.Y < 0)
+						shift.Y = -rect.Top;
+				}
+				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+				{
+					designerItem.Element.Position += shift;
+					designerItem.Redraw();
+				}
+			}
 		}
 	}
 }

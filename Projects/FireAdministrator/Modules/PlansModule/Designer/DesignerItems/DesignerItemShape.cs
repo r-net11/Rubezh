@@ -23,7 +23,6 @@ namespace PlansModule.Designer.DesignerItems
 				Title = "Линия";
 				Group = LayerGroupService.ElementAlias;
 			}
-			UpdateLayout();
 		}
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()

@@ -93,7 +93,7 @@ namespace PlansModule.ViewModels
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
 				transform(designerItem, total);
-				designerItem.SetLocation();
+				designerItem.Redraw();
 			}
 			DesignerCanvas.EndChange();
 			ServiceFactory.SaveService.PlansChanged = true;

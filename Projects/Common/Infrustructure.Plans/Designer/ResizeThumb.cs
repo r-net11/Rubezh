@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using System.Windows;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -36,5 +38,33 @@ namespace Infrustructure.Plans.Designer
 			DesignerCanvas.EndChange();
 		}
 
+		//private static Brush _brush;
+		//static ResizeThumb()
+		//{
+		//    FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeThumb), new FrameworkPropertyMetadata(typeof(ResizeThumb)));
+		//    _brush = new RadialGradientBrush()
+		//    {
+		//        Center = new Point(0.3, 0.3),
+		//        GradientOrigin = new Point(0.3, 0.3),
+		//        RadiusX = 0.7,
+		//        RadiusY = 0.7,
+		//        GradientStops = new GradientStopCollection()
+		//        {
+		//            new GradientStop(Colors.White, 0),
+		//            new GradientStop(Colors.DarkSlateGray, 0.9),
+		//        }
+		//    };
+		//    _brush.Freeze();
+		//}
+		//private Rect _rect;
+		//protected override void OnRender(DrawingContext drawingContext)
+		//{
+		//    drawingContext.DrawGeometry(_brush, null, new EllipseGeometry(_rect));
+		//}
+		//protected override Size ArrangeOverride(Size arrangeBounds)
+		//{
+		//    _rect = new Rect(0, 0, arrangeBounds.Width, arrangeBounds.Height);
+		//    return base.ArrangeOverride(arrangeBounds);
+		//}
 	}
 }

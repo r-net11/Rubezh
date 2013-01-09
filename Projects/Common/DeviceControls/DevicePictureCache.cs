@@ -16,13 +16,18 @@ namespace DeviceControls
 	{
 		private const int Size = 100;
 		private static Dictionary<Guid, ImageSource> _imageSources = new Dictionary<Guid, ImageSource>();
+		private static Dictionary<Guid, Brush> _brushes = new Dictionary<Guid, Brush>();
 
 		public static void LoadCache()
 		{
 			_imageSources.Clear();
 			RegisterImageSource(null);
 			FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(item => RegisterImageSource(item));
+			_brushes.Clear();
+			RegisterBrush(null);
+			FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(item => RegisterBrush(item));
 		}
+
 		private static void RegisterImageSource(LibraryDevice libraryDevice)
 		{
 			var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
@@ -61,6 +66,40 @@ namespace DeviceControls
 					RegisterImageSource(libraryDevice);
 			}
 			return _imageSources[driverUID];
+		}
+
+		private static void RegisterBrush(LibraryDevice libraryDevice)
+		{
+			var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
+			var brush = new VisualBrush(frameworkElement);
+			//brush.Freeze();
+			_brushes.Add(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId, brush);
+		}
+		public static Brush GetBrush(Device device)
+		{
+			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
+			return GetBrush(driverUID);
+		}
+		public static Brush GetBrush(XDevice device)
+		{
+			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
+			return GetBrush(driverUID);
+		}
+		public static Brush GetBrush(Guid driverUID)
+		{
+			if (!_brushes.ContainsKey(driverUID))
+			{
+				var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driverUID);
+				if (libraryDevice == null)
+				{
+					if (!_brushes.ContainsKey(Guid.Empty))
+						RegisterBrush(null);
+					return _brushes[Guid.Empty];
+				}
+				else
+					RegisterBrush(libraryDevice);
+			}
+			return _brushes[driverUID];
 		}
 	}
 }

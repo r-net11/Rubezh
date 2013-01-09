@@ -16,19 +16,43 @@ namespace DevicesModule.Plans.Designer
 {
 	internal class Painter : IPainter
 	{
-		public Painter()
-		{
-		}
+		#region IPainter Members
 
-		public UIElement Draw(ElementBase element)
+		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
 			var device = Helper.GetDevice((ElementDevice)element);
-			var imageSource = DevicePictureCache.GetImageSource(device);
-			return new Image()
-			{
-				Source = imageSource
-			};
+			var brush = DevicePictureCache.GetBrush(device);
+			drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
 		}
+
+		#endregion
+
+		//public Visual Draw(ElementBase element)
+		//{
+		//    //var device = Helper.GetDevice((ElementDevice)element);
+		//    //Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
+		//    //var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driverUID);
+		//    //var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
+		//    //Brush brush = new VisualBrush()
+		//    //{
+		//    //    Visual = frameworkElement
+		//    //};
+
+		//    //DrawingVisual visual = new DrawingVisual();
+		//    //using (DrawingContext dc = visual.RenderOpen())
+		//    //{
+		//    //    var rect = element.GetRectangle();
+		//    //    dc.DrawRectangle(brush, null, rect);
+		//    //}
+		//    //return visual;
+
+		//    var device = Helper.GetDevice((ElementDevice)element);
+		//    var imageSource = DevicePictureCache.GetImageSource(device);
+		//    return new Image()
+		//    {
+		//        Source = imageSource
+		//    };
+		//}
 
 		//public Visual Draw2(ElementBase element)
 		//{

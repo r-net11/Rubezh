@@ -14,6 +14,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
 using Common;
+using PlansModule.Designer.DesignerItems;
 
 namespace PlansModule.Designer
 {
@@ -24,12 +25,12 @@ namespace PlansModule.Designer
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
-		private Dictionary<Plan, Canvas> _canvasMap;
+		private Dictionary<Plan, DesignerSurface> _canvasMap;
 
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			_canvasMap = new Dictionary<Plan, Canvas>();
+			_canvasMap = new Dictionary<Plan, DesignerSurface>();
 			Background = Brushes.Orange;
 			Width = 100;
 			Height = 100;
@@ -64,12 +65,11 @@ namespace PlansModule.Designer
 				CommandParameter = this
 			};
 			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
-			SelectedCanvas.ContextMenu = new ContextMenu();
-			SelectedCanvas.ContextMenu.Items.Add(pasteItem);
+			ContextMenu = new ContextMenu();
+			ContextMenu.Items.Add(pasteItem);
 			using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
 				Update(plan);
 			_canvasMap.Add(plan, SelectedCanvas);
-			//Canvas.SetZIndex(SelectedCanvas, 0);
 			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
 		}
 		public void RemovePlan()
@@ -88,7 +88,6 @@ namespace PlansModule.Designer
 			if (SelectedCanvas != null)
 			{
 				DeselectAll();
-				//Canvas.SetZIndex(SelectedCanvas, 0);
 				SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
 				SelectedCanvas = null;
 			}
@@ -97,7 +96,6 @@ namespace PlansModule.Designer
 				SelectedCanvas = _canvasMap[plan];
 				Height = SelectedCanvas.Height;
 				Width = SelectedCanvas.Width;
-				//Canvas.SetZIndex(SelectedCanvas, 1);
 				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
 			}
 		}
@@ -209,7 +207,6 @@ namespace PlansModule.Designer
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Add(designerItem);
 			designerItem.Redraw();
-			designerItem.SetZIndex();
 			return designerItem;
 		}
 
@@ -272,13 +269,15 @@ namespace PlansModule.Designer
 			foreach (DesignerItem designerItem in Items)
 			{
 				designerItem.UpdateZoom();
-				designerItem.UpdateZoomPoint();
+				if (designerItem is DesignerItemPoint)
+					designerItem.UpdateZoomPoint();
 			}
 		}
 		public void UpdateZoomPoint()
 		{
 			foreach (DesignerItem designerItem in Items)
-				designerItem.UpdateZoomPoint();
+				if (designerItem is DesignerItemPoint)
+					designerItem.UpdateZoomPoint();
 		}
 	}
 }

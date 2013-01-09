@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
@@ -11,12 +10,12 @@ namespace Infrustructure.Plans.Presenter
 		private double _zoom;
 		private double _pointZoom;
 
-		public static readonly RoutedEvent FlushEvent = EventManager.RegisterRoutedEvent("Flush", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(PresenterItem));
-		public event RoutedEventHandler Flush
-		{
-			add { AddHandler(FlushEvent, value); }
-			remove { RemoveHandler(FlushEvent, value); }
-		}
+		//public static readonly RoutedEvent FlushEvent = EventManager.RegisterRoutedEvent("Flush", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(PresenterItem));
+		//public event RoutedEventHandler Flush
+		//{
+		//    add { AddHandler(FlushEvent, value); }
+		//    remove { RemoveHandler(FlushEvent, value); }
+		//}
 
 		public double AdornerThickness { get; private set; }
 		public double AdornerMargin { get; private set; }
@@ -25,8 +24,6 @@ namespace Infrustructure.Plans.Presenter
 		public PresenterItem(ElementBase element)
 			: base(element)
 		{
-			//IsVisibleLayout = true;
-			//IsSelectableLayout = false;
 			IsPoint = false;
 		}
 
@@ -37,7 +34,7 @@ namespace Infrustructure.Plans.Presenter
 			set
 			{
 				_border = value;
-				OnPropertyChanged("Border");
+				//OnPropertyChanged("Border");
 			}
 		}
 
@@ -46,14 +43,10 @@ namespace Infrustructure.Plans.Presenter
 			Painter = painter;
 		}
 
-		protected override void CreateContextMenu()
-		{
-		}
-
 		public void Navigate()
 		{
-			UpdateLayout();
-			RaiseEvent(new RoutedEventArgs(PresenterItem.FlushEvent));
+			//UpdateLayout();
+			//RaiseEvent(new RoutedEventArgs(PresenterItem.FlushEvent));
 		}
 
 
@@ -62,27 +55,27 @@ namespace Infrustructure.Plans.Presenter
 			_zoom = zoom;
 			AdornerThickness = 3 / zoom;
 			AdornerMargin = -AdornerThickness;
-			OnPropertyChanged("AdornerThickness");
-			OnPropertyChanged("AdornerMargin");
+			//OnPropertyChanged("AdornerThickness");
+			//OnPropertyChanged("AdornerMargin");
 		}
 		public void UpdateDeviceZoom(double zoom, double pointZoom)
 		{
 			UpdateZoom(zoom);
 			_pointZoom = pointZoom;
-			SetLocation();
+			//SetLocation();
 		}
-		public override void SetLocation()
-		{
-			if (IsPoint)
-			{
-				var rect = Element.GetRectangle();
-				Canvas.SetLeft(this, rect.Left - _pointZoom / 2);
-				Canvas.SetTop(this, rect.Top - _pointZoom / 2);
-				ItemWidth = rect.Width + _pointZoom;
-				ItemHeight = rect.Height + _pointZoom;
-			}
-			else
-				base.SetLocation();
-		}
+		//public override void SetLocation()
+		//{
+		//    if (IsPoint)
+		//    {
+		//        var rect = Element.GetRectangle();
+		//        //Canvas.SetLeft(this, rect.Left - _pointZoom / 2);
+		//        //Canvas.SetTop(this, rect.Top - _pointZoom / 2);
+		//        //ItemWidth = rect.Width + _pointZoom;
+		//        //ItemHeight = rect.Height + _pointZoom;
+		//    }
+		//    else
+		//        base.SetLocation();
+		//}
 	}
 }

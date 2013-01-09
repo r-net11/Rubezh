@@ -2,41 +2,47 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Globalization;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class TextBlockPainter : IPainter
+	public class TextBlockPainter : RectanglePainter
 	{
-		#region IPainter Members
-
-		public UIElement Draw(ElementBase element)
+		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		{
+			base.Draw(drawingContext, element, rect);
+			drawingContext.DrawGeometry(GetTextBrush(element), null, Geometry);
+		}
+		private Brush GetTextBrush(ElementBase element)
 		{
 			IElementTextBlock elementText = (IElementTextBlock)element;
 			var textBlock = new TextBlock()
 			{
 				Text = elementText.Text,
 				TextAlignment = (TextAlignment)elementText.TextAlignment,
-				Background = new SolidColorBrush(element.BackgroundColor),
-				Foreground = new SolidColorBrush(elementText.ForegroundColor),
+				Foreground = PainterCache.GetBrush(elementText.ForegroundColor),
+				Background = null,
 				FontSize = elementText.FontSize,
 				FontWeight = elementText.FontBold ? FontWeights.Bold : FontWeights.Normal,
 				FontStyle = elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal,
 				FontFamily = new FontFamily(elementText.FontFamilyName),
 			};
-			FrameworkElement frameworkElement = elementText.Stretch ?
-				new Viewbox()
-				{
-					Stretch = Stretch.Fill,
-					Child = textBlock,
-				} : (FrameworkElement)textBlock;
-			Border border = new Border()
+			var brush = new VisualBrush(textBlock)
 			{
-				BorderBrush = new SolidColorBrush(element.BorderColor),
-				BorderThickness = new Thickness(element.BorderThickness),
-				Child = frameworkElement,
+				AlignmentX = AlignmentX.Center,
+				AlignmentY = AlignmentY.Top,
+				Stretch = elementText.Stretch ? Stretch.Fill : Stretch.None,
 			};
-			return border;
+			switch (textBlock.TextAlignment)
+			{
+				case TextAlignment.Left:
+					brush.AlignmentX = AlignmentX.Left;
+					break;
+				case TextAlignment.Right:
+					brush.AlignmentX = AlignmentX.Right;
+					break;
+			}
+			return brush;
 		}
-		#endregion
 	}
 }

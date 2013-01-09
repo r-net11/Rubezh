@@ -77,7 +77,10 @@ namespace PlansModule.ViewModels
 				parentPlanViewModel.Children.Add(planViewModel);
 
 			foreach (var childPlan in plan.Children)
+			{
+				PlanDesignerViewModel.Initialize(childPlan);
 				AddPlan(childPlan, planViewModel);
+			}
 		}
 
 		private ObservableCollection<PlanViewModel> _plans;

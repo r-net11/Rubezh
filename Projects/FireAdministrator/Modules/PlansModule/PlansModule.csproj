@@ -125,9 +125,6 @@
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\InstrumentAdorners\RubberbandAdorner.cs" />
-    <Compile Include="Designer\Resize\ResizeDecorator2.cs" />
-    <Compile Include="Designer\Resize\ResizeAdorner.cs" />
-    <Compile Include="Designer\Resize\ResizeDecorator.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\PolylinePropertiesViewModel.cs" />

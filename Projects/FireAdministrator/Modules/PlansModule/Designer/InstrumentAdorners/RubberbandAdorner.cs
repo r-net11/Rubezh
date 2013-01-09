@@ -63,13 +63,12 @@ namespace PlansModule.InstrumentAdorners
 			Canvas.SetLeft(rubberband, left);
 			Canvas.SetTop(rubberband, top);
 		}
-
 		private void UpdateSelection()
 		{
 			Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
 			foreach (DesignerItem designerItem in DesignerCanvas.Items)
 			{
-				if (designerItem.IsVisibleLayout && designerItem.IsSelectableLayout)
+				if (designerItem.IsVisibleLayout && designerItem.IsSelectable)
 				{
 					Rect itemRect = VisualTreeHelper.GetDescendantBounds(designerItem);
 					Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);

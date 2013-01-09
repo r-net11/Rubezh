@@ -65,7 +65,7 @@ namespace PlansModule.ViewModels
 				{
 					var designerItems = new List<DesignerItem>();
 					DesignerCanvas.Toolbox.SetDefault();
-					//DesignerCanvas.DeselectAll();
+					DesignerCanvas.DeselectAll();
 					foreach (var elementBase in _buffer)
 					{
 						var element = elementBase.Clone();

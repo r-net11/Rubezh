@@ -6,12 +6,13 @@ using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Controls.Primitives;
 
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class CommonDesignerCanvas : Canvas
 	{
-		protected virtual Canvas SelectedCanvas { get; set; }
+		protected virtual DesignerSurface SelectedCanvas { get; set; }
 		public virtual double Zoom { get { return 1; } }
 		public virtual double PointZoom { get { return 10; } }
 
@@ -19,7 +20,6 @@ namespace Infrustructure.Plans.Designer
 		{
 			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
-			//Items = new List<DesignerItem>();
 			ClipToBounds = true;
 		}
 
@@ -30,11 +30,10 @@ namespace Infrustructure.Plans.Designer
 		public virtual void Clear()
 		{
 			Children.Clear();
-			//Items.Clear();
 		}
 		protected void AddCanvas()
 		{
-			SelectedCanvas = new Canvas();
+			SelectedCanvas = new DesignerSurface();
 			Children.Add(SelectedCanvas);
 		}
 		protected void RemoveCanvas()
@@ -45,15 +44,13 @@ namespace Infrustructure.Plans.Designer
 
 		public void Remove(DesignerItem designerItem)
 		{
-			SelectedCanvas.Children.Remove(designerItem);
-			//Items.Remove(designerItem);
+			SelectedCanvas.DeleteDesignerItem(designerItem);
 		}
 		public void Add(DesignerItem designerItem)
 		{
 			designerItem.DesignerCanvas = this;
 			designerItem.UpdateAdornerLayout();
-			SelectedCanvas.Children.Add(designerItem);
-			//Items.Add(designerItem);
+			SelectedCanvas.AddDesignerItem(designerItem);
 		}
 		public double CanvasWidth
 		{
@@ -78,27 +75,57 @@ namespace Infrustructure.Plans.Designer
 			get { return SelectedCanvas.Background; }
 			set { SelectedCanvas.Background = value; }
 		}
+		public void UpdateZIndex()
+		{
+			if (SelectedCanvas != null)
+				SelectedCanvas.UpdateZIndex();
+		}
+		public void SetTitle(string title)
+		{
+			if (SelectedCanvas != null)
+			{
+				var toolTip = SelectedCanvas.ToolTip as ToolTip;
+				if (toolTip != null)
+					toolTip.IsOpen = false;
+				SelectedCanvas.ToolTip = null;
+				if (!string.IsNullOrEmpty(title))
+				{
+					toolTip = new ToolTip();
+					toolTip.Content = title;
+					toolTip.Placement = PlacementMode.MousePoint;
+					SelectedCanvas.ToolTip = toolTip;
 
-		//public List<DesignerItem> Items { get; private set; }
-		//public IEnumerable<DesignerItem> SelectedItems
-		//{
-		//    get { return from item in Items where item.IsSelected select item; }
-		//}
-		//public IEnumerable<ElementBase> SelectedElements
-		//{
-		//    get { return from item in Items where item.IsSelected select item.Element; }
-		//}
+					toolTip.IsOpen = true;
+				}
+			}
+		}
+
+		public bool IsSurfaceMouseCaptured
+		{
+			get { return SelectedCanvas == null ? false : SelectedCanvas.IsMouseCaptured; }
+		}
+		public void SurfaceCaptureMouse()
+		{
+			if (SelectedCanvas != null)
+				SelectedCanvas.CaptureMouse();
+		}
+		public void SurfaceReleaseMouseCapture()
+		{
+			if (SelectedCanvas != null)
+				SelectedCanvas.ReleaseMouseCapture();
+		}
+
 		public IEnumerable<DesignerItem> Items
 		{
-			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() select item; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : SelectedCanvas.Items.OfType<DesignerItem>(); }
 		}
 		public IEnumerable<DesignerItem> SelectedItems
 		{
-			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Items.OfType<DesignerItem>() where item.IsSelected == true select item; }
 		}
 		public IEnumerable<ElementBase> SelectedElements
 		{
-			get { return SelectedCanvas == null ? Enumerable.Empty<ElementBase>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<ElementBase>() : from item in SelectedCanvas.Items.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
 		}
 
 		public void SelectAll()

@@ -6,6 +6,6 @@ namespace Infrustructure.Plans.Painters
 {
 	public interface IPainter
 	{
-		UIElement Draw(ElementBase element);
+		void Draw(DrawingContext drawingContext, ElementBase element, Rect rect);
 	}
 }

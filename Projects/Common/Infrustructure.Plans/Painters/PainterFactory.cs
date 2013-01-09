@@ -14,7 +14,7 @@ namespace Infrustructure.Plans.Painters
 			{Primitive.PolygonZone, new PolygonZonePainter()},
 			{Primitive.Polyline, new PolylinePainter()},
 			{Primitive.Rectangle, new RectanglePainter()},
-			{Primitive.RectangleZone, new RectangleZonePainter()},
+			{Primitive.RectangleZone, new  RectangleZonePainter()},
 			{Primitive.SubPlan, new SubPlanPainter()},
 			{Primitive.TextBlock, new TextBlockPainter()},
 		};

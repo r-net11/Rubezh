@@ -5,14 +5,11 @@ using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class PolygonZonePainter : ShapePainter<Polygon>
+	public class PolygonZonePainter : PolygonPainter
 	{
-		public override UIElement Draw(ElementBase element)
+		protected override Brush GetBrush(ElementBase element)
 		{
-			var shape = CreateShape(element);
-			shape.Points = PainterHelper.GetPoints(element);
-			shape.Opacity = 0.5;
-			return shape;
+			return PainterCache.GetTransparentBrush(element.BackgroundColor, element.BackgroundPixels);
 		}
 	}
 }

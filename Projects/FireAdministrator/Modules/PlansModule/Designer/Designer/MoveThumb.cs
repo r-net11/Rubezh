@@ -50,22 +50,22 @@ namespace PlansModule.Designer
 			{
 				_wasMoved = true;
 				Vector shift = new Vector(e.HorizontalChange, e.VerticalChange);
-				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
-				{
-					Rect rect = new Rect(Canvas.GetLeft(designerItem), Canvas.GetTop(designerItem), designerItem.ActualWidth, designerItem.ActualHeight);
-					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
-						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
-					if (rect.Left + shift.X < 0)
-						shift.X = -rect.Left;
-					if (rect.Bottom + shift.Y > DesignerCanvas.CanvasHeight)
-						shift.Y = DesignerCanvas.CanvasHeight - rect.Bottom;
-					if (rect.Top + shift.Y < 0)
-						shift.Y = -rect.Top;
-				}
+				//foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+				//{
+				//    Rect rect = new Rect(Canvas.GetLeft(designerItem), Canvas.GetTop(designerItem), designerItem.ActualWidth, designerItem.ActualHeight);
+				//    if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
+				//        shift.X = DesignerCanvas.CanvasWidth - rect.Right;
+				//    if (rect.Left + shift.X < 0)
+				//        shift.X = -rect.Left;
+				//    if (rect.Bottom + shift.Y > DesignerCanvas.CanvasHeight)
+				//        shift.Y = DesignerCanvas.CanvasHeight - rect.Bottom;
+				//    if (rect.Top + shift.Y < 0)
+				//        shift.Y = -rect.Top;
+				//}
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
 					designerItem.Element.Position += shift;
-					designerItem.SetLocation();
+					designerItem.Redraw();
 				}
 				e.Handled = true;
 				ServiceFactory.SaveService.PlansChanged = true;

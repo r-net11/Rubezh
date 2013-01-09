@@ -47,9 +47,9 @@ namespace Infrastructure.Client.Plans
 
 		public void Reset()
 		{
-			((IPlanDesignerViewModel)DataContext).ChangeDeviceZoom(deviceSlider.Value);
 			FullSize();
 			slider.Value = 1;
+			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * initialScale);
 		}
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -154,8 +154,6 @@ namespace Infrastructure.Client.Plans
 
 			scaleTransform.ScaleX = scale;
 			scaleTransform.ScaleY = scale;
-
-			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * initialScale);
 		}
 
 		#region Hand Moving

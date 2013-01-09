@@ -35,6 +35,7 @@ namespace PlansModule.ViewModels
 						foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 							DesignerCanvas.Create(element);
 					}
+					DesignerCanvas.UpdateZIndex();
 				}
 		}
 		public void SelectPlan(Plan plan)
@@ -46,10 +47,8 @@ namespace PlansModule.ViewModels
 				DesignerCanvas.ShowPlan(plan);
 				using (new WaitWrapper())
 					if (Plan != null)
-					{
-						ChangeZoom(1);
-						OnUpdated();
-					}
+						using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
+							OnUpdated();
 			}
 		}
 

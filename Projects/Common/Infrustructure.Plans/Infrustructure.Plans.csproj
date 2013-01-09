@@ -55,6 +55,7 @@
     <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerItemBorder.cs" />
+    <Compile Include="Designer\DesignerSurface.cs" />
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Painters\DefaultPainter.cs" />
     <Compile Include="Painters\ElipsePainter.cs" />
     <Compile Include="Painters\IPainter.cs" />
+    <Compile Include="Painters\PainterCache.cs" />
     <Compile Include="Painters\PainterFactory.cs" />
     <Compile Include="Painters\PainterHelper.cs" />
     <Compile Include="Painters\PolygonPainter.cs" />

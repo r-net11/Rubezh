@@ -33,12 +33,12 @@ namespace Infrustructure.Plans.Designer
 
 		public virtual void UpdateZoom()
 		{
-			OnPropertyChanged("ResizeThumbSize");
-			OnPropertyChanged("ThumbMargin");
-			OnPropertyChanged("ResizeBorderSize");
-			OnPropertyChanged("ResizeMargin");
-			OnPropertyChanged("Thickness");
-			OnPropertyChanged("PointMargin");
+			//OnPropertyChanged("ResizeThumbSize");
+			//OnPropertyChanged("ThumbMargin");
+			//OnPropertyChanged("ResizeBorderSize");
+			//OnPropertyChanged("ResizeMargin");
+			//OnPropertyChanged("Thickness");
+			//OnPropertyChanged("PointMargin");
 		}
 
 		public virtual double ResizeThumbSize { get { return 7 / DesignerCanvas.Zoom; } }
@@ -73,38 +73,38 @@ namespace Infrustructure.Plans.Designer
 		{
 			double dragDeltaHorizontal = horizontalChange;
 			double dragDeltaVertical = verticalChange;
-			foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
-			{
-				Rect rect = new Rect(Canvas.GetLeft(designerItem), Canvas.GetTop(designerItem), designerItem.ActualWidth, designerItem.ActualHeight);
-				if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
-				{
-					if (rect.Height - dragDeltaVertical < DesignerItem.MinHeight)
-						dragDeltaVertical = rect.Height - DesignerItem.MinHeight;
-					if (rect.Top + dragDeltaVertical < 0)
-						dragDeltaVertical = -rect.Top;
-				}
-				else if ((direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
-				{
-					if (rect.Height + dragDeltaVertical < DesignerItem.MinHeight)
-						dragDeltaVertical = DesignerItem.MinHeight - rect.Height;
-					if (rect.Bottom + dragDeltaVertical > DesignerCanvas.CanvasHeight)
-						dragDeltaVertical = DesignerCanvas.CanvasHeight - rect.Bottom;
-				}
-				if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
-				{
-					if (rect.Width - dragDeltaHorizontal < DesignerItem.MinWidth)
-						dragDeltaHorizontal = rect.Width - DesignerItem.MinWidth;
-					if (rect.Left + dragDeltaHorizontal < 0)
-						dragDeltaHorizontal = -rect.Left;
-				}
-				else if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
-				{
-					if (rect.Width + dragDeltaHorizontal < DesignerItem.MinWidth)
-						dragDeltaHorizontal = DesignerItem.MinWidth - rect.Width;
-					if (rect.Right + dragDeltaHorizontal > DesignerCanvas.CanvasWidth)
-						dragDeltaHorizontal = DesignerCanvas.CanvasWidth - rect.Right;
-				}
-			}
+			//foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+			//{
+			//    Rect rect = new Rect(Canvas.GetLeft(designerItem), Canvas.GetTop(designerItem), designerItem.ActualWidth, designerItem.ActualHeight);
+			//    if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
+			//    {
+			//        if (rect.Height - dragDeltaVertical < DesignerItem.MinHeight)
+			//            dragDeltaVertical = rect.Height - DesignerItem.MinHeight;
+			//        if (rect.Top + dragDeltaVertical < 0)
+			//            dragDeltaVertical = -rect.Top;
+			//    }
+			//    else if ((direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
+			//    {
+			//        if (rect.Height + dragDeltaVertical < DesignerItem.MinHeight)
+			//            dragDeltaVertical = DesignerItem.MinHeight - rect.Height;
+			//        if (rect.Bottom + dragDeltaVertical > DesignerCanvas.CanvasHeight)
+			//            dragDeltaVertical = DesignerCanvas.CanvasHeight - rect.Bottom;
+			//    }
+			//    if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
+			//    {
+			//        if (rect.Width - dragDeltaHorizontal < DesignerItem.MinWidth)
+			//            dragDeltaHorizontal = rect.Width - DesignerItem.MinWidth;
+			//        if (rect.Left + dragDeltaHorizontal < 0)
+			//            dragDeltaHorizontal = -rect.Left;
+			//    }
+			//    else if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
+			//    {
+			//        if (rect.Width + dragDeltaHorizontal < DesignerItem.MinWidth)
+			//            dragDeltaHorizontal = DesignerItem.MinWidth - rect.Width;
+			//        if (rect.Right + dragDeltaHorizontal > DesignerCanvas.CanvasWidth)
+			//            dragDeltaHorizontal = DesignerCanvas.CanvasWidth - rect.Right;
+			//    }
+			//}
 			return new Vector(dragDeltaHorizontal, dragDeltaVertical);
 		}
 	}

@@ -44,7 +44,7 @@ namespace PlansModule.Designer.Adorners
 					element.Height = 0;
 				if (element.Width < 0)
 					element.Width = 0;
-				DesignerItem.SetLocation();
+				DesignerItem.Redraw();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
