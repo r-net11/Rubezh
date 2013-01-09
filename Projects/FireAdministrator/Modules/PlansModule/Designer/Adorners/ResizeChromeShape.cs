@@ -105,7 +105,6 @@ namespace PlansModule.Designer.Adorners
 			}
 		}
 
-
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
@@ -135,7 +134,7 @@ namespace PlansModule.Designer.Adorners
 					points.Add(new Point(placeholder.X + kx * (point.X - rect.X), placeholder.Y + ky * (point.Y - rect.Y)));
 				element.Points = points;
 
-				DesignerItem.Redraw();
+				DesignerItem.Translate();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

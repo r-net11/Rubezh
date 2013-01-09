@@ -74,13 +74,16 @@ namespace Infrustructure.Plans.Designer
 			if (_designerItemOver == null || !_designerItemOver.IsBusy)
 			{
 				var commonDesignerItem = GetDesignerItem(e.GetPosition(this));
-				if (_designerItemOver != null && commonDesignerItem != _designerItemOver)
-					_designerItemOver.SetIsMouseOver(false);
-				if (_designerItemOver != commonDesignerItem)
+				if (commonDesignerItem == null || commonDesignerItem.IsVisibleLayout)
 				{
-					_designerItemOver = commonDesignerItem;
-					if (_designerItemOver != null)
-						_designerItemOver.SetIsMouseOver(true);
+					if (_designerItemOver != null && commonDesignerItem != _designerItemOver)
+						_designerItemOver.SetIsMouseOver(false);
+					if (_designerItemOver != commonDesignerItem)
+					{
+						_designerItemOver = commonDesignerItem;
+						if (_designerItemOver != null)
+							_designerItemOver.SetIsMouseOver(true);
+					}
 				}
 			}
 			if (_designerItemOver != null)
@@ -97,7 +100,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void OnContextMenuOpening(ContextMenuEventArgs e)
 		{
 			base.OnContextMenuOpening(e);
-			ContextMenu = _designerItemOver == null ? null : _designerItemOver.ContextMenuOpening();
+			ContextMenu = _designerItemOver == null || !_designerItemOver.IsVisibleLayout ? null : _designerItemOver.ContextMenuOpening();
 		}
 
 		private CommonDesignerItem GetDesignerItem(Point point)

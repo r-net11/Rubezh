@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecClient;
-using FiresecAPI.Models;
 using System.Windows;
-using DeviceControls;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Common;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrustructure.Plans.Designer;
 using XFiresecAPI;
 
 namespace DeviceControls
 {
 	public static class DevicePictureCache
 	{
-		private const int Size = 100;
 		private static Dictionary<Guid, ImageSource> _imageSources = new Dictionary<Guid, ImageSource>();
 		private static Dictionary<Guid, Brush> _brushes = new Dictionary<Guid, Brush>();
 
@@ -31,13 +30,14 @@ namespace DeviceControls
 		private static void RegisterImageSource(LibraryDevice libraryDevice)
 		{
 			var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
-			frameworkElement.Width = Size;
-			frameworkElement.Height = Size;
-			frameworkElement.Measure(new Size(frameworkElement.Width, frameworkElement.Height));
+			frameworkElement.SnapsToDevicePixels = false;
+			frameworkElement.Width = DesignerItem.DefaultPointSize;
+			frameworkElement.Height = DesignerItem.DefaultPointSize;
 			frameworkElement.Arrange(new Rect(new Size(frameworkElement.Width, frameworkElement.Height)));
-			var imageSource = new RenderTargetBitmap(Size, Size, 96, 96, PixelFormats.Pbgra32);
+			var imageSource = new RenderTargetBitmap(DesignerItem.DefaultPointSize, DesignerItem.DefaultPointSize, EnvironmentParameters.DpiX, EnvironmentParameters.DpiY, PixelFormats.Pbgra32);
 			imageSource.Render(frameworkElement);
 			//RenderOptions.SetCachingHint(imageSource, CachingHint.Cache);
+			//RenderOptions.SetBitmapScalingMode(imageSource, BitmapScalingMode.Fant);
 			imageSource.Freeze();
 			_imageSources.Add(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId, imageSource);
 		}
@@ -70,9 +70,11 @@ namespace DeviceControls
 
 		private static void RegisterBrush(LibraryDevice libraryDevice)
 		{
-			var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
-			var brush = new VisualBrush(frameworkElement);
-			//brush.Freeze();
+			var imageSource = GetImageSource(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId);
+			var brush = new ImageBrush(imageSource);
+			brush.Freeze();
+			//var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
+			//var brush = new VisualBrush(frameworkElement);
 			_brushes.Add(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId, brush);
 		}
 		public static Brush GetBrush(Device device)

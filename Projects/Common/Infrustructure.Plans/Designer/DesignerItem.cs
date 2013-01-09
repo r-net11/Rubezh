@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Media;
-using System.Windows.Controls;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -31,7 +31,7 @@ namespace Infrustructure.Plans.Designer
 				if ((bool)e.NewValue && designerItem != null && designerItem.DesignerCanvas != null && designerItem.DesignerCanvas.SelectedItems.Count() == 1)
 					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
 				designerItem.IsSelectedChanged();
-				designerItem.Redraw();
+				designerItem.RedrawSelection();
 			}
 		}
 		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -108,7 +108,12 @@ namespace Infrustructure.Plans.Designer
 		{
 			base.Render(drawingContext);
 			if (IsSelected)
-				drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), Element.GetRectangle());
+				drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), OriginalRect);
+		}
+		protected virtual void RedrawSelection()
+		{
+			//
+			Redraw();
 		}
 
 		protected override void MouseDown(MouseButtonEventArgs e)
@@ -222,7 +227,7 @@ namespace Infrustructure.Plans.Designer
 				IsMoved = true;
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
-					var rect = designerItem.GetVisualRect();
+					var rect = designerItem.Transform.TransformBounds(designerItem.ContentBounds);
 					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
 						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
 					if (rect.Left + shift.X < 0)
@@ -232,11 +237,12 @@ namespace Infrustructure.Plans.Designer
 					if (rect.Top + shift.Y < 0)
 						shift.Y = -rect.Top;
 				}
-				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
-				{
-					designerItem.Element.Position += shift;
-					designerItem.Redraw();
-				}
+				if (shift.X != 0 || shift.Y != 0)
+					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+					{
+						designerItem.Element.Position += shift;
+						designerItem.Translate();
+					}
 			}
 		}
 	}

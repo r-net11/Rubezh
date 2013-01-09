@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Controls.Primitives;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -14,7 +13,7 @@ namespace Infrustructure.Plans.Designer
 	{
 		protected virtual DesignerSurface SelectedCanvas { get; set; }
 		public virtual double Zoom { get { return 1; } }
-		public virtual double PointZoom { get { return 10; } }
+		public virtual double PointZoom { get { return CommonDesignerItem.DefaultPointSize; } }
 
 		public CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{

@@ -30,7 +30,7 @@ namespace PlansModule.Designer
 			_painter = presenterItem.Painter;
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
 			_presenterItem.Border = BorderHelper.CreateBorderRectangle();
-			_presenterItem.MouseDoubleClick += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
+			//_presenterItem.MouseDoubleClick += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 		}
 
@@ -47,13 +47,16 @@ namespace PlansModule.Designer
 
 		#region IPainter Members
 
-		public UIElement Draw(ElementBase element)
+		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
-			var shape = (Shape)_painter.Draw(element);
-			shape.Fill = GetStateBrush();
-			shape.Opacity = 0.6;
-			return shape;
 		}
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    var shape = (Shape)_painter.Draw(element);
+		//    shape.Fill = GetStateBrush();
+		//    shape.Opacity = 0.6;
+		//    return shape;
+		//}
 
 		#endregion
 	}

@@ -29,7 +29,7 @@ namespace PlansModule.Designer.Adorners
 					element.Top += vector.Y;
 				if ((direction & ResizeDirection.Left) == ResizeDirection.Left || (direction & ResizeDirection.Right) == ResizeDirection.Right)
 					element.Left += vector.X;
-				DesignerItem.Redraw();
+				DesignerItem.Translate();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

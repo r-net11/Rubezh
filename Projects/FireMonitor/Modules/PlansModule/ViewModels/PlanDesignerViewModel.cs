@@ -87,8 +87,8 @@ namespace PlansModule.ViewModels
 		private PresenterItem CreatePresenter(ElementBase elementBase)
 		{
 			var presenterItem = new PresenterItem(elementBase);
-			Canvas.Children.Add(presenterItem);
-			presenterItem.SetZIndex();
+			//Canvas.Children.Add(presenterItem);
+			//presenterItem.SetZIndex();
 			return presenterItem;
 		}
 
@@ -143,6 +143,13 @@ namespace PlansModule.ViewModels
 		public bool HasPermissionsToScale
 		{
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
+		}
+
+
+		public void ResetZoom(double zoom, double deviceZoom)
+		{
+			_deviceZoom = deviceZoom;
+			ChangeZoom(zoom);
 		}
 
 		#endregion

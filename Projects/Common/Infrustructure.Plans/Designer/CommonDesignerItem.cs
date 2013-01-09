@@ -1,18 +1,16 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
-using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class CommonDesignerItem : DrawingVisual
 	{
-		public const int BigConstatnt = 100000;
+		public const int DefaultPointSize = 30;
 
 		public event EventHandler ItemPropertyChanged;
 		public event EventHandler TitleChanged;
@@ -20,9 +18,11 @@ namespace Infrustructure.Plans.Designer
 		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
 		public ElementBase Element { get; protected set; }
 		public IPainter Painter { get; protected set; }
-		public double Shift { get; protected set; }
 		public bool IsMouseOver { get; private set; }
 		public bool IsBusy { get; protected set; }
+		protected Rect OriginalRect { get; private set; }
+		protected TranslateTransform TranslateTransform { get; private set; }
+		protected ScaleTransform ScaleTransform { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -50,15 +50,24 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					Redraw();
+					Opacity = IsVisibleLayout ? 1 : 0;
 				}
 			}
 		}
 
 		public CommonDesignerItem(ElementBase element)
 		{
+			ScaleTransform = new ScaleTransform();
+			TranslateTransform = new TranslateTransform();
+			Transform = new TransformGroup()
+			{
+				Children = new TransformCollection()
+				{
+					ScaleTransform,
+					TranslateTransform
+				}
+			};
 			IsBusy = false;
-			Shift = double.NaN;
 			ResetElement(element);
 		}
 
@@ -67,7 +76,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		public virtual void UpdateZoomPoint()
 		{
-			Redraw();
+			Translate();
 		}
 
 		public virtual void ResetElement(ElementBase element)
@@ -85,20 +94,36 @@ namespace Infrustructure.Plans.Designer
 			//    MinHeight += 3;
 			//}
 			using (DrawingContext drawingContext = RenderOpen())
-				if (IsVisibleLayout)
-					Render(drawingContext);
+			{
+				OriginalRect = GetRectangle();
+				Translate(true);
+				Render(drawingContext);
+			}
 		}
 		protected virtual void Render(DrawingContext drawingContext)
 		{
 			if (Painter != null)
-				Painter.Draw(drawingContext, Element, GetVisualRect());
+				Painter.Draw(drawingContext, Element, GetRectangle());
 		}
-		protected Rect GetVisualRect()
+		public virtual void Translate(bool force = false)
 		{
-			var rect = Element.GetRectangle();
-			if (Shift == Shift)
-				rect = new Rect(rect.X - Shift, rect.Y - Shift, 2 * Shift, 2 * Shift);
-			return rect;
+			var rect = GetRectangle();
+			if (rect.Size != OriginalRect.Size || force)
+			{
+				ScaleTransform.CenterX = OriginalRect.Left;
+				ScaleTransform.CenterY = OriginalRect.Top;
+				ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
+				ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
+			}
+			if (rect.TopLeft != OriginalRect.TopLeft || force)
+			{
+				TranslateTransform.X = rect.Left - OriginalRect.Left;
+				TranslateTransform.Y = rect.Top - OriginalRect.Top;
+			}
+		}
+		protected virtual Rect GetRectangle()
+		{
+			return Element.GetRectangle();
 		}
 
 		public virtual void UpdateElementProperties()
@@ -124,19 +149,23 @@ namespace Infrustructure.Plans.Designer
 
 		internal void OnMouseDown(MouseButtonEventArgs e)
 		{
-			MouseDown(e);
+			if (IsVisibleLayout)
+				MouseDown(e);
 		}
 		internal void OnMouseUp(MouseButtonEventArgs e)
 		{
-			MouseUp(e);
+			if (IsVisibleLayout)
+				MouseUp(e);
 		}
 		internal void OnMouseMove(MouseEventArgs e)
 		{
-			MouseMove(e);
+			if (IsVisibleLayout)
+				MouseMove(e);
 		}
 		internal void OnMouseDoubleClick(MouseButtonEventArgs e)
 		{
-			MouseDoubleClick(e);
+			if (IsVisibleLayout)
+				MouseDoubleClick(e);
 		}
 		protected virtual void MouseDown(MouseButtonEventArgs e)
 		{

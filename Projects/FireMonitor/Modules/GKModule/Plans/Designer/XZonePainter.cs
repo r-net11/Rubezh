@@ -37,8 +37,8 @@ namespace GKModule.Plans.Designer
 		private void Bind()
 		{
 			_presenterItem.Border = BorderHelper.CreateBorderPolyline(_presenterItem.Element);
-			_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XZoneMenuView");
-			_presenterItem.ContextMenu.DataContext = this;
+			//_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XZoneMenuView");
+			//_presenterItem.ContextMenu.DataContext = this;
 			_zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ((IElementZone)_presenterItem.Element).ZoneUID);
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
@@ -67,15 +67,18 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
-		public UIElement Draw(ElementBase element)
+		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
-			if (_zone == null)
-				return null;
-			var shape = (Shape)_painter.Draw(element);
-			shape.Fill = GetStateBrush();
-			shape.Opacity = 1;
-			return shape;
 		}
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    if (_zone == null)
+		//        return null;
+		//    var shape = (Shape)_painter.Draw(element);
+		//    shape.Fill = GetStateBrush();
+		//    shape.Opacity = 1;
+		//    return shape;
+		//}
 
 		#endregion
 

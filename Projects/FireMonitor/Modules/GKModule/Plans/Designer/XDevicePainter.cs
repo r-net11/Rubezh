@@ -36,8 +36,8 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
 			_presenterItem.Border = BorderHelper.CreateBorderRectangle();
-			_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XDeviceMenuView");
-			_presenterItem.ContextMenu.DataContext = this;
+			//_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XDeviceMenuView");
+			//_presenterItem.ContextMenu.DataContext = this;
 			var elementDevice = presenterItem.Element as ElementXDevice;
 			if (elementDevice != null)
 			{
@@ -76,6 +76,9 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
+		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		{
+		}
 		public UIElement Draw(ElementBase element)
 		{
 			if (_xdevice == null)

@@ -13,13 +13,10 @@ namespace PlansModule.Designer.DesignerItems
 			ResizeChrome = new ResizeChromePoint(this);
 		}
 
-		public override void UpdateZoomPoint()
+		protected override Rect GetRectangle()
 		{
-			if (Shift != DesignerCanvas.PointZoom / 2)
-			{
-				Shift = DesignerCanvas.PointZoom / 2;
-				base.UpdateZoomPoint();
-			}
+			var rect = base.GetRectangle();
+			return new Rect(rect.Left - DesignerCanvas.PointZoom / 2, rect.Top - DesignerCanvas.PointZoom / 2, DesignerCanvas.PointZoom, DesignerCanvas.PointZoom);
 		}
 	}
 }

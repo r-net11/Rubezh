@@ -23,6 +23,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			Rect = rect;
 			Geometry = CreateShape(element);
+			Geometry.Freeze();
 			drawingContext.DrawGeometry(GetBrush(element), GetPen(element), Geometry);
 		}
 	}

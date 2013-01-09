@@ -266,18 +266,20 @@ namespace PlansModule.Designer
 			//if (Plan != null)
 			//    Update();
 			Toolbox.UpdateZoom();
-			foreach (DesignerItem designerItem in Items)
-			{
-				designerItem.UpdateZoom();
-				if (designerItem is DesignerItemPoint)
-					designerItem.UpdateZoomPoint();
-			}
+			using (new TimeCounter("\tDesignerCanvas.UpdateZoom: {0}"))
+				foreach (DesignerItem designerItem in Items)
+				{
+					designerItem.UpdateZoom();
+					if (designerItem is DesignerItemPoint)
+						designerItem.UpdateZoomPoint();
+				}
 		}
 		public void UpdateZoomPoint()
 		{
-			foreach (DesignerItem designerItem in Items)
-				if (designerItem is DesignerItemPoint)
-					designerItem.UpdateZoomPoint();
+			using (new TimeCounter("\tDesignerCanvas.UpdateZoomPoint: {0}"))
+				foreach (DesignerItem designerItem in Items)
+					if (designerItem is DesignerItemPoint)
+						designerItem.UpdateZoomPoint();
 		}
 	}
 }

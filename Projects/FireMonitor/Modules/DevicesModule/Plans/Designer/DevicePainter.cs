@@ -38,8 +38,8 @@ namespace DevicesModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
 			_presenterItem.Border = BorderHelper.CreateBorderRectangle();
-			_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("DeviceMenuView");
-			_presenterItem.ContextMenu.DataContext = this;
+			//_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("DeviceMenuView");
+			//_presenterItem.ContextMenu.DataContext = this;
 			var elementDevice = presenterItem.Element as ElementDevice;
 			if (elementDevice != null)
 			{
@@ -98,13 +98,16 @@ namespace DevicesModule.Plans.Designer
 
 		#region IPainter Members
 
-		public UIElement Draw(ElementBase element)
+		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
-			if (_device == null)
-				return null;
-			_deviceControl.Update();
-			return _deviceControl;
 		}
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    if (_device == null)
+		//        return null;
+		//    _deviceControl.Update();
+		//    return _deviceControl;
+		//}
 
 		#endregion
 

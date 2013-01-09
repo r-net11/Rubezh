@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
@@ -6,7 +7,7 @@ namespace PlansModule.ViewModels
 	public partial class PlanDesignerViewModel : BaseViewModel
 	{
 		public double Zoom = 1;
-		public double DeviceZoom = 10;
+		public double DeviceZoom = DesignerItem.DefaultPointSize;
 
 		public void ChangeZoom(double zoom)
 		{
@@ -18,6 +19,12 @@ namespace PlansModule.ViewModels
 		{
 			DeviceZoom = deviceZoom;
 			DesignerCanvas.UpdateZoomPoint();
+		}
+
+		public void ResetZoom(double zoom, double deviceZoom)
+		{
+			DeviceZoom = deviceZoom;
+			ChangeZoom(zoom);
 		}
 	}
 }

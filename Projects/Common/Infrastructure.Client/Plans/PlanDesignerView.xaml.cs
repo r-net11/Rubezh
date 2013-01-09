@@ -49,7 +49,7 @@ namespace Infrastructure.Client.Plans
 		{
 			FullSize();
 			slider.Value = 1;
-			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * initialScale);
+			((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * initialScale, deviceSlider.Value);
 		}
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
