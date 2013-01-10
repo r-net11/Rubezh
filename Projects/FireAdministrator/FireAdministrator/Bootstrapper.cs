@@ -34,12 +34,10 @@ namespace FireAdministrator
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 
-					BeforeInitialize(true);
+                    LoadingService.DoStep("Загрузка конфигурации с сервера");
+                    FiresecManager.GetConfiguration();
 
-#if RELEASE
-					if (LoadingErrorManager.HasError)
-						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
-#endif
+					BeforeInitialize(true);
 
 					LoadingService.DoStep("Старт полинга сервера");
 					FiresecManager.StartPoll(true);
