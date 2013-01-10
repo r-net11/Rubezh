@@ -31,7 +31,7 @@
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                <ColumnDefinition SharedSizeGroup="group1" Width="300" />
                                 <ColumnDefinition SharedSizeGroup="group2" Width="100" />
                             </Grid.ColumnDefinitions>
                         </Grid>
@@ -40,8 +40,8 @@
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="group1" />
-                                            <ColumnDefinition SharedSizeGroup="group2" />
+                                            <ColumnDefinition SharedSizeGroup="group1" Width="300" />
+                                            <ColumnDefinition SharedSizeGroup="group2" Width="100" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" HorizontalAlignment="Right" />
                                         <TextBlock Grid.Column="1" Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
