@@ -12,12 +12,12 @@ namespace Infrustructure.Plans.Designer
 	public class DesignerSurface : Panel
 	{
 		private List<CommonDesignerItem> _visuals;
-		private List<CommonDesignerItem> _hits;
 		private CommonDesignerItem _designerItemOver;
 
 		public DesignerSurface()
 		{
 			_visuals = new List<CommonDesignerItem>();
+			ToolTipService.SetIsEnabled(this, false);
 		}
 
 		public IEnumerable<CommonDesignerItem> Items
@@ -74,16 +74,13 @@ namespace Infrustructure.Plans.Designer
 			if (_designerItemOver == null || !_designerItemOver.IsBusy)
 			{
 				var commonDesignerItem = GetDesignerItem(e.GetPosition(this));
-				if (commonDesignerItem == null || commonDesignerItem.IsVisibleLayout)
+				if (_designerItemOver != null && commonDesignerItem != _designerItemOver)
+					_designerItemOver.SetIsMouseOver(false);
+				if (_designerItemOver != commonDesignerItem)
 				{
-					if (_designerItemOver != null && commonDesignerItem != _designerItemOver)
-						_designerItemOver.SetIsMouseOver(false);
-					if (_designerItemOver != commonDesignerItem)
-					{
-						_designerItemOver = commonDesignerItem;
-						if (_designerItemOver != null)
-							_designerItemOver.SetIsMouseOver(true);
-					}
+					_designerItemOver = commonDesignerItem;
+					if (_designerItemOver != null)
+						_designerItemOver.SetIsMouseOver(true);
 				}
 			}
 			if (_designerItemOver != null)
@@ -103,26 +100,25 @@ namespace Infrustructure.Plans.Designer
 			ContextMenu = _designerItemOver == null || !_designerItemOver.IsVisibleLayout ? null : _designerItemOver.ContextMenuOpening();
 		}
 
+		private CommonDesignerItem _hitCommonDesignerItem;
 		private CommonDesignerItem GetDesignerItem(Point point)
 		{
-			HitTestResult hitResult = VisualTreeHelper.HitTest(this, point);
-			return hitResult == null ? null : hitResult.VisualHit as CommonDesignerItem;
-		}
-		private List<CommonDesignerItem> GetDesignerItems(Geometry region)
-		{
-			_hits = new List<CommonDesignerItem>();
-			GeometryHitTestParameters parameters = new GeometryHitTestParameters(region);
-			HitTestResultCallback callback = new HitTestResultCallback(this.HitTestCallback);
-			VisualTreeHelper.HitTest(this, null, callback, parameters);
-			return _hits;
+			_hitCommonDesignerItem = null;
+			PointHitTestParameters parameters = new PointHitTestParameters(point);
+			VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);
+			return _hitCommonDesignerItem;
 		}
 		private HitTestResultBehavior HitTestCallback(HitTestResult result)
 		{
-			GeometryHitTestResult geometryResult = (GeometryHitTestResult)result;
-			CommonDesignerItem visual = result.VisualHit as CommonDesignerItem;
-			if (visual != null && geometryResult.IntersectionDetail == IntersectionDetail.FullyInside)
-				_hits.Add(visual);
-			return HitTestResultBehavior.Continue;
+			_hitCommonDesignerItem = result.VisualHit as CommonDesignerItem;
+			return _hitCommonDesignerItem == null ? HitTestResultBehavior.Continue : HitTestResultBehavior.Stop;
+		}
+		private HitTestFilterBehavior HitTestFilter(DependencyObject d)
+		{
+			if (d == this)
+				return HitTestFilterBehavior.ContinueSkipSelf;
+			var designerItem = d as CommonDesignerItem;
+			return designerItem == null || !designerItem.IsEnabled ? HitTestFilterBehavior.ContinueSkipSelfAndChildren : HitTestFilterBehavior.ContinueSkipChildren;
 		}
 	}
 }

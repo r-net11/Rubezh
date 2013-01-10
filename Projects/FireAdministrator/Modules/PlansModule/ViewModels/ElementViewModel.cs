@@ -50,7 +50,7 @@ namespace PlansModule.ViewModels
 
 		void OnShowOnPlan()
 		{
-			if (DesignerItem.IsSelectable)
+			if (DesignerItem.IsEnabled)
 				ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.Element.UID);
 		}
 	}

@@ -27,30 +27,14 @@ namespace PlansModule.Designer.DesignerItems
 			DeleteCommand = new RelayCommand(OnDelete);
 		}
 
-		public override void UpdateAdornerLayout()
-		{
-			LoadTemplate();
-			base.UpdateAdornerLayout();
-		}
-		private void LoadTemplate()
-		{
-			//var grid = new Grid();
-			//grid.DataContext = this;
-			//grid.Children.Add(new MoveThumb());
-			//if (ResizeChrome != null)
-			//    grid.Children.Add(ResizeChrome);
-			//Content = grid;
-			//IsSelectableChanged();
-			//IsSelectedChanged();
-			//TitleChanged();
-		}
-
 		protected override void OnShowProperties()
 		{
 			var property = CreatePropertiesViewModel();
 			if (property != null)
 			{
 				DesignerCanvas.BeginChange();
+				if (((DesignerCanvas)DesignerCanvas).Toolbox != null)
+					((DesignerCanvas)DesignerCanvas).Toolbox.AcceptKeyboard = false;
 				if (DialogService.ShowModalWindow(property))
 				{
 					OnDesignerItemPropertyChanged();
@@ -58,6 +42,8 @@ namespace PlansModule.Designer.DesignerItems
 					ServiceFactory.SaveService.PlansChanged = true;
 					DesignerCanvas.EndChange();
 				}
+				if (((DesignerCanvas)DesignerCanvas).Toolbox != null)
+					((DesignerCanvas)DesignerCanvas).Toolbox.AcceptKeyboard = true;
 			}
 		}
 		protected override void OnDelete()

@@ -6,15 +6,15 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using PlansModule.ViewModels;
-using Common;
 using PlansModule.Designer.DesignerItems;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Designer
 {
@@ -263,23 +263,19 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
-			//if (Plan != null)
-			//    Update();
 			Toolbox.UpdateZoom();
-			using (new TimeCounter("\tDesignerCanvas.UpdateZoom: {0}"))
-				foreach (DesignerItem designerItem in Items)
-				{
-					designerItem.UpdateZoom();
-					if (designerItem is DesignerItemPoint)
-						designerItem.UpdateZoomPoint();
-				}
+			foreach (DesignerItem designerItem in Items)
+			{
+				designerItem.UpdateZoom();
+				if (designerItem is DesignerItemPoint)
+					designerItem.UpdateZoomPoint();
+			}
 		}
 		public void UpdateZoomPoint()
 		{
-			using (new TimeCounter("\tDesignerCanvas.UpdateZoomPoint: {0}"))
-				foreach (DesignerItem designerItem in Items)
-					if (designerItem is DesignerItemPoint)
-						designerItem.UpdateZoomPoint();
+			foreach (DesignerItem designerItem in Items)
+				if (designerItem is DesignerItemPoint)
+					designerItem.UpdateZoomPoint();
 		}
 	}
 }

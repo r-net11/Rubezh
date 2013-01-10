@@ -40,13 +40,14 @@ namespace Infrustructure.Plans.Designer
 			{
 				if (!(bool)e.NewValue)
 					d.SetValue(IsSelectedProperty, false);
-				((DesignerItem)d).IsSelectableChanged();
+				var designerItem = d as DesignerItem;
+				designerItem.IsSelectableChanged();
 			}
 		}
 		private static object IsSelectedCoerce(DependencyObject d, object e)
 		{
 			DesignerItem designerItem = d as DesignerItem;
-			return designerItem != null && !designerItem.IsSelectable ? false : e;
+			return designerItem != null && (!designerItem.IsSelectable || !designerItem.IsEnabled) ? false : e;
 		}
 		private static object IsSelectableCoerce(DependencyObject d, object e)
 		{
@@ -79,6 +80,13 @@ namespace Infrustructure.Plans.Designer
 			IsVisibleLayout = true;
 		}
 
+		protected override void ResetIsEnabled()
+		{
+			base.ResetIsEnabled();
+			IsEnabled &= IsSelectable;
+			if (!IsEnabled)
+				IsSelected = false;
+		}
 		public override void ResetElement(ElementBase element)
 		{
 			base.ResetElement(element);
@@ -119,7 +127,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void MouseDown(MouseButtonEventArgs e)
 		{
 			base.MouseDown(e);
-			if (IsSelectable && DesignerCanvas != null)
+			if (IsEnabled && DesignerCanvas != null)
 			{
 				if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
 					IsSelected = !IsSelected;
@@ -139,7 +147,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void MouseMove(MouseEventArgs e)
 		{
 			base.MouseMove(e);
-			if (IsSelectable && DesignerCanvas != null && IsDragging)
+			if (IsEnabled && DesignerCanvas != null && IsDragging)
 			{
 				if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
 				{
@@ -158,7 +166,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void MouseUp(MouseButtonEventArgs e)
 		{
 			base.MouseUp(e);
-			if (IsSelectable && DesignerCanvas != null && IsDragging)
+			if (IsEnabled && DesignerCanvas != null && IsDragging)
 			{
 				e.Handled = true;
 				DragCompleted();
@@ -167,17 +175,17 @@ namespace Infrustructure.Plans.Designer
 		protected override void MouseDoubleClick(MouseButtonEventArgs e)
 		{
 			base.MouseDoubleClick(e);
-			if (IsSelected && DesignerCanvas != null)
+			if (IsEnabled && DesignerCanvas != null)
 				ShowPropertiesCommand.Execute(null);
 		}
 		internal override void SetIsMouseOver(bool value)
 		{
 			base.SetIsMouseOver(value);
-			DesignerCanvas.Cursor = value && IsSelectable ? Cursors.SizeAll : Cursors.Arrow;
+			DesignerCanvas.Cursor = value && IsEnabled ? Cursors.SizeAll : Cursors.Arrow;
 		}
 		internal override ContextMenu ContextMenuOpening()
 		{
-			if (IsSelectable)
+			if (IsEnabled)
 			{
 				if (!IsSelected)
 				{
@@ -195,6 +203,7 @@ namespace Infrustructure.Plans.Designer
 
 		protected void IsSelectableChanged()
 		{
+			ResetIsEnabled();
 			SetIsMouseOver(false);
 		}
 		protected void IsSelectedChanged()

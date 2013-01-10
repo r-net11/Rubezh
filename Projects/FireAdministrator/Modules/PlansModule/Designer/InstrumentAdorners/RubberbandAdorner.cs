@@ -67,14 +67,12 @@ namespace PlansModule.InstrumentAdorners
 		{
 			Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
 			foreach (DesignerItem designerItem in DesignerCanvas.Items)
-			{
-				if (designerItem.IsVisibleLayout && designerItem.IsSelectable)
+				if (designerItem.IsEnabled)
 				{
 					Rect itemRect = VisualTreeHelper.GetDescendantBounds(designerItem);
 					Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
 					designerItem.IsSelected = rubberBand.Contains(itemBounds);
 				}
-			}
 		}
 	}
 }

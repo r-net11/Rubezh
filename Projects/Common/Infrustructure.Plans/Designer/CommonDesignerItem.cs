@@ -20,6 +20,7 @@ namespace Infrustructure.Plans.Designer
 		public IPainter Painter { get; protected set; }
 		public bool IsMouseOver { get; private set; }
 		public bool IsBusy { get; protected set; }
+		public bool IsEnabled { get; protected set; }
 		protected Rect OriginalRect { get; private set; }
 		protected TranslateTransform TranslateTransform { get; private set; }
 		protected ScaleTransform ScaleTransform { get; private set; }
@@ -51,6 +52,7 @@ namespace Infrustructure.Plans.Designer
 				{
 					_isVisibleLayout = value;
 					Opacity = IsVisibleLayout ? 1 : 0;
+					ResetIsEnabled();
 				}
 			}
 		}
@@ -68,6 +70,7 @@ namespace Infrustructure.Plans.Designer
 				}
 			};
 			IsBusy = false;
+			ResetIsEnabled();
 			ResetElement(element);
 		}
 
@@ -124,6 +127,10 @@ namespace Infrustructure.Plans.Designer
 		protected virtual Rect GetRectangle()
 		{
 			return Element.GetRectangle();
+		}
+		protected virtual void ResetIsEnabled()
+		{
+			IsEnabled = IsVisibleLayout;
 		}
 
 		public virtual void UpdateElementProperties()

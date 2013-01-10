@@ -123,7 +123,6 @@
     <Compile Include="Designer\InstrumentAdorners\ElipseAdorner.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
-    <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\InstrumentAdorners\RubberbandAdorner.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
@@ -266,14 +265,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Designer\Adorners\ResizeChromeRectangle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\DesignerItems\DesignerItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Designer\MoveThumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

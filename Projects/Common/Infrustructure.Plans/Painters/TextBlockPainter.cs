@@ -8,41 +8,32 @@ namespace Infrustructure.Plans.Painters
 {
 	public class TextBlockPainter : RectanglePainter
 	{
+		//private const int Margin = 3;
 		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
 			base.Draw(drawingContext, element, rect);
-			drawingContext.DrawGeometry(GetTextBrush(element), null, Geometry);
-		}
-		private Brush GetTextBrush(ElementBase element)
-		{
+
+			Rect bound = new Rect(rect.Left + element.BorderThickness / 2, rect.Top + element.BorderThickness / 2, rect.Width - element.BorderThickness, rect.Height - element.BorderThickness);
 			IElementTextBlock elementText = (IElementTextBlock)element;
-			var textBlock = new TextBlock()
+			var typeface = new Typeface(new FontFamily(elementText.FontFamilyName), elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal, elementText.FontBold ? FontWeights.Bold : FontWeights.Normal, new FontStretch());
+			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.GetBrush(elementText.ForegroundColor));
+			formattedText.TextAlignment = (TextAlignment)elementText.TextAlignment;
+			Point point = bound.TopLeft;
+			switch (formattedText.TextAlignment)
 			{
-				Text = elementText.Text,
-				TextAlignment = (TextAlignment)elementText.TextAlignment,
-				Foreground = PainterCache.GetBrush(elementText.ForegroundColor),
-				Background = null,
-				FontSize = elementText.FontSize,
-				FontWeight = elementText.FontBold ? FontWeights.Bold : FontWeights.Normal,
-				FontStyle = elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal,
-				FontFamily = new FontFamily(elementText.FontFamilyName),
-			};
-			var brush = new VisualBrush(textBlock)
-			{
-				AlignmentX = AlignmentX.Center,
-				AlignmentY = AlignmentY.Top,
-				Stretch = elementText.Stretch ? Stretch.Fill : Stretch.None,
-			};
-			switch (textBlock.TextAlignment)
-			{
-				case TextAlignment.Left:
-					brush.AlignmentX = AlignmentX.Left;
-					break;
 				case TextAlignment.Right:
-					brush.AlignmentX = AlignmentX.Right;
+					point = bound.TopRight;
+					break;
+				case TextAlignment.Center:
+					point = new Point(bound.Left + bound.Width / 2, bound.Top);
 					break;
 			}
-			return brush;
+			if (elementText.Stretch)
+				drawingContext.PushTransform(new ScaleTransform(bound.Width / formattedText.Width, bound.Height / formattedText.Height, point.X, point.Y));
+			else
+				drawingContext.PushClip(new RectangleGeometry(bound));
+			drawingContext.DrawText(formattedText, point);
+			drawingContext.Pop();
 		}
 	}
 }

@@ -142,7 +142,7 @@ namespace PlansModule.ViewModels
 		}
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
-			if (AcceptKeyboard == false)
+			if (!AcceptKeyboard)
 				return;
 
 			if (Keyboard.Modifiers == ModifierKeys.Control)

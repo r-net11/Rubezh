@@ -32,7 +32,7 @@ namespace Infrastructure.Client.Plans
 			deviceSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
 
 			Loaded += new RoutedEventHandler(OnLoaded);
-			SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
+			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)

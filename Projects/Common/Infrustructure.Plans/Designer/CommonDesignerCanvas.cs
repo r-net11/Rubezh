@@ -92,9 +92,11 @@ namespace Infrustructure.Plans.Designer
 					toolTip = new ToolTip();
 					toolTip.Content = title;
 					toolTip.Placement = PlacementMode.MousePoint;
-					SelectedCanvas.ToolTip = toolTip;
-
-					toolTip.IsOpen = true;
+					if (SelectedCanvas.IsMouseOver)
+					{
+						SelectedCanvas.ToolTip = toolTip;
+						toolTip.IsOpen = true;
+					}
 				}
 			}
 		}

@@ -72,11 +72,11 @@ namespace PlansModule.ViewModels
 						element.UID = Guid.NewGuid();
 						var designerItem = DesignerCanvas.AddElement(element);
 						designerItems.Add(designerItem);
+						designerItem.IsSelected = true;
 					}
 					PlanDesignerViewModel.MoveToFrontCommand.Execute();
 					ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
 					ServiceFactory.SaveService.PlansChanged = true;
-					designerItems.ForEach(item => item.IsSelected = true);
 				}
 		}
 		private bool CanPaste(IInputElement obj)

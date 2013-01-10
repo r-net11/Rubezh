@@ -231,7 +231,7 @@ namespace PlansModule.ViewModels
 			DesignerCanvas.DeselectAll();
 
 			foreach (var designerItem in DesignerCanvas.Items)
-				if (designerItem.Element.UID == elementUID && designerItem.IsSelectable)
+				if (designerItem.Element.UID == elementUID && designerItem.IsEnabled)
 					designerItem.IsSelected = true;
 		}
 		private void OnShowElementDevice(Guid deviceUID)
