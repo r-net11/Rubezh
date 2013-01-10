@@ -3,12 +3,14 @@ using System.AddIn.Contract;
 using System.AddIn.Pipeline;
 using System.Windows;
 using Infrastructure.Common.Windows;
+using FiresecAPI;
 
 namespace FireMonitor.Multiclient
 {
 	public class MulticlientControllerWrapper : MarshalByRefObject
 	{
 		public event EventHandler ControlChanged;
+		public event Action<StateType> StateTypeChanged;
 
 		FrameworkElement _frameworkElement;
 		public int Index { get; private set; }
@@ -31,9 +33,10 @@ namespace FireMonitor.Multiclient
 			Controller.Start();
 		}
 
-		void OnStateChanged(FiresecAPI.StateType obj)
+		void OnStateChanged(StateType stateType)
 		{
-			;
+			if (StateTypeChanged != null)
+				StateTypeChanged(stateType);
 		}
 
 		public void ShutDown()

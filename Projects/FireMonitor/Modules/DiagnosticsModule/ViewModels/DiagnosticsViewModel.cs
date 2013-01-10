@@ -22,8 +22,10 @@ namespace DiagnosticsModule.ViewModels
 	[Serializable]
 	public class DiagnosticsViewModel : ViewPartViewModel
 	{
+		public MulticlientTestViewModel MulticlientTestViewModel { get; private set; }
 		public DiagnosticsViewModel()
 		{
+			MulticlientTestViewModel = new MulticlientTestViewModel();
 			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
 			Test3Command = new RelayCommand(OnTest3);

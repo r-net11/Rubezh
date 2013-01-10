@@ -8,7 +8,10 @@
         <ListBox Grid.Column="0" ItemsSource="{Binding Hosts}" SelectedItem="{Binding SelectedHost}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Caption}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Caption}" Margin="5, 1" />
+                        <TextBlock Text="{Binding StateType}" Margin="5, 1" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
