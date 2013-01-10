@@ -17,16 +17,16 @@ namespace PlansModule.InstrumentAdorners
 		public RubberbandAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-		}
-
-		protected override void Show()
-		{
 			rubberband = new Rectangle()
 			{
 				Stroke = Brushes.Navy,
 				StrokeThickness = 1 / ZoomFactor,
 				StrokeDashArray = new DoubleCollection(new double[] { 2 })
 			};
+		}
+
+		protected override void Show()
+		{
 			AdornerCanvas.Children.Add(rubberband);
 		}
 

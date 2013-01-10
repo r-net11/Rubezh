@@ -38,7 +38,6 @@ namespace PlansModule
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Resize/ResizeThumb.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Resize/DesignerItemBorder.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Toolbox/Toolbox.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/InstrumentAdorners/RemoveButton.xaml"));
 		}
 		public override void Initialize()
 		{

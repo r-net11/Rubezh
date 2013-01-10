@@ -24,8 +24,6 @@ namespace PlansModule.InstrumentAdorners
 		{
 		}
 
-		public virtual double RemoveButtonSize { get { return 14; } }
-
 		protected override void Show()
 		{
 			_pointMap = new Dictionary<RemoveButton, DesignerItemShape>();
@@ -205,9 +203,6 @@ namespace PlansModule.InstrumentAdorners
 		}
 		private void SetSize(RemoveButton removeButton)
 		{
-			removeButton.Margin = new Thickness((((ElementBase)removeButton.DataContext).BorderThickness - RemoveButtonSize / DesignerCanvas.Zoom) / 2);
-			removeButton.Height = RemoveButtonSize;
-			removeButton.Width = RemoveButtonSize;
 			removeButton.LayoutTransform = new ScaleTransform(1 / DesignerCanvas.Zoom, 1 / DesignerCanvas.Zoom);
 		}
 		public override void UpdateZoom()

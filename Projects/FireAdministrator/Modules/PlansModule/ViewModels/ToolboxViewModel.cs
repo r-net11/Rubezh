@@ -64,7 +64,9 @@ namespace PlansModule.ViewModels
 		{
 			PlansViewModel.DesignerCanvas.DeselectAll();
 			if (ActiveInstrument.Adorner != null)
-				ActiveInstrument.Adorner.Show(point);
+				using (new WaitWrapper())
+				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
+					ActiveInstrument.Adorner.Show(point);
 		}
 		public void SetDefault()
 		{
@@ -85,56 +87,50 @@ namespace PlansModule.ViewModels
 				{
 					ImageSource="/Controls;component/Images/Cursor.png",
 					ToolTip="Указатель",
-					Adorner = new RubberbandAdorner(PlansViewModel.DesignerCanvas)
+					Adorner = new RubberbandAdorner(PlansViewModel.DesignerCanvas),
+					Autostart = false
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Pen.png",
 					ToolTip="Нож",
 					Adorner = new PointsAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Line.png",
 					ToolTip="Линия",
 					Adorner = new PolylineAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Rectangle.png",
 					ToolTip="Прямоугольник",
 					Adorner = new RectangleAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Ellipse.png",
 					ToolTip="Эллипс",
 					Adorner = new ElipseAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
 					ToolTip="Многоугольник",
 					Adorner = new PolygonAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Font.png",
 					ToolTip="Текст",
 					Adorner = new TextBoxAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/SubPlanPolygon.png",
 					ToolTip="Подплан",
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
 				},
 			};
 			_defaultInstrument = Instruments[0];

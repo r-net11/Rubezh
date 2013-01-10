@@ -32,9 +32,10 @@ namespace PlansModule.ViewModels
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 
 			DesignerCanvas = new DesignerCanvas();
-			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
 			PlanDesignerViewModel = new PlanDesignerViewModel();
 			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
+			DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
+			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
 
 			InitializeCopyPaste();
 			InitializeHistory();
@@ -51,7 +52,6 @@ namespace PlansModule.ViewModels
 			{
 				Plans = new ObservableCollection<PlanViewModel>();
 				DesignerCanvas.Clear();
-				DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
 				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
 				{
 					PlanDesignerViewModel.Initialize(plan);
@@ -259,15 +259,19 @@ namespace PlansModule.ViewModels
 
 		public override void OnShow()
 		{
+			Debug.WriteLine("===========================================");
 			using (new WaitWrapper())
+			using (new TimeCounter("PlansViewModel.OnShow: {0}"))
 			{
 				base.OnShow();
-				FiresecManager.UpdatePlansConfiguration();
+				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
+					FiresecManager.UpdatePlansConfiguration();
 				DesignerCanvas.DeselectAll();
 
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;
 			}
+			Debug.WriteLine("===========================================");
 			if (SelectedPlan == null)
 				SelectedPlan = Plans.FirstOrDefault();
 		}
