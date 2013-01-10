@@ -10,6 +10,7 @@ using System.AddIn.Pipeline;
 using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Events;
+using FiresecClient;
 
 namespace FireMonitor
 {
@@ -26,6 +27,23 @@ namespace FireMonitor
 		public void SuscribeMulticlientStateChanged()
 		{
 			ServiceFactory.Events.GetEvent<MulticlientStateChanged>().Subscribe(OnMulticlientStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			OnDevicesStateChanged(null);
+		}
+
+		void OnDevicesStateChanged(object obj)
+		{
+			var minState = StateType.Norm;
+			foreach (var device in FiresecManager.Devices)
+			{
+				foreach (var state in device.DeviceState.ThreadSafeStates)
+				{
+					if (state.DriverState.StateType < minState)
+						minState = state.DriverState.StateType;
+				}
+			}
+			OnMulticlientStateChanged(minState);
 		}
 
 		void OnMulticlientStateChanged(StateType stateType)

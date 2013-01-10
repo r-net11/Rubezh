@@ -10,6 +10,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using System.Windows.Media;
 
 namespace Infrastructure.Common.Windows
 {
@@ -30,6 +31,8 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.ClearValue(Window.AllowsTransparencyProperty);
 				windowBaseView.ClearValue(Window.WindowStyleProperty);
 				windowBaseView.ClearValue(Window.BackgroundProperty);
+				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
+				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
 			}
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;

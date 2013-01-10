@@ -5,6 +5,7 @@ using Controls.Menu.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using FiresecAPI;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
@@ -19,7 +20,13 @@ namespace FireMonitor.Multiclient.ViewModels
 			Index = index;
 			_controller = new MulticlientControllerWrapper(index);
 			_controller.ControlChanged += new EventHandler(ControlChanged);
+			_controller.StateTypeChanged += new Action<FiresecAPI.StateType>(Controller_StateChanged);
 			_controller.Start();
+		}
+
+		void Controller_StateChanged(StateType stateType)
+		{
+			StateType = stateType;
 		}
 
 		public bool IsReady
@@ -41,6 +48,17 @@ namespace FireMonitor.Multiclient.ViewModels
 		public string Caption
 		{
 			get { return _controller.AppDomain.FriendlyName; }
+		}
+
+		StateType _stateType = StateType.Unknown;
+		public StateType StateType
+		{
+			get { return _stateType; }
+			set
+			{
+				_stateType = value;
+				OnPropertyChanged("StateType");
+			}
 		}
 
 		//private Window _win;

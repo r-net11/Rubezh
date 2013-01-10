@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
+using Infrastructure.Events;
 
 namespace FireMonitor
 {
@@ -34,14 +35,12 @@ namespace FireMonitor
             base.OnStartup(e);
             try
             {
-#if DEBUG
-                AppSettingsManager.AutoConnect = true;
-#endif
                 InitializeCommandLineArguments(e.Args);
 
                 ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
                 ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
+				AppSettingsManager.AutoConnect = true;
                 bool trace = false;
                 BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
