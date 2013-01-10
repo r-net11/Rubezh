@@ -51,7 +51,6 @@ namespace GKModule
 				{
 					CheckTasks();
 					PingJournal();
-					//GetNextParameter();
 				}
 				catch (Exception e)
 				{

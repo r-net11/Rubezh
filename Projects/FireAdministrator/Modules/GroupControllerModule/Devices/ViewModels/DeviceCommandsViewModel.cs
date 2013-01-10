@@ -11,6 +11,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Windows.Input;
+using Common;
+using System;
 
 namespace GKModule.Models
 {
@@ -25,12 +28,13 @@ namespace GKModule.Models
 			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 
+			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			GetAllParametersCommand = new RelayCommand(OnGetAllParameters);
-			SetAllParametersCommand = new RelayCommand(OnSetAllParameters);
-            GetSingleParametersCommand = new RelayCommand(GetSingleParameters, CanGetSetSingleParameter);
-            SetSingleParametersCommand = new RelayCommand(OnSetSingleParameters, CanGetSetSingleParameter);
+			SetAllParametersCommand = new RelayCommand(OnSetAllParameters, CanSetAllParameters);
+            GetSingleParameterCommand = new RelayCommand(OnGetSingleParameter, CanGetSetSingleParameter);
+            SetSingleParameterCommand = new RelayCommand(OnSetSingleParameter, CanSetSingleParameter);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 
 			_devicesViewModel = devicesViewModel;
@@ -60,35 +64,41 @@ namespace GKModule.Models
 			DialogService.ShowModalWindow(deviceConverterViewModel);
 		}
 
-		string BytesToString(List<byte> bytes)
+		public RelayCommand ShowInfoCommand { get; private set; }
+		void OnShowInfo()
 		{
-			var stringBuilder = new StringBuilder();
-			foreach (var b in bytes)
+			var deviceInfo = DeviceBytesHelper.GetDeviceInfo(SelectedDevice.Device);
+			if (deviceInfo != null)
 			{
-				stringBuilder.Append(b + " ");
+				MessageBoxService.Show(deviceInfo);
 			}
-			return stringBuilder.ToString();
 		}
 
+		bool CanShowInfo()
+		{
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.KAU ||
+				SelectedDevice.Device.Driver.DriverType == XDriverType.GK));
+		}
+
+		public RelayCommand SynchroniseTimeCommand { get; private set; }
+		void OnSynchroniseTime()
+		{
+			DeviceBytesHelper.WriteDateTime(SelectedDevice.Device);
+		}
 		bool CanSynchroniseTime()
 		{
 			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
 		}
-		public RelayCommand SynchroniseTimeCommand { get; private set; }
-		void OnSynchroniseTime()
-		{
-			DeviceTimeHelper.Write(SelectedDevice.Device);
-		}
 
-		bool CanReadJournal()
-		{
-			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
-		}
 		public RelayCommand ReadJournalCommand { get; private set; }
 		void OnReadJournal()
 		{
 			var journalViewModel = new JournalViewModel(SelectedDevice.Device);
 			DialogService.ShowModalWindow(journalViewModel);
+		}
+		bool CanReadJournal()
+		{
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand WriteConfigCommand { get; private set; }
@@ -130,17 +140,25 @@ namespace GKModule.Models
 		{
 			ParametersHelper.SetAllParameters();
 		}
+		bool CanSetAllParameters()
+		{
+			return CanGetSetSingleParameter() && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
+		}
 
-		public RelayCommand GetSingleParametersCommand { get; private set; }
-		void GetSingleParameters()
+		public RelayCommand GetSingleParameterCommand { get; private set; }
+		void OnGetSingleParameter()
 		{
 			ParametersHelper.GetSingleParameter(SelectedDevice.Device);
 		}
 
-        public RelayCommand SetSingleParametersCommand { get; private set; }
-        void OnSetSingleParameters()
+        public RelayCommand SetSingleParameterCommand { get; private set; }
+        void OnSetSingleParameter()
 		{
             ParametersHelper.SetSingleParameter(SelectedDevice.Device);
+		}
+		bool CanSetSingleParameter()
+		{
+			return CanGetSetSingleParameter() && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
 		}
 
         bool CanGetSetSingleParameter()

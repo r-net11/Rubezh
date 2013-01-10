@@ -132,7 +132,7 @@
     <Compile Include="BinaryFormatViewer\Converters\BytesToStringConverter.cs" />
     <Compile Include="BinaryFormatViewer\ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="BinaryFormatViewer\ViewModels\DatabasesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceTimeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceBytesHelper.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />

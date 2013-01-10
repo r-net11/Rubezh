@@ -14,6 +14,7 @@ namespace Common.GK
 				UID = new Guid("1AC85436-61BC-441B-B6BF-C6A0FA62748B"),
 				Name = "Реле ГК",
 				ShortName = "Реле ГК",
+				HasLogic = true,
 				CanEditAddress = false,
                 HasAddress = false,
 				IsAutoCreate = true,

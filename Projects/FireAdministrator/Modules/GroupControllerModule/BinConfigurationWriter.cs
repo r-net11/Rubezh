@@ -171,7 +171,7 @@ namespace GKModule
         static void SyncronizeTime(XDevice device)
         {
             LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
-            DeviceTimeHelper.Write(device);
+            DeviceBytesHelper.WriteDateTime(device);
         }
     }
 }

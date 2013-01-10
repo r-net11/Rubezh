@@ -36,6 +36,7 @@ namespace Common.GK
 					AddDevice(device);
 				}
 			}
+			Devices.ForEach(x => x.GkDatabaseParent = RootDevice);
 		}
 
 		public override void BuildObjects()

@@ -13,7 +13,7 @@
         <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
             <MenuItem>
                 <MenuItem.Header>
-                    <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" />
+                    <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать из формата Рубеж-2АМ" />
@@ -21,14 +21,15 @@
                 <MenuItem Command="{Binding ConvertToBinCommand}" Header="Посмотреть бинарную конфигурацию" />
                 <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию в устройства" />
                 <Separator />
+                <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация об устройстве" />
                 <MenuItem Command="{Binding SynchroniseTimeCommand}" Header="Синхронизация времени" />
                 <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
                 <MenuItem Command="{Binding UpdateFirmwhareCommand}" Header="Обновление ПО" />
                 <Separator />
                 <MenuItem Command="{Binding GetAllParametersCommand}" Header="Считать параметры из всех устройств" />
                 <MenuItem Command="{Binding SetAllParametersCommand}" Header="Записать параметры во все устройства" />
-                <MenuItem Command="{Binding GetSingleParametersCommand}" Header="Считать параметры одного устройства" />
-                <MenuItem Command="{Binding SetSingleParametersCommand}" Header="Записать параметры в одно устройство" />
+                <MenuItem Command="{Binding GetSingleParameterCommand}" Header="Считать параметры одного устройства" />
+                <MenuItem Command="{Binding SetSingleParameterCommand}" Header="Записать параметры в одно устройство" />
             </MenuItem>
         </Menu>
     </StackPanel>

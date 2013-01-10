@@ -9,46 +9,7 @@ namespace GKModule
 {
 	public partial class Watcher
 	{
-		List<DeviceParameeterRequest> DeviceParameeterRequests;
-		int deviceParameeterRequestIndex = 0;
-
-		void GetNextParameter()
-		{
-			if (DeviceParameeterRequests == null)
-			{
-				DeviceParameeterRequests = new List<DeviceParameeterRequest>();
-				foreach (var binaryObject in GkDatabase.BinaryObjects)
-				{
-					var device = binaryObject.BinaryBase as XDevice;
-					if (device != null)
-					{
-						//foreach (var auParameter in device.Driver.AUParameters)
-						//{
-						//    var deviceParameeterRequest = new DeviceParameeterRequest()
-						//    {
-						//        Device = device,
-						//        AUParameter = auParameter
-						//    };
-						//    DeviceParameeterRequests.Add(deviceParameeterRequest);
-						//}
-						var deviceParameeterRequest = new DeviceParameeterRequest()
-						{
-							Device = device,
-						};
-						DeviceParameeterRequests.Add(deviceParameeterRequest);
-					}
-				}
-			}
-
-			if (deviceParameeterRequestIndex < DeviceParameeterRequests.Count)
-			{
-				var deviceParameeterRequests = DeviceParameeterRequests[deviceParameeterRequestIndex];
-				GetParameters(deviceParameeterRequests.Device);
-				deviceParameeterRequestIndex++;
-			}
-		}
-
-		static void GetParameters(XDevice device)
+		static void GetDeviceParameters(XDevice device)
 		{
 			var AUParameterValues = new List<AUParameterValue>();
 			foreach (var auParameter in device.Driver.AUParameters)
@@ -87,12 +48,6 @@ namespace GKModule
 					}
 				}
 			}
-		}
-
-		class DeviceParameeterRequest
-		{
-			public XDevice Device { get; set; }
-			//public XAUParameter AUParameter { get; set; }
 		}
 	}
 }

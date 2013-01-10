@@ -29,13 +29,23 @@
             <TabItem Header="Параметры" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                <ColumnDefinition SharedSizeGroup="group2" Width="100" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
                         <ItemsControl ItemsSource="{Binding AUParameterValues}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}" Foreground="White" />
-                                        <TextBlock Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
-                                    </StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="group1" />
+                                            <ColumnDefinition SharedSizeGroup="group2" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
+                                    </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

@@ -20,9 +20,9 @@ namespace GKModule.ViewModels
 			ReadCommand = new RelayCommand(OnRead);
 			JournalItems = new ObservableCollection<JournalItem>();
 			Device = device;
-			StartIndex = 1;
-			EndIndex = 100;
 			SetTotalCount();
+			StartIndex = Math.Max(0, TotalCount - 100);
+			EndIndex = TotalCount;
 		}
 
 		void SetTotalCount()
