@@ -81,9 +81,6 @@ namespace DevicesModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			LoadingService.DoStep("Загрузка конфигурации с сервера");
-            FiresecManager.GetConfiguration();
-
 			if (firstTime)
 			{
 				LoadingService.DoStep("Инициализация драйвера устройств");
@@ -101,6 +98,20 @@ namespace DevicesModule
 			FiresecManager.FiresecDriver.StartWatcher(true, true);
 
 			FiresecManager.FSAgent.Start();
+
+			if (LoadingErrorManager.HasError)
+				MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
+
+			if (firstTime)
+			{
+#if RELEASE
+                LoadingService.DoStep("Проверка HASP-ключа");
+                var operationResult = FiresecManager.FiresecDriver.CheckHaspPresence();
+                if (operationResult.HasError)
+                    MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
+#endif
+			}
+
 			return true;
 		}
 

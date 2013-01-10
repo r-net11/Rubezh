@@ -16,9 +16,19 @@ namespace GKModule
     public partial class Watcher
     {
         bool IsConnected = true;
+		int ConnectionLostCount = 0;
 
         void ConnectionChanged(bool isConnected)
         {
+			if (!isConnected)
+			{
+				ConnectionLostCount++;
+				if (ConnectionLostCount < 5)
+					return;
+			}
+			else
+				ConnectionLostCount=0;
+
             if (IsConnected != isConnected)
             {
                 var journalItem = new JournalItem()
