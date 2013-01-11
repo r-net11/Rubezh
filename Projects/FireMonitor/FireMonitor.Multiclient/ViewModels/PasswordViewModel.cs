@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 
-namespace MultiClient.ViewModels
+namespace FireMonitor.Multiclient.ViewModels
 {
 	public class PasswordViewModel : DialogViewModel
 	{

@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using FireMonitor.Multiclient.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using MuliclientAPI;
 
 namespace FireMonitor.Multiclient
 {
@@ -17,7 +18,18 @@ namespace FireMonitor.Multiclient
 		{
 			base.OnStartup(e);
 			ServiceFactory.Initialize();
-			ApplicationService.Run(new ViewModels.MulticlientViewModel(2), true);
+
+			var multiclientViewModel = new MulticlientViewModel();
+			ApplicationService.Run(multiclientViewModel, true);
+
+			var passwordViewModel = new PasswordViewModel();
+			DialogService.ShowModalWindow(passwordViewModel);
+			var password = passwordViewModel.Password;
+			if (!string.IsNullOrEmpty(password))
+			{
+				var multiclientConfiguration = MulticlientConfigurationHelper.LoadConfiguration(password);
+				multiclientViewModel.Initialize(multiclientConfiguration);
+			}
 		}
 
 		protected override void OnExit(ExitEventArgs e)

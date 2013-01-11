@@ -72,8 +72,12 @@
     <Compile Include="ServiceFactory.cs" />
     <Compile Include="ViewModels\HostViewModel.cs" />
     <Compile Include="ViewModels\MulticlientViewModel.cs" />
+    <Compile Include="ViewModels\PasswordViewModel.cs" />
     <Compile Include="Views\MulticlientView.xaml.cs">
       <DependentUpon>MulticlientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PasswordView.xaml.cs">
+      <DependentUpon>PasswordView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +124,10 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\MuliclientAPI\MuliclientAPI.csproj">
+      <Project>{32CADE88-7A8C-45B9-BF15-C60918EC6B5D}</Project>
+      <Name>MuliclientAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FireMonitor\FireMonitor.csproj">
       <Project>{D1EA90C8-D176-442F-A5DD-8AB97B476821}</Project>
       <Name>FireMonitor</Name>
@@ -132,6 +140,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MulticlientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

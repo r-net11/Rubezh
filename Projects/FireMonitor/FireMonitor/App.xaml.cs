@@ -12,6 +12,7 @@ using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 using Infrastructure.Events;
+using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -24,6 +25,7 @@ namespace FireMonitor
 		public static string Login;
 		public static string Password;
 		public static bool IsMulticlient { get; set; }
+		public static MulticlientData MulticlientData { get; set; }
 
 		public App()
 		{

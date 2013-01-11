@@ -10,19 +10,19 @@ namespace MultiClient
 		{
 			Bootstrapper.Run();
 
-            var shellView = new ShellView();
-            Application.Current.MainWindow = shellView;
-            var shellViewModel = new ShellViewModel();
-            shellView.DataContext = shellViewModel;
+			var shellView = new ShellView();
+			Application.Current.MainWindow = shellView;
+			var shellViewModel = new ShellViewModel();
+			shellView.DataContext = shellViewModel;
 
-            var passwordViewModel = new PasswordViewModel();
-            DialogService.ShowModalWindow(passwordViewModel);
-            var password = passwordViewModel.Password;
+			var passwordViewModel = new PasswordViewModel();
+			DialogService.ShowModalWindow(passwordViewModel);
+			var password = passwordViewModel.Password;
 
-            if (!string.IsNullOrEmpty(password))
-            {
-                shellViewModel.Initialize(password);
-            }
+			if (!string.IsNullOrEmpty(password))
+			{
+				shellViewModel.Initialize(password);
+			}
 			shellView.Show();
 		}
 	}

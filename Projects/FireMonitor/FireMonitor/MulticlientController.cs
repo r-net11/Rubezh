@@ -11,6 +11,7 @@ using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Events;
 using FiresecClient;
+using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -52,7 +53,7 @@ namespace FireMonitor
 				StateChanged(stateType);
 		}
 
-		public void Start()
+		public void Start(MulticlientData multiclientData)
 		{
 			var thread = new Thread(() =>
 			{
@@ -60,6 +61,7 @@ namespace FireMonitor
 				var app = new App();
 				app.Exit += new ExitEventHandler(app_Exit);
 				App.IsMulticlient = true;
+				App.MulticlientData = multiclientData;
 				app.InitializeComponent();
 				app.Run();
 			});

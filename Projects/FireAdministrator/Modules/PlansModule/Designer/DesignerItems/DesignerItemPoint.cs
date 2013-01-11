@@ -16,6 +16,8 @@ namespace PlansModule.Designer.DesignerItems
 		protected override Rect GetRectangle()
 		{
 			var rect = base.GetRectangle();
+			if (DesignerCanvas == null)
+				return rect;
 			return new Rect(rect.Left - DesignerCanvas.PointZoom / 2, rect.Top - DesignerCanvas.PointZoom / 2, DesignerCanvas.PointZoom, DesignerCanvas.PointZoom);
 		}
 	}

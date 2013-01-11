@@ -6,27 +6,31 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecAPI;
+using MuliclientAPI;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
 	public class HostViewModel : BaseViewModel
 	{
-		public int Index { get; private set; }
-		private MulticlientControllerWrapper _controller;
+		public MulticlientData MulticlientData { get; private set; }
+		MulticlientControllerWrapper _controller;
+		public event Action StateTypeChanged;
 
-		public HostViewModel(int index)
+		public HostViewModel(MulticlientData multiclientData)
 			: base()
 		{
-			Index = index;
-			_controller = new MulticlientControllerWrapper(index);
+			MulticlientData = multiclientData;
+			_controller = new MulticlientControllerWrapper(multiclientData.Id);
 			_controller.ControlChanged += new EventHandler(ControlChanged);
 			_controller.StateTypeChanged += new Action<FiresecAPI.StateType>(Controller_StateChanged);
-			_controller.Start();
+			_controller.Start(multiclientData);
 		}
 
 		void Controller_StateChanged(StateType stateType)
 		{
 			StateType = stateType;
+			if (StateTypeChanged != null)
+				StateTypeChanged();
 		}
 
 		public bool IsReady
@@ -47,7 +51,7 @@ namespace FireMonitor.Multiclient.ViewModels
 		public FrameworkElement HostControl { get; private set; }
 		public string Caption
 		{
-			get { return _controller.AppDomain.FriendlyName; }
+			get { return MulticlientData.Name; }
 		}
 
 		StateType _stateType = StateType.Unknown;
@@ -60,30 +64,5 @@ namespace FireMonitor.Multiclient.ViewModels
 				OnPropertyChanged("StateType");
 			}
 		}
-
-		//private Window _win;
-		//private void OnClick()
-		//{
-		//    if (_win == null)
-		//    {
-		//        var content = _controller.GetContent();
-		//        _win = new Window();
-		//        _win.SetResourceReference(Window.BackgroundProperty, "BaseWindowBackgroundBrush");
-		//        _win.Closed += (s, e) => { _win.Content = null; _win = null; };
-		//        _win.Content = content;
-		//        _win.Show();
-		//        _win.Activate();
-		//    }
-		//    else
-		//    {
-		//        if (_win.WindowState == WindowState.Minimized)
-		//            _win.WindowState = WindowState.Normal;
-		//        _win.Activate();
-		//    }
-		//}
-		//private bool CanClick()
-		//{
-		//    return _controller.Contract != null;
-		//}
 	}
 }

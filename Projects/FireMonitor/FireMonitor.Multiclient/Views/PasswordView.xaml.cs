@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MultiClient.Views
+namespace FireMonitor.Multiclient.Views
 {
 	public partial class PasswordView : UserControl
 	{
