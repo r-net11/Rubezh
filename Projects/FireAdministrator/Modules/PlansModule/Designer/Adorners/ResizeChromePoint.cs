@@ -9,7 +9,7 @@ namespace PlansModule.Designer.Adorners
 	{
 		static ResizeChromePoint()
 		{
-			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromePoint), new FrameworkPropertyMetadata(typeof(ResizeChromePoint)));
+			//FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromePoint), new FrameworkPropertyMetadata(typeof(ResizeChromePoint)));
 		}
 
 		public ResizeChromePoint(DesignerItem designerItem)

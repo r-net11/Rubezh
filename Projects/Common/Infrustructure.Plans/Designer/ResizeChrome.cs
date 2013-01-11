@@ -6,7 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class ResizeChrome : FrameworkElement//, INotifyPropertyChanged
+	public abstract class ResizeChrome : UIElement//, INotifyPropertyChanged
 	{
 		private const int MinSize = 3;
 
@@ -26,7 +26,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			DesignerItem = designerItem;
 			AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(ResizeThumb_DragDelta));
-			Loaded += (s, e) => UpdateZoom();
+			//Loaded += (s, e) => UpdateZoom();
 		}
 
 		public abstract void Initialize();

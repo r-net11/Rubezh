@@ -9,7 +9,7 @@ namespace PlansModule.Designer.Adorners
 	{
 		static ResizeChromeRectangle()
 		{
-			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromeRectangle), new FrameworkPropertyMetadata(typeof(ResizeChromeRectangle)));
+			//FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromeRectangle), new FrameworkPropertyMetadata(typeof(ResizeChromeRectangle)));
 		}
 
 		public ResizeChromeRectangle(DesignerItem designerItem)

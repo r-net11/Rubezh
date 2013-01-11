@@ -111,7 +111,6 @@ namespace Infrustructure.Plans.Designer
 		{
 			UpdateAdorner();
 			base.Redraw();
-			ResizeChrome.Arrange(GetRectangle());
 		}
 		protected override void Render(DrawingContext drawingContext)
 		{
@@ -128,6 +127,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			ResizeChrome = resizeChrome;
 			ResizeChrome.Opacity = 0;
+			ResizeChrome.Arrange(GetRectangle());
 			Children.Add(ResizeChrome);
 		}
 

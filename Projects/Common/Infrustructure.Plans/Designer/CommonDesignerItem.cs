@@ -89,13 +89,6 @@ namespace Infrustructure.Plans.Designer
 		}
 		public virtual void Redraw()
 		{
-			//MinWidth = Element.BorderThickness;
-			//MinHeight = Element.BorderThickness;
-			//if (Element is ElementBaseShape)
-			//{
-			//    MinWidth += 3;
-			//    MinHeight += 3;
-			//}
 			using (DrawingContext drawingContext = RenderOpen())
 			{
 				OriginalRect = GetRectangle();
