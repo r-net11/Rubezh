@@ -28,7 +28,7 @@ namespace GKModule.Converters
 				case XAlarmType.Ignore:
 					return "Wheat";
 
-				case XAlarmType.Info:
+				case XAlarmType.Turning:
 					return "SkyBlue";
 
 				case XAlarmType.Service:

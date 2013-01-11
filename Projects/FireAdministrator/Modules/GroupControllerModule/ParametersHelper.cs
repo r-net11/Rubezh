@@ -25,7 +25,12 @@ namespace GKModule
 					{
 						if (binaryObject.Device != null)
 						{
-							GetDeviceParameters(kauDatabase, binaryObject);
+							var result = GetDeviceParameters(kauDatabase, binaryObject);
+							if (!result)
+							{
+								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + binaryObject.Device.ShortPresentationAddressAndDriver);
+								return;
+							}
 						}
 					}
 				}
@@ -33,7 +38,10 @@ namespace GKModule
 				{
 					Logger.Error(e, "ParametersHelper.GetParametersFromDB");
 				}
-				LoadingService.Close();
+				finally
+				{
+					LoadingService.Close();
+				}
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}
@@ -50,7 +58,12 @@ namespace GKModule
 					{
 						if (binaryObject.Device != null)
 						{
-							SetDeviceParameters(kauDatabase, binaryObject);
+							var result = SetDeviceParameters(kauDatabase, binaryObject);
+							if (!result)
+							{
+								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + binaryObject.Device.ShortPresentationAddressAndDriver);
+								return;
+							}
 						}
 					}
 				}
@@ -58,7 +71,10 @@ namespace GKModule
 				{
 					Logger.Error(e, "ParametersHelper.SetParametersToDB");
 				}
-				LoadingService.Close();
+				finally
+				{
+					LoadingService.Close();
+				}
 			}
 		}
 
@@ -68,27 +84,24 @@ namespace GKModule
 			LoadingService.Show("Запись параметров", 1);
 			try
 			{
+				CommonDatabase commonDatabase = null;
 				if (device.KauDatabaseParent != null)
 				{
-					var kauDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == device.KauDatabaseParent);
-					if (kauDatabase != null)
-					{
-						var kauBinaryObject = kauDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
-						if (kauBinaryObject != null)
-						{
-							SetDeviceParameters(kauDatabase, kauBinaryObject);
-						}
-					}
+					commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == device.KauDatabaseParent);
 				}
 				else if (device.GkDatabaseParent != null)
 				{
-					var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == device.GkDatabaseParent);
-					if (gkDatabase != null)
+					commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == device.GkDatabaseParent);
+				}
+				if (commonDatabase != null)
+				{
+					var binaryObject = commonDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
+					if (binaryObject != null)
 					{
-						var gkBinaryObject = gkDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
-						if (gkBinaryObject != null)
+						var result = SetDeviceParameters(commonDatabase, binaryObject);
+						if (!result)
 						{
-							SetDeviceParameters(gkDatabase, gkBinaryObject);
+							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.ShortPresentationAddressAndDriver);
 						}
 					}
 				}
@@ -97,7 +110,10 @@ namespace GKModule
 			{
 				Logger.Error(e, "ParametersHelper.SetSingleParameter");
 			}
-			LoadingService.Close();
+			finally
+			{
+				LoadingService.Close();
+			}
 		}
 
 		public static void GetSingleParameter(XDevice device)
@@ -106,27 +122,24 @@ namespace GKModule
 			LoadingService.Show("Запрос параметров", 1);
 			try
 			{
+				CommonDatabase commonDatabase = null;
 				if (device.KauDatabaseParent != null)
 				{
-					var kauDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == device.KauDatabaseParent);
-					if (kauDatabase != null)
-					{
-						var kauBinaryObject = kauDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
-						if (kauBinaryObject != null)
-						{
-							GetDeviceParameters(kauDatabase, kauBinaryObject);
-						}
-					}
+					commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == device.KauDatabaseParent);
 				}
 				else if (device.GkDatabaseParent != null)
 				{
-					var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == device.GkDatabaseParent);
-					if (gkDatabase != null)
+					commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == device.GkDatabaseParent);
+				}
+				if (commonDatabase != null)
+				{
+					var binaryObject = commonDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
+					if (binaryObject != null)
 					{
-						var gkBinaryObject = gkDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
-						if (gkBinaryObject != null)
+						var result = GetDeviceParameters(commonDatabase, binaryObject);
+						if (!result)
 						{
-							GetDeviceParameters(gkDatabase, gkBinaryObject);
+							MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.ShortPresentationAddressAndDriver);
 						}
 					}
 				}
@@ -135,61 +148,63 @@ namespace GKModule
 			{
 				Logger.Error(e, "ParametersHelper.SetSingleParameter");
 			}
-			LoadingService.Close();
+			finally
+			{
+				LoadingService.Close();
+			}
 		}
 
-		static void GetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
+		static bool GetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
 		{
 			var no = binaryObject.GetNo();
 			LoadingService.DoStep("Запрос параметров объекта " + no);
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 
-			if (sendResult.HasError == false)
+			if (sendResult.HasError)
 			{
-				var binProperties = new List<BinProperty>();
-				for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
+				return false;
+			}
+			var binProperties = new List<BinProperty>();
+			for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
+			{
+				byte paramNo = sendResult.Bytes[i * 4];
+				ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
+				var binProperty = new BinProperty()
 				{
-					byte paramNo = sendResult.Bytes[i * 4];
-					ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
-					var binProperty = new BinProperty()
-					{
-						ParamNo = paramNo,
-						ParamValue = paramValue
-					};
-					binProperties.Add(binProperty);
-				}
+					ParamNo = paramNo,
+					ParamValue = paramValue
+				};
+				binProperties.Add(binProperty);
+			}
 
-				if (binaryObject.Device != null)
+			if (binaryObject.Device != null)
+			{
+				foreach (var driverProperty in binaryObject.Device.Driver.Properties)
 				{
-					foreach (var driverProperty in binaryObject.Device.Driver.Properties)
-					{
-						if (!driverProperty.IsAUParameter)
-							continue;
+					if (!driverProperty.IsAUParameter)
+						continue;
 
-						var binProperty = binProperties.FirstOrDefault(x => x.ParamNo == driverProperty.No);
-						if (binProperty != null)
+					var binProperty = binProperties.FirstOrDefault(x => x.ParamNo == driverProperty.No);
+					if (binProperty != null)
+					{
+						var paramValue = (ushort)binProperty.ParamValue;
+						if (driverProperty.IsLowByte)
 						{
-							var paramValue = (ushort)binProperty.ParamValue;
-							if (driverProperty.IsLowByte)
-							{
-								paramValue = (ushort)(paramValue << 8);
-								paramValue = (ushort)(paramValue >> 8);
-							}
-							if (driverProperty.IsHieghByte)
-							{
-								paramValue = (ushort)(paramValue >> 8);
-								paramValue = (ushort)(paramValue << 8);
-							}
-							paramValue = (ushort)(paramValue >> driverProperty.Offset);
-							paramValue = (byte)(paramValue & driverProperty.Mask);
-							var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-							if (property != null)
-							{
-								if (property.Value != paramValue)
-									property.Value = paramValue;
-
-								Trace.WriteLine("Property " + property.Name + " " + property.Value + " " + driverProperty.Offset.ToString() + " " + driverProperty.No.ToString());
-							}
+							paramValue = (ushort)(paramValue << 8);
+							paramValue = (ushort)(paramValue >> 8);
+						}
+						if (driverProperty.IsHieghByte)
+						{
+							paramValue = (ushort)(paramValue >> 8);
+							paramValue = (ushort)(paramValue << 8);
+						}
+						paramValue = (ushort)(paramValue >> driverProperty.Offset);
+						paramValue = (byte)(paramValue & driverProperty.Mask);
+						var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						if (property != null)
+						{
+							if (property.Value != paramValue)
+								property.Value = paramValue;
 						}
 					}
 				}
@@ -199,9 +214,10 @@ namespace GKModule
 			{
 				deviceViewModel.UpdateProperties();
 			}
+			return true;
 		}
 
-		static void SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
+		static bool SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
 		{
 			if (binaryObject.Parameters.Count > 0)
 			{
@@ -211,8 +227,10 @@ namespace GKModule
 				bytes.AddRange(BytesHelper.ShortToBytes(no));
 				bytes.AddRange(binaryObject.Parameters);
 				LoadingService.DoStep("Запись параметров объекта " + no);
-				SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
+				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
+				return !sendResult.HasError;
 			}
+			return true;
 		}
 	}
 

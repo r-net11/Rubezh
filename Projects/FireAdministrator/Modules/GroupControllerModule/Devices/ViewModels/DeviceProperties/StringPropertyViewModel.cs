@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 				_text = value;
 				OnPropertyChanged("Text");
 				SaveStringValue(value);
+				_xDevice.OnChanged();
 			}
 		}
 	}

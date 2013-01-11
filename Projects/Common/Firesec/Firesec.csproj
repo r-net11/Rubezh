@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="AuParameters\DevicePropertyRequest.cs" />
     <Compile Include="AuParameters\FiresecDriverAuParametersHelper.Get.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.PlansReverseConverter.cs" />
     <Compile Include="FiresecDriver.Reset.cs" />
     <Compile Include="Firesec\EmptyConfigHelper.cs" />
     <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />

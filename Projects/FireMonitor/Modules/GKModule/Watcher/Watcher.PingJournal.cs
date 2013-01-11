@@ -66,7 +66,7 @@ namespace GKModule
         void ReadAndPublish(int startIndex, int endIndex)
         {
             var journalItems = new List<JournalItem>();
-            for (int index = startIndex; index <= endIndex; index++)
+            for (int index = startIndex + 1; index <= endIndex; index++)
             {
                 var journalItem = ReadJournal(index);
                 if (journalItem != null)

@@ -99,6 +99,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SettingsModule.cs" />
+    <Compile Include="ViewModels\ConvertationViewModel.cs" />
+    <Compile Include="ViewModels\FSC2ViewModel.cs" />
     <Compile Include="ViewModels\ModuleViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />

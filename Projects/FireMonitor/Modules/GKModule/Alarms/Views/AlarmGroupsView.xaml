@@ -23,7 +23,7 @@
                         GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
                         IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
                         <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToShortStringConverter}}"
-                            Foreground="White" FontSize="30" />
+                            Foreground="White" FontSize="30" FontFamily="Tahoma" />
                     </Controls:AlarmButton>
                 </Grid>
             </DataTemplate>

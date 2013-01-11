@@ -7,7 +7,7 @@
         <Converters:ThemeConverter x:Key="ThemeConverter" />
     </UserControl.Resources>
     <TabControl>
-        <TabItem Header="Конвертация">
+        <TabItem Header="Конвертация" DataContext="{Binding ConvertationViewModel}">
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
                 <StackPanel Margin="10">
                     <Button Content="Конвертировать конфигурацию из формата FireSec-1" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
@@ -15,8 +15,8 @@
                 </StackPanel>
             </Border>
         </TabItem>
-        <TabItem Header="Выбор темы">
-            <Border CornerRadius="10" BorderThickness="0" Margin="2" DataContext="{Binding ThemeContext}">
+        <TabItem Header="Выбор темы" DataContext="{Binding ThemeContext}">
+            <Border CornerRadius="10" BorderThickness="0" Margin="2">
                 <StackPanel>
                     <StackPanel Margin="10" Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" Width="200" HorizontalAlignment="Left">
@@ -30,8 +30,8 @@
                 </StackPanel>
             </Border>
         </TabItem>
-        <TabItem Header="Дополнительные модули">
-            <ListBox DataContext="{Binding ModuleContext}" ItemsSource="{Binding Modules}">
+        <TabItem Header="Дополнительные модули" DataContext="{Binding ModuleContext}">
+            <ListBox ItemsSource="{Binding Modules}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Description}" IsChecked="{Binding IsEnabled}"/>
@@ -39,11 +39,10 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </TabItem>
-        <TabItem Header="Поддержка формата *.fsc2">
+        <TabItem Header="Поддержка формата *.fsc2" DataContext="{Binding FSC2ViewModel}">
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
                 <StackPanel Margin="10">
                     <Button Command="{Binding LoadFromFileOldCommand}" Width="300" Content="Считать конфигурацию из файла" ToolTip="Считать конфигурацию из файла" />
-                    <Button Command="{Binding SaveToFileOldCommand}" Width="300" Content="Сохранить конфигурацию в файл" ToolTip="Сохранить конфигурацию в файл" />
                 </StackPanel>
             </Border>
         </TabItem>

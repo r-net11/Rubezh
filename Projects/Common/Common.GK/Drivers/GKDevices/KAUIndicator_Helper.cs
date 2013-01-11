@@ -42,8 +42,8 @@ namespace Common.GK
                 {
                     No = 1,
                     Name = "OnDuration",
-                    Caption = "Продолжительность горения для режима 2",
-                    ToolTip = "Продолжительность горения для режима 2",
+                    Caption = "Продолжительность горения для режима 2, мс",
+					ToolTip = "Продолжительность горения для режима 2, мс",
                     Default = 0,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsAUParameter = true
@@ -55,8 +55,8 @@ namespace Common.GK
                 {
                     No = 2,
                     Name = "OffDuration",
-                    Caption = "Продолжительность гашения для режима 2",
-                    ToolTip = "Продолжительность гашения для режима 2",
+					Caption = "Продолжительность гашения для режима 2, мс",
+					ToolTip = "Продолжительность гашения для режима 2, мс",
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     Default = 0,
                     IsAUParameter = true

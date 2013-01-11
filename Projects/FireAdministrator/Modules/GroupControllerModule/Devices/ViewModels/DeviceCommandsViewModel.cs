@@ -26,6 +26,7 @@ namespace GKModule.Models
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
+			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
@@ -120,6 +121,13 @@ namespace GKModule.Models
         {
             return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
         }
+
+		public RelayCommand ReadConfigurationCommand { get; private set; }
+		void OnReadConfiguration()
+		{
+			var device = SelectedDevice.Device;
+			;
+		}
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
 		void OnConvertToBinaryFile()

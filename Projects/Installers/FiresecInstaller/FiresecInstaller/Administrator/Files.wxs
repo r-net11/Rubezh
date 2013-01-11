@@ -38,12 +38,18 @@
         <File Id="Administrator.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
+      <Component Id="Administrator.SOUNDS_MODULE" Guid="DF7DE120-731E-460A-A420-CD5FC0C6FF09">
+        <File Id="Administrator.SoundsModule.dll" Name="SoundsModule.dll" Source="$(var.Administrator.TargetDir)" />
+      </Component>
+
+      <Component Id="Administrator.SETTINGS_MODULE" Guid="440F9915-8EB0-493C-891B-35927D2183F5">
+        <File Id="Administrator.SettingsModule.dll" Name="SettingsModule.dll" Source="$(var.Administrator.TargetDir)" />
+      </Component>
+
       <Component Id="Administrator.FS_MODULE" Guid="4EF4953F-8CCD-4E73-8E61-7D7235A6E0AD">
         <File Id="Administrator.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.InstructionsModule.dll" Name="InstructionsModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.LibraryModule.dll" Name="LibraryModule.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.SettingsModule.dll" Name="SettingsModule.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.SoundsModule.dll" Name="SoundsModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 

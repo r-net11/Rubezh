@@ -38,18 +38,21 @@ namespace FireAdministrator
                 WaitHelper.Execute(() =>
                 {
                     LoadingService.ShowProgress("Применение конфигурации", "Применение конфигурации", 10);
-                    if (ServiceFactory.SaveService.FSChanged)
-                    {
-                        LoadingService.DoStep("Применение конфигурации устройств");
-                        if (!ServiceFactory.AppSettings.DoNotOverrideFS1)
-                        {
-                            var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                            if (fsResult.HasError)
-                            {
-                                MessageBoxService.ShowError(fsResult.Error);
-                            }
-                        }
-                    }
+					if (ServiceFactory.SaveService.FSChanged)
+					{
+						LoadingService.DoStep("Применение конфигурации устройств");
+						if (!ServiceFactory.AppSettings.DoNotOverrideFS1)
+						{
+							if (FiresecManager.FiresecDriver != null)
+							{
+								var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+								if (fsResult.HasError)
+								{
+									MessageBoxService.ShowError(fsResult.Error);
+								}
+							}
+						}
+					}
 
 					var tempFileName = Path.GetTempFileName() + "_";
 					var zipFile = new ZipFile(tempFileName);

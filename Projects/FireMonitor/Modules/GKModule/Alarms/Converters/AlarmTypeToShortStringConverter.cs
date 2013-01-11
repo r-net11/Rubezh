@@ -11,7 +11,7 @@ namespace GKModule.Converters
             switch ((XAlarmType) value)
             {
 				case XAlarmType.NPTOn:
-					return "ПЗ";
+					return "НП";
 
 				case XAlarmType.Fire1:
                     return "П1";
@@ -28,8 +28,8 @@ namespace GKModule.Converters
 				case XAlarmType.Ignore:
                     return "О";
 
-				case XAlarmType.Info:
-                    return "И";
+				case XAlarmType.Turning:
+                    return "ВК";
 
 				case XAlarmType.Service:
                     return "ТО";

@@ -44,6 +44,8 @@
       <ComponentRef Id="Server.Remove" />-->
 
       <ComponentRef Id="Administrator.PLANS_MODULE" />
+      <ComponentRef Id="Administrator.SOUNDS_MODULE" />
+      <ComponentRef Id="Administrator.SETTINGS_MODULE" />
       <ComponentRef Id="Monitor.PLANS_MODULE" />
       <ComponentRef Id="LogScript" />
       <ComponentRef Id="DesktopFolder" />

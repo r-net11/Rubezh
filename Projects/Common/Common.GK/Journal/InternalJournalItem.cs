@@ -80,7 +80,11 @@ namespace Common.GK
 
             var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
             var stateClasses = XStateClassHelper.Convert(states, false);
-            journalItem.StateClass = XStateClassHelper.GetMinStateClass(stateClasses);
+            
+			if(Source == JournalSourceType.Object)
+				journalItem.StateClass = XStateClassHelper.GetMinStateClass(stateClasses);
+			else
+				journalItem.StateClass = XStateClass.Info;
 
             return journalItem;
         }
@@ -250,9 +254,9 @@ namespace Common.GK
         public static string ToYesNo(byte b)
         {
             if (b == 0)
-                return " Нет";
+                return "Нет";
             if (b == 1)
-                return " Есть";
+                return "Есть";
             return "";
         }
 
