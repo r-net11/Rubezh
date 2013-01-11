@@ -12,7 +12,7 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemRectangle(ElementBase element)
 			: base(element)
 		{
-			ResizeChrome = new ResizeChromeRectangle(this);
+			SetResizeChrome(new ResizeChromeRectangle(this));
 			if (Element is ElementRectangle)
 			{
 				Title = "Прямоугольник";

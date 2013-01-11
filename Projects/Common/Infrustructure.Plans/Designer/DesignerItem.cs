@@ -67,7 +67,7 @@ namespace Infrustructure.Plans.Designer
 		public ICommand ShowPropertiesCommand { get; protected set; }
 		public ICommand DeleteCommand { get; protected set; }
 
-		public ResizeChrome ResizeChrome { get; protected set; }
+		public ResizeChrome ResizeChrome { get; private set; }
 		public string Group { get; set; }
 		protected bool IsDragging { get; private set; }
 		protected bool IsMoved { get; private set; }
@@ -111,17 +111,24 @@ namespace Infrustructure.Plans.Designer
 		{
 			UpdateAdorner();
 			base.Redraw();
+			ResizeChrome.Arrange(GetRectangle());
 		}
 		protected override void Render(DrawingContext drawingContext)
 		{
 			base.Render(drawingContext);
-			if (IsSelected)
-				drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), OriginalRect);
+			//if (IsSelected)
+			//    drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), OriginalRect);
 		}
 		protected virtual void RedrawSelection()
 		{
 			//
-			Redraw();
+			//Redraw();
+		}
+		protected void SetResizeChrome(ResizeChrome resizeChrome)
+		{
+			ResizeChrome = resizeChrome;
+			ResizeChrome.Opacity = 0;
+			Children.Add(ResizeChrome);
 		}
 
 		protected override void MouseDown(MouseButtonEventArgs e)
@@ -208,8 +215,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void IsSelectedChanged()
 		{
-			if (ResizeChrome != null)
-				ResizeChrome.Visibility = IsSelected ? Visibility.Visible : Visibility.Hidden;
+			ResizeChrome.Opacity = IsSelected ? 1 : 0;
 		}
 
 		protected virtual void DragStarted()
@@ -236,7 +242,7 @@ namespace Infrustructure.Plans.Designer
 				IsMoved = true;
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
-					var rect = designerItem.Transform.TransformBounds(designerItem.ContentBounds);
+					var rect = designerItem.GetRectangle();
 					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
 						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
 					if (rect.Left + shift.X < 0)

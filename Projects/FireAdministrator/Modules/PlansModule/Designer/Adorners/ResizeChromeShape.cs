@@ -35,33 +35,33 @@ namespace PlansModule.Designer.Adorners
 		{
 			if (IsInitialized && !_isDragging)
 			{
-				Canvas canvas = Template.FindName("canvas", this) as Canvas;
-				if (canvas != null)
-				{
-					canvas.Children.Clear();
-					_thumbs = new List<ResizeThumb>();
-					ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-					Rect rect = DesignerItem.Element.GetRectangle();
-					if (element != null)
-						foreach (var point in element.Points)
-						{
-							var thumb = new ResizeThumb()
-							{
-								Direction = ResizeDirection.None,
-								DataContext = this,
-								IsHitTestVisible = true,
-								Cursor = Cursors.Pen,
-							};
-							thumb.SetBinding(ResizeThumb.MarginProperty, new Binding("PointMargin"));
-							thumb.DragStarted += new DragStartedEventHandler(Thumb_DragStarted);
-							thumb.DragCompleted += new DragCompletedEventHandler(Thumb_DragCompleted);
-							thumb.DragDelta += new DragDeltaEventHandler(Thumb_DragDelta);
-							Canvas.SetLeft(thumb, point.X - rect.X + element.BorderThickness / 2);
-							Canvas.SetTop(thumb, point.Y - rect.Y + element.BorderThickness / 2);
-							canvas.Children.Add(thumb);
-							_thumbs.Add(thumb);
-						}
-				}
+				//Canvas canvas = Template.FindName("canvas", this) as Canvas;
+				//if (canvas != null)
+				//{
+				//    canvas.Children.Clear();
+				//    _thumbs = new List<ResizeThumb>();
+				//    ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+				//    Rect rect = DesignerItem.Element.GetRectangle();
+				//    if (element != null)
+				//        foreach (var point in element.Points)
+				//        {
+				//            var thumb = new ResizeThumb()
+				//            {
+				//                Direction = ResizeDirection.None,
+				//                DataContext = this,
+				//                IsHitTestVisible = true,
+				//                Cursor = Cursors.Pen,
+				//            };
+				//            thumb.SetBinding(ResizeThumb.MarginProperty, new Binding("PointMargin"));
+				//            thumb.DragStarted += new DragStartedEventHandler(Thumb_DragStarted);
+				//            thumb.DragCompleted += new DragCompletedEventHandler(Thumb_DragCompleted);
+				//            thumb.DragDelta += new DragDeltaEventHandler(Thumb_DragDelta);
+				//            Canvas.SetLeft(thumb, point.X - rect.X + element.BorderThickness / 2);
+				//            Canvas.SetTop(thumb, point.Y - rect.Y + element.BorderThickness / 2);
+				//            canvas.Children.Add(thumb);
+				//            _thumbs.Add(thumb);
+				//        }
+				//}
 			}
 		}
 		private void Thumb_DragStarted(object sender, DragStartedEventArgs e)

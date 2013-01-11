@@ -12,7 +12,7 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemShape(ElementBase element)
 			: base(element)
 		{
-			ResizeChrome = new ResizeChromeShape(this);
+			SetResizeChrome(new ResizeChromeShape(this));
 			if (Element is ElementPolygon)
 			{
 				Title = "Многоугольник";

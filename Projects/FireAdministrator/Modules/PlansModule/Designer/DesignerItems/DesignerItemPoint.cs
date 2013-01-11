@@ -10,7 +10,7 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemPoint(ElementBase element)
 			: base(element)
 		{
-			ResizeChrome = new ResizeChromePoint(this);
+			SetResizeChrome(new ResizeChromePoint(this));
 		}
 
 		protected override Rect GetRectangle()

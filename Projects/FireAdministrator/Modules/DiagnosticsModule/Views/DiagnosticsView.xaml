@@ -24,7 +24,8 @@
                         <Button Content="FiresecService.SingleTest" Command="{Binding Test8Command}" Width="300" Margin="2" />
                         <Button Content="Обновить конфигурацию" Command="{Binding Test9Command}" Width="300" Margin="2" />
                         <Button Content="Предупреждение из трея" Command="{Binding BalloonTestCommand}" Width="300" Margin="2"/>
-                    </StackPanel>
+						<Button Content="Удвоение планов" Command="{Binding PlanDuplicateTestCommand}" Width="300" Margin="2" />
+					</StackPanel>
                     <ScrollViewer Grid.Row="1">
                         <TextBox Text="{Binding Text}" />
                     </ScrollViewer>

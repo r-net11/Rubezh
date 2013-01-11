@@ -3,17 +3,18 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class ResizeChrome : Control, INotifyPropertyChanged
+	public abstract class ResizeChrome : FrameworkElement//, INotifyPropertyChanged
 	{
 		private const int MinSize = 3;
 
-		#region INotifyPropertyChanged Members
+		//#region INotifyPropertyChanged Members
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		//public event PropertyChangedEventHandler PropertyChanged;
 
-		#endregion
+		//#endregion
 
 		protected DesignerItem DesignerItem { get; private set; }
 		public CommonDesignerCanvas DesignerCanvas
@@ -48,11 +49,11 @@ namespace Infrustructure.Plans.Designer
 		public virtual double ResizeMargin { get { return -4 / DesignerCanvas.Zoom; } }
 		public virtual double Thickness { get { return 1 / DesignerCanvas.Zoom; } }
 
-		protected void OnPropertyChanged(string propertyName)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
+		//protected void OnPropertyChanged(string propertyName)
+		//{
+		//    if (PropertyChanged != null)
+		//        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		//}
 
 		private void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
 		{
@@ -106,6 +107,13 @@ namespace Infrustructure.Plans.Designer
 			//    }
 			//}
 			return new Vector(dragDeltaHorizontal, dragDeltaVertical);
+		}
+
+		protected override void OnRender(DrawingContext drawingContext)
+		{
+			base.OnRender(drawingContext);
+			drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+			//drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), DesignerItem.ContentBounds);
 		}
 	}
 }

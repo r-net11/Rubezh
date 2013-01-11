@@ -23,8 +23,8 @@ namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
-		public List<IModule> _modules;
-		List<ModuleReg> modulesFromReg = new List<ModuleReg>();
+		private List<IModule> _modules;
+		private List<ModuleReg> modulesFromReg = new List<ModuleReg>();
 		public BaseBootstrapper()
 		{
 			Logger.Trace(SystemInfo.GetString());
