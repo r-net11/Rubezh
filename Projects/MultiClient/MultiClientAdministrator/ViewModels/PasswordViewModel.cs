@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using MuliclientAPI;
+using Infrastructure.Common.Windows;
 
-namespace MultiClient.ViewModels
+namespace MultiClientAdministrator.ViewModels
 {
 	public class PasswordViewModel : DialogViewModel
 	{
@@ -26,9 +28,22 @@ namespace MultiClient.ViewModels
 			}
 		}
 
+		public MulticlientConfiguration MulticlientConfiguration { get; private set; }
+
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
+			if (string.IsNullOrEmpty(Password))
+			{
+				return;
+			}
+			MulticlientConfiguration = MulticlientConfigurationHelper.LoadConfiguration(Password);
+			if (MulticlientConfiguration == null)
+			{
+				MessageBoxService.ShowError("Ошибка. Неверный пароль");
+				return;
+			}
+
 			Close(true);
 		}
 	}

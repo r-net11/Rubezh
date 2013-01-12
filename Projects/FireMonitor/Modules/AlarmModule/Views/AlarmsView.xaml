@@ -96,7 +96,6 @@
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Включить все" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2" />
-            <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

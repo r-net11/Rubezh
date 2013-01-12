@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace MuliclientAPI
 {
@@ -55,13 +52,19 @@ namespace MuliclientAPI
 				var cryptoStream = new CryptoStream(fsCrypt, rijndaelManaged.CreateDecryptor(key, key), CryptoStreamMode.Read);
 				FileStream fsOut = new FileStream(outputFile, FileMode.Create);
 
-				int data;
-				while ((data = cryptoStream.ReadByte()) != -1)
-					fsOut.WriteByte((byte)data);
-
-				fsOut.Close();
-				cryptoStream.Close();
-				fsCrypt.Close();
+				try
+				{
+					int data;
+					while ((data = cryptoStream.ReadByte()) != -1)
+						fsOut.WriteByte((byte)data);
+				}
+				catch { throw; }
+				finally
+				{
+					fsCrypt.Close();
+					fsOut.Close();
+					cryptoStream.Close();
+				}
 			}
 		}
 	}

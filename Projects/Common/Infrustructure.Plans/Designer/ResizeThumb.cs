@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows;
 
 namespace Infrustructure.Plans.Designer
 {

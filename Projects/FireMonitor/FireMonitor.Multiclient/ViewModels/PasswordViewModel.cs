@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+using MuliclientAPI;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
@@ -26,9 +24,22 @@ namespace FireMonitor.Multiclient.ViewModels
 			}
 		}
 
+		public MulticlientConfiguration MulticlientConfiguration { get; private set; }
+
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
+			if (string.IsNullOrEmpty(Password))
+			{
+				return;
+			}
+			MulticlientConfiguration = MulticlientConfigurationHelper.LoadConfiguration(Password);
+			if (MulticlientConfiguration == null)
+			{
+				MessageBoxService.ShowError("Ошибка. Невурный пароль");
+				return;
+			}
+
 			Close(true);
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using MultiClient.ViewModels;
+using MultiClientAdministrator.ViewModels;
 
-namespace MultiClient
+namespace MultiClientAdministrator
 {
 	public partial class ShellView : Window
 	{

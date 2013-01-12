@@ -2,7 +2,6 @@
 using System.AddIn.Contract;
 using System.AddIn.Pipeline;
 using System.Windows;
-using Infrastructure.Common.Windows;
 using FiresecAPI;
 using MuliclientAPI;
 

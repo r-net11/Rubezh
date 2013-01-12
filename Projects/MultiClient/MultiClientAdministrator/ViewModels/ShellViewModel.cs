@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using Common;
 using Infrastructure.Common.Windows;
 
-namespace MultiClient.ViewModels
+namespace MultiClientAdministrator.ViewModels
 {
 	public class ShellViewModel : BaseViewModel
 	{
@@ -23,10 +23,12 @@ namespace MultiClient.ViewModels
 			AppItems = new ObservableCollection<AppItemViewModel>();
 		}
 
-		public void Initialize(string password)
+		public void Initialize(MulticlientConfiguration multiclientConfiguration)
 		{
-			var configuration = MulticlientConfigurationHelper.LoadConfiguration(password);
-			foreach (var multiclientData in configuration.MulticlientDatas)
+			if (multiclientConfiguration == null)
+				return;
+
+			foreach (var multiclientData in multiclientConfiguration.MulticlientDatas)
 			{
 				var appItemViewModel = new AppItemViewModel(multiclientData);
 				AppItems.Add(appItemViewModel);

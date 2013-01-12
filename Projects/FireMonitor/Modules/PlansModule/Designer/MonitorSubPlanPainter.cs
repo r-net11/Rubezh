@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Controls.Converters;
 using FiresecAPI;
 using FiresecAPI.Models;

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
 using Common;
@@ -15,25 +12,29 @@ namespace MuliclientAPI
 			try
 			{
 				EncryptHelper.DecryptFile("MulticlientConfiguration.xml", "TempConfiguration.xml", password);
-
-				var memStream = new MemoryStream();
+			}
+			catch (System.Security.Cryptography.CryptographicException)
+			{
+				return null;
+			}
+			try
+			{
+				var memoryStream = new MemoryStream();
 				using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Open))
 				{
-					memStream.SetLength(fileStream.Length);
-					fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
+					memoryStream.SetLength(fileStream.Length);
+					fileStream.Read(memoryStream.GetBuffer(), 0, (int)fileStream.Length);
 				}
 				File.Delete("TempConfiguration.xml");
 				var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
-				var configuration = (MulticlientConfiguration)dataContractSerializer.ReadObject(memStream);
-				if (configuration == null)
-					return new MulticlientConfiguration();
+				var configuration = (MulticlientConfiguration)dataContractSerializer.ReadObject(memoryStream);
 				return configuration;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "MulticlientConfigurationHelper.LoadData");
 			}
-			return new MulticlientConfiguration();
+			return null;
 		}
 
 		public static void SaveConfiguration(MulticlientConfiguration configuration, string password)

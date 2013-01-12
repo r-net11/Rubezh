@@ -1,10 +1,10 @@
 ﻿using Aladdin.HASP;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
-	public class LicenseHelper
+	public static class LicenseHelper
 	{
-		const string _vendorCode =
+		static string _vendorCode =
 			"hSxuvX+4Ik4ehlUbRjIi8NVx128oM0LHXfM8gyi5P+uUYY6yXKu798W1a7gFrjiAbLSg1taawgkszHhG" +
 			"zW0nlUzPN19fkiyseshhe7ag1ZChQihaMgBXyJfDOlC24bz8F01H7didmW/kZIbXC38CA2CQ4VPosoC4" +
 			"3Lxq06xEBckzM9EQnTBF5tWimUhu4Cdvh4xkB57jqjmvthXkia7RYTwaVv7ZmP5kzadxz//lLLOhgBuD" +
@@ -18,20 +18,15 @@ namespace Infrastructure
 			"F4cgpYyaSSojCNmY1dC9aFUd9jbpEm1ucKTZvaL0IDrz1cZ92OxkV8AmPkW2KeIdq8MkPyTDK9DyYAz2" +
 			"Nqwe4FFLz8dvlUjtoQrSW5xMYYT+MoEHFJfZ1yE8nd2QUmni7/OTTYyhaF4=";
 
-		public LicenseHelper(int feature)
+		public static bool CheckLicense(int _haspFeatureId)
 		{
-			_haspFeatureId = feature;
-		}
-
-		int _haspFeatureId;
-		HaspFeature _feature
-		{
-			get { return HaspFeature.FromFeature(_haspFeatureId); }
-		}
-
-		public bool CheckLicense()
-		{
-			var hasp = new Hasp(_feature);
+#if DEBUG
+			return true;
+#endif
+			var haspFeature = HaspFeature.FromFeature(_haspFeatureId);
+			if (haspFeature == null)
+				return false;
+			var hasp = new Hasp(haspFeature);
 			var status = hasp.Login(_vendorCode);
 			if (status == HaspStatus.StatusOk)
 			{

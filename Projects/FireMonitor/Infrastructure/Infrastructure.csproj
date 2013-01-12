@@ -67,9 +67,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="hasp_net_windows">
-      <HintPath>..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -131,7 +128,6 @@
     <Compile Include="Events\ShowXJournalEvent.cs" />
     <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
-    <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Services\ILayoutService.cs" />

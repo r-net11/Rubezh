@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using Infrastructure.Common.Windows;
 using System.AddIn.Contract;
-using System.Windows;
 using System.AddIn.Pipeline;
+using System.Threading;
+using System.Windows;
 using FiresecAPI;
-using Infrastructure;
-using Infrastructure.Events;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using MuliclientAPI;
 
 namespace FireMonitor
@@ -60,8 +57,7 @@ namespace FireMonitor
 				ApplicationService.ApplicationController = OnControlChanged;
 				var app = new App();
 				app.Exit += new ExitEventHandler(app_Exit);
-				App.IsMulticlient = true;
-				App.MulticlientData = multiclientData;
+				App.SetMulticlientData(multiclientData);
 				app.InitializeComponent();
 				app.Run();
 			});

@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
-using Infrastructure.Common.BalloonTrayTip;
 
 namespace DiagnosticsModule.Views
 {

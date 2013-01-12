@@ -5,7 +5,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
-using System.Windows.Controls;
 
 namespace Infrustructure.Plans.Painters
 {

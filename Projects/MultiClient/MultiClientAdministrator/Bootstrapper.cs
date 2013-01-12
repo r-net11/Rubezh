@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 
-namespace MultiClient
+namespace MultiClientAdministrator
 {
 	public static class Bootstrapper
 	{

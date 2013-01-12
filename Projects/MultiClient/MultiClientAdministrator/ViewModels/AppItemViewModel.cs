@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using MuliclientAPI;
 
-namespace MultiClient.ViewModels
+namespace MultiClientAdministrator.ViewModels
 {
 	public class AppItemViewModel : BaseViewModel
 	{

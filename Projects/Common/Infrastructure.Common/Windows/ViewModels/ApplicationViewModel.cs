@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using Infrastructure.Common.About.ViewModels;
-using System.IO;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

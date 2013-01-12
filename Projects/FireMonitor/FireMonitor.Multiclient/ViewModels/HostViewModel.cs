@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Controls.Menu.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
 using FiresecAPI;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using MuliclientAPI;
 
 namespace FireMonitor.Multiclient.ViewModels

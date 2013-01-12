@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using Controls.Menu.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using System;
-using FiresecAPI;
-using MuliclientAPI;
-using Infrastructure.Common.Windows;
+﻿using System;
 using System.Collections.ObjectModel;
+using FiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using MuliclientAPI;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
@@ -26,6 +22,9 @@ namespace FireMonitor.Multiclient.ViewModels
 
 		public void Initialize(MulticlientConfiguration multiclientConfiguration)
 		{
+			if (multiclientConfiguration == null)
+				return;
+
 			foreach (var multiclientData in multiclientConfiguration.MulticlientDatas)
 			{
 				multiclientData.Id = Guid.NewGuid().ToString();

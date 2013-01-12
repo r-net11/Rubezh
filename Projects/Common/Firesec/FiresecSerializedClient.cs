@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common;
 using Firesec.Models.Functions;
 using FiresecAPI;
-using Infrastructure.Common;
-using FSAgentClient;
 using FiresecAPI.Models;
 using FSAgentAPI;
+using FSAgentClient;
 
 namespace Firesec
 {

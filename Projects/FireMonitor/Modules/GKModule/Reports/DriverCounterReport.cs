@@ -1,7 +1,5 @@
 ﻿using System.Data;
 using CodeReason.Reports;
-using FiresecAPI;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Reports;
 using XFiresecAPI;

@@ -79,7 +79,7 @@ namespace Infrastructure
 		{
 			if (File.Exists(ArchiveDefaultStateFileName))
 			{
-				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open))
+				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
 					var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
 					ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);

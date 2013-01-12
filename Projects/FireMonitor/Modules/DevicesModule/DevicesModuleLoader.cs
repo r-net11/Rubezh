@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using Common;
+using DevicesModule.Plans;
 using DevicesModule.Reports;
 using DevicesModule.ViewModels;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -11,11 +14,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Common;
-using DevicesModule.Plans;
-using FiresecAPI.Models;
 using Infrustructure.Plans.Events;
-using FiresecAPI;
 
 namespace DevicesModule
 {

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FSAgentAPI;
 using System.ServiceModel;
-using Common;
-using System.Threading;
 using System.ServiceModel.Description;
+using System.Threading;
+using Common;
+using FSAgentAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 

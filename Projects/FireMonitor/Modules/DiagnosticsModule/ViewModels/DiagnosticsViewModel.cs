@@ -1,19 +1,18 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
-using System;
-using System.Diagnostics;
-using FiresecAPI.Models;
-using System.Threading;
+﻿using System;
 using System.Collections.Generic;
-using Infrastructure;
-using Infrastructure.Events;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows;
-using Infrastructure.Common.BalloonTrayTip;
-using Firesec;
 using FiresecAPI;
-using Infrustructure.Plans.Events;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 
 
 
