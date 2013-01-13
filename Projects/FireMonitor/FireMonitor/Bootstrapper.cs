@@ -16,13 +16,6 @@ namespace FireMonitor
 {
     public class Bootstrapper : BaseBootstrapper
     {
-        public bool IsMulticlient { get; private set; }
-
-        public Bootstrapper(bool isMulticlient)
-        {
-            IsMulticlient = isMulticlient;
-        }
-
         public void Initialize()
         {
             LoadingErrorManager.Clear();

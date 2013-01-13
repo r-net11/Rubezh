@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 using System.Windows;
 using Common;
 using FiresecAPI.Models;
@@ -24,11 +22,13 @@ namespace FireMonitor.ViewModels
 			Width = 1100;
             MinWidth = 980;
 			MinHeight = 550;
-			HideInTaskbar = App.IsMulticlient;
-			AllowHelp = !App.IsMulticlient;
-			AllowMaximize = !App.IsMulticlient;
-			AllowMinimize = !App.IsMulticlient;
-			AllowClose = !App.IsMulticlient;
+			//HideInTaskbar = App.IsMulticlient;
+			if (RegistryHelper.IsIntegrated)
+			{
+				AllowMaximize = false;
+				AllowMinimize = false;
+				Surface.WindowState = WindowState.Maximized;
+			}
 		}
 
 		public override bool OnClosing(bool isCanceled)

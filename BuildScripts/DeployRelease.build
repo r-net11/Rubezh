@@ -24,6 +24,9 @@
     <msbuild project="..\Projects\FiresecOPCServer\FiresecOPCServer.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
+    <msbuild project="..\Projects\MultiClient\MultiClientAdministrator.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
     <msbuild project="..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>

@@ -11,7 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
-using Infrastructure.Events;
+using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -23,7 +23,19 @@ namespace FireMonitor
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
-		public static bool IsMulticlient { get; set; }
+		public static bool IsMulticlient { get; private set; }
+
+		public static void SetMulticlientData(MulticlientData multiclientData)
+		{
+			IsMulticlient = true;
+			AppSettingsManager.AutoConnect = true;
+			AppSettingsManager.Login = multiclientData.Login;
+			AppSettingsManager.Password = multiclientData.Password;
+			AppSettingsManager.FS_Address = multiclientData.Address;
+			AppSettingsManager.RemoteAddress = multiclientData.Address;
+			AppSettingsManager.RemotePort = multiclientData.Port;
+			AppSettingsManager.RemoteFSAgentPort = multiclientData.Port;
+		}
 
 		public App()
 		{
@@ -44,7 +56,7 @@ namespace FireMonitor
                 bool trace = false;
                 BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-                _bootstrapper = new Bootstrapper(IsMulticlient);
+                _bootstrapper = new Bootstrapper();
                 using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
                     _bootstrapper.Initialize();
             }

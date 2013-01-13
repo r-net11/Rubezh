@@ -8,9 +8,9 @@
         <ListBox Grid.Column="0" ItemsSource="{Binding Hosts}" SelectedItem="{Binding SelectedHost}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}">
+                        <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="5, 1" />
                         <TextBlock Text="{Binding Caption}" Margin="5, 1" />
-                        <TextBlock Text="{Binding StateType}" Margin="5, 1" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

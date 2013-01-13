@@ -5,18 +5,18 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using MuliclientAPI;
 
-namespace MultiClient.ViewModels
+namespace MultiClientAdministrator.ViewModels
 {
 	public class AppItemViewModel : BaseViewModel
 	{
-        public AppItemViewModel(MulticlientData multiclientData)
-        {
-            _name = multiclientData.Name;
-            _address = multiclientData.Address;
-            _port = multiclientData.Port;
-            _login = multiclientData.Login;
-            _password = multiclientData.Password;
-        }
+		public AppItemViewModel(MulticlientData multiclientData)
+		{
+			_name = multiclientData.Name;
+			_address = multiclientData.Address;
+			_port = multiclientData.Port;
+			_login = multiclientData.Login;
+			_password = multiclientData.Password;
+		}
 
 		string _name;
 		public string Name
@@ -26,7 +26,7 @@ namespace MultiClient.ViewModels
 			{
 				_name = value;
 				OnPropertyChanged("Name");
-                ShellViewModel.HasChanges = true;
+				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace MultiClient.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
-                ShellViewModel.HasChanges = true;
+				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace MultiClient.ViewModels
 			{
 				_port = value;
 				OnPropertyChanged("Port");
-                ShellViewModel.HasChanges = true;
+				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace MultiClient.ViewModels
 			{
 				_login = value;
 				OnPropertyChanged("Login");
-                ShellViewModel.HasChanges = true;
+				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace MultiClient.ViewModels
 			{
 				_password = value;
 				OnPropertyChanged("Password");
-                ShellViewModel.HasChanges = true;
+				ShellViewModel.HasChanges = true;
 			}
 		}
 	}

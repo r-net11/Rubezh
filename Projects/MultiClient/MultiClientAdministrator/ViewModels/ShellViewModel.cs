@@ -11,7 +11,7 @@ using System.Runtime.Serialization;
 using Common;
 using Infrastructure.Common.Windows;
 
-namespace MultiClient.ViewModels
+namespace MultiClientAdministrator.ViewModels
 {
 	public class ShellViewModel : BaseViewModel
 	{
@@ -23,16 +23,18 @@ namespace MultiClient.ViewModels
 			AppItems = new ObservableCollection<AppItemViewModel>();
 		}
 
-        public void Initialize(string password)
-        {
-            var configuration = MulticlientConfigurationHelper.LoadConfiguration(password);
-            foreach (var multiclientData in configuration.MulticlientDatas)
-            {
-                var appItemViewModel = new AppItemViewModel(multiclientData);
-                AppItems.Add(appItemViewModel);
-            }
-            SelectedAppItem = AppItems.FirstOrDefault();
-        }
+		public void Initialize(MulticlientConfiguration multiclientConfiguration)
+		{
+			if (multiclientConfiguration == null)
+				return;
+
+			foreach (var multiclientData in multiclientConfiguration.MulticlientDatas)
+			{
+				var appItemViewModel = new AppItemViewModel(multiclientData);
+				AppItems.Add(appItemViewModel);
+			}
+			SelectedAppItem = AppItems.FirstOrDefault();
+		}
 
 		public ObservableCollection<AppItemViewModel> AppItems { get; private set; }
 
@@ -53,7 +55,7 @@ namespace MultiClient.ViewModels
 			var appItemViewModel = new AppItemViewModel(new MulticlientData());
 			AppItems.Add(appItemViewModel);
 			SelectedAppItem = AppItems.LastOrDefault();
-            HasChanges = true;
+			HasChanges = true;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -61,7 +63,7 @@ namespace MultiClient.ViewModels
 		{
 			AppItems.Remove(SelectedAppItem);
 			SelectedAppItem = AppItems.FirstOrDefault();
-            HasChanges = true;
+			HasChanges = true;
 		}
 		bool CanRemove()
 		{
@@ -71,11 +73,11 @@ namespace MultiClient.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-            var passwordViewModel = new PasswordViewModel();
-            DialogService.ShowModalWindow(passwordViewModel);
-            var password = passwordViewModel.Password;
-            if (string.IsNullOrEmpty(password))
-                return;
+			var passwordViewModel = new PasswordViewModel();
+			DialogService.ShowModalWindow(passwordViewModel);
+			var password = passwordViewModel.Password;
+			if (string.IsNullOrEmpty(password))
+				return;
 
 			var configuration = new MulticlientConfiguration();
 			foreach (var appItem in AppItems)
@@ -90,23 +92,23 @@ namespace MultiClient.ViewModels
 				};
 				configuration.MulticlientDatas.Add(multiclientData);
 			}
-            MulticlientConfigurationHelper.SaveConfiguration(configuration, password);
-            HasChanges = false;
+			MulticlientConfigurationHelper.SaveConfiguration(configuration, password);
+			HasChanges = false;
 		}
-        bool CanSave()
-        {
-            return HasChanges;
-        }
+		bool CanSave()
+		{
+			return HasChanges;
+		}
 
-        public static bool HasChanges = false;
+		public static bool HasChanges = false;
 
-        public void SaveOnClose()
-        {
-            if (HasChanges)
-            {
-                if (MessageBoxService.ShowQuestion("Сохранить изменения") == System.Windows.MessageBoxResult.Yes)
-                    OnSave();
-            }
-        }
+		public void SaveOnClose()
+		{
+			if (HasChanges)
+			{
+				if (MessageBoxService.ShowQuestion("Сохранить изменения") == System.Windows.MessageBoxResult.Yes)
+					OnSave();
+			}
+		}
 	}
 }

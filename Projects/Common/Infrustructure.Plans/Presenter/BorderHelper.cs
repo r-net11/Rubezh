@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Shapes;
-using System.Windows;
-using Infrustructure.Plans.Elements;
+﻿using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Data;
 
 namespace Infrustructure.Plans.Presenter
 {

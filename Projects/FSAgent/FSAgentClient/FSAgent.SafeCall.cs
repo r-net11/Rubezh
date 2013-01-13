@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ServiceModel;
+using System.Threading;
 using Common;
 using FiresecAPI;
-using Infrastructure.Common;
-using System.Threading;
 
 namespace FSAgentClient
 {

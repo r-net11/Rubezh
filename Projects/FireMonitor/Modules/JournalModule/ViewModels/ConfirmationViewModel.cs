@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
-using Infrastructure.Common;
-using FiresecClient;
 using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {

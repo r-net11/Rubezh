@@ -30,6 +30,14 @@
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
       </Feature>
 
+      <Feature Id="Multiclient.Features" Title="Мультиклиент" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для Мультисерверной Оперативной Задачи">
+        <ComponentRef Id="MultiClient.Files"/>
+        <ComponentRef Id="MultiClientMonitor.ProgramsMenuShortcut" />
+        <ComponentRef Id="MultiClientMonitor.DesktopShortcut" />
+        <ComponentRef Id="MultiClientAdministrator.ProgramsMenuShortcut" />
+        <ComponentRef Id="MultiClientAdministrator.DesktopShortcut" />
+      </Feature>
+
       <!--<ComponentRef Id="Administrator.Remove" />
       <ComponentRef Id="Monitor.Remove" />
       <ComponentRef Id="OPC.Remove" />

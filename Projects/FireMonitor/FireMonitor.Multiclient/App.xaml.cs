@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+using System.IO;
 using System.Windows;
-using Infrastructure.Common.Windows;
 using FireMonitor.Multiclient.ViewModels;
 using Infrastructure.Common;
-using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Windows;
 
 namespace FireMonitor.Multiclient
 {
@@ -17,7 +13,39 @@ namespace FireMonitor.Multiclient
 		{
 			base.OnStartup(e);
 			ServiceFactory.Initialize();
-			ApplicationService.Run(new ViewModels.MulticlientViewModel(2), true);
+
+			if (!LicenseHelper.CheckLicense(3))
+			{
+				MessageBoxService.ShowError("Отсутстует лицензия. Приложение будет закрыто");
+				Shutdown();
+				return;
+			}
+
+			var multiclientViewModel = new MulticlientViewModel();
+			ApplicationService.Run(multiclientViewModel, true);
+
+			if (!File.Exists("MulticlientConfiguration.xml"))
+			{
+				MessageBoxService.ShowError("Не найден файл конфигурации. Приложение будет закрыто");
+				Shutdown();
+				return;
+			}
+
+			var passwordViewModel = new PasswordViewModel();
+			if (DialogService.ShowModalWindow(passwordViewModel))
+			{
+				if (passwordViewModel.MulticlientConfiguration == null && passwordViewModel.MulticlientConfiguration.MulticlientDatas.Count == 0)
+				{
+					MessageBoxService.ShowError("Конфигурация пуста. Приложение будет закрыто");
+					Shutdown();
+					return;
+				}
+				multiclientViewModel.Initialize(passwordViewModel.MulticlientConfiguration);
+			}
+			else
+			{
+				Shutdown();
+			}
 		}
 
 		protected override void OnExit(ExitEventArgs e)

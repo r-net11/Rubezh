@@ -2,8 +2,8 @@
 using System.AddIn.Contract;
 using System.AddIn.Pipeline;
 using System.Windows;
-using Infrastructure.Common.Windows;
 using FiresecAPI;
+using MuliclientAPI;
 
 namespace FireMonitor.Multiclient
 {
@@ -13,24 +13,24 @@ namespace FireMonitor.Multiclient
 		public event Action<StateType> StateTypeChanged;
 
 		FrameworkElement _frameworkElement;
-		public int Index { get; private set; }
+		public string Id { get; private set; }
 		public AppDomain AppDomain { get; private set; }
 		public MulticlientController Controller { get; private set; }
 		public INativeHandleContract Contract { get; private set; }
 
-		public MulticlientControllerWrapper(int index)
+		public MulticlientControllerWrapper(string id)
 		{
 			App.Current.Exit += (s, e) => Controller.ShutDown();
-			Index = index;
-			AppDomain = AppDomain.CreateDomain("Instance" + index.ToString());
+			Id = id;
+			AppDomain = AppDomain.CreateDomain("Instance" + id);
 			Type type = typeof(MulticlientController);
 			Controller = (MulticlientController)AppDomain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
 		}
-		public void Start()
+		public void Start(MulticlientData multiclientData)
 		{
-			Controller.StateChanged += new Action<FiresecAPI.StateType>(OnStateChanged);
+			Controller.StateChanged += new Action<StateType>(OnStateChanged);
 			Controller.ControlChanged += OnControlChanged;
-			Controller.Start();
+			Controller.Start(multiclientData);
 		}
 
 		void OnStateChanged(StateType stateType)

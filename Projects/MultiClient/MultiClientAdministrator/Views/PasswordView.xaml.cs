@@ -1,12 +1,12 @@
 ﻿using System.Windows.Controls;
 
-namespace MultiClient.Views
+namespace MultiClientAdministrator.Views
 {
-    public partial class PasswordView : UserControl
-    {
-        public PasswordView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class PasswordView : UserControl
+	{
+		public PasswordView()
+		{
+			InitializeComponent();
+		}
+	}
 }

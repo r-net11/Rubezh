@@ -17,6 +17,8 @@ namespace FSAgentServer
 		{
 			base.OnStartup(e);
 
+			Microsoft.Win32.SystemEvents.SessionEnding += new Microsoft.Win32.SessionEndingEventHandler(SystemEvents_SessionEnding);
+
             using (new DoubleLaunchLocker(SignalId, WaitId, true))
             {
                 try
@@ -62,5 +64,12 @@ namespace FSAgentServer
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
         }
+
+		static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
+		{
+			Bootstrapper.Close();
+			Application.Current.MainWindow.Close();
+			Application.Current.Shutdown();
+		}
     }
 }

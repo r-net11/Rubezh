@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Configuration;
-using Infrastructure;
 using Common;
+using Infrastructure;
+using Infrastructure.Common;
 
 namespace FireMonitor
 {
@@ -13,8 +14,7 @@ namespace FireMonitor
             try
             {
                 appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-                var licenseHelper = new LicenseHelper(10);
-                appSettings.HasLicenseToControl = licenseHelper.CheckLicense();
+				appSettings.HasLicenseToControl = LicenseHelper.CheckLicense(1);
             }
             catch (Exception e)
             {

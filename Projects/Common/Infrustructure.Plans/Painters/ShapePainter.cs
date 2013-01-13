@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Shapes;
-using Infrustructure.Plans.Elements;
 using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {

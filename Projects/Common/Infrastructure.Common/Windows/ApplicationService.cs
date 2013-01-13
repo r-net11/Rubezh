@@ -5,12 +5,12 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System.Windows.Media;
 
 namespace Infrastructure.Common.Windows
 {

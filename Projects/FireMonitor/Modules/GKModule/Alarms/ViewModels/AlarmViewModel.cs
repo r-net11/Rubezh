@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrastructure;
 
 namespace GKModule.ViewModels
 {

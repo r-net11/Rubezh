@@ -1,12 +1,8 @@
-﻿using System;
-using System.Configuration;
-using System.Windows;
-using Common;
+﻿using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common;
-using Microsoft.Win32;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Login
 {

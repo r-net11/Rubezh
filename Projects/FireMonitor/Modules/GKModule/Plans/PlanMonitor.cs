@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using XFiresecAPI;
-using Infrustructure.Plans.Elements;
-using FiresecClient;
 using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrustructure.Plans.Elements;
+using XFiresecAPI;
 
 namespace GKModule.Plans
 {

@@ -4,4 +4,8 @@
 		<Views:MulticlientView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PasswordViewModel}">
+        <Views:PasswordView />
+    </DataTemplate>
+    
 </ResourceDictionary>

@@ -76,6 +76,9 @@
     <Reference Include="CodeReason.Reports">
       <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="hasp_net_windows">
+      <HintPath>..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -144,6 +147,7 @@
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="FSAgentLoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigActualizeHelper.cs" />
+    <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
@@ -339,16 +343,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common %28Common\Common%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -360,7 +354,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
