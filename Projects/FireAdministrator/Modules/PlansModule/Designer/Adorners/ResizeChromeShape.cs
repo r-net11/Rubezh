@@ -13,12 +13,7 @@ namespace PlansModule.Designer.Adorners
 {
 	public class ResizeChromeShape : ResizeChrome
 	{
-		private bool _isDragging = false;
-		private List<ResizeThumb> _thumbs;
-		static ResizeChromeShape()
-		{
-			//FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromeShape), new FrameworkPropertyMetadata(typeof(ResizeChromeShape)));
-		}
+		private int _index;
 
 		public ResizeChromeShape(DesignerItem designerItem)
 			: base(designerItem)
@@ -26,85 +21,13 @@ namespace PlansModule.Designer.Adorners
 			//Loaded += new RoutedEventHandler(ResizeChromeShape_Loaded);
 		}
 
-		private void ResizeChromeShape_Loaded(object sender, RoutedEventArgs e)
+		protected override void Render(DrawingContext drawingContext)
 		{
-			Initialize();
+			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+			DrawSizableBounds(drawingContext);
+			foreach (var point in element.Points)
+				DrawThumb(drawingContext, point);
 		}
-
-		public override void Initialize()
-		{
-			//if (IsInitialized && !_isDragging)
-			//{
-			//    Canvas canvas = Template.FindName("canvas", this) as Canvas;
-			//    if (canvas != null)
-			//    {
-			//        canvas.Children.Clear();
-			//        _thumbs = new List<ResizeThumb>();
-			//        ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-			//        Rect rect = DesignerItem.Element.GetRectangle();
-			//        if (element != null)
-			//            foreach (var point in element.Points)
-			//            {
-			//                var thumb = new ResizeThumb()
-			//                {
-			//                    Direction = ResizeDirection.None,
-			//                    DataContext = this,
-			//                    IsHitTestVisible = true,
-			//                    Cursor = Cursors.Pen,
-			//                };
-			//                thumb.SetBinding(ResizeThumb.MarginProperty, new Binding("PointMargin"));
-			//                thumb.DragStarted += new DragStartedEventHandler(Thumb_DragStarted);
-			//                thumb.DragCompleted += new DragCompletedEventHandler(Thumb_DragCompleted);
-			//                thumb.DragDelta += new DragDeltaEventHandler(Thumb_DragDelta);
-			//                Canvas.SetLeft(thumb, point.X - rect.X + element.BorderThickness / 2);
-			//                Canvas.SetTop(thumb, point.Y - rect.Y + element.BorderThickness / 2);
-			//                canvas.Children.Add(thumb);
-			//                _thumbs.Add(thumb);
-			//            }
-			//    }
-			//}
-		}
-		private void Thumb_DragStarted(object sender, DragStartedEventArgs e)
-		{
-			_isDragging = true;
-		}
-		private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
-		{
-			_isDragging = false;
-			Initialize();
-		}
-		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
-		{
-			if (DesignerItem.IsSelected)
-			{
-				int index = _thumbs.IndexOf((ResizeThumb)sender);
-				if (index > -1)
-				{
-					ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-					double x = element.Points[index].X + e.HorizontalChange;
-					if (x < 0)
-						x = 0;
-					else if (x > DesignerCanvas.CanvasWidth)
-						x = DesignerCanvas.CanvasWidth;
-					double y = element.Points[index].Y + e.VerticalChange;
-					if (y < 0)
-						y = 0;
-					else if (y > DesignerCanvas.CanvasHeight)
-						y = DesignerCanvas.CanvasHeight;
-					element.Points[index] = new Point(x, y);
-					DesignerItem.Redraw();
-					Rect rect = element.GetRectangle();
-					for (int i = 0; i < _thumbs.Count; i++)
-					{
-						Canvas.SetLeft(_thumbs[i], element.Points[i].X - rect.X + element.BorderThickness / 2);
-						Canvas.SetTop(_thumbs[i], element.Points[i].Y - rect.Y + element.BorderThickness / 2);
-					}
-					ServiceFactory.SaveService.PlansChanged = true;
-					e.Handled = true;
-				}
-			}
-		}
-
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
@@ -134,9 +57,42 @@ namespace PlansModule.Designer.Adorners
 					points.Add(new Point(placeholder.X + kx * (point.X - rect.X), placeholder.Y + ky * (point.Y - rect.Y)));
 				element.Points = points;
 
-				DesignerItem.Translate();
+				DesignerItem.Redraw();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
+		}
+		protected override void DragDeltaInner(Point point, Vector shift)
+		{
+			if (!IsMoved)
+				CalculateIndex(point);
+			if (_index > -1)
+			{
+				ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+				double x = element.Points[_index].X + shift.X;
+				if (x < 0)
+					x = 0;
+				else if (x > DesignerCanvas.CanvasWidth)
+					x = DesignerCanvas.CanvasWidth;
+				double y = element.Points[_index].Y + shift.Y;
+				if (y < 0)
+					y = 0;
+				else if (y > DesignerCanvas.CanvasHeight)
+					y = DesignerCanvas.CanvasHeight;
+				element.Points[_index] = new Point(x, y);
+				DesignerItem.Redraw();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
+		private void CalculateIndex(Point point)
+		{
+			_index = -1;
+			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+			for (int i = 0; i < element.Points.Count; i++)
+				if (IsInsideThumb(DesignerItem.Transform.Transform(element.Points[i]), point))
+				{
+					_index = i;
+					break;
+				}
 		}
 	}
 }

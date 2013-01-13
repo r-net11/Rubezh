@@ -31,7 +31,6 @@ namespace Infrustructure.Plans.Designer
 				if ((bool)e.NewValue && designerItem != null && designerItem.DesignerCanvas != null && designerItem.DesignerCanvas.SelectedItems.Count() == 1)
 					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(((CommonDesignerItem)d).Element);
 				designerItem.IsSelectedChanged();
-				designerItem.RedrawSelection();
 			}
 		}
 		private static void IsSelectableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -69,15 +68,21 @@ namespace Infrustructure.Plans.Designer
 
 		public ResizeChrome ResizeChrome { get; private set; }
 		public string Group { get; set; }
-		protected bool IsDragging { get; private set; }
+		public override bool AllowDrag { get { return true; } }
 		protected bool IsMoved { get; private set; }
-		private Point _previousPosition;
 
 		public DesignerItem(ElementBase element)
 			: base(element)
 		{
 			Group = string.Empty;
 			IsVisibleLayout = true;
+		}
+
+		public override void UpdateZoom()
+		{
+			base.UpdateZoom();
+			if (!Painter.RedrawOnZoom && ResizeChrome != null)
+				ResizeChrome.InvalidateVisual();
 		}
 
 		protected override void ResetIsEnabled()
@@ -93,47 +98,22 @@ namespace Infrustructure.Plans.Designer
 			if (DesignerCanvas != null)
 				Redraw();
 		}
-		public void UpdateAdorner()
-		{
-			//if (ResizeChrome != null)
-			//    ResizeChrome.Initialize();
-		}
-		public virtual void UpdateAdornerLayout()
-		{
-		}
-
-		public override void UpdateZoom()
-		{
-			//if (ResizeChrome != null)
-			//    ResizeChrome.UpdateZoom();
-		}
 		public override void Redraw()
 		{
-			UpdateAdorner();
 			base.Redraw();
-		}
-		protected override void Render(DrawingContext drawingContext)
-		{
-			base.Render(drawingContext);
-			//if (IsSelected)
-			//    drawingContext.DrawRectangle(null, new Pen(Brushes.Green, 2), OriginalRect);
-		}
-		protected virtual void RedrawSelection()
-		{
-			//
-			//Redraw();
+			if (ResizeChrome != null)
+				ResizeChrome.InvalidateVisual();
 		}
 		protected void SetResizeChrome(ResizeChrome resizeChrome)
 		{
 			ResizeChrome = resizeChrome;
-			ResizeChrome.Opacity = 0;
-			ResizeChrome.Arrange(GetRectangle());
 			Children.Add(ResizeChrome);
+			ResizeChrome.IsVisible = IsSelected;
 		}
 
-		protected override void MouseDown(MouseButtonEventArgs e)
+		protected override void MouseDown(Point point, MouseButtonEventArgs e)
 		{
-			base.MouseDown(e);
+			base.MouseDown(point, e);
 			if (IsEnabled && DesignerCanvas != null)
 			{
 				if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
@@ -143,54 +123,22 @@ namespace Infrustructure.Plans.Designer
 					DesignerCanvas.DeselectAll();
 					IsSelected = true;
 				}
-				if (!IsDragging)
-				{
-					e.Handled = true;
-					_previousPosition = e.GetPosition(DesignerCanvas);
-					DragStarted();
-				}
 			}
 		}
-		protected override void MouseMove(MouseEventArgs e)
+		protected override void MouseDoubleClick(Point point, MouseButtonEventArgs e)
 		{
-			base.MouseMove(e);
-			if (IsEnabled && DesignerCanvas != null && IsDragging)
-			{
-				if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
-				{
-					Point position = e.GetPosition(DesignerCanvas);
-					if (_previousPosition != position)
-					{
-						DragDelta(new Vector(position.X - _previousPosition.X, position.Y - _previousPosition.Y));
-						_previousPosition = position;
-						e.Handled = true;
-					}
-				}
-				else
-					DragCompleted();
-			}
-		}
-		protected override void MouseUp(MouseButtonEventArgs e)
-		{
-			base.MouseUp(e);
-			if (IsEnabled && DesignerCanvas != null && IsDragging)
-			{
-				e.Handled = true;
-				DragCompleted();
-			}
-		}
-		protected override void MouseDoubleClick(MouseButtonEventArgs e)
-		{
-			base.MouseDoubleClick(e);
+			base.MouseDoubleClick(point, e);
 			if (IsEnabled && DesignerCanvas != null)
 				ShowPropertiesCommand.Execute(null);
 		}
-		internal override void SetIsMouseOver(bool value)
+
+		protected override void SetIsMouseOver(bool value)
 		{
 			base.SetIsMouseOver(value);
-			DesignerCanvas.Cursor = value && IsEnabled ? Cursors.SizeAll : Cursors.Arrow;
+			if (!IsMoved)
+				DesignerCanvas.Cursor = value && IsEnabled ? Cursors.SizeAll : Cursors.Arrow;
 		}
-		internal override ContextMenu ContextMenuOpening()
+		protected override ContextMenu ContextMenuOpening()
 		{
 			if (IsEnabled)
 			{
@@ -215,30 +163,25 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void IsSelectedChanged()
 		{
-			ResizeChrome.Opacity = IsSelected ? 1 : 0;
+			ResizeChrome.IsVisible = IsSelected;
 		}
 
-		protected virtual void DragStarted()
+		public override void DragStarted(Point point)
 		{
 			IsBusy = true;
-			IsDragging = true;
-			IsMoved = false;
-			DesignerCanvas.BeginChange();
-			DesignerCanvas.SurfaceCaptureMouse();
 		}
-		protected virtual void DragCompleted()
+		public override void DragCompleted(Point point)
 		{
 			IsBusy = false;
-			IsDragging = false;
-			if (DesignerCanvas.IsSurfaceMouseCaptured)
-				DesignerCanvas.SurfaceReleaseMouseCapture();
 			if (IsMoved)
 				DesignerCanvas.EndChange();
+			IsMoved = false;
 		}
-		protected virtual void DragDelta(Vector shift)
+		public override void DragDelta(Point point, Vector shift)
 		{
 			if (IsSelected)
 			{
+				DesignerCanvas.BeginChange();
 				IsMoved = true;
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{

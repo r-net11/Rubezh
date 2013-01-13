@@ -52,7 +52,7 @@ namespace PlansModule.ViewModels
 		private void OnSelectedPlanChanged()
 		{
 			if (_initialized)
-				PlanDesignerViewModel.Initialize(PlanTreeViewModel.SelectedPlan);
+				PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
 		}
 
 		private void OnRegisterPlanPresenter(IPlanPresenter<Plan> planPresenter)

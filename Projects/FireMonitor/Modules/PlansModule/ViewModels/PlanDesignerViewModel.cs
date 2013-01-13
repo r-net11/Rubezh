@@ -11,6 +11,9 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Designer;
 using FiresecClient;
+using Infrustructure.Plans.Designer;
+using Common;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -22,16 +25,20 @@ namespace PlansModule.ViewModels
 		private double _deviceZoom;
 		public PlanViewModel PlanViewModel { get; private set; }
 		public Plan Plan { get; private set; }
-		public Canvas Canvas { get; private set; }
+		public Canvas DesignerCanvas { get; private set; }
 
 		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
 			_plansViewModel = plansViewModel;
-			Canvas = new Canvas();
-			_flushAdorner = new FlushAdorner(Canvas);
+			DesignerCanvas = new Canvas();
+			_flushAdorner = new FlushAdorner(DesignerCanvas);
 			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermissionsToScale"); });
 		}
 
+		public void Initialize()
+		{
+			
+		}
 		public void Initialize(PlanViewModel planViewModel)
 		{
 			ChangeZoom(1);
@@ -45,24 +52,41 @@ namespace PlansModule.ViewModels
 			OnPropertyChanged("Plan");
 			OnPropertyChanged("Canvas");
 		}
+		public void SelectPlan(PlanViewModel planViewModel)
+		{
+			using (new TimeCounter("PlanDesignerViewModel.SelectedPlan: {0}"))
+			{
+				PlanViewModel = planViewModel;
+				Plan = PlanViewModel == null ? null : planViewModel.Plan;
+				if (Plan != null)
+				{
+					DrawPlan();
+					Update();
+				}
+				OnPropertyChanged("Plan");
+				OnPropertyChanged("Canvas");
+				//DesignerCanvas.ShowPlan(plan);
+			}
+			Debug.WriteLine("===========================================");
+		}
 
 		public void DrawPlan()
 		{
-			Canvas.Children.Clear();
+			DesignerCanvas.Children.Clear();
 			UpdateCanvas();
 			CreatePresenters();
 		}
 		private void UpdateCanvas()
 		{
-			Canvas.Width = Plan.Width;
-			Canvas.Height = Plan.Height;
+			DesignerCanvas.Width = Plan.Width;
+			DesignerCanvas.Height = Plan.Height;
 
 			if (Plan.BackgroundPixels != null)
-				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
+				DesignerCanvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
 			else if (Plan.BackgroundColor == Colors.Transparent)
-				Canvas.Background = PainterHelper.CreateTransparentBrush(_zoom);
+				DesignerCanvas.Background = PainterHelper.CreateTransparentBrush(_zoom);
 			else
-				Canvas.Background = new SolidColorBrush(Plan.BackgroundColor);
+				DesignerCanvas.Background = new SolidColorBrush(Plan.BackgroundColor);
 		}
 		private void CreatePresenters()
 		{
@@ -94,7 +118,7 @@ namespace PlansModule.ViewModels
 
 		public IEnumerable<PresenterItem> Items
 		{
-			get { return Canvas.Children.OfType<PresenterItem>(); }
+			get { return DesignerCanvas.Children.OfType<PresenterItem>(); }
 		}
 
 		public void Update()
@@ -115,10 +139,9 @@ namespace PlansModule.ViewModels
 		{
 			get { return null; }
 		}
-
 		object IPlanDesignerViewModel.Canvas
 		{
-			get { return Canvas; }
+			get { return DesignerCanvas; }
 		}
 
 		public void ChangeZoom(double zoom)
@@ -128,28 +151,25 @@ namespace PlansModule.ViewModels
 				UpdateCanvas();
 			ChangeDeviceZoom(_deviceZoom);
 		}
-
 		public void ChangeDeviceZoom(double deviceZoom)
 		{
 			_deviceZoom = deviceZoom;
-			if (Canvas == null)
+			if (DesignerCanvas == null)
 				return;
 			double _pointZoom = _deviceZoom / _zoom;
-			foreach (var item in Canvas.Children.OfType<PresenterItem>())
+			foreach (var item in DesignerCanvas.Children.OfType<PresenterItem>())
 				item.UpdateDeviceZoom(_zoom, _pointZoom);
 			_flushAdorner.UpdateDeviceZoom(_zoom, _pointZoom);
+		}
+		public void ResetZoom(double zoom, double deviceZoom)
+		{
+			_deviceZoom = deviceZoom;
+			ChangeZoom(zoom);
 		}
 
 		public bool HasPermissionsToScale
 		{
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
-		}
-
-
-		public void ResetZoom(double zoom, double deviceZoom)
-		{
-			_deviceZoom = deviceZoom;
-			ChangeZoom(zoom);
 		}
 
 		#endregion

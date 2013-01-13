@@ -12,10 +12,13 @@ namespace Infrustructure.Plans.Designer
 	public class DesignerSurface : Panel
 	{
 		private List<CommonDesignerItem> _visuals;
-		private CommonDesignerItem _designerItemOver;
+		private IVisualItem _visualItemOver;
+		private bool _isDragging;
+		private Point _previousPosition;
 
 		public DesignerSurface()
 		{
+			_isDragging = false;
 			_visuals = new List<CommonDesignerItem>();
 			ToolTipService.SetIsEnabled(this, false);
 		}
@@ -54,37 +57,72 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
-			var commonDesignerItem = GetDesignerItem(e.GetPosition(this));
-			if (commonDesignerItem != null)
+			var point = e.GetPosition(this);
+			var visualItem = GetDesignerItem(point);
+			if (visualItem != null)
 			{
-				commonDesignerItem.OnMouseDown(e);
+				visualItem.OnMouseDown(point, e);
 				if (e.ClickCount == 2)
-					commonDesignerItem.OnMouseDoubleClick(e);
+					visualItem.OnMouseDoubleClick(point, e);
+				if (!_isDragging)
+				{
+					CaptureMouse();
+					_previousPosition = point;
+					_isDragging = true;
+					visualItem.DragStarted(point);
+				}
 				e.Handled = true;
 			}
 		}
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
-			var commonDesignerItem = GetDesignerItem(e.GetPosition(this));
-			if (commonDesignerItem != null)
-				commonDesignerItem.OnMouseUp(e);
+			var point = e.GetPosition(this);
+			if (_isDragging)
+			{
+				e.Handled = true;
+				_isDragging = false;
+				if (_visualItemOver != null && _visualItemOver.IsEnabled)
+					_visualItemOver.DragCompleted(point);
+				if (IsMouseCaptured)
+					ReleaseMouseCapture();
+			}
+			var visualItem = GetDesignerItem(point);
+			if (visualItem != null)
+				visualItem.OnMouseUp(point, e);
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (_designerItemOver == null || !_designerItemOver.IsBusy)
+			Point point = e.GetPosition(this);
+			if (_visualItemOver != null && _visualItemOver.IsEnabled && _isDragging)
 			{
-				var commonDesignerItem = GetDesignerItem(e.GetPosition(this));
-				if (_designerItemOver != null && commonDesignerItem != _designerItemOver)
-					_designerItemOver.SetIsMouseOver(false);
-				if (_designerItemOver != commonDesignerItem)
+				if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
 				{
-					_designerItemOver = commonDesignerItem;
-					if (_designerItemOver != null)
-						_designerItemOver.SetIsMouseOver(true);
+					if (_previousPosition != point)
+					{
+						_visualItemOver.DragDelta(point, new Vector(point.X - _previousPosition.X, point.Y - _previousPosition.Y));
+						_previousPosition = point;
+					}
+				}
+				else
+				{
+					_isDragging = false;
+					_visualItemOver.DragCompleted(point);
 				}
 			}
-			if (_designerItemOver != null)
-				_designerItemOver.OnMouseMove(e);
+			else if (_visualItemOver == null || !_visualItemOver.IsBusy)
+			{
+				var visualItem = GetDesignerItem(point);
+				if (_visualItemOver != null && visualItem != _visualItemOver)
+					_visualItemOver.SetIsMouseOver(false, point);
+				if (_visualItemOver != visualItem)
+				{
+					_visualItemOver = visualItem;
+					if (_visualItemOver != null)
+						_visualItemOver.SetIsMouseOver(true, point);
+				}
+			}
+			if (_visualItemOver != null)
+				_visualItemOver.OnMouseMove(point, e);
 		}
 		protected override void OnMouseEnter(MouseEventArgs e)
 		{
@@ -97,28 +135,36 @@ namespace Infrustructure.Plans.Designer
 		protected override void OnContextMenuOpening(ContextMenuEventArgs e)
 		{
 			base.OnContextMenuOpening(e);
-			ContextMenu = _designerItemOver == null || !_designerItemOver.IsVisibleLayout ? null : _designerItemOver.ContextMenuOpening();
+			ContextMenu = _visualItemOver == null || !_visualItemOver.IsEnabled ? null : _visualItemOver.ContextMenuOpening();
 		}
 
-		private CommonDesignerItem _hitCommonDesignerItem;
-		private CommonDesignerItem GetDesignerItem(Point point)
+		private IVisualItem _visualItem;
+		private IVisualItem GetDesignerItem(Point point)
 		{
-			_hitCommonDesignerItem = null;
+			_visualItem = null;
 			PointHitTestParameters parameters = new PointHitTestParameters(point);
 			VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);
-			return _hitCommonDesignerItem;
+			return _visualItem;
 		}
 		private HitTestResultBehavior HitTestCallback(HitTestResult result)
 		{
-			_hitCommonDesignerItem = result.VisualHit as CommonDesignerItem;
-			return _hitCommonDesignerItem == null ? HitTestResultBehavior.Continue : HitTestResultBehavior.Stop;
+			_visualItem = result.VisualHit as IVisualItem;
+			return _visualItem == null ? HitTestResultBehavior.Continue : HitTestResultBehavior.Stop;
 		}
 		private HitTestFilterBehavior HitTestFilter(DependencyObject d)
 		{
 			if (d == this)
 				return HitTestFilterBehavior.ContinueSkipSelf;
-			var designerItem = d as CommonDesignerItem;
-			return designerItem == null || !designerItem.IsEnabled ? HitTestFilterBehavior.ContinueSkipSelfAndChildren : HitTestFilterBehavior.ContinueSkipChildren;
+			var visualItem = d as IVisualItem;
+			return visualItem != null && visualItem.IsEnabled ? HitTestFilterBehavior.Continue : HitTestFilterBehavior.ContinueSkipSelfAndChildren;
+		}
+
+		protected override void OnRender(DrawingContext dc)
+		{
+			//base.OnRender(dc);
+			dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+			//foreach (var item in _visuals)
+			//    item.Render(dc);
 		}
 	}
 }

@@ -27,6 +27,8 @@ namespace PlansModule.InstrumentAdorners
 
 		protected override void Show()
 		{
+			rubberband.Width = 0;
+			rubberband.Height = 0;
 			AdornerCanvas.Children.Add(rubberband);
 		}
 
@@ -69,7 +71,7 @@ namespace PlansModule.InstrumentAdorners
 			foreach (DesignerItem designerItem in DesignerCanvas.Items)
 				if (designerItem.IsEnabled)
 				{
-					Rect itemRect = VisualTreeHelper.GetDescendantBounds(designerItem);
+					Rect itemRect = designerItem.ContentBounds;
 					Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
 					designerItem.IsSelected = rubberBand.Contains(itemBounds);
 				}

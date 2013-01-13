@@ -2,23 +2,20 @@
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 
 namespace PlansModule.Designer.Adorners
 {
 	public class ResizeChromePoint : ResizeChrome
 	{
-		static ResizeChromePoint()
-		{
-			//FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromePoint), new FrameworkPropertyMetadata(typeof(ResizeChromePoint)));
-		}
-
 		public ResizeChromePoint(DesignerItem designerItem)
 			: base(designerItem)
 		{
 		}
 
-		public override void Initialize()
+		protected override void Render(DrawingContext drawingContext)
 		{
+			DrawBounds(drawingContext);
 		}
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{

@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
-	internal static class PainterCache
+	public static class PainterCache
 	{
 		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
 		private static Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
@@ -56,5 +56,7 @@ namespace Infrustructure.Plans.Painters
 			}
 			return _pens[color][thickness];
 		}
+		public static double Zoom { get; internal set; }
+		public static double PointZoom { get; internal set; }
 	}
 }

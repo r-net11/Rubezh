@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -48,7 +49,6 @@ namespace Infrustructure.Plans.Designer
 		public void Add(DesignerItem designerItem)
 		{
 			designerItem.DesignerCanvas = this;
-			designerItem.UpdateAdornerLayout();
 			SelectedCanvas.AddDesignerItem(designerItem);
 		}
 		public double CanvasWidth
@@ -101,21 +101,6 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
-		public bool IsSurfaceMouseCaptured
-		{
-			get { return SelectedCanvas == null ? false : SelectedCanvas.IsMouseCaptured; }
-		}
-		public void SurfaceCaptureMouse()
-		{
-			if (SelectedCanvas != null)
-				SelectedCanvas.CaptureMouse();
-		}
-		public void SurfaceReleaseMouseCapture()
-		{
-			if (SelectedCanvas != null)
-				SelectedCanvas.ReleaseMouseCapture();
-		}
-
 		public IEnumerable<DesignerItem> Items
 		{
 			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : SelectedCanvas.Items.OfType<DesignerItem>(); }
@@ -145,5 +130,11 @@ namespace Infrustructure.Plans.Designer
 		public abstract void Update();
 		public abstract void CreateDesignerItem(ElementBase element);
 		public abstract void Remove(List<Guid> elementUIDs);
+
+		public void ZoomChanged()
+		{
+			PainterCache.Zoom = Zoom;
+			PainterCache.PointZoom = PointZoom;
+		}
 	}
 }

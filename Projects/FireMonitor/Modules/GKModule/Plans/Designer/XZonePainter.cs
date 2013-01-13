@@ -67,6 +67,10 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
+		public bool RedrawOnZoom
+		{
+			get { return true; }
+		}
 		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
 		}

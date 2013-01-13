@@ -263,6 +263,7 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
+			ZoomChanged();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
 			{
@@ -273,6 +274,7 @@ namespace PlansModule.Designer
 		}
 		public void UpdateZoomPoint()
 		{
+			ZoomChanged();
 			foreach (DesignerItem designerItem in Items)
 				if (designerItem is DesignerItemPoint)
 					designerItem.UpdateZoomPoint();

@@ -7,6 +7,11 @@ namespace Infrustructure.Plans.Painters
 {
 	public abstract class ShapePainter : IPainter
 	{
+		public virtual bool RedrawOnZoom
+		{
+			get { return false; }
+		}
+
 		protected abstract Geometry CreateShape(ElementBase element);
 
 		protected virtual Brush GetBrush(ElementBase element)

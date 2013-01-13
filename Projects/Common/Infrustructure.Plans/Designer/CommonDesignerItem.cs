@@ -5,10 +5,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using System.Windows.Threading;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : DrawingVisual
+	public abstract class CommonDesignerItem : DrawingVisual, IVisualItem
 	{
 		public const int DefaultPointSize = 30;
 
@@ -21,6 +22,7 @@ namespace Infrustructure.Plans.Designer
 		public bool IsMouseOver { get; private set; }
 		public bool IsBusy { get; protected set; }
 		public bool IsEnabled { get; protected set; }
+		public virtual bool AllowDrag { get { return false; } }
 		protected Rect OriginalRect { get; private set; }
 		protected TranslateTransform TranslateTransform { get; private set; }
 		protected ScaleTransform ScaleTransform { get; private set; }
@@ -74,12 +76,16 @@ namespace Infrustructure.Plans.Designer
 			ResetElement(element);
 		}
 
+		public double MinHeight { get; protected set; }
+		public double MinWidth { get; protected set; }
+
 		public virtual void UpdateZoom()
 		{
+			if (Painter != null && Painter.RedrawOnZoom)
+				Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)Redraw);
 		}
 		public virtual void UpdateZoomPoint()
 		{
-			Translate();
 		}
 
 		public virtual void ResetElement(ElementBase element)
@@ -89,6 +95,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		public virtual void Redraw()
 		{
+			SetMinSize();
+			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
 			using (DrawingContext drawingContext = RenderOpen())
 			{
 				OriginalRect = GetRectangle();
@@ -103,6 +111,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		public virtual void Translate(bool force = false)
 		{
+			// if (Painter.AllowScale)?...:Redraw();
 			var rect = GetRectangle();
 			if (rect.Size != OriginalRect.Size || force)
 			{
@@ -117,7 +126,7 @@ namespace Infrustructure.Plans.Designer
 				TranslateTransform.Y = rect.Top - OriginalRect.Top;
 			}
 		}
-		protected virtual Rect GetRectangle()
+		public virtual Rect GetRectangle()
 		{
 			return Element.GetRectangle();
 		}
@@ -126,6 +135,16 @@ namespace Infrustructure.Plans.Designer
 			IsEnabled = IsVisibleLayout;
 		}
 
+		protected virtual void SetMinSize()
+		{
+			MinWidth = Element.BorderThickness;
+			MinHeight = Element.BorderThickness;
+			if (Element is ElementBaseShape)
+			{
+				MinWidth += 3;
+				MinHeight += 3;
+			}
+		}
 		public virtual void UpdateElementProperties()
 		{
 			OnUpdateProperties();
@@ -140,56 +159,79 @@ namespace Infrustructure.Plans.Designer
 		{
 			return null;
 		}
-
 		protected void OnDesignerItemPropertyChanged()
 		{
 			if (ItemPropertyChanged != null)
 				ItemPropertyChanged(this, EventArgs.Empty);
 		}
 
-		internal void OnMouseDown(MouseButtonEventArgs e)
-		{
-			if (IsVisibleLayout)
-				MouseDown(e);
-		}
-		internal void OnMouseUp(MouseButtonEventArgs e)
-		{
-			if (IsVisibleLayout)
-				MouseUp(e);
-		}
-		internal void OnMouseMove(MouseEventArgs e)
-		{
-			if (IsVisibleLayout)
-				MouseMove(e);
-		}
-		internal void OnMouseDoubleClick(MouseButtonEventArgs e)
-		{
-			if (IsVisibleLayout)
-				MouseDoubleClick(e);
-		}
-		protected virtual void MouseDown(MouseButtonEventArgs e)
+		protected virtual void MouseDown(Point point, MouseButtonEventArgs e)
 		{
 			DesignerCanvas.SetTitle(null);
 		}
-		protected virtual void MouseUp(MouseButtonEventArgs e)
+		protected virtual void MouseUp(Point point, MouseButtonEventArgs e)
 		{
 		}
-		protected virtual void MouseMove(MouseEventArgs e)
+		protected virtual void MouseMove(Point point, MouseEventArgs e)
 		{
 		}
-		protected virtual void MouseDoubleClick(MouseButtonEventArgs e)
+		protected virtual void MouseDoubleClick(Point point, MouseButtonEventArgs e)
 		{
 		}
 
-		internal virtual void SetIsMouseOver(bool value)
+		protected virtual void SetIsMouseOver(bool value)
 		{
 			IsMouseOver = value;
 			DesignerCanvas.SetTitle(value ? Title : null);
 		}
-		internal virtual ContextMenu ContextMenuOpening()
+		protected virtual ContextMenu ContextMenuOpening()
 		{
 			DesignerCanvas.SetTitle(null);
 			return GetContextMenu();
+		}
+
+		#region IVisualItem Members
+
+		void IVisualItem.SetIsMouseOver(bool isMouseOver, Point point)
+		{
+			SetIsMouseOver(isMouseOver);
+		}
+		ContextMenu IVisualItem.ContextMenuOpening()
+		{
+			return ContextMenuOpening();
+		}
+
+		void IVisualItem.OnMouseDown(Point point, MouseButtonEventArgs e)
+		{
+			if (IsEnabled)
+				MouseDown(point, e);
+		}
+		void IVisualItem.OnMouseUp(Point point, MouseButtonEventArgs e)
+		{
+			if (IsEnabled)
+				MouseUp(point, e);
+		}
+		void IVisualItem.OnMouseMove(Point point, MouseEventArgs e)
+		{
+			if (IsEnabled)
+				MouseMove(point, e);
+		}
+		void IVisualItem.OnMouseDoubleClick(Point point, MouseButtonEventArgs e)
+		{
+			if (IsEnabled)
+				MouseDoubleClick(point, e);
+		}
+
+		#endregion
+
+		public virtual void DragStarted(Point point)
+		{
+		}
+		public virtual void DragCompleted(Point point)
+		{
+		}
+		public virtual void DragDelta(Point point, Vector shift)
+		{
 		}
 	}
 }

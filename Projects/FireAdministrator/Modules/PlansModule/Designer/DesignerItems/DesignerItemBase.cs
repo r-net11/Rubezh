@@ -138,9 +138,9 @@ namespace PlansModule.Designer.DesignerItems
 			return _contextMenu;
 		}
 
-		protected override void DragDelta(Vector shift)
+		public override void DragDelta(Point point, Vector shift)
 		{
-			base.DragDelta(shift);
+			base.DragDelta(point, shift);
 			if (IsSelected)
 				ServiceFactory.SaveService.PlansChanged = true;
 		}

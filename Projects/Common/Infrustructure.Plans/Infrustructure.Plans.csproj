@@ -54,9 +54,9 @@
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />
-    <Compile Include="Designer\DesignerItemBorder.cs" />
     <Compile Include="Designer\DesignerSurface.cs" />
     <Compile Include="Designer\IInstrument.cs" />
+    <Compile Include="Designer\IVisualItem.cs" />
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
@@ -67,7 +67,6 @@
     <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
     <Compile Include="Designer\ResizeChrome.cs" />
     <Compile Include="Designer\ResizeDirection.cs" />
-    <Compile Include="Designer\ResizeThumb.cs" />
     <Compile Include="Elements\ElementBasePolygon.cs" />
     <Compile Include="Elements\ElementBasePolyline.cs" />
     <Compile Include="Elements\ElementType.cs" />

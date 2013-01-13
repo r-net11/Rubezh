@@ -14,6 +14,10 @@ namespace GKModule.Plans.Designer
 	{
 		#region IPainter Members
 
+		public bool RedrawOnZoom
+		{
+			get { return false; }
+		}
 		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
 			var device = Helper.GetXDevice((ElementXDevice)element);

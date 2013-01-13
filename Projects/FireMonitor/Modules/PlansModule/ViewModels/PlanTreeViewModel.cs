@@ -77,7 +77,6 @@ namespace PlansModule.ViewModels
 		{
 			return AllPlans.FirstOrDefault(item => item.Plan.UID == planUID);
 		}
-
 		public void AddPlanPresenter(IPlanPresenter<Plan> planPresenter)
 		{
 			AllPlans.ForEach(planViewModel => planViewModel.RegisterPresenter(planPresenter));

@@ -6,6 +6,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public interface IPainter
 	{
+		bool RedrawOnZoom { get; }
 		void Draw(DrawingContext drawingContext, ElementBase element, Rect rect);
 	}
 }

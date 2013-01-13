@@ -36,6 +36,7 @@ namespace PlansModule.ViewModels
 			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 			DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
 			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
+			DesignerCanvas.ZoomChanged();
 
 			InitializeCopyPaste();
 			InitializeHistory();
