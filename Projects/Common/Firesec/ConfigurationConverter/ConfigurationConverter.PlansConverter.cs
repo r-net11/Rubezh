@@ -214,7 +214,6 @@ namespace Firesec
 				double fontHeight = Math.Ceiling(fontDpiSize * fontFamily.LineSpacing);
 				elementTextBlock.FontSize = fontHeight;
 
-
 				if (innerElement.brush != null)
 					try
 					{
