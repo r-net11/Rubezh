@@ -6,12 +6,14 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
+	[SaveSize]
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
-        public DeviceViewModel CreatedDeviceViewModel { get; private set; }
+		public DeviceViewModel CreatedDeviceViewModel { get; private set; }
 		DeviceViewModel _parentDeviceViewModel;
 		Device _parent;
 
@@ -20,17 +22,18 @@ namespace DevicesModule.ViewModels
 			Title = "Новые устройства";
 			_parentDeviceViewModel = parent;
 			_parent = _parentDeviceViewModel.Device;
+			AvailableShleifs = new ObservableCollection<int>();
 
-			Drivers = new List<Driver>(
+			Drivers = new ObservableCollection<Driver>(
 				from Driver driver in FiresecManager.Drivers
 				where (_parent.Driver.AvaliableChildren.Contains(driver.UID))
+				orderby driver.ShortName
 				select driver);
-            Drivers = Drivers.OrderBy(driver => driver.ShortName).ToList();
 			SelectedDriver = Drivers.FirstOrDefault();
 			Count = 1;
 		}
 
-		public List<Driver> Drivers { get; private set; }
+		public ObservableCollection<Driver> Drivers { get; private set; }
 
 		Driver _selectedDriver;
 		public Driver SelectedDriver
@@ -40,23 +43,48 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDriver = value;
 				UpdateAddressRange();
+				UpdateShleif();
 				OnPropertyChanged("SelectedDriver");
 			}
 		}
 
-		Device _startDevice;
-		public Device StartDevice
+		void UpdateShleif()
 		{
-			get { return _startDevice; }
+			SelectedShleif = 0;
+			AvailableShleifs.Clear();
+			if (_parent != null)
+			{
+				var parentShleif = _parent;
+				if (_parent.Driver.DriverType == DriverType.MRK_30 || _parent.Driver.DriverType == DriverType.MPT)
+					parentShleif = _parent.Parent;
+				for (int i = 0; i < parentShleif.Driver.ShleifCount; i++)
+				{
+					AvailableShleifs.Add(i + 1);
+				}
+				if (_parent.Driver.DriverType == DriverType.MRK_30)
+				{
+					AvailableShleifs.Clear();
+					AvailableShleifs.Add(_parent.IntAddress / 256);
+				}
+			}
+			SelectedShleif = AvailableShleifs.FirstOrDefault();
+		}
+
+		public ObservableCollection<int> AvailableShleifs { get; private set; }
+
+		int _selectedShleif;
+		public int SelectedShleif
+		{
+			get { return _selectedShleif; }
 			set
 			{
-				_startDevice = value;
-				OnPropertyChanged("StartDevice");
+				_selectedShleif = value;
+				OnPropertyChanged("SelectedShleif");
 			}
 		}
 
-		string _startAddress;
-		public string StartAddress
+		int _startAddress;
+		public int StartAddress
 		{
 			get { return _startAddress; }
 			set
@@ -83,14 +111,7 @@ namespace DevicesModule.ViewModels
 		void UpdateAddressRange()
 		{
 			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
-
-			StartDevice = new Device()
-			{
-				Driver = SelectedDriver,
-				IntAddress = maxAddress,
-				Parent = _parent
-			};
-			StartAddress = StartDevice.EditingPresentationAddress;
+			StartAddress = maxAddress % 256;
 		}
 
 		void CreateDevices()
@@ -102,7 +123,8 @@ namespace DevicesModule.ViewModels
 				return;
 			}
 
-			int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
+			//int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
+			int startAddress = SelectedShleif * 256 + StartAddress;
 			int endAddress = startAddress + Count * GetReserverCount();
 			if (SelectedDriver.MaxAddress > 0)
 			{

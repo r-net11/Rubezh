@@ -49,7 +49,7 @@ namespace DevicesModule.ViewModels
             if (panel != null)
             {
                 InitializeAddresses(parentDevice);
-                SetBuisyChildAddress(panel);
+				SetBuisyChildAddress(panel, parentDevice.Driver.DriverType == DriverType.MRK_30);
                 return GetBestAddress(driver);
             }
             return 0;
@@ -91,11 +91,13 @@ namespace DevicesModule.ViewModels
             return maxShleif;
         }
 
-        static void SetBuisyChildAddress(Device device)
+        static void SetBuisyChildAddress(Device device, bool isMRK30)
         {
             foreach (var child in device.Children)
             {
                 var reservedCount = Math.Max(child.GetReservedCount(), 1);
+				if (isMRK30)
+					reservedCount = 1;
                 for (int i = 0; i < reservedCount; i++)
                 {
                     var address = Addresses.FirstOrDefault(x => x.Address == child.IntAddress + i);
@@ -104,7 +106,7 @@ namespace DevicesModule.ViewModels
                         address.IsBuisy = true;
                     }
                 }
-                SetBuisyChildAddress(child);
+				SetBuisyChildAddress(child, isMRK30);
             }
         }
 

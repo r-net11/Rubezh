@@ -34,6 +34,10 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
 				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
 			}
+			else
+			{
+				windowBaseView.SetValue(Window.WindowStateProperty, WindowState.Maximized);
+			}
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
@@ -45,7 +49,9 @@ namespace Infrastructure.Common.Windows
 				Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 			}
 			else
+			{
 				windowBaseView.Show();
+			}
 			ApplicationWindow = windowBaseView;
 		}
 		public static FrameworkElement BuildControl(ShellViewModel model)

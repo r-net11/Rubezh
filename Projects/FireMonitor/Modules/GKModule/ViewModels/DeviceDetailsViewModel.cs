@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Threading;
+using System.ComponentModel;
 
 namespace GKModule.ViewModels
 {

@@ -30,22 +30,22 @@ namespace Common.GK
 			};
 			var property1Parameter1 = new XDriverPropertyParameter()
 			{
-				Name = "1 1 Замкнуто",
+				Name = "Один контакт, нормально замкнутый",
 				Value = 0
 			};
 			var property1Parameter2 = new XDriverPropertyParameter()
 			{
-				Name = "2 1 Разомкнуто",
+				Name = "Один контакт, нормально разомкнутый",
 				Value = 1
 			};
 			var property1Parameter3 = new XDriverPropertyParameter()
 			{
-				Name = "3 2 Замкнуто",
+				Name = "Два контакта, нормально замкнутые",
 				Value = 2
 			};
 			var property1Parameter4 = new XDriverPropertyParameter()
 			{
-				Name = "3 4 Разомкнуто",
+				Name = "Два контакта, нормально разомкнутые",
 				Value = 3
 			};
 			property1.Parameters.Add(property1Parameter1);
