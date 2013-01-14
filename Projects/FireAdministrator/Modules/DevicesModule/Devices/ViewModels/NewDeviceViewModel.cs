@@ -14,19 +14,19 @@ namespace DevicesModule.ViewModels
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
 		public DeviceViewModel CreatedDeviceViewModel { get; private set; }
-		DeviceViewModel _parentDeviceViewModel;
-		Device _parent;
+		DeviceViewModel ParentDeviceViewModel;
+		Device ParentDevice;
 
 		public NewDeviceViewModel(DeviceViewModel parent)
 		{
 			Title = "Новые устройства";
-			_parentDeviceViewModel = parent;
-			_parent = _parentDeviceViewModel.Device;
+			ParentDeviceViewModel = parent;
+			ParentDevice = ParentDeviceViewModel.Device;
 			AvailableShleifs = new ObservableCollection<int>();
 
 			Drivers = new ObservableCollection<Driver>(
 				from Driver driver in FiresecManager.Drivers
-				where (_parent.Driver.AvaliableChildren.Contains(driver.UID))
+				where (ParentDevice.Driver.AvaliableChildren.Contains(driver.UID))
 				orderby driver.ShortName
 				select driver);
 			SelectedDriver = Drivers.FirstOrDefault();
@@ -52,19 +52,19 @@ namespace DevicesModule.ViewModels
 		{
 			SelectedShleif = 0;
 			AvailableShleifs.Clear();
-			if (_parent != null)
+			if (ParentDevice != null)
 			{
-				var parentShleif = _parent;
-				if (_parent.Driver.DriverType == DriverType.MRK_30 || _parent.Driver.DriverType == DriverType.MPT)
-					parentShleif = _parent.Parent;
+				var parentShleif = ParentDevice;
+				if (ParentDevice.Driver.DriverType == DriverType.MRK_30 || ParentDevice.Driver.DriverType == DriverType.MPT)
+					parentShleif = ParentDevice.Parent;
 				for (int i = 0; i < parentShleif.Driver.ShleifCount; i++)
 				{
 					AvailableShleifs.Add(i + 1);
 				}
-				if (_parent.Driver.DriverType == DriverType.MRK_30)
+				if (ParentDevice.Driver.DriverType == DriverType.MRK_30)
 				{
 					AvailableShleifs.Clear();
-					AvailableShleifs.Add(_parent.IntAddress / 256);
+					AvailableShleifs.Add(ParentDevice.IntAddress / 256);
 				}
 			}
 			SelectedShleif = AvailableShleifs.FirstOrDefault();
@@ -79,6 +79,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedShleif = value;
+				UpdateAddressRange();
 				OnPropertyChanged("SelectedShleif");
 			}
 		}
@@ -110,7 +111,7 @@ namespace DevicesModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
+			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
 			StartAddress = maxAddress % 256;
 		}
 
@@ -118,8 +119,8 @@ namespace DevicesModule.ViewModels
 		{
 			if (SelectedDriver.HasAddress == false)
 			{
-				Device device = FiresecManager.FiresecConfiguration.AddDevice(_parent, SelectedDriver, 0);
-				CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				Device device = FiresecManager.FiresecConfiguration.AddDevice(ParentDevice, SelectedDriver, 0);
+				CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				return;
 			}
 
@@ -133,16 +134,16 @@ namespace DevicesModule.ViewModels
 			}
 			for (int i = startAddress; i < endAddress; i++)
 			{
-				if (_parent.Children.Any(x => x.IntAddress == i))
+				if (ParentDevice.Children.Any(x => x.IntAddress == i))
 				{
 					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
 					return;
 				}
 			}
 
-			if (_parent.Driver.IsChildAddressReservedRange)
+			if (ParentDevice.Driver.IsChildAddressReservedRange)
 			{
-				Count = Math.Min(Count, _parent.GetReservedCount());
+				Count = Math.Min(Count, ParentDevice.GetReservedCount());
 			}
 
 			int shleifNo = startAddress / 256;
@@ -159,8 +160,8 @@ namespace DevicesModule.ViewModels
 						return;
 				}
 
-				Device device = FiresecManager.FiresecConfiguration.AddDevice(_parent, SelectedDriver, address);
-				CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				Device device = FiresecManager.FiresecConfiguration.AddDevice(ParentDevice, SelectedDriver, address);
+				CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 			}
 		}
 
@@ -184,7 +185,7 @@ namespace DevicesModule.ViewModels
 		protected override bool Save()
 		{
 			CreateDevices();
-			_parentDeviceViewModel.Update();
+			ParentDeviceViewModel.Update();
 			return base.Save();
 		}
 	}

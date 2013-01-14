@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 
         static List<DeviceAddress> Addresses;
 
-        public static int GetMinAddress(Driver driver, Device parentDevice)
+		public static int GetMinAddress(Driver driver, Device parentDevice, int shleifNo)
         {
             if (driver.IsRangeEnabled)
             {
@@ -48,14 +48,14 @@ namespace DevicesModule.ViewModels
 
             if (panel != null)
             {
-                InitializeAddresses(parentDevice);
+				InitializeAddresses(parentDevice, shleifNo);
 				SetBuisyChildAddress(panel, parentDevice.Driver.DriverType == DriverType.MRK_30);
                 return GetBestAddress(driver);
             }
             return 0;
         }
 
-        static void InitializeAddresses(Device device)
+		static void InitializeAddresses(Device device, int shleifNo)
         {
             Addresses = new List<DeviceAddress>();
 
@@ -68,10 +68,9 @@ namespace DevicesModule.ViewModels
             }
             else
             {
-                var shleifNo = GetMaxShleif(device);
                 for (int i = 1; i < 256; i++)
                 {
-                    Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
+					Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
                 }
             }
         }
