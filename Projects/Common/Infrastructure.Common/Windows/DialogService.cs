@@ -94,6 +94,7 @@ namespace Infrastructure.Common.Windows
 					model.Surface.Left = rect.Y;
 					model.Surface.Width = rect.Width;
 					model.Surface.Height = rect.Height;
+					model.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
 				}
 			}
 			catch (Exception e)

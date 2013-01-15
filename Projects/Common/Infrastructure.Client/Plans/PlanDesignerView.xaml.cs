@@ -22,10 +22,11 @@ namespace Infrastructure.Client.Plans
 			_scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
 			_scrollViewer.MouseLeave += OnMiddleMouseLeave;
 
-
 			_scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
 			_scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
 			_scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
+			_scrollViewer.PreviewMouseRightButtonDown += OnMouseRightButtonDown;
+			_scrollViewer.PreviewMouseRightButtonUp += OnMouseLeftButtonUp;
 			_scrollViewer.MouseMove += OnMouseMove;
 			_scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
@@ -158,13 +159,16 @@ namespace Infrastructure.Client.Plans
 		}
 
 		#region Hand Moving
-		Point? lastDragPoint;
 
-		void OnMouseMove(object sender, MouseEventArgs e)
+		private Point? lastDragPoint;
+
+		private void OnMouseMove(object sender, MouseEventArgs e)
 		{
 			if (lastDragPoint.HasValue)
 			{
 				Point posNow = e.GetPosition(_scrollViewer);
+				_scrollViewer.Cursor = Cursors.Hand;
+				_scrollViewer.CaptureMouse();
 
 				double dX = posNow.X - lastDragPoint.Value.X;
 				double dY = posNow.Y - lastDragPoint.Value.Y;
@@ -175,28 +179,33 @@ namespace Infrastructure.Client.Plans
 				_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
 			}
 		}
-
-		void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (Keyboard.IsKeyDown(Key.LeftCtrl))
+				OnMouseRightButtonDown(sender, e);
+		}
+		private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var mousePos = e.GetPosition(_scrollViewer);
+			if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
+				lastDragPoint = mousePos;
+			e.Handled = true;
+		}
+		private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			if (lastDragPoint.HasValue)
 			{
-				var mousePos = e.GetPosition(_scrollViewer);
-				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
+				lastDragPoint = null;
+				if (_scrollViewer.Cursor == Cursors.Hand)
 				{
-					_scrollViewer.Cursor = Cursors.Hand;
-					lastDragPoint = mousePos;
-					Mouse.Capture(_scrollViewer);
+					_scrollViewer.Cursor = Cursors.Arrow;
+					if (_scrollViewer.IsMouseCaptured)
+						_scrollViewer.ReleaseMouseCapture();
+					e.Handled = true;
 				}
-				e.Handled = true;
 			}
 		}
 
-		void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			_scrollViewer.Cursor = Cursors.Arrow;
-			_scrollViewer.ReleaseMouseCapture();
-			lastDragPoint = null;
-		}
 		#endregion
 
 		private void OnDeviceZoomOut(object sender, RoutedEventArgs e)

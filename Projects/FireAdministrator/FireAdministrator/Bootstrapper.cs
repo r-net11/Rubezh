@@ -34,8 +34,8 @@ namespace FireAdministrator
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 
-                    LoadingService.DoStep("Загрузка конфигурации с сервера");
-                    FiresecManager.GetConfiguration();
+					LoadingService.DoStep("Загрузка конфигурации с сервера");
+					FiresecManager.GetConfiguration();
 
 					BeforeInitialize(true);
 
@@ -48,7 +48,7 @@ namespace FireAdministrator
 						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
 					}
-					else
+					else if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
 						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);

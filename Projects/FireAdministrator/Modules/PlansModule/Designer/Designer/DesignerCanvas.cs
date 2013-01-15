@@ -108,7 +108,7 @@ namespace PlansModule.Designer
 
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
 			foreach (var designerItem in SelectedItems.ToList())
-				Remove(designerItem);
+				RemoveElement(designerItem);
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
