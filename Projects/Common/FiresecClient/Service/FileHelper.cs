@@ -3,38 +3,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Common;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
     public static class FileHelper
     {
-        static FileHelper()
+		static List<string> _directoriesList = new List<string>() { "Sounds" };
+
+        static string AppDataDirectory(string directoryName)
         {
-            _directoriesList = new List<string>() { "Sounds" };
+			return Path.Combine(AppDataFolderHelper.GetClientConfigurationDirectory(), "Configuration", directoryName);
         }
 
-        static string _reportDirectoryName = "ReportTemplates";
-        static List<string> _directoriesList;
-
-        static string CurrentDirectory(string directory)
+        static void SynchronizeDirectory(string directoryNAme)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory);
-        }
+            var remoteFileNamesList = FiresecManager.FiresecService.GetFileNamesList(directoryNAme);
+            var filesDirectory = Directory.CreateDirectory(AppDataDirectory(directoryNAme));
+			var filesDirectoryFullName = filesDirectory.FullName;
 
-        static void SynchronizeDirectory(string directory)
-        {
-            var remoteFileNamesList = FiresecManager.FiresecService.GetFileNamesList(directory);
-            var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
-            foreach (var localFileName in GetFileNamesList(directory).Where(x => remoteFileNamesList.Contains(x) == false))
-                File.Delete(Path.Combine(filesDirectory.FullName, localFileName));
+			foreach (var localFileName in GetFileNamesList(filesDirectoryFullName).Where(x => remoteFileNamesList.Contains(x) == false))
+				File.Delete(Path.Combine(filesDirectoryFullName, localFileName));
 
-            var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
-            foreach (var remoteFileHash in FiresecManager.FiresecService.GetDirectoryHash(directory).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
+			var localDirectoryHash = HashHelper.GetDirectoryHash(filesDirectory.FullName);
+            foreach (var remoteFileHash in FiresecManager.FiresecService.GetDirectoryHash(directoryNAme).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
             {
-                var fileName = Path.Combine(filesDirectory.FullName, remoteFileHash.Value);
+				var fileName = Path.Combine(filesDirectoryFullName, remoteFileHash.Value);
                 if (File.Exists(fileName))
                     File.Delete(fileName);
-                DownloadFile(Path.Combine(filesDirectory.Name, remoteFileHash.Value), fileName);
+				DownloadFile(Path.Combine(directoryNAme, remoteFileHash.Value), fileName);
             }
         }
 
@@ -49,8 +46,8 @@ namespace FiresecClient
 
         static List<string> GetFileNamesList(string directory)
         {
-            if (Directory.Exists(CurrentDirectory(directory)))
-                return new List<string>(Directory.EnumerateFiles(CurrentDirectory(directory)).Select(x => Path.GetFileName(x)));
+            if (Directory.Exists(AppDataDirectory(directory)))
+                return new List<string>(Directory.EnumerateFiles(AppDataDirectory(directory)).Select(x => Path.GetFileName(x)));
             return new List<string>();
         }
 
@@ -66,12 +63,7 @@ namespace FiresecClient
 
         public static string GetSoundFilePath(string fileName)
         {
-            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[0]), fileName);
-        }
-
-        public static string GetReportFilePath(string fileName)
-        {
-            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_reportDirectoryName), fileName);
+            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(AppDataDirectory(_directoriesList[0]), fileName);
         }
     }
 }

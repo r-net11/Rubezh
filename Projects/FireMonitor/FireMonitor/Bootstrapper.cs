@@ -99,29 +99,38 @@ namespace FireMonitor
 
         private void OnConfigurationChanged()
         {
-            try
-            {
-                if (IsRestarting)
-                    return;
-                FiresecManager.FiresecService.SuspendPoll = true;
-                FiresecManager.FSAgent.SuspendPoll = true;
-                LoadingErrorManager.Clear();
-                IsRestarting = true;
-                ProgressWatcher.Close();
-                ApplicationService.Restart();
+			try
+			{
+				if (IsRestarting)
+					return;
+				FiresecManager.FiresecService.SuspendPoll = true;
+				FiresecManager.FSAgent.SuspendPoll = true;
+				LoadingErrorManager.Clear();
+				IsRestarting = true;
+				ProgressWatcher.Close();
+				ApplicationService.Restart();
 
-                LoadingService.Show("Перезагрузка конфигурации", 10);
-                LoadingService.AddCount(10);
+				LoadingService.Show("Перезагрузка конфигурации", 10);
+				LoadingService.AddCount(10);
 
-                ApplicationService.CloseAllWindows();
-                ServiceFactory.Layout.Close();
+				LoadingService.DoStep("Загрузка конфигурации с сервера");
+				FiresecManager.GetConfiguration();
 
-                BeforeInitialize(false);
-                InitializeModules();
-                ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+				ApplicationService.CloseAllWindows();
+				ServiceFactory.Layout.Close();
 
-                LoadingService.Close();
-            }
+				BeforeInitialize(false);
+				InitializeModules();
+				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+
+				AterInitialize();
+
+				LoadingService.Close();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Bootstrapper.OnConfigurationChanged");
+			}
             finally
             {
                 IsRestarting = false;

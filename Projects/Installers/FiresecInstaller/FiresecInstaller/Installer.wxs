@@ -80,6 +80,11 @@
         <Directory Id="ProgramMenuDir" Name="$(var.ProductName)" />
       </Directory>
       <Directory Id="DesktopFolder" />
+
+      <Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
+        <Directory Id="APPDATALOCATION" Name="Firesec2">
+        </Directory>
+      </Directory>
     </Directory>
 
     <FeatureRef Id="FiresecFeature" />

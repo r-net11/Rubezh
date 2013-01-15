@@ -57,7 +57,7 @@ namespace FiresecService
             try
             {
                 MainViewModel = new MainViewModel();
-                ApplicationService.Run(MainViewModel);
+                ApplicationService.Run(MainViewModel, false, false);
             }
             catch (Exception e)
             {

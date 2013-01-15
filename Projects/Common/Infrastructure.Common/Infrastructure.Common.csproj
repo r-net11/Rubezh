@@ -134,6 +134,7 @@
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AlarmPlayerHelper.cs" />
+    <Compile Include="AppDataFolderHelper.cs" />
     <Compile Include="AppSettingsManager.cs" />
     <Compile Include="BalloonToolTip\BalloonHelper.cs" />
     <Compile Include="BalloonToolTip\ViewModels\BalloonToolTipViewModel.cs" />

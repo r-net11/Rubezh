@@ -53,7 +53,7 @@ namespace FiresecClient
 				var stream = FiresecManager.FiresecService.GetConfig();
 				FiresecConfiguration = new FiresecConfiguration();
 
-				var tempFileName = Path.GetTempFileName();
+				var tempFileName = AppDataFolderHelper.GetTempFileName();
 				var configFileStream = File.Create(tempFileName);
 				CopyStream(stream, configFileStream);
 

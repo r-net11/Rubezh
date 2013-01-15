@@ -22,7 +22,7 @@ namespace FireMonitor.Multiclient
 			}
 
 			var multiclientViewModel = new MulticlientViewModel();
-			ApplicationService.Run(multiclientViewModel, true);
+			ApplicationService.Run(multiclientViewModel, true, true);
 
 			if (!File.Exists("MulticlientConfiguration.xml"))
 			{

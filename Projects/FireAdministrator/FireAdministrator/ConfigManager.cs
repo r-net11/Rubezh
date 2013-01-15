@@ -54,7 +54,7 @@ namespace FireAdministrator
 						}
 					}
 
-					var tempFileName = Path.GetTempFileName() + "_";
+					var tempFileName = AppDataFolderHelper.GetTempFileName() +"_";
 					var zipFile = new ZipFile(tempFileName);
 
 					TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();

@@ -73,6 +73,14 @@ namespace DevicesModule.ViewModels
 					Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
                 }
             }
+			if (device.Driver.DriverType == DriverType.MRK_30)
+			{
+				Addresses = new List<DeviceAddress>();
+				for (int i = device.IntAddress % 256; i <= Math.Min(256, device.IntAddress % 256 + 30); i++)
+				{
+					Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
+				}
+			}
         }
 
         static int GetMaxShleif(Device device)

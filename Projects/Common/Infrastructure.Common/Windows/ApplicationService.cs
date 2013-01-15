@@ -23,10 +23,10 @@ namespace Infrastructure.Common.Windows
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 
-		public static void Run(ApplicationViewModel model, bool simpleMode = false)
+		public static void Run(ApplicationViewModel model, bool noBorder, bool isMaximized)
 		{
 			var windowBaseView = new WindowBaseView(model);
-			if (simpleMode)
+			if (noBorder)
 			{
 				windowBaseView.ClearValue(Window.AllowsTransparencyProperty);
 				windowBaseView.ClearValue(Window.WindowStyleProperty);
@@ -34,7 +34,7 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
 				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
 			}
-			else
+			if (isMaximized)
 			{
 				windowBaseView.SetValue(Window.WindowStateProperty, WindowState.Maximized);
 			}
@@ -82,7 +82,7 @@ namespace Infrastructure.Common.Windows
 		{
 			Layout = new LayoutService(model);
 			if (ApplicationController == null)
-				Run((ApplicationViewModel)model);
+				Run((ApplicationViewModel)model, false, true);
 			else
 			{
 				var frameworkElement = BuildControl(model);

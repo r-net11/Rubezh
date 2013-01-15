@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
-	[SaveSize]
+	[SaveSizeAttribute]
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
 		public DeviceViewModel CreatedDeviceViewModel { get; private set; }
@@ -42,7 +42,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDriver = value;
-				UpdateAddressRange();
+				UpdateMinAddress();
 				UpdateShleif();
 				OnPropertyChanged("SelectedDriver");
 			}
@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
 			if (ParentDevice != null)
 			{
 				var parentShleif = ParentDevice;
-				if (ParentDevice.Driver.DriverType == DriverType.MRK_30 || ParentDevice.Driver.DriverType == DriverType.MPT)
+				if (ParentDevice.Driver.DriverType == DriverType.MPT)
 					parentShleif = ParentDevice.Parent;
 				for (int i = 0; i < parentShleif.Driver.ShleifCount; i++)
 				{
@@ -79,7 +79,8 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedShleif = value;
-				UpdateAddressRange();
+				UpdateMinAddress();
+				UpdateFreeAddresses();
 				OnPropertyChanged("SelectedShleif");
 			}
 		}
@@ -98,6 +99,59 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		void UpdateFreeAddresses()
+		{
+			FreeAddresses = new ObservableCollection<int>();
+			for (int i = 1; i <= 256; i++)
+			{
+				FreeAddresses.Add(i);
+			}
+			if (ParentDevice.Driver.DriverType == DriverType.MRK_30)
+			{
+				FreeAddresses = new ObservableCollection<int>();
+				for (int i = ParentDevice.IntAddress % 256; i <= Math.Min(256, ParentDevice.IntAddress % 256 + 30); i++)
+				{
+					FreeAddresses.Add(i);
+				}
+			}
+			RemoveBuisyAddress(ParentDevice);
+		}
+
+		void RemoveBuisyAddress(Device device)
+		{
+			foreach (var child in device.Children)
+			{
+				if (child.IntAddress / 256 == SelectedShleif)
+				{
+					FreeAddresses.Remove(child.IntAddress % 256);
+					RemoveBuisyAddress(child);
+				}
+			}		
+		}
+
+		ObservableCollection<int> _freeAddresses;
+		public ObservableCollection<int> FreeAddresses
+		{
+			get { return _freeAddresses; }
+			set
+			{
+				_freeAddresses = value;
+				OnPropertyChanged("FreeAddresses");
+			}
+		}
+
+		int _selectedFreeAddress;
+		public int SelectedFreeAddress
+		{
+			get { return _selectedFreeAddress; }
+			set
+			{
+				_selectedFreeAddress = value;
+				StartAddress = value;
+				OnPropertyChanged("SelectedFreeAddress");
+			}
+		}
+
 		int _count;
 		public int Count
 		{
@@ -109,7 +163,7 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		void UpdateAddressRange()
+		void UpdateMinAddress()
 		{
 			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
 			StartAddress = maxAddress % 256;
@@ -146,11 +200,10 @@ namespace DevicesModule.ViewModels
 				Count = Math.Min(Count, ParentDevice.GetReservedCount());
 			}
 
-			int shleifNo = startAddress / 256;
 			for (int i = 0; i < Count; i++)
 			{
 				var address = startAddress + i * GetReserverCount();
-				if (address + GetReserverCount() - 1 >= (shleifNo + 1) * 256)
+				if (address + GetReserverCount() - 1 >= (SelectedShleif + 1) * 256)
 				{
 					return;
 				}
@@ -171,7 +224,7 @@ namespace DevicesModule.ViewModels
 			{
 				int reservedCount = SelectedDriver.ChildAddressReserveRangeCount;
 				if (SelectedDriver.DriverType == DriverType.MRK_30)
-					reservedCount = 30;
+					reservedCount = 31;
 				return reservedCount;
 			}
 			return 1;

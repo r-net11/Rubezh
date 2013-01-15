@@ -48,18 +48,6 @@
     </DirectoryRef>
 
     <DirectoryRef Id="Server.ConfigFolder">
-      <!--<Component Id="Server.SecurityConfiguration.xml" Guid="5591C855-9479-4C66-8209-2EDE24789584" Permanent='yes' NeverOverwrite='yes'>
-        <File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
-      </Component>
-      <Component Id="Server.DeviceLibraryConfiguration.xml" Guid="8B2F76D9-1757-45BE-8212-55011B675A3B" Permanent='yes' NeverOverwrite='yes'>
-        <File Id="Server.DeviceLibraryConfiguration.xml" Name="DeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
-      </Component>
-      <Component Id="Server.XDeviceLibraryConfiguration.xml" Guid="3BEAADE1-E45B-41EA-B61D-8C26A4977BCD" Permanent='yes' NeverOverwrite='yes'>
-        <File Id="Server.XDeviceLibraryConfiguration.xml" Name="XDeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
-      </Component>
-      <Component Id="Server.DriversConfiguration.xml" Guid="5B08EF5C-4971-46FB-9C30-610C800EBD0A" Permanent='yes' NeverOverwrite='yes'>
-        <File Id="Server.DriversConfiguration.xml" Name="DriversConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
-      </Component>-->
       <Component Id="Server.config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.config.fscp" Name="config.fscp" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
@@ -77,6 +65,22 @@
         <File Id="Server.Sound8.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound8.wav" />
         <File Id="Server.Sound9.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound9.wav" />
       </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="APPDATALOCATION">
+      <Directory Id="Server.AppData" Name="FiresecService">
+        <Component Id="Server.AppData.Sounds" Guid="C1CF2CC9-472F-447A-8F12-923A5951D87B">
+          <File Id="Server.AppData.Sound1.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound1.wav" />
+          <File Id="Server.AppData.Sound2.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound2.wav" />
+          <File Id="Server.AppData.Sound3.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound3.wav" />
+          <File Id="Server.AppData.Sound4.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound4.wav" />
+          <File Id="Server.AppData.Sound5.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound5.wav" />
+          <File Id="Server.AppData.Sound6.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound6.wav" />
+          <File Id="Server.AppData.Sound7.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound7.wav" />
+          <File Id="Server.AppData.Sound8.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound8.wav" />
+          <File Id="Server.AppData.Sound9.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound9.wav" />
+        </Component>
+      </Directory>
     </DirectoryRef>
 
   </Fragment>
