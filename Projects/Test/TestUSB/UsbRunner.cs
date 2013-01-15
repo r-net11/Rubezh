@@ -136,6 +136,50 @@ namespace TestUSB
 			}
 			return bytes;
 		}
+
+        static List<byte> CreateInputBytes(IEnumerable<byte> messageBytes)
+        {
+            var bytes = new List<byte>(0) { 0x7e };
+            foreach (var b in messageBytes)
+            {
+                if (b == 0x7E)
+                {
+                    bytes.Add(0x7D);
+                    bytes.Add(0x5E);
+                    continue;
+                }
+                if (b == 0x7D)
+                {
+                    bytes.Add(0x7D);
+                    bytes.Add(0x5D);
+                    continue;
+                }
+                if (b == 0x3E)
+                {
+                    bytes.Add(0x3D);
+                    bytes.Add(0x1E);
+                    continue;
+                }
+                if (b == 0x3D)
+                {
+                    bytes.Add(0x3D);
+                    bytes.Add(0x1D);
+                    continue;
+                }
+                bytes.Add(b);
+            }
+            bytes.Add(0x3e);
+            var bytesCount = bytes.Count;
+
+            if (bytesCount < 64)
+            {
+                for (int i = 0; i < 64 - bytesCount; i++)
+                {
+                    bytes.Add(0);
+                }
+            }
+            return bytes;
+        }
         public OperationResult<Response> AddRequest(List<byte> data)
         {
             var output = CreateOutputBytes(data);
