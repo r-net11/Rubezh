@@ -1,45 +1,213 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO.Ports;
 using System.Diagnostics;
 using System.Threading;
 using System.Collections;
 using System.ComponentModel;
+using FiresecAPI;
 
 namespace TestUSB
 {
-	public partial class MainWindow : Window, INotifyPropertyChanged
+	public partial class MainWindow : INotifyPropertyChanged
 	{
-		UsbRunner usbRunner;
-		List<UsbRequest> UsbRequests = new List<UsbRequest>();
+        readonly object _locker = new object();
+		UsbRunner _usbRunner;
+        int _usbRequestNo = 1;
+	    readonly List<UsbRequest> _usbRequests = new List<UsbRequest>();
 		public List<JournalItem> JournalItems { get; set; }
-
 		public MainWindow()
 		{
 			InitializeComponent();
 			JournalItems = new List<JournalItem>();
-			//JournalItems.Add(new JournalItem() { EventName = "event 1" });
-			//JournalItems.Add(new JournalItem() { EventName = "event 2" });
-			//JournalItems.Add(new JournalItem() { EventName = "event 3" });
 			DataContext = this;
 		}
-
-        public Guid GetUidById(ushort DriverTypeNo)
+		private void WindowLoaded(object sender, RoutedEventArgs e)
+		{
+			_usbRunner = new UsbRunner();
+			_usbRunner.Open();
+		}
+		void ParseJournal(List<byte> bytes)
+		{
+			lock (_locker)
+			{
+				var journalItem = new JournalItem();
+				if (bytes.Count < 2)
+					return;
+				if ((bytes.First() != 0x7E) || (bytes.Last() != 0x3E))
+					return;
+				bytes.RemoveAt(0);
+				bytes.RemoveAt(bytes.Count - 1);
+				if (bytes.Count < 4)
+					return;
+				var requestNo = bytes[0] * 256 * 256 * 256 + bytes[1] * 256 * 256 + bytes[2] * 256 + bytes[3];
+				bytes.RemoveRange(0, 4);
+				var usbRequest = _usbRequests.FirstOrDefault(x => x.Id == requestNo);                
+				if (usbRequest == null)
+					return;
+				_usbRequests.Remove(usbRequest);
+				if (bytes.Count < 2)
+					return;
+				if (bytes[0] != usbRequest.UsbAddress)
+					return;
+				if (bytes[1] != usbRequest.SelfAddress)
+					return;
+				bytes.RemoveRange(0, 2);
+				if (bytes.Count < 1)
+					return;
+				var funcCodeBitArray = new BitArray(bytes.GetRange(0, 1).ToArray());
+				if (funcCodeBitArray.Get(6) == false)
+					return;
+				if (funcCodeBitArray.Get(7))
+				{
+					Trace.WriteLine("\n Error = " + bytes[1].ToString());
+					return;
+				}
+				byte funcCode = bytes[0];
+				funcCode = (byte)(funcCode << 2);
+				funcCode = (byte)(funcCode >> 2);
+				if (funcCode != usbRequest.FuncCode)
+					return;
+				bytes.RemoveRange(0, 1);
+				if (bytes.Count < 32)
+					return;
+				var journalParser = new JournalParser(bytes);
+				var timeBytes = bytes.GetRange(1, 4);
+				journalItem.No = usbRequest.Id;
+				journalItem.Date = TimeParceHelper.Parce(timeBytes);
+				var eventName = MetadataHelper.GetEventByCode(bytes[0]);
+				journalItem.EventName = MetadataHelper.GetExactEventForFlag(eventName, bytes[5]);
+				Trace.WriteLine(journalItem.Date + " " + journalItem.EventName);
+				journalItem.Flag = bytes[5];
+				journalItem.ShleifNo = bytes[6];
+				journalItem.IntType = bytes[7];
+				journalItem.Address = bytes[8];
+				journalItem.State = bytes[9];
+				journalItem.ZoneNo = bytes[10] * 256 + bytes[11];
+				journalItem.DescriptorNo = bytes[12] * 256 * 256 + bytes[13] * 256 + bytes[14];
+				journalItem = journalParser.Parce();
+				JournalItems.Add(journalItem);
+			}
+		}
+		private void WindowClosed(object sender, EventArgs e)
+		{
+			_usbRunner.Close();
+		}
+		private void ReadJournalClick(object sender, RoutedEventArgs e)
         {
-            switch (DriverTypeNo)
+            (new Thread(delegate()
             {
-                case 0x7E: return new Guid("043fbbe0-8733-4c8d-be0c-e5820dbf7039"); // "Модуль дымоудаления-1"
+                MetadataHelper.Initialize();
+                int fc = GetFireJournalCount();
+                for (int i = 0; i < fc; i++)
+                    GetFireJournalItem(i);
+                JournalItems.Add(new JournalItem() { EventName = JournalItems.Count.ToString() });
+                int sc = GetSecJournalCount();
+                for (int i = 0; i < sc; i++)
+                    GetSecJournalItem(i);
+                JournalItems.Add(new JournalItem() { EventName = JournalItems.Count.ToString() });
+            })).Start();
+        }
+        private void ShowJournalClick(object sender, RoutedEventArgs e)
+        {
+            JournalItems = new List<JournalItem>(JournalItems);
+            OnPropertyChanged("JournalItems");
+        }
+        OperationResult<Response> SendCode(List<byte> bytes)
+        {
+            var usbRequest = new UsbRequest()
+            {
+                Id = _usbRequestNo,
+                UsbAddress = bytes[4],
+                SelfAddress = bytes[5],
+                FuncCode = bytes[6]
+            };
+            _usbRequests.Add(usbRequest);
+            _usbRequestNo++;
+            return _usbRunner.AddRequest(bytes);
+        }
+        int GetFireJournalCount()
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(_usbRequestNo).Reverse());
+            bytes.Add(0x04);
+            bytes.Add(0x01);
+            bytes.Add(0x01);
+            bytes.Add(0x21);
+            bytes.Add(0x00);
+
+            try
+            {
+                var firecount = SendCode(bytes);
+                int fc = 256 * firecount.Result.Data[10] + firecount.Result.Data[11];
+                return fc;
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+        }
+        int GetSecJournalCount()
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(_usbRequestNo).Reverse());
+            bytes.Add(0x04);
+            bytes.Add(0x01);
+            bytes.Add(0x01);
+            bytes.Add(0x21);
+            bytes.Add(0x02);
+
+            try
+            {
+                var seccount = SendCode(bytes);
+                int sc = 256 * seccount.Result.Data[10] + seccount.Result.Data[11];
+                return sc;
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+        }
+		void GetFireJournalItem(int journalNo)
+		{
+			_usbRequestNo++;
+			var bytes = new List<byte>();
+			bytes.AddRange(BitConverter.GetBytes(_usbRequestNo).Reverse());
+			bytes.Add(0x04);
+			bytes.Add(0x01);
+			bytes.Add(0x01);
+			bytes.Add(0x20);
+			bytes.Add(0x00);
+			bytes.AddRange(BitConverter.GetBytes(journalNo).Reverse());
+            ParseJournal(SendCode(bytes).Result.Data);
+		}
+        void GetSecJournalItem(int journalNo)
+        {
+            _usbRequestNo++;
+            var bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(_usbRequestNo).Reverse());
+            bytes.Add(0x04);
+            bytes.Add(0x01);
+            bytes.Add(0x01);
+            bytes.Add(0x20);
+            bytes.Add(0x02);
+            bytes.AddRange(BitConverter.GetBytes(journalNo).Reverse());
+            ParseJournal(SendCode(bytes).Result.Data);
+        }
+		public event PropertyChangedEventHandler PropertyChanged;
+		void OnPropertyChanged(string propertytName)
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertytName));
+		}
+        public static Guid GetUidById(ushort driverTypeNo)
+        {
+            switch (driverTypeNo)
+            {
+                case 0x7D: return new Guid("043fbbe0-8733-4c8d-be0c-e5820dbf7039"); // "Модуль дымоудаления-1"
                 case 0x51: return new Guid("dba24d99-b7e1-40f3-a7f7-8a47d4433392"); // "Пожарная адресная метка АМ-1"
                 case 0x34: return new Guid("efca74b2-ad85-4c30-8de8-8115cc6dfdd2"); // "Охранная адресная метка АМ1-О"
                 case 0xD2: return new Guid("f5a34ce2-322e-4ed9-a75f-fc8660ae33d8"); // "Технологическая адресная метка АМ1-Т"
@@ -60,159 +228,15 @@ namespace TestUSB
                 default: return new Guid("00000000-0000-0000-0000-000000000000"); // "Неизвестное устройство"
             }
         }
-
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			usbRunner = new UsbRunner();
-			usbRunner.Open();
-			usbRunner.DataRecieved += new Action<List<byte>>(usbRunner_DataRecieved);
-		}
-
-		object locker = new object();
-
-		void usbRunner_DataRecieved(List<byte> bytes)
-		{
-			lock (locker)
-			{
-				var journalItem = new JournalItem();
-
-				if (bytes.Count < 2)
-					return;
-				if ((bytes.First() != 0x7E) || (bytes.Last() != 0x3E))
-					return;
-				bytes.RemoveAt(0);
-				bytes.RemoveAt(bytes.Count - 1);
-
-				if (bytes.Count < 4)
-					return;
-				var requestNoList = bytes.GetRange(0, 4);
-				var requestNo = bytes[0] * 256 * 256 * 256 + bytes[1] * 256 * 256 + bytes[2] * 256 + bytes[3];
-				bytes.RemoveRange(0, 4);
-				var usbRequest = UsbRequests.FirstOrDefault(x => x.Id == requestNo);
-				if (usbRequest == null)
-					return;
-				UsbRequests.Remove(usbRequest);
-
-				if (bytes.Count < 2)
-					return;
-				if (bytes[0] != usbRequest.UsbAddress)
-					return;
-				if (bytes[1] != usbRequest.SelfAddress)
-					return;
-				bytes.RemoveRange(0, 2);
-
-				if (bytes.Count < 1)
-					return;
-				var funcCodeBitArray = new BitArray(bytes.GetRange(0, 1).ToArray());
-				if (funcCodeBitArray.Get(6) == false)
-					return;
-				if (funcCodeBitArray.Get(7))
-				{
-					Trace.WriteLine("\n Error = " + bytes[1].ToString());
-					return;
-				}
-				byte funcCode = bytes[0];
-				funcCode = (byte)(funcCode << 2);
-				funcCode = (byte)(funcCode >> 2);
-				if (funcCode != usbRequest.FuncCode)
-					return;
-				bytes.RemoveRange(0, 1);
-
-				if (bytes.Count < 32)
-					return;
-
-				var message = BytesToString(bytes);
-				Trace.WriteLine("\n" + message);
-
-				var timeBytes = bytes.GetRange(1, 4);
-				journalItem.No = usbRequest.Id;
-				journalItem.Date = TimeParceHelper.Parce(timeBytes);
-				journalItem.EventName = MetadataHelper.GetEventByCode(bytes[0]);
-				Trace.WriteLine(journalItem.Date + " " + journalItem.EventName);
-				journalItem.ShleifNo = bytes[6] + 1;
-				journalItem.IntType = bytes[7];
-				journalItem.Address = bytes[8];
-				journalItem.State = bytes[9];
-				journalItem.ZoneNo = bytes[10] * 256 + bytes[11];
-				journalItem.DescriptorNo = bytes[12] * 256 * 256 + bytes[13] * 256 + bytes[14];
-
-				JournalItems.Add(journalItem);
-			}
-		}
-
-		private void Window_Closed(object sender, EventArgs e)
-		{
-			usbRunner.Close();
-		}
-
-		int UsbRequestNo = 1;
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			MetadataHelper.Initialize();
-			for (int i = 1; i < 100; i++)
-			{
-				lock (locker)
-				{
-					GetJournalItem(i);
-				}
-				Thread.Sleep(100);
-			}
-		}
-
-		void GetJournalItem(int journalNo)
-		{
-			UsbRequestNo++;
-			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(UsbRequestNo).Reverse());
-			bytes.Add(0x04);
-			bytes.Add(0x01);
-			bytes.Add(0x01);
-			bytes.Add(0x20);
-			bytes.Add(0x00);
-			bytes.AddRange(BitConverter.GetBytes(journalNo).Reverse());
-
-			var usbRequest = new UsbRequest()
-			{
-				Id = UsbRequestNo,
-				UsbAddress = 0x04,
-				SelfAddress = 0x01,
-				FuncCode = 0x01
-			};
-			UsbRequests.Add(usbRequest);
-
-			for (int i = 0; i < 5; i++)
-			{
-				usbRunner.Send(bytes);
-				Thread.Sleep(10);
-			}
-		}
-
-		string BytesToString(IEnumerable<byte> bytes)
-		{
-			var result = "";
-			foreach (var b in bytes)
-			{
-				var hexByte = b.ToString("x2");
-				result += hexByte + " ";
-			}
-			return result;
-		}
-
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-			JournalItems = new List<JournalItem>(JournalItems);
-			OnPropertyChanged("JournalItems");
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		void OnPropertyChanged(string propertytName)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertytName));
-		}
+        private void ShowFireJournalCountClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(GetFireJournalCount().ToString());
+        }
+        private void ShowSecurityJournalCountClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(GetSecJournalCount().ToString());
+        }
 	}
-
 	public class UsbRequest
 	{
 		public int Id { get; set; }

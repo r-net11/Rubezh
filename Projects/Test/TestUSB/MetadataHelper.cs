@@ -9,7 +9,7 @@ namespace TestUSB
 {
 	public static class MetadataHelper
 	{
-		static Rubezh2010.driverConfig Metadata;
+		public static Rubezh2010.driverConfig Metadata { get; private set; }
 
 		public static void Initialize()
 		{
@@ -27,6 +27,24 @@ namespace TestUSB
 			if (nativeEvent != null)
 				return nativeEvent.eventMessage;
 			return "Неизвестный код события " + eventCode.ToString("x2");
+		}
+
+		public static string GetExactEventForFlag(string eventName, int flag)
+		{
+			var firstIndex = eventName.IndexOf("[");
+			var lastIndex = eventName.IndexOf("]");
+			if (firstIndex != -1 && lastIndex != -1)
+			{
+				var firstPart = eventName.Substring(0, firstIndex);
+				var secondPart = eventName.Substring(firstIndex + 1, lastIndex - firstIndex - 1);
+				var secondParts = secondPart.Split('/');
+				if (flag < secondParts.Count())
+				{
+					var choise = secondParts[flag];
+					return firstPart + choise;
+				}
+			}
+			return eventName;
 		}
 	}
 }

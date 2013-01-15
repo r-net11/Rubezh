@@ -36,7 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibUsbDotNet, Version=2.2.8.104, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="LibUsbDotNet">
+      <HintPath>C:\Program Files\LibUsbDotNet\Src\LibWinUsb\bin\Debug\LibUsbDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -57,7 +59,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Crc16Helper.cs" />
+    <Compile Include="DriverTypeHelper.cs" />
     <Compile Include="JournalItem.cs" />
+    <Compile Include="JournalParser.cs" />
     <Compile Include="MetadataHelper.cs" />
     <Compile Include="rubezh2010.cs" />
     <Compile Include="TimeParceHelper.cs" />
@@ -108,6 +112,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

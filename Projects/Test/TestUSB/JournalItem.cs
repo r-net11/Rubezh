@@ -10,6 +10,7 @@ namespace TestUSB
 		public int No { get; set; }
 		public string Date { get; set; }
 		public string EventName { get; set; }
+		public int Flag { get; set; }
 		public int ShleifNo { get; set; }
 		public int IntType { get; set; }
 		public int Address { get; set; }
@@ -17,5 +18,7 @@ namespace TestUSB
 		public int ZoneNo { get; set; }
 		public int DescriptorNo { get; set; }
 		public string StringType { get; set; }
+		public int EventClass { get; set; }
+        public string Description { get; set; }
 	}
 }
