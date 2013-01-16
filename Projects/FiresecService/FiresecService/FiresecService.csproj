@@ -112,12 +112,13 @@
     </Compile>
     <Compile Include="Processor\ConnectionManager.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
-    <Compile Include="Processor\ZipFileManager.cs" />
+    <Compile Include="Patch\PatchManager.cs" />
     <Compile Include="Processor\FiresecDbConverter1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Processor\SecurityConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />

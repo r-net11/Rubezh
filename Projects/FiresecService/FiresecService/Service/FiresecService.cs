@@ -12,6 +12,7 @@ using FiresecService.DatabaseConverter;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
 using FiresecService.Configuration;
+using FiresecService.Processor;
 
 namespace FiresecService.Service
 {
@@ -44,7 +45,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
-			ConfigurationCash.SecurityConfiguration = ZipFileManager.GetSecurityConfiguration();
+			ConfigurationCash.SecurityConfiguration = SecurityConfigurationHelper.GetSecurityConfiguration();
 
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
@@ -118,7 +119,7 @@ namespace FiresecService.Service
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			return ZipFileManager.GetSecurityConfiguration();
+			return SecurityConfigurationHelper.GetSecurityConfiguration();
 		}
 	}
 }

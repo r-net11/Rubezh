@@ -40,6 +40,7 @@ namespace FireMonitor
 		public App()
 		{
 			IsMulticlient = false;
+			PatchManager.Patch();
 		}
 
         protected override void OnStartup(StartupEventArgs e)

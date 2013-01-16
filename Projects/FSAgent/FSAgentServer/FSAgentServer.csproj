@@ -69,6 +69,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Journal.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SyncronizeJournal.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Service\CallbacManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FSAgentService.cs" />
