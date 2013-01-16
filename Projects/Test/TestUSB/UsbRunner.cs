@@ -72,11 +72,12 @@ namespace TestUSB
 
 					if (b == 0x3E)
 					{
+					    localresult = CreateInputBytes(localresult);
                         var request = _requests.FirstOrDefault(x => x.Id == _requestId);
                         if (request == null)
                             break;
 					    var requestId = request.Id;
-                        var responseId = (uint)(e.Buffer.ToList()[5] + e.Buffer.ToList()[4] * 256 + e.Buffer.ToList()[3] * 256 * 256 + e.Buffer.ToList()[2] * 256 * 256 * 256);
+                        var responseId = (uint)(localresult.ToList()[3] + localresult.ToList()[2] * 256 + localresult.ToList()[1] * 256 * 256 + localresult.ToList()[0] * 256 * 256 * 256);
                         if (requestId == responseId)
                         {
                             _result  = localresult.ToList();
@@ -136,55 +137,54 @@ namespace TestUSB
 			}
 			return bytes;
 		}
-
-        static List<byte> CreateInputBytes(IEnumerable<byte> messageBytes)
+        static List<byte> CreateInputBytes(List<byte> messageBytes)
         {
-            var bytes = new List<byte>(0) { 0x7e };
+            var bytes = new List<byte>();
+            var previousByte = new byte();
+            messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
+            messageBytes.RemoveRange(messageBytes.IndexOf(0x3E), messageBytes.Count - messageBytes.IndexOf(0x3E));
             foreach (var b in messageBytes)
             {
-                if (b == 0x7E)
+                if ((b == 0x7D) || (b == 0x3D))
                 {
-                    bytes.Add(0x7D);
-                    bytes.Add(0x5E);
+                    previousByte = b;
                     continue;
                 }
-                if (b == 0x7D)
+                if (previousByte == 0x7D)
                 {
-                    bytes.Add(0x7D);
-                    bytes.Add(0x5D);
-                    continue;
+                    if (b == 0x5E)
+                    {
+                        bytes.Add(0x7E);
+                        continue;
+                    }
+                    if (b == 0x5D)
+                    {
+                        bytes.Add(0x7D);
+                        continue;
+                    }
                 }
-                if (b == 0x3E)
+                if (previousByte == 0x3D)
                 {
-                    bytes.Add(0x3D);
-                    bytes.Add(0x1E);
-                    continue;
-                }
-                if (b == 0x3D)
-                {
-                    bytes.Add(0x3D);
-                    bytes.Add(0x1D);
-                    continue;
+                    if (b == 0x1E)
+                    {
+                        bytes.Add(0x3E);
+                        continue;
+                    }
+                    if (b == 0x1D)
+                    {
+                        bytes.Add(0x3D);
+                        continue;
+                    }
                 }
                 bytes.Add(b);
-            }
-            bytes.Add(0x3e);
-            var bytesCount = bytes.Count;
-
-            if (bytesCount < 64)
-            {
-                for (int i = 0; i < 64 - bytesCount; i++)
-                {
-                    bytes.Add(0);
-                }
             }
             return bytes;
         }
         public OperationResult<Response> AddRequest(List<byte> data)
         {
-            var output = CreateOutputBytes(data);
             _stop = false;
-            _requestId = (uint)(output[4] + output[3] * 256 + output[2] * 256 * 256 + output[1] * 256 * 256 * 256);
+            _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+            data = CreateOutputBytes(data);
             var request = new Request
             {
                 Id = _requestId,
@@ -194,7 +194,7 @@ namespace TestUSB
             _requests.Enqueue(request);
             while (!_stop)
             {
-                Send(output);
+                Send(data);
                 _autoResetEvent.WaitOne(1000);
             }
             var response = new Response

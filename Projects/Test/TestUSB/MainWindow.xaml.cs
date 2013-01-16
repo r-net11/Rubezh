@@ -35,10 +35,6 @@ namespace TestUSB
 				var journalItem = new JournalItem();
 				if (bytes.Count < 2)
 					return;
-				if ((bytes.First() != 0x7E) || (bytes.Last() != 0x3E))
-					return;
-				bytes.RemoveAt(0);
-				bytes.RemoveAt(bytes.Count - 1);
 				if (bytes.Count < 4)
 					return;
 				var requestNo = bytes[0] * 256 * 256 * 256 + bytes[1] * 256 * 256 + bytes[2] * 256 + bytes[3];
@@ -76,6 +72,7 @@ namespace TestUSB
 				var timeBytes = bytes.GetRange(1, 4);
 				journalItem.No = usbRequest.Id;
 				journalItem.Date = TimeParceHelper.Parce(timeBytes);
+			    var d = DateTime.Parse(journalItem.Date);
 				var eventName = MetadataHelper.GetEventByCode(bytes[0]);
 				journalItem.EventName = MetadataHelper.GetExactEventForFlag(eventName, bytes[5]);
 				Trace.WriteLine(journalItem.Date + " " + journalItem.EventName);
@@ -102,11 +99,12 @@ namespace TestUSB
                 int fc = GetFireJournalCount();
                 for (int i = 0; i < fc; i++)
                     GetFireJournalItem(i);
+                JournalItems.OrderByDescending(x => DateTime.Parse(x.Date));
                 JournalItems.Add(new JournalItem() { EventName = JournalItems.Count.ToString() });
-                int sc = GetSecJournalCount();
-                for (int i = 0; i < sc; i++)
-                    GetSecJournalItem(i);
-                JournalItems.Add(new JournalItem() { EventName = JournalItems.Count.ToString() });
+                //int sc = GetSecJournalCount();
+                //for (int i = 0; i < sc; i++)
+                //    GetSecJournalItem(i);
+                //JournalItems.Add(new JournalItem() { EventName = JournalItems.Count.ToString() });
             })).Start();
         }
         private void ShowJournalClick(object sender, RoutedEventArgs e)
@@ -140,7 +138,7 @@ namespace TestUSB
             try
             {
                 var firecount = SendCode(bytes);
-                int fc = 256 * firecount.Result.Data[10] + firecount.Result.Data[11];
+                int fc = 256 * firecount.Result.Data[9] + firecount.Result.Data[10];
                 return fc;
             }
             catch (NullReferenceException ex)
@@ -162,7 +160,7 @@ namespace TestUSB
             try
             {
                 var seccount = SendCode(bytes);
-                int sc = 256 * seccount.Result.Data[10] + seccount.Result.Data[11];
+                int sc = 256 * seccount.Result.Data[9] + seccount.Result.Data[10];
                 return sc;
             }
             catch (NullReferenceException ex)
