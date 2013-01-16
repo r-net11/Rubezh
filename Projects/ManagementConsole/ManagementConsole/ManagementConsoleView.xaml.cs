@@ -1,7 +1,7 @@
 ﻿namespace ManagementConsole
 {
 	public partial class ManagementConsoleView
-    {
+	{
 		public ManagementConsoleView()
 		{
 			InitializeComponent();

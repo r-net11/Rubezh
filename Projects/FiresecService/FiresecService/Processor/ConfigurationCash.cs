@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using FiresecService.Configuration;
+using FiresecService.Processor;
 
 namespace FiresecService
 {
@@ -9,7 +10,7 @@ namespace FiresecService
 
         static ConfigurationCash()
         {
-            SecurityConfiguration = ZipFileManager.GetSecurityConfiguration();
+			SecurityConfiguration = SecurityConfigurationHelper.GetSecurityConfiguration();
         }
     }
 }

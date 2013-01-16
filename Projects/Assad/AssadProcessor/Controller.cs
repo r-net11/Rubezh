@@ -26,7 +26,7 @@ namespace AssadProcessor
 			AppSettingsManager.Login = "adm";
 			AppSettingsManager.Password = "adm";
             FiresecManager.Connect(ClientType.Assad, AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password);
-			FiresecManager.GetConfiguration();
+			FiresecManager.GetConfiguration("Assad/Configuration");
             FiresecManager.InitializeFiresecDriver(true);
             FiresecManager.FiresecDriver.Synchronyze();
 			FiresecManager.FiresecDriver.StartWatcher(true, false);

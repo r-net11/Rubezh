@@ -24,7 +24,7 @@ namespace FiresecService
             try
             {
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				ZipFileManager.ActualizeZipConfiguration();
+				PatchManager.Patch();
                 FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
                 Logger.Trace(SystemInfo.GetString());
                 AppSettingsHelper.InitializeAppSettings();

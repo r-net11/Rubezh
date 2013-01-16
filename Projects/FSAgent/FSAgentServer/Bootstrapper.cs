@@ -36,7 +36,7 @@ namespace FSAgentServer
                 WindowThread.Start();
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
-                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
+					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
                 }
                 BootstrapperLoadEvent = new AutoResetEvent(false);
 
@@ -48,7 +48,7 @@ namespace FSAgentServer
 
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
-                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
+					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
                     UILogger.Log("Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
                 }
                 UILogger.Log("Готово");

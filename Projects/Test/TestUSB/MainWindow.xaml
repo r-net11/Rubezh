@@ -2,20 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525"
-        Loaded="Window_Loaded"
-        Closed="Window_Closed">
+        Loaded="WindowLoaded"
+        Closed="WindowClosed">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Request journal items" Click="Button_Click" Margin="2" />
-            <Button Content="Show journal items" Click="Button_Click_1" Margin="2" />
+            <Button Content="Request journal items" Click="ReadJournalClick" Margin="2" />
+            <Button Content="Show journal items" Click="ShowJournalClick" Margin="2" />
+            <Button Content="Fire Journal Items Count" Click="ShowFireJournalCountClick" Margin="2"/>
+            <Button Content="Security Journal Items Count" Click="ShowSecurityJournalCountClick" Margin="2"/>
         </StackPanel>
         <DataGrid  Grid.Row="1" ItemsSource="{Binding JournalItems}" />
-        <!--<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-            <TextBox Name="textBox1" />
-        </ScrollViewer>-->
     </Grid>
 </Window>

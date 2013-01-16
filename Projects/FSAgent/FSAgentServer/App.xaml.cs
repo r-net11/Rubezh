@@ -16,7 +16,7 @@ namespace FSAgentServer
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-
+			PatchManager.Patch();
 			Microsoft.Win32.SystemEvents.SessionEnding += new Microsoft.Win32.SessionEndingEventHandler(SystemEvents_SessionEnding);
 
             using (new DoubleLaunchLocker(SignalId, WaitId, true))
@@ -31,7 +31,7 @@ namespace FSAgentServer
                 }
                 catch(Exception ex)
                 {
-                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки");
+					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки");
                     Logger.Error(ex, "App.OnStartup");
                 }
             }
@@ -53,7 +53,7 @@ namespace FSAgentServer
 #if DEBUG
             return;
 #endif
-            BalloonHelper.Show("Агент Firesec", "Перезапуск");
+			BalloonHelper.Show("Драйвер Firesec", "Перезапуск");
             Bootstrapper.Close();
             var processStartInfo = new ProcessStartInfo()
             {

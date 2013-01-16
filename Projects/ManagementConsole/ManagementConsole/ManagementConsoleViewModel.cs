@@ -17,31 +17,24 @@ namespace ManagementConsole
 {
 	public class ManagementConsoleViewModel : BaseViewModel
 	{
-		#region RELEASE PATHS
-		static string admlogspath = @"..\FireAdministrator\Logs";
-		static string monlogspath = @"..\FireMonitor\Logs";
-		static string srvlogspath = @"..\FiresecService\Logs";
-		static string agnlogspath = @"..\FSAgent\Logs";
-		static string opclogspath = @"..\FiresecOPCServer\Logs";
-		static string srvconfpath = @"..\FiresecService\Configuration";
+		static string administratorLogsPath = AppDataFolderHelper.GetLogsFolder("Administrator");
+		static string monitorLogsPath = AppDataFolderHelper.GetLogsFolder("Monitor");
+		static string serverLogsPath = AppDataFolderHelper.GetLogsFolder("Server");
+		static string fsAgentLogsPath = AppDataFolderHelper.GetLogsFolder("FSAgent");
+		static string opcLogsPath = AppDataFolderHelper.GetLogsFolder("OPC");
+		static string multiclientLogspath = AppDataFolderHelper.GetLogsFolder("Multiclient");
+		static string configPath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 		static string fspath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecService\FiresecService.exe");
 		static string agnpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FSAgent\FSAgentServer.exe");
 		static string opcpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecOPCServer\FiresecOPCServer.exe");
-		#endregion
+
 		public ManagementConsoleViewModel()
 		{
 			#region DEBUG PATHS
 #if DEBUG
-
-            admlogspath = @"..\..\..\..\FireAdministrator\bin\Debug\Logs";
-            monlogspath = @"..\..\..\..\FireMonitor\bin\Debug\Logs";
-            srvlogspath = @"..\..\..\..\FiresecService\bin\Debug\Logs";
-            agnlogspath = @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\Logs";
-            opclogspath = @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\Logs";
-            srvconfpath = @"..\..\..\..\FiresecService\bin\Debug\Configuration";
-            fspath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FiresecService\bin\Debug\FiresecService.exe");
-            agnpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\FSAgentServer.exe");
-            opcpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\FiresecOPCServer.exe");
+			fspath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FiresecService\bin\Debug\FiresecService.exe");
+			agnpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FSAgent\FSAgentServer\bin\Debug\FSAgentServer.exe");
+			opcpath = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\..\..\..\FiresecOPCServer\FiresecOPCServer\bin\Debug\FiresecOPCServer.exe");
 #endif
 			#endregion
 			GetLogsCommand = new RelayCommand(OnGetLogs);
@@ -149,76 +142,84 @@ namespace ManagementConsole
 			if (File.Exists(curlogspath + ".zip"))
 				File.Delete(curlogspath + ".zip");
 			var zip = new ZipFile(curlogspath + ".zip");
-			var admdir = new DirectoryInfo(admlogspath);
-			var mondir = new DirectoryInfo(monlogspath);
-			var srvdir = new DirectoryInfo(srvlogspath);
-			var agndir = new DirectoryInfo(agnlogspath);
-			var opcdir = new DirectoryInfo(opclogspath);
-			var srvconfdir = new DirectoryInfo(srvconfpath);
-			if (admdir.Exists)
+			var administratorDirectory = new DirectoryInfo(administratorLogsPath);
+			var monitorDirectory = new DirectoryInfo(monitorLogsPath);
+			var serverDirectory = new DirectoryInfo(serverLogsPath);
+			var fsAgentDirectory = new DirectoryInfo(fsAgentLogsPath);
+			var opcDirectory = new DirectoryInfo(opcLogsPath);
+			var multiclientDirectory = new DirectoryInfo(multiclientLogspath);
+			var configurationDirectory = new DirectoryInfo(configPath);
+			if (administratorDirectory.Exists)
 			{
-				var admfiles = admdir.GetFiles();
+				var admfiles = administratorDirectory.GetFiles();
 				foreach (var file in admfiles)
 					zip.AddFile(file.FullName, "FireAdministrator");
 			}
 
-			if (mondir.Exists)
+			if (monitorDirectory.Exists)
 			{
-				var monfiles = mondir.GetFiles();
+				var monfiles = monitorDirectory.GetFiles();
 				foreach (var file in monfiles)
 					zip.AddFile(file.FullName, "FireMonitor");
 			}
 
-			if (srvdir.Exists)
+			if (serverDirectory.Exists)
 			{
-				var srvfiles = srvdir.GetFiles();
+				var srvfiles = serverDirectory.GetFiles();
 				foreach (var file in srvfiles)
 					zip.AddFile(file.FullName, "FiresecService");
 			}
 
-			if (agndir.Exists)
+			if (fsAgentDirectory.Exists)
 			{
-				var agnfiles = agndir.GetFiles();
+				var agnfiles = fsAgentDirectory.GetFiles();
 				foreach (var file in agnfiles)
 					zip.AddFile(file.FullName, "FSAgentServer");
 			}
 
-			if (opcdir.Exists)
+			if (opcDirectory.Exists)
 			{
-				var opcfiles = opcdir.GetFiles();
+				var opcfiles = opcDirectory.GetFiles();
 				foreach (var file in opcfiles)
 					zip.AddFile(file.FullName, "FiresecOPCServer");
 			}
 
-			if (srvconfdir.Exists)
+			if (multiclientDirectory.Exists)
 			{
-				var srvfiles = srvconfdir.GetFiles();
+				var opcfiles = multiclientDirectory.GetFiles();
+				foreach (var file in opcfiles)
+					zip.AddFile(file.FullName, "Multiclient");
+			}
+
+			if (configurationDirectory.Exists)
+			{
+				var srvfiles = configurationDirectory.GetFiles();
 				foreach (var file in srvfiles)
 					zip.AddFile(file.FullName, "Configuration");
 			}
 
 			var memoryStream = new MemoryStream();
-			var sb = new StreamWriter(memoryStream);
-			sb.WriteLine("System information");
+			var streamWriter = new StreamWriter(memoryStream);
+			streamWriter.WriteLine("System information");
 			try
 			{
 				var process = Process.GetCurrentProcess();
-				sb.WriteLine("Process [{0}]:    {1} x{2}", process.Id, process.ProcessName, GetBitCount(Environment.Is64BitProcess));
-				sb.WriteLine("Operation System:  {0} {1} Bit Operating System", Environment.OSVersion, GetBitCount(Environment.Is64BitOperatingSystem));
-				sb.WriteLine("ComputerName:      {0}", Environment.MachineName);
-				sb.WriteLine("UserDomainName:    {0}", Environment.UserDomainName);
-				sb.WriteLine("UserName:          {0}", Environment.UserName);
-				sb.WriteLine("Base Directory:    {0}", Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
-				sb.WriteLine("SystemDirectory:   {0}", Environment.SystemDirectory);
-				sb.WriteLine("ProcessorCount:    {0}", Environment.ProcessorCount);
-				sb.WriteLine("SystemPageSize:    {0}", Environment.SystemPageSize);
-				sb.WriteLine(".Net Framework:    {0}", Environment.Version);
+				streamWriter.WriteLine("Process [{0}]:    {1} x{2}", process.Id, process.ProcessName, GetBitCount(Environment.Is64BitProcess));
+				streamWriter.WriteLine("Operation System:  {0} {1} Bit Operating System", Environment.OSVersion, GetBitCount(Environment.Is64BitOperatingSystem));
+				streamWriter.WriteLine("ComputerName:      {0}", Environment.MachineName);
+				streamWriter.WriteLine("UserDomainName:    {0}", Environment.UserDomainName);
+				streamWriter.WriteLine("UserName:          {0}", Environment.UserName);
+				streamWriter.WriteLine("Base Directory:    {0}", Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+				streamWriter.WriteLine("SystemDirectory:   {0}", Environment.SystemDirectory);
+				streamWriter.WriteLine("ProcessorCount:    {0}", Environment.ProcessorCount);
+				streamWriter.WriteLine("SystemPageSize:    {0}", Environment.SystemPageSize);
+				streamWriter.WriteLine(".Net Framework:    {0}", Environment.Version);
 			}
 			catch (Exception ex)
 			{
-				sb.WriteLine(ex.ToString());
+				streamWriter.WriteLine(ex.ToString());
 			}
-			sb.Flush();
+			streamWriter.Flush();
 			memoryStream.Position = 0;
 			zip.AddEntry("systeminfo.txt", memoryStream);
 			Mouse.OverrideCursor = Cursors.Wait;
@@ -232,20 +233,23 @@ namespace ManagementConsole
 		public RelayCommand RemLogsCommand { get; private set; }
 		public void OnRemLogs()
 		{
-			if (Directory.Exists(admlogspath))
-				try { Directory.Delete(admlogspath, true); }
+			if (Directory.Exists(administratorLogsPath))
+				try { Directory.Delete(administratorLogsPath, true); }
 				catch { }
-			if (Directory.Exists(monlogspath))
-				try { Directory.Delete(monlogspath, true); }
+			if (Directory.Exists(monitorLogsPath))
+				try { Directory.Delete(monitorLogsPath, true); }
 				catch { }
-			if (Directory.Exists(srvlogspath))
-				try { Directory.Delete(srvlogspath, true); }
+			if (Directory.Exists(serverLogsPath))
+				try { Directory.Delete(serverLogsPath, true); }
 				catch { }
-			if (Directory.Exists(opclogspath))
-				try { Directory.Delete(opclogspath, true); }
+			if (Directory.Exists(opcLogsPath))
+				try { Directory.Delete(opcLogsPath, true); }
 				catch { }
-			if (Directory.Exists(agnlogspath))
-				try { Directory.Delete(agnlogspath, true); }
+			if (Directory.Exists(multiclientLogspath))
+				try { Directory.Delete(multiclientLogspath, true); }
+				catch { }
+			if (Directory.Exists(fsAgentLogsPath))
+				try { Directory.Delete(fsAgentLogsPath, true); }
 				catch { }
 		}
 

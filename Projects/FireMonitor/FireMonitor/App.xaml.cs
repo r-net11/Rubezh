@@ -24,10 +24,12 @@ namespace FireMonitor
 		public static string Login;
 		public static string Password;
 		public static bool IsMulticlient { get; private set; }
+		public static string MulticlientId { get; private set; }
 
 		public static void SetMulticlientData(MulticlientData multiclientData)
 		{
 			IsMulticlient = true;
+			MulticlientId = multiclientData.Id;
 			AppSettingsManager.AutoConnect = true;
 			AppSettingsManager.Login = multiclientData.Login;
 			AppSettingsManager.Password = multiclientData.Password;
@@ -40,6 +42,7 @@ namespace FireMonitor
 		public App()
 		{
 			IsMulticlient = false;
+			PatchManager.Patch();
 		}
 
         protected override void OnStartup(StartupEventArgs e)

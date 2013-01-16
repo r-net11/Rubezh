@@ -16,9 +16,19 @@ namespace Infrastructure.Common
 			AppDataFolderName = Path.Combine(appDataFolderName, "Firesec2");
 		}
 
+		public static string GetFolder(string folderName)
+		{
+			return Path.Combine(AppDataFolderName, folderName);
+		}
+
 		public static string GetTempFileName()
 		{
 			return Path.Combine(AppDataFolderName, "Temp", Path.GetTempFileName());
+		}
+
+		public static string GetTempFolder()
+		{
+			return Path.Combine(AppDataFolderName, "Temp", Guid.NewGuid().ToString());
 		}
 
 		public static string GetClientConfigurationDirectory()
@@ -60,6 +70,11 @@ namespace Infrastructure.Common
 		public static string GetTempMulticlientFile()
 		{
 			return Path.Combine(AppDataFolderName, "Multiclient", "TempConfiguration.xml");
+		}
+
+		public static string GetLogsFolder(string folderName)
+		{
+			return Path.Combine(AppDataFolderName, "Logs", folderName);
 		}
 	}
 }

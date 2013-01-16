@@ -42,36 +42,59 @@ namespace FireAdministrator
 
 		public static void SaveToZipFile(string fileName)
 		{
+			var folderName = AppDataFolderHelper.GetTempFolder();
+			if (!Directory.Exists(folderName))
+				Directory.CreateDirectory(folderName);
+
 			if (File.Exists(fileName))
 				File.Delete(fileName);
-			var zipFile = new ZipFile(fileName);
 
 			TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-			AddConfiguration(zipFile, FiresecManager.FiresecConfiguration.DeviceConfiguration, "DeviceConfiguration.xml", 1, 1);
-			AddConfiguration(zipFile, FiresecManager.PlansConfiguration, "PlansConfiguration.xml", 1, 1);
-			AddConfiguration(zipFile, FiresecManager.SystemConfiguration, "SystemConfiguration.xml", 1, 1);
-			AddConfiguration(zipFile, XManager.DeviceConfiguration, "XDeviceConfiguration.xml", 1, 1);
-			AddConfiguration(zipFile, TempZipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml", 1, 1);
+			AddConfiguration(folderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
+			AddConfiguration(folderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
+			AddConfiguration(folderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
+			AddConfiguration(folderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 
+			var zipFile = new ZipFile(fileName);
+			zipFile.AddDirectory(folderName);
 			zipFile.Save(fileName);
 			zipFile.Dispose();
+
+			if (Directory.Exists(folderName))
+				Directory.Delete(folderName, true);
 		}
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			var configurationStream = ZipSerializeHelper.Serialize(configuration);
-			if (zipFile.Entries.Any(x => x.FileName == name))
-				zipFile.RemoveEntry(name);
-			configurationStream.Position = 0;
-			zipFile.AddEntry(name, configurationStream);
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+
+			//var configurationStream = ZipSerializeHelper.Serialize(configuration);
+			//if (zipFile.Entries.Any(x => x.FileName == name))
+			//    zipFile.RemoveEntry(name);
+			//configurationStream.Position = 0;
+			//zipFile.AddEntry(name, configurationStream);
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
+
+		//static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
+		//{
+		//    configuration.BeforeSave();
+		//    configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+		//    var configurationStream = ZipSerializeHelper.Serialize(configuration);
+		//    if (zipFile.Entries.Any(x => x.FileName == name))
+		//        zipFile.RemoveEntry(name);
+		//    configurationStream.Position = 0;
+		//    zipFile.AddEntry(name, configurationStream);
+
+		//    TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
+		//}
 
 		public static void LoadFromFile()
 		{
@@ -84,25 +107,30 @@ namespace FireAdministrator
 					};
 				if (openDialog.ShowDialog().Value)
 				{
-					var memoryStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read);
-					memoryStream.Close();
 					WaitHelper.Execute(() =>
-						{
-							ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
-							FiresecManager.LoadFromZipFile(openDialog.FileName);
-						});
-					FiresecManager.UpdateConfiguration();
-					XManager.UpdateConfiguration();
-					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					{
+						ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
+						var folderName = AppDataFolderHelper.GetFolder("Administrator/Configuration");
+						var configFileName = Path.Combine(folderName, "Config.fscp");
+						if (Directory.Exists(folderName))
+							Directory.Delete(folderName, true);
+						Directory.CreateDirectory(folderName);
+						File.Copy(openDialog.FileName, configFileName);
+						FiresecManager.LoadFromZipFile(configFileName);
 
-					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-					ServiceFactory.Layout.Close();
-					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+						FiresecManager.UpdateConfiguration();
+						XManager.UpdateConfiguration();
+						ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-					ServiceFactory.SaveService.FSChanged = true;
-					ServiceFactory.SaveService.PlansChanged = true;
-					ServiceFactory.SaveService.GKChanged = true;
-					ServiceFactory.Layout.ShowFooter(null);
+						ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+						ServiceFactory.Layout.Close();
+						ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+
+						ServiceFactory.SaveService.FSChanged = true;
+						ServiceFactory.SaveService.PlansChanged = true;
+						ServiceFactory.SaveService.GKChanged = true;
+						ServiceFactory.Layout.ShowFooter(null);
+					});
 				}
 			}
 			catch (Exception e)

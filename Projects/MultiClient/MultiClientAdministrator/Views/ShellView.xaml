@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-        Title="Мультиклиент. Настройка"
+        Title="Мультиклиент ОПС Firesec-2. Настройка"
+        WindowStartupLocation="CenterScreen"
         Height="500" Width="500">
     <Grid Background="{DynamicResource BaseWindowBackgroundBrush}">
         <Grid.RowDefinitions>

@@ -14,6 +14,11 @@ namespace FireMonitor.Multiclient
 			base.OnStartup(e);
 			ServiceFactory.Initialize();
 
+			var folderName = AppDataFolderHelper.GetFolder("Multiclient/Configuration");
+			if (Directory.Exists(folderName))
+				Directory.Delete(folderName, true);
+			Directory.CreateDirectory(folderName);
+
 			if (!LicenseHelper.CheckLicense(3))
 			{
 				MessageBoxService.ShowError("Отсутстует лицензия. Приложение будет закрыто");

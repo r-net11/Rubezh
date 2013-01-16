@@ -13,7 +13,7 @@ namespace FSAgentServer.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "Агент FireSec-2";
+			Title = "Драйвер ОПС FireSec-2";
 		}
 
 		private string _status;

@@ -17,11 +17,11 @@ namespace Infrastructure.Common
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			bool result;
 
-			var plansConfiguration = GetConfigurationFromZip<PlansConfiguration>(zipFile, "PlansConfiguration.xml", out result);
-			if (!result)
-			{
-				AddConfigurationToZip(zipFile, plansConfiguration, "PlansConfiguration.xml");
-			}
+			//var plansConfiguration = GetConfigurationFromZip<PlansConfiguration>(zipFile, "PlansConfiguration.xml", out result);
+			//if (!result)
+			//{
+			//    AddConfigurationToZip(zipFile, plansConfiguration, "PlansConfiguration.xml");
+			//}
 			var systemConfiguration = GetConfigurationFromZip<SystemConfiguration>(zipFile, "SystemConfiguration.xml", out result);
 			if (!result)
 			{
