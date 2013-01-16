@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Common;
-using FiresecService.Configuration;
 using Infrastructure.Common;
 using Ionic.Zip;
 using FiresecAPI;

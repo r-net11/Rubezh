@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using Infrastructure.Common;
+using System.IO;
 
-namespace FireAdministrator
+namespace FiresecOPCServer
 {
 	public static class PatchManager
 	{
@@ -20,7 +20,7 @@ namespace FireAdministrator
 
 		static void Patch1()
 		{
-			var patchNo = PatchHelper.GetPatchNo("Administrator");
+			var patchNo = PatchHelper.GetPatchNo("OPC");
 			if (patchNo > 0)
 				return;
 

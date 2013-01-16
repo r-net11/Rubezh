@@ -71,6 +71,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Processor\TagDevice.cs" />
     <Compile Include="Processor\TagZone.cs" />
