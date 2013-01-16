@@ -35,7 +35,7 @@ namespace FireAdministrator
 					FiresecManager.UpdateFiles();
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration();
+					FiresecManager.GetConfiguration("Administrator/Configuration");
 
 					BeforeInitialize(true);
 

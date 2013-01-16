@@ -25,9 +25,10 @@ namespace FireMonitor.Multiclient.ViewModels
 			if (multiclientConfiguration == null)
 				return;
 
+			int index = 0;
 			foreach (var multiclientData in multiclientConfiguration.MulticlientDatas)
 			{
-				multiclientData.Id = Guid.NewGuid().ToString();
+				multiclientData.Id = index++.ToString();
 				var hostViewModel = new HostViewModel(multiclientData);
 				hostViewModel.StateTypeChanged += new Action(OnStateTypeChanged);
 				Hosts.Add(hostViewModel);

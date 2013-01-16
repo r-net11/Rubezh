@@ -46,19 +46,22 @@ namespace FiresecClient
 			output.Close();
 		}
 
-		public static void GetConfiguration()
+		public static void GetConfiguration(string configurationFolderName)
 		{
 			try
 			{
 				var stream = FiresecManager.FiresecService.GetConfig();
 				FiresecConfiguration = new FiresecConfiguration();
 
-				var tempFileName = AppDataFolderHelper.GetTempFileName();
-				var configFileStream = File.Create(tempFileName);
-				CopyStream(stream, configFileStream);
+				var folderName = AppDataFolderHelper.GetFolder(configurationFolderName);
+				var configFileName = Path.Combine(folderName, "Config.fscp");
+				if (Directory.Exists(folderName))
+					Directory.Delete(folderName, true);
+				Directory.CreateDirectory(folderName);
 
-				LoadFromZipFile(tempFileName);
-				File.Delete(tempFileName);
+				var configFileStream = File.Create(configFileName);
+				CopyStream(stream, configFileStream);
+				LoadFromZipFile(configFileName);
 
 				UpdateConfiguration();
 				FiresecConfiguration.CreateStates();

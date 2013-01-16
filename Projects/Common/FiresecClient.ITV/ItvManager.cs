@@ -29,7 +29,7 @@ namespace FiresecClient.Itv
             {
                 try
                 {
-                    FiresecManager.GetConfiguration();
+					FiresecManager.GetConfiguration("ITV/Configuration");
                     var initializeFiresecDriverResult = FiresecManager.InitializeFiresecDriver(true);
                     if (initializeFiresecDriverResult.HasError)
                     {

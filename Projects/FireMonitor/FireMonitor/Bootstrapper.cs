@@ -42,7 +42,14 @@ namespace FireMonitor
 					}
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration();
+					if (App.IsMulticlient)
+					{
+						FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
+					}
+					else
+					{
+						FiresecManager.GetConfiguration("Monitor/Configuration");
+					}
 
                     BeforeInitialize(true);
 
@@ -117,7 +124,7 @@ namespace FireMonitor
 				LoadingService.AddCount(10);
 
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				FiresecManager.GetConfiguration();
+				FiresecManager.GetConfiguration("Monitor/Configuration");
 
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();

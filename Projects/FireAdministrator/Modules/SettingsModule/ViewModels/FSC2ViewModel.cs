@@ -57,7 +57,7 @@ namespace SettingsModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MenuView.LoadFromFileOld");
+				Logger.Error(e, "FSC2ViewModel.LoadFromFileOld");
 				MessageBoxService.ShowError(e.Message, "Ошибка при выполнении операции");
 			}
 		}
@@ -78,8 +78,8 @@ namespace SettingsModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MenuView.LoadFromFile");
-				throw e;
+				Logger.Error(e, "FSC2ViewModel.LoadFromFile");
+				return new FullConfiguration();
 			}
 		}
 		static void CopyTo(FullConfiguration fullConfiguration)
@@ -97,8 +97,7 @@ namespace SettingsModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MenuView.CopyTo");
-				throw e;
+				Logger.Error(e, "FSC2ViewModel.CopyTo");
 			}
 		}
 		static void SaveToFile(FullConfiguration fullConfiguration, string fileName)
@@ -113,8 +112,7 @@ namespace SettingsModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MenuView.SaveToFile");
-				throw e;
+				Logger.Error(e, "FSC2ViewModel.SaveToFile");
 			}
 		}
 	}

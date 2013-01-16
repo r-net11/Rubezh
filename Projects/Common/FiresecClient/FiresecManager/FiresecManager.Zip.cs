@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
 using XFiresecAPI;
+using Common;
 
 namespace FiresecClient
 {
@@ -12,57 +13,60 @@ namespace FiresecClient
 		public static void LoadFromZipFile(string fileName)
 		{
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+			var fileInfo = new FileInfo(fileName);
+			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+			zipFile.ExtractAll(unzipFolderPath);
 
-			var zipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
-			var infoMemoryStream = new MemoryStream();
-			var entry = zipFile["ZipConfigurationItemsCollection.xml"];
-			if (entry != null)
+			var zipConfigurationItemsCollectionFileName = Path.Combine(unzipFolderPath, "ZipConfigurationItemsCollection.xml");
+			if (!File.Exists(zipConfigurationItemsCollectionFileName))
 			{
-				entry.Extract(infoMemoryStream);
-				infoMemoryStream.Position = 0;
-				zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(infoMemoryStream);
+				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollectionFileName file not found");
+				return;
+			}
+			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName);
+			if (zipConfigurationItemsCollection == null)
+			{
+				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollection == null");
+				return;
 			}
 
 			foreach (var zipConfigurationItem in zipConfigurationItemsCollection.GetWellKnownZipConfigurationItems)
 			{
-				var configurationEntry = zipFile[zipConfigurationItem.Name];
-				if (configurationEntry != null)
+				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem.Name);
+				if (File.Exists(configurationFileName))
 				{
-					var configurationMemoryStream = new MemoryStream();
-					configurationEntry.Extract(configurationMemoryStream);
-					configurationMemoryStream.Position = 0;
 					switch (zipConfigurationItem.Name)
 					{
 						case "SecurityConfiguration.xml":
-							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationMemoryStream);
+							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName);
 							break;
 
 						case "PlansConfiguration.xml":
-							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationMemoryStream);
+							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
 							break;
 
 						case "SystemConfiguration.xml":
-							SystemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(configurationMemoryStream);
+							SystemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(configurationFileName);
 							break;
 
 						case "DriversConfiguration.xml":
-							FiresecConfiguration.DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationMemoryStream);
+							FiresecConfiguration.DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
 							break;
 
 						case "DeviceConfiguration.xml":
-							FiresecConfiguration.DeviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationMemoryStream);
+							FiresecConfiguration.DeviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationFileName);
 							break;
 
 						case "DeviceLibraryConfiguration.xml":
-							DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<DeviceLibraryConfiguration>(configurationMemoryStream);
+							DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<DeviceLibraryConfiguration>(configurationFileName);
 							break;
 
 						case "XDeviceConfiguration.xml":
-							XManager.DeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationMemoryStream);
+							XManager.DeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName);
 							break;
 
 						case "XDeviceLibraryConfiguration.xml":
-							XManager.XDeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationMemoryStream);
+							XManager.XDeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationFileName);
 							break;
 					}
 				}

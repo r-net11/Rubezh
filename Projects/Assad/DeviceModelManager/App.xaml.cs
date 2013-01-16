@@ -17,7 +17,7 @@ namespace DeviveModelManager
 
 			AppSettingsManager.RemoteAddress = serverAddress;
             FiresecManager.Connect(ClientType.Assad, serverAddress, login, password);
-            FiresecManager.GetConfiguration();
+			FiresecManager.GetConfiguration("AssadDeviceModelManager/Configuration");
             FiresecManager.InitializeFiresecDriver(false);
             FiresecManager.FiresecDriver.Synchronyze();
             FiresecManager.FiresecDriver.StartWatcher(false, false);

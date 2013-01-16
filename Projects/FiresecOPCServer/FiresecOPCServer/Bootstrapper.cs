@@ -58,7 +58,7 @@ namespace FiresecOPCServer
 		{
 			UILogger.Log("Остановка Socket Server");
 			UILogger.Log("Загрузка конфигурации с сервера");
-			FiresecManager.GetConfiguration();
+			FiresecManager.GetConfiguration("OPC/Configuration");
 			UILogger.Log("Загрузка драйвера устройств");
 			FiresecManager.InitializeFiresecDriver(true);
 			UILogger.Log("Синхронизация конфигурации");

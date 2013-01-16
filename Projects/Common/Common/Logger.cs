@@ -32,9 +32,7 @@ namespace Common
 				{
 					_logger.LogException(LogLevel.Error, string.Format(message, args), ex);
 				}
-				catch
-				{
-				}
+				catch { }
 		}
 		public static void Error(string message)
 		{
