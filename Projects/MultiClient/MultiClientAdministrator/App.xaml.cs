@@ -3,6 +3,7 @@ using MultiClientAdministrator.ViewModels;
 using Infrastructure.Common.Windows;
 using System.IO;
 using MuliclientAPI;
+using Infrastructure.Common;
 
 namespace MultiClientAdministrator
 {
@@ -17,11 +18,11 @@ namespace MultiClientAdministrator
 			var shellViewModel = new ShellViewModel();
 			shellView.DataContext = shellViewModel;
 
-			if (File.Exists("MulticlientConfiguration.xml"))
+			if (File.Exists(AppDataFolderHelper.GetMulticlientFile()))
 			{
-				var passwordViewModel = new PasswordViewModel();
-				DialogService.ShowModalWindow(passwordViewModel);
-				shellViewModel.Initialize(passwordViewModel.MulticlientConfiguration);
+				var loadPasswordViewModel = new LoadPasswordViewModel();
+				DialogService.ShowModalWindow(loadPasswordViewModel);
+				shellViewModel.Initialize(loadPasswordViewModel.MulticlientConfiguration);
 			}
 			else
 			{

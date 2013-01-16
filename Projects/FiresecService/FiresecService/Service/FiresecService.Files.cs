@@ -15,31 +15,30 @@ namespace FiresecService.Service
 	{
 		public List<string> GetFileNamesList(string directory)
 		{
-			return HashHelper.GetFileNamesList(directory);
+			return HashHelper.GetFileNamesList(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
 		public Dictionary<string, string> GetDirectoryHash(string directory)
 		{
-			return HashHelper.GetDirectoryHash(directory);
+			return HashHelper.GetDirectoryHash(AppDataFolderHelper.GetServerAppDataPath(directory));
 		}
 
-		public Stream GetFile(string directoryNameAndFileName)
+		public Stream GetFile(string fileName)
 		{
-			var filePath = ZipFileManager.ConfigurationDirectory(directoryNameAndFileName);
-			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			return new FileStream(AppDataFolderHelper.GetServerAppDataPath(fileName), FileMode.Open, FileAccess.Read);
 		}
 
 		public Stream GetConfig()
 		{
-			var filePath = ZipFileManager.ConfigurationDirectory("config.fscp");
+			var filePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			ZipConfigActualizeHelper.Actualize(filePath);
 			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 
 		public void SetConfig(Stream stream)
 		{
-			var fileName = ZipFileManager.ConfigurationDirectory("config.fscp");
-			var newFileName = Path.GetTempFileName();
+			var fileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
+			var newFileName = AppDataFolderHelper.GetTempFileName();
 			using (Stream newFile = File.OpenWrite(newFileName))
 			{
 				CopyStream(stream, newFile);
@@ -50,8 +49,6 @@ namespace FiresecService.Service
 
 			var configurationList = GetConfigurationList(zipFile);
 			var newConfigurationList = GetConfigurationList(newZipFile);
-
-
 
 			foreach (var zipConfigurationItem in configurationList.GetWellKnownZipConfigurationItems)
 			{

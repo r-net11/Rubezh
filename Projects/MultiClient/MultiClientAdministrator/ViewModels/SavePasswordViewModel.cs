@@ -9,9 +9,9 @@ using Infrastructure.Common.Windows;
 
 namespace MultiClientAdministrator.ViewModels
 {
-	public class PasswordViewModel : DialogViewModel
+	public class SavePasswordViewModel : DialogViewModel
 	{
-		public PasswordViewModel()
+		public SavePasswordViewModel()
 		{
 			Title = "Ввод пароля";
 			SaveCommand = new RelayCommand(OnSave);
@@ -33,17 +33,6 @@ namespace MultiClientAdministrator.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (string.IsNullOrEmpty(Password))
-			{
-				return;
-			}
-			MulticlientConfiguration = MulticlientConfigurationHelper.LoadConfiguration(Password);
-			if (MulticlientConfiguration == null)
-			{
-				MessageBoxService.ShowError("Ошибка. Неверный пароль");
-				return;
-			}
-
 			Close(true);
 		}
 	}

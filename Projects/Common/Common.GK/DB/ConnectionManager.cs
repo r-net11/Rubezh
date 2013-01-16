@@ -1,4 +1,5 @@
 ﻿using Common.GK.DB;
+using Infrastructure.Common;
 
 namespace Common.GK
 {
@@ -6,7 +7,7 @@ namespace Common.GK
     {
         public static GkJournalDatabase CreateGKDataContext()
         {
-            return new GkJournalDatabase(@"Data Source=GkJournalDatabase.sdf;Persist Security Info=True;Max Database Size=512;File Mode='shared read'");
+			return new GkJournalDatabase(@"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000");
         }
     }
 }

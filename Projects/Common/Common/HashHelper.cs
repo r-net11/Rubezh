@@ -13,7 +13,7 @@ namespace Common
 		{
 			var hashTable = new Dictionary<string, string>();
 
-			var directoryInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory));
+			var directoryInfo = new DirectoryInfo(directory);
 			if (directoryInfo.Exists)
 			{
 				string hash = null;
@@ -33,7 +33,7 @@ namespace Common
 
 		public static List<string> GetFileNamesList(string directory)
 		{
-			var directoryInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory));
+			var directoryInfo = new DirectoryInfo(directory);
 			if (directoryInfo.Exists)
 			{
 				return new List<string>(

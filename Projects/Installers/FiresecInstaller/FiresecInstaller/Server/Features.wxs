@@ -7,9 +7,9 @@
 			<ComponentRef Id="Server.Files" />
       <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.DB" />
-      <ComponentRef Id="Server.config.fscp" />
-      <ComponentRef Id="Server.Sounds" />
-      <ComponentRef Id="Server.AppData.Sounds" />
+      <ComponentRef Id="Server.Config.fscp" />
+      <ComponentRef Id="Server.EmptyConfig.fscp" />
+      <ComponentRef Id="AppData.ServerLocation.Sounds" />
       <ComponentRef Id="Server.SKUD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
 			<ComponentRef Id="Server.DesktopShortcut" />

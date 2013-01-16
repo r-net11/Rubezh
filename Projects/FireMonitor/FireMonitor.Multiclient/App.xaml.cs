@@ -24,7 +24,7 @@ namespace FireMonitor.Multiclient
 			var multiclientViewModel = new MulticlientViewModel();
 			ApplicationService.Run(multiclientViewModel, true, true);
 
-			if (!File.Exists("MulticlientConfiguration.xml"))
+			if (!File.Exists(AppDataFolderHelper.GetMulticlientFile()))
 			{
 				MessageBoxService.ShowError("Не найден файл конфигурации. Приложение будет закрыто");
 				Shutdown();

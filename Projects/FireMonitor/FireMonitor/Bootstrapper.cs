@@ -35,8 +35,11 @@ namespace FireMonitor
                     LoadingService.Show("Чтение конфигурации", 15);
                     LoadingService.AddCount(GetModuleCount());
 
-                    LoadingService.DoStep("Синхронизация файлов");
-                    FiresecManager.UpdateFiles();
+					if (!App.IsMulticlient)
+					{
+						LoadingService.DoStep("Синхронизация файлов");
+						FiresecManager.UpdateFiles();
+					}
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();

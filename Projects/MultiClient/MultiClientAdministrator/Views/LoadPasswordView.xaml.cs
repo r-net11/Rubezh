@@ -2,9 +2,9 @@
 
 namespace MultiClientAdministrator.Views
 {
-	public partial class PasswordView : UserControl
+	public partial class LoadPasswordView : UserControl
 	{
-		public PasswordView()
+		public LoadPasswordView()
 		{
 			InitializeComponent();
 		}

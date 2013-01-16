@@ -13,25 +13,25 @@ namespace FiresecClient
 
         static string AppDataDirectory(string directoryName)
         {
-			return Path.Combine(AppDataFolderHelper.GetClientConfigurationDirectory(), "Configuration", directoryName);
+			return Path.Combine(AppDataFolderHelper.GetClientConfigurationDirectory(), directoryName);
         }
 
-        static void SynchronizeDirectory(string directoryNAme)
+        static void SynchronizeDirectory(string directoryName)
         {
-            var remoteFileNamesList = FiresecManager.FiresecService.GetFileNamesList(directoryNAme);
-            var filesDirectory = Directory.CreateDirectory(AppDataDirectory(directoryNAme));
-			var filesDirectoryFullName = filesDirectory.FullName;
+			var directoryInfo = Directory.CreateDirectory(AppDataDirectory(directoryName));
+			var fullDirectoryName = directoryInfo.FullName;
+            var remoteFileNamesList = FiresecManager.FiresecService.GetFileNamesList(directoryName);
 
-			foreach (var localFileName in GetFileNamesList(filesDirectoryFullName).Where(x => remoteFileNamesList.Contains(x) == false))
-				File.Delete(Path.Combine(filesDirectoryFullName, localFileName));
+			foreach (var localFileName in GetFileNamesList(fullDirectoryName).Where(x => remoteFileNamesList.Contains(x) == false))
+				File.Delete(Path.Combine(fullDirectoryName, localFileName));
 
-			var localDirectoryHash = HashHelper.GetDirectoryHash(filesDirectory.FullName);
-            foreach (var remoteFileHash in FiresecManager.FiresecService.GetDirectoryHash(directoryNAme).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
+			var localDirectoryHash = HashHelper.GetDirectoryHash(directoryInfo.FullName);
+            foreach (var remoteFileHash in FiresecManager.FiresecService.GetDirectoryHash(directoryName).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
             {
-				var fileName = Path.Combine(filesDirectoryFullName, remoteFileHash.Value);
+				var fileName = Path.Combine(fullDirectoryName, remoteFileHash.Value);
                 if (File.Exists(fileName))
                     File.Delete(fileName);
-				DownloadFile(Path.Combine(directoryNAme, remoteFileHash.Value), fileName);
+				DownloadFile(Path.Combine(directoryName, remoteFileHash.Value), fileName);
             }
         }
 

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using Common;
+using Infrastructure.Common;
 
 namespace MuliclientAPI
 {
@@ -11,7 +12,7 @@ namespace MuliclientAPI
 		{
 			try
 			{
-				EncryptHelper.DecryptFile("MulticlientConfiguration.xml", "TempConfiguration.xml", password);
+				EncryptHelper.DecryptFile(AppDataFolderHelper.GetMulticlientFile(), AppDataFolderHelper.GetTempMulticlientFile(), password);
 			}
 			catch (System.Security.Cryptography.CryptographicException)
 			{
@@ -20,19 +21,19 @@ namespace MuliclientAPI
 			try
 			{
 				var memoryStream = new MemoryStream();
-				using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Open))
+				using (var fileStream = new FileStream(AppDataFolderHelper.GetTempMulticlientFile(), FileMode.Open))
 				{
 					memoryStream.SetLength(fileStream.Length);
 					fileStream.Read(memoryStream.GetBuffer(), 0, (int)fileStream.Length);
 				}
-				File.Delete("TempConfiguration.xml");
+				File.Delete(AppDataFolderHelper.GetTempMulticlientFile());
 				var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
 				var configuration = (MulticlientConfiguration)dataContractSerializer.ReadObject(memoryStream);
 				return configuration;
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MulticlientConfigurationHelper.LoadData");
+				Logger.Error(e, "MulticlientConfigurationHelper.LoadConfiguration");
 			}
 			return null;
 		}
@@ -41,22 +42,25 @@ namespace MuliclientAPI
 		{
 			try
 			{
+				if (!Directory.Exists(AppDataFolderHelper.GetMulticlientDirectory()))
+					Directory.CreateDirectory(AppDataFolderHelper.GetMulticlientDirectory());
+
 				using (var memoryStream = new MemoryStream())
 				{
 					var dataContractSerializer = new DataContractSerializer(typeof(MulticlientConfiguration));
 					dataContractSerializer.WriteObject(memoryStream, configuration);
 
-					using (var fileStream = new FileStream("TempConfiguration.xml", FileMode.Create))
+					using (var fileStream = new FileStream(AppDataFolderHelper.GetTempMulticlientFile(), FileMode.Create))
 					{
 						fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
 					}
-					EncryptHelper.EncryptFile("TempConfiguration.xml", "MulticlientConfiguration.xml", password);
-					File.Delete("TempConfiguration.xml");
+					EncryptHelper.EncryptFile(AppDataFolderHelper.GetTempMulticlientFile(), AppDataFolderHelper.GetMulticlientFile(), password);
+					File.Delete(AppDataFolderHelper.GetTempMulticlientFile());
 				}
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MulticlientConfigurationHelper.SaveData");
+				Logger.Error(e, "MulticlientConfigurationHelper.SaveConfiguration");
 			}
 		}
 	}

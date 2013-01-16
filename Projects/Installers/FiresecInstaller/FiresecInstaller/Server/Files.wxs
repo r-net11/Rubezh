@@ -37,50 +37,39 @@
         <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
-      <Component Id="Server.DB" Guid="040A38D7-2390-43EA-A6EB-F6DBC39DF92E" Permanent='yes' NeverOverwrite='yes'>
-        <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
-      </Component>
-
       <Component Id="Server.SKUD_MODULE" Guid="C9D9C6A5-6D49-4E76-919E-F4831BEEE135">
         <File Id="Server.FiresecService.SKUD.dll" Name="FiresecService.SKUD.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
         <File Id="Server.FiresecService.SKUD.dll.config" Name="FiresecService.SKUD.dll.config" Source="$(var.Server.TargetDir)" />
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="Server.ConfigFolder">
-      <Component Id="Server.config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
-        <File Id="Server.config.fscp" Name="config.fscp" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="Server.SoundsFolder">
-      <Component Id="Server.Sounds" Guid="763140D5-1191-42A1-9933-9849A14366BF">
-        <File Id="Server.Sound1.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound1.wav" />
-        <File Id="Server.Sound2.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound2.wav" />
-        <File Id="Server.Sound3.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound3.wav" />
-        <File Id="Server.Sound4.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound4.wav" />
-        <File Id="Server.Sound5.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound5.wav" />
-        <File Id="Server.Sound6.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound6.wav" />
-        <File Id="Server.Sound7.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound7.wav" />
-        <File Id="Server.Sound8.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound8.wav" />
-        <File Id="Server.Sound9.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound9.wav" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="APPDATALOCATION">
-      <Directory Id="Server.AppData" Name="FiresecService">
-        <Component Id="Server.AppData.Sounds" Guid="C1CF2CC9-472F-447A-8F12-923A5951D87B">
-          <File Id="Server.AppData.Sound1.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound1.wav" />
-          <File Id="Server.AppData.Sound2.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound2.wav" />
-          <File Id="Server.AppData.Sound3.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound3.wav" />
-          <File Id="Server.AppData.Sound4.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound4.wav" />
-          <File Id="Server.AppData.Sound5.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound5.wav" />
-          <File Id="Server.AppData.Sound6.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound6.wav" />
-          <File Id="Server.AppData.Sound7.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound7.wav" />
-          <File Id="Server.AppData.Sound8.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound8.wav" />
-          <File Id="Server.AppData.Sound9.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound9.wav" />
+    <DirectoryRef Id="AppData.ServerLocation">
+      <Directory Id="AppData.ServerLocation.SoundsLocation" Name="Sounds">
+        <Component Id="AppData.ServerLocation.Sounds" Guid="C1CF2CC9-472F-447A-8F12-923A5951D87B">
+          <File Id="AppData.ServerLocation.Sound1.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound1.wav" />
+          <File Id="AppData.ServerLocation.Sound2.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound2.wav" />
+          <File Id="AppData.ServerLocation.Sound3.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound3.wav" />
+          <File Id="AppData.ServerLocation.Sound4.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound4.wav" />
+          <File Id="AppData.ServerLocation.Sound5.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound5.wav" />
+          <File Id="AppData.ServerLocation.Sound6.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound6.wav" />
+          <File Id="AppData.ServerLocation.Sound7.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound7.wav" />
+          <File Id="AppData.ServerLocation.Sound8.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound8.wav" />
+          <File Id="AppData.ServerLocation.Sound9.wav" Source="..\..\..\..\..\Deploy\ConfigurationService\Sounds\Sound9.wav" />
         </Component>
       </Directory>
+
+        <Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
+          <File Id="Server.Config.fscp" Name="config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" KeyPath="yes" />
+        </Component>
+      <Component Id="Server.EmptyConfig.fscp">
+        <File Id="Server.EmptyConfig.fscp" Name="Emptyconfig.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="AppData.DBLocation">
+      <Component Id="Server.DB" Guid="040A38D7-2390-43EA-A6EB-F6DBC39DF92E" Permanent='yes' NeverOverwrite='yes'>
+        <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
+      </Component>
     </DirectoryRef>
 
   </Fragment>

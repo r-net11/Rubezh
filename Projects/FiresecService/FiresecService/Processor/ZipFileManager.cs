@@ -16,14 +16,14 @@ namespace FiresecService.Configuration
 {
 	public static class ZipFileManager
 	{
-		public static string ConfigurationDirectory(string fileName)
+		static string LocalConfigurationDirectory(string fileName)
 		{
 			return Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configuration", fileName);
 		}
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
-			var fileName = ConfigurationDirectory("config.fscp");
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
 			var securityConfiguration = (SecurityConfiguration)GetConfigurationFomZip(zipFile, "SecurityConfiguration.xml", typeof(SecurityConfiguration));
@@ -34,6 +34,10 @@ namespace FiresecService.Configuration
 
 		public static void ActualizeZipConfiguration()
 		{
+			var fileName = LocalConfigurationDirectory("config.fscp");
+			if (!File.Exists(fileName))
+				return;
+
 			var configurationNames = new Dictionary<string, Type>();
 			configurationNames.Add("SecurityConfiguration.xml", typeof(SecurityConfiguration));
 			configurationNames.Add("SystemConfiguration.xml", typeof(SystemConfiguration));
@@ -44,7 +48,6 @@ namespace FiresecService.Configuration
 			configurationNames.Add("XDeviceConfiguration.xml", typeof(XDeviceConfiguration));
 			configurationNames.Add("XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
 
-			var fileName = ConfigurationDirectory("config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
 			foreach (var configurationName in configurationNames)
@@ -55,8 +58,8 @@ namespace FiresecService.Configuration
 					configuration = GetConfigurationFromDisk(configurationName.Key, configurationName.Value);
 					AddConfigurationToZip(zipFile, configuration, configurationName.Key);
 				}
-				if (File.Exists(ConfigurationDirectory(configurationName.Key)))
-					File.Delete(ConfigurationDirectory(configurationName.Key));
+				if (File.Exists(LocalConfigurationDirectory(configurationName.Key)))
+					File.Delete(LocalConfigurationDirectory(configurationName.Key));
 			}
 
 			var zipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
@@ -71,6 +74,16 @@ namespace FiresecService.Configuration
 			AddConfigurationToZip(zipFile, zipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml");
 
 			zipFile.Save(fileName);
+
+			var appDataConfigFile = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+			if (File.Exists(fileName) && !File.Exists(appDataConfigFile))
+			{
+				File.Move(fileName, appDataConfigFile);
+			}
+			if (File.Exists(fileName))
+			{
+				File.Delete(fileName);
+			}
 		}
 
 		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
@@ -109,7 +122,7 @@ namespace FiresecService.Configuration
 		{
 			try
 			{
-				var fullFileName = ConfigurationDirectory(fileName);
+				var fullFileName = LocalConfigurationDirectory(fileName);
 				if (File.Exists(fullFileName))
 				{
 					var memoryStream = new MemoryStream();

@@ -3,8 +3,12 @@
                     xmlns:Views="clr-namespace:MultiClientAdministrator.Views"
                     xmlns:ViewModels="clr-namespace:MultiClientAdministrator.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:PasswordViewModel}">
-        <Views:PasswordView />
+    <DataTemplate DataType="{x:Type ViewModels:LoadPasswordViewModel}">
+        <Views:LoadPasswordView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:SavePasswordViewModel}">
+        <Views:SavePasswordView />
+    </DataTemplate>
+
 </ResourceDictionary>

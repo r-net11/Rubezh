@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Common;
 
 namespace MultiClientAdministrator
 {

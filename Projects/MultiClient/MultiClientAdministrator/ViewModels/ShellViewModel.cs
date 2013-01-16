@@ -73,9 +73,9 @@ namespace MultiClientAdministrator.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			var passwordViewModel = new PasswordViewModel();
-			DialogService.ShowModalWindow(passwordViewModel);
-			var password = passwordViewModel.Password;
+			var savePasswordViewModel = new LoadPasswordViewModel();
+			DialogService.ShowModalWindow(savePasswordViewModel);
+			var password = savePasswordViewModel.Password;
 			if (string.IsNullOrEmpty(password))
 				return;
 
