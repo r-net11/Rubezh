@@ -112,7 +112,7 @@
     </Compile>
     <Compile Include="Processor\ConnectionManager.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
-    <Compile Include="Patch\PatchManager.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\FiresecDbConverter1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

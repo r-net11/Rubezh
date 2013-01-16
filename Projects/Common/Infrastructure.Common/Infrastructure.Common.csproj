@@ -151,6 +151,7 @@
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Module\ModuleReg.cs" />
+    <Compile Include="PatchHelper.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />

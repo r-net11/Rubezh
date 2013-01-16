@@ -5,30 +5,37 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
     public class NewDeviceViewModel : SaveCancelDialogViewModel
     {
         DeviceViewModel _parentDeviceViewModel;
-        XDevice _parent;
+        XDevice ParentDevice;
 
         public NewDeviceViewModel(DeviceViewModel parent)
         {
             Title = "Новое устройство";
             _parentDeviceViewModel = parent;
-            _parent = _parentDeviceViewModel.Device;
+            ParentDevice = _parentDeviceViewModel.Device;
 
-			Drivers = new List<XDriver>(
+			Drivers = new ObservableCollection<XDriver>(
 				from XDriver driver in XManager.DriversConfiguration.XDrivers
-                       where _parent.Driver.Children.Contains(driver.DriverType)
+                       where ParentDevice.Driver.Children.Contains(driver.DriverType)
                        select driver);
+
+			if(parent.Driver.DriverType == XDriverType.MPT)
+				Drivers = new ObservableCollection<XDriver>(
+					from XDriver driver in XManager.DriversConfiguration.XDrivers
+					where driver.DriverType == XDriverType.MPT
+					select driver);
 
 			SelectedDriver = Drivers.FirstOrDefault();
             Count = 1;
         }
 
-        public List<XDriver> Drivers { get; private set; }
+        public ObservableCollection<XDriver> Drivers { get; private set; }
 
         XDriver _selectedDriver;
         public XDriver SelectedDriver
@@ -81,14 +88,14 @@ namespace GKModule.ViewModels
 
         void UpdateAddressRange()
         {
-            int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
+            int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice);
 
             StartDevice = new XDevice()
             {
                 Driver = SelectedDriver,
                 ShleifNo = (byte)(maxAddress / 256 + 1),
                 IntAddress = (byte)(maxAddress % 256),
-                Parent = _parent
+                Parent = ParentDevice
             };
             StartAddress = StartDevice.Address;
         }
@@ -98,16 +105,16 @@ namespace GKModule.ViewModels
             var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
             for (int i = StartDevice.IntAddress; i <= StartDevice.IntAddress + Count * step; i++)
             {
-                if (_parent.Children.Any(x => x.IntAddress == i && x.ShleifNo == StartDevice.ShleifNo))
+                if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == StartDevice.ShleifNo))
                 {
                     MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
                     return;
                 }
             }
 
-            if (_parent.Driver.IsGroupDevice)
+            if (ParentDevice.Driver.IsGroupDevice)
             {
-                Count = Math.Min(Count, _parent.Driver.GroupDeviceChildrenCount);
+                Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
             }
 
             byte shleifNo = StartDevice.ShleifNo;
@@ -119,7 +126,7 @@ namespace GKModule.ViewModels
                     return;
                 }
 
-                XDevice device = XManager.AddChild(_parent, SelectedDriver, shleifNo, (byte)address);
+                XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, shleifNo, (byte)address);
                 NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
             }
         }

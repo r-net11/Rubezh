@@ -4,7 +4,7 @@ namespace Common.GK
 {
 	public static class GKDriversHelper
 	{
-        public static XDriverProperty AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0, ushort defaultValue = 0)
+		public static XDriverProperty AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0, ushort defaultValue = 0)
 		{
 			var property = new XDriverProperty()
 			{
@@ -13,7 +13,7 @@ namespace Common.GK
 				Caption = propertyName,
 				Default = defaultValue,
 				Offset = offset,
-                Mask = 3
+				Mask = 3
 			};
 			var parameter1 = new XDriverPropertyParameter()
 			{
@@ -28,7 +28,7 @@ namespace Common.GK
 			property.Parameters.Add(parameter1);
 			property.Parameters.Add(parameter2);
 			xDriver.Properties.Add(property);
-            return property;
+			return property;
 		}
 
 		public static void AddBoolProprety(XDriver xDriver, byte no, string propertyName, byte offset)
@@ -44,7 +44,7 @@ namespace Common.GK
 			xDriver.Properties.Add(property);
 		}
 
-        public static XDriverProperty AddIntProprety(XDriver xDriver, byte no, string propertyName, byte offset, int defaultValue, int min, int max)
+		public static XDriverProperty AddIntProprety(XDriver xDriver, byte no, string propertyName, byte offset, int defaultValue, int min, int max)
 		{
 			var property = new XDriverProperty()
 			{
@@ -58,7 +58,7 @@ namespace Common.GK
 				Max = (ushort)max
 			};
 			xDriver.Properties.Add(property);
-            return property;
+			return property;
 		}
 
 		public static void AddPropertyParameter(XDriverProperty property, string name, int value)
@@ -87,17 +87,17 @@ namespace Common.GK
 			AddAvailableStates(driver, XStateType.On);
 		}
 
-        public static void AddAvailableStateClasses(XDriver driver, XStateClass stateClass)
+		public static void AddAvailableStateClasses(XDriver driver, XStateClass stateClass)
 		{
 			if (driver.AvailableStateClasses.Count == 0)
 			{
-                driver.AvailableStateClasses.Add(XStateClass.No);
-                driver.AvailableStateClasses.Add(XStateClass.Norm);
-                driver.AvailableStateClasses.Add(XStateClass.Failure);
+				driver.AvailableStateClasses.Add(XStateClass.No);
+				driver.AvailableStateClasses.Add(XStateClass.Norm);
+				driver.AvailableStateClasses.Add(XStateClass.Failure);
 				driver.AvailableStateClasses.Add(XStateClass.Ignore);
-                driver.AvailableStateClasses.Add(XStateClass.Unknown);
+				driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			}
-            driver.AvailableStateClasses.Add(stateClass);
+			driver.AvailableStateClasses.Add(stateClass);
 		}
 	}
 }

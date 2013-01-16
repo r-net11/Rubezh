@@ -12,6 +12,19 @@ namespace FireMonitor
 	{
 		public static void Patch()
 		{
+			try
+			{
+				Patch1();
+			}
+			catch { }
+		}
+
+		static void Patch1()
+		{
+			var patchNo = PatchHelper.GetPatchNo("Monitor");
+			if (patchNo > 0)
+				return;
+
 			var assembly = Assembly.GetEntryAssembly();
 			if (assembly != null)
 			{
@@ -38,6 +51,8 @@ namespace FireMonitor
 			{
 				Directory.Delete("Logs", true);
 			}
+
+			PatchHelper.SetPatchNo("Monitor", 1);
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace FireMonitor
             try
             {
                 appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-				appSettings.HasLicenseToControl = LicenseHelper.CheckLicense(1);
+				appSettings.HasLicenseToControl = LicenseHelper.CheckLicense(1) || LicenseHelper.CheckLicense(3);
             }
             catch (Exception e)
             {

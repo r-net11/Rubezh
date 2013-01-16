@@ -12,17 +12,25 @@ using System.Collections.Generic;
 using Ionic.Zip;
 using System.Text;
 
-namespace FiresecService.Configuration
+namespace FiresecService
 {
 	public static class PatchManager
 	{
-		static string LocalConfigurationDirectory(string fileName)
-		{
-			return Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configuration", fileName);
-		}
-
 		public static void Patch()
 		{
+			try
+			{
+				Patch1();
+			}
+			catch { }
+		}
+
+		static void Patch1()
+		{
+			var patchNo = PatchHelper.GetPatchNo("Server");
+			if (patchNo > 0)
+				return;
+
 			var fileName = LocalConfigurationDirectory("config.fscp");
 			if (File.Exists(fileName))
 			{
@@ -72,6 +80,8 @@ namespace FiresecService.Configuration
 				{
 					File.Delete(fileName);
 				}
+
+				PatchHelper.SetPatchNo("Server", 1);
 			}
 
 			if (Directory.Exists("Configuration"))
@@ -151,6 +161,11 @@ namespace FiresecService.Configuration
 			}
 			VersionedConfiguration newConfiguration = (VersionedConfiguration)Activator.CreateInstance(type);
 			return newConfiguration;
+		}
+
+		static string LocalConfigurationDirectory(string fileName)
+		{
+			return Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configuration", fileName);
 		}
 	}
 }
