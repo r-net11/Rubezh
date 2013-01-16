@@ -34,7 +34,8 @@ namespace PlansModule.ViewModels
 							DesignerCanvas.Create(elementBase);
 						foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 							DesignerCanvas.Create(element);
-						DesignerCanvas.UpdateZIndex();
+						using (new TimeCounter("\t\t\tDesignerCanvas.UpdateZIndex: {0}"))
+							DesignerCanvas.UpdateZIndex();
 					}
 				}
 		}

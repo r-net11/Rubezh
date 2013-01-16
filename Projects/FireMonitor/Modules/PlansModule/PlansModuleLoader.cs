@@ -21,6 +21,10 @@ namespace PlansModule
 			_plansViewModel = new PlansViewModel();
 		}
 
+		public override int Order
+		{
+			get { return 100; }
+		}
 		public override string Name
 		{
 			get { return "Графические планы"; }
@@ -40,6 +44,5 @@ namespace PlansModule
 			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы", "/Controls;component/Images/map.png");
 			return new List<NavigationItem>() { _planNavigationItem };
 		}
-
 	}
 }

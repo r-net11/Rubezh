@@ -26,7 +26,7 @@ namespace PlansModule.Designer.Adorners
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			DrawSizableBounds(drawingContext);
 			foreach (var point in element.Points)
-				DrawThumb(drawingContext, point);
+				DrawThumb(drawingContext, DesignerItem.Transform.Inverse.Transform(point));
 		}
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{

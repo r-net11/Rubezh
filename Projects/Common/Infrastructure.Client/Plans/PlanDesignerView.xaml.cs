@@ -23,11 +23,6 @@ namespace Infrastructure.Client.Plans
 			_scrollViewer.MouseLeave += OnMiddleMouseLeave;
 
 			_scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
-			_scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
-			_scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
-			_scrollViewer.PreviewMouseRightButtonDown += OnMouseRightButtonDown;
-			_scrollViewer.PreviewMouseRightButtonUp += OnMouseLeftButtonUp;
-			_scrollViewer.MouseMove += OnMouseMove;
 			_scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
 			slider.ValueChanged += OnSliderValueChanged;
@@ -158,56 +153,6 @@ namespace Infrastructure.Client.Plans
 			scaleTransform.ScaleY = scale;
 		}
 
-		#region Hand Moving
-
-		private Point? lastDragPoint;
-
-		private void OnMouseMove(object sender, MouseEventArgs e)
-		{
-			if (lastDragPoint.HasValue)
-			{
-				Point posNow = e.GetPosition(_scrollViewer);
-				_scrollViewer.Cursor = Cursors.Hand;
-				_scrollViewer.CaptureMouse();
-
-				double dX = posNow.X - lastDragPoint.Value.X;
-				double dY = posNow.Y - lastDragPoint.Value.Y;
-
-				lastDragPoint = posNow;
-
-				_scrollViewer.ScrollToHorizontalOffset(_scrollViewer.HorizontalOffset - dX);
-				_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
-			}
-		}
-		private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (Keyboard.IsKeyDown(Key.LeftCtrl))
-				OnMouseRightButtonDown(sender, e);
-		}
-		private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			var mousePos = e.GetPosition(_scrollViewer);
-			if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
-				lastDragPoint = mousePos;
-			e.Handled = true;
-		}
-		private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			if (lastDragPoint.HasValue)
-			{
-				lastDragPoint = null;
-				if (_scrollViewer.Cursor == Cursors.Hand)
-				{
-					_scrollViewer.Cursor = Cursors.Arrow;
-					if (_scrollViewer.IsMouseCaptured)
-						_scrollViewer.ReleaseMouseCapture();
-					e.Handled = true;
-				}
-			}
-		}
-
-		#endregion
-
 		private void OnDeviceZoomOut(object sender, RoutedEventArgs e)
 		{
 			deviceSlider.Value--;
@@ -222,32 +167,52 @@ namespace Infrastructure.Client.Plans
 			((IPlanDesignerViewModel)DataContext).ChangeDeviceZoom(e.NewValue);
 		}
 
+		private Point? lastDragPoint;
 		private void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
-				MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
+				var mousePos = e.GetPosition(_scrollViewer);
+				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
+				{
+					lastDragPoint = mousePos;
+					_scrollViewer.Cursor = Cursors.Hand;
+					_scrollViewer.CaptureMouse();
+				}
+				e.Handled = true;
 			}
 		}
 		private void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Released)
 			{
-				MiddleButtonScrollHelper.StopScrolling();
+				lastDragPoint = null;
+				_scrollViewer.Cursor = Cursors.Arrow;
+				_scrollViewer.ReleaseMouseCapture();
 			}
 		}
 		private void OnMiddleMouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Pressed)
+			if (e.MiddleButton == MouseButtonState.Pressed && lastDragPoint.HasValue)
 			{
-				MiddleButtonScrollHelper.UpdateScrolling(e);
+				Point posNow = e.GetPosition(_scrollViewer);
+
+				double dX = posNow.X - lastDragPoint.Value.X;
+				double dY = posNow.Y - lastDragPoint.Value.Y;
+
+				lastDragPoint = posNow;
+
+				_scrollViewer.ScrollToHorizontalOffset(_scrollViewer.HorizontalOffset - dX);
+				_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
 			}
 		}
 		private void OnMiddleMouseLeave(object sender, MouseEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
-				MiddleButtonScrollHelper.StopScrolling();
+				lastDragPoint = null;
+				_scrollViewer.Cursor = Cursors.Arrow;
+				_scrollViewer.ReleaseMouseCapture();
 			}
 		}
 	}

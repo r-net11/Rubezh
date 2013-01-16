@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 
@@ -91,12 +90,6 @@ namespace Infrustructure.Plans.Designer
 			IsEnabled &= IsSelectable;
 			if (!IsEnabled)
 				IsSelected = false;
-		}
-		public override void ResetElement(ElementBase element)
-		{
-			base.ResetElement(element);
-			if (DesignerCanvas != null)
-				Redraw();
 		}
 		public override void Redraw()
 		{

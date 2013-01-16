@@ -101,6 +101,7 @@
     <Compile Include="Converters\StateTypeToPlanColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="Designer\FlushAdorner.cs" />
+    <Compile Include="Designer\PresenterCanvas.cs" />
     <Compile Include="ViewModels\FlushViewModel.cs" />
     <Compile Include="Designer\MonitorSubPlanPainter.cs" />
     <Compile Include="ViewModels\PlanTreeViewModel.cs" />

@@ -21,9 +21,6 @@ namespace GKModule.Plans
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/XDeviceMenuView.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/XZoneMenuView.xaml"));
-			
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);

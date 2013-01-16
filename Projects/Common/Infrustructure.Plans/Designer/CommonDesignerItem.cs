@@ -3,9 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Threading;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -92,6 +92,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			Element = element;
 			Painter = PainterFactory.Create(Element);
+			if (DesignerCanvas != null)
+				Redraw();
 		}
 		public virtual void Redraw()
 		{

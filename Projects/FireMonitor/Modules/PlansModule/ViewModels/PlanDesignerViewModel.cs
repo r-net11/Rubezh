@@ -14,80 +14,61 @@ using FiresecClient;
 using Infrustructure.Plans.Designer;
 using Common;
 using System.Diagnostics;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
 	public class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
+		public double Zoom = 1;
+		public double DeviceZoom = DesignerItem.DefaultPointSize;
 		private PlansViewModel _plansViewModel;
 		private FlushAdorner _flushAdorner;
-		private double _zoom;
-		private double _deviceZoom;
 		public PlanViewModel PlanViewModel { get; private set; }
 		public Plan Plan { get; private set; }
-		public Canvas DesignerCanvas { get; private set; }
+		private PresenterCanvas DesignerCanvas { get; set; }
 
 		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
 			_plansViewModel = plansViewModel;
-			DesignerCanvas = new Canvas();
+			DesignerCanvas = new PresenterCanvas();
 			_flushAdorner = new FlushAdorner(DesignerCanvas);
 			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermissionsToScale"); });
 		}
 
-		public void Initialize()
+		public void Initialize(List<PlanViewModel> planViewModels)
 		{
-			
-		}
-		public void Initialize(PlanViewModel planViewModel)
-		{
-			ChangeZoom(1);
-			PlanViewModel = planViewModel;
-			Plan = PlanViewModel == null ? null : planViewModel.Plan;
-			if (Plan != null)
-			{
-				DrawPlan();
-				Update();
-			}
-			OnPropertyChanged("Plan");
-			OnPropertyChanged("Canvas");
-		}
-		public void SelectPlan(PlanViewModel planViewModel)
-		{
-			using (new TimeCounter("PlanDesignerViewModel.SelectedPlan: {0}"))
+			foreach (var planViewModel in planViewModels)
 			{
 				PlanViewModel = planViewModel;
 				Plan = PlanViewModel == null ? null : planViewModel.Plan;
-				if (Plan != null)
+				using (new TimeCounter("\t\tDesignerCanvas.RegisterPlan: {0}"))
+					DesignerCanvas.RegisterPlan(Plan);
+
+				using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 				{
-					DrawPlan();
-					Update();
+					CreatePresenters();
+					using (new TimeCounter("\t\t\tDesignerCanvas.UpdateZIndex: {0}"))
+						DesignerCanvas.UpdateZIndex();
 				}
+			}
+		}
+		public void SelectPlan(PlanViewModel planViewModel)
+		{
+			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}"))
+			{
+				PlanViewModel = planViewModel;
+				Plan = PlanViewModel == null ? null : planViewModel.Plan;
 				OnPropertyChanged("Plan");
-				OnPropertyChanged("Canvas");
-				//DesignerCanvas.ShowPlan(plan);
+				DesignerCanvas.ShowPlan(Plan);
+				using (new WaitWrapper())
+					if (Plan != null)
+						using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
+							Update();
 			}
 			Debug.WriteLine("===========================================");
 		}
 
-		public void DrawPlan()
-		{
-			DesignerCanvas.Children.Clear();
-			UpdateCanvas();
-			CreatePresenters();
-		}
-		private void UpdateCanvas()
-		{
-			DesignerCanvas.Width = Plan.Width;
-			DesignerCanvas.Height = Plan.Height;
-
-			if (Plan.BackgroundPixels != null)
-				DesignerCanvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
-			else if (Plan.BackgroundColor == Colors.Transparent)
-				DesignerCanvas.Background = PainterHelper.CreateTransparentBrush(_zoom);
-			else
-				DesignerCanvas.Background = new SolidColorBrush(Plan.BackgroundColor);
-		}
 		private void CreatePresenters()
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
@@ -111,14 +92,13 @@ namespace PlansModule.ViewModels
 		private PresenterItem CreatePresenter(ElementBase elementBase)
 		{
 			var presenterItem = new PresenterItem(elementBase);
-			//Canvas.Children.Add(presenterItem);
-			//presenterItem.SetZIndex();
+			DesignerCanvas.Add(presenterItem);
 			return presenterItem;
 		}
 
-		public IEnumerable<PresenterItem> Items
+		public IEnumerable<PresenterItem> PresenterItems
 		{
-			get { return DesignerCanvas.Children.OfType<PresenterItem>(); }
+			get { return DesignerCanvas.PresenterItems; }
 		}
 
 		public void Update()
@@ -139,31 +119,26 @@ namespace PlansModule.ViewModels
 		{
 			get { return null; }
 		}
-		object IPlanDesignerViewModel.Canvas
+		public object Canvas
 		{
 			get { return DesignerCanvas; }
 		}
 
 		public void ChangeZoom(double zoom)
 		{
-			_zoom = zoom;
-			if (Plan != null)
-				UpdateCanvas();
-			ChangeDeviceZoom(_deviceZoom);
+			Zoom = zoom;
+			DesignerCanvas.UpdateZoom(Zoom, DeviceZoom);
+			_flushAdorner.UpdateDeviceZoom(Zoom, DeviceZoom);
 		}
 		public void ChangeDeviceZoom(double deviceZoom)
 		{
-			_deviceZoom = deviceZoom;
-			if (DesignerCanvas == null)
-				return;
-			double _pointZoom = _deviceZoom / _zoom;
-			foreach (var item in DesignerCanvas.Children.OfType<PresenterItem>())
-				item.UpdateDeviceZoom(_zoom, _pointZoom);
-			_flushAdorner.UpdateDeviceZoom(_zoom, _pointZoom);
+			DeviceZoom = deviceZoom;
+			DesignerCanvas.UpdateZoomPoint(Zoom, DeviceZoom);
+			_flushAdorner.UpdateDeviceZoom(Zoom, DeviceZoom);
 		}
 		public void ResetZoom(double zoom, double deviceZoom)
 		{
-			_deviceZoom = deviceZoom;
+			DeviceZoom = deviceZoom;
 			ChangeZoom(zoom);
 		}
 

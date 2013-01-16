@@ -11,14 +11,16 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
+using System.Windows.Controls;
 
 namespace GKModule.Plans.Designer
 {
-	class XZonePainter : IPainter
+	class XZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
 		private IPainter _painter;
 		private XZone _zone;
+		private ContextMenu _contextMenu;
 
 		public XZonePainter(PresenterItem presenterItem)
 		{
@@ -30,9 +32,8 @@ namespace GKModule.Plans.Designer
 
 		private void Bind()
 		{
-			_presenterItem.Border = BorderHelper.CreateBorderPolyline(_presenterItem.Element);
-			//_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XZoneMenuView");
-			//_presenterItem.ContextMenu.DataContext = this;
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ((IElementZone)_presenterItem.Element).ZoneUID);
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
@@ -54,19 +55,17 @@ namespace GKModule.Plans.Designer
 			return sb.ToString().TrimEnd();
 		}
 
-		public Brush GetStateBrush()
-		{
-			return Brushes.Yellow;
-		}
-
 		#region IPainter Members
 
-		public bool RedrawOnZoom
+		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
-			get { return true; }
+			if (_zone == null)
+				return;
+			base.Draw(drawingContext, element, rect);
 		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		protected override Brush GetBrush(ElementBase element)
 		{
+			return PainterCache.GetBrush(GetStateColor());
 		}
 		//public UIElement Draw(ElementBase element)
 		//{
@@ -80,6 +79,11 @@ namespace GKModule.Plans.Designer
 
 		#endregion
 
+		public Color GetStateColor()
+		{
+			return Colors.Yellow;
+		}
+
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
@@ -88,6 +92,20 @@ namespace GKModule.Plans.Designer
 		bool CanShowInTree()
 		{
 			return _zone != null;
+		}
+
+		private ContextMenu CreateContextMenu()
+		{
+			if (_contextMenu == null)
+			{
+				_contextMenu = new ContextMenu();
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать в списке",
+					Command = ShowInTreeCommand
+				});
+			}
+			return _contextMenu;
 		}
 	}
 }

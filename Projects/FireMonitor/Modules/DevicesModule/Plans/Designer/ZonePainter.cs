@@ -13,16 +13,18 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using System.Windows.Controls;
 
 namespace DevicesModule.Plans.Designer
 {
-	class ZonePainter : BaseViewModel, IPainter
+	class ZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
 		private IPainter _painter;
 		private Zone _zone;
 		private List<Device> _devices;
 		private List<DeviceState> _deviceStates;
+		private ContextMenu _contextMenu;
 
 		public ZonePainter(PresenterItem presenterItem)
 		{
@@ -38,9 +40,8 @@ namespace DevicesModule.Plans.Designer
 
 		private void Bind()
 		{
-			_presenterItem.Border = BorderHelper.CreateBorderPolyline(_presenterItem.Element);
-			//_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("ZoneMenuView");
-			//_presenterItem.ContextMenu.DataContext = this;
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ((IElementZone)_presenterItem.Element).ZoneUID);
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
@@ -72,64 +73,19 @@ namespace DevicesModule.Plans.Designer
 			return sb.ToString().TrimEnd();
 		}
 
-		public Brush GetStateBrush()
-		{
-			if (_zone != null && _zone.ZoneState.Zone.ZoneType == ZoneType.Guard)
-			{
-				if (_zone.ZoneState.StateType == StateType.Norm)
-					return Brushes.Blue;
-
-				if (FiresecManager.IsZoneOnGuardAlarm(_zone.ZoneState))
-					return Brushes.Red;
-
-				if (FiresecManager.IsZoneOnGuard(_zone.ZoneState))
-					return Brushes.DarkGreen;
-			}
-
-			StateType stateType = _zone == null ? StateType.Unknown : _zone.ZoneState.StateType;
-			switch (stateType)
-			{
-				case StateType.Fire:
-					return Brushes.Red;
-
-				case StateType.Attention:
-					return Brushes.Yellow;
-
-				case StateType.Failure:
-					return Brushes.Pink;
-
-				case StateType.Service:
-					return Brushes.Yellow;
-
-				case StateType.Off:
-					return Brushes.Yellow;
-
-				case StateType.Unknown:
-					return Brushes.Gray;
-
-				case StateType.Info:
-					return Brushes.LightBlue;
-
-				case StateType.Norm:
-					return Brushes.LightGreen;
-
-				case StateType.No:
-					return Brushes.White;
-
-				default:
-					return Brushes.Black;
-			}
-		}
-
 		#region IPainter Members
 
-		public bool RedrawOnZoom
+		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
-			get { return true; }
+			if (_zone == null)
+				return;
+			base.Draw(drawingContext, element, rect);
 		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		protected override Brush GetBrush(ElementBase element)
 		{
+			return PainterCache.GetBrush(GetStateColor());
 		}
+
 		//public UIElement Draw(ElementBase element)
 		//{
 		//    if (_zone == null)
@@ -142,6 +98,43 @@ namespace DevicesModule.Plans.Designer
 
 		#endregion
 
+		public Color GetStateColor()
+		{
+			if (_zone != null && _zone.ZoneState.Zone.ZoneType == ZoneType.Guard)
+			{
+				if (_zone.ZoneState.StateType == StateType.Norm)
+					return Colors.Blue;
+
+				if (FiresecManager.IsZoneOnGuardAlarm(_zone.ZoneState))
+					return Colors.Red;
+
+				if (FiresecManager.IsZoneOnGuard(_zone.ZoneState))
+					return Colors.DarkGreen;
+			}
+
+			StateType stateType = _zone == null ? StateType.Unknown : _zone.ZoneState.StateType;
+			switch (stateType)
+			{
+				case StateType.Fire:
+					return Colors.Red;
+				case StateType.Service:
+				case StateType.Off:
+				case StateType.Attention:
+					return Colors.Yellow;
+				case StateType.Failure:
+					return Colors.Pink;
+				case StateType.Unknown:
+					return Colors.Gray;
+				case StateType.Info:
+					return Colors.LightBlue;
+				case StateType.Norm:
+					return Colors.LightGreen;
+				case StateType.No:
+					return Colors.White;
+				default:
+					return Colors.Black;
+			}
+		}
 		private void InitializeDevices()
 		{
 			_devices = new List<Device>();
@@ -211,6 +204,40 @@ namespace DevicesModule.Plans.Designer
 		bool CanUnSetGuard()
 		{
 			return _zone != null && _zone.ZoneType == ZoneType.Guard && _zone.SecPanelUID != null && FiresecManager.IsZoneOnGuard(_zone.ZoneState);
+		}
+
+		private ContextMenu CreateContextMenu()
+		{
+			if (_contextMenu == null)
+			{
+				_contextMenu = new ContextMenu();
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать в списке",
+					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Отключить все устройства в зоне",
+					Command = DisableAllCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Включить все устройства в зоне",
+					Command = EnableAllCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Поставить на охрану",
+					Command = SetGuardCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Снять с охраны",
+					Command = UnSetGuardCommand
+				});
+			}
+			return _contextMenu;
 		}
 	}
 }

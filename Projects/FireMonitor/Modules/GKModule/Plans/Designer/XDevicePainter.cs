@@ -13,6 +13,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
+using System.Windows.Controls;
 
 namespace GKModule.Plans.Designer
 {
@@ -21,6 +22,7 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XDeviceControl _xdeviceControl;
 		private XDevice _xdevice;
+		private ContextMenu _contextMenu;
 
 		public XDevicePainter()
 		{
@@ -32,9 +34,8 @@ namespace GKModule.Plans.Designer
 		{
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
-			_presenterItem.Border = BorderHelper.CreateBorderRectangle();
-			//_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XDeviceMenuView");
-			//_presenterItem.ContextMenu.DataContext = this;
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			var elementDevice = presenterItem.Element as ElementXDevice;
 			if (elementDevice != null)
 			{
@@ -79,14 +80,19 @@ namespace GKModule.Plans.Designer
 		}
 		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
+			if (_xdevice != null)
+			{
+				var brush = DevicePictureCache.GetBrush(_xdevice);
+				drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
+			}
 		}
-		public UIElement Draw(ElementBase element)
-		{
-			if (_xdevice == null)
-				return null;
-			_xdeviceControl.Update();
-			return _xdeviceControl;
-		}
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    if (_xdevice == null)
+		//        return null;
+		//    _xdeviceControl.Update();
+		//    return _xdeviceControl;
+		//}
 
 		#endregion
 
@@ -100,6 +106,25 @@ namespace GKModule.Plans.Designer
 		void OnShowProperties()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(_xdevice.UID);
+		}
+
+		private ContextMenu CreateContextMenu()
+		{
+			if (_contextMenu == null)
+			{
+				_contextMenu = new ContextMenu();
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать в дереве",
+					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Свойства",
+					Command = ShowPropertiesCommand
+				});
+			}
+			return _contextMenu;
 		}
 	}
 }

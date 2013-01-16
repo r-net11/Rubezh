@@ -18,9 +18,10 @@ namespace Infrustructure.Plans.Designer
 			_isDragging = false;
 			_visuals = new List<CommonDesignerItem>();
 			ToolTipService.SetIsEnabled(this, false);
+			IsVisibleChanged += (s, e) => Update(IsVisible);
 		}
 
-		public IEnumerable<CommonDesignerItem> Items
+		internal IEnumerable<CommonDesignerItem> Items
 		{
 			get { return _visuals; }
 		}
@@ -33,23 +34,34 @@ namespace Infrustructure.Plans.Designer
 			return _visuals[index];
 		}
 
-		public void AddDesignerItem(CommonDesignerItem visual)
+		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Add(visual);
 			AddVisualChild(visual);
 			AddLogicalChild(visual);
 		}
-		public void DeleteDesignerItem(CommonDesignerItem visual)
+		internal void DeleteDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Remove(visual);
 			RemoveVisualChild(visual);
 			RemoveLogicalChild(visual);
 		}
-		public void UpdateZIndex()
+		internal void UpdateZIndex()
 		{
 			_visuals.ForEach(item => RemoveVisualChild(item));
 			_visuals.Sort((item1, item2) => item1.Element.ZLayer == item2.Element.ZLayer ? item1.Element.ZIndex - item2.Element.ZIndex : item1.Element.ZLayer - item2.Element.ZLayer);
 			_visuals.ForEach(item => AddVisualChild(item));
+		}
+		internal void Update(bool isActive)
+		{
+			if (_visualItemOver != null)
+			{
+				var point = Mouse.PrimaryDevice.GetPosition(this);
+				_visualItemOver.SetIsMouseOver(false, point);
+				_visualItemOver = null;
+			}
+			if (isActive)
+				OnMouseMove(new MouseEventArgs(Mouse.PrimaryDevice, 0));
 		}
 
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -74,14 +86,13 @@ namespace Infrustructure.Plans.Designer
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
+			ReleaseMouseCapture();
 			if (_isDragging)
 			{
 				e.Handled = true;
 				_isDragging = false;
 				if (_visualItemOver != null && _visualItemOver.IsEnabled)
 					_visualItemOver.DragCompleted(point);
-				if (IsMouseCaptured)
-					ReleaseMouseCapture();
 			}
 			var visualItem = GetDesignerItem(point);
 			if (visualItem != null)

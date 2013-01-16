@@ -51,6 +51,7 @@ namespace PlansModule.Designer
 			if (_timer.IsEnabled || Parent != null)
 				Hide();
 			_flushControl.SetPresenterItem(presenterItem);
+			_flushControl.Show();
 			AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(Canvas);
 			if (adornerLayer != null)
 				adornerLayer.Add(this);
@@ -59,6 +60,7 @@ namespace PlansModule.Designer
 		public void Hide()
 		{
 			_timer.Stop();
+			_flushControl.Hide();
 			AdornerLayer adornerLayer = Parent as AdornerLayer;
 			if (adornerLayer != null)
 				adornerLayer.Remove(this);

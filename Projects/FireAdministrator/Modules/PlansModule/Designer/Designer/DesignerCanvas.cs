@@ -25,12 +25,10 @@ namespace PlansModule.Designer
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
-		private Dictionary<Plan, DesignerSurface> _canvasMap;
 
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			_canvasMap = new Dictionary<Plan, DesignerSurface>();
 			Background = Brushes.Orange;
 			Width = 100;
 			Height = 100;
@@ -45,20 +43,11 @@ namespace PlansModule.Designer
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
 		}
 
-		public override void Clear()
-		{
-			base.Clear();
-			_canvasMap.Clear();
-		}
 		public void RegisterPlan(Plan plan)
 		{
 			DeselectAll();
-			AddCanvas();
+			AddCanvas(plan.UID);
 			SelectedCanvas.AllowDrop = true;
-			CanvasBackground = new SolidColorBrush(Colors.DarkGray);
-			CanvasWidth = 100;
-			CanvasHeight = 100;
-			SelectedCanvas.DataContext = this;
 			var pasteItem = new MenuItem()
 			{
 				Header = "Вставить",
@@ -69,7 +58,6 @@ namespace PlansModule.Designer
 			ContextMenu.Items.Add(pasteItem);
 			using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
 				Update(plan);
-			_canvasMap.Add(plan, SelectedCanvas);
 			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
 		}
 		public void RemovePlan()
@@ -78,26 +66,13 @@ namespace PlansModule.Designer
 			{
 				DeselectAll();
 				RemoveCanvas();
-				_canvasMap.Remove(Plan);
 				Plan = null;
 			}
 		}
 		public void ShowPlan(Plan plan)
 		{
 			Plan = plan;
-			if (SelectedCanvas != null)
-			{
-				DeselectAll();
-				SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
-				SelectedCanvas = null;
-			}
-			if (plan != null)
-			{
-				SelectedCanvas = _canvasMap[plan];
-				Height = SelectedCanvas.Height;
-				Width = SelectedCanvas.Width;
-				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
-			}
+			ShowCanvas(plan == null ? Guid.Empty : plan.UID);
 		}
 
 		public void RemoveAllSelected()

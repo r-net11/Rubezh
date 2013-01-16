@@ -35,19 +35,19 @@ namespace FireMonitor
                     LoadingService.Show("Чтение конфигурации", 15);
                     LoadingService.AddCount(GetModuleCount());
 
-					if (!App.IsMulticlient)
-					{
-						LoadingService.DoStep("Синхронизация файлов");
-						FiresecManager.UpdateFiles();
-					}
+					//if (!App.IsMulticlient)
+					//{
+					//    LoadingService.DoStep("Синхронизация файлов");
+					//    FiresecManager.UpdateFiles();
+					//}
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();
 
                     BeforeInitialize(true);
 
-                    LoadingService.DoStep("Старт полинга сервера");
-                    FiresecManager.StartPoll(false);
+					//LoadingService.DoStep("Старт полинга сервера");
+					//FiresecManager.StartPoll(false);
 
                     LoadingService.DoStep("Проверка прав пользователя");
                     if (FiresecManager.CheckPermission(PermissionType.Oper_Login))

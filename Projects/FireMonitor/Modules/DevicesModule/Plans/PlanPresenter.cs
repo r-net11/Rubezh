@@ -20,9 +20,6 @@ namespace DevicesModule.Plans
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/DeviceMenuView.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/ZoneMenuView.xaml"));
-
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
