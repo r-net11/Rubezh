@@ -14,13 +14,5 @@
         <RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
       </Component>
     </DirectoryRef>
-
-    <DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="Logs.Remove" Guid="FBCDB3DF-5B6D-4236-A11D-76518EE75109">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="LOGS.RemoveFiles" On="uninstall" Name="*.*" Directory="LOGS" />
-        <RemoveFolder Id="LOGS.RemoveFolder" On="uninstall" Directory="LOGS" />
-      </Component>
-    </DirectoryRef>
   </Fragment>
 </Wix>

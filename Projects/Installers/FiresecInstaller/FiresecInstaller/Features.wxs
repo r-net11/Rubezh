@@ -44,15 +44,14 @@
       <ComponentRef Id="OPC.Remove" />
       <ComponentRef Id="Server.Remove" />-->
 
+      <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
       <ComponentRef Id="Administrator.SOUNDS_MODULE" />
       <ComponentRef Id="Administrator.SETTINGS_MODULE" />
       <ComponentRef Id="Monitor.PLANS_MODULE" />
-      <ComponentRef Id="LogScript" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />
       <ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />
-      <ComponentRef Id="Logs.Remove" />
     </Feature>
   </Fragment>
 </Wix>
