@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Infrastructure.Common;
+using Common;
 
 namespace FireAdministrator
 {
@@ -15,7 +16,10 @@ namespace FireAdministrator
 			{
 				Patch1();
 			}
-			catch { }
+			catch (Exception e)
+			{
+				Logger.Error(e, "PatchManager.Patch");
+			}
 		}
 
 		static void Patch1()

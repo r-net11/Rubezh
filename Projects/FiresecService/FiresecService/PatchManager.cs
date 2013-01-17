@@ -22,7 +22,10 @@ namespace FiresecService
 			{
 				Patch1();
 			}
-			catch { }
+			catch(Exception e)
+			{
+				Logger.Error(e, "PatchManager.Patch");
+			}
 		}
 
 		static void Patch1()
@@ -72,8 +75,12 @@ namespace FiresecService
 				zipFile.Save(fileName);
 
 				var appDataConfigFile = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
-				if (File.Exists(fileName) && !File.Exists(appDataConfigFile))
+				if (File.Exists(fileName))
 				{
+					if (File.Exists(appDataConfigFile))
+					{
+						File.Delete(appDataConfigFile);
+					}
 					File.Move(fileName, appDataConfigFile);
 				}
 				if (File.Exists(fileName))
@@ -101,6 +108,11 @@ namespace FiresecService
 					File.Delete(appDatalFiresecDBFileName);
 				}
 				File.Move(localFiresecDBFileName, appDatalFiresecDBFileName);
+			}
+			var logsFolder = Path.Combine(Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName, "Logs");
+			if (Directory.Exists(logsFolder))
+			{
+				Directory.Delete(logsFolder, true);
 			}
 		}
 

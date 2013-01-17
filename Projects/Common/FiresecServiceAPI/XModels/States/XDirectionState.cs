@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI;
+using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
@@ -58,6 +60,14 @@ namespace XFiresecAPI
 		public XStateClass StateClass
 		{
 			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
+		}
+
+		public StateType GetStateType()
+		{
+			if (IsConnectionLost)
+				return StateType.Unknown;
+			else
+				return XStatesHelper.XStateTypesToState(States);
 		}
 
 		public event Action StateChanged;

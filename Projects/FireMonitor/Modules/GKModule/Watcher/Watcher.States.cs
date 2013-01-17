@@ -15,33 +15,39 @@ namespace GKModule
 			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
             foreach (var binaryObject in GkDatabase.BinaryObjects)
             {
-                GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
+                bool result = GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
+				if (!result)
+				{
+					if (binaryObject.Device != null && binaryObject.Device.Driver.DriverType == XDriverType.GK)
+					{
+						binaryObject.Device.DeviceState.IsConnectionLost = true;
+						break;
+					}
+				}
 				DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
             }
             StopProgress();
-
             ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
         }
 
-		void GetState(XBinaryBase binaryBase, XDevice gkParent)
+		bool GetState(XBinaryBase binaryBase, XDevice gkParent)
 		{
 			var no = binaryBase.GetDatabaseNo(DatabaseType.Gk);
 			var sendResult = SendManager.Send(gkParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);
-				return;
+				return false;
 			}
             ConnectionChanged(true);
-			if (sendResult.Bytes.Count == 68)
+			if (sendResult.Bytes.Count != 68)
 			{
-				var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
-				ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState.States); });
+				Logger.Error("StatesWatcher.GetAllStates sendResult.Bytes.Count != 68");
+				return false;
 			}
-			else
-			{
-				Logger.Error("StatesWatcher.GetState sendResult.Bytes.Count != 68");
-			}
+			var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
+			ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState.States); });
+			return true;
 		}
 
 		void SetObjectStates(XBinaryBase binaryBase, List<XStateType> states)
