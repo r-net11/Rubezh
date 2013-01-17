@@ -85,9 +85,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="DiagnosticsModule.cs" />
+    <Compile Include="PseudoDriver.cs" />
+    <Compile Include="StringToDrawingImageConverter.cs" />
+    <Compile Include="ViewModels\DeviceIconTestViewModel.cs" />
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
     <Compile Include="ViewModels\JournalTestViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\ZoneTestViewModel.cs" />
+    <Compile Include="Views\DeviceIconTestView.xaml.cs">
+      <DependentUpon>DeviceIconTestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DevicesTreeView.xaml.cs">
       <DependentUpon>DevicesTreeView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +110,9 @@
     <Compile Include="Views\XDriversView.xaml.cs">
       <DependentUpon>XDriversView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZoneTestView.xaml.cs">
+      <DependentUpon>ZoneTestView.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -114,9 +124,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BalloonResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DeviceIconTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DevicesTreeView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -137,6 +155,10 @@
     <Page Include="Views\XDriversView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ZoneTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

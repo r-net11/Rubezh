@@ -9,6 +9,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
     public partial class BalloonToolTipView : Window
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer;
+        Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
 
         public BalloonToolTipView()
         {
@@ -21,9 +22,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            this.Left = desktopWorkingArea.Right - this.Width;
-            this.Top = desktopWorkingArea.Bottom - this.Height;
+            UpdateLocation();
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -71,6 +70,17 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         private void Closing_Completed(object sender, EventArgs e)
         {
             this.Visibility = Visibility.Collapsed;
+        }
+
+        private void UpdateLocation()
+        {
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
+        }
+
+        private void Window_LayoutUpdated(object sender, EventArgs e)
+        {
+            UpdateLocation();
         }
     }
 }

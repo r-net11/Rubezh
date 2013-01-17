@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:DiagnosticsModule.Views">
-    
+
     <TabControl>
         <TabItem Header="Отладка" >
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
@@ -25,6 +25,7 @@
                         <Button Content="Обновить конфигурацию" Command="{Binding Test9Command}" Width="300" Margin="2" />
                         <Button Content="Предупреждение из трея" Command="{Binding BalloonTestCommand}" Width="300" Margin="2"/>
 						<Button Content="Удвоение планов" Command="{Binding PlanDuplicateTestCommand}" Width="300" Margin="2" />
+                        <Button Content="Зоны" Command="{Binding Test11Command}" Width="300" Margin="2"/>
 					</StackPanel>
                     <ScrollViewer Grid.Row="1">
                         <TextBox Text="{Binding Text}" />

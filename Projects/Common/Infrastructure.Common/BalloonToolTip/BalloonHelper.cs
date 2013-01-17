@@ -9,11 +9,10 @@ namespace Infrastructure.Common.BalloonTrayTip
     public class BalloonHelper
     {
         static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
-        static Views.BalloonToolTipView customBalloonView;
 
         public static void Show(string title, string text = "")
         {
-            Show(title, text, Brushes.Black, Brushes.White);
+            Show(title, text, Brushes.Black, Brushes.Cornsilk);
         }
 
         public static void Show(string title, string text, Brush foregroundColor, Brush backgroundColor)
@@ -22,10 +21,9 @@ namespace Infrastructure.Common.BalloonTrayTip
             {
                 try
                 {
-                    if (customBalloonView == null)
+                    if (balloonToolTipViewModel == null)
                     {
-                        customBalloonView = new Views.BalloonToolTipView();
-                        customBalloonView.DataContext = balloonToolTipViewModel;
+                        balloonToolTipViewModel = new BalloonToolTipViewModel();
                     }
                     balloonToolTipViewModel.Add(title, text, foregroundColor, backgroundColor);
                 }
