@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using Controls.Converters;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -15,22 +14,21 @@ using PlansModule.ViewModels;
 
 namespace PlansModule.Designer
 {
-	class MonitorSubPlanPainter : IPainter
+	class MonitorSubPlanPainter : SubPlanPainter
 	{
 		private PresenterItem _presenterItem;
 		private PlanViewModel _planViewModel;
-		private IPainter _painter;
-		private StateTypeToColorConverter _converter;
+		private ShapePainter _painter;
 
 		public MonitorSubPlanPainter(PresenterItem presenterItem, PlanViewModel planViewModel)
 		{
-			_converter = new StateTypeToColorConverter();
 			_planViewModel = planViewModel;
 			_presenterItem = presenterItem;
-			_painter = presenterItem.Painter;
+			_painter = (ShapePainter)presenterItem.Painter;
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
-			_presenterItem.Border = BorderHelper.CreateBorderRectangle();
-			_presenterItem.MouseDoubleClick += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = null;
+			_presenterItem.DoubleClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 		}
 
@@ -39,22 +37,33 @@ namespace PlansModule.Designer
 			if (_planViewModel != null && _planViewModel.Plan.UID == planUID)
 				_presenterItem.Redraw();
 		}
-		public Brush GetStateBrush()
+
+		protected override Brush GetBrush(ElementBase element)
 		{
-			StateType stateType = (StateType)_planViewModel.StateType;
-			return (Brush)_converter.Convert(stateType, typeof(Brush), null, CultureInfo.CurrentCulture);
+			var color = GetStateColor(_planViewModel.StateType);
+			return PainterCache.GetTransparentBrush(color, element.BackgroundPixels);
 		}
 
-		#region IPainter Members
-
-		public UIElement Draw(ElementBase element)
+		public Color GetStateColor(StateType stateType)
 		{
-			var shape = (Shape)_painter.Draw(element);
-			shape.Fill = GetStateBrush();
-			shape.Opacity = 0.6;
-			return shape;
+			switch (stateType)
+			{
+				case StateType.Fire:
+					return Colors.Red;
+				case StateType.Attention:
+					return Colors.Yellow;
+				case StateType.Failure:
+					return Colors.Pink;
+				case StateType.Service:
+				case StateType.Off:
+					return Colors.Yellow;
+				case StateType.Unknown:
+					return Colors.Gray;
+				case StateType.Info:
+				case StateType.Norm:
+				default:
+					return Colors.Transparent;
+			}
 		}
-
-		#endregion
 	}
 }

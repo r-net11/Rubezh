@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 
         static List<DeviceAddress> Addresses;
 
-        public static int GetMinAddress(Driver driver, Device parentDevice)
+		public static int GetMinAddress(Driver driver, Device parentDevice, int shleifNo)
         {
             if (driver.IsRangeEnabled)
             {
@@ -48,14 +48,14 @@ namespace DevicesModule.ViewModels
 
             if (panel != null)
             {
-                InitializeAddresses(parentDevice);
-                SetBuisyChildAddress(panel);
+				InitializeAddresses(parentDevice, shleifNo);
+				SetBuisyChildAddress(panel, parentDevice.Driver.DriverType == DriverType.MRK_30);
                 return GetBestAddress(driver);
             }
             return 0;
         }
 
-        static void InitializeAddresses(Device device)
+		static void InitializeAddresses(Device device, int shleifNo)
         {
             Addresses = new List<DeviceAddress>();
 
@@ -68,12 +68,19 @@ namespace DevicesModule.ViewModels
             }
             else
             {
-                var shleifNo = GetMaxShleif(device);
                 for (int i = 1; i < 256; i++)
                 {
-                    Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
+					Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
                 }
             }
+			if (device.Driver.DriverType == DriverType.MRK_30)
+			{
+				Addresses = new List<DeviceAddress>();
+				for (int i = device.IntAddress % 256; i <= Math.Min(256, device.IntAddress % 256 + 30); i++)
+				{
+					Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
+				}
+			}
         }
 
         static int GetMaxShleif(Device device)
@@ -91,11 +98,13 @@ namespace DevicesModule.ViewModels
             return maxShleif;
         }
 
-        static void SetBuisyChildAddress(Device device)
+        static void SetBuisyChildAddress(Device device, bool isMRK30)
         {
             foreach (var child in device.Children)
             {
                 var reservedCount = Math.Max(child.GetReservedCount(), 1);
+				if (isMRK30)
+					reservedCount = 1;
                 for (int i = 0; i < reservedCount; i++)
                 {
                     var address = Addresses.FirstOrDefault(x => x.Address == child.IntAddress + i);
@@ -104,7 +113,7 @@ namespace DevicesModule.ViewModels
                         address.IsBuisy = true;
                     }
                 }
-                SetBuisyChildAddress(child);
+				SetBuisyChildAddress(child, isMRK30);
             }
         }
 

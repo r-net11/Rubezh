@@ -123,11 +123,7 @@
     <Compile Include="Designer\InstrumentAdorners\ElipseAdorner.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
-    <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\InstrumentAdorners\RubberbandAdorner.cs" />
-    <Compile Include="Designer\Resize\ResizeDecorator2.cs" />
-    <Compile Include="Designer\Resize\ResizeAdorner.cs" />
-    <Compile Include="Designer\Resize\ResizeDecorator.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\PolylinePropertiesViewModel.cs" />
@@ -253,42 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Adorners\Adorners.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Adorners\ResizeChromeShape.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Designer\Adorners\ResizeChromePoint.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Designer\Adorners\ResizeChromeRectangle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\DesignerItems\DesignerItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Designer\MoveThumb.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\InstrumentAdorners\RemoveButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Resize\DesignerItemBorder.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Resize\ResizeThumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
+using System.Windows.Threading;
 
 namespace PlansModule.ViewModels
 {
@@ -37,6 +38,7 @@ namespace PlansModule.ViewModels
 			_initialized = false;
 			FiresecManager.InvalidatePlans();
 			PlanTreeViewModel.Initialize();
+			PlanDesignerViewModel.Initialize(PlanTreeViewModel.AllPlans);
 			_initialized = true;
 			OnSelectedPlanChanged();
 		}
@@ -52,7 +54,7 @@ namespace PlansModule.ViewModels
 		private void OnSelectedPlanChanged()
 		{
 			if (_initialized)
-				PlanDesignerViewModel.Initialize(PlanTreeViewModel.SelectedPlan);
+				PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
 		}
 
 		private void OnRegisterPlanPresenter(IPlanPresenter<Plan> planPresenter)
@@ -68,7 +70,7 @@ namespace PlansModule.ViewModels
 
 		private void OnShowElement(Guid elementUID)
 		{
-			foreach (var presenterItem in PlanDesignerViewModel.Items)
+			foreach (var presenterItem in PlanDesignerViewModel.PresenterItems)
 				if (presenterItem.Element.UID == elementUID)
 				{
 					presenterItem.Navigate();
@@ -90,8 +92,11 @@ namespace PlansModule.ViewModels
 		{
 			Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-			OnSelectPlan(args.PlanUID);
-			OnShowElement(args.ElementUID);
+			Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)delegate
+			{
+				OnSelectPlan(args.PlanUID);
+				OnShowElement(args.ElementUID);
+			});
 		}
 	}
 }

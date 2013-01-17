@@ -6,7 +6,6 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using FiresecAPI.XModels;
 
 namespace GKModule.ViewModels
 {
@@ -45,7 +44,7 @@ namespace GKModule.ViewModels
             }
         }
 
-        void OnNewJournal(List<JournalItem> journalItems)
+        public void OnNewJournal(List<JournalItem> journalItems)
         {
             foreach (var journalItem in journalItems)
             {

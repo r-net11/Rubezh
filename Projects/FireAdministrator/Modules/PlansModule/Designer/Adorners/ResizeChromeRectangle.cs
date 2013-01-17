@@ -2,25 +2,21 @@
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 
 namespace PlansModule.Designer.Adorners
 {
 	public class ResizeChromeRectangle : ResizeChrome
 	{
-		static ResizeChromeRectangle()
-		{
-			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromeRectangle), new FrameworkPropertyMetadata(typeof(ResizeChromeRectangle)));
-		}
-
 		public ResizeChromeRectangle(DesignerItem designerItem)
 			: base(designerItem)
 		{
 		}
 
-		public override void Initialize()
+		protected override void Render(DrawingContext drawingContext)
 		{
+			DrawSizableBounds(drawingContext);
 		}
-
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBaseRectangle element = DesignerItem.Element as ElementBaseRectangle;
@@ -44,7 +40,7 @@ namespace PlansModule.Designer.Adorners
 					element.Height = 0;
 				if (element.Width < 0)
 					element.Width = 0;
-				DesignerItem.SetLocation();
+				DesignerItem.Redraw();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

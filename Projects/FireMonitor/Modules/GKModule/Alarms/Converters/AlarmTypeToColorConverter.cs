@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI.Models;
 using XFiresecAPI;
 
 namespace GKModule.Converters
@@ -29,7 +28,7 @@ namespace GKModule.Converters
 				case XAlarmType.Ignore:
 					return "Wheat";
 
-				case XAlarmType.Info:
+				case XAlarmType.Turning:
 					return "SkyBlue";
 
 				case XAlarmType.Service:

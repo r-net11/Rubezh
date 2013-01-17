@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Common.GK;
-using Infrastructure.Common.Windows;
-using System;
-using System.Linq;
-using Infrastructure;
-using GKModule.Events;
 using FiresecClient;
+using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
 namespace GKModule
@@ -18,9 +15,6 @@ namespace GKModule
 
         public static void Start()
         {
-			var journalItems = GKDBHelper.GetTopLast(100);
-			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
-
             Watchers = new List<Watcher>();
             foreach (var gkDatabase in DatabaseManager.GkDatabases)
             {

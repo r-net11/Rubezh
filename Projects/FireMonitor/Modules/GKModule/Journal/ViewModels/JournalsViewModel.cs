@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Common.GK;
+using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using Infrastructure;
-using GKModule.Events;
-using Common.GK;
-using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
 
 namespace GKModule.ViewModels
 {
@@ -21,6 +21,9 @@ namespace GKModule.ViewModels
 
             ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
             ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+
+			var journalItems = GKDBHelper.GetTopLast(100);
+			Journals.ForEach(x => x.OnNewJournal(journalItems));
         }
 
         public void Initialize()

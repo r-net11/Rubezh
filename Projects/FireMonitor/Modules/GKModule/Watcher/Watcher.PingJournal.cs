@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common;
 using Common.GK;
 using FiresecAPI.XModels;
-using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using XFiresecAPI;
 
 namespace GKModule
 {
@@ -69,7 +66,7 @@ namespace GKModule
         void ReadAndPublish(int startIndex, int endIndex)
         {
             var journalItems = new List<JournalItem>();
-            for (int index = startIndex; index <= endIndex; index++)
+            for (int index = startIndex + 1; index <= endIndex; index++)
             {
                 var journalItem = ReadJournal(index);
                 if (journalItem != null)
@@ -85,8 +82,8 @@ namespace GKModule
                     {
                         ApplicationService.Invoke(() =>
                         {
-							StatesWatcher.CheckServiceRequired(binaryObject.BinaryBase, journalItem);
-                            StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState));
+							CheckServiceRequired(binaryObject.BinaryBase, journalItem);
+                            SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState));
                             ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
                         });
                     }

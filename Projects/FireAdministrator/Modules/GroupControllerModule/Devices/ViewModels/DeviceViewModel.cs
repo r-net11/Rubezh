@@ -34,8 +34,6 @@ namespace GKModule.ViewModels
 
 		void OnChanged()
 		{
-			//OnPropertyChanged("Address");
-			//OnPropertyChanged("Description");
             OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
             OnPropertyChanged("EditingPresentationZone");
@@ -120,7 +118,11 @@ namespace GKModule.ViewModels
 		}
         public bool CanAdd()
         {
-            return (Driver.Children.Count > 0);
+			if (Driver.Children.Count > 0)
+				return true;
+			if (Driver.DriverType == XDriverType.MPT && Parent != null && Parent.Driver.DriverType == XDriverType.KAU)
+				return true;
+			return false;
         }
 
         public RelayCommand AddToParentCommand { get; private set; }

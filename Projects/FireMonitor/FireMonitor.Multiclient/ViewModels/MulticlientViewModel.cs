@@ -1,51 +1,71 @@
-﻿using System.Collections.Generic;
-using Controls.Menu.ViewModels;
-using Infrastructure.Common;
+﻿using System;
+using System.Collections.ObjectModel;
+using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using MuliclientAPI;
 
 namespace FireMonitor.Multiclient.ViewModels
 {
 	public class MulticlientViewModel : ApplicationViewModel
 	{
-		private int _count;
-		private List<HostViewModel> _hosts;
-
-		public MulticlientViewModel(int count)
+		public MulticlientViewModel()
 		{
-			_count = count;
-			Title = "Multiclient FireSec-2";
+			Title = "Мультисерверная Оперативная Задача FireSec-2";
 			HideInTaskbar = false;
 			AllowHelp = false;
 			AllowMaximize = true;
 			AllowMinimize = true;
 			AllowClose = true;
-			CreateToolbar();
 			Closed += (s, e) => App.Current.Shutdown();
+			Hosts = new ObservableCollection<HostViewModel>();
 		}
-		private void CreateToolbar()
+
+		public void Initialize(MulticlientConfiguration multiclientConfiguration)
 		{
-			ShowHost = new RelayCommand<int?>(OnShowHost, CanShowHost);
-			var menu = new MenuViewModel();
-			_hosts = new List<HostViewModel>();
-			for (int i = 0; i < _count; i++)
+			if (multiclientConfiguration == null)
+				return;
+
+			int index = 0;
+			foreach (var multiclientData in multiclientConfiguration.MulticlientDatas)
 			{
-				menu.Items.Add(new MenuButtonViewModel(ShowHost, "/Controls;component/Images/Maximize.png", i.ToString(), i));
-				_hosts.Add(new HostViewModel(i));
+				multiclientData.Id = index++.ToString();
+				var hostViewModel = new HostViewModel(multiclientData);
+				hostViewModel.StateTypeChanged += new Action(OnStateTypeChanged);
+				Hosts.Add(hostViewModel);
 			}
-			Toolbar = menu;
 		}
 
-		public RelayCommand<int?> ShowHost;
-		private void OnShowHost(int? index)
+		StateType MainStateType = StateType.Norm;
+
+		void OnStateTypeChanged()
 		{
-			SelectedHost = index.HasValue ? _hosts[index.Value] : null;
-			OnPropertyChanged(() => SelectedHost);
-		}
-		private bool CanShowHost(int? index)
-		{
-			return index.HasValue ? _hosts[index.Value].IsReady : false;
+			var newStateType = StateType.Norm;
+			HostViewModel newHostViewModel = null;
+			foreach (var hostViewModel in Hosts)
+			{
+				if (hostViewModel.StateType < newStateType)
+				{
+					newStateType = hostViewModel.StateType;
+					newHostViewModel = hostViewModel;
+				}
+			}
+			if (newStateType != MainStateType)
+			{
+				SelectedHost = newHostViewModel;
+			}
 		}
 
-		public HostViewModel SelectedHost { get; set; }
+		public ObservableCollection<HostViewModel> Hosts { get; private set; }
+
+		HostViewModel _selectedHost;
+		public HostViewModel SelectedHost
+		{
+			get { return _selectedHost; }
+			set
+			{
+				_selectedHost = value;
+				OnPropertyChanged("SelectedHost");
+			}
+		}
 	}
 }

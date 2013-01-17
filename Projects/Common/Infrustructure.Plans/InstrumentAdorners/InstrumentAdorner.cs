@@ -50,9 +50,12 @@ namespace Infrustructure.Plans.Designer
 			StartPoint = startPoint;
 			AdornerCanvas.Children.Clear();
 			Show();
-			AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(DesignerCanvas);
-			if (adornerLayer != null)
+			if (Parent == null)
+			{
+				AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(DesignerCanvas);
+				if (adornerLayer != null)
 					adornerLayer.Add(this);
+			}
 		}
 		protected abstract void Show();
 		public void Hide()

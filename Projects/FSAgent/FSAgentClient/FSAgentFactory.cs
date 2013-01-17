@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FSAgentAPI;
 using System.ServiceModel;
-using Common;
-using System.Threading;
 using System.ServiceModel.Description;
+using System.Threading;
+using Common;
+using FSAgentAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 
@@ -39,7 +36,7 @@ namespace FSAgentClient
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if(!FSAgentLoadHelper.Load())
-                    BalloonHelper.Show("Агент Firesec", "Не удается соединиться с агентом");
+					BalloonHelper.Show("Драйвер Firesec", "Не удается соединиться с агентом");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);

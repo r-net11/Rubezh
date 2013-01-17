@@ -97,8 +97,8 @@ namespace Common.GK
         {
             var endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
             var udpClient = new UdpClient();
-            udpClient.Client.ReceiveTimeout = 10000;
-            udpClient.Client.SendTimeout = 10000;
+            udpClient.Client.ReceiveTimeout = 1000;
+            udpClient.Client.SendTimeout = 1000;
 
             try
             {

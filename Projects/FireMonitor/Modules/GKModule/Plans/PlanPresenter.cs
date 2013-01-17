@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrustructure.Plans;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Presenter;
-using Infrastructure;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
 using FiresecAPI;
-using XFiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans.Designer;
+using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Presenter;
+using XFiresecAPI;
 
 namespace GKModule.Plans
 {
@@ -22,9 +21,6 @@ namespace GKModule.Plans
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/XDeviceMenuView.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/XZoneMenuView.xaml"));
-			
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);

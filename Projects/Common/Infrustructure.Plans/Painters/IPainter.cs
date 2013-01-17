@@ -1,11 +1,12 @@
 ﻿using System.Windows;
-using Infrustructure.Plans.Elements;
 using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
 	public interface IPainter
 	{
-		UIElement Draw(ElementBase element);
+		bool RedrawOnZoom { get; }
+		void Draw(DrawingContext drawingContext, ElementBase element, Rect rect);
 	}
 }

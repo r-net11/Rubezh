@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using Infrustructure.Plans.Elements;
-using Microsoft.Practices.Prism.Events;
-using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class CommonDesignerCanvas : Canvas
 	{
-		protected virtual Canvas SelectedCanvas { get; set; }
+		private Dictionary<Guid, DesignerSurface> _canvasMap;
+		protected DesignerSurface SelectedCanvas { get; private set; }
+		protected Guid SelectedUID { get; private set; }
 		public virtual double Zoom { get { return 1; } }
-		public virtual double PointZoom { get { return 10; } }
+		public virtual double PointZoom { get { return CommonDesignerItem.DefaultPointSize; } }
 
 		public CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{
+			_canvasMap = new Dictionary<Guid, DesignerSurface>();
 			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
-			//Items = new List<DesignerItem>();
 			ClipToBounds = true;
 		}
 
@@ -30,30 +33,64 @@ namespace Infrustructure.Plans.Designer
 		public virtual void Clear()
 		{
 			Children.Clear();
-			//Items.Clear();
+			_canvasMap.Clear();
+			SelectedCanvas = null;
+			SelectedUID = Guid.Empty;
 		}
-		protected void AddCanvas()
+		protected void AddCanvas(Guid uid)
 		{
-			SelectedCanvas = new Canvas();
+			SelectedUID = uid;
+			SelectedCanvas = new DesignerSurface();
 			Children.Add(SelectedCanvas);
+			_canvasMap.Add(uid, SelectedCanvas);
+
+			CanvasBackground = new SolidColorBrush(Colors.DarkGray);
+			CanvasWidth = 100;
+			CanvasHeight = 100;
+			SelectedCanvas.DataContext = this;
 		}
 		protected void RemoveCanvas()
 		{
+			_canvasMap.Remove(SelectedUID);
 			Children.Remove(SelectedCanvas);
 			SelectedCanvas = null;
+			SelectedUID = Guid.Empty;
+		}
+		protected void SelectCanvas(Guid uid)
+		{
+			SelectedCanvas = null;
+			SelectedUID = uid;
+			if (uid != Guid.Empty && _canvasMap.ContainsKey(uid))
+			{
+				SelectedCanvas = _canvasMap[uid];
+				SelectedCanvas.Update(true);
+			}
+		}
+		public void ShowCanvas(Guid uid)
+		{
+			if (SelectedCanvas != null)
+			{
+				DeselectAll();
+				SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
+				SelectCanvas(Guid.Empty);
+			}
+			if (uid != Guid.Empty)
+			{
+				SelectCanvas(uid);
+				Height = SelectedCanvas.Height;
+				Width = SelectedCanvas.Width;
+				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
+			}
 		}
 
-		public void Remove(DesignerItem designerItem)
+		public void Remove(CommonDesignerItem designerItem)
 		{
-			SelectedCanvas.Children.Remove(designerItem);
-			//Items.Remove(designerItem);
+			SelectedCanvas.DeleteDesignerItem(designerItem);
 		}
-		public void Add(DesignerItem designerItem)
+		public void Add(CommonDesignerItem designerItem)
 		{
 			designerItem.DesignerCanvas = this;
-			designerItem.UpdateAdornerLayout();
-			SelectedCanvas.Children.Add(designerItem);
-			//Items.Add(designerItem);
+			SelectedCanvas.AddDesignerItem(designerItem);
 		}
 		public double CanvasWidth
 		{
@@ -78,27 +115,48 @@ namespace Infrustructure.Plans.Designer
 			get { return SelectedCanvas.Background; }
 			set { SelectedCanvas.Background = value; }
 		}
+		public void UpdateZIndex()
+		{
+			if (SelectedCanvas != null)
+				SelectedCanvas.UpdateZIndex();
+		}
+		public void SetTitle(string title)
+		{
+			if (SelectedCanvas != null)
+			{
+				var toolTip = SelectedCanvas.ToolTip as ToolTip;
+				if (toolTip != null)
+					toolTip.IsOpen = false;
+				SelectedCanvas.ToolTip = null;
+				if (!string.IsNullOrEmpty(title))
+				{
+					toolTip = new ToolTip();
+					toolTip.Content = title;
+					toolTip.Placement = PlacementMode.MousePoint;
+					if (SelectedCanvas.IsMouseOver)
+					{
+						SelectedCanvas.ToolTip = toolTip;
+						toolTip.IsOpen = true;
+					}
+				}
+			}
+		}
 
-		//public List<DesignerItem> Items { get; private set; }
-		//public IEnumerable<DesignerItem> SelectedItems
-		//{
-		//    get { return from item in Items where item.IsSelected select item; }
-		//}
-		//public IEnumerable<ElementBase> SelectedElements
-		//{
-		//    get { return from item in Items where item.IsSelected select item.Element; }
-		//}
 		public IEnumerable<DesignerItem> Items
 		{
-			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() select item; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : SelectedCanvas.Items.OfType<DesignerItem>(); }
 		}
 		public IEnumerable<DesignerItem> SelectedItems
 		{
-			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<DesignerItem>() : from item in SelectedCanvas.Items.OfType<DesignerItem>() where item.IsSelected == true select item; }
 		}
 		public IEnumerable<ElementBase> SelectedElements
 		{
-			get { return SelectedCanvas == null ? Enumerable.Empty<ElementBase>() : from item in SelectedCanvas.Children.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
+			get { return SelectedCanvas == null ? Enumerable.Empty<ElementBase>() : from item in SelectedCanvas.Items.OfType<DesignerItem>() where item.IsSelected == true select item.Element; }
+		}
+		protected IEnumerable<T> InternalItems<T>()
+		{
+			return SelectedCanvas == null ? Enumerable.Empty<T>() : SelectedCanvas.Items.OfType<T>();
 		}
 
 		public void SelectAll()
@@ -117,5 +175,11 @@ namespace Infrustructure.Plans.Designer
 		public abstract void Update();
 		public abstract void CreateDesignerItem(ElementBase element);
 		public abstract void Remove(List<Guid> elementUIDs);
+
+		public void ZoomChanged()
+		{
+			PainterCache.Zoom = Zoom;
+			PainterCache.PointZoom = PointZoom;
+		}
 	}
 }

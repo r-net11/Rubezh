@@ -28,7 +28,7 @@ namespace Common.GK
                 {
                     No = 0,
                     Name = "Parameter 0",
-                    Caption = "Порог питания основного",
+                    Caption = "Порог питания основного, 0.1 В",
                     ToolTip = "",
                     Default = 200,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
@@ -41,7 +41,7 @@ namespace Common.GK
                 {
                     No = 1,
                     Name = "Parameter 1",
-                    Caption = "Порог питания резервного",
+					Caption = "Порог питания резервного, 0.1 В",
                     ToolTip = "",
                     Default = 200,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
@@ -67,7 +67,7 @@ namespace Common.GK
                 {
                     No = 3,
                     Name = "Parameter 3",
-                    Caption = "Интервал опроса шлейфов",
+					Caption = "Интервал опроса шлейфов, мс",
                     ToolTip = "",
                     Default = 1000,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,

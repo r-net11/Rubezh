@@ -1,14 +1,11 @@
-﻿using System.Linq;
-using System.Windows.Controls;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using PlansModule.Designer;
-using System.Collections.Generic;
-using System;
 using Infrustructure.Plans.Designer;
-using System.Windows;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -93,7 +90,7 @@ namespace PlansModule.ViewModels
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
 				transform(designerItem, total);
-				designerItem.SetLocation();
+				designerItem.Translate();
 			}
 			DesignerCanvas.EndChange();
 			ServiceFactory.SaveService.PlansChanged = true;

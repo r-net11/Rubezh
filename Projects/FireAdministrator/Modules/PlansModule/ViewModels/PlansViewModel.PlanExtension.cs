@@ -8,6 +8,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using Controls.Converters;
 
 namespace PlansModule.ViewModels
 {
@@ -89,7 +90,7 @@ namespace PlansModule.ViewModels
 				};
 			Binding visibilityBinding = new Binding("SelectedPlan");
 			visibilityBinding.Source = this;
-			visibilityBinding.Converter = (IValueConverter)Application.Current.FindResource("NullToVisibilityConverter");
+			visibilityBinding.Converter = new NullToVisibilityConverter();
 			layers.SetBinding(TabItem.VisibilityProperty, visibilityBinding);
 
 			TabPages = new List<TabItem>()

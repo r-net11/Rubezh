@@ -28,7 +28,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Требуется обслуживание")]
 		Service = 7,
 
-		[DescriptionAttribute("Информация")]
-		Info = 8
+		[DescriptionAttribute("Включение")]
+		Turning = 8
 	}
 }

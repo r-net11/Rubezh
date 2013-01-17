@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Microsoft.Win32;
 using Infrastructure.Common;
+using Microsoft.Win32;
 
 namespace Revisor
 {

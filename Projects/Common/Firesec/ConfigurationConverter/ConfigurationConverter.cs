@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -68,7 +67,8 @@ namespace Firesec
         public DriversConfiguration ConvertMetadataFromFiresec()
         {
             var driversConfiguration = new DriversConfiguration();
-            var coreDriversConfig = FiresecSerializedClient.GetMetaData().Result;
+			var metadataResult = FiresecSerializedClient.GetMetaData();
+			var coreDriversConfig = metadataResult.Result;
             if (coreDriversConfig == null)
                 return null;
             foreach (var innerDriver in coreDriversConfig.drv)

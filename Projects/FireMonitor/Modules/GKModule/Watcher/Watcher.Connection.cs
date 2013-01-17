@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Common.GK;
-using FiresecAPI.XModels;
 using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
@@ -16,9 +15,19 @@ namespace GKModule
     public partial class Watcher
     {
         bool IsConnected = true;
+		int ConnectionLostCount = 0;
 
         void ConnectionChanged(bool isConnected)
         {
+			if (!isConnected)
+			{
+				ConnectionLostCount++;
+				if (ConnectionLostCount < 5)
+					return;
+			}
+			else
+				ConnectionLostCount=0;
+
             if (IsConnected != isConnected)
             {
                 var journalItem = new JournalItem()
@@ -32,11 +41,11 @@ namespace GKModule
                 };
                 if (isConnected)
                 {
-                    journalItem.Description = "Восстановление связи с прибором";
+                    journalItem.Name = "Восстановление связи с прибором";
                 }
                 else
                 {
-                    journalItem.Description = "Потеря связи с прибором";
+                    journalItem.Name = "Потеря связи с прибором";
                 }
                 ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
                 GKDBHelper.Add(journalItem);

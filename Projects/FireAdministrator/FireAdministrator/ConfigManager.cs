@@ -1,12 +1,16 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Ionic.Zip;
 
 namespace FireAdministrator
 {
@@ -34,63 +38,68 @@ namespace FireAdministrator
                 WaitHelper.Execute(() =>
                 {
                     LoadingService.ShowProgress("Применение конфигурации", "Применение конфигурации", 10);
-                    if (ServiceFactory.SaveService.FSChanged)
-                    {
-                        LoadingService.DoStep("Применение конфигурации устройств");
-                        if (!ServiceFactory.AppSettings.DoNotOverrideFS1)
-                        {
-                            var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                            if (fsResult.HasError)
-                            {
-                                MessageBoxService.ShowError(fsResult.Error);
-                            }
-                        }
-                        LoadingService.DoStep("Сохранение конфигурации устройств");
-                        var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                        if (result.HasError)
-                        {
-                            MessageBoxService.ShowError(result.Error);
-                        }
-                    }
+					if (ServiceFactory.SaveService.FSChanged)
+					{
+						LoadingService.DoStep("Применение конфигурации устройств");
+						if (!ServiceFactory.AppSettings.DoNotOverrideFS1)
+						{
+							if (FiresecManager.FiresecDriver != null)
+							{
+								var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+								if (fsResult.HasError)
+								{
+									MessageBoxService.ShowError(fsResult.Error);
+								}
+							}
+						}
+					}
 
-                    if (ServiceFactory.SaveService.PlansChanged)
-                    {
-                        LoadingService.DoStep("Сохранение конфигурации графических планов");
-                        FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-                    }
+					var tempFileName = AppDataFolderHelper.GetTempFileName() +"_";
+					var zipFile = new ZipFile(tempFileName);
 
-                    if (ServiceFactory.SaveService.SecurityChanged)
-                    {
-                        LoadingService.DoStep("Сохранение конфигурации пользователей и ролей");
-                        FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
-                    }
+					TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-                    if (ServiceFactory.SaveService.LibraryChanged)
-                    {
-                        LoadingService.DoStep("Сохранение конфигурации библиотеки устройств");
-                        FiresecManager.FiresecService.SetDeviceLibraryConfiguration(FiresecManager.DeviceLibraryConfiguration);
-                    }
+					if (ServiceFactory.SaveService.FSChanged)
+					{
+						AddConfiguration(zipFile, FiresecManager.FiresecConfiguration.DeviceConfiguration, "DeviceConfiguration.xml", 1, 1);
+					}
+					if (ServiceFactory.SaveService.PlansChanged)
+					{
+						AddConfiguration(zipFile, FiresecManager.PlansConfiguration, "PlansConfiguration.xml", 1, 1);
+					}
+					if (ServiceFactory.SaveService.SecurityChanged)
+					{
+						AddConfiguration(zipFile, FiresecManager.SecurityConfiguration, "SecurityConfiguration.xml", 1, 1);
+					}
+					if (ServiceFactory.SaveService.LibraryChanged)
+					{
+						AddConfiguration(zipFile, FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml", 1, 1);
+					}
+					if ((ServiceFactory.SaveService.InstructionsChanged) ||
+						(ServiceFactory.SaveService.SoundsChanged) ||
+						(ServiceFactory.SaveService.FilterChanged) ||
+						(ServiceFactory.SaveService.CamerasChanged))
+					{
+						AddConfiguration(zipFile, FiresecManager.SystemConfiguration, "SystemConfiguration.xml", 1, 1);
+					}
+					if (ServiceFactory.SaveService.GKChanged)
+					{
+						AddConfiguration(zipFile, XManager.DeviceConfiguration, "XDeviceConfiguration.xml", 1, 1);
+					}
+					if (ServiceFactory.SaveService.XLibraryChanged)
+					{
+						AddConfiguration(zipFile, XManager.XDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml", 1, 1);
+					}
 
-                    if ((ServiceFactory.SaveService.InstructionsChanged) ||
-                        (ServiceFactory.SaveService.SoundsChanged) ||
-                        (ServiceFactory.SaveService.FilterChanged) ||
-                        (ServiceFactory.SaveService.CamerasChanged))
-                    {
-                        LoadingService.DoStep("Сохранение конфигурации прочих настроек");
-                        FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
-                    }
+					AddConfiguration(zipFile, TempZipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml", 1, 1);
+					zipFile.Save(tempFileName);
+					zipFile.Dispose();
 
-                    if (ServiceFactory.SaveService.GKChanged)
-                    {
-                        LoadingService.DoStep("Сохранение конфигурации ГК");
-                        FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
-                    }
-
-                    if (ServiceFactory.SaveService.XLibraryChanged)
-                    {
-                        LoadingService.DoStep("Сохранение конфигурации библиотеки устройств ГК");
-                        FiresecManager.FiresecService.SetXDeviceLibraryConfiguration(XManager.XDeviceLibraryConfiguration);
-                    }
+					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
+					{
+						FiresecManager.FiresecService.SetConfig(fileStream);
+					}
+					File.Delete(tempFileName);
 
                     if (ServiceFactory.SaveService.FSChanged ||
                         ServiceFactory.SaveService.PlansChanged ||
@@ -108,6 +117,21 @@ namespace FireAdministrator
                 return false;
             }
         }
+
+		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+
+		static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
+		{
+			configuration.BeforeSave();
+			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+			var configurationStream = ZipSerializeHelper.Serialize(configuration);
+			if (zipFile.Entries.Any(x => x.FileName == name))
+				zipFile.RemoveEntry(name);
+			configurationStream.Position = 0;
+			zipFile.AddEntry(name, configurationStream);
+
+			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
+		}
 
         public static void CreateNew()
         {

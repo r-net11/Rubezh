@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
-using GKModule.Events;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 

@@ -1,46 +1,47 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : ContentControl, INotifyPropertyChanged
+	public abstract class CommonDesignerItem : DrawingVisual, IVisualItem
 	{
-		public const int BigConstatnt = 100000;
-
-		#region INotifyPropertyChanged Members
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		#endregion
+		public const int DefaultPointSize = 30;
 
 		public event EventHandler ItemPropertyChanged;
+		public event EventHandler TitleChanged;
 
-		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
-		public virtual bool IsSelected
+		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
+		public ElementBase Element { get; protected set; }
+		public IPainter Painter { get; protected set; }
+		public bool IsMouseOver { get; private set; }
+		public bool IsBusy { get; protected set; }
+		public bool IsEnabled { get; protected set; }
+		public virtual bool AllowDrag { get { return false; } }
+		protected Rect OriginalRect { get; private set; }
+		protected TranslateTransform TranslateTransform { get; private set; }
+		protected ScaleTransform ScaleTransform { get; private set; }
+
+		public event Action<CommonDesignerItem> UpdateProperties;
+
+		private string _title;
+		public string Title
 		{
-			get { return (bool)GetValue(IsSelectedProperty); }
+			get { return _title; }
 			set
 			{
-				if (!value || IsSelectable)
+				if (Title != value)
 				{
-					SetValue(IsSelectedProperty, value);
-					if (value)
-						EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element);
+					_title = value;
+					if (TitleChanged != null)
+						TitleChanged(this, EventArgs.Empty);
 				}
 			}
-		}
-
-		public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
-		public virtual bool IsSelectable
-		{
-			get { return (bool)GetValue(IsSelectableProperty); }
-			set { SetValue(IsSelectableProperty, value); }
 		}
 
 		private bool _isVisibleLayout;
@@ -52,77 +53,91 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-					if (!value)
-						IsSelected = false;
+					Opacity = IsVisibleLayout ? 1 : 0;
+					ResetIsEnabled();
 				}
-			}
-		}
-
-		private bool _isSelectableLayout;
-		public virtual bool IsSelectableLayout
-		{
-			get { return _isSelectableLayout; }
-			set
-			{
-				if (_isSelectableLayout != value)
-				{
-					_isSelectableLayout = value;
-					IsSelectable = value;
-					if (!value)
-						IsSelected = false;
-				}
-			}
-		}
-
-		public ElementBase Element { get; protected set; }
-		public IPainter Painter { get; protected set; }
-		public Visual Presenter { get; protected set; }
-
-		public event Action<CommonDesignerItem> UpdateProperties;
-
-		private string _title;
-		public string Title
-		{
-			get { return _title; }
-			set
-			{
-				_title = value;
-				OnPropertyChanged("Title");
 			}
 		}
 
 		public CommonDesignerItem(ElementBase element)
 		{
+			ScaleTransform = new ScaleTransform();
+			TranslateTransform = new TranslateTransform();
+			Transform = new TransformGroup()
+			{
+				Children = new TransformCollection()
+				{
+					ScaleTransform,
+					TranslateTransform
+				}
+			};
+			IsBusy = false;
+			ResetIsEnabled();
 			ResetElement(element);
-			ContextMenuOpening += (s, e) => CreateContextMenu();
+		}
+
+		public double MinHeight { get; protected set; }
+		public double MinWidth { get; protected set; }
+
+		public virtual void UpdateZoom()
+		{
+			if (Painter != null && Painter.RedrawOnZoom)
+				Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)Redraw);
+		}
+		public virtual void UpdateZoomPoint()
+		{
 		}
 
 		public virtual void ResetElement(ElementBase element)
 		{
 			Element = element;
-			DataContext = Element;
 			Painter = PainterFactory.Create(Element);
-		}
-
-		public virtual void SetLocation()
-		{
-			var rect = Element.GetRectangle();
-			if (ItemWidth != rect.Width)
-				ItemWidth = rect.Width;
-			if (ItemHeight != rect.Height)
-				ItemHeight = rect.Height;
-			if (Canvas.GetLeft(this) != rect.Left)
-				Canvas.SetLeft(this, rect.Left);
-			if (Canvas.GetTop(this) != rect.Top)
-				Canvas.SetTop(this, rect.Top);
+			if (DesignerCanvas != null)
+				Redraw();
 		}
 		public virtual void Redraw()
 		{
-			RedrawContent();
-			SetLocation();
+			SetMinSize();
+			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
+			using (DrawingContext drawingContext = RenderOpen())
+			{
+				OriginalRect = GetRectangle();
+				Translate(true);
+				Render(drawingContext);
+			}
 		}
-		public void RedrawContent()
+		protected virtual void Render(DrawingContext drawingContext)
+		{
+			if (Painter != null)
+				Painter.Draw(drawingContext, Element, GetRectangle());
+		}
+		public virtual void Translate(bool force = false)
+		{
+			// if (Painter.AllowScale)?...:Redraw();
+			var rect = GetRectangle();
+			if (rect.Size != OriginalRect.Size || force)
+			{
+				ScaleTransform.CenterX = OriginalRect.Left;
+				ScaleTransform.CenterY = OriginalRect.Top;
+				ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
+				ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
+			}
+			if (rect.TopLeft != OriginalRect.TopLeft || force)
+			{
+				TranslateTransform.X = rect.Left - OriginalRect.Left;
+				TranslateTransform.Y = rect.Top - OriginalRect.Top;
+			}
+		}
+		public virtual Rect GetRectangle()
+		{
+			return Element.GetRectangle();
+		}
+		protected virtual void ResetIsEnabled()
+		{
+			IsEnabled = IsVisibleLayout;
+		}
+
+		protected virtual void SetMinSize()
 		{
 			MinWidth = Element.BorderThickness;
 			MinHeight = Element.BorderThickness;
@@ -131,25 +146,7 @@ namespace Infrustructure.Plans.Designer
 				MinWidth += 3;
 				MinHeight += 3;
 			}
-			Presenter = Painter == null ? null : Painter.Draw(Element);
-			OnPropertyChanged("Content");
 		}
-		public void SetZIndex()
-		{
-			Panel.SetZIndex(this, Element.ZIndex + Element.ZLayer * BigConstatnt);
-		}
-
-		public virtual double ItemWidth
-		{
-			get { return Width - Element.BorderThickness; }
-			set { Width = value + Element.BorderThickness; }
-		}
-		public virtual double ItemHeight
-		{
-			get { return Height - Element.BorderThickness; }
-			set { Height = value + Element.BorderThickness; }
-		}
-
 		public virtual void UpdateElementProperties()
 		{
 			OnUpdateProperties();
@@ -160,17 +157,83 @@ namespace Infrustructure.Plans.Designer
 				UpdateProperties(this);
 		}
 
-		protected abstract void CreateContextMenu();
-
-		protected void OnPropertyChanged(string propertyName)
+		public virtual ContextMenu GetContextMenu()
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			return null;
 		}
 		protected void OnDesignerItemPropertyChanged()
 		{
 			if (ItemPropertyChanged != null)
 				ItemPropertyChanged(this, EventArgs.Empty);
+		}
+
+		protected virtual void MouseDown(Point point, MouseButtonEventArgs e)
+		{
+			DesignerCanvas.SetTitle(null);
+		}
+		protected virtual void MouseUp(Point point, MouseButtonEventArgs e)
+		{
+		}
+		protected virtual void MouseMove(Point point, MouseEventArgs e)
+		{
+		}
+		protected virtual void MouseDoubleClick(Point point, MouseButtonEventArgs e)
+		{
+		}
+
+		protected virtual void SetIsMouseOver(bool value)
+		{
+			IsMouseOver = value;
+			DesignerCanvas.SetTitle(value ? Title : null);
+		}
+		protected virtual ContextMenu ContextMenuOpening()
+		{
+			DesignerCanvas.SetTitle(null);
+			return GetContextMenu();
+		}
+
+		#region IVisualItem Members
+
+		void IVisualItem.SetIsMouseOver(bool isMouseOver, Point point)
+		{
+			SetIsMouseOver(isMouseOver);
+		}
+		ContextMenu IVisualItem.ContextMenuOpening()
+		{
+			return ContextMenuOpening();
+		}
+
+		void IVisualItem.OnMouseDown(Point point, MouseButtonEventArgs e)
+		{
+			if (IsEnabled)
+				MouseDown(point, e);
+		}
+		void IVisualItem.OnMouseUp(Point point, MouseButtonEventArgs e)
+		{
+			if (IsEnabled)
+				MouseUp(point, e);
+		}
+		void IVisualItem.OnMouseMove(Point point, MouseEventArgs e)
+		{
+			if (IsEnabled)
+				MouseMove(point, e);
+		}
+		void IVisualItem.OnMouseDoubleClick(Point point, MouseButtonEventArgs e)
+		{
+			if (IsEnabled)
+				MouseDoubleClick(point, e);
+		}
+
+		#endregion
+
+		public virtual void DragStarted(Point point)
+		{
+		}
+		public virtual void DragCompleted(Point point)
+		{
+		}
+		public virtual void DragDelta(Point point, Vector shift)
+		{
 		}
 	}
 }

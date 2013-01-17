@@ -120,7 +120,11 @@ namespace PlansModule.ViewModels
 					AddElement(new ElementViewModel(Elements, designerItem));
 			}
 			if (elements.Count > 0)
+			{
+				_isSelectedEvent = true;
 				Select(elements[elements.Count - 1].UID);
+				_isSelectedEvent = false;
+			}
 			UpdateHasChildren();
 		}
 		private void OnElementRemoved(List<ElementBase> elements)

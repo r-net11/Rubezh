@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define MultiClientMonitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
+  <?define MultiClientAdministrator.TargetDir="..\..\..\..\..\MultiClient\MultiClientAdministrator\bin\Release\"?>
+
+  <?define MultiClientMonitorName="Мультисерверная Оперативная Задача ОПС FireSec-2" ?>
+  <?define MultiClientMonitor.TargetFileName="FireMonitor.Multiclient.exe"?>
+  <?define MultiClientAdministratorName="Мультисерверная Оперативная Задача ОПС FireSec-2(Настройка)" ?>
+  <?define MultiClientAdministrator.TargetFileName="MultiClientAdministrator.exe"?>
+</Include>

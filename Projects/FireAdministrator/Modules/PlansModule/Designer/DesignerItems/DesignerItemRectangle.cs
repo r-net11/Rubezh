@@ -1,9 +1,9 @@
 ﻿using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer.Adorners;
 using PlansModule.ViewModels;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -12,7 +12,7 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemRectangle(ElementBase element)
 			: base(element)
 		{
-			ResizeChrome = new ResizeChromeRectangle(this);
+			SetResizeChrome(new ResizeChromeRectangle(this));
 			if (Element is ElementRectangle)
 			{
 				Title = "Прямоугольник";
@@ -33,7 +33,6 @@ namespace PlansModule.Designer.DesignerItems
 				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
 				Group = LayerGroupService.SubPlanAlias;
 			}
-			UpdateLayout();
 		}
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()

@@ -16,187 +16,190 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using System.Windows;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace DiagnosticsModule.ViewModels
 {
-    public class DiagnosticsViewModel : ViewPartViewModel
-    {
-        public DiagnosticsViewModel()
-        {
-            ShowDriversCommand = new RelayCommand(OnShowDrivers);
-            ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
-            ShowTreeCommand = new RelayCommand(OnShowTree);
-            SecurityTestCommand = new RelayCommand(OnSecurityTest);
-            Test1Command = new RelayCommand(OnTest1);
-            Test2Command = new RelayCommand(OnTest2);
-            Test3Command = new RelayCommand(OnTest3);
-            Test4Command = new RelayCommand(OnTest4);
-            Test5Command = new RelayCommand(OnTest5);
-            Test6Command = new RelayCommand(OnTest6);
+	public class DiagnosticsViewModel : ViewPartViewModel
+	{
+		public DiagnosticsViewModel()
+		{
+			ShowDriversCommand = new RelayCommand(OnShowDrivers);
+			ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
+			ShowTreeCommand = new RelayCommand(OnShowTree);
+			SecurityTestCommand = new RelayCommand(OnSecurityTest);
+			Test1Command = new RelayCommand(OnTest1);
+			Test2Command = new RelayCommand(OnTest2);
+			Test3Command = new RelayCommand(OnTest3);
+			Test4Command = new RelayCommand(OnTest4);
+			Test5Command = new RelayCommand(OnTest5);
+			Test6Command = new RelayCommand(OnTest6);
             Test7Command = new RelayCommand(OnTest7);
             Test8Command = new RelayCommand(OnTest8);
-            Test9Command = new RelayCommand(OnTest9);
+			Test9Command = new RelayCommand(OnTest9);
             Test10Command = new RelayCommand(OnTest10);
             Test11Command = new RelayCommand(OnTest11);
-            BalloonTestCommand = new RelayCommand(OnBalloonTest);
-        }
+			BalloonTestCommand = new RelayCommand(OnBalloonTest);
+			PlanDuplicateTestCommand = new RelayCommand(OnPlanDuplicateTest);
+		}
 
-        public void StopThreads()
-        {
-            IsThreadStoping = true;
-        }
+		public void StopThreads()
+		{
+			IsThreadStoping = true;
+		}
 
-        bool IsThreadStoping = false;
+		bool IsThreadStoping = false;
 
-        string _text;
+		string _text;
 
-        public string Text
-        {
-            get { return _text; }
-            set
-            {
-                _text = value;
-                OnPropertyChanged("Text");
-            }
-        }
+		public string Text
+		{
+			get { return _text; }
+			set
+			{
+				_text = value;
+				OnPropertyChanged("Text");
+			}
+		}
 
-        public RelayCommand ShowDriversCommand { get; private set; }
-
+		public RelayCommand ShowDriversCommand { get; private set; }
+		void OnShowDrivers()
         private void OnShowDrivers()
-        {
-            var driversView = new DriversView();
-            driversView.ShowDialog();
-        }
+		{
+			var driversView = new DriversView();
+			driversView.ShowDialog();
+		}
 
-        public RelayCommand ShowXDriversCommand { get; private set; }
-
+		public RelayCommand ShowXDriversCommand { get; private set; }
+		void OnShowXDrivers()
         private void OnShowXDrivers()
-        {
-            var driversView = new XDriversView();
-            driversView.ShowDialog();
-        }
+		{
+			var driversView = new XDriversView();
+			driversView.ShowDialog();
+		}
 
-        public RelayCommand SecurityTestCommand { get; private set; }
+		public RelayCommand SecurityTestCommand { get; private set; }
+		void OnSecurityTest()
+		{
+		}
 
-        private void OnSecurityTest()
-        {
-        }
-
-        public RelayCommand ShowTreeCommand { get; private set; }
-
+		public RelayCommand ShowTreeCommand { get; private set; }
+		void OnShowTree()
         private void OnShowTree()
-        {
-            var devicesTreeViewModel = new DevicesTreeViewModel();
-            DialogService.ShowModalWindow(devicesTreeViewModel);
-        }
+		{
+			var devicesTreeViewModel = new DevicesTreeViewModel();
+			DialogService.ShowModalWindow(devicesTreeViewModel);
+		}
 
-        int counter = 0;
+		int counter = 0;
 
-        public RelayCommand Test1Command { get; private set; }
-
+		public RelayCommand Test1Command { get; private set; }
+		void OnTest1()
         private void OnTest1()
-        {
-            while (true)
-            {
-                WriteAllDeviceConfigurationHelper.Run(false);
-                Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString() + " " + DateTime.Now.ToString());
-                counter++;
-            }
-        }
+		{
+			while (true)
+			{
+				WriteAllDeviceConfigurationHelper.Run(false);
+				Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString() + " " + DateTime.Now.ToString());
+				counter++;
+			}
+		}
 
-        public RelayCommand Test2Command { get; private set; }
-
+		public RelayCommand Test2Command { get; private set; }
+		void OnTest2()
         private void OnTest2()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    if (IsThreadStoping)
-                        break;
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					if (IsThreadStoping)
+						break;
 
-                    FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                    //FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                    Thread.Sleep(TimeSpan.FromSeconds(5));
-                    Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
-                    counter++;
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+					FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+					//FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+					Thread.Sleep(TimeSpan.FromSeconds(5));
+					Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
+					counter++;
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
-        public RelayCommand Test3Command { get; private set; }
-
+		public RelayCommand Test3Command { get; private set; }
+		void OnTest3()
         private void OnTest3()
-        {
-        }
+		{
+		}
 
-        public RelayCommand Test4Command { get; private set; }
-
+		public RelayCommand Test4Command { get; private set; }
+		void OnTest4()
         private void OnTest4()
-        {
-        }
+		{
+		}
 
-        public RelayCommand Test5Command { get; private set; }
-
+		public RelayCommand Test5Command { get; private set; }
+		void OnTest5()
         private void OnTest5()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                while (true)
-                {
-                    if (IsThreadStoping)
-                        break;
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					if (IsThreadStoping)
+						break;
 
-                    var journalRecords = new List<JournalRecord>();
-                    var journalRecord = new JournalRecord()
-                    {
-                        DeviceTime = DateTime.Now,
-                        SystemTime = DateTime.Now,
-                        Description = "TestEvent"
-                    };
-                    journalRecords.Add(journalRecord);
-                    FiresecManager.FiresecService.AddJournalRecords(journalRecords);
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
-                    Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
-                    counter++;
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+					var journalRecords = new List<JournalRecord>();
+					var journalRecord = new JournalRecord()
+					{
+						DeviceTime = DateTime.Now,
+						SystemTime = DateTime.Now,
+						Description = "TestEvent"
+					};
+					journalRecords.Add(journalRecord);
+					FiresecManager.FiresecService.AddJournalRecords(journalRecords);
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+					Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
+					counter++;
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
-        public RelayCommand Test6Command { get; private set; }
-
+		public RelayCommand Test6Command { get; private set; }
+		void OnTest6()
         private void OnTest6()
-        {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                int count = 0;
-                while (true)
-                {
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				int count = 0;
+				while (true)
+				{
                     //if (Firesec.NativeFiresecClient.TasksCount > 10)
                     //    continue;
-                    Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-                    //var safeFiresecService = new SafeFiresecService("net.pipe://127.0.0.1/FiresecService/");
-                    //safeFiresecService.Connect(new ClientCredentials() { ClientType = ClientType.Administrator, ClientUID = Guid.NewGuid(), UserName = "adm", Password = "" }, true);
-                    //safeFiresecService.StartShortPoll(false);
-                    //safeFiresecService.ShortPoll();
-                    //safeFiresecService.Dispose();
-                    //Trace.WriteLine("Count = " + count++.ToString());
+					//var safeFiresecService = new SafeFiresecService("net.pipe://127.0.0.1/FiresecService/");
+					//safeFiresecService.Connect(new ClientCredentials() { ClientType = ClientType.Administrator, ClientUID = Guid.NewGuid(), UserName = "adm", Password = "" }, true);
+					//safeFiresecService.StartShortPoll(false);
+					//safeFiresecService.ShortPoll();
+					//safeFiresecService.Dispose();
+					//Trace.WriteLine("Count = " + count++.ToString());
 
-                    FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
-                    if (count % 1000 == 0)
-                    {
-                        Trace.WriteLine("Count = " + count.ToString());
-                    }
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
-        }
+					FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
+					if (count % 1000 == 0)
+					{
+						Trace.WriteLine("Count = " + count.ToString());
+					}
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
         public RelayCommand Test8Command { get; private set; }
 
@@ -205,55 +208,55 @@ namespace DiagnosticsModule.ViewModels
             FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
         }
 
-        public RelayCommand Test7Command { get; private set; }
+		public RelayCommand Test7Command { get; private set; }
 
         private void OnTest7()
         {
-            var thread = new Thread(new ThreadStart(() =>
-            {
-                int count = 0;
-                while (true)
-                {
-                    if (IsThreadStoping)
-                        break;
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				int count = 0;
+				while (true)
+				{
+					if (IsThreadStoping)
+						break;
 
                     FiresecManager.FiresecService.Test("Hello " + count++.ToString());//.ShortPoll(FiresecServiceFactory.UID);
-                    Thread.Sleep(1000);
-                }
-            }));
-            thread.IsBackground = true;
-            thread.Start();
+					Thread.Sleep(1000);
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
         }
 
-        public RelayCommand Test9Command { get; private set; }
-
+		public RelayCommand Test9Command { get; private set; }
+		void OnTest9()
         private void OnTest9()
-        {
-            FiresecManager.DeviceLibraryConfiguration = null;
-            FiresecManager.DeviceLibraryConfiguration = GetConfig(FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
-            ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-        }
+		{
+			FiresecManager.DeviceLibraryConfiguration = null;
+			FiresecManager.DeviceLibraryConfiguration = GetConfig(FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+		}
 
-        private T GetConfig<T>(T configuration, string fileName)
-            where T : VersionedConfiguration, new()
-        {
-            var stream = FiresecManager.FiresecService.GetConfig();
-            using (Stream file = File.Create("Configuration\\config.fscp"))
-            {
-                CopyStream(stream, file);
-                file.Close();
-                var unzip = ZipFile.Read("Configuration\\config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-                var xmlstream = new MemoryStream();
-                var entry = unzip[fileName];
-                if (entry != null)
-                {
-                    entry.Extract(xmlstream);
-                    xmlstream.Position = 0;
-                    //configuration = ZipSerializeHelper.DeSerialize<T>(xmlstream);
-                }
-                return configuration;
-            }
-        }
+		T GetConfig<T>(T configuration, string fileName)
+			where T : VersionedConfiguration, new()
+		{
+			var stream = FiresecManager.FiresecService.GetConfig();
+			using (Stream file = File.Create("Configuration\\config.fscp"))
+			{
+				CopyStream(stream, file);
+				file.Close();
+				var unzip = ZipFile.Read("Configuration\\config.fscp", new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+				var xmlstream = new MemoryStream();
+				var entry = unzip[fileName];
+				if (entry != null)
+				{
+					entry.Extract(xmlstream);
+					xmlstream.Position = 0;
+					configuration = ZipSerializeHelper.DeSerialize<T>(xmlstream);
+				}
+				return configuration;
+			}
+		}
 
         public RelayCommand Test10Command { get; private set; }
 
@@ -273,21 +276,53 @@ namespace DiagnosticsModule.ViewModels
             DialogService.ShowModalWindow(zoneTestViewModel);
         }
 
-        public static void CopyStream(Stream input, Stream output)
-        {
-            byte[] buffer = new byte[8 * 1024];
-            int len;
-            while ((len = input.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                output.Write(buffer, 0, len);
-            }
-        }
+		public static void CopyStream(Stream input, Stream output)
+		{
+			byte[] buffer = new byte[8 * 1024];
+			int len;
+			while ((len = input.Read(buffer, 0, buffer.Length)) > 0)
+			{
+				output.Write(buffer, 0, len);
+			}
+		}
 
-        public RelayCommand BalloonTestCommand { get; private set; }
-
+		public RelayCommand BalloonTestCommand { get; private set; }
+		void OnBalloonTest()
         private void OnBalloonTest()
-        {
-            BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
-        }
-    }
+		{
+			BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
+		}
+
+		public RelayCommand PlanDuplicateTestCommand { get; private set; }
+		void OnPlanDuplicateTest()
+		{
+			using (new WaitWrapper())
+			{
+				DataContractSerializer serializer = new DataContractSerializer(typeof(Plan));
+				var Count = FiresecManager.PlansConfiguration.Plans.Count;
+				for (int i = 0; i < Count; i++)
+				{
+					Plan plan = null;
+					using (var stream = new MemoryStream())
+					{
+						serializer.WriteObject(stream, FiresecManager.PlansConfiguration.Plans[i]);
+						stream.Seek(0, SeekOrigin.Begin);
+						plan = (Plan)serializer.ReadObject(stream);
+					}
+					if (plan != null)
+						FiresecManager.PlansConfiguration.Plans.Add(plan);
+				}
+
+				var appType = Application.Current.GetType();
+				var bootstrapperProp = appType.GetField("_bootstrapper", BindingFlags.Instance | BindingFlags.NonPublic);
+				var bootstrapper = bootstrapperProp.GetValue(Application.Current);
+				var modulesProp = bootstrapper.GetType().BaseType.GetField("_modules", BindingFlags.Instance | BindingFlags.NonPublic);
+				var modules = (List<IModule>)modulesProp.GetValue(bootstrapper);
+				foreach (IModule module in modules)
+					if (module.Name == "Графические планы")
+						module.Initialize();
+			}
+			MessageBox.Show("Всего планов: " + FiresecManager.PlansConfiguration.Plans.Count);
+		}
+	}
 }

@@ -23,10 +23,9 @@ namespace Common.GK
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 18, 5, 20);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 0, 18, 5, 20);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Дым" });
-
 			driver.AUParameters.Add(new XAUParameter() { No = 0x86, Name = "Текущая запыленность" });
 			driver.AUParameters.Add(new XAUParameter() { No = 0x87, Name = "Порог запыленности предварительный" });
 			driver.AUParameters.Add(new XAUParameter() { No = 0x8A, Name = "Порог запыленности критический" });

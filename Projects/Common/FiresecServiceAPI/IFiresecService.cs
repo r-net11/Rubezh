@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
-using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -28,43 +27,9 @@ namespace FiresecAPI
 
         [OperationContract(IsOneWay = true)]
         void NotifyClientsOnConfigurationChanged();
-        #endregion
 
-        #region Configuration
-        [OperationContract]
-        DriversConfiguration GetDriversConfiguration();
-
-        [OperationContract]
-        DeviceConfiguration GetDeviceConfiguration();
-
-        [OperationContract]
-        SystemConfiguration GetSystemConfiguration();
-
-        [OperationContract]
-        void SetSystemConfiguration(SystemConfiguration systemConfiguration);
-
-        [OperationContract]
-        DeviceLibraryConfiguration GetDeviceLibraryConfiguration();
-
-        [OperationContract]
-        void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration);
-
-        [OperationContract]
-        PlansConfiguration GetPlansConfiguration();
-
-        [OperationContract]
-        void SetPlansConfiguration(PlansConfiguration plansConfiguration);
-
-        [OperationContract]
-        SecurityConfiguration GetSecurityConfiguration();
-
-        [OperationContract]
-        void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
-        #endregion
-
-        #region Devices
-        [OperationContract]
-        OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
+		[OperationContract]
+		SecurityConfiguration GetSecurityConfiguration();
         #endregion
 
         #region Journal
@@ -102,25 +67,14 @@ namespace FiresecAPI
 
         [OperationContract]
         Stream GetConfig();
+
+        [OperationContract]
+        void SetConfig(Stream stream);
         #endregion
 
         #region Convertation
         [OperationContract]
         void SetJournal(List<JournalRecord> journalRecords);
-        #endregion
-
-        #region XSystem
-        [OperationContract]
-        void SetXDeviceConfiguration(XDeviceConfiguration xDeviceConfiguration);
-
-        [OperationContract]
-        XDeviceConfiguration GetXDeviceConfiguration();
-
-        [OperationContract]
-        void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration);
-
-        [OperationContract]
-        XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration();
         #endregion
     }
 }

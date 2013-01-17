@@ -15,11 +15,7 @@ namespace PlansModule.ViewModels
 			Source = sourceElement;
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			DesignerItem = designerItem;
-			DesignerItem.PropertyChanged += (s, e) =>
-			{
-				if (e.PropertyName == "Title")
-					OnPropertyChanged("Name");
-			};
+			DesignerItem.TitleChanged += (s, e) => OnPropertyChanged("Name");
 		}
 
 		public DesignerItem DesignerItem { get; private set; }
@@ -38,10 +34,10 @@ namespace PlansModule.ViewModels
 
 		public bool IsSelectable
 		{
-			get { return DesignerItem.IsSelectableLayout; }
+			get { return DesignerItem.IsSelectable; }
 			set
 			{
-				DesignerItem.IsSelectableLayout = value;
+				DesignerItem.IsSelectable = value;
 				OnPropertyChanged("IsSelectable");
 				((DesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
 			}
@@ -49,12 +45,12 @@ namespace PlansModule.ViewModels
 
 		public override ContextMenu ContextMenu
 		{
-			get { return DesignerItem.ContextMenu; }
+			get { return DesignerItem.GetContextMenu(); }
 		}
 
 		void OnShowOnPlan()
 		{
-			if (DesignerItem.IsSelectable)
+			if (DesignerItem.IsEnabled)
 				ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.Element.UID);
 		}
 	}

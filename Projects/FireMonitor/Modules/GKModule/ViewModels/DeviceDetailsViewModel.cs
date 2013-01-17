@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Common.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using Common.GK;
-using System.Collections.Generic;
+using System.Threading;
 using System.ComponentModel;
 
 namespace GKModule.ViewModels
@@ -27,7 +28,9 @@ namespace GKModule.ViewModels
 
             Title = Device.Driver.ShortName + " " + Device.DottedAddress;
             TopMost = true;
-            //UpdateAuParameters();
+			BackgroundWorker bw = new BackgroundWorker();
+			bw.DoWork += new DoWorkEventHandler(UpdateAuParameters);
+			bw.RunWorkerAsync();
         }
 
         void OnStateChanged()
@@ -68,7 +71,7 @@ namespace GKModule.ViewModels
             get { return Device.Driver.AUParameters.Count > 0; }
         }
 
-        void UpdateAuParameters()
+		void UpdateAuParameters(object sender, DoWorkEventArgs e)
         {
             AUParameterValues = new List<AUParameterValue>();
             foreach (var auParameter in Device.Driver.AUParameters)

@@ -16,15 +16,13 @@ using Infrastructure.Common.Module;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using Infrastructure.Common.BalloonTrayTip.Views;
 
 namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
-		public List<IModule> _modules;
-		List<ModuleReg> modulesFromReg = new List<ModuleReg>();
+		private List<IModule> _modules;
+		private List<ModuleReg> modulesFromReg = new List<ModuleReg>();
 		public BaseBootstrapper()
 		{
 			Logger.Trace(SystemInfo.GetString());

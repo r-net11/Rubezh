@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -10,8 +12,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using Common;
-using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -32,9 +32,11 @@ namespace PlansModule.ViewModels
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 
 			DesignerCanvas = new DesignerCanvas();
-			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
 			PlanDesignerViewModel = new PlanDesignerViewModel();
 			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
+			DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
+			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
+			DesignerCanvas.ZoomChanged();
 
 			InitializeCopyPaste();
 			InitializeHistory();
@@ -51,7 +53,6 @@ namespace PlansModule.ViewModels
 			{
 				Plans = new ObservableCollection<PlanViewModel>();
 				DesignerCanvas.Clear();
-				DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
 				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
 				{
 					PlanDesignerViewModel.Initialize(plan);
@@ -77,7 +78,10 @@ namespace PlansModule.ViewModels
 				parentPlanViewModel.Children.Add(planViewModel);
 
 			foreach (var childPlan in plan.Children)
+			{
+				PlanDesignerViewModel.Initialize(childPlan);
 				AddPlan(childPlan, planViewModel);
+			}
 		}
 
 		private ObservableCollection<PlanViewModel> _plans;
@@ -110,6 +114,7 @@ namespace PlansModule.ViewModels
 						ElementsViewModel.Update();
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
+					DesignerCanvas.DeselectAll();
 				}
 				Debug.WriteLine("===========================================");
 			}
@@ -227,7 +232,7 @@ namespace PlansModule.ViewModels
 			DesignerCanvas.DeselectAll();
 
 			foreach (var designerItem in DesignerCanvas.Items)
-				if (designerItem.Element.UID == elementUID && designerItem.IsSelectable)
+				if (designerItem.Element.UID == elementUID && designerItem.IsEnabled)
 					designerItem.IsSelected = true;
 		}
 		private void OnShowElementDevice(Guid deviceUID)
@@ -255,15 +260,19 @@ namespace PlansModule.ViewModels
 
 		public override void OnShow()
 		{
+			Debug.WriteLine("===========================================");
 			using (new WaitWrapper())
+			using (new TimeCounter("PlansViewModel.OnShow: {0}"))
 			{
 				base.OnShow();
-				FiresecManager.UpdatePlansConfiguration();
+				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
+					FiresecManager.UpdatePlansConfiguration();
 				DesignerCanvas.DeselectAll();
 
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;
 			}
+			Debug.WriteLine("===========================================");
 			if (SelectedPlan == null)
 				SelectedPlan = Plans.FirstOrDefault();
 		}

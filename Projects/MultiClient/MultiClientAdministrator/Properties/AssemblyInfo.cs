@@ -7,11 +7,11 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("MultiClient")]
+[assembly: AssemblyTitle("MultiClientAdministrator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("qq")]
-[assembly: AssemblyProduct("MultiClient")]
+[assembly: AssemblyCompany("Rubezh")]
+[assembly: AssemblyProduct("MultiClientAdministrator")]
 [assembly: AssemblyCopyright("Copyright © qq 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

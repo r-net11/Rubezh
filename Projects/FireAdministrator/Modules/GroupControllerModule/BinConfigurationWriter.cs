@@ -39,7 +39,6 @@ namespace GKModule
                 }
 
                 GoToWorkingRegime(gkDatabase.RootDevice);
-                //SyncronizeTime(gkDatabase.RootDevice);
 
                 LoadingService.Close();
             }
@@ -64,8 +63,8 @@ namespace GKModule
                     if (sendResult.HasError)
                     {
                         MessageBoxService.Show(sendResult.Error);
-                        //LoadingService.Close();
-                        //break;
+						LoadingService.Close();
+						return;
                     }
                 }
             }
@@ -171,7 +170,7 @@ namespace GKModule
         static void SyncronizeTime(XDevice device)
         {
             LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
-            DeviceTimeHelper.Write(device);
+            DeviceBytesHelper.WriteDateTime(device);
         }
     }
 }

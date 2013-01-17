@@ -63,6 +63,9 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\..\3rdParty\NotifyIcon\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -109,22 +112,21 @@
     </Compile>
     <Compile Include="Processor\ConnectionManager.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
-    <Compile Include="Processor\ConfigurationFileManager.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\FiresecDbConverter1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Processor\SecurityConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.Poll.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
-    <Compile Include="Service\FiresecService.Configuration.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\FiresecService.Journal.cs" />
-    <Compile Include="Service\FiresecService.XDevices.cs" />
     <Compile Include="Service\PollAsyncResult.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />

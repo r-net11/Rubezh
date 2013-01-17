@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -104,7 +103,7 @@ namespace Infrastructure.Common.Navigation
 		}
 		private bool HavePermission(NavigationItem item)
 		{
-			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.Permissions.Any(x => x == item.Permission.Value);
+			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.HasPermission(item.Permission.Value);
 		}
 	}
 }

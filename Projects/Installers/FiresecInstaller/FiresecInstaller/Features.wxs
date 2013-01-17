@@ -21,6 +21,7 @@
       <Feature Id="GK.Features" Title="ГК" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
+        <ComponentRef Id="Monitor.GkJournalDatabase.sdf" />
       </Feature>
       <Feature Id="SKUD.Features" Title="СКД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
         <ComponentRef Id="Administrator.SKUD_MODULE"/>
@@ -30,12 +31,22 @@
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
       </Feature>
 
+      <Feature Id="Multiclient.Features" Title="Мультиклиент" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для Мультисерверной Оперативной Задачи">
+        <ComponentRef Id="MultiClient.Files"/>
+        <ComponentRef Id="MultiClientMonitor.ProgramsMenuShortcut" />
+        <ComponentRef Id="MultiClientMonitor.DesktopShortcut" />
+        <ComponentRef Id="MultiClientAdministrator.ProgramsMenuShortcut" />
+        <ComponentRef Id="MultiClientAdministrator.DesktopShortcut" />
+      </Feature>
+
       <!--<ComponentRef Id="Administrator.Remove" />
       <ComponentRef Id="Monitor.Remove" />
       <ComponentRef Id="OPC.Remove" />
       <ComponentRef Id="Server.Remove" />-->
 
       <ComponentRef Id="Administrator.PLANS_MODULE" />
+      <ComponentRef Id="Administrator.SOUNDS_MODULE" />
+      <ComponentRef Id="Administrator.SETTINGS_MODULE" />
       <ComponentRef Id="Monitor.PLANS_MODULE" />
       <ComponentRef Id="LogScript" />
       <ComponentRef Id="DesktopFolder" />

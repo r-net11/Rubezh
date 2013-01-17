@@ -28,6 +28,11 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		public InstrumentViewModel()
+		{
+			Autostart = true;
+		}
+
 		public ICommand Command { get; set; }
 		public InstrumentAdorner Adorner { get; set; }
 		public bool Autostart { get; set; }

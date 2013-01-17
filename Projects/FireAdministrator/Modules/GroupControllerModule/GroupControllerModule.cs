@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.GK;
 using FiresecAPI.Models;
+using FiresecClient;
 using GKModule.Plans;
 using GKModule.Validation;
 using GKModule.ViewModels;
@@ -9,11 +11,9 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using Common.GK;
-using FiresecClient;
-using Infrastructure.Common.Windows;
 
 namespace GKModule
 {
@@ -99,7 +99,7 @@ namespace GKModule
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
-			XManager.GetConfiguration();
+			XManager.UpdateConfiguration();
 			return true;
 		}
 	}

@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrustructure.Plans.Painters;
 using System.Windows;
-using Infrustructure.Plans.Elements;
-using FiresecClient;
-using FiresecAPI.Models;
-using DeviceControls;
-using FiresecAPI;
-using Infrustructure.Plans.Presenter;
-using System.Windows.Shapes;
 using System.Windows.Media;
-using System.Windows.Controls;
-using Infrastructure.Common;
+using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
-using Infrastructure.Events;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
+using Infrustructure.Plans.Presenter;
+using System.Windows.Controls;
 
 namespace DevicesModule.Plans.Designer
 {
-	class ZonePainter : BaseViewModel, IPainter
+	class ZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
 		private IPainter _painter;
 		private Zone _zone;
 		private List<Device> _devices;
 		private List<DeviceState> _deviceStates;
+		private ContextMenu _contextMenu;
 
 		public ZonePainter(PresenterItem presenterItem)
 		{
@@ -42,9 +40,8 @@ namespace DevicesModule.Plans.Designer
 
 		private void Bind()
 		{
-			_presenterItem.Border = BorderHelper.CreateBorderPolyline(_presenterItem.Element);
-			_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("ZoneMenuView");
-			_presenterItem.ContextMenu.DataContext = this;
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ((IElementZone)_presenterItem.Element).ZoneUID);
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
@@ -76,69 +73,68 @@ namespace DevicesModule.Plans.Designer
 			return sb.ToString().TrimEnd();
 		}
 
-		public Brush GetStateBrush()
+		#region IPainter Members
+
+		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		{
+			if (_zone == null)
+				return;
+			base.Draw(drawingContext, element, rect);
+		}
+		protected override Brush GetBrush(ElementBase element)
+		{
+			return PainterCache.GetBrush(GetStateColor());
+		}
+
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    if (_zone == null)
+		//        return null;
+		//    var shape = (Shape)_painter.Draw(element);
+		//    shape.Fill = GetStateBrush();
+		//    shape.Opacity = 1;
+		//    return shape;
+		//}
+
+		#endregion
+
+		public Color GetStateColor()
 		{
 			if (_zone != null && _zone.ZoneState.Zone.ZoneType == ZoneType.Guard)
 			{
 				if (_zone.ZoneState.StateType == StateType.Norm)
-					return Brushes.Blue;
+					return Colors.Blue;
 
 				if (FiresecManager.IsZoneOnGuardAlarm(_zone.ZoneState))
-					return Brushes.Red;
+					return Colors.Red;
 
 				if (FiresecManager.IsZoneOnGuard(_zone.ZoneState))
-					return Brushes.DarkGreen;
+					return Colors.DarkGreen;
 			}
 
 			StateType stateType = _zone == null ? StateType.Unknown : _zone.ZoneState.StateType;
 			switch (stateType)
 			{
 				case StateType.Fire:
-					return Brushes.Red;
-
-				case StateType.Attention:
-					return Brushes.Yellow;
-
-				case StateType.Failure:
-					return Brushes.Pink;
-
+					return Colors.Red;
 				case StateType.Service:
-					return Brushes.Yellow;
-
 				case StateType.Off:
-					return Brushes.Yellow;
-
+				case StateType.Attention:
+					return Colors.Yellow;
+				case StateType.Failure:
+					return Colors.Pink;
 				case StateType.Unknown:
-					return Brushes.Gray;
-
+					return Colors.Gray;
 				case StateType.Info:
-					return Brushes.LightBlue;
-
+					return Colors.LightBlue;
 				case StateType.Norm:
-					return Brushes.LightGreen;
-
+					return Colors.LightGreen;
 				case StateType.No:
-					return Brushes.White;
-
+					return Colors.White;
 				default:
-					return Brushes.Black;
+					return Colors.Black;
 			}
 		}
-
-		#region IPainter Members
-
-		public UIElement Draw(ElementBase element)
-		{
-			if (_zone == null)
-				return null;
-			var shape = (Shape)_painter.Draw(element);
-			shape.Fill = GetStateBrush();
-			shape.Opacity = 1;
-			return shape;
-		}
-
-		#endregion
-
 		private void InitializeDevices()
 		{
 			_devices = new List<Device>();
@@ -208,6 +204,40 @@ namespace DevicesModule.Plans.Designer
 		bool CanUnSetGuard()
 		{
 			return _zone != null && _zone.ZoneType == ZoneType.Guard && _zone.SecPanelUID != null && FiresecManager.IsZoneOnGuard(_zone.ZoneState);
+		}
+
+		private ContextMenu CreateContextMenu()
+		{
+			if (_contextMenu == null)
+			{
+				_contextMenu = new ContextMenu();
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать в списке",
+					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Отключить все устройства в зоне",
+					Command = DisableAllCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Включить все устройства в зоне",
+					Command = EnableAllCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Поставить на охрану",
+					Command = SetGuardCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Снять с охраны",
+					Command = UnSetGuardCommand
+				});
+			}
+			return _contextMenu;
 		}
 	}
 }

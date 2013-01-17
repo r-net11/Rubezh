@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
-using Common;
-using System.Threading;
-using System.Diagnostics;
-using FiresecAPI;
 
 namespace Infrastructure
 {

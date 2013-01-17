@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using Infrustructure.Plans.Painters;
 using System.Windows;
-using Infrustructure.Plans.Elements;
-using FiresecClient;
-using FiresecAPI.Models;
-using DeviceControls;
-using FiresecAPI;
-using Infrustructure.Plans.Presenter;
-using System.Windows.Shapes;
 using System.Windows.Media;
+using FiresecAPI;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
+using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
 using System.Windows.Controls;
-using Infrastructure.Common;
-using Infrastructure;
-using Infrastructure.Events;
 
 namespace GKModule.Plans.Designer
 {
-	class XZonePainter : IPainter
+	class XZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
 		private IPainter _painter;
 		private XZone _zone;
+		private ContextMenu _contextMenu;
 
 		public XZonePainter(PresenterItem presenterItem)
 		{
@@ -36,9 +32,8 @@ namespace GKModule.Plans.Designer
 
 		private void Bind()
 		{
-			_presenterItem.Border = BorderHelper.CreateBorderPolyline(_presenterItem.Element);
-			_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("XZoneMenuView");
-			_presenterItem.ContextMenu.DataContext = this;
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ((IElementZone)_presenterItem.Element).ZoneUID);
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
@@ -60,24 +55,34 @@ namespace GKModule.Plans.Designer
 			return sb.ToString().TrimEnd();
 		}
 
-		public Brush GetStateBrush()
-		{
-			return Brushes.Yellow;
-		}
-
 		#region IPainter Members
 
-		public UIElement Draw(ElementBase element)
+		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
 			if (_zone == null)
-				return null;
-			var shape = (Shape)_painter.Draw(element);
-			shape.Fill = GetStateBrush();
-			shape.Opacity = 1;
-			return shape;
+				return;
+			base.Draw(drawingContext, element, rect);
 		}
+		protected override Brush GetBrush(ElementBase element)
+		{
+			return PainterCache.GetBrush(GetStateColor());
+		}
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    if (_zone == null)
+		//        return null;
+		//    var shape = (Shape)_painter.Draw(element);
+		//    shape.Fill = GetStateBrush();
+		//    shape.Opacity = 1;
+		//    return shape;
+		//}
 
 		#endregion
+
+		public Color GetStateColor()
+		{
+			return Colors.Yellow;
+		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
@@ -87,6 +92,20 @@ namespace GKModule.Plans.Designer
 		bool CanShowInTree()
 		{
 			return _zone != null;
+		}
+
+		private ContextMenu CreateContextMenu()
+		{
+			if (_contextMenu == null)
+			{
+				_contextMenu = new ContextMenu();
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать в списке",
+					Command = ShowInTreeCommand
+				});
+			}
+			return _contextMenu;
 		}
 	}
 }

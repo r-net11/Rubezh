@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using Common.GK;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common;
-using XFiresecAPI;
-using FiresecClient;
-using FiresecAPI.Models;
-using System.ComponentModel;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Diagnostics;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -20,9 +15,11 @@ namespace GKModule.ViewModels
             SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
             SetManualStateCommand = new RelayCommand(OnSetManualState);
             SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
-
             SetOnStateCommand = new RelayCommand(OnSetOnState);
             SetOffStateCommand = new RelayCommand(OnSetOffState);
+			TurnOnCommand = new RelayCommand(OnTurnOn);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff);
 
 			DeviceState = deviceState;
 			DeviceState.StateChanged -= new System.Action(OnStateChanged);
@@ -109,6 +106,24 @@ namespace GKModule.ViewModels
         void OnSetOffState()
         {
             SendControlCommand(0x86);
+        }
+
+		public RelayCommand TurnOnCommand { get; private set; }
+		void OnTurnOn()
+        {
+			SendControlCommand(0x8b);
+        }
+
+		public RelayCommand TurnOnNowCommand { get; private set; }
+		void OnTurnOnNow()
+        {
+			SendControlCommand(0x90);
+        }
+
+		public RelayCommand TurnOffCommand { get; private set; }
+		void OnTurnOff()
+        {
+			SendControlCommand(0x8d);
         }
 
 		void OnStateChanged()

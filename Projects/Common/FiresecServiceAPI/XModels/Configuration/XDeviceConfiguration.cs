@@ -81,7 +81,9 @@ namespace XFiresecAPI
 
 			if (RootDevice == null)
 			{
-
+				var device = new XDevice();
+				device.DriverUID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
+				RootDevice = device;
 				result = false;
 			}
 

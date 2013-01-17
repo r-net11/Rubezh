@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Common;
-using Common.GK;
-using FiresecAPI.XModels;
-using FiresecClient;
-using GKModule.Events;
-using Infrastructure;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
-using XFiresecAPI;
 using System.Threading;
+using Common;
 
 namespace GKModule
 {

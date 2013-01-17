@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using DevicesModule.Plans;
 using DevicesModule.Validation;
 using DevicesModule.ViewModels;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -10,11 +12,9 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Windows;
-using FiresecAPI;
-using Common;
 
 namespace DevicesModule
 {
@@ -98,8 +98,6 @@ namespace DevicesModule
 		{
 			try
 			{
-				LoadingService.DoStep("Загрузка конфигурации с сервера");
-                FiresecManager.GetConfiguration();
 				LoadingService.DoStep("Загрузка драйвера устройств");
 				var connectionResult = FiresecManager.InitializeFiresecDriver(false);
 				if (connectionResult.HasError)
@@ -118,8 +116,12 @@ namespace DevicesModule
 				Logger.Error(e, "DevicesModule.BeforeInitialize");
 				MessageBoxService.ShowError(e.Message);
 				return false;
-			}
-			return true;
+            }
+#if RELEASE
+					if (LoadingErrorManager.HasError)
+						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
+#endif
+            return true;
 		}
 	}
 }

@@ -1,33 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using Infrustructure.Plans.Painters;
 using System.Windows;
-using Infrustructure.Plans.Elements;
-using FiresecClient;
-using FiresecAPI.Models;
+using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using System.Windows.Controls;
-using Infrastructure.Common;
-using Infrastructure.Events;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Windows.Shapes;
-using System.Windows.Media;
+using Controls.Converters;
 
 namespace DevicesModule.Plans.Designer
 {
-	class DevicePainter : BaseViewModel, IPainter
+	class DevicePainter : IPainter
 	{
 		private PresenterItem _presenterItem;
 		private DeviceControl _deviceControl;
 		private Device _device;
+		private ContextMenu _contextMenu;
 
 		public DevicePainter()
 		{
+			_contextMenu = null;
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -37,9 +37,8 @@ namespace DevicesModule.Plans.Designer
 		{
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
-			_presenterItem.Border = BorderHelper.CreateBorderRectangle();
-			_presenterItem.ContextMenu = (ContextMenu)_presenterItem.FindResource("DeviceMenuView");
-			_presenterItem.ContextMenu.DataContext = this;
+			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			var elementDevice = presenterItem.Element as ElementDevice;
 			if (elementDevice != null)
 			{
@@ -55,7 +54,6 @@ namespace DevicesModule.Plans.Designer
 				}
 			}
 			_presenterItem.Title = GetDeviceTooltip();
-			OnPropertyChanged(() => DeviceState);
 		}
 
 		private void OnPropertyChanged()
@@ -64,7 +62,6 @@ namespace DevicesModule.Plans.Designer
 			_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
 			_presenterItem.Title = GetDeviceTooltip();
 			_presenterItem.Redraw();
-			OnPropertyChanged(() => DeviceState);
 		}
 		private string GetDeviceTooltip()
 		{
@@ -98,13 +95,25 @@ namespace DevicesModule.Plans.Designer
 
 		#region IPainter Members
 
-		public UIElement Draw(ElementBase element)
+		public bool RedrawOnZoom
 		{
-			if (_device == null)
-				return null;
-			_deviceControl.Update();
-			return _deviceControl;
+			get { return false; }
 		}
+		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		{
+			if (_device != null)
+			{
+				var brush = DevicePictureCache.GetBrush(_device);
+				drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
+			}
+		}
+		//public UIElement Draw(ElementBase element)
+		//{
+		//    if (_device == null)
+		//        return null;
+		//    _deviceControl.Update();
+		//    return _deviceControl;
+		//}
 
 		#endregion
 
@@ -118,23 +127,45 @@ namespace DevicesModule.Plans.Designer
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.UID);
 		}
-
 		public bool CanDisable()
 		{
 			return _device == null ? false : FiresecManager.CanDisable(_device.DeviceState);
 		}
-
 		public RelayCommand DisableCommand { get; private set; }
 		void OnDisable()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 				FiresecManager.ChangeDisabled(_device.DeviceState);
 		}
-
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
+		}
+
+		private ContextMenu CreateContextMenu()
+		{
+			if (_contextMenu == null)
+			{
+				_contextMenu = new ContextMenu();
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать в дереве",
+					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "",
+					Command = DisableCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Свойства",
+					Command = ShowPropertiesCommand
+				});
+			}
+			((MenuItem)_contextMenu.Items[1]).Header = DeviceState.IsDisabled ? "Включить" : "Отключить";
+			return _contextMenu;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Controls;
+using System.Windows.Threading;
 
 namespace Infrastructure.Client.Plans
 {
@@ -21,18 +22,14 @@ namespace Infrastructure.Client.Plans
 			_scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
 			_scrollViewer.MouseLeave += OnMiddleMouseLeave;
 
-
 			_scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
-			_scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
-			_scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
-			_scrollViewer.MouseMove += OnMouseMove;
 			_scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
 			slider.ValueChanged += OnSliderValueChanged;
 			deviceSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
 
 			Loaded += new RoutedEventHandler(OnLoaded);
-			SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
+			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -47,9 +44,9 @@ namespace Infrastructure.Client.Plans
 
 		public void Reset()
 		{
-			((IPlanDesignerViewModel)DataContext).ChangeDeviceZoom(deviceSlider.Value);
 			FullSize();
 			slider.Value = 1;
+			((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * initialScale, deviceSlider.Value);
 		}
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -154,51 +151,7 @@ namespace Infrastructure.Client.Plans
 
 			scaleTransform.ScaleX = scale;
 			scaleTransform.ScaleY = scale;
-
-			((IPlanDesignerViewModel)DataContext).ChangeZoom(slider.Value * initialScale);
 		}
-
-		#region Hand Moving
-		Point? lastDragPoint;
-
-		void OnMouseMove(object sender, MouseEventArgs e)
-		{
-			if (lastDragPoint.HasValue)
-			{
-				Point posNow = e.GetPosition(_scrollViewer);
-
-				double dX = posNow.X - lastDragPoint.Value.X;
-				double dY = posNow.Y - lastDragPoint.Value.Y;
-
-				lastDragPoint = posNow;
-
-				_scrollViewer.ScrollToHorizontalOffset(_scrollViewer.HorizontalOffset - dX);
-				_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
-			}
-		}
-
-		void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (Keyboard.IsKeyDown(Key.LeftCtrl))
-			{
-				var mousePos = e.GetPosition(_scrollViewer);
-				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
-				{
-					_scrollViewer.Cursor = Cursors.Hand;
-					lastDragPoint = mousePos;
-					Mouse.Capture(_scrollViewer);
-				}
-				e.Handled = true;
-			}
-		}
-
-		void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			_scrollViewer.Cursor = Cursors.Arrow;
-			_scrollViewer.ReleaseMouseCapture();
-			lastDragPoint = null;
-		}
-		#endregion
 
 		private void OnDeviceZoomOut(object sender, RoutedEventArgs e)
 		{
@@ -214,32 +167,52 @@ namespace Infrastructure.Client.Plans
 			((IPlanDesignerViewModel)DataContext).ChangeDeviceZoom(e.NewValue);
 		}
 
+		private Point? lastDragPoint;
 		private void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
-				MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
+				var mousePos = e.GetPosition(_scrollViewer);
+				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
+				{
+					lastDragPoint = mousePos;
+					_scrollViewer.Cursor = Cursors.Hand;
+					_scrollViewer.CaptureMouse();
+				}
+				e.Handled = true;
 			}
 		}
 		private void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Released)
 			{
-				MiddleButtonScrollHelper.StopScrolling();
+				lastDragPoint = null;
+				_scrollViewer.Cursor = Cursors.Arrow;
+				_scrollViewer.ReleaseMouseCapture();
 			}
 		}
 		private void OnMiddleMouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Pressed)
+			if (e.MiddleButton == MouseButtonState.Pressed && lastDragPoint.HasValue)
 			{
-				MiddleButtonScrollHelper.UpdateScrolling(e);
+				Point posNow = e.GetPosition(_scrollViewer);
+
+				double dX = posNow.X - lastDragPoint.Value.X;
+				double dY = posNow.Y - lastDragPoint.Value.Y;
+
+				lastDragPoint = posNow;
+
+				_scrollViewer.ScrollToHorizontalOffset(_scrollViewer.HorizontalOffset - dX);
+				_scrollViewer.ScrollToVerticalOffset(_scrollViewer.VerticalOffset - dY);
 			}
 		}
 		private void OnMiddleMouseLeave(object sender, MouseEventArgs e)
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
-				MiddleButtonScrollHelper.StopScrolling();
+				lastDragPoint = null;
+				_scrollViewer.Cursor = Cursors.Arrow;
+				_scrollViewer.ReleaseMouseCapture();
 			}
 		}
 	}

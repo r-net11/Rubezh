@@ -43,6 +43,8 @@
     <Compile Include="Monitor\Shortcuts.wxs" />
     <Compile Include="Monitor\Uninstall.wxs" />
     <Compile Include="Installer.wxs" />
+    <Compile Include="Multiclient\Files.wxs" />
+    <Compile Include="Multiclient\Shortcuts.wxs" />
     <Compile Include="OPC\Features.wxs" />
     <Compile Include="OPC\Files.wxs" />
     <Compile Include="OPC\Shortcuts.wxs" />
@@ -100,6 +102,7 @@
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
+    <Content Include="Multiclient\Variables.wxi" />
     <Content Include="OPC\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="Firesec\Variables.wxi" />
@@ -115,6 +118,7 @@
   <ItemGroup>
     <Folder Include="FSAgent" />
     <Folder Include="Data" />
+    <Folder Include="Multiclient" />
     <Folder Include="Utils" />
     <Folder Include="OPC" />
     <Folder Include="Server" />

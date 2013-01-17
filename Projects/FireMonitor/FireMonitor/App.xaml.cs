@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
+using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -22,11 +23,26 @@ namespace FireMonitor
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
-		public bool IsMulticlient { get; set; }
+		public static bool IsMulticlient { get; private set; }
+		public static string MulticlientId { get; private set; }
+
+		public static void SetMulticlientData(MulticlientData multiclientData)
+		{
+			IsMulticlient = true;
+			MulticlientId = multiclientData.Id;
+			AppSettingsManager.AutoConnect = true;
+			AppSettingsManager.Login = multiclientData.Login;
+			AppSettingsManager.Password = multiclientData.Password;
+			AppSettingsManager.FS_Address = multiclientData.Address;
+			AppSettingsManager.RemoteAddress = multiclientData.Address;
+			AppSettingsManager.RemotePort = multiclientData.Port;
+			AppSettingsManager.RemoteFSAgentPort = multiclientData.Port;
+		}
 
 		public App()
 		{
 			IsMulticlient = false;
+			PatchManager.Patch();
 		}
 
         protected override void OnStartup(StartupEventArgs e)
@@ -34,21 +50,17 @@ namespace FireMonitor
             base.OnStartup(e);
             try
             {
-#if DEBUG
-                AppSettingsManager.AutoConnect = true;
-#endif
                 InitializeCommandLineArguments(e.Args);
-                if (MulticlientHelper.IsMulticlient)
-                    MulticlientHelper.Start();
 
                 ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
                 ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
+				AppSettingsManager.AutoConnect = true;
                 bool trace = false;
                 BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-                _bootstrapper = new Bootstrapper(IsMulticlient);
-                using (new DoubleLaunchLocker(SignalId, WaitId, true, !MulticlientHelper.IsMulticlient && !IsMulticlient))
+                _bootstrapper = new Bootstrapper();
+                using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
                     _bootstrapper.Initialize();
             }
             catch (Exception ex)
@@ -59,8 +71,10 @@ namespace FireMonitor
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            if (!MulticlientHelper.IsMulticlient)
+            if (!IsMulticlient)
                 StartRevisor();
+			if (IsMulticlient)
+				MulticlientController.Current.SuscribeMulticlientStateChanged();
         }
 
 		void StartRevisor()
@@ -149,20 +163,6 @@ namespace FireMonitor
 						{
 							Password = arg.Replace("password='", "");
 							Password = Password.Replace("'", "");
-						}
-						if (arg.StartsWith("regime='") && arg.EndsWith("'"))
-						{
-							var regime = arg.Replace("regime='", "");
-							regime = regime.Replace("'", "");
-							if (regime == "multiclient")
-							{
-								MulticlientHelper.IsMulticlient = true;
-							}
-						}
-						if (arg.StartsWith("ClientId='") && arg.EndsWith("'"))
-						{
-							MulticlientHelper.MulticlientClientId = arg.Replace("ClientId='", "");
-							MulticlientHelper.MulticlientClientId = MulticlientHelper.MulticlientClientId.Replace("'", "");
 						}
 					}
 				}

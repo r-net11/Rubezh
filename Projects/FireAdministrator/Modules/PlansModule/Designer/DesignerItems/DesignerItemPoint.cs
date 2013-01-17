@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Adorners;
+using System.Windows;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -9,27 +10,21 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemPoint(ElementBase element)
 			: base(element)
 		{
-			ResizeChrome = new ResizeChromePoint(this);
-			UpdateLayout();
+			SetResizeChrome(new ResizeChromePoint(this));
 		}
 
-		public override void SetLocation()
-		{
-			var rect = Element.GetRectangle();
-
-			Canvas.SetLeft(this, rect.Left - DesignerCanvas.PointZoom / 2);
-			Canvas.SetTop(this, rect.Top - DesignerCanvas.PointZoom / 2);
-			ItemWidth = rect.Width + DesignerCanvas.PointZoom;
-			ItemHeight = rect.Height + DesignerCanvas.PointZoom;
-		}
 		public override void UpdateZoomPoint()
 		{
-			base.UpdateZoomPoint();
-			SetLocation();
+			Translate();
+			ResizeChrome.InvalidateVisual();
 		}
-		public override void UpdateElementProperties()
+
+		public override Rect GetRectangle()
 		{
-			base.UpdateElementProperties();
+			var rect = base.GetRectangle();
+			if (DesignerCanvas == null)
+				return rect;
+			return new Rect(rect.Left - DesignerCanvas.PointZoom / 2, rect.Top - DesignerCanvas.PointZoom / 2, DesignerCanvas.PointZoom, DesignerCanvas.PointZoom);
 		}
 	}
 }

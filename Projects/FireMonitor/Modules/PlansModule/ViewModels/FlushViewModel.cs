@@ -42,27 +42,23 @@ namespace PlansModule.ViewModels
 			OnPropertyChanged(() => Height);
 			OnPropertyChanged(() => Left);
 			OnPropertyChanged(() => Top);
+			OnPropertyChanged(() => Thickness);
 		}
 		public void UpdateDeviceZoom(double zoom, double pointZoom)
 		{
-			_pointZoom = pointZoom;
+			_pointZoom = pointZoom / zoom;
 			Thickness = 5 / zoom;
-			OnPropertyChanged(() => Thickness);
 			if (PresenterItem != null)
 				SetPresenterItem();
 		}
-		//public void ShowTitle()
-		//{
-		//    if (!string.IsNullOrEmpty(Title))
-		//    {
-		//        var toolTip = new ToolTip()
-		//        {
-		//            Content = Title,
-		//            PlacementTarget = this,
-		//            Placement = PlacementMode.Right,
-		//            IsOpen = true,
-		//        };
-		//    }
-		//}
+		public void Show()
+		{
+			PresenterItem.Border.IsVisible = true;
+		}
+		public void Hide()
+		{
+			PresenterItem.Border.IsVisible = PresenterItem.IsMouseOver;
+			PresenterItem = null;
+		}
 	}
 }

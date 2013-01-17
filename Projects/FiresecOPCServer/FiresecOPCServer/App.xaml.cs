@@ -18,6 +18,7 @@ namespace FiresecOPCServer
         {
             try
             {
+				PatchManager.Patch();
                 ThemeHelper.LoadThemeFromRegister();
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 using (new DoubleLaunchLocker(SignalId, WaitId, true))
@@ -28,14 +29,12 @@ namespace FiresecOPCServer
                     }
                     catch (Exception ex)
                     {
-                        //MessageBox.Show(ex.Message.ToString() + "\n" + ex.StackTrace);
-                        Logger.Error("App.OnStartup 1");
+                        Logger.Error(ex, "App.OnStartup 1");
                     }
                 }
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message.ToString() + "\n" + ex.StackTrace);
                 Logger.Error(ex, "App.OnStartup 2");
             }
         }

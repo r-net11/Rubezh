@@ -1,104 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using LibUsbDotNet.Info;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading;
 
 namespace TestUSB
 {
 	public class UsbRunner
 	{
-		UsbDevice UsbDevice;
-		UsbEndpointReader reader;
-		UsbEndpointWriter writer;
-
+		UsbDevice _usbDevice;
+		UsbEndpointReader _reader;
+		UsbEndpointWriter _writer;
+        private bool _stop = true;
+        readonly Queue<Request> _requests = new Queue<Request>();
+        List<byte> _result = new List<byte>();
+        private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
+        private uint _requestId;
 		public void Open()
 		{
-			UsbDeviceFinder UsbFinder = new UsbDeviceFinder(0xC251, 0x1303);
-
-			UsbDevice = UsbDevice.OpenUsbDevice(UsbFinder);
-			if (UsbDevice == null)
+			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
+			_usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
+			if (_usbDevice == null)
 				throw new Exception("Device Not Found.");
-			IUsbDevice wholeUsbDevice = UsbDevice as IUsbDevice;
+			var wholeUsbDevice = _usbDevice as IUsbDevice;
 			if (!ReferenceEquals(wholeUsbDevice, null))
 			{
 				wholeUsbDevice.SetConfiguration(1);
 				wholeUsbDevice.ClaimInterface(0);
 			}
-
-			reader = UsbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
-			reader.DataReceived += (OnDataRecieved);
-			reader.ReadBufferSize = 64;
-			reader.DataReceivedEnabled = true;
-
-			writer = UsbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+			_reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+			_reader.DataReceived += (OnDataRecieved);
+			_reader.ReadBufferSize = 64;
+			_reader.DataReceivedEnabled = true;
+			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 		}
-
 		public void Close()
 		{
-			reader.DataReceivedEnabled = false;
-			reader.DataReceived -= (OnDataRecieved);
+			_reader.DataReceivedEnabled = false;
+			_reader.DataReceived -= (OnDataRecieved);
 
-			if (UsbDevice != null)
+			if (_usbDevice != null)
 			{
-				if (UsbDevice.IsOpen)
+				if (_usbDevice.IsOpen)
 				{
-					IUsbDevice wholeUsbDevice = UsbDevice as IUsbDevice;
+					var wholeUsbDevice = _usbDevice as IUsbDevice;
 					if (!ReferenceEquals(wholeUsbDevice, null))
 					{
 						wholeUsbDevice.ReleaseInterface(0);
 					}
-					UsbDevice.Close();
+					_usbDevice.Close();
 				}
-				UsbDevice = null;
+				_usbDevice = null;
 				UsbDevice.Exit();
 			}
 		}
-
-		public void Send(List<byte> data)
+        public void Send(List<byte> data)
 		{
-			var output = CreateOutputBytes(data).ToArray();
 			int bytesWrite;
-			//WriteTrace("Sending", output);
-			var errorCode = writer.Write(output, 2000, out bytesWrite);
+            _writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
-
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
-			//WriteTrace("OnDataRecieved", e.Buffer);
-
-			var result = new List<byte>();
+            var localresult = new List<byte>();
 			foreach (var b in e.Buffer)
 			{
-				if (result.Count > 0)
+				if (localresult.Count > 0)
 				{
-					result.Add(b);
+					localresult.Add(b);
 
 					if (b == 0x3E)
 					{
-						if (DataRecieved != null)
-							DataRecieved(result);
-						result = new List<byte>();
+					    localresult = CreateInputBytes(localresult);
+                        var request = _requests.FirstOrDefault(x => x.Id == _requestId);
+                        if (request == null)
+                            break;
+					    var requestId = request.Id;
+                        var responseId = (uint)(localresult.ToList()[3] + localresult.ToList()[2] * 256 + localresult.ToList()[1] * 256 * 256 + localresult.ToList()[0] * 256 * 256 * 256);
+                        if (requestId == responseId)
+                        {
+                            _result  = localresult.ToList();
+                            _autoResetEvent.Set();
+                            _stop = true;
+                        }
+                        break;
 					}
 				}
 				if (b == 0x7E)
 				{
-					result = new List<byte>();
-					result.Add(b);
+
+					localresult = new List<byte> {b};
 				}
 			}
 		}
-
-		List<byte> CreateOutputBytes(List<byte> messageBytes)
+	    static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
-			var bytes = new List<byte>(0);
-			bytes.Add(0x7e);
-			foreach (var b in messageBytes)
+			var bytes = new List<byte>(0) {0x7e};
+	        foreach (var b in messageBytes)
 			{
 				if (b == 0x7E)
 				{
@@ -136,29 +135,85 @@ namespace TestUSB
 					bytes.Add(0);
 				}
 			}
-
 			return bytes;
 		}
-
-		object locker = new object();
-
-		string WriteTrace(string name, IEnumerable<byte> bytes)
-		{
-			lock (locker)
-			{
-				var result = "";
-				Trace.WriteLine("");
-				Trace.WriteLine(name + ": ");
-				foreach (var b in bytes)
-				{
-					var hexByte = b.ToString("x2");
-					Trace.Write(hexByte + " ");
-					result += hexByte + " ";
-				}
-				return result;
-			}
-		}
-
-		public event Action<List<byte>> DataRecieved;
+        static List<byte> CreateInputBytes(List<byte> messageBytes)
+        {
+            var bytes = new List<byte>();
+            var previousByte = new byte();
+            messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
+            messageBytes.RemoveRange(messageBytes.IndexOf(0x3E), messageBytes.Count - messageBytes.IndexOf(0x3E));
+            foreach (var b in messageBytes)
+            {
+                if ((b == 0x7D) || (b == 0x3D))
+                {
+                    previousByte = b;
+                    continue;
+                }
+                if (previousByte == 0x7D)
+                {
+                    if (b == 0x5E)
+                    {
+                        bytes.Add(0x7E);
+                        continue;
+                    }
+                    if (b == 0x5D)
+                    {
+                        bytes.Add(0x7D);
+                        continue;
+                    }
+                }
+                if (previousByte == 0x3D)
+                {
+                    if (b == 0x1E)
+                    {
+                        bytes.Add(0x3E);
+                        continue;
+                    }
+                    if (b == 0x1D)
+                    {
+                        bytes.Add(0x3D);
+                        continue;
+                    }
+                }
+                bytes.Add(b);
+            }
+            return bytes;
+        }
+        public OperationResult<Response> AddRequest(List<byte> data)
+        {
+            _stop = false;
+            _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+            data = CreateOutputBytes(data);
+            var request = new Request
+            {
+                Id = _requestId,
+                AutoResetEvent = new AutoResetEvent(false),
+                Data = data
+            };
+            _requests.Enqueue(request);
+            while (!_stop)
+            {
+                Send(data);
+                _autoResetEvent.WaitOne(1000);
+            }
+            var response = new Response
+            {
+                Id = request.Id,
+                Data = _result
+            };
+            return new OperationResult<Response> { Result = response };
+        }
 	}
+    public class Request
+    {
+        public AutoResetEvent AutoResetEvent;
+        public uint Id;
+        public List<byte> Data;
+    }
+    public class Response
+    {
+        public uint Id;
+        public List<byte> Data;
+    }
 }

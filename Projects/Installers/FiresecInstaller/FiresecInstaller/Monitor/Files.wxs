@@ -49,7 +49,6 @@
         <File Id="Monitor.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Monitor.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Monitor.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
-        <File Id="Monitor.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
 			
       <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">
@@ -90,6 +89,12 @@
     <DirectoryRef Id="SystemFolder">
       <Component Id="Monitor.Hasp" Guid="*">
         <File Id="Monitor.hasp_windows_83702.dll" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="AppData.DBLocation">
+      <Component Id="Monitor.GkJournalDatabase.sdf">
+        <File Id="Monitor.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
     </DirectoryRef>
 

@@ -1,5 +1,4 @@
-﻿using System.Resources;
-using FiresecAPI;
+﻿using FiresecAPI;
 
 namespace Firesec
 {

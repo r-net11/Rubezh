@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
-using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -32,10 +31,8 @@ namespace PlansModule.ViewModels
 				maxZIndex = System.Math.Max(designerItem.Element.ZIndex, maxZIndex);
 
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
-			{
 				designerItem.Element.ZIndex = maxZIndex + 1;
-				designerItem.SetZIndex();
-			}
+			DesignerCanvas.UpdateZIndex();
 
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
@@ -47,10 +44,8 @@ namespace PlansModule.ViewModels
 				minZIndex = System.Math.Min(designerItem.Element.ZIndex, minZIndex);
 
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
-			{
 				designerItem.Element.ZIndex = minZIndex - 1;
-				designerItem.SetZIndex();
-			}
+			DesignerCanvas.UpdateZIndex();
 
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
@@ -58,10 +53,8 @@ namespace PlansModule.ViewModels
 		private void OnMoveForward()
 		{
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
-			{
 				designerItem.Element.ZIndex++;
-				designerItem.SetZIndex();
-			}
+			DesignerCanvas.UpdateZIndex();
 
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
@@ -69,10 +62,8 @@ namespace PlansModule.ViewModels
 		private void OnMoveBackward()
 		{
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
-			{
 				designerItem.Element.ZIndex--;
-				designerItem.SetZIndex();
-			}
+			DesignerCanvas.UpdateZIndex();
 
 			ServiceFactory.SaveService.PlansChanged = true;
 		}

@@ -1,42 +1,38 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class TextBlockPainter : IPainter
+	public class TextBlockPainter : RectanglePainter
 	{
-		#region IPainter Members
-
-		public UIElement Draw(ElementBase element)
+		//private const int Margin = 3;
+		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
+			base.Draw(drawingContext, element, rect);
+
+			Rect bound = new Rect(rect.Left + element.BorderThickness / 2, rect.Top + element.BorderThickness / 2, rect.Width - element.BorderThickness, rect.Height - element.BorderThickness);
 			IElementTextBlock elementText = (IElementTextBlock)element;
-			var textBlock = new TextBlock()
+			var typeface = new Typeface(new FontFamily(elementText.FontFamilyName), elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal, elementText.FontBold ? FontWeights.Bold : FontWeights.Normal, new FontStretch());
+			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.GetBrush(elementText.ForegroundColor));
+			formattedText.TextAlignment = (TextAlignment)elementText.TextAlignment;
+			Point point = bound.TopLeft;
+			switch (formattedText.TextAlignment)
 			{
-				Text = elementText.Text,
-				TextAlignment = (TextAlignment)elementText.TextAlignment,
-				Background = new SolidColorBrush(element.BackgroundColor),
-				Foreground = new SolidColorBrush(elementText.ForegroundColor),
-				FontSize = elementText.FontSize,
-				FontWeight = elementText.FontBold ? FontWeights.Bold : FontWeights.Normal,
-				FontStyle = elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal,
-				FontFamily = new FontFamily(elementText.FontFamilyName),
-			};
-			FrameworkElement frameworkElement = elementText.Stretch ?
-				new Viewbox()
-				{
-					Stretch = Stretch.Fill,
-					Child = textBlock,
-				} : (FrameworkElement)textBlock;
-			Border border = new Border()
-			{
-				BorderBrush = new SolidColorBrush(element.BorderColor),
-				BorderThickness = new Thickness(element.BorderThickness),
-				Child = frameworkElement,
-			};
-			return border;
+				case TextAlignment.Right:
+					point = bound.TopRight;
+					break;
+				case TextAlignment.Center:
+					point = new Point(bound.Left + bound.Width / 2, bound.Top);
+					break;
+			}
+			if (elementText.Stretch)
+				drawingContext.PushTransform(new ScaleTransform(bound.Width / formattedText.Width, bound.Height / formattedText.Height, point.X, point.Y));
+			else
+				drawingContext.PushClip(new RectangleGeometry(bound));
+			drawingContext.DrawText(formattedText, point);
+			drawingContext.Pop();
 		}
-		#endregion
 	}
 }

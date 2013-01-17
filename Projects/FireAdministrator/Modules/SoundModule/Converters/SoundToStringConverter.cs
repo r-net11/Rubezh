@@ -5,18 +5,18 @@ using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters
 {
-    public class SoundToStringConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value != null && FiresecClient.FileHelper.SoundsList.Any(x => x == value.ToString()))
-                return value.ToString();
-            return SoundViewModel.DefaultName;
-        }
+	public class SoundToStringConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			if (value != null && FiresecClient.FileHelper.SoundsList.Any(x => x == value.ToString()))
+				return value.ToString();
+			return SoundViewModel.DefaultName;
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return value;
-        }
-    }
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			return value;
+		}
+	}
 }

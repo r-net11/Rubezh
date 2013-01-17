@@ -1,17 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Shapes;
+﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class SubPlanPainter : ShapePainter<Rectangle>
+	public class SubPlanPainter : RectanglePainter
 	{
-		public override UIElement Draw(ElementBase element)
+		protected override Brush GetBrush(ElementBase element)
 		{
-			var shape = CreateShape(element);
-			shape.Opacity = 0.5;
-			return shape;
+			return PainterCache.GetTransparentBrush(element.BackgroundColor, element.BackgroundPixels);
 		}
 	}
 }

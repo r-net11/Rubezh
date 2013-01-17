@@ -12,7 +12,7 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemShape(ElementBase element)
 			: base(element)
 		{
-			ResizeChrome = new ResizeChromeShape(this);
+			SetResizeChrome(new ResizeChromeShape(this));
 			if (Element is ElementPolygon)
 			{
 				Title = "Многоугольник";
@@ -23,7 +23,6 @@ namespace PlansModule.Designer.DesignerItems
 				Title = "Линия";
 				Group = LayerGroupService.ElementAlias;
 			}
-			UpdateLayout();
 		}
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()

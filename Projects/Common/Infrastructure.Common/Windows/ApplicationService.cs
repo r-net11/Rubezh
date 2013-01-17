@@ -4,14 +4,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System.Windows.Controls;
-using Infrastructure.Common.Windows.DataTemplates;
-using System.Windows.Shapes;
-using System.Windows.Media;
 
 namespace Infrastructure.Common.Windows
 {
@@ -24,14 +23,20 @@ namespace Infrastructure.Common.Windows
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 
-		public static void Run(ApplicationViewModel model, bool simpleMode = false)
+		public static void Run(ApplicationViewModel model, bool noBorder, bool isMaximized)
 		{
 			var windowBaseView = new WindowBaseView(model);
-			if (simpleMode)
+			if (noBorder)
 			{
 				windowBaseView.ClearValue(Window.AllowsTransparencyProperty);
 				windowBaseView.ClearValue(Window.WindowStyleProperty);
 				windowBaseView.ClearValue(Window.BackgroundProperty);
+				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
+				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
+			}
+			if (isMaximized)
+			{
+				windowBaseView.SetValue(Window.WindowStateProperty, WindowState.Maximized);
 			}
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
@@ -44,11 +49,18 @@ namespace Infrastructure.Common.Windows
 				Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 			}
 			else
+			{
 				windowBaseView.Show();
+			}
 			ApplicationWindow = windowBaseView;
 		}
 		public static FrameworkElement BuildControl(ShellViewModel model)
 		{
+			model.Header.ShowIconAndTitle = false;
+			model.AllowClose = false;
+			model.AllowHelp = false;
+			model.AllowMaximize = false;
+			model.AllowMinimize = false;
 			model.Width = double.NaN;
 			model.Height = double.NaN;
 			var frameworkElement = new ScrollViewer()
@@ -70,7 +82,7 @@ namespace Infrastructure.Common.Windows
 		{
 			Layout = new LayoutService(model);
 			if (ApplicationController == null)
-				Run((ApplicationViewModel)model);
+				Run((ApplicationViewModel)model, false, true);
 			else
 			{
 				var frameworkElement = BuildControl(model);

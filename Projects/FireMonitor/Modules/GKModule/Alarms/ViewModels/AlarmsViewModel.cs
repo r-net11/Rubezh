@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure;
-using Infrastructure.Events;
+using System.Linq;
 using FiresecClient;
-using XFiresecAPI;
+using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -62,17 +60,17 @@ namespace GKModule.ViewModels
 							break;
 
 						case XStateType.On:
-							alarms.Add(new Alarm(XAlarmType.Info, device));
-							break;
-
-						case XStateType.Test:
-							alarms.Add(new Alarm(XAlarmType.Info, device));
+							alarms.Add(new Alarm(XAlarmType.Turning, device));
 							break;
 					}
 				}
 				if (!device.DeviceState.States.Contains(XStateType.Norm) && !device.DeviceState.IsConnectionLost)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
+				}
+				if(device.DeviceState.IsService)
+				{
+					alarms.Add(new Alarm(XAlarmType.Service, device));
 				}
 			}
 

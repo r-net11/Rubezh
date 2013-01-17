@@ -15,14 +15,6 @@ namespace Common.GK
 				child.KauDatabaseParent = kauDevice;
 				AddDevice(child);
 			}
-
-			//foreach (var zone in XManager.DeviceConfiguration.Zones)
-			//{
-			//    if (zone.KauDatabaseParent == kauDevice)
-			//    {
-			//        AddZone(zone);
-			//    }
-			//}
 		}
 
 		public override void BuildObjects()
@@ -34,11 +26,6 @@ namespace Common.GK
 				var deviceBinaryObject = new DeviceBinaryObject(device, DatabaseType);
 				BinaryObjects.Add(deviceBinaryObject);
 			}
-			//foreach (var zone in Zones)
-			//{
-			//    var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
-			//    BinaryObjects.Add(zoneBinaryObject);
-			//}
 		}
 	}
 }

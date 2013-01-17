@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -59,7 +58,10 @@ namespace PlansModule.ViewModels
 		protected override bool Save()
 		{
 			if (SelectedPlan != null)
+			{
 				_elementSubPlan.PlanUID = SelectedPlan.Plan.UID;
+				_elementSubPlan.Caption = SelectedPlan.Plan.Caption;
+			}
 			return base.Save();
 		}
 	}

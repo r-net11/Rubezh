@@ -1,8 +1,11 @@
 ﻿using System.Windows;
-using MultiClient.ViewModels;
+using MultiClientAdministrator.ViewModels;
 using Infrastructure.Common.Windows;
+using System.IO;
+using MuliclientAPI;
+using Infrastructure.Common;
 
-namespace MultiClient
+namespace MultiClientAdministrator
 {
 	public partial class App : Application
 	{
@@ -10,19 +13,21 @@ namespace MultiClient
 		{
 			Bootstrapper.Run();
 
-            var shellView = new ShellView();
-            Application.Current.MainWindow = shellView;
-            var shellViewModel = new ShellViewModel();
-            shellView.DataContext = shellViewModel;
+			var shellView = new ShellView();
+			Application.Current.MainWindow = shellView;
+			var shellViewModel = new ShellViewModel();
+			shellView.DataContext = shellViewModel;
 
-            var passwordViewModel = new PasswordViewModel();
-            DialogService.ShowModalWindow(passwordViewModel);
-            var password = passwordViewModel.Password;
-
-            if (!string.IsNullOrEmpty(password))
-            {
-                shellViewModel.Initialize(password);
-            }
+			if (File.Exists(AppDataFolderHelper.GetMulticlientFile()))
+			{
+				var loadPasswordViewModel = new LoadPasswordViewModel();
+				DialogService.ShowModalWindow(loadPasswordViewModel);
+				shellViewModel.Initialize(loadPasswordViewModel.MulticlientConfiguration);
+			}
+			else
+			{
+				shellViewModel.Initialize(new MulticlientConfiguration());
+			}
 			shellView.Show();
 		}
 	}

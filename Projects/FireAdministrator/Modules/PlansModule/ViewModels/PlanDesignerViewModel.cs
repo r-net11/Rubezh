@@ -30,12 +30,12 @@ namespace PlansModule.ViewModels
 
 					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 					{
-						// 1. Override standart Painters				+
-						// 4. Change ResizeDecorator/ResizeAdorner		-
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							DesignerCanvas.Create(elementBase);
 						foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 							DesignerCanvas.Create(element);
+						using (new TimeCounter("\t\t\tDesignerCanvas.UpdateZIndex: {0}"))
+							DesignerCanvas.UpdateZIndex();
 					}
 				}
 		}
@@ -48,10 +48,8 @@ namespace PlansModule.ViewModels
 				DesignerCanvas.ShowPlan(plan);
 				using (new WaitWrapper())
 					if (Plan != null)
-					{
-						ChangeZoom(1);
-						OnUpdated();
-					}
+						using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
+							OnUpdated();
 			}
 		}
 

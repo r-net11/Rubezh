@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common;
 
 namespace PlansModule.ViewModels

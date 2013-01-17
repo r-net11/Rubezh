@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DevicesModule.Plans.Designer;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using DevicesModule.Plans.Designer;
-using Infrastructure.Common;
 
 namespace DevicesModule.Plans
 {
@@ -20,9 +20,6 @@ namespace DevicesModule.Plans
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/DeviceMenuView.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/Designer/ZoneMenuView.xaml"));
-
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);

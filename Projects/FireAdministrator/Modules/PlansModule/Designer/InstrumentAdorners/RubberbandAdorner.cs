@@ -17,16 +17,18 @@ namespace PlansModule.InstrumentAdorners
 		public RubberbandAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-		}
-
-		protected override void Show()
-		{
 			rubberband = new Rectangle()
 			{
 				Stroke = Brushes.Navy,
 				StrokeThickness = 1 / ZoomFactor,
 				StrokeDashArray = new DoubleCollection(new double[] { 2 })
 			};
+		}
+
+		protected override void Show()
+		{
+			rubberband.Width = 0;
+			rubberband.Height = 0;
 			AdornerCanvas.Children.Add(rubberband);
 		}
 
@@ -63,19 +65,16 @@ namespace PlansModule.InstrumentAdorners
 			Canvas.SetLeft(rubberband, left);
 			Canvas.SetTop(rubberband, top);
 		}
-
 		private void UpdateSelection()
 		{
 			Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
 			foreach (DesignerItem designerItem in DesignerCanvas.Items)
-			{
-				if (designerItem.IsVisibleLayout && designerItem.IsSelectableLayout)
+				if (designerItem.IsEnabled)
 				{
-					Rect itemRect = VisualTreeHelper.GetDescendantBounds(designerItem);
+					Rect itemRect = designerItem.ContentBounds;
 					Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
 					designerItem.IsSelected = rubberBand.Contains(itemBounds);
 				}
-			}
 		}
 	}
 }

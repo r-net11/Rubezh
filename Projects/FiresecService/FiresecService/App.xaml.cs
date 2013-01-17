@@ -9,49 +9,50 @@ using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecServiceRunner
 {
-    public partial class App : Application
-    {
-        private const string SignalId = "{9C3B6318-48BB-40D0-9249-CA7D9365CDA5}";
-        private const string WaitId = "{254FBDB4-7632-42A8-B2C2-27176EF7E60C}";
+	public partial class App : Application
+	{
+		private const string SignalId = "{9C3B6318-48BB-40D0-9249-CA7D9365CDA5}";
+		private const string WaitId = "{254FBDB4-7632-42A8-B2C2-27176EF7E60C}";
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-            ThemeHelper.LoadThemeFromRegister();
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            ServerLoadHelper.SetStatus(FSServerState.Opening);
+			ServerLoadHelper.SetStatus(FSServerState.Opening);
 
-            using (new DoubleLaunchLocker(SignalId, WaitId, true))
-            {
-                try
-                {
-                    Bootstrapper.Run();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "App.OnStartup");
-                    BalloonHelper.Show("Сервер приложений Firesec", "Ошибка во время загрузки");
-                }
-            }
-        }
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-        }
+			using (new DoubleLaunchLocker(SignalId, WaitId, true))
+			{
+				try
+				{
+					Bootstrapper.Run();
+				}
+				catch (Exception ex)
+				{
+					Logger.Error(ex, "App.OnStartup");
+					BalloonHelper.Show("Сервер приложений Firesec", "Ошибка во время загрузки");
+					return;
+				}
+				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			}
+		}
+		protected override void OnExit(ExitEventArgs e)
+		{
+			base.OnExit(e);
+		}
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
-            BalloonHelper.Show("Сервер приложений Firesec", "Перезагрузка");
+		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
+			BalloonHelper.Show("Сервер приложений Firesec", "Перезагрузка");
 			var processStartInfo = new ProcessStartInfo()
 			{
 				FileName = Application.ResourceAssembly.Location
 			};
 			System.Diagnostics.Process.Start(processStartInfo);
-            Bootstrapper.Close();
+			Bootstrapper.Close();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
-        }
-    }
+		}
+	}
 }

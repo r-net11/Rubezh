@@ -21,10 +21,7 @@ namespace FSAgentServer
         {
             try
             {
-                DatabaseHelper.ConnectionString = @"Data Source=..\FiresecService\Firesec.sdf;Password=adm;Max Database Size=4000";
-#if DEBUG
-                DatabaseHelper.ConnectionString = @"Data Source=..\..\..\..\FiresecService\bin\Debug\Firesec.sdf;Password=adm;Max Database Size=4000";
-#endif
+				DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
@@ -36,7 +33,7 @@ namespace FSAgentServer
                 WindowThread.Start();
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
-                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
+					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки окна");
                 }
                 BootstrapperLoadEvent = new AutoResetEvent(false);
 
@@ -48,7 +45,7 @@ namespace FSAgentServer
 
                 if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
                 {
-                    BalloonHelper.Show("Агент Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
+					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
                     UILogger.Log("Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
                 }
                 UILogger.Log("Готово");
@@ -67,7 +64,7 @@ namespace FSAgentServer
             try
             {
                 MainViewModel = new MainViewModel();
-                ApplicationService.Run(MainViewModel);
+                ApplicationService.Run(MainViewModel, false, false);
             }
             catch (Exception e)
             {

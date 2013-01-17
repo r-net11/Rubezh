@@ -5,7 +5,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
-using System.Windows.Controls;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -25,6 +24,23 @@ namespace Infrustructure.Plans.Painters
 				element is ElementBaseRectangle ?
 					Normalize(element.GetRectangle(), element.BorderThickness) :
 					new PointCollection();
+		}
+		public static PointCollection GetRealPoints(ElementBase element)
+		{
+			if (element is ElementBaseShape)
+				return ((ElementBaseShape)element).Points;
+			else if (element is ElementBaseRectangle)
+			{
+				var rect = element.GetRectangle();
+				return new PointCollection()
+				{
+					rect.TopLeft, 
+					rect.TopRight,
+					rect.BottomRight,
+					rect.BottomLeft
+				};
+			}
+			return new PointCollection();
 		}
 		public static PointCollection Normalize(Rect rectangle, double thickness)
 		{

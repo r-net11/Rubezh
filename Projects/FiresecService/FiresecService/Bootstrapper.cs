@@ -22,11 +22,11 @@ namespace FiresecService
         {
             try
             {
-                InfoXmlHelper.CreateInfoFile();
-                FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=Firesec.sdf;Password=adm;Max Database Size=4000";
+				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+				PatchManager.Patch();
+                FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
                 Logger.Trace(SystemInfo.GetString());
                 AppSettingsHelper.InitializeAppSettings();
-                Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
@@ -56,7 +56,7 @@ namespace FiresecService
             try
             {
                 MainViewModel = new MainViewModel();
-                ApplicationService.Run(MainViewModel);
+                ApplicationService.Run(MainViewModel, false, false);
             }
             catch (Exception e)
             {

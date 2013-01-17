@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI.Models;
 using XFiresecAPI;
 
 namespace GKModule.Converters
@@ -29,7 +28,7 @@ namespace GKModule.Converters
 				case XAlarmType.Ignore:
                     return "/Controls;component/Images/Alarm_main_4_Off.png";
 
-				case XAlarmType.Info:
+				case XAlarmType.Turning:
                     return "/Controls;component/Images/Alarm_main_5_Info.png";
 
 				case XAlarmType.Service:

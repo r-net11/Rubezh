@@ -14,11 +14,14 @@ namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicesViewModel : BaseViewModel
 	{
+		private bool _lockSelection;
 		private Devices.DevicesViewModel _devicesViewModel;
 
 		public DevicesViewModel(Devices.DevicesViewModel devicesViewModel)
 		{
+			_lockSelection = false;
 			_devicesViewModel = devicesViewModel;
+			// TODO: FIX IT
 			_devicesViewModel.PropertyChanged += (s, e) =>
 				{
 					if (e.PropertyName == "SelectedDevice")
@@ -65,8 +68,12 @@ namespace DevicesModule.Plans.ViewModels
 			if (device != null)
 			{
 				device.Update();
-				device.ExpantToThis();
-				SelectedDevice = device;
+				// TODO: FIX IT
+				if (!_lockSelection)
+				{
+					device.ExpantToThis();
+					SelectedDevice = device;
+				}
 			}
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
@@ -76,12 +83,21 @@ namespace DevicesModule.Plans.ViewModels
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
 			elements.ForEach(element =>
 				{
 					ElementDevice elementDevice = element as ElementDevice;
 					if (elementDevice != null)
-						OnDeviceChanged(elementDevice.DeviceUID);
+					{
+						if (guid != Guid.Empty)
+							OnDeviceChanged(guid);
+						guid = elementDevice.DeviceUID;
+					}
 				});
+			_lockSelection = false;
+			if (guid != Guid.Empty)
+				OnDeviceChanged(guid);
 		}
 
 		private void OnElementSelected(ElementBase element)

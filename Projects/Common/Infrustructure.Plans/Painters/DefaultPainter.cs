@@ -1,21 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
+﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class DefaultPainter : ShapePainter<Rectangle>
+	public class DefaultPainter : RectanglePainter
 	{
-		#region IPainter Members
-
-		public override UIElement Draw(ElementBase element)
+		protected override Brush GetBrush(ElementBase element)
 		{
-			var shape = CreateShape(element);
-			shape.Fill = Brushes.Black;
-			return shape;
+			return PainterCache.GetBrush(Colors.Black);
 		}
-
-		#endregion
 	}
 }

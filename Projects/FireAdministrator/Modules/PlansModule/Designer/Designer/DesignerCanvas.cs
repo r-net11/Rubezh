@@ -6,14 +6,15 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
-using Common;
 
 namespace PlansModule.Designer
 {
@@ -24,12 +25,10 @@ namespace PlansModule.Designer
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
-		private Dictionary<Plan, Canvas> _canvasMap;
 
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			_canvasMap = new Dictionary<Plan, Canvas>();
 			Background = Brushes.Orange;
 			Width = 100;
 			Height = 100;
@@ -44,32 +43,21 @@ namespace PlansModule.Designer
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
 		}
 
-		public override void Clear()
-		{
-			base.Clear();
-			_canvasMap.Clear();
-		}
 		public void RegisterPlan(Plan plan)
 		{
 			DeselectAll();
-			AddCanvas();
+			AddCanvas(plan.UID);
 			SelectedCanvas.AllowDrop = true;
-			CanvasBackground = new SolidColorBrush(Colors.DarkGray);
-			CanvasWidth = 100;
-			CanvasHeight = 100;
-			SelectedCanvas.DataContext = this;
 			var pasteItem = new MenuItem()
 			{
 				Header = "Вставить",
 				CommandParameter = this
 			};
 			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
-			SelectedCanvas.ContextMenu = new ContextMenu();
-			SelectedCanvas.ContextMenu.Items.Add(pasteItem);
+			ContextMenu = new ContextMenu();
+			ContextMenu.Items.Add(pasteItem);
 			using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
 				Update(plan);
-			_canvasMap.Add(plan, SelectedCanvas);
-			//Canvas.SetZIndex(SelectedCanvas, 0);
 			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
 		}
 		public void RemovePlan()
@@ -78,28 +66,13 @@ namespace PlansModule.Designer
 			{
 				DeselectAll();
 				RemoveCanvas();
-				_canvasMap.Remove(Plan);
 				Plan = null;
 			}
 		}
 		public void ShowPlan(Plan plan)
 		{
 			Plan = plan;
-			if (SelectedCanvas != null)
-			{
-				DeselectAll();
-				//Canvas.SetZIndex(SelectedCanvas, 0);
-				SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
-				SelectedCanvas = null;
-			}
-			if (plan != null)
-			{
-				SelectedCanvas = _canvasMap[plan];
-				Height = SelectedCanvas.Height;
-				Width = SelectedCanvas.Width;
-				//Canvas.SetZIndex(SelectedCanvas, 1);
-				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
-			}
+			ShowCanvas(plan == null ? Guid.Empty : plan.UID);
 		}
 
 		public void RemoveAllSelected()
@@ -110,7 +83,7 @@ namespace PlansModule.Designer
 
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
 			foreach (var designerItem in SelectedItems.ToList())
-				Remove(designerItem);
+				RemoveElement(designerItem);
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
@@ -209,7 +182,6 @@ namespace PlansModule.Designer
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Add(designerItem);
 			designerItem.Redraw();
-			designerItem.SetZIndex();
 			return designerItem;
 		}
 
@@ -266,19 +238,21 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
-			//if (Plan != null)
-			//    Update();
+			ZoomChanged();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
 			{
 				designerItem.UpdateZoom();
-				designerItem.UpdateZoomPoint();
+				if (designerItem is DesignerItemPoint)
+					designerItem.UpdateZoomPoint();
 			}
 		}
 		public void UpdateZoomPoint()
 		{
+			ZoomChanged();
 			foreach (DesignerItem designerItem in Items)
-				designerItem.UpdateZoomPoint();
+				if (designerItem is DesignerItemPoint)
+					designerItem.UpdateZoomPoint();
 		}
 	}
 }

@@ -12,6 +12,7 @@ using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
@@ -19,6 +20,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using Devices = DevicesModule.ViewModels;
+using System.Windows.Media;
 
 namespace DevicesModule.Plans
 {
@@ -33,10 +35,10 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(UpdateDeviceInZones);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateDeviceInZones);
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateDeviceInZones);
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateDeviceInZones);
 
 			_devicesViewModel = new DevicesViewModel(devicesViewModel);
 		}
@@ -169,7 +171,7 @@ namespace DevicesModule.Plans
 			_designerCanvas = designerCanvas;
 			LayerGroupService.Instance.RegisterGroup("Devices", "Устройства", 0);
 			LayerGroupService.Instance.RegisterGroup("Zone", "Зоны", 1);
-			UpdateDeviceInZones();
+			UpdateDeviceInZones(_designerCanvas.Items.Select(item => item.Element).ToList());
 		}
 
 		#endregion
@@ -216,7 +218,7 @@ namespace DevicesModule.Plans
 				zone.ColorTypeChanged += () =>
 				{
 					UpdateDesignerItemZone(designerItem);
-					designerItem.RedrawContent();
+					designerItem.Redraw();
 				};
 		}
 
@@ -232,7 +234,7 @@ namespace DevicesModule.Plans
 				device.Changed += () =>
 				{
 					UpdateDesignerItemDevice(designerItem);
-					designerItem.RedrawContent();
+					designerItem.Redraw();
 				};
 		}
 
@@ -250,65 +252,83 @@ namespace DevicesModule.Plans
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 		}
 
-		public void UpdateDeviceInZones()
+		public void UpdateDeviceInZones(List<ElementBase> items)
 		{
-			var deviceInZones = new Dictionary<Device, Guid>();
-			using (new TimeCounter("\tUpdateDeviceInZones: {0}"))
-				foreach (var designerItem in _designerCanvas.Items)
+			bool deviceInZonesChanged = false;
+			foreach (var item in items)
+				if (item is ElementDevice || item is IElementZone)
 				{
-					ElementDevice elementDevice = designerItem.Element as ElementDevice;
-					if (elementDevice != null)
+					deviceInZonesChanged = true;
+					break;
+				}
+			if (deviceInZonesChanged)
+			{
+				var deviceInZones = new Dictionary<Device, Guid>();
+				using (new WaitWrapper())
+				using (new TimeCounter("\tUpdateDeviceInZones: {0}"))
+				{
+					Dictionary<Geometry, Guid> geometries = new Dictionary<Geometry, Guid>();
+					foreach (var designerItem in _designerCanvas.Items)
 					{
-						var designerItemCenterX = Canvas.GetLeft(designerItem) + designerItem.Width / 2;
-						var designerItemCenterY = Canvas.GetTop(designerItem) + designerItem.Height / 2;
-						var device = Designer.Helper.GetDevice(elementDevice);
-						if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
-							continue;
-						var zoneUIDs = new List<Guid>();
-						foreach (var elementPolygonZoneItem in _designerCanvas.Items)
+						ElementPolygonZone elementPolygonZone = designerItem.Element as ElementPolygonZone;
+						if (elementPolygonZone != null && elementPolygonZone.ZoneUID != Guid.Empty && elementPolygonZone.Points.Count > 2)
 						{
-							var point = new Point((int)(designerItemCenterX - Canvas.GetLeft(elementPolygonZoneItem)), (int)(designerItemCenterY - Canvas.GetTop(elementPolygonZoneItem)));
-							ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.Element as ElementPolygonZone;
-							if (elementPolygonZone != null)
+							StreamGeometry geometry = new StreamGeometry();
+							geometry.FillRule = FillRule.EvenOdd;
+							using (StreamGeometryContext context = geometry.Open())
 							{
-								bool isInPolygon = DesignerHelper.IsPointInPolygon(point, elementPolygonZoneItem.Presenter as Polygon);
-								if (isInPolygon && elementPolygonZone.ZoneUID != Guid.Empty)
-									zoneUIDs.Add(elementPolygonZone.ZoneUID);
+								context.BeginFigure(elementPolygonZone.Points[0], true, true);
+								for (int i = 1; i < elementPolygonZone.Points.Count; i++)
+									context.LineTo(elementPolygonZone.Points[i], true, false);
+								context.Close();
 							}
-							ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.Element as ElementRectangleZone;
-							if (elementRectangleZone != null)
-							{
-								bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
-								if (isInRectangle && elementRectangleZone.ZoneUID != Guid.Empty)
-									zoneUIDs.Add(elementRectangleZone.ZoneUID);
-							}
+							geometries.Add(geometry, elementPolygonZone.ZoneUID);
 						}
-
-						if (device.ZoneUID != Guid.Empty)
+						else
 						{
-							var isInZone = zoneUIDs.Any(x => x == device.ZoneUID);
-							if (!isInZone)
-							{
-								if (!deviceInZones.ContainsKey(device))
-									deviceInZones.Add(device, zoneUIDs.Count > 0 ? zoneUIDs[0] : Guid.Empty);
-								else if (zoneUIDs.Count > 0)
-									deviceInZones[device] = zoneUIDs[0];
-							}
+							ElementRectangleZone elementRectangleZone = designerItem.Element as ElementRectangleZone;
+							if (elementRectangleZone != null && elementRectangleZone.ZoneUID != Guid.Empty)
+								geometries.Add(new RectangleGeometry(elementRectangleZone.GetRectangle()), elementRectangleZone.ZoneUID);
 						}
-						else if (zoneUIDs.Count > 0)
+					}
+					foreach (var designerItem in _designerCanvas.Items)
+					{
+						ElementDevice elementDevice = designerItem.Element as ElementDevice;
+						if (elementDevice != null)
 						{
-							var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs[0]);
-							if (zone != null)
+							var device = Designer.Helper.GetDevice(elementDevice);
+							if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
+								continue;
+							var point = new Point(elementDevice.Left, elementDevice.Top);
+							var zoneUIDs = new List<Guid>();
+							foreach (var pair in geometries)
+								if (pair.Key.FillContains(point))
+									zoneUIDs.Add(pair.Value);
+							if (device.ZoneUID != Guid.Empty)
 							{
-								FiresecManager.FiresecConfiguration.AddDeviceToZone(device, zone);
+								var isInZone = zoneUIDs.Any(x => x == device.ZoneUID);
+								if (!isInZone)
+								{
+									if (!deviceInZones.ContainsKey(device))
+										deviceInZones.Add(device, zoneUIDs.Count > 0 ? zoneUIDs[0] : Guid.Empty);
+									else if (zoneUIDs.Count > 0)
+										deviceInZones[device] = zoneUIDs[0];
+								}
+							}
+							else if (zoneUIDs.Count > 0)
+							{
+								var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs[0]);
+								if (zone != null)
+									FiresecManager.FiresecConfiguration.AddDeviceToZone(device, zone);
 							}
 						}
 					}
 				}
-			if (deviceInZones.Count > 0)
-			{
-				var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
-				var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
+				if (deviceInZones.Count > 0)
+				{
+					var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
+					var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
+				}
 			}
 		}
 	}

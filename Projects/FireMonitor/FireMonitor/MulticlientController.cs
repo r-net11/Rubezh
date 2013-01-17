@@ -1,27 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using Infrastructure.Common.Windows;
 using System.AddIn.Contract;
-using System.Windows;
 using System.AddIn.Pipeline;
+using System.Threading;
+using System.Windows;
+using FiresecAPI;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common.Windows;
+using Infrastructure.Events;
+using MuliclientAPI;
 
 namespace FireMonitor
 {
 	public class MulticlientController : MarshalByRefObject
 	{
+		public event Action<StateType> StateChanged;
 		public event Action<INativeHandleContract> ControlChanged;
+		public static MulticlientController Current;
 
-		public void Start()
+		public MulticlientController()
 		{
-			Thread thread = new Thread(() =>
+			Current = this;
+		}
+		public void SuscribeMulticlientStateChanged()
+		{
+			ServiceFactory.Events.GetEvent<MulticlientStateChanged>().Subscribe(OnMulticlientStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			OnDevicesStateChanged(null);
+		}
+
+		void OnDevicesStateChanged(object obj)
+		{
+			var minState = StateType.Norm;
+			foreach (var device in FiresecManager.Devices)
+			{
+				foreach (var state in device.DeviceState.ThreadSafeStates)
+				{
+					if (state.DriverState.StateType < minState)
+						minState = state.DriverState.StateType;
+				}
+			}
+			OnMulticlientStateChanged(minState);
+		}
+
+		void OnMulticlientStateChanged(StateType stateType)
+		{
+			if (StateChanged != null)
+				StateChanged(stateType);
+		}
+
+		public void Start(MulticlientData multiclientData)
+		{
+			var thread = new Thread(() =>
 			{
 				ApplicationService.ApplicationController = OnControlChanged;
-				App app = new App();
+				var app = new App();
 				app.Exit += new ExitEventHandler(app_Exit);
-				app.IsMulticlient = true;
+				App.SetMulticlientData(multiclientData);
 				app.InitializeComponent();
 				app.Run();
 			});
@@ -43,7 +79,7 @@ namespace FireMonitor
 						ControlChanged(contract);
 				});
 		}
-		private void app_Exit(object sender, ExitEventArgs e)
+		void app_Exit(object sender, ExitEventArgs e)
 		{
 		}
 

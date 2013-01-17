@@ -29,13 +29,23 @@
             <TabItem Header="Параметры" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="group1" Width="300" />
+                                <ColumnDefinition SharedSizeGroup="group2" Width="100" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
                         <ItemsControl ItemsSource="{Binding AUParameterValues}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}" Foreground="White" />
-                                        <TextBlock Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
-                                    </StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="group1" Width="300" />
+                                            <ColumnDefinition SharedSizeGroup="group2" Width="100" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" HorizontalAlignment="Right" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
+                                    </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -50,7 +60,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <TextBlock Text="Режим" Foreground="White" HorizontalAlignment="Center" Margin="2" />
-                        <TextBlock Text="{Binding SelectedControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Margin="2" />
+                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Foreground="White" Margin="2" />
                     </StackPanel>
                     <Grid Grid.Row="1" Background="White">
                         <Grid.ColumnDefinitions>
@@ -78,7 +88,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <TextBlock Text="Режим" Foreground="White" HorizontalAlignment="Center" Margin="2" />
-                        <TextBlock Text="{Binding SelectedControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Margin="2" />
+                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Foreground="White" Margin="2" />
                     </StackPanel>
                     <Grid Grid.Row="1" Background="White">
                         <Grid.ColumnDefinitions>

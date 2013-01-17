@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using CodeReason.Reports;
+using FiresecAPI;
+using GKModule.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
-using GKModule.ViewModels;
-using FiresecAPI;
 
 namespace GKModule.Reports
 {

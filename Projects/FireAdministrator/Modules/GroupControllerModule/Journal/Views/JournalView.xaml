@@ -10,7 +10,7 @@
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding GKJournalRecordNo}" />
-                <DataGridTextColumn Header="Дата и Время" Binding="{Binding DateTime}" />
+                <DataGridTextColumn Header="Дата и Время" Binding="{Binding DateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Д/Н" Binding="{Binding YesNo}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding Description}" />

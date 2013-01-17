@@ -3,14 +3,14 @@ using System.IO;
 using System.Runtime.Serialization;
 using Common;
 using Infrastructure.Models;
+using Infrastructure.Common;
 
 namespace Infrastructure
 {
 	public static class ClientSettings
 	{
-		public static readonly string SettingsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ClientSettings");
-		public static readonly string ArchiveDefaultStateFileName = Path.Combine(SettingsDirectory, "ArchiveDefaultState.xml");
-		public static readonly string AutoActivationSettingsFileName = Path.Combine(SettingsDirectory, "AutoActivationSettings.xml");
+		public static readonly string ArchiveDefaultStateFileName = AppDataFolderHelper.GetMonitorSettingsPath("ArchiveDefaultState.xml");
+		public static readonly string AutoActivationSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("AutoActivationSettings.xml");
 
 		static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
@@ -63,8 +63,8 @@ namespace Infrastructure
 		{
 			try
 			{
-				if (Directory.Exists(SettingsDirectory) == false)
-					Directory.CreateDirectory(SettingsDirectory);
+				if (Directory.Exists(AppDataFolderHelper.GetMonitorSettingsPath()) == false)
+					Directory.CreateDirectory(AppDataFolderHelper.GetMonitorSettingsPath());
 
 				SaveArchiveDefaultState();
 				SaveAutoActivationSettings();
@@ -79,7 +79,7 @@ namespace Infrastructure
 		{
 			if (File.Exists(ArchiveDefaultStateFileName))
 			{
-				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open))
+				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
 					var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
 					ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);

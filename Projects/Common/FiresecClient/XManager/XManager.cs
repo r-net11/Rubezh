@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Common;
-using XFiresecAPI;
 using Infrastructure.Common.Windows;
+using XFiresecAPI;
 
 namespace FiresecClient
 {
