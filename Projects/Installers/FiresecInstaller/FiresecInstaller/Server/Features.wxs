@@ -12,7 +12,6 @@
       <ComponentRef Id="AppData.ServerLocation.Sounds" />
       <ComponentRef Id="Server.SKUD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
-			<ComponentRef Id="Server.DesktopShortcut" />
 			<ComponentRef Id="Server.AutorunComponent" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />

@@ -101,7 +101,7 @@ namespace GKModule.ViewModels
 					MessageBoxService.Show("Ошибка связи с устройством");
 					break;
 				}
-                var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
+				var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
 				JournalItems.Add(internalJournalItem.ToJournalItem());
 			}
 			LoadingService.Close();

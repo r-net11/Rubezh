@@ -14,6 +14,7 @@ using XFiresecAPI;
 using System.Windows.Input;
 using Common;
 using System;
+using System.Diagnostics;
 
 namespace GKModule.Models
 {
@@ -126,7 +127,9 @@ namespace GKModule.Models
 		void OnReadConfiguration()
 		{
 			var device = SelectedDevice.Device;
-			;
+			if (device.Driver.DriverType != XDriverType.KAU)
+				return;
+			BinConfigurationReader.ReadConfiguration(device);
 		}
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }

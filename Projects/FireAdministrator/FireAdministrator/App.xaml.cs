@@ -41,6 +41,9 @@ namespace FireAdministrator
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
+			if (e.Cancel)
+				return;
+
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
 					module.Dispose();

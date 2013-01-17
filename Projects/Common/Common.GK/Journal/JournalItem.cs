@@ -10,7 +10,7 @@ namespace Common.GK
         public DateTime DateTime { get; set; }
         public Guid ObjectUID { get; set; }
         public string Name { get; set; }
-        public string YesNo { get; set; }
+        public bool YesNo { get; set; }
         public string Description { get; set; }
         public int ObjectState { get; set; }
         public ushort GKObjectNo { get; set; }

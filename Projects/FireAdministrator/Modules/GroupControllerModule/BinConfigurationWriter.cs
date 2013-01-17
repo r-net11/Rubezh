@@ -104,7 +104,7 @@ namespace GKModule
             return resultBytes;
         }
 
-        static void GoToTechnologicalRegime(XDevice device)
+        public static void GoToTechnologicalRegime(XDevice device)
         {
             LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
             SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
@@ -129,7 +129,7 @@ namespace GKModule
             MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим в заданное время");
         }
 
-        static void GoToWorkingRegime(XDevice device)
+        public static void GoToWorkingRegime(XDevice device)
         {
             LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
             SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);

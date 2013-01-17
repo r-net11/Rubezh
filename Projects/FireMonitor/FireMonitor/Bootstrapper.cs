@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using Common.GK;
 
 namespace FireMonitor
 {
@@ -43,14 +44,11 @@ namespace FireMonitor
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					if (App.IsMulticlient)
-					{
 						FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
-					}
 					else
-					{
 						FiresecManager.GetConfiguration("Monitor/Configuration");
-					}
 
+					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					LoadingService.DoStep("Старт полинга сервера");
@@ -124,7 +122,10 @@ namespace FireMonitor
 				LoadingService.AddCount(10);
 
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				FiresecManager.GetConfiguration("Monitor/Configuration");
+				if (App.IsMulticlient)
+					FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
+				else
+					FiresecManager.GetConfiguration("Monitor/Configuration");
 
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();

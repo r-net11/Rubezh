@@ -130,7 +130,6 @@ namespace GKModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
-			GKDriversCreator.Create();
             XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DatabaseManager.Convert();

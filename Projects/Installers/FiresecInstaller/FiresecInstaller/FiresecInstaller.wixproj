@@ -38,6 +38,7 @@
     <Compile Include="Administrator\Files.wxs" />
     <Compile Include="Administrator\Shortcuts.wxs" />
     <Compile Include="Administrator\Uninstall.wxs" />
+    <Compile Include="FSAgent\Shortcuts.wxs" />
     <Compile Include="Monitor\Features.wxs" />
     <Compile Include="Monitor\Files.wxs" />
     <Compile Include="Monitor\Shortcuts.wxs" />
@@ -92,6 +93,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\FSAgent.ico" />
     <Content Include="FSAgent\Variables.wxi" />
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />

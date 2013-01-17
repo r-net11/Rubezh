@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using Common.GK;
 
 namespace FireAdministrator
 {
@@ -37,6 +38,7 @@ namespace FireAdministrator
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Administrator/Configuration");
 
+					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					LoadingService.DoStep("Старт полинга сервера");

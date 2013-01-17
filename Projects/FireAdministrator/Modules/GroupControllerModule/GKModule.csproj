@@ -65,6 +65,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BinaryFormatViewer\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="BinConfigurationReader.cs" />
     <Compile Include="BinConfigurationWriter.cs" />
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />

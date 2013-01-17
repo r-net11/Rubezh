@@ -71,7 +71,7 @@ namespace GKModule
 			if (binaryBase is XDevice)
 			{
 				var device = binaryBase as XDevice;
-				bool isDusted = journalItem.YesNo == "Есть";
+				bool isDusted = journalItem.YesNo;
 				ApplicationService.Invoke(() => { device.DeviceState.IsService = isDusted; });
 			}
 		}
