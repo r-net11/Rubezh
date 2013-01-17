@@ -1,25 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Text;
 using System.Threading;
 using DevicesModule.ViewModels;
 using DiagnosticsModule.Views;
+using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Microsoft.Win32;
-using FiresecAPI.Models;
-using System.Collections.Generic;
-using System.Windows.Markup;
-using System.Text;
-using System.Security.Policy;
-using Infrastructure.Common.BalloonTrayTip;
 using Ionic.Zip;
-using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -37,9 +33,11 @@ namespace DiagnosticsModule.ViewModels
             Test4Command = new RelayCommand(OnTest4);
             Test5Command = new RelayCommand(OnTest5);
             Test6Command = new RelayCommand(OnTest6);
-			Test7Command = new RelayCommand(OnTest7);
-			Test8Command = new RelayCommand(OnTest8);
+            Test7Command = new RelayCommand(OnTest7);
+            Test8Command = new RelayCommand(OnTest8);
             Test9Command = new RelayCommand(OnTest9);
+            Test10Command = new RelayCommand(OnTest10);
+            Test11Command = new RelayCommand(OnTest11);
             BalloonTestCommand = new RelayCommand(OnBalloonTest);
         }
 
@@ -47,9 +45,11 @@ namespace DiagnosticsModule.ViewModels
         {
             IsThreadStoping = true;
         }
+
         bool IsThreadStoping = false;
 
         string _text;
+
         public string Text
         {
             get { return _text; }
@@ -61,53 +61,40 @@ namespace DiagnosticsModule.ViewModels
         }
 
         public RelayCommand ShowDriversCommand { get; private set; }
-        void OnShowDrivers()
+
+        private void OnShowDrivers()
         {
             var driversView = new DriversView();
             driversView.ShowDialog();
         }
 
         public RelayCommand ShowXDriversCommand { get; private set; }
-        void OnShowXDrivers()
+
+        private void OnShowXDrivers()
         {
             var driversView = new XDriversView();
             driversView.ShowDialog();
         }
 
         public RelayCommand SecurityTestCommand { get; private set; }
-        void OnSecurityTest()
+
+        private void OnSecurityTest()
         {
-			foreach (var user in FiresecManager.SecurityConfiguration.Users)
-			{
-
-			}
-
-			foreach (var userRole in FiresecManager.SecurityConfiguration.UserRoles)
-			{
-				userRole.PermissionStrings = new List<string>();
-				foreach (var permission in userRole.Permissions)
-				{
-					var stringPermission = permission.ToString();
-					Trace.WriteLine(stringPermission);
-					userRole.PermissionStrings.Add(stringPermission);
-				}
-			}
-
-			PermissionType permissionType;
-			var result = Enum.TryParse<PermissionType>("none", out permissionType);
-			result = Enum.TryParse<PermissionType>("Adm_ViewConfig", out permissionType);
         }
 
         public RelayCommand ShowTreeCommand { get; private set; }
-        void OnShowTree()
+
+        private void OnShowTree()
         {
             var devicesTreeViewModel = new DevicesTreeViewModel();
             DialogService.ShowModalWindow(devicesTreeViewModel);
         }
 
         int counter = 0;
+
         public RelayCommand Test1Command { get; private set; }
-        void OnTest1()
+
+        private void OnTest1()
         {
             while (true)
             {
@@ -118,7 +105,8 @@ namespace DiagnosticsModule.ViewModels
         }
 
         public RelayCommand Test2Command { get; private set; }
-        void OnTest2()
+
+        private void OnTest2()
         {
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -128,9 +116,6 @@ namespace DiagnosticsModule.ViewModels
                         break;
 
                     FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                    FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-                    //FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-                    //FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
                     //FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
                     Thread.Sleep(TimeSpan.FromSeconds(5));
                     Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
@@ -142,17 +127,20 @@ namespace DiagnosticsModule.ViewModels
         }
 
         public RelayCommand Test3Command { get; private set; }
-        void OnTest3()
+
+        private void OnTest3()
         {
         }
 
         public RelayCommand Test4Command { get; private set; }
-        void OnTest4()
+
+        private void OnTest4()
         {
         }
 
         public RelayCommand Test5Command { get; private set; }
-        void OnTest5()
+
+        private void OnTest5()
         {
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -180,15 +168,16 @@ namespace DiagnosticsModule.ViewModels
         }
 
         public RelayCommand Test6Command { get; private set; }
-        void OnTest6()
+
+        private void OnTest6()
         {
             var thread = new Thread(new ThreadStart(() =>
             {
                 int count = 0;
                 while (true)
                 {
-					//if (Firesec.NativeFiresecClient.TasksCount > 10)
-					//    continue;
+                    //if (Firesec.NativeFiresecClient.TasksCount > 10)
+                    //    continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
                     //var safeFiresecService = new SafeFiresecService("net.pipe://127.0.0.1/FiresecService/");
@@ -209,15 +198,17 @@ namespace DiagnosticsModule.ViewModels
             thread.Start();
         }
 
-		public RelayCommand Test8Command { get; private set; }
-		void OnTest8()
-		{
-			FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
-		}
+        public RelayCommand Test8Command { get; private set; }
+
+        private void OnTest8()
+        {
+            FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
+        }
 
         public RelayCommand Test7Command { get; private set; }
-		void OnTest7()
-		{
+
+        private void OnTest7()
+        {
             var thread = new Thread(new ThreadStart(() =>
             {
                 int count = 0;
@@ -226,23 +217,24 @@ namespace DiagnosticsModule.ViewModels
                     if (IsThreadStoping)
                         break;
 
-					FiresecManager.FiresecService.Test("Hello " + count++.ToString());//.ShortPoll(FiresecServiceFactory.UID);
+                    FiresecManager.FiresecService.Test("Hello " + count++.ToString());//.ShortPoll(FiresecServiceFactory.UID);
                     Thread.Sleep(1000);
                 }
             }));
             thread.IsBackground = true;
             thread.Start();
-		}
+        }
 
         public RelayCommand Test9Command { get; private set; }
-        void OnTest9()
+
+        private void OnTest9()
         {
             FiresecManager.DeviceLibraryConfiguration = null;
             FiresecManager.DeviceLibraryConfiguration = GetConfig(FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
             ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
         }
 
-        T GetConfig<T>(T configuration, string fileName)
+        private T GetConfig<T>(T configuration, string fileName)
             where T : VersionedConfiguration, new()
         {
             var stream = FiresecManager.FiresecService.GetConfig();
@@ -257,10 +249,28 @@ namespace DiagnosticsModule.ViewModels
                 {
                     entry.Extract(xmlstream);
                     xmlstream.Position = 0;
-                    configuration = SerializeHelper.DeSerialize<T>(xmlstream);
+                    //configuration = ZipSerializeHelper.DeSerialize<T>(xmlstream);
                 }
                 return configuration;
             }
+        }
+
+        public RelayCommand Test10Command { get; private set; }
+
+        private void OnTest10()
+        {
+            DiagnosticsModule.swd.Start();
+            var deviceIconTestViewModel = new DeviceIconTestViewModel();
+            DialogService.ShowModalWindow(deviceIconTestViewModel);
+        }
+
+        public RelayCommand Test11Command { get; private set; }
+
+        private void OnTest11()
+        {
+            DiagnosticsModule.swz.Start();
+            var zoneTestViewModel = new ZoneTestViewModel();
+            DialogService.ShowModalWindow(zoneTestViewModel);
         }
 
         public static void CopyStream(Stream input, Stream output)
@@ -274,7 +284,8 @@ namespace DiagnosticsModule.ViewModels
         }
 
         public RelayCommand BalloonTestCommand { get; private set; }
-        void OnBalloonTest()
+
+        private void OnBalloonTest()
         {
             BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
         }

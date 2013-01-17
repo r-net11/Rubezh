@@ -14,4 +14,12 @@
     <DataTemplate DataType="{x:Type ViewModels:JournalTestViewModel}">
         <Views:JournalTestView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DeviceIconTestViewModel}">
+        <Views:DeviceIconTestView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneTestViewModel}">
+        <Views:ZoneTestView />
+    </DataTemplate>
 </ResourceDictionary>
