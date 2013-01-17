@@ -7,7 +7,6 @@ namespace Infrustructure.Plans.Painters
 {
 	public class TextBlockPainter : RectanglePainter
 	{
-		//private const int Margin = 3;
 		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
 			base.Draw(drawingContext, element, rect);
@@ -30,7 +29,8 @@ namespace Infrustructure.Plans.Painters
 			if (elementText.Stretch)
 				drawingContext.PushTransform(new ScaleTransform(bound.Width / formattedText.Width, bound.Height / formattedText.Height, point.X, point.Y));
 			else
-				drawingContext.PushClip(new RectangleGeometry(bound));
+				//drawingContext.PushClip(new RectangleGeometry(bound));
+				drawingContext.PushClip(Geometry);
 			drawingContext.DrawText(formattedText, point);
 			drawingContext.Pop();
 		}

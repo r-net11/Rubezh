@@ -49,6 +49,7 @@ namespace DevicesModule.Plans.Designer
 					_deviceControl.DriverId = _device.Driver.UID;
 					_deviceControl.StateType = _device.DeviceState.StateType;
 					_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
+
 					_device.DeviceState.StateChanged += OnPropertyChanged;
 					_device.DeviceState.ParametersChanged += () => presenterItem.Title = GetDeviceTooltip();
 				}
@@ -167,5 +168,18 @@ namespace DevicesModule.Plans.Designer
 			((MenuItem)_contextMenu.Items[1]).Header = DeviceState.IsDisabled ? "Включить" : "Отключить";
 			return _contextMenu;
 		}
+
+		#region IPainter Members
+
+		public bool CanTransform
+		{
+			get { return true; }
+		}
+
+		public void Transform(ElementBase element, Rect rect)
+		{
+		}
+
+		#endregion
 	}
 }

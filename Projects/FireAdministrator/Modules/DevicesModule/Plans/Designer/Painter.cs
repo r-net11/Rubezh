@@ -7,23 +7,19 @@ using Infrustructure.Plans.Painters;
 
 namespace DevicesModule.Plans.Designer
 {
-	internal class Painter : IPainter
+	internal class Painter : RectanglePainter
 	{
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		protected override void InitializeBrushes(ElementBase element, Rect rect)
 		{
-			get { return false; }
+			base.InitializeBrushes(element, rect);
+			SolidColorBrush.Color = Colors.Transparent;
+			SolidColorBrush.Freeze();
 		}
-
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		protected override void UpdateImageBrush(ElementBase element, Rect rect)
 		{
 			var device = Helper.GetDevice((ElementDevice)element);
-			var brush = DevicePictureCache.GetBrush(device);
-			drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
+			ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
 		}
-
-		#endregion
 
 		//public Visual Draw(ElementBase element)
 		//{

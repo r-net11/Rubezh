@@ -62,6 +62,10 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static Brush CreateBrush(byte[] backgroundPixels)
 		{
+			return new ImageBrush(CreateImage(backgroundPixels));
+		}
+		public static ImageSource CreateImage(byte[] backgroundPixels)
+		{
 			using (var imageStream = new MemoryStream(backgroundPixels))
 			{
 				BitmapImage bitmapImage = new BitmapImage();
@@ -70,7 +74,7 @@ namespace Infrustructure.Plans.Painters
 				bitmapImage.StreamSource = imageStream;
 				bitmapImage.EndInit();
 				bitmapImage.Freeze();
-				return new ImageBrush(bitmapImage);
+				return bitmapImage;
 			}
 		}
 

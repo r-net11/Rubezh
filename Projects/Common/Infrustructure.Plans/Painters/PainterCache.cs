@@ -15,7 +15,7 @@ namespace Infrustructure.Plans.Painters
 			var brush = GetBrush(color, backgroundPixels);
 			if (!_transparentBrushes.ContainsKey(brush))
 			{
-				var transparent = brush.Clone();
+				var transparent = brush.CloneCurrentValue();
 				transparent.Opacity = 0.5;
 				transparent.Freeze();
 				_transparentBrushes.Add(brush, transparent);
@@ -53,7 +53,23 @@ namespace Infrustructure.Plans.Painters
 			}
 			return _pens[color][thickness];
 		}
-		public static double Zoom { get; internal set; }
-		public static double PointZoom { get; internal set; }
+		public static Pen ZonePen { get; private set; }
+
+		public static double Zoom { get; private set; }
+		public static double PointZoom { get; private set; }
+
+		static PainterCache()
+		{
+			var brush = new SolidColorBrush(Colors.Black);
+			brush.Freeze();
+			ZonePen = new Pen(brush, 1);
+		}
+
+		public static void UpdateZoom(double zoom, double pointZoom)
+		{
+			Zoom = zoom;
+			PointZoom = pointZoom;
+			ZonePen.Thickness = 1 / Zoom;
+		}
 	}
 }

@@ -81,10 +81,10 @@ namespace DevicesModule.Plans.Designer
 				return;
 			base.Draw(drawingContext, element, rect);
 		}
-		protected override Brush GetBrush(ElementBase element)
-		{
-			return PainterCache.GetBrush(GetStateColor());
-		}
+		//protected override Brush GetBrush(ElementBase element)
+		//{
+		//    return PainterCache.GetBrush(GetStateColor());
+		//}
 
 		//public UIElement Draw(ElementBase element)
 		//{

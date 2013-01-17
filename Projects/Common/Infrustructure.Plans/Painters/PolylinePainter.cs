@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -9,9 +10,8 @@ namespace Infrustructure.Plans.Painters
 		{
 			get { return false; }
 		}
-		protected override Brush GetBrush(ElementBase element)
+		protected override void InitializeBrushes(ElementBase element, Rect rect)
 		{
-			return null;
 		}
 	}
 }

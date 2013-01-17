@@ -83,7 +83,7 @@ namespace Infrustructure.Plans.Designer
 			if (IsVisible)
 				Redraw();
 		}
-		public void Redraw()
+		private void Redraw()
 		{
 			using (DrawingContext drawingContext = RenderOpen())
 				Render(drawingContext);

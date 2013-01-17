@@ -10,21 +10,18 @@ using FiresecClient;
 
 namespace GKModule.Plans.Designer
 {
-	public class Painter : IPainter
+	public class Painter : RectanglePainter
 	{
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		protected override void InitializeBrushes(ElementBase element, Rect rect)
 		{
-			get { return false; }
+			base.InitializeBrushes(element, rect);
+			SolidColorBrush.Color = Colors.Transparent;
+			SolidColorBrush.Freeze();
 		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		protected override void UpdateImageBrush(ElementBase element, Rect rect)
 		{
 			var device = Helper.GetXDevice((ElementXDevice)element);
-			var brush = DevicePictureCache.GetBrush(device);
-			drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
+			ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
 		}
-
-		#endregion
 	}
 }

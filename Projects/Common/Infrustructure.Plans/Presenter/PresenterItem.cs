@@ -47,8 +47,8 @@ namespace Infrustructure.Plans.Presenter
 		public override void UpdateZoom()
 		{
 			base.UpdateZoom();
-			if (!Painter.RedrawOnZoom && Border != null)
-				Border.InvalidateVisual();
+			//if (!Painter.RedrawOnZoom && Border != null)
+			//    Border.InvalidateVisual();
 		}
 		public override void UpdateZoomPoint()
 		{

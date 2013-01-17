@@ -29,15 +29,11 @@ namespace Infrastructure.Client.Plans
 			deviceSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
 
 			Loaded += new RoutedEventHandler(OnLoaded);
-			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
 		}
 
-		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			Reset();
-		}
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
+			_scrollViewer.SizeChanged += (s, ee) => { Reset(); };
 			((IPlanDesignerViewModel)DataContext).Updated += (s, ee) => Reset();
 			Reset();
 		}

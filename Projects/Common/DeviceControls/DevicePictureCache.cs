@@ -9,6 +9,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Designer;
 using XFiresecAPI;
+using System.Windows.Media.Animation;
 
 namespace DeviceControls
 {
@@ -70,6 +71,11 @@ namespace DeviceControls
 
 		private static void RegisterBrush(LibraryDevice libraryDevice)
 		{
+			//var storyBoard = new ObjectAnimationUsingKeyFrames();
+			//storyBoard.KeyFrames.Add(new DiscreteObjectKeyFrame(imageSource, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500))));
+			//storyBoard.KeyFrames.Add(new DiscreteObjectKeyFrame(null, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500))));
+			//brush.BeginAnimation(ImageBrush.ImageSourceProperty, storyBoard);
+
 			var imageSource = GetImageSource(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId);
 			var brush = new ImageBrush(imageSource);
 			brush.Freeze();

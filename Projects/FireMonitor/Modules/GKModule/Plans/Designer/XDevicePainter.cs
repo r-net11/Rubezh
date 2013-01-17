@@ -126,5 +126,18 @@ namespace GKModule.Plans.Designer
 			}
 			return _contextMenu;
 		}
+
+		#region IPainter Members
+
+		public bool CanTransform
+		{
+			get { return true; }
+		}
+
+		public void Transform(ElementBase element, Rect rect)
+		{
+		}
+
+		#endregion
 	}
 }

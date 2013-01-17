@@ -77,13 +77,6 @@ namespace Infrustructure.Plans.Designer
 			IsVisibleLayout = true;
 		}
 
-		public override void UpdateZoom()
-		{
-			base.UpdateZoom();
-			if (!Painter.RedrawOnZoom && ResizeChrome != null)
-				ResizeChrome.InvalidateVisual();
-		}
-
 		protected override void ResetIsEnabled()
 		{
 			base.ResetIsEnabled();
@@ -91,10 +84,10 @@ namespace Infrustructure.Plans.Designer
 			if (!IsEnabled)
 				IsSelected = false;
 		}
-		public override void Redraw()
+		protected override void Redraw(bool force)
 		{
-			base.Redraw();
-			if (ResizeChrome != null)
+			base.Redraw(force);
+			if (ResizeChrome != null && force)
 				ResizeChrome.InvalidateVisual();
 		}
 		protected void SetResizeChrome(ResizeChrome resizeChrome)

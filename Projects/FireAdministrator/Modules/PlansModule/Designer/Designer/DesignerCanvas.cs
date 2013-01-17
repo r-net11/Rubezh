@@ -181,7 +181,7 @@ namespace PlansModule.Designer
 			var designerItem = DesignerItemFactory.Create(elementBase);
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Add(designerItem);
-			designerItem.Redraw();
+			designerItem.ResetElement();
 			return designerItem;
 		}
 

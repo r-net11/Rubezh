@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 
@@ -73,7 +72,7 @@ namespace Infrustructure.Plans.Designer
 			};
 			IsBusy = false;
 			ResetIsEnabled();
-			ResetElement(element);
+			Element = element;
 		}
 
 		public double MinHeight { get; protected set; }
@@ -81,52 +80,62 @@ namespace Infrustructure.Plans.Designer
 
 		public virtual void UpdateZoom()
 		{
-			if (Painter != null && Painter.RedrawOnZoom)
-				Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)Redraw);
 		}
 		public virtual void UpdateZoomPoint()
 		{
 		}
 
-		public virtual void ResetElement(ElementBase element)
+		public void ResetElement(ElementBase element)
 		{
 			Element = element;
-			Painter = PainterFactory.Create(Element);
-			if (DesignerCanvas != null)
-				Redraw();
+			ResetElement();
 		}
-		public virtual void Redraw()
+		public void ResetElement()
+		{
+			Painter = PainterFactory.Create(Element);
+			if (DesignerCanvas != null && Painter != null)
+				Redraw(true);
+		}
+		public void Redraw()
+		{
+			if (Painter != null)
+				Redraw(false);
+		}
+		protected virtual void Redraw(bool force)
 		{
 			SetMinSize();
+			if (force || !Painter.CanTransform)
+				Render();
+			else
+				Painter.Transform(Element, GetRectangle());
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
+		}
+		private void Render()
+		{
 			using (DrawingContext drawingContext = RenderOpen())
 			{
 				OriginalRect = GetRectangle();
-				Translate(true);
-				Render(drawingContext);
-			}
-		}
-		protected virtual void Render(DrawingContext drawingContext)
-		{
-			if (Painter != null)
+				//Translate(true);
 				Painter.Draw(drawingContext, Element, GetRectangle());
+			}
 		}
 		public virtual void Translate(bool force = false)
 		{
 			// if (Painter.AllowScale)?...:Redraw();
-			var rect = GetRectangle();
-			if (rect.Size != OriginalRect.Size || force)
-			{
-				ScaleTransform.CenterX = OriginalRect.Left;
-				ScaleTransform.CenterY = OriginalRect.Top;
-				ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
-				ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
-			}
-			if (rect.TopLeft != OriginalRect.TopLeft || force)
-			{
-				TranslateTransform.X = rect.Left - OriginalRect.Left;
-				TranslateTransform.Y = rect.Top - OriginalRect.Top;
-			}
+			//var rect = GetRectangle();
+			//if (rect.Size != OriginalRect.Size || force)
+			//{
+			//    ScaleTransform.CenterX = OriginalRect.Left;
+			//    ScaleTransform.CenterY = OriginalRect.Top;
+			//    ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
+			//    ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
+			//}
+			//if (rect.TopLeft != OriginalRect.TopLeft || force)
+			//{
+			//    TranslateTransform.X = rect.Left - OriginalRect.Left;
+			//    TranslateTransform.Y = rect.Top - OriginalRect.Top;
+			//}
+			Redraw();
 		}
 		public virtual Rect GetRectangle()
 		{
