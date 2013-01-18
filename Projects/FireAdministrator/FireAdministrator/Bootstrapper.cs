@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Common;
+using Common.GK;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -10,7 +11,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
-using Common.GK;
 
 namespace FireAdministrator
 {
@@ -32,8 +32,8 @@ namespace FireAdministrator
 					LoadingService.Show("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount() + 6);
 
-					//LoadingService.DoStep("Синхронизация файлов");
-					//FiresecManager.UpdateFiles();
+					LoadingService.DoStep("Синхронизация файлов");
+					FiresecManager.UpdateFiles();
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Administrator/Configuration");
@@ -41,8 +41,8 @@ namespace FireAdministrator
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					//LoadingService.DoStep("Старт полинга сервера");
-					//FiresecManager.StartPoll(true);
+					LoadingService.DoStep("Старт полинга сервера");
+					FiresecManager.StartPoll(true);
 
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)

@@ -4,6 +4,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.Generic;
+using System.Windows.Threading;
+using System;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -105,29 +107,33 @@ namespace Infrustructure.Plans.Designer
 			_isVisualValid = false;
 			if (IsVisible)
 				Translate();
+			else
+				Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Translate);
 		}
 		protected virtual void Translate()
 		{
-			var rect = GetBounds();
-			if (_borderGeometry != null && _borderGeometry.Rect != rect)
+			if (!_isVisualValid)
 			{
-				_borderGeometry.Rect = GetBounds();
-				if (_canResize)
+				var rect = GetBounds();
+				if (_borderGeometry != null && _borderGeometry.Rect != rect)
 				{
-					ThumbGeometries[0].Center = rect.TopLeft;
-					ThumbGeometries[1].Center = rect.TopRight;
-					ThumbGeometries[2].Center = rect.BottomRight;
-					ThumbGeometries[3].Center = rect.BottomLeft;
-				}
-			}
-			if (ThumbGeometries.Count > 0 && ThumbGeometries[0].RadiusX != ResizeThumbSize)
-				ThumbGeometries.ForEach(thumbGeometry =>
+					_borderGeometry.Rect = GetBounds();
+					if (_canResize)
 					{
-						thumbGeometry.RadiusX = ResizeThumbSize;
-						thumbGeometry.RadiusY = ResizeThumbSize;
-					});
-			//
-			_isVisualValid = true;
+						ThumbGeometries[0].Center = rect.TopLeft;
+						ThumbGeometries[1].Center = rect.TopRight;
+						ThumbGeometries[2].Center = rect.BottomRight;
+						ThumbGeometries[3].Center = rect.BottomLeft;
+					}
+				}
+				if (ThumbGeometries.Count > 0 && ThumbGeometries[0].RadiusX != ResizeThumbSize)
+					ThumbGeometries.ForEach(thumbGeometry =>
+						{
+							thumbGeometry.RadiusX = ResizeThumbSize;
+							thumbGeometry.RadiusY = ResizeThumbSize;
+						});
+				_isVisualValid = true;
+			}
 		}
 		public void Redraw()
 		{
