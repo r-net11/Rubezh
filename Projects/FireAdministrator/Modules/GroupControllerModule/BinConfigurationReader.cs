@@ -16,10 +16,14 @@ namespace GKModule
 		{
 			BinConfigurationWriter.GoToTechnologicalRegime(device);
 			var descriptorAddersses = GetDescriptorAddresses(device);
-			foreach (var descriptorAdderss in descriptorAddersses)
+
+			StartProgress("Чтение базы донных объектов", descriptorAddersses.Count);
+			for(int i = 0; i < descriptorAddersses.Count; i++)
 			{
-				GetDescriptorInfo(device, descriptorAdderss);
+				DoProgress("Чтение базы донных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
+				GetDescriptorInfo(device, descriptorAddersses[i]);
 			}
+			StopProgress();
 			BinConfigurationWriter.GoToWorkingRegime(device);
 		}
 
@@ -83,6 +87,30 @@ namespace GKModule
                     descriptorAddersses.Add(descriptorAdderss);
 				}
 			}
+		}
+
+		static void StartProgress(string name, int count)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.ShowProgress("", name, count);
+			});
+		}
+
+		static void DoProgress(string name)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.DoStep(name);
+			});
+		}
+
+		static void StopProgress()
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Close();
+			});
 		}
 	}
 }
