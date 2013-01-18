@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
+using System.Collections.Generic;
 
 namespace FireAdministrator
 {
@@ -54,46 +55,38 @@ namespace FireAdministrator
 						}
 					}
 
-					var tempFileName = AppDataFolderHelper.GetTempFileName() +"_";
-					var zipFile = new ZipFile(tempFileName);
+					var tempFolderName = AppDataFolderHelper.GetTempFolder();
+					if (!Directory.Exists(tempFolderName))
+						Directory.CreateDirectory(tempFolderName);
+
+					var tempFileName = AppDataFolderHelper.GetTempFileName();
+					if (File.Exists(tempFileName))
+						File.Delete(tempFileName);
 
 					TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
 					if (ServiceFactory.SaveService.FSChanged)
-					{
-						AddConfiguration(zipFile, FiresecManager.FiresecConfiguration.DeviceConfiguration, "DeviceConfiguration.xml", 1, 1);
-					}
+						AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
 					if (ServiceFactory.SaveService.PlansChanged)
-					{
-						AddConfiguration(zipFile, FiresecManager.PlansConfiguration, "PlansConfiguration.xml", 1, 1);
-					}
-					if (ServiceFactory.SaveService.SecurityChanged)
-					{
-						AddConfiguration(zipFile, FiresecManager.SecurityConfiguration, "SecurityConfiguration.xml", 1, 1);
-					}
-					if (ServiceFactory.SaveService.LibraryChanged)
-					{
-						AddConfiguration(zipFile, FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml", 1, 1);
-					}
-					if ((ServiceFactory.SaveService.InstructionsChanged) ||
-						(ServiceFactory.SaveService.SoundsChanged) ||
-						(ServiceFactory.SaveService.FilterChanged) ||
-						(ServiceFactory.SaveService.CamerasChanged))
-					{
-						AddConfiguration(zipFile, FiresecManager.SystemConfiguration, "SystemConfiguration.xml", 1, 1);
-					}
+						AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
+					if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged))
+						AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 					if (ServiceFactory.SaveService.GKChanged)
-					{
-						AddConfiguration(zipFile, XManager.DeviceConfiguration, "XDeviceConfiguration.xml", 1, 1);
-					}
+						AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
+					if (ServiceFactory.SaveService.SecurityChanged)
+						AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
+					if (ServiceFactory.SaveService.LibraryChanged)
+						AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
 					if (ServiceFactory.SaveService.XLibraryChanged)
-					{
-						AddConfiguration(zipFile, XManager.XDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml", 1, 1);
-					}
+						AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.XDeviceLibraryConfiguration, 1, 1);
 
-					AddConfiguration(zipFile, TempZipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml", 1, 1);
+					var zipFile = new ZipFile(tempFileName);
+					zipFile.AddDirectory(tempFolderName);
 					zipFile.Save(tempFileName);
 					zipFile.Dispose();
+					if (Directory.Exists(tempFolderName))
+						Directory.Delete(tempFolderName, true);
 
 					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 					{
@@ -120,15 +113,11 @@ namespace FireAdministrator
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			var configurationStream = ZipSerializeHelper.Serialize(configuration);
-			if (zipFile.Entries.Any(x => x.FileName == name))
-				zipFile.RemoveEntry(name);
-			configurationStream.Position = 0;
-			zipFile.AddEntry(name, configurationStream);
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
@@ -143,7 +132,8 @@ namespace FireAdministrator
                     FiresecManager.SetEmptyConfiguration();
                     XManager.SetEmptyConfiguration();
                     FiresecManager.PlansConfiguration = new PlansConfiguration();
-                    FiresecManager.SystemConfiguration = new SystemConfiguration();
+                    FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
+					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
                     FiresecManager.PlansConfiguration.Update();
 
                     ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -151,8 +141,6 @@ namespace FireAdministrator
                     ServiceFactory.SaveService.FSChanged = true;
                     ServiceFactory.SaveService.PlansChanged = true;
                     ServiceFactory.SaveService.InstructionsChanged = true;
-                    ServiceFactory.SaveService.SoundsChanged = true;
-                    ServiceFactory.SaveService.FilterChanged = true;
                     ServiceFactory.SaveService.CamerasChanged = true;
                     ServiceFactory.SaveService.GKChanged = true;
 

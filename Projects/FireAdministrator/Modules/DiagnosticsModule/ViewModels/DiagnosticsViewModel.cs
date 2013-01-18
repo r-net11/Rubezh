@@ -65,16 +65,14 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowDriversCommand { get; private set; }
-		void OnShowDrivers()
-        private void OnShowDrivers()
+        void OnShowDrivers()
 		{
 			var driversView = new DriversView();
 			driversView.ShowDialog();
 		}
 
 		public RelayCommand ShowXDriversCommand { get; private set; }
-		void OnShowXDrivers()
-        private void OnShowXDrivers()
+        void OnShowXDrivers()
 		{
 			var driversView = new XDriversView();
 			driversView.ShowDialog();
@@ -87,7 +85,6 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand ShowTreeCommand { get; private set; }
 		void OnShowTree()
-        private void OnShowTree()
 		{
 			var devicesTreeViewModel = new DevicesTreeViewModel();
 			DialogService.ShowModalWindow(devicesTreeViewModel);
@@ -97,7 +94,6 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
-        private void OnTest1()
 		{
 			while (true)
 			{
@@ -109,7 +105,6 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
-        private void OnTest2()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -131,19 +126,16 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand Test3Command { get; private set; }
 		void OnTest3()
-        private void OnTest3()
 		{
 		}
 
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
-        private void OnTest4()
 		{
 		}
 
 		public RelayCommand Test5Command { get; private set; }
 		void OnTest5()
-        private void OnTest5()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -172,7 +164,6 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand Test6Command { get; private set; }
 		void OnTest6()
-        private void OnTest6()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -230,7 +221,6 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand Test9Command { get; private set; }
 		void OnTest9()
-        private void OnTest9()
 		{
 			FiresecManager.DeviceLibraryConfiguration = null;
 			FiresecManager.DeviceLibraryConfiguration = GetConfig(FiresecManager.DeviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
@@ -288,7 +278,6 @@ namespace DiagnosticsModule.ViewModels
 
 		public RelayCommand BalloonTestCommand { get; private set; }
 		void OnBalloonTest()
-        private void OnBalloonTest()
 		{
 			BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
 		}

@@ -18,7 +18,6 @@ namespace DevicesModule.ViewModels
 {
 	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public ZoneDevicesViewModel ZoneDevices { get; set; }
 		public static ZonesViewModel Current { get; private set; }
 
 		public ZonesViewModel()
@@ -29,17 +28,28 @@ namespace DevicesModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
-			ZoneDevices = new ZoneDevicesViewModel();
 			RegisterShortcuts();
 		}
 
 		public void Initialize()
 		{
+			ZoneDevices = new ZoneDevicesViewModel();
 			Zones = new ObservableCollection<ZoneViewModel>(
 				from zone in FiresecManager.Zones
 				orderby zone.No
 				select new ZoneViewModel(zone));
 			SelectedZone = Zones.FirstOrDefault();
+		}
+
+		ZoneDevicesViewModel _zoneDevices;
+		public ZoneDevicesViewModel ZoneDevices
+		{
+			get { return _zoneDevices; }
+			set
+			{
+				_zoneDevices = value;
+				OnPropertyChanged("ZoneDevices");
+			}
 		}
 
 		ObservableCollection<ZoneViewModel> _zones;

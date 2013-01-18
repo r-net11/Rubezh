@@ -44,14 +44,30 @@ namespace SettingsModule.ViewModels
 					FiresecManager.UpdateConfiguration();
 
 					LoadingService.DoStep("Сохранение конфигурации");
-					var tempFileName = Path.GetTempFileName() + "_";
-					var zipFile = new ZipFile(tempFileName);
+					var tempFolderName = AppDataFolderHelper.GetTempFolder();
+					if (!Directory.Exists(tempFolderName))
+						Directory.CreateDirectory(tempFolderName);
+
+					var tempFileName = AppDataFolderHelper.GetTempFileName();
+					if (File.Exists(tempFileName))
+						File.Delete(tempFileName);
+
 					TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
-					AddConfiguration(zipFile, FiresecManager.FiresecConfiguration.DeviceConfiguration, "DeviceConfiguration.xml", 1, 1);
-					AddConfiguration(zipFile, FiresecManager.PlansConfiguration, "PlansConfiguration.xml", 1, 1);
-					AddConfiguration(zipFile, TempZipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml", 1, 1);
+
+					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
+
+					var zipFile = new ZipFile(tempFileName);
+					zipFile.AddDirectory(tempFolderName);
 					zipFile.Save(tempFileName);
 					zipFile.Dispose();
+					if (Directory.Exists(tempFolderName))
+						Directory.Delete(tempFolderName, true);
+
+					if (Directory.Exists(tempFolderName))
+						Directory.Delete(tempFolderName, true);
+
 					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 					{
 						FiresecManager.FiresecService.SetConfig(fileStream);
@@ -72,15 +88,13 @@ namespace SettingsModule.ViewModels
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			var configurationStream = ZipSerializeHelper.Serialize(configuration);
-			if (zipFile.Entries.Any(x => x.FileName == name))
-				zipFile.RemoveEntry(name);
-			configurationStream.Position = 0;
-			zipFile.AddEntry(name, configurationStream);
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+
+			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
 		public RelayCommand ConvertJournalCommand { get; private set; }

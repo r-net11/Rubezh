@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using FiresecAPI;
 using System;
 using Common;
+using System.Diagnostics;
 
 namespace Infrastructure.Common
 {

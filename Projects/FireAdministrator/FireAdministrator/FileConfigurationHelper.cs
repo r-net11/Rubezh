@@ -74,27 +74,8 @@ namespace FireAdministrator
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
 			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
 
-			//var configurationStream = ZipSerializeHelper.Serialize(configuration);
-			//if (zipFile.Entries.Any(x => x.FileName == name))
-			//    zipFile.RemoveEntry(name);
-			//configurationStream.Position = 0;
-			//zipFile.AddEntry(name, configurationStream);
-
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
-
-		//static void AddConfiguration(ZipFile zipFile, VersionedConfiguration configuration, string name, int minorVersion, int majorVersion)
-		//{
-		//    configuration.BeforeSave();
-		//    configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-		//    var configurationStream = ZipSerializeHelper.Serialize(configuration);
-		//    if (zipFile.Entries.Any(x => x.FileName == name))
-		//        zipFile.RemoveEntry(name);
-		//    configurationStream.Position = 0;
-		//    zipFile.AddEntry(name, configurationStream);
-
-		//    TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
-		//}
 
 		public static void LoadFromFile()
 		{
