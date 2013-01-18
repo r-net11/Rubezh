@@ -24,7 +24,6 @@ namespace Infrustructure.Plans.Designer
 		public virtual bool AllowDrag { get { return false; } }
 		protected Rect OriginalRect { get; private set; }
 		protected TranslateTransform TranslateTransform { get; private set; }
-		protected ScaleTransform ScaleTransform { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -60,16 +59,8 @@ namespace Infrustructure.Plans.Designer
 
 		public CommonDesignerItem(ElementBase element)
 		{
-			ScaleTransform = new ScaleTransform();
 			TranslateTransform = new TranslateTransform();
-			Transform = new TransformGroup()
-			{
-				Children = new TransformCollection()
-				{
-					ScaleTransform,
-					TranslateTransform
-				}
-			};
+			Transform = TranslateTransform;
 			IsBusy = false;
 			ResetIsEnabled();
 			Element = element;
@@ -94,48 +85,44 @@ namespace Infrustructure.Plans.Designer
 		{
 			Painter = PainterFactory.Create(Element);
 			if (DesignerCanvas != null && Painter != null)
-				Redraw(true);
-		}
-		public void Redraw()
-		{
-			if (Painter != null)
-				Redraw(false);
-		}
-		protected virtual void Redraw(bool force)
-		{
-			SetMinSize();
-			if (force || !Painter.CanTransform)
-				Render();
-			else
-				Painter.Transform(Element, GetRectangle());
-			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
-		}
-		private void Render()
-		{
-			using (DrawingContext drawingContext = RenderOpen())
 			{
-				OriginalRect = GetRectangle();
-				//Translate(true);
-				Painter.Draw(drawingContext, Element, GetRectangle());
+				SetMinSize();
+				InvalidateMeasure();
+				Render();
 			}
 		}
-		public virtual void Translate(bool force = false)
+		public virtual void Redraw()
+		{
+			SetMinSize();
+			InvalidateMeasure();
+			if (Painter.CanTransform)
+				Painter.Transform(Element, GetRectangle());
+			else
+				Render();
+			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
+		}
+		protected virtual void Render()
+		{
+			using (DrawingContext drawingContext = RenderOpen())
+				Painter.Draw(drawingContext, Element, GetRectangle());
+		}
+		private void InvalidateMeasure()
+		{
+			OriginalRect = GetRectangle();
+			TranslateTransform.X = 0;
+			TranslateTransform.Y = 0;
+		}
+		public virtual void Translate()
 		{
 			// if (Painter.AllowScale)?...:Redraw();
-			//var rect = GetRectangle();
-			//if (rect.Size != OriginalRect.Size || force)
-			//{
-			//    ScaleTransform.CenterX = OriginalRect.Left;
-			//    ScaleTransform.CenterY = OriginalRect.Top;
-			//    ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
-			//    ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
-			//}
-			//if (rect.TopLeft != OriginalRect.TopLeft || force)
-			//{
-			//    TranslateTransform.X = rect.Left - OriginalRect.Left;
-			//    TranslateTransform.Y = rect.Top - OriginalRect.Top;
-			//}
-			Redraw();
+			var rect = GetRectangle();
+			if (rect.Size != OriginalRect.Size)
+				Redraw();
+			else if (rect.TopLeft != OriginalRect.TopLeft)
+			{
+				TranslateTransform.X = rect.Left - OriginalRect.Left;
+				TranslateTransform.Y = rect.Top - OriginalRect.Top;
+			}
 		}
 		public virtual Rect GetRectangle()
 		{

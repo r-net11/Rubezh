@@ -8,11 +8,10 @@ namespace Infrustructure.Plans.Painters
 		where T : Geometry
 	{
 		protected T Geometry { get; private set; }
-		protected Rect Rect { get; private set; }
 		protected SolidColorBrush SolidColorBrush { get; private set; }
 		protected ImageBrush ImageBrush { get; private set; }
-		protected SolidColorBrush PenBrush { get; private set; }
 		protected Pen Pen { get; private set; }
+		protected SolidColorBrush PenBrush { get; private set; }
 
 		#region IPainter Members
 
@@ -23,9 +22,11 @@ namespace Infrustructure.Plans.Painters
 
 		public virtual void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
 		{
-			Rect = rect;
 			Geometry = CreateShape();
-			InitializeBrushes(element, rect);
+			SolidColorBrush = CreateSolidColorBrush(element, rect);
+			ImageBrush = CreateImageBrush(element, rect);
+			Pen = CreatePen(element, rect);
+			PenBrush = Pen == null ? null : Pen.Brush as SolidColorBrush;
 			Transform(element, rect);
 			drawingContext.DrawGeometry(SolidColorBrush, null, Geometry);
 			drawingContext.DrawGeometry(ImageBrush, Pen, Geometry);
@@ -36,7 +37,7 @@ namespace Infrustructure.Plans.Painters
 			UpdateImageBrush(element, rect);
 			UpdateSolidColorBrush(element, rect);
 			UpdatePen(element, rect);
-			if (!Geometry.IsFrozen && Geometry.Bounds != rect)
+			if (!Geometry.IsFrozen)
 				InnerTransform(element, rect);
 		}
 
@@ -44,16 +45,19 @@ namespace Infrustructure.Plans.Painters
 
 		protected abstract T CreateShape();
 		protected abstract void InnerTransform(ElementBase element, Rect rect);
-		protected virtual void InitializeBrushes(ElementBase element, Rect rect)
+		protected virtual SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
 		{
-			SolidColorBrush = new SolidColorBrush();
-			ImageBrush = new ImageBrush();
+			return new SolidColorBrush();
 		}
-		protected virtual void InitializePen(ElementBase element, Rect rect)
+		protected virtual ImageBrush CreateImageBrush(ElementBase element, Rect rect)
 		{
-			PenBrush = new SolidColorBrush();
-			Pen = new Pen();
-			Pen.Brush = PenBrush;
+			return new ImageBrush();
+		}
+		protected virtual Pen CreatePen(ElementBase element, Rect rect)
+		{
+			var pen = new Pen();
+			pen.Brush = new SolidColorBrush();
+			return pen;
 		}
 		protected virtual void UpdateSolidColorBrush(ElementBase element, Rect rect)
 		{

@@ -10,8 +10,13 @@ namespace Infrustructure.Plans.Painters
 		{
 			get { return false; }
 		}
-		protected override void InitializeBrushes(ElementBase element, Rect rect)
+		protected override ImageBrush CreateImageBrush(ElementBase element, Rect rect)
 		{
+			return null;
+		}
+		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
+		{
+			return null;
 		}
 	}
 }

@@ -12,7 +12,8 @@ namespace Infrustructure.Plans.Painters
 		}
 		protected override void InnerTransform(ElementBase element, Rect rect)
 		{
-			Geometry.Rect = rect;
+			if (Geometry.Bounds != rect)
+				Geometry.Rect = rect;
 		}
 	}
 }

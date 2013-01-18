@@ -4,21 +4,30 @@ using DeviceControls;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using System;
 
 namespace DevicesModule.Plans.Designer
 {
 	internal class Painter : RectanglePainter
 	{
-		protected override void InitializeBrushes(ElementBase element, Rect rect)
+		private Guid _deviceUID = Guid.Empty;
+		protected override Pen CreatePen(ElementBase element, Rect rect)
 		{
-			base.InitializeBrushes(element, rect);
-			SolidColorBrush.Color = Colors.Transparent;
-			SolidColorBrush.Freeze();
+			return null;
+		}
+		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
+		{
+			return null;
 		}
 		protected override void UpdateImageBrush(ElementBase element, Rect rect)
 		{
-			var device = Helper.GetDevice((ElementDevice)element);
-			ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
+			var elementDevice = (ElementDevice)element;
+			if (_deviceUID != elementDevice.DeviceUID)
+			{
+				_deviceUID = elementDevice.DeviceUID;
+				var device = Helper.GetDevice(elementDevice);
+				ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
+			}
 		}
 
 		//public Visual Draw(ElementBase element)

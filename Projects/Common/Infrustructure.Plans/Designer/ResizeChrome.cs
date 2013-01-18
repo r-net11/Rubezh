@@ -9,18 +9,24 @@ namespace Infrustructure.Plans.Designer
 {
 	public abstract class ResizeChrome : DrawingVisual, IVisualItem
 	{
-		protected const ToleranceType ToleranceType = System.Windows.Media.ToleranceType.Relative;
-		protected double Tolerance { get { return 0.1 / DesignerCanvas.Zoom / DesignerItem.Transform.Value.M11; } }
-		protected static Brush TransparentBrush { get; private set; }
-		protected static Brush BorderBrush { get; private set; }
-		protected static Brush ThumbBrush { get; private set; }
-		protected double ResizeThumbSize { get { return 3.5 / DesignerCanvas.Zoom / DesignerItem.Transform.Value.M11; } }
-		protected double ResizeMargin { get { return 4 / DesignerCanvas.Zoom / DesignerItem.Transform.Value.M11; } }
-		protected double Thickness { get { return 1 / DesignerCanvas.Zoom / DesignerItem.Transform.Value.M11; } }
+		private const ToleranceType ToleranceType = System.Windows.Media.ToleranceType.Relative;
+		private static double Tolerance { get; set; }
+		private static Brush TransparentBrush { get; set; }
+		private static Brush BorderBrush { get; set; }
+		private static Brush ThumbBrush { get; set; }
+		private static Pen TransparentPen { get; set; }
+		private static Pen BorderPen { get; set; }
+
+		private static double Thickness { get; set; }
+		private static double ResizeThumbSize { get; set; }
+		private static double ResizeMargin { get; set; }
+
 		private bool _isVisualValid;
 		private bool _isVisible;
 		private bool _canResize;
+		private RectangleGeometry _borderGeometry;
 		private ResizeDirection _resizeDirection;
+		protected List<EllipseGeometry> ThumbGeometries { get; private set; }
 		protected bool IsMoved { get; set; }
 
 		static ResizeChrome()
@@ -50,6 +56,21 @@ namespace Infrustructure.Plans.Designer
 			thumbBrush.GradientStops.Add(new GradientStop(Colors.DarkSlateGray, 0.9));
 			thumbBrush.Freeze();
 			ThumbBrush = thumbBrush;
+			Tolerance = 0.1;
+			Thickness = 1;
+			ResizeThumbSize = 3.5;
+			ResizeMargin = 4;
+			TransparentPen = new Pen(TransparentBrush, 3);
+			BorderPen = new Pen(BorderBrush, 1);
+		}
+		public static void UpdateZoom(double zoom)
+		{
+			Tolerance = 0.1 / zoom;
+			Thickness = 1 / zoom;
+			TransparentPen.Thickness = 3 / zoom;
+			BorderPen.Thickness = 1 / zoom;
+			ResizeThumbSize = 3.5 / zoom;
+			ResizeMargin = 4 / zoom;
 		}
 
 		protected DesignerItem DesignerItem { get; private set; }
@@ -64,13 +85,15 @@ namespace Infrustructure.Plans.Designer
 			{
 				_isVisible = value;
 				if (IsVisible && !_isVisualValid)
-					Redraw();
+					Translate();
 				Opacity = IsVisible ? 1 : 0;
 			}
 		}
 
 		public ResizeChrome(DesignerItem designerItem)
 		{
+			ThumbGeometries = new List<EllipseGeometry>();
+			_borderGeometry = null;
 			_canResize = false;
 			_isVisualValid = false;
 			_isVisible = false;
@@ -81,19 +104,46 @@ namespace Infrustructure.Plans.Designer
 		{
 			_isVisualValid = false;
 			if (IsVisible)
-				Redraw();
+				Translate();
 		}
-		private void Redraw()
+		protected virtual void Translate()
+		{
+			var rect = GetBounds();
+			if (_borderGeometry != null && _borderGeometry.Rect != rect)
+			{
+				_borderGeometry.Rect = GetBounds();
+				if (_canResize)
+				{
+					ThumbGeometries[0].Center = rect.TopLeft;
+					ThumbGeometries[1].Center = rect.TopRight;
+					ThumbGeometries[2].Center = rect.BottomRight;
+					ThumbGeometries[3].Center = rect.BottomLeft;
+				}
+			}
+			if (ThumbGeometries.Count > 0 && ThumbGeometries[0].RadiusX != ResizeThumbSize)
+				ThumbGeometries.ForEach(thumbGeometry =>
+					{
+						thumbGeometry.RadiusX = ResizeThumbSize;
+						thumbGeometry.RadiusY = ResizeThumbSize;
+					});
+			//
+			_isVisualValid = true;
+		}
+		public void Redraw()
 		{
 			using (DrawingContext drawingContext = RenderOpen())
+			{
+				ThumbGeometries.Clear();
 				Render(drawingContext);
+			}
 			_isVisualValid = true;
 		}
 		protected abstract void Render(DrawingContext drawingContext);
 		protected void DrawBounds(DrawingContext drawingContext)
 		{
-			drawingContext.DrawRectangle(null, new Pen(TransparentBrush, 3 * Thickness), GetBounds());
-			drawingContext.DrawRectangle(null, new Pen(BorderBrush, Thickness), GetBounds());
+			_borderGeometry = new RectangleGeometry(GetBounds());
+			drawingContext.DrawGeometry(null, TransparentPen, _borderGeometry);
+			drawingContext.DrawGeometry(null, BorderPen, _borderGeometry);
 			_canResize = false;
 		}
 		protected void DrawSizableBounds(DrawingContext drawingContext)
@@ -108,7 +158,9 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void DrawThumb(DrawingContext drawingContext, Point location)
 		{
-			drawingContext.DrawEllipse(ThumbBrush, null, location, ResizeThumbSize, ResizeThumbSize);
+			var thumbGeometry = new EllipseGeometry(location, ResizeThumbSize, ResizeThumbSize);
+			ThumbGeometries.Add(thumbGeometry);
+			drawingContext.DrawGeometry(ThumbBrush, null, thumbGeometry);
 		}
 
 		protected Rect GetBounds()

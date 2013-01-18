@@ -15,7 +15,7 @@ namespace PlansModule.Designer.DesignerItems
 
 		public override void UpdateZoomPoint()
 		{
-			Translate();
+			Redraw();
 			ResizeChrome.InvalidateVisual();
 		}
 

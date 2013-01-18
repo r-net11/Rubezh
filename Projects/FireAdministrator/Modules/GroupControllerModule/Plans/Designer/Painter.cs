@@ -12,11 +12,13 @@ namespace GKModule.Plans.Designer
 {
 	public class Painter : RectanglePainter
 	{
-		protected override void InitializeBrushes(ElementBase element, Rect rect)
+		protected override Pen CreatePen(ElementBase element, Rect rect)
 		{
-			base.InitializeBrushes(element, rect);
-			SolidColorBrush.Color = Colors.Transparent;
-			SolidColorBrush.Freeze();
+			return null;
+		}
+		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
+		{
+			return null;
 		}
 		protected override void UpdateImageBrush(ElementBase element, Rect rect)
 		{

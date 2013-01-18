@@ -12,9 +12,12 @@ namespace Infrustructure.Plans.Painters
 		}
 		protected override void InnerTransform(ElementBase element, Rect rect)
 		{
-			Geometry.RadiusX = rect.Width / 2;
-			Geometry.RadiusY = rect.Height / 2;
-			Geometry.Center = new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			if (Geometry.Bounds != rect)
+			{
+				Geometry.RadiusX = rect.Width / 2;
+				Geometry.RadiusY = rect.Height / 2;
+				Geometry.Center = new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			}
 		}
 	}
 }

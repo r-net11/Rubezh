@@ -28,6 +28,15 @@ namespace PlansModule.Designer.Adorners
 			foreach (var point in element.Points)
 				DrawThumb(drawingContext, DesignerItem.Transform.Inverse.Transform(point));
 		}
+		protected override void Translate()
+		{
+			base.Translate();
+			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+			if (element.Points.Count == ThumbGeometries.Count - 4)
+				for (var i = 0; i < element.Points.Count; i++)
+					if (element.Points[i] != ThumbGeometries[i + 4].Center)
+						ThumbGeometries[i + 4].Center = element.Points[i];
+		}
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
@@ -88,7 +97,7 @@ namespace PlansModule.Designer.Adorners
 			_index = -1;
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			for (int i = 0; i < element.Points.Count; i++)
-				if (IsInsideThumb(DesignerItem.Transform.Transform(element.Points[i]), point))
+				if (IsInsideThumb(element.Points[i], point))
 				{
 					_index = i;
 					break;

@@ -179,6 +179,7 @@ namespace Infrustructure.Plans.Designer
 		public void ZoomChanged()
 		{
 			PainterCache.UpdateZoom(Zoom, PointZoom);
+			ResizeChrome.UpdateZoom(Zoom);
 		}
 	}
 }
