@@ -6,11 +6,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public class DefaultPainter : RectanglePainter
 	{
-		protected override ImageBrush CreateImageBrush(ElementBase element, Rect rect)
-		{
-			return null;
-		}
-		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
+		protected override Brush CreateBrush(ElementBase element, Rect rect)
 		{
 			var brush = new SolidColorBrush(Colors.Black);
 			brush.Freeze();
@@ -19,6 +15,10 @@ namespace Infrustructure.Plans.Painters
 		protected override Pen CreatePen(ElementBase element, Rect rect)
 		{
 			return null;
+		}
+		protected override void UpdateBrush(ElementBase element, Rect rect)
+		{
+			
 		}
 	}
 }

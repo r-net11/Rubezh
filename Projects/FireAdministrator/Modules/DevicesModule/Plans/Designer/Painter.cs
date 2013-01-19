@@ -10,16 +10,17 @@ namespace DevicesModule.Plans.Designer
 {
 	internal class Painter : RectanglePainter
 	{
-		private Guid _deviceUID = Guid.Empty;
+		private Guid? _deviceUID = null;
 		protected override Pen CreatePen(ElementBase element, Rect rect)
 		{
 			return null;
 		}
-		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
+		protected override Brush CreateBrush(ElementBase element, Rect rect)
 		{
-			return null;
+			_deviceUID = null;
+			return new ImageBrush();
 		}
-		protected override void UpdateImageBrush(ElementBase element, Rect rect)
+		protected override void UpdateBrush(ElementBase element, Rect rect)
 		{
 			var elementDevice = (ElementDevice)element;
 			if (_deviceUID != elementDevice.DeviceUID)

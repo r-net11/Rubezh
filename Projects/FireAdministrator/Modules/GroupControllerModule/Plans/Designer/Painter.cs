@@ -1,29 +1,34 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
-using System.Windows.Media;
-using FiresecClient;
 
 namespace GKModule.Plans.Designer
 {
 	public class Painter : RectanglePainter
 	{
+		private Guid? _xdeviceUID = null;
 		protected override Pen CreatePen(ElementBase element, Rect rect)
 		{
 			return null;
 		}
-		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
+		protected override Brush CreateBrush(ElementBase element, Rect rect)
 		{
-			return null;
+			_xdeviceUID = null;
+			return new ImageBrush();
 		}
-		protected override void UpdateImageBrush(ElementBase element, Rect rect)
+		protected override void UpdateBrush(ElementBase element, Rect rect)
 		{
-			var device = Helper.GetXDevice((ElementXDevice)element);
-			ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
+			var elementXDevice = (ElementXDevice)element;
+			if (_xdeviceUID != elementXDevice.XDeviceUID)
+			{
+				_xdeviceUID = elementXDevice.XDeviceUID;
+				var device = Helper.GetXDevice(elementXDevice);
+				ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
+			}
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace PlansModule.Designer.Adorners
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			DrawSizableBounds(drawingContext);
 			foreach (var point in element.Points)
-				DrawThumb(drawingContext, DesignerItem.Transform.Inverse.Transform(point));
+				DrawThumb(drawingContext, point);
 		}
 		protected override void Translate()
 		{
@@ -66,7 +66,7 @@ namespace PlansModule.Designer.Adorners
 					points.Add(new Point(placeholder.X + kx * (point.X - rect.X), placeholder.Y + ky * (point.Y - rect.Y)));
 				element.Points = points;
 
-				DesignerItem.Redraw();
+				DesignerItem.Transform();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
@@ -88,7 +88,7 @@ namespace PlansModule.Designer.Adorners
 				else if (y > DesignerCanvas.CanvasHeight)
 					y = DesignerCanvas.CanvasHeight;
 				element.Points[_index] = new Point(x, y);
-				DesignerItem.Redraw();
+				DesignerItem.Transform();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

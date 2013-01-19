@@ -25,8 +25,7 @@ namespace Infrustructure.Plans.Painters
 			var points = PainterHelper.GetRealPoints(element);
 			if (points.Count > 0)
 			{
-				if (figure.StartPoint != points[0])
-					figure.StartPoint = points[0];
+				figure.StartPoint = points[0];
 				for (int i = figure.Segments.Count; i > points.Count - 1; i--)
 					figure.Segments.RemoveAt(i - 1);
 				for (int i = figure.Segments.Count; i < points.Count - 1; i++)
@@ -34,8 +33,7 @@ namespace Infrustructure.Plans.Painters
 				for (int i = 1; i < points.Count; i++)
 				{
 					LineSegment segment = (LineSegment)figure.Segments[i - 1];
-					if (segment.Point != points[i])
-						segment.Point = points[i];
+					segment.Point = points[i];
 				}
 			}
 		}

@@ -6,13 +6,9 @@ namespace Infrustructure.Plans.Painters
 {
 	public class RectangleZonePainter : RectanglePainter
 	{
-		protected override ImageBrush CreateImageBrush(ElementBase element, Rect rect)
+		protected override Brush CreateBrush(ElementBase element, Rect rect)
 		{
-			return null;
-		}
-		protected override SolidColorBrush CreateSolidColorBrush(ElementBase element, Rect rect)
-		{
-			var brush = base.CreateSolidColorBrush(element, rect);
+			var brush = new SolidColorBrush();
 			brush.Opacity = 0.5;
 			return brush;
 		}

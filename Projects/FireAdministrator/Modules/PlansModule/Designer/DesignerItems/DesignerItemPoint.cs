@@ -16,7 +16,8 @@ namespace PlansModule.Designer.DesignerItems
 		public override void UpdateZoomPoint()
 		{
 			Redraw();
-			ResizeChrome.InvalidateVisual();
+			if (ResizeChrome != null)
+				ResizeChrome.InvalidateVisual();
 		}
 
 		public override Rect GetRectangle()

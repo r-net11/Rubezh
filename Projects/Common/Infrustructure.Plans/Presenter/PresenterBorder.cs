@@ -13,8 +13,8 @@ namespace Infrustructure.Plans.Presenter
 	public class PresenterBorder : DrawingVisual
 	{
 		protected static Brush BorderBrush { get; private set; }
-		protected double Thickness { get { return 3 / PresenterItem.DesignerCanvas.Zoom / PresenterItem.Transform.Value.M11; } }
-		protected double ResizeMargin { get { return 3 / PresenterItem.DesignerCanvas.Zoom / PresenterItem.Transform.Value.M11; } }
+		protected double Thickness { get { return 3 / PresenterItem.DesignerCanvas.Zoom; } }
+		protected double ResizeMargin { get { return 3 / PresenterItem.DesignerCanvas.Zoom; } }
 		private bool _isVisualValid;
 		private bool _isVisible;
 		protected PresenterItem PresenterItem { get; private set; }

@@ -24,5 +24,7 @@ namespace Infrustructure.Plans.Designer
 		void DragStarted(Point point);
 		void DragCompleted(Point point);
 		void DragDelta(Point point, Vector shift);
+
+		bool HitTest(Point point);
 	}
 }

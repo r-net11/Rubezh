@@ -87,7 +87,7 @@ namespace PlansModule.InstrumentAdorners
 						else
 							element.Points.Insert(index + 1, point);
 						CreatePointMark(designerItem, point);
-						designerItem.Redraw();
+						designerItem.Transform();
 						designerItem.ResizeChrome.Redraw();
 						DesignerCanvas.EndChange();
 						designerItem.IsSelected = false;
@@ -115,7 +115,7 @@ namespace PlansModule.InstrumentAdorners
 					{
 						Point point = new Point(Canvas.GetLeft(item), Canvas.GetTop(item));
 						points.Remove(point);
-						designerItem.Redraw();
+						designerItem.Transform();
 						designerItem.ResizeChrome.Redraw();
 					}
 					else

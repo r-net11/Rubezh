@@ -1,6 +1,6 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -12,8 +12,7 @@ namespace Infrustructure.Plans.Painters
 		}
 		protected override void InnerTransform(ElementBase element, Rect rect)
 		{
-			if (Geometry.Bounds != rect)
-				Geometry.Rect = rect;
+			Geometry.Rect = rect;
 		}
 	}
 }

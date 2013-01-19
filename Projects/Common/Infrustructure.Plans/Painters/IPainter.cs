@@ -6,8 +6,11 @@ namespace Infrustructure.Plans.Painters
 {
 	public interface IPainter
 	{
-		bool CanTransform { get; }
+		Rect Bounds { get; }
+		bool IsVisible { get; set; }
+		bool HitTest(Point point);
 		void Draw(DrawingContext drawingContext, ElementBase element, Rect rect);
+		void Redraw(ElementBase element, Rect rect);
 		void Transform(ElementBase element, Rect rect);
 	}
 }

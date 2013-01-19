@@ -39,6 +39,7 @@ namespace PlansModule.Designer.DesignerItems
 				{
 					OnDesignerItemPropertyChanged();
 					Redraw();
+					//DesignerCanvas.Invalidate();
 					ServiceFactory.SaveService.PlansChanged = true;
 					DesignerCanvas.EndChange();
 				}

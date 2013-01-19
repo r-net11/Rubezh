@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -97,16 +98,22 @@ namespace Infrustructure.Plans.Designer
 			if (ResizeChrome != null)
 				ResizeChrome.InvalidateVisual();
 		}
-		protected override void Render()
+		public override void Render(DrawingContext context)
 		{
-			base.Render();
-			ResizeChrome.Redraw();
+			base.Render(context);
+			//if (ResizeChrome != null)
+			//    ResizeChrome.Render(context);
 		}
 		protected void SetResizeChrome(ResizeChrome resizeChrome)
 		{
-			ResizeChrome = resizeChrome;
-			Children.Add(ResizeChrome);
-			ResizeChrome.IsVisible = IsSelected;
+			//ResizeChrome = resizeChrome;
+			////Children.Add(ResizeChrome);
+			//ResizeChrome.IsVisible = IsSelected;
+		}
+		public override bool HitTest(Point point)
+		{
+			return base.HitTest(point);
+			// ResizeChrome
 		}
 
 		protected override void MouseDown(Point point, MouseButtonEventArgs e)
@@ -161,7 +168,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void IsSelectedChanged()
 		{
-			ResizeChrome.IsVisible = IsSelected;
+			if (ResizeChrome != null)
+				ResizeChrome.IsVisible = IsSelected;
 		}
 
 		public override void DragStarted(Point point)
@@ -197,7 +205,7 @@ namespace Infrustructure.Plans.Designer
 					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 					{
 						designerItem.Element.Position += shift;
-						designerItem.Translate();
+						designerItem.Transform();
 					}
 			}
 		}

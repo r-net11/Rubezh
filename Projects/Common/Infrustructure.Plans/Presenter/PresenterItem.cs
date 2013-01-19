@@ -29,8 +29,6 @@ namespace Infrustructure.Plans.Presenter
 		}
 		public void Navigate()
 		{
-			//UpdateLayout();
-			//RaiseEvent(new RoutedEventArgs(PresenterItem.FlushEvent));
 		}
 
 		protected override void MouseDoubleClick(Point point, MouseButtonEventArgs e)
@@ -54,7 +52,7 @@ namespace Infrustructure.Plans.Presenter
 		{
 			if (IsPoint)
 			{
-				Translate();
+				Redraw();
 				if (Border != null)
 					Border.InvalidateVisual();
 			}
@@ -70,7 +68,7 @@ namespace Infrustructure.Plans.Presenter
 		public void SetBorder(PresenterBorder border)
 		{
 			Border = border;
-			Children.Add(Border);
+			//Children.Add(Border);
 			Border.IsVisible = IsMouseOver;
 		}
 		protected override void SetIsMouseOver(bool value)
@@ -79,37 +77,5 @@ namespace Infrustructure.Plans.Presenter
 			if (Border != null)
 				Border.IsVisible = value;
 		}
-
-		//public static readonly RoutedEvent FlushEvent = EventManager.RegisterRoutedEvent("Flush", RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(PresenterItem));
-		//public event RoutedEventHandler Flush
-		//{
-		//    add { AddHandler(FlushEvent, value); }
-		//    remove { RemoveHandler(FlushEvent, value); }
-		//}
-		//private FrameworkElement _border;
-		//public FrameworkElement Border
-		//{
-		//    get { return _border; }
-		//    set
-		//    {
-		//        _border = value;
-		//        //OnPropertyChanged("Border");
-		//    }
-		//}
-		//public double AdornerThickness { get; private set; }
-		//public double AdornerMargin { get; private set; }
-		//public override void SetLocation()
-		//{
-		//    if (IsPoint)
-		//    {
-		//        var rect = Element.GetRectangle();
-		//        //Canvas.SetLeft(this, rect.Left - _pointZoom / 2);
-		//        //Canvas.SetTop(this, rect.Top - _pointZoom / 2);
-		//        //ItemWidth = rect.Width + _pointZoom;
-		//        //ItemHeight = rect.Height + _pointZoom;
-		//    }
-		//    else
-		//        base.SetLocation();
-		//}
 	}
 }
