@@ -14,19 +14,22 @@ namespace GKModule
 	{
 		public static void ReadConfiguration(XDevice device)
 		{
-			//BinConfigurationWriter.GoToTechnologicalRegime(device);
+			BinConfigurationWriter.GoToTechnologicalRegime(device);
 			var descriptorAddersses = GetDescriptorAddresses(device);
-			foreach (var descriptorAdderss in descriptorAddersses)
+
+			StartProgress("Чтение базы донных объектов", descriptorAddersses.Count);
+			for(int i = 0; i < descriptorAddersses.Count; i++)
 			{
-				GetDescriptorInfo(device, descriptorAdderss);
+				DoProgress("Чтение базы донных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
+				GetDescriptorInfo(device, descriptorAddersses[i]);
 			}
-			//BinConfigurationWriter.GoToWorkingRegime(device);
+			StopProgress();
+			BinConfigurationWriter.GoToWorkingRegime(device);
 		}
 
 		static void GetDescriptorInfo(XDevice device, int descriptorAdderss)
 		{
-			var descriptorAdderssesBytes = new List<byte>(BitConverter.GetBytes(descriptorAdderss).Reverse());
-			Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes));
+			var descriptorAdderssesBytes = new List<byte>(BitConverter.GetBytes(descriptorAdderss));
 
 			var data = new List<byte>(descriptorAdderssesBytes);
 			var sendResult = SendManager.Send(device, 4, 31, 256, data);
@@ -52,6 +55,9 @@ namespace GKModule
 					break;
 				}
 			}
+            Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes) +
+                deviceType.ToString() + " " + address.ToString() + " " + parametersOffset.ToString() + " " + inputDependensesCount.ToString() + " "
+                );
 		}
 
 		static List<int> GetDescriptorAddresses(XDevice device)
@@ -61,10 +67,10 @@ namespace GKModule
 
 			while (true)
 			{
-				byte[] startaddressBytes = BitConverter.GetBytes(startaddress);
+				byte[] startAddressBytes = BitConverter.GetBytes(startaddress);
 				startaddress += 256;
 
-				var data = new List<byte>(startaddressBytes);
+				var data = new List<byte>(startAddressBytes);
 				var sendResult = SendManager.Send(device, 4, 31, 256, data);
 				if (sendResult.Bytes.Count != 256)
 				{
@@ -74,14 +80,37 @@ namespace GKModule
 				for (int i = 0; i < 256 / 4; i++)
 				{
 					var descriptorAdderss = BytesHelper.SubstructInt(sendResult.Bytes, i * 4);
-					descriptorAddersses.Add(descriptorAdderss);
-
-					if (descriptorAdderss == Int32.MaxValue) // 0xFFFFFFFF
+					if (descriptorAdderss == -1)
 					{
 						return descriptorAddersses;
 					}
+                    descriptorAddersses.Add(descriptorAdderss);
 				}
 			}
+		}
+
+		static void StartProgress(string name, int count)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.ShowProgress("", name, count);
+			});
+		}
+
+		static void DoProgress(string name)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.DoStep(name);
+			});
+		}
+
+		static void StopProgress()
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Close();
+			});
 		}
 	}
 }
