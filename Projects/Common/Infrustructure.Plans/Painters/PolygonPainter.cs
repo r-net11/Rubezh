@@ -6,11 +6,16 @@ namespace Infrustructure.Plans.Painters
 {
 	public class PolygonPainter : GeometryPainter<PathGeometry>
 	{
+		public PolygonPainter(ElementBase element)
+			: base(element)
+		{
+		}
+
 		public virtual bool IsClosed
 		{
 			get { return true; }
 		}
-		protected override PathGeometry CreateShape()
+		protected override PathGeometry CreateGeometry()
 		{
 			var geometry = new PathGeometry();
 			geometry.FillRule = FillRule.EvenOdd;
@@ -19,10 +24,10 @@ namespace Infrustructure.Plans.Painters
 			geometry.Figures.Add(figure);
 			return geometry;
 		}
-		protected override void InnerTransform(ElementBase element, Rect rect)
+		public override void Transform()
 		{
 			var figure = Geometry.Figures[0];
-			var points = PainterHelper.GetRealPoints(element);
+			var points = PainterHelper.GetRealPoints(Element);
 			if (points.Count > 0)
 			{
 				figure.StartPoint = points[0];
@@ -36,6 +41,18 @@ namespace Infrustructure.Plans.Painters
 					segment.Point = points[i];
 				}
 			}
+			//var points = PainterHelper.GetRealPoints(element);
+			//StreamGeometry geometry = new StreamGeometry();
+			//geometry.FillRule = FillRule.EvenOdd;
+			//if (points.Count > 0)
+			//    using (StreamGeometryContext context = geometry.Open())
+			//    {
+			//        context.BeginFigure(points[0], true, IsClosed);
+			//        for (int i = 1; i < points.Count; i++)
+			//            context.LineTo(points[i], true, false);
+			//        context.Close();
+			//    }
+			//return geometry;
 		}
 	}
 }

@@ -6,15 +6,21 @@ namespace Infrustructure.Plans.Painters
 {
 	public class ElipsePainter : GeometryPainter<EllipseGeometry>
 	{
-		protected override EllipseGeometry CreateShape()
+		public ElipsePainter(ElementBase element)
+			: base(element)
+		{
+		}
+
+		protected override EllipseGeometry CreateGeometry()
 		{
 			return new EllipseGeometry();
 		}
-		protected override void InnerTransform(ElementBase element, Rect rect)
+		public override void Transform()
 		{
-			Geometry.RadiusX = rect.Width / 2;
-			Geometry.RadiusY = rect.Height / 2;
-			Geometry.Center = new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			CalculateRectangle();
+			Geometry.Center = new Point(Rect.Left + Rect.Width / 2, Rect.Top + Rect.Height / 2);
+			Geometry.RadiusX = Rect.Width / 2;
+			Geometry.RadiusY = Rect.Height / 2;
 		}
 	}
 }

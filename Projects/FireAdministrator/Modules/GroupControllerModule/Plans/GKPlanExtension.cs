@@ -175,8 +175,9 @@ namespace GKModule.Plans
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			if (args.Element is ElementXDevice)
-				args.Painter = new Painter();
+			var elementXDevice = args.Element as ElementXDevice;
+			if (elementXDevice != null)
+				args.Painter = new Painter(elementXDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

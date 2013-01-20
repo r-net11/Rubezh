@@ -72,9 +72,8 @@ namespace PlansModule.InstrumentAdorners
 				if (designerItem.IsEnabled)
 				{
 					Rect itemRect = designerItem.ContentBounds;
-					designerItem.IsSelected = rubberBand.Contains(itemRect);
-					//Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
-					//designerItem.IsSelected = rubberBand.Contains(itemBounds);
+					Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
+					designerItem.IsSelected = rubberBand.Contains(itemBounds);
 				}
 		}
 	}

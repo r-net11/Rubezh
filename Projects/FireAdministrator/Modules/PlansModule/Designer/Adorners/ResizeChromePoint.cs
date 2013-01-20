@@ -26,7 +26,8 @@ namespace PlansModule.Designer.Adorners
 					element.Top += vector.Y;
 				if ((direction & ResizeDirection.Left) == ResizeDirection.Left || (direction & ResizeDirection.Right) == ResizeDirection.Right)
 					element.Left += vector.X;
-				DesignerItem.Transform();
+				//DesignerItem.Translate();
+				DesignerItem.RefreshPainter();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

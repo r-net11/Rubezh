@@ -1,6 +1,5 @@
 ﻿using System;
 using FiresecAPI.Models;
-using System.Windows;
 
 namespace Infrastructure.Client.Plans
 {

@@ -22,10 +22,10 @@ namespace Infrustructure.Plans.Painters
 		{
 			Type type = element.GetType();
 			if (element is IPrimitive)
-				return (IPainter)Activator.CreateInstance(_painters[((IPrimitive)element).Primitive]);
+				return (IPainter)Activator.CreateInstance(_painters[((IPrimitive)element).Primitive], element);
 			var args = new PainterFactoryEventArgs(element);
 			EventService.EventAggregator.GetEvent<PainterFactoryEvent>().Publish(args);
-			return args.Painter ?? new DefaultPainter();
+			return args.Painter ?? new DefaultPainter(element);
 		}
 	}
 }

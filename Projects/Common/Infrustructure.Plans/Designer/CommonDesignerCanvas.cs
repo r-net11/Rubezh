@@ -82,11 +82,6 @@ namespace Infrustructure.Plans.Designer
 				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
 			}
 		}
-		public void Invalidate()
-		{
-			if (SelectedCanvas != null)
-				SelectedCanvas.InvalidateVisual();
-		}
 
 		public void Remove(CommonDesignerItem designerItem)
 		{
@@ -95,7 +90,6 @@ namespace Infrustructure.Plans.Designer
 		public void Add(CommonDesignerItem designerItem)
 		{
 			designerItem.DesignerCanvas = this;
-			designerItem.ResetElement();
 			SelectedCanvas.AddDesignerItem(designerItem);
 		}
 		public double CanvasWidth

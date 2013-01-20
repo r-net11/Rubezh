@@ -14,28 +14,35 @@ namespace PlansModule.Designer.Adorners
 	public class ResizeChromeShape : ResizeChrome
 	{
 		private int _index;
+		private List<TranslateTransform> _transforms;
+		private PointCollection _points;
 
 		public ResizeChromeShape(DesignerItem designerItem)
 			: base(designerItem)
 		{
-			//Loaded += new RoutedEventHandler(ResizeChromeShape_Loaded);
+			_transforms = new List<TranslateTransform>();
+			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+			_points = element == null ? new PointCollection() : element.Points;
 		}
 
 		protected override void Render(DrawingContext drawingContext)
 		{
-			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+			_transforms.Clear();
 			DrawSizableBounds(drawingContext);
-			foreach (var point in element.Points)
-				DrawThumb(drawingContext, point);
+			foreach (var point in _points)
+				_transforms.Add(DrawThumb(drawingContext, DesignerItem.Transform.Inverse.Transform(point)));
 		}
 		protected override void Translate()
 		{
 			base.Translate();
-			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-			if (element.Points.Count == ThumbGeometries.Count - 4)
-				for (var i = 0; i < element.Points.Count; i++)
-					if (element.Points[i] != ThumbGeometries[i + 4].Center)
-						ThumbGeometries[i + 4].Center = element.Points[i];
+			if (_transforms.Count != _points.Count)
+				Redraw();
+			else
+				for (int i = 0; i < _points.Count; i++)
+				{
+					_transforms[i].X = _points[i].X;
+					_transforms[i].Y = _points[i].Y;
+				}
 		}
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
@@ -66,7 +73,7 @@ namespace PlansModule.Designer.Adorners
 					points.Add(new Point(placeholder.X + kx * (point.X - rect.X), placeholder.Y + ky * (point.Y - rect.Y)));
 				element.Points = points;
 
-				DesignerItem.Transform();
+				DesignerItem.RefreshPainter();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
@@ -88,7 +95,7 @@ namespace PlansModule.Designer.Adorners
 				else if (y > DesignerCanvas.CanvasHeight)
 					y = DesignerCanvas.CanvasHeight;
 				element.Points[_index] = new Point(x, y);
-				DesignerItem.Transform();
+				DesignerItem.RefreshPainter();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
@@ -97,7 +104,7 @@ namespace PlansModule.Designer.Adorners
 			_index = -1;
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			for (int i = 0; i < element.Points.Count; i++)
-				if (IsInsideThumb(element.Points[i], point))
+				if (IsInsideThumb(DesignerItem.Transform.Transform(element.Points[i]), point))
 				{
 					_index = i;
 					break;

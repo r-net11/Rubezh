@@ -101,7 +101,7 @@ namespace FireAdministrator
 
 						FiresecManager.UpdateConfiguration();
 						XManager.UpdateConfiguration();
-						ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+						//ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
 						ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 						ServiceFactory.Layout.Close();

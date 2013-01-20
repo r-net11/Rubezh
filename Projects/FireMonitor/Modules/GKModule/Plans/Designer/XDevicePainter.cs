@@ -17,14 +17,15 @@ using System.Windows.Controls;
 
 namespace GKModule.Plans.Designer
 {
-	class XDevicePainter : IPainter
+	class XDevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
 		private XDeviceControl _xdeviceControl;
 		private XDevice _xdevice;
 		private ContextMenu _contextMenu;
 
-		public XDevicePainter()
+		public XDevicePainter(ElementXDevice elementXDevice)
+			: base(elementXDevice)
 		{
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -72,29 +73,10 @@ namespace GKModule.Plans.Designer
 			return stringBuilder.ToString().TrimEnd();
 		}
 
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		protected override Brush GetBrush()
 		{
-			get { return false; }
+			return DevicePictureCache.GetBrush(_xdevice);
 		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
-		{
-			if (_xdevice != null)
-			{
-				var brush = DevicePictureCache.GetBrush(_xdevice);
-				drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
-			}
-		}
-		//public UIElement Draw(ElementBase element)
-		//{
-		//    if (_xdevice == null)
-		//        return null;
-		//    _xdeviceControl.Update();
-		//    return _xdeviceControl;
-		//}
-
-		#endregion
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
@@ -126,18 +108,5 @@ namespace GKModule.Plans.Designer
 			}
 			return _contextMenu;
 		}
-
-		#region IPainter Members
-
-		public bool CanTransform
-		{
-			get { return true; }
-		}
-
-		public void Transform(ElementBase element, Rect rect)
-		{
-		}
-
-		#endregion
 	}
 }

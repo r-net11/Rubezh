@@ -8,27 +8,19 @@ using System;
 
 namespace DevicesModule.Plans.Designer
 {
-	internal class Painter : RectanglePainter
+	internal class Painter : PointPainter
 	{
-		private Guid? _deviceUID = null;
-		protected override Pen CreatePen(ElementBase element, Rect rect)
+		private ElementDevice _elementDevice;
+		public Painter(ElementDevice elementDevice)
+			: base(elementDevice)
 		{
-			return null;
+			_elementDevice = elementDevice;
 		}
-		protected override Brush CreateBrush(ElementBase element, Rect rect)
+
+		protected override Brush GetBrush()
 		{
-			_deviceUID = null;
-			return new ImageBrush();
-		}
-		protected override void UpdateBrush(ElementBase element, Rect rect)
-		{
-			var elementDevice = (ElementDevice)element;
-			if (_deviceUID != elementDevice.DeviceUID)
-			{
-				_deviceUID = elementDevice.DeviceUID;
-				var device = Helper.GetDevice(elementDevice);
-				ImageBrush.ImageSource = DevicePictureCache.GetImageSource(device);
-			}
+			var device = Helper.GetDevice(_elementDevice);
+			return DevicePictureCache.GetBrush(device);
 		}
 
 		//public Visual Draw(ElementBase element)

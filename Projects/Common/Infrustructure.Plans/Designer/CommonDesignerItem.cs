@@ -8,7 +8,7 @@ using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : DependencyObject, IVisualItem
+	public abstract class CommonDesignerItem : DrawingVisual, IVisualItem
 	{
 		public const int DefaultPointSize = 30;
 
@@ -22,6 +22,9 @@ namespace Infrustructure.Plans.Designer
 		public bool IsBusy { get; protected set; }
 		public bool IsEnabled { get; protected set; }
 		public virtual bool AllowDrag { get { return false; } }
+		protected Rect OriginalRect { get; private set; }
+		//protected TranslateTransform TranslateTransform { get; private set; }
+		//protected ScaleTransform ScaleTransform { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -49,8 +52,7 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					if (Painter != null)
-						Painter.IsVisible = IsVisibleLayout;
+					Opacity = IsVisibleLayout ? 1 : 0;
 					ResetIsEnabled();
 				}
 			}
@@ -58,17 +60,24 @@ namespace Infrustructure.Plans.Designer
 
 		public CommonDesignerItem(ElementBase element)
 		{
+			Transform = MatrixTransform.Identity;
+			//ScaleTransform = new ScaleTransform();
+			//TranslateTransform = new TranslateTransform();
+			//Transform = new TransformGroup()
+			//{
+			//    Children = new TransformCollection()
+			//    {
+			//        ScaleTransform,
+			//        TranslateTransform
+			//    }
+			//};
 			IsBusy = false;
 			ResetIsEnabled();
-			Element = element;
+			ResetElement(element);
 		}
 
 		public double MinHeight { get; protected set; }
 		public double MinWidth { get; protected set; }
-		public Rect ContentBounds
-		{
-			get { return Painter == null ? Rect.Empty : Painter.Bounds; }
-		}
 
 		public virtual void UpdateZoom()
 		{
@@ -77,29 +86,49 @@ namespace Infrustructure.Plans.Designer
 		{
 		}
 
-		public void ResetElement(ElementBase element)
+		public virtual void ResetElement(ElementBase element)
 		{
 			Element = element;
-			ResetElement();
-		}
-		public void ResetElement()
-		{
 			Painter = PainterFactory.Create(Element);
-			if (DesignerCanvas != null && Painter != null)
-			{
-				Painter.IsVisible = IsVisibleLayout;
-				SetMinSize();
-			}
+			if (DesignerCanvas != null)
+				Redraw();
 		}
 		public virtual void Redraw()
 		{
 			SetMinSize();
-			Painter.Redraw(Element, GetRectangle());
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
+			using (DrawingContext drawingContext = RenderOpen())
+			{
+				OriginalRect = Element.GetRectangle();
+				//Translate(true);
+				Render(drawingContext);
+			}
 		}
-		public virtual void Render(DrawingContext context)
+		internal void Render(DrawingContext drawingContext)
 		{
-			Painter.Draw(context, Element, GetRectangle());
+			if (Painter != null)
+				Painter.Draw(drawingContext);
+		}
+		//public virtual void Translate(bool force = false)
+		//{
+		//    // if (Painter.AllowScale)?...:Redraw();
+		//    var rect = Element.GetRectangle();
+		//    if (rect.Size != OriginalRect.Size || force)
+		//    {
+		//        ScaleTransform.CenterX = OriginalRect.Left;
+		//        ScaleTransform.CenterY = OriginalRect.Top;
+		//        ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
+		//        ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
+		//    }
+		//    if (rect.TopLeft != OriginalRect.TopLeft || force)
+		//    {
+		//        TranslateTransform.X = rect.Left - OriginalRect.Left;
+		//        TranslateTransform.Y = rect.Top - OriginalRect.Top;
+		//    }
+		//}
+		public virtual void RefreshPainter()
+		{
+			Painter.Transform();
 		}
 		public virtual Rect GetRectangle()
 		{
@@ -108,10 +137,6 @@ namespace Infrustructure.Plans.Designer
 		protected virtual void ResetIsEnabled()
 		{
 			IsEnabled = IsVisibleLayout;
-		}
-		public virtual void Transform()
-		{
-			Painter.Transform(Element, GetRectangle());
 		}
 
 		protected virtual void SetMinSize()
@@ -167,11 +192,6 @@ namespace Infrustructure.Plans.Designer
 		{
 			DesignerCanvas.SetTitle(null);
 			return GetContextMenu();
-		}
-
-		public virtual bool HitTest(Point point)
-		{
-			return Painter == null || !IsEnabled ? false : Painter.HitTest(point);
 		}
 
 		#region IVisualItem Members

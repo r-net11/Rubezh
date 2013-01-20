@@ -9,7 +9,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Designer;
 using XFiresecAPI;
-using System.Windows.Media.Animation;
 
 namespace DeviceControls
 {

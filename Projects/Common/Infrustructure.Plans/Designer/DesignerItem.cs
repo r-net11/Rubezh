@@ -4,7 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Media;
+using System.Windows.Threading;
+using System;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -95,25 +96,19 @@ namespace Infrustructure.Plans.Designer
 		public override void Redraw()
 		{
 			base.Redraw();
+			ResizeChrome.Redraw();
+		}
+		public override void RefreshPainter()
+		{
+			base.RefreshPainter();
 			if (ResizeChrome != null)
 				ResizeChrome.InvalidateVisual();
 		}
-		public override void Render(DrawingContext context)
-		{
-			base.Render(context);
-			//if (ResizeChrome != null)
-			//    ResizeChrome.Render(context);
-		}
 		protected void SetResizeChrome(ResizeChrome resizeChrome)
 		{
-			//ResizeChrome = resizeChrome;
-			////Children.Add(ResizeChrome);
-			//ResizeChrome.IsVisible = IsSelected;
-		}
-		public override bool HitTest(Point point)
-		{
-			return base.HitTest(point);
-			// ResizeChrome
+			ResizeChrome = resizeChrome;
+			Children.Add(ResizeChrome);
+			ResizeChrome.IsVisible = IsSelected;
 		}
 
 		protected override void MouseDown(Point point, MouseButtonEventArgs e)
@@ -168,8 +163,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void IsSelectedChanged()
 		{
-			if (ResizeChrome != null)
-				ResizeChrome.IsVisible = IsSelected;
+			ResizeChrome.IsVisible = IsSelected;
 		}
 
 		public override void DragStarted(Point point)
@@ -191,7 +185,7 @@ namespace Infrustructure.Plans.Designer
 				IsMoved = true;
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
-					var rect = designerItem.GetRectangle();
+					var rect = designerItem.Element.GetRectangle();
 					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
 						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
 					if (rect.Left + shift.X < 0)
@@ -205,7 +199,8 @@ namespace Infrustructure.Plans.Designer
 					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 					{
 						designerItem.Element.Position += shift;
-						designerItem.Transform();
+						//designerItem.Translate();
+						designerItem.RefreshPainter();
 					}
 			}
 		}

@@ -6,19 +6,28 @@ namespace Infrustructure.Plans.Painters
 {
 	public class DefaultPainter : RectanglePainter
 	{
-		protected override Brush CreateBrush(ElementBase element, Rect rect)
+		public DefaultPainter(ElementBase element)
+			: base(element)
 		{
-			var brush = new SolidColorBrush(Colors.Black);
-			brush.Freeze();
-			return brush;
 		}
-		protected override Pen CreatePen(ElementBase element, Rect rect)
+
+		protected override RectangleGeometry CreateGeometry()
+		{
+			CalculateRectangle();
+			return Rect.Size == Size.Empty ? PainterCache.PointGeometry : base.CreateGeometry();
+		}
+		public override void Transform()
+		{
+			if (Geometry != PainterCache.PointGeometry)
+				base.Transform();
+		}
+		protected override Pen GetPen()
 		{
 			return null;
 		}
-		protected override void UpdateBrush(ElementBase element, Rect rect)
+		protected override Brush GetBrush()
 		{
-			
+			return PainterCache.GetBrush(Colors.Black);
 		}
 	}
 }

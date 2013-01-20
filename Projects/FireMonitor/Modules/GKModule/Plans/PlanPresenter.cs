@@ -64,9 +64,9 @@ namespace GKModule.Plans
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			ElementXDevice elementDevice = args.Element as ElementXDevice;
-			if (elementDevice != null)
-				args.Painter = new XDevicePainter();
+			ElementXDevice elementXDevice = args.Element as ElementXDevice;
+			if (elementXDevice != null)
+				args.Painter = new XDevicePainter(elementXDevice);
 		}
 
 		private void OnShowXDeviceOnPlan(XDevice xdevice)

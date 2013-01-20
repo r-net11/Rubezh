@@ -1,23 +1,22 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
 	public class PolygonZonePainter : PolygonPainter
 	{
-		protected override Brush CreateBrush(ElementBase element, Rect rect)
+		public PolygonZonePainter(ElementBase element)
+			: base(element)
 		{
-			var brush = new SolidColorBrush();
-			brush.Opacity = 0.5;
-			return brush;
 		}
-		protected override Pen CreatePen(ElementBase element, Rect rect)
+
+		protected override Brush GetBrush()
+		{
+			return PainterCache.GetTransparentBrush(Element.BackgroundColor, Element.BackgroundPixels);
+		}
+		protected override Pen GetPen()
 		{
 			return PainterCache.ZonePen;
-		}
-		protected override void UpdatePen(ElementBase element, Rect rect)
-		{
 		}
 	}
 }

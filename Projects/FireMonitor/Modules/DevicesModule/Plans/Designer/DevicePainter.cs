@@ -18,14 +18,15 @@ using Controls.Converters;
 
 namespace DevicesModule.Plans.Designer
 {
-	class DevicePainter : IPainter
+	class DevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
 		private DeviceControl _deviceControl;
 		private Device _device;
 		private ContextMenu _contextMenu;
 
-		public DevicePainter()
+		public DevicePainter(ElementDevice elementDevice)
+			: base(elementDevice)
 		{
 			_contextMenu = null;
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
@@ -49,7 +50,6 @@ namespace DevicesModule.Plans.Designer
 					_deviceControl.DriverId = _device.Driver.UID;
 					_deviceControl.StateType = _device.DeviceState.StateType;
 					_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
-
 					_device.DeviceState.StateChanged += OnPropertyChanged;
 					_device.DeviceState.ParametersChanged += () => presenterItem.Title = GetDeviceTooltip();
 				}
@@ -94,29 +94,10 @@ namespace DevicesModule.Plans.Designer
 			return stringBuilder.ToString().TrimEnd();
 		}
 
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		protected override Brush GetBrush()
 		{
-			get { return false; }
+			return DevicePictureCache.GetBrush(_device);
 		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
-		{
-			if (_device != null)
-			{
-				var brush = DevicePictureCache.GetBrush(_device);
-				drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
-			}
-		}
-		//public UIElement Draw(ElementBase element)
-		//{
-		//    if (_device == null)
-		//        return null;
-		//    _deviceControl.Update();
-		//    return _deviceControl;
-		//}
-
-		#endregion
 
 		public DeviceState DeviceState
 		{
@@ -168,18 +149,5 @@ namespace DevicesModule.Plans.Designer
 			((MenuItem)_contextMenu.Items[1]).Header = DeviceState.IsDisabled ? "Включить" : "Отключить";
 			return _contextMenu;
 		}
-
-		#region IPainter Members
-
-		public bool CanTransform
-		{
-			get { return true; }
-		}
-
-		public void Transform(ElementBase element, Rect rect)
-		{
-		}
-
-		#endregion
 	}
 }
