@@ -23,8 +23,6 @@ namespace Infrustructure.Plans.Designer
 		public bool IsEnabled { get; protected set; }
 		public virtual bool AllowDrag { get { return false; } }
 		protected Rect OriginalRect { get; private set; }
-		//protected TranslateTransform TranslateTransform { get; private set; }
-		//protected ScaleTransform ScaleTransform { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -60,17 +58,6 @@ namespace Infrustructure.Plans.Designer
 
 		public CommonDesignerItem(ElementBase element)
 		{
-			Transform = MatrixTransform.Identity;
-			//ScaleTransform = new ScaleTransform();
-			//TranslateTransform = new TranslateTransform();
-			//Transform = new TransformGroup()
-			//{
-			//    Children = new TransformCollection()
-			//    {
-			//        ScaleTransform,
-			//        TranslateTransform
-			//    }
-			//};
 			IsBusy = false;
 			ResetIsEnabled();
 			ResetElement(element);
@@ -100,7 +87,6 @@ namespace Infrustructure.Plans.Designer
 			using (DrawingContext drawingContext = RenderOpen())
 			{
 				OriginalRect = Element.GetRectangle();
-				//Translate(true);
 				Render(drawingContext);
 			}
 		}
@@ -109,23 +95,6 @@ namespace Infrustructure.Plans.Designer
 			if (Painter != null)
 				Painter.Draw(drawingContext);
 		}
-		//public virtual void Translate(bool force = false)
-		//{
-		//    // if (Painter.AllowScale)?...:Redraw();
-		//    var rect = Element.GetRectangle();
-		//    if (rect.Size != OriginalRect.Size || force)
-		//    {
-		//        ScaleTransform.CenterX = OriginalRect.Left;
-		//        ScaleTransform.CenterY = OriginalRect.Top;
-		//        ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
-		//        ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
-		//    }
-		//    if (rect.TopLeft != OriginalRect.TopLeft || force)
-		//    {
-		//        TranslateTransform.X = rect.Left - OriginalRect.Left;
-		//        TranslateTransform.Y = rect.Top - OriginalRect.Top;
-		//    }
-		//}
 		public virtual void RefreshPainter()
 		{
 			Painter.Transform();

@@ -273,35 +273,35 @@ namespace DevicesModule.Plans
 				using (new TimeCounter("\tUpdateDeviceInZones: {0}"))
 				{
 					Dictionary<Geometry, Guid> geometries = new Dictionary<Geometry, Guid>();
-					//foreach (var designerItem in _designerCanvas.Items)
-					//{
-					//    var elementZone = designerItem.Element as IElementZone;
-					//    if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
-					//        geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone.ZoneUID);
-					//}
 					foreach (var designerItem in _designerCanvas.Items)
 					{
-						ElementPolygonZone elementPolygonZone = designerItem.Element as ElementPolygonZone;
-						if (elementPolygonZone != null && elementPolygonZone.ZoneUID != Guid.Empty && elementPolygonZone.Points.Count > 2)
-						{
-							StreamGeometry geometry = new StreamGeometry();
-							geometry.FillRule = FillRule.EvenOdd;
-							using (StreamGeometryContext context = geometry.Open())
-							{
-								context.BeginFigure(elementPolygonZone.Points[0], true, true);
-								for (int i = 1; i < elementPolygonZone.Points.Count; i++)
-									context.LineTo(elementPolygonZone.Points[i], true, false);
-								context.Close();
-							}
-							geometries.Add(geometry, elementPolygonZone.ZoneUID);
-						}
-						else
-						{
-							ElementRectangleZone elementRectangleZone = designerItem.Element as ElementRectangleZone;
-							if (elementRectangleZone != null && elementRectangleZone.ZoneUID != Guid.Empty)
-								geometries.Add(new RectangleGeometry(elementRectangleZone.GetRectangle()), elementRectangleZone.ZoneUID);
-						}
+						var elementZone = designerItem.Element as IElementZone;
+						if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
+							geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone.ZoneUID);
 					}
+					//foreach (var designerItem in _designerCanvas.Items)
+					//{
+					//    ElementPolygonZone elementPolygonZone = designerItem.Element as ElementPolygonZone;
+					//    if (elementPolygonZone != null && elementPolygonZone.ZoneUID != Guid.Empty && elementPolygonZone.Points.Count > 2)
+					//    {
+					//        StreamGeometry geometry = new StreamGeometry();
+					//        geometry.FillRule = FillRule.EvenOdd;
+					//        using (StreamGeometryContext context = geometry.Open())
+					//        {
+					//            context.BeginFigure(elementPolygonZone.Points[0], true, true);
+					//            for (int i = 1; i < elementPolygonZone.Points.Count; i++)
+					//                context.LineTo(elementPolygonZone.Points[i], true, false);
+					//            context.Close();
+					//        }
+					//        geometries.Add(geometry, elementPolygonZone.ZoneUID);
+					//    }
+					//    else
+					//    {
+					//        ElementRectangleZone elementRectangleZone = designerItem.Element as ElementRectangleZone;
+					//        if (elementRectangleZone != null && elementRectangleZone.ZoneUID != Guid.Empty)
+					//            geometries.Add(new RectangleGeometry(elementRectangleZone.GetRectangle()), elementRectangleZone.ZoneUID);
+					//    }
+					//}
 					foreach (var designerItem in _designerCanvas.Items)
 					{
 						ElementDevice elementDevice = designerItem.Element as ElementDevice;

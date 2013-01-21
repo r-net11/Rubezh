@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
