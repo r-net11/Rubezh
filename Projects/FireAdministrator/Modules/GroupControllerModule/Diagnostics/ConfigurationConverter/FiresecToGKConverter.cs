@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace GKModule.Converter
 {
-	public class ConfigurationConverter
+	public class FiresecToGKConverter
 	{
 		XDevice gkDevice;
 

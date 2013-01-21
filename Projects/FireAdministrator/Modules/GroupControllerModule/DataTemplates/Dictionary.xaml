@@ -120,4 +120,8 @@
         <Views:InstructionsDevicesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
+        <Views:DiagnosticsView />
+    </DataTemplate>
+
 </ResourceDictionary>
