@@ -16,7 +16,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
-                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo}" />
+                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource BoolToGKYesNoConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTextColumn Header="Тип" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
 

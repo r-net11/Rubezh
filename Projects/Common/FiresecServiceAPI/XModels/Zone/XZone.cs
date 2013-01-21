@@ -18,6 +18,7 @@ namespace XFiresecAPI
 		}
 
 		public XZoneState ZoneState { get; set; }
+		public override XBaseState GetXBaseState() { return ZoneState; }
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
         public List<XDevice> DevicesInLogic { get; set; }

@@ -24,9 +24,10 @@ namespace XFiresecAPI
 			DevicesInLogic = new List<XDevice>();
 		}
 
+		public XDeviceState DeviceState { get; set; }
+		public override XBaseState GetXBaseState() { return DeviceState; }
 		public XDriver Driver { get; set; }
 		public XDevice Parent { get; set; }
-		public XDeviceState DeviceState { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XDevice> DevicesInLogic { get; set; }

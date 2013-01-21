@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 
 		void OnChanged()
 		{
-            OnPropertyChanged("PresentationAddress");
+			OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
             OnPropertyChanged("EditingPresentationZone");
 		}
@@ -75,12 +75,12 @@ namespace GKModule.ViewModels
 						foreach (var deviceViewModel in Children)
 						{
                             deviceViewModel.OnPropertyChanged("Address");
-                            deviceViewModel.OnPropertyChanged("PresentationAddress");
+							deviceViewModel.OnPropertyChanged("PresentationAddress");
 						}
 					}
 				}
 				OnPropertyChanged("Address");
-                OnPropertyChanged("PresentationAddress");
+				OnPropertyChanged("PresentationAddress");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

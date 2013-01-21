@@ -122,6 +122,7 @@ namespace GKModule.ViewModels
 
 			UpdateAlarms();
 			AlarmGroupsViewModel.Current.Update(alarms);
+			CheckInstructions();
 		}
 
 		public void Sort(XAlarmType? alarmType)
@@ -150,6 +151,11 @@ namespace GKModule.ViewModels
 			{
 				SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
 			}
+		}
+
+		void CheckInstructions()
+		{
+
 		}
 
 		public RelayCommand TurnOnAllCommand { get; private set; }

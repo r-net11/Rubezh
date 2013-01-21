@@ -5,7 +5,7 @@ namespace XFiresecAPI
 {
     public static class XStateClassHelper
     {
-        public static List<XStateClass> Convert(List<XStateType> stateTypes, bool isConnectionLost)
+        public static List<XStateClass> Convert(List<XStateType> stateTypes, bool isConnectionLost, bool isMissmatch)
         {
             var stateClasses = new HashSet<XStateClass>();
             if (isConnectionLost)
@@ -13,6 +13,11 @@ namespace XFiresecAPI
                 stateClasses.Add(XStateClass.Unknown);
                 return stateClasses.ToList();
             }
+			if (isMissmatch)
+			{
+				stateClasses.Add(XStateClass.Unknown);
+				return stateClasses.ToList();
+			}
 
             foreach (var stateType in stateTypes)
             {

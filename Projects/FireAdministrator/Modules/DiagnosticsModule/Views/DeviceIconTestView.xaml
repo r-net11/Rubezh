@@ -5,39 +5,12 @@
              xmlns:local="clr-namespace:DiagnosticsModule.Views"
              xmlns:DiagnosticsModule="clr-namespace:DiagnosticsModule"
              MinWidth="400" MinHeight="400">
-    <UserControl.Resources>
-        <DiagnosticsModule:StringToDrawingImageConverter x:Key="StringToDrawingImageConverter"/>
-    </UserControl.Resources>
-    <Grid>
-        <!--<ListView Grid.Row="0" ItemsSource="{Binding Drivers}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Обозначение" Width="150">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                        <Image x:Name="close_Cross" Height="15" Width="5" Margin="3" DockPanel.Dock="Right" VerticalAlignment="Top">
-                                            <Image.Style>
-                                                <Style TargetType="{x:Type Image}">
-                                                    <Setter Property="Image.Source" Value="{Binding GeometrySource, Converter=StringToDrawingImageConverter}"/>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
-                                        <Path Stroke="Black" StrokeThickness="1" Data="{Binding GeometrySource}" />
-                                        <TextBlock Margin="1" Text="{Binding ShortName}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
-                        <GridViewColumn DisplayMemberBinding="{Binding DeviceClassName}" Header="Класс" />
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>-->
-        <ListView Grid.Row="0" ItemsSource="{Binding Drivers}" >
+    <Grid Loaded="UserControl_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding ShortName}" Header="№" />

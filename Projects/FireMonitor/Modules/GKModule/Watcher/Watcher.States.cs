@@ -39,33 +39,53 @@ namespace GKModule
 				ConnectionChanged(false);
 				return false;
 			}
-            ConnectionChanged(true);
 			if (sendResult.Bytes.Count != 68)
 			{
-				Logger.Error("StatesWatcher.GetAllStates sendResult.Bytes.Count != 68");
+				ApplicationService.Invoke(() => { SetDBMissmatch(binaryBase); });
+				ConnectionChanged(false);
 				return false;
 			}
+			ConnectionChanged(true);
 			var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
+			CheckDBMissmatch(binaryBase, binaryObjectState);
 			ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState.States); });
 			return true;
 		}
 
 		void SetObjectStates(XBinaryBase binaryBase, List<XStateType> states)
 		{
+			binaryBase.GetXBaseState().States = states;
+		}
+
+		void SetDBMissmatch(XBinaryBase binaryBase)
+		{
+			binaryBase.GetXBaseState().IsMissmatch = true;
+		}
+
+		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
+		{
 			if (binaryBase is XDevice)
 			{
 				var device = binaryBase as XDevice;
-				device.DeviceState.States = states;
+				if (device.Driver.DriverTypeNo != binaryObjectState.TypeNo)
+					SetDBMissmatch(binaryBase);
+				if (device.Driver.HasAddress && device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU
+					&& device.IntAddress != binaryObjectState.PhysicalAddress)
+					SetDBMissmatch(binaryBase);
+				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOncontroller)
+					SetDBMissmatch(binaryBase);
 			}
 			if (binaryBase is XZone)
 			{
 				var zone = binaryBase as XZone;
-				zone.ZoneState.States = states;
+				if (binaryObjectState.TypeNo != 0x100)
+					SetDBMissmatch(binaryBase);
 			}
 			if (binaryBase is XDirection)
 			{
 				var direction = binaryBase as XDirection;
-				direction.DirectionState.States = states;
+				if (binaryObjectState.TypeNo != 0x106)
+					SetDBMissmatch(binaryBase);
 			}
 		}
 

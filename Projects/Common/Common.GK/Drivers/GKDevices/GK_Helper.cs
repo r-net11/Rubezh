@@ -41,6 +41,8 @@ namespace Common.GK
 					Name = "Неответы",
 					Caption = "Неответы",
 					ToolTip = "Неответы",
+					Min = 0,
+					Max = 10,
 					Default = 1,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
@@ -54,6 +56,8 @@ namespace Common.GK
 					Name = "Засыпание, мин",
 					Caption = "Засыпание, мин",
 					ToolTip = "Засыпание, мин",
+					Min = 0,
+					Max = 120,
 					Default = 10,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
@@ -67,9 +71,9 @@ namespace Common.GK
 					Name = "Яркость, %",
 					Caption = "Яркость, %",
 					ToolTip = "Яркость, %",
-					Default = 50,
 					Min = 0,
 					Max = 100,
+					Default = 50,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
 				}

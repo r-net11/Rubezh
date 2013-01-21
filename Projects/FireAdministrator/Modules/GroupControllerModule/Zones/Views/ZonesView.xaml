@@ -63,7 +63,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding PresentationAddress}" />
                         <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -103,7 +103,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding PresentationAddress}" />
                         <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
