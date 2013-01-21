@@ -23,6 +23,7 @@ namespace GKModule.Plans.Designer
 		private ContextMenu _contextMenu;
 
 		public XZonePainter(PresenterItem presenterItem)
+			: base(presenterItem.Element)
 		{
 			ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 			_presenterItem = presenterItem;
@@ -57,13 +58,7 @@ namespace GKModule.Plans.Designer
 
 		#region IPainter Members
 
-		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
-		{
-			if (_zone == null)
-				return;
-			base.Draw(drawingContext, element, rect);
-		}
-		protected override Brush GetBrush(ElementBase element)
+		protected override Brush GetBrush()
 		{
 			return PainterCache.GetBrush(GetStateColor());
 		}

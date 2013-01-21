@@ -4,26 +4,24 @@ using DeviceControls;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using System;
 
 namespace DevicesModule.Plans.Designer
 {
-	internal class Painter : IPainter
+	internal class Painter : PointPainter
 	{
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		private ElementDevice _elementDevice;
+		public Painter(ElementDevice elementDevice)
+			: base(elementDevice)
 		{
-			get { return false; }
+			_elementDevice = elementDevice;
 		}
 
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
+		protected override Brush GetBrush()
 		{
-			var device = Helper.GetDevice((ElementDevice)element);
-			var brush = DevicePictureCache.GetBrush(device);
-			drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
+			var device = Helper.GetDevice(_elementDevice);
+			return DevicePictureCache.GetBrush(device);
 		}
-
-		#endregion
 
 		//public Visual Draw(ElementBase element)
 		//{

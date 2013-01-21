@@ -1,28 +1,58 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class PolygonPainter : ShapePainter
+	public class PolygonPainter : GeometryPainter<PathGeometry>
 	{
+		public PolygonPainter(ElementBase element)
+			: base(element)
+		{
+		}
+
 		public virtual bool IsClosed
 		{
 			get { return true; }
 		}
-		protected override Geometry CreateShape(ElementBase element)
+		protected override PathGeometry CreateGeometry()
 		{
-			var points = PainterHelper.GetRealPoints(element);
-			StreamGeometry geometry = new StreamGeometry();
+			var geometry = new PathGeometry();
 			geometry.FillRule = FillRule.EvenOdd;
-			if (points.Count > 0)
-				using (StreamGeometryContext context = geometry.Open())
-				{
-					context.BeginFigure(points[0], true, IsClosed);
-					for (int i = 1; i < points.Count; i++)
-						context.LineTo(points[i], true, false);
-					context.Close();
-				}
+			var figure = new PathFigure();
+			figure.IsClosed = IsClosed;
+			geometry.Figures.Add(figure);
 			return geometry;
+		}
+		public override void Transform()
+		{
+			var figure = Geometry.Figures[0];
+			var points = PainterHelper.GetRealPoints(Element);
+			if (points.Count > 0)
+			{
+				figure.StartPoint = points[0];
+				for (int i = figure.Segments.Count; i > points.Count - 1; i--)
+					figure.Segments.RemoveAt(i - 1);
+				for (int i = figure.Segments.Count; i < points.Count - 1; i++)
+					figure.Segments.Add(new LineSegment());
+				for (int i = 1; i < points.Count; i++)
+				{
+					LineSegment segment = (LineSegment)figure.Segments[i - 1];
+					segment.Point = points[i];
+				}
+			}
+			//var points = PainterHelper.GetRealPoints(element);
+			//StreamGeometry geometry = new StreamGeometry();
+			//geometry.FillRule = FillRule.EvenOdd;
+			//if (points.Count > 0)
+			//    using (StreamGeometryContext context = geometry.Open())
+			//    {
+			//        context.BeginFigure(points[0], true, IsClosed);
+			//        for (int i = 1; i < points.Count; i++)
+			//            context.LineTo(points[i], true, false);
+			//        context.Close();
+			//    }
+			//return geometry;
 		}
 	}
 }

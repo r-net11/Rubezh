@@ -4,7 +4,7 @@
   <Fragment>
     <Icon Id="ManagementConsoleIcon" SourceFile="Data\ManagementConsole.ico"/>
 
-    <DirectoryRef Id="ProgramMenuDir">
+    <DirectoryRef Id="ProgramMenuDir.AdditionalFolder">
       <Component Id="ManagementConsole.ProgramsMenuShortcut" Guid="*">
         <Shortcut Id="ManagementConsole.ProgramsMenuShortcut" Name="$(var.ManagementConsoleName)" Target="[MANAGEMENTCONSOLELOCATION]$(var.ManagementConsole.TargetFileName)"
             WorkingDirectory="MANAGEMENTCONSOLELOCATION" Description="$(var.ManagementConsoleName)" Icon="ManagementConsoleIcon"/>

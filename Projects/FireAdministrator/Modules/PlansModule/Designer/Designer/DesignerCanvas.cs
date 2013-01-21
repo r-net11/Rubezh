@@ -15,6 +15,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
+using System.Windows.Threading;
 
 namespace PlansModule.Designer
 {
@@ -181,6 +182,7 @@ namespace PlansModule.Designer
 			var designerItem = DesignerItemFactory.Create(elementBase);
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Add(designerItem);
+			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
 			designerItem.Redraw();
 			return designerItem;
 		}

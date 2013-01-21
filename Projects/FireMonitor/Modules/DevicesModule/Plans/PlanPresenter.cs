@@ -64,7 +64,7 @@ namespace DevicesModule.Plans
 		{
 			ElementDevice elementDevice = args.Element as ElementDevice;
 			if (elementDevice != null)
-				args.Painter = new DevicePainter();
+				args.Painter = new DevicePainter(elementDevice);
 		}
 
 		private void OnShowDeviceOnPlan(Guid deviceUID)

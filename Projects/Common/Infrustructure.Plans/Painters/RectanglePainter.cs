@@ -1,13 +1,24 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class RectanglePainter : ShapePainter
+	public class RectanglePainter : GeometryPainter<RectangleGeometry>
 	{
-		protected override Geometry CreateShape(ElementBase element)
+		public RectanglePainter(ElementBase element)
+			: base(element)
 		{
-			return new RectangleGeometry(Rect);
+		}
+
+		protected override RectangleGeometry CreateGeometry()
+		{
+			return new RectangleGeometry();
+		}
+		public override void Transform()
+		{
+			CalculateRectangle();
+			Geometry.Rect = Rect;
 		}
 	}
 }

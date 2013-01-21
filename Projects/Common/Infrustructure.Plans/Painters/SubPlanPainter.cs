@@ -5,9 +5,14 @@ namespace Infrustructure.Plans.Painters
 {
 	public class SubPlanPainter : RectanglePainter
 	{
-		protected override Brush GetBrush(ElementBase element)
+		public SubPlanPainter(ElementBase element)
+			: base(element)
 		{
-			return PainterCache.GetTransparentBrush(element.BackgroundColor, element.BackgroundPixels);
+		}
+
+		protected override Brush GetBrush()
+		{
+			return PainterCache.GetTransparentBrush(Element.BackgroundColor, Element.BackgroundPixels);
 		}
 	}
 }

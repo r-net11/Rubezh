@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Threading;
+using System;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -80,7 +82,7 @@ namespace Infrustructure.Plans.Designer
 		public override void UpdateZoom()
 		{
 			base.UpdateZoom();
-			if (!Painter.RedrawOnZoom && ResizeChrome != null)
+			if (ResizeChrome != null)
 				ResizeChrome.InvalidateVisual();
 		}
 
@@ -94,6 +96,11 @@ namespace Infrustructure.Plans.Designer
 		public override void Redraw()
 		{
 			base.Redraw();
+			ResizeChrome.Redraw();
+		}
+		public override void RefreshPainter()
+		{
+			base.RefreshPainter();
 			if (ResizeChrome != null)
 				ResizeChrome.InvalidateVisual();
 		}
@@ -178,7 +185,7 @@ namespace Infrustructure.Plans.Designer
 				IsMoved = true;
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
-					var rect = designerItem.GetRectangle();
+					var rect = designerItem.Element.GetRectangle();
 					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
 						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
 					if (rect.Left + shift.X < 0)
@@ -192,7 +199,8 @@ namespace Infrustructure.Plans.Designer
 					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 					{
 						designerItem.Element.Position += shift;
-						designerItem.Translate();
+						//designerItem.Translate();
+						designerItem.RefreshPainter();
 					}
 			}
 		}

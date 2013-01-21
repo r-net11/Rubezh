@@ -17,6 +17,7 @@
         <ComponentRef Id="FSAgent.Files" />
         <ComponentRef Id="FSAgent.DB" />
         <ComponentRef Id="FSAgent.AutorunComponent" />
+        <ComponentRef Id="FSAgent.ProgramsMenuShortcut" />
       </Feature>
       <Feature Id="GK.Features" Title="ГК" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <ComponentRef Id="Administrator.GK_MODULE" />
@@ -44,15 +45,14 @@
       <ComponentRef Id="OPC.Remove" />
       <ComponentRef Id="Server.Remove" />-->
 
+      <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
       <ComponentRef Id="Administrator.SOUNDS_MODULE" />
       <ComponentRef Id="Administrator.SETTINGS_MODULE" />
       <ComponentRef Id="Monitor.PLANS_MODULE" />
-      <ComponentRef Id="LogScript" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />
       <ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />
-      <ComponentRef Id="Logs.Remove" />
     </Feature>
   </Fragment>
 </Wix>

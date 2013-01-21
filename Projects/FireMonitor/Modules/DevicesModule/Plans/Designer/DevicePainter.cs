@@ -18,14 +18,15 @@ using Controls.Converters;
 
 namespace DevicesModule.Plans.Designer
 {
-	class DevicePainter : IPainter
+	class DevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
 		private DeviceControl _deviceControl;
 		private Device _device;
 		private ContextMenu _contextMenu;
 
-		public DevicePainter()
+		public DevicePainter(ElementDevice elementDevice)
+			: base(elementDevice)
 		{
 			_contextMenu = null;
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
@@ -93,29 +94,10 @@ namespace DevicesModule.Plans.Designer
 			return stringBuilder.ToString().TrimEnd();
 		}
 
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		protected override Brush GetBrush()
 		{
-			get { return false; }
+			return DevicePictureCache.GetBrush(_device);
 		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
-		{
-			if (_device != null)
-			{
-				var brush = DevicePictureCache.GetBrush(_device);
-				drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
-			}
-		}
-		//public UIElement Draw(ElementBase element)
-		//{
-		//    if (_device == null)
-		//        return null;
-		//    _deviceControl.Update();
-		//    return _deviceControl;
-		//}
-
-		#endregion
 
 		public DeviceState DeviceState
 		{

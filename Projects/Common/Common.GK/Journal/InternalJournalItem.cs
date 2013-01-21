@@ -15,7 +15,7 @@ namespace Common.GK
         JournalItemType JournalItemType;
         Guid ObjectUID;
         string EventName;
-        string EventYesNo;
+        bool EventYesNo;
         string EventDescription;
         int ObjectState;
 
@@ -152,6 +152,18 @@ namespace Common.GK
                         case 6:
                             EventName = "Работа";
                             break;
+
+						case 7:
+							EventName = "Пользователь";
+							break;
+
+						case 8:
+							EventName = "Администратор";
+							break;
+
+						case 9:
+							EventName = "Ошибка управления";
+							break;
                     }
                     break;
 
@@ -243,6 +255,16 @@ namespace Common.GK
                             EventName = "Отключение";
                             EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
                             break;
+
+						case 13:
+							EventName = "Параметры";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
+							break;
+
+						case 14:
+							EventName = "Норма";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
+							break;
                     }
                     break;
             }
@@ -251,13 +273,13 @@ namespace Common.GK
 
     public static class StringHelper
     {
-        public static string ToYesNo(byte b)
+        public static bool ToYesNo(byte b)
         {
             if (b == 0)
-                return "Нет";
+                return false;
             if (b == 1)
-                return "Есть";
-            return "";
+                return true;
+			return false;
         }
 
         public static string ToRegime(byte b)

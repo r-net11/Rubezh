@@ -7,25 +7,25 @@ namespace Infrustructure.Plans.Painters
 {
 	public static class PainterFactory
 	{
-		private static Dictionary<Primitive, IPainter> _painters = new Dictionary<Primitive, IPainter>()
+		private static Dictionary<Primitive, Type> _painters = new Dictionary<Primitive, Type>()
 		{
-			{Primitive.Ellipse, new ElipsePainter()},
-			{Primitive.Polygon, new PolygonPainter()},
-			{Primitive.PolygonZone, new PolygonZonePainter()},
-			{Primitive.Polyline, new PolylinePainter()},
-			{Primitive.Rectangle, new RectanglePainter()},
-			{Primitive.RectangleZone, new  RectangleZonePainter()},
-			{Primitive.SubPlan, new SubPlanPainter()},
-			{Primitive.TextBlock, new TextBlockPainter()},
+			{Primitive.Ellipse, typeof(ElipsePainter)},
+			{Primitive.Polygon, typeof(PolygonPainter)},
+			{Primitive.PolygonZone, typeof(PolygonZonePainter)},
+			{Primitive.Polyline, typeof(PolylinePainter)},
+			{Primitive.Rectangle, typeof(RectanglePainter)},
+			{Primitive.RectangleZone, typeof(RectangleZonePainter)},
+			{Primitive.SubPlan, typeof(SubPlanPainter)},
+			{Primitive.TextBlock, typeof(TextBlockPainter)},
 		};
 		public static IPainter Create(ElementBase element)
 		{
 			Type type = element.GetType();
 			if (element is IPrimitive)
-				return _painters[((IPrimitive)element).Primitive];
+				return (IPainter)Activator.CreateInstance(_painters[((IPrimitive)element).Primitive], element);
 			var args = new PainterFactoryEventArgs(element);
 			EventService.EventAggregator.GetEvent<PainterFactoryEvent>().Publish(args);
-			return args.Painter ?? new DefaultPainter();
+			return args.Painter ?? new DefaultPainter(element);
 		}
 	}
 }

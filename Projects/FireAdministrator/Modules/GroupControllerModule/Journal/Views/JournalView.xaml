@@ -12,7 +12,7 @@
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding GKJournalRecordNo}" />
                 <DataGridTextColumn Header="Дата и Время" Binding="{Binding DateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Д/Н" Binding="{Binding YesNo}" />
+                <DataGridTextColumn Header="Д/Н" Binding="{Binding YesNo, Converter={StaticResource BoolToGKYesNoConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding Description}" />
             </DataGrid.Columns>
         </DataGrid>

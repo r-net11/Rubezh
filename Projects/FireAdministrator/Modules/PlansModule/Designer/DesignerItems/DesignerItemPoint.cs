@@ -15,8 +15,20 @@ namespace PlansModule.Designer.DesignerItems
 
 		public override void UpdateZoomPoint()
 		{
-			Translate();
+			//Translate();
+			RefreshPainter();
 			ResizeChrome.InvalidateVisual();
+		}
+		//public override void Translate(bool force = false)
+		//{
+		//    var rect = Element.GetRectangle();
+		//    TranslateTransform.X = rect.Left;
+		//    TranslateTransform.Y = rect.Top;
+		//}
+		public override void RefreshPainter()
+		{
+			var rect = Element.GetRectangle();
+			Offset = new Vector(rect.Left, rect.Top);
 		}
 
 		public override Rect GetRectangle()

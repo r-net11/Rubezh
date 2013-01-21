@@ -90,7 +90,8 @@ namespace PlansModule.ViewModels
 			foreach (var designerItem in DesignerCanvas.SelectedItems)
 			{
 				transform(designerItem, total);
-				designerItem.Translate();
+				//designerItem.Translate();
+				designerItem.RefreshPainter();
 			}
 			DesignerCanvas.EndChange();
 			ServiceFactory.SaveService.PlansChanged = true;

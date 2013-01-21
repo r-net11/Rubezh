@@ -18,13 +18,14 @@ namespace PlansModule.Designer
 	{
 		private PresenterItem _presenterItem;
 		private PlanViewModel _planViewModel;
-		private ShapePainter _painter;
+		private SubPlanPainter _painter;
 
 		public MonitorSubPlanPainter(PresenterItem presenterItem, PlanViewModel planViewModel)
+			: base(presenterItem.Element)
 		{
 			_planViewModel = planViewModel;
 			_presenterItem = presenterItem;
-			_painter = (ShapePainter)presenterItem.Painter;
+			_painter = (SubPlanPainter)presenterItem.Painter;
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
 			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
 			_presenterItem.ContextMenuProvider = null;
@@ -38,10 +39,10 @@ namespace PlansModule.Designer
 				_presenterItem.Redraw();
 		}
 
-		protected override Brush GetBrush(ElementBase element)
+		protected override Brush GetBrush()
 		{
 			var color = GetStateColor(_planViewModel.StateType);
-			return PainterCache.GetTransparentBrush(color, element.BackgroundPixels);
+			return PainterCache.GetTransparentBrush(color, Element.BackgroundPixels);
 		}
 
 		public Color GetStateColor(StateType stateType)

@@ -10,21 +10,19 @@ using FiresecClient;
 
 namespace GKModule.Plans.Designer
 {
-	public class Painter : IPainter
+	public class Painter : PointPainter
 	{
-		#region IPainter Members
-
-		public bool RedrawOnZoom
+		private ElementXDevice _elementXDevice;
+		public Painter(ElementXDevice elementXDevice)
+			: base(elementXDevice)
 		{
-			get { return false; }
-		}
-		public void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
-		{
-			var device = Helper.GetXDevice((ElementXDevice)element);
-			var brush = DevicePictureCache.GetBrush(device);
-			drawingContext.DrawGeometry(brush, null, new RectangleGeometry(rect));
+			_elementXDevice = elementXDevice;
 		}
 
-		#endregion
+		protected override Brush GetBrush()
+		{
+			var xdevice = Helper.GetXDevice(_elementXDevice);
+			return DevicePictureCache.GetBrush(xdevice);
+		}
 	}
 }

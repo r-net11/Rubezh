@@ -142,6 +142,7 @@
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
+    <Compile Include="Converters\BoolToGKYesNoConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />

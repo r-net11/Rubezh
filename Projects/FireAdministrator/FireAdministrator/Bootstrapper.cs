@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Common;
+using Common.GK;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -37,6 +38,7 @@ namespace FireAdministrator
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Administrator/Configuration");
 
+					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
 					LoadingService.DoStep("Старт полинга сервера");

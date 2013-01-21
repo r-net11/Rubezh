@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -10,12 +11,33 @@ namespace Infrustructure.Plans.Painters
 		private static Dictionary<byte[], Brush> _pictureBrushes = new Dictionary<byte[], Brush>();
 		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
+		public static Pen ZonePen { get; private set; }
+		public static RectangleGeometry PointGeometry {get;private set;}
+		public static double Zoom { get; private set; }
+		public static double PointZoom { get; private set; }
+
+		static PainterCache()
+		{
+			var brush = new SolidColorBrush(Colors.Black);
+			brush.Freeze();
+			ZonePen = new Pen(brush, 1);
+			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
+		}
+
+		public static void UpdateZoom(double zoom, double pointZoom)
+		{
+			Zoom = zoom;
+			PointZoom = pointZoom;
+			ZonePen.Thickness = 1 / Zoom;
+			PointGeometry.Rect = new Rect(-pointZoom / 2, -pointZoom / 2, pointZoom, pointZoom);
+		}
+
 		public static Brush GetTransparentBrush(Color color, byte[] backgroundPixels)
 		{
 			var brush = GetBrush(color, backgroundPixels);
 			if (!_transparentBrushes.ContainsKey(brush))
 			{
-				var transparent = brush.Clone();
+				var transparent = brush.CloneCurrentValue();
 				transparent.Opacity = 0.5;
 				transparent.Freeze();
 				_transparentBrushes.Add(brush, transparent);
@@ -53,7 +75,6 @@ namespace Infrustructure.Plans.Painters
 			}
 			return _pens[color][thickness];
 		}
-		public static double Zoom { get; internal set; }
-		public static double PointZoom { get; internal set; }
+
 	}
 }

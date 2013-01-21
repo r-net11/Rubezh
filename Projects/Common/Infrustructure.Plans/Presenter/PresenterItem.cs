@@ -47,20 +47,32 @@ namespace Infrustructure.Plans.Presenter
 		public override void UpdateZoom()
 		{
 			base.UpdateZoom();
-			if (!Painter.RedrawOnZoom && Border != null)
+			if (Border != null)
 				Border.InvalidateVisual();
 		}
 		public override void UpdateZoomPoint()
 		{
 			if (IsPoint)
 			{
-				Translate();
+				//Translate();
+				RefreshPainter();
 				if (Border != null)
 					Border.InvalidateVisual();
 			}
 			else
 				base.UpdateZoomPoint();
 		}
+		public override void RefreshPainter()
+		{
+			if (IsPoint)
+			{
+				var rect = Element.GetRectangle();
+				Offset = new Vector(rect.Left, rect.Top);
+			}
+			else
+				base.RefreshPainter();
+		}
+
 		public override Rect GetRectangle()
 		{
 			var rect = base.GetRectangle();

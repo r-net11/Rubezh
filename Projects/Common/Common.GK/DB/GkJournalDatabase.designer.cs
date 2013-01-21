@@ -77,7 +77,7 @@ namespace Common.GK.DB
 		
 		private string _Name;
 		
-		private string _YesNo;
+		private bool _YesNo;
 		
 		private System.Nullable<int> _ObjectState;
 		
@@ -105,7 +105,7 @@ namespace Common.GK.DB
     partial void OnObjectUIDChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnYesNoChanging(string value);
+    partial void OnYesNoChanging(bool value);
     partial void OnYesNoChanged();
     partial void OnObjectStateChanging(System.Nullable<int> value);
     partial void OnObjectStateChanged();
@@ -227,7 +227,7 @@ namespace Common.GK.DB
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YesNo", DbType="NVarChar(10)")]
-		public string YesNo
+		public bool YesNo
 		{
 			get
 			{

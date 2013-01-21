@@ -5,17 +5,18 @@ namespace Infrustructure.Plans.Painters
 {
 	public class RectangleZonePainter : RectanglePainter
 	{
-		public override bool RedrawOnZoom
+		public RectangleZonePainter(ElementBase element)
+			: base(element)
 		{
-			get { return true; }
 		}
-		protected override Brush GetBrush(ElementBase element)
+
+		protected override Brush GetBrush()
 		{
-			return PainterCache.GetTransparentBrush(element.BackgroundColor, element.BackgroundPixels);
+			return PainterCache.GetTransparentBrush(Element.BackgroundColor, Element.BackgroundPixels);
 		}
-		protected override Pen GetPen(ElementBase element)
+		protected override Pen GetPen()
 		{
-			return PainterCache.GetPen(element.BorderColor, element.BorderThickness / PainterCache.Zoom);
+			return PainterCache.ZonePen;
 		}
 	}
 }

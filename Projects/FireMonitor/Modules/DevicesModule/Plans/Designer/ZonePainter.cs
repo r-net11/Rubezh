@@ -27,6 +27,7 @@ namespace DevicesModule.Plans.Designer
 		private ContextMenu _contextMenu;
 
 		public ZonePainter(PresenterItem presenterItem)
+			: base(presenterItem.Element)
 		{
 			ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
@@ -75,13 +76,7 @@ namespace DevicesModule.Plans.Designer
 
 		#region IPainter Members
 
-		public override void Draw(DrawingContext drawingContext, ElementBase element, Rect rect)
-		{
-			if (_zone == null)
-				return;
-			base.Draw(drawingContext, element, rect);
-		}
-		protected override Brush GetBrush(ElementBase element)
+		protected override Brush GetBrush()
 		{
 			return PainterCache.GetBrush(GetStateColor());
 		}

@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 
@@ -24,8 +23,8 @@ namespace Infrustructure.Plans.Designer
 		public bool IsEnabled { get; protected set; }
 		public virtual bool AllowDrag { get { return false; } }
 		protected Rect OriginalRect { get; private set; }
-		protected TranslateTransform TranslateTransform { get; private set; }
-		protected ScaleTransform ScaleTransform { get; private set; }
+		//protected TranslateTransform TranslateTransform { get; private set; }
+		//protected ScaleTransform ScaleTransform { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -61,16 +60,17 @@ namespace Infrustructure.Plans.Designer
 
 		public CommonDesignerItem(ElementBase element)
 		{
-			ScaleTransform = new ScaleTransform();
-			TranslateTransform = new TranslateTransform();
-			Transform = new TransformGroup()
-			{
-				Children = new TransformCollection()
-				{
-					ScaleTransform,
-					TranslateTransform
-				}
-			};
+			Transform = MatrixTransform.Identity;
+			//ScaleTransform = new ScaleTransform();
+			//TranslateTransform = new TranslateTransform();
+			//Transform = new TransformGroup()
+			//{
+			//    Children = new TransformCollection()
+			//    {
+			//        ScaleTransform,
+			//        TranslateTransform
+			//    }
+			//};
 			IsBusy = false;
 			ResetIsEnabled();
 			ResetElement(element);
@@ -81,8 +81,6 @@ namespace Infrustructure.Plans.Designer
 
 		public virtual void UpdateZoom()
 		{
-			if (Painter != null && Painter.RedrawOnZoom)
-				Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)Redraw);
 		}
 		public virtual void UpdateZoomPoint()
 		{
@@ -101,32 +99,36 @@ namespace Infrustructure.Plans.Designer
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
 			using (DrawingContext drawingContext = RenderOpen())
 			{
-				OriginalRect = GetRectangle();
-				Translate(true);
+				OriginalRect = Element.GetRectangle();
+				//Translate(true);
 				Render(drawingContext);
 			}
 		}
-		protected virtual void Render(DrawingContext drawingContext)
+		internal void Render(DrawingContext drawingContext)
 		{
 			if (Painter != null)
-				Painter.Draw(drawingContext, Element, GetRectangle());
+				Painter.Draw(drawingContext);
 		}
-		public virtual void Translate(bool force = false)
+		//public virtual void Translate(bool force = false)
+		//{
+		//    // if (Painter.AllowScale)?...:Redraw();
+		//    var rect = Element.GetRectangle();
+		//    if (rect.Size != OriginalRect.Size || force)
+		//    {
+		//        ScaleTransform.CenterX = OriginalRect.Left;
+		//        ScaleTransform.CenterY = OriginalRect.Top;
+		//        ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
+		//        ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
+		//    }
+		//    if (rect.TopLeft != OriginalRect.TopLeft || force)
+		//    {
+		//        TranslateTransform.X = rect.Left - OriginalRect.Left;
+		//        TranslateTransform.Y = rect.Top - OriginalRect.Top;
+		//    }
+		//}
+		public virtual void RefreshPainter()
 		{
-			// if (Painter.AllowScale)?...:Redraw();
-			var rect = GetRectangle();
-			if (rect.Size != OriginalRect.Size || force)
-			{
-				ScaleTransform.CenterX = OriginalRect.Left;
-				ScaleTransform.CenterY = OriginalRect.Top;
-				ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
-				ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
-			}
-			if (rect.TopLeft != OriginalRect.TopLeft || force)
-			{
-				TranslateTransform.X = rect.Left - OriginalRect.Left;
-				TranslateTransform.Y = rect.Top - OriginalRect.Top;
-			}
+			Painter.Transform();
 		}
 		public virtual Rect GetRectangle()
 		{

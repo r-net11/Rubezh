@@ -98,7 +98,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Debug\WPFToolkit.Extended.dll</HintPath>
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
