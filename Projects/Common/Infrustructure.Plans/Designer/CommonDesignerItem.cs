@@ -50,11 +50,22 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					Opacity = IsVisibleLayout ? 1 : 0;
+					if (Painter != null)
+					{
+						if (IsVisibleLayout)
+							Painter.Show();
+						else
+							Painter.Hide();
+					}
 					ResetIsEnabled();
 				}
 			}
 		}
+
+		//public Rect ContentBounds
+		//{
+		//    get { return Painter.Bounds; }
+		//}
 
 		public CommonDesignerItem(ElementBase element)
 		{

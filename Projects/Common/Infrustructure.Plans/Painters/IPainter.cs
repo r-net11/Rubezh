@@ -6,7 +6,10 @@ namespace Infrustructure.Plans.Painters
 {
 	public interface IPainter
 	{
+		Rect Bounds { get; }
 		void Draw(DrawingContext drawingContext);
 		void Transform();
+		void Show();
+		void Hide();
 	}
 }

@@ -27,7 +27,7 @@ namespace Infrustructure.Plans.Painters
 		}
 		protected override Brush GetBrush()
 		{
-			return PainterCache.GetBrush(Colors.Black);
+			return PainterCache.BlackBrush;
 		}
 	}
 }

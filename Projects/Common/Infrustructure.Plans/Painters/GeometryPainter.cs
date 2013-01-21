@@ -14,14 +14,26 @@ namespace Infrustructure.Plans.Painters
 		protected T Geometry { get; private set; }
 		protected ElementBase Element { get; private set; }
 		protected Rect Rect { get; private set; }
+		protected Brush Brush { get; private set; }
+		protected Pen Pen { get; private set; }
+		private ScaleTransform _scaleTransform;
 
 		public GeometryPainter(ElementBase element)
 		{
+			_scaleTransform = new ScaleTransform();
 			Element = element;
 		}
 
 		protected abstract T CreateGeometry();
-		public abstract void Transform();
+		protected virtual void InnerDraw(DrawingContext drawingContext)
+		{
+			Geometry = CreateGeometry();
+			Transform();
+			//Geometry.Freeze();
+			Brush = GetBrush();
+			Pen = GetPen();
+			drawingContext.DrawGeometry(Brush, Pen, Geometry);
+		}
 
 		protected virtual Brush GetBrush()
 		{
@@ -35,19 +47,40 @@ namespace Infrustructure.Plans.Painters
 		{
 			Rect = Element.GetRectangle();
 		}
-		public virtual void Draw(DrawingContext drawingContext)
-		{
-			Geometry = CreateGeometry();
-			Transform();
-			//Geometry.Freeze();
-			drawingContext.DrawGeometry(GetBrush(), GetPen(), Geometry);
-		}
 
 		#region IGeometryPainter Members
 
 		Geometry IGeometryPainter.Geometry
 		{
 			get { return Geometry; }
+		}
+
+		#endregion
+
+		#region IPainter Members
+
+		public Rect Bounds
+		{
+			get { return Geometry.GetRenderBounds(Pen); }
+		}
+
+		public void Draw(DrawingContext drawingContext)
+		{
+			drawingContext.PushTransform(_scaleTransform);
+			InnerDraw(drawingContext);
+			drawingContext.Pop();
+		}
+		public abstract void Transform();
+
+		public void Show()
+		{
+			_scaleTransform.ScaleX = 1;
+			_scaleTransform.ScaleY = 1;
+		}
+		public void Hide()
+		{
+			_scaleTransform.ScaleX = 0;
+			_scaleTransform.ScaleY = 0;
 		}
 
 		#endregion
