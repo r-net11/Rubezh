@@ -150,6 +150,7 @@
     <Compile Include="FSCP\ZipConfigActualizeHelper.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
+    <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="PatchHelper.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
