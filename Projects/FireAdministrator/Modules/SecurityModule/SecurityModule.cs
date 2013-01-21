@@ -30,7 +30,6 @@ namespace SecurityModule
             if (!FiresecManager.CheckPermission(PermissionType.Adm_Security))
                 return null;
 
-            //return null;
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("Права доступа", null, new List<NavigationItem>(){

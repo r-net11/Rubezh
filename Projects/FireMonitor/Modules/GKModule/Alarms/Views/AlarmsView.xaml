@@ -11,6 +11,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" MinHeight="100" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
@@ -27,6 +29,8 @@
                                 <ContextMenu>
                                     <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
                                     <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
+                                    <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" />
+                                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>
@@ -56,7 +60,16 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <Border Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White"
+                CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <WrapPanel Margin="1">
+                    <TextBlock Text="{Binding Instruction.Text}" Foreground="White" TextWrapping="Wrap" />
+                </WrapPanel>
+            </ScrollViewer>
+        </Border>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Включить все" Command="{Binding TurnOnAllCommand}" Width="150" Margin="2" />
             <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="150" Margin="2" />
         </StackPanel>

@@ -19,6 +19,7 @@ namespace XFiresecAPI
 		}
 
 		public XDirectionState DirectionState { get; set; }
+		public override XBaseState GetXBaseState() { return DirectionState; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }

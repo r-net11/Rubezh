@@ -188,6 +188,7 @@ namespace FiresecClient
 			}
 			device.DeviceLogic = deviceLogic;
 			InvalidateOneLogic(device);
+			device.OnChanged();
 		}
 	}
 }

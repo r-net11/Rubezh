@@ -51,6 +51,10 @@
         <Views:AlarmGroupsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:InstructionViewModel}">
+        <Views:InstructionView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ConfirmationViewModel}">
         <Views:ConfirmationView />
     </DataTemplate>

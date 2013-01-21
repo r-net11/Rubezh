@@ -85,7 +85,11 @@
     <Compile Include="DeviceLibrary\Views\XStateDetailsView.xaml.cs">
       <DependentUpon>XStateDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\ViewModels\DeviceConfigurationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
+    <Compile Include="Devices\Views\DeviceConfigurationView.xaml.cs">
+      <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
@@ -298,6 +302,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="BinaryFormatViewer\Views\DatabasesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DeviceConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

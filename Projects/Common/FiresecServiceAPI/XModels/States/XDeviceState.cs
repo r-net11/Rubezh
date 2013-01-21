@@ -6,34 +6,19 @@ using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
-	public class XDeviceState
+	public class XDeviceState : XBaseState
 	{
 		public XDevice Device { get; private set; }
 
 		public XDeviceState(XDevice device)
 		{
-			_states = new List<XStateType>();
 			Device = device;
 			if (device.Driver.DriverType != XDriverType.System)
 				_isConnectionLost = true;
 		}
 
-		bool _isConnectionLost;
-		public bool IsConnectionLost
-		{
-			get { return _isConnectionLost; }
-			set
-			{
-				if (_isConnectionLost != value)
-				{
-					_isConnectionLost = value;
-					OnStateChanged();
-				}
-			}
-		}
-
-		List<XStateType> _states;
-		public List<XStateType> States
+		List<XStateType> _states = new List<XStateType>();
+		public override List<XStateType> States
 		{
 			get
 			{
@@ -71,11 +56,11 @@ namespace XFiresecAPI
 			}
 		}
 
-		public List<XStateClass> StateClasses
+		public override List<XStateClass> StateClasses
 		{
 			get
 			{
-				var stateClasses = XStateClassHelper.Convert(States, IsConnectionLost);
+				var stateClasses = XStateClassHelper.Convert(States, IsConnectionLost, IsMissmatch);
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);
@@ -84,12 +69,12 @@ namespace XFiresecAPI
 			}
 		}
 
-		public XStateClass StateClass
+		public override XStateClass StateClass
 		{
 			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
 		}
 
-		public StateType GetStateType()
+		public override StateType GetStateType()
 		{
 			if (!Device.IsRealDevice)
 				return StateType.Norm;
@@ -98,13 +83,6 @@ namespace XFiresecAPI
 				return StateType.Unknown;
 			else
 				return XStatesHelper.XStateTypesToState(States);
-		}
-
-		public event Action StateChanged;
-		void OnStateChanged()
-		{
-			if (StateChanged != null)
-				StateChanged();
 		}
 	}
 }

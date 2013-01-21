@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI;
 
 namespace XFiresecAPI
 {
@@ -53,7 +54,17 @@ namespace XFiresecAPI
 			}
 		}
 
+		public ushort GetNearestDatabaseNo()
+		{
+			if (KauDatabaseParent != null)
+				return databaseKAUNo;
+			if (GkDatabaseParent != null)
+				return databaseGKNo;
+			return 0;
+		}
+
 		public abstract XBinaryInfo BinaryInfo { get; }
 		public abstract string GetBinaryDescription();
+		public abstract XBaseState GetXBaseState();
 	}
 }

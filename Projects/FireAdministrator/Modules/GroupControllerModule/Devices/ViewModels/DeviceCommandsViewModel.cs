@@ -69,10 +69,14 @@ namespace GKModule.Models
 		public RelayCommand ShowInfoCommand { get; private set; }
 		void OnShowInfo()
 		{
-			var deviceInfo = DeviceBytesHelper.GetDeviceInfo(SelectedDevice.Device);
-			if (deviceInfo != null)
+			var result = DeviceBytesHelper.GetDeviceInfo(SelectedDevice.Device);
+			if (!string.IsNullOrEmpty(result))
 			{
-				MessageBoxService.Show(deviceInfo);
+				MessageBoxService.Show(result);
+			}
+			else
+			{
+				MessageBoxService.Show("Ошибка при запросе информации об устройстве");
 			}
 		}
 

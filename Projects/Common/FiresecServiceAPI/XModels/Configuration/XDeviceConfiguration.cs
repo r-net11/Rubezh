@@ -6,61 +6,61 @@ using FiresecAPI;
 
 namespace XFiresecAPI
 {
-    [DataContract]
-    public class XDeviceConfiguration : VersionedConfiguration
-    {
-        public XDeviceConfiguration()
-        {
-            Devices = new List<XDevice>();
-            Zones = new List<XZone>();
-            Directions = new List<XDirection>();
-            JournalFilters = new List<XJournalFilter>();
-            Instructions = new List<XInstruction>();
-        }
+	[DataContract]
+	public class XDeviceConfiguration : VersionedConfiguration
+	{
+		public XDeviceConfiguration()
+		{
+			Devices = new List<XDevice>();
+			Zones = new List<XZone>();
+			Directions = new List<XDirection>();
+			JournalFilters = new List<XJournalFilter>();
+			Instructions = new List<XInstruction>();
+		}
 
-        public List<XDevice> Devices { get; set; }
+		public List<XDevice> Devices { get; set; }
 
-        [DataMember]
-        public XDevice RootDevice { get; set; }
+		[DataMember]
+		public XDevice RootDevice { get; set; }
 
-        [DataMember]
-        public List<XZone> Zones { get; set; }
+		[DataMember]
+		public List<XZone> Zones { get; set; }
 
-        [DataMember]
-        public List<XDirection> Directions { get; set; }
+		[DataMember]
+		public List<XDirection> Directions { get; set; }
 
-        [DataMember]
-        public List<XJournalFilter> JournalFilters { get; set; }
+		[DataMember]
+		public List<XJournalFilter> JournalFilters { get; set; }
 
-        [DataMember]
-        public List<XInstruction> Instructions { get; set; }
+		[DataMember]
+		public List<XInstruction> Instructions { get; set; }
 
-        public void Update()
-        {
-            Devices = new List<XDevice>();
-            if (RootDevice != null)
-            {
-                RootDevice.Parent = null;
-                Devices.Add(RootDevice);
-                AddChild(RootDevice);
-            }
-        }
+		public void Update()
+		{
+			Devices = new List<XDevice>();
+			if (RootDevice != null)
+			{
+				RootDevice.Parent = null;
+				Devices.Add(RootDevice);
+				AddChild(RootDevice);
+			}
+		}
 
-        void AddChild(XDevice parentDevice)
-        {
-            foreach (var device in parentDevice.Children)
-            {
-                device.Parent = parentDevice;
-                Devices.Add(device);
-                AddChild(device);
-            }
-        }
+		void AddChild(XDevice parentDevice)
+		{
+			foreach (var device in parentDevice.Children)
+			{
+				device.Parent = parentDevice;
+				Devices.Add(device);
+				AddChild(device);
+			}
+		}
 
 		public List<XZone> SortedZones
 		{
 			get
 			{
-				return(
+				return (
 				from XZone zone in Zones
 				orderby zone.No
 				select zone).ToList();
@@ -75,8 +75,8 @@ namespace XFiresecAPI
 			}
 		}
 
-        public override bool ValidateVersion()
-        {
+		public override bool ValidateVersion()
+		{
 			bool result = true;
 
 			if (RootDevice == null)
@@ -87,21 +87,21 @@ namespace XFiresecAPI
 				result = false;
 			}
 
-            Update();
+			Update();
 
 			if (JournalFilters == null)
 			{
 				JournalFilters = new List<XJournalFilter>();
 				result = false;
 			}
-            foreach (var journalFilter in JournalFilters)
-            {
-                if(journalFilter.EventNames == null)
-                {
-                    journalFilter.EventNames = new List<string>();
-                    result = false;
-                }
-            }
+			foreach (var journalFilter in JournalFilters)
+			{
+				if (journalFilter.EventNames == null)
+				{
+					journalFilter.EventNames = new List<string>();
+					result = false;
+				}
+			}
 
 			if (Devices == null)
 			{
@@ -165,33 +165,33 @@ namespace XFiresecAPI
 			{
 				if (direction.DirectionZones == null)
 				{
-                    direction.DirectionZones = new List<XDirectionZone>();
+					direction.DirectionZones = new List<XDirectionZone>();
 					result = false;
 				}
 
 				if (direction.DirectionDevices == null)
 				{
-                    direction.DirectionDevices = new List<XDirectionDevice>();
+					direction.DirectionDevices = new List<XDirectionDevice>();
 					result = false;
 				}
 			}
 
-            foreach (var journalFilter in JournalFilters)
-            {
-                if(journalFilter.StateClasses == null)
-                {
-                    journalFilter.StateClasses = new List<XStateClass>();
-                    result = false;
-                }
-            }
+			foreach (var journalFilter in JournalFilters)
+			{
+				if (journalFilter.StateClasses == null)
+				{
+					journalFilter.StateClasses = new List<XStateClass>();
+					result = false;
+				}
+			}
 
-            if (Instructions == null)
-            {
-                Instructions = new List<XInstruction>();
-                result = false;
-            }
+			if (Instructions == null)
+			{
+				Instructions = new List<XInstruction>();
+				result = false;
+			}
 
 			return result;
-        }
-    }
+		}
+	}
 }
