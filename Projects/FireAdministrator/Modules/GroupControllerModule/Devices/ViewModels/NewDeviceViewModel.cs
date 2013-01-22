@@ -20,10 +20,15 @@ namespace GKModule.ViewModels
             _parentDeviceViewModel = parent;
             ParentDevice = _parentDeviceViewModel.Device;
 
-			Drivers = new ObservableCollection<XDriver>(
-				from XDriver driver in XManager.DriversConfiguration.XDrivers
-                       where ParentDevice.Driver.Children.Contains(driver.DriverType)
-                       select driver);
+			Drivers = new ObservableCollection<XDriver>();
+			foreach (var driver in XManager.DriversConfiguration.XDrivers)
+			{
+				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
+					continue;
+				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
+					Drivers.Add(driver);
+
+			}
 
 			if(parent.Driver.DriverType == XDriverType.MPT)
 				Drivers = new ObservableCollection<XDriver>(

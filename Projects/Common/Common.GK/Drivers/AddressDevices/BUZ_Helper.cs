@@ -14,7 +14,6 @@ namespace Common.GK
 				UID = new Guid("4935848f-0084-4151-a0c8-3a900e3cb5c5"),
 				Name = "Шкаф управления задвижкой",
 				ShortName = "ШУЗ",
-				MaxAddressOnShleif = 8,
 				IsControlDevice = true,
 				HasLogic = true,
                 CanPlaceOnPlan = true
