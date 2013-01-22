@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 			Clauses = new ObservableCollection<ClauseViewModel>();
 			foreach (var clause in device.DeviceLogic.Clauses)
 			{
-				var clauseViewModel = new ClauseViewModel(clause);
+				var clauseViewModel = new ClauseViewModel(clause, device);
 				Clauses.Add(clauseViewModel);
 				JoinOperator = clause.ClauseJounOperationType;
 			}
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 		void OnAdd()
 		{
 			var clause = new XClause();
-			var clauseViewModel = new ClauseViewModel(clause);
+			var clauseViewModel = new ClauseViewModel(clause, Device);
 			Clauses.Add(clauseViewModel);
 			UpdateJoinOperatorVisibility();
 		}

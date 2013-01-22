@@ -37,21 +37,19 @@ namespace GKModule.Views
 		private static void OnDevicePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			AddressEditor addressEditor = dp as AddressEditor;
-			if (addressEditor == null)
+			if (addressEditor != null)
 			{
-				return;
+				addressEditor.InitializeDevice();
 			}
-			addressEditor.InitializeDevice();
 		}
 
 		private static void OnAddressPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			AddressEditor addressEditor = dp as AddressEditor;
-			if (addressEditor == null)
+			if (addressEditor != null)
 			{
-				return;
+				addressEditor.InitializeAddress();
 			}
-			addressEditor.InitializeAddress();
 		}
 
 		public AddressEditor()
@@ -190,11 +188,14 @@ namespace GKModule.Views
 			}
 			else
 			{
+				LeftPartMin = 1;
 				LeftPartMax = 8;
+				RightPartMin = 1;
+				RightPartMax = 255;
+				if (Device.Driver.MaxAddressOnShleif != 0)
+					RightPartMax = Device.Driver.MaxAddressOnShleif;
 				if (Device.Parent.Driver.IsGroupDevice)
 				{
-					LeftPartMin = LeftPartMax = Device.Parent.ShleifNo;
-					LeftPartMax = LeftPartMax = Device.Parent.ShleifNo;
 					RightPartMin = Device.Parent.IntAddress;
 					RightPartMax = (byte)(RightPartMin + Device.Parent.Driver.GroupDeviceChildrenCount);
 				}
@@ -229,18 +230,14 @@ namespace GKModule.Views
 		{
 			int caretIndex = addressEditor.CaretIndex;
 
-			int rightPart = RightPart;
-			if (rightPart == 0)
-				return;
-
-			if (rightPart < RightPartMin)
+			if (RightPart < RightPartMin)
 			{
-				ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+				ShowError(string.Format(MessageFormat, RightPart, RightPartMin, RightPartMax));
 				RightPart = RightPartMin;
 			}
-			else if (rightPart > RightPartMax)
+			else if (RightPart > RightPartMax)
 			{
-				ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+				ShowError(string.Format(MessageFormat, RightPart, RightPartMin, RightPartMax));
 				RightPart = RightPartMax;
 			}
 			addressEditor.CaretIndex = caretIndex;

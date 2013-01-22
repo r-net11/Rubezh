@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using FiresecClient;
@@ -23,6 +24,7 @@ namespace GKModule.Validation
 				ValidateGKNotEmptyChildren(device);
 				ValidateKAUNotEmptyChildren(device);
 				ValidatePumpAddresses(device);
+				ValidateParametersMinMax(device);
 			}
 		}
 
@@ -107,8 +109,26 @@ namespace GKModule.Validation
 		{
 			if (device.Driver.DriverType == XDriverType.Pump)
 			{
-				if (device.IntAddress < 1 || device.IntAddress > 8)
-					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 8", ValidationErrorLevel.CannotWrite));
+				if (device.IntAddress < 1 || device.IntAddress > 15)
+					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 15", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		static void ValidateParametersMinMax(XDevice device)
+		{
+			foreach (var property in device.Properties)
+			{
+				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null)
+				{
+					if(driverProperty.Min != 0)
+						if(property.Value < driverProperty.Min)
+							Errors.Add(new DeviceValidationError(device, "Парметр " + property.Name + " должен быть больше " + driverProperty.Min.ToString(), ValidationErrorLevel.CannotWrite));
+
+					if (driverProperty.Max != 0)
+						if (property.Value > driverProperty.Max)
+							Errors.Add(new DeviceValidationError(device, "Парметр " + property.Name + " должен быть меньше " + driverProperty.Max.ToString(), ValidationErrorLevel.CannotWrite));
+				}
 			}
 		}
 	}
