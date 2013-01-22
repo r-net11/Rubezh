@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -68,13 +69,13 @@ namespace Infrustructure.Plans.Designer
 		public ResizeChrome ResizeChrome { get; private set; }
 		public string Group { get; set; }
 		public override bool AllowDrag { get { return true; } }
-		protected bool IsMoved { get; private set; }
 
 		public DesignerItem(ElementBase element)
 			: base(element)
 		{
 			Group = string.Empty;
 			IsVisibleLayout = true;
+			_moveAdorner = null;
 		}
 
 		protected override void ResetIsEnabled()
@@ -98,8 +99,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void SetResizeChrome(ResizeChrome resizeChrome)
 		{
-			ResizeChrome = resizeChrome;
-			Children.Add(ResizeChrome);
+			//ResizeChrome = resizeChrome;
+			//Children.Add(ResizeChrome);
 			if (ResizeChrome != null)
 				ResizeChrome.IsVisible = IsSelected;
 		}
@@ -128,7 +129,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void SetIsMouseOver(bool value)
 		{
 			base.SetIsMouseOver(value);
-			if (!IsMoved)
+			if (_moveAdorner == null)
 				DesignerCanvas.Cursor = value && IsEnabled ? Cursors.SizeAll : Cursors.Arrow;
 		}
 		protected override ContextMenu ContextMenuOpening()
@@ -160,42 +161,28 @@ namespace Infrustructure.Plans.Designer
 				ResizeChrome.IsVisible = IsSelected;
 		}
 
+		private MoveAdorner _moveAdorner;
 		public override void DragStarted(Point point)
 		{
-			IsBusy = true;
+			if (IsSelected)
+			{
+				IsBusy = true;
+				DesignerCanvas.BeginChange();
+				if (_moveAdorner != null)
+					_moveAdorner.Hide();
+				_moveAdorner = new MoveAdorner(DesignerCanvas);
+				_moveAdorner.Show(point);
+			}
 		}
 		public override void DragCompleted(Point point)
 		{
 			IsBusy = false;
-			if (IsMoved)
-				DesignerCanvas.EndChange();
-			IsMoved = false;
-		}
-		public override void DragDelta(Point point, Vector shift)
-		{
-			if (IsSelected)
+			if (_moveAdorner != null)
 			{
-				DesignerCanvas.BeginChange();
-				IsMoved = true;
-				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
-				{
-					var rect = designerItem.ContentBounds;
-					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
-						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
-					if (rect.Left + shift.X < 0)
-						shift.X = -rect.Left;
-					if (rect.Bottom + shift.Y > DesignerCanvas.CanvasHeight)
-						shift.Y = DesignerCanvas.CanvasHeight - rect.Bottom;
-					if (rect.Top + shift.Y < 0)
-						shift.Y = -rect.Top;
-				}
-				if (shift.X != 0 || shift.Y != 0)
-					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
-					{
-						designerItem.Element.Position += shift;
-						//designerItem.Translate();
-						designerItem.RefreshPainter();
-					}
+				_moveAdorner.Hide();
+				if (_moveAdorner.IsMoved)
+					DesignerCanvas.EndChange();
+				_moveAdorner = null;
 			}
 		}
 	}

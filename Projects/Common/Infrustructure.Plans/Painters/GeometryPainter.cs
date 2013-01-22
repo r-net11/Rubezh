@@ -16,11 +16,11 @@ namespace Infrustructure.Plans.Painters
 		protected Rect Rect { get; private set; }
 		protected Brush Brush { get; private set; }
 		protected Pen Pen { get; private set; }
-		private ScaleTransform _scaleTransform;
+		//private ScaleTransform _scaleTransform;
 
 		public GeometryPainter(ElementBase element)
 		{
-			_scaleTransform = new ScaleTransform();
+			//_scaleTransform = new ScaleTransform();
 			Element = element;
 		}
 
@@ -66,26 +66,26 @@ namespace Infrustructure.Plans.Painters
 
 		public void Draw(DrawingContext drawingContext)
 		{
-			drawingContext.PushTransform(_scaleTransform);
+			//drawingContext.PushTransform(_scaleTransform);
 			InnerDraw(drawingContext);
-			drawingContext.Pop();
+			//drawingContext.Pop();
 		}
 		public abstract void Transform();
 
-		public void Show()
-		{
-			_scaleTransform.ScaleX = 1;
-			_scaleTransform.ScaleY = 1;
-		}
-		public void Hide()
-		{
-			_scaleTransform.ScaleX = 0;
-			_scaleTransform.ScaleY = 0;
-		}
+		//public void Show()
+		//{
+		//    _scaleTransform.ScaleX = 1;
+		//    _scaleTransform.ScaleY = 1;
+		//}
+		//public void Hide()
+		//{
+		//    _scaleTransform.ScaleX = 0;
+		//    _scaleTransform.ScaleY = 0;
+		//}
 
 		public bool HitTest(Point point)
 		{
-			return Geometry == null ? false : Geometry.FillContains(point) || Geometry.StrokeContains(Pen, point);
+			return Geometry == null ? false : (Brush != null && Geometry.FillContains(point)) || Geometry.StrokeContains(Pen, point);
 		}
 
 		#endregion

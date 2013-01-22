@@ -229,7 +229,7 @@ namespace PlansModule.Designer
 		}
 		public override void BeginChange()
 		{
-			_initialElements = CloneElements(SelectedItems);
+			BeginChange(SelectedItems);
 		}
 		public override void EndChange()
 		{

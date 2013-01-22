@@ -9,8 +9,8 @@ namespace Infrustructure.Plans.Painters
 		Rect Bounds { get; }
 		void Draw(DrawingContext drawingContext);
 		void Transform();
-		void Show();
-		void Hide();
+		//void Show();
+		//void Hide();
 		bool HitTest(Point point);
 	}
 }

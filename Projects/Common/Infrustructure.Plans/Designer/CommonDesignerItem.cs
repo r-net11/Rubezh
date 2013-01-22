@@ -8,7 +8,7 @@ using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : DrawingVisual, IVisualItem
+	public abstract class CommonDesignerItem : DependencyObject, IVisualItem
 	{
 		public const int DefaultPointSize = 30;
 
@@ -49,22 +49,24 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					if (Painter != null)
-					{
-						if (IsVisibleLayout)
-							Painter.Show();
-						else
-							Painter.Hide();
-					}
+					//if (Painter != null)
+					//{
+					//    if (IsVisibleLayout)
+					//        Painter.Show();
+					//    else
+					//        Painter.Hide();
+					//}
 					ResetIsEnabled();
+					if (DesignerCanvas != null)
+						DesignerCanvas.Refresh();
 				}
 			}
 		}
 
-		//public Rect ContentBounds
-		//{
-		//    get { return Painter.Bounds; }
-		//}
+		public Rect ContentBounds
+		{
+			get { return Painter.Bounds; }
+		}
 
 		public CommonDesignerItem(ElementBase element)
 		{
@@ -94,8 +96,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			SetMinSize();
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
-			using (DrawingContext drawingContext = RenderOpen())
-				Render(drawingContext);
+			//using (DrawingContext drawingContext = RenderOpen())
+			//    Render(drawingContext);
 		}
 		internal void Render(DrawingContext drawingContext)
 		{
@@ -204,6 +206,11 @@ namespace Infrustructure.Plans.Designer
 
 		#endregion
 
+		public bool HitTest(Point point)
+		{
+			return IsEnabled && Painter.HitTest(point);
+		}
+
 		public virtual void DragStarted(Point point)
 		{
 		}
@@ -213,14 +220,5 @@ namespace Infrustructure.Plans.Designer
 		public virtual void DragDelta(Point point, Vector shift)
 		{
 		}
-
-		#region IVisualItem Members
-
-		public bool HitTest(Point point)
-		{
-			return Painter.HitTest(point);
-		}
-
-		#endregion
 	}
 }
