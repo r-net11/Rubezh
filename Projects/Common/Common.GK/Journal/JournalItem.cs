@@ -18,6 +18,8 @@ namespace Common.GK
 		public int? GKJournalRecordNo { get; set; }
         public XStateClass StateClass { get; set; }
 
+		public InternalJournalItem InternalJournalItem { get; set; }
+
 		public static JournalItem FromJournal(Journal journal)
 		{
 			var journalItem = new JournalItem()

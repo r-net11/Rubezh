@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
             return maxAddress;
         }
 
-        public static void AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
+		public static DeviceViewModel AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
         {
             var deviceViewModel = new DeviceViewModel(xDevice, parentDeviceViewModel.Source)
             {
@@ -107,6 +107,7 @@ namespace GKModule.ViewModels
                     AddDevice(autoDevice, deviceViewModel);
                 }
             }
+			return deviceViewModel;
         }
     }
 }

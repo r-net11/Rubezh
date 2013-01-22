@@ -225,7 +225,6 @@ namespace DevicesModule.ViewModels
             var newDeviceViewModel = new NewDeviceViewModel(this);
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-                //DevicesViewModel.Current.Select(newDeviceViewModel.CreatedDeviceViewModel.Device.UID);
 				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.CreatedDeviceViewModel);

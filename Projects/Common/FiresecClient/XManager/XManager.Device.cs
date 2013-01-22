@@ -79,7 +79,7 @@ namespace FiresecClient
                     xDevice.Children[1].PredefinedName = "Индикатор Пожар 1";
                     xDevice.Children[2].PredefinedName = "Индикатор Пожар 2";
                     xDevice.Children[3].PredefinedName = "Индикатор Внимание";
-                    xDevice.Children[4].PredefinedName = "Индикатор Включение СПТ";
+					xDevice.Children[4].PredefinedName = "Индикатор Включение ПУСК";
                     xDevice.Children[5].PredefinedName = "Индикатор Тест";
                     xDevice.Children[6].PredefinedName = "Индикатор Отключение";
                     xDevice.Children[7].PredefinedName = "Индикатор Автоматика отключена";

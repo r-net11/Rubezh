@@ -37,7 +37,7 @@ namespace Common.GK
 			FormulaBytes = Formula.GetBytes();
 		}
 
-		void AddDeviceFire1()
+		int AddDeviceFire1()
 		{
 			var count = 0;
 			foreach (var device in Zone.Devices)
@@ -53,8 +53,9 @@ namespace Common.GK
 				}
 				count++;
 			}
+			return count;
 		}
-		void AddDeviceFire2()
+		int AddDeviceFire2()
 		{
 			var count = 0;
 			foreach (var device in Zone.Devices)
@@ -76,16 +77,20 @@ namespace Common.GK
 			{
 				Formula.Add(FormulaOperationType.OR);
 			}
+			return count;
 		}
 
 		void AddGkZoneFormula()
 		{
-			AddDeviceFire1();
+			var fire1Count = AddDeviceFire1();
 			AddDeviceFire2();
 
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.MUL);
-			Formula.Add(FormulaOperationType.ADD);
+			if (fire1Count > 0)
+			{
+				Formula.Add(FormulaOperationType.ADD);
+			}
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);

@@ -13,6 +13,7 @@ namespace GKModule.ViewModels
     {
         DeviceViewModel _parentDeviceViewModel;
         XDevice ParentDevice;
+		public DeviceViewModel AddedDevice { get; private set; }
 
         public NewDeviceViewModel(DeviceViewModel parent)
         {
@@ -132,7 +133,7 @@ namespace GKModule.ViewModels
                 }
 
                 XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, shleifNo, (byte)address);
-                NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				AddedDevice = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
             }
         }
 

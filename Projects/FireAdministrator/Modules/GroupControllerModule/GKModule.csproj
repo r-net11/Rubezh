@@ -64,6 +64,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="BinConfigurationReader.cs" />
     <Compile Include="BinConfigurationWriter.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Instructions\Views\InstructionZonesView.xaml.cs">
       <DependentUpon>InstructionZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
     <Compile Include="Diagnostics\Converters\BytesToStringConverter.cs" />

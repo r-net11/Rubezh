@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -23,7 +24,9 @@ namespace GKModule.ViewModels
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
             ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
             ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
+			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
 			Children = new ObservableCollection<DeviceViewModel>();
 			Source = sourceDevices;
@@ -108,11 +111,13 @@ namespace GKModule.ViewModels
             if (newDeviceViewModel.Drivers.Count == 1)
             {
                 newDeviceViewModel.SaveCommand.Execute();
+				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
                 ServiceFactory.SaveService.GKChanged = true;
                 return;
             }
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
+				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -247,6 +252,30 @@ namespace GKModule.ViewModels
         {
             get { return CanShowZoneOrLogic(); }
         }
+
+		public RelayCommand ShowZoneCommand { get; private set; }
+		void OnShowZone()
+		{
+			var zone = Device.Zones.FirstOrDefault();
+			if (zone != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+			}
+		}
+		bool CanShowZone()
+		{
+			return Device.Zones.Count == 1;
+		}
+
+		public RelayCommand ShowParentCommand { get; private set; }
+		void OnShowParent()
+		{
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+		}
+		bool CanShowParent()
+		{
+			return Device.Parent != null;
+		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
