@@ -349,5 +349,15 @@ namespace Infrustructure.Plans.Designer
 					_resizeDirection = ResizeDirection.Right;
 			}
 		}
+
+		#region IVisualItem Members
+
+
+		public new bool HitTest(Point point)
+		{
+			return false;
+		}
+
+		#endregion
 	}
 }

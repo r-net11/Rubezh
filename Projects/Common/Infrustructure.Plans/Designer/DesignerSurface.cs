@@ -27,13 +27,12 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected override int VisualChildrenCount
 		{
-			get { return _visuals.Count; }
+		    get { return _visuals.Count; }
 		}
 		protected override Visual GetVisualChild(int index)
 		{
-			return _visuals[index];
+		    return _visuals[index];
 		}
-
 		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Add(visual);
@@ -67,7 +66,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
-			var visualItem = GetDesignerItem(point);
+			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
 			{
 				visualItem.OnMouseDown(point, e);
@@ -94,7 +93,7 @@ namespace Infrustructure.Plans.Designer
 				if (_visualItemOver != null && _visualItemOver.IsEnabled)
 					_visualItemOver.DragCompleted(point);
 			}
-			var visualItem = GetDesignerItem(point);
+			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
 				visualItem.OnMouseUp(point, e);
 		}
@@ -119,7 +118,7 @@ namespace Infrustructure.Plans.Designer
 			}
 			else if (_visualItemOver == null || !_visualItemOver.IsBusy)
 			{
-				var visualItem = GetDesignerItem(point);
+				var visualItem = GetVisualItem(point);
 				if (_visualItemOver != null && visualItem != _visualItemOver)
 					_visualItemOver.SetIsMouseOver(false, point);
 				if (_visualItemOver != visualItem)
@@ -147,8 +146,16 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		private IVisualItem _visualItem;
-		private IVisualItem GetDesignerItem(Point point)
+		private IVisualItem GetVisualItem(Point point)
 		{
+			//if (_visualItem == null || !_visualItem.HitTest(point))
+			//{
+			//    _visualItem = null;
+			//    for (int i = _visuals.Count - 1; i >= 0; i--)
+			//        if (_visuals[i].HitTest(point))
+			//            _visualItem = _visuals[i];
+			//}
+			//return _visualItem;
 			_visualItem = null;
 			PointHitTestParameters parameters = new PointHitTestParameters(point);
 			VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);

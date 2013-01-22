@@ -22,7 +22,6 @@ namespace Infrustructure.Plans.Designer
 		public bool IsBusy { get; protected set; }
 		public bool IsEnabled { get; protected set; }
 		public virtual bool AllowDrag { get { return false; } }
-		protected Rect OriginalRect { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -96,10 +95,7 @@ namespace Infrustructure.Plans.Designer
 			SetMinSize();
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
 			using (DrawingContext drawingContext = RenderOpen())
-			{
-				OriginalRect = Element.GetRectangle();
 				Render(drawingContext);
-			}
 		}
 		internal void Render(DrawingContext drawingContext)
 		{
@@ -217,5 +213,14 @@ namespace Infrustructure.Plans.Designer
 		public virtual void DragDelta(Point point, Vector shift)
 		{
 		}
+
+		#region IVisualItem Members
+
+		public bool HitTest(Point point)
+		{
+			return Painter.HitTest(point);
+		}
+
+		#endregion
 	}
 }

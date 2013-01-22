@@ -11,5 +11,6 @@ namespace Infrustructure.Plans.Painters
 		void Transform();
 		void Show();
 		void Hide();
+		bool HitTest(Point point);
 	}
 }

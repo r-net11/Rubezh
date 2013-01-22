@@ -83,6 +83,11 @@ namespace Infrustructure.Plans.Painters
 			_scaleTransform.ScaleY = 0;
 		}
 
+		public bool HitTest(Point point)
+		{
+			return Geometry == null ? false : Geometry.FillContains(point) || Geometry.StrokeContains(Pen, point);
+		}
+
 		#endregion
 	}
 }
