@@ -49,13 +49,6 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					//if (Painter != null)
-					//{
-					//    if (IsVisibleLayout)
-					//        Painter.Show();
-					//    else
-					//        Painter.Hide();
-					//}
 					ResetIsEnabled();
 					if (DesignerCanvas != null)
 						DesignerCanvas.Refresh();
@@ -90,22 +83,16 @@ namespace Infrustructure.Plans.Designer
 			Element = element;
 			Painter = PainterFactory.Create(Element);
 			if (DesignerCanvas != null)
-				Redraw();
+				DesignerCanvas.Refresh();
 		}
-		public virtual void Redraw()
-		{
-			SetMinSize();
-			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
-			//using (DrawingContext drawingContext = RenderOpen())
-			//    Render(drawingContext);
-		}
-		internal void Render(DrawingContext drawingContext)
+		internal virtual void Render(DrawingContext drawingContext)
 		{
 			if (Painter != null)
 				Painter.Draw(drawingContext);
 		}
 		public virtual void RefreshPainter()
 		{
+			SetMinSize();
 			Painter.Transform();
 		}
 		public virtual Rect GetRectangle()

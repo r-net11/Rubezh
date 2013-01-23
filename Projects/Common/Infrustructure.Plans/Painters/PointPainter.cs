@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -32,6 +33,14 @@ namespace Infrustructure.Plans.Painters
 			drawingContext.PushTransform(_transform);
 			base.InnerDraw(drawingContext);
 			drawingContext.Pop();
+		}
+		public override bool HitTest(System.Windows.Point point)
+		{
+			return base.HitTest(_transform.Inverse.Transform(point));
+		}
+		public override Rect Bounds
+		{
+			get { return _transform.TransformBounds(PainterCache.PointGeometry.Rect); }
 		}
 	}
 }

@@ -220,7 +220,8 @@ namespace DevicesModule.Plans
 				zone.ColorTypeChanged += () =>
 				{
 					UpdateDesignerItemZone(designerItem);
-					designerItem.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
+					_designerCanvas.Refresh();
+					//designerItem.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
 					//designerItem.Redraw();
 				};
 		}
@@ -237,7 +238,8 @@ namespace DevicesModule.Plans
 				device.Changed += () =>
 				{
 					UpdateDesignerItemDevice(designerItem);
-					designerItem.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
+					_designerCanvas.Refresh();
+					//designerItem.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
 					//designerItem.Redraw();
 				};
 		}

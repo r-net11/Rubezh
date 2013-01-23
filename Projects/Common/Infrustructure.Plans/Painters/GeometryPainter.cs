@@ -32,7 +32,7 @@ namespace Infrustructure.Plans.Painters
 			//Geometry.Freeze();
 			Brush = GetBrush();
 			Pen = GetPen();
-			drawingContext.DrawGeometry(Brush, Pen, Geometry);
+			//drawingContext.DrawGeometry(Brush, Pen, Geometry);
 		}
 
 		protected virtual Brush GetBrush()
@@ -59,7 +59,7 @@ namespace Infrustructure.Plans.Painters
 
 		#region IPainter Members
 
-		public Rect Bounds
+		public virtual Rect Bounds
 		{
 			get { return Geometry.GetRenderBounds(Pen); }
 		}
@@ -67,7 +67,9 @@ namespace Infrustructure.Plans.Painters
 		public void Draw(DrawingContext drawingContext)
 		{
 			//drawingContext.PushTransform(_scaleTransform);
-			InnerDraw(drawingContext);
+			if (Geometry == null)
+				InnerDraw(drawingContext);
+			drawingContext.DrawGeometry(Brush, Pen, Geometry);
 			//drawingContext.Pop();
 		}
 		public abstract void Transform();
@@ -83,7 +85,7 @@ namespace Infrustructure.Plans.Painters
 		//    _scaleTransform.ScaleY = 0;
 		//}
 
-		public bool HitTest(Point point)
+		public virtual bool HitTest(Point point)
 		{
 			return Geometry == null ? false : (Brush != null && Geometry.FillContains(point)) || Geometry.StrokeContains(Pen, point);
 		}

@@ -183,7 +183,7 @@ namespace PlansModule.Designer
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Add(designerItem);
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
-			designerItem.Redraw();
+			Refresh();
 			return designerItem;
 		}
 

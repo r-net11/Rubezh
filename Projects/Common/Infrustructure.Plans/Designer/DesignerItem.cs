@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using System.Windows.Media;
+using System;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -69,13 +70,13 @@ namespace Infrustructure.Plans.Designer
 		public ResizeChrome ResizeChrome { get; private set; }
 		public string Group { get; set; }
 		public override bool AllowDrag { get { return true; } }
+		protected bool IsMoved { get; private set; }
 
 		public DesignerItem(ElementBase element)
 			: base(element)
 		{
 			Group = string.Empty;
 			IsVisibleLayout = true;
-			_moveAdorner = null;
 		}
 
 		protected override void ResetIsEnabled()
@@ -85,11 +86,11 @@ namespace Infrustructure.Plans.Designer
 			if (!IsEnabled)
 				IsSelected = false;
 		}
-		public override void Redraw()
+		internal override void Render(DrawingContext drawingContext)
 		{
-			base.Redraw();
-			if (ResizeChrome != null)
-				ResizeChrome.Redraw();
+			base.Render(drawingContext);
+			if (ResizeChrome != null && IsSelected)
+				ResizeChrome.Render(drawingContext);
 		}
 		public override void RefreshPainter()
 		{
@@ -99,8 +100,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void SetResizeChrome(ResizeChrome resizeChrome)
 		{
-			//ResizeChrome = resizeChrome;
-			//Children.Add(ResizeChrome);
+			ResizeChrome = resizeChrome;
 			if (ResizeChrome != null)
 				ResizeChrome.IsVisible = IsSelected;
 		}
@@ -129,7 +129,8 @@ namespace Infrustructure.Plans.Designer
 		protected override void SetIsMouseOver(bool value)
 		{
 			base.SetIsMouseOver(value);
-			if (_moveAdorner == null)
+			//if (_moveAdorner == null)
+			if (!IsMoved)
 				DesignerCanvas.Cursor = value && IsEnabled ? Cursors.SizeAll : Cursors.Arrow;
 		}
 		protected override ContextMenu ContextMenuOpening()
@@ -158,32 +159,75 @@ namespace Infrustructure.Plans.Designer
 		protected void IsSelectedChanged()
 		{
 			if (ResizeChrome != null)
+			{
 				ResizeChrome.IsVisible = IsSelected;
+				DesignerCanvas.Refresh();
+			}
 		}
 
-		private MoveAdorner _moveAdorner;
 		public override void DragStarted(Point point)
 		{
-			if (IsSelected)
-			{
-				IsBusy = true;
-				DesignerCanvas.BeginChange();
-				if (_moveAdorner != null)
-					_moveAdorner.Hide();
-				_moveAdorner = new MoveAdorner(DesignerCanvas);
-				_moveAdorner.Show(point);
-			}
+			IsBusy = true;
 		}
 		public override void DragCompleted(Point point)
 		{
 			IsBusy = false;
-			if (_moveAdorner != null)
+			if (IsMoved)
+				DesignerCanvas.EndChange();
+			IsMoved = false;
+		}
+		public override void DragDelta(Point point, Vector shift)
+		{
+			if (IsSelected)
 			{
-				_moveAdorner.Hide();
-				if (_moveAdorner.IsMoved)
-					DesignerCanvas.EndChange();
-				_moveAdorner = null;
+				DesignerCanvas.BeginChange();
+				IsMoved = true;
+				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+				{
+					var rect = designerItem.ContentBounds;
+					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
+						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
+					if (rect.Left + shift.X < 0)
+						shift.X = -rect.Left;
+					if (rect.Bottom + shift.Y > DesignerCanvas.CanvasHeight)
+						shift.Y = DesignerCanvas.CanvasHeight - rect.Bottom;
+					if (rect.Top + shift.Y < 0)
+						shift.Y = -rect.Top;
+				}
+				if (shift.X != 0 || shift.Y != 0)
+					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+					{
+						designerItem.Element.Position += shift;
+						//designerItem.Translate();
+						designerItem.RefreshPainter();
+					}
 			}
 		}
+		//private SelectionAdorner _moveAdorner;
+		//public override void DragStarted(Point point)
+		//{
+		//    Console.WriteLine("DesignerItem.DragStarted");
+		//    if (IsSelected)
+		//    {
+		//        IsBusy = true;
+		//        DesignerCanvas.BeginChange();
+		//        if (_moveAdorner != null)
+		//            _moveAdorner.Hide();
+		//        _moveAdorner = new SelectionAdorner(DesignerCanvas);
+		//        _moveAdorner.Show(point);
+		//    }
+		//}
+		//public override void DragCompleted(Point point)
+		//{
+		//    Console.WriteLine("DesignerItem.DragCompleted");
+		//    IsBusy = false;
+		//    if (_moveAdorner != null)
+		//    {
+		//        _moveAdorner.Hide();
+		//        if (_moveAdorner.IsMoved)
+		//            DesignerCanvas.EndChange();
+		//        _moveAdorner = null;
+		//    }
+		//}
 	}
 }

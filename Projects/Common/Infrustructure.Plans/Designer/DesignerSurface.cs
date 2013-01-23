@@ -68,6 +68,7 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
+			Console.WriteLine("DesignerSurface.OnMouseLeftButtonDown");
 			var point = e.GetPosition(this);
 			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
@@ -75,7 +76,7 @@ namespace Infrustructure.Plans.Designer
 				visualItem.OnMouseDown(point, e);
 				if (e.ClickCount == 2)
 					visualItem.OnMouseDoubleClick(point, e);
-				if (!_isDragging)
+				else if (!_isDragging)
 				{
 					CaptureMouse();
 					_previousPosition = point;
@@ -87,13 +88,14 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
+			Console.WriteLine("DesignerSurface.OnMouseLeftButtonUp");
 			var point = e.GetPosition(this);
 			ReleaseMouseCapture();
 			if (_isDragging)
 			{
 				e.Handled = true;
 				_isDragging = false;
-				if (_visualItemOver != null && _visualItemOver.IsEnabled)
+				if (_visualItemOver != null)
 					_visualItemOver.DragCompleted(point);
 			}
 			var visualItem = GetVisualItem(point);
@@ -151,13 +153,10 @@ namespace Infrustructure.Plans.Designer
 		private IVisualItem _visualItem;
 		private IVisualItem GetVisualItem(Point point)
 		{
-			if (_visualItem == null || !_visualItem.HitTest(point))
-			{
-				_visualItem = null;
-				for (int i = _visuals.Count - 1; i >= 0; i--)
-					if (_visuals[i].HitTest(point))
-						_visualItem = _visuals[i];
-			}
+			_visualItem = null;
+			for (int i = _visuals.Count - 1; i >= 0; i--)
+				if (_visuals[i].IsEnabled && _visuals[i].HitTest(point))
+					_visualItem = _visuals[i];
 			return _visualItem;
 			//_visualItem = null;
 			//PointHitTestParameters parameters = new PointHitTestParameters(point);

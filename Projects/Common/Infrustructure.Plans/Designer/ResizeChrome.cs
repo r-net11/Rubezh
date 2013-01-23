@@ -9,7 +9,7 @@ using System;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class ResizeChrome : DrawingVisual, IVisualItem
+	public abstract class ResizeChrome : IVisualItem
 	{
 		protected const ToleranceType ToleranceType = System.Windows.Media.ToleranceType.Relative;
 		private static double Tolerance { get; set; }
@@ -88,7 +88,7 @@ namespace Infrustructure.Plans.Designer
 			set
 			{
 				_isVisible = value;
-				Opacity = IsVisible ? 1 : 0;
+				//Opacity = IsVisible ? 1 : 0;
 			}
 		}
 
@@ -101,24 +101,12 @@ namespace Infrustructure.Plans.Designer
 
 		public void InvalidateVisual()
 		{
-			if (IsVisible)
+			//if (IsVisible)
 				Translate();
-			else
-				Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Translate);
+			//else
+			//    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Translate);
 		}
-		public void Redraw()
-		{
-			if (IsVisible)
-				Render();
-			else
-				Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Render);
-		}
-		private void Render()
-		{
-			using (DrawingContext drawingContext = RenderOpen())
-				Render(drawingContext);
-		}
-		protected abstract void Render(DrawingContext drawingContext);
+		public abstract void Render(DrawingContext drawingContext);
 		protected virtual void Translate()
 		{
 			var rect = GetBounds();
@@ -353,7 +341,7 @@ namespace Infrustructure.Plans.Designer
 		#region IVisualItem Members
 
 
-		public new bool HitTest(Point point)
+		public virtual bool HitTest(Point point)
 		{
 			return false;
 		}
