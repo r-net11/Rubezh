@@ -8,42 +8,38 @@ using Infrastructure.Events;
 
 namespace DiagnosticsModule
 {
-    public class DiagnosticsModule : ModuleBase
-    {
-        DiagnosticsViewModel DiagnosticsViewModel;
+	public class DiagnosticsModule : ModuleBase
+	{
+		DiagnosticsViewModel DiagnosticsViewModel;
 
-        public override void CreateViewModels()
-        {
-            DiagnosticsViewModel = new DiagnosticsViewModel();
-        }
+		public override void CreateViewModels()
+		{
+			DiagnosticsViewModel = new DiagnosticsViewModel();
+		}
 
-        public override void Initialize()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                PseudoDriver.PseudoDrivers.Add(new PseudoDriver());
-            }
-        }
+		public override void Initialize()
+		{
+		}
 
-        public override IEnumerable<NavigationItem> CreateNavigation()
-        {
-            return new List<NavigationItem>()
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
 			};
-        }
+		}
 
-        public override string Name
-        {
-            get { return "Диагностика"; }
-        }
+		public override string Name
+		{
+			get { return "Диагностика"; }
+		}
 
-        public override void Dispose()
-        {
-            DiagnosticsViewModel.StopThreads();
-        }
+		public override void Dispose()
+		{
+			DiagnosticsViewModel.StopThreads();
+		}
 
-        public static Stopwatch swd = new Stopwatch();
-        public static Stopwatch swz = new Stopwatch();
-    }
+		public static Stopwatch swd = new Stopwatch();
+		public static Stopwatch swz = new Stopwatch();
+	}
 }

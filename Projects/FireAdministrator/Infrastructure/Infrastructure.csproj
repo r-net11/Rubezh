@@ -83,6 +83,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
+    <Compile Include="Events\ShowNotificationEvent.cs" />
     <Compile Include="Events\ShowXInstructionsEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\CreateXZoneEvent.cs" />

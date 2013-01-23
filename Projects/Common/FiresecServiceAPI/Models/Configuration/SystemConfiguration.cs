@@ -12,6 +12,7 @@ namespace FiresecAPI.Models
 			JournalFilters = new List<JournalFilter>();
 			Instructions = new List<Instruction>();
 			Cameras = new List<Camera>();
+			Emails = new List<Email>();
 		}
 
 		[DataMember]
@@ -25,6 +26,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Camera> Cameras { get; set; }
+
+		[DataMember]
+		public List<Email> Emails { get; set; }
 
 		public override bool ValidateVersion()
 		{

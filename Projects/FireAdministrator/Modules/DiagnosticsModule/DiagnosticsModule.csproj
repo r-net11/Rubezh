@@ -85,8 +85,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="DiagnosticsModule.cs" />
-    <Compile Include="PseudoDriver.cs" />
-    <Compile Include="StringToDrawingImageConverter.cs" />
     <Compile Include="ViewModels\DeviceIconTestViewModel.cs" />
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
     <Compile Include="ViewModels\JournalTestViewModel.cs" />
@@ -124,11 +122,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="balloonresources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
