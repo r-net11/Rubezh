@@ -30,7 +30,7 @@ namespace PlansModule.Designer.Adorners
 			_transforms.Clear();
 			DrawSizableBounds(drawingContext);
 			foreach (var point in _points)
-				_transforms.Add(DrawThumb(drawingContext, DesignerItem.Transform.Inverse.Transform(point)));
+				_transforms.Add(DrawThumb(drawingContext, point));
 		}
 		protected override void Translate()
 		{
@@ -104,7 +104,7 @@ namespace PlansModule.Designer.Adorners
 			_index = -1;
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			for (int i = 0; i < element.Points.Count; i++)
-				if (IsInsideThumb(DesignerItem.Transform.Transform(element.Points[i]), point))
+				if (IsInsideThumb(element.Points[i], point))
 				{
 					_index = i;
 					break;

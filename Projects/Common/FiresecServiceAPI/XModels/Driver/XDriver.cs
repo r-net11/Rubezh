@@ -65,7 +65,7 @@ namespace XFiresecAPI
 		[DataMember]
 		public byte MaxAddress { get; set; }
 		[DataMember]
-		public int MaxAddressOnShleif { get; set; }
+		public byte MaxAddressOnShleif { get; set; }
 		[DataMember]
 		public bool IsDeviceOnShleif { get; set; }
 

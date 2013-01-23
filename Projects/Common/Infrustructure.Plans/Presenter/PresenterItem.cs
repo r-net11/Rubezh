@@ -66,8 +66,8 @@ namespace Infrustructure.Plans.Presenter
 		{
 			if (IsPoint)
 			{
-				var rect = Element.GetRectangle();
-				Offset = new Vector(rect.Left, rect.Top);
+				//var rect = Element.GetRectangle();
+				//Offset = new Vector(rect.Left, rect.Top);
 			}
 			else
 				base.RefreshPainter();
@@ -82,7 +82,7 @@ namespace Infrustructure.Plans.Presenter
 		public void SetBorder(PresenterBorder border)
 		{
 			Border = border;
-			Children.Add(Border);
+			//Children.Add(Border);
 			Border.IsVisible = IsMouseOver;
 		}
 		protected override void SetIsMouseOver(bool value)

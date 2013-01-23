@@ -24,9 +24,6 @@ namespace GKModule.Models
 
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
-			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
-			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
-			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 
@@ -47,35 +44,19 @@ namespace GKModule.Models
 			get { return _devicesViewModel.SelectedDevice; }
 		}
 
-		public RelayCommand ConvertFromFiresecCommand { get; private set; }
-		void OnConvertFromFiresec()
-		{
-			var configurationConverter = new ConfigurationConverter();
-			configurationConverter.Convert();
-
-			DevicesViewModel.Current.Initialize();
-			ZonesViewModel.Current.Initialize();
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand ConvertToBinCommand { get; private set; }
-		void OnConvertToBin()
-		{
-			DatabaseManager.Convert();
-			var deviceConverterViewModel = new DatabasesViewModel();
-			DialogService.ShowModalWindow(deviceConverterViewModel);
-		}
-
 		public RelayCommand ShowInfoCommand { get; private set; }
 		void OnShowInfo()
 		{
-			var deviceInfo = DeviceBytesHelper.GetDeviceInfo(SelectedDevice.Device);
-			if (deviceInfo != null)
+			var result = DeviceBytesHelper.GetDeviceInfo(SelectedDevice.Device);
+			if (!string.IsNullOrEmpty(result))
 			{
-				MessageBoxService.Show(deviceInfo);
+				MessageBoxService.Show(result);
+			}
+			else
+			{
+				MessageBoxService.Show("Ошибка при запросе информации об устройстве");
 			}
 		}
-
 		bool CanShowInfo()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.KAU ||
@@ -130,14 +111,6 @@ namespace GKModule.Models
 			if (device.Driver.DriverType != XDriverType.KAU)
 				return;
 			BinConfigurationReader.ReadConfiguration(device);
-		}
-
-		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
-		void OnConvertToBinaryFile()
-		{
-			Directory.Delete(@"C:\GKConfig", true);
-			Directory.CreateDirectory(@"C:\GKConfig");
-			BinaryFileConverter.Convert();
 		}
 
 		public RelayCommand GetAllParametersCommand { get; private set; }

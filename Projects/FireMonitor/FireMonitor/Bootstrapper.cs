@@ -112,7 +112,8 @@ namespace FireMonitor
 				if (IsRestarting)
 					return;
 				FiresecManager.FiresecService.SuspendPoll = true;
-				FiresecManager.FSAgent.SuspendPoll = true;
+				if (FiresecManager.FSAgent != null)
+					FiresecManager.FSAgent.SuspendPoll = true;
 				LoadingErrorManager.Clear();
 				IsRestarting = true;
 				ProgressWatcher.Close();
@@ -146,7 +147,8 @@ namespace FireMonitor
 			{
 				IsRestarting = false;
 				FiresecManager.FiresecService.SuspendPoll = false;
-				FiresecManager.FSAgent.SuspendPoll = false;
+				if (FiresecManager.FSAgent != null)
+					FiresecManager.FSAgent.SuspendPoll = false;
 			}
 		}
 

@@ -39,7 +39,6 @@
 
                     <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
                         <Label Content="Зона: " />
-
                         <Label Content="Зона не указана" IsEnabled="False">
                             <Label.Style>
                                 <Style>
@@ -52,7 +51,6 @@
                                 </Style>
                             </Label.Style>
                         </Label>
-
                         <TextBlock VerticalAlignment="Center">
                             <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
                                 <TextBlock Margin="2" Text="{Binding PresentationZone}" />

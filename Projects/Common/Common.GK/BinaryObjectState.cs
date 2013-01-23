@@ -17,8 +17,8 @@ namespace Common.GK
 			SerialNo = BytesHelper.SubstructInt(bytes, 40);
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
-			var deviceType = BytesHelper.SubstructShort(bytes, 0);
-			Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
+			TypeNo = BytesHelper.SubstructShort(bytes, 0);
+			Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
 
 			States = XStatesHelper.StatesFromInt(state);
 		}
@@ -29,6 +29,7 @@ namespace Common.GK
 		public ushort PhysicalAddress { get; private set; }
 		public string Description { get; private set; }
 		public int SerialNo { get; private set; }
+		public ushort TypeNo { get; private set; }
 		public List<XStateType> States { get; private set; }
 	}
 }

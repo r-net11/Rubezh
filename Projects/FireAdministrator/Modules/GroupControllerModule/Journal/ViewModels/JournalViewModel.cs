@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Журнал событий ГК";
 			ReadCommand = new RelayCommand(OnRead);
-			JournalItems = new ObservableCollection<JournalItem>();
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
 			SetTotalCount();
 			StartIndex = Math.Max(0, TotalCount - 100);
@@ -71,8 +71,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ObservableCollection<JournalItem> _journalItems;
-		public ObservableCollection<JournalItem> JournalItems
+		ObservableCollection<JournalItemViewModel> _journalItems;
+		public ObservableCollection<JournalItemViewModel> JournalItems
 		{
 			get { return _journalItems; }
 			set
@@ -102,7 +102,9 @@ namespace GKModule.ViewModels
 					break;
 				}
 				var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
-				JournalItems.Add(internalJournalItem.ToJournalItem());
+				var journalItem = internalJournalItem.ToJournalItem();
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				JournalItems.Add(journalItemViewModel);
 			}
 			LoadingService.Close();
 		}

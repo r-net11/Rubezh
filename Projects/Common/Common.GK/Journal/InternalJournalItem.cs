@@ -35,8 +35,8 @@ namespace Common.GK
         byte Code { get; set; }
 
         ushort ObjectNo;
-        ushort ObjectDeviceType;
-        ushort ObjectDeviceAddress;
+		public ushort ObjectDeviceType { get; private set; }
+		public ushort ObjectDeviceAddress { get; private set; }
         int ObjectFactoryNo;
 
         void InitializeFromObjectUID()
@@ -66,20 +66,23 @@ namespace Common.GK
 
         public JournalItem ToJournalItem()
         {
-            var journalItem = new JournalItem();
-			journalItem.GKIpAddress = GKIpAddress;
-			journalItem.GKJournalRecordNo = GKNo;
-            journalItem.DateTime = DateTime;
-            journalItem.ObjectUID = ObjectUID;
-            journalItem.Name = EventName;
-            journalItem.YesNo = EventYesNo;
-            journalItem.Description = EventDescription;
-            journalItem.ObjectState = ObjectState;
-            journalItem.JournalItemType = JournalItemType;
-            journalItem.GKObjectNo = GKObjectNo;
+			var journalItem = new JournalItem()
+			{
+				GKIpAddress = GKIpAddress,
+				GKJournalRecordNo = GKNo,
+				DateTime = DateTime,
+				ObjectUID = ObjectUID,
+				Name = EventName,
+				YesNo = EventYesNo,
+				Description = EventDescription,
+				ObjectState = ObjectState,
+				JournalItemType = JournalItemType,
+				GKObjectNo = GKObjectNo,
+				InternalJournalItem = this
+			};
 
             var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-            var stateClasses = XStateClassHelper.Convert(states, false);
+			var stateClasses = XStateClassHelper.Convert(states, false, false);
             
 			if(Source == JournalSourceType.Object)
 				journalItem.StateClass = XStateClassHelper.GetMinStateClass(stateClasses);

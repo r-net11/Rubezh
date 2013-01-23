@@ -5,32 +5,17 @@ using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
-	public class XDirectionState
+	public class XDirectionState : XBaseState
 	{
 		public XDirection Direction { get; set; }
 
 		public XDirectionState()
 		{
-			_states = new List<XStateType>();
 			_isConnectionLost = true;
 		}
 
-		bool _isConnectionLost;
-        public bool IsConnectionLost
-        {
-            get { return _isConnectionLost; }
-            set
-            {
-                if (_isConnectionLost != value)
-                {
-                    _isConnectionLost = value;
-                    OnStateChanged();
-                }
-            }
-        }
-
-		List<XStateType> _states;
-		public List<XStateType> States
+		List<XStateType> _states = new List<XStateType>();
+		public override List<XStateType> States
 		{
 			get
 			{
@@ -52,29 +37,22 @@ namespace XFiresecAPI
 			}
 		}
 
-		public List<XStateClass> StateClasses
+		public override List<XStateClass> StateClasses
 		{
-			get { return XStateClassHelper.Convert(States, IsConnectionLost); }
+			get { return XStateClassHelper.Convert(States, IsConnectionLost, IsMissmatch); }
 		}
 
-		public XStateClass StateClass
+		public override XStateClass StateClass
 		{
 			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
 		}
 
-		public StateType GetStateType()
+		public override StateType GetStateType()
 		{
 			if (IsConnectionLost)
 				return StateType.Unknown;
 			else
 				return XStatesHelper.XStateTypesToState(States);
-		}
-
-		public event Action StateChanged;
-		void OnStateChanged()
-		{
-			if (StateChanged != null)
-				StateChanged();
 		}
 	}
 }

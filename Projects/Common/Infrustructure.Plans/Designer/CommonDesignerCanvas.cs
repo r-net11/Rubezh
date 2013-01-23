@@ -82,6 +82,11 @@ namespace Infrustructure.Plans.Designer
 				SelectedCanvas.Visibility = System.Windows.Visibility.Visible;
 			}
 		}
+		public void Refresh()
+		{
+			if (SelectedCanvas != null)
+				SelectedCanvas.InvalidateVisual();
+		}
 
 		public void Remove(CommonDesignerItem designerItem)
 		{

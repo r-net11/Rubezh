@@ -36,7 +36,11 @@
 		<Views:DatabasesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:DeviceConfigurationViewModel}">
+        <Views:DeviceConfigurationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
 		<Views:ZonesView />
 	</DataTemplate>
 
@@ -114,6 +118,10 @@
 
     <DataTemplate DataType="{x:Type ViewModels:InstructionDevicesViewModel}">
         <Views:InstructionsDevicesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
+        <Views:DiagnosticsView />
     </DataTemplate>
 
 </ResourceDictionary>

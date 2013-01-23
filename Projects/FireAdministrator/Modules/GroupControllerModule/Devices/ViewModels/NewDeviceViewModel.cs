@@ -13,6 +13,7 @@ namespace GKModule.ViewModels
     {
         DeviceViewModel _parentDeviceViewModel;
         XDevice ParentDevice;
+		public DeviceViewModel AddedDevice { get; private set; }
 
         public NewDeviceViewModel(DeviceViewModel parent)
         {
@@ -20,10 +21,15 @@ namespace GKModule.ViewModels
             _parentDeviceViewModel = parent;
             ParentDevice = _parentDeviceViewModel.Device;
 
-			Drivers = new ObservableCollection<XDriver>(
-				from XDriver driver in XManager.DriversConfiguration.XDrivers
-                       where ParentDevice.Driver.Children.Contains(driver.DriverType)
-                       select driver);
+			Drivers = new ObservableCollection<XDriver>();
+			foreach (var driver in XManager.DriversConfiguration.XDrivers)
+			{
+				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
+					continue;
+				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
+					Drivers.Add(driver);
+
+			}
 
 			if(parent.Driver.DriverType == XDriverType.MPT)
 				Drivers = new ObservableCollection<XDriver>(
@@ -127,7 +133,7 @@ namespace GKModule.ViewModels
                 }
 
                 XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, shleifNo, (byte)address);
-                NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				AddedDevice = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
             }
         }
 

@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System;
+using System.Diagnostics;
+using Common;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -27,30 +30,29 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected override int VisualChildrenCount
 		{
-			get { return _visuals.Count; }
+			get { return 0; }
 		}
 		protected override Visual GetVisualChild(int index)
 		{
-			return _visuals[index];
+			return null;
 		}
-
 		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Add(visual);
-			AddVisualChild(visual);
-			AddLogicalChild(visual);
+			//AddVisualChild(visual);
+			//AddLogicalChild(visual);
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Remove(visual);
-			RemoveVisualChild(visual);
-			RemoveLogicalChild(visual);
+			//RemoveVisualChild(visual);
+			//RemoveLogicalChild(visual);
 		}
 		internal void UpdateZIndex()
 		{
-			_visuals.ForEach(item => RemoveVisualChild(item));
+			//_visuals.ForEach(item => RemoveVisualChild(item));
 			_visuals.Sort((item1, item2) => item1.Element.ZLayer == item2.Element.ZLayer ? item1.Element.ZIndex - item2.Element.ZIndex : item1.Element.ZLayer - item2.Element.ZLayer);
-			_visuals.ForEach(item => AddVisualChild(item));
+			//_visuals.ForEach(item => AddVisualChild(item));
 		}
 		internal void Update(bool isActive)
 		{
@@ -67,7 +69,7 @@ namespace Infrustructure.Plans.Designer
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
-			var visualItem = GetDesignerItem(point);
+			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
 			{
 				visualItem.OnMouseDown(point, e);
@@ -94,7 +96,7 @@ namespace Infrustructure.Plans.Designer
 				if (_visualItemOver != null && _visualItemOver.IsEnabled)
 					_visualItemOver.DragCompleted(point);
 			}
-			var visualItem = GetDesignerItem(point);
+			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
 				visualItem.OnMouseUp(point, e);
 		}
@@ -119,7 +121,7 @@ namespace Infrustructure.Plans.Designer
 			}
 			else if (_visualItemOver == null || !_visualItemOver.IsBusy)
 			{
-				var visualItem = GetDesignerItem(point);
+				var visualItem = GetVisualItem(point);
 				if (_visualItemOver != null && visualItem != _visualItemOver)
 					_visualItemOver.SetIsMouseOver(false, point);
 				if (_visualItemOver != visualItem)
@@ -147,12 +149,20 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		private IVisualItem _visualItem;
-		private IVisualItem GetDesignerItem(Point point)
+		private IVisualItem GetVisualItem(Point point)
 		{
-			_visualItem = null;
-			PointHitTestParameters parameters = new PointHitTestParameters(point);
-			VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);
+			if (_visualItem == null || !_visualItem.HitTest(point))
+			{
+				_visualItem = null;
+				for (int i = _visuals.Count - 1; i >= 0; i--)
+					if (_visuals[i].HitTest(point))
+						_visualItem = _visuals[i];
+			}
 			return _visualItem;
+			//_visualItem = null;
+			//PointHitTestParameters parameters = new PointHitTestParameters(point);
+			//VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);
+			//return _visualItem;
 		}
 		private HitTestResultBehavior HitTestCallback(HitTestResult result)
 		{
@@ -169,10 +179,14 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnRender(DrawingContext dc)
 		{
-			//base.OnRender(dc);
-			dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
-			//foreach (var item in _visuals)
-			//    item.Render(dc);
+			using (new TimeCounter("=Surface.Render: {0}"))
+			{
+				//base.OnRender(dc);
+				dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+				foreach (var item in _visuals)
+					if (item.IsVisibleLayout)
+						item.Render(dc);
+			}
 		}
 	}
 }

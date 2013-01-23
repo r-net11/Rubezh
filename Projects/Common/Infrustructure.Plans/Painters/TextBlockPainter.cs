@@ -17,7 +17,7 @@ namespace Infrustructure.Plans.Painters
 		}
 
 		//private const int Margin = 3;
-		public override void Draw(DrawingContext drawingContext)
+		protected override void InnerDraw(DrawingContext drawingContext)
 		{
 			IElementTextBlock elementText = (IElementTextBlock)Element;
 			_textDrawing = new GeometryDrawing(PainterCache.GetBrush(elementText.ForegroundColor), null, null);
@@ -31,7 +31,7 @@ namespace Infrustructure.Plans.Painters
 				_scaleTransform = null;
 				_clipGeometry = new RectangleGeometry();
 			}
-			base.Draw(drawingContext);
+			base.InnerDraw(drawingContext);
 			if (elementText.Stretch)
 				drawingContext.PushTransform(_scaleTransform);
 			else
@@ -45,7 +45,7 @@ namespace Infrustructure.Plans.Painters
 			IElementTextBlock elementText = (IElementTextBlock)Element;
 			Rect bound = new Rect(Rect.Left + Element.BorderThickness / 2, Rect.Top + Element.BorderThickness / 2, Rect.Width - Element.BorderThickness, Rect.Height - Element.BorderThickness);
 			var typeface = new Typeface(new FontFamily(elementText.FontFamilyName), elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal, elementText.FontBold ? FontWeights.Bold : FontWeights.Normal, new FontStretch());
-			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.GetBrush(elementText.ForegroundColor));
+			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.BlackBrush);
 			formattedText.TextAlignment = (TextAlignment)elementText.TextAlignment;
 			Point point = bound.TopLeft;
 			switch (formattedText.TextAlignment)

@@ -49,6 +49,7 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
+			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => plan.UID = Guid.NewGuid());
 			using (new TimeCounter("PlansViewModel.Initialize: {0}"))
 			{
 				Plans = new ObservableCollection<PlanViewModel>();

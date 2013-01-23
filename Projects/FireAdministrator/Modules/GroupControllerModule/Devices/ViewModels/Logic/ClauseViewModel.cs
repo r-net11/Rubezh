@@ -15,9 +15,11 @@ namespace GKModule.ViewModels
 		public List<XZone> Zones { get; set; }
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
+		XDevice Device;
 
-		public ClauseViewModel(XClause clause)
+		public ClauseViewModel(XClause clause, XDevice device)
 		{
+			Device = device;
 			SelectZonesCommand = new RelayCommand(OnSelectZones);
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
@@ -69,7 +71,6 @@ namespace GKModule.ViewModels
 						StateTypes.Add(XStateType.Ignore);
                         StateTypes.Add(XStateType.Failure);
 						StateTypes.Add(XStateType.Test);
-                        SelectedStateType = StateTypes.FirstOrDefault();
                         break;
 
                     case ClauseOperationType.AllZones:
@@ -80,7 +81,6 @@ namespace GKModule.ViewModels
                         StateTypes.Add(XStateType.Fire2);
 						StateTypes.Add(XStateType.Fire1);
 						StateTypes.Add(XStateType.Attention);
-                        SelectedStateType = StateTypes.FirstOrDefault();
                         break;
 
                     case ClauseOperationType.AllDirections:
@@ -89,9 +89,14 @@ namespace GKModule.ViewModels
                         Devices = new List<XDevice>();
                         StateTypes = new ObservableCollection<XStateType>();
                         StateTypes.Add(XStateType.On);
-                        SelectedStateType = StateTypes.FirstOrDefault();
                         break;
                 }
+				if (Device.Driver.DriverType == XDriverType.MPT)
+				{
+					StateTypes = new ObservableCollection<XStateType>();
+					StateTypes.Add(XStateType.Fire2);
+				}
+				SelectedStateType = StateTypes.FirstOrDefault();
                 OnPropertyChanged("SelectedClauseOperationType");
                 OnPropertyChanged("PresenrationZones");
                 OnPropertyChanged("PresenrationDevices");

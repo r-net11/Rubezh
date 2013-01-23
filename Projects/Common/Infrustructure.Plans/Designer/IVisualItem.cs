@@ -15,6 +15,7 @@ namespace Infrustructure.Plans.Designer
 		bool AllowDrag { get; }
 		void SetIsMouseOver(bool isMouseOver, Point point);
 		ContextMenu ContextMenuOpening();
+		bool HitTest(Point point);
 
 		void OnMouseDown(Point point, MouseButtonEventArgs e);
 		void OnMouseUp(Point point, MouseButtonEventArgs e);

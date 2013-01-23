@@ -108,10 +108,10 @@ namespace Infrustructure.Plans.Designer
 		}
 		public void Redraw()
 		{
-			//if (IsVisible)
+			if (IsVisible)
 				Render();
-			//else
-			//    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Render);
+			else
+				Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Render);
 		}
 		private void Render()
 		{
@@ -174,7 +174,7 @@ namespace Infrustructure.Plans.Designer
 			if (_canResize)
 			{
 				cursor = Cursors.Pen;
-				var rect = DesignerItem.Transform.TransformBounds(GetBounds());
+				var rect = GetBounds();
 				if (IsInsideThumb(rect.TopLeft, point))
 					cursor = Cursors.SizeNWSE;
 				else if (IsInsideThumb(rect.TopRight, point))
@@ -330,7 +330,7 @@ namespace Infrustructure.Plans.Designer
 			_resizeDirection = ResizeDirection.None;
 			if (_canResize)
 			{
-				var rect = DesignerItem.Transform.TransformBounds(GetBounds());
+				var rect = GetBounds();
 				if (IsInsideThumb(rect.TopLeft, point))
 					_resizeDirection = ResizeDirection.TopLeft;
 				else if (IsInsideThumb(rect.TopRight, point))
@@ -349,5 +349,15 @@ namespace Infrustructure.Plans.Designer
 					_resizeDirection = ResizeDirection.Right;
 			}
 		}
+
+		#region IVisualItem Members
+
+
+		public new bool HitTest(Point point)
+		{
+			return false;
+		}
+
+		#endregion
 	}
 }

@@ -12,15 +12,16 @@ namespace Infrustructure.Plans.Painters
 		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
 		public static Pen ZonePen { get; private set; }
+		public static Brush BlackBrush { get; private set; }
 		public static RectangleGeometry PointGeometry {get;private set;}
 		public static double Zoom { get; private set; }
 		public static double PointZoom { get; private set; }
 
 		static PainterCache()
 		{
-			var brush = new SolidColorBrush(Colors.Black);
-			brush.Freeze();
-			ZonePen = new Pen(brush, 1);
+			BlackBrush = new SolidColorBrush(Colors.Black);
+			BlackBrush.Freeze();
+			ZonePen = new Pen(BlackBrush, 1);
 			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
 		}
 

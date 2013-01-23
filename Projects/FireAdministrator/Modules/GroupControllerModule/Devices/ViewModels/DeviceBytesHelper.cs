@@ -61,17 +61,17 @@ namespace GKModule.ViewModels
 				var result2 = SendManager.Send(device, 0, 2, 8);
 				if (!result2.HasError)
 				{
-					var serialNo = BytesHelper.SubstructInt(result2.Bytes, 0);
+					var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
 					stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
 
-					var hardvareVervion = BytesHelper.SubstructInt(result2.Bytes, 4);
+					var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
 					stringBuilder.AppendLine("Аппаратный номер: " + hardvareVervion.ToString());
 				}
 				return stringBuilder.ToString();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "DeviceCommandsViewModel.ShowInfoCommand");
+				Logger.Error(e, "DeviceBytesHelper.ShowInfoCommand");
 			}
 			return null;
 		}

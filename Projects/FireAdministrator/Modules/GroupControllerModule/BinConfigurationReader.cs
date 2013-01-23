@@ -7,37 +7,46 @@ using Common.GK;
 using System.Diagnostics;
 using Infrastructure.Common.Windows;
 using System.Collections;
+using FiresecAPI.Models;
+using FiresecClient;
+using GKModule.ViewModels;
 
 namespace GKModule
 {
 	public static class BinConfigurationReader
 	{
-		public static void ReadConfiguration(XDevice device)
+		public static void ReadConfiguration(XDevice kauDevice)
 		{
-			BinConfigurationWriter.GoToTechnologicalRegime(device);
-			var descriptorAddersses = GetDescriptorAddresses(device);
+			var devices = new List<XDevice>();
+
+			BinConfigurationWriter.GoToTechnologicalRegime(kauDevice);
+			var descriptorAddersses = GetDescriptorAddresses(kauDevice);
 
 			StartProgress("Чтение базы донных объектов", descriptorAddersses.Count);
 			for(int i = 0; i < descriptorAddersses.Count; i++)
 			{
 				DoProgress("Чтение базы донных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
-				GetDescriptorInfo(device, descriptorAddersses[i]);
+				var device = GetDescriptorInfo(kauDevice, descriptorAddersses[i]);
+				devices.Add(device);
 			}
 			StopProgress();
-			BinConfigurationWriter.GoToWorkingRegime(device);
+			BinConfigurationWriter.GoToWorkingRegime(kauDevice);
+
+			var deviceConfigurationViewModel = new DeviceConfigurationViewModel(devices);
+			DialogService.ShowWindow(deviceConfigurationViewModel);
 		}
 
-		static void GetDescriptorInfo(XDevice device, int descriptorAdderss)
+		static XDevice GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)
 		{
 			var descriptorAdderssesBytes = new List<byte>(BitConverter.GetBytes(descriptorAdderss));
 
 			var data = new List<byte>(descriptorAdderssesBytes);
-			var sendResult = SendManager.Send(device, 4, 31, 256, data);
+			var sendResult = SendManager.Send(kauDevice, 4, 31, 256, data);
 			var bytes = sendResult.Bytes;
 			if (bytes.Count != 256)
 			{
 				MessageBoxService.ShowError("bytes.Count != 256");
-				return;
+				return null;
 			}
 			var deviceType = BytesHelper.SubstructShort(bytes, 0);
 			var address = BytesHelper.SubstructShort(bytes, 2);
@@ -58,6 +67,12 @@ namespace GKModule
             Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes) +
                 deviceType.ToString() + " " + address.ToString() + " " + parametersOffset.ToString() + " " + inputDependensesCount.ToString() + " "
                 );
+
+			var device = new XDevice();
+			device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x=>x.DriverTypeNo == deviceType);
+			device.ShleifNo = (byte)(address / 256 + 1);
+			device.IntAddress = (byte)(address % 256);
+			return device;
 		}
 
 		static List<int> GetDescriptorAddresses(XDevice device)

@@ -25,6 +25,7 @@ namespace GKModule
         FiltersViewModel FiltersViewModel;
         XLibraryViewModel DeviceLidraryViewModel;
         InstructionsViewModel InstructionsViewModel;
+		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -38,6 +39,7 @@ namespace GKModule
             FiltersViewModel = new FiltersViewModel();
             DeviceLidraryViewModel = new XLibraryViewModel();
             InstructionsViewModel = new InstructionsViewModel();
+			DiagnosticsViewModel = new DiagnosticsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel);
 		}
 
@@ -62,7 +64,8 @@ namespace GKModule
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
                     new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
-                    new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty)
+                    new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
 				}),
 			};
 		}

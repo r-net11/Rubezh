@@ -21,17 +21,6 @@
                                 <TextBlock Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" Margin="5, 0, 0, 0">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu>
-                                            <!--<MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
-                                            <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
-                                            <Separator />
-                                            <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
-                                            <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />
-                                            <Separator />
-                                            <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
-                                            <MenuItem Command="{Binding TurnOnNowCommand}" Header="Включить немедленно" />
-                                            <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
-                                            <MenuItem Command="{Binding TurnOffNowCommand}" Header="Выключить немедленно" />-->
-                                            
                                             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>

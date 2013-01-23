@@ -25,7 +25,6 @@ namespace Common.GK
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 0, 70, 54, 85);
-			//GKDriversHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Температура" });
 

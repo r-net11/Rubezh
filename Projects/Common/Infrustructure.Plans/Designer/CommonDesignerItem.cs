@@ -8,7 +8,7 @@ using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class CommonDesignerItem : DrawingVisual, IVisualItem
+	public abstract class CommonDesignerItem : DependencyObject, IVisualItem
 	{
 		public const int DefaultPointSize = 30;
 
@@ -22,9 +22,6 @@ namespace Infrustructure.Plans.Designer
 		public bool IsBusy { get; protected set; }
 		public bool IsEnabled { get; protected set; }
 		public virtual bool AllowDrag { get { return false; } }
-		protected Rect OriginalRect { get; private set; }
-		//protected TranslateTransform TranslateTransform { get; private set; }
-		//protected ScaleTransform ScaleTransform { get; private set; }
 
 		public event Action<CommonDesignerItem> UpdateProperties;
 
@@ -52,25 +49,27 @@ namespace Infrustructure.Plans.Designer
 				if (_isVisibleLayout != value)
 				{
 					_isVisibleLayout = value;
-					Opacity = IsVisibleLayout ? 1 : 0;
+					//if (Painter != null)
+					//{
+					//    if (IsVisibleLayout)
+					//        Painter.Show();
+					//    else
+					//        Painter.Hide();
+					//}
 					ResetIsEnabled();
+					if (DesignerCanvas != null)
+						DesignerCanvas.Refresh();
 				}
 			}
 		}
 
+		public Rect ContentBounds
+		{
+			get { return Painter.Bounds; }
+		}
+
 		public CommonDesignerItem(ElementBase element)
 		{
-			Transform = MatrixTransform.Identity;
-			//ScaleTransform = new ScaleTransform();
-			//TranslateTransform = new TranslateTransform();
-			//Transform = new TransformGroup()
-			//{
-			//    Children = new TransformCollection()
-			//    {
-			//        ScaleTransform,
-			//        TranslateTransform
-			//    }
-			//};
 			IsBusy = false;
 			ResetIsEnabled();
 			ResetElement(element);
@@ -97,35 +96,14 @@ namespace Infrustructure.Plans.Designer
 		{
 			SetMinSize();
 			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate(){});
-			using (DrawingContext drawingContext = RenderOpen())
-			{
-				OriginalRect = Element.GetRectangle();
-				//Translate(true);
-				Render(drawingContext);
-			}
+			//using (DrawingContext drawingContext = RenderOpen())
+			//    Render(drawingContext);
 		}
 		internal void Render(DrawingContext drawingContext)
 		{
 			if (Painter != null)
 				Painter.Draw(drawingContext);
 		}
-		//public virtual void Translate(bool force = false)
-		//{
-		//    // if (Painter.AllowScale)?...:Redraw();
-		//    var rect = Element.GetRectangle();
-		//    if (rect.Size != OriginalRect.Size || force)
-		//    {
-		//        ScaleTransform.CenterX = OriginalRect.Left;
-		//        ScaleTransform.CenterY = OriginalRect.Top;
-		//        ScaleTransform.ScaleX = rect.Width / OriginalRect.Width;
-		//        ScaleTransform.ScaleY = rect.Height / OriginalRect.Height;
-		//    }
-		//    if (rect.TopLeft != OriginalRect.TopLeft || force)
-		//    {
-		//        TranslateTransform.X = rect.Left - OriginalRect.Left;
-		//        TranslateTransform.Y = rect.Top - OriginalRect.Top;
-		//    }
-		//}
 		public virtual void RefreshPainter()
 		{
 			Painter.Transform();
@@ -227,6 +205,11 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		#endregion
+
+		public bool HitTest(Point point)
+		{
+			return IsEnabled && Painter.HitTest(point);
+		}
 
 		public virtual void DragStarted(Point point)
 		{

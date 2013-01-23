@@ -4,7 +4,7 @@ namespace XFiresecAPI
 {
 	public enum XAlarmType
 	{
-		[DescriptionAttribute("НПТ")]
+		[DescriptionAttribute("Пожаротушение")]
 		NPTOn = 0,
 
 		[DescriptionAttribute("Пожар 2")]

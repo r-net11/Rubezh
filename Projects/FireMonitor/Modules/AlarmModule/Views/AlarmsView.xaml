@@ -85,17 +85,14 @@
             </DataGrid.RowStyle>
         </DataGrid>
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
-        <Grid Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
-            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Margin="1">
-                        <TextBlock Text="{Binding Instruction.Text}" Foreground="White" TextWrapping="Wrap" />
-                    </WrapPanel>
-                </ScrollViewer>
-            </Border>
-        </Grid>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Включить все" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2" />
-        </StackPanel>
+        <Border Grid.Row="2" DataContext="{Binding SelectedAlarm}" TextBlock.FontSize="11" TextBlock.Foreground="White"
+                CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <WrapPanel Margin="1">
+                    <TextBlock Text="{Binding Instruction.Text}" Foreground="White" TextWrapping="Wrap" />
+                </WrapPanel>
+            </ScrollViewer>
+        </Border>
+        <Button Grid.Row="3" Content="Включить все" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" HorizontalAlignment="Right" Margin="2" />
     </Grid>
 </UserControl>
