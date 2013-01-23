@@ -8,19 +8,19 @@ namespace Infrastructure.Common.Mail
 	{
 		public static void Send(string to, string body, string subject = "")
 		{
-			string from = "obychevma@rubezh.ru";
-			MailMessage message = new MailMessage(from, to, subject, body);
-			SmtpClient client = new SmtpClient("mail.rubezh.ru", 25);
-			client.DeliveryMethod = SmtpDeliveryMethod.Network;
-			client.Credentials = new System.Net.NetworkCredential("obychevma@rubezh.ru", "Aiciir5kee");
 			try
 			{
+				string from = "obychevma@rubezh.ru";
+				MailMessage message = new MailMessage(from, to, subject, body);
+				SmtpClient client = new SmtpClient("mail.rubezh.ru", 25);
+				client.DeliveryMethod = SmtpDeliveryMethod.Network;
+				client.Credentials = new System.Net.NetworkCredential("obychevma@rubezh.ru", "Aiciir5kee");
 				client.Send(message);
 			}
 			catch (Exception ex)
 			{
-				Trace.WriteLine("Exception client.Send(message): {0}",
-					  ex.ToString());
+				Trace.WriteLine("Exception Mail.Send: {0}",
+								ex.ToString());
 			}
 		}
 	}

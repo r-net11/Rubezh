@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Views="clr-namespace:NotificationModule.Views"
+                    xmlns:ViewModels="clr-namespace:NotificationModule.ViewModels">
+
+    <DataTemplate DataType="{x:Type ViewModels:NotificationViewModel}">
+        <Views:NotificationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:NotificationMenuViewModel}">
+        <Views:NotificationMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:EmailDetailsViewModel}">
+        <Views:EmailDetailsView />
+    </DataTemplate>
+
+</ResourceDictionary>

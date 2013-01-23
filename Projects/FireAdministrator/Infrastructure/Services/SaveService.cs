@@ -5,6 +5,7 @@ namespace Infrastructure
 	public class SaveService
 	{
 		bool _fsChanged;
+
 		public bool FSChanged
 		{
 			get { return _fsChanged; }
@@ -16,6 +17,7 @@ namespace Infrastructure
 		}
 
 		bool _gkChanged;
+
 		public bool GKChanged
 		{
 			get { return _gkChanged; }
@@ -26,18 +28,20 @@ namespace Infrastructure
 			}
 		}
 
-        bool _xLibraryChanged;
-        public bool XLibraryChanged
-        {
-            get { return _xLibraryChanged; }
-            set
-            {
-                _xLibraryChanged = value;
-                OnChanged();
-            }
-        }
+		bool _xLibraryChanged;
+
+		public bool XLibraryChanged
+		{
+			get { return _xLibraryChanged; }
+			set
+			{
+				_xLibraryChanged = value;
+				OnChanged();
+			}
+		}
 
 		bool _plansChanged;
+
 		public bool PlansChanged
 		{
 			get { return _plansChanged; }
@@ -49,6 +53,7 @@ namespace Infrastructure
 		}
 
 		bool _libraryChanged;
+
 		public bool LibraryChanged
 		{
 			get { return _libraryChanged; }
@@ -60,6 +65,7 @@ namespace Infrastructure
 		}
 
 		bool _filterChanged;
+
 		public bool FilterChanged
 		{
 			get { return _filterChanged; }
@@ -71,6 +77,7 @@ namespace Infrastructure
 		}
 
 		bool _securityChanged;
+
 		public bool SecurityChanged
 		{
 			get { return _securityChanged; }
@@ -82,6 +89,7 @@ namespace Infrastructure
 		}
 
 		bool _soundsChanged;
+
 		public bool SoundsChanged
 		{
 			get { return _soundsChanged; }
@@ -93,6 +101,7 @@ namespace Infrastructure
 		}
 
 		bool _instructionsChanged;
+
 		public bool InstructionsChanged
 		{
 			get { return _instructionsChanged; }
@@ -104,6 +113,7 @@ namespace Infrastructure
 		}
 
 		bool _camerasChanged;
+
 		public bool CamerasChanged
 		{
 			get { return _camerasChanged; }
@@ -114,31 +124,45 @@ namespace Infrastructure
 			}
 		}
 
-        bool _opcChanged;
-        public bool OPCChanged
-        {
-            get { return _opcChanged; }
-            set
-            {
-                _opcChanged = value;
-                OnChanged();
-            }
-        }
+		bool _emailsChanged;
+
+		public bool EmailsChanged
+		{
+			get { return _emailsChanged; }
+			set
+			{
+				_emailsChanged = value;
+				OnChanged();
+			}
+		}
+
+		bool _opcChanged;
+
+		public bool OPCChanged
+		{
+			get { return _opcChanged; }
+			set
+			{
+				_opcChanged = value;
+				OnChanged();
+			}
+		}
 
 		public event Action Changed;
-		void OnChanged()
+
+		private void OnChanged()
 		{
 			if (Changed != null)
 				Changed();
 		}
 
 		public bool HasChanges
-        {
-            get
-            {
-                return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || GKChanged || CamerasChanged || OPCChanged;
-            }
-        }
+		{
+			get
+			{
+				return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || GKChanged || CamerasChanged || OPCChanged;
+			}
+		}
 
 		public void Reset()
 		{
@@ -146,14 +170,14 @@ namespace Infrastructure
 			GKChanged = false;
 			PlansChanged = false;
 			LibraryChanged = false;
-		    XLibraryChanged = false;
+			XLibraryChanged = false;
 			FilterChanged = false;
 			SecurityChanged = false;
 			SoundsChanged = false;
 			InstructionsChanged = false;
 			CamerasChanged = false;
-            OPCChanged = false;
-            OnChanged();
+			OPCChanged = false;
+			OnChanged();
 		}
 	}
 }

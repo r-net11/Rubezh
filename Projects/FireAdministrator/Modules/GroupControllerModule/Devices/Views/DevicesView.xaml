@@ -108,8 +108,54 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel HorizontalAlignment="Left" Margin="5">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
-                        <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
+                        <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2 2 5 2" />
+                        <TextBlock Text="{Binding Driver.Name}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Подключено к " Foreground="White" Margin="2 2 5 2" />
+                        <TextBlock Foreground="White" FontWeight="Bold" VerticalAlignment="Center">
+                            <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <StackPanel.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}" >
+                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Label Content="Зона: " />
+                        <Label Content="Зона не указана" IsEnabled="False">
+                            <Label.Style>
+                                <Style>
+                                    <Setter Property="Label.Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
+                                            <Setter Property="Label.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <TextBlock VerticalAlignment="Center">
+                            <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <TextBlock Margin="2" Text="{Binding PresentationZone}" />
+                            </Hyperlink>
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
+                                            <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </StackPanel>
                     <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
                 </StackPanel>

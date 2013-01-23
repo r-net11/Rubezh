@@ -19,11 +19,9 @@
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource BoolToGKYesNoConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTextColumn Header="Тип" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
-
                 <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceState.Device.ShortNameAndDottedAddress}" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding ZoneState.Zone.PresentationName}" />
                 <DataGridTextColumn Header="Направление" Binding="{Binding DirectionState.Direction.PresentationName}" />
-
                 <DataGridTextColumn Header="Класс состояния" Binding="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
