@@ -36,7 +36,8 @@ namespace PlansModule.Designer
 		private void OnPlanStateChanged(Guid planUID)
 		{
 			if (_planViewModel != null && _planViewModel.Plan.UID == planUID)
-				_presenterItem.Redraw();
+				//_presenterItem.Redraw();
+				_presenterItem.DesignerCanvas.Refresh();
 		}
 
 		protected override Brush GetBrush()

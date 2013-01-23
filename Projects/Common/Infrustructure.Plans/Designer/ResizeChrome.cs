@@ -96,15 +96,17 @@ namespace Infrustructure.Plans.Designer
 		{
 			_canResize = false;
 			_isVisible = false;
+			_borderGeometry = null;
+			_transformBottomLeft = null;
+			_transformBottomRight = null;
+			_transformTopLeft = null;
+			_transformTopRight = null;
 			DesignerItem = designerItem;
 		}
 
 		public void InvalidateVisual()
 		{
-			//if (IsVisible)
-				Translate();
-			//else
-			//    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)Translate);
+			Translate();
 		}
 		public abstract void Render(DrawingContext drawingContext);
 		protected virtual void Translate()
@@ -126,7 +128,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void DrawBounds(DrawingContext drawingContext)
 		{
-			_borderGeometry = new RectangleGeometry(GetBounds());
+			if (_borderGeometry == null)
+				_borderGeometry = new RectangleGeometry(GetBounds());
 			drawingContext.DrawGeometry(null, TransparentPen, _borderGeometry);
 			drawingContext.DrawGeometry(null, BorderPen, _borderGeometry);
 			_canResize = false;
@@ -147,7 +150,6 @@ namespace Infrustructure.Plans.Designer
 			drawingContext.PushTransform(transform);
 			drawingContext.DrawGeometry(ThumbBrush, null, ThumbGeometry);
 			drawingContext.Pop();
-			//drawingContext.DrawEllipse(ThumbBrush, null, location, ResizeThumbSize, ResizeThumbSize);
 			return transform;
 		}
 
@@ -190,10 +192,6 @@ namespace Infrustructure.Plans.Designer
 		{
 			return (location - point).Length < ResizeThumbSize;
 		}
-		//protected bool IsInsideGeometry(Geometry geometry, Point point)
-		//{
-		//    return geometry.FillContains(point, Tolerance, ToleranceType);
-		//}
 
 		#region IVisualItem Members
 
@@ -340,10 +338,9 @@ namespace Infrustructure.Plans.Designer
 
 		#region IVisualItem Members
 
-
-		public virtual bool HitTest(Point point)
+		public virtual IVisualItem HitTest(Point point)
 		{
-			return false;
+			return _borderGeometry != null && _borderGeometry.StrokeContains(TransparentPen, point) ? this : null;
 		}
 
 		#endregion

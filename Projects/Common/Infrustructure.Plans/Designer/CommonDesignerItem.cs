@@ -193,9 +193,9 @@ namespace Infrustructure.Plans.Designer
 
 		#endregion
 
-		public bool HitTest(Point point)
+		public virtual IVisualItem HitTest(Point point)
 		{
-			return IsEnabled && Painter.HitTest(point);
+			return IsEnabled && Painter.HitTest(point) ? this : null;
 		}
 
 		public virtual void DragStarted(Point point)

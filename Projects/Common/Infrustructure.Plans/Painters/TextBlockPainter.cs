@@ -19,25 +19,16 @@ namespace Infrustructure.Plans.Painters
 		//private const int Margin = 3;
 		protected override void InnerDraw(DrawingContext drawingContext)
 		{
-			IElementTextBlock elementText = (IElementTextBlock)Element;
-			_textDrawing = new GeometryDrawing(PainterCache.GetBrush(elementText.ForegroundColor), null, null);
-			if (elementText.Stretch)
-			{
-				_clipGeometry = null;
-				_scaleTransform = new ScaleTransform();
-			}
-			else
-			{
-				_scaleTransform = null;
-				_clipGeometry = new RectangleGeometry();
-			}
 			base.InnerDraw(drawingContext);
-			if (elementText.Stretch)
+			if (_scaleTransform != null)
 				drawingContext.PushTransform(_scaleTransform);
-			else
+			if (_clipGeometry != null)
 				drawingContext.PushClip(_clipGeometry);
 			drawingContext.DrawDrawing(_textDrawing);
-			drawingContext.Pop();
+			if (_clipGeometry != null)
+				drawingContext.Pop();
+			if (_scaleTransform != null)
+				drawingContext.Pop();
 		}
 		public override void Transform()
 		{
@@ -67,6 +58,22 @@ namespace Infrustructure.Plans.Painters
 				_scaleTransform.ScaleY = bound.Height / formattedText.Height;
 			}
 			_textDrawing.Geometry = formattedText.BuildGeometry(point);
+		}
+		public override void Invalidate()
+		{
+			IElementTextBlock elementText = (IElementTextBlock)Element;
+			_textDrawing = new GeometryDrawing(PainterCache.GetBrush(elementText.ForegroundColor), null, null);
+			if (elementText.Stretch)
+			{
+				_clipGeometry = null;
+				_scaleTransform = new ScaleTransform();
+			}
+			else
+			{
+				_scaleTransform = null;
+				_clipGeometry = new RectangleGeometry();
+			}
+			base.Invalidate();
 		}
 	}
 }

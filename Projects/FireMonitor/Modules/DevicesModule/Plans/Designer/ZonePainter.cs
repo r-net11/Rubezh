@@ -53,7 +53,8 @@ namespace DevicesModule.Plans.Designer
 		private void OnPropertyChanged()
 		{
 			_presenterItem.Title = GetZoneTooltip();
-			_presenterItem.Redraw();
+			//_presenterItem.Redraw();
+			_presenterItem.DesignerCanvas.Refresh();
 		}
 		private string GetZoneTooltip()
 		{

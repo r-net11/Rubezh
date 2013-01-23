@@ -72,13 +72,13 @@ namespace PlansModule.ViewModels
 		private void CreatePresenters()
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
-				CreatePresenter(elementBase).Redraw();
+				CreatePresenter(elementBase);//.Redraw();
 
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{
 				var presenterItem = CreatePresenter(elementBase);
 				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, PlanViewModel));
-				presenterItem.Redraw();
+				//presenterItem.Redraw();
 			}
 
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
@@ -86,8 +86,9 @@ namespace PlansModule.ViewModels
 				{
 					PresenterItem presenterItem = CreatePresenter(element);
 					planPresenter.RegisterPresenterItem(presenterItem);
-					presenterItem.Redraw();
+					//presenterItem.Redraw();
 				}
+			DesignerCanvas.Refresh();
 		}
 		private PresenterItem CreatePresenter(ElementBase elementBase)
 		{

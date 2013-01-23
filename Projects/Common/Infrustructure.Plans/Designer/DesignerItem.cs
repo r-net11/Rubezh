@@ -161,7 +161,7 @@ namespace Infrustructure.Plans.Designer
 			if (ResizeChrome != null)
 			{
 				ResizeChrome.IsVisible = IsSelected;
-				DesignerCanvas.Refresh();
+				DesignerCanvas.Refresh(); //???
 			}
 		}
 
@@ -180,7 +180,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			if (IsSelected)
 			{
-				DesignerCanvas.BeginChange();
+				if (!IsMoved)
+					DesignerCanvas.BeginChange();
 				IsMoved = true;
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
@@ -229,5 +230,13 @@ namespace Infrustructure.Plans.Designer
 		//        _moveAdorner = null;
 		//    }
 		//}
+
+		public override IVisualItem HitTest(Point point)
+		{
+			var visualItem = base.HitTest(point);
+			if (visualItem == null && IsSelected)
+				visualItem = ResizeChrome.HitTest(point);
+			return visualItem;
+		}
 	}
 }

@@ -16,23 +16,16 @@ namespace Infrustructure.Plans.Painters
 		protected Rect Rect { get; private set; }
 		protected Brush Brush { get; private set; }
 		protected Pen Pen { get; private set; }
-		//private ScaleTransform _scaleTransform;
 
 		public GeometryPainter(ElementBase element)
 		{
-			//_scaleTransform = new ScaleTransform();
 			Element = element;
 		}
 
 		protected abstract T CreateGeometry();
 		protected virtual void InnerDraw(DrawingContext drawingContext)
 		{
-			Geometry = CreateGeometry();
-			Transform();
-			//Geometry.Freeze();
-			Brush = GetBrush();
-			Pen = GetPen();
-			//drawingContext.DrawGeometry(Brush, Pen, Geometry);
+			drawingContext.DrawGeometry(Brush, Pen, Geometry);
 		}
 
 		protected virtual Brush GetBrush()
@@ -66,24 +59,19 @@ namespace Infrustructure.Plans.Painters
 
 		public void Draw(DrawingContext drawingContext)
 		{
-			//drawingContext.PushTransform(_scaleTransform);
 			if (Geometry == null)
-				InnerDraw(drawingContext);
-			drawingContext.DrawGeometry(Brush, Pen, Geometry);
-			//drawingContext.Pop();
+				Invalidate();
+			InnerDraw(drawingContext);
+		}
+		public virtual void Invalidate()
+		{
+			Geometry = CreateGeometry();
+			//Geometry.Freeze();
+			Brush = GetBrush();
+			Pen = GetPen();
+			Transform();
 		}
 		public abstract void Transform();
-
-		//public void Show()
-		//{
-		//    _scaleTransform.ScaleX = 1;
-		//    _scaleTransform.ScaleY = 1;
-		//}
-		//public void Hide()
-		//{
-		//    _scaleTransform.ScaleX = 0;
-		//    _scaleTransform.ScaleY = 0;
-		//}
 
 		public virtual bool HitTest(Point point)
 		{

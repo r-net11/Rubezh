@@ -8,14 +8,14 @@ using System.Windows;
 
 namespace Infrustructure.Plans.Designer
 {
-	internal interface IVisualItem
+	public interface IVisualItem
 	{
 		bool IsEnabled { get; }
 		bool IsBusy { get; }
 		bool AllowDrag { get; }
 		void SetIsMouseOver(bool isMouseOver, Point point);
 		ContextMenu ContextMenuOpening();
-		bool HitTest(Point point);
+		IVisualItem HitTest(Point point);
 
 		void OnMouseDown(Point point, MouseButtonEventArgs e);
 		void OnMouseUp(Point point, MouseButtonEventArgs e);

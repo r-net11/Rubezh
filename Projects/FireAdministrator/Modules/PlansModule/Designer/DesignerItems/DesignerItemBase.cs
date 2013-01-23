@@ -38,6 +38,7 @@ namespace PlansModule.Designer.DesignerItems
 				if (DialogService.ShowModalWindow(property))
 				{
 					OnDesignerItemPropertyChanged();
+					Painter.Invalidate();
 					DesignerCanvas.Refresh();
 					ServiceFactory.SaveService.PlansChanged = true;
 					DesignerCanvas.EndChange();

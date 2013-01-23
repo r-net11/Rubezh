@@ -56,8 +56,9 @@ namespace GKModule.Plans.Designer
         {
             _xdeviceControl.XStateClass = _xdevice.DeviceState.StateClass;
             _presenterItem.Title = GetDeviceTooltip();
-            _presenterItem.Redraw();
-        }
+			//_presenterItem.Redraw();
+			_presenterItem.DesignerCanvas.Refresh();
+		}
         private string GetDeviceTooltip()
         {
             if (_xdevice == null)

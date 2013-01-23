@@ -110,7 +110,7 @@ namespace Infrustructure.Plans.Designer
 						designerItem.Element.Position += shift;
 						designerItem.IsVisibleLayout = true;
 					}
-				_designerCanvas.Refresh();
+				_designerCanvas.Refresh();//???
 				_startPoint = null;
 			}
 		}

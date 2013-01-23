@@ -62,7 +62,8 @@ namespace DevicesModule.Plans.Designer
 			_deviceControl.StateType = _device.DeviceState.StateType;
 			_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
 			_presenterItem.Title = GetDeviceTooltip();
-			_presenterItem.Redraw();
+			//_presenterItem.Redraw();
+			_presenterItem.DesignerCanvas.Refresh();
 		}
 		private string GetDeviceTooltip()
 		{

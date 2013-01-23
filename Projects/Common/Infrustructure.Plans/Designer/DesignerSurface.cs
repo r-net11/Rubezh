@@ -150,31 +150,34 @@ namespace Infrustructure.Plans.Designer
 			ContextMenu = _visualItemOver == null || !_visualItemOver.IsEnabled ? null : _visualItemOver.ContextMenuOpening();
 		}
 
-		private IVisualItem _visualItem;
+		//private IVisualItem _visualItem;
 		private IVisualItem GetVisualItem(Point point)
 		{
-			_visualItem = null;
 			for (int i = _visuals.Count - 1; i >= 0; i--)
-				if (_visuals[i].IsEnabled && _visuals[i].HitTest(point))
-					_visualItem = _visuals[i];
-			return _visualItem;
+				if (_visuals[i].IsEnabled)
+				{
+					var visualItem = _visuals[i].HitTest(point);
+					if (visualItem != null)
+						return visualItem;
+				}
+			return null;
 			//_visualItem = null;
 			//PointHitTestParameters parameters = new PointHitTestParameters(point);
 			//VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);
 			//return _visualItem;
 		}
-		private HitTestResultBehavior HitTestCallback(HitTestResult result)
-		{
-			_visualItem = result.VisualHit as IVisualItem;
-			return _visualItem == null ? HitTestResultBehavior.Continue : HitTestResultBehavior.Stop;
-		}
-		private HitTestFilterBehavior HitTestFilter(DependencyObject d)
-		{
-			if (d == this)
-				return HitTestFilterBehavior.ContinueSkipSelf;
-			var visualItem = d as IVisualItem;
-			return visualItem != null && visualItem.IsEnabled ? HitTestFilterBehavior.Continue : HitTestFilterBehavior.ContinueSkipSelfAndChildren;
-		}
+		//private HitTestResultBehavior HitTestCallback(HitTestResult result)
+		//{
+		//    _visualItem = result.VisualHit as IVisualItem;
+		//    return _visualItem == null ? HitTestResultBehavior.Continue : HitTestResultBehavior.Stop;
+		//}
+		//private HitTestFilterBehavior HitTestFilter(DependencyObject d)
+		//{
+		//    if (d == this)
+		//        return HitTestFilterBehavior.ContinueSkipSelf;
+		//    var visualItem = d as IVisualItem;
+		//    return visualItem != null && visualItem.IsEnabled ? HitTestFilterBehavior.Continue : HitTestFilterBehavior.ContinueSkipSelfAndChildren;
+		//}
 
 		protected override void OnRender(DrawingContext dc)
 		{
