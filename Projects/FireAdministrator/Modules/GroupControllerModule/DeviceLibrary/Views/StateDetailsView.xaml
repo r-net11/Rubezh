@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="GKModule.Views.XStateDetailsView"
+﻿<UserControl x:Class="GKModule.Views.StateDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="400" MinHeight="500">
 
-    <DataGrid Focusable="True" ItemsSource="{Binding XStates}" SelectedItem="{Binding SelectedXState}">
+    <DataGrid Focusable="True" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Состояние" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding XState.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" />
+                            <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" />
                             <TextBlock Text="{Binding ClassName}" />
                         </StackPanel>
                     </DataTemplate>

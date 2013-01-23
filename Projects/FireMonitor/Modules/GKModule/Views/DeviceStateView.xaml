@@ -11,9 +11,7 @@
         <ItemsControl ItemsSource="{Binding DeviceState.StateClasses}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
-                    </StackPanel>
+                    <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

@@ -3,17 +3,17 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class XDeviceViewModel : BaseViewModel
-    {
-        public LibraryXDevice LibraryXDevice { get; private set; }
-        public XDriver XDriver
-        {
-            get { return LibraryXDevice.XDriver; }
-        }
+	public class XDeviceViewModel : BaseViewModel
+	{
+		public LibraryXDevice LibraryDevice { get; private set; }
+		public XDriver Driver
+		{
+			get { return LibraryDevice.Driver; }
+		}
 
-        public XDeviceViewModel(LibraryXDevice libraryXDevice)
-        {
-            LibraryXDevice = libraryXDevice;
-        }
-    }
+		public XDeviceViewModel(LibraryXDevice libraryXDevice)
+		{
+			LibraryDevice = libraryXDevice;
+		}
+	}
 }

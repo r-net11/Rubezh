@@ -19,9 +19,14 @@ namespace Common.GK
 				IsDeviceOnShleif = false,
 				IsRangeEnabled = true,
 				MinAddress = 1,
-				MaxAddress = 127
+				MaxAddress = 127,
+				CanPlaceOnPlan = true
 			};
 			driver.AutoCreateChildren.Add(XDriverType.KAUIndicator);
+
+			driver.AvailableStateClasses.Add(XStateClass.Norm);
+			driver.AvailableStateClasses.Add(XStateClass.Unknown);
+			driver.AvailableStateClasses.Add(XStateClass.On);
 
 			driver.Properties.Add(
 				new XDriverProperty()

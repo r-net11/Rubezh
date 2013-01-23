@@ -11,6 +11,7 @@ namespace FiresecClient
 		public static XDeviceConfiguration DeviceConfiguration { get; set; }
 		public static XDriversConfiguration DriversConfiguration { get; set; }
         public static XDeviceLibraryConfiguration XDeviceLibraryConfiguration { get; set; }
+
 		static XManager()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();

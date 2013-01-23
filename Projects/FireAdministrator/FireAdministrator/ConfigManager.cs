@@ -15,30 +15,30 @@ using System.Collections.Generic;
 
 namespace FireAdministrator
 {
-    public static class ConfigManager
-    {
-        public static bool SetNewConfig()
-        {
-            try
-            {
-                ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
+	public static class ConfigManager
+	{
+		public static bool SetNewConfig()
+		{
+			try
+			{
+				ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
-                var validationResult = ServiceFactory.ValidationService.Validate();
-                if (validationResult.HasErrors())
-                {
-                    if (validationResult.CannotSave())
-                    {
-                        MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
-                        return false;
-                    }
+				var validationResult = ServiceFactory.ValidationService.Validate();
+				if (validationResult.HasErrors())
+				{
+					if (validationResult.CannotSave())
+					{
+						MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+						return false;
+					}
 
-                    if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
-                        return false;
-                }
+					if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
+						return false;
+				}
 
-                WaitHelper.Execute(() =>
-                {
-                    LoadingService.ShowProgress("Применение конфигурации", "Применение конфигурации", 10);
+				WaitHelper.Execute(() =>
+				{
+					LoadingService.ShowProgress("Применение конфигурации", "Применение конфигурации", 10);
 					if (ServiceFactory.SaveService.FSChanged)
 					{
 						LoadingService.DoStep("Применение конфигурации устройств");
@@ -94,22 +94,22 @@ namespace FireAdministrator
 					}
 					File.Delete(tempFileName);
 
-                    if (ServiceFactory.SaveService.FSChanged ||
-                        ServiceFactory.SaveService.PlansChanged ||
-                        ServiceFactory.SaveService.GKChanged)
-                        FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                });
-                LoadingService.Close();
-                ServiceFactory.SaveService.Reset();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "MenuView.SetNewConfig");
+					if (ServiceFactory.SaveService.FSChanged ||
+						ServiceFactory.SaveService.PlansChanged ||
+						ServiceFactory.SaveService.GKChanged)
+						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+				});
+				LoadingService.Close();
+				ServiceFactory.SaveService.Reset();
+				return true;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MenuView.SetNewConfig");
 				MessageBoxService.ShowError(e.Message, "Ошибка при выполнении операции");
-                return false;
-            }
-        }
+				return false;
+			}
+		}
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
@@ -122,38 +122,41 @@ namespace FireAdministrator
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
-        public static void CreateNew()
-        {
-            try
-            {
-                var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
-                if (result == MessageBoxResult.Yes)
-                {
-                    FiresecManager.SetEmptyConfiguration();
-                    XManager.SetEmptyConfiguration();
-                    FiresecManager.PlansConfiguration = new PlansConfiguration();
-                    FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
+		public static void CreateNew()
+		{
+			try
+			{
+				var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
+				if (result == MessageBoxResult.Yes)
+				{
+					FiresecManager.SetEmptyConfiguration();
+					XManager.SetEmptyConfiguration();
+					FiresecManager.PlansConfiguration = new PlansConfiguration();
+					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
-                    FiresecManager.PlansConfiguration.Update();
+					FiresecManager.PlansConfiguration.Update();
 
-                    ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-                    ServiceFactory.SaveService.FSChanged = true;
-                    ServiceFactory.SaveService.PlansChanged = true;
-                    ServiceFactory.SaveService.InstructionsChanged = true;
-                    ServiceFactory.SaveService.CamerasChanged = true;
-                    ServiceFactory.SaveService.GKChanged = true;
+					ServiceFactory.SaveService.FSChanged = true;
+					ServiceFactory.SaveService.PlansChanged = true;
+					ServiceFactory.SaveService.InstructionsChanged = true;
+					ServiceFactory.SaveService.CamerasChanged = true;
+					ServiceFactory.SaveService.GKChanged = true;
 
-                    ServiceFactory.Layout.Close();
-                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-                    ServiceFactory.Layout.ShowFooter(null);
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "MenuView.CreateNew");
-                MessageBox.Show(e.Message, "Ошибка при выполнении операции");
-            }
-        }
-    }
+					ServiceFactory.Layout.Close();
+					if (ApplicationService.Modules.Any(x => x.Name == "DevicesModule.dll"))
+						ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+					if (ApplicationService.Modules.Any(x => x.Name == "GKModule.dll"))
+						ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
+					ServiceFactory.Layout.ShowFooter(null);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MenuView.CreateNew");
+				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+			}
+		}
+	}
 }
