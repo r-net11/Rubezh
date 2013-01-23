@@ -1,21 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System.Collections.ObjectModel;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
 	public class DeviceConfigurationViewModel : DialogViewModel
 	{
-		public DeviceConfigurationViewModel(List<XDevice> devices)
+		XDevice KauDevice;
+		List<XDevice> ChildDevices;
+
+		public DeviceConfigurationViewModel(XDevice kauDevice, List<XDevice> devices)
 		{
 			Title = "Конфигурация устройств";
+			KauDevice = kauDevice;
+			ChildDevices = devices;
 			Devices = new ObservableCollection<XDevice>(devices);
+			ChangeCommand = new RelayCommand(OnChange);
 		}
 
 		public ObservableCollection<XDevice> Devices { get; private set; }
+
+		public RelayCommand ChangeCommand { get; private set; }
+		void OnChange()
+		{
+			ChildDevices.RemoveAll(x => x.Driver.DriverType == XDriverType.KAU);
+			KauDevice.Children = new List<XDevice>();
+			KauDevice.Children.AddRange(ChildDevices);
+			ServiceFactory.SaveService.GKChanged = true;
+			Close(true);
+		}
 	}
 }

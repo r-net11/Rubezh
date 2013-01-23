@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="500" MinHeight="500">
     <Grid>
-        <DataGrid ItemsSource="{Binding Devices}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Устройство" Width="250">
                     <DataGridTemplateColumn.CellTemplate>
@@ -18,5 +22,6 @@
                 <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button Grid.Row="1" Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="300" Margin="2" />
     </Grid>
 </UserControl>

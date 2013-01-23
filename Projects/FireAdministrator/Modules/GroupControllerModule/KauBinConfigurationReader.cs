@@ -13,33 +13,34 @@ using GKModule.ViewModels;
 
 namespace GKModule
 {
-	public static class BinConfigurationReader
+	public static class KauBinConfigurationReader
 	{
-		public static void ReadConfiguration(XDevice kauDevice)
+		public static bool ReadConfiguration(XDevice kauDevice)
 		{
 			var devices = new List<XDevice>();
 
+			LoadingService.SaveShowProgress("Перевод КАУ в технологический режим", 1);
 			BinConfigurationWriter.GoToTechnologicalRegime(kauDevice);
 			var descriptorAddersses = GetDescriptorAddresses(kauDevice);
 
-			StartProgress("Чтение базы донных объектов", descriptorAddersses.Count);
+			LoadingService.SaveShowProgress("Чтение базы данных объектов", descriptorAddersses.Count + 1);
 			for(int i = 0; i < descriptorAddersses.Count; i++)
 			{
-				DoProgress("Чтение базы донных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
+				LoadingService.SaveDoStep("Чтение базы данных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
 				var device = GetDescriptorInfo(kauDevice, descriptorAddersses[i]);
 				devices.Add(device);
 			}
-			StopProgress();
+			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
 			BinConfigurationWriter.GoToWorkingRegime(kauDevice);
+			LoadingService.SaveClose();
 
-			var deviceConfigurationViewModel = new DeviceConfigurationViewModel(devices);
-			DialogService.ShowWindow(deviceConfigurationViewModel);
+			var deviceConfigurationViewModel = new DeviceConfigurationViewModel(kauDevice, devices);
+			return DialogService.ShowModalWindow(deviceConfigurationViewModel);
 		}
 
 		static XDevice GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)
 		{
 			var descriptorAdderssesBytes = new List<byte>(BitConverter.GetBytes(descriptorAdderss));
-
 			var data = new List<byte>(descriptorAdderssesBytes);
 			var sendResult = SendManager.Send(kauDevice, 4, 31, 256, data);
 			var bytes = sendResult.Bytes;
@@ -52,21 +53,18 @@ namespace GKModule
 			var address = BytesHelper.SubstructShort(bytes, 2);
 			var parametersOffset = BytesHelper.SubstructShort(bytes, 4);
 			var inputDependensesCount = BytesHelper.SubstructShort(bytes, 6);
-			for (int i = 0; i < inputDependensesCount; i++)
+			for (int i = 0; i < Math.Min((int)inputDependensesCount, 100); i++)
 			{
 				var inputDependensyNo = BytesHelper.SubstructShort(bytes, 8 + i * 2);
-			}
-			while (true)
-			{
-				var formula = BytesHelper.SubstructShort(bytes, 8 + inputDependensesCount * 2);
-				if (formula == 0x1F)
-				{
-					break;
-				}
 			}
             Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes) +
                 deviceType.ToString() + " " + address.ToString() + " " + parametersOffset.ToString() + " " + inputDependensesCount.ToString() + " "
                 );
+
+			//parametersOffset = (ushort)(0x10000 + parametersOffset);
+			//var parametersOffsetBytes = new List<byte>(BitConverter.GetBytes(descriptorAdderss));
+			//data = new List<byte>(parametersOffsetBytes);
+			//sendResult = SendManager.Send(kauDevice, 4, 30, 256, data);
 
 			var device = new XDevice();
 			device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x=>x.DriverTypeNo == deviceType);
@@ -102,30 +100,6 @@ namespace GKModule
                     descriptorAddersses.Add(descriptorAdderss);
 				}
 			}
-		}
-
-		static void StartProgress(string name, int count)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.ShowProgress("", name, count);
-			});
-		}
-
-		static void DoProgress(string name)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.DoStep(name);
-			});
-		}
-
-		static void StopProgress()
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Close();
-			});
 		}
 	}
 }

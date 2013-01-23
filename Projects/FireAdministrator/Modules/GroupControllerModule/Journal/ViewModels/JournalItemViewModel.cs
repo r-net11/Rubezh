@@ -16,13 +16,23 @@ namespace GKModule.ViewModels
 			var internalAddress = journalItem.InternalJournalItem.ObjectDeviceAddress;
 			var internalType = journalItem.InternalJournalItem.ObjectDeviceType;
 
+			if (internalType == 0)
+			{
+				TypeName = "ГК";
+				Address = "";
+				return;
+			}
+
 			Address = internalAddress.ToString();
 
 			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{
 				TypeName = driver.ShortName;
-				Address = (internalAddress / 256 + 1).ToString() + "." + (internalAddress % 256).ToString();
+				if (driver.IsDeviceOnShleif)
+					Address = (internalAddress / 256 + 1).ToString() + "." + (internalAddress % 256).ToString();
+				if (!driver.HasAddress)
+					Address = "";
 			}
 			if (internalType == 0x100)
 				TypeName = "Зона";

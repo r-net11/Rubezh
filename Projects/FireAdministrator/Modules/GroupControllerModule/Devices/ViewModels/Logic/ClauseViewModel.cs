@@ -193,6 +193,8 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
+				if (device.UID == Device.UID)
+					continue;
 				if (device.Driver.AvailableStates.Contains(SelectedStateType))
 					sourceDevices.Add(device);
 			}

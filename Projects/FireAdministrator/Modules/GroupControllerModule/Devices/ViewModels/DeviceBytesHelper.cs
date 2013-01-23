@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 			return stringTime;
 		}
 
-		public static void WriteDateTime(XDevice device)
+		public static bool WriteDateTime(XDevice device)
 		{
 			var dateTime = DateTime.Now;
 			var bytes = new List<byte>();
@@ -38,7 +38,8 @@ namespace GKModule.ViewModels
 			bytes.Add((byte)dateTime.Hour);
 			bytes.Add((byte)dateTime.Minute);
 			bytes.Add((byte)dateTime.Second);
-			SendManager.Send(device, 6, 5, 0, bytes);
+			var sendResult = SendManager.Send(device, 6, 5, 0, bytes);
+			return !sendResult.HasError;
 		}
 
 		public static string GetDeviceInfo(XDevice device)

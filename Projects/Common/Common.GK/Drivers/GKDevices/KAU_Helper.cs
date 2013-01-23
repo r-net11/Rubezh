@@ -34,7 +34,8 @@ namespace Common.GK
 					Max = 240,
 					Default = 180,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					Multiplier = 28.169
 				}
 				);
 

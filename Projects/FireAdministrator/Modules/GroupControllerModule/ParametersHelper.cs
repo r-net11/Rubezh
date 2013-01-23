@@ -200,6 +200,10 @@ namespace GKModule
 						}
 						paramValue = (ushort)(paramValue >> driverProperty.Offset);
 						paramValue = (byte)(paramValue & driverProperty.Mask);
+						if (driverProperty.Multiplier != 0)
+						{
+							paramValue = (ushort)(paramValue / driverProperty.Multiplier);
+						}
 						var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property != null)
 						{
@@ -219,6 +223,21 @@ namespace GKModule
 
 		static bool SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
 		{
+			if (binaryObject.Device != null)
+			{
+				foreach (var property in binaryObject.Device.Properties)
+				{
+					var driverProperty = binaryObject.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (driverProperty != null)
+					{
+						if (driverProperty.Multiplier != 0)
+						{
+							property.Value = (ushort)(property.Value * driverProperty.Multiplier);
+						}
+					}
+				}
+			}
+
 			if (binaryObject.Parameters.Count > 0)
 			{
 				var rootDevice = commonDatabase.RootDevice;

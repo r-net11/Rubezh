@@ -114,19 +114,6 @@ namespace Common.GK
 
 		void SetPropertiesBytes()
 		{
-			//if (Device.Driver.DriverType == XDriverType.GK)
-			//{
-			//    ;
-			//}
-			//if (DatabaseType == DatabaseType.Gk)
-			//{
-			//    if (Device.Parent == null || Device.Parent.Driver.DriverType != XDriverType.GK || Device.Driver.DriverType == XDriverType.KAU)
-			//    {
-			//        Parameters = new List<byte>();
-			//        return;
-			//    }
-			//}
-
 			var binProperties = new List<BinProperty>();
 
             foreach (var property in Device.Properties)
@@ -138,6 +125,8 @@ namespace Common.GK
                     {
                         byte no = driverProperty.No;
                         ushort value = property.Value;
+						if (driverProperty.Multiplier != 0)
+							value = (ushort)(value*driverProperty.Multiplier);
 
                         var binProperty = binProperties.FirstOrDefault(x => x.No == no);
                         if (binProperty == null)

@@ -24,7 +24,7 @@ namespace GKModule.Models
 
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
-			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration);
+			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
@@ -66,7 +66,15 @@ namespace GKModule.Models
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
 		void OnSynchroniseTime()
 		{
-			DeviceBytesHelper.WriteDateTime(SelectedDevice.Device);
+			var result = DeviceBytesHelper.WriteDateTime(SelectedDevice.Device);
+			if (result)
+			{
+				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.Show("Ошибка во время операции синхронизации времени");
+			}
 		}
 		bool CanSynchroniseTime()
 		{
@@ -108,9 +116,20 @@ namespace GKModule.Models
 		void OnReadConfiguration()
 		{
 			var device = SelectedDevice.Device;
-			if (device.Driver.DriverType != XDriverType.KAU)
-				return;
-			BinConfigurationReader.ReadConfiguration(device);
+			if (device.Driver.DriverType == XDriverType.KAU)
+			{
+				var result = KauBinConfigurationReader.ReadConfiguration(device);
+				if (result)
+					SelectedDevice.Update();
+			}
+			if (device.Driver.DriverType == XDriverType.GK)
+			{
+				var result = GkBinConfigurationReader.ReadConfiguration(device);
+			}
+		}
+		bool CanReadConfiguration()
+		{
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.GK || SelectedDevice.Device.Driver.DriverType == XDriverType.KAU));
 		}
 
 		public RelayCommand GetAllParametersCommand { get; private set; }

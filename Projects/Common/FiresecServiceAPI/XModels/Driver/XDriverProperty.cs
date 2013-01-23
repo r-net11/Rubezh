@@ -60,5 +60,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public ushort Max { get; set; }
+
+		[DataMember]
+		public double Multiplier { get; set; }
 	}
 }
