@@ -14,6 +14,7 @@ namespace Common.GK
 				UID = new Guid("DEAA33C2-0EAA-4D4D-BA31-FCDBE0AD149A"),
 				Name = "Линия ГК",
 				ShortName = "Линия ГК",
+				HasLogic = true,
 				CanEditAddress = false,
                 HasAddress = false,
 				IsAutoCreate = true,

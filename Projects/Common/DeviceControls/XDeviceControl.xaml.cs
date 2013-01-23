@@ -12,109 +12,109 @@ using XFiresecAPI;
 
 namespace DeviceControls
 {
-    public partial class XDeviceControl : INotifyPropertyChanged
-    {
-        public XDeviceControl()
-        {
-            InitializeComponent();
-            DataContext = this;
-        }
+	public partial class XDeviceControl : INotifyPropertyChanged
+	{
+		public XDeviceControl()
+		{
+			InitializeComponent();
+			DataContext = this;
+		}
 
-        void XDeviceControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //_canvas.LayoutTransform = new ScaleTransform(ActualWidth / 500, ActualHeight / 500);
-        }
+		void DeviceControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			//_canvas.LayoutTransform = new ScaleTransform(ActualWidth / 500, ActualHeight / 500);
+		}
 
-        public Guid XDriverId { get; set; }
+		public Guid XDriverId { get; set; }
 
-        XStateClass _xstateClass;
-        public XStateClass XStateClass
-        {
-            get { return _xstateClass; }
-            set
-            {
-                _xstateClass = value;
-            }
-        }
-        
-        List<XStateViewModel> _xstateViewModelList;
-        
-        public void Update()
-        {
-            var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
-            if (libraryXDevice == null)
-            {
-                Logger.Error("XDeviceControl.Update libraryXDevice = null " + XDriverId.ToString());
-                return;
-            }
+		XStateClass _stateClass;
+		public XStateClass StateClass
+		{
+			get { return _stateClass; }
+			set
+			{
+				_stateClass = value;
+			}
+		}
 
-            var resultLibraryXStates = new List<LibraryXState>();
+		List<XStateViewModel> _stateViewModelList;
 
-            if (_xstateViewModelList.IsNotNullOrEmpty())
-                _xstateViewModelList.ForEach(x => x.Dispose());
-            _xstateViewModelList = new List<XStateViewModel>();
+		public void Update()
+		{
+			var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
+			if (libraryXDevice == null)
+			{
+				Logger.Error("XDeviceControl.Update libraryXDevice = null " + XDriverId.ToString());
+				return;
+			}
 
-            var libraryXState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass);
-            if (libraryXState == null)
-            {
-                libraryXState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
-                if (libraryXState == null)
-                {
-                    Logger.Error("XDeviceControl.Update libraryXState = null " + XDriverId.ToString());
-                    return;
-                }
-            }
+			var resultLibraryStates = new List<LibraryXState>();
 
-            if (libraryXState != null)
-            {
-                resultLibraryXStates.Add(libraryXState);
-            }
+			if (_stateViewModelList.IsNotNullOrEmpty())
+				_stateViewModelList.ForEach(x => x.Dispose());
+			_stateViewModelList = new List<XStateViewModel>();
 
-            var canvases = new List<Canvas>();
-            foreach (var libraryXStates in resultLibraryXStates)
-            {
-                _xstateViewModelList.Add(new XStateViewModel(libraryXStates, canvases));
-            }
+			var libraryState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == StateClass);
+			if (libraryState == null)
+			{
+				libraryState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
+				if (libraryState == null)
+				{
+					Logger.Error("XDeviceControl.Update libraryState = null " + XDriverId.ToString());
+					return;
+				}
+			}
 
-            _canvas.Children.Clear();
-            foreach (var canvas in canvases)
-                _canvas.Children.Add(new Viewbox() { Child = canvas });
-        }
+			if (libraryState != null)
+			{
+				resultLibraryStates.Add(libraryState);
+			}
 
-        public static FrameworkElement GetDefaultPicture(Guid DriverId)
-        {
-            UIElement content = null;
+			var canvases = new List<Canvas>();
+			foreach (var libraryStates in resultLibraryStates)
+			{
+				_stateViewModelList.Add(new XStateViewModel(libraryStates, canvases));
+			}
 
-            var device = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == DriverId);
-            if (device != null)
-            {
-                var state = device.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
-                Canvas canvas = Helper.Xml2Canvas(state.XFrames[0].Image);
-                canvas.Background = Brushes.Transparent;
-                content = canvas;
-            }
-            else
-                content = new TextBlock()
-                {
-                    Text = "?",
-                    Background = Brushes.Transparent
-                };
-            return new Border()
-            {
-                BorderThickness = new Thickness(0),
-                Background = Brushes.Transparent,
-                Child = new Viewbox()
-                {
-                    Child = content
-                }
-            };
-        }
+			_canvas.Children.Clear();
+			foreach (var canvas in canvases)
+				_canvas.Children.Add(new Viewbox() { Child = canvas });
+		}
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		public static FrameworkElement GetDefaultPicture(Guid driverId)
+		{
+			UIElement content = null;
+
+			var device = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == driverId);
+			if (device != null)
+			{
+				var state = device.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
+				Canvas canvas = Helper.Xml2Canvas(state.XFrames[0].Image);
+				canvas.Background = Brushes.Transparent;
+				content = canvas;
+			}
+			else
+				content = new TextBlock()
+				{
+					Text = "?",
+					Background = Brushes.Transparent
+				};
+			return new Border()
+			{
+				BorderThickness = new Thickness(0),
+				Background = Brushes.Transparent,
+				Child = new Viewbox()
+				{
+					Child = content
+				}
+			};
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		protected void OnPropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
 }

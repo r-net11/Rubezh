@@ -17,7 +17,7 @@ namespace XFiresecAPI
             XStates.Add(libraryXState);
         }
 
-        public XDriver XDriver { get; set; }
+        public XDriver Driver { get; set; }
 
         [DataMember]
         public Guid XDriverId { get; set; }

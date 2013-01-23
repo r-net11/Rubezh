@@ -66,6 +66,11 @@ namespace GKModule.ViewModels
             }
         }
 
+		public string PresentationZone
+		{
+			get { return XManager.GetPresentationZone(Device); }
+		}
+
         public bool HasAUParameters
         {
             get { return Device.Driver.AUParameters.Count > 0; }

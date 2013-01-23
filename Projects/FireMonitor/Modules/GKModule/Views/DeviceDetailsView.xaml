@@ -15,14 +15,45 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
             <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-            <TextBlock Text="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="5" VerticalAlignment="Center" Foreground="White" />
+            <Views:DeviceStateView TextElement.Foreground="White" />
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" Foreground="Orange" />
-                        <Views:DeviceStateView TextElement.Foreground="White" />
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 2 5 2" />
+                            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Orange" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Подключено к " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2 2 5 2" />
+                            <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
+                            <StackPanel.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}" >
+                                            <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                        </StackPanel>
+                        <WrapPanel Orientation="Horizontal">
+                            <TextBlock Text="Зона: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2 2 5 2" />
+                            <TextBlock Margin="2" Text="{Binding PresentationZone}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
+                            <WrapPanel.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}" >
+                                            <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PresentationZone}" Value="" >
+                                            <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </WrapPanel.Style>
+                        </WrapPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

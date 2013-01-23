@@ -88,16 +88,16 @@
         <Views:ConvertationView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:XLibraryViewModel}">
-        <Views:XLibraryView />
+    <DataTemplate DataType="{x:Type ViewModels:LibraryViewModel}">
+        <Views:LibraryView />
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type ViewModels:XDeviceDetailsViewModel}">
-        <Views:XDeviceDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
+        <Views:DeviceDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:XStateDetailsViewModel}">
-        <Views:XStateDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:StateDetailsViewModel}">
+        <Views:StateDetailsView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:InstructionsViewModel}">

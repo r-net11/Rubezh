@@ -23,7 +23,7 @@ namespace GKModule
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
         FiltersViewModel FiltersViewModel;
-        XLibraryViewModel DeviceLidraryViewModel;
+        LibraryViewModel DeviceLidraryViewModel;
         InstructionsViewModel InstructionsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
@@ -37,7 +37,7 @@ namespace GKModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
             FiltersViewModel = new FiltersViewModel();
-            DeviceLidraryViewModel = new XLibraryViewModel();
+            DeviceLidraryViewModel = new LibraryViewModel();
             InstructionsViewModel = new InstructionsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel);
