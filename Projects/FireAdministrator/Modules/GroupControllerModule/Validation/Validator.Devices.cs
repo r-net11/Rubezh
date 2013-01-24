@@ -80,6 +80,9 @@ namespace GKModule.Validation
 
 		static void ValidateDeviceLogic(XDevice device)
 		{
+			if (device.Driver.DriverType == XDriverType.GKLine || device.Driver.DriverType == XDriverType.GKRele)
+				return;
+
 			if (device.Driver.HasLogic)
 			{
 				if (device.DeviceLogic.Clauses.Count == 0)

@@ -17,6 +17,7 @@ namespace GKModule.Validation
 				if (IsManyGK())
 					ValidateDifferentGK(zone);
 				ValidateZoneDetectorCount(zone);
+				ValidateZoneFire1Fire2Count(zone);
 			}
 		}
 
@@ -50,6 +51,14 @@ namespace GKModule.Validation
 			if (zone.Fire2Count < nonHandDetector)
 			{
 				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		static void ValidateZoneFire1Fire2Count(XZone zone)
+		{
+			if (zone.Fire1Count > zone.Fire2Count)
+			{
+				Errors.Add(new ZoneValidationError(zone, "Количество датчиков для сработки Пожар 1 меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
 			}
 		}
 	}
