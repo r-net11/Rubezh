@@ -79,6 +79,13 @@ namespace Infrustructure.Plans.Designer
 			IsVisibleLayout = true;
 		}
 
+		public override void UpdateZoom()
+		{
+			base.UpdateZoom();
+			if (ResizeChrome != null)
+				ResizeChrome.InvalidateVisual();
+		}
+
 		protected override void ResetIsEnabled()
 		{
 			base.ResetIsEnabled();
@@ -230,9 +237,11 @@ namespace Infrustructure.Plans.Designer
 
 		public override IVisualItem HitTest(Point point)
 		{
-			var visualItem = base.HitTest(point);
-			if (visualItem == null && IsSelected)
+			IVisualItem visualItem = null;
+			if (IsSelected)
 				visualItem = ResizeChrome.HitTest(point);
+			if (visualItem == null)
+				visualItem = base.HitTest(point);
 			return visualItem;
 		}
 	}

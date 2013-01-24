@@ -75,7 +75,7 @@ namespace Infrustructure.Plans.Painters
 
 		public virtual bool HitTest(Point point)
 		{
-			return Geometry == null ? false : (Brush != null && Geometry.FillContains(point)) || Geometry.StrokeContains(Pen, point);
+			return Geometry == null ? false : (Brush != null && Geometry.FillContains(point, 0, ToleranceType.Absolute)) || Geometry.StrokeContains(Pen, point, 0, ToleranceType.Absolute);
 		}
 
 		#endregion

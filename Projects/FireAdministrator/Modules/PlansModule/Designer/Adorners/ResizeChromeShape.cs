@@ -68,10 +68,10 @@ namespace PlansModule.Designer.Adorners
 				double kx = rect.Width == 0 ? 0 : placeholder.Width / rect.Width;
 				double ky = rect.Height == 0 ? 0 : placeholder.Height / rect.Height;
 
-				PointCollection points = new PointCollection();
+				_points = new PointCollection();
 				foreach (var point in element.Points)
-					points.Add(new Point(placeholder.X + kx * (point.X - rect.X), placeholder.Y + ky * (point.Y - rect.Y)));
-				element.Points = points;
+					_points.Add(new Point(placeholder.X + kx * (point.X - rect.X), placeholder.Y + ky * (point.Y - rect.Y)));
+				element.Points = _points;
 
 				DesignerItem.RefreshPainter();
 				ServiceFactory.SaveService.PlansChanged = true;
@@ -109,6 +109,14 @@ namespace PlansModule.Designer.Adorners
 					_index = i;
 					break;
 				}
+		}
+
+		public override IVisualItem HitTest(Point point)
+		{
+			foreach (var anglePoint in _points)
+				if (IsInsideThumb(anglePoint, point))
+					return this;
+			return base.HitTest(point);
 		}
 	}
 }

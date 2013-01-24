@@ -11,8 +11,6 @@ namespace Infrustructure.Plans.Designer
 {
 	public abstract class ResizeChrome : IVisualItem
 	{
-		protected const ToleranceType ToleranceType = System.Windows.Media.ToleranceType.Relative;
-		private static double Tolerance { get; set; }
 		private static Brush TransparentBrush { get; set; }
 		private static Brush BorderBrush { get; set; }
 		private static Brush ThumbBrush { get; set; }
@@ -61,16 +59,15 @@ namespace Infrustructure.Plans.Designer
 			thumbBrush.GradientStops.Add(new GradientStop(Colors.DarkSlateGray, 0.9));
 			thumbBrush.Freeze();
 			ThumbBrush = thumbBrush;
-			TransparentPen = new Pen(TransparentBrush, 3);
+			TransparentPen = new Pen(TransparentBrush, 3.5);
 			BorderPen = new Pen(BorderBrush, 1);
 			ThumbGeometry = new EllipseGeometry();
 			UpdateZoom(1);
 		}
 		public static void UpdateZoom(double zoom)
 		{
-			Tolerance = 0.1 / zoom;
 			Thickness = 1 / zoom;
-			TransparentPen.Thickness = 3 / zoom;
+			TransparentPen.Thickness = 3.5 / zoom;
 			BorderPen.Thickness = 1 / zoom;
 			ResizeThumbSize = 3.5 / zoom;
 			ResizeMargin = 4 / zoom;
@@ -88,14 +85,19 @@ namespace Infrustructure.Plans.Designer
 			get { return _isVisible; }
 			set
 			{
-				_isVisible = value;
-				UpdateVisible();
+				if (value != IsVisible)
+				{
+					_isVisible = value;
+					if (IsVisible)
+						Translate();
+					UpdateVisible();
+				}
 			}
 		}
 
 		public ResizeChrome(DesignerItem designerItem)
 		{
-			_visibleTransform = new ScaleTransform();
+			_visibleTransform = new ScaleTransform(0, 0);
 			_canResize = false;
 			_isVisible = false;
 			_borderGeometry = null;
@@ -108,7 +110,8 @@ namespace Infrustructure.Plans.Designer
 
 		public void InvalidateVisual()
 		{
-			Translate();
+			if (IsVisible)
+				Translate();
 		}
 		public void Render(DrawingContext drawingContext)
 		{
@@ -119,7 +122,6 @@ namespace Infrustructure.Plans.Designer
 		protected abstract void Draw(DrawingContext drawingContext);
 		protected virtual void Translate()
 		{
-			UpdateVisible();
 			var rect = GetBounds();
 			if (_borderGeometry != null && _borderGeometry.Rect != rect)
 				_borderGeometry.Rect = GetBounds();
@@ -182,13 +184,13 @@ namespace Infrustructure.Plans.Designer
 					cursor = Cursors.SizeNWSE;
 				else if (IsInsideThumb(rect.BottomLeft, point))
 					cursor = Cursors.SizeNESW;
-				else if (IsInsideRect(new Rect(rect.Left, rect.Top - 2 * Thickness, rect.Width, 4 * Thickness), point))
+				else if (IsInsideRect(new Rect(rect.Left, rect.Top - ResizeThumbSize, rect.Width, 2 * ResizeThumbSize), point))
 					cursor = Cursors.SizeNS;
-				else if (IsInsideRect(new Rect(rect.Left, rect.Bottom - 2 * Thickness, rect.Width, 4 * Thickness), point))
+				else if (IsInsideRect(new Rect(rect.Left, rect.Bottom - ResizeThumbSize, rect.Width, 2 * ResizeThumbSize), point))
 					cursor = Cursors.SizeNS;
-				else if (IsInsideRect(new Rect(rect.Left - 2 * Thickness, rect.Top, 4 * Thickness, rect.Height), point))
+				else if (IsInsideRect(new Rect(rect.Left - ResizeThumbSize, rect.Top, 2 * ResizeThumbSize, rect.Height), point))
 					cursor = Cursors.SizeWE;
-				else if (IsInsideRect(new Rect(rect.Right - 2 * Thickness, rect.Top, 4 * Thickness, rect.Height), point))
+				else if (IsInsideRect(new Rect(rect.Right - ResizeThumbSize, rect.Top, 2 * ResizeThumbSize, rect.Height), point))
 					cursor = Cursors.SizeWE;
 			}
 			return cursor;
@@ -199,7 +201,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected bool IsInsideThumb(Point location, Point point)
 		{
-			return (location - point).Length < ResizeThumbSize;
+			return (location - point).Length < 2 * ResizeThumbSize;
 		}
 
 		#region IVisualItem Members
@@ -334,13 +336,13 @@ namespace Infrustructure.Plans.Designer
 					_resizeDirection = ResizeDirection.BottomRight;
 				else if (IsInsideThumb(rect.BottomLeft, point))
 					_resizeDirection = ResizeDirection.BottomLeft;
-				else if (IsInsideRect(new Rect(rect.Left, rect.Top - 2 * Thickness, rect.Width, 4 * Thickness), point))
+				else if (IsInsideRect(new Rect(rect.Left, rect.Top - ResizeThumbSize, rect.Width, 2 * ResizeThumbSize), point))
 					_resizeDirection = ResizeDirection.Top;
-				else if (IsInsideRect(new Rect(rect.Left, rect.Bottom - 2 * Thickness, rect.Width, 4 * Thickness), point))
+				else if (IsInsideRect(new Rect(rect.Left, rect.Bottom - ResizeThumbSize, rect.Width, 2 * ResizeThumbSize), point))
 					_resizeDirection = ResizeDirection.Bottom;
-				else if (IsInsideRect(new Rect(rect.Left - 2 * Thickness, rect.Top, 4 * Thickness, rect.Height), point))
+				else if (IsInsideRect(new Rect(rect.Left - ResizeThumbSize, rect.Top, 2 * ResizeThumbSize, rect.Height), point))
 					_resizeDirection = ResizeDirection.Left;
-				else if (IsInsideRect(new Rect(rect.Right - 2 * Thickness, rect.Top, 4 * Thickness, rect.Height), point))
+				else if (IsInsideRect(new Rect(rect.Right - ResizeThumbSize, rect.Top, 2 * ResizeThumbSize, rect.Height), point))
 					_resizeDirection = ResizeDirection.Right;
 			}
 		}
@@ -354,7 +356,7 @@ namespace Infrustructure.Plans.Designer
 
 		public virtual IVisualItem HitTest(Point point)
 		{
-			return _borderGeometry != null && _borderGeometry.StrokeContains(TransparentPen, point) ? this : null;
+			return _borderGeometry != null && _borderGeometry.StrokeContains(TransparentPen, point, 0, ToleranceType.Absolute) ? this : null;
 		}
 
 		#endregion
