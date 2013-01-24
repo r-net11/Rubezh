@@ -25,7 +25,7 @@ namespace DeviceControls
 			//_canvas.LayoutTransform = new ScaleTransform(ActualWidth / 500, ActualHeight / 500);
 		}
 
-		public Guid XDriverId { get; set; }
+		public Guid DriverId { get; set; }
 
 		XStateClass _stateClass;
 		public XStateClass StateClass
@@ -41,10 +41,10 @@ namespace DeviceControls
 
 		public void Update()
 		{
-			var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
+			var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == DriverId);
 			if (libraryXDevice == null)
 			{
-				Logger.Error("XDeviceControl.Update libraryXDevice = null " + XDriverId.ToString());
+				Logger.Error("XDeviceControl.Update libraryXDevice = null " + DriverId.ToString());
 				return;
 			}
 
@@ -60,7 +60,7 @@ namespace DeviceControls
 				libraryState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
 				if (libraryState == null)
 				{
-					Logger.Error("XDeviceControl.Update libraryState = null " + XDriverId.ToString());
+					Logger.Error("XDeviceControl.Update libraryState = null " + DriverId.ToString());
 					return;
 				}
 			}

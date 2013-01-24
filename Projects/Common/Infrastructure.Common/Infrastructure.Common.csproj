@@ -166,6 +166,7 @@
     <Compile Include="ServiceFactoryBase.cs" />
     <Compile Include="Theme\ThemeHelper.cs" />
     <Compile Include="Theme\ThemeType.cs" />
+    <Compile Include="UACHelper.cs" />
     <Compile Include="Validation\CommonValidationError.cs" />
     <Compile Include="Validation\ObjectValidationError.cs" />
     <Compile Include="Validation\ValidationErrorLevel.cs" />

@@ -179,7 +179,7 @@ namespace GKModule.ViewModels
 
 				var deviceControl = new DeviceControls.XDeviceControl()
 				{
-					XDriverId = SelectedDevice.LibraryDevice.XDriverId
+					DriverId = SelectedDevice.LibraryDevice.XDriverId
 				};
 				deviceControl.StateClass = SelectedState.State.XStateClass;
 
