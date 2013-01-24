@@ -41,6 +41,7 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 255).IsLowByte=true;
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания", 8, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Недокументированный параметр", 0, 1, 1, 1).IsLowByte = true;
 
 			var property2 = new XDriverProperty()
 			{

@@ -145,9 +145,9 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.GKChanged = true;
 
 					ServiceFactory.Layout.Close();
-					if (ApplicationService.Modules.Any(x => x.Name == "DevicesModule.dll"))
+					if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
 						ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-					if (ApplicationService.Modules.Any(x => x.Name == "GKModule.dll"))
+					if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 						ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
 					ServiceFactory.Layout.ShowFooter(null);
 				}

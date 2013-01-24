@@ -44,8 +44,8 @@ namespace GKModule.Plans.Designer
                 if (_xdevice != null)
                 {
                     _xdeviceControl = new XDeviceControl();
-                    _xdeviceControl.XDriverId = _xdevice.DriverUID;
-                    _xdeviceControl.XStateClass = _xdevice.DeviceState.StateClass;
+                    _xdeviceControl.DriverId = _xdevice.DriverUID;
+                    _xdeviceControl.StateClass = _xdevice.DeviceState.StateClass;
                     _xdevice.DeviceState.StateChanged += OnPropertyChanged;
                 }
             }
@@ -54,7 +54,7 @@ namespace GKModule.Plans.Designer
 
         private void OnPropertyChanged()
         {
-            _xdeviceControl.XStateClass = _xdevice.DeviceState.StateClass;
+            _xdeviceControl.StateClass = _xdevice.DeviceState.StateClass;
             _presenterItem.Title = GetDeviceTooltip();
 			//_presenterItem.Redraw();
 			_presenterItem.DesignerCanvas.Refresh();

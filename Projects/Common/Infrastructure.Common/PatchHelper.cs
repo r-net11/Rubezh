@@ -24,7 +24,7 @@ namespace Infrastructure.Common
 
 		public static void SetPatchNo(string applicationName, int value)
 		{
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2\\Patch");
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2\\Patch");
 			if (registryKey != null)
 			{
 				registryKey.SetValue(applicationName, value);

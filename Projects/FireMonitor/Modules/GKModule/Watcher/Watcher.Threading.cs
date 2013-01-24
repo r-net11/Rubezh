@@ -50,11 +50,19 @@ namespace GKModule
 				try
 				{
 					CheckTasks();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
+				}
+
+				try
+				{
 					PingJournal();
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "JournalWatcher.OnRunThread");
+					Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
 				}
 
 				if (StopEvent != null)

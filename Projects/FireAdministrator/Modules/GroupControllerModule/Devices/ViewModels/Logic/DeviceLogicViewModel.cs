@@ -106,6 +106,32 @@ namespace GKModule.ViewModels
 					ClauseJounOperationType = JoinOperator,
 					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
 				};
+				switch(clause.ClauseOperationType)
+				{
+					case ClauseOperationType.AllDevices:
+					case ClauseOperationType.AnyDevice:
+						clause.Zones.Clear();
+						clause.ZoneUIDs.Clear();
+						clause.Directions.Clear();
+						clause.DeviceUIDs.Clear();
+						break;
+
+					case ClauseOperationType.AllZones:
+					case ClauseOperationType.AnyZone:
+						clause.Devices.Clear();
+						clause.DeviceUIDs.Clear();
+						clause.Directions.Clear();
+						clause.DeviceUIDs.Clear();
+						break;
+
+					case ClauseOperationType.AllDirections:
+					case ClauseOperationType.AnyDirection:
+						clause.Devices.Clear();
+						clause.DeviceUIDs.Clear();
+						clause.Zones.Clear();
+						clause.ZoneUIDs.Clear();
+						break;
+				}
 				if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)
 					deviceLogic.Clauses.Add(clause);
 			}

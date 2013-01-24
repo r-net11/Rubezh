@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
         void OnStateChanged()
         {
             if (DeviceState != null && _deviceControl != null)
-                _deviceControl.XStateClass = DeviceState.StateClass;
+                _deviceControl.StateClass = DeviceState.StateClass;
             OnPropertyChanged("DeviceControlContent");
 			OnPropertyChanged("DeviceState");
         }
@@ -54,10 +54,10 @@ namespace GKModule.ViewModels
                 {
                     _deviceControl = new DeviceControls.XDeviceControl()
                     {
-                        XDriverId = Device.Driver.UID,
+                        DriverId = Device.Driver.UID,
                         Width = 50,
                         Height = 50,
-                        XStateClass = DeviceState.StateClass
+                        StateClass = DeviceState.StateClass
                     };
                     _deviceControl.Update();
                 }

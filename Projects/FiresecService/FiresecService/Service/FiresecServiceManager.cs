@@ -7,6 +7,7 @@ using FiresecService.ViewModels;
 using System.Net;
 using System.Windows.Forms;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common;
 
 namespace FiresecService.Service
 {
@@ -24,7 +25,7 @@ namespace FiresecService.Service
 				FiresecService = new FiresecService();
 				ServiceHost = new ServiceHost(FiresecService);
 
-				if (AppSettings.EnableRemoteConnections)
+				if (AppSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
 					CreateHttpEndpoint();
 				}

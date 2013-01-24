@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Common;
 using Microsoft.Win32;
+using System.Security.AccessControl;
 
 namespace Infrastructure.Common
 {
@@ -12,7 +13,7 @@ namespace Infrastructure.Common
 	{
 		public static void SetLocation(string path)
 		{
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
 			if (registryKey != null)
 			{
 				registryKey.SetValue("FiresecServerPath", path);
@@ -36,7 +37,7 @@ namespace Infrastructure.Common
 
 		public static void SetStatus(FSServerState fsServerState)
 		{
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
 			if (registryKey != null)
 			{
 				registryKey.SetValue("FiresecServiceState", (int)fsServerState);

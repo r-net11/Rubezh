@@ -12,7 +12,7 @@ namespace Infrastructure.Common
 
 		static AppDataFolderHelper()
 		{
-			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			var appDataFolderName = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			AppDataFolderName = Path.Combine(appDataFolderName, "Firesec2");
 		}
 
