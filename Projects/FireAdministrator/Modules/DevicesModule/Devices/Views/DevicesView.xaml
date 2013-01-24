@@ -28,144 +28,140 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
-		<Grid Grid.Row="0">
-            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
-				<Controls:TreeListView.Resources>
-					<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
-						<Setter Property="MinWidth" Value="0" />
-						<Setter Property="MinHeight" Value="0" />
-					</Style>
-					<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-						<Setter Property="MinWidth" Value="0" />
-						<Setter Property="MinHeight" Value="0" />
-					</Style>
-				</Controls:TreeListView.Resources>
-				<Controls:TreeListView.Columns>
-					<GridViewColumn Width="250" Header="Устройство">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Controls:EditorPresenter>
-									<Controls:EditorPresenter.ViewTemplate>
-										<ControlTemplate>
-											<StackPanel Background="Transparent" ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
+        <Controls:TreeListView Grid.Row="0" Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
+			<Controls:TreeListView.Resources>
+				<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+					<Setter Property="MinWidth" Value="0" />
+					<Setter Property="MinHeight" Value="0" />
+				</Style>
+				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+					<Setter Property="MinWidth" Value="0" />
+					<Setter Property="MinHeight" Value="0" />
+				</Style>
+			</Controls:TreeListView.Resources>
+			<Controls:TreeListView.Columns>
+				<GridViewColumn Width="250" Header="Устройство">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Controls:EditorPresenter>
+								<Controls:EditorPresenter.ViewTemplate>
+									<ControlTemplate>
+										<StackPanel Background="Transparent" ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
+											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
+											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+											<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />
+										</StackPanel>
+									</ControlTemplate>
+								</Controls:EditorPresenter.ViewTemplate>
+								<Controls:EditorPresenter.EditTemplate>
+									<ControlTemplate>
+										<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
+											<StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
 												<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
 												<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-												<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />
+												<TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											</StackPanel>
-										</ControlTemplate>
-									</Controls:EditorPresenter.ViewTemplate>
-									<Controls:EditorPresenter.EditTemplate>
-										<ControlTemplate>
-											<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
-												<StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-													<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-													<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-													<TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-												</StackPanel>
-												<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
-													<ComboBox.ItemTemplate>
-														<DataTemplate>
-															<TextBlock Foreground="Black" Text="{Binding ShortName}" />
-														</DataTemplate>
-													</ComboBox.ItemTemplate>
-												</ComboBox>
-											</DockPanel>
-										</ControlTemplate>
-									</Controls:EditorPresenter.EditTemplate>
-								</Controls:EditorPresenter>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Width="100" Header="Адрес">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Controls:EditorPresenter>
-									<Controls:EditorPresenter.ViewTemplate>
-										<ControlTemplate>
-											<TextBlock Text="{Binding Address}" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
-										</ControlTemplate>
-									</Controls:EditorPresenter.ViewTemplate>
-									<Controls:EditorPresenter.EditTemplate>
-										<ControlTemplate>
-											<Grid>
-												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
-												<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-											</Grid>
-										</ControlTemplate>
-									</Controls:EditorPresenter.EditTemplate>
-								</Controls:EditorPresenter>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
+											<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Foreground="Black" Text="{Binding ShortName}" />
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+										</DockPanel>
+									</ControlTemplate>
+								</Controls:EditorPresenter.EditTemplate>
+							</Controls:EditorPresenter>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn Width="100" Header="Адрес">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Controls:EditorPresenter>
+								<Controls:EditorPresenter.ViewTemplate>
+									<ControlTemplate>
+										<TextBlock Text="{Binding Address}" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+									</ControlTemplate>
+								</Controls:EditorPresenter.ViewTemplate>
+								<Controls:EditorPresenter.EditTemplate>
+									<ControlTemplate>
+										<Grid>
+											<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+											<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+										</Grid>
+									</ControlTemplate>
+								</Controls:EditorPresenter.EditTemplate>
+							</Controls:EditorPresenter>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
 
-                    <GridViewColumn Width="100" Header="Зона">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
-                                            Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
-                                        </TextBlock.InputBindings>
-                                    </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                <GridViewColumn Width="100" Header="Зона">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <TextBlock Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
+                                        Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
                     
-					<GridViewColumn Header="Примечание">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Controls:EditorPresenter>
-									<Controls:EditorPresenter.ViewTemplate>
-										<ControlTemplate>
-											<TextBlock Text="{Binding Description}" />
-										</ControlTemplate>
-									</Controls:EditorPresenter.ViewTemplate>
-									<Controls:EditorPresenter.EditTemplate>
-										<ControlTemplate>
-											<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-											<ControlTemplate.Triggers>
-												<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
-													<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Controls:EditorPresenter.EditTemplate>
-								</Controls:EditorPresenter>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-				</Controls:TreeListView.Columns>
-			</Controls:TreeListView>
-		</Grid>
+				<GridViewColumn Header="Примечание">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Controls:EditorPresenter>
+								<Controls:EditorPresenter.ViewTemplate>
+									<ControlTemplate>
+										<TextBlock Text="{Binding Description}" />
+									</ControlTemplate>
+								</Controls:EditorPresenter.ViewTemplate>
+								<Controls:EditorPresenter.EditTemplate>
+									<ControlTemplate>
+										<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+										<ControlTemplate.Triggers>
+											<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
+												<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
+											</Trigger>
+										</ControlTemplate.Triggers>
+									</ControlTemplate>
+								</Controls:EditorPresenter.EditTemplate>
+							</Controls:EditorPresenter>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</Controls:TreeListView.Columns>
+		</Controls:TreeListView>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
 		<Grid Grid.Row="2" Margin="0, 5, 0, 0" DataContext="{Binding SelectedDevice}">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="40" />
-				</Grid.ColumnDefinitions>
-				<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5">
-					<Grid>
-						<Views:PropertiesView Visibility="{Binding PropertiesViewModel.ParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-						<Views:ParametersView DataContext="{Binding PropertiesViewModel}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</Grid>
-				</Border>
-				<Border Grid.Column="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="0,5,5,0">
-					<StackPanel DataContext="{Binding PropertiesViewModel}">
-                        <Controls:ToggleButton Command="{Binding PropVisCommand}" ImageSource="/Controls;component/Images/devparameters.png" IsChecked="{Binding ParameterVis, Converter={StaticResource InverseBooleanConverter}}" ToolTip="Информация об устройстве" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource ToggleButtonImageStyle}" />
-                        <Controls:ToggleButton Command="{Binding ParamVisCommand}" ImageSource="/Controls;component/Images/adrparameters.png" IsChecked="{Binding ParameterVis}" ToolTip="Параметры устройства" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource ToggleButtonImageStyle}" />
-                        <StackPanel Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsAuParametersReady}">
-                            <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.SetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры на устройство" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <Controls:ToolBarButton Width="36" Height="36" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.ResetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</StackPanel>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="40" />
+			</Grid.ColumnDefinitions>
+			<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5">
+				<Grid>
+					<Views:PropertiesView Visibility="{Binding PropertiesViewModel.ParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+					<Views:ParametersView DataContext="{Binding PropertiesViewModel}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}" />
+				</Grid>
+			</Border>
+			<Border Grid.Column="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="0,5,5,0">
+				<StackPanel DataContext="{Binding PropertiesViewModel}">
+                    <Controls:ToggleButton Command="{Binding PropVisCommand}" ImageSource="/Controls;component/Images/devparameters.png" IsChecked="{Binding ParameterVis, Converter={StaticResource InverseBooleanConverter}}" ToolTip="Информация об устройстве" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource ToggleButtonImageStyle}" />
+                    <Controls:ToggleButton Command="{Binding ParamVisCommand}" ImageSource="/Controls;component/Images/adrparameters.png" IsChecked="{Binding ParameterVis}" ToolTip="Параметры устройства" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" Style="{StaticResource ToggleButtonImageStyle}" />
+                    <StackPanel Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsAuParametersReady}">
+                        <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.SetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры на устройство" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Controls:ToolBarButton Width="36" Height="36" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.ResetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
-				</Border>
-			</Grid>
+				</StackPanel>
+			</Border>
 		</Grid>
 	</Grid>
 </UserControl>

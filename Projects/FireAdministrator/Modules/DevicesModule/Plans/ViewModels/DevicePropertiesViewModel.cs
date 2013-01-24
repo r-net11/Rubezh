@@ -22,14 +22,12 @@ namespace DevicesModule.Plans.ViewModels
 			_devicesViewModel = devicesViewModel;
 
 			Devices = new ObservableCollection<DeviceViewModel>();
-
 			foreach (var device in FiresecManager.Devices)
 			{
 				var deviceViewModel = new DeviceViewModel(device);
 				deviceViewModel.IsExpanded = true;
 				Devices.Add(deviceViewModel);
 			}
-
 			foreach (var device in Devices)
 			{
 				if (device.Device.Parent != null)
@@ -49,7 +47,6 @@ namespace DevicesModule.Plans.ViewModels
 		}
 
 		#region DeviceSelection
-
 		public List<DeviceViewModel> AllDevices;
 
 		public void FillAllDevices()
@@ -78,7 +75,6 @@ namespace DevicesModule.Plans.ViewModels
 			}
 			SelectedDevice = deviceViewModel;
 		}
-
 		#endregion
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }

@@ -17,7 +17,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleXZone();
-			var propertiesViewModel = new XZonePropertiesViewModel(element);
+			var propertiesViewModel = new ZonePropertiesViewModel(element);
 			DialogService.ShowModalWindow(propertiesViewModel);
 			Helper.SetXZone(element);
 			return element;

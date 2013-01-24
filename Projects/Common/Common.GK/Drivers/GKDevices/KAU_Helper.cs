@@ -20,7 +20,7 @@ namespace Common.GK
 				IsRangeEnabled = true,
 				MinAddress = 1,
 				MaxAddress = 127,
-				CanPlaceOnPlan = true
+				IsPlaceable = true
 			};
 			driver.AutoCreateChildren.Add(XDriverType.KAUIndicator);
 

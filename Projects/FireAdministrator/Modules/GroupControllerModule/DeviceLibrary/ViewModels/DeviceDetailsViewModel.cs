@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
 			var drivers = (from XDriver driver in XManager.DriversConfiguration.XDrivers select driver).ToList();
 			foreach (var driver in drivers)
 			{
-				if (!XManager.XDeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID) && (driver.CanPlaceOnPlan))
+				if (!XManager.XDeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID) && (driver.IsPlaceable))
 				{
 					var libraryXDevice = new LibraryXDevice()
 					{

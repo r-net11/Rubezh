@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Пожарный тепловой извещатель ИП 101-29-A3R1",
 				ShortName = "ИП-29",
 				HasZone = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);

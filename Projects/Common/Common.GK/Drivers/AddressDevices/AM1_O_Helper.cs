@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Охранная адресная метка АМ1-О",
 				ShortName = "АМ1-О",
 				HasZone = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

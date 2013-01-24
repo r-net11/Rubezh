@@ -2,9 +2,9 @@
 
 namespace GKModule.Plans.Views
 {
-	public partial class XZonePropertiesView : UserControl
+	public partial class ZonePropertiesView : UserControl
 	{
-		public XZonePropertiesView()
+		public ZonePropertiesView()
 		{
 			InitializeComponent();
 		}

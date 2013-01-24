@@ -16,7 +16,7 @@ namespace Common.GK
 				ShortName = "ШУН",
 				IsControlDevice = true,
 				HasLogic = true,
-				CanPlaceOnPlan = true,
+				IsPlaceable = true,
 				MaxAddressOnShleif = 15
 			};
 

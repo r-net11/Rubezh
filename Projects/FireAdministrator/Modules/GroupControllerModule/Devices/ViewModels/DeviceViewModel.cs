@@ -10,12 +10,12 @@ using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-		public DeviceViewModel(XDevice device, ObservableCollection<DeviceViewModel> sourceDevices)
+		public DeviceViewModel(XDevice device)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
             AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
@@ -28,8 +28,6 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
-			Children = new ObservableCollection<DeviceViewModel>();
-			Source = sourceDevices;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			device.Changed += new System.Action(OnChanged);
@@ -148,7 +146,6 @@ namespace GKModule.ViewModels
 			Parent.Children.Remove(this);
 			Parent.Update();
 			Parent.IsExpanded = true;
-			Parent = null;
 
 			XManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.GKChanged = true;
@@ -276,6 +273,8 @@ namespace GKModule.ViewModels
 		{
 			return Device.Parent != null;
 		}
+
+		public bool IsBold { get; set; }
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }

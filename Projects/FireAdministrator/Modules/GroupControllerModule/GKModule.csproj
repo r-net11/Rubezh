@@ -185,17 +185,17 @@
     <Compile Include="Plans\InstrumentAdorners\XZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XZoneRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
-    <Compile Include="Plans\ViewModels\XDevicePropertiesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\XDevicesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\XZonePropertiesViewModel.cs" />
-    <Compile Include="Plans\Views\XDevicePropertiesView.xaml.cs">
-      <DependentUpon>XDevicePropertiesView.xaml</DependentUpon>
+    <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\PlanDevicesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
+      <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plans\Views\XDevicesView.xaml.cs">
-      <DependentUpon>XDevicesView.xaml</DependentUpon>
+    <Compile Include="Plans\Views\PlanDevicesView.xaml.cs">
+      <DependentUpon>PlanDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plans\Views\XZonePropertiesView.xaml.cs">
-      <DependentUpon>XZonePropertiesView.xaml</DependentUpon>
+    <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
+      <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -393,15 +393,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Plans\Views\XDevicePropertiesView.xaml">
+    <Page Include="Plans\Views\DevicePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Plans\Views\XDevicesView.xaml">
+    <Page Include="Plans\Views\PlanDevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Plans\Views\XZonePropertiesView.xaml">
+    <Page Include="Plans\Views\ZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

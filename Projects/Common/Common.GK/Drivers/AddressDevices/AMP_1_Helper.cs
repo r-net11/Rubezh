@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Пожарная адресная метка АМП",
 				ShortName = "АМП",
 				HasZone = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

@@ -10,14 +10,16 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans
 {
 	class GKPlanExtension : IPlanExtension<Plan>
 	{
-		private XDevicesViewModel _devicesViewModel;
+		private PlanDevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
-		public GKPlanExtension(GKModule.ViewModels.DevicesViewModel devicesViewModel)
+
+		public GKPlanExtension(DevicesViewModel devicesViewModel)
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -29,7 +31,7 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(x => { UpdateXDeviceInXZones(); });
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateXDeviceInXZones(); });
 
-			_devicesViewModel = new XDevicesViewModel(devicesViewModel);
+			_devicesViewModel = new PlanDevicesViewModel(devicesViewModel);
 		}
 
 		#region IPlanExtension Members
@@ -183,9 +185,9 @@ namespace GKModule.Plans
 		{
 			ElementXDevice element = e.Element as ElementXDevice;
 			if (element != null)
-				e.PropertyViewModel = new XDevicePropertiesViewModel(_devicesViewModel, element);
+				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
-				e.PropertyViewModel = new XZonePropertiesViewModel((IElementZone)e.Element);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 		}
 
 		public void UpdateXDeviceInXZones()

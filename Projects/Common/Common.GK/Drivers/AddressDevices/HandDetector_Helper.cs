@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Ручной извещатель ИПР513-11",
 				ShortName = "РПИ",
 				HasZone = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire2);

@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Пожарный комбинированный извещатель ИП212/101-64-А2R1",
 				ShortName = "ИП-64К",
 				HasZone = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
