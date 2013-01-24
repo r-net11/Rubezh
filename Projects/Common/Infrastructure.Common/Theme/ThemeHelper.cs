@@ -11,16 +11,19 @@ namespace Infrastructure.Common.Theme
 
 		public static void SetThemeIntoRegister(Theme selectedTheme)
 		{
-			try
-			{
-				RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh");
-				saveKey.SetValue("Theme", selectedTheme);
-				saveKey.Close();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ThemeHelper.SetThemeIntoRegister");
-			}
+            try
+            {
+                RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh");
+                if (registryKey != null)
+                {
+                    registryKey.SetValue("Theme", selectedTheme);
+                    registryKey.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "ThemeHelper.SetThemeIntoRegister");
+            }
 		}
 
 		public static void LoadThemeFromRegister()

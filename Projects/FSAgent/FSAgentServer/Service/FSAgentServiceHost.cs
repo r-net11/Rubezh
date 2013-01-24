@@ -7,6 +7,7 @@ using Common;
 using System.Net;
 using FSAgentServer.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common;
 
 
 namespace FSAgentServer
@@ -25,7 +26,10 @@ namespace FSAgentServer
 				FsAgentContract = new FSAgentContract();
 				ServiceHost = new ServiceHost(FsAgentContract);
 
-				CreateHttpEndpoint();
+                if (UACHelper.IsAdministrator)
+                {
+                    CreateHttpEndpoint();
+                }
 				CreateNetPipesEndpoint();
 				ServiceHost.Open();
 				return true;

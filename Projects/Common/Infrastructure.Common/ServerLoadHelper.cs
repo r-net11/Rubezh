@@ -13,13 +13,7 @@ namespace Infrastructure.Common
 	{
 		public static void SetLocation(string path)
 		{
-			string user = Environment.UserDomainName + "\\" + Environment.UserName;
-			var registrySecurity = new RegistrySecurity();
-			registrySecurity.AddAccessRule(new RegistryAccessRule(user,
-				RegistryRights.WriteKey | RegistryRights.ChangePermissions,
-				InheritanceFlags.None, PropagationFlags.None, AccessControlType.Deny));
-
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2", RegistryKeyPermissionCheck.Default, registrySecurity);
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
 			if (registryKey != null)
 			{
 				registryKey.SetValue("FiresecServerPath", path);
@@ -43,13 +37,7 @@ namespace Infrastructure.Common
 
 		public static void SetStatus(FSServerState fsServerState)
 		{
-			string user = Environment.UserDomainName + "\\" + Environment.UserName;
-			var registrySecurity = new RegistrySecurity();
-			registrySecurity.AddAccessRule(new RegistryAccessRule(user,
-				RegistryRights.WriteKey | RegistryRights.ChangePermissions,
-				InheritanceFlags.None, PropagationFlags.None, AccessControlType.Deny));
-
-			RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2", RegistryKeyPermissionCheck.Default, registrySecurity);
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
 			if (registryKey != null)
 			{
 				registryKey.SetValue("FiresecServiceState", (int)fsServerState);

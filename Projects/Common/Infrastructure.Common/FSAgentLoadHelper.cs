@@ -12,9 +12,11 @@ namespace Infrastructure.Common
     {
         public static void SetLocation(string path)
         {
-            RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-			var x = System.Reflection.Assembly.GetExecutingAssembly().Location;
-			registryKey.SetValue("FSAgentServerPath", path);
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
+            if (registryKey != null)
+            {
+                registryKey.SetValue("FSAgentServerPath", path);
+            }
         }
 
         public static string GetLocation()
@@ -34,8 +36,11 @@ namespace Infrastructure.Common
 
         public static void SetStatus(FSAgentState fsAgentState)
         {
-            RegistryKey registryKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-            registryKey.SetValue("FSAgentServerState", (int)fsAgentState);
+            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
+            if (registryKey != null)
+            {
+                registryKey.SetValue("FSAgentServerState", (int)fsAgentState);
+            }
         }
 
         public static FSAgentState GetStatus()
