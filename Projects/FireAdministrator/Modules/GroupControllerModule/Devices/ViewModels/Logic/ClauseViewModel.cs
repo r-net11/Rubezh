@@ -126,12 +126,6 @@ namespace GKModule.ViewModels
 			{
 				_selectedStateType = value;
 				OnPropertyChanged("SelectedStateType");
-
-				if (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice)
-				{
-					Devices = new List<XDevice>();
-					OnPropertyChanged("PresenrationDevices");
-				}
 			}
 		}
 
