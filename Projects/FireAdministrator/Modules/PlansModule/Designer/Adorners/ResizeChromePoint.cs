@@ -13,7 +13,7 @@ namespace PlansModule.Designer.Adorners
 		{
 		}
 
-		public override void Render(DrawingContext drawingContext)
+		protected override void Draw(DrawingContext drawingContext)
 		{
 			DrawBounds(drawingContext);
 		}

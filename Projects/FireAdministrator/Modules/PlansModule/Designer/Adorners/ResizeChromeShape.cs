@@ -25,7 +25,7 @@ namespace PlansModule.Designer.Adorners
 			_points = element == null ? new PointCollection() : element.Points;
 		}
 
-		public override void Render(DrawingContext drawingContext)
+		protected override void Draw(DrawingContext drawingContext)
 		{
 			_transforms.Clear();
 			DrawSizableBounds(drawingContext);

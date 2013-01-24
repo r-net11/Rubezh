@@ -25,6 +25,7 @@ namespace Infrustructure.Plans.Designer
 
 		private bool _isVisible;
 		private bool _canResize;
+		private ScaleTransform _visibleTransform;
 		private RectangleGeometry _borderGeometry;
 		private TranslateTransform _transformTopLeft;
 		private TranslateTransform _transformTopRight;
@@ -88,12 +89,13 @@ namespace Infrustructure.Plans.Designer
 			set
 			{
 				_isVisible = value;
-				//Opacity = IsVisible ? 1 : 0;
+				UpdateVisible();
 			}
 		}
 
 		public ResizeChrome(DesignerItem designerItem)
 		{
+			_visibleTransform = new ScaleTransform();
 			_canResize = false;
 			_isVisible = false;
 			_borderGeometry = null;
@@ -108,9 +110,16 @@ namespace Infrustructure.Plans.Designer
 		{
 			Translate();
 		}
-		public abstract void Render(DrawingContext drawingContext);
+		public void Render(DrawingContext drawingContext)
+		{
+			drawingContext.PushTransform(_visibleTransform);
+			Draw(drawingContext);
+			drawingContext.Pop();
+		}
+		protected abstract void Draw(DrawingContext drawingContext);
 		protected virtual void Translate()
 		{
+			UpdateVisible();
 			var rect = GetBounds();
 			if (_borderGeometry != null && _borderGeometry.Rect != rect)
 				_borderGeometry.Rect = GetBounds();
@@ -334,6 +343,11 @@ namespace Infrustructure.Plans.Designer
 				else if (IsInsideRect(new Rect(rect.Right - 2 * Thickness, rect.Top, 4 * Thickness, rect.Height), point))
 					_resizeDirection = ResizeDirection.Right;
 			}
+		}
+		private void UpdateVisible()
+		{
+			_visibleTransform.ScaleX = IsVisible ? 1 : 0;
+			_visibleTransform.ScaleY = IsVisible ? 1 : 0;
 		}
 
 		#region IVisualItem Members

@@ -207,7 +207,5 @@ namespace Infrustructure.Plans.Designer
 		public virtual void DragDelta(Point point, Vector shift)
 		{
 		}
-
-		public void Redraw() { }
 	}
 }

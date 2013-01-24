@@ -89,7 +89,7 @@ namespace Infrustructure.Plans.Designer
 		internal override void Render(DrawingContext drawingContext)
 		{
 			base.Render(drawingContext);
-			if (ResizeChrome != null && IsSelected)
+			if (ResizeChrome != null)
 				ResizeChrome.Render(drawingContext);
 		}
 		public override void RefreshPainter()
@@ -159,10 +159,7 @@ namespace Infrustructure.Plans.Designer
 		protected void IsSelectedChanged()
 		{
 			if (ResizeChrome != null)
-			{
 				ResizeChrome.IsVisible = IsSelected;
-				DesignerCanvas.Refresh(); //???
-			}
 		}
 
 		public override void DragStarted(Point point)
