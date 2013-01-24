@@ -39,6 +39,9 @@
   <PropertyGroup>
     <ApplicationManifest>MultiClientAdministrator.exe.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MultiClientAdministrator.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -140,6 +143,9 @@
       <Project>{32CADE88-7A8C-45B9-BF15-C60918EC6B5D}</Project>
       <Name>MuliclientAPI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MultiClientAdministrator.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
