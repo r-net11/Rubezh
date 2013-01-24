@@ -213,7 +213,7 @@ namespace GKModule
 					}
 				}
 			}
-			var deviceViewModel = DevicesViewModel.Current.Devices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
+			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
 			if (deviceViewModel != null)
 			{
 				deviceViewModel.UpdateProperties();

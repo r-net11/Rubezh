@@ -9,19 +9,11 @@ using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.Views
 {
-	public partial class XDevicesView : UserControl
+	public partial class PlanDevicesView : UserControl
 	{
-		public XDevicesView()
+		public PlanDevicesView()
 		{
 			InitializeComponent();
-			Loaded += new RoutedEventHandler(DevicesView_Loaded);
-			_devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_Loaded);
-		}
-
-		void DevicesView_Loaded(object sender, RoutedEventArgs e)
-		{
-			if (_devicesDataGrid.SelectedItem != null)
-				_devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
 		}
 
 		private Point? dragStartPoint = null;
@@ -36,19 +28,21 @@ namespace GKModule.Plans.Views
 		{
 			base.OnMouseMove(e);
 			if (e.LeftButton != MouseButtonState.Pressed)
-				dragStartPoint = null;
+			{
+				this.dragStartPoint = null;
+			}
 
-			if (dragStartPoint.HasValue)
+			if (this.dragStartPoint.HasValue)
 			{
 				DeviceViewModel viewModel = (sender as Image).DataContext as DeviceViewModel;
 				//if (viewModel.DesignerCanvas != null)
 				//    viewModel.DesignerCanvas.Toolbox.SetDefault();
 				var device = viewModel.Device;
-				if (!device.Driver.IsDeviceOnShleif)
+				if (device.Driver.IsPlaceable == false)
 					return;
 
-				if (FiresecManager.DeviceLibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
-					return;
+				//if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
+				//    return;
 
 				ElementBase plansElement = new ElementXDevice()
 				{

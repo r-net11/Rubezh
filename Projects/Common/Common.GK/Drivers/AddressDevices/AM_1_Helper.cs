@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Пожарная адресная метка АМ-1",
 				ShortName = "АМ-1",
 				HasZone = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

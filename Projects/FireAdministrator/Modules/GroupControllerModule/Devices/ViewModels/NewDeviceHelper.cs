@@ -86,10 +86,7 @@ namespace GKModule.ViewModels
 
 		public static DeviceViewModel AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
         {
-            var deviceViewModel = new DeviceViewModel(xDevice, parentDeviceViewModel.Source)
-            {
-                Parent = parentDeviceViewModel
-            };
+			var deviceViewModel = new DeviceViewModel(xDevice);
             parentDeviceViewModel.Children.Add(deviceViewModel);
 
             foreach (var childDevice in xDevice.Children)

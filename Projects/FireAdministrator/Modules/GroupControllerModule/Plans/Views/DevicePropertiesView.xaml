@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Plans.Views.XDevicePropertiesView"
+﻿<UserControl x:Class="GKModule.Plans.Views.DevicePropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"

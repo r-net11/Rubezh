@@ -28,7 +28,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonXZone();
-			var propertiesViewModel = new XZonePropertiesViewModel(element);
+			var propertiesViewModel = new ZonePropertiesViewModel(element);
 			DialogService.ShowModalWindow(propertiesViewModel);
 			Helper.SetXZone(element);
 			return element;

@@ -16,7 +16,7 @@ namespace Common.GK
 				ShortName = "МДУ-1",
 				IsControlDevice = true,
 				HasLogic = true,
-                CanPlaceOnPlan = true
+                IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

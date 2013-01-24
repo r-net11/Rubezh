@@ -17,7 +17,7 @@ namespace Common.GK
 				IsDeviceOnShleif = false,
 				CanEditAddress = false,
 				HasAddress = false,
-				CanPlaceOnPlan = true
+				IsPlaceable = true
 			};
 			driver.AutoCreateChildren.Add(XDriverType.GKIndicator);
 			driver.AutoCreateChildren.Add(XDriverType.GKLine);

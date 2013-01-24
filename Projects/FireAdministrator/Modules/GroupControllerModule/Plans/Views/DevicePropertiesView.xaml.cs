@@ -2,9 +2,9 @@
 
 namespace GKModule.Plans.Views
 {
-    public partial class XDevicePropertiesView : UserControl
+    public partial class DevicePropertiesView : UserControl
     {
-		public XDevicePropertiesView()
+		public DevicePropertiesView()
         {
             InitializeComponent();
         }

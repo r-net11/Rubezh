@@ -8,14 +8,16 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.ViewModels
 {
-	public class XDevicesViewModel : BaseViewModel
+	public class PlanDevicesViewModel : BaseViewModel
 	{
-		private GKModule.ViewModels.DevicesViewModel _devicesViewModel;
+		private bool _lockSelection;
+		private DevicesViewModel _devicesViewModel;
 
-		public XDevicesViewModel(GKModule.ViewModels.DevicesViewModel devicesViewModel)
+		public PlanDevicesViewModel(DevicesViewModel devicesViewModel)
 		{
 			_devicesViewModel = devicesViewModel;
 			_devicesViewModel.PropertyChanged += (s, e) =>
@@ -40,11 +42,11 @@ namespace GKModule.Plans.ViewModels
 			_devicesViewModel.Select(deviceUID);
 		}
 
-		public ObservableCollection<GKModule.ViewModels.DeviceViewModel> Devices
+		public DeviceViewModel[] RootDevices
 		{
-			get { return _devicesViewModel.Devices; }
+			get { return _devicesViewModel.RootDevices; }
 		}
-		public GKModule.ViewModels.DeviceViewModel SelectedDevice
+		public DeviceViewModel SelectedDevice
 		{
 			get { return _devicesViewModel.SelectedDevice; }
 			set
@@ -53,15 +55,23 @@ namespace GKModule.Plans.ViewModels
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
-
-		private void OnDeviceChanged(Guid xdeviceUID)
+		public List<DeviceViewModel> AllDevices
 		{
-			var device = Devices.FirstOrDefault(x => x.Device.UID == xdeviceUID);
+			get { return _devicesViewModel.AllDevices; }
+		}
+
+		private void OnDeviceChanged(Guid deviceUID)
+		{
+			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
 			{
 				device.Update();
-				device.ExpantToThis();
-				SelectedDevice = device;
+				// TODO: FIX IT
+				if (!_lockSelection)
+				{
+					device.ExpantToThis();
+					SelectedDevice = device;
+				}
 			}
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
@@ -71,18 +81,28 @@ namespace GKModule.Plans.ViewModels
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
 			elements.ForEach(element =>
+			{
+				ElementDevice elementDevice = element as ElementDevice;
+				if (elementDevice != null)
 				{
-					ElementXDevice elementDevice = element as ElementXDevice;
-					if (elementDevice != null)
-						OnDeviceChanged(elementDevice.XDeviceUID);
-				});
+					if (guid != Guid.Empty)
+						OnDeviceChanged(guid);
+					guid = elementDevice.DeviceUID;
+				}
+			});
+			_lockSelection = false;
+			if (guid != Guid.Empty)
+				OnDeviceChanged(guid);
 		}
+
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementXDevice elementDevice = element as ElementXDevice;
+			ElementDevice elementDevice = element as ElementDevice;
 			if (elementDevice != null)
-				Select(elementDevice.XDeviceUID);
+				Select(elementDevice.DeviceUID);
 		}
 	}
 }

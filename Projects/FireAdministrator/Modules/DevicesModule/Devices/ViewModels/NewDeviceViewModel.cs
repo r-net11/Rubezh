@@ -178,7 +178,6 @@ namespace DevicesModule.ViewModels
 				return;
 			}
 
-			//int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
 			int startAddress = SelectedShleif * 256 + StartAddress;
 			int endAddress = startAddress + Count * GetReserverCount();
 			if (SelectedDriver.MaxAddress > 0)
