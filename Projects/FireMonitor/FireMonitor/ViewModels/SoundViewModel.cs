@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.IO;
+using Microsoft.Windows.Controls;
 
 namespace FireMonitor.ViewModels
 {

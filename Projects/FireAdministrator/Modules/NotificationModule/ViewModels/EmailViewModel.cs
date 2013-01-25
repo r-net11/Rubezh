@@ -30,16 +30,7 @@ namespace NotificationModule.ViewModels
 		{
 			get
 			{
-				var presenrationStates = new StringBuilder();
-				if (Email.SendingStates == null)
-					Email.SendingStates = new List<StateType>();
-				for (int i = 0; i < Email.SendingStates.Count; i++)
-				{
-					if (i > 0)
-						presenrationStates.Append(", ");
-					presenrationStates.Append(Email.SendingStates[i].ToDescription());
-				}
-				return presenrationStates.ToString();
+				return Infrastructure.Common.Mail.MailHelper.PresentStates(Email);
 			}
 		}
 	}

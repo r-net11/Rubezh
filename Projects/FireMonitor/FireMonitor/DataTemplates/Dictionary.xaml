@@ -15,7 +15,11 @@
 		<Views:SoundView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:UserViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MailViewModel}">
+        <Views:MailView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:UserViewModel}">
 		<Views:UserView />
 	</DataTemplate>
 

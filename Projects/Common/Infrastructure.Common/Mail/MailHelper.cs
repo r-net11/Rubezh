@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Mail;
+using FiresecAPI.Models;
+using System.Text;
+using FiresecAPI;
+using System.Collections.Generic;
 
 namespace Infrastructure.Common.Mail
 {
@@ -22,6 +26,21 @@ namespace Infrastructure.Common.Mail
 				Trace.WriteLine("Exception Mail.Send: {0}",
 								ex.ToString());
 			}
+		}
+
+		public static string PresentStates(Email email)
+		{
+			var presenrationStates = new StringBuilder();
+			if (email.SendingStates == null)
+				email.SendingStates = new List<StateType>();
+			for (int i = 0; i < email.SendingStates.Count; i++)
+			{
+				if (i > 0)
+					presenrationStates.Append(", ");
+				presenrationStates.Append(email.SendingStates[i].ToDescription());
+			}
+			return presenrationStates.ToString();
+			
 		}
 	}
 }
