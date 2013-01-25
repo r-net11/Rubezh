@@ -16,18 +16,18 @@ namespace Common.GK
 				ShortName = "МДУ-1",
 				IsControlDevice = true,
 				HasLogic = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
 			var property1 = new XDriverProperty()
 			{
 				No = 0x82,
-				Name = "Время переключения электропривода в положение ЗАКРЫТО",
-				Caption = "Время переключения электропривода в положение ЗАКРЫТО",
+				Name = "Время включения, с",
+				Caption = "Время включения, с",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -38,8 +38,8 @@ namespace Common.GK
 			var property2 = new XDriverProperty()
 			{
 				No = 0x83,
-				Name = "Время переключения электропривода в положение ОТКРЫТО",
-				Caption = "Время переключения электропривода в положение ОТКРЫТО",
+				Name = "Время выключения, с",
+				Caption = "Время выключения, с",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -50,8 +50,8 @@ namespace Common.GK
 			var property3 = new XDriverProperty()
 			{
 				No = 0x84,
-				Name = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
-				Caption = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
+				Name = "Задержка, с",
+				Caption = "Задержка, с",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -62,8 +62,8 @@ namespace Common.GK
 			var property4 = new XDriverProperty()
 			{
 				No = 0x86,
-				Name = "Критическое время без обмена для перехода в защищаемое состояние",
-				Caption = "Критическое время без обмена для перехода в защищаемое состояние",
+				Name = "Таймаут, с",
+				Caption = "Таймаут, с",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -76,7 +76,8 @@ namespace Common.GK
 				No = 0x85,
 				Name = "Тип клапана",
 				Caption = "Тип клапана",
-				Default = 0
+				Default = 0,
+				Mask = 1
 			};
 			var property5Parameter1 = new XDriverPropertyParameter()
 			{
@@ -98,7 +99,7 @@ namespace Common.GK
 				Name = "Тип привода",
 				Caption = "Тип привода",
 				Default = 0,
-				Offset = 0
+				Mask = 6
 			};
 			var property6Parameter1 = new XDriverPropertyParameter()
 			{
@@ -108,12 +109,12 @@ namespace Common.GK
 			var property6Parameter2 = new XDriverPropertyParameter()
 			{
 				Name = "Пружинный",
-				Value = 1
+				Value = 2
 			};
 			var property6Parameter3 = new XDriverPropertyParameter()
 			{
 				Name = "Ручной",
-				Value = 2
+				Value = 4
 			};
 			property6.Parameters.Add(property6Parameter1);
 			property6.Parameters.Add(property6Parameter2);
@@ -122,12 +123,24 @@ namespace Common.GK
 
 			var property7 = new XDriverProperty()
 			{
-				No = 0x86,
-				Name = "Перевод заслонки в указанное положение после подачи питания на модуль(Только для пружинного привода)",
-				Caption = "Перевод заслонки в указанное положение после подачи питания на модуль(Только для пружинного привода)",
-				DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
-				Offset = 7
+				No = 0x85,
+				Name = "Начальное положение",
+				Caption = "Начальное положение",
+				Default = 0,
+				Mask = 128
 			};
+			var property7Parameter1 = new XDriverPropertyParameter()
+			{
+				Name = "Защита",
+				Value = 0
+			};
+			var property7Parameter2 = new XDriverPropertyParameter()
+			{
+				Name = "Дежурное положение",
+				Value = 128
+			};
+			property7.Parameters.Add(property7Parameter1);
+			property7.Parameters.Add(property7Parameter2);
 			driver.Properties.Add(property7);
 
 			return driver;

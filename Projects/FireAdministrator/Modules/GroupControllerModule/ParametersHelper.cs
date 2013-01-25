@@ -202,7 +202,7 @@ namespace GKModule
 						paramValue = (byte)(paramValue & driverProperty.Mask);
 						if (driverProperty.Multiplier != 0)
 						{
-							paramValue = (ushort)(paramValue / driverProperty.Multiplier);
+							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
 						var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property != null)
