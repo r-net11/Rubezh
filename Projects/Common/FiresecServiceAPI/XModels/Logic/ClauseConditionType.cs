@@ -2,12 +2,12 @@
 
 namespace XFiresecAPI
 {
-    public enum ClauseConditionType
-    {
-        [DescriptionAttribute("Если")]
-        If,
+	public enum ClauseConditionType
+	{
+		[DescriptionAttribute("Если")]
+		If,
 
 		[DescriptionAttribute("Если НЕ")]
-        IfNot
-    }
+		IfNot
+	}
 }

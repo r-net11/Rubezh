@@ -96,40 +96,27 @@ namespace GKModule.ViewModels
 				{
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
 					StateType = clauseViewModel.SelectedStateType,
-					Zones = clauseViewModel.Zones.ToList(),
-					Devices = clauseViewModel.Devices.ToList(),
-					Directions = clauseViewModel.Directions.ToList(),
-					ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList(),
-					DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList(),
-					DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList(),
-					//ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
 					ClauseJounOperationType = JoinOperator,
 					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
 				};
-				switch(clause.ClauseOperationType)
+				switch (clause.ClauseOperationType)
 				{
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
-						clause.Zones.Clear();
-						clause.ZoneUIDs.Clear();
-						clause.Directions.Clear();
-						clause.DeviceUIDs.Clear();
+						clause.Devices = clauseViewModel.Devices.ToList();
+						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
-						clause.Devices.Clear();
-						clause.DeviceUIDs.Clear();
-						clause.Directions.Clear();
-						clause.DeviceUIDs.Clear();
+						clause.Zones = clauseViewModel.Zones.ToList();
+						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
-						clause.Devices.Clear();
-						clause.DeviceUIDs.Clear();
-						clause.Zones.Clear();
-						clause.ZoneUIDs.Clear();
+						clause.Directions = clauseViewModel.Directions.ToList();
+						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList();
 						break;
 				}
 				if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)

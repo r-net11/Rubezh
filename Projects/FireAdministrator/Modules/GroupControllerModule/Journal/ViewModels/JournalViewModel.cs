@@ -71,6 +71,19 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		int _lastCount = 0;
+		public int LastCount
+		{
+			get { return _lastCount; }
+			set
+			{
+				_lastCount = value;
+				OnPropertyChanged("LastCount");
+				StartIndex = Math.Max(0, TotalCount - value);
+				EndIndex = TotalCount;
+			}
+		}
+
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{

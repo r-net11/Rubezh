@@ -27,6 +27,8 @@ namespace Common.GK
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
+			driver.AvailableStates.Add(XStateType.No);
+			driver.AvailableStates.Add(XStateType.Norm);
 
 			driver.Properties.Add(
 				new XDriverProperty()

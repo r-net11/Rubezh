@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using Infrastructure.Events;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -143,12 +144,19 @@ namespace GKModule.ViewModels
 		{
 			Parent.IsExpanded = false;
 			XManager.RemoveDevice(Parent.Device, Device);
-			Parent.Children.Remove(this);
-			Parent.Update();
-			Parent.IsExpanded = true;
+			var parent = Parent;
+			if (parent != null)
+			{
+				var index = parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
+				parent.Children.Remove(this);
+				parent.Update();
 
-			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
+
+				index = Math.Min(index, parent.Children.Count - 1);
+				DevicesViewModel.Current.AllDevices.Remove(this);
+				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
+			}
 		}
 		bool CanRemove()
 		{

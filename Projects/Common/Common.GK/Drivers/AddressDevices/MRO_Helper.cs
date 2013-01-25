@@ -43,7 +43,8 @@ namespace Common.GK
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 255,
+				Multiplier = 5
 			};
 			driver.Properties.Add(property2);
 

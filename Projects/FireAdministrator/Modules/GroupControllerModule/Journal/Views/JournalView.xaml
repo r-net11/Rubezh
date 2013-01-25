@@ -51,22 +51,27 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <TextBlock Text="Начальный номер записи" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Начальный номер записи" Foreground="White" Margin="2" />
                     <TextBox Text="{Binding StartIndex}" Margin="2" />
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock Text="Конечный номер записи" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Конечный номер записи" Foreground="White" Margin="2" />
                     <TextBox Text="{Binding EndIndex}" Margin="2" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Количество последних записей" Foreground="White" Margin="2" />
+                    <TextBox Text="{Binding LastCount, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 </StackPanel>
             </Grid>
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Всего записей: " Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Text="{Binding TotalCount}" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="White" HorizontalAlignment="Right" />
             </StackPanel>
             <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
         </StackPanel>

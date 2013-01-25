@@ -116,6 +116,11 @@ namespace Common.GK
 		{
 			var binProperties = new List<BinProperty>();
 
+			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)
+			{
+				Parameters = new List<byte>();
+				return;
+			}
             foreach (var property in Device.Properties)
             {
                 var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
