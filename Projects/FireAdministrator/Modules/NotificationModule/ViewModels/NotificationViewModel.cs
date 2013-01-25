@@ -91,8 +91,8 @@ namespace NotificationModule.ViewModels
 		private void OnTest()
 		{
 			MailHelper.Send(SelectedEmail.Email.Address,
-							"This message was automatically sent by Firesec-2 application",
-							"Testing message from Firesec-2");
+							"Этот адресат уведомляется о следующих состояниях: " + SelectedEmail.PresenrationStates,
+							"Тестовое собщение Firesec-2");
 		}
 
 		public RelayCommand AddCommand { get; private set; }
