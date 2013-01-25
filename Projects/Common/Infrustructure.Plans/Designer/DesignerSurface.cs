@@ -39,20 +39,15 @@ namespace Infrustructure.Plans.Designer
 		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Add(visual);
-			//AddVisualChild(visual);
-			//AddLogicalChild(visual);
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Remove(visual);
-			//RemoveVisualChild(visual);
-			//RemoveLogicalChild(visual);
 		}
 		internal void UpdateZIndex()
 		{
-			//_visuals.ForEach(item => RemoveVisualChild(item));
 			_visuals.Sort((item1, item2) => item1.Element.ZLayer == item2.Element.ZLayer ? item1.Element.ZIndex - item2.Element.ZIndex : item1.Element.ZLayer - item2.Element.ZLayer);
-			//_visuals.ForEach(item => AddVisualChild(item));
+			InvalidateVisual();
 		}
 		internal void Update(bool isActive)
 		{

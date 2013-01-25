@@ -82,6 +82,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			Element = element;
 			Painter = PainterFactory.Create(Element);
+			Painter.Invalidate();
 			if (DesignerCanvas != null)
 				DesignerCanvas.Refresh();
 		}
