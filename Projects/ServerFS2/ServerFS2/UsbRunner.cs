@@ -6,7 +6,7 @@ using LibUsbDotNet;
 using LibUsbDotNet.Main;
 using System.Threading;
 
-namespace TestUSB
+namespace ServerFS2
 {
 	public class UsbRunner
 	{

@@ -7,11 +7,11 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("TestUSB")]
+[assembly: AssemblyTitle("ServerFS2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("qq")]
-[assembly: AssemblyProduct("TestUSB")]
+[assembly: AssemblyProduct("ServerFS2")]
 [assembly: AssemblyCopyright("Copyright © qq 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

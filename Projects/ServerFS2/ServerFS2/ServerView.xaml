@@ -1,0 +1,50 @@
+﻿<Window x:Class="ServerFS2.ServerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ServerFS2="clr-namespace:ServerFS2" Height="450" Width="400">
+    <Window.Resources>
+        <ServerFS2:NullObjectToVisibiltyConverter
+         x:Key="NullObjectToVisibiltyConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Button Content="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}"  Margin="2"/>
+            <ListView ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Адрес" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Version}" Header="Версия" />
+                        <GridViewColumn DisplayMemberBinding="{Binding SerialNo}" Header="Зав. Номер" />
+                        <GridViewColumn DisplayMemberBinding="{Binding UsbChannel}" Header="USB-Канал" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Visibility="{Binding SelectedDevice, Converter={StaticResource NullObjectToVisibiltyConverter}}">
+                <Button Content="Запросить журнал событий" Command = "{Binding ReadJournalCommand}" Margin="2" />
+            </StackPanel>
+        </StackPanel>
+        <Grid Grid.Row="2" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Запрос:" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TextBoxRequest}" Margin="2"/>
+                <Button Grid.Row="1" Grid.ColumnSpan="2" Content="Послать запрос" Command = "{Binding SendRequestCommand}" Margin="2" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Ответ:" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TextBoxResponse}" Margin="2"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
