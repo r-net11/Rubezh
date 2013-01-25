@@ -47,7 +47,6 @@ namespace DevicesModule.Plans
 
 		public void Initialize()
 		{
-			DevicePictureCache.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -170,10 +169,17 @@ namespace DevicesModule.Plans
 
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
+			using (new TimeCounter("DevicePictureCache.LoadCache: {0}"))
+				DevicePictureCache.LoadCache();
 			_designerCanvas = designerCanvas;
 			LayerGroupService.Instance.RegisterGroup("Devices", "Устройства", 0);
 			LayerGroupService.Instance.RegisterGroup("Zone", "Зоны", 1);
 			UpdateDeviceInZones(_designerCanvas.Items.Select(item => item.Element).ToList());
+		}
+		public void ExtensionAttached()
+		{
+			using (new TimeCounter("Device.ExtensionAttached.BuildMap: {0}"))
+				Helper.BuildMap();
 		}
 
 		#endregion
@@ -221,8 +227,6 @@ namespace DevicesModule.Plans
 				{
 					UpdateDesignerItemZone(designerItem);
 					_designerCanvas.Refresh();
-					//designerItem.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
-					//designerItem.Redraw();
 				};
 		}
 
@@ -239,8 +243,6 @@ namespace DevicesModule.Plans
 				{
 					UpdateDesignerItemDevice(designerItem);
 					_designerCanvas.Refresh();
-					//designerItem.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
-					//designerItem.Redraw();
 				};
 		}
 
@@ -281,29 +283,6 @@ namespace DevicesModule.Plans
 						if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
 							geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone.ZoneUID);
 					}
-					//foreach (var designerItem in _designerCanvas.Items)
-					//{
-					//    ElementPolygonZone elementPolygonZone = designerItem.Element as ElementPolygonZone;
-					//    if (elementPolygonZone != null && elementPolygonZone.ZoneUID != Guid.Empty && elementPolygonZone.Points.Count > 2)
-					//    {
-					//        StreamGeometry geometry = new StreamGeometry();
-					//        geometry.FillRule = FillRule.EvenOdd;
-					//        using (StreamGeometryContext context = geometry.Open())
-					//        {
-					//            context.BeginFigure(elementPolygonZone.Points[0], true, true);
-					//            for (int i = 1; i < elementPolygonZone.Points.Count; i++)
-					//                context.LineTo(elementPolygonZone.Points[i], true, false);
-					//            context.Close();
-					//        }
-					//        geometries.Add(geometry, elementPolygonZone.ZoneUID);
-					//    }
-					//    else
-					//    {
-					//        ElementRectangleZone elementRectangleZone = designerItem.Element as ElementRectangleZone;
-					//        if (elementRectangleZone != null && elementRectangleZone.ZoneUID != Guid.Empty)
-					//            geometries.Add(new RectangleGeometry(elementRectangleZone.GetRectangle()), elementRectangleZone.ZoneUID);
-					//    }
-					//}
 					foreach (var designerItem in _designerCanvas.Items)
 					{
 						ElementDevice elementDevice = designerItem.Element as ElementDevice;
@@ -315,7 +294,7 @@ namespace DevicesModule.Plans
 							var point = new Point(elementDevice.Left, elementDevice.Top);
 							var zoneUIDs = new List<Guid>();
 							foreach (var pair in geometries)
-								if (pair.Key.FillContains(point))
+								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
 									zoneUIDs.Add(pair.Value);
 							if (device.ZoneUID != Guid.Empty)
 							{
@@ -330,7 +309,7 @@ namespace DevicesModule.Plans
 							}
 							else if (zoneUIDs.Count > 0)
 							{
-								var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs[0]);
+								var zone = Helper.GetZone(zoneUIDs[0]);
 								if (zone != null)
 									FiresecManager.FiresecConfiguration.AddDeviceToZone(device, zone);
 							}

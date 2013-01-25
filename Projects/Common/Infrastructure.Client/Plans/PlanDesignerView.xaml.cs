@@ -53,18 +53,9 @@ namespace Infrastructure.Client.Plans
 		{
 			if (!((IPlanDesignerViewModel)DataContext).HasPermissionsToScale)
 				return;
-
 			lastMousePositionOnTarget = Mouse.GetPosition(_grid);
-
-			if (e.Delta > 0)
-			{
-				slider.Value += 0.2;
-			}
-			else if (e.Delta < 0)
-			{
-				slider.Value -= 0.2;
-			}
-
+			if (e.Delta != 0)
+				slider.Value += e.Delta > 0 ? 0.2 : -0.2;
 			e.Handled = true;
 		}
 
@@ -136,9 +127,9 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-		void FullSize()
+		private void FullSize()
 		{
-			var canvas = _contentControl.Content as Canvas;
+			var canvas = _contentControl.Content as FrameworkElement;
 			if (canvas == null)
 				return;
 

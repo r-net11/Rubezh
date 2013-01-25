@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrustructure.Plans.Painters;
+using Infrastructure.Client.Plans;
 
 namespace PlansModule.ViewModels
 {
@@ -49,16 +51,18 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => plan.UID = Guid.NewGuid());
 			using (new TimeCounter("PlansViewModel.Initialize: {0}"))
 			{
+				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
+					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+					{
+						PainterCache.CacheBrush(plan.BackgroundPixels);
+						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+							PainterCache.CacheBrush(elementBase.BackgroundPixels);
+					}
 				Plans = new ObservableCollection<PlanViewModel>();
-				DesignerCanvas.Clear();
 				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-				{
-					PlanDesignerViewModel.Initialize(plan);
 					AddPlan(plan, null);
-				}
 
 				for (int i = 0; i < Plans.Count; i++)
 				{
@@ -79,10 +83,7 @@ namespace PlansModule.ViewModels
 				parentPlanViewModel.Children.Add(planViewModel);
 
 			foreach (var childPlan in plan.Children)
-			{
-				PlanDesignerViewModel.Initialize(childPlan);
 				AddPlan(childPlan, planViewModel);
-			}
 		}
 
 		private ObservableCollection<PlanViewModel> _plans;
@@ -104,20 +105,19 @@ namespace PlansModule.ViewModels
 			{
 				if (SelectedPlan == value)
 					return;
-				using (new TimeCounter("PlansViewModel.SelectedPlan: {0}"))
+				using (new TimeCounter("PlansViewModel.SelectedPlan: {0}", true, true))
 				{
 					_selectedPlan = value;
 					OnPropertyChanged("SelectedPlan");
 					DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null;
 					PlanDesignerViewModel.Save();
-					PlanDesignerViewModel.SelectPlan(value == null ? null : value.Plan);
+					PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
 					if (value != null)
 						ElementsViewModel.Update();
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
 				}
-				Debug.WriteLine("===========================================");
 			}
 		}
 
@@ -143,7 +143,6 @@ namespace PlansModule.ViewModels
 				var plan = planDetailsViewModel.Plan;
 				var planViewModel = new PlanViewModel(plan);
 				Plans.Add(planViewModel);
-				DesignerCanvas.RegisterPlan(plan);
 				SelectedPlan = planViewModel;
 
 				FiresecManager.PlansConfiguration.Plans.Add(plan);
@@ -162,7 +161,6 @@ namespace PlansModule.ViewModels
 				SelectedPlan.Children.Add(planViewModel);
 				SelectedPlan.Plan.Children.Add(plan);
 				SelectedPlan.Update();
-				DesignerCanvas.RegisterPlan(plan);
 				SelectedPlan = planViewModel;
 
 				FiresecManager.PlansConfiguration.Update();
@@ -178,7 +176,6 @@ namespace PlansModule.ViewModels
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
 
-				DesignerCanvas.RemovePlan();
 				if (parent == null)
 				{
 					Plans.Remove(selectedPlan);
@@ -207,7 +204,7 @@ namespace PlansModule.ViewModels
 
 				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
-				SelectedPlan = Plans.FirstOrDefault();
+				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
 			}
 		}
 		public RelayCommand EditCommand { get; private set; }
@@ -219,6 +216,7 @@ namespace PlansModule.ViewModels
 				SelectedPlan.Update();
 				DesignerCanvas.Update();
 				PlanDesignerViewModel.Update();
+				DesignerCanvas.Refresh();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
@@ -269,6 +267,7 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("PlansViewModel.UpdatePlansConfiguration: {0}"))
 					FiresecManager.UpdatePlansConfiguration();
 				DesignerCanvas.DeselectAll();
+				ExtensionAttached();
 
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;

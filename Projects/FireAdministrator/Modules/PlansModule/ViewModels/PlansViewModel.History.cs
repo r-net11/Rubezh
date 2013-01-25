@@ -89,7 +89,7 @@ namespace PlansModule.ViewModels
 					List<ElementBase> elements = new List<ElementBase>();
 					foreach (var elementBase in historyItem.ElementsBefore)
 					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
+						var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
 						if (designerItem != null)
 						{
 							var element = elementBase.Clone();
@@ -129,7 +129,7 @@ namespace PlansModule.ViewModels
 					List<ElementBase> elements = new List<ElementBase>();
 					foreach (var elementBase in historyItem.ElementsAfter)
 					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
+						var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
 						var element = elementBase.Clone();
 						designerItem.ResetElement(element);
 						elements.Add(element);

@@ -42,9 +42,6 @@ namespace PlansModule.Designer
 		public override void EndChange()
 		{
 		}
-		public override void Remove(List<Guid> elementUIDs)
-		{
-		}
 		public override void CreateDesignerItem(ElementBase element)
 		{
 		}
@@ -62,24 +59,16 @@ namespace PlansModule.Designer
 		{
 			CanvasWidth = plan.Width;
 			CanvasHeight = plan.Height;
-			if (plan.BackgroundPixels != null)
-				CanvasBackground = PainterHelper.CreateBrush(plan.BackgroundPixels);
-			else if (plan.BackgroundColor == Colors.Transparent)
+			if (plan.BackgroundColor == Colors.Transparent)
 				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
 			else
-				CanvasBackground = new SolidColorBrush(plan.BackgroundColor);
+				CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
 		}
 
-		public void ShowPlan(Plan plan)
+		public void Initialize(Plan plan)
 		{
 			Plan = plan;
-			ShowCanvas(plan == null ? Guid.Empty : plan.UID);
-		}
-		public void RegisterPlan(Plan plan)
-		{
-			AddCanvas(plan.UID);
-			Update(plan);
-			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
+			Initialize();
 		}
 
 		public void UpdateZoom(double zoom, double deviceZoom)

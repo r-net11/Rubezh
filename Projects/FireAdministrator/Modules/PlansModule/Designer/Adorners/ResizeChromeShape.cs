@@ -20,17 +20,25 @@ namespace PlansModule.Designer.Adorners
 		public ResizeChromeShape(DesignerItem designerItem)
 			: base(designerItem)
 		{
-			_transforms = new List<TranslateTransform>();
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			_points = element == null ? new PointCollection() : element.Points;
+			PrepareSizableBounds();
+			_transforms = new List<TranslateTransform>();
+			for (int i = 0; i < _points.Count; i++)
+				_transforms.Add(new TranslateTransform());
 		}
 
 		protected override void Draw(DrawingContext drawingContext)
 		{
-			_transforms.Clear();
 			DrawSizableBounds(drawingContext);
-			foreach (var point in _points)
-				_transforms.Add(DrawThumb(drawingContext, point));
+			if (_transforms.Count != _points.Count)
+			{
+				_transforms.Clear();
+				for (int i = 0; i < _points.Count; i++)
+					_transforms.Add(new TranslateTransform());
+			}
+			for (int i = 0; i < _transforms.Count; i++)
+				DrawThumb(drawingContext, _transforms[i]);
 		}
 		protected override void Translate()
 		{

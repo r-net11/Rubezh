@@ -4,18 +4,29 @@ using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
+using System.Collections.Generic;
 
 namespace DevicesModule.Plans.Designer
 {
 	public static class Helper
 	{
+		private static Dictionary<Guid, Zone> _zoneMap;
+		private static Dictionary<Guid, Device> _deviceMap;
+		public static void BuildMap()
+		{
+			_zoneMap = new Dictionary<Guid, Zone>();
+			FiresecManager.Zones.ForEach(item => _zoneMap.Add(item.UID, item));
+			_deviceMap = new Dictionary<Guid, Device>();
+			FiresecManager.Devices.ForEach(item => _deviceMap.Add(item.UID, item));
+		}
+
 		public static Zone GetZone(IElementZone element)
 		{
-			return element.ZoneUID != Guid.Empty ? FiresecManager.Zones.FirstOrDefault(x => x.UID == element.ZoneUID) : null;
+			return GetZone(element.ZoneUID);
 		}
-		public static Plan GetPlan(ElementSubPlan element)
+		public static Zone GetZone(Guid zoneUID)
 		{
-			return FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
+			return zoneUID != Guid.Empty && _zoneMap.ContainsKey(zoneUID) ? _zoneMap[zoneUID] : null;
 		}
 		public static void SetZone(IElementZone element)
 		{
@@ -43,7 +54,7 @@ namespace DevicesModule.Plans.Designer
 
 		public static Device GetDevice(ElementDevice element)
 		{
-			return element.DeviceUID == null ? null : FiresecManager.Devices.FirstOrDefault(x => x.UID == element.DeviceUID);
+			return element.DeviceUID != Guid.Empty && _deviceMap.ContainsKey(element.DeviceUID) ? _deviceMap[element.DeviceUID] : null;
 		}
 		public static void SetDevice(ElementDevice element, Device device)
 		{
@@ -74,11 +85,6 @@ namespace DevicesModule.Plans.Designer
 		public static string GetZoneTitle(Zone zone)
 		{
 			return zone == null ? "Несвязанная зона" : zone.PresentationName;
-		}
-		public static string GetSubPlanTitle(ElementSubPlan element)
-		{
-			Plan plan = GetPlan(element);
-			return plan == null ? "Несвязанный подплан" : plan.Caption;
 		}
 		public static string GetDeviceTitle(ElementDevice element)
 		{

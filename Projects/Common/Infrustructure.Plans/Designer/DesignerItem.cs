@@ -97,7 +97,12 @@ namespace Infrustructure.Plans.Designer
 		{
 			base.Render(drawingContext);
 			if (ResizeChrome != null)
-				ResizeChrome.Render(drawingContext);
+			{
+				if (IsSelected)
+					ResizeChrome.Render(drawingContext);
+				else
+					ResizeChrome.Reset();
+			}
 		}
 		public override void RefreshPainter()
 		{
@@ -203,37 +208,10 @@ namespace Infrustructure.Plans.Designer
 					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 					{
 						designerItem.Element.Position += shift;
-						//designerItem.Translate();
 						designerItem.RefreshPainter();
 					}
 			}
 		}
-		//private SelectionAdorner _moveAdorner;
-		//public override void DragStarted(Point point)
-		//{
-		//    Console.WriteLine("DesignerItem.DragStarted");
-		//    if (IsSelected)
-		//    {
-		//        IsBusy = true;
-		//        DesignerCanvas.BeginChange();
-		//        if (_moveAdorner != null)
-		//            _moveAdorner.Hide();
-		//        _moveAdorner = new SelectionAdorner(DesignerCanvas);
-		//        _moveAdorner.Show(point);
-		//    }
-		//}
-		//public override void DragCompleted(Point point)
-		//{
-		//    Console.WriteLine("DesignerItem.DragCompleted");
-		//    IsBusy = false;
-		//    if (_moveAdorner != null)
-		//    {
-		//        _moveAdorner.Hide();
-		//        if (_moveAdorner.IsMoved)
-		//            DesignerCanvas.EndChange();
-		//        _moveAdorner = null;
-		//    }
-		//}
 
 		public override IVisualItem HitTest(Point point)
 		{

@@ -1,6 +1,6 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -19,6 +19,10 @@ namespace Infrustructure.Plans.Painters
 		{
 			CalculateRectangle();
 			Geometry.Rect = Rect;
+		}
+		public override Rect Bounds
+		{
+			get { return Pen == null ? Rect : new Rect(Rect.Left - Pen.Thickness / 2, Rect.Top - Pen.Thickness / 2, Rect.Width + Pen.Thickness, Rect.Height + Pen.Thickness); }
 		}
 	}
 }

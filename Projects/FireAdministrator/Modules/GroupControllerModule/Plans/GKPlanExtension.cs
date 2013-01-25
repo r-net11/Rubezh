@@ -11,6 +11,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
 using GKModule.ViewModels;
+using Common;
 
 namespace GKModule.Plans
 {
@@ -158,6 +159,11 @@ namespace GKModule.Plans
 			_designerCanvas = designerCanvas;
 			LayerGroupService.Instance.RegisterGroup("GK", "ГК", 1);
 			LayerGroupService.Instance.RegisterGroup("XZone", "ГК Зоны", 2);
+		}
+		public void ExtensionAttached()
+		{
+			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
+				Helper.BuildMap();
 		}
 
 		#endregion

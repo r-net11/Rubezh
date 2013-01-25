@@ -5,11 +5,22 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.Plans.Designer
 {
 	internal static class Helper
 	{
+		private static Dictionary<Guid, XZone> _xzoneMap;
+		private static Dictionary<Guid, XDevice> _xdeviceMap;
+		public static void BuildMap()
+		{
+			_xzoneMap = new Dictionary<Guid, XZone>();
+			XManager.DeviceConfiguration.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
+			_xdeviceMap = new Dictionary<Guid, XDevice>();
+			XManager.DeviceConfiguration.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+		}
+		
 		public static string GetXZoneTitle(IElementZone element)
 		{
 			XZone xzone = GetXZone(element);
@@ -17,7 +28,11 @@ namespace GKModule.Plans.Designer
 		}
 		public static XZone GetXZone(IElementZone element)
 		{
-            return element.ZoneUID != Guid.Empty ? XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == element.ZoneUID) : null;
+			return GetXZone(element.ZoneUID);
+		}
+		public static XZone GetXZone(Guid xzoneUID)
+		{
+			return xzoneUID != Guid.Empty && _xzoneMap.ContainsKey(xzoneUID) ? _xzoneMap[xzoneUID] : null;
 		}
 		public static void SetXZone(IElementZone element)
 		{
@@ -39,7 +54,7 @@ namespace GKModule.Plans.Designer
 
 		public static XDevice GetXDevice(ElementXDevice element)
 		{
-			return XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == (element.XDeviceUID));
+			return element.XDeviceUID != Guid.Empty && _xdeviceMap.ContainsKey(element.XDeviceUID) ? _xdeviceMap[element.XDeviceUID] : null;
 		}
 		public static string GetXDeviceTitle(ElementXDevice element)
 		{

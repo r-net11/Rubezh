@@ -11,6 +11,7 @@ namespace PlansModule.Designer.Adorners
 		public ResizeChromePoint(DesignerItem designerItem)
 			: base(designerItem)
 		{
+			PrepareBounds();
 		}
 
 		protected override void Draw(DrawingContext drawingContext)

@@ -103,5 +103,11 @@ namespace PlansModule.ViewModels
 				layers
 			};
 		}
+
+		private void ExtensionAttached()
+		{
+			foreach (var planExtension in _planExtensions)
+				planExtension.ExtensionAttached();
+		}
 	}
 }

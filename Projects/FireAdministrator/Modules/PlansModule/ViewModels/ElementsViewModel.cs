@@ -115,7 +115,7 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var elementBase in elements)
 			{
-				var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
+				var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
 				if (designerItem != null)
 					AddElement(new ElementViewModel(Elements, designerItem));
 			}

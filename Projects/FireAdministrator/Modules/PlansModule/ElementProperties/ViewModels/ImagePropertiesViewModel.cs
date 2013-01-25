@@ -29,8 +29,7 @@ namespace PlansModule.ViewModels
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg";
 			if (openFileDialog.ShowDialog().Value)
-			{
-				Uri uri = new Uri(openFileDialog.FileName);
+			{	
 				BackgroundPixels = File.ReadAllBytes(openFileDialog.FileName);
 				UpdateImage();
 			}

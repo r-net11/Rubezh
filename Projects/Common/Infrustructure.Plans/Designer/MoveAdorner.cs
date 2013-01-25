@@ -73,6 +73,8 @@ namespace Infrustructure.Plans.Designer
 				{
 					designerItem.IsVisibleLayout = false;
 					designerItem.Painter.Draw(context);
+					if (designerItem.ResizeChrome != null)
+						designerItem.ResizeChrome.Render(context);
 				}
 		}
 
@@ -80,6 +82,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
+				if (!IsMoved)
+					_designerCanvas.BeginChange();
 				IsMoved = true;
 				var shift = CalculateShift(e.GetPosition(_designerCanvas));
 				_transform.X = shift.X;
@@ -100,7 +104,7 @@ namespace Infrustructure.Plans.Designer
 
 		private void Completed()
 		{
-			if (_startPoint.HasValue)
+			if (_startPoint.HasValue && IsMoved)
 			{
 				var shift = CalculateShift(Mouse.GetPosition(_designerCanvas));
 				IsMoved = shift.X != 0 || shift.Y != 0;
@@ -109,9 +113,12 @@ namespace Infrustructure.Plans.Designer
 					{
 						designerItem.Element.Position += shift;
 						designerItem.IsVisibleLayout = true;
+						designerItem.IsSelected = true;
+						designerItem.RefreshPainter();
 					}
-				_designerCanvas.Refresh();//???
+				_designerCanvas.Refresh();
 				_startPoint = null;
+				_designerCanvas.EndChange();
 			}
 		}
 		private Vector CalculateShift(Point point)

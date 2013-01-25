@@ -15,5 +15,6 @@ namespace Infrustructure.Plans
 		IEnumerable<ElementBase> LoadPlan(T plan);
 		IEnumerable<IInstrument> Instruments { get; }
 		void ExtensionRegistered(CommonDesignerCanvas designerCanvas);
+		void ExtensionAttached();
 	}
 }

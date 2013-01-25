@@ -15,6 +15,7 @@ namespace Infrustructure.Plans.Designer
 		private IVisualItem _visualItemOver;
 		private bool _isDragging;
 		private Point _previousPosition;
+		public Brush BackgroundBrush { get; set; }
 
 		public DesignerSurface()
 		{
@@ -44,6 +45,10 @@ namespace Infrustructure.Plans.Designer
 		{
 			_visuals.Remove(visual);
 		}
+		internal void ClearDesignerItems()
+		{
+			_visuals.Clear();
+		}
 		internal void UpdateZIndex()
 		{
 			_visuals.Sort((item1, item2) => item1.Element.ZLayer == item2.Element.ZLayer ? item1.Element.ZIndex - item2.Element.ZIndex : item1.Element.ZLayer - item2.Element.ZLayer);
@@ -63,7 +68,6 @@ namespace Infrustructure.Plans.Designer
 
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
-			Console.WriteLine("DesignerSurface.OnMouseLeftButtonDown");
 			var point = e.GetPosition(this);
 			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
@@ -83,7 +87,6 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
-			Console.WriteLine("DesignerSurface.OnMouseLeftButtonUp");
 			var point = e.GetPosition(this);
 			ReleaseMouseCapture();
 			if (_isDragging)
@@ -137,7 +140,7 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected override void OnMouseLeave(MouseEventArgs e)
 		{
-			OnMouseMove(e);
+			Update(true);
 		}
 		protected override void OnContextMenuOpening(ContextMenuEventArgs e)
 		{
@@ -145,7 +148,6 @@ namespace Infrustructure.Plans.Designer
 			ContextMenu = _visualItemOver == null || !_visualItemOver.IsEnabled ? null : _visualItemOver.ContextMenuOpening();
 		}
 
-		//private IVisualItem _visualItem;
 		private IVisualItem GetVisualItem(Point point)
 		{
 			for (int i = _visuals.Count - 1; i >= 0; i--)
@@ -156,30 +158,14 @@ namespace Infrustructure.Plans.Designer
 						return visualItem;
 				}
 			return null;
-			//_visualItem = null;
-			//PointHitTestParameters parameters = new PointHitTestParameters(point);
-			//VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallback, parameters);
-			//return _visualItem;
 		}
-		//private HitTestResultBehavior HitTestCallback(HitTestResult result)
-		//{
-		//    _visualItem = result.VisualHit as IVisualItem;
-		//    return _visualItem == null ? HitTestResultBehavior.Continue : HitTestResultBehavior.Stop;
-		//}
-		//private HitTestFilterBehavior HitTestFilter(DependencyObject d)
-		//{
-		//    if (d == this)
-		//        return HitTestFilterBehavior.ContinueSkipSelf;
-		//    var visualItem = d as IVisualItem;
-		//    return visualItem != null && visualItem.IsEnabled ? HitTestFilterBehavior.Continue : HitTestFilterBehavior.ContinueSkipSelfAndChildren;
-		//}
 
 		protected override void OnRender(DrawingContext dc)
 		{
 			using (new TimeCounter("=Surface.Render: {0}"))
 			{
 				//base.OnRender(dc);
-				dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+				dc.DrawRectangle(BackgroundBrush, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
 				foreach (var item in _visuals)
 					if (item.IsVisibleLayout)
 						item.Render(dc);

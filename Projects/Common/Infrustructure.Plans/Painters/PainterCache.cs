@@ -1,24 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows;
+using System.Security.Cryptography;
+using System;
 
 namespace Infrustructure.Plans.Painters
 {
 	public static class PainterCache
 	{
+		private static SHA1CryptoServiceProvider _hashProvider;
 		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
 		private static Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
-		private static Dictionary<byte[], Brush> _pictureBrushes = new Dictionary<byte[], Brush>();
+		private static Dictionary<string, Brush> _pictureBrushes = new Dictionary<string, Brush>();
 		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
 		public static Pen ZonePen { get; private set; }
 		public static Brush BlackBrush { get; private set; }
-		public static RectangleGeometry PointGeometry {get;private set;}
+		public static RectangleGeometry PointGeometry { get; private set; }
 		public static double Zoom { get; private set; }
 		public static double PointZoom { get; private set; }
 
 		static PainterCache()
 		{
+			_hashProvider = new SHA1CryptoServiceProvider();
 			BlackBrush = new SolidColorBrush(Colors.Black);
 			BlackBrush.Freeze();
 			ZonePen = new Pen(BlackBrush, 1);
@@ -33,6 +37,13 @@ namespace Infrustructure.Plans.Painters
 			PointGeometry.Rect = new Rect(-pointZoom / 2, -pointZoom / 2, pointZoom, pointZoom);
 		}
 
+		public static string CacheBrush(byte[] backgroundPixels)
+		{
+			var key = Convert.ToBase64String(_hashProvider.ComputeHash(backgroundPixels ?? new byte[0]));
+			if (!_pictureBrushes.ContainsKey(key))
+				_pictureBrushes.Add(key, PainterHelper.CreateBrush(backgroundPixels));
+			return key;
+		}
 		public static Brush GetTransparentBrush(Color color, byte[] backgroundPixels)
 		{
 			var brush = GetBrush(color, backgroundPixels);
@@ -49,9 +60,8 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (backgroundPixels == null)
 				return GetBrush(color);
-			if (!_pictureBrushes.ContainsKey(backgroundPixels))
-				_pictureBrushes.Add(backgroundPixels, PainterHelper.CreateBrush(backgroundPixels));
-			return _pictureBrushes[backgroundPixels];
+			var hash = CacheBrush(backgroundPixels);
+			return _pictureBrushes[hash];
 		}
 		public static Brush GetBrush(Color color)
 		{
@@ -76,6 +86,5 @@ namespace Infrustructure.Plans.Painters
 			}
 			return _pens[color][thickness];
 		}
-
 	}
 }

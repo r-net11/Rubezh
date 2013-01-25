@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
-using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -20,6 +16,7 @@ namespace Infrustructure.Plans.Painters
 		public GeometryPainter(ElementBase element)
 		{
 			Element = element;
+			Geometry = CreateGeometry();
 		}
 
 		protected abstract T CreateGeometry();
@@ -65,7 +62,6 @@ namespace Infrustructure.Plans.Painters
 		}
 		public virtual void Invalidate()
 		{
-			Geometry = CreateGeometry();
 			//Geometry.Freeze();
 			Brush = GetBrush();
 			Pen = GetPen();
@@ -75,7 +71,7 @@ namespace Infrustructure.Plans.Painters
 
 		public virtual bool HitTest(Point point)
 		{
-			return Geometry == null ? false : (Brush != null && Geometry.FillContains(point, 0, ToleranceType.Absolute)) || Geometry.StrokeContains(Pen, point, 0, ToleranceType.Absolute);
+			return Geometry == null ? false : (Brush != null && Geometry.Bounds.Contains(point) && Geometry.FillContains(point, 0, ToleranceType.Absolute)) || Geometry.StrokeContains(Pen, point, 0, ToleranceType.Absolute);
 		}
 
 		#endregion

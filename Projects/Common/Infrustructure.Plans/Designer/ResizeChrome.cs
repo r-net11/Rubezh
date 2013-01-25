@@ -23,6 +23,7 @@ namespace Infrustructure.Plans.Designer
 
 		private bool _isVisible;
 		private bool _canResize;
+		private bool _isRendered;
 		private ScaleTransform _visibleTransform;
 		private RectangleGeometry _borderGeometry;
 		private TranslateTransform _transformTopLeft;
@@ -97,15 +98,25 @@ namespace Infrustructure.Plans.Designer
 
 		public ResizeChrome(DesignerItem designerItem)
 		{
+			_isRendered = true;
 			_visibleTransform = new ScaleTransform(0, 0);
 			_canResize = false;
 			_isVisible = false;
-			_borderGeometry = null;
-			_transformBottomLeft = null;
-			_transformBottomRight = null;
-			_transformTopLeft = null;
-			_transformTopRight = null;
 			DesignerItem = designerItem;
+		}
+		protected void PrepareBounds()
+		{
+			_borderGeometry = new RectangleGeometry();
+			_canResize = false;
+		}
+		protected void PrepareSizableBounds()
+		{
+			PrepareBounds();
+			_transformBottomLeft = new TranslateTransform();
+			_transformBottomRight = new TranslateTransform();
+			_transformTopLeft = new TranslateTransform();
+			_transformTopRight = new TranslateTransform();
+			_canResize = true;
 		}
 
 		public void InvalidateVisual()
@@ -115,16 +126,23 @@ namespace Infrustructure.Plans.Designer
 		}
 		public void Render(DrawingContext drawingContext)
 		{
+			_isRendered = true;
 			drawingContext.PushTransform(_visibleTransform);
 			Draw(drawingContext);
 			drawingContext.Pop();
 		}
+		public void Reset()
+		{
+			_isRendered = false;
+		}
 		protected abstract void Draw(DrawingContext drawingContext);
 		protected virtual void Translate()
 		{
+			if (!_isRendered)
+				DesignerCanvas.Refresh();
 			var rect = GetBounds();
-			if (_borderGeometry != null && _borderGeometry.Rect != rect)
-				_borderGeometry.Rect = GetBounds();
+			if (_borderGeometry.Rect != rect)
+				_borderGeometry.Rect = rect;
 			if (_canResize)
 			{
 				_transformTopLeft.X = rect.Left;
@@ -139,25 +157,19 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected void DrawBounds(DrawingContext drawingContext)
 		{
-			if (_borderGeometry == null)
-				_borderGeometry = new RectangleGeometry(GetBounds());
-			drawingContext.DrawGeometry(null, TransparentPen, _borderGeometry);
+			//drawingContext.DrawGeometry(null, TransparentPen, _borderGeometry);
 			drawingContext.DrawGeometry(null, BorderPen, _borderGeometry);
-			_canResize = false;
 		}
 		protected void DrawSizableBounds(DrawingContext drawingContext)
 		{
 			DrawBounds(drawingContext);
-			var rect = GetBounds();
-			_transformTopLeft = DrawThumb(drawingContext, rect.TopLeft);
-			_transformTopRight = DrawThumb(drawingContext, rect.TopRight);
-			_transformBottomRight = DrawThumb(drawingContext, rect.BottomRight);
-			_transformBottomLeft = DrawThumb(drawingContext, rect.BottomLeft);
-			_canResize = true;
+			DrawThumb(drawingContext, _transformTopLeft);
+			DrawThumb(drawingContext, _transformTopRight);
+			DrawThumb(drawingContext, _transformBottomRight);
+			DrawThumb(drawingContext, _transformBottomLeft);
 		}
-		protected TranslateTransform DrawThumb(DrawingContext drawingContext, Point location)
+		protected TranslateTransform DrawThumb(DrawingContext drawingContext, TranslateTransform transform)
 		{
-			TranslateTransform transform = new TranslateTransform(location.X, location.Y);
 			drawingContext.PushTransform(transform);
 			drawingContext.DrawGeometry(ThumbBrush, null, ThumbGeometry);
 			drawingContext.Pop();

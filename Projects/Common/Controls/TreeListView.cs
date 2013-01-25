@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common;
+using Common;
 
 namespace Controls
 {
@@ -78,16 +79,17 @@ namespace Controls
 		private static void SelectedObjectChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
 			TreeListView treeView = (TreeListView)obj;
-			if (!ReferenceEquals(treeView.SelectedItem, e.NewValue))
-			{
-				var item = e.NewValue as TreeItemViewModel;
-				if (item != null)
+			using (new TimeCounter("=TreeListView.SelectedObjectChangedCallback: {0}"))
+				if (!ReferenceEquals(treeView.SelectedItem, e.NewValue))
 				{
-					var treeViewItem = treeView.BringTreeViewItemIntoView(item);
-					if (treeViewItem != null)
-						treeViewItem.Focus();
+					var item = e.NewValue as TreeItemViewModel;
+					if (item != null)
+					{
+						var treeViewItem = treeView.BringTreeViewItemIntoView(item);
+						if (treeViewItem != null)
+							treeViewItem.Focus();
+					}
 				}
-			}
 		}
 
 		private TreeViewItem BringTreeViewItemIntoView(TreeItemViewModel item)

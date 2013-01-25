@@ -5,17 +5,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
+using System;
 
 namespace Infrustructure.Plans.Painters
 {
 	public static class PainterHelper
 	{
-		public static void SetStyle(Shape shape, ElementBase element)
-		{
-			shape.Fill = CreateBackgroundBrush(element);
-			shape.Stroke = new SolidColorBrush(element.BorderColor);
-			shape.StrokeThickness = element.BorderThickness;
-		}
 		public static PointCollection GetPoints(ElementBase element)
 		{
 			return
@@ -62,15 +57,20 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static Brush CreateBrush(byte[] backgroundPixels)
 		{
+			if (backgroundPixels == null)
+				return FreezeBrush(new ImageBrush());
 			using (var imageStream = new MemoryStream(backgroundPixels))
 			{
 				BitmapImage bitmapImage = new BitmapImage();
 				bitmapImage.BeginInit();
+				//bitmapImage.CreateOptions = BitmapCreateOptions.DelayCreation;
 				bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
 				bitmapImage.StreamSource = imageStream;
 				bitmapImage.EndInit();
 				bitmapImage.Freeze();
-				return new ImageBrush(bitmapImage);
+				var brush = new ImageBrush(bitmapImage);
+				FreezeBrush(brush);
+				return brush;
 			}
 		}
 
@@ -80,19 +80,23 @@ namespace Infrustructure.Plans.Painters
 			bi.BeginInit();
 			bi.UriSource = new System.Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
 			bi.EndInit();
-			return new ImageBrush(bi)
+			var brush = new ImageBrush(bi)
 			{
 				TileMode = TileMode.Tile,
 				ViewportUnits = BrushMappingMode.Absolute,
 				Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom)
 			};
+			FreezeBrush(brush);
+			return brush;
 		}
-		public static Brush CreateBackgroundBrush(ElementBase element)
+		public static Brush FreezeBrush(Brush brush)
 		{
-			if (element.BackgroundPixels != null)
-				return PainterHelper.CreateBrush(element.BackgroundPixels);
-			else
-				return new SolidColorBrush(element.BackgroundColor);
+			RenderOptions.SetBitmapScalingMode(brush, BitmapScalingMode.LowQuality);
+			RenderOptions.SetCacheInvalidationThresholdMinimum(brush, 0.5);
+			RenderOptions.SetCacheInvalidationThresholdMaximum(brush, 2.0);
+			RenderOptions.SetCachingHint(brush, CachingHint.Cache);
+			brush.Freeze();
+			return brush;
 		}
 	}
 }

@@ -36,49 +36,36 @@ namespace PlansModule.ViewModels
 			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermissionsToScale"); });
 		}
 
-		public void Initialize(List<PlanViewModel> planViewModels)
-		{
-			foreach (var planViewModel in planViewModels)
-			{
-				PlanViewModel = planViewModel;
-				Plan = PlanViewModel == null ? null : planViewModel.Plan;
-				using (new TimeCounter("\t\tDesignerCanvas.RegisterPlan: {0}"))
-					DesignerCanvas.RegisterPlan(Plan);
-
-				using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
-				{
-					CreatePresenters();
-					using (new TimeCounter("\t\t\tDesignerCanvas.UpdateZIndex: {0}"))
-						DesignerCanvas.UpdateZIndex();
-				}
-			}
-		}
 		public void SelectPlan(PlanViewModel planViewModel)
 		{
-			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}"))
+			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}", true, true))
 			{
 				PlanViewModel = planViewModel;
 				Plan = PlanViewModel == null ? null : planViewModel.Plan;
 				OnPropertyChanged("Plan");
-				DesignerCanvas.ShowPlan(Plan);
 				using (new WaitWrapper())
 					if (Plan != null)
+					{
+						using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
+							DesignerCanvas.Initialize(Plan);
+						using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
+							CreatePresenters();
+						DesignerCanvas.UpdateZIndex();
 						using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
 							Update();
+					}
 			}
-			Debug.WriteLine("===========================================");
 		}
 
 		private void CreatePresenters()
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
-				CreatePresenter(elementBase);//.Redraw();
+				CreatePresenter(elementBase);
 
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{
 				var presenterItem = CreatePresenter(elementBase);
 				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, PlanViewModel));
-				//presenterItem.Redraw();
 			}
 
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
@@ -86,7 +73,6 @@ namespace PlansModule.ViewModels
 				{
 					PresenterItem presenterItem = CreatePresenter(element);
 					planPresenter.RegisterPresenterItem(presenterItem);
-					//presenterItem.Redraw();
 				}
 			DesignerCanvas.Refresh();
 		}

@@ -145,5 +145,19 @@ namespace PlansModule.Designer.DesignerItems
 			if (IsSelected)
 				ServiceFactory.SaveService.PlansChanged = true;
 		}
+
+		//public override void DragStarted(Point point)
+		//{
+		//    if (IsSelected)
+		//    {
+		//        IsBusy = true;
+		//        ((DesignerCanvas)DesignerCanvas).BeginMove(point);
+		//    }
+		//}
+		//public override void DragCompleted(Point point)
+		//{
+		//    IsBusy = false;
+		//    ((DesignerCanvas)DesignerCanvas).EndMove();
+		//}
 	}
 }

@@ -11,6 +11,7 @@ namespace PlansModule.Designer.Adorners
 		public ResizeChromeRectangle(DesignerItem designerItem)
 			: base(designerItem)
 		{
+			PrepareSizableBounds();
 		}
 
 		protected override void Draw(DrawingContext drawingContext)

@@ -26,13 +26,25 @@ namespace PlansModule.Designer
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
+		private MoveAdorner _moveAdorner;
 
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			Background = Brushes.Orange;
 			Width = 100;
 			Height = 100;
+
+			DesignerSurface.AllowDrop = true;
+			var pasteItem = new MenuItem()
+			{
+				Header = "Вставить",
+				CommandParameter = this
+			};
+			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
+			ContextMenu = new ContextMenu();
+			ContextMenu.Items.Add(pasteItem);
+			_moveAdorner = new MoveAdorner(this);
+
 		}
 
 		public override double Zoom
@@ -44,36 +56,10 @@ namespace PlansModule.Designer
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
 		}
 
-		public void RegisterPlan(Plan plan)
-		{
-			DeselectAll();
-			AddCanvas(plan.UID);
-			SelectedCanvas.AllowDrop = true;
-			var pasteItem = new MenuItem()
-			{
-				Header = "Вставить",
-				CommandParameter = this
-			};
-			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
-			ContextMenu = new ContextMenu();
-			ContextMenu.Items.Add(pasteItem);
-			using (new TimeCounter("\t\tDesignerCanvas.Background: {0}"))
-				Update(plan);
-			SelectedCanvas.Visibility = System.Windows.Visibility.Collapsed;
-		}
-		public void RemovePlan()
-		{
-			if (SelectedCanvas != null)
-			{
-				DeselectAll();
-				RemoveCanvas();
-				Plan = null;
-			}
-		}
-		public void ShowPlan(Plan plan)
+		public void Initialize(Plan plan)
 		{
 			Plan = plan;
-			ShowCanvas(plan == null ? Guid.Empty : plan.UID);
+			Initialize();
 		}
 
 		public void RemoveAllSelected()
@@ -91,7 +77,7 @@ namespace PlansModule.Designer
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
 			base.OnMouseDown(e);
-			if (e.Source == SelectedCanvas && e.ChangedButton == MouseButton.Left)
+			if (e.Source == DesignerSurface && e.ChangedButton == MouseButton.Left)
 			{
 				_startPoint = new Point?(e.GetPosition(this));
 				Toolbox.Apply(_startPoint);
@@ -169,10 +155,11 @@ namespace PlansModule.Designer
 			else
 				Toolbox.PlansViewModel.ElementRemoved(designerItem.Element);
 			Remove(designerItem);
+			Refresh();
 		}
 		public void RemoveElement(ElementBase elementBase)
 		{
-			var designerItem = Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
+			var designerItem = GetDesignerItem(elementBase);
 			if (designerItem != null)
 				RemoveElement(designerItem);
 		}
@@ -182,7 +169,6 @@ namespace PlansModule.Designer
 			var designerItem = DesignerItemFactory.Create(elementBase);
 			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Add(designerItem);
-			//Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)designerItem.Redraw);
 			Refresh();
 			return designerItem;
 		}
@@ -195,21 +181,10 @@ namespace PlansModule.Designer
 		{
 			CanvasWidth = plan.Width;
 			CanvasHeight = plan.Height;
-			if (plan.BackgroundPixels != null)
-				CanvasBackground = PainterHelper.CreateBrush(plan.BackgroundPixels);
-			else if (plan.BackgroundColor == Colors.Transparent)
+			if (plan.BackgroundColor == Colors.Transparent)
 				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
 			else
-				CanvasBackground = new SolidColorBrush(plan.BackgroundColor);
-		}
-		public override void Remove(List<Guid> elementUIDs)
-		{
-			foreach (var elementUID in elementUIDs)
-			{
-				var designerItem = Items.FirstOrDefault(x => x.Element.UID == elementUID);
-				if (designerItem != null)
-					RemoveElement(designerItem);
-			}
+				CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
 		}
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
@@ -255,6 +230,15 @@ namespace PlansModule.Designer
 			foreach (DesignerItem designerItem in Items)
 				if (designerItem is DesignerItemPoint)
 					designerItem.UpdateZoomPoint();
+		}
+
+		public void BeginMove(Point point)
+		{
+			_moveAdorner.Show(point);
+		}
+		public void EndMove()
+		{
+			_moveAdorner.Hide();
 		}
 	}
 }

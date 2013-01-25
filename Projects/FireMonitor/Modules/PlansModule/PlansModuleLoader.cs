@@ -29,11 +29,6 @@ namespace PlansModule
 		{
 			get { return "Графические планы"; }
 		}
-		public override void RegisterResource()
-		{
-			base.RegisterResource();
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/PresenterItem.xaml"));
-		}
 		public override void Initialize()
 		{
 			_planNavigationItem.IsVisible = FiresecManager.PlansConfiguration.Plans.Count > 0;

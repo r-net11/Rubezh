@@ -150,17 +150,9 @@ namespace DeviceControls
 				Background = Brushes.Transparent,
 				Child = new Viewbox()
 				{
-				    Child = content
+				    Child = content,
 				}
 			};
-
-			//DrawingVisual drawingVisual = new DrawingVisual();
-			//using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-			//{
-			//    VisualBrush visualBrush = new VisualBrush(result);
-			//    drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(), new Size(width, height)));
-			//}
-
 			return result;
 		}
 	}

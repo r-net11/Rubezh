@@ -16,7 +16,7 @@ namespace PlansModule.Designer
 		private DispatcherTimer _timer;
 		private ContentPresenter _contentPresenter;
 		private FlushViewModel _flushControl;
-		protected Canvas Canvas { get; private set; }
+		protected Decorator Canvas { get; private set; }
 
 		protected override int VisualChildrenCount
 		{
@@ -32,7 +32,7 @@ namespace PlansModule.Designer
 			return _visuals[index];
 		}
 
-		public FlushAdorner(Canvas canvas)
+		public FlushAdorner(Decorator canvas)
 			: base(canvas)
 		{
 			Canvas = canvas;

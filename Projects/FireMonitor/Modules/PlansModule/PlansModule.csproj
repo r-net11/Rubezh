@@ -188,10 +188,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\PresenterItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\FlushView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
