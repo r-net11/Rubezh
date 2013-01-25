@@ -10,7 +10,7 @@ namespace XFiresecAPI
 		{
 			Parameters = new List<XDriverPropertyParameter>();
 			IsAUParameter = true;
-			Mask = 255;
+			Mask = 0;
 		}
 
 		[DataMember]
@@ -44,7 +44,7 @@ namespace XFiresecAPI
 		public byte Offset { get; set; }
 
 		[DataMember]
-		public byte Mask { get; set; }
+		public short Mask { get; set; }
 
 		[DataMember]
 		public bool HighByte { get; set; }
