@@ -6,6 +6,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using System.Windows.Media;
 using System;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -86,6 +87,14 @@ namespace Infrustructure.Plans.Designer
 				ResizeChrome.InvalidateVisual();
 		}
 
+		public override void ResetElement(ElementBase element)
+		{
+			base.ResetElement(element);
+			Painter = PainterFactory.Create(Element);
+			Painter.Invalidate();
+			if (DesignerCanvas != null)
+				DesignerCanvas.Refresh();
+		}
 		protected override void ResetIsEnabled()
 		{
 			base.ResetIsEnabled();

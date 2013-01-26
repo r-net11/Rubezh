@@ -30,7 +30,7 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Controls:ToolBarButton Grid.Column="0" Click="OnDeviceZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
-			<Slider x:Name="deviceSlider" Grid.Column="1" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="50" Minimum="15" Orientation="Horizontal" Value="30" />
+			<Slider x:Name="deviceSlider" Grid.Column="1" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="50" Minimum="15" Orientation="Horizontal" Value="30" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="None" />
 			<Controls:ToolBarButton Grid.Column="2" Click="OnDeviceZoomIn" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
 
 			<Controls:ToolBarButton Grid.Column="3" Click="OnZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />

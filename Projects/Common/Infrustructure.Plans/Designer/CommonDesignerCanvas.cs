@@ -26,7 +26,7 @@ namespace Infrustructure.Plans.Designer
 			EventService.RegisterEventAggregator(eventAggregator);
 			ClipToBounds = true;
 
-			DesignerSurface = new DesignerSurface();
+			DesignerSurface = new DesignerSurface(this);
 			Child = DesignerSurface;
 		}
 
@@ -40,6 +40,11 @@ namespace Infrustructure.Plans.Designer
 			DesignerSurface.ClearDesignerItems();
 			using (new TimeCounter("\t\t\tDesignerCanvas.Background: {0}"))
 				Update();
+		}
+		public void LoadingFinished()
+		{
+			DesignerSurface.UpdateZIndex();
+			DesignerSurface.Update(true);
 		}
 		public void Refresh()
 		{
@@ -153,6 +158,16 @@ namespace Infrustructure.Plans.Designer
 		{
 			PainterCache.UpdateZoom(Zoom, PointZoom);
 			ResizeChrome.UpdateZoom(Zoom);
+		}
+
+		protected internal virtual void RenderBackground(DrawingContext drawingContext)
+		{
+		}
+		protected internal virtual void RenderForeground(DrawingContext drawingContext)
+		{
+		}
+		protected internal virtual void SetDesignerItemOver(CommonDesignerItem designerItem, bool isOver)
+		{
 		}
 	}
 }

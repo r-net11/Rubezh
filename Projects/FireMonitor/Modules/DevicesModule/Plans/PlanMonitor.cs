@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
+using DevicesModule.Plans.Designer;
 
 namespace DevicesModule.Plans
 {
@@ -31,7 +32,7 @@ namespace DevicesModule.Plans
 		}
 		private void Initialize(ElementDevice element)
 		{
-			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == element.DeviceUID);
+			var device = Helper.GetDevice(element);
 			if (device != null)
 			{
 				_deviceStates.Add(device.DeviceState);
@@ -42,7 +43,7 @@ namespace DevicesModule.Plans
 		{
 			if (element.ZoneUID != Guid.Empty)
 			{
-				var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == element.ZoneUID);
+				var zone = Helper.GetZone(element);
 				if (zone != null)
 				{
 					_zoneStates.Add(zone.ZoneState);

@@ -39,6 +39,8 @@ namespace PlansModule.Designer.DesignerItems
 				{
 					OnDesignerItemPropertyChanged();
 					Painter.Invalidate();
+					if (ResizeChrome != null)
+						ResizeChrome.InvalidateVisual();
 					DesignerCanvas.Refresh();
 					ServiceFactory.SaveService.PlansChanged = true;
 					DesignerCanvas.EndChange();

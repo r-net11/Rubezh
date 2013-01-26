@@ -20,7 +20,6 @@ namespace DevicesModule.Plans.Designer
 	class ZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
-		private IPainter _painter;
 		private Zone _zone;
 		private List<Device> _devices;
 		private List<DeviceState> _deviceStates;
@@ -29,21 +28,11 @@ namespace DevicesModule.Plans.Designer
 		public ZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
 		{
-			ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
-			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
-			EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
-			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
-			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
+			_contextMenu = null;
 			_presenterItem = presenterItem;
-			_painter = presenterItem.Painter;
-			Bind();
-		}
-
-		private void Bind()
-		{
-			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ((IElementZone)_presenterItem.Element).ZoneUID);
+			_zone = Helper.GetZone((IElementZone)_presenterItem.Element);
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetZoneTooltip();
@@ -53,7 +42,7 @@ namespace DevicesModule.Plans.Designer
 		private void OnPropertyChanged()
 		{
 			_presenterItem.Title = GetZoneTooltip();
-			//_presenterItem.Redraw();
+			_presenterItem.RefreshPainter();
 			_presenterItem.DesignerCanvas.Refresh();
 		}
 		private string GetZoneTooltip()
@@ -81,16 +70,6 @@ namespace DevicesModule.Plans.Designer
 		{
 			return PainterCache.GetBrush(GetStateColor());
 		}
-
-		//public UIElement Draw(ElementBase element)
-		//{
-		//    if (_zone == null)
-		//        return null;
-		//    var shape = (Shape)_painter.Draw(element);
-		//    shape.Fill = GetStateBrush();
-		//    shape.Opacity = 1;
-		//    return shape;
-		//}
 
 		#endregion
 
@@ -136,12 +115,14 @@ namespace DevicesModule.Plans.Designer
 			_devices = new List<Device>();
 			_deviceStates = new List<DeviceState>();
 			if (_zone != null && FiresecManager.Devices != null)
-				foreach (var device in FiresecManager.Devices)
-					if (device != null && device.Driver != null && device.ZoneUID == _zone.UID && device.Driver.CanDisable)
+				Helper.GetDevices(_zone.UID).ForEach(device =>
 					{
-						_devices.Add(device);
-						_deviceStates.Add(device.DeviceState);
-					}
+						if (device != null && device.Driver != null && device.Driver.CanDisable)
+						{
+							_devices.Add(device);
+							_deviceStates.Add(device.DeviceState);
+						}
+					});
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
@@ -206,6 +187,12 @@ namespace DevicesModule.Plans.Designer
 		{
 			if (_contextMenu == null)
 			{
+				ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
+				DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
+				EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
+				SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
+				UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
+				
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{

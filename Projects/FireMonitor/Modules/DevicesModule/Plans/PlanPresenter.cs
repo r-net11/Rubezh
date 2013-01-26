@@ -12,6 +12,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using Common;
 
 namespace DevicesModule.Plans
 {
@@ -31,6 +32,7 @@ namespace DevicesModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
+			Helper.BuildMap();
 			var monitor = new PlanMonitor(plan, callBack);
 			_monitors.Add(plan, monitor);
 		}
@@ -51,20 +53,26 @@ namespace DevicesModule.Plans
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
-			DevicePainter devicePainter = presenterItem.Painter as DevicePainter;
-			if (devicePainter != null)
-				devicePainter.Bind(presenterItem);
-			else if (presenterItem.Element is IElementZone)
+			if (presenterItem.Element is ElementDevice)
+				presenterItem.OverridePainter(new DevicePainter(presenterItem));
+			else if (presenterItem.Element is ElementPolygonZone || presenterItem.Element is ElementRectangleZone)
 				presenterItem.OverridePainter(new ZonePainter(presenterItem));
+		}
+		public void ExtensionAttached()
+		{
+			using (new TimeCounter("Device.ExtensionAttached.BuildMap: {0}"))
+				Helper.BuildMap();
 		}
 
 		#endregion
 
+		public void Clear()
+		{
+			_monitors.Clear();
+		}
+
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			ElementDevice elementDevice = args.Element as ElementDevice;
-			if (elementDevice != null)
-				args.Painter = new DevicePainter(elementDevice);
 		}
 
 		private void OnShowDeviceOnPlan(Guid deviceUID)

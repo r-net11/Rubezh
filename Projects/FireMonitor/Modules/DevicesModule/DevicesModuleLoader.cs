@@ -23,6 +23,12 @@ namespace DevicesModule
 		private DevicesViewModel DevicesViewModel;
 		private ZonesViewModel ZonesViewModel;
 		private NavigationItem _zonesNavigationItem;
+		private PlanPresenter _planPresenter;
+
+		public DevicesModuleLoader()
+		{
+			_planPresenter = new PlanPresenter();
+		}
 
 		public override void CreateViewModels()
 		{
@@ -45,7 +51,8 @@ namespace DevicesModule
 
 		public override void Initialize()
 		{
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(new PlanPresenter());
+			_planPresenter.Clear();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();

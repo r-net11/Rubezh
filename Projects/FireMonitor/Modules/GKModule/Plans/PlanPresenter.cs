@@ -13,6 +13,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
+using Common;
 
 namespace GKModule.Plans
 {
@@ -32,6 +33,7 @@ namespace GKModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
+			Helper.BuildMap();
 			var monitor = new PlanMonitor(plan, callBack);
 			_monitors.Add(plan, monitor);
 		}
@@ -53,20 +55,26 @@ namespace GKModule.Plans
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
-			XDevicePainter devicePainter = presenterItem.Painter as XDevicePainter;
-			if (devicePainter != null)
-				devicePainter.Bind(presenterItem);
-			else if (presenterItem.Element is IElementZone)
+			if (presenterItem.Element is ElementXDevice)
+				presenterItem.OverridePainter(new XDevicePainter(presenterItem));
+			else if (presenterItem.Element is ElementPolygonXZone || presenterItem.Element is ElementRectangleXZone)
 				presenterItem.OverridePainter(new XZonePainter(presenterItem));
+		}
+		public void ExtensionAttached()
+		{
+			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
+				Helper.BuildMap();
 		}
 
 		#endregion
 
+		public void Clear()
+		{
+			_monitors.Clear();
+		}
+		
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			ElementXDevice elementXDevice = args.Element as ElementXDevice;
-			if (elementXDevice != null)
-				args.Painter = new XDevicePainter(elementXDevice);
 		}
 
 		private void OnShowXDeviceOnPlan(XDevice xdevice)

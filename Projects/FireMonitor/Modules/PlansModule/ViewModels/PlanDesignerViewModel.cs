@@ -38,6 +38,7 @@ namespace PlansModule.ViewModels
 
 		public void SelectPlan(PlanViewModel planViewModel)
 		{
+			_flushAdorner.Hide();
 			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}", true, true))
 			{
 				PlanViewModel = planViewModel;
@@ -50,9 +51,9 @@ namespace PlansModule.ViewModels
 							DesignerCanvas.Initialize(Plan);
 						using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 							CreatePresenters();
-						DesignerCanvas.UpdateZIndex();
 						using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
 							Update();
+						DesignerCanvas.LoadingFinished();
 					}
 			}
 		}
@@ -60,7 +61,7 @@ namespace PlansModule.ViewModels
 		private void CreatePresenters()
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
-				CreatePresenter(elementBase);
+				CreatePresenter(elementBase).CreatePainter();
 
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{

@@ -47,6 +47,8 @@ namespace DevicesModule.Plans
 
 		public void Initialize()
 		{
+			using (new TimeCounter("DevicePictureCache.LoadCache: {0}"))
+				DevicePictureCache.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -169,8 +171,6 @@ namespace DevicesModule.Plans
 
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
-			using (new TimeCounter("DevicePictureCache.LoadCache: {0}"))
-				DevicePictureCache.LoadCache();
 			_designerCanvas = designerCanvas;
 			LayerGroupService.Instance.RegisterGroup("Devices", "Устройства", 0);
 			LayerGroupService.Instance.RegisterGroup("Zone", "Зоны", 1);

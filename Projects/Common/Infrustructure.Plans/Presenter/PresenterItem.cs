@@ -14,11 +14,12 @@ namespace Infrustructure.Plans.Presenter
 		public event EventHandler DoubleClickEvent;
 		public bool IsPoint { get; set; }
 		public Func<ContextMenu> ContextMenuProvider { get; set; }
-		public PresenterBorder Border { get; private set; }
+		public bool ShowBorderOnMouseOver { get; set; }
 
 		public PresenterItem(ElementBase element)
 			: base(element)
 		{
+			ShowBorderOnMouseOver = false;
 			IsEnabled = true;
 			IsPoint = false;
 			IsVisibleLayout = true;
@@ -27,6 +28,12 @@ namespace Infrustructure.Plans.Presenter
 		public void OverridePainter(IPainter painter)
 		{
 			Painter = painter;
+			Painter.Invalidate();
+		}
+		public void CreatePainter()
+		{
+			Painter = PainterFactory.Create(Element);
+			Painter.Invalidate();
 		}
 		public void Navigate()
 		{
@@ -45,52 +52,12 @@ namespace Infrustructure.Plans.Presenter
 			return ContextMenuProvider == null ? null : ContextMenuProvider();
 		}
 
-		public override void UpdateZoom()
-		{
-			base.UpdateZoom();
-			if (Border != null)
-				Border.InvalidateVisual();
-		}
-		public override void UpdateZoomPoint()
-		{
-			if (IsPoint)
-			{
-				//Translate();
-				RefreshPainter();
-				if (Border != null)
-					Border.InvalidateVisual();
-			}
-			else
-				base.UpdateZoomPoint();
-		}
-		public override void RefreshPainter()
-		{
-			if (IsPoint)
-			{
-				//var rect = Element.GetRectangle();
-				//Offset = new Vector(rect.Left, rect.Top);
-			}
-			else
-				base.RefreshPainter();
-		}
-
 		public override Rect GetRectangle()
 		{
 			var rect = base.GetRectangle();
-			return DesignerCanvas != null && !IsPoint ? rect : new Rect(rect.Left - DesignerCanvas.PointZoom / 2, rect.Top - DesignerCanvas.PointZoom / 2, DesignerCanvas.PointZoom, DesignerCanvas.PointZoom);
-		}
-
-		public void SetBorder(PresenterBorder border)
-		{
-			Border = border;
-			//Children.Add(Border);
-			Border.IsVisible = IsMouseOver;
-		}
-		protected override void SetIsMouseOver(bool value)
-		{
-			base.SetIsMouseOver(value);
-			if (Border != null)
-				Border.IsVisible = value;
+			if (DesignerCanvas == null || !IsPoint)
+				return rect;
+			return new Rect(rect.Left - DesignerCanvas.PointZoom / 2, rect.Top - DesignerCanvas.PointZoom / 2, DesignerCanvas.PointZoom, DesignerCanvas.PointZoom);
 		}
 	}
 }

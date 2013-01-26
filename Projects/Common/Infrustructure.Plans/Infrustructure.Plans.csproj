@@ -108,7 +108,7 @@
     <Compile Include="Painters\RectangleZonePainter.cs" />
     <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
-    <Compile Include="Presenter\PresenterBorder.cs" />
+    <Compile Include="Presenter\BorderPainter.cs" />
     <Compile Include="Presenter\PresenterItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LayerGroupService.cs" />

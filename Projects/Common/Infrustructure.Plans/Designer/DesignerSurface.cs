@@ -15,10 +15,12 @@ namespace Infrustructure.Plans.Designer
 		private IVisualItem _visualItemOver;
 		private bool _isDragging;
 		private Point _previousPosition;
+		private CommonDesignerCanvas _designerCanvas;
 		public Brush BackgroundBrush { get; set; }
 
-		public DesignerSurface()
+		public DesignerSurface(CommonDesignerCanvas designerCanvas)
 		{
+			_designerCanvas = designerCanvas;
 			_isDragging = false;
 			_visuals = new List<CommonDesignerItem>();
 			ToolTipService.SetIsEnabled(this, false);
@@ -43,10 +45,14 @@ namespace Infrustructure.Plans.Designer
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
 		{
+			if (visual.IsMouseOver)
+				((IVisualItem)visual).SetIsMouseOver(false, new Point());
 			_visuals.Remove(visual);
 		}
 		internal void ClearDesignerItems()
 		{
+			if (_visualItemOver != null)
+				_visualItemOver.SetIsMouseOver(false, new Point());
 			_visuals.Clear();
 		}
 		internal void UpdateZIndex()
@@ -136,11 +142,11 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected override void OnMouseEnter(MouseEventArgs e)
 		{
-			OnMouseMove(e);
+			Update(true);
 		}
 		protected override void OnMouseLeave(MouseEventArgs e)
 		{
-			Update(true);
+			Update(false);
 		}
 		protected override void OnContextMenuOpening(ContextMenuEventArgs e)
 		{
@@ -165,11 +171,14 @@ namespace Infrustructure.Plans.Designer
 			using (new TimeCounter("=Surface.Render: {0}"))
 			{
 				//base.OnRender(dc);
+				_designerCanvas.RenderBackground(dc);
 				dc.DrawRectangle(BackgroundBrush, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
 				foreach (var item in _visuals)
 					if (item.IsVisibleLayout)
 						item.Render(dc);
+				_designerCanvas.RenderForeground(dc);
 			}
+
 		}
 	}
 }

@@ -26,8 +26,6 @@ namespace PlansModule.ViewModels
 			Plans = new ObservableCollection<PlanViewModel>();
 			AddPlans(null, FiresecManager.PlansConfiguration.Plans);
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
-			if (Plans.IsNotNullOrEmpty())
-				SelectedPlan = Plans[0];
 		}
 
 		private void AddPlans(PlanViewModel parent, List<Plan> plans)
@@ -80,6 +78,11 @@ namespace PlansModule.ViewModels
 		public void AddPlanPresenter(IPlanPresenter<Plan> planPresenter)
 		{
 			AllPlans.ForEach(planViewModel => planViewModel.RegisterPresenter(planPresenter));
+		}
+		public void Select()
+		{
+			if (SelectedPlan == null && Plans.IsNotNullOrEmpty())
+				SelectedPlan = Plans[0];
 		}
 	}
 }

@@ -21,49 +21,50 @@ namespace DevicesModule.Plans.Designer
 	class DevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
-		private DeviceControl _deviceControl;
+		//private DeviceControl _deviceControl;
 		private Device _device;
 		private ContextMenu _contextMenu;
 
-		public DevicePainter(ElementDevice elementDevice)
-			: base(elementDevice)
+		public DevicePainter(PresenterItem presenterItem)
+			: base(presenterItem.Element)
 		{
 			_contextMenu = null;
-			ShowInTreeCommand = new RelayCommand(OnShowInTree);
-			DisableCommand = new RelayCommand(OnDisable, CanDisable);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-		}
-
-		public void Bind(PresenterItem presenterItem)
-		{
-			_presenterItem = presenterItem;
-			_presenterItem.IsPoint = true;
-			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
-			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			var elementDevice = presenterItem.Element as ElementDevice;
 			if (elementDevice != null)
 			{
-				_device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+				_device = Helper.GetDevice(elementDevice);
 				if (_device != null)
 				{
-					_deviceControl = new DeviceControl();
-					_deviceControl.DriverId = _device.Driver.UID;
-					_deviceControl.StateType = _device.DeviceState.StateType;
-					_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
+					//_deviceControl = new DeviceControl();
+					//_deviceControl.DriverId = _device.Driver.UID;
+					//_deviceControl.StateType = _device.DeviceState.StateType;
+					//_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
 					_device.DeviceState.StateChanged += OnPropertyChanged;
-					_device.DeviceState.ParametersChanged += () => presenterItem.Title = GetDeviceTooltip();
+					_device.DeviceState.ParametersChanged += OnParametersChanged;
 				}
 			}
+			_presenterItem = presenterItem;
+			_presenterItem.IsPoint = true;
+			_presenterItem.ShowBorderOnMouseOver = true;
+			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_presenterItem.Title = GetDeviceTooltip();
 		}
 
+		private void OnParametersChanged()
+		{
+			if (_presenterItem != null)
+				_presenterItem.Title = GetDeviceTooltip();
+		}
 		private void OnPropertyChanged()
 		{
-			_deviceControl.StateType = _device.DeviceState.StateType;
-			_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
-			_presenterItem.Title = GetDeviceTooltip();
-			//_presenterItem.Redraw();
-			_presenterItem.DesignerCanvas.Refresh();
+			if (_presenterItem != null)
+			{
+				//_deviceControl.StateType = _device.DeviceState.StateType;
+				//_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
+				OnParametersChanged();
+				_presenterItem.RefreshPainter();
+				_presenterItem.DesignerCanvas.Refresh();
+			}
 		}
 		private string GetDeviceTooltip()
 		{
@@ -130,6 +131,10 @@ namespace DevicesModule.Plans.Designer
 		{
 			if (_contextMenu == null)
 			{
+				ShowInTreeCommand = new RelayCommand(OnShowInTree);
+				DisableCommand = new RelayCommand(OnDisable, CanDisable);
+				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+				
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{

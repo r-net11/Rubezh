@@ -27,7 +27,7 @@ namespace PlansModule.Designer
 			_presenterItem = presenterItem;
 			_painter = (SubPlanPainter)presenterItem.Painter;
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
-			_presenterItem.SetBorder(new PresenterBorder(_presenterItem));
+			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = null;
 			_presenterItem.DoubleClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
@@ -36,8 +36,10 @@ namespace PlansModule.Designer
 		private void OnPlanStateChanged(Guid planUID)
 		{
 			if (_planViewModel != null && _planViewModel.Plan.UID == planUID)
-				//_presenterItem.Redraw();
+			{
+				_presenterItem.RefreshPainter();
 				_presenterItem.DesignerCanvas.Refresh();
+			}
 		}
 
 		protected override Brush GetBrush()

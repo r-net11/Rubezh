@@ -12,5 +12,6 @@ namespace Infrustructure.Plans
 
 		IEnumerable<ElementBase> LoadPlan(T plan);
 		void RegisterPresenterItem(PresenterItem presenterItem);
+		void ExtensionAttached();
 	}
 }

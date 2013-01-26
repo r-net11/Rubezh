@@ -53,11 +53,11 @@ namespace PlansModule.ViewModels
 		}
 		public void Show()
 		{
-			PresenterItem.Border.IsVisible = true;
+			//PresenterItem.Border.IsVisible = true;
 		}
 		public void Hide()
 		{
-			PresenterItem.Border.IsVisible = PresenterItem.IsMouseOver;
+			//PresenterItem.Border.IsVisible = PresenterItem.IsMouseOver;
 			PresenterItem = null;
 		}
 	}

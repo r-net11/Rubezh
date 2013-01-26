@@ -3,12 +3,13 @@ using System.Windows.Media;
 using System.Windows;
 using System.Security.Cryptography;
 using System;
+using Common;
 
 namespace Infrustructure.Plans.Painters
 {
 	public static class PainterCache
 	{
-		private static SHA1CryptoServiceProvider _hashProvider;
+		private static MD5CryptoServiceProvider _hashProvider;
 		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
 		private static Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
 		private static Dictionary<string, Brush> _pictureBrushes = new Dictionary<string, Brush>();
@@ -22,7 +23,7 @@ namespace Infrustructure.Plans.Painters
 
 		static PainterCache()
 		{
-			_hashProvider = new SHA1CryptoServiceProvider();
+			_hashProvider = new MD5CryptoServiceProvider();
 			BlackBrush = new SolidColorBrush(Colors.Black);
 			BlackBrush.Freeze();
 			ZonePen = new Pen(BlackBrush, 1);

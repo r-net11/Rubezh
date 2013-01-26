@@ -30,6 +30,12 @@ namespace GKModule
 		static AlarmsViewModel AlarmsViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
+		private PlanPresenter _planPresenter;
+
+		public GKModuleLoader()
+		{
+			_planPresenter = new PlanPresenter();
+		}
 
 		public override void CreateViewModels()
 		{
@@ -81,7 +87,7 @@ namespace GKModule
 
 		public override void Initialize()
 		{
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(new PlanPresenter());
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
 			DevicesViewModel.Initialize();

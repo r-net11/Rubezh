@@ -81,10 +81,6 @@ namespace Infrustructure.Plans.Designer
 		public virtual void ResetElement(ElementBase element)
 		{
 			Element = element;
-			Painter = PainterFactory.Create(Element);
-			Painter.Invalidate();
-			if (DesignerCanvas != null)
-				DesignerCanvas.Refresh();
 		}
 		internal virtual void Render(DrawingContext drawingContext)
 		{
@@ -153,6 +149,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			IsMouseOver = value;
 			DesignerCanvas.SetTitle(value ? Title : null);
+			DesignerCanvas.SetDesignerItemOver(this, value);
 		}
 		protected virtual ContextMenu ContextMenuOpening()
 		{

@@ -74,7 +74,8 @@ namespace DeviceControls
 			var frameworkElement = DeviceControl.GetDefaultPicture(libraryDevice);
 			frameworkElement.Height = 50;
 			frameworkElement.Width = 50;
-			frameworkElement.CacheMode = new BitmapCache();
+			frameworkElement.SnapsToDevicePixels = false;
+			//frameworkElement.CacheMode = new BitmapCache();
 			var brush = new VisualBrush(frameworkElement);
 			_brushes.Add(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId, brush);
 		}

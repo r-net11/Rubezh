@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
+using GKModule.Plans.Designer;
 
 namespace GKModule.Plans
 {
@@ -32,7 +33,7 @@ namespace GKModule.Plans
 		}
 		private void Initialize(ElementXDevice element)
 		{
-			var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == element.XDeviceUID);
+			var device = Helper.GetXDevice(element);
 			if (device != null)
 			{
 				_xdeviceStates.Add(device.DeviceState);
@@ -43,7 +44,7 @@ namespace GKModule.Plans
 		{
 			if (element.ZoneUID != Guid.Empty)
 			{
-				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == element.ZoneUID);
+				var zone = Helper.GetXZone(element);
 				if (zone != null)
 				{
 					_xzoneStates.Add(zone.ZoneState);

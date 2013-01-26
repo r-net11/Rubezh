@@ -51,7 +51,6 @@ namespace PlansModule.ViewModels
 				FiresecManager.InvalidatePlans();
 				PlanTreeViewModel.Initialize();
 				_initialized = true;
-				OnSelectedPlanChanged();
 			}
 		}
 
@@ -106,6 +105,14 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 			OnSelectPlan(args.PlanUID);
 			OnShowElement(args.ElementUID);
+		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+			foreach (var planPresenter in PlanPresenters)
+				planPresenter.ExtensionAttached();
+			PlanTreeViewModel.Select();
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace PlansModule.Designer
 	{
 		private double _zoom;
 		private double _pointZoom;
+		private BorderPainter _border;
 		public Plan Plan { get; private set; }
 		public override double Zoom
 		{
@@ -31,6 +32,7 @@ namespace PlansModule.Designer
 		{
 			_zoom = base.Zoom;
 			_pointZoom = base.PointZoom;
+			_border = new BorderPainter();
 		}
 
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
@@ -93,6 +95,26 @@ namespace PlansModule.Designer
 			_zoom = zoom;
 			_pointZoom = deviceZoom / zoom;
 			ZoomChanged();
+			_border.UpdateZoom(Zoom);
+		}
+
+		protected override void RenderForeground(DrawingContext drawingContext)
+		{
+			base.RenderForeground(drawingContext);
+			_border.Render(drawingContext);
+		}
+		protected override void SetDesignerItemOver(CommonDesignerItem designerItem, bool isOver)
+		{
+			base.SetDesignerItemOver(designerItem, isOver);
+			if (isOver)
+			{
+				var presenterItem = designerItem as PresenterItem;
+				if (presenterItem != null && presenterItem.ShowBorderOnMouseOver)
+					_border.Show(presenterItem);
+			}
+			else
+				_border.Hide();
+
 		}
 	}
 }
