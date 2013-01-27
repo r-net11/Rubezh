@@ -13,6 +13,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using Common;
+using DeviceControls;
 
 namespace DevicesModule.Plans
 {
@@ -66,9 +67,13 @@ namespace DevicesModule.Plans
 
 		#endregion
 
-		public void Clear()
+		public void Initialize()
 		{
 			_monitors.Clear();
+			using (new TimeCounter("DevicePictureCache.LoadCache: {0}"))
+				DevicePictureCache.LoadCache();
+			using (new TimeCounter("DevicePictureCache.LoadDynamicCache: {0}"))
+				DevicePictureCache.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

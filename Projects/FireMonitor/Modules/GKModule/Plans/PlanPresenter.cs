@@ -14,6 +14,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
 using Common;
+using DeviceControls;
 
 namespace GKModule.Plans
 {
@@ -68,11 +69,15 @@ namespace GKModule.Plans
 
 		#endregion
 
-		public void Clear()
+		public void Initialize()
 		{
 			_monitors.Clear();
+			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
+				DevicePictureCache.LoadXCache();
+			using (new TimeCounter("DevicePictureCache.LoadXDynamicCache: {0}"))
+				DevicePictureCache.LoadXDynamicCache();
 		}
-		
+
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 		}

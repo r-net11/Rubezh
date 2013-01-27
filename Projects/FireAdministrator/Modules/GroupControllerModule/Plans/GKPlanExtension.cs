@@ -12,6 +12,7 @@ using Infrustructure.Plans.Services;
 using XFiresecAPI;
 using GKModule.ViewModels;
 using Common;
+using DeviceControls;
 
 namespace GKModule.Plans
 {
@@ -33,6 +34,12 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateXDeviceInXZones(); });
 
 			_devicesViewModel = new PlanDevicesViewModel(devicesViewModel);
+		}
+
+		public void Initialize()
+		{
+			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
+				DevicePictureCache.LoadXCache();
 		}
 
 		#region IPlanExtension Members

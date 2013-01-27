@@ -51,7 +51,7 @@ namespace DevicesModule
 
 		public override void Initialize()
 		{
-			_planPresenter.Clear();
+			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0;
 			DevicesViewModel.Initialize();

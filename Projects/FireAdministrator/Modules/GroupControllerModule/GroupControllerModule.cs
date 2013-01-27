@@ -52,6 +52,7 @@ namespace GKModule
             FiltersViewModel.Initialize();
             InstructionsViewModel.Initialize();
 
+			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()

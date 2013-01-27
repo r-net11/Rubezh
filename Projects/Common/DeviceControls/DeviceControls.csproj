@@ -70,9 +70,11 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="DevicePictureSourceCache.cs" />
     <Compile Include="DeviceControl.xaml.cs">
       <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FramesControl.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="DevicePictureCache.cs" />
     <Compile Include="StateViewModel.cs" />

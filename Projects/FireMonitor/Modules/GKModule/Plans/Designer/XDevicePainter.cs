@@ -20,7 +20,6 @@ namespace GKModule.Plans.Designer
 	class XDevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
-		//private XDeviceControl _xdeviceControl;
 		private XDevice _xdevice;
 		private ContextMenu _contextMenu;
 
@@ -33,12 +32,7 @@ namespace GKModule.Plans.Designer
 			{
 				_xdevice = Helper.GetXDevice(elementXDevice);
 				if (_xdevice != null)
-				{
-					//_xdeviceControl = new XDeviceControl();
-					//_xdeviceControl.DriverId = _xdevice.DriverUID;
-					//_xdeviceControl.StateClass = _xdevice.DeviceState.StateClass;
 					_xdevice.DeviceState.StateChanged += OnPropertyChanged;
-				}
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
@@ -51,9 +45,8 @@ namespace GKModule.Plans.Designer
 		{
 			if (_presenterItem != null)
 			{
-				//_xdeviceControl.StateClass = _xdevice.DeviceState.StateClass;
 				_presenterItem.Title = GetDeviceTooltip();
-				_presenterItem.RefreshPainter();
+				_presenterItem.InvalidatePainter();
 				_presenterItem.DesignerCanvas.Refresh();
 			}
 		}
@@ -74,7 +67,7 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetBrush(_xdevice);
+			return DevicePictureCache.GetDynamicBrush(_xdevice);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }

@@ -22,7 +22,7 @@ namespace GKModule.Plans.Designer
 		protected override Brush GetBrush()
 		{
 			var xdevice = Helper.GetXDevice(_elementXDevice);
-			return DevicePictureCache.GetBrush(xdevice);
+			return DevicePictureCache.GetXBrush(xdevice);
 		}
 	}
 }

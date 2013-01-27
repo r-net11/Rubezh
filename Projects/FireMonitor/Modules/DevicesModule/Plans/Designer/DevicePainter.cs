@@ -21,7 +21,6 @@ namespace DevicesModule.Plans.Designer
 	class DevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
-		//private DeviceControl _deviceControl;
 		private Device _device;
 		private ContextMenu _contextMenu;
 
@@ -35,10 +34,6 @@ namespace DevicesModule.Plans.Designer
 				_device = Helper.GetDevice(elementDevice);
 				if (_device != null)
 				{
-					//_deviceControl = new DeviceControl();
-					//_deviceControl.DriverId = _device.Driver.UID;
-					//_deviceControl.StateType = _device.DeviceState.StateType;
-					//_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
 					_device.DeviceState.StateChanged += OnPropertyChanged;
 					_device.DeviceState.ParametersChanged += OnParametersChanged;
 				}
@@ -59,10 +54,8 @@ namespace DevicesModule.Plans.Designer
 		{
 			if (_presenterItem != null)
 			{
-				//_deviceControl.StateType = _device.DeviceState.StateType;
-				//_deviceControl.AdditionalStateCodes = _device.DeviceState.ThreadSafeStates.ConvertAll(item => item.DriverState.Code);
 				OnParametersChanged();
-				_presenterItem.RefreshPainter();
+				_presenterItem.InvalidatePainter();
 				_presenterItem.DesignerCanvas.Refresh();
 			}
 		}
@@ -98,7 +91,7 @@ namespace DevicesModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetBrush(_device);
+			return DevicePictureCache.GetDynamicBrush(_device);
 		}
 
 		public DeviceState DeviceState

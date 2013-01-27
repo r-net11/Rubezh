@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows;
 using System.Windows.Media;
-using Controls.Converters;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
@@ -37,7 +33,7 @@ namespace PlansModule.Designer
 		{
 			if (_planViewModel != null && _planViewModel.Plan.UID == planUID)
 			{
-				_presenterItem.RefreshPainter();
+				_presenterItem.InvalidatePainter();
 				_presenterItem.DesignerCanvas.Refresh();
 			}
 		}

@@ -150,7 +150,7 @@ namespace DeviceControls
 				Background = Brushes.Transparent,
 				Child = new Viewbox()
 				{
-				    Child = content,
+					Child = content,
 				}
 			};
 			return result;

@@ -38,7 +38,7 @@ namespace GKModule.Plans.Designer
 		private void OnPropertyChanged()
 		{
 			_presenterItem.Title = GetZoneTooltip();
-			_presenterItem.RefreshPainter();
+			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
 		}
 		private string GetZoneTooltip()

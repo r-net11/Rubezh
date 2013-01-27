@@ -1,11 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Input;
-using System;
-using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace Infrustructure.Plans.Presenter
 {
@@ -25,6 +24,10 @@ namespace Infrustructure.Plans.Presenter
 			IsVisibleLayout = true;
 		}
 
+		public void InvalidatePainter()
+		{
+			Painter.Invalidate();
+		}
 		public void OverridePainter(IPainter painter)
 		{
 			Painter = painter;

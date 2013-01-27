@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using Common;
+using System.Windows;
+using System.Windows.Media;
 
 namespace DeviceControls
 {
@@ -26,6 +28,13 @@ namespace DeviceControls
 				Logger.Error("Ошибка при вызове метода Xml2Canvas. xmlOfimage= " + xmlOfimage);
 				return new Canvas();
 			}
+		}
+		public static FrameworkElement GetVisual(string xaml)
+		{
+			Canvas canvas = Xml2Canvas(xaml);
+			canvas.SnapsToDevicePixels = false;
+			canvas.Background = Brushes.Transparent;
+			return canvas;
 		}
 	}
 }
