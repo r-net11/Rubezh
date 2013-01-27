@@ -69,17 +69,17 @@ namespace FiresecAPI.Models
 			var parameter1 = new DriverPropertyParameter()
 			{
 				Name = "Нет",
-				Value = "0"
+				Value = "2"
 			};
 			var parameter2 = new DriverPropertyParameter()
 			{
 				Name = "муфтовые выключатели",
-				Value = "1"
+				Value = "0"
 			};
 			var parameter3 = new DriverPropertyParameter()
 			{
 				Name = "датчик уровня",
-				Value = "2"
+				Value = "6"
 			};
 			additionalSwitcherProperty.Parameters.Add(parameter1);
 			additionalSwitcherProperty.Parameters.Add(parameter2);

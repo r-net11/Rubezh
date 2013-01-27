@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in SourceDevices)
 			{
-				if (device.Driver.IsDeviceOnShleif && !device.Driver.IsGroupDevice)
+				if (!device.Driver.IsGroupDevice)
 				{
 					if (DevicesList.Contains(device))
 						Devices.Add(device);

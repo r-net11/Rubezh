@@ -38,12 +38,13 @@ namespace Common.GK
 			var property2 = new XDriverProperty()
 			{
 				No = 0x88,
-				Name = "Время отложенного пуска",
-				Caption = "Время отложенного пуска",
+				Name = "Время отложенного пуска, 5 c",
+				Caption = "Время отложенного пуска, 5 c",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 255,
+				Multiplier = 5
 			};
 			driver.Properties.Add(property2);
 

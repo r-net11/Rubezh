@@ -14,13 +14,13 @@ namespace FiresecClient
 			{
 				var stringBuilder = new StringBuilder();
 				var indx = 0;
-				foreach(var zoneUID in device.ZoneUIDs)
+				foreach (var zoneUID in device.ZoneUIDs)
 				{
 					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						if (indx > 0)
-						stringBuilder.Append(", ");
+							stringBuilder.Append(", ");
 						stringBuilder.Append(zone.PresentationName);
 						indx++;
 					}
@@ -42,6 +42,9 @@ namespace FiresecClient
 			{
 				if (index > 0)
 					stringBuilder.Append(" " + clause.ClauseJounOperationType.ToDescription() + " ");
+
+				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
+					stringBuilder.Append("Если НЕ ");
 				stringBuilder.Append(clause.StateType.ToDescription() + " в ");
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
@@ -56,7 +59,7 @@ namespace FiresecClient
 		{
 			if (zones.Count() > 0)
 			{
-				var orderedZones = zones.OrderBy(x => x.No).Select(x=>x.No).ToList();
+				var orderedZones = zones.OrderBy(x => x.No).Select(x => x.No).ToList();
 				int prevZoneNo = orderedZones[0];
 				List<List<ushort>> groupOfZones = new List<List<ushort>>();
 
@@ -118,16 +121,52 @@ namespace FiresecClient
 
 		public static string GetCommaSeparatedDirections(IEnumerable<XDirection> directions)
 		{
-			var stringBuilder = new StringBuilder();
-			var directionCount = 0;
-			foreach (var direction in directions)
+			if (directions.Count() > 0)
 			{
-				if (directionCount > 0)
-					stringBuilder.Append(", ");
-				stringBuilder.Append(direction.No);
-				directionCount++;
+				var orderedDirections = directions.OrderBy(x => x.No).Select(x => x.No).ToList();
+				int prevDirectionNo = orderedDirections[0];
+				List<List<ushort>> groupOfDirections = new List<List<ushort>>();
+
+				for (int i = 0; i < orderedDirections.Count; i++)
+				{
+					var directionNo = orderedDirections[i];
+					var haveDirectionsBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
+					if (haveDirectionsBetween)
+					{
+						groupOfDirections.Add(new List<ushort>() { directionNo });
+					}
+					else
+					{
+						if (groupOfDirections.Count == 0)
+						{
+							groupOfDirections.Add(new List<ushort>() { directionNo });
+						}
+						else
+						{
+							groupOfDirections.Last().Add(directionNo);
+						}
+					}
+					prevDirectionNo = directionNo;
+				}
+
+				var presenrationDirections = new StringBuilder();
+				for (int i = 0; i < groupOfDirections.Count; i++)
+				{
+					var directionGroup = groupOfDirections[i];
+
+					if (i > 0)
+						presenrationDirections.Append(", ");
+
+					presenrationDirections.Append(directionGroup.First().ToString());
+					if (directionGroup.Count > 1)
+					{
+						presenrationDirections.Append(" - " + directionGroup.Last().ToString());
+					}
+				}
+
+				return presenrationDirections.ToString();
 			}
-			return stringBuilder.ToString();
+			return "";
 		}
 	}
 }

@@ -27,6 +27,8 @@ namespace Common.GK
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
+			driver.AvailableStates.Add(XStateType.No);
+			driver.AvailableStates.Add(XStateType.Norm);
 
 			driver.Properties.Add(
 				new XDriverProperty()
@@ -40,7 +42,7 @@ namespace Common.GK
 					Default = 180,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true,
-					Multiplier = 28.169
+					Multiplier = 2.8169
 				}
 				);
 
@@ -55,7 +57,8 @@ namespace Common.GK
 					Max = 240,
 					Default = 180,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					Multiplier = 2.8169
 				}
 				);
 

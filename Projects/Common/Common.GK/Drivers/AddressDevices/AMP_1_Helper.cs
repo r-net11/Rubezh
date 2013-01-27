@@ -26,7 +26,8 @@ namespace Common.GK
 				No = 0x81,
 				Name = "Тип шлейфа",
 				Caption = "Тип шлейфа",
-				Default = 0
+				Default = 0,
+				Mask = 16 + 2*16 + 4*16 + 8*16
 			};
 			var property1Parameter1 = new XDriverPropertyParameter()
 			{
@@ -57,9 +58,10 @@ namespace Common.GK
 			var property2 = new XDriverProperty()
 			{
 				No = 0x81,
-				Name = "Тип включения выхода при пожаре",
-				Caption = "Тип включения выхода при пожаре",
-				Default = 2
+				Name = "Режим работы",
+				Caption = "Режим работы",
+				Default = 2,
+				Mask = 15
 			};
 			var property2Parameter1 = new XDriverPropertyParameter()
 			{

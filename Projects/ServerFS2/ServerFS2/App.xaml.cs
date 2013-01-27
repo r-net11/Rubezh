@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace TestUSB
+namespace ServerFS2
 {
 	public partial class App : Application
 	{

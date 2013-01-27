@@ -66,11 +66,14 @@ namespace GKModule.ViewModels
 						Directions = new List<XDirection>();
 						StateTypes = new ObservableCollection<XStateType>();
 						StateTypes.Add(XStateType.Fire2);
-						StateTypes.Add(XStateType.Fire1);
-						StateTypes.Add(XStateType.On);
-						StateTypes.Add(XStateType.Ignore);
-						StateTypes.Add(XStateType.Failure);
-						StateTypes.Add(XStateType.Test);
+						if (Device.Driver.DriverType != XDriverType.MPT)
+						{
+							StateTypes.Add(XStateType.Fire1);
+							StateTypes.Add(XStateType.On);
+							StateTypes.Add(XStateType.Ignore);
+							StateTypes.Add(XStateType.Failure);
+							StateTypes.Add(XStateType.Test);
+						}
 						break;
 
 					case ClauseOperationType.AllZones:
@@ -79,8 +82,11 @@ namespace GKModule.ViewModels
 						Directions = new List<XDirection>();
 						StateTypes = new ObservableCollection<XStateType>();
 						StateTypes.Add(XStateType.Fire2);
-						StateTypes.Add(XStateType.Fire1);
-						StateTypes.Add(XStateType.Attention);
+						if (Device.Driver.DriverType != XDriverType.MPT)
+						{
+							StateTypes.Add(XStateType.Fire1);
+							StateTypes.Add(XStateType.Attention);
+						}
 						break;
 
 					case ClauseOperationType.AllDirections:
@@ -90,11 +96,6 @@ namespace GKModule.ViewModels
 						StateTypes = new ObservableCollection<XStateType>();
 						StateTypes.Add(XStateType.On);
 						break;
-				}
-				if (Device.Driver.DriverType == XDriverType.MPT)
-				{
-					StateTypes = new ObservableCollection<XStateType>();
-					StateTypes.Add(XStateType.Fire2);
 				}
 				SelectedStateType = StateTypes.FirstOrDefault();
 				OnPropertyChanged("SelectedClauseOperationType");
@@ -124,6 +125,8 @@ namespace GKModule.ViewModels
 			get { return _selectedStateType; }
 			set
 			{
+				if (!StateTypes.Contains(value))
+					value = StateTypes.FirstOrDefault();
 				_selectedStateType = value;
 				OnPropertyChanged("SelectedStateType");
 			}
@@ -187,6 +190,8 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
+				if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
+					continue;
 				if (device.UID == Device.UID)
 					continue;
 				if (device.Driver.AvailableStates.Contains(SelectedStateType))
