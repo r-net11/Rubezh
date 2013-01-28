@@ -37,6 +37,11 @@ namespace GKModule.ViewModels
 			{
 				RootDevice.IsExpanded = true;
 				SelectedDevice = RootDevice;
+				foreach (var child in RootDevice.Children)
+				{
+					if (child.Driver.DriverType == XDriverType.GK)
+						child.IsExpanded = true;
+				}
 			}
 			OnPropertyChanged("RootDevices");
 		}

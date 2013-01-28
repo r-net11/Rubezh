@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -67,6 +68,8 @@ namespace GKModule.ViewModels
         public IList SelectedSourceZones;
         void OnAdd(object parameter)
         {
+			var index = SourceZones.IndexOf(SelectedSourceZone);
+
             SelectedSourceZones = (IList)parameter;
             var zoneViewModels = new List<XZone>();
             foreach (var selectedZone in SelectedSourceZones)
@@ -80,15 +83,20 @@ namespace GKModule.ViewModels
                 TargetZones.Add(zoneViewModel);
                 SourceZones.Remove(zoneViewModel);
             }
-
+			SelectedTargetZone = TargetZones.LastOrDefault();
             OnPropertyChanged("SourceZones");
-            SelectedSourceZone = SourceZones.FirstOrDefault();
+
+			index = Math.Min(index, SourceZones.Count - 1);
+			if (index > -1)
+				SelectedSourceZone = SourceZones[index];
         }
 
         public RelayCommand<object> RemoveCommand { get; private set; }
         public IList SelectedTargetZones;
         void OnRemove(object parameter)
         {
+			var index = TargetZones.IndexOf(SelectedTargetZone);
+
             SelectedTargetZones = (IList)parameter;
             var zoneViewModels = new List<XZone>();
             foreach (var selectedZone in SelectedTargetZones)
@@ -102,9 +110,12 @@ namespace GKModule.ViewModels
                 SourceZones.Add(zoneViewModel);
                 TargetZones.Remove(zoneViewModel);
             }
-
+			SelectedSourceZone = SourceZones.LastOrDefault();
             OnPropertyChanged("TargetZones");
-            SelectedTargetZone = TargetZones.FirstOrDefault();
+
+			index = Math.Min(index, TargetZones.Count - 1);
+			if (index > -1)
+				SelectedTargetZone = TargetZones[index];
         }
 
         public RelayCommand AddAllCommand { get; private set; }

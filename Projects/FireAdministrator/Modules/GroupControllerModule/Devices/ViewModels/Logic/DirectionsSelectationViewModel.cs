@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -67,6 +68,8 @@ namespace GKModule.ViewModels
         public IList SelectedSourceDirections;
         void OnAdd(object parameter)
         {
+			var index = SourceDirections.IndexOf(SelectedSourceDirection);
+
             SelectedSourceDirections = (IList)parameter;
             var SourceDirectionViewModels = new List<XDirection>();
             foreach (var SourceDirection in SelectedSourceDirections)
@@ -80,15 +83,20 @@ namespace GKModule.ViewModels
                 TargetDirections.Add(SourceDirectionViewModel);
                 SourceDirections.Remove(SourceDirectionViewModel);
             }
-
+			SelectedTargetDirection = TargetDirections.LastOrDefault();
             OnPropertyChanged("SourceDirections");
-            SelectedSourceDirection = SourceDirections.FirstOrDefault();
+
+			index = Math.Min(index, SourceDirections.Count - 1);
+			if (index > -1)
+				SelectedSourceDirection = SourceDirections[index];
         }
 
         public RelayCommand<object> RemoveCommand { get; private set; }
         public IList SelectedTargetDirections;
         void OnRemove(object parameter)
         {
+			var index = TargetDirections.IndexOf(SelectedTargetDirection);
+
             SelectedTargetDirections = (IList)parameter;
             var TargetDirectionViewModels = new List<XDirection>();
             foreach (var TargetDirection in SelectedTargetDirections)
@@ -102,9 +110,12 @@ namespace GKModule.ViewModels
                 SourceDirections.Add(TargetDirectionViewModel);
                 TargetDirections.Remove(TargetDirectionViewModel);
             }
-
+			SelectedSourceDirection = SourceDirections.LastOrDefault();
             OnPropertyChanged("TargetDirections");
-            SelectedTargetDirection = TargetDirections.FirstOrDefault();
+
+			index = Math.Min(index, TargetDirections.Count - 1);
+			if (index > -1)
+				SelectedTargetDirection = TargetDirections[index];
         }
 
         public bool CanAdd(object parameter)

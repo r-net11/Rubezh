@@ -69,7 +69,14 @@ namespace GKModule.ViewModels
 
 		public void ChangeDevices()
 		{
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(Direction.InputDevices);
+			var sourceDevices = new List<XDevice>();
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.IsDeviceOnShleif)
+					sourceDevices.Add(device);
+			}
+
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(Direction.InputDevices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				XManager.ChangeDirectionDevices(Direction, devicesSelectationViewModel.DevicesList);
@@ -83,7 +90,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.HasLogic)
+				if (device.Driver.IsDeviceOnShleif && device.Driver.HasLogic)
 					sourceDevices.Add(device);
 			}
 

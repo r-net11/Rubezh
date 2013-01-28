@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -84,6 +85,8 @@ namespace GKModule.ViewModels
         public IList SelectedAvailableDevices;
         void OnAdd(object parameter)
         {
+			var index = AvailableDevices.IndexOf(SelectedAvailableDevice);
+
             SelectedAvailableDevices = (IList)parameter;
             var availabledeviceViewModels = new List<XDevice>();
             foreach (var availabledevice in SelectedAvailableDevices)
@@ -97,15 +100,20 @@ namespace GKModule.ViewModels
                 Devices.Add(availabledeviceViewModel);
                 AvailableDevices.Remove(availabledeviceViewModel);
             }
-
+			SelectedDevice = Devices.LastOrDefault();
             OnPropertyChanged("AvailableDevices");
-            SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
+
+			index = Math.Min(index, AvailableDevices.Count - 1);
+			if (index > -1)
+				SelectedAvailableDevice = AvailableDevices[index];
         }
 
         public RelayCommand<object> RemoveCommand { get; private set; }
         public IList SelectedDevices;
         void OnRemove(object parameter)
         {
+			var index = Devices.IndexOf(SelectedDevice);
+
             SelectedDevices = (IList)parameter;
             var deviceViewModels = new List<XDevice>();
             foreach (var device in SelectedDevices)
@@ -119,9 +127,12 @@ namespace GKModule.ViewModels
                 AvailableDevices.Add(deviceViewModel);
                 Devices.Remove(deviceViewModel);
             }
-
+			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
             OnPropertyChanged("Devices");
-            SelectedDevice = Devices.FirstOrDefault();
+
+			index = Math.Min(index, Devices.Count - 1);
+			if (index > -1)
+				SelectedDevice = Devices[index];
         }
 
         public bool CanAdd(object parameter)

@@ -9,18 +9,19 @@ using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
-    public class NewDeviceViewModel : SaveCancelDialogViewModel
-    {
-        DeviceViewModel _parentDeviceViewModel;
-        XDevice ParentDevice;
+	public class NewDeviceViewModel : SaveCancelDialogViewModel
+	{
+		DeviceViewModel _parentDeviceViewModel;
+		XDevice ParentDevice;
 		public DeviceViewModel AddedDevice { get; private set; }
 
-        public NewDeviceViewModel(DeviceViewModel parent)
-        {
-            Title = "Новое устройство";
-            _parentDeviceViewModel = parent;
-            ParentDevice = _parentDeviceViewModel.Device;
+		public NewDeviceViewModel(DeviceViewModel parent)
+		{
+			Title = "Новое устройство";
+			_parentDeviceViewModel = parent;
+			ParentDevice = _parentDeviceViewModel.Device;
 
+			AvailableShleifs = new ObservableCollection<byte>();
 			Drivers = new ObservableCollection<XDriver>();
 			foreach (var driver in XManager.DriversConfiguration.XDrivers)
 			{
@@ -31,123 +32,139 @@ namespace GKModule.ViewModels
 
 			}
 
-			if(parent.Driver.DriverType == XDriverType.MPT)
+			if (parent.Driver.DriverType == XDriverType.MPT)
 				Drivers = new ObservableCollection<XDriver>(
 					from XDriver driver in XManager.DriversConfiguration.XDrivers
 					where driver.DriverType == XDriverType.MPT
 					select driver);
 
 			SelectedDriver = Drivers.FirstOrDefault();
-            Count = 1;
-        }
+			Count = 1;
+		}
 
-        public ObservableCollection<XDriver> Drivers { get; private set; }
+		public ObservableCollection<XDriver> Drivers { get; private set; }
 
-        XDriver _selectedDriver;
-        public XDriver SelectedDriver
-        {
-            get { return _selectedDriver; }
-            set
-            {
-                _selectedDriver = value;
-                UpdateAddressRange();
-                OnPropertyChanged("SelectedDriver");
-            }
-        }
+		XDriver _selectedDriver;
+		public XDriver SelectedDriver
+		{
+			get { return _selectedDriver; }
+			set
+			{
+				_selectedDriver = value;
+				UpdateShleif();
+				OnPropertyChanged("SelectedDriver");
+			}
+		}
 
+		void UpdateShleif()
+		{
+			AvailableShleifs.Clear();
+			if (ParentDevice != null)
+			{
+				var parentShleif = ParentDevice;
+				if (ParentDevice.Driver.DriverType == XDriverType.MPT)
+					parentShleif = ParentDevice.Parent;
+				if (parentShleif.Driver.DriverType == XDriverType.KAU)
+				{
+					for (byte i = 1; i <= 8; i++)
+					{
+						AvailableShleifs.Add(i);
+					}
+				}
+				else
+				{
+					AvailableShleifs.Add(1);
+				}
+			}
+			SelectedShleif = AvailableShleifs.FirstOrDefault();
+		}
 
-        XDevice _startDevice;
-        public XDevice StartDevice
-        {
-            get { return _startDevice; }
-            set
-            {
-                _startDevice = value;
-                OnPropertyChanged("StartDevice");
-            }
-        }
+		public ObservableCollection<byte> AvailableShleifs { get; private set; }
 
-        string _startAddress;
-        public string StartAddress
-        {
-            get { return _startAddress; }
-            set
-            {
-                if (_startAddress != value)
-                {
-                    _startAddress = value;
-                    OnPropertyChanged("StartAddress");
-                }
-            }
-        }
+		byte _selectedShleif;
+		public byte SelectedShleif
+		{
+			get { return _selectedShleif; }
+			set
+			{
+				_selectedShleif = value;
+				OnPropertyChanged("SelectedShleif");
+				UpdateAddressRange();
+			}
+		}
 
-        int _count;
-        public int Count
-        {
-            get { return _count; }
-            set
-            {
-                _count = value;
-                OnPropertyChanged("Count");
-            }
-        }
+		int _startAddress;
+		public int StartAddress
+		{
+			get { return _startAddress; }
+			set
+			{
+				if (_startAddress != value)
+				{
+					_startAddress = value;
+					OnPropertyChanged("StartAddress");
+				}
+			}
+		}
 
-        void UpdateAddressRange()
-        {
-            int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice);
+		int _count;
+		public int Count
+		{
+			get { return _count; }
+			set
+			{
+				_count = value;
+				OnPropertyChanged("Count");
+			}
+		}
 
-            StartDevice = new XDevice()
-            {
-                Driver = SelectedDriver,
-                ShleifNo = (byte)(maxAddress / 256 + 1),
-                IntAddress = (byte)(maxAddress % 256),
-                Parent = ParentDevice
-            };
-            StartAddress = StartDevice.Address;
-        }
+		void UpdateAddressRange()
+		{
+			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
+			StartAddress = (byte)(maxAddress % 256);
+		}
 
-        void CreateDevices()
-        {
-            var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
-            for (int i = StartDevice.IntAddress; i <= StartDevice.IntAddress + Count * step; i++)
-            {
-                if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == StartDevice.ShleifNo))
-                {
-                    MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
-                    return;
-                }
-            }
+		void CreateDevices()
+		{
+			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
+			for (int i = StartAddress; i <= StartAddress + Count * step; i++)
+			{
+				if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
+				{
+					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
+					return;
+				}
+			}
 
-            if (ParentDevice.Driver.IsGroupDevice)
-            {
-                Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
-            }
+			if (ParentDevice.Driver.IsGroupDevice)
+			{
+				Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
+			}
 
-            byte shleifNo = StartDevice.ShleifNo;
-            for (int i = 0; i < Count; i++)
-            {
-                var address = StartDevice.IntAddress + i * step;
-                if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
-                {
-                    return;
-                }
+			for (int i = 0; i < Count; i++)
+			{
+				var address = StartAddress + i * step;
+				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+				{
+					return;
+				}
 
-                XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, shleifNo, (byte)address);
+				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
 				AddedDevice = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
-            }
-        }
+			}
+		}
 
-        protected override bool CanSave()
-        {
-            return (SelectedDriver != null);
-        }
+		protected override bool CanSave()
+		{
+			return (SelectedDriver != null);
+		}
 
 		protected override bool Save()
 		{
-            CreateDevices();
-            _parentDeviceViewModel.Update();
-            XManager.DeviceConfiguration.Update();
+			CreateDevices();
+			_parentDeviceViewModel.Update();
+			XManager.DeviceConfiguration.Update();
 			return base.Save();
 		}
-    }
+	}
 }
