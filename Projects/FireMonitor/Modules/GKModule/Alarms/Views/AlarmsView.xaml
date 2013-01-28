@@ -30,7 +30,9 @@
                                     <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
                                     <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
                                     <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" />
+                                    <MenuItem Header="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                    <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" />
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>
@@ -70,7 +72,7 @@
             </ScrollViewer>
         </Border>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Включить все" Command="{Binding TurnOnAllCommand}" Width="150" Margin="2" />
+            <Button Content="Включить все" Command="{Binding ResetIgnoreAllCommand}" Width="150" Margin="2" />
             <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="150" Margin="2" />
         </StackPanel>
     </Grid>

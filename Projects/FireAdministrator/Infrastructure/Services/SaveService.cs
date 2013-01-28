@@ -5,7 +5,6 @@ namespace Infrastructure
 	public class SaveService
 	{
 		bool _fsChanged;
-
 		public bool FSChanged
 		{
 			get { return _fsChanged; }
@@ -17,7 +16,6 @@ namespace Infrastructure
 		}
 
 		bool _gkChanged;
-
 		public bool GKChanged
 		{
 			get { return _gkChanged; }
@@ -29,7 +27,6 @@ namespace Infrastructure
 		}
 
 		bool _xLibraryChanged;
-
 		public bool XLibraryChanged
 		{
 			get { return _xLibraryChanged; }
@@ -40,8 +37,18 @@ namespace Infrastructure
 			}
 		}
 
-		bool _plansChanged;
+		bool _xinstructionsChanged;
+		public bool XInstructionsChanged
+		{
+			get { return _xinstructionsChanged; }
+			set
+			{
+				_xinstructionsChanged = value;
+				OnChanged();
+			}
+		}
 
+		bool _plansChanged;
 		public bool PlansChanged
 		{
 			get { return _plansChanged; }
@@ -53,7 +60,6 @@ namespace Infrastructure
 		}
 
 		bool _libraryChanged;
-
 		public bool LibraryChanged
 		{
 			get { return _libraryChanged; }
@@ -65,7 +71,6 @@ namespace Infrastructure
 		}
 
 		bool _filterChanged;
-
 		public bool FilterChanged
 		{
 			get { return _filterChanged; }
@@ -77,7 +82,6 @@ namespace Infrastructure
 		}
 
 		bool _securityChanged;
-
 		public bool SecurityChanged
 		{
 			get { return _securityChanged; }
@@ -89,7 +93,6 @@ namespace Infrastructure
 		}
 
 		bool _soundsChanged;
-
 		public bool SoundsChanged
 		{
 			get { return _soundsChanged; }
@@ -101,7 +104,6 @@ namespace Infrastructure
 		}
 
 		bool _instructionsChanged;
-
 		public bool InstructionsChanged
 		{
 			get { return _instructionsChanged; }
@@ -113,7 +115,6 @@ namespace Infrastructure
 		}
 
 		bool _camerasChanged;
-
 		public bool CamerasChanged
 		{
 			get { return _camerasChanged; }
@@ -125,7 +126,6 @@ namespace Infrastructure
 		}
 
 		bool _emailsChanged;
-
 		public bool EmailsChanged
 		{
 			get { return _emailsChanged; }
@@ -137,7 +137,6 @@ namespace Infrastructure
 		}
 
 		bool _opcChanged;
-
 		public bool OPCChanged
 		{
 			get { return _opcChanged; }
@@ -149,7 +148,6 @@ namespace Infrastructure
 		}
 
 		public event Action Changed;
-
 		private void OnChanged()
 		{
 			if (Changed != null)
@@ -160,7 +158,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || GKChanged || CamerasChanged || OPCChanged;
+				return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged;
 			}
 		}
 
@@ -171,6 +169,7 @@ namespace Infrastructure
 			PlansChanged = false;
 			LibraryChanged = false;
 			XLibraryChanged = false;
+			XInstructionsChanged = false;
 			FilterChanged = false;
 			SecurityChanged = false;
 			SoundsChanged = false;

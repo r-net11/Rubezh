@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 
 			Name = Instruction.Name;
 			Text = Instruction.Text;
-            AlarmType = Instruction.AlarmType;
+			AlarmType = Instruction.AlarmType;
 			InstructionType = Instruction.InstructionType;
 			switch (InstructionType)
 			{
@@ -83,19 +83,19 @@ namespace GKModule.ViewModels
 			get { return InstructionType == XInstructionType.Details; }
 		}
 
-        XAlarmType _alarmType;
-        public XAlarmType AlarmType
+		XAlarmType _alarmType;
+		public XAlarmType AlarmType
 		{
 			get { return _alarmType; }
 			set
 			{
 				_alarmType = value;
-                OnPropertyChanged("AlarmType");
+				OnPropertyChanged("AlarmType");
 			}
 		}
-        public List<XAlarmType> AvailableAlarmTypes
+		public List<XAlarmType> AvailableAlarmTypes
 		{
-            get { return Enum.GetValues(typeof(XAlarmType)).Cast<XAlarmType>().ToList(); }
+			get { return Enum.GetValues(typeof(XAlarmType)).Cast<XAlarmType>().ToList(); }
 		}
 
 		XInstructionType _instructionType;
@@ -173,7 +173,7 @@ namespace GKModule.ViewModels
 		{
 			Instruction.Name = Name;
 			Instruction.Text = Text;
-            Instruction.AlarmType = AlarmType;
+			Instruction.AlarmType = AlarmType;
 			Instruction.InstructionType = InstructionType;
 			if (InstructionType == XInstructionType.Details)
 			{
@@ -183,7 +183,7 @@ namespace GKModule.ViewModels
 			else
 			{
 				Instruction.Devices = new List<Guid>();
-                Instruction.ZoneUIDs = new List<Guid>();
+				Instruction.ZoneUIDs = new List<Guid>();
 			}
 			return base.Save();
 		}

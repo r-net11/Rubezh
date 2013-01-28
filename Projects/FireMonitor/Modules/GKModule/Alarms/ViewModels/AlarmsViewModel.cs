@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 		{
 			alarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
-			TurnOnAllCommand = new RelayCommand(OnTurnOnAll, CanTurnOnAll);
+			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
 			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChanged);
@@ -60,6 +60,7 @@ namespace GKModule.ViewModels
 							break;
 
 						case XStateType.On:
+						case XStateType.TurningOn:
 							alarms.Add(new Alarm(XAlarmType.Turning, device));
 							break;
 					}
@@ -106,6 +107,7 @@ namespace GKModule.ViewModels
 					switch (stateType)
 					{
 						case XStateType.On:
+						case XStateType.TurningOn:
 							alarms.Add(new Alarm(XAlarmType.NPTOn, direction));
 							break;
 
@@ -119,6 +121,7 @@ namespace GKModule.ViewModels
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
 				}
 			}
+			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
 
 			UpdateAlarms();
 			AlarmGroupsViewModel.Current.Update(alarms);
@@ -158,8 +161,8 @@ namespace GKModule.ViewModels
 
 		}
 
-		public RelayCommand TurnOnAllCommand { get; private set; }
-		void OnTurnOnAll()
+		public RelayCommand ResetIgnoreAllCommand { get; private set; }
+		void OnResetIgnoreAll()
 		{
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
@@ -188,7 +191,7 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		bool CanTurnOnAll()
+		bool CanResetIgnoreAll()
 		{
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{

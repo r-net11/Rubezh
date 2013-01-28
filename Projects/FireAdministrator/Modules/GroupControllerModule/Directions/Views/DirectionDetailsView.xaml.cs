@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class DirectionDetailsView : UserControl
-    {
+	public partial class DirectionDetailsView : UserControl
+	{
 		public DirectionDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+		{
+			InitializeComponent();
+		}
+	}
 }

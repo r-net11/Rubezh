@@ -93,9 +93,15 @@ namespace Common.GK
             return resultBytes;
         }
 
-        static SendResult SendBytes(string ipAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
+        static SendResult SendBytes(string stringIPAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
         {
-            var endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
+			IPAddress ipAddress;
+			var result = IPAddress.TryParse(stringIPAddress, out ipAddress);
+			if (!result)
+			{
+				return new SendResult("Неверный формат IP адреса");
+			}
+			var endPoint = new IPEndPoint(ipAddress, 1025);
             var udpClient = new UdpClient();
             udpClient.Client.ReceiveTimeout = 1000;
             udpClient.Client.SendTimeout = 1000;

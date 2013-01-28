@@ -21,7 +21,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" />
-                    <GridViewColumn Header="Зона" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
+                    <GridViewColumn Header="Зона или Логика" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
                     <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
                 </Controls:TreeListView.Columns>
             </Controls:TreeListView>

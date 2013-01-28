@@ -226,7 +226,7 @@ namespace Common.GK.DB
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YesNo", DbType="NVarChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YesNo", DbType="Bit")]
 		public bool YesNo
 		{
 			get

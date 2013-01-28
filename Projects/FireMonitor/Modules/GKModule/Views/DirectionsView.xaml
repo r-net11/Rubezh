@@ -49,7 +49,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
+                <DataGridTextColumn Header="Зона или Логика" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
                 <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
@@ -97,7 +97,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
+                <DataGridTextColumn Header="Зона или Логика" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
                 <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>

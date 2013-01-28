@@ -16,28 +16,31 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Неисправность")]
 		Failure = 3,
 
-        [DescriptionAttribute("Отключено")]
+		[DescriptionAttribute("Отключено")]
 		Ignore = 4,
 
 		[DescriptionAttribute("Включено")]
 		On = 5,
 
+		[DescriptionAttribute("Включается")]
+		TurningOn = 6,
+
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 6,
+		Service = 7,
 
 		[DescriptionAttribute("Автоматика отключена")]
-		AutoOff = 7,
+		AutoOff = 8,
 
 		[DescriptionAttribute("Информация")]
-		Info = 8,
+		Info = 9,
 
 		[DescriptionAttribute("Неизвестно")]
-		Unknown = 9,
+		Unknown = 10,
 
 		[DescriptionAttribute("Норма")]
-		Norm = 10,
+		Norm = 11,
 
-        [DescriptionAttribute("Нет")]
-        No = 11
+		[DescriptionAttribute("Нет")]
+		No = 12
 	}
 }

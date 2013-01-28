@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 			Direction = direction;
 			Zones = new ObservableCollection<DirectionZoneViewModel>();
 			Devices = new ObservableCollection<DirectionDeviceViewModel>();
-			OutputDevices = new ObservableCollection<XDevice>();
+			OutputDevices = new ObservableCollection<DeviceViewModel>();
 			Update();
 		}
 
@@ -41,7 +41,8 @@ namespace GKModule.ViewModels
 			OutputDevices.Clear();
 			foreach (var outputDevice in Direction.OutputDevices)
 			{
-				OutputDevices.Add(outputDevice);
+				var deviceViewModel = new DeviceViewModel(outputDevice);
+				OutputDevices.Add(deviceViewModel);
 			}
 		}
 
@@ -53,7 +54,7 @@ namespace GKModule.ViewModels
 
 		public ObservableCollection<DirectionZoneViewModel> Zones { get; private set; }
 		public ObservableCollection<DirectionDeviceViewModel> Devices { get; private set; }
-		public ObservableCollection<XDevice> OutputDevices { get; private set; }
+		public ObservableCollection<DeviceViewModel> OutputDevices { get; private set; }
 
 		public void ChangeZones()
 		{

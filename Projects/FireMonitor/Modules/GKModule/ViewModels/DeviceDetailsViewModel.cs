@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
         {
             get
             {
-                var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
+                var libraryDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == Device.Driver.UID);
                 if (libraryDevice == null)
                 {
                     return null;

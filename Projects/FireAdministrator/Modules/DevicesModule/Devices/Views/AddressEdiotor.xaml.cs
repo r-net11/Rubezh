@@ -14,7 +14,6 @@ namespace DevicesModule.Views
 			DependencyProperty.Register("Device", typeof(Device), typeof(AddressEditor),
 			new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnDevicePropertyChanged)));
 
-
 		public static readonly DependencyProperty AddressProperty =
 			DependencyProperty.Register("Address", typeof(string), typeof(AddressEditor),
 			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnAddressPropertyChanged)));

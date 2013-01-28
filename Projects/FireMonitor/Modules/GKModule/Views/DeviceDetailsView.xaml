@@ -39,7 +39,7 @@
                             </StackPanel.Style>
                         </StackPanel>
                         <WrapPanel Orientation="Horizontal">
-                            <TextBlock Text="Зона: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2 2 5 2" />
+                            <TextBlock Text="Зона или Логика: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2 2 5 2" />
                             <TextBlock Margin="2" Text="{Binding PresentationZone}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
                             <WrapPanel.Style>
                                 <Style>

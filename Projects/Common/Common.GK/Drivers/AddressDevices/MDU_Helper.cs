@@ -30,7 +30,7 @@ namespace Common.GK
 				Caption = "Время включения, с",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-				Min = 0,
+				Min = 30,
 				Max = 255
 			};
 			driver.Properties.Add(property1);
@@ -42,7 +42,7 @@ namespace Common.GK
 				Caption = "Время выключения, с",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-				Min = 0,
+				Min = 30,
 				Max = 255
 			};
 			driver.Properties.Add(property2);

@@ -132,6 +132,20 @@ namespace XFiresecAPI
 			}
 		}
 
+		public string DottedPresentationAddress
+		{
+			get
+			{
+				var address = DottedAddress;
+				if (Driver.IsGroupDevice)
+				{
+					if (Children.Count > 0)
+						return Children.FirstOrDefault().DottedAddress + " - " + Children.LastOrDefault().DottedAddress;
+				}
+				return address;
+			}
+		}
+
 		public string ShortName
 		{
 			get

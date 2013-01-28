@@ -17,7 +17,6 @@ namespace GKModule.Views
 			DependencyProperty.Register("Device", typeof(XDevice), typeof(AddressEditor),
 			new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnDevicePropertyChanged)));
 
-
 		public static readonly DependencyProperty AddressProperty =
 			DependencyProperty.Register("Address", typeof(string), typeof(AddressEditor),
 			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnAddressPropertyChanged)));
@@ -119,7 +118,7 @@ namespace GKModule.Views
 
 		void InitializeDevice()
 		{
-			if (Device.CanEditAddress == false)
+			if (Device == null || Device.CanEditAddress == false)
 				return;
 
 			SetBounds();
@@ -127,7 +126,7 @@ namespace GKModule.Views
 
 		void InitializeAddress()
 		{
-			if (Device.CanEditAddress == false)
+			if (Device == null || Device.CanEditAddress == false)
 				return;
 
 			if (_isSaving)
@@ -164,6 +163,8 @@ namespace GKModule.Views
 
 		void SaveAddress()
 		{
+			if (Device == null)
+				return;
 			_isSaving = true;
 			if (Device.Driver.IsDeviceOnShleif)
 			{

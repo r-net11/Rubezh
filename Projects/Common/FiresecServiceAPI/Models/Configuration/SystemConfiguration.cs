@@ -38,6 +38,11 @@ namespace FiresecAPI.Models
 				Instructions = new List<Instruction>();
 				result = false;
 			}
+			if (Emails == null)
+			{
+				Emails = new List<Email>();
+				result = false;
+			}
 			return result;
 		}
 	}

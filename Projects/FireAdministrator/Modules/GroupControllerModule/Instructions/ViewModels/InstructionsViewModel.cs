@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
                 var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
                 Instructions.Add(instructionViewModel);
                 SelectedInstruction = instructionViewModel;
-				ServiceFactory.SaveService.InstructionsChanged = true;
+				ServiceFactory.SaveService.XInstructionsChanged = true;
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(instructionDetailsViewModel))
 			{
 				SelectedInstruction.Update();
-				ServiceFactory.SaveService.InstructionsChanged = true;
+				ServiceFactory.SaveService.XInstructionsChanged = true;
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 			Instructions.Remove(SelectedInstruction);
 			if (Instructions.IsNotNullOrEmpty())
 				SelectedInstruction = Instructions[0];
-			ServiceFactory.SaveService.InstructionsChanged = true;
+			ServiceFactory.SaveService.XInstructionsChanged = true;
 		}
 
 		public RelayCommand DeleteAllCommand { get; private set; }
@@ -122,7 +122,7 @@ namespace GKModule.ViewModels
 			SelectedInstruction = null;
 			Instructions.Clear();
 			FiresecManager.SystemConfiguration.Instructions.Clear();
-			ServiceFactory.SaveService.InstructionsChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		#region ISelectable<Guid> Members

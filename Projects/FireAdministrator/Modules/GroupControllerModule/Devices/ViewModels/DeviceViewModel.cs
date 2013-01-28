@@ -147,7 +147,7 @@ namespace GKModule.ViewModels
 			var parent = Parent;
 			if (parent != null)
 			{
-				var index = parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
+				var index = parent.Children.IndexOf(this);
 				parent.Children.Remove(this);
 				parent.Update();
 

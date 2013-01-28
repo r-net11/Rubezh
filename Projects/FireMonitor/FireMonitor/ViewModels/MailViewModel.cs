@@ -18,7 +18,7 @@ namespace FireMonitor.ViewModels
 	public class MailViewModel : BaseViewModel
 	{
 		Dictionary<Device, StateType> deviceStates = new Dictionary<Device, StateType>();
-		
+
 		public MailViewModel()
 		{
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
@@ -33,7 +33,6 @@ namespace FireMonitor.ViewModels
 			{
 				Trace.WriteLine(email.Address + " " + MailHelper.PresentStates(email));
 			}
-
 		}
 
 		public StateType CurrentStateType { get; private set; }
@@ -47,8 +46,9 @@ namespace FireMonitor.ViewModels
 
 			foreach (var device in FiresecManager.Devices)
 			{
-				
+
 				if (StateChanged(device))
+				{
 					foreach (var email in FiresecManager.SystemConfiguration.Emails)
 					{
 						if (email.SendingStates.Contains(device.DeviceState.StateType))
@@ -57,6 +57,7 @@ namespace FireMonitor.ViewModels
 							Trace.WriteLine(email.Address + " Сообщение отправлено событием класса " + device.DeviceState.StateType.ToDescription() + " прибором " + device.PresentationAddressAndName);
 						}
 					}
+				}
 			}
 		}
 
@@ -77,7 +78,7 @@ namespace FireMonitor.ViewModels
 				return true;
 			}
 		}
-		
+
 		StateType GetMinASStateType()
 		{
 			var minStateType = StateType.Norm;
@@ -119,7 +120,5 @@ namespace FireMonitor.ViewModels
 			}
 			return minStateType;
 		}
-
-		
 	}
 }

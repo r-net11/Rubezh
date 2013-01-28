@@ -85,7 +85,10 @@ namespace GKModule.Models
 		void OnReadJournal()
 		{
 			var journalViewModel = new JournalViewModel(SelectedDevice.Device);
-			DialogService.ShowModalWindow(journalViewModel);
+			if (journalViewModel.Initialize())
+			{
+				DialogService.ShowModalWindow(journalViewModel);
+			}
 		}
 		bool CanReadJournal()
 		{
@@ -116,6 +119,14 @@ namespace GKModule.Models
 		void OnReadConfiguration()
 		{
 			var device = SelectedDevice.Device;
+
+			var sendResult = SendManager.Send(device, 0, 1, 1);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.ShowError("Устройство " + device.ShortPresentationAddressAndDriver + " недоступно");
+				return;
+			}
+
 			if (device.Driver.DriverType == XDriverType.KAU)
 			{
 				var result = KauBinConfigurationReader.ReadConfiguration(device);

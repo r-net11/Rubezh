@@ -2,11 +2,11 @@
 
 namespace FireMonitor.Views
 {
-    public partial class SoundView : UserControl
+	public partial class SoundView : UserControl
 	{
 		public SoundView()
 		{
 			InitializeComponent();
-         }
+		}
 	}
 }

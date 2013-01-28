@@ -55,13 +55,14 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" />
+                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                            <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DottedAddress}" Width="100" />
+                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Device.DottedAddress}" Width="100" />
+                            <GridViewColumn Header="Зона или Логика" DisplayMemberBinding="{Binding PresentationZone}" Width="100" />
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -88,11 +89,6 @@
                                         <Controls:EditorPresenter>
                                             <Controls:EditorPresenter.ViewTemplate>
                                                 <ControlTemplate>
-                                                    <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Center" />
-                                                </ControlTemplate>
-                                            </Controls:EditorPresenter.ViewTemplate>
-                                            <Controls:EditorPresenter.EditTemplate>
-                                                <ControlTemplate>
                                                     <Grid>
                                                         <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
                                                                 VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -104,7 +100,7 @@
                                                         </ComboBox>
                                                     </Grid>
                                                 </ControlTemplate>
-                                            </Controls:EditorPresenter.EditTemplate>
+                                            </Controls:EditorPresenter.ViewTemplate>
                                         </Controls:EditorPresenter>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

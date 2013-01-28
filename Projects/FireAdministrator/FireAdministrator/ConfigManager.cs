@@ -71,7 +71,7 @@ namespace FireAdministrator
 						AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
 					if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged))
 						AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
-					if (ServiceFactory.SaveService.GKChanged)
+					if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged)
 						AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
 					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 					if (ServiceFactory.SaveService.SecurityChanged)
@@ -143,6 +143,7 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.InstructionsChanged = true;
 					ServiceFactory.SaveService.CamerasChanged = true;
 					ServiceFactory.SaveService.GKChanged = true;
+					ServiceFactory.SaveService.XInstructionsChanged = true;
 
 					ServiceFactory.Layout.Close();
 					if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))

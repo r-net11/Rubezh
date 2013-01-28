@@ -14,6 +14,9 @@ namespace GKModule
         public static void WriteConfig()
         {
             DatabaseManager.Convert();
+			var result = Ping();
+			if (!result)
+				return;
 
             //SendManager.StrartLog("D:/GkLog.txt");
             foreach (var gkDatabase in DatabaseManager.GkDatabases)
@@ -44,6 +47,30 @@ namespace GKModule
             }
             //SendManager.StopLog();
         }
+
+		static bool Ping()
+		{
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
+			{
+                    var sendResult = SendManager.Send(gkDatabase.RootDevice, 0, 1, 1);
+					if (sendResult.HasError)
+					{
+						MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.ShortPresentationAddressAndDriver + " недоступно");
+						return false;
+					}
+
+				foreach (var kauDatabase in gkDatabase.KauDatabases)
+				{
+					sendResult = SendManager.Send(kauDatabase.RootDevice, 0, 1, 1);
+					if (sendResult.HasError)
+					{
+						MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.ShortPresentationAddressAndDriver + " недоступно");
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 
         static void WriteConfigToDevice(CommonDatabase commonDatabase)
         {

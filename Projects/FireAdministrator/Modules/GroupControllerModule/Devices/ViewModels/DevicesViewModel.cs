@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
-            RegisterShortcuts();
+			RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -122,108 +122,6 @@ namespace GKModule.ViewModels
 			return deviceViewModel;
 		}
 
-		//#region DeviceSelection
-		//public List<DeviceViewModel> AllDevices;
-
-		//public void FillAllDevices()
-		//{
-		//    AllDevices = new List<DeviceViewModel>();
-		//    AddChildPlainDevices(Devices[0]);
-		//}
-
-		//void AddChildPlainDevices(DeviceViewModel parentViewModel)
-		//{
-		//    AllDevices.Add(parentViewModel);
-		//    foreach (var childViewModel in parentViewModel.Children)
-		//    {
-		//        AddChildPlainDevices(childViewModel);
-		//    }
-		//}
-
-		//public void Select(Guid deviceUID)
-		//{
-		//    if (deviceUID != Guid.Empty)
-		//    {
-		//        FillAllDevices();
-
-		//        var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-		//        if (deviceViewModel != null)
-		//            deviceViewModel.ExpantToThis();
-		//        SelectedDevice = deviceViewModel;
-		//    }
-		//}
-		//#endregion
-
-		//ObservableCollection<DeviceViewModel> _devices;
-		//public ObservableCollection<DeviceViewModel> Devices
-		//{
-		//    get { return _devices; }
-		//    set
-		//    {
-		//        _devices = value;
-		//        OnPropertyChanged("Devices");
-		//    }
-		//}
-
-		//DeviceViewModel _selectedDevice;
-		//public DeviceViewModel SelectedDevice
-		//{
-		//    get { return _selectedDevice; }
-		//    set
-		//    {
-		//        _selectedDevice = value;
-		//        if (value != null)
-		//            value.ExpantToThis();
-		//        OnPropertyChanged("SelectedDevice");
-		//    }
-		//}
-
-		//void BuildTree()
-		//{
-		//    Devices = new ObservableCollection<DeviceViewModel>();
-		//    AddDevice(XManager.DeviceConfiguration.RootDevice, null);
-		//}
-
-
-		//public DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
-		//{
-		//    var deviceViewModel = new DeviceViewModel(device);
-		//    deviceViewModel.Parent = parentDeviceViewModel;
-
-		//    var indexOf = Devices.IndexOf(parentDeviceViewModel);
-		//    Devices.Insert(indexOf + 1, deviceViewModel);
-
-		//    if (device != null)
-		//        foreach (var childDevice in device.Children)
-		//        {
-		//            var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-		//            deviceViewModel.Children.Add(childDeviceViewModel);
-		//        }
-
-		//    return deviceViewModel;
-		//}
-
-		//public void CollapseChild(DeviceViewModel parentDeviceViewModel)
-		//{
-		//    parentDeviceViewModel.IsExpanded = false;
-		//    foreach (var deviceViewModel in parentDeviceViewModel.Children)
-		//    {
-		//        CollapseChild(deviceViewModel);
-		//    }
-		//}
-
-		//public void ExpandChild(DeviceViewModel parentDeviceViewModel)
-		//{
-		//    if (parentDeviceViewModel.Device != null && (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.System || parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK))
-		//    {
-		//        parentDeviceViewModel.IsExpanded = true;
-		//        foreach (var deviceViewModel in parentDeviceViewModel.Children)
-		//        {
-		//            ExpandChild(deviceViewModel);
-		//        }
-		//    }
-		//}
-
 		XDevice _deviceToCopy;
 		bool _isFullCopy;
 
@@ -266,59 +164,56 @@ namespace GKModule.ViewModels
 		{
 			SelectedDevice.Device.Children.Add(device);
 			device.Parent = SelectedDevice.Device;
-
-			var newDevice = AddDevice(device, SelectedDevice);
-			SelectedDevice.Children.Add(newDevice);
-
+			AddDevice(device, SelectedDevice);
 			XManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
-            {
-                if (SelectedDevice != null)
-                {
-                    if (SelectedDevice.AddCommand.CanExecute(null))
-                        SelectedDevice.AddCommand.Execute();
-                }
-            });
-            RegisterShortcut(new KeyGesture(KeyboardKey.M, ModifierKeys.Control), () =>
-            {
-                if (SelectedDevice != null)
-                {
-                    if (SelectedDevice.AddToParentCommand.CanExecute(null))
-                        SelectedDevice.AddToParentCommand.Execute();
-                }
-            });
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
-            {
-                if (SelectedDevice != null)
-                {
-                    if (SelectedDevice.RemoveCommand.CanExecute(null))
-                        SelectedDevice.RemoveCommand.Execute();
-                }
-            });
-            RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
-            {
-                if (SelectedDevice != null)
-                {
-                    if (SelectedDevice.HasChildren && !SelectedDevice.IsExpanded)
-                        SelectedDevice.IsExpanded = true;
-                }
-            });
-            RegisterShortcut(new KeyGesture(KeyboardKey.Left, ModifierKeys.Control), () =>
-            {
-                if (SelectedDevice != null)
-                {
-                    if (SelectedDevice.HasChildren && SelectedDevice.IsExpanded)
-                        SelectedDevice.IsExpanded = false;
-                }
-            });
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
+			{
+				if (SelectedDevice != null)
+				{
+					if (SelectedDevice.AddCommand.CanExecute(null))
+						SelectedDevice.AddCommand.Execute();
+				}
+			});
+			RegisterShortcut(new KeyGesture(KeyboardKey.M, ModifierKeys.Control), () =>
+			{
+				if (SelectedDevice != null)
+				{
+					if (SelectedDevice.AddToParentCommand.CanExecute(null))
+						SelectedDevice.AddToParentCommand.Execute();
+				}
+			});
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
+			{
+				if (SelectedDevice != null)
+				{
+					if (SelectedDevice.RemoveCommand.CanExecute(null))
+						SelectedDevice.RemoveCommand.Execute();
+				}
+			});
+			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
+			{
+				if (SelectedDevice != null)
+				{
+					if (SelectedDevice.HasChildren && !SelectedDevice.IsExpanded)
+						SelectedDevice.IsExpanded = true;
+				}
+			});
+			RegisterShortcut(new KeyGesture(KeyboardKey.Left, ModifierKeys.Control), () =>
+			{
+				if (SelectedDevice != null)
+				{
+					if (SelectedDevice.HasChildren && SelectedDevice.IsExpanded)
+						SelectedDevice.IsExpanded = false;
+				}
+			});
+		}
 	}
 }

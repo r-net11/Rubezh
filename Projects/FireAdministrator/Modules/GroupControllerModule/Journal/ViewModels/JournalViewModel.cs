@@ -20,22 +20,24 @@ namespace GKModule.ViewModels
 			ReadCommand = new RelayCommand(OnRead);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
-			SetTotalCount();
-			StartIndex = Math.Max(0, TotalCount - 100);
-			EndIndex = TotalCount;
+			//SetTotalCount();
+
 		}
 
-		void SetTotalCount()
+		public bool Initialize()
 		{
 			var sendResult = SendManager.Send(Device, 0, 6, 64);
 			if (sendResult.HasError)
 			{
 				MessageBoxService.Show("Ошибка связи с устройством");
-				Close(false);
-				return;
+				//Close(false);
+				return false;
 			}
 			var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
 			TotalCount = internalJournalItem.GKNo;
+			StartIndex = Math.Max(0, TotalCount - 100);
+			EndIndex = TotalCount;
+			return true;
 		}
 
 		int _totalCount;

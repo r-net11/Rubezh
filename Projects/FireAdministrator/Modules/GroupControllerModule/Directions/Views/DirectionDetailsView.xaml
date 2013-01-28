@@ -26,12 +26,12 @@
                 <Label Grid.Row="4" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
                 <Label Grid.Row="5" Grid.Column="0" Content="Режим" HorizontalAlignment="Right" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" TextWrapping="Wrap" />
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Delay}" Margin="2" />
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Hold}" Margin="2" />
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Regime}" Margin="2" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" TextWrapping="Wrap" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Regime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <ComboBox Grid.Row="5" Grid.Column="1" Margin="2" SelectedValue="{Binding Regime}" SelectedValuePath="Tag">
                     <ComboBox.Items>
                         <ComboBoxItem Content="Включено" Tag="1" />

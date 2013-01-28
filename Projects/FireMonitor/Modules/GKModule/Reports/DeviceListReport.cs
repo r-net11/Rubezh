@@ -26,7 +26,7 @@ namespace GKModule.Reports
                         continue;
 
                     var type = device.ShortName;
-                    var address = device.DottedAddress;
+					var address = device.DottedPresentationAddress;
                     var zonePresentationName = XManager.GetPresentationZone(device);
                     table.Rows.Add(type, address, zonePresentationName);
                 }

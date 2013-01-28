@@ -17,7 +17,7 @@
             <MenuItem Command="{Binding ShowLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
             <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
         </ContextMenu>
-        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <Converters:InverseBooleanConverter x:Key="InverC:\Projects\Projects\FireAdministrator\Modules\GroupControllerModule\Devices\Views\DevicesView.xamlseBooleanConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -68,9 +68,8 @@
                                 <Controls:EditorPresenter.EditTemplate>
                                     <ControlTemplate>
                                         <Grid>
-                                            <Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}"
-                                                Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <TextBlock Text="{Binding Address}" />
+                                            <Views:AddressEditor Device="{Binding Device}" Address="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            <TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
                                         </Grid>
                                     </ControlTemplate>
                                 </Controls:EditorPresenter.EditTemplate>
@@ -79,17 +78,22 @@
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
 
-                <GridViewColumn Width="100" Header="Зона">
+                <GridViewColumn Width="100" Header="Зона или Логика">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Controls:EditorPresenter>
                                 <Controls:EditorPresenter.ViewTemplate>
                                     <ControlTemplate>
-                                        <TextBlock Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
+                                        <TextBlock Text="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
                                             Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <TextBlock.InputBindings>
                                                 <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
                                             </TextBlock.InputBindings>
+                                            <TextBlock.ToolTip>
+                                                <WrapPanel>
+                                                    <TextBlock Text="{Binding EditingPresentationZone}" TextWrapping="Wrap" />
+                                                </WrapPanel>
+                                            </TextBlock.ToolTip>
                                         </TextBlock>
                                     </ControlTemplate>
                                 </Controls:EditorPresenter.ViewTemplate>
@@ -148,9 +152,9 @@
                             </Style>
                         </StackPanel.Style>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Label Content="Зона: " />
-                        <Label Content="Зона не указана" IsEnabled="False">
+                    <WrapPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Label Content="Зона или Логика: " />
+                        <Label Content="Зона или Логика не указана" IsEnabled="False">
                             <Label.Style>
                                 <Style>
                                     <Setter Property="Label.Visibility" Value="Collapsed" />
@@ -164,7 +168,7 @@
                         </Label>
                         <TextBlock VerticalAlignment="Center">
                             <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-                                <TextBlock Margin="2" Text="{Binding PresentationZone}" />
+                                <TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" Margin="2" />
                             </Hyperlink>
                             <TextBlock.Style>
                                 <Style>
@@ -176,7 +180,7 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                    </StackPanel>
+                    </WrapPanel>
                     <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
                 </StackPanel>
             </ScrollViewer>

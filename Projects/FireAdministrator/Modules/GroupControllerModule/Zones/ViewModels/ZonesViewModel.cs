@@ -100,18 +100,21 @@ namespace GKModule.ViewModels
 		}
 
         public RelayCommand DeleteCommand { get; private set; }
-        void OnDelete()
-        {
-            var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.XZone.PresentationName);
-            if (dialogResult == MessageBoxResult.Yes)
-            {
+		void OnDelete()
+		{
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.XZone.PresentationName);
+			if (dialogResult == MessageBoxResult.Yes)
+			{
+				var index = Zones.IndexOf(SelectedZone);
 				XManager.RemoveZone(SelectedZone.XZone);
-                Zones.Remove(SelectedZone);
-				SelectedZone = Zones.FirstOrDefault();
-                ZoneDevices.UpdateAvailableDevices();
-                ServiceFactory.SaveService.GKChanged = true;
-            }
-        }
+				Zones.Remove(SelectedZone);
+				index = Math.Min(index, Zones.Count - 1);
+				if (index > -1)
+					SelectedZone = Zones[index];
+				ZoneDevices.UpdateAvailableDevices();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
 
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()

@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -137,9 +138,27 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			var oldIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
+			var newIndex = 0;
+			var newDeviceUID = Guid.Empty;
+			for (int currentIndex = 0; currentIndex < AvailableDevices.Count; currentIndex++)
+			{
+				var deviceViewModel = AvailableDevices[currentIndex];
+				if (!deviceViewModel.IsBold)
+					continue;
+				if (deviceViewModel == SelectedAvailableDevice)
+					continue;
+				if (Math.Abs(currentIndex - oldIndex) <= Math.Abs(oldIndex - newIndex))
+				{
+					newIndex = currentIndex;
+					newDeviceUID = deviceViewModel.Device.UID;
+				}
+			}
+
 			XManager.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
 			Initialize(Zone);
 			UpdateAvailableDevices();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Device.UID == newDeviceUID);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		public bool CanAdd()
@@ -150,9 +169,27 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var oldIndex = Devices.IndexOf(SelectedDevice);
+			var newIndex = 0;
+			var newDeviceUID = Guid.Empty;
+			for (int currentIndex = 0; currentIndex < Devices.Count; currentIndex++)
+			{
+				var deviceViewModel = Devices[currentIndex];
+				if (!deviceViewModel.IsBold)
+					continue;
+				if (deviceViewModel == SelectedDevice)
+					continue;
+				if (Math.Abs(currentIndex - oldIndex) <= Math.Abs(oldIndex - newIndex))
+				{
+					newIndex = currentIndex;
+					newDeviceUID = deviceViewModel.Device.UID;
+				}
+			}
+
 			XManager.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
 			Initialize(Zone);
 			UpdateAvailableDevices();
+			SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == newDeviceUID);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		public bool CanRemove()

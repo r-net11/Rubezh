@@ -171,6 +171,7 @@ namespace DevicesModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion(title);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
+				var index = Zones.IndexOf(SelectedZone);
 				var tempZones = new ObservableCollection<ZoneViewModel>(Zones);
 				foreach (var zoneViewModel in Zones)
 				{
@@ -181,6 +182,9 @@ namespace DevicesModule.ViewModels
 					}
 				}
 				Zones = new ObservableCollection<ZoneViewModel>(tempZones);
+				index = Math.Min(index, Zones.Count - 1);
+				if (index > -1)
+					SelectedZone = Zones[index];
 				SelectedZone = Zones.FirstOrDefault();
 				ServiceFactory.SaveService.FSChanged = true;
 				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
