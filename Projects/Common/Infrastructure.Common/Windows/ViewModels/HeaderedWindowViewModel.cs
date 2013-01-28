@@ -17,5 +17,16 @@
 				OnPropertyChanged("Header");
 			}
 		}
+
+		private bool _allowMaximize;
+		public bool AllowMaximize
+		{
+			get { return _allowMaximize; }
+			set
+			{
+				_allowMaximize = value;
+				OnPropertyChanged("AllowMaximize");
+			}
+		}
 	}
 }

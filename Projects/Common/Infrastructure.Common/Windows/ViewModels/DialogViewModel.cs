@@ -6,6 +6,7 @@
 		{
 			Header = new DialogHeaderViewModel(this);
 			CloseOnEscape = true;
+			AllowMaximize = false;
 		}
 	}
 }

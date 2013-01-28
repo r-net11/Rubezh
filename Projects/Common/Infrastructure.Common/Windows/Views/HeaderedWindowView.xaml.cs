@@ -13,14 +13,14 @@ namespace Infrastructure.Common.Windows.Views
 			InitializeComponent();
 		}
 
-		private void CaptionedView_Loaded(object sender, RoutedEventArgs e)
+		private void HeaderedView_Loaded(object sender, RoutedEventArgs e)
 		{
 			Window = Window.GetWindow(this);
 		}
 
 		private void Header_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2 && Window.ResizeMode == ResizeMode.CanResize)
+			if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2 && Window.ResizeMode == ResizeMode.CanResize && (Tag as bool? == true))
 				Window.WindowState = Window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 		}
 		private void Header_MouseMove(object sender, MouseEventArgs e)

@@ -36,16 +36,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("AllowMinimize");
 			}
 		}
-		private bool _allowMaximize;
-		public bool AllowMaximize
-		{
-			get { return _allowMaximize; }
-			set
-			{
-				_allowMaximize = value;
-				OnPropertyChanged("AllowMaximize");
-			}
-		}
 
 		public void Minimize()
 		{
