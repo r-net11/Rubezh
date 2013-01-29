@@ -85,12 +85,12 @@ namespace GKModule.Plans.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				ElementDevice elementDevice = element as ElementDevice;
+				ElementXDevice elementDevice = element as ElementXDevice;
 				if (elementDevice != null)
 				{
 					if (guid != Guid.Empty)
 						OnDeviceChanged(guid);
-					guid = elementDevice.DeviceUID;
+					guid = elementDevice.XDeviceUID;
 				}
 			});
 			_lockSelection = false;
@@ -100,9 +100,9 @@ namespace GKModule.Plans.ViewModels
 
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementDevice elementDevice = element as ElementDevice;
+			ElementXDevice elementDevice = element as ElementXDevice;
 			if (elementDevice != null)
-				Select(elementDevice.DeviceUID);
+				Select(elementDevice.XDeviceUID);
 		}
 	}
 }

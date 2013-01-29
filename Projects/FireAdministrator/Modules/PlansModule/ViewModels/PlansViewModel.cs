@@ -176,6 +176,7 @@ namespace PlansModule.ViewModels
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
 
+				ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(DesignerCanvas.Items.Select(item => item.Element).ToList());
 				if (parent == null)
 				{
 					Plans.Remove(selectedPlan);
