@@ -37,19 +37,17 @@ namespace GKModule
                     ObjectUID = GkDatabase.RootDevice.UID,
                     GKObjectNo = GkDatabase.RootDevice.GetDatabaseNo(DatabaseType.Gk),
                     JournalItemType = JournalItemType.GK,
-                    StateClass = XStateClass.Unknown
+                    StateClass = XStateClass.Unknown,
+					Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
                 };
-                if (isConnected)
-                {
-                    journalItem.Name = "Восстановление связи с прибором";
-                }
-                else
-                {
-                    journalItem.Name = "Потеря связи с прибором";
-                }
                 ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
                 GKDBHelper.Add(journalItem);
                 IsConnected = isConnected;
+				if (isConnected)
+				{
+					//GetGKAndKauStates();
+					GetAllStates();
+				}
             }
             var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
             if (gkDevice == null)
