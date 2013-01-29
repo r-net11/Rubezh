@@ -129,9 +129,18 @@ namespace GKModule.Models
 
 			if (device.Driver.DriverType == XDriverType.KAU)
 			{
-				var result = KauBinConfigurationReader.ReadConfiguration(device);
-				if (result)
-					SelectedDevice.Update();
+				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
+				if (remoteDevices != null)
+				{
+					XManager.UpdateConfiguration();
+					SelectedDevice.CollapseChildren();
+					SelectedDevice.Children.Clear();
+					foreach (var remoteDevice in remoteDevices)
+					{
+						DevicesViewModel.Current.AddDevice(device, SelectedDevice);
+					}
+					SelectedDevice.ExpandChildren();
+				}
 			}
 			if (device.Driver.DriverType == XDriverType.GK)
 			{

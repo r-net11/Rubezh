@@ -44,6 +44,7 @@ namespace XFiresecAPI
 		}
 
 		public abstract List<XStateType> States { get; set; }
+		public List<string> AdditionalStates { get; set; }
 		public abstract List<XStateClass> StateClasses { get; }
 		public abstract XStateClass StateClass { get; }
 		public abstract StateType GetStateType();

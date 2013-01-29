@@ -83,7 +83,7 @@ namespace GKModule
                         ApplicationService.Invoke(() =>
                         {
 							CheckServiceRequired(binaryObject.BinaryBase, journalItem);
-                            SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState));
+							binaryObject.BinaryBase.GetXBaseState().States = XStatesHelper.StatesFromInt(journalItem.ObjectState);
                             ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
                         });
                     }

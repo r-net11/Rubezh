@@ -59,13 +59,14 @@ namespace GKModule
 			ConnectionChanged(true);
 			var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
 			CheckDBMissmatch(binaryBase, binaryObjectState);
-			ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState.States); });
+			ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState); });
 			return true;
 		}
 
-		void SetObjectStates(XBinaryBase binaryBase, List<XStateType> states)
+		void SetObjectStates(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
 		{
-			binaryBase.GetXBaseState().States = states;
+			binaryBase.GetXBaseState().States = binaryObjectState.States;
+			binaryBase.GetXBaseState().AdditionalStates = binaryObjectState.AdditionalStates;
 		}
 
 		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)

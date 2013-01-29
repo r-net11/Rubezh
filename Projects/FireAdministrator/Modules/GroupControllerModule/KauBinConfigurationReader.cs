@@ -15,7 +15,7 @@ namespace GKModule
 {
 	public static class KauBinConfigurationReader
 	{
-		public static bool ReadConfiguration(XDevice kauDevice)
+		public static List<XDevice> ReadConfiguration(XDevice kauDevice)
 		{
 			var devices = new List<XDevice>();
 
@@ -35,7 +35,10 @@ namespace GKModule
 			LoadingService.SaveClose();
 
 			var deviceConfigurationViewModel = new DeviceConfigurationViewModel(kauDevice, devices);
-			return DialogService.ShowModalWindow(deviceConfigurationViewModel);
+			if (DialogService.ShowModalWindow(deviceConfigurationViewModel))
+				return devices;
+			else
+				return null;
 		}
 
 		static XDevice GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)
@@ -68,6 +71,7 @@ namespace GKModule
 
 			var device = new XDevice();
 			device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x=>x.DriverTypeNo == deviceType);
+			device.DriverUID = device.Driver.UID;
 			device.ShleifNo = (byte)(address / 256 + 1);
 			device.IntAddress = (byte)(address % 256);
 			return device;

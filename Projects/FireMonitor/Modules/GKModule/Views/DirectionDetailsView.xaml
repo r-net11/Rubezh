@@ -21,6 +21,13 @@
                             <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" Foreground="Orange" />
                             <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" />
                         </StackPanel>
+                        <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
