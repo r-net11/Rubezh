@@ -22,20 +22,22 @@ namespace GKModule.ViewModels
 
             ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
             ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+        }
 
+		public void Initialize()
+		{
+			foreach (var journalFilter in XManager.DeviceConfiguration.JournalFilters)
+			{
+				var filteredJournalViewModel = new JournalViewModel(journalFilter);
+				Journals.Add(filteredJournalViewModel);
+			}
+		}
+
+		public void GetTopLast()
+		{
 			var journalItems = GKDBHelper.GetTopLast(100);
 			Journals.ForEach(x => x.OnNewJournal(journalItems));
-        }
-
-        public void Initialize()
-        {
-            if (XManager.DeviceConfiguration.JournalFilters != null)
-                foreach (var journalFilter in XManager.DeviceConfiguration.JournalFilters)
-                {
-                    var filteredJournalViewModel = new JournalViewModel(journalFilter);
-                    Journals.Add(filteredJournalViewModel);
-                }
-        }
+		}
 
         List<JournalViewModel> _journals;
         public List<JournalViewModel> Journals

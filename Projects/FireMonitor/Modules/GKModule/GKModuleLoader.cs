@@ -146,6 +146,7 @@ namespace GKModule
 		public override void AfterInitialize()
 		{
 			WatcherManager.Start();
+			JournalsViewModel.GetTopLast();
 		}
 	}
 }

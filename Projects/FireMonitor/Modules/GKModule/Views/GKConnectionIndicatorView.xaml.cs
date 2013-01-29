@@ -21,7 +21,6 @@ namespace GKModule.Views
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			OnGKConnectionChanged(true);
-
 			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Unsubscribe(OnGKConnectionChanged);
 			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Subscribe(OnGKConnectionChanged);
 		}

@@ -34,6 +34,6 @@
             <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PresentationName}" Margin="2" />
         </Grid>
-        <Button Grid.Row="1" Content="Подтвердить" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Margin="2" />
+        <Button Grid.Row="1" Content="Подтвердить" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Width="150" Margin="2" />
     </Grid>
 </UserControl>
