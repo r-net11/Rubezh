@@ -404,7 +404,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand MulticlientTestCommand { get; private set; }
 		void OnMulticlientTest()
 		{
-			ServiceFactory.Events.GetEvent<MulticlientStateChanged>().Publish(StateType.Fire);
+			ServiceFactory.Events.GetEvent<MulticlientStateChangedEvent>().Publish(StateType.Fire);
 		}
 	}
 

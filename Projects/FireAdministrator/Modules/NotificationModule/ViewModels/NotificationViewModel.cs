@@ -50,7 +50,6 @@ namespace NotificationModule.ViewModels
 		}
 
 		ObservableCollection<EmailViewModel> _emails;
-
 		public ObservableCollection<EmailViewModel> Emails
 		{
 			get { return _emails; }

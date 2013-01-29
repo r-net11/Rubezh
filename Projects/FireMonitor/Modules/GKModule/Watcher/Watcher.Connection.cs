@@ -75,7 +75,7 @@ namespace GKModule
                 directionState.IsConnectionLost = !isConnected;
             }
 
-            ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(isConnected); });
+            ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Publish(isConnected); });
         }
     }
 }

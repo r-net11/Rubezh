@@ -69,15 +69,19 @@ namespace FiresecService.Service
 				return new OperationResult<bool>("Не найден пользователь");
 			}
 			InitializeClientCredentials(clientCredentials);
-
 			var oldUserName = clientCredentials.FriendlyUserName;
 
-			var operationResult = Authenticate(clientCredentials);
+			var newClientCredentials = new ClientCredentials()
+			{
+				UserName = login,
+				Password = password,
+				ClientIpAddress = clientCredentials.ClientIpAddress
+			};
+			var operationResult = Authenticate(newClientCredentials);
 			if (operationResult.HasError)
 				return operationResult;
 
 			MainViewModel.Current.EditClient(uid, login);
-
 			AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
 			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
 

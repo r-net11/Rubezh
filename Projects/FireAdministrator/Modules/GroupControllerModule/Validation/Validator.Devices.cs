@@ -74,7 +74,7 @@ namespace GKModule.Validation
 			if (device.Driver.HasZone)
 			{
 				if (device.Zones.Count == 0)
-					Errors.Add(new DeviceValidationError(device, "Устройство не подключено к зоне", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DeviceValidationError(device, "Устройство не подключено к зоне", ValidationErrorLevel.Warning));
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace GKModule.Validation
 			if (device.Driver.HasLogic)
 			{
 				if (device.DeviceLogic.Clauses.Count == 0)
-					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning));
 			}
 		}
 

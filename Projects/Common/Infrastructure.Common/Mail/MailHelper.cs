@@ -22,8 +22,7 @@ namespace Infrastructure.Common.Mail
 			}
 			catch (Exception ex)
 			{
-				Trace.WriteLine("Exception Mail.Send: {0}",
-								ex.ToString());
+				Trace.WriteLine("Exception Mail.Send: {0}", ex.ToString());
 			}
 		}
 

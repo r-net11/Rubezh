@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Mail;
 
 namespace NotificationModule.ViewModels
 {
@@ -20,7 +21,6 @@ namespace NotificationModule.ViewModels
 		}
 
 		Email _email;
-
 		public Email Email
 		{
 			get { return _email; }
@@ -37,7 +37,7 @@ namespace NotificationModule.ViewModels
 		{
 			get
 			{
-				return Infrastructure.Common.Mail.MailHelper.PresentStates(Email);
+				return MailHelper.PresentStates(Email);
 			}
 		}
 

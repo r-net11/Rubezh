@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace FireMonitor.Views
 {
@@ -16,7 +17,11 @@ namespace FireMonitor.Views
         public RelayCommand ChangeUserCommand { get; private set; }
         void OnChangeUser()
         {
-			ServiceFactory.LoginService.ExecuteReconnect();
+			var result = ServiceFactory.LoginService.ExecuteReconnect();
+			if (result)
+			{
+				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(true);
+			}
         }
     }
 }

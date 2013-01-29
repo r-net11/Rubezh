@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure;
+using GKModule.Events;
+using Common.GK;
+using System.Windows;
+using FiresecClient;
+using Infrastructure.Events;
+using XFiresecAPI;
+using GKModule.ViewModels;
+
+namespace GKModule
+{
+	public static class AutoActivationWatcher
+	{
+		public static void Run()
+		{
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+		}
+
+		public static void OnNewJournal(List<JournalItem> journalItems)
+		{
+			if (ClientSettings.AutoActivationSettings.IsAutoActivation)
+			{
+				if ((Application.Current.MainWindow != null) && (!Application.Current.MainWindow.IsActive))
+				{
+					Application.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+					Application.Current.MainWindow.Activate();
+				}
+			}
+			if (ClientSettings.AutoActivationSettings.IsPlansAutoActivation)
+			{
+				foreach (var journalItem in journalItems)
+				{
+					var journalItemViewModel = new JournalItemViewModel(journalItem);
+
+					var globalStateClass = XStateClass.No;
+					foreach (var device in XManager.DeviceConfiguration.Devices)
+					{
+						if (device.DeviceState.StateClass < globalStateClass)
+							globalStateClass = device.DeviceState.StateClass;
+					}
+					foreach (var zone in XManager.DeviceConfiguration.Zones)
+					{
+						if (zone.ZoneState.StateClass < globalStateClass)
+							globalStateClass = zone.ZoneState.StateClass;
+					}
+					foreach (var direction in XManager.DeviceConfiguration.Directions)
+					{
+						if (direction.DirectionState.StateClass < globalStateClass)
+							globalStateClass = direction.DirectionState.StateClass;
+					}
+
+					if (journalItem.StateClass <= globalStateClass)
+					{
+						switch (journalItem.JournalItemType)
+						{
+							case JournalItemType.Device:
+								var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (device != null)
+								{
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementXDevices.Any(y => y.XDeviceUID == device.UID); });
+									if (existsOnPlan)
+									{
+										ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(device);
+									}
+								}
+								break;
+
+							case JournalItemType.Zone:
+								var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (zone != null)
+								{
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.UID); });
+									if (existsOnPlan)
+									{
+										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
+									}
+									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXZones.Any(y => y.ZoneUID == zone.UID); });
+									if (existsOnPlan)
+									{
+										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
+									}
+								}
+								break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
