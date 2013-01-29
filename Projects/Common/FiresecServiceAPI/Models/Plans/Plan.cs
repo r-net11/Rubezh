@@ -13,6 +13,7 @@ namespace FiresecAPI.Models
 		{
 			UID = Guid.NewGuid();
 			Children = new List<Plan>();
+			Folders = new List<PlanFolder>();
 			ElementSubPlans = new List<ElementSubPlan>();
 			Caption = "Новый план";
 			Width = 400;
@@ -55,6 +56,8 @@ namespace FiresecAPI.Models
 		public byte[] BackgroundPixels { get; set; }
 		[DataMember]
 		public List<Plan> Children { get; set; }
+		[DataMember]
+		public List<PlanFolder> Folders { get; set; }
 
 		[DataMember]
 		public List<ElementRectangle> ElementRectangles { get; set; }
