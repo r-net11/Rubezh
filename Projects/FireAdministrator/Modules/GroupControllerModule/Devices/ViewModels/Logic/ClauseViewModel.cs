@@ -70,7 +70,6 @@ namespace GKModule.ViewModels
 						{
 							StateTypes.Add(XStateType.Fire1);
 							StateTypes.Add(XStateType.On);
-							StateTypes.Add(XStateType.Ignore);
 							StateTypes.Add(XStateType.Failure);
 							StateTypes.Add(XStateType.Test);
 						}

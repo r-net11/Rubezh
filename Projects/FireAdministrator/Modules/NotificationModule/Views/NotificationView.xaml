@@ -5,9 +5,10 @@
     <Controls:XDataGrid ItemsSource="{Binding Emails}" SelectedItem="{Binding SelectedEmail}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Адрес" Width="200" Binding="{Binding Email.Address}" />
-            <DataGridTextColumn Header="Имя" Width="200" Binding="{Binding Email.FirstName}" />
-            <DataGridTextColumn Header="Фамилия" Width="200" Binding="{Binding Email.LastName}" />
-            <DataGridTextColumn Header="Отсылаемые события" Width="*" Binding="{Binding PresenrationStates}" />
+            <DataGridTextColumn Header="Имя" Width="200" Binding="{Binding Email.Name}" />
+            <DataGridTextColumn Header="Состояния" Width="*" Binding="{Binding PresenrationStates}" />
+            <DataGridTextColumn Header="Зоны" Width="*" Binding="{Binding PresentationZones}" />
+            <DataGridTextColumn Header="Заголовок" Width="*" Binding="{Binding Email.MessageTitle}"/>
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

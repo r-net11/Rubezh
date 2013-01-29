@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Mail;
 
@@ -14,6 +15,11 @@ namespace NotificationModule.ViewModels
 			Email = email;
 		}
 
+		public EmailViewModel()
+		{
+			Email = new Email();
+		}
+
 		Email _email;
 		public Email Email
 		{
@@ -23,6 +29,7 @@ namespace NotificationModule.ViewModels
 				_email = value;
 				OnPropertyChanged("Email");
 				OnPropertyChanged("PresenrationStates");
+				OnPropertyChanged("PresentationZones");
 			}
 		}
 
@@ -32,6 +39,39 @@ namespace NotificationModule.ViewModels
 			{
 				return MailHelper.PresentStates(Email);
 			}
+		}
+
+		public string PresentationZones
+		{
+			get
+			{
+				if (Email.Zones.IsNotNullOrEmpty())
+				{
+					var delimString = ", ";
+					var result = new StringBuilder();
+
+					foreach (var zoneUID in Email.Zones)
+					{
+						var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+						if (zone != null)
+						{
+							result.Append(zone.No);
+							result.Append(delimString);
+						}
+					}
+
+					return result.ToString().Remove(result.Length - delimString.Length);
+				}
+
+				return null;
+			}
+		}
+
+		public void Update()
+		{
+			OnPropertyChanged("Email");
+			OnPropertyChanged("PresenrationStates");
+			OnPropertyChanged("PresentationZones");
 		}
 	}
 }

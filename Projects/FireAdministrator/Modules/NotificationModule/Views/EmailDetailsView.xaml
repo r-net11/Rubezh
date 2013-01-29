@@ -18,14 +18,16 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Адрес" HorizontalAlignment="Right" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Имя" HorizontalAlignment="Right" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Фамилия" HorizontalAlignment="Right" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Заголовок" HorizontalAlignment="Right" />
                 <Label Grid.Row="3" Grid.Column="0" Content="Классы событий" HorizontalAlignment="Right" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Email.Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Email.FirstName}" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Email.LastName}" Margin="2" />
+                <Button Grid.Row="4" Grid.Column="0" Content="Выбрать зоны" Command="{Binding SelectZonesCommand}" HorizontalAlignment="Right" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EmailViewModel.Email.Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EmailViewModel.Email.Name}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding EmailViewModel.Email.MessageTitle}" Margin="2" />
                 <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding StateTypes}" Margin="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -33,6 +35,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <Label Grid.Row="4" Grid.Column="1" Content="{Binding EmailViewModel.PresentationZones, Mode=OneWay}" Margin="2" />
             </Grid>
         </Border>
     </Grid>

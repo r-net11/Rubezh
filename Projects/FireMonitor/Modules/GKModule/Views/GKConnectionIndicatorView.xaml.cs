@@ -30,6 +30,8 @@ namespace GKModule.Views
 		{
 			IsDeviceConnected = isConnected;
 			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
+			if (IsDeviceConnected)
+				_connectionIndicator.Visibility = Visibility.Visible;
 		}
 
 		bool _isDeviceConnected;
@@ -61,7 +63,6 @@ namespace GKModule.Views
 			var animation = new ObjectAnimationUsingKeyFrames();
 			if (!start)
 			{
-
 				animation.Duration = TimeSpan.FromSeconds(1.5);
 				animation.RepeatBehavior = RepeatBehavior.Forever;
 				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.0))));
@@ -71,7 +72,7 @@ namespace GKModule.Views
 			}
 			else
 			{
-				animation.Duration = Duration.Forever;
+				animation.Duration = TimeSpan.FromSeconds(0.5);
 				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible));
 			}
 			return animation;

@@ -334,7 +334,7 @@ namespace DiagnosticsModule.ViewModels
 
 		private void OnMail()
 		{
-			MailHelper.Send("obychevma@rubezh.ru",
+			MailHelper.Send(FiresecManager.SystemConfiguration.SenderParams, "obychevma@rubezh.ru",
 							@"This message was automatically sent by Firesec-2 application",
 							"Testing message from Firesec-2");
 		}

@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
-using Infrastructure.Events;
-using Infrastructure.Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using Microsoft.Windows.Controls;
-using System.Diagnostics;
+using Infrastructure;
 using Infrastructure.Common.Mail;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireMonitor.ViewModels
 {
 	public class MailViewModel : BaseViewModel
 	{
-		Dictionary<Device, StateType> deviceStates = new Dictionary<Device, StateType>();
+		Dictionary<Zone, StateType> zoneStates = new Dictionary<Zone, StateType>();
 
 		public MailViewModel()
 		{
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Unsubscribe(OnZonesStateChanged);
+			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZonesStateChanged);
 
 			CurrentStateType = StateType.Norm;
-			OnDevicesStateChanged(Guid.Empty);
+			OnZonesStateChanged(Guid.Empty);
 
 			foreach (var email in FiresecManager.SystemConfiguration.Emails)
 			{
@@ -37,88 +32,46 @@ namespace FireMonitor.ViewModels
 
 		public StateType CurrentStateType { get; private set; }
 
-		public void OnDevicesStateChanged(object obj)
+		string message;
+
+		public void OnZonesStateChanged(System.Guid guid)
 		{
-			//var minState = (StateType)Math.Min((int)GetMinASStateType(), (int)GetMinGKStateType());
-
-			//if (CurrentStateType != minState)
-			//    CurrentStateType = minState;
-
-			foreach (var device in FiresecManager.Devices)
+			foreach (var zone in FiresecManager.Zones)
 			{
-
-				if (StateChanged(device))
+				if (IsStateChanged(zone))
 				{
 					foreach (var email in FiresecManager.SystemConfiguration.Emails)
 					{
-						if (email.SendingStates.Contains(device.DeviceState.StateType))
+						if (email.SendingStates.Contains(zone.ZoneState.StateType))
 						{
-							//MailHelper.Send(email.Address, "Сообщение отправлено событием класса " + device.DeviceState.StateType.ToDescription() + " прибором " + device.PresentationAddressAndName, "Тест Firesec");
-							Trace.WriteLine(email.Address + " Сообщение отправлено событием класса " + device.DeviceState.StateType.ToDescription() + " прибором " + device.PresentationAddressAndName);
+							message = " Изменение состояния зоны " +
+								zone.PresentationName +
+								" на состояние " +
+								zone.ZoneState.StateType.ToDescription();
+							//MailHelper.Send(email.Address, message, "Тест Firesec");
+							Trace.WriteLine(email.Address + message);
 						}
 					}
 				}
 			}
 		}
 
-		bool StateChanged(Device device)
+		private bool IsStateChanged(Zone zone)
 		{
-			if (!deviceStates.ContainsKey(device))
+			if (!zoneStates.ContainsKey(zone))
 			{
-				deviceStates.Add(device, device.DeviceState.StateType);
+				zoneStates.Add(zone, zone.ZoneState.StateType);
 				return true;
 			}
-			KeyValuePair<Device, StateType> kvp = deviceStates.FirstOrDefault(x => x.Key == device);
-			if (kvp.Value == device.DeviceState.StateType)
+			KeyValuePair<Zone, StateType> kvp = zoneStates.FirstOrDefault(x => x.Key == zone);
+			if (kvp.Value == zone.ZoneState.StateType)
 				return false;
 			else
 			{
-				deviceStates.Remove(device);
-				deviceStates.Add(device, device.DeviceState.StateType);
+				zoneStates.Remove(zone);
+				zoneStates.Add(zone, zone.ZoneState.StateType);
 				return true;
 			}
-		}
-
-		StateType GetMinASStateType()
-		{
-			var minStateType = StateType.Norm;
-			foreach (var device in FiresecManager.Devices)
-				if (device.DeviceState.StateType < minStateType)
-					minStateType = device.DeviceState.StateType;
-			return minStateType;
-		}
-
-		StateType GetMinGKStateType()
-		{
-			var minStateType = StateType.Norm;
-			foreach (var device in XManager.DeviceConfiguration.Devices)
-			{
-				if (device.DeviceState != null)
-				{
-					var stateType = device.DeviceState.GetStateType();
-					if (stateType < minStateType)
-						minStateType = stateType;
-				}
-			}
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
-			{
-				if (zone.ZoneState != null)
-				{
-					var stateType = zone.ZoneState.GetStateType();
-					if (stateType < minStateType)
-						minStateType = stateType;
-				}
-			}
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
-			{
-				if (direction.DirectionState != null)
-				{
-					var stateType = direction.DirectionState.GetStateType();
-					if (stateType < minStateType)
-						minStateType = stateType;
-				}
-			}
-			return minStateType;
 		}
 	}
 }

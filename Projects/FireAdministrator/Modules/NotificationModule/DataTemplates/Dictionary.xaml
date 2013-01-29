@@ -15,4 +15,12 @@
         <Views:EmailDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:SenderDetailsViewModel}">
+        <Views:SenderDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
+        <Views:ZoneSelectionView />
+    </DataTemplate>
+
 </ResourceDictionary>

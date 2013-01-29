@@ -8,14 +8,14 @@ using XFiresecAPI;
 
 namespace GKModule
 {
-    public partial class Watcher
+	public partial class Watcher
 	{
-        void GetAllStates()
-        {
+		void GetAllStates()
+		{
 			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
-            foreach (var binaryObject in GkDatabase.BinaryObjects)
-            {
-                bool result = GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
+			foreach (var binaryObject in GkDatabase.BinaryObjects)
+			{
+				bool result = GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
 				if (!result)
 				{
 					if (binaryObject.Device != null && binaryObject.Device.Driver.DriverType == XDriverType.GK)
@@ -25,10 +25,21 @@ namespace GKModule
 					}
 				}
 				DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
-            }
-            StopProgress();
-            ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
-        }
+			}
+			StopProgress();
+			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
+		}
+
+		void GetGKAndKauStates()
+		{
+			foreach (var binaryObject in GkDatabase.BinaryObjects)
+			{
+				if (binaryObject.Device != null && binaryObject.Device.Driver.DriverType == XDriverType.GK || binaryObject.Device.Driver.DriverType == XDriverType.KAU)
+				{
+					GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
+				}
+			}
+		}
 
 		bool GetState(XBinaryBase binaryBase, XDevice gkParent)
 		{
@@ -41,7 +52,7 @@ namespace GKModule
 			}
 			if (sendResult.Bytes.Count != 68)
 			{
-				ApplicationService.Invoke(() => { SetDBMissmatch(binaryBase); });
+				ApplicationService.Invoke(() => { binaryBase.GetXBaseState().IsMissmatch = true; });
 				ConnectionChanged(false);
 				return false;
 			}
@@ -57,41 +68,38 @@ namespace GKModule
 			binaryBase.GetXBaseState().States = states;
 		}
 
-		void SetDBMissmatch(XBinaryBase binaryBase)
-		{
-			binaryBase.GetXBaseState().IsMissmatch = true;
-		}
-
 		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
 		{
+			bool isMissmatch = false;
 			if (binaryBase is XDevice)
 			{
 				var device = binaryBase as XDevice;
 				if (device.Driver.DriverTypeNo != binaryObjectState.TypeNo)
-					SetDBMissmatch(binaryBase);
+					isMissmatch = true;
 				if (device.Driver.HasAddress && device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU
 					&& device.IntAddress != binaryObjectState.PhysicalAddress)
-					SetDBMissmatch(binaryBase);
+					isMissmatch = true;
 				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOncontroller)
-					SetDBMissmatch(binaryBase);
+					isMissmatch = true;
 			}
 			if (binaryBase is XZone)
 			{
 				var zone = binaryBase as XZone;
 				if (binaryObjectState.TypeNo != 0x100)
-					SetDBMissmatch(binaryBase);
+					isMissmatch = true;
 			}
 			if (binaryBase is XDirection)
 			{
 				var direction = binaryBase as XDirection;
 				if (binaryObjectState.TypeNo != 0x106)
-					SetDBMissmatch(binaryBase);
+					isMissmatch = true;
 			}
+			binaryBase.GetXBaseState().IsMissmatch = isMissmatch;
 		}
 
 		void CheckServiceRequired(XBinaryBase binaryBase, JournalItem journalItem)
 		{
-			if(journalItem.Name != "Запыленность")
+			if (journalItem.Name != "Запыленность")
 				return;
 
 			if (binaryBase is XDevice)

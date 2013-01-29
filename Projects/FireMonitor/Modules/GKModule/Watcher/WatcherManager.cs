@@ -68,9 +68,9 @@ namespace GKModule
 			if (watcher != null)
 			{
 				watcher.AddTask(() =>
-					{
-						SendManager.Send(gkParentDevice, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
-					});
+				{
+					SendManager.Send(gkParentDevice, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
+				});
 			}
 			else
 			{
@@ -80,15 +80,15 @@ namespace GKModule
 
 		static void OnUserChanged(bool isReconnect)
 		{
-				GKDBHelper.AddMessage("Вход пользователя в систему");
-				var journalItem = new JournalItem()
-				{
-					DateTime = DateTime.Now,
-					JournalItemType = JournalItemType.System,
-					StateClass = XStateClass.Info,
-					Name = isReconnect ? "Смена пользователя" : "Вход пользователя в систему"
-				};
-				ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
+			GKDBHelper.AddMessage("Вход пользователя в систему");
+			var journalItem = new JournalItem()
+			{
+				DateTime = DateTime.Now,
+				JournalItemType = JournalItemType.System,
+				StateClass = XStateClass.Info,
+				Name = isReconnect ? "Смена пользователя" : "Вход пользователя в систему"
+			};
+			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
 		}
 	}
 }

@@ -13,6 +13,7 @@ namespace FiresecAPI.Models
 			Instructions = new List<Instruction>();
 			Cameras = new List<Camera>();
 			Emails = new List<Email>();
+			SenderParams = new SenderParams();
 		}
 
 		[DataMember]
@@ -29,6 +30,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Email> Emails { get; set; }
+
+		[DataMember]
+		public SenderParams SenderParams { get; set; }
 
 		public override bool ValidateVersion()
 		{

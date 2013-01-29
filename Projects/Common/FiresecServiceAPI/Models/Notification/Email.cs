@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
@@ -8,19 +9,23 @@ namespace FiresecAPI.Models
 	{
 		public Email()
 		{
-			SendingStates = new List<StateType>();
+			States = new List<StateType>();
+			Zones = new List<Guid>();
 		}
 
 		[DataMember]
 		public string Address { get; set; }
 
 		[DataMember]
-		public string FirstName { get; set; }
+		public string Name { get; set; }
 
 		[DataMember]
-		public string LastName { get; set; }
+		public List<StateType> States { get; set; }
 
 		[DataMember]
-		public List<StateType> SendingStates { get; set; }
+		public List<Guid> Zones { get; set; }
+
+		[DataMember]
+		public string MessageTitle { get; set; }
 	}
 }
