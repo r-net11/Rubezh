@@ -22,8 +22,8 @@ namespace GKModule.Views
 		{
 			OnGKConnectionChanged(true);
 
-			ServiceFactory.Events.GetEvent<GKConnectionChanged>().Unsubscribe(OnGKConnectionChanged);
-			ServiceFactory.Events.GetEvent<GKConnectionChanged>().Subscribe(OnGKConnectionChanged);
+			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Unsubscribe(OnGKConnectionChanged);
+			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Subscribe(OnGKConnectionChanged);
 		}
 
 		void OnGKConnectionChanged(bool isConnected)

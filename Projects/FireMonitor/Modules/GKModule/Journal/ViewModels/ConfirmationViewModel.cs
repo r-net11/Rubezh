@@ -10,15 +10,15 @@ namespace GKModule.ViewModels
 		{
 			Title = "Подтверждение критических событий";
 			ConfirmCommand = new RelayCommand(OnConfirm);
-            JournalItem = journalItem;
+			JournalItemViewModel = new JournalItemViewModel(journalItem);
 		}
 
-		public JournalItem JournalItem { get; private set; }
+		public JournalItemViewModel JournalItemViewModel { get; private set; }
 
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
-			GKDBHelper.AddMessage("Состояние \"" + JournalItem.Name + " " + JournalItem.Description + "\" подтверждено оператором");
+			GKDBHelper.AddMessage("Состояние \"" + JournalItemViewModel.JournalItem.Name + " " + JournalItemViewModel.JournalItem.Description + "\" подтверждено оператором");
 			Close();
 		}
 	}

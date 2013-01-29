@@ -27,6 +27,7 @@ namespace FireMonitor
 
 			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
 			{
+				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(false);
 				App.Login = ServiceFactory.LoginService.Login;
 				App.Password = ServiceFactory.LoginService.Password;
 				try

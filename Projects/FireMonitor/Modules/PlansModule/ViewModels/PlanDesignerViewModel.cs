@@ -15,6 +15,8 @@ using Infrustructure.Plans.Designer;
 using Common;
 using System.Diagnostics;
 using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace PlansModule.ViewModels
 {
@@ -33,7 +35,8 @@ namespace PlansModule.ViewModels
 			_plansViewModel = plansViewModel;
 			DesignerCanvas = new PresenterCanvas();
 			_flushAdorner = new FlushAdorner(DesignerCanvas);
-			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermissionsToScale"); });
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
 		public void SelectPlan(PlanViewModel planViewModel)
@@ -97,6 +100,11 @@ namespace PlansModule.ViewModels
 		public void Navigate(PresenterItem presenterItem)
 		{
 			_flushAdorner.Show(presenterItem);
+		}
+
+		void OnUserChanged(bool isReconnect)
+		{
+			OnPropertyChanged("HasPermissionsToScale");
 		}
 
 		#region IPlanDesignerViewModel Members

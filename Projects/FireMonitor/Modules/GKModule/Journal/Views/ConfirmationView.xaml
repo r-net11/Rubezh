@@ -7,7 +7,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" DataContext="{Binding JournalItem}" TextElement.Foreground="White" Margin="2">
+        <Grid Grid.Row="0" DataContext="{Binding JournalItemViewModel}" TextElement.Foreground="White" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="*" />
@@ -18,16 +18,21 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Класс состояния" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояния" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Класс состояния" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" />
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PresentationName}" Margin="2" />
         </Grid>
         <Button Grid.Row="1" Content="Подтвердить" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Margin="2" />
     </Grid>

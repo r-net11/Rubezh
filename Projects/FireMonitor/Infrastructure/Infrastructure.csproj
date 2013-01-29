@@ -95,7 +95,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
-    <Compile Include="Events\MulticlientStateChanged.cs" />
+    <Compile Include="Events\MulticlientStateChangedEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowXAlarmsEvent.cs" />
     <Compile Include="Events\DevicesStateChangedEvent.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
-    <Compile Include="Events\GKConnectionChanged.cs" />
+    <Compile Include="Events\GKConnectionChangedEvent.cs" />
     <Compile Include="Events\NewJournalRecordsEvent.cs" />
     <Compile Include="Events\ShowAlarmsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
@@ -128,6 +128,7 @@
     <Compile Include="Events\ShowXJournalEvent.cs" />
     <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
+    <Compile Include="Events\UserChangedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Services\ILayoutService.cs" />

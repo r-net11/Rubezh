@@ -23,7 +23,7 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Имя" HorizontalAlignment="Right" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Фамилия" HorizontalAlignment="Right" />
                 <Label Grid.Row="3" Grid.Column="0" Content="Классы событий" HorizontalAlignment="Right" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Email.Address}" Margin="2" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Email.Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Email.FirstName}" Margin="2" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Email.LastName}" Margin="2" />
                 <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding StateTypes}" Margin="2">

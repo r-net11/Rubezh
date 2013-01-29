@@ -38,7 +38,6 @@ namespace NotificationModule.ViewModels
 		}
 
 		string _firstName;
-
 		public string FirstName
 		{
 			get { return _firstName; }
@@ -48,19 +47,17 @@ namespace NotificationModule.ViewModels
 			}
 		}
 
-		string _LastName;
-
+		string _lastName;
 		public string LastName
 		{
-			get { return _LastName; }
+			get { return _lastName; }
 			set
 			{
-				_LastName = value;
+				_lastName = value;
 			}
 		}
 
 		string _address;
-
 		public string Address
 		{
 			get { return _address; }
@@ -73,7 +70,6 @@ namespace NotificationModule.ViewModels
 		public ObservableCollection<StateTypeViewModel> StateTypes { get; private set; }
 
 		StateType _selectedStateType;
-
 		public StateType SelectedStateType
 		{
 			get { return _selectedStateType; }
@@ -95,11 +91,11 @@ namespace NotificationModule.ViewModels
 			return IsValidEmail(Email.Address);
 		}
 
-		public static bool IsValidEmail(string strIn)
+		public static bool IsValidEmail(string value)
 		{
 			return
-				strIn != null &&
-				Regex.IsMatch(strIn,
+				value != null &&
+				Regex.IsMatch(value,
 					@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
 					@"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
 		}

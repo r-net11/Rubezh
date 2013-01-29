@@ -21,8 +21,16 @@ namespace FireMonitor.Views
 
 			ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
 			ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
+
+			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecord);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
-			FiresecManager.UserChanged += new Action(() => { OnPropertyChanged("HasPermission"); });
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+		}
+
+		void OnUserChanged(bool isReconnect)
+		{
+			OnPropertyChanged("HasPermission");
 		}
 
 		public bool HasPermission
@@ -67,7 +75,7 @@ namespace FireMonitor.Views
 		{
 			if (IsAutoActivation)
 			{
-				if ((App.Current.MainWindow != null) && (App.Current.MainWindow.IsActive == false))
+				if ((App.Current.MainWindow != null) && (!App.Current.MainWindow.IsActive))
 				{
 					App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
 					App.Current.MainWindow.Activate();
@@ -77,7 +85,7 @@ namespace FireMonitor.Views
 			{
                 foreach (var journalRecord in journalRecords)
                 {
-                    if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+                    if (!string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId))
                     {
                         var globalStateType = StateType.No;
                         foreach (var device in FiresecManager.Devices)

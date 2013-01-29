@@ -145,6 +145,7 @@
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
     <Compile Include="Watcher\Watcher.Parameters.cs" />
     <Compile Include="Watcher\Watcher.PingJournal.cs" />

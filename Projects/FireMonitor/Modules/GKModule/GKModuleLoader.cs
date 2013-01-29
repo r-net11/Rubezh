@@ -145,7 +145,6 @@ namespace GKModule
 
 		public override void AfterInitialize()
 		{
-			GKDBHelper.AddMessage("Вход пользователя в систему");
 			WatcherManager.Start();
 		}
 	}

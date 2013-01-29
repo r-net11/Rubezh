@@ -20,7 +20,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand ChangeStateCommand { get; private set; }
 		void OnChangeState()
 		{
-			ServiceFactory.Events.GetEvent<MulticlientStateChanged>().Publish(SelectedState);
+			ServiceFactory.Events.GetEvent<MulticlientStateChangedEvent>().Publish(SelectedState);
 		}
 
 		public List<StateType> StateTypes { get; private set; }

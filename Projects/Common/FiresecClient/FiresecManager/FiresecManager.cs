@@ -34,7 +34,6 @@ namespace FiresecClient
 				}
 
 				_userLogin = login;
-				OnUserChanged();
 				return null;
 			}
 			catch (Exception e)
@@ -61,7 +60,6 @@ namespace FiresecClient
 				}
 
 				_userLogin = login;
-				OnUserChanged();
 				return null;
 			}
 			catch (Exception e)
@@ -71,12 +69,6 @@ namespace FiresecClient
 			}
 		}
 
-		public static event Action UserChanged;
-		static void OnUserChanged()
-		{
-			if (UserChanged != null)
-				UserChanged();
-		}
 		static string _userLogin;
 		public static User CurrentUser
 		{

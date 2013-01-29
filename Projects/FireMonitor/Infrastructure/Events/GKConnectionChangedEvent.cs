@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-	public class GKConnectionChanged : CompositePresentationEvent<bool>
+	public class GKConnectionChangedEvent : CompositePresentationEvent<bool>
 	{
 	}
 }
