@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -11,7 +12,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
-using System.Collections.Generic;
 
 namespace FireAdministrator
 {
@@ -69,7 +69,7 @@ namespace FireAdministrator
 						AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
 					if (ServiceFactory.SaveService.PlansChanged)
 						AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
-					if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged))
+					if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged) || (ServiceFactory.SaveService.EmailsChanged))
 						AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 					if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged)
 						AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
@@ -113,7 +113,7 @@ namespace FireAdministrator
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
+		private static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };

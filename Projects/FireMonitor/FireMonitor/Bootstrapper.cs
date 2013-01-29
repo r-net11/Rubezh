@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using Common;
+using Common.GK;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -11,7 +12,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using Common.GK;
 
 namespace FireMonitor
 {
@@ -63,7 +63,9 @@ namespace FireMonitor
 						var shell = new MonitorShellViewModel();
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
+#if DEBUG
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new MailViewModel());
+#endif
 						RunShell(shell);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());

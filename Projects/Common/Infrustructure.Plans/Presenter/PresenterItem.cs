@@ -11,8 +11,11 @@ namespace Infrustructure.Plans.Presenter
 	public class PresenterItem : CommonDesignerItem
 	{
 		public event EventHandler DoubleClickEvent;
+
 		public bool IsPoint { get; set; }
+
 		public Func<ContextMenu> ContextMenuProvider { get; set; }
+
 		public bool ShowBorderOnMouseOver { get; set; }
 
 		public PresenterItem(ElementBase element)
@@ -28,16 +31,19 @@ namespace Infrustructure.Plans.Presenter
 		{
 			Painter.Invalidate();
 		}
+
 		public void OverridePainter(IPainter painter)
 		{
 			Painter = painter;
 			Painter.Invalidate();
 		}
+
 		public void CreatePainter()
 		{
 			Painter = PainterFactory.Create(Element);
 			Painter.Invalidate();
 		}
+
 		public void Navigate()
 		{
 			//UpdateLayout();
@@ -50,6 +56,7 @@ namespace Infrustructure.Plans.Presenter
 			if (DoubleClickEvent != null)
 				DoubleClickEvent(this, e);
 		}
+
 		protected override ContextMenu ContextMenuOpening()
 		{
 			return ContextMenuProvider == null ? null : ContextMenuProvider();

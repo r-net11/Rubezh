@@ -59,7 +59,10 @@
     <Compile Include="ViewModels\NotificationMenuViewModel.cs" />
     <Compile Include="ViewModels\EmailViewModel.cs" />
     <Compile Include="ViewModels\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\SenderDetailsViewModel.cs" />
+    <Compile Include="ViewModels\SenderParamsViewModel.cs" />
     <Compile Include="ViewModels\StateTypeViewModel.cs" />
+    <Compile Include="ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Views\EmailDetailsView.xaml.cs">
       <DependentUpon>EmailDetailsView.xaml</DependentUpon>
     </Compile>
@@ -68,6 +71,12 @@
     </Compile>
     <Compile Include="Views\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SenderDetailsView.xaml.cs">
+      <DependentUpon>SenderDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneSelectionView.xaml.cs">
+      <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +89,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SenderDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +131,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevicesModule\DevicesModule.csproj">
+      <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
+      <Name>DevicesModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

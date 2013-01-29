@@ -172,6 +172,7 @@
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
     <Compile Include="ConfigurationVersion.cs" />
     <Compile Include="Models\Notification\Email.cs" />
+    <Compile Include="Models\Notification\SenderParams.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

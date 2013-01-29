@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using FiresecAPI;
@@ -24,6 +25,7 @@ namespace NotificationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			EditSenderCommand = new RelayCommand(OnEditSender);
 			RegisterShortcuts();
 		}
 
@@ -31,7 +33,8 @@ namespace NotificationModule.ViewModels
 		{
 			Emails = new ObservableCollection<EmailViewModel>();
 
-			if (FiresecManager.SystemConfiguration.Emails == null)
+			if (FiresecManager.SystemConfiguration.Emails == null ||
+				FiresecManager.SystemConfiguration.Emails.Count == 0)
 			{
 				FiresecManager.SystemConfiguration.Emails = new List<Email>();
 				AddSampleEmail();
@@ -72,26 +75,27 @@ namespace NotificationModule.ViewModels
 
 		private static void AddSampleEmail()
 		{
-			FiresecManager.SystemConfiguration.Emails.Add(new Email
+			Email email = new Email
 			{
 				Address = "obychevma@rubezh.ru",
-				FirstName = "Максим",
-				LastName = "Обычев",
-				SendingStates = new List<StateType>()
-			});
-			foreach (Email email in FiresecManager.SystemConfiguration.Emails)
-			{
-				email.SendingStates.Add(StateType.Fire);
-				email.SendingStates.Add(StateType.Failure);
-			}
+				Name = "Максим Обычев",
+				States = new List<StateType>()
+			};
+			email.States.Add(StateType.Fire);
+			email.States.Add(StateType.Failure);
+			FiresecManager.SystemConfiguration.Emails.Add(email);
 		}
 
 		public RelayCommand TestCommand { get; private set; }
 
 		private void OnTest()
 		{
-			MailHelper.Send(SelectedEmail.Email.Address,
-							"Этот адресат уведомляется о следующих состояниях: " + SelectedEmail.PresenrationStates,
+			string message = "Этот адресат уведомляется о состояниях " +
+				SelectedEmail.PresenrationStates + " " +
+				"в зонах " +
+				"kjdgkljlfdjgl";
+			MailHelper.Send(FiresecManager.SystemConfiguration.SenderParams, SelectedEmail.Email.Address,
+							message,
 							"Тестовое собщение Firesec-2");
 		}
 
@@ -102,11 +106,12 @@ namespace NotificationModule.ViewModels
 			var emailDetailsViewModel = new EmailDetailsViewModel();
 			if (DialogService.ShowModalWindow(emailDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.Emails.Add(emailDetailsViewModel.Email);
-				var emailViewModel = new EmailViewModel(emailDetailsViewModel.Email);
+				FiresecManager.SystemConfiguration.Emails.Add(emailDetailsViewModel.EmailViewModel.Email);
+				var emailViewModel = new EmailViewModel(emailDetailsViewModel.EmailViewModel.Email);
 				Emails.Add(emailViewModel);
 				SelectedEmail = emailViewModel;
-				ServiceFactory.SaveService.EmailsChanged = true;
+				ServiceFactory.SaveService.CamerasChanged = true;
+				//ServiceFactory.SaveService.EmailsChanged = true;
 			}
 		}
 
@@ -121,7 +126,8 @@ namespace NotificationModule.ViewModels
 		{
 			FiresecManager.SystemConfiguration.Emails.Remove(SelectedEmail.Email);
 			Emails.Remove(SelectedEmail);
-			ServiceFactory.SaveService.EmailsChanged = true;
+			ServiceFactory.SaveService.CamerasChanged = true;
+			//ServiceFactory.SaveService.EmailsChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -131,8 +137,27 @@ namespace NotificationModule.ViewModels
 			var emailDetailsViewModel = new EmailDetailsViewModel(SelectedEmail.Email);
 			if (DialogService.ShowModalWindow(emailDetailsViewModel))
 			{
-				SelectedEmail.Email = emailDetailsViewModel.Email;
+				SelectedEmail.Email = emailDetailsViewModel.EmailViewModel.Email;
 				ServiceFactory.SaveService.CamerasChanged = true;
+				//ServiceFactory.SaveService.EmailsChanged = true;
+			}
+		}
+
+		public RelayCommand EditSenderCommand { get; private set; }
+
+		private void OnEditSender()
+		{
+			if (FiresecManager.SystemConfiguration.SenderParams == null)
+			{
+				FiresecManager.SystemConfiguration.SenderParams = SenderParams.SetDefaultParams();
+			}
+			var senderDetailsViewModel = new SenderDetailsViewModel(FiresecManager.SystemConfiguration.SenderParams);
+			if (DialogService.ShowModalWindow(senderDetailsViewModel))
+			{
+				FiresecManager.SystemConfiguration.SenderParams = senderDetailsViewModel.SenderParamsViewModel.SenderParams;
+				Trace.WriteLine(FiresecManager.SystemConfiguration.SenderParams.From);
+				ServiceFactory.SaveService.CamerasChanged = true;
+				//ServiceFactory.SaveService.EmailsChanged = true;
 			}
 		}
 

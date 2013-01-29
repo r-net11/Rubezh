@@ -1,24 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Mail;
-using FiresecAPI.Models;
 using System.Text;
 using FiresecAPI;
-using System.Collections.Generic;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Common.Mail
 {
 	public class MailHelper
 	{
-		public static void Send(string to, string body, string subject = "")
+		public static void Send(SenderParams senderParams, string to, string body, string subject = "")
 		{
 			try
 			{
-				string from = "obychevma@rubezh.ru";
-				MailMessage message = new MailMessage(from, to, subject, body);
-				SmtpClient client = new SmtpClient("mail.rubezh.ru", 25);
+				MailMessage message = new MailMessage(senderParams.From, to, subject, body);
+				SmtpClient client = new SmtpClient(senderParams.Ip, int.Parse(senderParams.Port));
 				client.DeliveryMethod = SmtpDeliveryMethod.Network;
-				client.Credentials = new System.Net.NetworkCredential("obychevma@rubezh.ru", "Aiciir5kee");
+				client.Credentials = new System.Net.NetworkCredential(senderParams.UserName, senderParams.Password);
 				client.Send(message);
 			}
 			catch (Exception ex)
@@ -31,16 +30,15 @@ namespace Infrastructure.Common.Mail
 		public static string PresentStates(Email email)
 		{
 			var presenrationStates = new StringBuilder();
-			if (email.SendingStates == null)
-				email.SendingStates = new List<StateType>();
-			for (int i = 0; i < email.SendingStates.Count; i++)
+			if (email.States == null)
+				email.States = new List<StateType>();
+			for (int i = 0; i < email.States.Count; i++)
 			{
 				if (i > 0)
 					presenrationStates.Append(", ");
-				presenrationStates.Append(email.SendingStates[i].ToDescription());
+				presenrationStates.Append(email.States[i].ToDescription());
 			}
 			return presenrationStates.ToString();
-			
 		}
 	}
 }

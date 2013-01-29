@@ -110,7 +110,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
-    <Compile Include="MailSender.cs" />
     <Compile Include="MulticlientController.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="RegistryHelper.cs" />

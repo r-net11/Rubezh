@@ -1,73 +1,45 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace NotificationModule.ViewModels
 {
 	public class EmailDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Email Email { get; private set; }
+		public EmailViewModel EmailViewModel { get; private set; }
 
 		public EmailDetailsViewModel()
 		{
+			SelectZonesCommand = new RelayCommand(OnSelectZonesCommand);
 			StateTypes = new ObservableCollection<StateTypeViewModel>();
 			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
 			{
 				StateTypes.Add(new StateTypeViewModel(stateType));
 			}
 			Title = "Создать получателя";
-			Email = new Email();
+			EmailViewModel = new EmailViewModel();
 		}
 
 		public EmailDetailsViewModel(Email email)
 		{
+			SelectZonesCommand = new RelayCommand(OnSelectZonesCommand);
 			StateTypes = new ObservableCollection<StateTypeViewModel>();
 			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
 			{
 				StateTypes.Add(new StateTypeViewModel(stateType));
 			}
 			Title = "Редактировать получателя";
-			Email = email;
+			EmailViewModel = new EmailViewModel(email);
 			StateTypes.Where(
-				eventViewModel => email.SendingStates.Any(
+				eventViewModel => email.States.Any(
 					x => x == eventViewModel.StateType)).All(x => x.IsChecked = true);
-		}
-
-		string _firstName;
-
-		public string FirstName
-		{
-			get { return _firstName; }
-			set
-			{
-				_firstName = value;
-			}
-		}
-
-		string _LastName;
-
-		public string LastName
-		{
-			get { return _LastName; }
-			set
-			{
-				_LastName = value;
-			}
-		}
-
-		string _address;
-
-		public string Address
-		{
-			get { return _address; }
-			set
-			{
-				_address = value;
-			}
 		}
 
 		public ObservableCollection<StateTypeViewModel> StateTypes { get; private set; }
@@ -86,22 +58,36 @@ namespace NotificationModule.ViewModels
 
 		protected override bool Save()
 		{
-			Email.SendingStates = StateTypes.Where(x => x.IsChecked).Select(x => x.StateType).Cast<StateType>().ToList();
+			EmailViewModel.Email.States = StateTypes.Where(x => x.IsChecked).Select(x => x.StateType).Cast<StateType>().ToList();
 			return base.Save();
 		}
 
 		protected override bool CanSave()
 		{
-			return IsValidEmail(Email.Address);
+			return IsValidEmail(EmailViewModel.Email.Address);
 		}
 
-		public static bool IsValidEmail(string strIn)
+		public static bool IsValidEmail(string address)
 		{
 			return
-				strIn != null &&
-				Regex.IsMatch(strIn,
+				address != null &&
+				Regex.IsMatch(address,
 					@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
 					@"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
+		}
+
+		public RelayCommand SelectZonesCommand { get; private set; }
+
+		private void OnSelectZonesCommand()
+		{
+			if (EmailViewModel.Email.Zones == null)
+				EmailViewModel.Email.Zones = new List<Guid>();
+			var zoneSelectionViewModel = new ZoneSelectionViewModel(EmailViewModel.Email.Zones);
+			if (DialogService.ShowModalWindow(zoneSelectionViewModel))
+			{
+				EmailViewModel.Email.Zones = zoneSelectionViewModel.InstructionZonesList;
+				EmailViewModel.Update();
+			}
 		}
 	}
 }
