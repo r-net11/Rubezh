@@ -36,7 +36,7 @@ namespace Infrastructure.Client.Login
 		{
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
-            bool isAutoconnect = AppSettingsManager.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
+			bool isAutoconnect = AppSettingsManager.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
 
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
 			{

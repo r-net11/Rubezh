@@ -13,49 +13,37 @@ namespace Infrastructure.Common
 	{
 		public static void SetLocation(string path)
 		{
-            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
-			if (registryKey != null)
-			{
-				registryKey.SetValue("FiresecServerPath", path);
-			}
+			var stackTrace = GetStackTrace();
+			RegistrySettingsHelper.Set("FiresecServerPath", path);
 		}
 
 		public static string GetLocation()
 		{
-			RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-			if (registryKey != null)
+			var value = RegistrySettingsHelper.Get("FiresecServerPath");
+			if (value != null)
 			{
-				var value = registryKey.GetValue("FiresecServerPath");
-				if (value != null)
-				{
-					if (File.Exists((string)value))
-						return (string)value;
-				}
+				if (File.Exists((string)value))
+					return (string)value;
 			}
 			return null;
 		}
 
 		public static void SetStatus(FSServerState fsServerState)
 		{
-            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2");
-			if (registryKey != null)
-			{
-				registryKey.SetValue("FiresecServiceState", (int)fsServerState);
-			}
+			RegistrySettingsHelper.Set("FiresecServiceState", fsServerState.ToString());
 		}
 
 		public static FSServerState GetStatus()
 		{
-			RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-			if (registryKey != null)
+			var value = RegistrySettingsHelper.Get("FiresecServiceState");
+			if (value != null)
 			{
-				var value = registryKey.GetValue("FiresecServiceState");
-				if (value != null)
+				try
 				{
-					return (FSServerState)value;
+					return (FSServerState)Enum.Parse(typeof(FSServerState), value);
 				}
+				catch { }
 			}
-
 			return FSServerState.Closed;
 		}
 
@@ -112,6 +100,13 @@ namespace Infrastructure.Common
 			process.StartInfo.FileName = fileName;
 			process.Start();
 			return true;
+		}
+
+		static string GetStackTrace()
+		{
+			var stackTrace = new StackTrace(true);
+			var stackFrame = stackTrace.GetFrame(1);
+			return stackFrame.GetMethod().Name + " " + stackFrame.GetFileName() + ":" + stackFrame.GetFileLineNumber();
 		}
 	}
 

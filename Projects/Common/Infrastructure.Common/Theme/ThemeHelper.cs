@@ -11,28 +11,14 @@ namespace Infrastructure.Common.Theme
 
 		public static void SetThemeIntoRegister(Theme selectedTheme)
 		{
-            try
-            {
-                RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh");
-                if (registryKey != null)
-                {
-                    registryKey.SetValue("Theme", selectedTheme);
-                    registryKey.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "ThemeHelper.SetThemeIntoRegister");
-            }
+			RegistrySettingsHelper.Set("Theme", selectedTheme.ToString());
 		}
 
 		public static void LoadThemeFromRegister()
 		{
 			try
 			{
-				RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh");
-				CurrentTheme = (string)readKey.GetValue("Theme");
-				readKey.Close();
+				CurrentTheme = RegistrySettingsHelper.Get("Theme");
 				if (String.IsNullOrEmpty(CurrentTheme))
 					CurrentTheme = "BlueTheme";
 				var themePath = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + CurrentTheme + ".xaml";

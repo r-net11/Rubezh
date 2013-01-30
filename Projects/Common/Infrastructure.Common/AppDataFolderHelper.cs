@@ -76,5 +76,10 @@ namespace Infrastructure.Common
 		{
 			return Path.Combine(AppDataFolderName, "Logs", folderName);
 		}
+
+		public static string GetRegistryDataConfigurationFileName()
+		{
+			return Path.Combine(AppDataFolderName, "RegistryDataConfiguration.xml");
+		}
 	}
 }

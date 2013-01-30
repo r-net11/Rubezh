@@ -10,25 +10,21 @@ namespace Infrastructure.Common
 	{
 		public static int GetPatchNo(string applicationName)
 		{
-			RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2\\Patch");
-			if (registryKey != null)
+			var value = RegistrySettingsHelper.Get(applicationName);
+			if (value != null)
 			{
-				var value = registryKey.GetValue(applicationName);
-				if (value != null)
+				try
 				{
-					return (int)value;
+					return int.Parse(value);
 				}
+				catch { }
 			}
 			return 0;
 		}
 
 		public static void SetPatchNo(string applicationName, int value)
 		{
-            RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Firesec-2\\Patch");
-			if (registryKey != null)
-			{
-				registryKey.SetValue(applicationName, value);
-			}
+			RegistrySettingsHelper.Set(applicationName, value.ToString());
 		}
 	}
 }

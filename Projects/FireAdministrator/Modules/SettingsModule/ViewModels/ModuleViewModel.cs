@@ -5,6 +5,7 @@ using Common;
 using Infrastructure.Common.Module;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using Infrastructure.Common;
 
 namespace SettingsModule.ViewModels
 {
@@ -50,9 +51,12 @@ namespace SettingsModule.ViewModels
         {
             try
             {
-                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Modules");
-                saveKey.SetValue(Name, isEnabled);
-                saveKey.Close();
+                RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Modules");
+                if (registryKey != null)
+                {
+                    registryKey.SetValue(Name, isEnabled);
+                    registryKey.Close();
+                }
             }
             catch (Exception e)
             {
@@ -62,7 +66,7 @@ namespace SettingsModule.ViewModels
 
         public static List<ModuleViewModel> LoadDisableModulesFromRegister()
         {
-            var moduleTypes =  ModuleReg.LoadModulesFromRegister();
+            var moduleTypes = ModuleReg.LoadModulesFromRegister();
             return moduleTypes.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
         }
     }

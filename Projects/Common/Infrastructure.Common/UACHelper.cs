@@ -33,7 +33,7 @@ namespace Infrastructure.Common
 
             try
             {
-                RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(name, RegistryKeyPermissionCheck.Default, registrySecurity);
+                RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(name, RegistryKeyPermissionCheck.Default);
                 return registryKey;
             }
             catch (UnauthorizedAccessException)

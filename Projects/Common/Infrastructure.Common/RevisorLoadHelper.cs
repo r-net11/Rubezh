@@ -5,38 +5,25 @@ using Microsoft.Win32;
 
 namespace Infrastructure.Common
 {
-    public static class RevisorLoadHelper
-    {
-          public static void Load()
-          {
-              var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-              if (saveKey != null)
-              {
-                  var path = saveKey.GetValue("FireMonitorPath");
-                  saveKey.SetValue("IsException", false);
-              }
-              var proc = Process.GetProcessesByName("Revisor");
-              var readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-              if (readKey != null)
-              {
-                  var revisorpathobj = readKey.GetValue("RevisorPath");
-                  string revisorpath = null;
-                  if (revisorpathobj != null)
-                      revisorpath = revisorpathobj.ToString();
-                  if (String.IsNullOrEmpty(revisorpath))
-                  {
-                      revisorpath = @"Revisor.exe";
-#if DEBUG
-                    revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
-#endif
-                  }
-                  if ((proc.Count() == 0) && (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost"))
-                  {
-                      Process.Start(revisorpath);
-                  }
-              }
+	public static class RevisorLoadHelper
+	{
+		public static void Load()
+		{
+			RegistrySettingsHelper.Set("IsException", false.ToString());
 
-              if (saveKey != null) saveKey.Close();
-          }
-    }
+			var proc = Process.GetProcessesByName("Revisor");
+			var revisorpath = RegistrySettingsHelper.Get("RevisorPath");
+			if (String.IsNullOrEmpty(revisorpath))
+			{
+				revisorpath = @"Revisor.exe";
+#if DEBUG
+				revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
+#endif
+			}
+			if ((proc.Count() == 0) && (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost"))
+			{
+				Process.Start(revisorpath);
+			}
+		}
+	}
 }

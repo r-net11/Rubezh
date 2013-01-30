@@ -153,6 +153,7 @@
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="PatchHelper.cs" />
+    <Compile Include="RegistrySettingsHelper.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />
