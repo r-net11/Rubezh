@@ -64,9 +64,8 @@ namespace FireMonitor
 						var shell = new MonitorShellViewModel();
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
-#if DEBUG
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new MailViewModel());
-#endif
+
 						RunShell(shell);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());

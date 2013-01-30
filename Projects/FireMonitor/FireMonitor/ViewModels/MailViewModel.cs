@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common.Mail;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Common;
 
 namespace FireMonitor.ViewModels
 {
@@ -21,7 +22,9 @@ namespace FireMonitor.ViewModels
 			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Unsubscribe(OnZonesStateChanged);
 			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZonesStateChanged);
 
-			CurrentStateType = StateType.Norm;
+			EnableCommand = new RelayCommand(OnEnable);
+			IsMailOn = false;
+
 			OnZonesStateChanged(Guid.Empty);
 
 			foreach (var email in FiresecManager.SystemConfiguration.EmailData.Emails)
@@ -30,12 +33,12 @@ namespace FireMonitor.ViewModels
 			}
 		}
 
-		public StateType CurrentStateType { get; private set; }
-
 		string message;
 
 		public void OnZonesStateChanged(System.Guid guid)
 		{
+			if (!IsMailOn)
+				return;
 			foreach (var zone in FiresecManager.Zones)
 			{
 				foreach (var email in FiresecManager.SystemConfiguration.EmailData.Emails)
@@ -48,8 +51,8 @@ namespace FireMonitor.ViewModels
 							zone.PresentationName +
 							" на состояние " +
 							zone.ZoneState.StateType.ToDescription();
-						//MailHelper.Send(FiresecManager.SystemConfiguration.SenderParams, email.Address, message, email.MessageTitle);
-						Trace.WriteLine(email.Address + message);
+						MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, email.Address, message, email.MessageTitle);
+						//Trace.WriteLine(email.Address + message);
 					}
 				}
 			}
@@ -71,6 +74,30 @@ namespace FireMonitor.ViewModels
 				zoneStates.Remove(zone);
 				zoneStates.Add(zone, zone.ZoneState.StateType);
 				return true;
+			}
+		}
+
+		bool _isMailOn;
+		public bool IsMailOn
+		{
+			get { return _isMailOn; }
+			set
+			{
+				_isMailOn = value;
+				OnPropertyChanged("IsMailOn");
+			}
+		}
+
+		public RelayCommand EnableCommand { get; private set; }
+		void OnEnable()
+		{
+			if (IsMailOn)
+			{
+				IsMailOn = false;
+			}
+			else
+			{
+				IsMailOn = true;
 			}
 		}
 	}

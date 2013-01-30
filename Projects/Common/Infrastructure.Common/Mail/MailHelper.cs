@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Windows;
 
 namespace Infrastructure.Common.Mail
 {
@@ -14,11 +15,18 @@ namespace Infrastructure.Common.Mail
 		{
 			try
 			{
-				MailMessage message = new MailMessage(senderParams.UserName, to, subject, body);
-				SmtpClient client = new SmtpClient(senderParams.Ip, int.Parse(senderParams.Port));
-				client.DeliveryMethod = SmtpDeliveryMethod.Network;
-				client.Credentials = new System.Net.NetworkCredential(senderParams.UserName, senderParams.Password);
-				client.Send(message);
+				if (IsValidEmailSettings(senderParams))
+				{
+					MailMessage message = new MailMessage(senderParams.UserName, to, subject, body);
+					SmtpClient client = new SmtpClient(senderParams.Ip, int.Parse(senderParams.Port));
+					client.DeliveryMethod = SmtpDeliveryMethod.Network;
+					client.Credentials = new System.Net.NetworkCredential(senderParams.UserName, senderParams.Password);
+					client.Send(message);
+				}
+				else
+				{
+					MessageBox.Show("Неверно заданы параметры smtp-сервера");
+				}
 			}
 			catch (Exception ex)
 			{
@@ -38,6 +46,15 @@ namespace Infrastructure.Common.Mail
 				presenrationStates.Append(email.States[i].ToDescription());
 			}
 			return presenrationStates.ToString();
+		}
+
+		static bool IsValidEmailSettings(EmailSettings emailSettings)
+		{
+			return !(emailSettings == null ||
+				emailSettings.Ip == null ||
+				emailSettings.Password == null ||
+				emailSettings.Port == null ||
+				emailSettings.UserName == null);
 		}
 	}
 }
