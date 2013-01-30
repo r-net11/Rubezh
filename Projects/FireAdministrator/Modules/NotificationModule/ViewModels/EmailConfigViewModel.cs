@@ -10,12 +10,14 @@ namespace NotificationModule.ViewModels
 
 		public EmailConfigViewModel()
 		{
+			Title = "Конфигурация smtp-сервера";
 			EmailSettingsParamsViewModel = new EmailSettingsViewModel();
 			SetDefaultEmailSettingsCommand = new RelayCommand(OnSetDefaultEmailSettings);
 		}
 
 		public EmailConfigViewModel(EmailSettings senderParams)
 		{
+			Title = "Конфигурация smtp-сервера";
 			EmailSettingsParamsViewModel = new EmailSettingsViewModel(senderParams);
 			SetDefaultEmailSettingsCommand = new RelayCommand(OnSetDefaultEmailSettings);
 		}

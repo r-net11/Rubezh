@@ -24,7 +24,7 @@ namespace FireMonitor.ViewModels
 			CurrentStateType = StateType.Norm;
 			OnZonesStateChanged(Guid.Empty);
 
-			foreach (var email in FiresecManager.SystemConfiguration.Emails)
+			foreach (var email in FiresecManager.SystemConfiguration.EmailData.Emails)
 			{
 				Trace.WriteLine(email.Address + " " + MailHelper.PresentStates(email));
 			}
@@ -38,7 +38,7 @@ namespace FireMonitor.ViewModels
 		{
 			foreach (var zone in FiresecManager.Zones)
 			{
-				foreach (var email in FiresecManager.SystemConfiguration.Emails)
+				foreach (var email in FiresecManager.SystemConfiguration.EmailData.Emails)
 				{
 					if (email.Zones.Contains(zone.UID) &&
 						email.States.Contains(zone.ZoneState.StateType) &&
@@ -57,7 +57,7 @@ namespace FireMonitor.ViewModels
 
 		private bool IsStateChanged(Zone zone)
 		{
-			return true;
+			//return true;
 			if (!zoneStates.ContainsKey(zone))
 			{
 				zoneStates.Add(zone, zone.ZoneState.StateType);
