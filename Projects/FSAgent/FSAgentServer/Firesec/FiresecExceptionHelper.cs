@@ -19,6 +19,8 @@
 			}
 			if (name.StartsWith("Предотвращена возможная взаимная блокировка"))
 				return true;
+			if (name.StartsWith("Количество устройств на шлейфе"))
+				return true;
 			return false;
 		}
 
