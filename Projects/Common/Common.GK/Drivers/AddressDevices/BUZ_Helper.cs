@@ -16,12 +16,12 @@ namespace Common.GK
 				ShortName = "ШУЗ",
 				IsControlDevice = true,
 				HasLogic = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки", 0, 1, 1, 65535);
 			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);
@@ -34,9 +34,8 @@ namespace Common.GK
 			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Кнопка Закрыть УЗЗ", 5, "НР", "НЗ");
 			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Кнопка Стоп УЗЗ", 6, "НР", "НЗ");
 
-
-			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Муфтовые выключатели", 9, "есть", "нет");
-			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Датчик уровня", 10, "нет", "есть");
+			//GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Муфтовые выключатели", 9, "есть", "нет");
+			//GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Датчик уровня", 10, "нет", "есть");
 			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Функция УЗЗ", 11, "отключена", "включена");
 
 			var additionalSwitcherProperty = new XDriverProperty()

@@ -17,7 +17,7 @@ namespace FiresecAPI.Models
 			AddControlType(driver, 0x8B, "Тип контроля выхода 5");
 
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Масса", 0, 0, 2, "2");
-			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2, 4,"2");
+			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2, 4, "2");
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4, 4, 6, "1");
 
 			ConfigurationDriverHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1, сек", "AU_TimeExit1", 0, 2, 0, 255, true);
@@ -50,7 +50,6 @@ namespace FiresecAPI.Models
 			AddLogic(driver, 0xBE, "режим работы выхода 4", "6");
 			AddLogic(driver, 0xBF, "режим работы выхода 5", "10");
 
-
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Приоритет запуска", 0,
 				"происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
 				"не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1, 0, 2, true, false, "1");
@@ -77,13 +76,14 @@ namespace FiresecAPI.Models
 				BitOffset = 6,
 				UseMask = true
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "1 Ведущий", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "2 Ведомый", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Ведущий", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Ведомый", 2);
 			driver.Properties.Add(property1);
 		}
 
 		#region Methods
-		static void AddControlType(Driver driver, byte no, string propertyName)
+
+		private static void AddControlType(Driver driver, byte no, string propertyName)
 		{
 			var property = new DriverProperty()
 			{
@@ -101,7 +101,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		static void AddRegime(Driver driver, byte no, string propertyName, string defaultValue)
+		private static void AddRegime(Driver driver, byte no, string propertyName, string defaultValue)
 		{
 			var property = new DriverProperty()
 			{
@@ -121,7 +121,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		static void AddLogic(Driver driver, byte no, string propertyName, string defaultValue)
+		private static void AddLogic(Driver driver, byte no, string propertyName, string defaultValue)
 		{
 			var property = new DriverProperty()
 			{
@@ -147,7 +147,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		static void AddDetectorState(Driver driver, byte no, string propertyName, byte offset, byte minBit, byte maxBit, string defaultValue)
+		private static void AddDetectorState(Driver driver, byte no, string propertyName, byte offset, byte minBit, byte maxBit, string defaultValue)
 		{
 			var property = new DriverProperty()
 			{
@@ -165,6 +165,7 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Разомкнутое", 2);
 			driver.Properties.Add(property);
 		}
-		#endregion
+
+		#endregion Methods
 	}
 }

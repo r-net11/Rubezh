@@ -23,18 +23,17 @@ namespace Common.GK
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
-			AddLogic(driver, 0xBB, "Логика 1", 1);
-			AddLogic(driver, 0xBC, "Логика 2", 2);
-			AddLogic(driver, 0xBD, "Логика 3", 3);
-			AddLogic(driver, 0xBE, "Логика 4", 4);
-			AddLogic(driver, 0xBF, "Логика 5", 5);
+			AddLogic(driver, 0xBB, "логика работы выхода 1", 1);
+			AddLogic(driver, 0xBC, "логика работы выхода 2", 2);
+			AddLogic(driver, 0xBD, "логика работы выхода 3", 3);
+			AddLogic(driver, 0xBE, "логика работы выхода 4", 4);
+			AddLogic(driver, 0xBF, "логика работы выхода 5", 5);
 
-			AddRegim(driver, 0xBB, "Режим 1", 1);
-			AddRegim(driver, 0xBC, "Режим 2", 2);
-			AddRegim(driver, 0xBD, "Режим 3", 3);
-			AddRegim(driver, 0xBE, "Режим 4", 4);
-			AddRegim(driver, 0xBF, "Режим 5", 5);
-
+			AddRegim(driver, 0xBB, "режим работы выхода 1", 1);
+			AddRegim(driver, 0xBC, "режим работы выхода 2", 2);
+			AddRegim(driver, 0xBD, "режим работы выхода 3", 3);
+			AddRegim(driver, 0xBE, "режим работы выхода 4", 4);
+			AddRegim(driver, 0xBF, "режим работы выхода 5", 5);
 
 			var property1 = new XDriverProperty()
 			{
@@ -53,50 +52,50 @@ namespace Common.GK
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2);
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4, 1);
 
-			GKDriversHelper.AddIntProprety(driver, 0xC1, "Задержка 1", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC2, "Задержка 2", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC3, "Задержка 3", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC4, "Задержка 4", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC5, "Задержка 5", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC1, "задержка включения выхода 1, сек", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC2, "задержка включения выхода 2, сек", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC3, "задержка включения выхода 3, сек", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC4, "задержка включения выхода 4, сек", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, сек", 0, 3, 0, 255).IsLowByte = true;
 
-			GKDriversHelper.AddIntProprety(driver, 0xAB, "Удержание 1(с)", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAC, "Удержание 2(с)", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAD, "Удержание 3(с)", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAE, "Удержание 4(с)", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAF, "Удержание 5(с)", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1, сек", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2, сек", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3, сек", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4, сек", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5, сек", 0, 2, 0, 255).IsLowByte = true;
 
-			GKDriversHelper.AddIntProprety(driver, 0xB1, "Период 1(с)", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB2, "Период 2(с)", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB3, "Период 3(с)", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB4, "Период 4(с)", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB5, "Период 5(с)", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1, сек", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2, сек", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3, сек", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4, сек", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5, сек", 0, 1, 0, 255).IsLowByte = true;
 
-			AddControlType(driver, 0x87, "Контроль 1");
-			AddControlType(driver, 0x88, "Контроль 2");
-			AddControlType(driver, 0x89, "Контроль 3");
-			AddControlType(driver, 0x8A, "Контроль 4");
-			AddControlType(driver, 0x8B, "Контроль 5");
+			AddControlType(driver, 0x87, "Тип контроля выхода 1");
+			AddControlType(driver, 0x88, "Тип контроля выхода 2");
+			AddControlType(driver, 0x89, "Тип контроля выхода 3");
+			AddControlType(driver, 0x8A, "Тип контроля выхода 4");
+			AddControlType(driver, 0x8B, "Тип контроля выхода 5");
 
-			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Старт автоматики", 6,
-				"Включено",
-				"Выключено", 1, 1).IsLowByte = true;
+			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Приоритет запуска", 6,
+				"происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
+				"не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1, 1).IsLowByte = true;
 
-			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Пуск автоматики", 0,
-				"Отмена пуска",
-				"Пуск", 1, 1).IsLowByte = true;
+			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Блокировка выключения режима «Автоматика включена» при неисправности", 0,
+				"отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»",
+				"не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1, 1).IsLowByte = true;
 
-			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление автоматики", 4,
-				"Восстановление",
-				"Отмена восстановления", 1, 2).IsLowByte = true;
+			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление режима «Автоматика включена»", 4,
+				"восстанавливается после восстановления датчика «Двери-окна»",
+				"не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1, 2).IsLowByte = true;
 
-			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Неисправность автоматики", 2,
-				"Выключено",
-				"Включено", 1, 1).IsLowByte = true;
+			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 2,
+				"после включения питания  режим «Автоматика включена» включен",
+				"после включения питания  режим «Автоматика включена» отключен", 1, 1).IsLowByte = true;
 
 			return driver;
 		}
 
-		static void AddControlType(XDriver driver, byte no, string propertyName)
+		private static void AddControlType(XDriver driver, byte no, string propertyName)
 		{
 			var property = new XDriverProperty()
 			{
@@ -114,7 +113,7 @@ namespace Common.GK
 			driver.Properties.Add(property);
 		}
 
-		static void AddLogic(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
+		private static void AddLogic(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
 		{
 			var property = new XDriverProperty()
 			{
@@ -133,7 +132,7 @@ namespace Common.GK
 			driver.Properties.Add(property);
 		}
 
-		static void AddRegim(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
+		private static void AddRegim(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
 		{
 			var property = new XDriverProperty()
 			{
@@ -158,7 +157,7 @@ namespace Common.GK
 			driver.Properties.Add(property);
 		}
 
-		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
+		private static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
 		{
 			var property = new XDriverProperty()
 			{

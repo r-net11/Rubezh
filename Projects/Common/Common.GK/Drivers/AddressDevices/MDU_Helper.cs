@@ -26,8 +26,8 @@ namespace Common.GK
 			var property1 = new XDriverProperty()
 			{
 				No = 0x82,
-				Name = "Время включения, с",
-				Caption = "Время включения, с",
+				Name = "Время переключения в положение НОРМА, сек",
+				Caption = "Время переключения в положение НОРМА, сек",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 30,
@@ -38,8 +38,8 @@ namespace Common.GK
 			var property2 = new XDriverProperty()
 			{
 				No = 0x83,
-				Name = "Время выключения, с",
-				Caption = "Время выключения, с",
+				Name = "Время переключения электропривода в положение ЗАЩИТА, сек",
+				Caption = "Время переключения электропривода в положение ЗАЩИТА, сек",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 30,
@@ -50,8 +50,8 @@ namespace Common.GK
 			var property3 = new XDriverProperty()
 			{
 				No = 0x84,
-				Name = "Задержка, с",
-				Caption = "Задержка, с",
+				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
+				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -62,8 +62,8 @@ namespace Common.GK
 			var property4 = new XDriverProperty()
 			{
 				No = 0x86,
-				Name = "Таймаут, с",
-				Caption = "Таймаут, с",
+				Name = "Отказ обмена, сек",
+				Caption = "Отказ обмена, сек",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -124,8 +124,8 @@ namespace Common.GK
 			var property7 = new XDriverProperty()
 			{
 				No = 0x85,
-				Name = "Начальное положение",
-				Caption = "Начальное положение",
+				Name = "начальное положение для привода пружинный ДУ",
+				Caption = "начальное положение для привода пружинный ДУ",
 				Default = 0,
 				Mask = 128
 			};
@@ -136,7 +136,7 @@ namespace Common.GK
 			};
 			var property7Parameter2 = new XDriverPropertyParameter()
 			{
-				Name = "Дежурное положение",
+				Name = "Норма",
 				Value = 128
 			};
 			property7.Parameters.Add(property7Parameter1);
