@@ -92,7 +92,7 @@ namespace FiresecClient
 					foreach (var deviceUID in clause.DeviceUIDs)
 					{
 						var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-						if (clauseDevice != null)
+						if (clauseDevice != null && !clauseDevice.IsNotUsed)
 						{
 							deviceUIDs.Add(deviceUID);
 							clause.Devices.Add(clauseDevice);

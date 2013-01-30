@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Windows;
 using Common;
@@ -135,7 +136,10 @@ namespace FireMonitor
 
 				BeforeInitialize(false);
 				InitializeModules();
-				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+				if (ApplicationService.Modules.Any(x => x.Name == "Устройства и Зоны"))
+					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+				if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
 
 				AterInitialize();
 

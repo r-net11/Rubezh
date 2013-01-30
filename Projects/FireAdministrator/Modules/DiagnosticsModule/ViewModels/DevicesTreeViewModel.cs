@@ -297,16 +297,6 @@ namespace DiagnosticsModule.ViewModels
 			get { return Device.Driver; }
 			set
 			{
-				if (Device.Driver.DriverType != value.DriverType)
-				{
-					FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
-					OnPropertyChanged("Device");
-					OnPropertyChanged("Driver");
-					PropertiesViewModel = new PropertiesViewModel(Device);
-					OnPropertyChanged("PropertiesViewModel");
-					Update();
-					ServiceFactory.SaveService.FSChanged = true;
-				}
 			}
 		}
 

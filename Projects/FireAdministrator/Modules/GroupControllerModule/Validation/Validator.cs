@@ -32,7 +32,7 @@ namespace GKModule.Validation
                 if (device.GKParent != null)
                     gkDevices.Add(device.GKParent);
             }
-            return (gkDevices.Count > 0);
+            return (gkDevices.Count > 1);
         }
 	}
 }

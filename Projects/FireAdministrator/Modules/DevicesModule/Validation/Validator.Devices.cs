@@ -12,7 +12,6 @@ namespace DevicesModule.Validation
         void ValidateDevices()
         {
             _validateDevicesWithSerialNumber = new List<Guid>();
-
             ValidatePduCount();
 
             foreach (var device in _firesecConfiguration.DeviceConfiguration.Devices)

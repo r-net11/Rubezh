@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {
@@ -101,11 +102,13 @@ namespace FireAdministrator
 
 						FiresecManager.UpdateConfiguration();
 						XManager.UpdateConfiguration();
-						//ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
 						ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 						ServiceFactory.Layout.Close();
-						ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+						if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
+							ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+						if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+							ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
 
 						ServiceFactory.SaveService.FSChanged = true;
 						ServiceFactory.SaveService.PlansChanged = true;

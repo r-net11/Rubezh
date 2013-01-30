@@ -20,7 +20,7 @@ namespace Common.GK
 				MinAddress = 2,
 				MaxAddress = 11,
 				IsDeviceOnShleif = false,
-				IsPlaceable = true
+				IsPlaceable = true,
 			};
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);

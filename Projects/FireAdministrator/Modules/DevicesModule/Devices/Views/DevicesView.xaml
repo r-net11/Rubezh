@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:Views="clr-namespace:DevicesModule.Views"
+             Focusable="True">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -22,7 +23,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
-		<Controls:TreeListView Grid.Row="0" Focusable="True" ItemsSource="{Binding RootDevices}" ScrollViewer.IsDeferredScrollingEnabled="True" SelectedObject="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+        <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
 			<Controls:TreeListView.Resources>
 				<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -40,7 +41,7 @@
 							<Controls:EditorPresenter>
 								<Controls:EditorPresenter.ViewTemplate>
 									<ControlTemplate>
-										<StackPanel Background="Transparent" ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
+										<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
 											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
 											<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />

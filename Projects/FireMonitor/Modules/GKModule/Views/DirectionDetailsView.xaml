@@ -18,13 +18,26 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Состояние: " FontWeight="Bold" Foreground="Orange" Margin="1, 1, 5, 1" />
                             <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" Foreground="Orange" />
                             <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Входных зон: " Foreground="White" />
+                            <TextBlock Text="{Binding InputZonesCount}" Foreground="White" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Входных устройств: " Foreground="White" />
+                            <TextBlock Text="{Binding InputDevicesCount}" Foreground="White" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Выходных устройств: " Foreground="White" />
+                            <TextBlock Text="{Binding OutputDevicesCount}" Foreground="White" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" Foreground="White" Margin="1" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

@@ -110,13 +110,20 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
+			get
+			{
+				if (Device.IsNotUsed)
+					return null;
+				return FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+			}
 		}
 
 		public string EditingPresentationZone
 		{
 			get
 			{
+				if (Device.IsNotUsed)
+					return null;
 				var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
@@ -198,6 +205,8 @@ namespace DevicesModule.ViewModels
 				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
 				OnPropertyChanged("IsUsed");
 				OnPropertyChanged("ShowOnPlan");
+				OnPropertyChanged("PresentationZone");
+				OnPropertyChanged("EditingPresentationZone");
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}

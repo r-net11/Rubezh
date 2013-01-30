@@ -108,19 +108,35 @@ namespace GKModule.ViewModels
         void OnChangeZones()
         {
             SelectedDirection.ChangeZones();
+			OnPropertyChanged("ZonesCount");
         }
 
         public RelayCommand ChangeDevicesCommand { get; private set; }
         void OnChangeDevices()
         {
             SelectedDirection.ChangeDevices();
+			OnPropertyChanged("DevicesCount");
         }
 
 		public RelayCommand ChangeOutputDevicesCommand { get; private set; }
 		void OnChangeOutputDevices()
         {
 			SelectedDirection.ChangeOutputDevices();
+			OnPropertyChanged("OutputDevicesCount");
         }
+
+		public int ZonesCount
+		{
+			get { return SelectedDirection.Zones.Count; }
+		}
+		public int DevicesCount
+		{
+			get { return SelectedDirection.Devices.Count; }
+		}
+		public int OutputDevicesCount
+		{
+			get { return SelectedDirection.OutputDevices.Count; }
+		}
 
         public override void OnShow()
         {

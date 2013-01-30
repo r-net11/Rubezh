@@ -334,6 +334,11 @@ namespace XFiresecAPI
 			}
 		}
 
+		public bool CanBeNotUsed
+		{
+			get { return ((Parent != null) && (Parent.Driver.IsGroupDevice)); }
+		}
+
 		public void OnChanged()
 		{
 			if (Changed != null)

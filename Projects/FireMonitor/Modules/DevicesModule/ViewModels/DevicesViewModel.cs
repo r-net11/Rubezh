@@ -96,8 +96,13 @@ namespace DevicesModule.ViewModels
             if (parentDeviceViewModel != null)
                 parentDeviceViewModel.Children.Add(deviceViewModel);
 
-            foreach (var childDevice in device.Children)
-                AddDeviceInternal(childDevice, deviceViewModel);
+			foreach (var childDevice in device.Children)
+			{
+				if (!childDevice.IsNotUsed)
+				{
+					AddDeviceInternal(childDevice, deviceViewModel);
+				}
+			}
             return deviceViewModel;
         }
 	}

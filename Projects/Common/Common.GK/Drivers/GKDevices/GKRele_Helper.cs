@@ -21,7 +21,12 @@ namespace Common.GK
 				MinAddress = 14,
 				MaxAddress = 15,
 				IsDeviceOnShleif = false,
+				IsPlaceable = true
 			};
+
+			driver.AvailableStateClasses.Add(XStateClass.Norm);
+			driver.AvailableStateClasses.Add(XStateClass.Unknown);
+			driver.AvailableStateClasses.Add(XStateClass.On);
 
 			var modeProperty = new XDriverProperty()
 			{

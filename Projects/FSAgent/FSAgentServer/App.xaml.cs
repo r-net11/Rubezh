@@ -70,6 +70,19 @@ namespace FSAgentServer
 			Bootstrapper.Close();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
+			ShutDownComputer();
+		}
+
+		static void ShutDownComputer()
+		{
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = "shutdown.exe",
+				Arguments = "/s /t 00 /f",
+				CreateNoWindow = true,
+				WindowStyle = ProcessWindowStyle.Hidden
+			};
+			Process.Start(processStartInfo);
 		}
     }
 }

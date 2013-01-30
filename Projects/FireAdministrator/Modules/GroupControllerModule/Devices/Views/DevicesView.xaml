@@ -26,7 +26,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="150" MinHeight="150" />
         </Grid.RowDefinitions>
-        <Controls:TreeListView Grid.Row="0" Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
+        <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
             <Controls:TreeListView.Columns>
                 <GridViewColumn Width="250" Header="Устройство">
                     <GridViewColumn.CellTemplate>
@@ -35,6 +35,7 @@
                                 <Controls:EditorPresenter.ViewTemplate>
                                     <ControlTemplate>
                                         <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource DeviceContextMenu}">
+                                            <CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                             <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" Width="200" />
                                         </StackPanel>
@@ -42,13 +43,20 @@
                                 </Controls:EditorPresenter.ViewTemplate>
                                 <Controls:EditorPresenter.EditTemplate>
                                     <ControlTemplate>
-                                        <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
-                                                ContextMenu="{StaticResource DeviceContextMenu}">
-                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            <TextBlock Text="{Binding Device.ShortName}" />
-                                        </StackPanel>
+                                        <DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
+                                            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                                <CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                            </StackPanel>
+                                            <ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Foreground="Black" Text="{Binding ShortName}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </DockPanel>
                                     </ControlTemplate>
                                 </Controls:EditorPresenter.EditTemplate>
                             </Controls:EditorPresenter>
@@ -78,7 +86,7 @@
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
 
-                <GridViewColumn Width="100" Header="Зона или Логика">
+                <GridViewColumn Header="Зона или Логика">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Controls:EditorPresenter>
@@ -102,7 +110,7 @@
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
 
-                <GridViewColumn Header="Примечание">
+                <GridViewColumn Width="100" Header="Примечание">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Controls:EditorPresenter>

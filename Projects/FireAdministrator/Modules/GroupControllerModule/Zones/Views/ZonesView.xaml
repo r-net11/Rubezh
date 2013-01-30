@@ -38,6 +38,18 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+
+                    <DataGrid.Resources>
+                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                            <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                        </InputBindingCollection>
+                    </DataGrid.Resources>
+                    <DataGrid.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
+
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Устройство в зоне" Width="250">
                             <DataGridTemplateColumn.CellTemplate>
@@ -78,6 +90,18 @@
 
             <Grid Grid.Row="2" SizeChanged="OnSizeChanged">
                 <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+
+                    <DataGrid.Resources>
+                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                            <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                        </InputBindingCollection>
+                    </DataGrid.Resources>
+                    <DataGrid.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
+
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Устройство" Width="250">
                             <DataGridTemplateColumn.CellTemplate>

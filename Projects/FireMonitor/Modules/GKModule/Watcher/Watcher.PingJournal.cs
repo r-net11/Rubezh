@@ -7,6 +7,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule
 {
@@ -80,6 +81,7 @@ namespace GKModule
                     var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
                     if (binaryObject != null)
                     {
+						ChangeAM1TMessage(binaryObject, journalItem);
                         ApplicationService.Invoke(() =>
                         {
 							CheckServiceRequired(binaryObject.BinaryBase, journalItem);
@@ -95,5 +97,32 @@ namespace GKModule
                 ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
             }
         }
+
+		void ChangeAM1TMessage(BinaryObjectBase binaryObjectBase, JournalItem journalItem)
+		{
+			if (binaryObjectBase.Device != null)
+			{
+				var device = binaryObjectBase.Device;
+				if (device.Driver.DriverType == XDriverType.AM1_T)
+				{
+					if (journalItem.Name == "Сработка")
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+						if (property != null)
+						{
+							journalItem.Name = property.StringValue;
+						}
+					}
+					else if (journalItem.Name == "Норма")
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
+						if (property != null)
+						{
+							journalItem.Name = property.StringValue;
+						}
+					}
+				}
+			}
+		}
     }
 }

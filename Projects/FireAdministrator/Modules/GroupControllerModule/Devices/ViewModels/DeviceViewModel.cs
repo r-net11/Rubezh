@@ -8,6 +8,7 @@ using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using Infrastructure.Events;
 using System;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -32,6 +33,9 @@ namespace GKModule.ViewModels
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			device.Changed += new System.Action(OnChanged);
+
+			AvailvableDrivers = new ObservableCollection<XDriver>();
+			UpdateDriver();
 		}
 
 		void OnChanged()
@@ -53,11 +57,6 @@ namespace GKModule.ViewModels
 			IsExpanded = true;
 			OnPropertyChanged("HasChildren");
 			OnPropertyChanged("IsOnPlan");
-		}
-
-		public XDriver Driver
-		{
-			get { return Device.Driver; }
 		}
 
 		public string Address
@@ -99,6 +98,21 @@ namespace GKModule.ViewModels
 			{
 				Device.Description = value;
 				OnPropertyChanged("Description");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public bool IsUsed
+		{
+			get { return !Device.IsNotUsed; }
+			set
+			{
+				Device.IsNotUsed = !value;
+				XManager.ChangeDeviceLogic(Device, new XDeviceLogic());
+				OnPropertyChanged("IsUsed");
+				OnPropertyChanged("ShowOnPlan");
+				OnPropertyChanged("PresentationZone");
+				OnPropertyChanged("EditingPresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -174,13 +188,20 @@ namespace GKModule.ViewModels
 
         public string PresentationZone
         {
-            get { return XManager.GetPresentationZone(Device); }
+            get
+			{
+				if (Device.IsNotUsed)
+					return null;
+				return XManager.GetPresentationZone(Device);
+			}
         }
 
         public string EditingPresentationZone
         {
             get
             {
+				if (Device.IsNotUsed)
+					return null;
                 var presentationZone = XManager.GetPresentationZone(Device);
                 if (string.IsNullOrEmpty(presentationZone))
                 {
@@ -199,7 +220,7 @@ namespace GKModule.ViewModels
 		}
 		public bool ShowOnPlan
 		{
-			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0; }
+			get { return !Device.IsNotUsed && (Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0); }
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -220,7 +241,7 @@ namespace GKModule.ViewModels
 		}
         bool CanShowLogic()
         {
-            return (Driver.HasLogic);
+			return (Driver.HasLogic && !Device.IsNotUsed);
         }
 
         public RelayCommand ShowZonesCommand { get; private set; }
@@ -280,6 +301,82 @@ namespace GKModule.ViewModels
 		bool CanShowParent()
 		{
 			return Device.Parent != null;
+		}
+
+		public XDriver Driver
+		{
+			get { return Device.Driver; }
+			set
+			{
+				if (Device.Driver.DriverType != value.DriverType)
+				{
+					XManager.ChangeDriver(Device, value);
+					OnPropertyChanged("Device");
+					OnPropertyChanged("Driver");
+					PropertiesViewModel = new PropertiesViewModel(Device);
+					OnPropertyChanged("PropertiesViewModel");
+					Update();
+					ServiceFactory.SaveService.FSChanged = true;
+				}
+			}
+		}
+
+		public ObservableCollection<XDriver> AvailvableDrivers { get; private set; }
+
+		void UpdateDriver()
+		{
+			AvailvableDrivers.Clear();
+			if (CanChangeDriver)
+			{
+				switch (Device.Parent.Driver.DriverType)
+				{
+					case XDriverType.AM_4:
+						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM_1));
+						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_O));
+						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_T));
+						break;
+
+					case XDriverType.AMP_4:
+						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_O));
+						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AMP_1));
+						break;
+
+					default:
+						foreach (var driverType in Device.Parent.Driver.Children)
+						{
+							var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == driverType);
+							if (CanDriverBeChanged(driver))
+							{
+								AvailvableDrivers.Add(driver);
+							}
+						}
+						break;
+				}
+			}
+		}
+
+		public bool CanDriverBeChanged(XDriver driver)
+		{
+			if (driver == null || Device.Parent == null)
+				return false;
+
+			if (Device.Parent.Driver.DriverType == XDriverType.AM_4)
+				return true;
+			if (Device.Parent.Driver.DriverType == XDriverType.AMP_4)
+				return true;
+
+			if (driver.IsAutoCreate)
+				return false;
+			if (driver.IsGroupDevice)
+				return false;
+			if (Device.Parent.Driver.IsGroupDevice)
+				return false;
+			return driver.IsDeviceOnShleif;
+		}
+
+		public bool CanChangeDriver
+		{
+			get { return CanDriverBeChanged(Device.Driver); }
 		}
 
 		public bool IsBold { get; set; }

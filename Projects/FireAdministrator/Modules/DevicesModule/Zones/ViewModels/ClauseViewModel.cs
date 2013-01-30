@@ -23,9 +23,9 @@ namespace DevicesModule.ViewModels
 			_zoneLogicViewModel = zoneLogicViewModel;
 			_device = device;
 			Zones = new List<Guid>(
-                from zoneUID in clause.ZoneUIDs
+				from zoneUID in clause.ZoneUIDs
 				select zoneUID);
-            Zones = clause.ZoneUIDs.ToList();
+			Zones = clause.ZoneUIDs.ToList();
 			_selectedState = clause.State;
 			SelectedOperation = clause.Operation;
 
@@ -82,8 +82,8 @@ namespace DevicesModule.ViewModels
 								states = GetAllZoneLogicStates();
 								states.Remove(ZoneLogicState.PumpStationOn);
 								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
-                                states.Remove(ZoneLogicState.AM1TOn);
-                                states.Remove(ZoneLogicState.Firefighting);
+								states.Remove(ZoneLogicState.AM1TOn);
+								states.Remove(ZoneLogicState.Firefighting);
 								states.Add(ZoneLogicState.PCN);
 								break;
 						}
@@ -246,7 +246,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDevice()
 		{
-			var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(_device.Parent);
+			var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(_device.ParentPanel);
 			if (DialogService.ShowModalWindow(zoneLogicDeviceSelectionViewModel))
 				SelectedDevice = zoneLogicDeviceSelectionViewModel.SelectedDevice;
 		}

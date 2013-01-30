@@ -16,6 +16,8 @@ namespace GKModule.Validation
 
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
+				if (device.IsNotUsed)
+					continue;
 				if (IsManyGK())
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
@@ -25,6 +27,8 @@ namespace GKModule.Validation
 				ValidateKAUNotEmptyChildren(device);
 				ValidatePumpAddresses(device);
 				ValidateParametersMinMax(device);
+				ValidateNotUsedLogic(device);
+				ValidateAddressEquality(device);
 			}
 		}
 
@@ -124,13 +128,71 @@ namespace GKModule.Validation
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null)
 				{
-					if(driverProperty.Min != 0)
-						if(property.Value < driverProperty.Min)
+					if (driverProperty.Min != 0)
+						if (property.Value < driverProperty.Min)
 							Errors.Add(new DeviceValidationError(device, "Парметр " + property.Name + " должен быть больше " + driverProperty.Min.ToString(), ValidationErrorLevel.CannotWrite));
 
 					if (driverProperty.Max != 0)
 						if (property.Value > driverProperty.Max)
 							Errors.Add(new DeviceValidationError(device, "Парметр " + property.Name + " должен быть меньше " + driverProperty.Max.ToString(), ValidationErrorLevel.CannotWrite));
+				}
+			}
+		}
+
+		static void ValidateNotUsedLogic(XDevice device)
+		{
+			foreach (var clause in device.DeviceLogic.Clauses)
+			{
+				foreach (var clauseDevices in clause.Devices)
+				{
+					if (clauseDevices.IsNotUsed)
+						Errors.Add(new DeviceValidationError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave));
+				}
+			}
+		}
+
+		static void ValidateAddressEquality(XDevice device)
+		{
+			var addresses = new List<int>();
+			foreach (var childDevice in DeviceValidationHelper.GetAllChildrenForDevice(device))
+			{
+				if (childDevice.Driver.HasAddress)
+				{
+					if (addresses.Contains(childDevice.ShleifNo * 256 + childDevice.IntAddress))
+						Errors.Add(new DeviceValidationError(childDevice, string.Format("Дублируется адрес устройства"), ValidationErrorLevel.CannotWrite));
+					else
+						addresses.Add(childDevice.ShleifNo * 256 + childDevice.IntAddress);
+				}
+			}
+		}
+
+		static void ValidateDeviceRangeAddress(XDevice device)
+		{
+			if (device.Driver.IsGroupDevice)
+			{
+				if (device.Children.Any(x => x.IntAddress < device.IntAddress || (x.IntAddress - device.IntAddress) > device.Driver.GroupDeviceChildrenCount))
+					Errors.Add(new DeviceValidationError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ValidationErrorLevel.Warning));
+			}
+		}
+	}
+
+	static class DeviceValidationHelper
+	{
+		static List<XDevice> allChildren;
+		public static List<XDevice> GetAllChildrenForDevice(XDevice device)
+		{
+			allChildren = new List<XDevice>();
+			AddChild(device);
+			return allChildren;
+		}
+		static void AddChild(XDevice device)
+		{
+			foreach (var child in device.Children)
+			{
+				allChildren.Add(child);
+				if (child.Driver.DriverType == XDriverType.MPT)
+				{
+					AddChild(child);
 				}
 			}
 		}

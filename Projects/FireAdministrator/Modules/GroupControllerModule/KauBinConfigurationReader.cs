@@ -34,6 +34,8 @@ namespace GKModule
 			BinConfigurationWriter.GoToWorkingRegime(kauDevice);
 			LoadingService.SaveClose();
 
+			devices.RemoveAll(x => x.Driver.DriverType == XDriverType.GK || x.Driver.DriverType == XDriverType.GKIndicator);
+
 			var deviceConfigurationViewModel = new DeviceConfigurationViewModel(kauDevice, devices);
 			if (DialogService.ShowModalWindow(deviceConfigurationViewModel))
 				return devices;
@@ -60,17 +62,14 @@ namespace GKModule
 			{
 				var inputDependensyNo = BytesHelper.SubstructShort(bytes, 8 + i * 2);
 			}
-            Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes) +
-                deviceType.ToString() + " " + address.ToString() + " " + parametersOffset.ToString() + " " + inputDependensesCount.ToString() + " "
-                );
-
-			//parametersOffset = (ushort)(0x10000 + parametersOffset);
-			//var parametersOffsetBytes = new List<byte>(BitConverter.GetBytes(descriptorAdderss));
-			//data = new List<byte>(parametersOffsetBytes);
-			//sendResult = SendManager.Send(kauDevice, 4, 30, 256, data);
+			Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes) +
+				deviceType.ToString() + " " + address.ToString() + " " + parametersOffset.ToString() + " " + inputDependensesCount.ToString() + " "
+				);
 
 			var device = new XDevice();
-			device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x=>x.DriverTypeNo == deviceType);
+			device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
+			if (device.Driver.DriverType == XDriverType.GKIndicator)
+				device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
 			device.DriverUID = device.Driver.UID;
 			device.ShleifNo = (byte)(address / 256 + 1);
 			device.IntAddress = (byte)(address % 256);

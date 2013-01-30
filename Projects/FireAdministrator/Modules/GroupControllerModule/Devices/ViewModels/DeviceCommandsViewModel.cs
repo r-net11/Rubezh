@@ -137,7 +137,7 @@ namespace GKModule.Models
 					SelectedDevice.Children.Clear();
 					foreach (var remoteDevice in remoteDevices)
 					{
-						DevicesViewModel.Current.AddDevice(device, SelectedDevice);
+						DevicesViewModel.Current.AddDevice(remoteDevice, SelectedDevice);
 					}
 					SelectedDevice.ExpandChildren();
 				}

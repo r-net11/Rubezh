@@ -69,6 +69,8 @@
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
                 <Button Command="{Binding ChangeOutputDevicesCommand}" Content="Изменить Выходные устройства" Width="250" Margin="2" />
+                <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
+                <TextBlock Text="{Binding OutputDevicesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
         </Grid>
 
@@ -89,16 +91,14 @@
                                         <Controls:EditorPresenter>
                                             <Controls:EditorPresenter.ViewTemplate>
                                                 <ControlTemplate>
-                                                    <Grid>
-                                                        <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
-                                                                VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                            <ComboBox.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
-                                                                </DataTemplate>
-                                                            </ComboBox.ItemTemplate>
-                                                        </ComboBox>
-                                                    </Grid>
+                                                    <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
+                                                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
                                                 </ControlTemplate>
                                             </Controls:EditorPresenter.ViewTemplate>
                                         </Controls:EditorPresenter>
@@ -111,6 +111,8 @@
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
                 <Button Command="{Binding ChangeZonesCommand}" Content="Изменить Входные зоны" Width="250" Margin="2" />
+                <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
+                <TextBlock Text="{Binding ZonesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
         </Grid>
 
@@ -168,6 +170,8 @@
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
                 <Button Command="{Binding ChangeDevicesCommand}" Content="Изменить Входные устройства" Width="250" Margin="2" />
+                <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
+                <TextBlock Text="{Binding DevicesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
         </Grid>
     </Grid>

@@ -15,8 +15,12 @@ namespace Common.GK
 
 		static void AddChild(XDevice device)
 		{
+			if (device.IsNotUsed)
+				return;
+
 			if (!device.Driver.IsGroupDevice)
 				AllDevices.Add(device);
+
 			foreach (var child in device.Children)
 			{
 				AddChild(child);

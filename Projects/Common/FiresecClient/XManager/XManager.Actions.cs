@@ -38,11 +38,14 @@ namespace FiresecClient
 
 		public static void RemoveDeviceFromZone(XDevice device, XZone zone)
 		{
-			device.Zones.Remove(zone);
-			device.ZoneUIDs.Remove(zone.UID);
-			zone.Devices.Remove(device);
-			zone.OnChanged();
-			device.OnChanged();
+			if (zone != null)
+			{
+				device.Zones.Remove(zone);
+				device.ZoneUIDs.Remove(zone.UID);
+				zone.Devices.Remove(device);
+				zone.OnChanged();
+				device.OnChanged();
+			}
 		}
 
 		public static void AddDevice(XDevice device)
@@ -189,6 +192,21 @@ namespace FiresecClient
 			device.DeviceLogic = deviceLogic;
 			InvalidateOneLogic(device);
 			device.OnChanged();
+		}
+
+		public static void ChangeDriver(XDevice device, XDriver driver)
+		{
+			var changeZone = !(device.Driver.HasZone && driver.HasLogic);
+			device.Driver = driver;
+			device.DriverUID = driver.UID;
+			if (driver.IsRangeEnabled)
+				device.IntAddress = driver.MinAddress;
+			if (changeZone)
+			{
+				RemoveDeviceFromZone(device, null);
+				ChangeDeviceLogic(device, new XDeviceLogic());
+			}
+			device.Properties = new List<XProperty>();
 		}
 	}
 }

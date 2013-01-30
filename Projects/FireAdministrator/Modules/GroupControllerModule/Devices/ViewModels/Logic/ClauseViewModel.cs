@@ -71,7 +71,6 @@ namespace GKModule.ViewModels
 							StateTypes.Add(XStateType.Fire1);
 							StateTypes.Add(XStateType.On);
 							StateTypes.Add(XStateType.Failure);
-							StateTypes.Add(XStateType.Test);
 						}
 						break;
 
@@ -189,6 +188,8 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
+				if (device.IsNotUsed)
+					continue;
 				if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
 					continue;
 				if (device.UID == Device.UID)
