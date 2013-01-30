@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ServerFS2
+namespace ClientFS2
 {
     public delegate bool PredicateDelegate();
 

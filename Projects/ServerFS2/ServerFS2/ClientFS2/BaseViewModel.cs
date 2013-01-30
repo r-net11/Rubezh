@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
 
-namespace ServerFS2
+namespace ClientFS2
 {
     public abstract class BaseViewModel : DependencyObject, INotifyPropertyChanged
     {

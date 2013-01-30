@@ -1,8 +1,8 @@
-﻿<Window x:Class="ServerFS2.ServerView"
+﻿<Window x:Class="ClientFS2.ClientView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ServerFS2="clr-namespace:ServerFS2" Height="450" Width="400">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ClientFS2="clr-namespace:ClientFS2" Height="450" Width="400">
     <Window.Resources>
-        <ServerFS2:NullObjectToVisibiltyConverter
+        <ClientFS2:NullObjectToVisibiltyConverter
          x:Key="NullObjectToVisibiltyConverter"/>
     </Window.Resources>
     <Grid>

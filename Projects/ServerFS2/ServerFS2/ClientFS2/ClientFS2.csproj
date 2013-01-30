@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{41D4B526-16ED-449D-883C-684C7EA59FD7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{AB98E3F1-9E05-47E9-B037-9755E6F9BCCC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ServerFS2</RootNamespace>
-    <AssemblyName>ServerFS2</AssemblyName>
+    <RootNamespace>ClientFS2</RootNamespace>
+    <AssemblyName>ClientFS2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -36,16 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibUsbDotNet">
-      <HintPath>C:\Program Files\LibUsbDotNet\Src\LibWinUsb\bin\Debug\LibUsbDotNet.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,19 +52,30 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Crc16Helper.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\JournalItem.cs" />
-    <Compile Include="JournalParser.cs" />
-    <Compile Include="Helpers\MetadataHelper.cs" />
-    <Compile Include="Helpers\rubezh2010.cs" />
-    <Compile Include="Helpers\DriversHelper.cs" />
-    <Compile Include="Helpers\TimeParceHelper.cs" />
-    <Compile Include="OperationResult.cs" />
-    <Compile Include="ServerHelper.cs" />
-    <Compile Include="UsbRunner.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BaseViewModel.cs" />
+    <Compile Include="BooleanToVisibilityConverter.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Page Include="ClientView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClientView.xaml.cs">
+      <DependentUpon>ClientView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientViewModel.cs" />
+    <Compile Include="NotifyPropertyChangedHelper.cs" />
+    <Compile Include="NullObjectToVisibiltyConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -89,6 +93,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -96,12 +101,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="rubezh2010.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
+    <ProjectReference Include="..\ServerFS2.csproj">
+      <Project>{41D4B526-16ED-449D-883C-684C7EA59FD7}</Project>
+      <Name>ServerFS2</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

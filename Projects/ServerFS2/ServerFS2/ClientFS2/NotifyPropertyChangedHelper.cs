@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ServerFS2
+namespace ClientFS2
 {
     public class NotifyPropertyChangedHelper
     {

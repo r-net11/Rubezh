@@ -1,103 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Diagnostics;
-using System.Threading;
 using System.Collections;
-using System.Windows.Controls;
-using FiresecAPI;
 
 namespace ServerFS2
 {
-    public class ServerViewModel : BaseViewModel  
+    public static class ServerHelper 
     {
-        readonly object _locker = new object();
-        readonly UsbRunner _usbRunner;
-        readonly List<UsbRequest> _usbRequests = new List<UsbRequest>();
-
-        public ObservableCollection<Device> Devices { get; private set; }
-        public ServerViewModel()
+        static readonly object Locker = new object();
+        static readonly UsbRunner UsbRunner;
+        static readonly List<UsbRequest> UsbRequests = new List<UsbRequest>();
+        static ServerHelper()
         {
-            ReadJournalCommand = new RelayCommand(OnReadJournal);
-            SendRequestCommand = new RelayCommand(OnSendRequest);
-            AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
-            
             MetadataHelper.Initialize();
-            Devices = new ObservableCollection<Device>();
-            _usbRunner = new UsbRunner();
-            _usbRunner.Open();
+            UsbRunner = new UsbRunner();
+            UsbRunner.Open();
         }
-        private int _usbRequestNo;
-
-        private Device _selectedDevice;
-        public Device SelectedDevice
+        private static int _usbRequestNo;
+        public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
         {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
-            }
-        }
-
-        private string _textBoxRequest;
-        public string TextBoxRequest
-        {
-            get { return _textBoxRequest; }
-            set
-            {
-                _textBoxRequest = value;
-                OnPropertyChanged("TextBoxRequest");
-            }
-        }
-
-        private string _textBoxResponse;
-        public string TextBoxResponse
-        {
-            get { return _textBoxResponse; }
-            set
-            {
-                _textBoxResponse = value;
-                OnPropertyChanged("TextBoxResponse");
-            }
-        }
-
-        public RelayCommand ReadJournalCommand { get; private set; }
-        void OnReadJournal()
-        {
-            var device = SelectedDevice;
-            GetJournalItems(device);
-            ShowJournal(device);
-        }
-
-        void ShowJournal(Device device)
-        {
-            var win = new Window();
-            var dataGrid = new DataGrid { ItemsSource = device.JournalItems };
-            win.Content = dataGrid;
-            win.Show();
-        }
-        public RelayCommand SendRequestCommand { get; private set; }
-        private void OnSendRequest()
-        {
-            var bytes = TextBoxRequest.Split()
-                   .Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
-            var inbytes = SendCode(bytes).Result.Data;
-            foreach (var b in inbytes)
-                TextBoxResponse += b.ToString("X2") + " ";
-        }
-        public RelayCommand AutoDetectDeviceCommand { get; private set; }
-        private void OnAutoDetectDevice()
-        {
-            AutoDetectDevice();
-        }
-
-        void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
-        {
-            lock (_locker)
+            lock (Locker)
             {
                 var journalItem = new JournalItem();
                 var allbytes = new List<byte>(bytes);
@@ -107,10 +32,10 @@ namespace ServerFS2
                     return;
                 var requestNo = bytes[0] * 256 * 256 * 256 + bytes[1] * 256 * 256 + bytes[2] * 256 + bytes[3];
                 bytes.RemoveRange(0, 4);
-                var usbRequest = _usbRequests.FirstOrDefault(x => x.Id == requestNo);
+                var usbRequest = UsbRequests.FirstOrDefault(x => x.Id == requestNo);
                 if (usbRequest == null)
                     return;
-                _usbRequests.Remove(usbRequest);
+                UsbRequests.Remove(usbRequest);
                 if (bytes.Count < 2)
                     return;
                 if (bytes[0] != usbRequest.UsbAddress)
@@ -153,7 +78,7 @@ namespace ServerFS2
                 journalItems.Add(journalItem);
             }
         }
-        OperationResult<Response> SendCode(List<byte> bytes)
+        static OperationResult<Response> SendCode(List<byte> bytes)
         {
             var usbRequest = new UsbRequest()
             {
@@ -162,10 +87,10 @@ namespace ServerFS2
                 SelfAddress = bytes[5],
                 FuncCode = bytes[6]
             };
-            _usbRequests.Add(usbRequest);
-            return _usbRunner.AddRequest(bytes);
+            UsbRequests.Add(usbRequest);
+            return UsbRunner.AddRequest(bytes);
         }
-        void GetSecJournalItems2Op(Device device)
+        public static void GetSecJournalItems2Op(Device device)
         {
             int lastindex = GetLastSecJournalItemId2Op(device);
             for (int i = 0; i <= lastindex; i++)
@@ -188,7 +113,7 @@ namespace ServerFS2
                 item.No = no;
             }
         }
-        int GetLastSecJournalItemId2Op(Device device)
+        public static int GetLastSecJournalItemId2Op(Device device)
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -209,7 +134,7 @@ namespace ServerFS2
                 throw;
             }
         }
-        int GetJournalCount(Device device)
+        public static int GetJournalCount(Device device)
         {
             if (device.Name == "Прибор РУБЕЖ-2ОП")
                 return GetLastJournalItemId(device) + GetLastSecJournalItemId2Op(device);
@@ -232,13 +157,13 @@ namespace ServerFS2
                 throw;
             }
         }
-        int GetFirstJournalItemId(Device device)
+        public static int GetFirstJournalItemId(Device device)
         {
             if (device.Name == "Прибор РУБЕЖ-2ОП")
                 return 0;
             return GetLastJournalItemId(device) - GetJournalCount(device) + 1;
         }
-        int GetLastJournalItemId(Device device)
+        public static int GetLastJournalItemId(Device device)
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -259,7 +184,7 @@ namespace ServerFS2
                 throw;
             }
         }
-        void GetJournalItems(Device device)
+        public static void GetJournalItems(Device device)
         {
             int lastindex = GetLastJournalItemId(device);
             int firstindex = GetFirstJournalItemId(device);
@@ -280,8 +205,6 @@ namespace ServerFS2
                 bytes.AddRange(BitConverter.GetBytes(i).Reverse());
                 ParseJournal(SendCode(bytes).Result.Data, device.JournalItems);
             }
-            //device.JournalItems = device.JournalItems.OrderByDescending(x => x.IntDate).ToList();
-            
             int no = 0;
             foreach (var item in device.JournalItems)
             {
@@ -290,7 +213,7 @@ namespace ServerFS2
             }
             device.SecJournalItems.ForEach(x => device.JournalItems.Add(x));
         }
-        void AutoDetectDevice()
+        public static void AutoDetectDevice(ObservableCollection<Device> Devices)
         {
             Devices = new ObservableCollection<Device>();
             byte deviceCount;
@@ -342,12 +265,15 @@ namespace ServerFS2
                         device.SerialNo = device.SerialNo.Remove(device.SerialNo.Length - 1);
                         device.UsbChannel = sleif - 2;
                         Devices.Add(device);
-                        OnPropertyChanged("Devices");
                     }
                 }
         }
+        public static List<byte> SendRequest(List<byte> bytes)
+        {
+            return SendCode(bytes).Result.Data;
+        }
     }
-    public class UsbRequest
+    class UsbRequest
     {
         public int Id { get; set; }
         public int UsbAddress { get; set; }
