@@ -3,15 +3,12 @@
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class SenderParams
+	public class EmailSettings
 	{
-		public SenderParams()
+		public EmailSettings()
 		{
 			;
 		}
-
-		[DataMember]
-		public string From { get; set; }
 
 		[DataMember]
 		public string Ip { get; set; }
@@ -25,10 +22,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string Password { get; set; }
 
-		public static SenderParams SetDefaultParams()
+		public static EmailSettings SetDefaultParams()
 		{
-			SenderParams defaultParams = new SenderParams();
-			defaultParams.From = "obychevma@rubezh.ru";
+			EmailSettings defaultParams = new EmailSettings();
 			defaultParams.Ip = "mail.rubezh.ru";
 			defaultParams.Port = ((int)25).ToString();
 			defaultParams.UserName = "obychevma@rubezh.ru";

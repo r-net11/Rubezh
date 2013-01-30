@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using FiresecAPI;
@@ -33,14 +32,14 @@ namespace NotificationModule.ViewModels
 		{
 			Emails = new ObservableCollection<EmailViewModel>();
 
-			if (FiresecManager.SystemConfiguration.Emails == null ||
-				FiresecManager.SystemConfiguration.Emails.Count == 0)
+			if (FiresecManager.SystemConfiguration.EmailData.Emails == null ||
+				FiresecManager.SystemConfiguration.EmailData.Emails.Count == 0)
 			{
-				FiresecManager.SystemConfiguration.Emails = new List<Email>();
+				FiresecManager.SystemConfiguration.EmailData.Emails = new List<Email>();
 				AddSampleEmail();
 			}
 
-			foreach (var email in FiresecManager.SystemConfiguration.Emails)
+			foreach (var email in FiresecManager.SystemConfiguration.EmailData.Emails)
 			{
 				var emailViewModel = new EmailViewModel(email);
 				Emails.Add(emailViewModel);
@@ -84,7 +83,7 @@ namespace NotificationModule.ViewModels
 			};
 			email.States.Add(StateType.Fire);
 			email.States.Add(StateType.Failure);
-			FiresecManager.SystemConfiguration.Emails.Add(email);
+			FiresecManager.SystemConfiguration.EmailData.Emails.Add(email);
 		}
 
 		public RelayCommand TestCommand { get; private set; }
@@ -95,7 +94,7 @@ namespace NotificationModule.ViewModels
 				SelectedEmail.PresenrationStates + " " +
 				"в зонах " +
 				SelectedEmail.PresentationZones;
-			MailHelper.Send(FiresecManager.SystemConfiguration.SenderParams, SelectedEmail.Email.Address,
+			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, SelectedEmail.Email.Address,
 							message,
 							SelectedEmail.Email.MessageTitle);
 		}
@@ -107,7 +106,7 @@ namespace NotificationModule.ViewModels
 			var emailDetailsViewModel = new EmailDetailsViewModel();
 			if (DialogService.ShowModalWindow(emailDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.Emails.Add(emailDetailsViewModel.EmailViewModel.Email);
+				FiresecManager.SystemConfiguration.EmailData.Emails.Add(emailDetailsViewModel.EmailViewModel.Email);
 				var emailViewModel = new EmailViewModel(emailDetailsViewModel.EmailViewModel.Email);
 				Emails.Add(emailViewModel);
 				SelectedEmail = emailViewModel;
@@ -124,7 +123,7 @@ namespace NotificationModule.ViewModels
 
 		private void OnDelete()
 		{
-			FiresecManager.SystemConfiguration.Emails.Remove(SelectedEmail.Email);
+			FiresecManager.SystemConfiguration.EmailData.Emails.Remove(SelectedEmail.Email);
 			Emails.Remove(SelectedEmail);
 			ServiceFactory.SaveService.EmailsChanged = true;
 		}
@@ -145,15 +144,14 @@ namespace NotificationModule.ViewModels
 
 		private void OnEditSender()
 		{
-			if (FiresecManager.SystemConfiguration.SenderParams == null)
+			if (FiresecManager.SystemConfiguration.EmailData.EmailSettings == null)
 			{
-				FiresecManager.SystemConfiguration.SenderParams = SenderParams.SetDefaultParams();
+				FiresecManager.SystemConfiguration.EmailData.EmailSettings = EmailSettings.SetDefaultParams();
 			}
-			var senderDetailsViewModel = new SenderDetailsViewModel(FiresecManager.SystemConfiguration.SenderParams);
-			if (DialogService.ShowModalWindow(senderDetailsViewModel))
+			var emailConfigViewModel = new EmailConfigViewModel(FiresecManager.SystemConfiguration.EmailData.EmailSettings);
+			if (DialogService.ShowModalWindow(emailConfigViewModel))
 			{
-				FiresecManager.SystemConfiguration.SenderParams = senderDetailsViewModel.SenderParamsViewModel.SenderParams;
-				Trace.WriteLine(FiresecManager.SystemConfiguration.SenderParams.From);
+				FiresecManager.SystemConfiguration.EmailData.EmailSettings = emailConfigViewModel.EmailSettingsParamsViewModel.EmailSettings;
 				ServiceFactory.SaveService.EmailsChanged = true;
 			}
 		}

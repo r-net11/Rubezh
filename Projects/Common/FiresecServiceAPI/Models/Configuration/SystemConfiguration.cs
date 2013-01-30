@@ -12,8 +12,7 @@ namespace FiresecAPI.Models
 			JournalFilters = new List<JournalFilter>();
 			Instructions = new List<Instruction>();
 			Cameras = new List<Camera>();
-			Emails = new List<Email>();
-			SenderParams = new SenderParams();
+			EmailData = new EmailData();
 		}
 
 		[DataMember]
@@ -29,10 +28,7 @@ namespace FiresecAPI.Models
 		public List<Camera> Cameras { get; set; }
 
 		[DataMember]
-		public List<Email> Emails { get; set; }
-
-		[DataMember]
-		public SenderParams SenderParams { get; set; }
+		public EmailData EmailData { get; set; }
 
 		public override bool ValidateVersion()
 		{
@@ -42,9 +38,9 @@ namespace FiresecAPI.Models
 				Instructions = new List<Instruction>();
 				result = false;
 			}
-			if (Emails == null)
+			if (EmailData == null)
 			{
-				Emails = new List<Email>();
+				EmailData = new EmailData();
 				result = false;
 			}
 			return result;

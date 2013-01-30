@@ -15,8 +15,8 @@
         <Views:EmailDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SenderDetailsViewModel}">
-        <Views:SenderDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:EmailConfigViewModel}">
+        <Views:EmailConfigView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">

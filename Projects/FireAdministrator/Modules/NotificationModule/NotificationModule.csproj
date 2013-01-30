@@ -59,8 +59,8 @@
     <Compile Include="ViewModels\NotificationMenuViewModel.cs" />
     <Compile Include="ViewModels\EmailViewModel.cs" />
     <Compile Include="ViewModels\NotificationViewModel.cs" />
-    <Compile Include="ViewModels\SenderDetailsViewModel.cs" />
-    <Compile Include="ViewModels\SenderParamsViewModel.cs" />
+    <Compile Include="ViewModels\EmailConfigViewModel.cs" />
+    <Compile Include="ViewModels\EmailSettingsViewModel.cs" />
     <Compile Include="ViewModels\StateTypeViewModel.cs" />
     <Compile Include="ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Views\EmailDetailsView.xaml.cs">
@@ -72,8 +72,8 @@
     <Compile Include="Views\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SenderDetailsView.xaml.cs">
-      <DependentUpon>SenderDetailsView.xaml</DependentUpon>
+    <Compile Include="Views\EmailConfigView.xaml.cs">
+      <DependentUpon>EmailConfigView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZoneSelectionView.xaml.cs">
       <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
@@ -92,7 +92,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SenderDetailsView.xaml">
+    <Page Include="Views\EmailConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
