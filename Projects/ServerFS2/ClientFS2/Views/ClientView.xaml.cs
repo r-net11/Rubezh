@@ -1,12 +1,10 @@
-﻿namespace ClientFS2
+﻿namespace ClientFS2.Views
 {
     public partial class ClientView
     {
         public ClientView()
         {
             InitializeComponent();
-            var clientViewModel = new ClientViewModel();
-            DataContext = clientViewModel;
         }
     }
 }

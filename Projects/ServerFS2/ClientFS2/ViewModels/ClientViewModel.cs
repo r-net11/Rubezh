@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 
-namespace ClientFS2
+namespace ClientFS2.ViewModels
 {
     public class ClientViewModel:BaseViewModel
     {
@@ -17,6 +18,7 @@ namespace ClientFS2
             AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
             Devices = new ObservableCollection<Device>();
         }
+
         private Device _selectedDevice;
         public Device SelectedDevice
         {
@@ -58,12 +60,9 @@ namespace ClientFS2
             ShowJournal(device);
         }
 
-        void ShowJournal(Device device)
+        static void ShowJournal(Device device)
         {
-            var win = new Window();
-            var dataGrid = new DataGrid { ItemsSource = device.JournalItems };
-            win.Content = dataGrid;
-            win.Show();
+            DialogService.ShowModalWindow(new JournalViewModel(device));
         }
 
         public RelayCommand SendRequestCommand { get; private set; }

@@ -18,7 +18,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -56,26 +56,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseViewModel.cs" />
-    <Compile Include="BooleanToVisibilityConverter.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Page Include="ClientView.xaml">
+    <Compile Include="Views\JournalView.xaml.cs">
+      <DependentUpon>JournalView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\ClientView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClientView.xaml.cs">
+    <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="Views\ClientView.xaml.cs">
       <DependentUpon>ClientView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientViewModel.cs" />
-    <Compile Include="NotifyPropertyChangedHelper.cs" />
-    <Compile Include="NullObjectToVisibiltyConverter.cs" />
+    <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,9 +107,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerFS2.csproj">
+    <ProjectReference Include="..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerFS2\ServerFS22.csproj">
       <Project>{41D4B526-16ED-449D-883C-684C7EA59FD7}</Project>
-      <Name>ServerFS2</Name>
+      <Name>ServerFS22</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

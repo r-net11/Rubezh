@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Diagnostics;
 using System.Collections;
+using FiresecAPI;
 
 namespace ServerFS2
 {
@@ -213,9 +214,8 @@ namespace ServerFS2
             }
             device.SecJournalItems.ForEach(x => device.JournalItems.Add(x));
         }
-        public static void AutoDetectDevice(ObservableCollection<Device> Devices)
+        public static void AutoDetectDevice(ObservableCollection<Device> devices)
         {
-            Devices = new ObservableCollection<Device>();
             byte deviceCount;
             for (byte sleif = 0x03; sleif <= 0x04; sleif++)
                 for (deviceCount = 1; deviceCount < 128; deviceCount++)
@@ -264,7 +264,7 @@ namespace ServerFS2
                             device.SerialNo += inputBytes[i] - 0x30 + ".";
                         device.SerialNo = device.SerialNo.Remove(device.SerialNo.Length - 1);
                         device.UsbChannel = sleif - 2;
-                        Devices.Add(device);
+                        devices.Add(device);
                     }
                 }
         }
