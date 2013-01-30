@@ -50,6 +50,7 @@ namespace NotificationModule.ViewModels
 		}
 
 		ObservableCollection<EmailViewModel> _emails;
+
 		public ObservableCollection<EmailViewModel> Emails
 		{
 			get { return _emails; }
@@ -78,7 +79,8 @@ namespace NotificationModule.ViewModels
 			{
 				Address = "obychevma@rubezh.ru",
 				Name = "Максим Обычев",
-				States = new List<StateType>()
+				States = new List<StateType>(),
+				MessageTitle = "Test message"
 			};
 			email.States.Add(StateType.Fire);
 			email.States.Add(StateType.Failure);
@@ -92,10 +94,10 @@ namespace NotificationModule.ViewModels
 			string message = "Этот адресат уведомляется о состояниях " +
 				SelectedEmail.PresenrationStates + " " +
 				"в зонах " +
-				"kjdgkljlfdjgl";
+				SelectedEmail.PresentationZones;
 			MailHelper.Send(FiresecManager.SystemConfiguration.SenderParams, SelectedEmail.Email.Address,
 							message,
-							"Тестовое собщение Firesec-2");
+							SelectedEmail.Email.MessageTitle);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -109,8 +111,7 @@ namespace NotificationModule.ViewModels
 				var emailViewModel = new EmailViewModel(emailDetailsViewModel.EmailViewModel.Email);
 				Emails.Add(emailViewModel);
 				SelectedEmail = emailViewModel;
-				ServiceFactory.SaveService.CamerasChanged = true;
-				//ServiceFactory.SaveService.EmailsChanged = true;
+				ServiceFactory.SaveService.EmailsChanged = true;
 			}
 		}
 
@@ -125,8 +126,7 @@ namespace NotificationModule.ViewModels
 		{
 			FiresecManager.SystemConfiguration.Emails.Remove(SelectedEmail.Email);
 			Emails.Remove(SelectedEmail);
-			ServiceFactory.SaveService.CamerasChanged = true;
-			//ServiceFactory.SaveService.EmailsChanged = true;
+			ServiceFactory.SaveService.EmailsChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -137,8 +137,7 @@ namespace NotificationModule.ViewModels
 			if (DialogService.ShowModalWindow(emailDetailsViewModel))
 			{
 				SelectedEmail.Email = emailDetailsViewModel.EmailViewModel.Email;
-				ServiceFactory.SaveService.CamerasChanged = true;
-				//ServiceFactory.SaveService.EmailsChanged = true;
+				ServiceFactory.SaveService.EmailsChanged = true;
 			}
 		}
 
@@ -155,8 +154,7 @@ namespace NotificationModule.ViewModels
 			{
 				FiresecManager.SystemConfiguration.SenderParams = senderDetailsViewModel.SenderParamsViewModel.SenderParams;
 				Trace.WriteLine(FiresecManager.SystemConfiguration.SenderParams.From);
-				ServiceFactory.SaveService.CamerasChanged = true;
-				//ServiceFactory.SaveService.EmailsChanged = true;
+				ServiceFactory.SaveService.EmailsChanged = true;
 			}
 		}
 

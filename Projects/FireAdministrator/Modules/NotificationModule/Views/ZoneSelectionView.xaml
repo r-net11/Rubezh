@@ -9,7 +9,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
+        <DataGrid Grid.Column="0" ItemsSource="{Binding ChosenZones}" SelectedItem="{Binding SelectedChosenZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
                 <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />

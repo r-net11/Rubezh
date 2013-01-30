@@ -21,14 +21,14 @@ namespace NotificationModule.ViewModels
 
 			Title = "Выбор зоны";
 
-			InstructionZonesList = new List<Guid>(zonesList);
-			InstructionZones = new ObservableCollection<ZoneViewModel>();
+			ChosenZonesList = new List<Guid>(zonesList);
+			ChosenZones = new ObservableCollection<ZoneViewModel>();
 			AvailableZones = new ObservableCollection<ZoneViewModel>();
 
 			InitializeZones();
 
-			if (InstructionZones.IsNotNullOrEmpty())
-				SelectedInstructionZone = InstructionZones[0];
+			if (ChosenZones.IsNotNullOrEmpty())
+				SelectedChosenZone = ChosenZones[0];
 		}
 
 		private void InitializeZones()
@@ -36,11 +36,11 @@ namespace NotificationModule.ViewModels
 			foreach (var zone in FiresecManager.Zones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
-				if (InstructionZonesList.IsNotNullOrEmpty())
+				if (ChosenZonesList.IsNotNullOrEmpty())
 				{
-					var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.Zone.UID);
-					if (instructionZone != Guid.Empty)
-						InstructionZones.Add(zoneViewModel);
+					var chosenZone = ChosenZonesList.FirstOrDefault(x => x == zoneViewModel.Zone.UID);
+					if (chosenZone != Guid.Empty)
+						ChosenZones.Add(zoneViewModel);
 					else
 						AvailableZones.Add(zoneViewModel);
 				}
@@ -50,17 +50,17 @@ namespace NotificationModule.ViewModels
 				}
 			}
 
-			if (InstructionZones.IsNotNullOrEmpty())
-				SelectedInstructionZone = InstructionZones[0];
+			if (ChosenZones.IsNotNullOrEmpty())
+				SelectedChosenZone = ChosenZones[0];
 			if (AvailableZones.IsNotNullOrEmpty())
 				SelectedAvailableZone = AvailableZones[0];
 		}
 
-		public List<Guid> InstructionZonesList { get; set; }
+		public List<Guid> ChosenZonesList { get; set; }
 
 		public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
 
-		public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
+		public ObservableCollection<ZoneViewModel> ChosenZones { get; set; }
 
 		ZoneViewModel _selectedAvailableZone;
 
@@ -74,15 +74,15 @@ namespace NotificationModule.ViewModels
 			}
 		}
 
-		ZoneViewModel _selectedInstructionZone;
+		ZoneViewModel _selectedChosenZone;
 
-		public ZoneViewModel SelectedInstructionZone
+		public ZoneViewModel SelectedChosenZone
 		{
-			get { return _selectedInstructionZone; }
+			get { return _selectedChosenZone; }
 			set
 			{
-				_selectedInstructionZone = value;
-				OnPropertyChanged("SelectedInstructionZone");
+				_selectedChosenZone = value;
+				OnPropertyChanged("SelectedChosenZone");
 			}
 		}
 
@@ -98,24 +98,24 @@ namespace NotificationModule.ViewModels
 
 		public bool CanRemoveOne()
 		{
-			return SelectedInstructionZone != null;
+			return SelectedChosenZone != null;
 		}
 
 		public bool CanRemoveAll()
 		{
-			return InstructionZones.IsNotNullOrEmpty();
+			return ChosenZones.IsNotNullOrEmpty();
 		}
 
 		public RelayCommand AddOneCommand { get; private set; }
 
 		private void OnAddOne()
 		{
-			InstructionZones.Add(SelectedAvailableZone);
+			ChosenZones.Add(SelectedAvailableZone);
 			AvailableZones.Remove(SelectedAvailableZone);
 			if (AvailableZones.IsNotNullOrEmpty())
 				SelectedAvailableZone = AvailableZones[0];
-			if (InstructionZones.IsNotNullOrEmpty())
-				SelectedInstructionZone = InstructionZones[0];
+			if (ChosenZones.IsNotNullOrEmpty())
+				SelectedChosenZone = ChosenZones[0];
 		}
 
 		public RelayCommand AddAllCommand { get; private set; }
@@ -124,26 +124,26 @@ namespace NotificationModule.ViewModels
 		{
 			foreach (var availableZone in AvailableZones)
 			{
-				InstructionZones.Add(availableZone);
+				ChosenZones.Add(availableZone);
 			}
 
 			AvailableZones.Clear();
 			SelectedAvailableZone = null;
-			if (InstructionZones.IsNotNullOrEmpty())
-				SelectedInstructionZone = InstructionZones[0];
+			if (ChosenZones.IsNotNullOrEmpty())
+				SelectedChosenZone = ChosenZones[0];
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
 
 		private void OnRemoveAll()
 		{
-			foreach (var instructionZone in InstructionZones)
+			foreach (var instructionZone in ChosenZones)
 			{
 				AvailableZones.Add(instructionZone);
 			}
 
-			InstructionZones.Clear();
-			SelectedInstructionZone = null;
+			ChosenZones.Clear();
+			SelectedChosenZone = null;
 			if (AvailableZones.IsNotNullOrEmpty())
 				SelectedAvailableZone = AvailableZones[0];
 		}
@@ -152,17 +152,17 @@ namespace NotificationModule.ViewModels
 
 		private void OnRemoveOne()
 		{
-			AvailableZones.Add(SelectedInstructionZone);
-			InstructionZones.Remove(SelectedInstructionZone);
+			AvailableZones.Add(SelectedChosenZone);
+			ChosenZones.Remove(SelectedChosenZone);
 			if (AvailableZones.IsNotNullOrEmpty())
 				SelectedAvailableZone = AvailableZones[0];
-			if (InstructionZones.IsNotNullOrEmpty())
-				SelectedInstructionZone = InstructionZones[0];
+			if (ChosenZones.IsNotNullOrEmpty())
+				SelectedChosenZone = ChosenZones[0];
 		}
 
 		protected override bool Save()
 		{
-			InstructionZonesList = new List<Guid>(from zone in InstructionZones select zone.Zone.UID);
+			ChosenZonesList = new List<Guid>(from zone in ChosenZones select zone.Zone.UID);
 			return base.Save();
 		}
 	}

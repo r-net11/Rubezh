@@ -85,7 +85,7 @@ namespace NotificationModule.ViewModels
 			var zoneSelectionViewModel = new ZoneSelectionViewModel(EmailViewModel.Email.Zones);
 			if (DialogService.ShowModalWindow(zoneSelectionViewModel))
 			{
-				EmailViewModel.Email.Zones = zoneSelectionViewModel.InstructionZonesList;
+				EmailViewModel.Email.Zones = zoneSelectionViewModel.ChosenZonesList;
 				EmailViewModel.Update();
 			}
 		}

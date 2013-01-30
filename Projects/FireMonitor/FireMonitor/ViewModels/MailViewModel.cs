@@ -38,19 +38,18 @@ namespace FireMonitor.ViewModels
 		{
 			foreach (var zone in FiresecManager.Zones)
 			{
-				if (IsStateChanged(zone))
+				foreach (var email in FiresecManager.SystemConfiguration.Emails)
 				{
-					foreach (var email in FiresecManager.SystemConfiguration.Emails)
+					if (email.Zones.Contains(zone.UID) &&
+						email.States.Contains(zone.ZoneState.StateType) &&
+						IsStateChanged(zone))
 					{
-						if (email.SendingStates.Contains(zone.ZoneState.StateType))
-						{
-							message = " Изменение состояния зоны " +
-								zone.PresentationName +
-								" на состояние " +
-								zone.ZoneState.StateType.ToDescription();
-							//MailHelper.Send(email.Address, message, "Тест Firesec");
-							Trace.WriteLine(email.Address + message);
-						}
+						message = " Изменение состояния зоны " +
+							zone.PresentationName +
+							" на состояние " +
+							zone.ZoneState.StateType.ToDescription();
+						//MailHelper.Send(FiresecManager.SystemConfiguration.SenderParams, email.Address, message, email.MessageTitle);
+						Trace.WriteLine(email.Address + message);
 					}
 				}
 			}
@@ -58,6 +57,7 @@ namespace FireMonitor.ViewModels
 
 		private bool IsStateChanged(Zone zone)
 		{
+			return true;
 			if (!zoneStates.ContainsKey(zone))
 			{
 				zoneStates.Add(zone, zone.ZoneState.StateType);
