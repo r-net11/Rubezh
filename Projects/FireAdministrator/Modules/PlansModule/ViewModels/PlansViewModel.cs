@@ -14,6 +14,7 @@ using Infrustructure.Plans.Events;
 using PlansModule.Designer;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
@@ -32,6 +33,8 @@ namespace PlansModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+			AddFolderCommand = new RelayCommand(OnAddFolder);
+			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
 
 			DesignerCanvas = new DesignerCanvas();
 			PlanDesignerViewModel = new PlanDesignerViewModel();
@@ -63,6 +66,8 @@ namespace PlansModule.ViewModels
 				Plans = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
 					AddPlan(plan, null);
+				foreach (var planFolder in FiresecManager.PlansConfiguration.PlanFolders)
+					AddPlanFolder(planFolder, null);
 
 				for (int i = 0; i < Plans.Count; i++)
 				{
@@ -77,13 +82,29 @@ namespace PlansModule.ViewModels
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
 			var planViewModel = new PlanViewModel(plan);
+			AddPlanViewModel(planViewModel, parentPlanViewModel);
+
+			foreach (var folder in plan.Folders)
+				AddPlanFolder(folder, planViewModel);
+			foreach (var childPlan in plan.Children)
+				AddPlan(childPlan, planViewModel);
+		}
+		private void AddPlanFolder(PlanFolder planFolder, PlanViewModel parentPlanViewModel)
+		{
+			var planViewModel = new PlanViewModel(planFolder);
+			AddPlanViewModel(planViewModel, parentPlanViewModel);
+
+			foreach (var folder in planFolder.Folders)
+				AddPlanFolder(folder, planViewModel);
+			foreach (var childPlan in planFolder.Plans)
+				AddPlan(childPlan, planViewModel);
+		}
+		private void AddPlanViewModel(PlanViewModel planViewModel, PlanViewModel parentPlanViewModel)
+		{
 			if (parentPlanViewModel == null)
 				Plans.Add(planViewModel);
 			else
 				parentPlanViewModel.Children.Add(planViewModel);
-
-			foreach (var childPlan in plan.Children)
-				AddPlan(childPlan, planViewModel);
 		}
 
 		private ObservableCollection<PlanViewModel> _plans;
@@ -159,7 +180,10 @@ namespace PlansModule.ViewModels
 				var plan = planDetailsViewModel.Plan;
 				var planViewModel = new PlanViewModel(plan);
 				SelectedPlan.Children.Add(planViewModel);
-				SelectedPlan.Plan.Children.Add(plan);
+				if (SelectedPlan.Plan == null)
+					SelectedPlan.PlanFolder.Plans.Add(plan);
+				else
+					SelectedPlan.Plan.Children.Add(plan);
 				SelectedPlan.Update();
 				SelectedPlan = planViewModel;
 
@@ -170,54 +194,182 @@ namespace PlansModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (MessageBoxService.ShowConfirmation(string.Format("Вы уверены, что хотите удалить план '{0}'?", SelectedPlan.Plan.Caption)) == System.Windows.MessageBoxResult.Yes)
+			string message = SelectedPlan.Plan == null ? string.Format("Вы уверены, что хотите удалить папку '{0}'?", SelectedPlan.PlanFolder.Caption) : string.Format("Вы уверены, что хотите удалить план '{0}'?", SelectedPlan.Plan.Caption);
+			if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
 			{
 				var selectedPlan = SelectedPlan;
 				var parent = selectedPlan.Parent;
-				var plan = SelectedPlan.Plan;
-
-				ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(DesignerCanvas.Items.Select(item => item.Element).ToList());
-				if (parent == null)
-				{
-					Plans.Remove(selectedPlan);
-					FiresecManager.PlansConfiguration.Plans.Remove(plan);
-					foreach (var childPlanViewModel in selectedPlan.Children)
-					{
-						Plans.Add(childPlanViewModel);
-						FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
-						childPlanViewModel.Plan.Parent = null;
-						childPlanViewModel.ResetParent();
-					}
-				}
+				if (SelectedPlan.Plan == null)
+					RemovePlanFolder();
 				else
-				{
-					parent.Children.Remove(selectedPlan);
-					parent.Plan.Children.Remove(plan);
-					foreach (var childPlanViewModel in selectedPlan.Children)
-					{
-						parent.Children.Add(childPlanViewModel);
-						parent.Plan.Children.Add(childPlanViewModel.Plan);
-						childPlanViewModel.Plan.Parent = parent.Plan;
-					}
-					parent.Update();
-					parent.IsExpanded = true;
-				}
+					RemovePlan();
 
 				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
 			}
 		}
+		private void RemovePlan()
+		{
+			var selectedPlan = SelectedPlan;
+			var parent = selectedPlan.Parent;
+			var plan = SelectedPlan.Plan;
+
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(DesignerCanvas.Items.Select(item => item.Element).ToList());
+			if (parent == null)
+			{
+				Plans.Remove(selectedPlan);
+				FiresecManager.PlansConfiguration.Plans.Remove(plan);
+				foreach (var childPlanViewModel in selectedPlan.Children)
+				{
+					Plans.Add(childPlanViewModel);
+					if (childPlanViewModel.Plan == null)
+						FiresecManager.PlansConfiguration.PlanFolders.Add(childPlanViewModel.PlanFolder);
+					else
+					{
+						FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
+						childPlanViewModel.Plan.Parent = null;
+					}
+					childPlanViewModel.ResetParent();
+				}
+			}
+			else
+			{
+				parent.Children.Remove(selectedPlan);
+				if (parent.Plan == null)
+					parent.PlanFolder.Plans.Remove(plan);
+				else
+					parent.Plan.Children.Remove(plan);
+				foreach (var childPlanViewModel in selectedPlan.Children)
+				{
+					parent.Children.Add(childPlanViewModel);
+					if (childPlanViewModel.Plan == null)
+					{
+						if (parent.Plan == null)
+							parent.PlanFolder.Folders.Add(childPlanViewModel.PlanFolder);
+						else
+							parent.Plan.Folders.Add(childPlanViewModel.PlanFolder);
+					}
+					else
+					{
+						if (parent.Plan == null)
+						{
+							parent.PlanFolder.Plans.Add(childPlanViewModel.Plan);
+							//childPlanViewModel.Plan.Parent = parent.PlanFolder;
+						}
+						else
+						{
+							parent.Plan.Children.Add(childPlanViewModel.Plan);
+							childPlanViewModel.Plan.Parent = parent.Plan;
+						}
+					}
+				}
+				parent.Update();
+				parent.IsExpanded = true;
+			}
+		}
+		private void RemovePlanFolder()
+		{
+			var selectedPlan = SelectedPlan;
+			var parent = selectedPlan.Parent;
+			var planFolder = SelectedPlan.PlanFolder;
+
+			if (parent == null)
+			{
+				Plans.Remove(selectedPlan);
+				FiresecManager.PlansConfiguration.PlanFolders.Remove(planFolder);
+				foreach (var childPlanViewModel in selectedPlan.Children)
+				{
+					Plans.Add(childPlanViewModel);
+					if (childPlanViewModel.Plan == null)
+						FiresecManager.PlansConfiguration.PlanFolders.Add(childPlanViewModel.PlanFolder);
+					else
+					{
+						FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
+						childPlanViewModel.Plan.Parent = null;
+					}
+					childPlanViewModel.ResetParent();
+				}
+			}
+			else
+			{
+				parent.Children.Remove(selectedPlan);
+				if (parent.Plan == null)
+					parent.PlanFolder.Folders.Remove(planFolder);
+				else
+					parent.Plan.Folders.Remove(planFolder);
+				foreach (var childPlanViewModel in selectedPlan.Children)
+				{
+					parent.Children.Add(childPlanViewModel);
+					if (childPlanViewModel.Plan == null)
+					{
+						if (parent.Plan == null)
+							parent.PlanFolder.Folders.Add(childPlanViewModel.PlanFolder);
+						else
+							parent.Plan.Folders.Add(childPlanViewModel.PlanFolder);
+					}
+					else
+					{
+						if (parent.Plan == null)
+						{
+							parent.PlanFolder.Plans.Add(childPlanViewModel.Plan);
+							//childPlanViewModel.Plan.Parent = parent.PlanFolder;
+						}
+						else
+						{
+							parent.Plan.Children.Add(childPlanViewModel.Plan);
+							childPlanViewModel.Plan.Parent = parent.Plan;
+						}
+					}
+				}
+				parent.Update();
+				parent.IsExpanded = true;
+			}
+		}
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			var planDetailsViewModel = new DesignerPropertiesViewModel(SelectedPlan.Plan);
-			if (DialogService.ShowModalWindow(planDetailsViewModel))
+			SaveCancelDialogViewModel dialog = SelectedPlan.Plan == null ? (SaveCancelDialogViewModel)new FolderPropertiesViewModel(SelectedPlan.PlanFolder) : new DesignerPropertiesViewModel(SelectedPlan.Plan);
+			if (DialogService.ShowModalWindow(dialog))
 			{
 				SelectedPlan.Update();
 				DesignerCanvas.Update();
 				PlanDesignerViewModel.Update();
 				DesignerCanvas.Refresh();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
+		public RelayCommand AddFolderCommand { get; private set; }
+		private void OnAddFolder()
+		{
+			var viewModel = new FolderPropertiesViewModel(null);
+			if (DialogService.ShowModalWindow(viewModel))
+			{
+				var planFolder = viewModel.PlanFolder;
+				var planViewModel = new PlanViewModel(planFolder);
+				Plans.Add(planViewModel);
+				SelectedPlan = planViewModel;
+				FiresecManager.PlansConfiguration.PlanFolders.Add(planFolder);
+				FiresecManager.PlansConfiguration.Update();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
+		public RelayCommand AddSubFolderCommand { get; private set; }
+		private void OnAddSubFolder()
+		{
+			var viewModel = new FolderPropertiesViewModel(null);
+			if (DialogService.ShowModalWindow(viewModel))
+			{
+				var planFolder = viewModel.PlanFolder;
+				var planViewModel = new PlanViewModel(planFolder);
+				SelectedPlan.Children.Add(planViewModel);
+				if (SelectedPlan.Plan == null)
+					SelectedPlan.PlanFolder.Folders.Add(planFolder);
+				else
+					SelectedPlan.Plan.Folders.Add(planFolder);
+				SelectedPlan.Update();
+				SelectedPlan = planViewModel;
+				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

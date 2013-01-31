@@ -2,10 +2,11 @@
 	<Controls:TreeListView ItemsSource="{Binding PlansViewModel.Plans}" SelectedObject="{Binding PlansViewModel.SelectedPlan}">
 		<Controls:TreeListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-				<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand,RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" MouseAction="LeftDoubleClick" />
+				<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" MouseAction="LeftDoubleClick" />
 			</InputBindingCollection>
-			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel,RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}">
+			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}">
 				<MenuItem Command="{Binding AddSubPlanCommand}" Header="Добавить дочерний план" />
+				<MenuItem Command="{Binding AddSubFolderCommand}" Header="Добавить папку" />
 				<MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
 				<MenuItem Command="{Binding RemoveCommand}" Header="Удалить" />
 			</ContextMenu>
@@ -14,11 +15,12 @@
 			<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 				<Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />
 				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+				<Setter Property="Focusable" Value="False" />
 			</Style>
 		</Controls:TreeListView.ItemContainerStyle>
 		<Controls:TreeListView.Columns>
-			<GridViewColumn Width="250" DisplayMemberBinding="{Binding Plan.Caption}" Header="Название" />
-			<GridViewColumn DisplayMemberBinding="{Binding Plan.Description}" Header="Описание" />
+			<GridViewColumn Width="250" DisplayMemberBinding="{Binding Caption}" Header="Название" />
+			<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание" />
 		</Controls:TreeListView.Columns>
 	</Controls:TreeListView>
 </UserControl>

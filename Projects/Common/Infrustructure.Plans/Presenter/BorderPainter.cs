@@ -7,28 +7,31 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Presenter
 {
 	public class BorderPainter
 	{
-		//protected double Thickness { get { return 3 / PresenterItem.DesignerCanvas.Zoom; } }
-		//protected double ResizeMargin { get { return 3 / PresenterItem.DesignerCanvas.Zoom; } }
-
 		private ScaleTransform _transform;
-		private RectangleGeometry _geometry;
+		private PathGeometry _geometry;
 		private Pen _pen;
 		private PresenterItem _presenterItem;
-		private double _margin;
 
 		public BorderPainter()
 		{
 			var brush = new SolidColorBrush(Colors.Orange);
 			brush.Freeze();
-			_margin = 3;
 			_pen = new Pen(brush, 3);
-			_geometry = new RectangleGeometry();
 			_transform = new ScaleTransform(0, 0);
+			_geometry = new PathGeometry();
+			_geometry.FillRule = FillRule.EvenOdd;
+			var figure = new PathFigure();
+			var polyline = new PolyLineSegment();
+			polyline.IsStroked = true;
+			figure.Segments.Add(polyline);
+			figure.IsClosed = true;
+			_geometry.Figures.Add(figure);
 		}
 		public void Render(DrawingContext drawingContext)
 		{
@@ -39,7 +42,6 @@ namespace Infrustructure.Plans.Presenter
 		public void UpdateZoom(double zoom)
 		{
 			_pen.Thickness = 3 / zoom;
-			_margin = 3 / zoom;
 			UpdateBounds();
 		}
 		public void Hide()
@@ -60,8 +62,14 @@ namespace Infrustructure.Plans.Presenter
 		{
 			if (_presenterItem != null)
 			{
-				var rect = _presenterItem.Painter.Bounds;
-				_geometry.Rect = new Rect(rect.Left - _margin, rect.Top - _margin, rect.Width + 2 * _margin, rect.Height + 2 * _margin);
+				var points = _presenterItem.IsPoint ? PainterHelper.GetPoints(_presenterItem.GetRectangle(), _pen.Thickness / 2) : PainterHelper.GetRealPoints(_presenterItem.Element);
+				if (points.Count > 0)
+				{
+					var figure = _geometry.Figures[0];
+					figure.StartPoint = points[0];
+					var polyLine = (PolyLineSegment)figure.Segments[0];
+					polyLine.Points = points;
+				}
 			}
 		}
 	}

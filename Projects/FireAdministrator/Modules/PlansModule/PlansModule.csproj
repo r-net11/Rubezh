@@ -124,6 +124,7 @@
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
     <Compile Include="Designer\InstrumentAdorners\RubberbandAdorner.cs" />
+    <Compile Include="ElementProperties\ViewModels\FolderPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\PolylinePropertiesViewModel.cs" />
@@ -135,6 +136,9 @@
       <DependentUpon>EllipsePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\EllipsePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\FolderPropertiesView.xaml.cs">
+      <DependentUpon>FolderPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ElementProperties\Views\PolygonPropertiesView.xaml.cs">
       <DependentUpon>PolygonPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -263,6 +267,10 @@
     <Page Include="ElementProperties\Views\EllipsePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\FolderPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ElementProperties\Views\PolygonPropertiesView.xaml">
       <SubType>Designer</SubType>

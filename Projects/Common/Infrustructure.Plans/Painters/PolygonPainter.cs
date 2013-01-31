@@ -40,18 +40,6 @@ namespace Infrustructure.Plans.Painters
 					segment.Point = points[i];
 				}
 			}
-			//var points = PainterHelper.GetRealPoints(element);
-			//StreamGeometry geometry = new StreamGeometry();
-			//geometry.FillRule = FillRule.EvenOdd;
-			//if (points.Count > 0)
-			//    using (StreamGeometryContext context = geometry.Open())
-			//    {
-			//        context.BeginFigure(points[0], true, IsClosed);
-			//        for (int i = 1; i < points.Count; i++)
-			//            context.LineTo(points[i], true, false);
-			//        context.Close();
-			//    }
-			//return geometry;
 		}
 	}
 }

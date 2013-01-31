@@ -25,17 +25,18 @@ namespace Infrustructure.Plans.Painters
 			if (element is ElementBaseShape)
 				return ((ElementBaseShape)element).Points;
 			else if (element is ElementBaseRectangle)
-			{
-				var rect = element.GetRectangle();
-				return new PointCollection()
-				{
-					rect.TopLeft, 
-					rect.TopRight,
-					rect.BottomRight,
-					rect.BottomLeft
-				};
-			}
+				return GetPoints(element.GetRectangle());
 			return new PointCollection();
+		}
+		public static PointCollection GetPoints(Rect rect, double margin = 0)
+		{
+			return new PointCollection()
+				{
+					rect.TopLeft + new Vector(-margin, -margin), 
+					rect.TopRight + new Vector(margin, -margin),
+					rect.BottomRight + new Vector(margin, margin),
+					rect.BottomLeft + new Vector(-margin, margin)
+				};
 		}
 		public static PointCollection Normalize(Rect rectangle, double thickness)
 		{
