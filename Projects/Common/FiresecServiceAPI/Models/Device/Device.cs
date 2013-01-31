@@ -244,9 +244,8 @@ namespace FiresecAPI.Models
 			var parentPlaceInTree = Parent.GetPlaceInTree();
 			if (parentPlaceInTree == "")
 				return Parent.Children.IndexOf(this).ToString();
-			return parentPlaceInTree + @"\" + Parent.Children.IndexOf(this).ToString();
+			return parentPlaceInTree + @"\" + Parent.Children.IndexOf(Parent.Children.FirstOrDefault(x => x.UID == UID)).ToString();
 		}
-
 		public List<Device> AllParents
 		{
 			get
