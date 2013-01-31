@@ -18,6 +18,7 @@
             <StackPanel Visibility="{Binding SelectedDevice, Converter={StaticResource NullObjectToVisibiltyConverter}}">
                 <Button Content="Запросить журнал событий" Command = "{Binding ReadJournalCommand}" />
             </StackPanel>
+            <Button Content="Считать конфигурацию из файла" Command="{Binding GetConfigurationFromFileCommand}" />
         </StackPanel>
         <Grid Grid.Row="2" >
             <Grid>
