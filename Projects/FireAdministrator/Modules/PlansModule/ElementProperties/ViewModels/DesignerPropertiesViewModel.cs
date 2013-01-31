@@ -1,11 +1,13 @@
 ﻿using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace PlansModule.ViewModels
 {
 	public class DesignerPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		private const double MinSize = 10;
 		public Plan Plan { get; private set; }
 		public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
 

@@ -21,7 +21,7 @@
 
 				<ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" Minimum="0" />
             </Grid>
         </TabItem>
         <TabItem Header="Изображение">
