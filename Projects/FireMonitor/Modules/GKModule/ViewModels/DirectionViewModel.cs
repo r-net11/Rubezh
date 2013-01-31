@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Common.GK;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -21,15 +22,6 @@ namespace GKModule.ViewModels
 
 		public DirectionViewModel(XDirectionState directionState)
 		{
-			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
-			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
-			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
-			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
-			TurnOnCommand = new RelayCommand(OnTurnOn, CanControl);
-            TurnOffCommand = new RelayCommand(OnTurnOff, CanControl);
-            TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanControl);
-            TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanControl);
-
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 			DirectionState = directionState;
@@ -41,13 +33,16 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("ToolTip");
+			OnPropertyChanged("TimeLeft");
+			OnPropertyChanged("ShowTimeLeft");
 		}
 
 		public string ToolTip
 		{
 			get
 			{
-                var stringBuilder = new StringBuilder(Direction.PresentationName);
+                var stringBuilder = new StringBuilder();
+				stringBuilder.AppendLine(Direction.PresentationName);
 				stringBuilder.AppendLine("Состояние: " + DirectionState.StateClass.ToDescription());
 				foreach (var stateType in DirectionState.States)
 				{
@@ -58,81 +53,22 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand SetIgnoreCommand { get; private set; }
-		void OnSetIgnore()
+		public int TimeLeft
 		{
-			SendControlCommand(0x86);
-		}
-		bool CanSetIgnore()
-		{
-            return !DirectionState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
-		}
-
-		public RelayCommand ResetIgnoreCommand { get; private set; }
-		void OnResetIgnore()
-		{
-			SendControlCommand(0x06);
-		}
-		bool CanResetIgnore()
-		{
-            return DirectionState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
+			get
+			{
+				var additionalStateProperty = DirectionState.AdditionalStateProperties.FirstOrDefault(x => x.Name == "Задержка");
+				if (additionalStateProperty != null)
+				{
+					return additionalStateProperty.Value;
+				}
+				return 0;
+			}
 		}
 
-		public RelayCommand SetAutomaticCommand { get; private set; }
-		void OnSetAutomatic()
+		public bool ShowTimeLeft
 		{
-			SendControlCommand(0x80);
-		}
-		bool CanSetAutomatic()
-		{
-			return !Direction.DirectionState.States.Contains(XStateType.Norm);
-		}
-
-		public RelayCommand ResetAutomaticCommand { get; private set; }
-		void OnResetAutomatic()
-		{
-			SendControlCommand(0x00);
-		}
-		bool CanResetAutomatic()
-		{
-			return Direction.DirectionState.States.Contains(XStateType.Norm);
-		}
-
-		public RelayCommand TurnOnCommand { get; private set; }
-		void OnTurnOn()
-		{
-			SendControlCommand(0x8b);
-		}
-
-		public RelayCommand TurnOffCommand { get; private set; }
-		void OnTurnOff()
-		{
-			SendControlCommand(0x8d);
-		}
-
-		public RelayCommand TurnOnNowCommand { get; private set; }
-		void OnTurnOnNow()
-		{
-			SendControlCommand(0x90);
-		}
-
-		public RelayCommand TurnOffNowCommand { get; private set; }
-		void OnTurnOffNow()
-		{
-			SendControlCommand(0x91);
-		}
-
-        public bool CanControl()
-        {
-             return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
-        }
-
-		void SendControlCommand(byte code)
-		{
-			var bytes = new List<byte>();
-			bytes.AddRange(BytesHelper.ShortToBytes(Direction.GetDatabaseNo(DatabaseType.Gk)));
-			bytes.Add(code);
-            WatcherManager.Send(SendPriority.Normal, Direction.GkDatabaseParent, 3, 13, 0, bytes);
+			get { return TimeLeft > 0; }
 		}
 
         public RelayCommand ShowPropertiesCommand { get; private set; }

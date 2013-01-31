@@ -58,6 +58,15 @@ namespace GKModule
 
 				try
 				{
+					CheckNPT();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
+				}
+
+				try
+				{
 					PingJournal();
 				}
 				catch (Exception e)

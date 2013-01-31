@@ -10,11 +10,13 @@ namespace GKModule.ViewModels
     {
         public XDirection Direction { get; private set; }
         public XDirectionState DirectionState { get; private set; }
+		public DirectionViewModel DirectionViewModel { get; private set; }
 
         public DirectionDetailsViewModel(XDirection direction)
         {
             Direction = direction;
             DirectionState = Direction.DirectionState;
+			DirectionViewModel = new DirectionViewModel(DirectionState);
             DirectionState.StateChanged += new Action(OnStateChanged);
 
             SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);

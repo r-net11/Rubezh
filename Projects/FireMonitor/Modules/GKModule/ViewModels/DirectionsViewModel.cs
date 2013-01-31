@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		}
 
 		public List<DeviceViewModel> InputDevices { get; private set; }
-		public List<XDirectionZone> InputZones { get; private set; }
+		public List<DirectionZoneViewModel> InputZones { get; private set; }
 		public List<DeviceViewModel> OutputDevices { get; private set; }
 
 		void InitializeInputOutputObjects()
@@ -67,7 +67,16 @@ namespace GKModule.ViewModels
             }
             OnPropertyChanged("InputDevices");
 
-			InputZones = SelectedDirection.Direction.DirectionZones;
+			InputZones = new List<DirectionZoneViewModel>();
+			foreach (var directionZone in SelectedDirection.Direction.DirectionZones)
+			{
+				if (directionZone.Zone.ZoneState != null)
+				{
+					var directionZoneViewModel = new DirectionZoneViewModel(directionZone.Zone.ZoneState);
+					directionZoneViewModel.StateType = directionZone.StateType;
+					InputZones.Add(directionZoneViewModel);
+				}
+			}
             OnPropertyChanged("InputZones");
 
             OutputDevices = new List<DeviceViewModel>();

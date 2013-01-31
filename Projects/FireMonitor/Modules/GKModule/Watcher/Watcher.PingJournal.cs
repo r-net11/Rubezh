@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule
 {
@@ -121,6 +122,17 @@ namespace GKModule
 							journalItem.Name = property.StringValue;
 						}
 					}
+				}
+			}
+		}
+
+		void CheckNPT()
+		{
+			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			{
+				if (direction.DirectionState.StateClass == XStateClass.TurningOn)
+				{
+					GetState(direction, direction.GkDatabaseParent);
 				}
 			}
 		}

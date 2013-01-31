@@ -27,6 +27,7 @@ namespace Common.GK
 
 		void SetAdditionalParameters(List<byte> bytes)
 		{
+			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<string>();
 			var additionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)
@@ -63,8 +64,18 @@ namespace Common.GK
 			{
 				if (TypeNo == 0x106)
 				{
-					AdditionalStates.Add("Задержка: " + additionalShortParameters[0].ToString());
-					AdditionalStates.Add("Удержание: " + additionalShortParameters[1].ToString());
+					var property1 = new AdditionalXStateProperty()
+					{
+						Name = "Задержка",
+						Value = additionalShortParameters[0]
+					};
+					AdditionalStateProperties.Add(property1);
+					var property2 = new AdditionalXStateProperty()
+					{
+						Name = "Удержание",
+						Value = additionalShortParameters[1]
+					};
+					AdditionalStateProperties.Add(property2);
 				}
 			}
 		}
@@ -78,5 +89,6 @@ namespace Common.GK
 		public ushort TypeNo { get; private set; }
 		public List<XStateType> States { get; private set; }
 		public List<string> AdditionalStates { get; private set; }
+		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
 	}
 }
