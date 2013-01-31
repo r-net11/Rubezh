@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using System.IO;
@@ -41,7 +39,6 @@ namespace ClientFS2
 		{
 			DeviceConfiguration.Update();
 			DeviceConfiguration.Reorder();
-
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
@@ -50,10 +47,8 @@ namespace ClientFS2
 					continue;
 				}
 			}
-
 			DeviceConfiguration.InvalidateConfiguration();
 			DeviceConfiguration.UpdateCrossReferences();
-
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.UpdateHasExternalDevices();
