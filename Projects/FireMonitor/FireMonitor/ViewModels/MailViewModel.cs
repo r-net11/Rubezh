@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Mail;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrastructure.Common;
 
 namespace FireMonitor.ViewModels
 {
@@ -33,51 +32,59 @@ namespace FireMonitor.ViewModels
 			}
 		}
 
-		string message;
-
 		public void OnZonesStateChanged(System.Guid guid)
 		{
 			if (!IsMailOn)
 				return;
+
 			foreach (var zone in FiresecManager.Zones)
 			{
 				foreach (var email in FiresecManager.SystemConfiguration.EmailData.Emails)
 				{
-					if (email.Zones.Contains(zone.UID) &&
-						email.States.Contains(zone.ZoneState.StateType) &&
-						IsStateChanged(zone))
+					if (email.Zones.Contains(zone.UID))
 					{
-						message = " Изменение состояния зоны " +
-							zone.PresentationName +
-							" на состояние " +
-							zone.ZoneState.StateType.ToDescription();
-						MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, email.Address, message, email.MessageTitle);
-						//Trace.WriteLine(email.Address + message);
+						if (!email.States.Contains(zone.ZoneState.StateType))
+							email.IsActivated = false;
+						else if (!email.IsActivated)
+						{
+							Notify(zone, email);
+							email.IsActivated = true;
+						}
 					}
 				}
 			}
 		}
 
-		private bool IsStateChanged(Zone zone)
+		private void Notify(Zone zone, Email email)
 		{
-			//return true;
-			if (!zoneStates.ContainsKey(zone))
-			{
-				zoneStates.Add(zone, zone.ZoneState.StateType);
-				return true;
-			}
-			KeyValuePair<Zone, StateType> kvp = zoneStates.FirstOrDefault(x => x.Key == zone);
-			if (kvp.Value == zone.ZoneState.StateType)
-				return false;
-			else
-			{
-				zoneStates.Remove(zone);
-				zoneStates.Add(zone, zone.ZoneState.StateType);
-				return true;
-			}
+			string message = " Изменение состояния зоны " +
+				zone.PresentationName +
+				" на состояние " +
+				zone.ZoneState.StateType.ToDescription();
+			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, email.Address, message, email.MessageTitle);
 		}
 
+		//private bool IsStateChanged(Zone zone)
+		//{
+		//    //return true;
+		//    if (!zoneStates.ContainsKey(zone))
+		//    {
+		//        zoneStates.Add(zone, zone.ZoneState.StateType);
+		//        return true;
+		//    }
+		//    KeyValuePair<Zone, StateType> kvp = zoneStates.FirstOrDefault(x => x.Key == zone);
+		//    if (kvp.Value == zone.ZoneState.StateType)
+		//        return false;
+		//    else
+		//    {
+		//        zoneStates.Remove(zone);
+		//        zoneStates.Add(zone, zone.ZoneState.StateType);
+		//        return true;
+		//    }
+		//}
+
 		bool _isMailOn;
+
 		public bool IsMailOn
 		{
 			get { return _isMailOn; }
@@ -89,7 +96,8 @@ namespace FireMonitor.ViewModels
 		}
 
 		public RelayCommand EnableCommand { get; private set; }
-		void OnEnable()
+
+		private void OnEnable()
 		{
 			if (IsMailOn)
 			{

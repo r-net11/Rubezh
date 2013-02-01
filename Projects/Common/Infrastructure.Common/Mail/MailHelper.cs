@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Windows;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.Mail
 {
@@ -25,7 +25,7 @@ namespace Infrastructure.Common.Mail
 				}
 				else
 				{
-					MessageBox.Show("Неверно заданы параметры smtp-сервера");
+					MessageBoxService.ShowError("Неверно заданы параметры smtp-сервера");
 				}
 			}
 			catch (Exception ex)
@@ -48,7 +48,7 @@ namespace Infrastructure.Common.Mail
 			return presenrationStates.ToString();
 		}
 
-		static bool IsValidEmailSettings(EmailSettings emailSettings)
+		private static bool IsValidEmailSettings(EmailSettings emailSettings)
 		{
 			return !(emailSettings == null ||
 				emailSettings.Ip == null ||

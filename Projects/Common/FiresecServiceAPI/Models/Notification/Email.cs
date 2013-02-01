@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
 		{
 			States = new List<StateType>();
 			Zones = new List<Guid>();
+			IsActivated = false;
 		}
 
 		[DataMember]
@@ -27,5 +28,7 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string MessageTitle { get; set; }
+
+		public bool IsActivated { get; set; }
 	}
 }

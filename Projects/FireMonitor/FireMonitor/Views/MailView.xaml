@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="FireMonitor.Views.MailView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"             
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Button Command="{Binding EnableCommand}" ToolTip="Вкл/Выкл оповещение по e-mail" Style="{StaticResource ToolBarButtonStyle}">
         <ContentControl>
@@ -19,7 +19,7 @@
                             <DataTrigger.Setters>
                                 <Setter Property="ContentControl.Content">
                                     <Setter.Value>
-                                        <Image Source="/Controls;component/Images/Empty.png" Opacity="0.5" />
+                                        <Image Source="/Controls;component/Images/Close.png" Opacity="0.5" />
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger.Setters>
