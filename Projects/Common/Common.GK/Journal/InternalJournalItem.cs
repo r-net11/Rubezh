@@ -200,7 +200,7 @@ namespace Common.GK
                             EventDescription = BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
                             break;
                         case 2:
-                            EventName = "Пожар";
+                            EventName = "Пожар-1";
                             EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
                             EventDescription = StringHelper.ToFire(bytes[32 + 15]);
                             break;

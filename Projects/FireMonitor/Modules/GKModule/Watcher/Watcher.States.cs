@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Threading;
 
 namespace GKModule
 {
@@ -15,7 +16,7 @@ namespace GKModule
 			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
 			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
-				bool result = GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
+				bool result = GetState(binaryObject.BinaryBase);
 				if (!result)
 				{
 					if (binaryObject.Device != null && binaryObject.Device.Driver.DriverType == XDriverType.GK)
@@ -30,21 +31,10 @@ namespace GKModule
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
 		}
 
-		void GetGKAndKauStates()
-		{
-			foreach (var binaryObject in GkDatabase.BinaryObjects)
-			{
-				if (binaryObject.Device != null && binaryObject.Device.Driver.DriverType == XDriverType.GK || binaryObject.Device.Driver.DriverType == XDriverType.KAU)
-				{
-					GetState(binaryObject.BinaryBase, GkDatabase.RootDevice);
-				}
-			}
-		}
-
-		bool GetState(XBinaryBase binaryBase, XDevice gkParent)
+		bool GetState(XBinaryBase binaryBase)
 		{
 			var no = binaryBase.GetDatabaseNo(DatabaseType.Gk);
-			var sendResult = SendManager.Send(gkParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
+			var sendResult = SendManager.Send(binaryBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);
@@ -53,22 +43,31 @@ namespace GKModule
 			if (sendResult.Bytes.Count != 68)
 			{
 				ApplicationService.Invoke(() => { binaryBase.GetXBaseState().IsMissmatch = true; });
-				ConnectionChanged(false);
 				return false;
 			}
 			ConnectionChanged(true);
 			var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
 			CheckDBMissmatch(binaryBase, binaryObjectState);
-			ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState); });
+			ApplicationService.Invoke(() =>
+			{
+				var binaryState = binaryBase.GetXBaseState();
+				binaryState.States = binaryObjectState.States;
+				binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
+				binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
+			});
 			return true;
 		}
 
-		void SetObjectStates(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
+		void CheckAdditionalStates(BinaryObjectBase binaryObject)
 		{
-			var binaryState = binaryBase.GetXBaseState();
-			binaryState.States = binaryObjectState.States;
-			binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
-			binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
+			if (binaryObject is DeviceBinaryObject)
+			{
+				var deviceBinaryObject = binaryObject as DeviceBinaryObject;
+				if (deviceBinaryObject.Device.Driver.DriverType == XDriverType.GK || deviceBinaryObject.Device.Driver.DriverType == XDriverType.KAU)
+				{
+					GetState(binaryObject.BinaryBase);
+				}
+			}
 		}
 
 		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
@@ -79,9 +78,14 @@ namespace GKModule
 				var device = binaryBase as XDevice;
 				if (device.Driver.DriverTypeNo != binaryObjectState.TypeNo)
 					isMissmatch = true;
+
+				ushort physicalAddress = device.IntAddress;
+				if (device.Driver.IsDeviceOnShleif)
+					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
 				if (device.Driver.HasAddress && device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU
-					&& device.IntAddress != binaryObjectState.PhysicalAddress)
+					&& physicalAddress != binaryObjectState.PhysicalAddress)
 					isMissmatch = true;
+
 				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOncontroller)
 					isMissmatch = true;
 			}

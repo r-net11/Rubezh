@@ -7,6 +7,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Threading;
 using System.ComponentModel;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace GKModule.ViewModels
 {
@@ -28,9 +30,9 @@ namespace GKModule.ViewModels
 
             Title = Device.Driver.ShortName + " " + Device.DottedAddress;
             TopMost = true;
-			BackgroundWorker bw = new BackgroundWorker();
-			bw.DoWork += new DoWorkEventHandler(UpdateAuParameters);
-			bw.RunWorkerAsync();
+			var backgroundWorker = new BackgroundWorker();
+			backgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
+			backgroundWorker.RunWorkerAsync();
         }
 
         void OnStateChanged()

@@ -83,6 +83,7 @@ namespace GKModule
                     if (binaryObject != null)
                     {
 						ChangeAM1TMessage(binaryObject, journalItem);
+						CheckAdditionalStates(binaryObject);
                         ApplicationService.Invoke(() =>
                         {
 							CheckServiceRequired(binaryObject.BinaryBase, journalItem);
@@ -106,20 +107,23 @@ namespace GKModule
 				var device = binaryObjectBase.Device;
 				if (device.Driver.DriverType == XDriverType.AM1_T)
 				{
-					if (journalItem.Name == "Сработка")
+					if (journalItem.Name == "Пожар-1")
 					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
-						if (property != null)
+						if (journalItem.YesNo)
 						{
-							journalItem.Name = property.StringValue;
+							var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+							if (property != null)
+							{
+								journalItem.Name = property.StringValue;
+							}
 						}
-					}
-					else if (journalItem.Name == "Норма")
-					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
-						if (property != null)
+						else
 						{
-							journalItem.Name = property.StringValue;
+							var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
+							if (property != null)
+							{
+								journalItem.Name = property.StringValue;
+							}
 						}
 					}
 				}
@@ -132,7 +136,7 @@ namespace GKModule
 			{
 				if (direction.DirectionState.StateClass == XStateClass.TurningOn)
 				{
-					GetState(direction, direction.GkDatabaseParent);
+					GetState(direction);
 				}
 			}
 		}

@@ -78,15 +78,15 @@ namespace GKModule.ViewModels
         public RelayCommand SetAutomaticStateCommand { get; private set; }
         void OnSetAutomaticState()
         {
-            SendControlCommand(0x80);
-            SendControlCommand(0x06);
+			SendControlCommand(0x06);
+			SendControlCommand(0x92);
         }
 
         public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
         {
-            SendControlCommand(0x00);
-            SendControlCommand(0x06);
+			SendControlCommand(0x06);
+			SendControlCommand(0x93);
         }
 
         public RelayCommand SetIgnoreStateCommand { get; private set; }

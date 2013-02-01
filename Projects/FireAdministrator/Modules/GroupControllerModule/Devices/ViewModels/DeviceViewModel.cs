@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 				parent.Children.Remove(this);
 				parent.Update();
 
-				ServiceFactory.SaveService.FSChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 
 				index = Math.Min(index, parent.Children.Count - 1);
 				DevicesViewModel.Current.AllDevices.Remove(this);
@@ -316,7 +316,7 @@ namespace GKModule.ViewModels
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
 					Update();
-					ServiceFactory.SaveService.FSChanged = true;
+					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
 		}
