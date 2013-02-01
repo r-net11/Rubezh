@@ -19,27 +19,5 @@ namespace Infrastructure.Common
                 return windowsPrincipal.IsInRole(WindowsBuiltInRole.Administrator);
             }
         }
-
-        public static RegistryKey CreateSubKey(string name)
-        {
-            if (!IsAdministrator)
-                return null;
-
-            string user = Environment.UserDomainName + "\\" + Environment.UserName;
-            var registrySecurity = new RegistrySecurity();
-            registrySecurity.AddAccessRule(new RegistryAccessRule(user,
-                RegistryRights.WriteKey | RegistryRights.ChangePermissions,
-                InheritanceFlags.None, PropagationFlags.None, AccessControlType.Deny));
-
-            try
-            {
-                RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(name, RegistryKeyPermissionCheck.Default);
-                return registryKey;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return null;
-            }
-        }
     }
 }

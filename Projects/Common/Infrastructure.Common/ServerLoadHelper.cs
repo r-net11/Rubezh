@@ -14,12 +14,12 @@ namespace Infrastructure.Common
 		public static void SetLocation(string path)
 		{
 			var stackTrace = GetStackTrace();
-			RegistrySettingsHelper.Set("FiresecServerPath", path);
+			RegistrySettingsHelper.SetString("FiresecServerPath", path);
 		}
 
 		public static string GetLocation()
 		{
-			var value = RegistrySettingsHelper.Get("FiresecServerPath");
+			var value = RegistrySettingsHelper.GetString("FiresecServerPath");
 			if (value != null)
 			{
 				if (File.Exists((string)value))
@@ -30,20 +30,17 @@ namespace Infrastructure.Common
 
 		public static void SetStatus(FSServerState fsServerState)
 		{
-			RegistrySettingsHelper.Set("FiresecServiceState", fsServerState.ToString());
+			RegistrySettingsHelper.SetInt("FiresecServiceState", (int)fsServerState);
 		}
 
 		public static FSServerState GetStatus()
 		{
-			var value = RegistrySettingsHelper.Get("FiresecServiceState");
-			if (value != null)
+			var value = RegistrySettingsHelper.GetInt("FiresecServiceState");
+			try
 			{
-				try
-				{
-					return (FSServerState)Enum.Parse(typeof(FSServerState), value);
-				}
-				catch { }
+				return (FSServerState)value;
 			}
+			catch { }
 			return FSServerState.Closed;
 		}
 

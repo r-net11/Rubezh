@@ -85,8 +85,7 @@ namespace FireMonitor
 					ProgressWatcher.Run();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
-						RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-						saveKey.SetValue("isException", true);
+						RegistrySettingsHelper.SetBool("isException", true);
 					}
 				}
 				catch (Exception e)

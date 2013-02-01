@@ -11,14 +11,14 @@ namespace Infrastructure.Common.Theme
 
 		public static void SetThemeIntoRegister(Theme selectedTheme)
 		{
-			RegistrySettingsHelper.Set("Theme", selectedTheme.ToString());
+			RegistrySettingsHelper.SetString("Theme", selectedTheme.ToString());
 		}
 
 		public static void LoadThemeFromRegister()
 		{
 			try
 			{
-				CurrentTheme = RegistrySettingsHelper.Get("Theme");
+				CurrentTheme = RegistrySettingsHelper.GetString("Theme");
 				if (String.IsNullOrEmpty(CurrentTheme))
 					CurrentTheme = "BlueTheme";
 				var themePath = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + CurrentTheme + ".xaml";

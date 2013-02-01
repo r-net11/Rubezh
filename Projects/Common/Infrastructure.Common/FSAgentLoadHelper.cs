@@ -12,12 +12,12 @@ namespace Infrastructure.Common
 	{
 		public static void SetLocation(string path)
 		{
-			RegistrySettingsHelper.Set("FSAgentServerPath", path);
+			RegistrySettingsHelper.SetString("FSAgentServerPath", path);
 		}
 
 		public static string GetLocation()
 		{
-			var value = RegistrySettingsHelper.Get("FSAgentServerPath");
+			var value = RegistrySettingsHelper.GetString("FSAgentServerPath");
 			if (value != null)
 			{
 				if (File.Exists((string)value))
@@ -28,20 +28,17 @@ namespace Infrastructure.Common
 
 		public static void SetStatus(FSAgentState fsAgentState)
 		{
-			RegistrySettingsHelper.Set("FSAgentServerState", fsAgentState.ToString());
+			RegistrySettingsHelper.SetInt("FSAgentServerState", (int)fsAgentState);
 		}
 
 		public static FSAgentState GetStatus()
 		{
-			var value = RegistrySettingsHelper.Get("FSAgentServerState");
-			if (value != null)
+			var value = RegistrySettingsHelper.GetInt("FSAgentServerState");
+			try
 			{
-				try
-				{
-					return (FSAgentState)Enum.Parse(typeof(FSAgentState), value);
-				}
-				catch { }
+				return (FSAgentState)value;
 			}
+			catch { }
 			return FSAgentState.Closed;
 		}
 
