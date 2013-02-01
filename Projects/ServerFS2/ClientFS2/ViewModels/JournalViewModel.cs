@@ -7,12 +7,11 @@ namespace ClientFS2.ViewModels
 {
     public class JournalViewModel : DialogViewModel
     {
-        public JournalViewModel(Device device)
+		public JournalViewModel(List<JournalItem> journalItems)
         {
             Title = "Журнал событий";
-            JournalInitialize(device.JournalItems);
+            JournalInitialize(journalItems);
         }
-
         void JournalInitialize(List<JournalItem> journalItems)
         {
             JournalItems = new ObservableCollection<JournalItem>();
@@ -22,7 +21,6 @@ namespace ClientFS2.ViewModels
             }
             OnPropertyChanged("JournalItems");
         }
-
         public ObservableCollection<JournalItem> JournalItems { get; set; }
     }
 }
