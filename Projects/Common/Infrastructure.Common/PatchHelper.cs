@@ -10,21 +10,12 @@ namespace Infrastructure.Common
 	{
 		public static int GetPatchNo(string applicationName)
 		{
-			var value = RegistrySettingsHelper.Get(applicationName);
-			if (value != null)
-			{
-				try
-				{
-					return int.Parse(value);
-				}
-				catch { }
-			}
-			return 0;
+			return RegistrySettingsHelper.GetInt(applicationName);
 		}
 
 		public static void SetPatchNo(string applicationName, int value)
 		{
-			RegistrySettingsHelper.Set(applicationName, value.ToString());
+			RegistrySettingsHelper.SetInt(applicationName, value);
 		}
 	}
 }

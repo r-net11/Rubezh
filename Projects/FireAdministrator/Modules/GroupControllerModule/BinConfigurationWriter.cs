@@ -144,7 +144,7 @@ namespace GKModule
                     if (sendResult.Bytes.Count > 0)
                     {
                         var version = sendResult.Bytes[0];
-                        if (version >= 0x80)
+                        if (version >= 127)
                         {
                             return;
                         }
@@ -169,7 +169,7 @@ namespace GKModule
                     if (sendResult.Bytes.Count > 0)
                     {
                         var version = sendResult.Bytes[0];
-                        if (version < 0x80)
+                        if (version < 127)
                         {
                             return;
                         }

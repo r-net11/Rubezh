@@ -9,10 +9,10 @@ namespace Infrastructure.Common
 	{
 		public static void Load()
 		{
-			RegistrySettingsHelper.Set("IsException", false.ToString());
+			RegistrySettingsHelper.SetBool("IsException", false);
 
 			var proc = Process.GetProcessesByName("Revisor");
-			var revisorpath = RegistrySettingsHelper.Get("RevisorPath");
+			var revisorpath = RegistrySettingsHelper.GetString("RevisorPath");
 			if (String.IsNullOrEmpty(revisorpath))
 			{
 				revisorpath = @"Revisor.exe";

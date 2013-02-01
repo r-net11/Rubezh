@@ -1,11 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
-using Device = ServerFS2.Device;
+using FiresecClient;
+using Device = FiresecAPI.Models.Device;
+
 
 namespace ClientFS2.ViewModels
 {
@@ -58,13 +61,12 @@ namespace ClientFS2.ViewModels
         void OnReadJournal()
         {
             var device = SelectedDevice;
-            ServerHelper.GetJournalItems(device);
-            ShowJournal(device);
+			ShowJournal(ServerHelper.GetJournalItems(device));
         }
 
-        static void ShowJournal(Device device)
+        static void ShowJournal(List<JournalItem> journalItems)
         {
-            DialogService.ShowModalWindow(new JournalViewModel(device));
+			DialogService.ShowModalWindow(new JournalViewModel(journalItems));
         }
 
         public RelayCommand ShowDevicesTreeCommand { get; private set; }
@@ -80,9 +82,8 @@ namespace ClientFS2.ViewModels
                    .Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
             var inbytes = ServerHelper.SendRequest(bytes);
             foreach (var b in inbytes)
-                TextBoxResponse += b.ToString("X2") + " ";
+                TextBoxResponse += b.ToString ("X2") + " ";
         }
-
         public RelayCommand AutoDetectDeviceCommand { get; private set; }
         private void OnAutoDetectDevice()
         {

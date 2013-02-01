@@ -11,10 +11,8 @@ namespace Revisor
 	{
 		public RevisorViewModel()
 		{
-			RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
 			var path = System.Reflection.Assembly.GetExecutingAssembly();
-			saveKey.SetValue("RevisorPath", path.Location);
-			saveKey.Close();
+			RegistrySettingsHelper.SetString("RevisorPath", path.Location);
 			StartLifetimeThread();
 			StartCommand = new RelayCommand(OnStart);
 			StopCommand = new RelayCommand(OnStop);
@@ -25,10 +23,8 @@ namespace Revisor
 			{
 				try
 				{
-					RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Firesec-2");
-					var firemonitorpath = (string)readKey.GetValue("FireMonitorPath");
-					var isException = readKey.GetValue("isException");
-					readKey.Close();
+					var firemonitorpath = (string)RegistrySettingsHelper.GetString("FireMonitorPath");
+					var isException = RegistrySettingsHelper.GetBool("isException");
 
 					if (!String.IsNullOrEmpty(firemonitorpath))
 					{
@@ -37,10 +33,8 @@ namespace Revisor
 						if (isException != null)
 							if ((processes.Count() == 0) && (isException.Equals("True")))// && (processes2.Count() == 0))
 							{
-								RegistryKey savekey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-								savekey.SetValue("isAutoConnect", true);
+								RegistrySettingsHelper.SetBool("isAutoConnect", true);
 								Process.Start(firemonitorpath);
-								savekey.Close();
 							}
 					}
 				}

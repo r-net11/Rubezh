@@ -8,6 +8,12 @@ namespace XFiresecAPI
 {
 	public abstract class XBaseState
 	{
+		public XBaseState()
+		{
+			AdditionalStates = new List<string>();
+			AdditionalStateProperties = new List<AdditionalXStateProperty>();
+		}
+
 		public event Action StateChanged;
 		protected void OnStateChanged()
 		{
@@ -44,9 +50,30 @@ namespace XFiresecAPI
 		}
 
 		public abstract List<XStateType> States { get; set; }
-		public List<string> AdditionalStates { get; set; }
 		public abstract List<XStateClass> StateClasses { get; }
 		public abstract XStateClass StateClass { get; }
 		public abstract StateType GetStateType();
+
+		List<string> _additionalStates;
+		public List<string> AdditionalStates
+		{
+			get { return _additionalStates; }
+			set
+			{
+				_additionalStates = value;
+				OnStateChanged();
+			}
+		}
+
+		List<AdditionalXStateProperty> _additionalStateProperties;
+		public List<AdditionalXStateProperty> AdditionalStateProperties
+		{
+			get { return _additionalStateProperties; }
+			set
+			{
+				_additionalStateProperties = value;
+				OnStateChanged();
+			}
+		}
 	}
 }

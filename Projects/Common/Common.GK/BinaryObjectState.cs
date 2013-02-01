@@ -27,6 +27,7 @@ namespace Common.GK
 
 		void SetAdditionalParameters(List<byte> bytes)
 		{
+			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<string>();
 			var additionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)
@@ -40,12 +41,41 @@ namespace Common.GK
 				switch (Driver.DriverType)
 				{
 					case XDriverType.KAU:
-						AdditionalStates.Add("Питание 1: " + additionalShortParameters[2].ToString());
-						AdditionalStates.Add("Питание 2: " + additionalShortParameters[3].ToString());
+						var bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AdditionalStates.Add("Неисправность питания 1");
+						if (bitArray[1])
+							AdditionalStates.Add("Неисправность питания 2");
+						if (bitArray[2])
+							AdditionalStates.Add("Отказ АЛС 1 или 2");
+						if (bitArray[3])
+							AdditionalStates.Add("Отказ АЛС 3 или 4");
+						if (bitArray[4])
+							AdditionalStates.Add("Отказ АЛС 5 или 6");
+						if (bitArray[5])
+							AdditionalStates.Add("Отказ АЛС 7 или 8");
+						if (bitArray[6])
+							AdditionalStates.Add("Вскрытие");
+						if (bitArray[8])
+							AdditionalStates.Add("Короткое замыкание АЛС 1");
+						if (bitArray[9])
+							AdditionalStates.Add("Короткое замыкание АЛС 2");
+						if (bitArray[10])
+							AdditionalStates.Add("Короткое замыкание АЛС 3");
+						if (bitArray[11])
+							AdditionalStates.Add("Короткое замыкание АЛС 4");
+						if (bitArray[12])
+							AdditionalStates.Add("Короткое замыкание АЛС 5");
+						if (bitArray[13])
+							AdditionalStates.Add("Короткое замыкание АЛС 6");
+						if (bitArray[14])
+							AdditionalStates.Add("Короткое замыкание АЛС 7");
+						if (bitArray[15])
+							AdditionalStates.Add("Короткое замыкание АЛС 8");
 						break;
 
 					case XDriverType.GK:
-						var bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[0])
 							AdditionalStates.Add("Неисправность питания 1");
 						if (bitArray[1])
@@ -63,8 +93,18 @@ namespace Common.GK
 			{
 				if (TypeNo == 0x106)
 				{
-					AdditionalStates.Add("Задержка: " + additionalShortParameters[0].ToString());
-					AdditionalStates.Add("Удержание: " + additionalShortParameters[1].ToString());
+					var property1 = new AdditionalXStateProperty()
+					{
+						Name = "Задержка",
+						Value = additionalShortParameters[0]
+					};
+					AdditionalStateProperties.Add(property1);
+					var property2 = new AdditionalXStateProperty()
+					{
+						Name = "Удержание",
+						Value = additionalShortParameters[1]
+					};
+					AdditionalStateProperties.Add(property2);
 				}
 			}
 		}
@@ -78,5 +118,6 @@ namespace Common.GK
 		public ushort TypeNo { get; private set; }
 		public List<XStateType> States { get; private set; }
 		public List<string> AdditionalStates { get; private set; }
+		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
 	}
 }

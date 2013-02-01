@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Diagnostics;
 using System.Collections;
+using Device = FiresecAPI.Models.Device;
 using FiresecAPI;
 
 namespace ServerFS2
@@ -91,9 +92,10 @@ namespace ServerFS2
             UsbRequests.Add(usbRequest);
             return UsbRunner.AddRequest(bytes);
         }
-        public static void GetSecJournalItems2Op(Device device)
+		public static List<JournalItem> GetSecJournalItems2Op(Device device)
         {
             int lastindex = GetLastSecJournalItemId2Op(device);
+			var journlaItems = new List<JournalItem>();
             for (int i = 0; i <= lastindex; i++)
             {
                 var bytes = new List<byte>();
@@ -104,15 +106,16 @@ namespace ServerFS2
                 bytes.Add(0x20);
                 bytes.Add(0x02);
                 bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-                ParseJournal(SendCode(bytes).Result.Data, device.SecJournalItems);
+				ParseJournal(SendCode(bytes).Result.Data, journlaItems);
             }
-            device.SecJournalItems = device.SecJournalItems.OrderByDescending(x => x.IntDate).ToList();
+			journlaItems = journlaItems.OrderByDescending(x => x.IntDate).ToList();
             int no = 0;
-            foreach (var item in device.SecJournalItems)
+			foreach (var item in journlaItems)
             {
                 no++;
                 item.No = no;
             }
+			return journlaItems;
         }
         public static int GetLastSecJournalItemId2Op(Device device)
         {
@@ -185,14 +188,16 @@ namespace ServerFS2
                 throw;
             }
         }
-        public static void GetJournalItems(Device device)
+		public static List<JournalItem> GetJournalItems(Device device)
         {
             int lastindex = GetLastJournalItemId(device);
             int firstindex = GetFirstJournalItemId(device);
+			var journalItems = new List<JournalItem>();
+			var secJournalItems = new List<JournalItem>();
             if (device.Name == "Прибор РУБЕЖ-2ОП")
             {
                 firstindex = 0;
-                GetSecJournalItems2Op(device);
+                secJournalItems = GetSecJournalItems2Op(device);
             }
             for (int i = firstindex; i <= lastindex; i++)
             {
@@ -204,15 +209,16 @@ namespace ServerFS2
                 bytes.Add(0x20);
                 bytes.Add(0x00);
                 bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-                ParseJournal(SendCode(bytes).Result.Data, device.JournalItems);
+				ParseJournal(SendCode(bytes).Result.Data, journalItems);
             }
             int no = 0;
-            foreach (var item in device.JournalItems)
+			foreach (var item in journalItems)
             {
                 no++;
                 item.No = no;
             }
-            device.SecJournalItems.ForEach(x => device.JournalItems.Add(x));
+			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
+			return journalItems;
         }
         public static void AutoDetectDevice(ObservableCollection<Device> devices)
         {
@@ -260,9 +266,12 @@ namespace ServerFS2
                         bytes.Add(0xF4);
                         bytes.Add(0x0B);
                         inputBytes = SendCode(bytes).Result.Data;
-                        for (int i = 7; i <= 18; i++)
-                            device.SerialNo += inputBytes[i] - 0x30 + ".";
-                        device.SerialNo = device.SerialNo.Remove(device.SerialNo.Length - 1);
+						if (inputBytes.Count >= 18)
+						{
+							for (int i = 7; i <= 18; i++)
+								device.SerialNo += inputBytes[i] - 0x30 + ".";
+							device.SerialNo = device.SerialNo.Remove(device.SerialNo.Length - 1);
+						}
                         device.UsbChannel = sleif - 2;
                         devices.Add(device);
                     }
@@ -274,7 +283,10 @@ namespace ServerFS2
         }
         public static void GetDeviceParameters(Device device)
         {
-            
+			var bytes = new List<byte>();
+			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+			bytes.Add((byte)(device.UsbChannel + 2));
+
         }
     }
     class UsbRequest

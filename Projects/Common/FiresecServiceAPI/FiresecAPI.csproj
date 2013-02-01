@@ -269,6 +269,7 @@
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
+    <Compile Include="XModels\States\AdditionalXStateProperty.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDeviceState.cs" />
     <Compile Include="XModels\States\XDirectionState.cs" />

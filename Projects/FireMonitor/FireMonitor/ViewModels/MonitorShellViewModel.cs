@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using Infrastructure.Common;
 
 namespace FireMonitor.ViewModels
 {
@@ -20,7 +21,7 @@ namespace FireMonitor.ViewModels
 			ContentFotter = new UserFotterViewModel();
 			Height = 700;
 			Width = 1100;
-            MinWidth = 980;
+			MinWidth = 980;
 			MinHeight = 550;
 			//HideInTaskbar = App.IsMulticlient;
 			if (RegistryHelper.IsIntegrated)
@@ -39,37 +40,35 @@ namespace FireMonitor.ViewModels
 				return true;
 			}
 
-            if (App.IsClosingOnException)
-            {
+			if (App.IsClosingOnException)
+			{
 #if DEBUG
-                return false;
+				return false;
 #endif
-                Process.GetCurrentProcess().Kill();
-                return false;
-            }
-		    if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
-            {
-                MessageBoxService.Show("Нет прав для выхода из программы");
-                return true;
-            }
-            var result = MessageBoxService.ShowConfirmation("Вы действительно хотите выйти из программы?");
-            if (result == MessageBoxResult.No)
-                return true;
-            if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))
-            {
-                try
-                {
-                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                    saveKey.SetValue("isException", false);
-                    saveKey.Close();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "MonitorShellViewModel.OnClosing");
-                }
-                return false;
-            }
-		    return !ServiceFactory.SecurityService.Validate();
+				Process.GetCurrentProcess().Kill();
+				return false;
+			}
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
+			{
+				MessageBoxService.Show("Нет прав для выхода из программы");
+				return true;
+			}
+			var result = MessageBoxService.ShowConfirmation("Вы действительно хотите выйти из программы?");
+			if (result == MessageBoxResult.No)
+				return true;
+			if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))
+			{
+				try
+				{
+					RegistrySettingsHelper.SetBool("isException", false);
+				}
+				catch (Exception ex)
+				{
+					Logger.Error(ex, "MonitorShellViewModel.OnClosing");
+				}
+				return false;
+			}
+			return !ServiceFactory.SecurityService.Validate();
 		}
 		public override void OnClosed()
 		{

@@ -45,75 +45,71 @@ namespace FireMonitor
 			PatchManager.Patch();
 		}
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-            try
-            {
-                InitializeCommandLineArguments(e.Args);
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+			try
+			{
+				InitializeCommandLineArguments(e.Args);
 
-                ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-                ThemeHelper.LoadThemeFromRegister();
+				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+				ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
 				AppSettingsManager.AutoConnect = true;
-                bool trace = false;
-                BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
+				bool trace = false;
+				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-                _bootstrapper = new Bootstrapper();
-                using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
-                    _bootstrapper.Initialize();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "App.OnStartup");
-                MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
-            }
+				_bootstrapper = new Bootstrapper();
+				using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
+					_bootstrapper.Initialize();
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "App.OnStartup");
+				MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
+			}
 
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            if (!IsMulticlient)
-                StartRevisor();
+			if (!IsMulticlient)
+				StartRevisor();
 			if (IsMulticlient)
 				MulticlientController.Current.SuscribeMulticlientStateChanged();
-        }
+		}
 
 		void StartRevisor()
 		{
-            try
-            {
-                var path = System.Reflection.Assembly.GetExecutingAssembly();
-                var saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh\\Firesec-2");
-                if (saveKey != null)
-                {
-                    saveKey.SetValue("FireMonitorPath", path.Location);
-                    saveKey.SetValue("IsException", false);
-                    var isAutoConnect = saveKey.GetValue("isAutoConnect");
-                    if (isAutoConnect != null)
-                        if (isAutoConnect.Equals("True"))
-                        {
-                            AppSettingsManager.AutoConnect = true;
-                            saveKey.SetValue("isAutoConnect", false);
-                        }
-                }
-                RevisorLoadHelper.Load();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "App.StartRevisor");
-            }
+			try
+			{
+				var path = System.Reflection.Assembly.GetExecutingAssembly();
+				RegistrySettingsHelper.SetString("FireMonitorPath", path.Location);
+				RegistrySettingsHelper.SetBool("IsException", false);
+				var isAutoConnect = RegistrySettingsHelper.GetBool("isAutoConnect");
+				if (isAutoConnect != null)
+					if (isAutoConnect.Equals("True"))
+					{
+						AppSettingsManager.AutoConnect = true;
+						RegistrySettingsHelper.SetBool("isAutoConnect", false);
+					}
+				RevisorLoadHelper.Load();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "App.StartRevisor");
+			}
 		}
 
-        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            IsClosingOnException = true;
-            Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			IsClosingOnException = true;
+			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 
 #if RELEASE
                 Restart();
 #endif
-            Application.Current.MainWindow.Close();
-            Application.Current.Shutdown();
-        }
+			Application.Current.MainWindow.Close();
+			Application.Current.Shutdown();
+		}
 
 		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{

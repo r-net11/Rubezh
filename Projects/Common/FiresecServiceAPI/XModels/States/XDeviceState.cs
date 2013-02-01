@@ -39,6 +39,10 @@ namespace XFiresecAPI
 				if (_states == null)
 					_states = new List<XStateType>();
 				OnStateChanged();
+				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
+				{
+					Device.Parent.DeviceState.OnStateChanged();
+				}
 			}
 		}
 
@@ -71,7 +75,19 @@ namespace XFiresecAPI
 
 		public override XStateClass StateClass
 		{
-			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
+			get
+			{
+				if (Device.Driver.IsGroupDevice)
+				{
+					var childStateClasses = new List<XStateClass>();
+					foreach (var child in Device.Children)
+					{
+						childStateClasses.AddRange(child.DeviceState.StateClasses);
+					}
+					return XStateClassHelper.GetMinStateClass(childStateClasses);
+				}
+				return XStateClassHelper.GetMinStateClass(StateClasses);
+			}
 		}
 
 		public override StateType GetStateType()

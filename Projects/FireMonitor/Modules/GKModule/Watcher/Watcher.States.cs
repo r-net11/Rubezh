@@ -65,8 +65,10 @@ namespace GKModule
 
 		void SetObjectStates(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
 		{
-			binaryBase.GetXBaseState().States = binaryObjectState.States;
-			binaryBase.GetXBaseState().AdditionalStates = binaryObjectState.AdditionalStates;
+			var binaryState = binaryBase.GetXBaseState();
+			binaryState.States = binaryObjectState.States;
+			binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
+			binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
 		}
 
 		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)

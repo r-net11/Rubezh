@@ -12,17 +12,93 @@ namespace Infrastructure.Common
 	{
 		static string FileName = AppDataFolderHelper.GetRegistryDataConfigurationFileName();
 
-		public static string Get(string name)
+		public static string GetString(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.StringValue;
+			}
+			return null;
+		}
+
+		public static int GetInt(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.IntValue;
+			}
+			return 0;
+		}
+
+		public static bool GetBool(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.BoolValue;
+			}
+			return false;
+		}
+
+		public static List<string> GetStrings(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.StringsValue;
+			}
+			return null;
+		}
+
+		public static void SetString(string name, string stringValue)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				StringValue = stringValue
+			};
+			SetRegistryData(registryData);
+		}
+
+		public static void SetInt(string name, int intValue)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				IntValue = intValue
+			};
+			SetRegistryData(registryData);
+		}
+
+		public static void SetBool(string name, bool boolValue)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				BoolValue = boolValue
+			};
+			SetRegistryData(registryData);
+		}
+
+		public static void SetStrings(string name, List<string> stringsValue)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				StringsValue = stringsValue
+			};
+			SetRegistryData(registryData);
+		}
+
+		static RegistryData GetRegistryData(string name)
 		{
 			try
 			{
 				var registryDataConfiguration = GetRegistryDataConfiguration();
 				var registryData = registryDataConfiguration.RegistryDataCollection.FirstOrDefault(x => x.Name == name);
-				if (registryData != null)
-				{
-					return registryData.Value;
-				}
-				return null;
+				return registryData;
 			}
 			catch (Exception e)
 			{
@@ -31,21 +107,24 @@ namespace Infrastructure.Common
 			}
 		}
 
-		public static void Set(string name, string value)
+		static void SetRegistryData(RegistryData newRegistryData)
 		{
 			try
 			{
 				var registryDataConfiguration = GetRegistryDataConfiguration();
-				var registryData = registryDataConfiguration.RegistryDataCollection.FirstOrDefault(x => x.Name == name);
+				var registryData = registryDataConfiguration.RegistryDataCollection.FirstOrDefault(x => x.Name == newRegistryData.Name);
 				if (registryData == null)
 				{
 					registryData = new RegistryData()
 					{
-						Name = name
+						Name = newRegistryData.Name
 					};
 					registryDataConfiguration.RegistryDataCollection.Add(registryData);
 				}
-				registryData.Value = value;
+				registryData.StringValue = newRegistryData.StringValue;
+				registryData.IntValue = newRegistryData.IntValue;
+				registryData.BoolValue = newRegistryData.BoolValue;
+				registryData.StringsValue = newRegistryData.StringsValue;
 				SetRegistryDataConfiguration(registryDataConfiguration);
 			}
 			catch (Exception e)
@@ -97,6 +176,15 @@ namespace Infrastructure.Common
 		public string Name { get; set; }
 
 		[DataMember]
-		public string Value { get; set; }
+		public string StringValue { get; set; }
+
+		[DataMember]
+		public int IntValue { get; set; }
+
+		[DataMember]
+		public bool BoolValue { get; set; }
+
+		[DataMember]
+		public List<string> StringsValue { get; set; }
 	}
 }

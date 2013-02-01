@@ -34,13 +34,11 @@
                             <TextBlock Text="Выходных устройств: " Foreground="White" />
                             <TextBlock Text="{Binding OutputDevicesCount}" Foreground="White" />
                         </StackPanel>
-                        <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" Foreground="White" Margin="1" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
+                                Visibility="{Binding ShowTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="Задержка: " Foreground="White" />
+                            <TextBlock Text="{Binding TimeLeft}" Foreground="White" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

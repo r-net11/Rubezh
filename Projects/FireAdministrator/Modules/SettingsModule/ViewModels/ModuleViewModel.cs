@@ -9,65 +9,52 @@ using Infrastructure.Common;
 
 namespace SettingsModule.ViewModels
 {
-    public class ModuleViewModel : BaseViewModel
-    {
+	public class ModuleViewModel : BaseViewModel
+	{
+		public List<ModuleViewModel> Modules { get; private set; }
+		public ModuleViewModel()
+		{
+			Modules = ModuleInitialize();
+		}
+		public string Name { get; set; }
+		public string Description { get; set; }
 
-        public List<ModuleViewModel> Modules { get; private set; }
-        public ModuleViewModel()
-        {
-            Modules = ModuleInitialize();
-        }
-        public string Name { get; set; }
-        public string Description { get; set; }
+		bool _isEnabled = true;
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				SetDisableModuleIntoRegister(_isEnabled);
+				OnPropertyChanged("IsEnabled");
+			}
+		}
 
-        bool _isEnabled = true;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                SetDisableModuleIntoRegister(_isEnabled);
-                OnPropertyChanged("IsEnabled");
-            }
-        }
+		public ModuleViewModel(string name, string description, bool isEnabled)
+		{
+			Name = name;
+			Description = description;
+			IsEnabled = isEnabled;
+		}
 
-        public ModuleViewModel(string name, string description, bool isEnabled)
-        {
-            Name = name;
-            Description = description;
-            IsEnabled = isEnabled;
-        }
+		public static List<ModuleViewModel> ModuleInitialize()
+		{
+			var moduleRegs = ModuleReg.LoadModulesFromRegister();
+			if (moduleRegs.Count == 0)
+				moduleRegs = ModuleReg.ModuleInitialize();
+			return moduleRegs.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
+		}
 
-        public static List<ModuleViewModel> ModuleInitialize()
-        {
-            var moduleRegs = ModuleReg.LoadModulesFromRegister();
-            if (moduleRegs.Count == 0)
-                moduleRegs = ModuleReg.ModuleInitialize();
-            return moduleRegs.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
-        }
+		public void SetDisableModuleIntoRegister(bool isEnabled)
+		{
+			RegistrySettingsHelper.SetBool(Name, isEnabled);
+		}
 
-        public void SetDisableModuleIntoRegister(bool isEnabled)
-        {
-            try
-            {
-                RegistryKey registryKey = UACHelper.CreateSubKey("software\\rubezh\\Modules");
-                if (registryKey != null)
-                {
-                    registryKey.SetValue(Name, isEnabled);
-                    registryKey.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове SetDisableModuleIntoRegister");
-            }
-        }
-
-        public static List<ModuleViewModel> LoadDisableModulesFromRegister()
-        {
-            var moduleTypes = ModuleReg.LoadModulesFromRegister();
-            return moduleTypes.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
-        }
-    }
+		public static List<ModuleViewModel> LoadDisableModulesFromRegister()
+		{
+			var moduleTypes = ModuleReg.LoadModulesFromRegister();
+			return moduleTypes.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
+		}
+	}
 }
