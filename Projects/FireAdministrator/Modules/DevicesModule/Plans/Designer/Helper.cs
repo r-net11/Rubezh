@@ -14,10 +14,14 @@ namespace DevicesModule.Plans.Designer
 		private static Dictionary<Guid, Device> _deviceMap;
 		public static void BuildMap()
 		{
-			_zoneMap = new Dictionary<Guid, Zone>();
-			FiresecManager.Zones.ForEach(item => _zoneMap.Add(item.UID, item));
+			BuildZoneMap();
 			_deviceMap = new Dictionary<Guid, Device>();
 			FiresecManager.Devices.ForEach(item => _deviceMap.Add(item.UID, item));
+		}
+		public static void BuildZoneMap()
+		{
+			_zoneMap = new Dictionary<Guid, Zone>();
+			FiresecManager.Zones.ForEach(item => _zoneMap.Add(item.UID, item));
 		}
 
 		public static Zone GetZone(IElementZone element)

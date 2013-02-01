@@ -67,7 +67,7 @@
     <Compile Include="Helpers\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
     <Compile Include="Helpers\TimeParceHelper.cs" />
-    <Compile Include="ServerHelper.cs" />
+    <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="UsbRunner.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,7 +95,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="rubezh2010.xml">
+    <Content Include="Helpers\rubezh2010.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

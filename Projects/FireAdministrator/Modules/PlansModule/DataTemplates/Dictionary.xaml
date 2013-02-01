@@ -58,4 +58,8 @@
 		<Views:DesignerPropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:FolderPropertiesViewModel}">
+		<Views:FolderPropertiesView />
+	</DataTemplate>
+
 </ResourceDictionary>

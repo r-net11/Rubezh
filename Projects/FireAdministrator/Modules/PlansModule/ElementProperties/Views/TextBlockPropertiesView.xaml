@@ -47,8 +47,8 @@
 			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedItem="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" SelectedItem="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" SelectedItem="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Minimum="0" />
+			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" Minimum="5"/>
 			<ComboBox Grid.Row="7" Grid.Column="1" Margin="2" ItemsSource="{Binding Fonts}" SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

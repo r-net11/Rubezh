@@ -3,38 +3,60 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
+	[DataContract]
 	public class PlansConfiguration : VersionedConfiguration
-    {
-        public PlansConfiguration()
-        {
-            Plans = new List<Plan>();
-        }
+	{
+		public PlansConfiguration()
+		{
+			Plans = new List<Plan>();
+			PlanFolders = new List<PlanFolder>();
+		}
 
-        [DataMember]
-        public List<Plan> Plans { get; set; }
+		[DataMember]
+		public List<Plan> Plans { get; set; }
+		[DataMember]
+		public List<PlanFolder> PlanFolders { get; set; }
 
-        public List<Plan> AllPlans { get; set; }
+		public List<Plan> AllPlans { get; set; }
 
-        public void Update()
-        {
-            AllPlans = new List<Plan>();
-            foreach (var plan in Plans)
-            {
-                AllPlans.Add(plan);
-                AddChild(plan);
-            }
-        }
+		public void Update()
+		{
+			if (PlanFolders == null)
+				PlanFolders = new List<PlanFolder>();
+			AllPlans = new List<Plan>();
+			foreach (var plan in Plans)
+			{
+				AllPlans.Add(plan);
+				AddChild(plan);
+			}
+			foreach (var planFolder in PlanFolders)
+				AddChild(planFolder, null);
+		}
 
-        void AddChild(Plan parentPlan)
-        {
-            foreach (var plan in parentPlan.Children)
-            {
-                plan.Parent = parentPlan;
-                AllPlans.Add(plan);
-                AddChild(plan);
-            }
-        }
+		private void AddChild(Plan parentPlan)
+		{
+			if (parentPlan.Folders == null)
+				parentPlan.Folders = new List<PlanFolder>();
+			foreach (var plan in parentPlan.Children)
+			{
+				plan.Parent = parentPlan;
+				AllPlans.Add(plan);
+				AddChild(plan);
+			}
+			foreach (var planFolder in parentPlan.Folders)
+				AddChild(planFolder, parentPlan);
+		}
+		private void AddChild(PlanFolder parentPlanFolder, Plan parentPlan)
+		{
+			foreach (var planFolder in parentPlanFolder.Folders)
+				AddChild(planFolder, parentPlan);
+			foreach (var plan in parentPlanFolder.Plans)
+			{
+				plan.Parent = parentPlan;
+				AllPlans.Add(plan);
+				AddChild(plan);
+			}
+		}
 
 		public override bool ValidateVersion()
 		{
@@ -61,5 +83,5 @@ namespace FiresecAPI.Models
 			}
 			return result;
 		}
-    }
+	}
 }

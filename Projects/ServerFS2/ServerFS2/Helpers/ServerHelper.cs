@@ -272,6 +272,10 @@ namespace ServerFS2
         {
             return SendCode(bytes).Result.Data;
         }
+        public static void GetDeviceParameters(Device device)
+        {
+            
+        }
     }
     class UsbRequest
     {

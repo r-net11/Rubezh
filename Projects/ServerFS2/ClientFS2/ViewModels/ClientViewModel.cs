@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Win32;
 using ServerFS2;
 using Device = ServerFS2.Device;
 
@@ -22,7 +17,7 @@ namespace ClientFS2.ViewModels
             ReadJournalCommand = new RelayCommand(OnReadJournal);
             SendRequestCommand = new RelayCommand(OnSendRequest);
             AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
-            GetConfigurationFromFileCommand = new RelayCommand(OnGetConfigurationFromFile);
+            ShowDevicesTreeCommand = new RelayCommand(OnShowDevicesTree);
             Devices = new ObservableCollection<Device>();
         }
 
@@ -72,6 +67,12 @@ namespace ClientFS2.ViewModels
             DialogService.ShowModalWindow(new JournalViewModel(device));
         }
 
+        public RelayCommand ShowDevicesTreeCommand { get; private set; }
+        static void OnShowDevicesTree()
+        {
+            DialogService.ShowModalWindow(new DevicesViewModel());
+        }
+
         public RelayCommand SendRequestCommand { get; private set; }
         private void OnSendRequest()
         {
@@ -87,38 +88,6 @@ namespace ClientFS2.ViewModels
         {
             ServerHelper.AutoDetectDevice(Devices);
             OnPropertyChanged("Devices");
-        }
-
-        public RelayCommand GetConfigurationFromFileCommand { get; private set; }
-        private static void OnGetConfigurationFromFile()
-        {
-            try
-            {
-                var openDialog = new OpenFileDialog()
-                                     {
-                                         Filter = "firesec2 files|*.fscp",
-                                         DefaultExt = "firesec2 files|*.fscp"
-                                     };
-                if (openDialog.ShowDialog().Value)
-                {
-                    WaitHelper.Execute(() =>
-                                           {
-                                               //ZipConfigActualizeHelper.Actualize(openDialog.FileName);
-                                               //var folderName = AppDataFolderHelper.GetFolder("Administrator/Configuration");
-                                               //var configFileName = Path.Combine(folderName, "Config.fscp");
-                                               //if (Directory.Exists(folderName))
-                                               //	Directory.Delete(folderName, true);
-                                               //Directory.CreateDirectory(folderName);
-                                               //File.Copy(openDialog.FileName, configFileName);
-
-                                               FiresecManager.LoadFromZipFile(openDialog.FileName);
-                                               FiresecManager.UpdateConfiguration();
-                                               DeviceConfiguration deviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
-
-                                           });
-                }
-            }
-            catch{}
         }
     }
 }

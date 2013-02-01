@@ -18,7 +18,7 @@
             <StackPanel Visibility="{Binding SelectedDevice, Converter={StaticResource NullObjectToVisibiltyConverter}}">
                 <Button Content="Запросить журнал событий" Command = "{Binding ReadJournalCommand}" />
             </StackPanel>
-            <Button Content="Считать конфигурацию из файла" Command="{Binding GetConfigurationFromFileCommand}" />
+            <Button Content="Показать дерево устройств" Command="{Binding ShowDevicesTreeCommand}" />
         </StackPanel>
         <Grid Grid.Row="2" >
             <Grid>
@@ -32,10 +32,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Запрос:" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TextBoxRequest}" Margin="2"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TextBoxRequest}" Margin="2" BorderBrush="DarkBlue"/>
                 <Button Grid.Row="1" Grid.ColumnSpan="2" Content="Послать запрос" Command = "{Binding SendRequestCommand}" Margin="2" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Ответ:" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TextBoxResponse}" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TextBoxResponse}" BorderBrush="DarkBlue"/>
             </Grid>
         </Grid>
     </Grid>

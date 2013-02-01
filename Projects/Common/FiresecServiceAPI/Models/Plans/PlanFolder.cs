@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
 	{
 		public PlanFolder()
 		{
+			Caption = "Папка";
 			Plans = new List<Plan>();
 			Folders = new List<PlanFolder>();
 		}

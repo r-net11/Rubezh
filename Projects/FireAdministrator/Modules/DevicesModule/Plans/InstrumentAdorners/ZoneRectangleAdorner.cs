@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
+using Infrustructure.Plans.Elements;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {
@@ -14,7 +15,7 @@ namespace DevicesModule.Plans.InstrumentAdorners
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element);
