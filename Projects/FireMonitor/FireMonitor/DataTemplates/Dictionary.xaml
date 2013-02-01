@@ -12,20 +12,16 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:SoundViewModel}">
-		<Views:SoundView />
-	</DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:MailViewModel}">
-        <Views:MailView />
+        <Views:SoundView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:UserViewModel}">
-		<Views:UserView />
-	</DataTemplate>
+        <Views:UserView />
+    </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:AutoActivationViewModel}">
-		<Views:AutoActivationView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:AutoActivationViewModel}">
+        <Views:AutoActivationView />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
         <Views:ProgressView />

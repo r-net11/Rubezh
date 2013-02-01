@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using Common;
 using Common.GK;
@@ -61,12 +61,10 @@ namespace FireMonitor
 					{
 						LoadingService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
-
+						Notifier.Initialize();
 						var shell = new MonitorShellViewModel();
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
-						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new MailViewModel());
-
 						RunShell(shell);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
