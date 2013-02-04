@@ -50,7 +50,8 @@ namespace FireMonitor.ViewModels
 				zone.PresentationName +
 				" на состояние " +
 				zone.ZoneState.StateType.ToDescription();
-			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, email.Address, message, email.MessageTitle);
+			//MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, email.Address, message, email.MessageTitle);
+			Trace.WriteLine(message);
 		}
 	}
 }
