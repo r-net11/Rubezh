@@ -21,36 +21,6 @@ namespace Common.GK
 				IsDeviceOnShleif = false,
 			};
 
-			driver.Properties.Add(
-				new XDriverProperty()
-				{
-					No = 0,
-					Name = "Delay",
-					Caption = "Время разновременного пуска, с",
-					ToolTip = "Время разновременного пуска, с",
-					Min = 2,
-					Max = 10,
-					Default = 2,
-					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = false
-				}
-				);
-
-			driver.Properties.Add(
-				new XDriverProperty()
-				{
-					No = 0,
-					Name = "PumpCount",
-					Caption = "Количество основных насосов",
-					ToolTip = "Количество основных насосов",
-					Min = 1,
-					Max = 100,
-					Default = 1,
-					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = false
-				}
-				);
-
 			return driver;
 		}
 	}

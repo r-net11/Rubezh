@@ -20,8 +20,6 @@ namespace GKModule.ViewModels
 			ReadCommand = new RelayCommand(OnRead);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
-			//SetTotalCount();
-
 		}
 
 		public bool Initialize()
@@ -30,7 +28,6 @@ namespace GKModule.ViewModels
 			if (sendResult.HasError)
 			{
 				MessageBoxService.Show("Ошибка связи с устройством");
-				//Close(false);
 				return false;
 			}
 			var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);

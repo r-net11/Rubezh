@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 					if (direction != null)
 					{
 						DirectionState = direction.DirectionState;
-						PresentationName = DirectionState.Direction.PresentationName;
+						PresentationName = direction.PresentationName;
 					}
 					break;
 

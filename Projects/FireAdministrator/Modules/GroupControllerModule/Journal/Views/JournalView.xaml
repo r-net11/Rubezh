@@ -20,9 +20,21 @@
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource BoolToGKYesNoConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTextColumn Header="Класс состояния" Binding="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
-                <DataGridTextColumn Header="Тип" Binding="{Binding TypeName}" />
-                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Setters>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Setters>

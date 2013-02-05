@@ -25,11 +25,11 @@ namespace Common.GK
 		public List<byte> InputDependenses { get; protected set; }
 		public List<byte> OutputDependensesCount { get; private set; }
 		public List<byte> OutputDependenses { get; protected set; }
-		public List<byte> FormulaBytes { get; protected set; }
+		public List<byte> FormulaBytes { get; set; }
 		public List<byte> ParametersCount { get; private set; }
 		public List<byte> Parameters { get; protected set; }
 		public List<byte> AllBytes { get; private set; }
-		public FormulaBuilder Formula { get; protected set; }
+		public FormulaBuilder Formula { get; set; }
 
 		public BinaryObjectBase()
 		{

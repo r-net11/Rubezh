@@ -44,6 +44,10 @@
         <Views:PumpStationView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DeviceSelectationViewModel}">
+        <Views:DeviceSelectationView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
 		<Views:ZonesView />
 	</DataTemplate>

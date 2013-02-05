@@ -14,19 +14,8 @@ namespace Common.GK
 			if (pumpStatioDevice.PumpStationProperty == null)
 				return;
 
-			int delayTime = 2;
-			var delayProperty = pumpStatioDevice.Properties.FirstOrDefault(x => x.Name == "Delay");
-			if (delayProperty != null)
-			{
-				delayTime = delayProperty.Value;
-			}
-
-			int pumpCount = 1;
-			var pumpCountProperty = pumpStatioDevice.Properties.FirstOrDefault(x => x.Name == "PumpCount");
-			if (pumpCountProperty != null)
-			{
-				pumpCount = pumpCountProperty.Value;
-			}
+			var delayTime = pumpStatioDevice.PumpStationProperty.DelayTime;
+			var pumpsCount = pumpStatioDevice.PumpStationProperty.PumpsCount;
 
 			var delays = new List<XDelay>();
 
@@ -43,6 +32,17 @@ namespace Common.GK
 					}
 				}
 			}
+
+			var mainDelay = new XDelay()
+			{
+				Name = "Задержка пуска НС",
+				DelayTime = (ushort)(0),
+				SetTime = 1,
+				InitialState = false,
+			};
+			//mainDelay.InputObjects.Add(pumpDevice);
+			//pumpDevice.OutputObjects.Add(delay);
+			delays.Add(mainDelay);
 
 			int pumpIndex = 1;
 			foreach (var pumpDevice in pumpDevices)
@@ -65,7 +65,40 @@ namespace Common.GK
 				var pumpBinaryObject = gkDatabase.BinaryObjects.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
 				if (pumpBinaryObject != null)
 				{
-					;
+					var formula = new FormulaBuilder();
+					var inputPumpsCount = 0;
+					foreach (var otherPumpDevice in pumpDevices)
+					{
+						if (otherPumpDevice.UID == pumpDevice.UID)
+							continue;
+
+						formula.AddGetBit(XStateType.TurningOn, otherPumpDevice);
+						formula.AddGetBit(XStateType.On, otherPumpDevice);
+						formula.Add(FormulaOperationType.OR);
+						if (inputPumpsCount > 0)
+						{
+							formula.Add(FormulaOperationType.ADD); // почситать количество включеных насосов
+						}
+						inputPumpsCount++;
+					}
+					formula.Add(FormulaOperationType.CONST, 0, pumpsCount, "Количество основных пожарных насосов");
+					formula.Add(FormulaOperationType.LT);
+					formula.AddGetBit(XStateType.Norm, pumpDevice);
+					formula.Add(FormulaOperationType.AND); // бит дежурный у самого насоса
+
+					formula.AddGetBit(XStateType.On, mainDelay);
+					formula.Add(FormulaOperationType.AND);
+					formula.AddPutBit(XStateType.TurnOn, pumpDevice); // включить насос
+
+					formula.AddGetBit(XStateType.On, mainDelay);
+					formula.Add(FormulaOperationType.COM);
+					formula.AddGetBit(XStateType.Norm, pumpDevice);
+					formula.Add(FormulaOperationType.AND); // бит дежурный у самого насоса
+					formula.AddPutBit(XStateType.TurnOff, pumpDevice); // выключить насос
+
+					pumpBinaryObject.Formula.Add(FormulaOperationType.END);
+					pumpBinaryObject.Formula = formula;
+					pumpBinaryObject.FormulaBytes = pumpBinaryObject.Formula.GetBytes();
 				}
 			}
 
