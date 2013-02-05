@@ -186,6 +186,8 @@
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
+    <Compile Include="XModels\Delay\XDelay.cs" />
+    <Compile Include="XModels\Device\XPumpStationProperty.cs" />
     <Compile Include="XModels\Directions\XDirection.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />

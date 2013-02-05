@@ -7,6 +7,7 @@
 		GKIndicator,
 		GKLine,
 		GKRele,
+		PumpStation,
         KAU,
         KAUIndicator,
 		SmokeDetector,

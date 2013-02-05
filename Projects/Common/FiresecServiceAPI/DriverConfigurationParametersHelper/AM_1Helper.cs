@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-
 namespace FiresecAPI.Models
 {
 	public class AM_1_Helper
@@ -24,7 +23,6 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Два контакта, нормально замкнутые", 2);
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Два контакта, нормально разомкнутые", 3);
 			driver.Properties.Add(property1);
-
 		}
 	}
 }

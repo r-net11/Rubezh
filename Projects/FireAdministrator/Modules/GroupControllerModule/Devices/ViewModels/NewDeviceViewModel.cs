@@ -29,7 +29,6 @@ namespace GKModule.ViewModels
 					continue;
 				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
-
 			}
 
 			if (parent.Driver.DriverType == XDriverType.MPT)

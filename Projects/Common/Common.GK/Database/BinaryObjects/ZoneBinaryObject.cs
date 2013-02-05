@@ -6,9 +6,9 @@ namespace Common.GK
 {
 	public class ZoneBinaryObject : BinaryObjectBase
 	{
-		public ZoneBinaryObject(XZone zone, DatabaseType databaseType)
+		public ZoneBinaryObject(XZone zone)
 		{
-			DatabaseType = databaseType;
+			DatabaseType = DatabaseType.Gk;
 			ObjectType = ObjectType.Zone;
 			Zone = zone;
 			Build();
@@ -26,14 +26,7 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (DatabaseType == DatabaseType.Gk)
-			{
-				AddGkZoneFormula();
-			}
-			else
-			{
-				Formula.Add(FormulaOperationType.END);
-			}
+			AddGkZoneFormula();
 			FormulaBytes = Formula.GetBytes();
 		}
 
