@@ -14,24 +14,24 @@ namespace ClientFS2.ViewModels
 {
     public class ClientViewModel:BaseViewModel
     {
-        public ObservableCollection<Device> Devices { get; private set; }
+        public ObservableCollection<DeviceViewModel> DevicesViewModel { get; private set; }
         public ClientViewModel()
         {
             ReadJournalCommand = new RelayCommand(OnReadJournal);
             SendRequestCommand = new RelayCommand(OnSendRequest);
             AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
             ShowDevicesTreeCommand = new RelayCommand(OnShowDevicesTree);
-            Devices = new ObservableCollection<Device>();
+            DevicesViewModel = new ObservableCollection<DeviceViewModel>();
         }
 
-        private Device _selectedDevice;
-        public Device SelectedDevice
+        private DeviceViewModel _selectedDeviceViewModel;
+        public DeviceViewModel SelectedDeviceViewModel
         {
-            get { return _selectedDevice; }
+            get { return _selectedDeviceViewModel; }
             set
             {
-                _selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
+                _selectedDeviceViewModel = value;
+                OnPropertyChanged("SelectedDeviceViewModel");
             }
         }
 
@@ -60,8 +60,7 @@ namespace ClientFS2.ViewModels
         public RelayCommand ReadJournalCommand { get; private set; }
         void OnReadJournal()
         {
-            var device = SelectedDevice;
-			ShowJournal(ServerHelper.GetJournalItems(device));
+            ShowJournal(ServerHelper.GetJournalItems(SelectedDeviceViewModel.Device));
         }
 
         static void ShowJournal(List<JournalItem> journalItems)
@@ -87,8 +86,13 @@ namespace ClientFS2.ViewModels
         public RelayCommand AutoDetectDeviceCommand { get; private set; }
         private void OnAutoDetectDevice()
         {
-            ServerHelper.AutoDetectDevice(Devices);
-            OnPropertyChanged("Devices");
+            var devices = new List<Device>();
+            ServerHelper.AutoDetectDevice(devices);
+            foreach (var device in devices)
+            {
+                DevicesViewModel.Add(new DeviceViewModel(device));
+            }
+            OnPropertyChanged("DevicesViewModel");
         }
     }
 }

@@ -32,6 +32,7 @@ namespace ClientFS2
 
 			configurationFileName = Path.Combine(unzipFolderPath, "DriversConfiguration.xml");
 			DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
+            DriverConfigurationParametersHelper.CreateKnownProperties(DriversConfiguration.Drivers);
 			Update();
 		}
 

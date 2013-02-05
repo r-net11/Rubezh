@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using ServerFS2;
 
 namespace ClientFS2.ViewModels
 {
@@ -8,13 +9,14 @@ namespace ClientFS2.ViewModels
     {
         public DevicesViewModel()
         {
+            GetDeviceParametersCommand = new RelayCommand(OnGetDeviceParameters);
             Initialize();
         }
-
+        
         public RelayCommand GetDeviceParametersCommand { get; private set; }
         private void OnGetDeviceParameters()
         {
-            
+            ServerHelper.GetDeviceParameters(SelectedDevice.Device);
         }
         public void Initialize()
         {

@@ -1,7 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-
+using System.Linq;
 
 namespace ClientFS2.ViewModels
 {
@@ -12,6 +12,22 @@ namespace ClientFS2.ViewModels
         {
             Device = device;
         }
+
+        public string UsbChannel
+        {
+            get { return Device.Properties.FirstOrDefault(x => x.Name == "UsbChannel").Value; }
+        }
+
+        public string SerialNo
+        {
+            get { return Device.Properties.FirstOrDefault(x => x.Name == "SerialNo").Value; }
+        }
+
+        public string Version
+        {
+            get { return Device.Properties.FirstOrDefault(x => x.Name == "Version").Value; }
+        }
+
         public string Address
         {
             get { return Device.PresentationAddress; }

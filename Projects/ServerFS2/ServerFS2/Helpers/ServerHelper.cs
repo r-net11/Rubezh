@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Diagnostics;
 using System.Collections;
+using FiresecAPI.Models;
 using Device = FiresecAPI.Models.Device;
 using FiresecAPI;
 
@@ -100,8 +101,8 @@ namespace ServerFS2
             {
                 var bytes = new List<byte>();
                 bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-                bytes.Add(Convert.ToByte(device.UsbChannel + 2));
-                bytes.Add(Convert.ToByte(device.Address));
+                bytes.Add(Convert.ToByte(device.IntAddress / 256));
+                bytes.Add(Convert.ToByte(device.IntAddress % 256));
                 bytes.Add(0x01);
                 bytes.Add(0x20);
                 bytes.Add(0x02);
@@ -121,8 +122,8 @@ namespace ServerFS2
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-            bytes.Add(Convert.ToByte(device.UsbChannel + 2));
-            bytes.Add(Convert.ToByte(device.Address));
+            bytes.Add(Convert.ToByte(device.IntAddress / 256));
+            bytes.Add(Convert.ToByte(device.IntAddress % 256));
             bytes.Add(0x01);
             bytes.Add(0x21);
             bytes.Add(0x02);
@@ -140,12 +141,12 @@ namespace ServerFS2
         }
         public static int GetJournalCount(Device device)
         {
-            if (device.Name == "Прибор РУБЕЖ-2ОП")
+            if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
                 return GetLastJournalItemId(device) + GetLastSecJournalItemId2Op(device);
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-            bytes.Add(Convert.ToByte(device.UsbChannel + 2));
-            bytes.Add(Convert.ToByte(device.Address));
+            bytes.Add(Convert.ToByte(device.IntAddress / 256));
+            bytes.Add(Convert.ToByte(device.IntAddress % 256));
             bytes.Add(0x01);
             bytes.Add(0x24);
             bytes.Add(0x00);
@@ -163,7 +164,7 @@ namespace ServerFS2
         }
         public static int GetFirstJournalItemId(Device device)
         {
-            if (device.Name == "Прибор РУБЕЖ-2ОП")
+            if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
                 return 0;
             return GetLastJournalItemId(device) - GetJournalCount(device) + 1;
         }
@@ -171,8 +172,8 @@ namespace ServerFS2
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-            bytes.Add(Convert.ToByte(device.UsbChannel + 2));
-            bytes.Add(Convert.ToByte(device.Address));
+            bytes.Add(Convert.ToByte(device.IntAddress / 256));
+            bytes.Add(Convert.ToByte(device.IntAddress % 256));
             bytes.Add(0x01);
             bytes.Add(0x21);
             bytes.Add(0x00);
@@ -194,7 +195,7 @@ namespace ServerFS2
             int firstindex = GetFirstJournalItemId(device);
 			var journalItems = new List<JournalItem>();
 			var secJournalItems = new List<JournalItem>();
-            if (device.Name == "Прибор РУБЕЖ-2ОП")
+            if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
             {
                 firstindex = 0;
                 secJournalItems = GetSecJournalItems2Op(device);
@@ -203,8 +204,8 @@ namespace ServerFS2
             {
                 var bytes = new List<byte>();
                 bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-                bytes.Add(Convert.ToByte(device.UsbChannel + 2));
-                bytes.Add(Convert.ToByte(device.Address));
+                bytes.Add(Convert.ToByte(device.IntAddress / 256));
+                bytes.Add(Convert.ToByte(device.IntAddress % 256));
                 bytes.Add(0x01);
                 bytes.Add(0x20);
                 bytes.Add(0x00);
@@ -220,7 +221,7 @@ namespace ServerFS2
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
         }
-        public static void AutoDetectDevice(ObservableCollection<Device> devices)
+        public static void AutoDetectDevice(List<Device> devices)
         {
             byte deviceCount;
             for (byte sleif = 0x03; sleif <= 0x04; sleif++)
@@ -232,10 +233,13 @@ namespace ServerFS2
                     bytes.Add(deviceCount);
                     bytes.Add(0x3C);
                     var inputBytes = SendCode(bytes).Result.Data;
-                    if (inputBytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройство и его версию ПО
+                    if (inputBytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
                     {
                         var device = new Device();
-                        device.Address = inputBytes[5].ToString();
+                        device.Properties = new List<Property>();
+                        device.Driver = new Driver();
+                        device.IntAddress = inputBytes[5];
+                        device.Driver.HasAddress = true;
                         bytes = new List<byte>();
                         bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
                         bytes.Add(sleif);
@@ -243,7 +247,7 @@ namespace ServerFS2
                         bytes.Add(0x01);
                         bytes.Add(0x03);
                         inputBytes = SendCode(bytes).Result.Data;
-                        device.Name = DriversHelper.GetDriverNameByType(inputBytes[7]);
+                        device.Driver.ShortName = DriversHelper.GetDriverNameByType(inputBytes[7]);
 
                         bytes = new List<byte>();
                         bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -252,7 +256,7 @@ namespace ServerFS2
                         bytes.Add(0x01);
                         bytes.Add(0x12);
                         inputBytes = SendCode(bytes).Result.Data;
-                        device.Version = inputBytes[7].ToString("X2") + "." + inputBytes[8].ToString("X2");
+                        device.Properties.Add(new Property() { Name = "Version", Value = inputBytes[7].ToString("X2") + "." + inputBytes[8].ToString("X2") });
 
                         bytes = new List<byte>();
                         bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -268,11 +272,14 @@ namespace ServerFS2
                         inputBytes = SendCode(bytes).Result.Data;
 						if (inputBytes.Count >= 18)
 						{
+						    var serilaNo = "";
 							for (int i = 7; i <= 18; i++)
-								device.SerialNo += inputBytes[i] - 0x30 + ".";
-							device.SerialNo = device.SerialNo.Remove(device.SerialNo.Length - 1);
+                                serilaNo += inputBytes[i] - 0x30 + ".";
+                            serilaNo = serilaNo.Remove(serilaNo.Length - 1);
+                                device.Properties.Add(new Property(){Name = "SerialNo", Value = serilaNo});
+
 						}
-                        device.UsbChannel = sleif - 2;
+                        device.Properties.Add(new Property() { Name = "UsbChannel", Value = (sleif - 2).ToString() });
                         devices.Add(device);
                     }
                 }
@@ -283,10 +290,29 @@ namespace ServerFS2
         }
         public static void GetDeviceParameters(Device device)
         {
-			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add((byte)(device.UsbChannel + 2));
-
+            var values = new List<List<byte>>();
+            foreach (var property in device.Driver.Properties)
+            {
+                if (!property.IsAUParameter)
+                    continue;
+                var bytes = new List<byte>();
+                bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+                bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
+                bytes.Add((byte) device.Parent.IntAddress);
+                bytes.Add(0x02);
+                bytes.Add(0x53);
+                bytes.Add(0x02);
+                bytes.Add((byte) MetadataHelper.GetIdByUid(device.Driver.UID));
+                bytes.Add(Convert.ToByte(device.IntAddress % 256));
+                bytes.Add(0x00);
+                bytes.Add(property.No);
+                bytes.Add(0x00);
+                bytes.Add(0x00);
+                bytes.Add(Convert.ToByte(device.IntAddress / 256));
+                var value = SendCode(bytes).Result.Data;//[0x09].ToString();
+                //device.Properties.FirstOrDefault(x => x.Name == property.Name).Value = value;
+                values.Add(value);
+            }
         }
     }
     class UsbRequest

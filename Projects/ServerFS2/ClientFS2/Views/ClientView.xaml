@@ -14,8 +14,16 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <Button Content="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}" />
-            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2" Style="{x:Null}" />
-            <StackPanel Visibility="{Binding SelectedDevice, Converter={StaticResource NullObjectToVisibiltyConverter}}">
+            <DataGrid ItemsSource="{Binding DevicesViewModel}" SelectedItem="{Binding SelectedDeviceViewModel}" Margin="2" Style="{x:Null}" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Device.PresentationName}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="USB канал" Binding="{Binding UsbChannel}" />
+                    <DataGridTextColumn Header="Серийный номер" Binding="{Binding SerialNo}" />
+                    <DataGridTextColumn Header="Версия" Binding="{Binding Version}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Visibility="{Binding SelectedDeviceViewModel, Converter={StaticResource NullObjectToVisibiltyConverter}}">
                 <Button Content="Запросить журнал событий" Command = "{Binding ReadJournalCommand}" />
             </StackPanel>
             <Button Content="Показать дерево устройств" Command="{Binding ShowDevicesTreeCommand}" />
