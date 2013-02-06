@@ -30,7 +30,7 @@ namespace DiagnosticsModule.ViewModels
 			ShowDriversCommand = new RelayCommand(OnShowDrivers);
 			ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
 			ShowTreeCommand = new RelayCommand(OnShowTree);
-			SecurityTestCommand = new RelayCommand(OnSecurityTest);
+			TreeListViewTestCommand = new RelayCommand(OnTreeListViewTest);
 			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
 			Test3Command = new RelayCommand(OnTest3);
@@ -82,10 +82,11 @@ namespace DiagnosticsModule.ViewModels
 			driversView.ShowDialog();
 		}
 
-		public RelayCommand SecurityTestCommand { get; private set; }
-
-		private void OnSecurityTest()
+		public RelayCommand TreeListViewTestCommand { get; private set; }
+		private void OnTreeListViewTest()
 		{
+			var treeViewTestViewModel = new TreeViewTestViewModel();
+			DialogService.ShowModalWindow(treeViewTestViewModel);
 		}
 
 		public RelayCommand ShowTreeCommand { get; private set; }

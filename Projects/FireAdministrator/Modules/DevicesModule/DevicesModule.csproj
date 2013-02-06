@@ -392,6 +392,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\TreeListView\TreeListView.csproj">
+      <Project>{59A4159D-1038-4770-91DF-154A22CDE411}</Project>
+      <Name>TreeListView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\FSAgent\FSAgentAPI\FSAgentAPI.csproj">
       <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
       <Name>FSAgentAPI</Name>

@@ -89,6 +89,8 @@
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
     <Compile Include="ViewModels\JournalTestViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\TreeDeviceViewModel.cs" />
+    <Compile Include="ViewModels\TreeViewTestViewModel.cs" />
     <Compile Include="ViewModels\ZoneTestViewModel.cs" />
     <Compile Include="Views\DeviceIconTestView.xaml.cs">
       <DependentUpon>DeviceIconTestView.xaml</DependentUpon>
@@ -104,6 +106,9 @@
     </Compile>
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TreeViewTestView.xaml.cs">
+      <DependentUpon>TreeViewTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\XDriversView.xaml.cs">
       <DependentUpon>XDriversView.xaml</DependentUpon>
@@ -145,6 +150,10 @@
     <Page Include="Views\DiagnosticsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TreeViewTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\XDriversView.xaml">
       <Generator>MSBuild:Compile</Generator>
