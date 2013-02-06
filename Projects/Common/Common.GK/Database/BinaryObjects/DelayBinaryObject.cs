@@ -18,7 +18,7 @@ namespace Common.GK
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((ushort)0x107);
+			DeviceType = BytesHelper.ShortToBytes((ushort)0x101);
 			SetAddress((ushort)0);
 			Parameters = new List<byte>();
 			SetFormulaBytes();
@@ -45,6 +45,11 @@ namespace Common.GK
 			{
 				No = 1,
 				Value = Delay.SetTime
+			});
+			binProperties.Add(new BinProperty()
+			{
+				No = 2,
+				Value = (ushort)Delay.DelayRegime
 			});
 
 			Parameters = new List<byte>();

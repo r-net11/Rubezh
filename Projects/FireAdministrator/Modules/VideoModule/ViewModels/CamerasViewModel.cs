@@ -57,7 +57,7 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_selectedCamera = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged("SelectedCamera");
 			}
 		}
 

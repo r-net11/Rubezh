@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace XFiresecAPI
 {
@@ -11,20 +12,23 @@ namespace XFiresecAPI
 	{
 		public XDelay()
 		{
-			InitialState = false;
+			UID = Guid.NewGuid();
 		}
 
 		[DataMember]
-		public string Name { get; set; }
+		public Guid UID { get; set; }
 
 		[DataMember]
-		public bool InitialState { get; set; }
+		public string Name { get; set; }
 
 		[DataMember]
 		public ushort DelayTime { get; set; }
 
 		[DataMember]
 		public ushort SetTime { get; set; }
+
+		[DataMember]
+		public DelayRegime DelayRegime { get; set; }
 
 		public override XBaseState GetXBaseState() { return null; }
 
@@ -45,5 +49,14 @@ namespace XFiresecAPI
 		{
 			return Name;
 		}
+	}
+
+	public enum DelayRegime
+	{
+		[DescriptionAttribute("Выключено")]
+		Off = 0,
+
+		[DescriptionAttribute("Включено")]
+		On = 1
 	}
 }

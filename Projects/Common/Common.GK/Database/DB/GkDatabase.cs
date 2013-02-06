@@ -77,7 +77,8 @@ namespace Common.GK
 			{
 				if (device.Driver.DriverType == XDriverType.PumpStation)
 				{
-					PumpStationCreator.Create(this, device);
+					var pumpStationCreator = new PumpStationCreator(this, device);
+					pumpStationCreator.Create();
 				}
 			}
 		}

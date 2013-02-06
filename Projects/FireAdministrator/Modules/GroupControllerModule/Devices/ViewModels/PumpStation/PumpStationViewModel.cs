@@ -19,10 +19,14 @@ namespace GKModule.ViewModels
 		public PumpStationViewModel(XDevice device)
 		{
 			Title = "Насосная станция";
+			ChangePumpsCommand = new RelayCommand(OnChangePumps);
+			ChangeDirectionsCommand = new RelayCommand(OnChangeDirections);
+			ChooseJokeyPumpCommand = new RelayCommand(OnChooseJokeyPump);
 			ChooseDrenajPumpCommand = new RelayCommand(OnChooseDrenajPump);
-			ChangeCommand = new RelayCommand(OnChange);
+			ChooseCompressorPumpCommand = new RelayCommand(OnChooseCompressorPump);
+			ChooseCompensationPumpCommand = new RelayCommand(OnChooseCompensationPump);
 			Device = device;
-			if (device.PumpStationProperty != null)
+			if (device.PumpStationProperty == null)
 			{
 				device.PumpStationProperty = new XPumpStationProperty();
 			}
@@ -34,15 +38,25 @@ namespace GKModule.ViewModels
 			CompressorPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.CompressorPumpUID);
 
 			Devices = new List<XDevice>();
-				foreach (var deviceUID in device.PumpStationProperty.DeviceUIDs)
+			foreach (var deviceUID in device.PumpStationProperty.FirePumpUIDs)
+			{
+				var pumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (pumpDevice != null)
 				{
-					var pumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (pumpDevice != null)
-					{
-						Devices.Add(pumpDevice);
-					}
+					Devices.Add(pumpDevice);
 				}
 			}
+
+			Directions = new List<XDirection>();
+			foreach (var directionUID in device.PumpStationProperty.DirectionUIDs)
+			{
+				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				if (direction != null)
+				{
+					Directions.Add(direction);
+				}
+			}
+		}
 
 		ushort _pumpsCount;
 		public ushort PumpsCount
@@ -66,6 +80,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		List<XDirection> _directions;
+		public List<XDirection> Directions
+		{
+			get { return _directions; }
+			set
+			{
+				_directions = value;
+				OnPropertyChanged("Directions");
+			}
+		}
+
 		List<XDevice> _devices;
 		public List<XDevice> Devices
 		{
@@ -74,6 +99,31 @@ namespace GKModule.ViewModels
 			{
 				_devices = value;
 				OnPropertyChanged("Devices");
+			}
+		}
+		public RelayCommand ChangePumpsCommand { get; private set; }
+		void OnChangePumps()
+		{
+			var sourceDevices = new List<XDevice>();
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.DriverType == XDriverType.Pump)
+					sourceDevices.Add(device);
+			}
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
+			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+			{
+				Devices = devicesSelectationViewModel.DevicesList;
+			}
+		}
+
+		public RelayCommand ChangeDirectionsCommand { get; private set; }
+		void OnChangeDirections()
+		{
+			var directionsSelectationViewModel = new DirectionsSelectationViewModel(Directions);
+			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
+			{
+				Directions = directionsSelectationViewModel.Directions;
 			}
 		}
 
@@ -87,6 +137,15 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("JokeyPumpDevice");
 			}
 		}
+		public RelayCommand ChooseJokeyPumpCommand { get; private set; }
+		void OnChooseJokeyPump()
+		{
+			var device = ChoosePump(12);
+			if(device != null)
+			{
+				JokeyPumpDevice = device;
+			}
+		}
 
 		XDevice _drenajPumpDevice;
 		public XDevice DrenajPumpDevice
@@ -96,6 +155,15 @@ namespace GKModule.ViewModels
 			{
 				_drenajPumpDevice = value;
 				OnPropertyChanged("DrenajPumpDevice");
+			}
+		}
+		public RelayCommand ChooseDrenajPumpCommand { get; private set; }
+		void OnChooseDrenajPump()
+		{
+			var device = ChoosePump(14);
+			if (device != null)
+			{
+				DrenajPumpDevice = device;
 			}
 		}
 
@@ -109,38 +177,54 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("CompressorPumpDevice");
 			}
 		}
-
-		public RelayCommand ChangeCommand { get; private set; }
-		void OnChange()
+		public RelayCommand ChooseCompressorPumpCommand { get; private set; }
+		void OnChooseCompressorPump()
 		{
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			var device = ChoosePump(13);
+			if (device != null)
 			{
-				if (device.Driver.DriverType == XDriverType.Pump)
-					sourceDevices.Add(device);
-			}
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-			{
-				Devices = devicesSelectationViewModel.DevicesList;
-				OnPropertyChanged("PresenrationDevices");
+				CompressorPumpDevice = device;
 			}
 		}
 
-		public RelayCommand ChooseDrenajPumpCommand { get; private set; }
-		void OnChooseDrenajPump()
+		XDevice _compensationPumpDevice;
+		public XDevice CompensationPumpDevice
+		{
+			get { return _compensationPumpDevice; }
+			set
+			{
+				_compensationPumpDevice = value;
+				OnPropertyChanged("CompensationPumpDevice");
+			}
+		}
+		public RelayCommand ChooseCompensationPumpCommand { get; private set; }
+		void OnChooseCompensationPump()
+		{
+			var device = ChoosePump(15);
+			if (device != null)
+			{
+				CompensationPumpDevice = device;
+			}
+		}
+
+		XDevice ChoosePump(byte addressOnShleif)
 		{
 			var devices = new List<XDevice>();
-			foreach(var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.Pump)
-					devices.Add(device);
+				if (device.IntAddress % 256 == addressOnShleif)
+				{
+					if (device.Driver.DriverType == XDriverType.Pump)
+						devices.Add(device);
+				}
 			}
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(devices, DrenajPumpDevice);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
-				DrenajPumpDevice = deviceSelectationViewModel.SelectedDevice.Device;
+				var pumpDevice = deviceSelectationViewModel.SelectedDevice.Device;
+				return pumpDevice;
 			}
+			return null;
 		}
 
 		protected override bool Save()
@@ -148,11 +232,19 @@ namespace GKModule.ViewModels
 			Device.PumpStationProperty = new XPumpStationProperty()
 			{
 				PumpsCount = PumpsCount,
-				DelayTime = DelayTime
+				DelayTime = DelayTime,
+				DrenajPumpUID = DrenajPumpDevice != null ? DrenajPumpDevice.UID : Guid.Empty,
+				JokeyPumpUID = JokeyPumpDevice != null ? JokeyPumpDevice.UID : Guid.Empty,
+				CompressorPumpUID = CompressorPumpDevice != null ? CompressorPumpDevice.UID : Guid.Empty,
+				CompensationPumpUID = CompensationPumpDevice != null ? CompensationPumpDevice.UID : Guid.Empty
 			};
 			foreach (var device in Devices)
 			{
-				Device.PumpStationProperty.DeviceUIDs.Add(device.UID);
+				Device.PumpStationProperty.FirePumpUIDs.Add(device.UID);
+			}
+			foreach (var direction in Directions)
+			{
+				Device.PumpStationProperty.DirectionUIDs.Add(direction.UID);
 			}
 			return true;
 		}
