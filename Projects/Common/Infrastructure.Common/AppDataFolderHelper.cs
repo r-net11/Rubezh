@@ -78,5 +78,10 @@ namespace Infrastructure.Common
 		{
 			return Path.Combine(AppDataFolderName, "RegistryDataConfiguration.xml");
 		}
+
+		public static string GetGlobalSettingsFileName()
+		{
+			return Path.Combine(AppDataFolderName, "GlobalSettings.xml");
+		}
 	}
 }

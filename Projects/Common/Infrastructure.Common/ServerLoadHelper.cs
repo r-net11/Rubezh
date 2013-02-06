@@ -11,7 +11,6 @@ namespace Infrastructure.Common
 	{
 		public static void SetLocation(string path)
 		{
-			var stackTrace = GetStackTrace();
 			RegistrySettingsHelper.SetString("FiresecServerPath", path);
 		}
 
@@ -95,13 +94,6 @@ namespace Infrastructure.Common
 			process.StartInfo.FileName = fileName;
 			process.Start();
 			return true;
-		}
-
-		static string GetStackTrace()
-		{
-			var stackTrace = new StackTrace(true);
-			var stackFrame = stackTrace.GetFrame(1);
-			return stackFrame.GetMethod().Name + " " + stackFrame.GetFileName() + ":" + stackFrame.GetFileLineNumber();
 		}
 	}
 

@@ -13,7 +13,7 @@ using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public DeviceState DeviceState { get; private set; }
@@ -43,17 +43,13 @@ namespace DevicesModule.ViewModels
 				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
 				Logger.Warn(errorText);
 			}
+
+			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+			PresentationAddress = Device.PresentationAddress;
 		}
 
-		public string PresentationZone
-		{
-			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
-		}
-
-		public string PresentationAddress
-		{
-			get { return Device.PresentationAddress; }
-		}
+		public string PresentationZone { get; private set; }
+		public string PresentationAddress { get; private set; }
 
 		void OnStateChanged()
 		{
@@ -304,15 +300,6 @@ namespace DevicesModule.ViewModels
 		void OnShowProperties()
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
-
-			//if (DevicesViewModel.Current.SelectedDevice != null)
-			//{
-			//    ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(DevicesViewModel.Current.SelectedDevice.Device.UID);
-			//}
-			//else
-			//{
-			//    ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
-			//}
 		}
 		bool CanShowProperties()
 		{
@@ -390,7 +377,7 @@ namespace DevicesModule.ViewModels
 				{
 					if (DateTime.Now > deviceDriverState.Time)
 					{
-							var timeSpan = DateTime.Now - deviceDriverState.Time;
+						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
 						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)
@@ -406,7 +393,7 @@ namespace DevicesModule.ViewModels
 								return;
 							}
 
-								int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
+							int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
 							if (secondsLeft > 0)
 							{
 								var mptTimerViewModel = new MPTTimerViewModel(Device);
@@ -419,6 +406,6 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public bool IsBold { get; set; }
+		public bool IsBold { get; set; }
 	}
 }

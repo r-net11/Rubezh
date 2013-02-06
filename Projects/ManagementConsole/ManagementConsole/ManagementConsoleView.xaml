@@ -19,5 +19,8 @@
                 <Button Background="#C0C0C0" Content="Удалить логи" Command="{Binding RemLogsCommand}" Height="25" FontSize="13" Margin="1"/>
             </StackPanel>
         </TabItem>
+        <TabItem Header="Настройки">
+            
+        </TabItem>
     </TabControl>
 </Window>
