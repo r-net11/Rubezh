@@ -1,10 +1,10 @@
 ﻿<Window x:Class="MonitorClientFS2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" Closing="Window_Closing" Unloaded="Window_Unloaded">
+        Title="MainWindow" Width="525" Closing="Window_Closing" SizeToContent="Height">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <DataGrid ItemsSource="{Binding DevicesViewModel}" SelectedItem="{Binding SelectedDeviceViewModel}" Margin="2" AutoGenerateColumns="False" >
+            <DataGrid ItemsSource="{Binding DevicesViewModel}" SelectedItem="{Binding SelectedDeviceViewModel}" Margin="2" AutoGenerateColumns="False"  Height="Auto">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Device.PresentationName}" />
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
@@ -13,13 +13,14 @@
                     <DataGridTextColumn Header="Версия" Binding="{Binding Version}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Command="{Binding ReadJournalCommand}" Content="GetNewJournalItems"/>
-            <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" MinRowHeight="20">
+            <Button Command="{Binding StartMonitoringCommand}" Content="StartMonitoring"/>
+            <Button Command="{Binding StopMonitoringCommand}" Content="StopMonitoring"/>
+            <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" Height="300" MinRowHeight="20">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Binding="{Binding No}" />
-                    <DataGridTextColumn Header="Название" Binding="{Binding Date}" />
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding EventName}" />
-                    <DataGridTextColumn Header="USB канал" Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="No" Binding="{Binding No}" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="EventName" Binding="{Binding EventName}" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

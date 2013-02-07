@@ -204,45 +204,15 @@ namespace MonitorClientFS2
 		{
 			int lastindex = GetLastJournalItemId(device);
 			int firstindex = GetFirstJournalItemId(device);
-			var journalItems = new List<JournalItem>();
-			var secJournalItems = new List<JournalItem>();
-			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
-			{
-				firstindex = 0;
-				secJournalItems = GetSecJournalItems2Op(device);
-			}
-			for (int i = firstindex; i <= lastindex; i++)
-			{
-				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				//bytes.Add(Convert.ToByte(device.IntAddress / 256));
-				bytes.Add(0x03); // 1 шлейф
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x01);
-				bytes.Add(0x20);
-				bytes.Add(0x00);
-				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				ParseJournal(SendCode(bytes).Result.Data, journalItems);
-			}
-			int no = 0;
-			foreach (var item in journalItems)
-			{
-				no++;
-				item.No = no;
-			}
-			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
-			return journalItems;
+			return GetJournalItems(device, lastindex, firstindex);
 		}
 
-		public static List<JournalItem> GetNewJournalItems(Device device, int lastDisplayedRecord)
+		public static List<JournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
 		{
-			int lastindex = GetLastJournalItemId(device);
-			int firstindex = lastDisplayedRecord + 1;
 			var journalItems = new List<JournalItem>();
 			var secJournalItems = new List<JournalItem>();
 			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
 			{
-				firstindex = 0;
 				secJournalItems = GetSecJournalItems2Op(device);
 			}
 			if (firstindex <= lastindex)
@@ -261,11 +231,11 @@ namespace MonitorClientFS2
 					ReadItem(device, journalItems, i);
 				}
 			}
-			int no = 0;
+			int no = firstindex;
 			foreach (var item in journalItems)
 			{
-				no++;
 				item.No = no;
+				no++;
 			}
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
@@ -283,74 +253,6 @@ namespace MonitorClientFS2
 			bytes.Add(0x00);
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
 			ParseJournal(SendCode(bytes).Result.Data, journalItems);
-		}
-
-		public static List<JournalItem> GetLast100JournalItems(Device device)
-		{
-			int lastindex = GetLastJournalItemId(device);
-			int firstindex = GetFirstJournalItemId(device);
-			if (lastindex - firstindex > 100)
-				firstindex = lastindex - 100;
-			var journalItems = new List<JournalItem>();
-			var secJournalItems = new List<JournalItem>();
-			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
-			{
-				firstindex = 0;
-				secJournalItems = GetSecJournalItems2Op(device);
-			}
-			for (int i = firstindex; i <= lastindex; i++)
-			{
-				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				//bytes.Add(Convert.ToByte(device.IntAddress / 256));
-				bytes.Add(0x03); // 1 шлейф
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x01);
-				bytes.Add(0x20);
-				bytes.Add(0x00);
-				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				ParseJournal(SendCode(bytes).Result.Data, journalItems);
-			}
-			int no = 0;
-			foreach (var item in journalItems)
-			{
-				no++;
-				item.No = no;
-			}
-			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
-			return journalItems;
-		}
-
-		public static List<byte> SendRequest(List<byte> bytes)
-		{
-			return SendCode(bytes).Result.Data;
-		}
-
-		public static void GetDeviceParameters(Device device)
-		{
-			var values = new List<List<byte>>();
-			foreach (var property in device.Driver.Properties)
-			{
-				if (!property.IsAUParameter)
-					continue;
-				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
-				bytes.Add((byte)device.Parent.IntAddress);
-				bytes.Add(0x02);
-				bytes.Add(0x53);
-				bytes.Add(0x02);
-				bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x00);
-				bytes.Add(property.No);
-				bytes.Add(0x00);
-				bytes.Add(0x00);
-				bytes.Add(Convert.ToByte(device.IntAddress / 256));
-				var value = SendCode(bytes).Result.Data;//[0x09].ToString();
-				//device.Properties.FirstOrDefault(x => x.Name == property.Name).Value = value;
-				values.Add(value);
-			}
 		}
 	}
 

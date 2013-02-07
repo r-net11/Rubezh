@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Infrastructure.Common.BalloonTrayTip.Views"
              WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" Width="220" SizeToContent="Height" Opacity="1"
-             Loaded="UserControl_Loaded" MouseUp="grid_MouseUp" LayoutUpdated="Window_LayoutUpdated">
+             Loaded="UserControl_Loaded" MouseUp="grid_MouseUp" LayoutUpdated="Window_LayoutUpdated" Title="">
     <Window.Resources>
         <ResourceDictionary Source="BalloonResources.xaml"/>
     </Window.Resources>

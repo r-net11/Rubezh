@@ -15,14 +15,6 @@ namespace MonitorClientFS2
 			InitializeComponent();
 		}
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-		}
-
-		private void Window_Unloaded(object sender, RoutedEventArgs e)
-		{
-		}
-
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			var dataContext = this.DataContext as MainWindowViewModel;

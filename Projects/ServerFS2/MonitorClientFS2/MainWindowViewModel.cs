@@ -23,69 +23,84 @@ namespace MonitorClientFS2
 			{
 				DevicesViewModel.Add(new DeviceViewModel(device));
 			}
-			JournalItems = new List<JournalItem>();
+			JournalItems = new ObservableCollection<JournalItem>();
 			lastRecord = new Dictionary<Device, int>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2AM)
 				{
-					foreach (var journalItem in JournalHelper.GetLast100JournalItems(device))
+					foreach (var journalItem in JournalHelper.GetJournalItems(device, JournalHelper.GetLastJournalItemId(device), JournalHelper.GetLastJournalItemId(device) - 1))
 						JournalItems.Add(journalItem);
 					lastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
 				}
 			}
 
-			thread = new Thread(new ThreadStart(() =>
-			{
-				StartMonitoring();
-			}));
-
-			thread.IsBackground = true;
-			thread.Start();
-
-			GetDevicesCommand = new RelayCommand(OnGetDevices);
-			ReadJournalCommand = new RelayCommand(OnReadJournal);
+			autoResetEvent = new AutoResetEvent(false);
+			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
+
+			StartMonitoring();
 		}
 
-		public void StartMonitoring()
-		{
-			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-			{
-				int lastDisplayedRecord;
-				int lastDeviceRecord;
-				while (true)
-				{
-					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-					foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-					{
-						if (device.Driver.DriverType == DriverType.Rubezh_2AM)
-						{
-							lastRecord.TryGetValue(device, out lastDisplayedRecord);
-							lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
-							if (lastDeviceRecord != lastDisplayedRecord)
-							{
-								Trace.WriteLine("Дочитываю записи с " + lastDisplayedRecord.ToString() +
-									" до " + JournalHelper.GetLastJournalItemId(device).ToString());
-								foreach (var journalItem in JournalHelper.GetNewJournalItems(device, lastDisplayedRecord))
-									JournalItems.Add(journalItem);
-								lastRecord.Remove(device);
-								lastRecord.Add(device, lastDeviceRecord);
-								OnPropertyChanged("JournalItems");
-							}
-							else
-							{
-								Trace.WriteLine("Новых записей нет");
-							}
-						}
-					}
-				}
-			}));
-		}
+		bool stop = false;
+
+		AutoResetEvent autoResetEvent;
 
 		Thread thread;
 
 		Dictionary<Device, int> lastRecord;
+
+		public void StartMonitoring()
+		{
+			stop = false;
+			thread = new Thread(new ThreadStart(() =>
+			{
+				Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+				{
+					Trace.WriteLine("Начинаю мониторинг");
+					int lastDisplayedRecord;
+					int lastDeviceRecord;
+					while (!stop)
+					{
+						autoResetEvent.WaitOne(1000);
+						foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+						{
+							if (device.Driver.DriverType == DriverType.Rubezh_2AM)
+							{
+								lastRecord.TryGetValue(device, out lastDisplayedRecord);
+								lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
+								if (lastDeviceRecord != lastDisplayedRecord)
+								{
+									Trace.WriteLine("Дочитываю записи с " + lastDisplayedRecord.ToString() +
+										" до " + JournalHelper.GetLastJournalItemId(device).ToString());
+									foreach (var journalItem in JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1))
+										Dispatcher.Invoke(new Action(() =>
+										{
+											JournalItems.Add(journalItem);
+										}));
+
+									lastRecord.Remove(device);
+									lastRecord.Add(device, lastDeviceRecord);
+								}
+								else
+								{
+									Trace.WriteLine("Новых записей нет");
+								}
+							}
+						}
+					}
+				}));
+			}));
+
+			thread.IsBackground = true;
+			thread.Start();
+		}
+
+		private void StopMonitoring()
+		{
+			stop = true;
+			Trace.WriteLine("Останавливаю мониторинг");
+		}
 
 		private ObservableCollection<DeviceViewModel> _devicesViewModel;
 
@@ -99,9 +114,9 @@ namespace MonitorClientFS2
 			}
 		}
 
-		private List<JournalItem> _journalItems;
+		private ObservableCollection<JournalItem> _journalItems;
 
-		public List<JournalItem> JournalItems
+		public ObservableCollection<JournalItem> JournalItems
 		{
 			get { return _journalItems; }
 			set
@@ -123,25 +138,21 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public RelayCommand GetDevicesCommand { get; private set; }
+		public RelayCommand StartMonitoringCommand { get; private set; }
 
-		private void OnGetDevices()
+		private void OnStartMonitoring()
 		{
-		}
-
-		public RelayCommand ReadJournalCommand { get; private set; }
-
-		private void OnReadJournal()
-		{
-			//thread.Suspend();
+			if (stop)
+			{
+				StartMonitoring();
+			}
 		}
 
 		public RelayCommand StopMonitoringCommand { get; private set; }
 
 		private void OnStopMonitoring()
 		{
-			thread.Suspend();
-			Trace.WriteLine("Мониторинг остановлен");
+			StopMonitoring();
 		}
 	}
 }
