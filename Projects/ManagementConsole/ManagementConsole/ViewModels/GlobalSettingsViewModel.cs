@@ -11,23 +11,14 @@ namespace ManagementConsole
 	{
 		public GlobalSettingsViewModel()
 		{
+			SaveCommand = new RelayCommand(OnSave);
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			RemoteFSAgentPort = GlobalSettingsHelper.GlobalSettings.RemoteFSAgentPort;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			LibVlcDllsPath = GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath;
-		}
-
-		public void Save()
-		{
-			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
-			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
-			GlobalSettingsHelper.GlobalSettings.RemoteFSAgentPort = RemoteFSAgentPort;
-			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
-			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
-			GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath = LibVlcDllsPath;
-			GlobalSettingsHelper.Save();
+			Modules = GlobalSettingsHelper.GlobalSettings.Modules;
 		}
 
 		string _remoteAddress;
@@ -94,6 +85,30 @@ namespace ManagementConsole
 				_libVlcDllsPath = value;
 				OnPropertyChanged("LibVlcDllsPath");
 			}
+		}
+
+		string _modules;
+		public string Modules
+		{
+			get { return _modules; }
+			set
+			{
+				_modules = value;
+				OnPropertyChanged("Modules");
+			}
+		}
+
+		public RelayCommand SaveCommand { get; private set; }
+		void OnSave()
+		{
+			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
+			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
+			GlobalSettingsHelper.GlobalSettings.RemoteFSAgentPort = RemoteFSAgentPort;
+			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
+			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
+			GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath = LibVlcDllsPath;
+			GlobalSettingsHelper.GlobalSettings.Modules = Modules;
+			GlobalSettingsHelper.Save();			
 		}
 	}
 }

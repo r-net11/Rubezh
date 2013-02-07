@@ -36,5 +36,14 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string LibVlcDllsPath { get; set; }
+
+		[DataMember]
+		public string Modules { get; set; }
+
+		public List<string> GetModules()
+		{
+			var modules = Modules.Split('\n');
+			return modules.ToList();
+		}
 	}
 }

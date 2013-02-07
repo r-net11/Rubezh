@@ -69,8 +69,10 @@ namespace Infrastructure.Common
 			return Path.Combine(AppDataFolderName, "Multiclient", "TempConfiguration.xml");
 		}
 
-		public static string GetLogsFolder(string folderName)
+		public static string GetLogsFolder(string folderName = null)
 		{
+			if (folderName == null)
+				return Path.Combine(AppDataFolderName, "Logs");
 			return Path.Combine(AppDataFolderName, "Logs", folderName);
 		}
 
