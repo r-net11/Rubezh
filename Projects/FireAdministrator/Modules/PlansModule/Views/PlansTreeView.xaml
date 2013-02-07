@@ -15,7 +15,7 @@
 			<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 				<Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />
 				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-				<Setter Property="Focusable" Value="False" />
+				<Setter Property="Focusable" Value="True" />
 			</Style>
 		</Controls:TreeListView.ItemContainerStyle>
 		<Controls:TreeListView.Columns>

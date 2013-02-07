@@ -65,6 +65,14 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
+    <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />
+    <Compile Include="Devices\Views\PumpStation\DeviceSelectationView.xaml.cs">
+      <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PumpStation\PumpStationView.xaml.cs">
+      <DependentUpon>PumpStationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="KauBinConfigurationReader.cs" />
     <Compile Include="GkBinConfigurationReader.cs" />
@@ -308,6 +316,14 @@
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\PumpStation\DeviceSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PumpStation\PumpStationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Diagnostics\Views\DatabasesView.xaml">
       <SubType>Designer</SubType>

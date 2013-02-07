@@ -68,7 +68,7 @@ namespace Common.GK
 				var objectIndex = 0;
 				foreach (var baseObject in baseObjects)
 				{
-					Formula.AddGetBitOff(clause.StateType, baseObject, DatabaseType);
+					Formula.AddGetBitOff(clause.StateType, baseObject);
 
 					if (objectIndex > 0)
 					{
@@ -109,7 +109,7 @@ namespace Common.GK
 				clauseIndex++;
 			}
 
-			Formula.AddStandardTurning(Device, DatabaseType);
+			Formula.AddStandardTurning(Device);
 		}
 
 		void SetPropertiesBytes()

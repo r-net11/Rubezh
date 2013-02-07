@@ -127,15 +127,30 @@ namespace GKModule.ViewModels
 
 		public int ZonesCount
 		{
-			get { return SelectedDirection.Zones.Count; }
+			get
+			{
+				if (SelectedDirection == null)
+					return 0;
+				return SelectedDirection.Zones.Count;
+			}
 		}
 		public int DevicesCount
 		{
-			get { return SelectedDirection.Devices.Count; }
+			get
+			{
+				if (SelectedDirection == null)
+					return 0;
+				return SelectedDirection.Devices.Count;
+			}
 		}
 		public int OutputDevicesCount
 		{
-			get { return SelectedDirection.OutputDevices.Count; }
+			get
+			{
+				if (SelectedDirection == null)
+					return 0;
+				return SelectedDirection.OutputDevices.Count;
+			}
 		}
 
         public override void OnShow()

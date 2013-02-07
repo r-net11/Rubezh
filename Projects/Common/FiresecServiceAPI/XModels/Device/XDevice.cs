@@ -22,6 +22,7 @@ namespace XFiresecAPI
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
 			DevicesInLogic = new List<XDevice>();
+			PumpStationProperty = new XPumpStationProperty();
 		}
 
 		public XDeviceState DeviceState { get; set; }
@@ -64,6 +65,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool IsNotUsed { get; set; }
+
+		[DataMember]
+		public XPumpStationProperty PumpStationProperty { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }

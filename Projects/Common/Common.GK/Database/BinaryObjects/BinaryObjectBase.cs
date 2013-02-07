@@ -11,6 +11,7 @@ namespace Common.GK
 		public XZone Zone { get; protected set; }
 		public XDevice Device { get; protected set; }
 		public XDirection Direction { get; protected set; }
+		public XDelay Delay { get; protected set; }
 		public ObjectType ObjectType { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
@@ -24,11 +25,11 @@ namespace Common.GK
 		public List<byte> InputDependenses { get; protected set; }
 		public List<byte> OutputDependensesCount { get; private set; }
 		public List<byte> OutputDependenses { get; protected set; }
-		public List<byte> FormulaBytes { get; protected set; }
+		public List<byte> FormulaBytes { get; set; }
 		public List<byte> ParametersCount { get; private set; }
 		public List<byte> Parameters { get; protected set; }
 		public List<byte> AllBytes { get; private set; }
-		public FormulaBuilder Formula { get; protected set; }
+		public FormulaBuilder Formula { get; set; }
 
 		public BinaryObjectBase()
 		{
@@ -43,19 +44,17 @@ namespace Common.GK
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					var binaryBase = BinaryBase;
-
-					if (binaryBase.KauDatabaseParent != null)
+					if (BinaryBase.KauDatabaseParent != null)
 					{
-						ushort lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
-						byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
+						ushort lineNo = XManager.GetKauLine(BinaryBase.KauDatabaseParent);
+						byte intAddress = BinaryBase.KauDatabaseParent.IntAddress;
 						ControllerAdress = (ushort)(lineNo * 256 + intAddress);
-						AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Kau);
+						AdressOnController = BinaryBase.GetDatabaseNo(DatabaseType.Kau);
 					}
 					else
 					{
 						ControllerAdress = 0x200;
-						AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+						AdressOnController = BinaryBase.GetDatabaseNo(DatabaseType.Gk);
 					}
 					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
 					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
@@ -70,19 +69,17 @@ namespace Common.GK
 
 		void InitializeInputOutputDependences()
 		{
-			var binaryBase = BinaryBase;
-
 			InputDependenses = new List<byte>();
 			OutputDependenses = new List<byte>();
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				foreach (var inputBinaryBase in binaryBase.InputObjects)
+				foreach (var inputBinaryBase in BinaryBase.InputObjects)
 				{
 					var no = inputBinaryBase.GetDatabaseNo(DatabaseType);
 					InputDependenses.AddRange(BitConverter.GetBytes(no));
 				}
-				foreach (var outputBinaryBase in binaryBase.OutputObjects)
+				foreach (var outputBinaryBase in BinaryBase.OutputObjects)
 				{
 					var no = outputBinaryBase.GetDatabaseNo(DatabaseType);
 					OutputDependenses.AddRange(BitConverter.GetBytes(no));
@@ -162,6 +159,9 @@ namespace Common.GK
 
 					case ObjectType.Direction:
 						return Direction;
+
+					case ObjectType.Delay:
+						return Delay;
 				}
 				return null;
 			}

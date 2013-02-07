@@ -27,50 +27,50 @@ namespace Common.GK
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(XStateType stateType, XBinaryBase binaryBase, DatabaseType databaseType)
+		public void AddGetBitOff(XStateType stateType, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateType,
-				binaryBase.GetDatabaseNo(databaseType),
+				binaryBase.GetDatabaseNo(DatabaseType.Gk),
 				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 			Add(FormulaOperationType.GETBIT,
 				(byte)XStateType.Ignore,
-				binaryBase.GetDatabaseNo(databaseType));
+				binaryBase.GetDatabaseNo(DatabaseType.Gk));
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(XStateType stateType, XBinaryBase binaryBase, DatabaseType databaseType)
+		public void AddGetBit(XStateType stateType, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateType,
-				binaryBase.GetDatabaseNo(databaseType),
+				binaryBase.GetDatabaseNo(DatabaseType.Gk),
 				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
-		public void AddPutBit(XStateType stateType, XBinaryBase binaryBase, DatabaseType databaseType)
+		public void AddPutBit(XStateType stateType, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.PUTBIT,
 				(byte)stateType,
-				binaryBase.GetDatabaseNo(databaseType),
+				binaryBase.GetDatabaseNo(DatabaseType.Gk),
 				"Запись состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
-		public void AddStandardTurning(XBinaryBase binaryBase, DatabaseType databaseType)
+		public void AddStandardTurning(XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.DUP);
 			Add(FormulaOperationType.DUP);
-			AddGetBit(XStateType.Norm, binaryBase, databaseType);
+			AddGetBit(XStateType.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddGetBit(XStateType.Save, binaryBase, databaseType);
+			AddGetBit(XStateType.Save, binaryBase);
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
-			AddPutBit(XStateType.TurnOn, binaryBase, databaseType);
+			AddPutBit(XStateType.TurnOn, binaryBase);
 			Add(FormulaOperationType.COM);
-			AddGetBit(XStateType.Norm, binaryBase, databaseType);
+			AddGetBit(XStateType.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateType.TurnOff, binaryBase, databaseType);
-			AddPutBit(XStateType.Save, binaryBase, databaseType);
+			AddPutBit(XStateType.TurnOff, binaryBase);
+			AddPutBit(XStateType.Save, binaryBase);
 		}
 
 		string XBinaryBaseToString(XBinaryBase binaryBase)

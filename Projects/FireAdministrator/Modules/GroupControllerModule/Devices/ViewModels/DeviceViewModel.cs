@@ -180,10 +180,15 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
+			var pumpStationViewModel = new PumpStationViewModel(Device);
+			if (DialogService.ShowModalWindow(pumpStationViewModel))
+			{
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
         bool CanShowProperties()
         {
-            return false;
+            return Device.Driver.DriverType == XDriverType.PumpStation;
         }
 
         public string PresentationZone

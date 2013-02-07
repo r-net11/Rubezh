@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Common;
 using System;
 using System.Diagnostics;
+using Infrastructure.Events;
 
 namespace GKModule.Models
 {
@@ -144,7 +145,12 @@ namespace GKModule.Models
 			}
 			if (device.Driver.DriverType == XDriverType.GK)
 			{
-				var result = GkBinConfigurationReader.ReadConfiguration(device);
+				var gkBinConfigurationReader = new GkBinConfigurationReader();
+				gkBinConfigurationReader.ReadConfiguration(device);
+
+				XManager.DeviceConfiguration = gkBinConfigurationReader.DeviceConfiguration;
+				ServiceFactory.SaveService.FSChanged = true;
+				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 		}
 		bool CanReadConfiguration()

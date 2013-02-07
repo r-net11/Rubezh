@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="GKModule.Views.PumpStationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             MinWidth="800" MinHeight="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Devices}" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Устройство">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding DottedAddress}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Directions}" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Направление" Binding="{Binding PresentationName}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Grid.Row="1" Grid.Column="0" Content="Изменить" Command="{Binding ChangePumpsCommand}" Width="100" HorizontalAlignment="Right" Margin="2" />
+            <Button Grid.Row="1" Grid.Column="1" Content="Изменить" Command="{Binding ChangeDirectionsCommand}" Width="100" HorizontalAlignment="Right" Margin="2" />
+        </Grid>
+        <Grid Grid.Row="2" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Дренажный насос" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Жокей насос" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Компрессор" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="НКУ" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
+            
+            <TextBlock Grid.Row="0" Grid.Column="1">
+                <Hyperlink Command="{Binding ChooseDrenajPumpCommand}" Style="{StaticResource HyperlinkStyle}">
+                    <TextBlock Text="{Binding DrenajPumpDevice.ShortPresentationAddressAndDriver}" />
+                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
+                        <TextBlock.Style>
+                            <Style>
+                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                <DataTrigger Binding="{Binding DrenajPumpDevice}" Value="{x:Null}">
+                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Hyperlink>
+            </TextBlock>
+
+            <TextBlock Grid.Row="1" Grid.Column="1">
+                <Hyperlink Command="{Binding ChooseJokeyPumpCommand}" Style="{StaticResource HyperlinkStyle}">
+                    <TextBlock Text="{Binding JokeyPumpDevice.ShortPresentationAddressAndDriver}" />
+                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
+                        <TextBlock.Style>
+                            <Style>
+                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                <DataTrigger Binding="{Binding JokeyPumpDevice}" Value="{x:Null}">
+                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Hyperlink>
+            </TextBlock>
+
+            <TextBlock Grid.Row="2" Grid.Column="1">
+                <Hyperlink Command="{Binding ChooseCompressorPumpCommand}" Style="{StaticResource HyperlinkStyle}">
+                    <TextBlock Text="{Binding CompressorPumpDevice.ShortPresentationAddressAndDriver}" />
+                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
+                        <TextBlock.Style>
+                            <Style>
+                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                <DataTrigger Binding="{Binding CompressorPumpDevice}" Value="{x:Null}">
+                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Hyperlink>
+            </TextBlock>
+            
+            <TextBlock Grid.Row="3" Grid.Column="1">
+                <Hyperlink Command="{Binding ChooseCompensationPumpCommand}" Style="{StaticResource HyperlinkStyle}">
+                    <TextBlock Text="{Binding CompensationPumpDevice.ShortPresentationAddressAndDriver}" />
+                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
+                        <TextBlock.Style>
+                            <Style>
+                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                <DataTrigger Binding="{Binding CompensationPumpDevice}" Value="{x:Null}">
+                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Hyperlink>
+            </TextBlock>
+
+            <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding PumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+            <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding DelayTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+        </Grid>
+    </Grid>
+</UserControl>

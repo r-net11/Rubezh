@@ -65,13 +65,21 @@ namespace Common.GK
 			}
 			foreach (var zone in Zones)
 			{
-				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
+				var zoneBinaryObject = new ZoneBinaryObject(zone);
 				BinaryObjects.Add(zoneBinaryObject);
 			}
 			foreach (var direction in Directions)
 			{
 				var directionBinaryObject = new DirectionBinaryObject(direction, DatabaseType);
 				BinaryObjects.Add(directionBinaryObject);
+			}
+			foreach (var device in RootDevice.Children)
+			{
+				if (device.Driver.DriverType == XDriverType.PumpStation)
+				{
+					var pumpStationCreator = new PumpStationCreator(this, device);
+					pumpStationCreator.Create();
+				}
 			}
 		}
 

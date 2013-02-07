@@ -126,8 +126,8 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Включить" Command="{Binding SetOnStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
-                        <Button Grid.Column="1" Content="Отключить" Command="{Binding SetOffStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                        <Button Grid.Column="0" Content="Снять отключение" Command="{Binding SetOnStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                        <Button Grid.Column="1" Content="Отключение" Command="{Binding SetOffStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
                     </Grid>
                 </Grid>
             </TabItem>

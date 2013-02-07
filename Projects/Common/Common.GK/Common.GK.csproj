@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="BinaryObjectState.cs" />
     <Compile Include="BytesHelper.cs" />
+    <Compile Include="Database\BinaryObjects\DelayBinaryObject.cs" />
     <Compile Include="Database\BinaryObjects\FormulaBuilder.cs" />
     <Compile Include="Database\DB\CommonDatabase.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Database\BinaryObjects\DirectionBinaryObject.cs" />
     <Compile Include="Database\BinaryObjects\ObjectType.cs" />
     <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
+    <Compile Include="Database\DB\PumpStationCreator.cs" />
     <Compile Include="Database\KauChildrenHelper.cs" />
     <Compile Include="DB\ConnectionManager.cs" />
     <Compile Include="DB\GKDBHelper.cs" />
@@ -84,6 +86,7 @@
     </Compile>
     <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\PumpStation_Helper.cs" />
     <Compile Include="Drivers\GKDriversCreator.cs" />
     <Compile Include="Drivers\AddressDevices\AM_1_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AMP_1_Helper.cs" />

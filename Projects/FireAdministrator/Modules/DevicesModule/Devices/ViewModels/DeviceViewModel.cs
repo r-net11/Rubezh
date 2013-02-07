@@ -34,14 +34,15 @@ namespace DevicesModule.ViewModels
 			UpdateDriver();
 			device.Changed += new Action(device_Changed);
 			device.AUParametersChanged += new Action(device_AUParametersChanged);
+
+			UpdateZoneName();
 		}
 
 		void device_Changed()
 		{
 			OnPropertyChanged("Address");
-			OnPropertyChanged("PresentationZone");
-			OnPropertyChanged("EditingPresentationZone");
 			OnPropertyChanged("HasExternalDevices");
+			UpdateZoneName();
 		}
 
 		void device_AUParametersChanged()
@@ -108,31 +109,44 @@ namespace DevicesModule.ViewModels
 			get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
 		}
 
+		void UpdateZoneName()
+		{
+			if (Device.IsNotUsed)
+				PresentationZone = null;
+			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+
+			if (Device.IsNotUsed)
+				EditingPresentationZone = null;
+			var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+			if (string.IsNullOrEmpty(presentationZone))
+			{
+				if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
+					presentationZone = "Нажмите для выбора зон";
+				if (Driver.IsZoneLogicDevice)
+					presentationZone = "Нажмите для настройки логики";
+			}
+			EditingPresentationZone = presentationZone;
+		}
+
+		string _presentationZone;
 		public string PresentationZone
 		{
-			get
+			get { return _presentationZone; }
+			set
 			{
-				if (Device.IsNotUsed)
-					return null;
-				return FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+				_presentationZone = value;
+				OnPropertyChanged("PresentationZone");
 			}
 		}
 
+		string _editingPresentationZone;
 		public string EditingPresentationZone
 		{
-			get
+			get{return _editingPresentationZone;}
+			set
 			{
-				if (Device.IsNotUsed)
-					return null;
-				var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
-				if (string.IsNullOrEmpty(presentationZone))
-				{
-					if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
-						presentationZone = "Нажмите для выбора зон";
-					if (Driver.IsZoneLogicDevice)
-						presentationZone = "Нажмите для настройки логики";
-				}
-				return presentationZone;
+				_editingPresentationZone = value;
+				OnPropertyChanged("EditingPresentationZone");
 			}
 		}
 
@@ -168,7 +182,7 @@ namespace DevicesModule.ViewModels
 				if (DialogService.ShowModalWindow(new PDUDetailsViewModel(Device)))
 					ServiceFactory.SaveService.FSChanged = true;
 			}
-			OnPropertyChanged("PresentationZone");
+			UpdateZoneName();
 		}
 
 		public RelayCommand ShowZoneLogicCommand { get; private set; }
@@ -179,7 +193,7 @@ namespace DevicesModule.ViewModels
 			{
 				ServiceFactory.SaveService.FSChanged = true;
 			}
-			OnPropertyChanged("PresentationZone");
+			UpdateZoneName();
 		}
 		bool CanShowZoneLogic()
 		{
@@ -205,8 +219,7 @@ namespace DevicesModule.ViewModels
 				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
 				OnPropertyChanged("IsUsed");
 				OnPropertyChanged("ShowOnPlan");
-				OnPropertyChanged("PresentationZone");
-				OnPropertyChanged("EditingPresentationZone");
+				UpdateZoneName();
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
@@ -225,7 +238,7 @@ namespace DevicesModule.ViewModels
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
 			if (DialogService.ShowModalWindow(indicatorDetailsViewModel))
 				ServiceFactory.SaveService.FSChanged = true;
-			OnPropertyChanged("PresentationZone");
+			UpdateZoneName();
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -326,7 +339,7 @@ namespace DevicesModule.ViewModels
 						ServiceFactory.SaveService.FSChanged = true;
 					break;
 			}
-			OnPropertyChanged("PresentationZone");
+			UpdateZoneName();
 		}
 		bool CanShowProperties()
 		{

@@ -1,10 +1,10 @@
-﻿
-namespace Common.GK
+﻿namespace Common.GK
 {
 	public enum ObjectType
 	{
 		Device,
 		Zone,
-		Direction
+		Direction,
+		Delay
 	}
 }
