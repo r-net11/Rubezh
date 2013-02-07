@@ -1,0 +1,27 @@
+﻿<Window x:Class="MonitorClientFS2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" Closing="Window_Closing" Unloaded="Window_Unloaded">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <DataGrid ItemsSource="{Binding DevicesViewModel}" SelectedItem="{Binding SelectedDeviceViewModel}" Margin="2" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Device.PresentationName}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="USB канал" Binding="{Binding UsbChannel}" />
+                    <DataGridTextColumn Header="Серийный номер" Binding="{Binding SerialNo}" />
+                    <DataGridTextColumn Header="Версия" Binding="{Binding Version}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Command="{Binding ReadJournalCommand}" Content="GetNewJournalItems"/>
+            <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" MinRowHeight="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding No}" />
+                    <DataGridTextColumn Header="Название" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding EventName}" />
+                    <DataGridTextColumn Header="USB канал" Binding="{Binding Description}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

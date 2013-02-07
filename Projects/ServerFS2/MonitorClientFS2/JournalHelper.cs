@@ -6,17 +6,17 @@ using System.Linq;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Device = FiresecAPI.Models.Device;
+using ServerFS2;
 
-namespace ServerFS2
+namespace MonitorClientFS2
 {
-	public static class ServerHelper
+	public static class JournalHelper
 	{
 		static readonly object Locker = new object();
 		static readonly UsbRunner UsbRunner;
 		static readonly List<UsbRequest> UsbRequests = new List<UsbRequest>();
 
-		static ServerHelper()
+		static JournalHelper()
 		{
 			MetadataHelper.Initialize();
 			UsbRunner = new UsbRunner();
@@ -200,7 +200,7 @@ namespace ServerFS2
 			}
 		}
 
-		public static List<JournalItem> GetJournalItems(Device device)
+		public static List<JournalItem> GetAllJournalItems(Device device)
 		{
 			int lastindex = GetLastJournalItemId(device);
 			int firstindex = GetFirstJournalItemId(device);
@@ -234,68 +234,91 @@ namespace ServerFS2
 			return journalItems;
 		}
 
-		public static void AutoDetectDevice(List<Device> devices)
+		public static List<JournalItem> GetNewJournalItems(Device device, int lastDisplayedRecord)
 		{
-			byte deviceCount;
-			//for (byte sleif = 0x03; sleif <= 0x04; sleif++)
-			byte sleif = 0x03;
-			for (deviceCount = 1; deviceCount < 128; deviceCount++)
+			int lastindex = GetLastJournalItemId(device);
+			int firstindex = lastDisplayedRecord + 1;
+			var journalItems = new List<JournalItem>();
+			var secJournalItems = new List<JournalItem>();
+			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
+			{
+				firstindex = 0;
+				secJournalItems = GetSecJournalItems2Op(device);
+			}
+			if (firstindex <= lastindex)
+				for (int i = firstindex; i <= lastindex; i++)
+				{
+					ReadItem(device, journalItems, i);
+				}
+			else
+			{
+				for (int i = firstindex; i <= 1024; i++)
+				{
+					ReadItem(device, journalItems, i);
+				}
+				for (int i = 0; i <= lastindex; i++)
+				{
+					ReadItem(device, journalItems, i);
+				}
+			}
+			int no = 0;
+			foreach (var item in journalItems)
+			{
+				no++;
+				item.No = no;
+			}
+			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
+			return journalItems;
+		}
+
+		private static void ReadItem(Device device, List<JournalItem> journalItems, int i)
+		{
+			var bytes = new List<byte>();
+			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+			//bytes.Add(Convert.ToByte(device.IntAddress / 256));
+			bytes.Add(0x03); // 1 шлейф
+			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(0x01);
+			bytes.Add(0x20);
+			bytes.Add(0x00);
+			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
+			ParseJournal(SendCode(bytes).Result.Data, journalItems);
+		}
+
+		public static List<JournalItem> GetLast100JournalItems(Device device)
+		{
+			int lastindex = GetLastJournalItemId(device);
+			int firstindex = GetFirstJournalItemId(device);
+			if (lastindex - firstindex > 100)
+				firstindex = lastindex - 100;
+			var journalItems = new List<JournalItem>();
+			var secJournalItems = new List<JournalItem>();
+			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
+			{
+				firstindex = 0;
+				secJournalItems = GetSecJournalItems2Op(device);
+			}
+			for (int i = firstindex; i <= lastindex; i++)
 			{
 				var bytes = new List<byte>();
 				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				bytes.Add(sleif);
-				bytes.Add(deviceCount);
-				bytes.Add(0x3C);
-				var inputBytes = SendCode(bytes).Result.Data;
-				if (inputBytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
-				{
-					var device = new Device();
-					device.Properties = new List<Property>();
-					device.Driver = new Driver();
-					device.IntAddress = inputBytes[5];
-					device.Driver.HasAddress = true;
-					bytes = new List<byte>();
-					bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-					bytes.Add(sleif);
-					bytes.Add(deviceCount);
-					bytes.Add(0x01);
-					bytes.Add(0x03);
-					inputBytes = SendCode(bytes).Result.Data;
-					device.Driver.ShortName = DriversHelper.GetDriverNameByType(inputBytes[7]);
-
-					bytes = new List<byte>();
-					bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-					bytes.Add(sleif);
-					bytes.Add(deviceCount);
-					bytes.Add(0x01);
-					bytes.Add(0x12);
-					inputBytes = SendCode(bytes).Result.Data;
-					device.Properties.Add(new Property() { Name = "Version", Value = inputBytes[7].ToString("X2") + "." + inputBytes[8].ToString("X2") });
-
-					bytes = new List<byte>();
-					bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-					bytes.Add(sleif);
-					bytes.Add(deviceCount);
-					bytes.Add(0x01);
-					bytes.Add(0x52);
-					bytes.Add(0x00);
-					bytes.Add(0x00);
-					bytes.Add(0x00);
-					bytes.Add(0xF4);
-					bytes.Add(0x0B);
-					inputBytes = SendCode(bytes).Result.Data;
-					if (inputBytes.Count >= 18)
-					{
-						var serilaNo = "";
-						for (int i = 7; i <= 18; i++)
-							serilaNo += inputBytes[i] - 0x30 + ".";
-						serilaNo = serilaNo.Remove(serilaNo.Length - 1);
-						device.Properties.Add(new Property() { Name = "SerialNo", Value = serilaNo });
-					}
-					device.Properties.Add(new Property() { Name = "UsbChannel", Value = (sleif - 2).ToString() });
-					devices.Add(device);
-				}
+				//bytes.Add(Convert.ToByte(device.IntAddress / 256));
+				bytes.Add(0x03); // 1 шлейф
+				bytes.Add(Convert.ToByte(device.IntAddress % 256));
+				bytes.Add(0x01);
+				bytes.Add(0x20);
+				bytes.Add(0x00);
+				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
+				ParseJournal(SendCode(bytes).Result.Data, journalItems);
 			}
+			int no = 0;
+			foreach (var item in journalItems)
+			{
+				no++;
+				item.No = no;
+			}
+			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
+			return journalItems;
 		}
 
 		public static List<byte> SendRequest(List<byte> bytes)
