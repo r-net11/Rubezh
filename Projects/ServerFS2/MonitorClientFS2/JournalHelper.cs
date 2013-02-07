@@ -259,11 +259,8 @@ namespace MonitorClientFS2
 	internal class UsbRequest
 	{
 		public int Id { get; set; }
-
 		public int UsbAddress { get; set; }
-
 		public int SelfAddress { get; set; }
-
 		public int FuncCode { get; set; }
 	}
 }

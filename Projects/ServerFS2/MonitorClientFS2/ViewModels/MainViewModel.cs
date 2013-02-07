@@ -5,57 +5,53 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
 using ClientFS2;
-using ClientFS2.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
+using MonitorClientFS2.ViewModels;
+using Infrastructure.Common.Windows;
+using ServerFS2.DataBase;
+using FiresecAPI;
 
 namespace MonitorClientFS2
 {
-	public class MainWindowViewModel : BaseViewModel
+	public class MainViewModel : BaseViewModel
 	{
-		public MainWindowViewModel()
+		public MainViewModel()
 		{
-			GetDevicesCommand = new RelayCommand(OnGetDevices);
-			ReadJournalCommand = new RelayCommand(OnReadJournal);
+			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
+			TestCommand = new RelayCommand(OnTest);
 
-			ConfigurationManager.Load();
-			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				Devices.Add(new DeviceViewModel(device));
-			}
+			DevicesViewModel = new DevicesViewModel();
 			JournalItems = new ObservableCollection<JournalItem>();
-			return;
 
 			lastRecord = new Dictionary<Device, int>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2AM)
 				{
-					foreach (var journalItem in JournalHelper.GetJournalItems(device, JournalHelper.GetLastJournalItemId(device), JournalHelper.GetLastJournalItemId(device) - 1))
+					try
 					{
+						foreach (var journalItem in JournalHelper.GetJournalItems(device, JournalHelper.GetLastJournalItemId(device), JournalHelper.GetLastJournalItemId(device) - 1))
+						{
 							JournalItems.Add(journalItem);
-						lastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
+							lastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
+						}
 					}
 					catch { }
 				}
 			}
 
 			autoResetEvent = new AutoResetEvent(false);
-			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
-			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
-
 			StartMonitoring();
 		}
 
+		public DevicesViewModel DevicesViewModel { get; private set; }
 		bool stop = false;
 		AutoResetEvent autoResetEvent;
-
 		Thread thread;
-
 		Dictionary<Device, int> lastRecord;
 
 		public void StartMonitoring()
@@ -110,19 +106,7 @@ namespace MonitorClientFS2
 			Trace.WriteLine("Останавливаю мониторинг");
 		}
 
-		private ObservableCollection<DeviceViewModel> _devices;
-		public ObservableCollection<DeviceViewModel> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
-		}
-
 		private ObservableCollection<JournalItem> _journalItems;
-
 		public ObservableCollection<JournalItem> JournalItems
 		{
 			get { return _journalItems; }
@@ -133,20 +117,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		private DeviceViewModel _selectedDeviceViewModel;
-
-		public DeviceViewModel SelectedDeviceViewModel
-		{
-			get { return _selectedDeviceViewModel; }
-			set
-			{
-				_selectedDeviceViewModel = value;
-				OnPropertyChanged("SelectedDeviceViewModel");
-			}
-		}
-
 		public RelayCommand StartMonitoringCommand { get; private set; }
-
 		private void OnStartMonitoring()
 		{
 			if (stop)
@@ -156,12 +127,43 @@ namespace MonitorClientFS2
 		}
 
 		public RelayCommand StopMonitoringCommand { get; private set; }
-
 		private void OnStopMonitoring()
 		{
 			StopMonitoring();
 		}
 
-		public MonitorClientFS2.ViewModels.DevicesViewModel DevicesViewModel { get; private set; }
+		public RelayCommand TestCommand { get; private set; }
+		private void OnTest()
+		{
+			var deviceUID = new Guid("444C11C8-D5E7-4309-9209-56F6720262B9");
+			//DBJournalHelper.SetLastId(deviceUID, 100);
+			//var lastID = DBJournalHelper.GetLastId(deviceUID);
+
+			var fsJournalItems = new List<FSJournalItem>();
+			for (int i = 0; i < 100; i++)
+			{
+				var fsJournalItem = new FSJournalItem()
+				{
+					DeviceTime = DateTime.Now,
+					SystemTime = DateTime.Now,
+					ZoneName = "Зона 1",
+					Description = "Описание",
+					DeviceName = "Название устройства",
+					PanelName = "Название прибора",
+					DeviceUID = Guid.NewGuid(),
+					PanelUID = Guid.NewGuid(),
+					UserName = "Пользователь",
+					SubsystemType = SubsystemType.Fire,
+					StateType = StateType.Fire,
+					Detalization = "Детализация",
+					DeviceCategory = 0
+				};
+				fsJournalItems.Add(fsJournalItem);
+			}
+			DBJournalHelper.AddJournalItems(fsJournalItems);
+
+			var topfsJournalItems = DBJournalHelper.GetJournalItems(deviceUID);
+			;
+		}
 	}
 }

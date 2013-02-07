@@ -24,7 +24,6 @@ namespace ClientFS2.ViewModels
 			SendRequestCommand = new RelayCommand(OnSendRequest);
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
 			ShowDevicesTreeCommand = new RelayCommand(OnShowDevicesTree);
-			TestCommand = new RelayCommand(OnTest);
 			DevicesViewModel = new ObservableCollection<DeviceViewModel>();
 		}
 
@@ -98,40 +97,6 @@ namespace ClientFS2.ViewModels
 				DevicesViewModel.Add(new DeviceViewModel(device));
 			}
 			OnPropertyChanged("DevicesViewModel");
-		}
-
-		public RelayCommand TestCommand { get; private set; }
-		private void OnTest()
-		{
-			var deviceUID = new Guid("444C11C8-D5E7-4309-9209-56F6720262B9");
-			//DBJournalHelper.SetLastId(deviceUID, 100);
-			//var lastID = DBJournalHelper.GetLastId(deviceUID);
-
-			var fsJournalItems = new List<FSJournalItem>();
-			for (int i = 0; i < 100; i++)
-			{
-				var fsJournalItem = new FSJournalItem()
-				{
-					DeviceTime = DateTime.Now,
-					SystemTime = DateTime.Now,
-					ZoneName = "Зона 1",
-					Description = "Описание",
-					DeviceName = "Название устройства",
-					PanelName = "Название прибора",
-					DeviceUID = Guid.NewGuid(),
-					PanelUID = Guid.NewGuid(),
-					UserName = "Пользователь",
-					SubsystemType = SubsystemType.Fire,
-					StateType = StateType.Fire,
-					Detalization = "Детализация",
-					DeviceCategory = 0
-				};
-				fsJournalItems.Add(fsJournalItem);
-			}
-			DBJournalHelper.AddJournalItems(fsJournalItems);
-
-			var topfsJournalItems = DBJournalHelper.GetJournalItems(deviceUID);
-			;
-		}
+		}		
 	}
 }

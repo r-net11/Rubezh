@@ -5,13 +5,17 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using ClientFS2;
 
 namespace MonitorClientFS2.ViewModels
 {
-	public class DevicesViewModel : BaseViewModel
+	public class DevicesViewModel : DialogViewModel
 	{
 		public DevicesViewModel()
 		{
+			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
+			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+
 			BuildTree();
 			if (RootDevice != null)
 			{
@@ -60,6 +64,26 @@ namespace MonitorClientFS2.ViewModels
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
+		}
+
+		public RelayCommand SetIgnoreCommand { get; private set; }
+		void OnSetIgnore()
+		{
+
+		}
+		bool CanSetIgnore()
+		{
+			return SelectedDevice != null;
+		}
+
+		public RelayCommand ResetIgnoreCommand { get; private set; }
+		void OnResetIgnore()
+		{
+
+		}
+		bool CanResetIgnore()
+		{
+			return SelectedDevice != null;
 		}
 	}
 }

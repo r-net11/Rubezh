@@ -1,0 +1,31 @@
+﻿<Window x:Class="MonitorClientFS2.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+        xmlns:Views="clr-namespace:MonitorClientFS2.Views"
+        Title="Оперативная Задача Firesec-2"
+        Height="600" Width="600"
+        Closing="Window_Closing">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Журнал">
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
+                    <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
+                    <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
+                    <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" Height="300" MinRowHeight="20">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="No" Binding="{Binding No}" />
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                            <DataGridTextColumn Header="EventName" Binding="{Binding EventName}" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Устройства">
+                <Views:DevicesView DataContext="{Binding DevicesViewModel}" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

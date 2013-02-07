@@ -8,6 +8,7 @@ using Common.GK;
 using System.Diagnostics;
 using FiresecClient;
 using System.IO;
+using Common;
 
 namespace GKModule
 {
@@ -16,9 +17,11 @@ namespace GKModule
 		public XDeviceConfiguration DeviceConfiguration;
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
+		string IpAddress;
 
 		public void ReadConfiguration(XDevice gkDevice)
 		{
+			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
 			var rootDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
@@ -57,7 +60,14 @@ namespace GKModule
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
 
-				Parce(bytes.Skip(3).ToList(), descriptorNo);
+				try
+				{
+					Parce(bytes.Skip(3).ToList(), descriptorNo);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
+				}
 			}
 
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
@@ -86,7 +96,6 @@ namespace GKModule
 			var memoryStream = new MemoryStream(letters.ToArray());
 			var description = memoryStream.ToString();
 			description = Encoding.GetEncoding(1251).GetString(letters.ToArray());
-			//var description = ""//new String(letters.ToArray());
 
 			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
@@ -105,6 +114,13 @@ namespace GKModule
 				};
 				if (driver.DriverType == XDriverType.GK)
 				{
+					var ipAddressProperty = new XProperty()
+					{
+						Name = "IPAddress",
+						StringValue = IpAddress
+					};
+					device.Properties.Add(ipAddressProperty);
+
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -118,6 +134,7 @@ namespace GKModule
 						Value = (byte)(controllerAdress / 256)
 					};
 					device.Properties.Add(modeProperty);
+
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
 				}
@@ -132,11 +149,21 @@ namespace GKModule
 				DeviceConfiguration.Devices.Add(device);
 				return;
 			}
+
+			ushort no = 0;
+			var descriptionParts = description.Split(new string[1] { " - " }, StringSplitOptions.None);
+			if (descriptionParts.Count() == 2)
+			{
+				description = descriptionParts[0];
+				no = (ushort)Int32.Parse(descriptionParts[1]);
+			}
+
 			if (internalType == 0x100)
 			{
 				var zone = new XZone()
 				{
-					Name = description
+					Name = description,
+					No = no
 				};
 				DeviceConfiguration.Zones.Add(zone);
 				return;
@@ -145,7 +172,8 @@ namespace GKModule
 			{
 				var direction = new XDirection()
 				{
-					Name = description
+					Name = description,
+					No = no
 				};
 				DeviceConfiguration.Directions.Add(direction);
 				return;

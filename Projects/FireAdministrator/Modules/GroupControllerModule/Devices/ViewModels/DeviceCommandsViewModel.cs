@@ -16,6 +16,7 @@ using Common;
 using System;
 using System.Diagnostics;
 using Infrastructure.Events;
+using System.Windows;
 
 namespace GKModule.Models
 {
@@ -145,6 +146,9 @@ namespace GKModule.Models
 			}
 			if (device.Driver.DriverType == XDriverType.GK)
 			{
+				if (MessageBoxService.ShowQuestion("Текущая конфигурация будет заменена считанной из устройства. При этом часть данных возможно будет потеряня. Продолжить?") != MessageBoxResult.Yes)
+					return;
+
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				gkBinConfigurationReader.ReadConfiguration(device);
 

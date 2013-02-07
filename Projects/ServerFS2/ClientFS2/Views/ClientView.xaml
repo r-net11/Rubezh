@@ -29,7 +29,6 @@
                 <Button Content="Запросить журнал событий" Command = "{Binding ReadJournalCommand}" />
             </StackPanel>
             <Button Content="Показать дерево устройств" Command="{Binding ShowDevicesTreeCommand}" Width="200" Margin="2" />
-            <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
         </StackPanel>
         <Grid Grid.Row="2" >
             <Grid>

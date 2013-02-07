@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -15,6 +16,62 @@ namespace MonitorClientFS2.ViewModels
 		public DeviceViewModel(Device device)
 		{
 			Device = device;
+		}
+
+		public string UsbChannel
+		{
+			get
+			{
+				var property = Device.Properties.FirstOrDefault(x => x.Name == "UsbChannel");
+				if (property != null)
+					return property.Value;
+				else
+					return null;
+			}
+		}
+
+		public string SerialNo
+		{
+			get
+			{
+				var property = Device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+				if (property != null)
+					return property.Value;
+				else
+					return null;
+			}
+		}
+
+		public string Version
+		{
+			get
+			{
+				var property = Device.Properties.FirstOrDefault(x => x.Name == "Version");
+				if (property != null)
+					return property.Value;
+				else
+					return null;
+			}
+		}
+
+		public string Address
+		{
+			get { return Device.PresentationAddress; }
+		}
+
+		public Driver Driver
+		{
+			get { return Device.Driver; }
+		}
+
+		public int ShleifNo
+		{
+			get { return Device.IntAddress / 256; }
+		}
+
+		public int AddressOnShleif
+		{
+			get { return Device.IntAddress % 256; }
 		}
 	}
 }

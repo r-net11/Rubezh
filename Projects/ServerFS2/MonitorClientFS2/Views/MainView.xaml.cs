@@ -2,19 +2,16 @@
 
 namespace MonitorClientFS2
 {
-	public partial class MainWindow : Window
+	public partial class MainView : Window
 	{
-		MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
-
-		public MainWindow()
+		public MainView()
 		{
-			this.DataContext = mainWindowViewModel;
 			InitializeComponent();
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			var dataContext = this.DataContext as MainWindowViewModel;
+			var dataContext = this.DataContext as MainViewModel;
 			if (dataContext.StopMonitoringCommand.CanExecute(null))
 				dataContext.StopMonitoringCommand.Execute();
 		}
