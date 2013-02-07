@@ -7,6 +7,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.DataBase;
+using System;
+using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace ClientFS2.ViewModels
 {
@@ -20,11 +24,11 @@ namespace ClientFS2.ViewModels
 			SendRequestCommand = new RelayCommand(OnSendRequest);
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
 			ShowDevicesTreeCommand = new RelayCommand(OnShowDevicesTree);
+			TestCommand = new RelayCommand(OnTest);
 			DevicesViewModel = new ObservableCollection<DeviceViewModel>();
 		}
 
 		private DeviceViewModel _selectedDeviceViewModel;
-
 		public DeviceViewModel SelectedDeviceViewModel
 		{
 			get { return _selectedDeviceViewModel; }
@@ -36,7 +40,6 @@ namespace ClientFS2.ViewModels
 		}
 
 		private string _textBoxRequest;
-
 		public string TextBoxRequest
 		{
 			get { return _textBoxRequest; }
@@ -48,7 +51,6 @@ namespace ClientFS2.ViewModels
 		}
 
 		private string _textBoxResponse;
-
 		public string TextBoxResponse
 		{
 			get { return _textBoxResponse; }
@@ -60,7 +62,6 @@ namespace ClientFS2.ViewModels
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
-
 		private void OnReadJournal()
 		{
 			ShowJournal(ServerHelper.GetJournalItems(SelectedDeviceViewModel.Device));
@@ -72,14 +73,12 @@ namespace ClientFS2.ViewModels
 		}
 
 		public RelayCommand ShowDevicesTreeCommand { get; private set; }
-
 		private static void OnShowDevicesTree()
 		{
 			DialogService.ShowModalWindow(new DevicesViewModel());
 		}
 
 		public RelayCommand SendRequestCommand { get; private set; }
-
 		private void OnSendRequest()
 		{
 			var bytes = TextBoxRequest.Split()
@@ -90,7 +89,6 @@ namespace ClientFS2.ViewModels
 		}
 
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
-
 		private void OnAutoDetectDevice()
 		{
 			var devices = new List<Device>();
@@ -100,6 +98,40 @@ namespace ClientFS2.ViewModels
 				DevicesViewModel.Add(new DeviceViewModel(device));
 			}
 			OnPropertyChanged("DevicesViewModel");
+		}
+
+		public RelayCommand TestCommand { get; private set; }
+		private void OnTest()
+		{
+			var deviceUID = new Guid("444C11C8-D5E7-4309-9209-56F6720262B9");
+			//DBJournalHelper.SetLastId(deviceUID, 100);
+			//var lastID = DBJournalHelper.GetLastId(deviceUID);
+
+			var fsJournalItems = new List<FSJournalItem>();
+			for (int i = 0; i < 100; i++)
+			{
+				var fsJournalItem = new FSJournalItem()
+				{
+					DeviceTime = DateTime.Now,
+					SystemTime = DateTime.Now,
+					ZoneName = "Зона 1",
+					Description = "Описание",
+					DeviceName = "Название устройства",
+					PanelName = "Название прибора",
+					DeviceUID = Guid.NewGuid(),
+					PanelUID = Guid.NewGuid(),
+					UserName = "Пользователь",
+					SubsystemType = SubsystemType.Fire,
+					StateType = StateType.Fire,
+					Detalization = "Детализация",
+					DeviceCategory = 0
+				};
+				fsJournalItems.Add(fsJournalItem);
+			}
+			DBJournalHelper.AddJournalItems(fsJournalItems);
+
+			var topfsJournalItems = DBJournalHelper.GetJournalItems(deviceUID);
+			;
 		}
 	}
 }

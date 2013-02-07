@@ -17,21 +17,30 @@ namespace MonitorClientFS2
 	{
 		public MainWindowViewModel()
 		{
+			GetDevicesCommand = new RelayCommand(OnGetDevices);
+			ReadJournalCommand = new RelayCommand(OnReadJournal);
+			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
+
 			ConfigurationManager.Load();
-			DevicesViewModel = new ObservableCollection<DeviceViewModel>();
+			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
-				DevicesViewModel.Add(new DeviceViewModel(device));
+				Devices.Add(new DeviceViewModel(device));
 			}
 			JournalItems = new ObservableCollection<JournalItem>();
+			return;
+
 			lastRecord = new Dictionary<Device, int>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2AM)
 				{
 					foreach (var journalItem in JournalHelper.GetJournalItems(device, JournalHelper.GetLastJournalItemId(device), JournalHelper.GetLastJournalItemId(device) - 1))
-						JournalItems.Add(journalItem);
-					lastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
+					{
+							JournalItems.Add(journalItem);
+						lastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
+					}
+					catch { }
 				}
 			}
 
@@ -43,7 +52,6 @@ namespace MonitorClientFS2
 		}
 
 		bool stop = false;
-
 		AutoResetEvent autoResetEvent;
 
 		Thread thread;
@@ -102,15 +110,14 @@ namespace MonitorClientFS2
 			Trace.WriteLine("Останавливаю мониторинг");
 		}
 
-		private ObservableCollection<DeviceViewModel> _devicesViewModel;
-
-		public ObservableCollection<DeviceViewModel> DevicesViewModel
+		private ObservableCollection<DeviceViewModel> _devices;
+		public ObservableCollection<DeviceViewModel> Devices
 		{
-			get { return _devicesViewModel; }
+			get { return _devices; }
 			set
 			{
-				_devicesViewModel = value;
-				OnPropertyChanged("devicesViewModel");
+				_devices = value;
+				OnPropertyChanged("Devices");
 			}
 		}
 
@@ -154,5 +161,7 @@ namespace MonitorClientFS2
 		{
 			StopMonitoring();
 		}
+
+		public MonitorClientFS2.ViewModels.DevicesViewModel DevicesViewModel { get; private set; }
 	}
 }

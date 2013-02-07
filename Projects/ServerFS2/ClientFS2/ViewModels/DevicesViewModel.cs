@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
+using MonitorClientFS2;
 
 namespace ClientFS2.ViewModels
 {
@@ -68,6 +69,5 @@ namespace ClientFS2.ViewModels
                 AddDeviceInternal(childDevice, deviceViewModel);
             return deviceViewModel;
         }
-
     }
 }

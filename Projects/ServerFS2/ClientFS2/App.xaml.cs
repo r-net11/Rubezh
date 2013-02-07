@@ -3,6 +3,7 @@ using ClientFS2.ViewModels;
 using ClientFS2.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using MonitorClientFS2;
 
 namespace ClientFS2
 {
