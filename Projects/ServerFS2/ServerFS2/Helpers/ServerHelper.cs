@@ -269,6 +269,44 @@ namespace ServerFS2
                 {
                     var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
                     value.Name = property.Caption;
+                    device.Properties.FirstOrDefault(x => x.Name == value.Name).Value = value.Value;
+                    values.Add(value);
+                }
+            }
+            return values;
+        }
+        public static List<Property> SetDeviceParameters(Device device)
+        {
+            var values = new List<Property>();
+            var bytesList = new List<List<byte>>();
+            foreach (var property in device.Driver.Properties)
+            {
+                if ((!property.IsAUParameter) || (bytesList.FirstOrDefault(x => x[12] == property.No)) != null)
+                    continue;
+                var bytes = new List<byte>();
+                bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+                bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
+                bytes.Add((byte)device.Parent.IntAddress);
+                bytes.Add(0x02);
+                bytes.Add(0x53);
+                bytes.Add(0x03);
+                bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
+                bytes.Add(Convert.ToByte(device.IntAddress % 256));
+                bytes.Add(0x00);
+                bytes.Add(property.No);
+                bytes.Add(0x00);
+                bytes.Add(0x00);
+                bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
+                bytesList.Add(bytes);
+            }
+            var results = SendCode(bytesList, 1000000);
+            foreach (var result in results.Result)
+            {
+                var properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
+                foreach (var property in properties)
+                {
+                    var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
+                    value.Name = property.Caption;
                     values.Add(value);
                 }
             }
