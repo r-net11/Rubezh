@@ -81,6 +81,11 @@ namespace Common.GK
 					pumpStationCreator.Create();
 				}
 			}
+
+			foreach (var binaryObject in BinaryObjects)
+			{
+				binaryObject.InitializeAllBytes();
+			}
 		}
 
 		void AddKauObjects()
