@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
+using System.Threading;
 
 namespace ServerFS2
 {
@@ -13,12 +13,11 @@ namespace ServerFS2
 		UsbDevice _usbDevice;
 		UsbEndpointReader _reader;
 		UsbEndpointWriter _writer;
-		private bool _stop = true;
-		readonly Queue<Request> _requests = new Queue<Request>();
-		List<byte> _result = new List<byte>();
-		private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
-		private uint _requestId;
-
+        private bool _stop = true;
+        readonly List<Request> _requests = new List<Request>();
+        List<byte> _result = new List<byte>();
+        private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
+        private uint _requestId;
 		public void Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
@@ -37,7 +36,6 @@ namespace ServerFS2
 			_reader.DataReceivedEnabled = true;
 			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 		}
-
 		public void Close()
 		{
 			_reader.DataReceivedEnabled = false;
@@ -58,50 +56,51 @@ namespace ServerFS2
 				UsbDevice.Exit();
 			}
 		}
-
-		public void Send(List<byte> data)
+        public void Send(List<byte> data)
 		{
 			int bytesWrite;
-			_writer.Write(data.ToArray(), 2000, out bytesWrite);
+            _writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
-
-		private void OnDataRecieved(object sender, EndpointDataEventArgs e)
+        List<Response> _responses = new List<Response>();
+		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
-			var localresult = new List<byte>();
+            var localresult = new List<byte>();
 			foreach (var b in e.Buffer)
 			{
 				if (localresult.Count > 0)
 				{
 					localresult.Add(b);
-
 					if (b == 0x3E)
 					{
-						localresult = CreateInputBytes(localresult);
-						var request = _requests.FirstOrDefault(x => x.Id == _requestId);
-						if (request == null)
-							break;
-						var requestId = request.Id;
-						var responseId = (uint)(localresult.ToList()[3] + localresult.ToList()[2] * 256 + localresult.ToList()[1] * 256 * 256 + localresult.ToList()[0] * 256 * 256 * 256);
-						if (requestId == responseId)
-						{
-							_result = localresult.ToList();
-							_autoResetEvent.Set();
-							_stop = true;
-						}
-						break;
+					    localresult = CreateInputBytes(localresult); // Преобразуем ответ в правильный вид
+                        var responseId = (uint)(localresult.ToList()[3] + localresult.ToList()[2] * 256 + localresult.ToList()[1] * 256 * 256 + localresult.ToList()[0] * 256 * 256 * 256); // id ответа
+                        var request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
+                        if (request == null) // если не нашли, то выходим из цикла, иначе
+                            break;
+                        _result  = localresult.ToList();
+					    var response = new Response
+					                       {
+					                           Id = responseId,
+					                           Data = _result
+					                       };
+                        _responses.Add(response);
+                        _autoResetEvent.Set();
+                        break;
 					}
 				}
 				if (b == 0x7E)
 				{
-					localresult = new List<byte> { b };
+
+					localresult = new List<byte> {b};
 				}
+                if (_requests.Count == 0)
+                    _stop = true;
 			}
 		}
-
-		private static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
+	    static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
-			var bytes = new List<byte>(0) { 0x7e };
-			foreach (var b in messageBytes)
+			var bytes = new List<byte>(0) {0x7e};
+	        foreach (var b in messageBytes)
 			{
 				if (b == 0x7E)
 				{
@@ -141,87 +140,91 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
+        static List<byte> CreateInputBytes(List<byte> messageBytes)
+        {
+            var bytes = new List<byte>();
+            var previousByte = new byte();
+            messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
+            messageBytes.RemoveRange(messageBytes.IndexOf(0x3E), messageBytes.Count - messageBytes.IndexOf(0x3E));
+            foreach (var b in messageBytes)
+            {
+                if ((b == 0x7D) || (b == 0x3D))
+                {
+                    previousByte = b;
+                    continue;
+                }
+                if (previousByte == 0x7D)
+                {
+                    if (b == 0x5E)
+                    {
+                        bytes.Add(0x7E);
+                        continue;
+                    }
+                    if (b == 0x5D)
+                    {
+                        bytes.Add(0x7D);
+                        continue;
+                    }
+                }
+                if (previousByte == 0x3D)
+                {
+                    if (b == 0x1E)
+                    {
+                        bytes.Add(0x3E);
+                        continue;
+                    }
+                    if (b == 0x1D)
+                    {
+                        bytes.Add(0x3D);
+                        continue;
+                    }
+                }
+                bytes.Add(b);
+            }
+            return bytes;
+        }
 
-		private static List<byte> CreateInputBytes(List<byte> messageBytes)
-		{
-			var bytes = new List<byte>();
-			var previousByte = new byte();
-			messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
-			messageBytes.RemoveRange(messageBytes.IndexOf(0x3E), messageBytes.Count - messageBytes.IndexOf(0x3E));
-			foreach (var b in messageBytes)
-			{
-				if ((b == 0x7D) || (b == 0x3D))
-				{
-					previousByte = b;
-					continue;
-				}
-				if (previousByte == 0x7D)
-				{
-					if (b == 0x5E)
-					{
-						bytes.Add(0x7E);
-						continue;
-					}
-					if (b == 0x5D)
-					{
-						bytes.Add(0x7D);
-						continue;
-					}
-				}
-				if (previousByte == 0x3D)
-				{
-					if (b == 0x1E)
-					{
-						bytes.Add(0x3E);
-						continue;
-					}
-					if (b == 0x1D)
-					{
-						bytes.Add(0x3D);
-						continue;
-					}
-				}
-				bytes.Add(b);
-			}
-			return bytes;
-		}
-
-		public OperationResult<Response> AddRequest(List<byte> data)
-		{
-			_stop = false;
-			_requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
-			data = CreateOutputBytes(data);
-			var request = new Request
-			{
-				Id = _requestId,
-				AutoResetEvent = new AutoResetEvent(false),
-				Data = data
-			};
-			_requests.Enqueue(request);
-			while (!_stop)
-			{
-				Send(data);
-				_autoResetEvent.WaitOne(1000);
-			}
-			var response = new Response
-			{
-				Id = request.Id,
-				Data = _result
-			};
-			return new OperationResult<Response> { Result = response };
-		}
+        // Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
+        public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay)
+        {
+            _responses = new List<Response>();
+            foreach (var dataOne in dataList)
+            {
+                var data = dataOne;
+                _stop = false;
+                _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+                data = CreateOutputBytes(data);
+                var response = new Response();
+                // Создаем запрос
+                var request = new Request
+                {
+                    Id = _requestId,
+                    Data = data
+                };
+                _requests.Add(request); // добавляем его в коллекцию всех запросов
+                Send(data);
+                _autoResetEvent.WaitOne(delay);
+            }
+            while (!_stop)
+            {
+                if (_responses.Count != 0)
+                {
+                    var responses = new List<Response> (_responses);
+                    _requests.RemoveAll(x => responses.FirstOrDefault(z => z.Id == x.Id) != null);
+                }
+            }
+            return new OperationResult<List<Response>> { Result = _responses };
+        }
 	}
 
-	public class Request
-	{
-		public AutoResetEvent AutoResetEvent;
-		public uint Id;
-		public List<byte> Data;
-	}
-
-	public class Response
-	{
-		public uint Id;
-		public List<byte> Data;
-	}
+    public class Request
+    {
+        public uint Id;
+        public List<byte> Data;
+    }
+    public class Response
+    {
+        public uint Id;
+        public List<byte> Data;
+    }
 }
