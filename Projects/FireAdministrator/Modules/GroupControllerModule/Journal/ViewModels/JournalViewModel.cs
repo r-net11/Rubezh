@@ -101,11 +101,10 @@ namespace GKModule.ViewModels
 				return;
 
 			JournalItems.Clear();
-			LoadingService.Show("Запрос параметра", 2 + EndIndex - StartIndex);
+			LoadingService.Show("Чтение записей журнала", 2 + EndIndex - StartIndex);
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
-				var data = new List<byte>();
-				data = BitConverter.GetBytes(i).ToList();
+				var data = BitConverter.GetBytes(i).ToList();
 				LoadingService.DoStep("Чтение записи " + i);
 				var sendResult = SendManager.Send(Device, 4, 7, 64, data);
 				if (sendResult.HasError)

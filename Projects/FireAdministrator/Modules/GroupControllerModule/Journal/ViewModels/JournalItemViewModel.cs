@@ -46,10 +46,20 @@ namespace GKModule.ViewModels
 				if (!driver.HasAddress)
 					Address = "";
 			}
-			if (internalType == 0x100)
-				TypeName = "Зона";
-			if (internalType == 0x106)
-				TypeName = "Направление";
+			switch (internalType)
+			{
+				case 0x100:
+					TypeName = "Зона";
+					break;
+
+				case 0x101:
+					TypeName = "Задержка";
+					break;
+
+				case 0x106:
+					TypeName = "Направление";
+					break;
+			}
 		}
 
 		void InitializePresentationName(JournalItem journalItem)
