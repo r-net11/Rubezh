@@ -34,8 +34,9 @@ namespace GKModule.ViewModels
 			PumpsCount = device.PumpStationProperty.PumpsCount;
 			DelayTime = device.PumpStationProperty.DelayTime;
 			JokeyPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.JokeyPumpUID);
-			DrenajPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.DrenajPumpUID);
 			CompressorPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.CompressorPumpUID);
+			DrenajPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.DrenajPumpUID);
+			CompensationPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.CompensationPumpUID);
 
 			Devices = new List<XDevice>();
 			foreach (var deviceUID in device.PumpStationProperty.FirePumpUIDs)
@@ -107,7 +108,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.Pump)
+				if (device.Driver.DriverType == XDriverType.Pump && device.IntAddress % 256 <= 8)
 					sourceDevices.Add(device);
 			}
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
@@ -147,26 +148,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XDevice _drenajPumpDevice;
-		public XDevice DrenajPumpDevice
-		{
-			get { return _drenajPumpDevice; }
-			set
-			{
-				_drenajPumpDevice = value;
-				OnPropertyChanged("DrenajPumpDevice");
-			}
-		}
-		public RelayCommand ChooseDrenajPumpCommand { get; private set; }
-		void OnChooseDrenajPump()
-		{
-			var device = ChoosePump(14);
-			if (device != null)
-			{
-				DrenajPumpDevice = device;
-			}
-		}
-
 		XDevice _compressorPumpDevice;
 		public XDevice CompressorPumpDevice
 		{
@@ -184,6 +165,26 @@ namespace GKModule.ViewModels
 			if (device != null)
 			{
 				CompressorPumpDevice = device;
+			}
+		}
+
+		XDevice _drenajPumpDevice;
+		public XDevice DrenajPumpDevice
+		{
+			get { return _drenajPumpDevice; }
+			set
+			{
+				_drenajPumpDevice = value;
+				OnPropertyChanged("DrenajPumpDevice");
+			}
+		}
+		public RelayCommand ChooseDrenajPumpCommand { get; private set; }
+		void OnChooseDrenajPump()
+		{
+			var device = ChoosePump(14);
+			if (device != null)
+			{
+				DrenajPumpDevice = device;
 			}
 		}
 

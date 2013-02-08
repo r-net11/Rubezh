@@ -23,7 +23,8 @@ namespace Infrastructure.Common
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			var vlcControl = new VlcControl();
-			var rstpAddress = "rtsp://" + Address + "/snl/live/1/1/";
+			//var rstpAddress = "rtsp://" + Address + "/snl/live/1/1/";
+			var rstpAddress = "rtsp://admin:admin@" + Address + "/cam/realmonitor?channel=1&subtype=0";
 			if (!string.IsNullOrEmpty(FullAddress))
 			{
 				rstpAddress = FullAddress;

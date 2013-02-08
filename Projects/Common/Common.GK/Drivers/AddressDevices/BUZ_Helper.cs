@@ -23,8 +23,9 @@ namespace Common.GK
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
-			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки", 0, 1, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки, с", 0, 1, 1, 65535);
 			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x8f, "Время удержания запуска, мин", 0, 0, 0, 360);
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Концевой выключатель «Открыто»", 0, "НР", "НЗ");
 			GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Муфтовый выключатель Открыто/ДУ Открыть", 1, "НР", "НЗ");

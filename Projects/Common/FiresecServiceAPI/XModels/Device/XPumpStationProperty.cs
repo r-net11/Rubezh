@@ -27,10 +27,10 @@ namespace XFiresecAPI
 		public Guid JokeyPumpUID { get; set; }
 
 		[DataMember]
-		public Guid DrenajPumpUID { get; set; }
+		public Guid CompressorPumpUID { get; set; }
 
 		[DataMember]
-		public Guid CompressorPumpUID { get; set; }
+		public Guid DrenajPumpUID { get; set; }
 
 		[DataMember]
 		public Guid CompensationPumpUID { get; set; }
