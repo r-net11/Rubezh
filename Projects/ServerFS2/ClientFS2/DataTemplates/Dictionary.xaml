@@ -5,9 +5,15 @@
     <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
         <Views:JournalView />
     </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
         <Views:DevicesView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:AutoDetectDevicesViewModel}">
+        <Views:AutoDetectDevicesView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
         <Views:PropertiesView />
     </DataTemplate>

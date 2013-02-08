@@ -13,6 +13,8 @@ namespace ClientFS2.ViewModels
 		public DeviceViewModel(Device device)
 		{
 			Device = device;
+			ShleifNo = Device.IntAddress / 256;
+			AddressOnShleif = Device.IntAddress % 256;
 		}
 
 		public string UsbChannel
@@ -94,5 +96,8 @@ namespace ClientFS2.ViewModels
 				}
 			}
 		}
+
+		public int ShleifNo { get; private set; }
+		public int AddressOnShleif { get; private set; }
 	}
 }

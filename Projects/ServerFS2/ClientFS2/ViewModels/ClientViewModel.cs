@@ -16,26 +16,14 @@ namespace ClientFS2.ViewModels
 {
 	public class ClientViewModel : BaseViewModel
 	{
-		public ObservableCollection<DeviceViewModel> DevicesViewModel { get; private set; }
+		public DevicesViewModel DevicesViewModel { get; private set; }
 
 		public ClientViewModel()
 		{
 			ReadJournalCommand = new RelayCommand(OnReadJournal);
 			SendRequestCommand = new RelayCommand(OnSendRequest);
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
-			ShowDevicesTreeCommand = new RelayCommand(OnShowDevicesTree);
-			DevicesViewModel = new ObservableCollection<DeviceViewModel>();
-		}
-
-		private DeviceViewModel _selectedDeviceViewModel;
-		public DeviceViewModel SelectedDeviceViewModel
-		{
-			get { return _selectedDeviceViewModel; }
-			set
-			{
-				_selectedDeviceViewModel = value;
-				OnPropertyChanged("SelectedDeviceViewModel");
-			}
+			DevicesViewModel = new DevicesViewModel();
 		}
 
 		private string _textBoxRequest;
@@ -60,23 +48,6 @@ namespace ClientFS2.ViewModels
 			}
 		}
 
-		public RelayCommand ReadJournalCommand { get; private set; }
-		private void OnReadJournal()
-		{
-			ShowJournal(ServerHelper.GetJournalItems(SelectedDeviceViewModel.Device));
-		}
-
-		private static void ShowJournal(List<JournalItem> journalItems)
-		{
-			DialogService.ShowModalWindow(new JournalViewModel(journalItems));
-		}
-
-		public RelayCommand ShowDevicesTreeCommand { get; private set; }
-		private static void OnShowDevicesTree()
-		{
-			DialogService.ShowModalWindow(new DevicesViewModel());
-		}
-
 		public RelayCommand SendRequestCommand { get; private set; }
 		private void OnSendRequest()
 		{
@@ -87,16 +58,20 @@ namespace ClientFS2.ViewModels
 				TextBoxResponse += b.ToString("X2") + " ";
 		}
 
+		public RelayCommand ReadJournalCommand { get; private set; }
+		private void OnReadJournal()
+		{
+			var journalItems = ServerHelper.GetJournalItems(DevicesViewModel.SelectedDevice.Device);
+			var journalViewModel = new JournalViewModel(journalItems);
+			DialogService.ShowModalWindow(journalViewModel);
+		}
+
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
 		private void OnAutoDetectDevice()
 		{
-			var devices = new List<Device>();
-			ServerHelper.AutoDetectDevice(devices);
-			foreach (var device in devices)
-			{
-				DevicesViewModel.Add(new DeviceViewModel(device));
-			}
-			OnPropertyChanged("DevicesViewModel");
+			var devices = ServerHelper.AutoDetectDevice();
+			var autoDetectDevicesViewModel = new AutoDetectDevicesViewModel(devices);
+			DialogService.ShowModalWindow(autoDetectDevicesViewModel);
 		}		
 	}
 }

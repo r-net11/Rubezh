@@ -13,18 +13,7 @@ namespace ClientFS2.ViewModels
         public DevicesViewModel()
         {
             GetDeviceParametersCommand = new RelayCommand(OnGetDeviceParameters);
-            Initialize();
-        }
-        
-        public RelayCommand GetDeviceParametersCommand { get; private set; }
-        private void OnGetDeviceParameters()
-        {
-            SelectedDevice.Device.AUParametersChanged += () => MessageBoxService.Show("Get parameters completed");
-            var properties = ServerHelper.GetDeviceParameters(SelectedDevice.Device);
-            DialogService.ShowModalWindow(new PropertiesViewModel(properties));
-        }
-        public void Initialize()
-        {
+
             BuildTree();
             if (RootDevice != null)
             {
@@ -73,5 +62,13 @@ namespace ClientFS2.ViewModels
                 AddDeviceInternal(childDevice, deviceViewModel);
             return deviceViewModel;
         }
+
+		public RelayCommand GetDeviceParametersCommand { get; private set; }
+		private void OnGetDeviceParameters()
+		{
+			SelectedDevice.Device.AUParametersChanged += () => MessageBoxService.Show("Get parameters completed");
+			var properties = ServerHelper.GetDeviceParameters(SelectedDevice.Device);
+			DialogService.ShowModalWindow(new PropertiesViewModel(properties));
+		}
     }
 }
