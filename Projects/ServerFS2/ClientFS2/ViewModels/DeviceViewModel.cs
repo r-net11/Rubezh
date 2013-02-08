@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System;
 
 namespace ClientFS2.ViewModels
 {

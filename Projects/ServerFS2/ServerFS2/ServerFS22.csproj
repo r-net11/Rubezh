@@ -62,13 +62,15 @@
     <Compile Include="DataBase\DBJournalHelper.cs" />
     <Compile Include="DataBase\FSJournalItem.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
+    <Compile Include="Helpers\DevicePropertyRequest.cs" />
+    <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\JournalItem.cs" />
     <Compile Include="JournalParser.cs" />
     <Compile Include="Helpers\MetadataHelper.cs" />
     <Compile Include="Helpers\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
-    <Compile Include="Helpers\TimeParceHelper.cs" />
+    <Compile Include="Models\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="UsbRunner.cs" />
   </ItemGroup>

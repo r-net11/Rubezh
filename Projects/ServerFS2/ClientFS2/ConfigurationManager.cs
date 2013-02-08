@@ -32,6 +32,7 @@ namespace MonitorClientFS2
 
 			configurationFileName = Path.Combine(unzipFolderPath, "DriversConfiguration.xml");
 			DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
+            DriversConfiguration.Drivers.ForEach(x => x.Properties.RemoveAll(z => z.IsAUParameter));
             DriverConfigurationParametersHelper.CreateKnownProperties(DriversConfiguration.Drivers);
 			Update();
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Collections;
 
@@ -7,23 +8,29 @@ namespace ServerFS2
 {
 	public class JournalParser
 	{
-		List<byte> bytes;
-        List<byte> allBytes;
-		JournalItem journalItem;
+	    readonly List<byte> _bytes;
+	    readonly List<byte> _allBytes;
+		JournalItem _journalItem;
 
-		public JournalParser(List<byte> rawBytes, List<byte> allbytes)
+		public JournalParser(List<byte> allbytes)
 		{
-			bytes = rawBytes;
-		    allBytes = allbytes;
+		    _allBytes = allbytes;
+            _bytes = new List<byte>(_allBytes);
+		    _bytes.RemoveRange(0, 7);
 		}
 
 		public JournalItem Parce()
 		{
-			journalItem = new JournalItem();
-            foreach (var b in allBytes)
-                journalItem.ByteTracer += b.ToString("X2") + " ";
-			var timeBytes = bytes.GetRange(1, 4);
-			journalItem.Date = TimeParceHelper.Parce(timeBytes);
+			_journalItem = new JournalItem();
+            foreach (var b in _allBytes)
+                _journalItem.ByteTracer += b.ToString("X2") + " ";
+            if (_bytes.Count < 32)
+            {
+                Trace.WriteLine(_journalItem.ByteTracer);
+                return null;
+            }
+			var timeBytes = _bytes.GetRange(1, 4);
+			_journalItem.Date = TimeParceHelper.Parce(timeBytes);
             var bitsExtracter = new BitsExtracter(timeBytes);
             var day = bitsExtracter.Get(0, 4);
             var month = bitsExtracter.Get(5, 8);
@@ -31,120 +38,120 @@ namespace ServerFS2
             var hour = bitsExtracter.Get(15, 19);
             var min = bitsExtracter.Get(20, 25);
             var sec = bitsExtracter.Get(26, 31);
-            journalItem.IntDate = (uint)sec + (uint)min * 60 + (uint)hour * 60 * 60 + (uint)day * 60 * 60 * 24 + (uint)month * 60 * 60 * 24 * 30 + (uint)year * 60 * 60 * 24 * 30 * 12;
-			var eventName = MetadataHelper.GetEventByCode(bytes[0]);
-			ExactEventForFlag(eventName, bytes[5]);
-			journalItem.Flag = bytes[5];
-			journalItem.ShleifNo = bytes[6] + 1;
-			journalItem.IntType = bytes[7];
-		    journalItem.FirstAddress = bytes[17] + 1;
-		    journalItem.Address = bytes[8];
-			journalItem.State = bytes[9];
-			journalItem.ZoneNo = bytes[10] * 256 + bytes[11];
-			journalItem.DescriptorNo = bytes[12] * 256 * 256 + bytes[13] * 256 + bytes[14];
-            if (bytes[0] == 0x83)
-                journalItem.Description += "Выход: " + journalItem.ShleifNo + "\n";
-            if (bytes[0] == 0x0F)
-                journalItem.Description += "АЛС: " + journalItem.ShleifNo + "\n";
+            _journalItem.IntDate = (uint)sec + (uint)min * 60 + (uint)hour * 60 * 60 + (uint)day * 60 * 60 * 24 + (uint)month * 60 * 60 * 24 * 30 + (uint)year * 60 * 60 * 24 * 30 * 12;
+			var eventName = MetadataHelper.GetEventByCode(_bytes[0]);
+			ExactEventForFlag(eventName, _bytes[5]);
+			_journalItem.Flag = _bytes[5];
+			_journalItem.ShleifNo = _bytes[6] + 1;
+			_journalItem.IntType = _bytes[7];
+		    _journalItem.FirstAddress = _bytes[17] + 1;
+		    _journalItem.Address = _bytes[8];
+			_journalItem.State = _bytes[9];
+			_journalItem.ZoneNo = _bytes[10] * 256 + _bytes[11];
+			_journalItem.DescriptorNo = _bytes[12] * 256 * 256 + _bytes[13] * 256 + _bytes[14];
+            if (_bytes[0] == 0x83)
+                _journalItem.Description += "Выход: " + _journalItem.ShleifNo + "\n";
+            if (_bytes[0] == 0x0F)
+                _journalItem.Description += "АЛС: " + _journalItem.ShleifNo + "\n";
             // Системная неисправность
-            if (bytes[0] == 0x0D)
+            if (_bytes[0] == 0x0D)
             {
-                if (journalItem.State == 0x20)
-                    journalItem.Description += "база (сигнатура) повреждена или отсутствует\n";
+                if (_journalItem.State == 0x20)
+                    _journalItem.Description += "база (сигнатура) повреждена или отсутствует\n";
             }
-            if (journalItem.ZoneNo != 0)
+            if (_journalItem.ZoneNo != 0)
             {
-                journalItem.Description += "Зона: " + journalItem.ZoneNo + "\n";
+                _journalItem.Description += "Зона: " + _journalItem.ZoneNo + "\n";
             }
 
             //Охранные события (сброс тревоги, постановка, снятие)
             #region
-            if (bytes[0] == 0x28) 
+            if (_bytes[0] == 0x28) 
             {
-                switch (allBytes[24])
+                switch (_allBytes[24])
                 {
                     case 0:
                         {
-                            journalItem.Description += "команда с компьютера\n";
-                            if (allBytes[23] == 0)
-                                journalItem.Description += "через USB\n";
+                            _journalItem.Description += "команда с компьютера\n";
+                            if (_allBytes[23] == 0)
+                                _journalItem.Description += "через USB\n";
                             else
-                                journalItem.Description += "через канал МС " + allBytes[23] + "\n";
+                                _journalItem.Description += "через канал МС " + _allBytes[23] + "\n";
                             break;
                         }
                     case 3:
-                        journalItem.Description += "Прибор: Рубеж-БИ Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Прибор: Рубеж-БИ Адрес:" + _allBytes[23] + "\n";
                         break;
                     case 7:
-                        journalItem.Description += "Прибор: Рубеж-ПДУ Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Прибор: Рубеж-ПДУ Адрес:" + _allBytes[23] + "\n";
                         break;
                     case 9:
-                        journalItem.Description += "Прибор: Рубеж-ПДУ-ПТ Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Прибор: Рубеж-ПДУ-ПТ Адрес:" + _allBytes[23] + "\n";
                         break;
                     case 100:
-                        journalItem.Description += "Устройство: МС-3 Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Устройство: МС-3 Адрес:" + _allBytes[23] + "\n";
                         break;
                     case 101:
-                        journalItem.Description += "Устройство: МС-4 Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Устройство: МС-4 Адрес:" + _allBytes[23] + "\n";
                         break;
                     case 102:
-                        journalItem.Description += "Устройство: УОО-ТЛ Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Устройство: УОО-ТЛ Адрес:" + _allBytes[23] + "\n";
                         break;
                     default:
-                        journalItem.Description += "Неизв. устр." + "(" + allBytes[24] + ") Адрес:" + allBytes[23] + "\n";
+                        _journalItem.Description += "Неизв. устр." + "(" + _allBytes[24] + ") Адрес:" + _allBytes[23] + "\n";
                         break;
                 }
-                if (journalItem.IntType == 0x00)
-                    journalItem.IntType = 0x75;
+                if (_journalItem.IntType == 0x00)
+                    _journalItem.IntType = 0x75;
             }
             #endregion
 
             // Потеря связи с мониторинговой станцией (БИ, ПДУ, УОО-ТЛ, МС-1, МС-2)
             #region
-            if (bytes[0] == 0x85)
+            if (_bytes[0] == 0x85)
             {
-                switch (bytes[7])
+                switch (_bytes[7])
                 {
                     case 3:
-                        journalItem.Description += "Прибор: Рубеж-БИ Адрес:" + bytes[6] + "\n";
+                        _journalItem.Description += "Прибор: Рубеж-БИ Адрес:" + _bytes[6] + "\n";
                         break;
                     case 7:
-                        journalItem.Description += "Прибор: Рубеж-ПДУ Адрес:" + bytes[6] + "\n";
+                        _journalItem.Description += "Прибор: Рубеж-ПДУ Адрес:" + _bytes[6] + "\n";
                         break;
                     case 100:
-                        journalItem.Description += "Устройство: МС-3 Адрес:" + bytes[6] + "\n";
+                        _journalItem.Description += "Устройство: МС-3 Адрес:" + _bytes[6] + "\n";
                         break;
                     case 101:
-                        journalItem.Description += "Устройство: МС-4 Адрес:" + bytes[6] + "\n";
+                        _journalItem.Description += "Устройство: МС-4 Адрес:" + _bytes[6] + "\n";
                         break;
                     case 102:
-                        journalItem.Description += "Устройство: УОО-ТЛ Адрес:" + bytes[6] + "\n";
+                        _journalItem.Description += "Устройство: УОО-ТЛ Адрес:" + _bytes[6] + "\n";
                         break;
                     default:
-                        journalItem.Description += "Неизв. устр." + "(" + bytes[7] + ") Адрес:" + bytes[6] + "\n";
+                        _journalItem.Description += "Неизв. устр." + "(" + _bytes[7] + ") Адрес:" + _bytes[6] + "\n";
                         break;
                 }
-                return journalItem;
+                return _journalItem;
             }
 		    #endregion
             int tableType = 99999;
-            if (journalItem.IntType != 0)
+            if (_journalItem.IntType != 0)
             {
-                var deviceUid = MetadataHelper.GetUidById((ushort)journalItem.IntType).ToString().ToUpper();
+                var deviceUid = MetadataHelper.GetUidById((ushort)_journalItem.IntType).ToString().ToUpper();
                 var device = "Неизвестное устройство";
                 if (deviceUid != "00000000-0000-0000-0000-000000000000")
                 {
                     device = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(deviceUid)))).shortName;
                     tableType = Convert.ToInt32(MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(deviceUid)))).tableType);
                 }
-                if (journalItem.IntType == 1)
-                    device = "АСПТ " + (journalItem.ShleifNo - 1) + ".";
-                journalItem.Description += "Устройство: " + device + " " + journalItem.FirstAddress + "." + journalItem.Address + "\n";
+                if (_journalItem.IntType == 1)
+                    device = "АСПТ " + (_journalItem.ShleifNo - 1) + ".";
+                _journalItem.Description += "Устройство: " + device + " " + _journalItem.FirstAddress + "." + _journalItem.Address + "\n";
             }
             // Детализация событий
             if (tableType != 99999)
             {
-                var even = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + bytes[0].ToString("X2"));
+                var even = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + _bytes[0].ToString("X2"));
                 if (even.detailsFor != null)
                 {
                     var details = even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString());
@@ -153,17 +160,17 @@ namespace ServerFS2
                         var dictionaryName =
                             even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString()).dictionary;
                         var dictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == dictionaryName);
-                        var bitState = new BitArray(new int[] {journalItem.State});
+                        var bitState = new BitArray(new int[] {_journalItem.State});
                         foreach (var bit in dictionary.bit)
                         {
                             if (bitState.Get(Convert.ToInt32(bit.no)))
-                                journalItem.Description += dictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+                                _journalItem.Description += dictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
                         }
                     }
                 }
             }
-			SetEventClass(bytes[0], bytes[5]);
-			return journalItem;
+			SetEventClass(_bytes[0], _bytes[5]);
+			return _journalItem;
 		}
 
 		void ExactEventForFlag(string eventName, int flag)
@@ -179,22 +186,22 @@ namespace ServerFS2
 				if (flag < secondParts.Count())
 				{
 					var choise = secondParts[flag];
-					journalItem.EventName = firstPart + choise + thirdPart;
+					_journalItem.EventName = firstPart + choise + thirdPart;
 					return;
 				}
 			}
-			journalItem.EventName = eventName;
+			_journalItem.EventName = eventName;
 		}
 
 		void SetEventClass(int eventCode, int flag)
 		{
-			journalItem.EventClass = -1;
+			_journalItem.EventClass = -1;
 			var stringEventClass = GetEventClass(eventCode, flag);
 			if (!string.IsNullOrEmpty(stringEventClass))
 			{
 				try
 				{
-					journalItem.EventClass = int.Parse(stringEventClass);
+					_journalItem.EventClass = int.Parse(stringEventClass);
 				}
 				catch { }
 			}

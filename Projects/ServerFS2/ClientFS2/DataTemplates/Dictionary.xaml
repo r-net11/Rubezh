@@ -8,4 +8,7 @@
     <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
         <Views:DevicesView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
+        <Views:PropertiesView />
+    </DataTemplate>
 </ResourceDictionary>

@@ -41,11 +41,11 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Запрос:" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TextBoxRequest}" Margin="2" BorderBrush="DarkBlue"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Запрос:" Style="{x:Null}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TextBoxRequest}" Margin="2" Style="{x:Null}"/>
                 <Button Grid.Row="1" Grid.ColumnSpan="2" Content="Послать запрос" Command = "{Binding SendRequestCommand}" Margin="2" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Ответ:" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TextBoxResponse}" BorderBrush="DarkBlue"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Ответ:" Style="{x:Null}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TextBoxResponse}" Style="{x:Null}"/>
             </Grid>
         </Grid>
     </Grid>

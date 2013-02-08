@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using System;
+using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
@@ -17,7 +18,9 @@ namespace ClientFS2.ViewModels
         public RelayCommand GetDeviceParametersCommand { get; private set; }
         private void OnGetDeviceParameters()
         {
-            ServerHelper.GetDeviceParameters(SelectedDevice.Device);
+            SelectedDevice.Device.AUParametersChanged += () => MessageBoxService.Show("Get parameters completed");
+            var properties = ServerHelper.GetDeviceParameters(SelectedDevice.Device);
+            DialogService.ShowModalWindow(new PropertiesViewModel(properties));
         }
         public void Initialize()
         {
