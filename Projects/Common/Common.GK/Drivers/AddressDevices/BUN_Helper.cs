@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Шкаф управления насосом",
 				ShortName = "ШУН",
 				IsControlDevice = true,
-				HasLogic = true,
+				HasLogic = false,
 				IsPlaceable = true,
 				MaxAddressOnShleif = 15
 			};
@@ -26,6 +26,7 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x8c, "Время разновременного пуска, с", 0, 1, 1, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания выхода насоса на режим, с", 0, 3, 3, 30);
 
 			var property3 = new XDriverProperty()
 			{
@@ -63,7 +64,6 @@ namespace Common.GK
 			property4.Parameters.Add(parmeter2);
 			property4.Parameters.Add(parmeter3);
 			driver.Properties.Add(property4);
-
 
 			return driver;
 		}
