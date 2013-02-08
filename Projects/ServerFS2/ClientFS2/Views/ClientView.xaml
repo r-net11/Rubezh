@@ -1,9 +1,7 @@
 ﻿<Window x:Class="ClientFS2.Views.ClientView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
-        Title="Администратор Firesec-2"
-        Height="600" Width="600">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
+        Height="450" Width="400">
 
     <Window.Resources>
         <Converters:NullToVisibilityConverter x:Key="NullObjectToVisibiltyConverter"/>
@@ -15,7 +13,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}" Width="200" Margin="2" />
+            <Button Content="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}"/>
             <DataGrid ItemsSource="{Binding DevicesViewModel}" SelectedItem="{Binding SelectedDeviceViewModel}" Margin="2" Style="{x:Null}" AutoGenerateColumns="False" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding Device.PresentationName}" />
@@ -28,7 +26,7 @@
             <StackPanel Visibility="{Binding SelectedDeviceViewModel, Converter={StaticResource NullObjectToVisibiltyConverter}}">
                 <Button Content="Запросить журнал событий" Command = "{Binding ReadJournalCommand}" />
             </StackPanel>
-            <Button Content="Показать дерево устройств" Command="{Binding ShowDevicesTreeCommand}" Width="200" Margin="2" />
+            <Button Content="Показать дерево устройств" Command="{Binding ShowDevicesTreeCommand}" />
         </StackPanel>
         <Grid Grid.Row="2" >
             <Grid>

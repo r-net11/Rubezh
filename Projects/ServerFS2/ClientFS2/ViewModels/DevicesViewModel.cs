@@ -1,6 +1,7 @@
 ﻿using System;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using MonitorClientFS2;

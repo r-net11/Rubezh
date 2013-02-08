@@ -27,64 +27,15 @@ namespace MonitorClientFS2
 
 		public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
 		{
-			lock (Locker)
-			{
-				var journalItem = new JournalItem();
-				var allbytes = new List<byte>(bytes);
-				if (bytes.Count < 2)
-					return;
-				if (bytes.Count < 4)
-					return;
-				var requestNo = bytes[0] * 256 * 256 * 256 + bytes[1] * 256 * 256 + bytes[2] * 256 + bytes[3];
-				bytes.RemoveRange(0, 4);
-				var usbRequest = UsbRequests.FirstOrDefault(x => x.Id == requestNo);
-				if (usbRequest == null)
-					return;
-				UsbRequests.Remove(usbRequest);
-				if (bytes.Count < 2)
-					return;
-				if (bytes[0] != usbRequest.UsbAddress)
-					return;
-				if (bytes[1] != usbRequest.SelfAddress)
-					return;
-				bytes.RemoveRange(0, 2);
-				if (bytes.Count < 1)
-					return;
-				var funcCodeBitArray = new BitArray(bytes.GetRange(0, 1).ToArray());
-				if (funcCodeBitArray.Get(6) == false)
-					return;
-				if (funcCodeBitArray.Get(7))
-				{
-					Trace.WriteLine("\n Error = " + bytes[1]);
-					return;
-				}
-				byte funcCode = bytes[0];
-				funcCode = (byte)(funcCode << 2);
-				funcCode = (byte)(funcCode >> 2);
-				if (funcCode != usbRequest.FuncCode)
-					return;
-				bytes.RemoveRange(0, 1);
-				if (bytes.Count < 32)
-					return;
-				var journalParser = new JournalParser(bytes, allbytes);
-				var timeBytes = bytes.GetRange(1, 4);
-				journalItem.Date = TimeParceHelper.Parce(timeBytes);
-				var eventName = MetadataHelper.GetEventByCode(bytes[0]);
-				journalItem.EventName = MetadataHelper.GetExactEventForFlag(eventName, bytes[5]);
-				Trace.WriteLine(journalItem.Date + " " + journalItem.EventName);
-				journalItem.Flag = bytes[5];
-				journalItem.ShleifNo = bytes[6];
-				journalItem.IntType = bytes[7];
-				journalItem.Address = bytes[8];
-				journalItem.State = bytes[9];
-				journalItem.ZoneNo = bytes[10] * 256 + bytes[11];
-				journalItem.DescriptorNo = bytes[12] * 256 * 256 + bytes[13] * 256 + bytes[14];
-				journalItem = journalParser.Parce();
-				journalItems.Add(journalItem);
-			}
+            lock (Locker)
+            {
+                var journalParser = new JournalParser(bytes);
+                var journalItem = journalParser.Parce();
+                journalItems.Add(journalItem);
+            }
 		}
 
-		private static OperationResult<Response> SendCode(List<byte> bytes)
+        private static OperationResult<List<Response>> SendCode(List<byte> bytes)
 		{
 			var usbRequest = new UsbRequest()
 			{
@@ -94,8 +45,8 @@ namespace MonitorClientFS2
 				FuncCode = bytes[6]
 			};
 			UsbRequests.Add(usbRequest);
-			return UsbRunner.AddRequest(bytes);
-		}
+            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000);
+        }
 
 		public static List<JournalItem> GetSecJournalItems2Op(Device device)
 		{
@@ -111,7 +62,7 @@ namespace MonitorClientFS2
 				bytes.Add(0x20);
 				bytes.Add(0x02);
 				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				ParseJournal(SendCode(bytes).Result.Data, journlaItems);
+                ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journlaItems);
 			}
 			journlaItems = journlaItems.OrderByDescending(x => x.IntDate).ToList();
 			int no = 0;
@@ -135,7 +86,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-				int li = 256 * lastindex.Result.Data[9] + lastindex.Result.Data[10];
+                int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
 				return li;
 			}
 			catch (NullReferenceException ex)
@@ -160,7 +111,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var firecount = SendCode(bytes);
-				int fc = 256 * firecount.Result.Data[7] + firecount.Result.Data[8];
+                int fc = 256 * firecount.Result.FirstOrDefault().Data[7] + firecount.Result.FirstOrDefault().Data[8];
 				return fc;
 			}
 			catch (NullReferenceException ex)
@@ -190,7 +141,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-				int li = 256 * lastindex.Result.Data[9] + lastindex.Result.Data[10];
+                int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
 				return li;
 			}
 			catch (NullReferenceException ex)
@@ -252,7 +203,7 @@ namespace MonitorClientFS2
 			bytes.Add(0x20);
 			bytes.Add(0x00);
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-			ParseJournal(SendCode(bytes).Result.Data, journalItems);
+            ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journalItems);
 		}
 	}
 
