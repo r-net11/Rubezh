@@ -60,6 +60,7 @@ namespace Common.GK
 			if (!Delays.Contains(delay))
 			{
 				delay.SetDatabaseNo(DatabaseType, NextChildNo);
+				delay.GkDatabaseParent = RootDevice;
 				Delays.Add(delay);
 			}
 		}

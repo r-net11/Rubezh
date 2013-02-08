@@ -60,7 +60,7 @@
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Компрессор" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
             <TextBlock Grid.Row="3" Grid.Column="0" Text="НКУ" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Интервал разновременного пуска" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
             
             <TextBlock Grid.Row="0" Grid.Column="1">
                 <Hyperlink Command="{Binding ChooseDrenajPumpCommand}" Style="{StaticResource HyperlinkStyle}">

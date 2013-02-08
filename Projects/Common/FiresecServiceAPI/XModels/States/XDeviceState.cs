@@ -28,6 +28,9 @@ namespace XFiresecAPI
 				if (!Device.IsRealDevice)
 					return new List<XStateType>() { XStateType.Norm };
 
+				if (Device.Driver.DriverType == XDriverType.PumpStation)
+					return new List<XStateType>() { XStateType.Norm };
+
 				if (_states == null)
 					_states = new List<XStateType>();
 				_states.Remove(XStateType.Save);

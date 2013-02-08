@@ -45,7 +45,6 @@ namespace GKModule
                 IsConnected = isConnected;
 				if (isConnected)
 				{
-					//GetGKAndKauStates();
 					GetAllStates();
 				}
             }
