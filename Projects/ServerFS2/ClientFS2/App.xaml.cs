@@ -15,10 +15,11 @@ namespace ClientFS2
             var resourceService = new ResourceService();
             resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-            var clientView = new ClientView();
-            var clientViewModel = new ClientViewModel();
-            clientView.DataContext = clientViewModel;
-            clientView.Show();
+
+			var mainView = new MainView();
+            var mainViewModel = new MainViewModel();
+            mainView.DataContext = mainViewModel;
+            mainView.Show();
         }
     }
 }

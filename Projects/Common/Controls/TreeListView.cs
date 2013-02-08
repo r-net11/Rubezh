@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common;
 using Common;
+using Infrastructure.Common;
 
 namespace Controls
 {

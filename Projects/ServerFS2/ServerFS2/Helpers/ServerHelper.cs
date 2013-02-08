@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
-using FiresecAPI;
 
 namespace ServerFS2
 {

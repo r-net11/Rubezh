@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Win32;
 using Common;
 
 namespace Infrastructure.Common.Theme

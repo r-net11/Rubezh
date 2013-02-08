@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Text;
-using Infrastructure.Common;
-using System.IO;
-using Ionic.Zip;
 using FiresecAPI.Models;
+using Infrastructure.Common;
+using Ionic.Zip;
 
 namespace ClientFS2
 {
