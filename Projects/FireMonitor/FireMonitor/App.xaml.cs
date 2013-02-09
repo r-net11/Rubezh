@@ -30,13 +30,6 @@ namespace FireMonitor
 		{
 			IsMulticlient = true;
 			MulticlientId = multiclientData.Id;
-			AppSettingsManager.AutoConnect = true;
-			AppSettingsManager.Login = multiclientData.Login;
-			AppSettingsManager.Password = multiclientData.Password;
-			AppSettingsManager.FS_Address = multiclientData.Address;
-			AppSettingsManager.RemoteAddress = multiclientData.Address;
-			AppSettingsManager.RemotePort = multiclientData.Port;
-			AppSettingsManager.RemoteFSAgentPort = multiclientData.Port;
 		}
 
 		public App()
@@ -55,7 +48,6 @@ namespace FireMonitor
 				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 				ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
-				AppSettingsManager.AutoConnect = true;
 				bool trace = false;
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
@@ -88,7 +80,6 @@ namespace FireMonitor
 				if (isAutoConnect != null)
 					if (isAutoConnect.Equals("True"))
 					{
-						AppSettingsManager.AutoConnect = true;
 						RegistrySettingsHelper.SetBool("isAutoConnect", false);
 					}
 				RevisorLoadHelper.Load();

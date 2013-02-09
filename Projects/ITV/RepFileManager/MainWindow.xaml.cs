@@ -11,62 +11,62 @@ using Infrastructure.Common.Windows;
 
 namespace RepFileManager
 {
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+	public partial class MainWindow : Window
+	{
+		public MainWindow()
+		{
+			InitializeComponent();
+		}
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var message = ItvManager.Connect(AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password);
-            if (message != null)
-            {
-                MessageBoxService.Show(message);
-                return;
-            }
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			var message = ItvManager.Connect(AppSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
+			if (message != null)
+			{
+				MessageBoxService.Show(message);
+				return;
+			}
 
-            Directory.CreateDirectory("BMP");
+			Directory.CreateDirectory("BMP");
 
-            var repositoryModule = new repositoryModule();
-            repositoryModule.name = "Rubezh devices";
-            repositoryModule.version = "1.0.0";
-            repositoryModule.port = "1234";
-            var repository = new repository();
-            repository.module = repositoryModule;
+			var repositoryModule = new repositoryModule();
+			repositoryModule.name = "Rubezh devices";
+			repositoryModule.version = "1.0.0";
+			repositoryModule.port = "1234";
+			var repository = new repository();
+			repository.module = repositoryModule;
 
-            repositoryModule.device = DevicesGenerator.Generate().ToArray();
+			repositoryModule.device = DevicesGenerator.Generate().ToArray();
 
-            var serializer = new XmlSerializer(typeof(repositoryModule));
-            using (var fileStream = File.CreateText("Rubezh.rep"))
-            {
-                serializer.Serialize(fileStream, repositoryModule);
-            }
+			var serializer = new XmlSerializer(typeof(repositoryModule));
+			using (var fileStream = File.CreateText("Rubezh.rep"))
+			{
+				serializer.Serialize(fileStream, repositoryModule);
+			}
 
-            CreateDeviceCommands();
-        }
+			CreateDeviceCommands();
+		}
 
-        void CreateDeviceCommands()
-        {
-            var stringBuilder = new StringBuilder();
-            foreach (var driver in Helper.RealDevices)
-            {
-                foreach (var driverProperty in driver.Properties)
-                {
-                    if (driverProperty.IsControl)
-                    {
-                        stringBuilder.AppendLine(driver.Name + " - " + driverProperty.Caption + " - " + driverProperty.Name);
-                    }
-                }
-            }
+		void CreateDeviceCommands()
+		{
+			var stringBuilder = new StringBuilder();
+			foreach (var driver in Helper.RealDevices)
+			{
+				foreach (var driverProperty in driver.Properties)
+				{
+					if (driverProperty.IsControl)
+					{
+						stringBuilder.AppendLine(driver.Name + " - " + driverProperty.Caption + " - " + driverProperty.Name);
+					}
+				}
+			}
 
-            DeviceCommands.Text = stringBuilder.ToString();
-        }
+			DeviceCommands.Text = stringBuilder.ToString();
+		}
 
-        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            ItvManager.Disconnect();
-        }
-    }
+		private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			ItvManager.Disconnect();
+		}
+	}
 }

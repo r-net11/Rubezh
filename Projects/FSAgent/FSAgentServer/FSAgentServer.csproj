@@ -65,7 +65,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppSettings.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Journal.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SyncronizeJournal.cs" />

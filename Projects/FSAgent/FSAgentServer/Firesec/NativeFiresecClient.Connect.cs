@@ -45,7 +45,7 @@ namespace FSAgentServer
 
                     string loginError = null;
 
-					var result = GetConnection(AppSettingsManager.FS_Address, AppSettingsManager.FS_Port, AppSettingsManager.FS_Login, AppSettingsManager.Password);
+					var result = GetConnection(GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress, GlobalSettingsHelper.GlobalSettings.FS_Port, GlobalSettingsHelper.GlobalSettings.FS_Login, GlobalSettingsHelper.GlobalSettings.Password);
                     if (result.HasError &&
                         result.Error == "Пользователь или пароль неверны. Повторите ввод" ||
                         result.Error == "Удаленный доступ с этого компьютера запрещен")

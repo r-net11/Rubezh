@@ -85,5 +85,10 @@ namespace Infrastructure.Common
 		{
 			return Path.Combine(AppDataFolderName, "GlobalSettings.xml");
 		}
+
+		public static string GetFileInFolder(string folderName, string fileName)
+		{
+			return Path.Combine(AppDataFolderName, folderName, fileName);
+		}
 	}
 }

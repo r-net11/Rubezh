@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
+using System.Windows;
 
 namespace Infrastructure.Common
 {
@@ -51,6 +52,16 @@ namespace Infrastructure.Common
 			return null;
 		}
 
+		public static WindowRect GetWindowRect(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.WindowRectValue;
+			}
+			return null;
+		}
+
 		public static void SetString(string name, string stringValue)
 		{
 			var registryData = new RegistryData()
@@ -91,6 +102,16 @@ namespace Infrastructure.Common
 			SetRegistryData(registryData);
 		}
 
+		public static void SetWindowRect(string name, WindowRect windowRect)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				WindowRectValue = windowRect
+			};
+			SetRegistryData(registryData);
+		}
+
 		static RegistryData GetRegistryData(string name)
 		{
 			try
@@ -124,6 +145,7 @@ namespace Infrastructure.Common
 				registryData.IntValue = newRegistryData.IntValue;
 				registryData.BoolValue = newRegistryData.BoolValue;
 				registryData.StringsValue = newRegistryData.StringsValue;
+				registryData.WindowRectValue = newRegistryData.WindowRectValue;
 				SetRegistryDataConfiguration(registryDataConfiguration);
 			}
 			catch (Exception e)
@@ -171,6 +193,11 @@ namespace Infrastructure.Common
 	[DataContract]
 	public class RegistryData
 	{
+		public RegistryData()
+		{
+			StringsValue = new List<string>();
+		}
+
 		[DataMember]
 		public string Name { get; set; }
 
@@ -185,5 +212,24 @@ namespace Infrastructure.Common
 
 		[DataMember]
 		public List<string> StringsValue { get; set; }
+
+		[DataMember]
+		public WindowRect WindowRectValue { get; set; }
+	}
+
+	[DataContract]
+	public class WindowRect
+	{
+		[DataMember]
+		public double Left { get; set; }
+
+		[DataMember]
+		public double Top { get; set; }
+
+		[DataMember]
+		public double Width { get; set; }
+
+		[DataMember]
+		public double Height { get; set; }
 	}
 }

@@ -64,7 +64,7 @@ namespace FSAgentServer
 				var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
-					var remoteAddress = "http://" + ipAddress + ":" + AppSettings.RemotePort.ToString() + "/FSAgent/";
+					var remoteAddress = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FSAgent/";
 					ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
 					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}

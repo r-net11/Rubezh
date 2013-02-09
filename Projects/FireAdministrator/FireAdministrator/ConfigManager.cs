@@ -42,7 +42,7 @@ namespace FireAdministrator
 					if (ServiceFactory.SaveService.FSChanged)
 					{
 						LoadingService.DoStep("Применение конфигурации устройств");
-						if (!ServiceFactory.AppSettings.DoNotOverrideFS1)
+						if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
 						{
 							if (FiresecManager.FiresecDriver != null)
 							{

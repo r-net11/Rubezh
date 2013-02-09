@@ -19,7 +19,6 @@ namespace Infrastructure
 			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
 		}
 
-		public static AppSettings AppSettings { get; set; }
 		public static SaveService SaveService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static IProgressService ProgressService { get; private set; }

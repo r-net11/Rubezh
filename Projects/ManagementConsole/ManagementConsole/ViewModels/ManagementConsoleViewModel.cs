@@ -12,17 +12,17 @@ using Microsoft.Win32;
 using Cursor = System.Windows.Input.Cursor;
 using Cursors = System.Windows.Input.Cursors;
 using MessageBox = System.Windows.MessageBox;
+using FiresecAPI;
 
 namespace ManagementConsole
 {
 	public class ManagementConsoleViewModel : BaseViewModel
 	{
-		public GlobalSettingsViewModel GlobalSettingsViewModel { get; private set; }
-
 		public ManagementConsoleViewModel()
 		{
-			GetLogsCommand = new RelayCommand(OnGetLogs);
-			RemLogsCommand = new RelayCommand(OnRemLogs);
+			SaveLogsCommand = new RelayCommand(OnSaveLogs);
+			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
+			ResetCommand = new RelayCommand(OnReset);
 			GlobalSettingsViewModel = new GlobalSettingsViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 		}
@@ -122,8 +122,8 @@ namespace ManagementConsole
 
 		public string LogsFolderPath { get; private set; }
 
-		public RelayCommand GetLogsCommand { get; private set; }
-		public void OnGetLogs()
+		public RelayCommand SaveLogsCommand { get; private set; }
+		public void OnSaveLogs()
 		{
 			var saveFolderPath = new FolderBrowserDialog { Description = "Choose a Folder" };
 			if (saveFolderPath.ShowDialog() != DialogResult.OK)
@@ -187,8 +187,8 @@ namespace ManagementConsole
 			return is64 ? 64 : 86;
 		}
 
-		public RelayCommand RemLogsCommand { get; private set; }
-		public void OnRemLogs()
+		public RelayCommand RemoveLogsCommand { get; private set; }
+		public void OnRemoveLogs()
 		{
 			foreach (var directoryName in Directory.GetDirectories(LogsFolderPath))
 			{
@@ -197,6 +197,30 @@ namespace ManagementConsole
 					File.Delete(fileName);
 				}
 			}
+		}
+
+		GlobalSettingsViewModel _globalSettingsViewModel;
+		public GlobalSettingsViewModel GlobalSettingsViewModel
+		{
+			get { return _globalSettingsViewModel; }
+			set
+			{
+				_globalSettingsViewModel = value;
+				OnPropertyChanged("GlobalSettingsViewModel");
+			}
+		}
+
+		public RelayCommand ResetCommand { get; private set; }
+		public void OnReset()
+		{
+			GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
+			GlobalSettingsHelper.Save();
+			GlobalSettingsViewModel = new GlobalSettingsViewModel();
+
+			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
+			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
+			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
+			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
 		}
 	}
 }

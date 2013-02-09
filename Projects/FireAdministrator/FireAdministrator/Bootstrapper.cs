@@ -19,7 +19,6 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			LoadingErrorManager.Clear();
-			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			var assembly = GetType().Assembly;
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));

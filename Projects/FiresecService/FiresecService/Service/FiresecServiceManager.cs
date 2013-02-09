@@ -25,7 +25,7 @@ namespace FiresecService.Service
 				FiresecService = new FiresecService();
 				ServiceHost = new ServiceHost(FiresecService);
 
-				if (AppSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
+				if (GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
 					CreateHttpEndpoint();
 				}
@@ -63,7 +63,7 @@ namespace FiresecService.Service
 				var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
-					var remoteAddress = "http://" + ipAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
+					var remoteAddress = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
 					ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
 					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
@@ -81,7 +81,7 @@ namespace FiresecService.Service
 					var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
-					var remoteAddress = "net.tcp://" + ipAddress + ":" + AppSettings.RemotePort.ToString() + "/FiresecService/";
+					var remoteAddress = "net.tcp://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
 					ServiceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", Common.BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
 					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
