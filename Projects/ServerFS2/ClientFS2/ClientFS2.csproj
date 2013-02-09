@@ -60,9 +60,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ViewModels\AutoDetectDevicesViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\PropertiesViewModel.cs" />
+    <Compile Include="Views\AutoDetectDevicesView.xaml.cs">
+      <DependentUpon>AutoDetectDevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
@@ -72,7 +76,11 @@
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\ClientView.xaml">
+    <Page Include="Views\AutoDetectDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -80,8 +88,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\JournalViewModel.cs" />
-    <Compile Include="Views\ClientView.xaml.cs">
-      <DependentUpon>ClientView.xaml</DependentUpon>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
@@ -102,7 +110,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

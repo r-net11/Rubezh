@@ -5,14 +5,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
 using ClientFS2;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using ServerFS2;
 using MonitorClientFS2.ViewModels;
-using Infrastructure.Common.Windows;
+using ServerFS2;
 using ServerFS2.DataBase;
-using FiresecAPI;
 
 namespace MonitorClientFS2
 {

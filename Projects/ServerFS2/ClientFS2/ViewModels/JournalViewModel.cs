@@ -5,22 +5,18 @@ using ServerFS2;
 
 namespace ClientFS2.ViewModels
 {
-    public class JournalViewModel : DialogViewModel
-    {
+	public class JournalViewModel : DialogViewModel
+	{
 		public JournalViewModel(List<JournalItem> journalItems)
-        {
-            Title = "Журнал событий";
-            JournalInitialize(journalItems);
-        }
-        void JournalInitialize(List<JournalItem> journalItems)
-        {
-            JournalItems = new ObservableCollection<JournalItem>();
-            foreach (var journalItem in journalItems)
-            {
-                JournalItems.Add(journalItem);
-            }
-            OnPropertyChanged("JournalItems");
-        }
-        public ObservableCollection<JournalItem> JournalItems { get; set; }
-    }
+		{
+			Title = "Журнал событий";
+
+			JournalItems = new ObservableCollection<JournalItem>();
+			foreach (var journalItem in journalItems)
+			{
+				JournalItems.Add(journalItem);
+			}
+		}
+		public ObservableCollection<JournalItem> JournalItems { get; set; }
+	}
 }

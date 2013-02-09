@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Common;
-using Microsoft.Win32;
 
 namespace Infrastructure.Common
 {

@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Common;
-using Microsoft.Win32;
-using System.Security.AccessControl;
 
 namespace Infrastructure.Common
 {

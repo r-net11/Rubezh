@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Text;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
 using XFiresecAPI;
-using Common;
 
 namespace FiresecClient
 {

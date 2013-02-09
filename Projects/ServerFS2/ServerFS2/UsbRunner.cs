@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using System.Threading;
 
 namespace ServerFS2
 {

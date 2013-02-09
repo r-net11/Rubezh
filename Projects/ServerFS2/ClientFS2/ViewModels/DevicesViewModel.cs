@@ -1,9 +1,6 @@
-﻿using System;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using ServerFS2;
 using MonitorClientFS2;
 
 namespace ClientFS2.ViewModels
@@ -11,19 +8,6 @@ namespace ClientFS2.ViewModels
     public class DevicesViewModel : DialogViewModel
     {
         public DevicesViewModel()
-        {
-            GetDeviceParametersCommand = new RelayCommand(OnGetDeviceParameters);
-            Initialize();
-        }
-        
-        public RelayCommand GetDeviceParametersCommand { get; private set; }
-        private void OnGetDeviceParameters()
-        {
-            SelectedDevice.Device.AUParametersChanged += () => MessageBoxService.Show("Get parameters completed");
-            var properties = ServerHelper.GetDeviceParameters(SelectedDevice.Device);
-            DialogService.ShowModalWindow(new PropertiesViewModel(properties));
-        }
-        public void Initialize()
         {
             BuildTree();
             if (RootDevice != null)
