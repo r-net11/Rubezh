@@ -32,9 +32,12 @@ namespace FiresecAPI
 				"SettingsModule.dll" + "\r\n" +
 				"GKModule.dll" + "\r\n" +
 				"OPCModule.dll" + "\r\n" +
-				"DiagnosticsModule.dll" + "\r\n" +
 				"NotificationModule.dll" + "\r\n" +
-				"VideoModule.dll";
+				"VideoModule.dll" + "\r\n" +
+				"DiagnosticsModule.dll" + "\r\n" +
+				"AlarmModule.dll" + "\r\n" +
+				"JournalModule.dll" + "\r\n" +
+				"ReportsModule.dll";
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
 			FS_Login = "adm";

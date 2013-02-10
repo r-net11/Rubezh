@@ -13,6 +13,7 @@
       <ComponentRef Id="Server.SKUD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
 			<ComponentRef Id="Server.AutorunComponent" />
+      <ComponentRef Id="AppData.FiresecLocation.Permissions" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->

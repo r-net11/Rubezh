@@ -70,9 +70,9 @@
     <Compile Include="UI\UI_Elements.wxs" />
     <Compile Include="UI\UI_Logic.wxs" />
     <Compile Include="UI\UI_TextStyle.wxs" />
-    <Compile Include="Utils\Features.wxs" />
-    <Compile Include="Utils\Files.wxs" />
-    <Compile Include="Utils\Shortcuts.wxs" />
+    <Compile Include="ManagementConsole\Features.wxs" />
+    <Compile Include="ManagementConsole\Files.wxs" />
+    <Compile Include="ManagementConsole\Shortcuts.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">
@@ -108,7 +108,7 @@
     <Content Include="Server\Variables.wxi" />
     <Content Include="Firesec\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
-    <Content Include="Utils\Variables.wxi" />
+    <Content Include="ManagementConsole\Variables.wxi" />
     <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
@@ -120,7 +120,7 @@
     <Folder Include="FSAgent" />
     <Folder Include="Data" />
     <Folder Include="Multiclient" />
-    <Folder Include="Utils" />
+    <Folder Include="ManagementConsole" />
     <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />

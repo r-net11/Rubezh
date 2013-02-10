@@ -35,9 +35,9 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <!--<StackPanel.InputBindings>
+                                    <StackPanel.InputBindings>
                                         <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Controls:TreeListView}}" MouseAction="LeftDoubleClick" />
-                                    </StackPanel.InputBindings>-->
+                                    </StackPanel.InputBindings>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -77,9 +77,9 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                    <!--<StackPanel.InputBindings>
+                                    <StackPanel.InputBindings>
                                         <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Controls:TreeListView}}" MouseAction="LeftDoubleClick" />
-                                    </StackPanel.InputBindings>-->
+                                    </StackPanel.InputBindings>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

@@ -78,5 +78,13 @@
       </Component>
     </DirectoryRef>
 
+    <DirectoryRef Id="AppData.FiresecLocation">
+      <Component Id="AppData.FiresecLocation.Permissions" Guid="28D9EA15-1142-48EE-BB4D-DBAC0683D222">
+        <CreateFolder>
+          <util:PermissionEx User="Users" GenericAll="yes" />
+        </CreateFolder>
+      </Component>
+    </DirectoryRef>
+
   </Fragment>
 </Wix>

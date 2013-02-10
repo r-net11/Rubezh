@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
 			device.Changed += new Action(device_Changed);
 			device.AUParametersChanged += new Action(device_AUParametersChanged);
 
-			UpdateZoneName();
+			//UpdateZoneName();
 		}
 
 		void device_Changed()
@@ -117,7 +117,7 @@ namespace DevicesModule.ViewModels
 
 			if (Device.IsNotUsed)
 				EditingPresentationZone = null;
-			var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+			var presentationZone = PresentationZone;
 			if (string.IsNullOrEmpty(presentationZone))
 			{
 				if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
@@ -244,6 +244,9 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			//var testWindow = new XXX.TestWindow();
+			//testWindow.ShowDialog();
+
 			var newDeviceViewModel = new NewDeviceViewModel(this);
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
