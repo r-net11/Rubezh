@@ -60,7 +60,7 @@ namespace DevicesModule.ViewModels
 			deviceViewModels = new List<DeviceViewModel>();
 			foreach (var device in devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device)
+				var deviceViewModel = new DeviceViewModel(device, false)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
@@ -77,7 +77,7 @@ namespace DevicesModule.ViewModels
 			availableDeviceViewModels = new List<DeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
-				var deviceViewModel = new DeviceViewModel(device)
+				var deviceViewModel = new DeviceViewModel(device, false)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice
@@ -96,15 +96,16 @@ namespace DevicesModule.ViewModels
 
 			OnPropertyChanged("RootDevices");
 			OnPropertyChanged("AvailableRootDevices");
-
-			SelectedDevice = deviceViewModels.FirstOrDefault();
-			SelectedAvailableDevice = availableDeviceViewModels.FirstOrDefault();
 		}
 
 		public void Clear()
 		{
 			deviceViewModels.Clear();
 			availableDeviceViewModels.Clear();
+			RootDevice = null;
+			AvailableRootDevice = null;
+			OnPropertyChanged("RootDevices");
+			OnPropertyChanged("AvailableRootDevices");
 			SelectedDevice = null;
 			SelectedAvailableDevice = null;
 		}

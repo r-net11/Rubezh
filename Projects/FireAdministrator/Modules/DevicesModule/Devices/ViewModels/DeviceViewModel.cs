@@ -16,8 +16,12 @@ namespace DevicesModule.ViewModels
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-		public DeviceViewModel(Device device)
+		public DeviceViewModel(Device device, bool intitialize = true)
 		{
+			Device = device;
+			if (!intitialize)
+				return;
+
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -27,7 +31,6 @@ namespace DevicesModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
-			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
@@ -35,7 +38,7 @@ namespace DevicesModule.ViewModels
 			device.Changed += new Action(device_Changed);
 			device.AUParametersChanged += new Action(device_AUParametersChanged);
 
-			//UpdateZoneName();
+			UpdateZoneName();
 		}
 
 		void device_Changed()

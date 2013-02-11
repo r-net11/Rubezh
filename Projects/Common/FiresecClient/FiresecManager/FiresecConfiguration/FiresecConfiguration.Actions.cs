@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace FiresecClient
 {
@@ -120,6 +121,7 @@ namespace FiresecClient
 			var devicesInZoneLogic = new List<Device>(zone.DevicesInZoneLogic);
 			foreach (var device in devicesInZoneLogic)
 			{
+				var dateTime = DateTime.Now;
                 DeviceConfiguration.InvalidateOneDevice(device);
                 DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();

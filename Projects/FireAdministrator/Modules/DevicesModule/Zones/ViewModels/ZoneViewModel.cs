@@ -3,41 +3,30 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneViewModel : BaseViewModel
-    {
-        public Zone Zone { get; private set; }
+	public class ZoneViewModel : BaseViewModel
+	{
+		public Zone Zone { get; private set; }
 
-        public ZoneViewModel(Zone zone)
-        {
-            Zone = zone;
-        }
+		public ZoneViewModel(Zone zone)
+		{
+			Zone = zone;
+		}
 
-        public string DetectorCount
-        {
-            get
-            {
-                if (Zone.ZoneType == ZoneType.Fire)
-                    return Zone.DetectorCount.ToString();
-                return null;
-            }
-        }
+		public string DetectorCount
+		{
+			get
+			{
+				if (Zone.ZoneType == ZoneType.Fire)
+					return Zone.DetectorCount.ToString();
+				return null;
+			}
+		}
 
-        bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged("IsSelected");
-            }
-        }
-
-        public void Update(Zone zone)
-        {
-            Zone = zone;
-            OnPropertyChanged("Zone");
-            OnPropertyChanged("DetectorCount");
-        }
-    }
+		public void Update(Zone zone)
+		{
+			Zone = zone;
+			OnPropertyChanged("Zone");
+			OnPropertyChanged("DetectorCount");
+		}
+	}
 }
