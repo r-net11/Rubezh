@@ -1,4 +1,7 @@
-﻿<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="PlansModule.Views.PlansTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<Controls:TreeListView ItemsSource="{Binding PlansViewModel.Plans}" SelectedObject="{Binding PlansViewModel.SelectedPlan}">
 		<Controls:TreeListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">

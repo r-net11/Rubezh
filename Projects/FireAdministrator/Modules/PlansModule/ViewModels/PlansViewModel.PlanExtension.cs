@@ -95,11 +95,6 @@ namespace PlansModule.ViewModels
 
 			TabPages = new List<TabItem>()
 			{
-				new TabItem()
-				{
-					Header = "Планы",
-					Content = PlansTreeViewModel
-				},
 				layers
 			};
 		}
