@@ -45,7 +45,7 @@ namespace ServerFS2
             {
                 var bytes = new List<byte>();
                 bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-                bytes.Add(Convert.ToByte(Convert.ToInt32(device.Properties.FirstOrDefault(x => x.Name == "UsbChannel").Value) + 2));
+                bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
                 bytes.Add(Convert.ToByte(device.IntAddress % 256));
                 bytes.Add(0x01);
                 bytes.Add(0x20);
@@ -66,7 +66,7 @@ namespace ServerFS2
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-            bytes.Add(Convert.ToByte(Convert.ToInt32(device.Properties.FirstOrDefault(x => x.Name == "UsbChannel").Value) + 2));
+            bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
             bytes.Add(Convert.ToByte(device.IntAddress % 256));
             bytes.Add(0x01);
             bytes.Add(0x21);
@@ -87,7 +87,7 @@ namespace ServerFS2
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-            bytes.Add(Convert.ToByte(Convert.ToInt32(device.Properties.FirstOrDefault(x => x.Name == "UsbChannel").Value) + 2));
+            bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
             bytes.Add(Convert.ToByte(device.IntAddress % 256));
             bytes.Add(0x01);
             bytes.Add(0x24);
@@ -114,7 +114,7 @@ namespace ServerFS2
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-            bytes.Add(Convert.ToByte(Convert.ToInt32(device.Properties.FirstOrDefault(x => x.Name == "UsbChannel").Value) + 2));
+            bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
             bytes.Add(Convert.ToByte(device.IntAddress % 256));
             bytes.Add(0x01);
             bytes.Add(0x21);
@@ -145,7 +145,7 @@ namespace ServerFS2
             {
                 var bytes = new List<byte>();
                 bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-                bytes.Add(Convert.ToByte(Convert.ToInt32(device.Properties.FirstOrDefault(x => x.Name == "UsbChannel").Value) + 2));
+                bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
                 bytes.Add(Convert.ToByte(device.IntAddress % 256));
                 bytes.Add(0x01);
                 bytes.Add(0x20);
@@ -172,7 +172,8 @@ namespace ServerFS2
             bytes.Add(0x01);
             bytes.Add(0x04);
             byte ms = 0x03;
-            if (SendCode(bytes).Result.FirstOrDefault().Data[5] == 0x41) // запрашиваем второй шлейф
+		    var res = SendCode(bytes).Result;
+            if (res.FirstOrDefault().Data[5] == 0x41) // запрашиваем второй шлейф
                 ms = 0x04;
 			for (byte sleif = 0x03; sleif <= ms; sleif++)
 			{
