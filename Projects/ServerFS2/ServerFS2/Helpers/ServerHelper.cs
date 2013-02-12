@@ -10,40 +10,35 @@ using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
 {
-	public static class ServerHelper
-	{
-		static readonly object Locker = new object();
-		static readonly UsbRunner UsbRunner;
+    public static class ServerHelper 
+    {
+        static readonly object Locker = new object();
+        static readonly UsbRunner UsbRunner;
         public static event Action<int,int,string> Progress;
-		static ServerHelper()
-		{
-			MetadataHelper.Initialize();
-			UsbRunner = new UsbRunner();
-			UsbRunner.Open();
-		}
-
-		private static int _usbRequestNo;
-
-		public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
-		{
-			lock (Locker)
-			{
-				var journalParser = new JournalParser(bytes);
-				var journalItem = journalParser.Parce();
-				journalItems.Add(journalItem);
-			}
-		}
+        static ServerHelper()
+        {
+            MetadataHelper.Initialize();
+            UsbRunner = new UsbRunner();
+            UsbRunner.Open();
+        }
+        private static int _usbRequestNo;
+        public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
+        {
+            lock (Locker)
+            {
+                var journalParser = new JournalParser(bytes);
+                var journalItem = journalParser.Parce();
+                journalItems.Add(journalItem);
+            }
+        }
         static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int delay = 1000, int timeout = 1000)
-		private static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int delay = 1000)
-		{
+        {
             return UsbRunner.AddRequest(bytesList, delay, timeout);
-		}
+        }
         static OperationResult<List<Response>> SendCode(List<byte> bytes, int delay = 1000, int timeout = 1000)
-		private static OperationResult<List<Response>> SendCode(List<byte> bytes, int delay = 1000)
-		{
+        {
             return UsbRunner.AddRequest(new List<List<byte>> { bytes }, delay, timeout);
-		}
-
+        }
 		public static List<JournalItem> GetSecJournalItems2Op(Device device)
 		{
 			int lastindex = GetLastSecJournalItemId2Op(device);
@@ -69,7 +64,6 @@ namespace ServerFS2
 			}
 			return journlaItems;
 		}
-
 		public static int GetLastSecJournalItemId2Op(Device device)
 		{
 			var bytes = new List<byte>();
@@ -91,7 +85,6 @@ namespace ServerFS2
 				throw;
 			}
 		}
-
 		public static int GetJournalCount(Device device)
 		{
 			var bytes = new List<byte>();
@@ -113,14 +106,12 @@ namespace ServerFS2
 				throw;
 			}
 		}
-
 		public static int GetFirstJournalItemId(Device device)
 		{
 			var li = GetLastJournalItemId(device);
 			var count = GetJournalCount(device);
 			return li - count + 1;
 		}
-
 		public static int GetLastJournalItemId(Device device)
 		{
 			var bytes = new List<byte>();
@@ -142,7 +133,6 @@ namespace ServerFS2
 				throw;
 			}
 		}
-
 		public static List<JournalItem> GetJournalItems(Device device)
 		{
 			int lastindex = GetLastJournalItemId(device);
@@ -174,7 +164,6 @@ namespace ServerFS2
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
 		}
-
 		public static List<Device> AutoDetectDevice()
 		{
 			var result = new List<Device>();
@@ -252,114 +241,93 @@ namespace ServerFS2
 			}
 			return result;
 		}
-
 		public static List<byte> SendRequest(List<byte> bytes)
 		{
 			return SendCode(bytes).Result.FirstOrDefault().Data;
 		}
-
-		public static List<Property> GetDeviceParameters(Device device)
-		{
-			var values = new List<Property>();
-			var bytesList = new List<List<byte>>();
+        public static List<Property> GetDeviceParameters(Device device)
+        {
+            var values = new List<Property>();
+            var bytesList = new List<List<byte>>();
             var properties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
             var properties1 = properties;
             var properties2 = properties;
             properties.RemoveAll(x => properties1.FirstOrDefault(z => (properties2.IndexOf(x) > properties1.IndexOf(z))&&(z.No == x.No)) != null); // Удаляем из списка все параметры, коды которых уже есть в этом списке (чтобы не дублировать запрос)
             foreach (var property in properties)
-			{
+            {
                 if (Progress != null)
                 {
                     var index = properties.IndexOf(property);
                     var max = properties.Count - 1;
                     Progress(index, max, "");
                 }
-				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
-				bytes.Add((byte)device.Parent.IntAddress);
-				bytes.Add(0x02);
-				bytes.Add(0x53);
-				bytes.Add(0x02);
-				bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x00);
-				bytes.Add(property.No);
-				bytes.Add(0x00);
-				bytes.Add(0x00);
-				bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
-				bytesList.Add(bytes);
-			}
-			var results = SendCode(bytesList, 1000000);
-			foreach (var result in results.Result)
-			{
+                var bytes = new List<byte>();
+                bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+                bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
+                bytes.Add((byte) device.Parent.IntAddress);
+                bytes.Add(0x02);
+                bytes.Add(0x53);
+                bytes.Add(0x02);
+                bytes.Add((byte) MetadataHelper.GetIdByUid(device.Driver.UID));
+                bytes.Add(Convert.ToByte(device.IntAddress%256));
+                bytes.Add(0x00);
+                bytes.Add(property.No);
+                bytes.Add(0x00);
+                bytes.Add(0x00);
+                bytes.Add(Convert.ToByte(device.IntAddress/256 - 1));
+                bytesList.Add(bytes);
+            }
+            var results = SendCode(bytesList, 1000000);
+            foreach (var result in results.Result)
+            {
                 properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
-				foreach (var property in properties)
-				{
-					var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
+                foreach (var property in properties)
+                {
+                    var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
                     var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == value.Name);
                     deviceProperty.Value = value.Value;
-					value.Name = property.Caption;
-					values.Add(value);
-				}
-			}
-			return values;
-		}
-
-		public static List<Property> SetDeviceParameters(Device device)
-		{
-			var values = new List<Property>();
-			var bytesList = new List<List<byte>>();
-			foreach (var property in device.Driver.Properties)
-			{
-				if ((!property.IsAUParameter) || (bytesList.FirstOrDefault(x => x[12] == property.No)) != null)
-					continue;
-				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
-				bytes.Add((byte)device.Parent.IntAddress);
-				bytes.Add(0x02);
-				bytes.Add(0x53);
-				bytes.Add(0x03);
-				bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x00);
-				bytes.Add(property.No);
-				bytes.Add(0x00);
-				bytes.Add(0x00);
-				bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
-				bytesList.Add(bytes);
-			}
-			var results = SendCode(bytesList, 1000000);
-			foreach (var result in results.Result)
-			{
-				var properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
-				foreach (var property in properties)
-				{
-					var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
-					value.Name = property.Caption;
-					values.Add(value);
-				}
-			}
-			return values;
-		}
-	}
-
-	internal class UsbRequest
-	{
-		public int Id { get; set; }
-
-		public int UsbAddress { get; set; }
-
-		public int SelfAddress { get; set; }
-
-		public int FuncCode { get; set; }
+                    value.Name = property.Caption;
+                    values.Add(value);
+                }
+            }
+            return values;
+        }
+        public static List<Property> SetDeviceParameters(Device device)
+        {
+            var values = new List<Property>();
+            var bytesList = new List<List<byte>>();
+            foreach (var property in device.Driver.Properties)
+            {
+                if ((!property.IsAUParameter) || (bytesList.FirstOrDefault(x => x[12] == property.No)) != null)
+                    continue;
+                var bytes = new List<byte>();
+                bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+                bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
+                bytes.Add((byte)device.Parent.IntAddress);
+                bytes.Add(0x02);
+                bytes.Add(0x53);
+                bytes.Add(0x03);
+                bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
+                bytes.Add(Convert.ToByte(device.IntAddress % 256));
+                bytes.Add(0x00);
+                bytes.Add(property.No);
+                bytes.Add(0x00);
+                bytes.Add(0x00);
+                bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
+                bytesList.Add(bytes);
+            }
+            var results = SendCode(bytesList, 1000000);
+            foreach (var result in results.Result)
+            {
+                var properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
+                foreach (var property in properties)
+                {
+                    var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
+                    value.Name = property.Caption;
+                    values.Add(value);
+                }
+            }
+            return values;
+        }
     }
-    public class FSProgressInfo
-    {
-        public int Stage { get; set; }
-        public string Comment { get; set; }
-        public int PercentComplete { get; set; }
-        public int BytesRW { get; set; }
-	}
 }

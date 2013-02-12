@@ -13,12 +13,12 @@ namespace ServerFS2
 		UsbDevice _usbDevice;
 		UsbEndpointReader _reader;
 		UsbEndpointWriter _writer;
-		private bool _stop = true;
-		readonly List<Request> _requests = new List<Request>();
-		List<byte> _result = new List<byte>();
-		private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
-		private uint _requestId;
-
+        private bool _stop = true;
+        readonly List<Request> _requests = new List<Request>();
+        List<byte> _result = new List<byte>();
+        private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
+        private readonly AutoResetEvent _autoWaitEvent = new AutoResetEvent(false);
+        private uint _requestId;
 		public void Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
@@ -37,7 +37,6 @@ namespace ServerFS2
 			_reader.DataReceivedEnabled = true;
 			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 		}
-
 		public void Close()
 		{
 			_reader.DataReceivedEnabled = false;
@@ -58,15 +57,12 @@ namespace ServerFS2
 				UsbDevice.Exit();
 			}
 		}
-
 		public void Send(List<byte> data)
 		{
 			int bytesWrite;
 			_writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
-
 		List<Response> _responses = new List<Response>();
-
 		private void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
 			var localresult = new List<byte>();
@@ -100,11 +96,11 @@ namespace ServerFS2
 				{
 					localresult = new List<byte> { b };
 				}
-				if (_requests.Count == 0)
-					_stop = true;
+
+                if (_requests.Count == 0)
+                    _autoWaitEvent.Set();
 			}
 		}
-
 		private static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
 			var bytes = new List<byte>(0) { 0x7e };
@@ -148,7 +144,6 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
-
 		private static List<byte> CreateInputBytes(List<byte> messageBytes)
 		{
 			var bytes = new List<byte>();
@@ -192,46 +187,49 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
-
-		// Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
-		public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay)
-		{
-			_responses = new List<Response>();
-			foreach (var dataOne in dataList)
-			{
-				var data = dataOne;
-				_stop = false;
-				_requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
-				data = CreateOutputBytes(data);
-				var response = new Response();
-				// Создаем запрос
-				var request = new Request
-				{
-					Id = _requestId,
-					Data = data
-				};
-				_requests.Add(request); // добавляем его в коллекцию всех запросов
-				Send(data);
-				_autoResetEvent.WaitOne(delay);
-			}
-			while (!_stop)
-			{
-				if (_responses.Count != 0)
-				{
-					var responses = new List<Response>(_responses);
-					_requests.RemoveAll(x => responses.FirstOrDefault(z => z.Id == x.Id) != null);
-				}
-			}
-			return new OperationResult<List<Response>> { Result = _responses };
-		}
+        // Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
+        public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout)
+        {
+            _responses = new List<Response>();
+            foreach (var dataOne in dataList)
+            {
+                var data = dataOne;
+                _stop = false;
+                _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+                data = CreateOutputBytes(data);
+                // Создаем запрос
+                var request = new Request
+                {
+                    Id = _requestId,
+                    Data = data
+                };
+                _requests.Add(request); // добавляем его в коллекцию всех запросов
+                Send(data);
+                _autoResetEvent.WaitOne(delay);
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                if (_responses.Count != 0)
+                {
+                    var responses = new List<Response>(_responses);
+                    _requests.RemoveAll(x => responses.FirstOrDefault(z => z.Id == x.Id) != null);
+                }
+                else
+                {
+                    _autoWaitEvent.WaitOne(timeout);
+                    if (_requests.Count == 0)
+                        break;
+                    Send(_requests.FirstOrDefault().Data);
+                }
+            }
+            return new OperationResult<List<Response>> { Result = _responses };
+        }
 	}
-
 	public class Request
 	{
 		public uint Id;
 		public List<byte> Data;
 	}
-
 	public class Response
 	{
 		public uint Id;
