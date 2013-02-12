@@ -16,6 +16,9 @@ using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
 using System.Windows.Threading;
+using System.Windows.Media.Imaging;
+using System.IO;
+using Infrastructure.Common;
 
 namespace PlansModule.Designer
 {
@@ -184,7 +187,24 @@ namespace PlansModule.Designer
 			if (plan.BackgroundColor == Colors.Transparent)
 				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
 			else
-				CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
+			{
+				if (plan.BackgroundImageSource != null)
+				{
+					var folderName = AppDataFolderHelper.GetFolder("Administrator/Configuration/Unzip/Images");
+					var fileName = Path.Combine(folderName, plan.BackgroundImageSource);
+					if (File.Exists(fileName))
+					{
+						BitmapImage bitmap = new BitmapImage();
+						bitmap.BeginInit();
+						bitmap.StreamSource = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+						bitmap.EndInit();
+
+						var imageBrush = new ImageBrush(bitmap);
+						CanvasBackground = imageBrush;
+						//CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
+					}
+				}
+			}
 		}
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)

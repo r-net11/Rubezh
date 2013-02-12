@@ -98,6 +98,7 @@ namespace PlansModule.ViewModels
 			Plan.Width = Width;
 			Plan.BackgroundColor = BackgroundColor;
 			Plan.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
+			Plan.BackgroundImageSource = ImagePropertiesViewModel.ImageSource;
 			return base.Save();
 		}
 	}
