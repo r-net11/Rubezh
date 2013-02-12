@@ -15,7 +15,6 @@ namespace VideoModule
 		public override void CreateViewModels()
 		{
 			CamerasViewModel = new CamerasViewModel();
-			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 		}
 
 		public override void Initialize()
@@ -33,9 +32,9 @@ namespace VideoModule
 		{
 			get { return "Видео"; }
 		}
-        public override void Dispose()
-        {
-            VideoService.Close();
-        }
+		public override void Dispose()
+		{
+			VideoService.Close();
+		}
 	}
 }

@@ -5,10 +5,11 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace ClientFS2.ViewModels
 {
-	public class AutoDetectDevicesViewModel : DialogViewModel
+	public class AutoDetectedDevicesViewModel : DialogViewModel
 	{
-		public AutoDetectDevicesViewModel(List<Device> devices)
+		public AutoDetectedDevicesViewModel(List<Device> devices)
 		{
+            Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in devices)
 			{
 				var deviceViewModel = new DeviceViewModel(device);

@@ -22,13 +22,10 @@ namespace AssadProcessor
 
 		public void Start()
 		{
-			AppSettingsManager.RemoteAddress = "127.0.0.1";
-			AppSettingsManager.Login = "adm";
-			AppSettingsManager.Password = "adm";
-            FiresecManager.Connect(ClientType.Assad, AppSettingsManager.ServerAddress, AppSettingsManager.Login, AppSettingsManager.Password);
+			FiresecManager.Connect(ClientType.Assad, AppSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
 			FiresecManager.GetConfiguration("Assad/Configuration");
-            FiresecManager.InitializeFiresecDriver(true);
-            FiresecManager.FiresecDriver.Synchronyze();
+			FiresecManager.InitializeFiresecDriver(true);
+			FiresecManager.FiresecDriver.Synchronyze();
 			FiresecManager.FiresecDriver.StartWatcher(true, false);
 
 			Services.NetManager.Start();
@@ -93,26 +90,26 @@ namespace AssadProcessor
 								if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
 								{
 									var resetItem = new ResetItem();
-                                    resetItem.DeviceState = resetDevice.DeviceState;
-                                    var deviceDriverState = resetDevice.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == commandName);
-                                    if (deviceDriverState != null)
-                                    {
-                                        resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
-                                        FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
-                                    }
+									resetItem.DeviceState = resetDevice.DeviceState;
+									var deviceDriverState = resetDevice.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == commandName);
+									if (deviceDriverState != null)
+									{
+										resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
+										FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+									}
 								}
 							}
 						}
 						else
 						{
 							var resetItem = new ResetItem();
-                            FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
-                            var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == commandName);
-                            if (deviceDriverState != null)
-                            {
-                                resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
-                                FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
-                            }
+							FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+							var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == commandName);
+							if (deviceDriverState != null)
+							{
+								resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
+								FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+							}
 						}
 					}
 				}
@@ -131,12 +128,12 @@ namespace AssadProcessor
 					{
 						var resetItem = new ResetItem();
 						resetItem.DeviceState = device.DeviceState;
-                        var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == state.Name);
-                        if (deviceDriverState != null)
-                        {
-                            resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
-                            FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
-                        }
+						var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == state.Name);
+						if (deviceDriverState != null)
+						{
+							resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
+							FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+						}
 					}
 				}
 			}

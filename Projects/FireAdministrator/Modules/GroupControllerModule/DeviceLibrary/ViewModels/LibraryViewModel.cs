@@ -190,7 +190,7 @@ namespace GKModule.ViewModels
 
 		public bool IsDebug
 		{
-			get { return ServiceFactory.AppSettings.IsDebug; }
+			get { return GlobalSettingsHelper.GlobalSettings.IsDebug; }
 		}
 	}
 }

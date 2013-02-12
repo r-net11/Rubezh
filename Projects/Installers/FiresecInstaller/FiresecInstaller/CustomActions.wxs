@@ -4,6 +4,7 @@
     <!--<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />-->
     <CustomAction Id="StartFiresecServiceOnExit" Directory="SERVERLOCATION" ExeCommand="[SERVERLOCATION]FiresecService.exe" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
     <CustomAction Id="StartFSAgentOnExit" Directory="FSAGENTLOCATION" ExeCommand="[FSAGENTLOCATION]FSAgentServer.exe" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+    <CustomAction Id="StartOPCServerOnExit" Directory="OPCLOCATION" ExeCommand="[OPCLOCATION]FiresecOPCServer.exe" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="CloseApplications" Execute="immediate" Impersonate="yes" Return="check"/>
     <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
 

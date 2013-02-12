@@ -20,6 +20,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using DiagnosticsModule.Mime;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -30,7 +31,7 @@ namespace DiagnosticsModule.ViewModels
 			ShowDriversCommand = new RelayCommand(OnShowDrivers);
 			ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
 			ShowTreeCommand = new RelayCommand(OnShowTree);
-			SecurityTestCommand = new RelayCommand(OnSecurityTest);
+			TreeListViewTestCommand = new RelayCommand(OnTreeListViewTest);
 			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
 			Test3Command = new RelayCommand(OnTest3);
@@ -82,10 +83,11 @@ namespace DiagnosticsModule.ViewModels
 			driversView.ShowDialog();
 		}
 
-		public RelayCommand SecurityTestCommand { get; private set; }
-
-		private void OnSecurityTest()
+		public RelayCommand TreeListViewTestCommand { get; private set; }
+		private void OnTreeListViewTest()
 		{
+			var treeViewTestViewModel = new TreeViewTestViewModel();
+			DialogService.ShowModalWindow(treeViewTestViewModel);
 		}
 
 		public RelayCommand ShowTreeCommand { get; private set; }
@@ -99,19 +101,29 @@ namespace DiagnosticsModule.ViewModels
 		int counter = 0;
 
 		public RelayCommand Test1Command { get; private set; }
-
 		private void OnTest1()
 		{
-			while (true)
+			//var text = "ZCMPeNpdUEtOwzAQ3fcUUfbgOCiCSJPpDg5AF3RpOSaxlDqW7RJyPE7AFdhUVILegckH2rCa99G8+cD6dddEL8p53Zoi5tdJHCkj21Kbqog7bcq281c8zXi8xhX4vXsWUvllB0Ll2r31c0Vgi0r63Pe/LfRWoWyE91oCGxl0ugw18iQBNkGola7qgBkpMwQpbKAcfDt8Rsfvw+kI7FeiHXS5GaLSYf6MR/UxKPtE0ZM+sT9juzC2tLMRdtM+kIAc2AUDYfS9EzvlB+NMoBG9cpEuizjN89vkJr/LUrrSkIvvXx8nYCOE4ITxVjh6dI80dMGBjTFU56edkcfVD8cHmz8=";
+			//byte[] data = System.Text.UnicodeEncoding.UTF8.GetBytes(text);
+			//Base64Encoder myEncoder = new Base64Encoder(data);
+			//StringBuilder sb = new StringBuilder();
+			//sb.Append(myEncoder.GetEncoded());
+			//text = sb.ToString();
+
+			var text = "ZCMPeNpdUEtOwzAQ3fcUUfbgOCiCSJPpDg5AF3RpOSaxlDqW7RJyPE7AFdhUVILegckH2rCa99G8+cD6dddEL8p53Zoi5tdJHCkj21Kbqog7bcq281c8zXi8xhX4vXsWUvllB0Ll2r31c0Vgi0r63Pe/LfRWoWyE91oCGxl0ugw18iQBNkGola7qgBkpMwQpbKAcfDt8Rsfvw+kI7FeiHXS5GaLSYf6MR/UxKPtE0ZM+sT9juzC2tLMRdtM+kIAc2AUDYfS9EzvlB+NMoBG9cpEuizjN89vkJr/LUrrSkIvvXx8nYCOE4ITxVjh6dI80dMGBjTFU56edkcfVD8cHmz8=";
+			char[] data = text.ToCharArray();
+			Base64Decoder myDecoder = new Base64Decoder(data);
+			StringBuilder sb = new StringBuilder();
+			byte[] temp = myDecoder.GetDecoded();
+			using (var fileStream = new FileStream("E:/xxx.zip", FileMode.Create))
 			{
-				WriteAllDeviceConfigurationHelper.Run(false);
-				Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString() + " " + DateTime.Now.ToString());
-				counter++;
+				fileStream.Write(temp, 0, temp.Length);
 			}
+			sb.Append(System.Text.UTF8Encoding.UTF8.GetChars(temp));
+			text = sb.ToString();
 		}
 
 		public RelayCommand Test2Command { get; private set; }
-
 		private void OnTest2()
 		{
 			var thread = new Thread(new ThreadStart(() =>

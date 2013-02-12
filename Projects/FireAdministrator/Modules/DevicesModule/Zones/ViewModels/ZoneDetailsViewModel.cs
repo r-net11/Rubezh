@@ -10,8 +10,10 @@ namespace DevicesModule.ViewModels
 {
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
+		static int LastDetectorCount = 2;
 		public Zone Zone;
 		public bool ComboboxIsEnabled { get; private set; }
+
 		public ZoneDetailsViewModel(ZoneType zoneType)
 		{
 			ComboboxIsEnabled = false;
@@ -20,7 +22,8 @@ namespace DevicesModule.ViewModels
 			Zone = new Zone()
 			{
 				Name = "Новая зона",
-				No = 1
+				No = 1,
+				DetectorCount = LastDetectorCount
 			};
 			if (FiresecManager.Zones.Count != 0)
 				Zone.No = FiresecManager.Zones.Select(x => x.No).Max() + 1;
@@ -38,7 +41,8 @@ namespace DevicesModule.ViewModels
 				Zone = new Zone()
 				{
 					Name = "Новая зона",
-					No = 1
+					No = 1,
+					DetectorCount = LastDetectorCount
 				};
 				if (FiresecManager.Zones.Count != 0)
 					Zone.No = FiresecManager.Zones.Select(x => x.No).Max() + 1;
@@ -218,6 +222,8 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;
 			}
+
+			LastDetectorCount = DetectorCount;
 
 			Zone.ZoneType = ZoneType;
 			Zone.Name = Name;

@@ -31,7 +31,7 @@
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
     <Property Id="INSTALLMODE" />
-    <Property Id="ALLUSERS" Secure="yes"/>
+    <Property Id="ALLUSERS" Value="1" Secure="yes"/>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
@@ -87,13 +87,11 @@
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" />
-
-      
-      
       <Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
         <Directory Id="AppData.FiresecLocation" Name="Firesec2">
           <Directory Id="AppData.DBLocation" Name="DB" />
           <Directory Id="AppData.ServerLocation" Name="Server" />
+          <Directory Id="AppData.EmptyLocation" Name="Empty" />
         </Directory>
       </Directory>
     </Directory>
@@ -112,6 +110,7 @@
 
       <Custom Action="StartFiresecServiceOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
       <Custom Action="StartFSAgentOnExit" After="StartFiresecServiceOnExit">INSTALLMODE</Custom>
+      <Custom Action="StartOPCServerOnExit" After="StartFSAgentOnExit">INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 
       <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->

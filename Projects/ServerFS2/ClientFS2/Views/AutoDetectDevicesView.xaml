@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="ClientFS2.Views.AutoDetectDevicesView"
+﻿<UserControl x:Class="ClientFS2.Views.AutoDetectedDevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinWidth="600" MinHeight="600">
+             MinWidth="300" MinHeight="300">
 
     <DataGrid ItemsSource="{Binding Devices}">
         <DataGrid.Columns>
@@ -15,8 +15,8 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Шлейф" Binding="{Binding ShleifNo}" />
-            <DataGridTextColumn Header="Адрес" Binding="{Binding AddressOnShleif}" />
+            <DataGridTextColumn Header="USB канал" Binding="{Binding UsbChannel}" />
+            <DataGridTextColumn Header="Адрес" Binding="{Binding AddressOnShleif}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

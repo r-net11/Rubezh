@@ -148,15 +148,16 @@
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="FSAgentLoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigActualizeHelper.cs" />
+    <Compile Include="GlobalSettingsHelper.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Mail\MailHelper.cs" />
-    <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="PatchHelper.cs" />
     <Compile Include="RegistrySettingsHelper.cs" />
     <Compile Include="RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />
+    <Compile Include="StackTraceHelper.cs" />
     <Compile Include="Tree\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />
     <Compile Include="Reports\IReportPrintExtension.cs" />

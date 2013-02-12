@@ -9,6 +9,9 @@ using Infrustructure.Plans.Painters;
 using System.Windows.Media;
 using Infrastructure;
 using Infrustructure.Plans.Presenter;
+using Infrastructure.Common;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace PlansModule.Designer
 {
@@ -64,7 +67,24 @@ namespace PlansModule.Designer
 			if (plan.BackgroundColor == Colors.Transparent)
 				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
 			else
-				CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
+			{
+				if (plan.BackgroundImageSource != null)
+				{
+					var folderName = AppDataFolderHelper.GetFolder("Monitor/Configuration/Unzip/Images");
+					var fileName = Path.Combine(folderName, plan.BackgroundImageSource);
+					if (File.Exists(fileName))
+					{
+						BitmapImage bitmap = new BitmapImage();
+						bitmap.BeginInit();
+						bitmap.StreamSource = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+						bitmap.EndInit();
+
+						var imageBrush = new ImageBrush(bitmap);
+						CanvasBackground = imageBrush;
+						//CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
+					}
+				}
+			}
 		}
 
 		public void Initialize(Plan plan)

@@ -81,9 +81,7 @@ namespace DevicesModule.ViewModels
 
 		bool CanEditDelete()
 		{
-			int count = Zones.Count(zone => zone.IsSelected == true);
-			EditingEnabled = (count > 1) ? false : true;
-			return EditingEnabled;
+			return SelectedZone != null;
 		}
 
 		bool CanDelete()
@@ -165,27 +163,15 @@ namespace DevicesModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			string title = "Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?";
-			if (Zones.Count(zone => zone.IsSelected == true) > 1)
-				title = "Вы уверены, что хотите удалить выбранные зоны?";
-			var dialogResult = MessageBoxService.ShowQuestion(title);
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Zones.IndexOf(SelectedZone);
-				var tempZones = new ObservableCollection<ZoneViewModel>(Zones);
-				foreach (var zoneViewModel in Zones)
-				{
-					if (zoneViewModel.IsSelected)
-					{
-						FiresecManager.FiresecConfiguration.RemoveZone(zoneViewModel.Zone);
-						tempZones.Remove(zoneViewModel);
-					}
-				}
-				Zones = new ObservableCollection<ZoneViewModel>(tempZones);
+				FiresecManager.FiresecConfiguration.RemoveZone(SelectedZone.Zone);
+				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
 					SelectedZone = Zones[index];
-				SelectedZone = Zones.FirstOrDefault();
 				ServiceFactory.SaveService.FSChanged = true;
 				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}

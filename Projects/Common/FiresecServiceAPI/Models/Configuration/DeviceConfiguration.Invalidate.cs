@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace FiresecAPI.Models
 {
@@ -27,6 +28,7 @@ namespace FiresecAPI.Models
             device.ZonesInLogic = new List<Zone>();
             device.DependentDevices = new List<Device>();
 
+			var dateTime = DateTime.Now;
             if (device.Driver.IsZoneDevice)
             {
                 if ((device.ZoneUID != Guid.Empty))

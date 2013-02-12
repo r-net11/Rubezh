@@ -11,12 +11,6 @@ namespace Infrastructure.Common
 	{
 		static List<string> ActiveAddresses = new List<string>();
 		static bool IsInitialized;
-		internal static string _dllPath;
-
-		public static void Initialize(string dllPath)
-		{
-			_dllPath = dllPath;
-		}
 
 		public static void Show(Camera camera)
 		{
@@ -92,9 +86,7 @@ namespace Infrastructure.Common
 			IsInitialized = true;
 			if (VlcContext.IsInitialized == false)
 			{
-				VlcContext.LibVlcDllsPath = _dllPath;
-				//VlcContext.LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
-				//VlcContext.LibVlcPluginsPath = @"C:\Program Files\VideoLAN\VLC\pugins";
+				VlcContext.LibVlcDllsPath = GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath;
 				VlcContext.StartupOptions.IgnoreConfig = false;
 				VlcContext.StartupOptions.LogOptions.LogInFile = false;
 				VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;

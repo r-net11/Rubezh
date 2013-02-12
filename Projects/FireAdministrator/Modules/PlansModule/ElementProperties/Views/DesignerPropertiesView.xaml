@@ -20,8 +20,8 @@
 				<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
+                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
 				<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" SelectedItem="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			</Grid>
 		</TabItem>

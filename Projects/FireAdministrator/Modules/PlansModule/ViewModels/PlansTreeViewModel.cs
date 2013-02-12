@@ -1,5 +1,4 @@
-﻿
-namespace PlansModule.ViewModels
+﻿namespace PlansModule.ViewModels
 {
 	public class PlansTreeViewModel
 	{

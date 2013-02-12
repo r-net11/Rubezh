@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
@@ -59,7 +60,7 @@ namespace DevicesModule.ViewModels
 			deviceViewModels = new List<DeviceViewModel>();
 			foreach (var device in devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device)
+				var deviceViewModel = new DeviceViewModel(device, false)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
@@ -76,7 +77,7 @@ namespace DevicesModule.ViewModels
 			availableDeviceViewModels = new List<DeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
-				var deviceViewModel = new DeviceViewModel(device)
+				var deviceViewModel = new DeviceViewModel(device, false)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice
@@ -95,15 +96,16 @@ namespace DevicesModule.ViewModels
 
 			OnPropertyChanged("RootDevices");
 			OnPropertyChanged("AvailableRootDevices");
-
-			SelectedDevice = deviceViewModels.FirstOrDefault();
-			SelectedAvailableDevice = availableDeviceViewModels.FirstOrDefault();
 		}
 
 		public void Clear()
 		{
 			deviceViewModels.Clear();
 			availableDeviceViewModels.Clear();
+			RootDevice = null;
+			AvailableRootDevice = null;
+			OnPropertyChanged("RootDevices");
+			OnPropertyChanged("AvailableRootDevices");
 			SelectedDevice = null;
 			SelectedAvailableDevice = null;
 		}
@@ -112,24 +114,24 @@ namespace DevicesModule.ViewModels
 		List<DeviceViewModel> availableDeviceViewModels = new List<DeviceViewModel>();
 
 		public DeviceViewModel RootDevice{get;private set;}
-		public DeviceViewModel[] RootDevices
+		public ObservableCollection<DeviceViewModel> RootDevices
 		{
 			get
 			{
 				if (RootDevice == null)
-					return new DeviceViewModel[0];
-				return new DeviceViewModel[] { RootDevice };
+					return new ObservableCollection<DeviceViewModel>();
+				return new ObservableCollection<DeviceViewModel>() { RootDevice };
 			}
 		}
 
 		public DeviceViewModel AvailableRootDevice { get; private set; }
-		public DeviceViewModel[] AvailableRootDevices
+		public ObservableCollection<DeviceViewModel> AvailableRootDevices
 		{
 			get
 			{
 				if (AvailableRootDevice == null)
-					return new DeviceViewModel[0];
-				return new DeviceViewModel[] { AvailableRootDevice };
+					return new ObservableCollection<DeviceViewModel>();
+				return new ObservableCollection<DeviceViewModel>() { AvailableRootDevice };
 			}
 		}
 

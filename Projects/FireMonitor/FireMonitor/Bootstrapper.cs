@@ -22,7 +22,6 @@ namespace FireMonitor
 		{
 			LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
-			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 

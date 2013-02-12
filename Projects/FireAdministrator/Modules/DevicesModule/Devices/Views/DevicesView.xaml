@@ -44,7 +44,7 @@
 										<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
 											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-											<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />
+											<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Width="200" />
 										</StackPanel>
 									</ControlTemplate>
 								</Controls:EditorPresenter.ViewTemplate>

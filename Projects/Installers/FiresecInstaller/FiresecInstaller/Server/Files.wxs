@@ -58,17 +58,31 @@
         </Component>
       </Directory>
 
-        <Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
-          <File Id="Server.Config.fscp" Name="config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" KeyPath="yes" />
-        </Component>
-      <Component Id="Server.EmptyConfig.fscp">
-        <File Id="Server.EmptyConfig.fscp" Name="Emptyconfig.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" />
+      <Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
+        <File Id="Server.Config.fscp" Name="config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="AppData.DBLocation">
       <Component Id="Server.DB" Guid="040A38D7-2390-43EA-A6EB-F6DBC39DF92E" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="AppData.EmptyLocation">
+      <Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
+        <File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />
+        <File Id="Server.AppData.EmptyLocation.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\Firesec.sdf" />
+        <File Id="Server.AppData.EmptyLocation.FSDB.sdf" Name="FSDB.sdf" Source="..\..\..\..\..\Deploy\SqlCE\FSDB.sdf" />
+        <File Id="Server.AppData.EmptyLocation.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\SqlCE\GkJournalDatabase.sdf" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="AppData.FiresecLocation">
+      <Component Id="AppData.FiresecLocation.Permissions" Guid="28D9EA15-1142-48EE-BB4D-DBAC0683D222">
+        <CreateFolder>
+          <util:PermissionEx User="Users" GenericAll="yes" />
+        </CreateFolder>
       </Component>
     </DirectoryRef>
 

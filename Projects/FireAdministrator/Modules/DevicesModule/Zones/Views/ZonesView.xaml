@@ -10,39 +10,14 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="3*" MinWidth="200" />
         </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0">
-            <Controls:XDataGrid Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                    </Style>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
-                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />
-                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Zone.Description}" />
-                    <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
-                </DataGrid.Columns>
-            </Controls:XDataGrid>
-            <!--<ListView Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended">
-                <ListView.Resources>
-                    <Style TargetType="ListView">
-                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                    </Style>
-                </ListView.Resources>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="№" DisplayMemberBinding="{Binding Zone.No}" />
-                        <GridViewColumn Header="Наименование" DisplayMemberBinding="{Binding Zone.Name}" />
-                        <GridViewColumn  Header="Примечание" DisplayMemberBinding="{Binding Zone.Description}" />
-                        <GridViewColumn Header="Число ИП для перехода в пожар" DisplayMemberBinding="{Binding DetectorCount}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>-->
-
-        </Grid>
-
+        <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
+                <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Zone.Description}" />
+                <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
+            </DataGrid.Columns>
+        </Controls:XDataGrid>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
         <Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" />
     </Grid>

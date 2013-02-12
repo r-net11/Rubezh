@@ -60,9 +60,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="ViewModels\AutoDetectDevicesViewModel.cs" />
+    <Compile Include="ProgressService.cs" />
+    <Compile Include="ViewModels\AutoDetectedDevicesViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\PropertiesViewModel.cs" />
     <Compile Include="Views\AutoDetectDevicesView.xaml.cs">
       <DependentUpon>AutoDetectDevicesView.xaml</DependentUpon>
@@ -72,6 +74,9 @@
     </Compile>
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProgressView.xaml.cs">
+      <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
@@ -101,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

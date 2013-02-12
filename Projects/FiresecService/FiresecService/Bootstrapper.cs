@@ -26,7 +26,6 @@ namespace FiresecService
 				PatchManager.Patch();
                 FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
                 Logger.Trace(SystemInfo.GetString());
-                AppSettingsHelper.InitializeAppSettings();
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
                 resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

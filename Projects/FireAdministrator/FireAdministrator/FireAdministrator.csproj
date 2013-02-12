@@ -119,7 +119,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="FileConfigurationHelper.cs" />

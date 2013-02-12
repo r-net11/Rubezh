@@ -8,50 +8,34 @@ namespace ClientFS2.ViewModels
 	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
-
 		public DeviceViewModel(Device device)
 		{
 			Device = device;
-			ShleifNo = Device.IntAddress / 256;
-			AddressOnShleif = Device.IntAddress % 256;
 		}
-
-		public string UsbChannel
-		{
-			get
-			{
-				var property = Device.Properties.FirstOrDefault(x => x.Name == "UsbChannel");
-				if (property != null)
-					return property.Value;
-				else
-					return null;
-			}
-		}
-
-		public string SerialNo
+        public int UsbChannel 
+        { 
+            get
+            {
+                var parentChannel = Device.ParentChannel; 
+                return parentChannel != null ? parentChannel.IntAddress : 0;
+            }
+        }
+        public string SerialNo
 		{
 			get
 			{
 				var property = Device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-				if (property != null)
-					return property.Value;
-				else
-					return null;
+				return property != null ? property.Value : null;
 			}
 		}
-
-		public string Version
+        public string Version
 		{
 			get
 			{
 				var property = Device.Properties.FirstOrDefault(x => x.Name == "Version");
-				if (property != null)
-					return property.Value;
-				else
-					return null;
+				return property != null ? property.Value : null;
 			}
 		}
-
 		public string Address
 		{
 			get { return Device.PresentationAddress; }
@@ -68,7 +52,6 @@ namespace ClientFS2.ViewModels
 				OnPropertyChanged("Address");
 			}
 		}
-
 		public bool IsUsed
 		{
 			get { return !Device.IsNotUsed; }
@@ -81,22 +64,18 @@ namespace ClientFS2.ViewModels
 				OnPropertyChanged("EditingPresentationZone");
 			}
 		}
-
 		public Driver Driver
 		{
 			get { return Device.Driver; }
 			set
 			{
-				if (Device.Driver.DriverType != value.DriverType)
-				{
-					FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
-					OnPropertyChanged("Device");
-					OnPropertyChanged("Driver");
-				}
+			    if (Device.Driver.DriverType == value.DriverType) return;
+			    FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
+			    OnPropertyChanged("Device");
+			    OnPropertyChanged("Driver");
 			}
 		}
-
-		public int ShleifNo { get; private set; }
-		public int AddressOnShleif { get; private set; }
+		public int ShleifNo { get { return Device.IntAddress/256; } }
+        public int AddressOnShleif { get { return Device.IntAddress % 256; } }
 	}
 }

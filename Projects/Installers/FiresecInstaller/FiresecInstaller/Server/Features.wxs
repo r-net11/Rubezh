@@ -8,11 +8,12 @@
       <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.DB" />
       <ComponentRef Id="Server.Config.fscp" />
-      <ComponentRef Id="Server.EmptyConfig.fscp" />
+      <ComponentRef Id="Server.AppData.EmptyLocation" />
       <ComponentRef Id="AppData.ServerLocation.Sounds" />
       <ComponentRef Id="Server.SKUD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
 			<ComponentRef Id="Server.AutorunComponent" />
+      <ComponentRef Id="AppData.FiresecLocation.Permissions" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->

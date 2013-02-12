@@ -34,14 +34,43 @@ namespace FiresecService.Service
 			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 
+		string CreateTempServer(Stream stream)
+		{
+			var folderName = AppDataFolderHelper.GetFolder("TempServer");
+			var configFileName = Path.Combine(folderName, "Config.fscp");
+			if (Directory.Exists(folderName))
+				Directory.Delete(folderName, true);
+			Directory.CreateDirectory(folderName);
+
+			using (var configFileStream = File.Create(configFileName))
+			{
+				CopyStream(stream, configFileStream);
+			}
+			stream.Close();
+
+			using (var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") }))
+			{
+				var fileInfo = new FileInfo(configFileName);
+				var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+				zipFile.ExtractAll(unzipFolderPath);
+			}
+			return configFileName;
+		}
+
 		public void SetConfig(Stream stream)
 		{
+			var newFileName = CreateTempServer(stream);
+
 			var fileName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			var newFileName = AppDataFolderHelper.GetTempFileName();
-			using (Stream newFile = File.OpenWrite(newFileName))
-			{
-				CopyStream(stream, newFile);
-			}
+			//var newFileName = AppDataFolderHelper.GetTempFileName();
+			//using (Stream newFile = File.OpenWrite(newFileName))
+			//{
+			//    CopyStream(stream, newFile);
+			//}
+			//var unZipFile = ZipFile.Read(newFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+			//var newFileInfo = new FileInfo(newFileName);
+			//var unzipFolderPath = Path.Combine(newFileInfo.Directory.FullName, "Unzip");
+			//unZipFile.ExtractAll(unzipFolderPath);
 
 			var zipFile = new ZipFile(fileName);
 			var newZipFile = ZipFile.Read(newFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
@@ -69,6 +98,18 @@ namespace FiresecService.Service
 						configurationList.ZipConfigurationItems.Add(newConfiguratino);
 					}
 				}
+			}
+			var imagesDirectory = Path.Combine(AppDataFolderHelper.GetFolder("TempServer"), "Unzip", "Images");
+
+			for (int x = zipFile.Count - 1; x >= 0; x--)
+			{
+				ZipEntry e = zipFile[x];
+				if (e.FileName.StartsWith("Images/"))
+					zipFile.RemoveEntry(e.FileName);
+			} 
+			if (Directory.Exists(imagesDirectory))
+			{
+				zipFile.AddDirectory(imagesDirectory, "Images");
 			}
 			AddConfigurationList(zipFile, configurationList);
 			zipFile.Save();

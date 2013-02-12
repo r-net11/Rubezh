@@ -194,8 +194,8 @@ namespace Firesec
 			if (result.Result == null)
 				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
-            var configurationManager = new ConfigurationConverter(FiresecSerializedClient);
-			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);
+            var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
+			operationResult.Result = configurationConverter.ConvertOnlyDevices(result.Result);
 			return operationResult;
 		}
 
@@ -216,8 +216,8 @@ namespace Firesec
 			if (result.Result == null)
 				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
-            var configurationManager = new ConfigurationConverter(FiresecSerializedClient);
-            operationResult.Result = configurationManager.ConvertDevicesAndZones(result.Result);
+            var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
+            operationResult.Result = configurationConverter.ConvertDevicesAndZones(result.Result);
 			return operationResult;
 		}
 

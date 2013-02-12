@@ -30,15 +30,6 @@
                 </StackPanel>
             </Border>
         </TabItem>
-        <TabItem Header="Дополнительные модули" DataContext="{Binding ModuleContext}">
-            <ListBox ItemsSource="{Binding Modules}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Content="{Binding Description}" IsChecked="{Binding IsEnabled}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </TabItem>
         <TabItem Header="Поддержка формата *.fsc2" DataContext="{Binding FSC2ViewModel}">
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
                 <StackPanel Margin="10">

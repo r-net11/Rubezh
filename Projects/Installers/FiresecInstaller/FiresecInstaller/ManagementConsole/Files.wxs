@@ -8,7 +8,10 @@
         <File Id="ManagementConsole.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.NLog.dll" Name="NLog.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Common.dll" Name="Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>

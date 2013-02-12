@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 
 		public bool IsLayerEditingVisible
 		{
-			get { return ServiceFactory.AppSettings.IsDebug || ServiceFactory.AppSettings.IsExpertMode; }
+			get { return GlobalSettingsHelper.GlobalSettings.IsDebug || GlobalSettingsHelper.GlobalSettings.IsExpertMode; }
 		}
 
 		public int Layer

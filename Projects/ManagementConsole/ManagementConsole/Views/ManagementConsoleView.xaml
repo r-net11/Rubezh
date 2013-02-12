@@ -1,0 +1,100 @@
+﻿<Window x:Class="ManagementConsole.ManagementConsoleView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Консоль управления ОПС Firesec-2"
+        MinHeight="500" MinWidth="500" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="Автозапуск">
+                <StackPanel Background="LightBlue" Margin="1">
+                    <TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" FontSize="12" Margin="2" />
+                    <CheckBox Content="Сервер приложений ОПС FireSec-2" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12" />
+                    <CheckBox Content="OPC Сервер ОПС FireSec-2" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12" />
+                    <CheckBox Content="Агент FireSec-2" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Сбор логов">
+                <StackPanel Background="LightBlue" Margin="2">
+                    <TextBox Text="{Binding LogsFolderPath, Mode=OneWay}" Margin="2" />
+                    <Button Background="#C0C0C0" Content="Собрать логи" Command="{Binding SaveLogsCommand}" Height="25" FontSize="13" Margin="2" />
+                    <Button Background="#C0C0C0" Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Height="25" FontSize="13" Margin="2" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Настройки" DataContext="{Binding GlobalSettingsViewModel}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Порт сервера" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Автоконнект" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Расширеное редактирование" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Разрешить имитатор" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Модули" HorizontalAlignment="Right" Margin="2" />
+
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RemoteAddress}" Margin="2" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemotePort}" Margin="2" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login}" Margin="2" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password}" Margin="2" />
+                    <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding AutoConnect}" HorizontalAlignment="Left" Margin="2" />
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding LibVlcDllsPath}" Margin="2" />
+                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsExpertMode}" HorizontalAlignment="Left" Margin="2" />
+                    <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
+                    <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding IsImitatorEnabled}" HorizontalAlignment="Left" Margin="2" />
+                    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Modules}" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="FS1" DataContext="{Binding GlobalSettingsViewModel}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Не перезаписывать Firesec-1" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" />
+
+                    <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding DoNotOverrideFS1}" HorizontalAlignment="Left" Margin="2" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FS_RemoteAddress}" Margin="2" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FS_Port}" Margin="2" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding FS_Login}" Margin="2" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding FS_Password}" Margin="2" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2">
+            <Button Content="Сбросить" Command="{Binding ResetCommand}" Width="100" Margin="2" />
+            <Button DataContext="{Binding GlobalSettingsViewModel}" Content="Сохранить" Command="{Binding SaveCommand}" Width="100" Margin="2" />
+        </StackPanel>
+    </Grid>
+</Window>

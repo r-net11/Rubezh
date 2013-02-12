@@ -68,8 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppSettings.cs" />
-    <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />

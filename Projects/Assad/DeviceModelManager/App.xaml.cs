@@ -11,12 +11,8 @@ namespace DeviveModelManager
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-            var login = ConfigurationManager.AppSettings["Login"] as string;
-            var password = ConfigurationManager.AppSettings["Password"] as string;
-
-			AppSettingsManager.RemoteAddress = serverAddress;
-            FiresecManager.Connect(ClientType.Assad, serverAddress, login, password);
+			AppSettingsManager.RemoteAddress = AppSettingsManager.RemoteAddress;
+			FiresecManager.Connect(ClientType.Assad, AppSettingsManager.RemoteAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
 			FiresecManager.GetConfiguration("AssadDeviceModelManager/Configuration");
             FiresecManager.InitializeFiresecDriver(false);
             FiresecManager.FiresecDriver.Synchronyze();

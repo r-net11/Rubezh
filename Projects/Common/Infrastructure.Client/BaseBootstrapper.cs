@@ -12,7 +12,6 @@ using Infrastructure.Client.Properties;
 using Infrastructure.Common;
 using Infrastructure.Common.About.ViewModels;
 using Infrastructure.Common.Configuration;
-using Infrastructure.Common.Module;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -22,12 +21,9 @@ namespace Infrastructure.Client
 	public class BaseBootstrapper
 	{
 		private List<IModule> _modules;
-		private List<ModuleReg> modulesFromReg = new List<ModuleReg>();
 		public BaseBootstrapper()
 		{
 			Logger.Trace(SystemInfo.GetString());
-			modulesFromReg = ModuleReg.LoadModulesFromRegister();
-			_modules = null;
 			RegisterResource();
 		}
 
@@ -157,14 +153,14 @@ namespace Infrastructure.Client
 			if (_modules == null)
 			{
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-				ModuleSection section = config.GetSection("modules") as ModuleSection;
+				ModuleSection moduleSection = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
-				foreach (ModuleElement moduleElement in section.Modules)
+				var globalSettingsModules = GlobalSettingsHelper.GlobalSettings.GetModules();
+				foreach (ModuleElement moduleElement in moduleSection.Modules)
 				{
-					var moduledescr = moduleElement.AssemblyFile.Substring(0, moduleElement.AssemblyFile.ToString().LastIndexOf('.'));
-					if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
-					{
-					}
+					if (!globalSettingsModules.Contains(moduleElement.AssemblyFile))
+						continue;
+
 					string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 					if (File.Exists(path))
 					{
@@ -193,7 +189,6 @@ namespace Infrastructure.Client
 		}
 		private Assembly GetLoadedAssemblyByFileName(string path)
 		{
-			//Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			var assemblies = from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
 							 where !(assembly is System.Reflection.Emit.AssemblyBuilder) &&
 							 assembly.GetType().FullName != "System.Reflection.Emit.InternalAssemblyBuilder" &&

@@ -16,8 +16,12 @@ namespace DevicesModule.ViewModels
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-		public DeviceViewModel(Device device)
+		public DeviceViewModel(Device device, bool intitialize = true)
 		{
+			Device = device;
+			if (!intitialize)
+				return;
+
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -27,7 +31,6 @@ namespace DevicesModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
-			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
@@ -117,7 +120,7 @@ namespace DevicesModule.ViewModels
 
 			if (Device.IsNotUsed)
 				EditingPresentationZone = null;
-			var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+			var presentationZone = PresentationZone;
 			if (string.IsNullOrEmpty(presentationZone))
 			{
 				if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
@@ -244,6 +247,9 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			//var testWindow = new XXX.TestWindow();
+			//testWindow.ShowDialog();
+
 			var newDeviceViewModel = new NewDeviceViewModel(this);
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{

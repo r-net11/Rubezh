@@ -15,8 +15,8 @@
                         <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" />
                         <Button Content="Драйверы ГК" Command="{Binding ShowXDriversCommand}" Width="300" Margin="2" />
                         <Button Content="Дерево" Command="{Binding ShowTreeCommand}" Width="300" Margin="2" />
-                        <Button Content="SecurityTest" Command="{Binding SecurityTestCommand}" Width="300" Margin="2" />
-                        <Button Content="Записать" Command="{Binding Test1Command}" Width="300" Margin="2" />
+                        <Button Content="TreeListView Test" Command="{Binding TreeListViewTestCommand}" Width="300" Margin="2" />
+                        <Button Content="MIME" Command="{Binding Test1Command}" Width="300" Margin="2" />
                         <Button Content="Применить" Command="{Binding Test2Command}" Width="300" Margin="2" />
                         <Button Content="SVG Converter" Command="{Binding Test3Command}" Width="300" Margin="2" />
                         <Button Content="Сообщение" Command="{Binding Test6Command}" Width="300" Margin="2" />

@@ -55,6 +55,8 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public byte[] BackgroundPixels { get; set; }
 		[DataMember]
+		public string BackgroundImageSource { get; set; }
+		[DataMember]
 		public List<Plan> Children { get; set; }
 		[DataMember]
 		public List<PlanFolder> Folders { get; set; }

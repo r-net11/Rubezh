@@ -73,7 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ManagementConsoleView.xaml">
+    <Page Include="Views\ManagementConsoleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -83,10 +83,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ManagementConsoleView.xaml.cs">
+    <Compile Include="ViewModels\GlobalSettingsViewModel.cs" />
+    <Compile Include="Views\ManagementConsoleView.xaml.cs">
       <DependentUpon>ManagementConsoleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManagementConsoleViewModel.cs" />
+    <Compile Include="ViewModels\ManagementConsoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +114,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>

@@ -175,6 +175,7 @@
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
+    <Compile Include="Settings\GlobalSettings.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

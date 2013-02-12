@@ -25,15 +25,15 @@ namespace MonitorClientFS2
 
 		public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
 		{
-            lock (Locker)
-            {
-                var journalParser = new JournalParser(bytes);
-                var journalItem = journalParser.Parce();
-                journalItems.Add(journalItem);
-            }
+			lock (Locker)
+			{
+				var journalParser = new JournalParser(bytes);
+				var journalItem = journalParser.Parce();
+				journalItems.Add(journalItem);
+			}
 		}
 
-        private static OperationResult<List<Response>> SendCode(List<byte> bytes)
+		private static OperationResult<List<Response>> SendCode(List<byte> bytes)
 		{
 			var usbRequest = new UsbRequest()
 			{
@@ -43,8 +43,8 @@ namespace MonitorClientFS2
 				FuncCode = bytes[6]
 			};
 			UsbRequests.Add(usbRequest);
-            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000);
-        }
+            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000, 100);
+		}
 
 		public static List<JournalItem> GetSecJournalItems2Op(Device device)
 		{
@@ -60,7 +60,7 @@ namespace MonitorClientFS2
 				bytes.Add(0x20);
 				bytes.Add(0x02);
 				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-                ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journlaItems);
+				ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journlaItems);
 			}
 			journlaItems = journlaItems.OrderByDescending(x => x.IntDate).ToList();
 			int no = 0;
@@ -84,7 +84,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-                int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+				int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
 				return li;
 			}
 			catch (NullReferenceException ex)
@@ -109,7 +109,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var firecount = SendCode(bytes);
-                int fc = 256 * firecount.Result.FirstOrDefault().Data[7] + firecount.Result.FirstOrDefault().Data[8];
+				int fc = 256 * firecount.Result.FirstOrDefault().Data[7] + firecount.Result.FirstOrDefault().Data[8];
 				return fc;
 			}
 			catch (NullReferenceException ex)
@@ -139,7 +139,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-                int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+				int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
 				return li;
 			}
 			catch (NullReferenceException ex)
@@ -201,15 +201,18 @@ namespace MonitorClientFS2
 			bytes.Add(0x20);
 			bytes.Add(0x00);
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-            ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journalItems);
+			ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journalItems);
 		}
 	}
 
 	internal class UsbRequest
 	{
 		public int Id { get; set; }
+
 		public int UsbAddress { get; set; }
+
 		public int SelfAddress { get; set; }
+
 		public int FuncCode { get; set; }
 	}
 }
