@@ -30,8 +30,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_stepCount = value;
-				OnPropertyChanged("StepCount");
-				ApplicationService.DoEvents();
+				OnPropertyChanged("StepCount");ApplicationService.DoEvents();
 			}
 		}
 		private bool _isIndeterminate;

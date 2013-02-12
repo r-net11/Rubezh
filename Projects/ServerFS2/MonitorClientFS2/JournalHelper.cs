@@ -43,7 +43,7 @@ namespace MonitorClientFS2
 				FuncCode = bytes[6]
 			};
 			UsbRequests.Add(usbRequest);
-			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000);
+            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000, 100);
 		}
 
 		public static List<JournalItem> GetSecJournalItems2Op(Device device)

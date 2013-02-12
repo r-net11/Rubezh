@@ -2,9 +2,9 @@
 
 namespace ClientFS2.Views
 {
-	public partial class AutoDetectDevicesView : UserControl
+	public partial class AutoDetectedDevicesView : UserControl
 	{
-		public AutoDetectDevicesView()
+		public AutoDetectedDevicesView()
 		{
 			InitializeComponent();
 		}

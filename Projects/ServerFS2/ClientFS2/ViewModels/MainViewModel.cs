@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
@@ -11,12 +12,10 @@ namespace ClientFS2.ViewModels
 	public class MainViewModel : BaseViewModel
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
-
+        private readonly ProgressService _progressService = new ProgressService();
 		public MainViewModel()
 		{
 			SendRequestCommand = new RelayCommand(OnSendRequest);
-			
-			
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
@@ -65,12 +64,15 @@ namespace ClientFS2.ViewModels
 		}
 
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
-		private void OnAutoDetectDevice()
-		{
-			var devices = ServerHelper.AutoDetectDevice();
-			var autoDetectDevicesViewModel = new AutoDetectDevicesViewModel(devices);
-			DialogService.ShowModalWindow(autoDetectDevicesViewModel);
-		}
+        private void OnAutoDetectDevice()
+        {
+            var autoDetectedDevicesViewModel = new AutoDetectedDevicesViewModel(new List<Device>());
+            _progressService.Run(() =>
+            {
+                var devices = ServerHelper.AutoDetectDevice();
+                autoDetectedDevicesViewModel = new AutoDetectedDevicesViewModel(devices);
+            }, () => DialogService.ShowModalWindow(autoDetectedDevicesViewModel), "Автопоиск устройств");
+        }
 
 		public RelayCommand ReadJournalCommand { get; private set; }
 		private void OnReadJournal()
@@ -176,9 +178,9 @@ namespace ClientFS2.ViewModels
 		public RelayCommand GetParametersCommand { get; private set; }
 		private void OnGetParameters()
 		{
-			DevicesViewModel.SelectedDevice.Device.AUParametersChanged += () => MessageBoxService.Show("Get parameters completed");
-			var properties = ServerHelper.GetDeviceParameters(DevicesViewModel.SelectedDevice.Device);
-			DialogService.ShowModalWindow(new PropertiesViewModel(properties));
+            var properties = new List<Property>();
+            _progressService.Run(() =>{properties = ServerHelper.GetDeviceParameters(DevicesViewModel.SelectedDevice.Device);}, 
+            () => DialogService.ShowModalWindow(new PropertiesViewModel(properties)), "Получение параметров устройства");
 		}
 		bool CanGetParameters()
 		{

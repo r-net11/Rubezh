@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -13,7 +14,7 @@ namespace ServerFS2
 	{
 		static readonly object Locker = new object();
 		static readonly UsbRunner UsbRunner;
-
+        public static event Action<int,int,string> Progress;
 		static ServerHelper()
 		{
 			MetadataHelper.Initialize();
@@ -32,15 +33,15 @@ namespace ServerFS2
 				journalItems.Add(journalItem);
 			}
 		}
-
+        static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int delay = 1000, int timeout = 1000)
 		private static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int delay = 1000)
 		{
-			return UsbRunner.AddRequest(bytesList, delay);
+            return UsbRunner.AddRequest(bytesList, delay, timeout);
 		}
-
+        static OperationResult<List<Response>> SendCode(List<byte> bytes, int delay = 1000, int timeout = 1000)
 		private static OperationResult<List<Response>> SendCode(List<byte> bytes, int delay = 1000)
 		{
-			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, delay);
+            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, delay, timeout);
 		}
 
 		public static List<JournalItem> GetSecJournalItems2Op(Device device)
@@ -191,12 +192,14 @@ namespace ServerFS2
 			{
 				for (deviceCount = 1; deviceCount < 128; deviceCount++)
 				{
+                    if (Progress != null)
+                        Progress(Convert.ToInt32(deviceCount), 127, (sleif - 2) + " - Канал. Поиск PNP-устройств Рубеж с адресом: "+ deviceCount + ". Всего адресов: 127");
 					bytes = new List<byte>();
 					bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 					bytes.Add(sleif);
 					bytes.Add(deviceCount);
 					bytes.Add(0x3C);
-					var inputBytes = SendCode(bytes).Result.FirstOrDefault().Data;
+					var inputBytes = SendCode(bytes,5000,500).Result.FirstOrDefault().Data;
 					if (inputBytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
 					{
 						var device = new Device();
@@ -259,10 +262,18 @@ namespace ServerFS2
 		{
 			var values = new List<Property>();
 			var bytesList = new List<List<byte>>();
-			foreach (var property in device.Driver.Properties)
+            var properties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
+            var properties1 = properties;
+            var properties2 = properties;
+            properties.RemoveAll(x => properties1.FirstOrDefault(z => (properties2.IndexOf(x) > properties1.IndexOf(z))&&(z.No == x.No)) != null); // Удаляем из списка все параметры, коды которых уже есть в этом списке (чтобы не дублировать запрос)
+            foreach (var property in properties)
 			{
-				if ((!property.IsAUParameter) || (bytesList.FirstOrDefault(x => x[12] == property.No)) != null)
-					continue;
+                if (Progress != null)
+                {
+                    var index = properties.IndexOf(property);
+                    var max = properties.Count - 1;
+                    Progress(index, max, "");
+                }
 				var bytes = new List<byte>();
 				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
@@ -282,12 +293,13 @@ namespace ServerFS2
 			var results = SendCode(bytesList, 1000000);
 			foreach (var result in results.Result)
 			{
-				var properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
+                properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
 				foreach (var property in properties)
 				{
 					var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
+                    var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == value.Name);
+                    deviceProperty.Value = value.Value;
 					value.Name = property.Caption;
-					device.Properties.FirstOrDefault(x => x.Name == value.Name).Value = value.Value;
 					values.Add(value);
 				}
 			}
@@ -342,5 +354,12 @@ namespace ServerFS2
 		public int SelfAddress { get; set; }
 
 		public int FuncCode { get; set; }
+    }
+    public class FSProgressInfo
+    {
+        public int Stage { get; set; }
+        public string Comment { get; set; }
+        public int PercentComplete { get; set; }
+        public int BytesRW { get; set; }
 	}
 }

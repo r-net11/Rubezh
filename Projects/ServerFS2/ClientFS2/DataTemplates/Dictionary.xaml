@@ -10,11 +10,16 @@
         <Views:DevicesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AutoDetectDevicesViewModel}">
-        <Views:AutoDetectDevicesView />
+    <DataTemplate DataType="{x:Type ViewModels:AutoDetectedDevicesViewModel}">
+        <Views:AutoDetectedDevicesView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
         <Views:PropertiesView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
+        <Views:ProgressView />
+    </DataTemplate>
+    
 </ResourceDictionary>
