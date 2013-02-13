@@ -8,6 +8,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using PlansModule.ViewModels;
+using Infrustructure.Plans.Painters;
 
 namespace PlansModule
 {
@@ -21,14 +22,10 @@ namespace PlansModule
 		}
 		public override void CreateViewModels()
 		{
+			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosedEvent);
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
-			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnSave);
+			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnConfigurationSavingEvent);
 			PlansViewModel = new PlansViewModel();
-		}
-
-		void OnSave(object obj)
-		{
-			PlansViewModel.PlanDesignerViewModel.Save();
 		}
 
 		public override void RegisterResource()
@@ -55,6 +52,14 @@ namespace PlansModule
 		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)
 		{
 			PlansViewModel.RegisterExtension(planExtension);
+		}
+		private void OnConfigurationSavingEvent(object obj)
+		{
+			PlansViewModel.PlanDesignerViewModel.Save();
+		}
+		private void OnConfigurationClosedEvent(object obj)
+		{
+			PainterCache.Dispose();
 		}
 	}
 }

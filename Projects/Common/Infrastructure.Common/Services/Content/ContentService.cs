@@ -11,6 +11,7 @@ namespace Infrastructure.Common.Services.Content
 	{
 		private const string ContentFolderRelativePath = @"Configuration\Unzip\Content";
 		public string ContentFolder { get; private set; }
+		private List<Stream> _streams;
 
 		public ContentService(string applicationName)
 		{
@@ -35,7 +36,9 @@ namespace Infrastructure.Common.Services.Content
 		public Stream GetContentStream(string guid)
 		{
 			var fileName = GetContentFileName(guid);
-			return new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+			var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+			_streams.Add(stream);
+			return stream;
 		}
 		public BitmapImage GetBitmapContent(Guid guid)
 		{
@@ -88,14 +91,20 @@ namespace Infrastructure.Common.Services.Content
 				File.Delete(contentFile);
 		}
 
-		#endregion
-
-		#region IContentService Members
-
 		public void Invalidate()
 		{
+			Close();
+			_streams = new List<Stream>();
 			if (!Directory.Exists(ContentFolder))
 				Directory.CreateDirectory(ContentFolder);
+		}
+		public void Close()
+		{
+			if (_streams != null)
+			{
+				_streams.ForEach(stream => stream.Dispose());
+				_streams = null;
+			}
 		}
 
 		#endregion

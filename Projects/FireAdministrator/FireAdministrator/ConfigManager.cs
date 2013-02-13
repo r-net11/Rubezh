@@ -143,6 +143,7 @@ namespace FireAdministrator
 				var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
 				if (result == MessageBoxResult.Yes)
 				{
+					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.SetEmptyConfiguration();
 					XManager.SetEmptyConfiguration();
 					FiresecManager.PlansConfiguration = new PlansConfiguration();

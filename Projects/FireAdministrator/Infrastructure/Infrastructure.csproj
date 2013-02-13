@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
+    <Compile Include="Events\ConfigurationClosedEvent.cs" />
     <Compile Include="Events\ShowXDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowNotificationEvent.cs" />
     <Compile Include="Events\ShowXInstructionsEvent.cs" />

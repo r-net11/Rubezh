@@ -61,6 +61,7 @@ namespace FireAdministrator
 					AterInitialize();
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
+					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 					MutexHelper.KeepAlive();
 				}
 				catch (Exception e)
@@ -83,7 +84,13 @@ namespace FireAdministrator
 		private void OnConfigurationChanged(object obj)
 		{
 			LoadingErrorManager.Clear();
+			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
+			ServiceFactory.ContentService.Invalidate();
 			InitializeModules();
+		}
+		private void OnConfigurationClosed(object obj)
+		{
+			ServiceFactory.ContentService.Close();
 		}
 
 		private void CloseOnException(string message)

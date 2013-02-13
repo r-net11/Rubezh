@@ -26,5 +26,6 @@ namespace Infrastructure.Common.Services.Content
 		void RemoveContent(string guid);
 
 		void Invalidate();
+		void Close();
 	}
 }

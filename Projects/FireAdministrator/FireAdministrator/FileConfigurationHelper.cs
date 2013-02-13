@@ -91,6 +91,7 @@ namespace FireAdministrator
 				{
 					WaitHelper.Execute(() =>
 					{
+						ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 						ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
 						var folderName = AppDataFolderHelper.GetFolder("Administrator/Configuration");
 						var configFileName = Path.Combine(folderName, "Config.fscp");

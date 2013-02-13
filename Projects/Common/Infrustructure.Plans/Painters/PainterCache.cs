@@ -37,6 +37,12 @@ namespace Infrustructure.Plans.Painters
 		{
 			_imageFactory = imageFactory;
 		}
+		public static void Dispose()
+		{
+			_brushes.Clear();
+			_pens.Clear();
+			_pictureBrushes.Clear();
+		}
 
 		public static void UpdateZoom(double zoom, double pointZoom)
 		{
@@ -49,11 +55,11 @@ namespace Infrustructure.Plans.Painters
 
 		public static void CacheBrush(IElementBackground element)
 		{
-			//if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
-			//{
-			//    var brush = GetBrush(element.BackgroundImageSource.Value);
-			//    _pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
-			//}
+			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
+			{
+				var brush = GetBrush(element.BackgroundImageSource.Value);
+				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
+			}
 		}
 		public static Brush GetBrush(IElementBackground element)
 		{
@@ -61,9 +67,9 @@ namespace Infrustructure.Plans.Painters
 				return _transparentBackgroundBrush;
 			else if (element.BackgroundImageSource.HasValue)
 			{
-				//CacheBrush(element);
-				//return _pictureBrushes[element.BackgroundImageSource.Value];
-				return GetBrush(element.BackgroundImageSource.Value);
+				CacheBrush(element);
+				return _pictureBrushes[element.BackgroundImageSource.Value];
+				//return GetBrush(element.BackgroundImageSource.Value);
 			}
 			else
 				return GetBrush(element.BackgroundColor);
