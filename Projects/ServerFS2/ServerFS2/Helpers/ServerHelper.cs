@@ -14,9 +14,12 @@ namespace ServerFS2
         static readonly object Locker = new object();
         static readonly UsbRunner UsbRunner;
         public static event Action<int,int,string> Progress;
+        public static List<Driver> Drivers;
         static ServerHelper()
         {
             MetadataHelper.Initialize();
+            ConfigurationManager.Load();
+            Drivers = ConfigurationManager.DriversConfiguration.Drivers;
             UsbRunner = new UsbRunner();
             UsbRunner.Open();
         }
@@ -172,21 +175,49 @@ namespace ServerFS2
 			bytes.Add(0x01);
 			bytes.Add(0x01);
 			bytes.Add(0x04);
-			byte ms = 0x03;
 			var res = SendCode(bytes).Result;
 
-            // Добавляем компьютер
-		    var computer = new Device();
-		    computer.DriverUID = new Guid("F8340ECE-C950-498D-88CD-DCBABBC604F3");
-            computer.Driver = new Driver();
-            var d = ConfigurationManager.DriversConfiguration.Drivers;
+            var computerDevice = new Device();
+            var msDevice = new Device();
+            var usbChannel1Device = new Device();
+            var usbChannel2Device = new Device();
 
-		    //parentDevice.Driver.ShortName = "МС-1";
+            // Добавляем компьютер
+            computerDevice.DriverUID = new Guid("F8340ECE-C950-498D-88CD-DCBABBC604F3");
+            computerDevice.Driver = Drivers.FirstOrDefault(x => x.UID == computerDevice.DriverUID);
+            devices.Add(computerDevice);
+
+            // МС-1
+            byte ms = 0x03;
+            msDevice.DriverUID = new Guid("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6");
+            msDevice.Driver = Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
+
+            // Добавляем 1-й канал
+            usbChannel1Device.DriverUID = new Guid("780DE2E6-8EDD-4CFA-8320-E832EB699544");
+            usbChannel1Device.Driver = Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
+            usbChannel1Device.IntAddress = 1;
+            msDevice.Children.Add(usbChannel1Device);
+            devices.Add(usbChannel1Device);
+
 			if (res.FirstOrDefault().Data[5] == 0x41) // запрашиваем второй шлейф
             {
+                // МС-2
                 ms = 0x04;
-                //parentDevice.Driver.ShortName = "МС-2";
+                msDevice.DriverUID = new Guid("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6");
+                msDevice.Driver = Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
+
+                // Добавляем 2-й канал
+                usbChannel2Device.DriverUID = new Guid("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E");
+                usbChannel2Device.Driver = Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
+                usbChannel2Device.IntAddress = 2;
+                msDevice.Children.Add(usbChannel2Device);
+                devices.Add(usbChannel2Device);
             }
+
+            // Добавляем МС
+		    computerDevice.Children.Add(msDevice);
+            devices.Add(msDevice);
+            
 			for (byte sleif = 0x03; sleif <= ms; sleif++)
 			{
 				for (deviceCount = 1; deviceCount < 128; deviceCount++)
@@ -245,6 +276,11 @@ namespace ServerFS2
 							device.Properties.Add(new Property() { Name = "SerialNo", Value = serilaNo });
 						}
 						device.Properties.Add(new Property() { Name = "UsbChannel", Value = (sleif - 2).ToString() });
+
+                        if(sleif == 0x03)
+                            usbChannel1Device.Children.Add(device);
+                        else
+                            usbChannel2Device.Children.Add(device);
 						devices.Add(device);
 					}
 				}
