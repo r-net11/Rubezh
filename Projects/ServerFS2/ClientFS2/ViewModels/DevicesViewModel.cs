@@ -1,7 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using MonitorClientFS2;
 
 namespace ClientFS2.ViewModels
 {
