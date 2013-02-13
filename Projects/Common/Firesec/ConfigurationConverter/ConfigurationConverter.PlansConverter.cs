@@ -6,6 +6,7 @@ using Common;
 using Firesec.Models.Plans;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 
 namespace Firesec
 {
@@ -380,23 +381,24 @@ namespace Firesec
 						metafile.Dispose();
 					}
 
-					byte[] backgroundPixels = File.ReadAllBytes(directoryInfo.FullName);
-
+					var guid = ServiceFactoryBase.ContentService.AddContent(directoryInfo.FullName);
 					var elementRectanglePicture = new ElementRectangle()
 					{
 						Left = Parse(innerElement.rect[0].left),
 						Top = Parse(innerElement.rect[0].top),
 						Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
 						Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
-						BackgroundPixels = backgroundPixels
 					};
 
 					if ((elementRectanglePicture.Left == 0) && (elementRectanglePicture.Top == 0) && (elementRectanglePicture.Width == plan.Width) && (elementRectanglePicture.Height == plan.Height))
 					{
-						plan.BackgroundPixels = elementRectanglePicture.BackgroundPixels;
+						plan.BackgroundImageSource = guid;
+						plan.BackgroundSourceName = directoryInfo.FullName;
 					}
 					else
 					{
+						elementRectanglePicture.BackgroundImageSource = guid;
+						elementRectanglePicture.BackgroundSourceName = directoryInfo.FullName;
 						plan.ElementRectangles.Add(elementRectanglePicture);
 					}
 				}

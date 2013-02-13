@@ -8,6 +8,8 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.Content;
 
 namespace Infrastructure
 {
@@ -20,6 +22,7 @@ namespace Infrastructure
 			Layout = ILayoutService;
 			SecurityService = ISecurityService;
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
+			ContentService = new ContentService("Monitor");
 		}
 
 		public static AppSettings AppSettings { get; set; }

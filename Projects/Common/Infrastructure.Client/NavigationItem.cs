@@ -5,6 +5,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Client
 {

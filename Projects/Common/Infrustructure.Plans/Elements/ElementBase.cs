@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace Infrustructure.Plans.Elements
 {
 	[DataContract]
-	public abstract class ElementBase
+	public abstract class ElementBase : IElementBackground
 	{
 		public ElementBase()
 		{
@@ -15,6 +15,8 @@ namespace Infrustructure.Plans.Elements
 			BorderColor = Colors.Black;
 			BorderThickness = 1;
 			BackgroundPixels = null;
+			BackgroundImageSource = null;
+			BackgroundSourceName = null;
 			SetDefault();
 		}
 
@@ -35,7 +37,16 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public byte[] BackgroundPixels { get; set; }
 		[DataMember]
+		public Guid? BackgroundImageSource { get; set; }
+		[DataMember]
+		public string BackgroundSourceName { get; set; }
+		[DataMember]
 		public int ZIndex { get; set; }
+
+		public bool AllowTransparent
+		{
+			get { return false; }
+		}
 
 		public virtual int ZLayer
 		{
@@ -63,7 +74,8 @@ namespace Infrustructure.Plans.Elements
 			element.BorderColor = BorderColor;
 			element.BorderThickness = BorderThickness;
 			element.BackgroundColor = BackgroundColor;
-			element.BackgroundPixels = BackgroundPixels;
+			element.BackgroundImageSource = BackgroundImageSource;
+			element.BackgroundSourceName = BackgroundSourceName;
 			element.ZIndex = ZIndex;
 		}
 	}

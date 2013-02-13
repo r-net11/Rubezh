@@ -12,7 +12,7 @@ namespace Infrustructure.Plans.Painters
 
 		protected override Brush GetBrush()
 		{
-			return PainterCache.GetTransparentBrush(Element.BackgroundColor, Element.BackgroundPixels);
+			return PainterCache.GetTransparentBrush(Element);
 		}
 	}
 }
