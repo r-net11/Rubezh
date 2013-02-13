@@ -133,8 +133,9 @@ namespace PlansModule.ViewModels
 					DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null;
 					PlanDesignerViewModel.Save();
 					PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
-					if (value != null)
-						ElementsViewModel.Update();
+					using (new TimeCounter("\tPlansViewModel.UpdateElements: {0}"))
+						if (value != null)
+							ElementsViewModel.Update();
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();

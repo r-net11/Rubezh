@@ -43,6 +43,27 @@
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="SharpVectors.Converters">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Converters.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Core">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Css">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Css.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Dom">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Model">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Wpf">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Rendering.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Runtime">
+      <HintPath>..\..\..\..\3rdParty\SharpVectors\SharpVectors.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -91,6 +112,7 @@
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
     <Compile Include="ViewModels\JournalTestViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\SVGTestViewModel.cs" />
     <Compile Include="ViewModels\TreeDeviceViewModel.cs" />
     <Compile Include="ViewModels\TreeViewTestViewModel.cs" />
     <Compile Include="ViewModels\ZoneTestViewModel.cs" />
@@ -108,6 +130,9 @@
     </Compile>
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SVGTestView.xaml.cs">
+      <DependentUpon>SVGTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TreeViewTestView.xaml.cs">
       <DependentUpon>TreeViewTestView.xaml</DependentUpon>
@@ -152,6 +177,10 @@
     <Page Include="Views\DiagnosticsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SVGTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TreeViewTestView.xaml">
       <SubType>Designer</SubType>

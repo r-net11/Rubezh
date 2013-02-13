@@ -23,7 +23,12 @@
         <Views:ZoneTestView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TreeViewTestViewModel}">
-        <Views:TreeViewTestView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:TreeViewTestViewModel}">
+		<Views:TreeViewTestView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SVGTestViewModel}">
+		<Views:SVGTestView />
+	</DataTemplate>
+	
 </ResourceDictionary>

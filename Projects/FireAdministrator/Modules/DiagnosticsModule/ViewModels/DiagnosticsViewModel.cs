@@ -148,6 +148,8 @@ namespace DiagnosticsModule.ViewModels
 
 		private void OnTest3()
 		{
+			var viewModel = new SVGTestViewModel();
+			DialogService.ShowModalWindow(viewModel);
 		}
 
 		public RelayCommand Test4Command { get; private set; }
