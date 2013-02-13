@@ -5,7 +5,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
 
-namespace MonitorClientFS2
+namespace ClientFS2
 {
 	public static class ConfigurationManager
 	{

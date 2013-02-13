@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -166,7 +165,7 @@ namespace ServerFS2
 		}
 		public static List<Device> AutoDetectDevice()
 		{
-			var result = new List<Device>();
+			var devices = new List<Device>();
 			byte deviceCount;
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -175,8 +174,19 @@ namespace ServerFS2
 			bytes.Add(0x04);
 			byte ms = 0x03;
 			var res = SendCode(bytes).Result;
+
+            // Добавляем компьютер
+		    var computer = new Device();
+		    computer.DriverUID = new Guid("F8340ECE-C950-498D-88CD-DCBABBC604F3");
+            computer.Driver = new Driver();
+            var d = ConfigurationManager.DriversConfiguration.Drivers;
+
+		    //parentDevice.Driver.ShortName = "МС-1";
 			if (res.FirstOrDefault().Data[5] == 0x41) // запрашиваем второй шлейф
-				ms = 0x04;
+            {
+                ms = 0x04;
+                //parentDevice.Driver.ShortName = "МС-2";
+            }
 			for (byte sleif = 0x03; sleif <= ms; sleif++)
 			{
 				for (deviceCount = 1; deviceCount < 128; deviceCount++)
@@ -235,11 +245,11 @@ namespace ServerFS2
 							device.Properties.Add(new Property() { Name = "SerialNo", Value = serilaNo });
 						}
 						device.Properties.Add(new Property() { Name = "UsbChannel", Value = (sleif - 2).ToString() });
-						result.Add(device);
+						devices.Add(device);
 					}
 				}
 			}
-			return result;
+			return devices;
 		}
 		public static List<byte> SendRequest(List<byte> bytes)
 		{
