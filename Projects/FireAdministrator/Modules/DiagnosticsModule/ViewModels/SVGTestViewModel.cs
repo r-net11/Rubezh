@@ -36,7 +36,7 @@ namespace DiagnosticsModule.ViewModels
 		void OnBrowse()
 		{
 			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "SVG изображений|*.svg";
+			openFileDialog.Filter = "SVG изображений|*.svg|Все файлы|*.*";
 			if (openFileDialog.ShowDialog().Value)
 				try
 				{
