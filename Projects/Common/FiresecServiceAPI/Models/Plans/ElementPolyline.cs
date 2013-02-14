@@ -12,12 +12,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementPolyline elementLine = new ElementPolyline()
-			{
-				BackgroundColor = BackgroundColor,
-				BorderThickness = BorderThickness,
-				Points = Points.Clone()
-			};
+			ElementPolyline elementLine = new ElementPolyline();
 			Copy(elementLine);
 			return elementLine;
 		}

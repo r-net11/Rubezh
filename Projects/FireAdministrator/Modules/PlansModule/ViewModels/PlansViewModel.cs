@@ -59,9 +59,9 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
 					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 					{
-						PainterCache.CacheBrush(plan.BackgroundPixels);
+						Helper.UpgradeBackground(plan);
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-							PainterCache.CacheBrush(elementBase.BackgroundPixels);
+							Helper.UpgradeBackground(elementBase);
 					}
 				Plans = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in FiresecManager.PlansConfiguration.Plans)

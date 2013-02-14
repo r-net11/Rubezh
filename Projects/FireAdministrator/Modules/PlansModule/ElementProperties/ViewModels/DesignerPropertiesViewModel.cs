@@ -14,16 +14,14 @@ namespace PlansModule.ViewModels
 		public DesignerPropertiesViewModel(Plan plan)
 		{
 			Title = "Свойства элемента: План";
-			ImagePropertiesViewModel = new ViewModels.ImagePropertiesViewModel();
 			Plan = plan ?? new Plan();
+			ImagePropertiesViewModel = new ViewModels.ImagePropertiesViewModel(Plan);
 			CopyProperties();
 		}
 
 		void CopyProperties()
 		{
 			BackgroundColor = Plan.BackgroundColor;
-			ImagePropertiesViewModel.BackgroundPixels = Plan.BackgroundPixels;
-			ImagePropertiesViewModel.UpdateImage();
 			Caption = Plan.Caption;
 			Description = Plan.Description;
 			Width = Plan.Width;
@@ -97,8 +95,7 @@ namespace PlansModule.ViewModels
 			Plan.Height = Height;
 			Plan.Width = Width;
 			Plan.BackgroundColor = BackgroundColor;
-			Plan.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
-			Plan.BackgroundImageSource = ImagePropertiesViewModel.ImageSource;
+			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}
 	}

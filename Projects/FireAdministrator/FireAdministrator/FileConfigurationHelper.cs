@@ -100,6 +100,7 @@ namespace FireAdministrator
 						Directory.CreateDirectory(folderName);
 						File.Copy(openDialog.FileName, configFileName);
 						FiresecManager.LoadFromZipFile(configFileName);
+						ServiceFactory.ContentService.Invalidate();
 
 						FiresecManager.UpdateConfiguration();
 						XManager.UpdateConfiguration();

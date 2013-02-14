@@ -3,6 +3,8 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.Content;
 
 namespace Infrastructure
 {
@@ -17,6 +19,7 @@ namespace Infrastructure
 			ProgressService = IProgressService;
 			ValidationService = IValidationService;
 			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
+			ContentService = new ContentService("Administrator");
 		}
 
 		public static SaveService SaveService { get; private set; }
