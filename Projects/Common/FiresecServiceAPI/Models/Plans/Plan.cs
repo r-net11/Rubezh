@@ -19,6 +19,7 @@ namespace FiresecAPI.Models
 			Width = 400;
 			Height = 400;
 			BackgroundColor = Colors.White;
+			IsVectorImage = false;
 			ClearElements();
 		}
 
@@ -58,6 +59,8 @@ namespace FiresecAPI.Models
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
+		[DataMember]
+		public bool IsVectorImage { get; set; }
 		[DataMember]
 		public List<Plan> Children { get; set; }
 		[DataMember]

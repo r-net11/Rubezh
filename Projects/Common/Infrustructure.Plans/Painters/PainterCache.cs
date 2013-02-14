@@ -14,6 +14,7 @@ namespace Infrustructure.Plans.Painters
 	{
 		private static ImageBrush _transparentBackgroundBrush;
 		private static Converter<Guid, BitmapImage> _imageFactory;
+		private static Converter<Guid, Drawing> _drawingFactory;
 		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
 		private static Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
 		private static Dictionary<Guid, Brush> _pictureBrushes = new Dictionary<Guid, Brush>();
@@ -33,9 +34,10 @@ namespace Infrustructure.Plans.Painters
 			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
 			_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
 		}
-		public static void Initialize(Converter<Guid, BitmapImage> imageFactory)
+		public static void Initialize(Converter<Guid, BitmapImage> imageFactory, Converter<Guid, Drawing> drawingFactory)
 		{
 			_imageFactory = imageFactory;
+			_drawingFactory = drawingFactory;
 		}
 		public static void Dispose()
 		{
@@ -57,7 +59,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
 			{
-				var brush = GetBrush(element.BackgroundImageSource.Value);
+				var brush = GetBrush(element.BackgroundImageSource.Value, element.IsVectorImage);
 				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
 			}
 		}
@@ -123,10 +125,20 @@ namespace Infrustructure.Plans.Painters
 			return _pens[color][thickness];
 		}
 
-		private static Brush GetBrush(Guid guid)
+		private static Brush GetBrush(Guid guid, bool isVector)
 		{
-			var bitmap = _imageFactory(guid);
-			var brush = new ImageBrush(bitmap);
+			Brush brush;
+			if (isVector)
+			{
+				var drawing = _drawingFactory(guid);
+				drawing.Freeze();
+				brush = new DrawingBrush(drawing);
+			}
+			else
+			{
+				var bitmap = _imageFactory(guid);
+				brush = new ImageBrush(bitmap);
+			}
 			PainterHelper.FreezeBrush(brush);
 			return brush;
 		}

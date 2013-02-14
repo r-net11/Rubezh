@@ -34,7 +34,7 @@ namespace PlansModule.Designer
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent);
+			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
 			Width = 100;
 			Height = 100;
 

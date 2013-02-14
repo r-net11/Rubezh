@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace Infrastructure.Common.Services.Content
 {
@@ -54,6 +56,22 @@ namespace Infrastructure.Common.Services.Content
 			bitmap.EndInit();
 			return bitmap;
 		}
+		public T GetObject<T>(Guid guid)
+		{
+			return GetObject<T>(guid.ToString());
+		}
+		public T GetObject<T>(string guid)
+		{
+			return (T)XamlReader.Load(GetContentStream(guid));
+		}
+		public Drawing GetDrawing(Guid guid)
+		{
+			return GetObject<Drawing>(guid);
+		}
+		public Drawing GetDrawing(string guid)
+		{
+			return GetObject<Drawing>(guid);
+		}
 
 		public Guid AddContent(string fileName)
 		{
@@ -79,6 +97,14 @@ namespace Infrastructure.Common.Services.Content
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
 			using (var fs = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
 				fs.Write(bytes, 0, bytes.Length);
+			return guid;
+		}
+		public Guid AddContent(object data)
+		{
+			var guid = Guid.NewGuid();
+			var contentFile = Path.Combine(ContentFolder, guid.ToString());
+			using (var fs = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
+				XamlWriter.Save(data, fs);
 			return guid;
 		}
 
@@ -108,6 +134,13 @@ namespace Infrastructure.Common.Services.Content
 				_streams = null;
 			}
 		}
+
+		#endregion
+
+
+		#region IContentService Members
+
+
 
 		#endregion
 	}

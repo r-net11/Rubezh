@@ -10,23 +10,37 @@ using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using Infrastructure;
 using Infrustructure.Plans.Elements;
+using SharpVectors.Converters;
+using SharpVectors.Renderers.Wpf;
 
 namespace PlansModule.ViewModels
 {
 	public class ImagePropertiesViewModel : BaseViewModel
 	{
+		private const string VectorGraphicExtensions = ".svg;.svgx";
 		private IElementBackground _element;
 		private Guid? _imageSource;
 		private string _sourceName;
+		private bool _isVectorImage;
 		private bool _newImage;
+		private DrawingGroup _drawing;
+		private WpfDrawingSettings _settings;
 		public Image Image { get; private set; }
 
 		public ImagePropertiesViewModel(IElementBackground element)
 		{
+			_drawing = null;
 			_newImage = false;
 			_element = element;
 			_sourceName = _element.BackgroundSourceName;
 			_imageSource = _element.BackgroundImageSource;
+			_isVectorImage = _element.IsVectorImage;
+			_settings = new WpfDrawingSettings()
+			{
+				IncludeRuntime = false,
+				TextAsGeometry = true,
+				OptimizePath = true,
+			};
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture);
 			UpdateImage();
@@ -36,13 +50,17 @@ namespace PlansModule.ViewModels
 		void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg";
+			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg";
 			if (openFileDialog.ShowDialog().Value)
 			{
 				// TODO: ограничить размер файла
 				_newImage = true;
 				_sourceName = openFileDialog.FileName;
 				_imageSource = null;
+				_isVectorImage = VectorGraphicExtensions.Contains(Path.GetExtension(_sourceName));
+				using (FileSvgReader reader = new FileSvgReader(_settings))
+					_drawing = reader.Read(_sourceName);
+				_drawing.Freeze();
 				UpdateImage();
 			}
 		}
@@ -53,30 +71,50 @@ namespace PlansModule.ViewModels
 				ServiceFactory.ContentService.RemoveContent(_imageSource.Value);
 			_imageSource = null;
 			_sourceName = null;
+			_isVectorImage = false;
 			_newImage = false;
+			_drawing = null;
 			UpdateImage();
 		}
 
 		public void Save()
 		{
 			if (_newImage)
-				_imageSource = ServiceFactory.ContentService.AddContent(_sourceName);
+				using (new WaitWrapper())
+				{
+					if (_isVectorImage)
+						_imageSource = ServiceFactory.ContentService.AddContent(_drawing);
+					else
+						_imageSource = ServiceFactory.ContentService.AddContent(_sourceName);
+				}
 			_element.BackgroundImageSource = _imageSource;
 			_element.BackgroundSourceName = _sourceName;
+			_element.IsVectorImage = _isVectorImage;
 		}
+
 		private void UpdateImage()
 		{
 			try
 			{
-				BitmapImage bitmapImage = null;
+				ImageSource imageSource = null;
 				if (_newImage && !string.IsNullOrEmpty(_sourceName))
-					bitmapImage = new BitmapImage(new Uri(_sourceName));
+				{
+					if (_isVectorImage)
+						imageSource = new DrawingImage(_drawing);
+					else
+						imageSource = new BitmapImage(new Uri(_sourceName));
+				}
 				else if (_imageSource.HasValue)
-					bitmapImage = ServiceFactory.ContentService.GetBitmapContent(_imageSource.Value);
+				{
+					if (_isVectorImage)
+						imageSource = new DrawingImage(ServiceFactory.ContentService.GetDrawing(_imageSource.Value));
+					else
+						imageSource = ServiceFactory.ContentService.GetBitmapContent(_imageSource.Value);
+				}
 
 				Image = new Image()
 				{
-					Source = bitmapImage,
+					Source = imageSource,
 					Stretch = Stretch.Uniform
 				};
 				OnPropertyChanged("Image");

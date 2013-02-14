@@ -13,5 +13,6 @@ namespace Infrustructure.Plans.Elements
 		byte[] BackgroundPixels { get; set; }
 		Guid? BackgroundImageSource { get; set; }
 		string BackgroundSourceName { get; set; }
+		bool IsVectorImage { get; set; }
 	}
 }

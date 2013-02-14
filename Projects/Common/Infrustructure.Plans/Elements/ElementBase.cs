@@ -17,6 +17,7 @@ namespace Infrustructure.Plans.Elements
 			BackgroundPixels = null;
 			BackgroundImageSource = null;
 			BackgroundSourceName = null;
+			IsVectorImage = false;
 			SetDefault();
 		}
 
@@ -40,6 +41,8 @@ namespace Infrustructure.Plans.Elements
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
+		[DataMember]
+		public bool IsVectorImage { get; set; }
 		[DataMember]
 		public int ZIndex { get; set; }
 
@@ -76,6 +79,7 @@ namespace Infrustructure.Plans.Elements
 			element.BackgroundColor = BackgroundColor;
 			element.BackgroundImageSource = BackgroundImageSource;
 			element.BackgroundSourceName = BackgroundSourceName;
+			element.IsVectorImage = IsVectorImage;
 			element.ZIndex = ZIndex;
 		}
 	}
