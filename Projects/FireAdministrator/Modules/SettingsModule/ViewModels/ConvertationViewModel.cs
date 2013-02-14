@@ -13,6 +13,7 @@ using Ionic.Zip;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Windows;
+using System.IO.Compression;
 
 namespace SettingsModule.ViewModels
 {
@@ -100,6 +101,10 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ConvertJournalCommand { get; private set; }
 		void OnConvertJournal()
 		{
+#if DEBUG
+			Encode();
+			return;
+#endif
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
 			{
 				WaitHelper.Execute(() =>
@@ -112,6 +117,60 @@ namespace SettingsModule.ViewModels
 		bool CanConvertJournal()
 		{
 			return FiresecManager.FiresecDriver != null;
+		}
+
+		void Encode()
+		{
+			StreamReader streamReader = new StreamReader("D:/plans.txt");
+			string text = streamReader.ReadToEnd();
+			streamReader.Close();
+
+			var bytes = ZipStr(text);
+			var output = System.Convert.ToBase64String(bytes);
+			;
+		}
+
+		public static byte[] ZipStr(String str)
+		{
+			using (MemoryStream output = new MemoryStream())
+			{
+				using (DeflateStream gzip =
+				  new DeflateStream(output, CompressionMode.Compress))
+				{
+					using (StreamWriter writer =
+					  new StreamWriter(gzip, System.Text.Encoding.UTF8))
+					{
+						writer.Write(str);
+					}
+				}
+
+				return output.ToArray();
+			}
+		}
+
+		public static string UnZipStr(byte[] input)
+		{
+			using (MemoryStream inputStream = new MemoryStream(input))
+			{
+				using (DeflateStream gzip =
+				  new DeflateStream(inputStream, CompressionMode.Decompress))
+				{
+					using (StreamReader reader =
+					  new StreamReader(gzip, System.Text.Encoding.UTF8))
+					{
+						return reader.ReadToEnd();
+					}
+				}
+			}
+		}
+
+		string EncodeBase64(string toEncode)
+		{
+			byte[] toEncodeAsBytes
+				  = System.Text.ASCIIEncoding.ASCII.GetBytes(toEncode);
+			string returnValue
+				  = System.Convert.ToBase64String(toEncodeAsBytes);
+			return returnValue;
 		}
 	}
 }

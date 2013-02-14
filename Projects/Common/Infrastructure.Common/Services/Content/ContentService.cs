@@ -36,6 +36,8 @@ namespace Infrastructure.Common.Services.Content
 		public Stream GetContentStream(string guid)
 		{
 			var fileName = GetContentFileName(guid);
+			if (!File.Exists(fileName))
+				return null;
 			var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 			_streams.Add(stream);
 			return stream;
