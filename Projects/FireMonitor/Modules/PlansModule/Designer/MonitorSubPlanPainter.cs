@@ -41,7 +41,7 @@ namespace PlansModule.Designer
 		protected override Brush GetBrush()
 		{
 			var color = GetStateColor(_planViewModel.StateType);
-			return PainterCache.GetTransparentBrush(color);
+			return PainterCache.GetTransparentBrush(color, Element.BackgroundPixels);
 		}
 
 		public Color GetStateColor(StateType stateType)

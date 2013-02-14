@@ -12,8 +12,8 @@ namespace PlansModule.ViewModels
         public PolygonPropertiesViewModel(ElementPolygon elementPolygon)
         {
             Title = "Свойства фигуры: Полигон";
-			_elementPolygon = elementPolygon;
-			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementPolygon);
+            ImagePropertiesViewModel = new ImagePropertiesViewModel();
+            _elementPolygon = elementPolygon;
             CopyProperties();
         }
 
@@ -22,6 +22,8 @@ namespace PlansModule.ViewModels
             BackgroundColor = _elementPolygon.BackgroundColor;
             BorderColor = _elementPolygon.BorderColor;
             StrokeThickness = _elementPolygon.BorderThickness;
+            ImagePropertiesViewModel.BackgroundPixels = _elementPolygon.BackgroundPixels;
+            ImagePropertiesViewModel.UpdateImage();
         }
 
         Color _backgroundColor;
@@ -62,7 +64,7 @@ namespace PlansModule.ViewModels
             _elementPolygon.BackgroundColor = BackgroundColor;
             _elementPolygon.BorderColor = BorderColor;
             _elementPolygon.BorderThickness = StrokeThickness;
-			ImagePropertiesViewModel.Save();
+            _elementPolygon.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
 			return base.Save();
 		}
     }

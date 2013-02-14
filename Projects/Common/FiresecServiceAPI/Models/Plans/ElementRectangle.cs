@@ -15,7 +15,14 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementRectangle elementBase = new ElementRectangle();
+			ElementRectangle elementBase = new ElementRectangle()
+			{
+				BackgroundColor = BackgroundColor,
+				BorderColor = BorderColor,
+				BorderThickness = BorderThickness
+			};
+			if (BackgroundPixels != null)
+				elementBase.BackgroundPixels = (byte[])BackgroundPixels.Clone();
 			Copy(elementBase);
 			return elementBase;
 		}

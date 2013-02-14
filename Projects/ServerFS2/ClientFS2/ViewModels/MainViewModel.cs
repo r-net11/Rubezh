@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using FiresecAPI.Models;
@@ -66,11 +67,11 @@ namespace ClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
         private void OnAutoDetectDevice()
         {
-            var autoDetectedDevicesViewModel = new AutoDetectedDevicesViewModel(new List<Device>());
+            var autoDetectedDevicesViewModel = new DevicesViewModel(new Device());
             _progressService.Run(() =>
             {
-                var devices = ServerHelper.AutoDetectDevice();
-                autoDetectedDevicesViewModel = new AutoDetectedDevicesViewModel(devices);
+                var device = ServerHelper.AutoDetectDevice();
+                autoDetectedDevicesViewModel = new DevicesViewModel(device);
             }, () => DialogService.ShowModalWindow(autoDetectedDevicesViewModel), "Автопоиск устройств");
         }
 

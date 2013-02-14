@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using System;
 
 namespace FiresecAPI
 {
@@ -19,7 +18,7 @@ namespace FiresecAPI
 		{
 		}
 
-		public virtual bool ValidateVersion()
+        public virtual bool ValidateVersion()
         {
 			return true;
         }

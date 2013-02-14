@@ -1,7 +1,5 @@
 ﻿using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.Content;
 
 namespace FireMonitor.Multiclient
 {
@@ -11,7 +9,6 @@ namespace FireMonitor.Multiclient
 		{
 			Events = new EventAggregator();
 			ResourceService = new ResourceService();
-			ContentService = new ContentService("Monitor");
 		}
 	}
 }

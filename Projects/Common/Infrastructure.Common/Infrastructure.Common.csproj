@@ -157,11 +157,6 @@
     <Compile Include="RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="ServerLoadHelper.cs" />
-    <Compile Include="Services\Content\IContentService.cs" />
-    <Compile Include="Services\Content\ContentService.cs" />
-    <Compile Include="Services\Resources\ResourceDescription.cs" />
-    <Compile Include="Services\Resources\ResourceHelper.cs" />
-    <Compile Include="Services\Resources\ResourceService.cs" />
     <Compile Include="StackTraceHelper.cs" />
     <Compile Include="Tree\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />
@@ -170,7 +165,7 @@
     <Compile Include="Reports\ISingleReportProvider.cs" />
     <Compile Include="Reports\IReportProvider.cs" />
     <Compile Include="Reports\IReportProviderModule.cs" />
-    <Compile Include="Services\ServiceFactoryBase.cs" />
+    <Compile Include="ServiceFactoryBase.cs" />
     <Compile Include="Theme\ThemeHelper.cs" />
     <Compile Include="Theme\ThemeType.cs" />
     <Compile Include="UACHelper.cs" />
@@ -208,6 +203,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="Resources\ResourceDescription.cs" />
+    <Compile Include="Resources\ResourceHelper.cs" />
+    <Compile Include="Resources\ResourceService.cs" />
     <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="Tree\TreeBaseViewModel.cs" />
     <Compile Include="Video\VideoService.cs" />

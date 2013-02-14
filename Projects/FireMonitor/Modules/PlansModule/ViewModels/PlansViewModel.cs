@@ -43,9 +43,9 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
 					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 					{
-						PainterCache.CacheBrush(plan);
+						PainterCache.CacheBrush(plan.BackgroundPixels);
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-							PainterCache.CacheBrush(elementBase);
+							PainterCache.CacheBrush(elementBase.BackgroundPixels);
 					}
 				_initialized = false;
 				FiresecManager.InvalidatePlans();

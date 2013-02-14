@@ -166,9 +166,8 @@ namespace ServerFS2
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
 		}
-		public static List<Device> AutoDetectDevice()
+		public static Device AutoDetectDevice()
 		{
-			var devices = new List<Device>();
 			byte deviceCount;
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -185,7 +184,6 @@ namespace ServerFS2
             // Добавляем компьютер
             computerDevice.DriverUID = new Guid("F8340ECE-C950-498D-88CD-DCBABBC604F3");
             computerDevice.Driver = Drivers.FirstOrDefault(x => x.UID == computerDevice.DriverUID);
-            devices.Add(computerDevice);
 
             // МС-1
             byte ms = 0x03;
@@ -194,10 +192,9 @@ namespace ServerFS2
 
             // Добавляем 1-й канал
             usbChannel1Device.DriverUID = new Guid("780DE2E6-8EDD-4CFA-8320-E832EB699544");
-            usbChannel1Device.Driver = Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
+            usbChannel1Device.Driver = Drivers.FirstOrDefault(x => x.UID == usbChannel1Device.DriverUID);
             usbChannel1Device.IntAddress = 1;
             msDevice.Children.Add(usbChannel1Device);
-            devices.Add(usbChannel1Device);
 
 			if (res.FirstOrDefault().Data[5] == 0x41) // запрашиваем второй шлейф
             {
@@ -208,16 +205,13 @@ namespace ServerFS2
 
                 // Добавляем 2-й канал
                 usbChannel2Device.DriverUID = new Guid("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E");
-                usbChannel2Device.Driver = Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
+                usbChannel2Device.Driver = Drivers.FirstOrDefault(x => x.UID == usbChannel2Device.DriverUID);
                 usbChannel2Device.IntAddress = 2;
                 msDevice.Children.Add(usbChannel2Device);
-                devices.Add(usbChannel2Device);
             }
 
             // Добавляем МС
 		    computerDevice.Children.Add(msDevice);
-            devices.Add(msDevice);
-            
 			for (byte sleif = 0x03; sleif <= ms; sleif++)
 			{
 				for (deviceCount = 1; deviceCount < 128; deviceCount++)
@@ -244,7 +238,7 @@ namespace ServerFS2
 						bytes.Add(0x01);
 						bytes.Add(0x03);
 						inputBytes = SendCode(bytes).Result.FirstOrDefault().Data;
-						device.Driver.ShortName = DriversHelper.GetDriverNameByType(inputBytes[7]);
+					    device.Driver = Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(inputBytes[7]));
 
 						bytes = new List<byte>();
 						bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -275,17 +269,14 @@ namespace ServerFS2
 							serilaNo = serilaNo.Remove(serilaNo.Length - 1);
 							device.Properties.Add(new Property() { Name = "SerialNo", Value = serilaNo });
 						}
-						device.Properties.Add(new Property() { Name = "UsbChannel", Value = (sleif - 2).ToString() });
-
                         if(sleif == 0x03)
                             usbChannel1Device.Children.Add(device);
                         else
                             usbChannel2Device.Children.Add(device);
-						devices.Add(device);
 					}
 				}
 			}
-			return devices;
+			return computerDevice;
 		}
 		public static List<byte> SendRequest(List<byte> bytes)
 		{

@@ -27,7 +27,7 @@ namespace Infrustructure.Plans.Painters
 
 		protected virtual Brush GetBrush()
 		{
-			return PainterCache.GetBrush(Element);
+			return PainterCache.GetBrush(Element.BackgroundColor, Element.BackgroundPixels);
 		}
 		protected virtual Pen GetPen()
 		{

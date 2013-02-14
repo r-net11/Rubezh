@@ -8,84 +8,85 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using Infrastructure;
-using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {
 	public class ImagePropertiesViewModel : BaseViewModel
 	{
-		private IElementBackground _element;
-		private Guid? _imageSource;
-		private string _sourceName;
-		private bool _newImage;
-		public Image Image { get; private set; }
-
-		public ImagePropertiesViewModel(IElementBackground element)
+		public ImagePropertiesViewModel()
 		{
-			_newImage = false;
-			_element = element;
-			_sourceName = _element.BackgroundSourceName;
-			_imageSource = _element.BackgroundImageSource;
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture);
-			UpdateImage();
 		}
 
-		public RelayCommand SelectPictureCommand { get; private set; }
+		public byte[] BackgroundPixels { get; set; }
+
+		public Image Image { get; private set; }
+
+		public string ImageSource { get; private set; }
+
+		public RelayCommand SelectPictureCommand { get; set; }
 		void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg";
 			if (openFileDialog.ShowDialog().Value)
 			{
-				// TODO: ограничить размер файла
-				_newImage = true;
-				_sourceName = openFileDialog.FileName;
-				_imageSource = null;
-				UpdateImage();
+				var folderName = AppDataFolderHelper.GetFolder("Administrator/Configuration/Unzip/Images");
+				if (!Directory.Exists(folderName))
+					Directory.CreateDirectory(folderName);
+				var fileInfo = new FileInfo(openFileDialog.FileName);
+				var newFileName = Guid.NewGuid() + "." + fileInfo.Extension;
+				var newFilePath = Path.Combine(folderName, newFileName);
+				File.Copy(openFileDialog.FileName, newFilePath);
+				ImageSource = newFileName;
+
+				BitmapImage bitmap = new BitmapImage();
+				bitmap.BeginInit();
+				bitmap.StreamSource = new FileStream(newFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+				bitmap.EndInit();
+				Image = new Image();
+				Image.Source = bitmap;
+				OnPropertyChanged("Image");
+
+				//BackgroundPixels = File.ReadAllBytes(openFileDialog.FileName);
+				//UpdateImage();
 			}
 		}
+
+		public void UpdateImage()
+		{
+			//try
+			//{
+			//    BitmapImage bitmapImage = null;
+			//    if (BackgroundPixels != null)
+			//        using (var imageStream = new MemoryStream(BackgroundPixels))
+			//        {
+			//            bitmapImage = new BitmapImage();
+			//            bitmapImage.BeginInit();
+			//            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+			//            bitmapImage.StreamSource = imageStream;
+			//            bitmapImage.EndInit();
+			//        }
+			//    Image = new Image()
+			//    {
+			//        Source = bitmapImage,
+			//        Stretch = Stretch.Uniform
+			//    };
+			//    OnPropertyChanged("Image");
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "Исключение при вызове ImagePropertiesViewModel.UpdateImage");
+			//    MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
+			//}
+		}
+
 		public RelayCommand RemovePictureCommand { get; private set; }
 		void OnRemovePicture()
 		{
-			if (_imageSource.HasValue)
-				ServiceFactory.ContentService.RemoveContent(_imageSource.Value);
-			_imageSource = null;
-			_sourceName = null;
-			_newImage = false;
-			UpdateImage();
-		}
-
-		public void Save()
-		{
-			if (_newImage)
-				_imageSource = ServiceFactory.ContentService.AddContent(_sourceName);
-			_element.BackgroundImageSource = _imageSource;
-			_element.BackgroundSourceName = _sourceName;
-		}
-		private void UpdateImage()
-		{
-			try
-			{
-				BitmapImage bitmapImage = null;
-				if (_newImage && !string.IsNullOrEmpty(_sourceName))
-					bitmapImage = new BitmapImage(new Uri(_sourceName));
-				else if (_imageSource.HasValue)
-					bitmapImage = ServiceFactory.ContentService.GetBitmapContent(_imageSource.Value);
-
-				Image = new Image()
-				{
-					Source = bitmapImage,
-					Stretch = Stretch.Uniform
-				};
-				OnPropertyChanged("Image");
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ImagePropertiesViewModel.UpdateImage");
-				MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
-			}
+			//BackgroundPixels = null;
+			//UpdateImage();
 		}
 	}
 }

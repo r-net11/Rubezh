@@ -99,17 +99,17 @@ namespace FiresecService.Service
 					}
 				}
 			}
-			var imagesDirectory = Path.Combine(AppDataFolderHelper.GetFolder("TempServer"), "Unzip", "Content");
+			var imagesDirectory = Path.Combine(AppDataFolderHelper.GetFolder("TempServer"), "Unzip", "Images");
 
 			for (int x = zipFile.Count - 1; x >= 0; x--)
 			{
 				ZipEntry e = zipFile[x];
-				if (e.FileName.StartsWith("Content/"))
+				if (e.FileName.StartsWith("Images/"))
 					zipFile.RemoveEntry(e.FileName);
 			} 
 			if (Directory.Exists(imagesDirectory))
 			{
-				zipFile.AddDirectory(imagesDirectory, "Content");
+				zipFile.AddDirectory(imagesDirectory, "Images");
 			}
 			AddConfigurationList(zipFile, configurationList);
 			zipFile.Save();

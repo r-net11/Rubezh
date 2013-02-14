@@ -12,8 +12,8 @@ namespace PlansModule.ViewModels
 		public EllipsePropertiesViewModel(ElementEllipse elementEllipse)
 		{
 			Title = "Свойства фигуры: Эллипс";
+			ImagePropertiesViewModel = new ImagePropertiesViewModel();
 			_elementEllipse = elementEllipse;
-			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementEllipse);
 			CopyProperties();
 		}
 
@@ -22,6 +22,8 @@ namespace PlansModule.ViewModels
 			BackgroundColor = _elementEllipse.BackgroundColor;
 			BorderColor = _elementEllipse.BorderColor;
 			StrokeThickness = _elementEllipse.BorderThickness;
+			ImagePropertiesViewModel.BackgroundPixels = _elementEllipse.BackgroundPixels;
+			ImagePropertiesViewModel.UpdateImage();
 		}
 
 		Color _backgroundColor;
@@ -62,7 +64,7 @@ namespace PlansModule.ViewModels
 			_elementEllipse.BackgroundColor = BackgroundColor;
 			_elementEllipse.BorderColor = BorderColor;
 			_elementEllipse.BorderThickness = StrokeThickness;
-			ImagePropertiesViewModel.Save();
+			_elementEllipse.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
 			return base.Save();
 		}
 	}

@@ -58,7 +58,6 @@
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Designer\IVisualItem.cs" />
     <Compile Include="Designer\MoveAdorner.cs" />
-    <Compile Include="Elements\IElementBackground.cs" />
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />

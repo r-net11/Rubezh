@@ -75,6 +75,21 @@ namespace Infrustructure.Plans.Painters
 			}
 		}
 
+		public static Brush CreateTransparentBrush(double zoom = 1)
+		{
+			BitmapImage bi = new BitmapImage();
+			bi.BeginInit();
+			bi.UriSource = new System.Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
+			bi.EndInit();
+			var brush = new ImageBrush(bi)
+			{
+				TileMode = TileMode.Tile,
+				ViewportUnits = BrushMappingMode.Absolute,
+				Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom)
+			};
+			FreezeBrush(brush);
+			return brush;
+		}
 		public static Brush FreezeBrush(Brush brush)
 		{
 			RenderOptions.SetBitmapScalingMode(brush, BitmapScalingMode.LowQuality);

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
-using ClientFS2;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using Infrastructure.Common.Services;
 
 namespace FiresecClient
 {
@@ -104,10 +103,5 @@ namespace FiresecClient
                 Logger.Error(e, "FiresecManager.InvalidatePlans");
             }
         }
-		public static bool PlanValidator(PlansConfiguration configuration)
-		{
-			//ServiceFactoryBase.ContentService.
-			return true;
-		}
     }
 }

@@ -7,7 +7,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Plan : IElementBackground
+	public class Plan
 	{
 		public Plan()
 		{
@@ -55,9 +55,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public byte[] BackgroundPixels { get; set; }
 		[DataMember]
-		public Guid? BackgroundImageSource { get; set; }
-		[DataMember]
-		public string BackgroundSourceName { get; set; }
+		public string BackgroundImageSource { get; set; }
 		[DataMember]
 		public List<Plan> Children { get; set; }
 		[DataMember]
@@ -97,11 +95,6 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementXDevices);
 				return union;
 			}
-		}
-
-		public bool AllowTransparent
-		{
-			get { return true; }
 		}
 	}
 }

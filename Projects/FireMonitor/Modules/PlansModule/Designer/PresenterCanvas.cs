@@ -33,7 +33,6 @@ namespace PlansModule.Designer
 		public PresenterCanvas()
 			: base(ServiceFactory.Events)
 		{
-			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent);
 			_zoom = base.Zoom;
 			_pointZoom = base.PointZoom;
 			_border = new BorderPainter();
@@ -65,7 +64,27 @@ namespace PlansModule.Designer
 		{
 			CanvasWidth = plan.Width;
 			CanvasHeight = plan.Height;
-			CanvasBackground = PainterCache.GetBrush(plan);
+			if (plan.BackgroundColor == Colors.Transparent)
+				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
+			else
+			{
+				if (plan.BackgroundImageSource != null)
+				{
+					var folderName = AppDataFolderHelper.GetFolder("Monitor/Configuration/Unzip/Images");
+					var fileName = Path.Combine(folderName, plan.BackgroundImageSource);
+					if (File.Exists(fileName))
+					{
+						BitmapImage bitmap = new BitmapImage();
+						bitmap.BeginInit();
+						bitmap.StreamSource = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+						bitmap.EndInit();
+
+						var imageBrush = new ImageBrush(bitmap);
+						CanvasBackground = imageBrush;
+						//CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
+					}
+				}
+			}
 		}
 
 		public void Initialize(Plan plan)

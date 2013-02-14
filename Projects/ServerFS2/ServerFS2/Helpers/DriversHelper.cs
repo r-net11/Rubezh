@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ServerFS2
@@ -7,15 +8,15 @@ namespace ServerFS2
     {
         public class DriverData
         {
-            public DriverData(string driverId, string name, byte driverType)
+            public DriverData(string driverUid, string name, byte driverType)
             {
                 Name = name;
-                DriverId = driverId;
+                DriverUid = driverUid;
                 DriverType = driverType;
             }
 
             public string Name { get; private set; }
-            public string DriverId { get; private set; }
+            public string DriverUid { get; private set; }
             public byte DriverType { get; private set; }
         }
 
@@ -23,6 +24,12 @@ namespace ServerFS2
         {
             return DriverDataList.FirstOrDefault(x => x.DriverType == driverType).Name;
         }
+
+        public static Guid GetDriverUidByType(byte driverType)
+        {
+            return new Guid(DriverDataList.FirstOrDefault(x => x.DriverType == driverType).DriverUid);
+        }
+
         public static List<DriverData> DriverDataList { get; private set; }
         static DriversHelper()
         {

@@ -40,6 +40,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="LibUsbDotNet">
       <HintPath>..\..\..\3rdParty\LibUsbDotNet.dll</HintPath>
     </Reference>
@@ -59,12 +62,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="DataBase\DBJournalHelper.cs" />
     <Compile Include="DataBase\FSJournalItem.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
-    <Compile Include="Models\Device.cs" />
     <Compile Include="Models\JournalItem.cs" />
     <Compile Include="JournalParser.cs" />
     <Compile Include="Helpers\MetadataHelper.cs" />

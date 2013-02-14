@@ -21,7 +21,7 @@ namespace PlansModule.ViewModels
 		{
 			Items = new ObservableCollection<BaseViewModel>()
 	        {
-				new MenuButtonViewModel(context.AddFolderCommand, "/Controls;component/Images/FolderOpen.png" , "Добавить папку"),
+				new MenuButtonViewModel(context.AddFolderCommand, "/Controls;component/Images/AddChild.png" , "Добавить папку"),
 	            new MenuButtonViewModel(context.AddCommand, "/Controls;component/Images/Add.png" , "Добавить"),
 	            new MenuButtonViewModel(context.EditCommand, "/Controls;component/Images/Edit.png" , "Редактировать"),
 	            new MenuButtonViewModel(context.RemoveCommand, "/Controls;component/Images/Delete.png" , "Удалить"),

@@ -6,7 +6,6 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
-using Infrastructure.Common.Services;
 
 namespace FiresecClient
 {
@@ -59,7 +58,6 @@ namespace FiresecClient
 				if (Directory.Exists(folderName))
 					Directory.Delete(folderName, true);
 				Directory.CreateDirectory(folderName);
-				ServiceFactoryBase.ContentService.Invalidate();
 
 				var configFileStream = File.Create(configFileName);
 				CopyStream(stream, configFileStream);

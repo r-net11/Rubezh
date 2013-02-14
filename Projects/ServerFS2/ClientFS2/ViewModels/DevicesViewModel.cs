@@ -16,6 +16,16 @@ namespace ClientFS2.ViewModels
             }
             OnPropertyChanged("RootDevices");
         }
+        public DevicesViewModel(Device device)
+        {
+            BuildTree(device);
+            if (RootDevice != null)
+            {
+                RootDevice.IsExpanded = true;
+                SelectedDevice = RootDevice;
+            }
+            OnPropertyChanged("RootDevices");
+        }
         DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
         {
@@ -41,6 +51,10 @@ namespace ClientFS2.ViewModels
         public DeviceViewModel[] RootDevices
         {
             get { return new[] { RootDevice }; }
+        }
+        void BuildTree(Device device)
+        {
+            RootDevice = AddDeviceInternal(device, null);
         }
         void BuildTree()
         {

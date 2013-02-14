@@ -81,14 +81,15 @@ namespace FireAdministrator
 					if (ServiceFactory.SaveService.XLibraryChanged)
 						AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.XDeviceLibraryConfiguration, 1, 1);
 
-					var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
-					if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
+					var sourceImagesDirectory = AppDataFolderHelper.GetFolder("Administrator/Configuration/Unzip/Images");
+					var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Images"));
+					if (Directory.Exists(sourceImagesDirectory))
 					{
 						if (Directory.Exists(destinationImagesDirectory))
 							Directory.Delete(destinationImagesDirectory);
 						if (!Directory.Exists(destinationImagesDirectory))
 							Directory.CreateDirectory(destinationImagesDirectory);
-						var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
+						var sourceImagesDirectoryInfo = new DirectoryInfo(sourceImagesDirectory);
 						foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
 						{
 							fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));

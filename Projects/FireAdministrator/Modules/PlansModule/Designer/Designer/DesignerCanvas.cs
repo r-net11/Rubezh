@@ -34,7 +34,6 @@ namespace PlansModule.Designer
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
-			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent);
 			Width = 100;
 			Height = 100;
 
@@ -185,7 +184,27 @@ namespace PlansModule.Designer
 		{
 			CanvasWidth = plan.Width;
 			CanvasHeight = plan.Height;
-			CanvasBackground = PainterCache.GetBrush(plan);
+			if (plan.BackgroundColor == Colors.Transparent)
+				CanvasBackground = PainterHelper.CreateTransparentBrush(Zoom);
+			else
+			{
+				if (plan.BackgroundImageSource != null)
+				{
+					var folderName = AppDataFolderHelper.GetFolder("Administrator/Configuration/Unzip/Images");
+					var fileName = Path.Combine(folderName, plan.BackgroundImageSource);
+					if (File.Exists(fileName))
+					{
+						BitmapImage bitmap = new BitmapImage();
+						bitmap.BeginInit();
+						bitmap.StreamSource = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+						bitmap.EndInit();
+
+						var imageBrush = new ImageBrush(bitmap);
+						CanvasBackground = imageBrush;
+						//CanvasBackground = PainterCache.GetBrush(plan.BackgroundColor, plan.BackgroundPixels);
+					}
+				}
+			}
 		}
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)

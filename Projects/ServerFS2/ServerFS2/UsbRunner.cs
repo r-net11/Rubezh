@@ -207,22 +207,23 @@ namespace ServerFS2
                 Send(data);
                 _autoResetEvent.WaitOne(delay);
             }
+
+            var responses = new List<Response>();
             for (int i = 0; i < 10; i++)
             {
                 if (_responses.Count != 0)
                 {
-                    var responses = new List<Response>(_responses);
+                    responses = new List<Response>(_responses);
                     _requests.RemoveAll(x => responses.FirstOrDefault(z => z.Id == x.Id) != null);
+                    _responses.Clear();
+                    break;
                 }
-                else
-                {
-                    _autoWaitEvent.WaitOne(timeout);
-                    if (_requests.Count == 0)
-                        break;
-                    Send(_requests.FirstOrDefault().Data);
-                }
+                _autoWaitEvent.WaitOne(timeout);
+                if (_requests.Count == 0)
+                    break;
+                Send(_requests.FirstOrDefault().Data);
             }
-            return new OperationResult<List<Response>> { Result = _responses };
+            return new OperationResult<List<Response>> { Result = responses };
         }
 	}
 	public class Request

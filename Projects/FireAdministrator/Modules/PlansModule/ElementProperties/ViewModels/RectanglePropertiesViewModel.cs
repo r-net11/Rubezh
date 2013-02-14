@@ -12,8 +12,8 @@ namespace PlansModule.ViewModels
 		public RectanglePropertiesViewModel(ElementRectangle elementRectangle)
 		{
 			Title = "Свойства фигуры: Прямоугольник";
+			ImagePropertiesViewModel = new ImagePropertiesViewModel();
 			_elementRectangle = elementRectangle;
-			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementRectangle);
 			CopyProperties();
 		}
 
@@ -22,6 +22,8 @@ namespace PlansModule.ViewModels
 			BackgroundColor = _elementRectangle.BackgroundColor;
 			BorderColor = _elementRectangle.BorderColor;
 			StrokeThickness = _elementRectangle.BorderThickness;
+			ImagePropertiesViewModel.BackgroundPixels = _elementRectangle.BackgroundPixels;
+			ImagePropertiesViewModel.UpdateImage();
 		}
 
 		Color _backgroundColor;
@@ -62,7 +64,7 @@ namespace PlansModule.ViewModels
 			_elementRectangle.BackgroundColor = BackgroundColor;
 			_elementRectangle.BorderColor = BorderColor;
 			_elementRectangle.BorderThickness = StrokeThickness;
-			ImagePropertiesViewModel.Save();
+			_elementRectangle.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
 			return base.Save();
 		}
 	}
