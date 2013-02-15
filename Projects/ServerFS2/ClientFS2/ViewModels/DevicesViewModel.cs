@@ -1,6 +1,9 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.Generic;
+using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ServerFS2;
 
 namespace ClientFS2.ViewModels
 {
@@ -8,12 +11,8 @@ namespace ClientFS2.ViewModels
     {
         public DevicesViewModel()
         {
+            GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
             BuildTree();
-            if (RootDevice != null)
-            {
-                RootDevice.IsExpanded = true;
-                SelectedDevice = RootDevice;
-            }
             OnPropertyChanged("RootDevices");
         }
         public DevicesViewModel(Device device)
@@ -59,6 +58,16 @@ namespace ClientFS2.ViewModels
         void BuildTree()
         {
             RootDevice = AddDeviceInternal(ConfigurationManager.DeviceConfiguration.RootDevice, null);
+        }
+        public RelayCommand GetParametersCommand { get; private set; }
+        private void OnGetParameters()
+        {
+            ServerHelper.GetDeviceParameters(SelectedDevice.Device);
+            SelectedDevice.Device.OnAUParametersChanged();
+        }
+        bool CanGetParameters()
+        {
+            return SelectedDevice != null;
         }
         private static DeviceViewModel AddDeviceInternal(Device device, TreeItemViewModel<DeviceViewModel> parentDeviceViewModel)
         {

@@ -9,7 +9,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
+        <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.VerticalScrollBarVisibility="Hidden" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
             <Controls:TreeListView.Columns>
                 <GridViewColumn Width="250" Header="Устройство">
                     <GridViewColumn.CellTemplate>

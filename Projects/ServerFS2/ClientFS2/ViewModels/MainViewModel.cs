@@ -30,6 +30,7 @@ namespace ClientFS2.ViewModels
 			SetParametersCommand = new RelayCommand(OnSetParameters, CanSetParameters);
 			GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
 			DevicesViewModel = new DevicesViewModel();
+            new PropertiesViewModel(DevicesViewModel);
 		}
 
 		private string _textBoxRequest;
@@ -101,7 +102,6 @@ namespace ClientFS2.ViewModels
 				case DriverType.Rubezh_4A:
 				case DriverType.Rubezh_2OP:
 					return true;
-					break;
 			}
 			return false;
 		}
@@ -179,9 +179,9 @@ namespace ClientFS2.ViewModels
 		public RelayCommand GetParametersCommand { get; private set; }
 		private void OnGetParameters()
 		{
-            var properties = new List<Property>();
-            _progressService.Run(() =>{properties = ServerHelper.GetDeviceParameters(DevicesViewModel.SelectedDevice.Device);}, 
-            () => DialogService.ShowModalWindow(new PropertiesViewModel(properties)), "Получение параметров устройства");
+            //var properties = new List<Property>();
+            //_progressService.Run(() =>{properties = ServerHelper.GetDeviceParameters(DevicesViewModel.SelectedDevice.Device);}, 
+            //() => DialogService.ShowModalWindow(new PropertiesViewModel(DevicesViewModel)), "Получение параметров устройства");
 		}
 		bool CanGetParameters()
 		{

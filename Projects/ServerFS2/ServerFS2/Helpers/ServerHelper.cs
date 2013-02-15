@@ -282,9 +282,8 @@ namespace ServerFS2
 		{
 			return SendCode(bytes).Result.FirstOrDefault().Data;
 		}
-        public static List<Property> GetDeviceParameters(Device device)
+        public static void GetDeviceParameters(Device device)
         {
-            var values = new List<Property>();
             var bytesList = new List<List<byte>>();
             var properties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
             var properties1 = properties;
@@ -314,7 +313,7 @@ namespace ServerFS2
                 bytes.Add(Convert.ToByte(device.IntAddress/256 - 1));
                 bytesList.Add(bytes);
             }
-            var results = SendCode(bytesList, 1000000);
+            var results = SendCode(bytesList, 3000, 300);
             foreach (var result in results.Result)
             {
                 properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
@@ -323,11 +322,8 @@ namespace ServerFS2
                     var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
                     var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == value.Name);
                     deviceProperty.Value = value.Value;
-                    value.Name = property.Caption;
-                    values.Add(value);
                 }
             }
-            return values;
         }
         public static List<Property> SetDeviceParameters(Device device)
         {

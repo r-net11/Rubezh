@@ -1,81 +1,67 @@
-﻿using System.Linq;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 
 namespace ClientFS2.ViewModels
 {
-	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
-	{
-		public Device Device { get; private set; }
-		public DeviceViewModel(Device device)
-		{
-			Device = device;
-		}
-        public int UsbChannel 
-        { 
-            get
+    public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+    {
+        public DeviceViewModel(Device device, bool intitialize = true)
+        {
+            Device = device;
+            if (!intitialize)
+                return;
+            PropertiesViewModel = new PropertiesViewModel(device);
+            device.AUParametersChanged += device_AUParametersChanged;
+        }
+        public Device Device { get; private set; }
+        public PropertiesViewModel PropertiesViewModel { get; private set; }
+        public string Address
+        {
+            get { return Device.PresentationAddress; }
+            set
             {
-                var parentChannel = Device.ParentChannel; 
-                return parentChannel != null ? parentChannel.IntAddress : 0;
+                Device.SetAddress(value);
+                if (Driver.IsChildAddressReservedRange)
+                {
+                    foreach (DeviceViewModel deviceViewModel in Children)
+                    {
+                        deviceViewModel.OnPropertyChanged("Address");
+                    }
+                }
+                OnPropertyChanged("Address");
             }
         }
-        public string SerialNo
-		{
-			get
-			{
-				var property = Device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-				return property != null ? property.Value : null;
-			}
-		}
-        public string Version
-		{
-			get
-			{
-				var property = Device.Properties.FirstOrDefault(x => x.Name == "Version");
-				return property != null ? property.Value : null;
-			}
-		}
-		public string Address
-		{
-			get { return Device.PresentationAddress; }
-			set
-			{
-				Device.SetAddress(value);
-				if (Driver.IsChildAddressReservedRange)
-				{
-					foreach (var deviceViewModel in Children)
-					{
-						deviceViewModel.OnPropertyChanged("Address");
-					}
-				}
-				OnPropertyChanged("Address");
-			}
-		}
-		public bool IsUsed
-		{
-			get { return !Device.IsNotUsed; }
-			set
-			{
-				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
-				OnPropertyChanged("IsUsed");
-				OnPropertyChanged("ShowOnPlan");
-				OnPropertyChanged("PresentationZone");
-				OnPropertyChanged("EditingPresentationZone");
-			}
-		}
-		public Driver Driver
-		{
-			get { return Device.Driver; }
-			set
-			{
-			    if (Device.Driver.DriverType == value.DriverType) return;
-			    FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
-			    OnPropertyChanged("Device");
-			    OnPropertyChanged("Driver");
-			}
-		}
-		public int ShleifNo { get { return Device.IntAddress/256; } }
-        public int AddressOnShleif { get { return Device.IntAddress % 256; } }
-	}
+        public string ConnectedTo
+        {
+            get { return Device.ConnectedTo; }
+        }
+        public Driver Driver
+        {
+            get { return Device.Driver; }
+            set
+            {
+                if (Device.Driver.DriverType != value.DriverType)
+                {
+                    FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
+                    OnPropertyChanged("Device");
+                    OnPropertyChanged("Driver");
+                    PropertiesViewModel = new PropertiesViewModel(Device);
+                    OnPropertyChanged("PropertiesViewModel");
+                }
+            }
+        }
+
+        void device_AUParametersChanged()
+        {
+            UpdataConfigurationProperties();
+            PropertiesViewModel.IsAuParametersReady = true;
+        }
+
+        public void UpdataConfigurationProperties()
+        {
+            PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+            OnPropertyChanged("PropertiesViewModel");
+        }
+    }
 }

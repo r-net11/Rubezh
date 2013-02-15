@@ -60,16 +60,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ProgressService.cs" />
+    <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="ViewModels\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
-    <Compile Include="ViewModels\PropertiesViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParametersView.xaml.cs">
+      <DependentUpon>ParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>
@@ -98,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,6 +178,7 @@
       <Name>ServerFS22</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -14,7 +14,7 @@ namespace ServerFS2
 		UsbEndpointReader _reader;
 		UsbEndpointWriter _writer;
         private bool _stop = true;
-        readonly List<Request> _requests = new List<Request>();
+        List<Request> _requests = new List<Request>();
         List<byte> _result = new List<byte>();
         private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent _autoWaitEvent = new AutoResetEvent(false);
@@ -88,6 +88,7 @@ namespace ServerFS2
 											   Data = _result
 										   };
 						_responses.Add(response);
+					    _requests.RemoveAll(x => x.Id == responseId);
 						_autoResetEvent.Set();
 						break;
 					}
@@ -191,6 +192,7 @@ namespace ServerFS2
         public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout)
         {
             _responses = new List<Response>();
+            _requests = new List<Request>();
             foreach (var dataOne in dataList)
             {
                 var data = dataOne;
@@ -208,22 +210,21 @@ namespace ServerFS2
                 _autoResetEvent.WaitOne(delay);
             }
 
-            var responses = new List<Response>();
-            for (int i = 0; i < 10; i++)
+            if (_requests.Count != 0) // Если у нас ещё остались не отвеченные запросы
             {
-                if (_responses.Count != 0)
+                var requests = new List<Request>(_requests);
+                foreach (var request in requests)
                 {
-                    responses = new List<Response>(_responses);
-                    _requests.RemoveAll(x => responses.FirstOrDefault(z => z.Id == x.Id) != null);
-                    _responses.Clear();
-                    break;
+                    for (int i = 0; i < 15; i++)
+                    {
+                        Send(request.Data);
+                        _autoWaitEvent.WaitOne(timeout);
+                        if (_requests.Count == 0)
+                            break;
+                    }
                 }
-                _autoWaitEvent.WaitOne(timeout);
-                if (_requests.Count == 0)
-                    break;
-                Send(_requests.FirstOrDefault().Data);
             }
-            return new OperationResult<List<Response>> { Result = responses };
+            return new OperationResult<List<Response>> { Result = _responses };
         }
 	}
 	public class Request
