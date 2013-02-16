@@ -19,7 +19,7 @@ namespace Firesec
 			var innerPlansConfiguration = new surfaces();
 
 			var innerPlans = new List<surfacesSurface>();
-			foreach (var plan in plansConfiguration.Plans)
+			foreach (var plan in plansConfiguration.Plans.OfType<Plan>())
 			{
 				surfacesSurface innerPlan = new surfacesSurface()
 				{

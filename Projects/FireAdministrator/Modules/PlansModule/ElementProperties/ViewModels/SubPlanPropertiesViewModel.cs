@@ -28,17 +28,18 @@ namespace PlansModule.ViewModels
 				Plans[i].ExpandChildren();
 			}
 		}
-		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		private void AddPlan(PlanFolder planFolder, PlanViewModel parentPlanViewModel)
 		{
-			var planViewModel = new PlanViewModel(plan);
+			var planViewModel = new PlanViewModel(planFolder);
 			if (parentPlanViewModel == null)
 				Plans.Add(planViewModel);
 			else
 				parentPlanViewModel.Children.Add(planViewModel);
-			if (plan.UID == _elementSubPlan.PlanUID)
+			var plan = planFolder as Plan;
+			if (plan != null && plan.UID == _elementSubPlan.PlanUID)
 				SelectedPlan = planViewModel;
 
-			foreach (var childPlan in plan.Children)
+			foreach (var childPlan in planFolder.Children)
 				AddPlan(childPlan, planViewModel);
 		}
 
@@ -55,6 +56,10 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		protected override bool CanSave()
+		{
+			return base.CanSave() && (SelectedPlan == null || SelectedPlan.Plan != null);
+		}
 		protected override bool Save()
 		{
 			if (SelectedPlan != null)

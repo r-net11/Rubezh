@@ -9,9 +9,10 @@ namespace FiresecAPI.Models
 		public PlanFolder()
 		{
 			Caption = "Папка";
-			Plans = new List<Plan>();
-			Folders = new List<PlanFolder>();
+			Children = new List<PlanFolder>();
 		}
+
+		public PlanFolder Parent { get; set; }
 
 		[DataMember]
 		public string Caption { get; set; }
@@ -19,8 +20,6 @@ namespace FiresecAPI.Models
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<Plan> Plans { get; set; }
-		[DataMember]
-		public List<PlanFolder> Folders { get; set; }
+		public List<PlanFolder> Children { get; set; }
 	}
 }

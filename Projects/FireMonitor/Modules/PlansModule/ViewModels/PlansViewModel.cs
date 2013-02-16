@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
-using System.Windows.Threading;
-using Common;
 using Infrustructure.Plans.Painters;
-using Infrastructure.Client.Plans;
 
 namespace PlansModule.ViewModels
 {
@@ -91,13 +91,14 @@ namespace PlansModule.ViewModels
 		private void OnFindElementEvent(Guid deviceUID)
 		{
 			foreach (var plan in PlanTreeViewModel.AllPlans)
-				foreach (var elementDevice in plan.Plan.ElementUnion)
-					if (elementDevice.UID == deviceUID)
-					{
-						PlanTreeViewModel.SelectedPlan = plan;
-						OnShowElement(deviceUID);
-						return;
-					}
+				if (plan.Plan != null)
+					foreach (var elementDevice in plan.Plan.ElementUnion)
+						if (elementDevice.UID == deviceUID)
+						{
+							PlanTreeViewModel.SelectedPlan = plan;
+							OnShowElement(deviceUID);
+							return;
+						}
 		}
 		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{

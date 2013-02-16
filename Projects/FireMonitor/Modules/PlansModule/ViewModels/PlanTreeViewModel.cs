@@ -24,24 +24,23 @@ namespace PlansModule.ViewModels
 		{
 			AllPlans = new List<PlanViewModel>();
 			Plans = new ObservableCollection<PlanViewModel>();
-			AddPlans(null, FiresecManager.PlansConfiguration.Plans);
+			foreach (var planFolder in FiresecManager.PlansConfiguration.Plans)
+				AddPlan(planFolder, null);
+
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
 		}
-
-		private void AddPlans(PlanViewModel parent, List<Plan> plans)
+		private void AddPlan(PlanFolder planFolder, PlanViewModel parentPlanViewModel)
 		{
-			if (plans != null)
-				foreach (var plan in plans)
-				{
-					var planViewModel = new PlanViewModel(_plansViewModel, plan);
-					AllPlans.Add(planViewModel);
-					planViewModel.IsExpanded = true;
-					if (parent != null)
-						parent.Children.Add(planViewModel);
-					else
-						Plans.Add(planViewModel);
-					AddPlans(planViewModel, plan.Children);
-				}
+			var planViewModel = new PlanViewModel(_plansViewModel, planFolder);
+			planViewModel.IsExpanded = true;
+			AllPlans.Add(planViewModel);
+			if (parentPlanViewModel == null)
+				Plans.Add(planViewModel);
+			else
+				parentPlanViewModel.Children.Add(planViewModel);
+
+			foreach (var childPlan in planFolder.Children)
+				AddPlan(childPlan, planViewModel);
 		}
 
 		PlanViewModel _selectedPlan;
@@ -73,7 +72,7 @@ namespace PlansModule.ViewModels
 
 		public PlanViewModel FindPlan(Guid planUID)
 		{
-			return AllPlans.FirstOrDefault(item => item.Plan.UID == planUID);
+			return AllPlans.FirstOrDefault(item => item.Plan != null && item.Plan.UID == planUID);
 		}
 		public void AddPlanPresenter(IPlanPresenter<Plan> planPresenter)
 		{

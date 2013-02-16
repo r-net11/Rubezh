@@ -7,13 +7,11 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Plan : IElementBackground
+	public class Plan : PlanFolder, IElementBackground
 	{
 		public Plan()
 		{
 			UID = Guid.NewGuid();
-			Children = new List<Plan>();
-			Folders = new List<PlanFolder>();
 			ElementSubPlans = new List<ElementSubPlan>();
 			Caption = "Новый план";
 			Width = 400;
@@ -39,14 +37,8 @@ namespace FiresecAPI.Models
 			ElementPolygonXZones = new List<ElementPolygonXZone>();
 		}
 
-		public Plan Parent { get; set; }
-
 		[DataMember]
 		public Guid UID { get; set; }
-		[DataMember]
-		public string Caption { get; set; }
-		[DataMember]
-		public string Description { get; set; }
 		[DataMember]
 		public double Width { get; set; }
 		[DataMember]
@@ -61,11 +53,7 @@ namespace FiresecAPI.Models
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
 		public bool IsVectorImage { get; set; }
-		[DataMember]
-		public List<Plan> Children { get; set; }
-		[DataMember]
-		public List<PlanFolder> Folders { get; set; }
-
+	
 		[DataMember]
 		public List<ElementRectangle> ElementRectangles { get; set; }
 		[DataMember]

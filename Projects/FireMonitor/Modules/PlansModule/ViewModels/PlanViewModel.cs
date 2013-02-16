@@ -11,11 +11,14 @@ namespace PlansModule.ViewModels
 	{
 		private PlansViewModel _plansViewModel;
 		public Plan Plan { get; private set; }
+		public PlanFolder PlanFolder { get; private set; }
 
-		public PlanViewModel(PlansViewModel plansViewModel, Plan plan)
+		public PlanViewModel(PlansViewModel plansViewModel, PlanFolder planFolder)
 		{
+			_selfState = StateType.No;
 			_plansViewModel = plansViewModel;
-			Plan = plan;
+			PlanFolder = planFolder;
+			Plan = planFolder as Plan;
 		}
 
 		private StateType _stateType;
@@ -25,7 +28,8 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_stateType = value;
-				ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(Plan.UID);
+				if (Plan != null)
+					ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(Plan.UID);
 				OnPropertyChanged("StateType");
 			}
 		}
@@ -56,18 +60,20 @@ namespace PlansModule.ViewModels
 
 		public void RegisterPresenter(IPlanPresenter<Plan> planPresenter)
 		{
-			planPresenter.SubscribeStateChanged(Plan, StateChanged);
+			if (Plan != null)
+				planPresenter.SubscribeStateChanged(Plan, StateChanged);
 			StateChanged();
 		}
 		private void StateChanged()
 		{
 			var state = StateType.No;
-			foreach (var planPresenter in _plansViewModel.PlanPresenters)
-			{
-				var presenterState = (StateType)planPresenter.GetState(Plan);
-				if (presenterState < state)
-					state = presenterState;
-			}
+			if (Plan != null)
+				foreach (var planPresenter in _plansViewModel.PlanPresenters)
+				{
+					var presenterState = (StateType)planPresenter.GetState(Plan);
+					if (presenterState < state)
+						state = presenterState;
+				}
 			SelfState = state;
 		}
 	}

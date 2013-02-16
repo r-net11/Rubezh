@@ -154,6 +154,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SafeContext.cs" />
+    <Compile Include="SortableObservableCollection.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
     <Compile Include="WCF\BindingHelper.cs" />

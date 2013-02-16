@@ -73,15 +73,13 @@ namespace JournalModule.ViewModels
 
 		bool ExistsOnPlan()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-			{
+			foreach (var plan in FiresecManager.PlansConfiguration.Plans.OfType<Plan>())
 				if (plan != null && plan.ElementDevices.IsNotNullOrEmpty())
 				{
 					var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.DeviceUID == _device.UID);
 					if (elementDevice != null)
 						return true;
 				}
-			}
 			return false;
 		}
 

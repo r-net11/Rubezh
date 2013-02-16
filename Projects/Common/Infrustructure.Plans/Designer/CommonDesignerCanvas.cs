@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Common;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Microsoft.Practices.Prism.Events;
-using Common;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -28,6 +28,8 @@ namespace Infrustructure.Plans.Designer
 
 			DesignerSurface = new DesignerSurface(this);
 			Child = DesignerSurface;
+			Width = 100;
+			Height = 100;
 		}
 
 		public abstract void BeginChange(IEnumerable<DesignerItem> designerItems);

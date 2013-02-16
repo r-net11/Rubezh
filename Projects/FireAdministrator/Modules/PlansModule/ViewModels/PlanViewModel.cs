@@ -8,13 +8,10 @@ namespace PlansModule.ViewModels
 		public Plan Plan { get; private set; }
 		public PlanFolder PlanFolder { get; private set; }
 
-		public PlanViewModel(Plan plan)
-		{
-			Plan = plan;
-		}
 		public PlanViewModel(PlanFolder planFolder)
 		{
 			PlanFolder = planFolder;
+			Plan = planFolder as Plan;
 		}
 
 		public void Update()
