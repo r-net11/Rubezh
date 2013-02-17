@@ -14,6 +14,7 @@ namespace Infrustructure.Plans.Designer
 		private List<CommonDesignerItem> _visuals;
 		private IVisualItem _visualItemOver;
 		private bool _isDragging;
+		private bool _isZIndexValid;
 		private Point _previousPosition;
 		private CommonDesignerCanvas _designerCanvas;
 		public Brush BackgroundBrush { get; set; }
@@ -23,6 +24,7 @@ namespace Infrustructure.Plans.Designer
 			_designerCanvas = designerCanvas;
 			_isDragging = false;
 			_visuals = new List<CommonDesignerItem>();
+			_isZIndexValid = true;
 			ToolTipService.SetIsEnabled(this, false);
 			IsVisibleChanged += (s, e) => Update(IsVisible);
 		}
@@ -42,6 +44,7 @@ namespace Infrustructure.Plans.Designer
 		internal void AddDesignerItem(CommonDesignerItem visual)
 		{
 			_visuals.Add(visual);
+			_isZIndexValid = false;
 		}
 		internal void DeleteDesignerItem(CommonDesignerItem visual)
 		{
@@ -58,6 +61,7 @@ namespace Infrustructure.Plans.Designer
 		internal void UpdateZIndex()
 		{
 			_visuals.Sort((item1, item2) => item1.Element.ZLayer == item2.Element.ZLayer ? item1.Element.ZIndex - item2.Element.ZIndex : item1.Element.ZLayer - item2.Element.ZLayer);
+			_isZIndexValid = true;
 			InvalidateVisual();
 		}
 		internal void Update(bool isActive)
@@ -170,6 +174,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			using (new TimeCounter("=Surface.Render: {0}"))
 			{
+				if (!_isZIndexValid)
+					UpdateZIndex();
 				//base.OnRender(dc);
 				_designerCanvas.RenderBackground(dc);
 				dc.DrawRectangle(BackgroundBrush, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));

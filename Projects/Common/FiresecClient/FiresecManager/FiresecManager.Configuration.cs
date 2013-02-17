@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
 using Infrastructure.Common.Services;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecClient
 {
@@ -99,6 +100,10 @@ namespace FiresecClient
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
 				XManager.DeviceConfiguration.Devices.ForEach(xdevice => xdeviceMap.Add(xdevice.UID, xdevice));
+				var zoneMap = new Dictionary<Guid, Zone>();
+				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
+				var xzoneMap = new Dictionary<Guid, XZone>();
+				XManager.DeviceConfiguration.Zones.ForEach(xzone => xzoneMap.Add(xzone.UID, xzone));
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				{
 					for (int i = plan.ElementDevices.Count(); i > 0; i--)
@@ -113,6 +118,18 @@ namespace FiresecClient
 						if (xdeviceMap.ContainsKey(elementXDevice.XDeviceUID))
 							xdeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
 					}
+					foreach (var zone in plan.ElementPolygonZones)
+						if (zone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(zone.ZoneUID))
+							UpdateZoneType(zone, zoneMap[zone.ZoneUID]);
+					foreach (var zone in plan.ElementRectangleZones)
+						if (zone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(zone.ZoneUID))
+							UpdateZoneType(zone, zoneMap[zone.ZoneUID]);
+					foreach (var xzone in plan.ElementPolygonXZones)
+						if (xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID))
+							UpdateZoneType(xzone, xzoneMap[xzone.ZoneUID]);
+					foreach (var xzone in plan.ElementRectangleXZones)
+						if (xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID))
+							UpdateZoneType(xzone, xzoneMap[xzone.ZoneUID]);
 				}
 			}
 			catch (Exception e)
@@ -203,6 +220,28 @@ namespace FiresecClient
 				}
 				return FiresecConfiguration.DeviceConfiguration.GuardUsers;
 			}
+		}
+
+
+		static void UpdateZoneType(IElementZone elementZone, Zone zone)
+		{
+			elementZone.BackgroundColor = System.Windows.Media.Colors.Gray;
+			if (zone != null)
+				switch (zone.ZoneType)
+				{
+					case ZoneType.Fire:
+						elementZone.BackgroundColor = System.Windows.Media.Colors.Green;
+						break;
+					case ZoneType.Guard:
+						elementZone.BackgroundColor = System.Windows.Media.Colors.Brown;
+						break;
+				}
+		}
+		static void UpdateZoneType(IElementZone elementZone, XZone zone)
+		{
+			elementZone.BackgroundColor = System.Windows.Media.Colors.Gray;
+			if (zone != null)
+				elementZone.BackgroundColor = System.Windows.Media.Colors.Purple;
 		}
 	}
 }

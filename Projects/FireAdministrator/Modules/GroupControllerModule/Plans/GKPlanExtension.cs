@@ -177,7 +177,12 @@ namespace GKModule.Plans
 
 		private void UpdateDesignerItemXDevice(CommonDesignerItem designerItem)
 		{
+			ElementXDevice elementDevice = designerItem.Element as ElementXDevice;
+			XDevice device = Designer.Helper.GetXDevice(elementDevice);
+			Designer.Helper.SetXDevice(elementDevice, device);
 			designerItem.Title = Helper.GetXDeviceTitle((ElementXDevice)designerItem.Element);
+			designerItem.Painter.Invalidate();
+			_designerCanvas.Refresh();
 		}
 		private void UpdateDesignerItemXZone(CommonDesignerItem designerItem)
 		{
@@ -186,6 +191,8 @@ namespace GKModule.Plans
 			XZone zone = Designer.Helper.GetXZone(elementZone);
 			elementZone.BackgroundColor = Designer.Helper.GetXZoneColor(zone);
 			elementZone.SetZLayer(zone == null ? 5 : 6);
+			designerItem.Painter.Invalidate();
+			_designerCanvas.Refresh();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

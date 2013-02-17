@@ -11,8 +11,8 @@
 				<GridViewColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-							<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Visibility="{Binding Plan, Converter={StaticResource NullToVisibilityConverter}}" />
-							<TextBlock Margin="2, 0, 0, 0" VerticalAlignment="Center" Background="{Binding StateType, Converter={StaticResource StateTypeToPlanColorConverter}}" Text="{Binding PlanFolder.Caption}" ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+							<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+							<TextBlock Margin="2, 0, 0, 0" VerticalAlignment="Center" Background="{Binding StateType, Converter={StaticResource StateTypeToPlanColorConverter}}" Text="{Binding Plan.Caption}" ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
 						</StackPanel>
 					</DataTemplate>
 				</GridViewColumn.CellTemplate>

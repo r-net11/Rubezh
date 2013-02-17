@@ -71,8 +71,9 @@ namespace GKModule.Plans.Designer
 		public static void SetXDevice(ElementXDevice element, XDevice device)
 		{
 			ResetXDevice(element);
-			element.XDeviceUID = device.UID;
-			device.PlanElementUIDs.Add(element.UID);
+			element.XDeviceUID = device == null ? Guid.Empty : device.UID;
+			if (device != null)
+				device.PlanElementUIDs.Add(element.UID);
 		}
 		public static void ResetXDevice(ElementXDevice element)
 		{

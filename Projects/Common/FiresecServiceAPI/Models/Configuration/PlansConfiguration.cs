@@ -6,15 +6,16 @@ namespace FiresecAPI.Models
 {
 	[DataContract]
 	[KnownType(typeof(Plan))]
+	[KnownType(typeof(PlanFolder))]
 	public class PlansConfiguration : VersionedConfiguration
 	{
 		public PlansConfiguration()
 		{
-			Plans = new List<PlanFolder>();
+			Plans = new List<Plan>();
 		}
 
 		[DataMember]
-		public List<PlanFolder> Plans { get; set; }
+		public List<Plan> Plans { get; set; }
 
 		public List<Plan> AllPlans { get; set; }
 
@@ -29,7 +30,7 @@ namespace FiresecAPI.Models
 					AllPlans.Add(realPlan);
 			}
 		}
-		private void AddChildren(List<PlanFolder> plans, PlanFolder parent)
+		private void AddChildren(List<Plan> plans, Plan parent)
 		{
 			foreach (var plan in plans)
 			{
@@ -47,7 +48,7 @@ namespace FiresecAPI.Models
 			result &= ValidateVersion(Plans);
 			return result;
 		}
-		private bool ValidateVersion(List<PlanFolder> folders)
+		private bool ValidateVersion(List<Plan> folders)
 		{
 			bool result = true;
 			foreach (var plan in folders.OfType<Plan>())

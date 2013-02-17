@@ -24,14 +24,14 @@ namespace PlansModule.ViewModels
 		{
 			AllPlans = new List<PlanViewModel>();
 			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var planFolder in FiresecManager.PlansConfiguration.Plans)
-				AddPlan(planFolder, null);
+			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+				AddPlan(plan, null);
 
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
 		}
-		private void AddPlan(PlanFolder planFolder, PlanViewModel parentPlanViewModel)
+		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
-			var planViewModel = new PlanViewModel(_plansViewModel, planFolder);
+			var planViewModel = new PlanViewModel(_plansViewModel, plan);
 			planViewModel.IsExpanded = true;
 			AllPlans.Add(planViewModel);
 			if (parentPlanViewModel == null)
@@ -39,7 +39,7 @@ namespace PlansModule.ViewModels
 			else
 				parentPlanViewModel.Children.Add(planViewModel);
 
-			foreach (var childPlan in planFolder.Children)
+			foreach (var childPlan in plan.Children)
 				AddPlan(childPlan, planViewModel);
 		}
 

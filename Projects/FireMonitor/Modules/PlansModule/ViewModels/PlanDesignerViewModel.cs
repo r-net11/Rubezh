@@ -45,7 +45,7 @@ namespace PlansModule.ViewModels
 			using (new TimeCounter("\tPlanDesignerViewModel.SelectPlan: {0}", true, true))
 			{
 				PlanViewModel = planViewModel;
-				Plan = PlanViewModel == null ? null : planViewModel.Plan;
+				Plan = PlanViewModel == null || PlanViewModel.PlanFolder != null ? null : planViewModel.Plan;
 				OnPropertyChanged("Plan");
 				using (new WaitWrapper())
 					if (Plan != null)

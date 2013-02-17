@@ -188,16 +188,14 @@ namespace DevicesModule.Plans
 		{
 			ElementDevice elementDevice = designerItem.Element as ElementDevice;
 			Device device = Designer.Helper.GetDevice(elementDevice);
-			if (device == null)
-				Designer.Helper.SetDevice(elementDevice, device);
+			Designer.Helper.SetDevice(elementDevice, device);
 			designerItem.Title = Designer.Helper.GetDeviceTitle((ElementDevice)designerItem.Element);
 		}
 		private void UpdateDesignerItemZone(CommonDesignerItem designerItem)
 		{
 			IElementZone elementZone = designerItem.Element as IElementZone;
 			Zone zone = Designer.Helper.GetZone(elementZone);
-			if (zone == null)
-				Designer.Helper.SetZone(elementZone, zone);
+			Designer.Helper.SetZone(elementZone, zone);
 			designerItem.Title = Designer.Helper.GetZoneTitle(zone);
 			elementZone.BackgroundColor = Designer.Helper.GetZoneColor(zone);
 			if (zone == null)
@@ -225,7 +223,9 @@ namespace DevicesModule.Plans
 			if (zone != null)
 				zone.ColorTypeChanged += () =>
 				{
+					Helper.BuildZoneMap();
 					UpdateDesignerItemZone(designerItem);
+					designerItem.Painter.Invalidate();
 					_designerCanvas.Refresh();
 				};
 		}
@@ -241,7 +241,9 @@ namespace DevicesModule.Plans
 			if (device != null)
 				device.Changed += () =>
 				{
+					Helper.BuildDeviceMap();
 					UpdateDesignerItemDevice(designerItem);
+					designerItem.Painter.Invalidate();
 					_designerCanvas.Refresh();
 				};
 		}

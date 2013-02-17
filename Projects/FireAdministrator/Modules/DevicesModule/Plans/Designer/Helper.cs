@@ -15,6 +15,10 @@ namespace DevicesModule.Plans.Designer
 		public static void BuildMap()
 		{
 			BuildZoneMap();
+			BuildDeviceMap();
+		}
+		public static void BuildDeviceMap()
+		{
 			_deviceMap = new Dictionary<Guid, Device>();
 			FiresecManager.Devices.ForEach(item => _deviceMap.Add(item.UID, item));
 		}
@@ -46,13 +50,15 @@ namespace DevicesModule.Plans.Designer
 		{
 			Color color = Colors.Gray;
 			if (zone != null)
-			{
-				if (zone.ZoneType == ZoneType.Fire)
-					color = Colors.Green;
-
-				if (zone.ZoneType == ZoneType.Guard)
-					color = Colors.Brown;
-			}
+				switch (zone.ZoneType)
+				{
+					case ZoneType.Fire:
+						color = Colors.Green;
+						break;
+					case ZoneType.Guard:
+						color = Colors.Brown;
+						break;
+				}
 			return color;
 		}
 

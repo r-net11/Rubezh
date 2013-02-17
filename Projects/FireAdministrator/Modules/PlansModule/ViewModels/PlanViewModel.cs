@@ -8,10 +8,10 @@ namespace PlansModule.ViewModels
 		public Plan Plan { get; private set; }
 		public PlanFolder PlanFolder { get; private set; }
 
-		public PlanViewModel(PlanFolder planFolder)
+		public PlanViewModel(Plan plan)
 		{
-			PlanFolder = planFolder;
-			Plan = planFolder as Plan;
+			Plan = plan;
+			PlanFolder = plan as PlanFolder;
 		}
 
 		public void Update()
@@ -25,11 +25,11 @@ namespace PlansModule.ViewModels
 
 		public string Caption
 		{
-			get { return Plan == null ? PlanFolder.Caption : Plan.Caption; }
+			get { return Plan.Caption; }
 		}
 		public string Description
 		{
-			get { return Plan == null ? PlanFolder.Description : Plan.Description; }
+			get { return Plan.Description; }
 		}
 	}
 }

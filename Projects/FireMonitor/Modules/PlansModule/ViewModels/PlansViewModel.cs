@@ -91,7 +91,7 @@ namespace PlansModule.ViewModels
 		private void OnFindElementEvent(Guid deviceUID)
 		{
 			foreach (var plan in PlanTreeViewModel.AllPlans)
-				if (plan.Plan != null)
+				if (plan.PlanFolder == null)
 					foreach (var elementDevice in plan.Plan.ElementUnion)
 						if (elementDevice.UID == deviceUID)
 						{

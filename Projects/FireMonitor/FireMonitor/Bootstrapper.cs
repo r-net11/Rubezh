@@ -108,6 +108,7 @@ namespace FireMonitor
 		{
 			try
 			{
+				ServiceFactory.ContentService.Invalidate();
 				if (IsRestarting)
 					return;
 				FiresecManager.FiresecService.SuspendPoll = true;

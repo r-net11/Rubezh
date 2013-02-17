@@ -7,6 +7,7 @@ using Firesec.Models.Plans;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrustructure.Plans.Elements;
 
 namespace Firesec
 {
@@ -82,18 +83,13 @@ namespace Firesec
 								{
 									Guid zoneUID = Guid.Empty;
 
+
 									long longId = long.Parse(innerElement.id);
 									int intId = (int)longId;
 									foreach (var zone in deviceConfiguration.Zones)
-									{
 										foreach (var zoneShapeId in zone.ShapeIds)
-										{
 											if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
-											{
 												zoneUID = zone.UID;
-											}
-										}
-									}
 
 									switch (innerElement.@class)
 									{

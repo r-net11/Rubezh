@@ -28,7 +28,7 @@ namespace PlansModule.ViewModels
 				Plans[i].ExpandChildren();
 			}
 		}
-		private void AddPlan(PlanFolder planFolder, PlanViewModel parentPlanViewModel)
+		private void AddPlan(Plan planFolder, PlanViewModel parentPlanViewModel)
 		{
 			var planViewModel = new PlanViewModel(planFolder);
 			if (parentPlanViewModel == null)
@@ -58,7 +58,7 @@ namespace PlansModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return base.CanSave() && (SelectedPlan == null || SelectedPlan.Plan != null);
+			return base.CanSave() && (SelectedPlan == null || SelectedPlan.PlanFolder == null);
 		}
 		protected override bool Save()
 		{
