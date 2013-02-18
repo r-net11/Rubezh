@@ -32,9 +32,7 @@ namespace PlansModule.ViewModels
 					});
 					OnPropertyChanged("TabPages");
 				}
-				if (planExtension.Instruments != null)
-					foreach (IInstrument instrument in planExtension.Instruments)
-						DesignerCanvas.Toolbox.Instruments.Add(instrument);
+				DesignerCanvas.Toolbox.RegisterInstruments(planExtension.Instruments);
 			}
 		}
 		public void ElementAdded(ElementBase element)

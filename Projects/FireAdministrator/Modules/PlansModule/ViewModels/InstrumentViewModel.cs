@@ -36,5 +36,6 @@ namespace PlansModule.ViewModels
 		public ICommand Command { get; set; }
 		public InstrumentAdorner Adorner { get; set; }
 		public bool Autostart { get; set; }
+		public int Index { get; set; }
 	}
 }

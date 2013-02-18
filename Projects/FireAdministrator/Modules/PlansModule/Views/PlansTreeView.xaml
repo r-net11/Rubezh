@@ -1,7 +1,4 @@
-﻿<UserControl x:Class="PlansModule.Views.PlansTreeView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<Controls:TreeListView ItemsSource="{Binding PlansViewModel.Plans}" SelectedObject="{Binding PlansViewModel.SelectedPlan}">
 		<Controls:TreeListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -9,7 +6,7 @@
 			</InputBindingCollection>
 			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}">
 				<MenuItem Command="{Binding AddSubPlanCommand}" Header="Добавить дочерний план" />
-				<MenuItem Command="{Binding AddSubFolderCommand}" Header="Добавить папку" />
+				<MenuItem Command="{Binding AddSubFolderCommand}" Header="Добавить дочернюю папку" />
 				<MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
 				<MenuItem Command="{Binding RemoveCommand}" Header="Удалить" />
 			</ContextMenu>
@@ -21,6 +18,12 @@
 				<Setter Property="Focusable" Value="True" />
 			</Style>
 		</Controls:TreeListView.ItemContainerStyle>
+		<Controls:TreeListView.ContextMenu>
+			<ContextMenu>
+				<MenuItem Command="{Binding PlansViewModel.AddCommand}" Header="Добавить план" />
+				<MenuItem Command="{Binding PlansViewModel.AddFolderCommand}" Header="Добавить папку" />
+			</ContextMenu>
+		</Controls:TreeListView.ContextMenu>
 		<Controls:TreeListView.Columns>
 			<GridViewColumn Width="250" DisplayMemberBinding="{Binding Caption}" Header="Название" />
 			<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание" />

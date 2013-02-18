@@ -9,6 +9,7 @@ namespace Infrastructure.Client.Plans
 {
 	public partial class PlanDesignerView : UserControl
 	{
+		private double WheelScrollSpeed = 1;
 		Point? lastMousePositionOnTarget;
 		Point? lastCenterPositionOnTarget;
 		double initialScale = 1;
@@ -55,7 +56,7 @@ namespace Infrastructure.Client.Plans
 				return;
 			lastMousePositionOnTarget = Mouse.GetPosition(_grid);
 			if (e.Delta != 0)
-				slider.Value += e.Delta > 0 ? 0.2 : -0.2;
+				slider.Value += e.Delta > 0 ? WheelScrollSpeed : -WheelScrollSpeed;
 			e.Handled = true;
 		}
 

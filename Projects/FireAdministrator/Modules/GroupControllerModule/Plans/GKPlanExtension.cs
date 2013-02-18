@@ -69,6 +69,7 @@ namespace GKModule.Plans
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
 							ToolTip="ГК Зона",
 							Adorner = new XZoneRectangleAdorner(_designerCanvas),
+							Index = 200,
 							Autostart = true
 						},
 						new InstrumentViewModel()
@@ -76,6 +77,7 @@ namespace GKModule.Plans
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
 							ToolTip="ГК Зона",
 							Adorner = new XZonePolygonAdorner(_designerCanvas),
+							Index = 201,
 							Autostart = true
 						},
 					};

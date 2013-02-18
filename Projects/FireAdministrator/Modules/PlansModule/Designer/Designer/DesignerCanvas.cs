@@ -119,7 +119,7 @@ namespace PlansModule.Designer
 				designerItem.IsSelected = true;
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
 				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
-				Toolbox.SetDefault();
+				//Toolbox.SetDefault();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

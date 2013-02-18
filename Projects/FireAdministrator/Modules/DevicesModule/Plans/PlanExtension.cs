@@ -78,6 +78,7 @@ namespace DevicesModule.Plans
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
 							ToolTip="Зона",
 							Adorner = new ZoneRectangleAdorner(_designerCanvas),
+							Index = 100,
 							Autostart = true
 						},
 						new InstrumentViewModel()
@@ -85,6 +86,7 @@ namespace DevicesModule.Plans
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
 							ToolTip="Зона",
 							Adorner = new ZonePolygonAdorner(_designerCanvas),
+							Index = 101,
 							Autostart = true
 						},
 					};
