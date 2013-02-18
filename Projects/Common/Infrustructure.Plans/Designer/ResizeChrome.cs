@@ -16,7 +16,6 @@ namespace Infrustructure.Plans.Designer
 		private static Brush ThumbBrush { get; set; }
 		private static Pen TransparentPen { get; set; }
 		private static Pen BorderPen { get; set; }
-		private static double Thickness { get; set; }
 		private static double ResizeThumbSize { get; set; }
 		private static double ResizeMargin { get; set; }
 		private static EllipseGeometry ThumbGeometry { get; set; }
@@ -44,9 +43,9 @@ namespace Infrustructure.Plans.Designer
 				EndPoint = new Point(1, 0.3),
 
 			};
-			borderBrush.GradientStops.Add(new GradientStop(Colors.SlateGray, 0));
-			borderBrush.GradientStops.Add(new GradientStop(Colors.LightGray, 0.5));
-			borderBrush.GradientStops.Add(new GradientStop(Colors.SlateGray, 1));
+			borderBrush.GradientStops.Add(new GradientStop(Colors.SlateBlue, 0));
+			borderBrush.GradientStops.Add(new GradientStop(Colors.LightBlue, 0.5));
+			borderBrush.GradientStops.Add(new GradientStop(Colors.SlateBlue, 1));
 			borderBrush.Freeze();
 			BorderBrush = borderBrush;
 			var thumbBrush = new RadialGradientBrush()
@@ -57,19 +56,19 @@ namespace Infrustructure.Plans.Designer
 				RadiusY = 0.7,
 			};
 			thumbBrush.GradientStops.Add(new GradientStop(Colors.White, 0));
-			thumbBrush.GradientStops.Add(new GradientStop(Colors.DarkSlateGray, 0.9));
+			thumbBrush.GradientStops.Add(new GradientStop(Colors.DarkSlateBlue, 0.9));
 			thumbBrush.Freeze();
 			ThumbBrush = thumbBrush;
 			TransparentPen = new Pen(TransparentBrush, 3.5);
-			BorderPen = new Pen(BorderBrush, 1);
+			BorderPen = new Pen(BorderBrush, 2);
+			BorderPen.DashStyle = DashStyles.Dash;
 			ThumbGeometry = new EllipseGeometry();
 			UpdateZoom(1);
 		}
 		public static void UpdateZoom(double zoom)
 		{
-			Thickness = 1 / zoom;
 			TransparentPen.Thickness = 3.5 / zoom;
-			BorderPen.Thickness = 1 / zoom;
+			BorderPen.Thickness = 2 / zoom;
 			ResizeThumbSize = 3.5 / zoom;
 			ResizeMargin = 4 / zoom;
 			ThumbGeometry.RadiusX = ResizeThumbSize;
