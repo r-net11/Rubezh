@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -79,6 +81,16 @@ namespace PlansModule.ViewModels
 				ActiveInstrument.Adorner.UpdateZoom();
 		}
 
+		public void RegisterInstruments(IEnumerable<IInstrument> instruments)
+		{
+			if (instruments != null)
+			{
+				foreach (IInstrument instrument in instruments)
+					Instruments.Add(instrument);
+				SortInstruments();
+			}
+		}
+
 		private void RegisterInstruments()
 		{
 			Instruments = new ObservableCollection<IInstrument>()
@@ -88,53 +100,72 @@ namespace PlansModule.ViewModels
 					ImageSource="/Controls;component/Images/Cursor.png",
 					ToolTip="Указатель",
 					Adorner = new RubberbandAdorner(PlansViewModel.DesignerCanvas),
+					Index = 0,
 					Autostart = false
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Pen.png",
 					ToolTip="Нож",
+					Index = 1,
 					Adorner = new PointsAdorner(PlansViewModel.DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Line.png",
 					ToolTip="Линия",
+					Index = 311,
 					Adorner = new PolylineAdorner(PlansViewModel.DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Rectangle.png",
 					ToolTip="Прямоугольник",
+					Index = 312,
 					Adorner = new RectangleAdorner(PlansViewModel.DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Ellipse.png",
 					ToolTip="Эллипс",
+					Index = 313,
 					Adorner = new ElipseAdorner(PlansViewModel.DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
 					ToolTip="Многоугольник",
+					Index = 314,
 					Adorner = new PolygonAdorner(PlansViewModel.DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Font.png",
 					ToolTip="Текст",
+					Index = 305,
 					Adorner = new TextBoxAdorner(PlansViewModel.DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/SubPlanPolygon.png",
+					ImageSource="/Controls;component/Images/SubPlanRectangle.png",
 					ToolTip="Подплан",
+					Index = 300,
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),
 				},
 			};
-			_defaultInstrument = Instruments[0];
-			ActiveInstrument = Instruments[0];
+			SortInstruments();
+			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
+			ActiveInstrument = _defaultInstrument;
+		}
+		private void SortInstruments()
+		{
+			var sortedItems = Instruments.OrderBy(item => item.Index);
+			int index = 0;
+			foreach (var item in sortedItems)
+			{
+				Instruments.Move(Instruments.IndexOf(item), index);
+				index++;
+			}
 		}
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{

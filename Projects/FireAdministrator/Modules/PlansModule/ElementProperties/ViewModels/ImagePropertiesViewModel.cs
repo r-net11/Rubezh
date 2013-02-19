@@ -4,12 +4,12 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Win32;
-using Infrastructure;
 using Infrustructure.Plans.Elements;
+using Microsoft.Win32;
 using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
 
@@ -58,9 +58,12 @@ namespace PlansModule.ViewModels
 				_sourceName = openFileDialog.FileName;
 				_imageSource = null;
 				_isVectorImage = VectorGraphicExtensions.Contains(Path.GetExtension(_sourceName));
-				using (FileSvgReader reader = new FileSvgReader(_settings))
-					_drawing = reader.Read(_sourceName);
-				_drawing.Freeze();
+				if (_isVectorImage)
+				{
+					using (FileSvgReader reader = new FileSvgReader(_settings))
+						_drawing = reader.Read(_sourceName);
+					_drawing.Freeze();
+				}
 				UpdateImage();
 			}
 		}

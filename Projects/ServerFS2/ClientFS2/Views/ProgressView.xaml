@@ -11,6 +11,5 @@
             <Label Content="{Binding Description, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center"/>
         </ScrollViewer>
         <ProgressBar Grid.Row="1" Minimum="0" Maximum="{Binding MaxValue}" Value="{Binding Value}" Height="30" Margin="2" />
-        <Button Grid.Row="2" Command="{Binding StopCommand}" Width="100" Content="{Binding CancelText}" Margin="2" />
     </Grid>
 </UserControl>

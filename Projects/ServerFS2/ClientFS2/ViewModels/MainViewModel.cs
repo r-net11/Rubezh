@@ -27,8 +27,6 @@ namespace ClientFS2.ViewModels
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
-			SetParametersCommand = new RelayCommand(OnSetParameters, CanSetParameters);
-			GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
 			DevicesViewModel = new DevicesViewModel();
             new PropertiesViewModel(DevicesViewModel);
 		}
@@ -172,28 +170,6 @@ namespace ClientFS2.ViewModels
 
 		}
 		bool CanUnsetPanelRegime()
-		{
-			return false;
-		}
-
-		public RelayCommand GetParametersCommand { get; private set; }
-		private void OnGetParameters()
-		{
-            //var properties = new List<Property>();
-            //_progressService.Run(() =>{properties = ServerHelper.GetDeviceParameters(DevicesViewModel.SelectedDevice.Device);}, 
-            //() => DialogService.ShowModalWindow(new PropertiesViewModel(DevicesViewModel)), "Получение параметров устройства");
-		}
-		bool CanGetParameters()
-		{
-			return DevicesViewModel.SelectedDevice != null;
-		}
-
-		public RelayCommand SetParametersCommand { get; private set; }
-		private void OnSetParameters()
-		{
-			
-		}
-		bool CanSetParameters()
 		{
 			return false;
 		}

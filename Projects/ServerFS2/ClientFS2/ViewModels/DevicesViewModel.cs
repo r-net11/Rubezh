@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 
@@ -9,12 +7,17 @@ namespace ClientFS2.ViewModels
 {
     public class DevicesViewModel : DialogViewModel
     {
+        private DeviceViewModel _rootDevice;
+        private DeviceViewModel _selectedDevice;
+
         public DevicesViewModel()
         {
             GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
+            SetParametersCommand = new RelayCommand(OnSetParameters, CanSetParameters);
             BuildTree();
             OnPropertyChanged("RootDevices");
         }
+
         public DevicesViewModel(Device device)
         {
             BuildTree(device);
@@ -25,7 +28,7 @@ namespace ClientFS2.ViewModels
             }
             OnPropertyChanged("RootDevices");
         }
-        DeviceViewModel _selectedDevice;
+
         public DeviceViewModel SelectedDevice
         {
             get { return _selectedDevice; }
@@ -37,7 +40,7 @@ namespace ClientFS2.ViewModels
                 OnPropertyChanged("SelectedDevice");
             }
         }
-        DeviceViewModel _rootDevice;
+
         public DeviceViewModel RootDevice
         {
             get { return _rootDevice; }
@@ -47,35 +50,54 @@ namespace ClientFS2.ViewModels
                 OnPropertyChanged("RootDevice");
             }
         }
+
         public DeviceViewModel[] RootDevices
         {
-            get { return new[] { RootDevice }; }
+            get { return new[] {RootDevice}; }
         }
-        void BuildTree(Device device)
+
+        public RelayCommand GetParametersCommand { get; private set; }
+        public RelayCommand SetParametersCommand { get; private set; }
+
+        private void BuildTree(Device device)
         {
             RootDevice = AddDeviceInternal(device, null);
         }
-        void BuildTree()
+
+        private void BuildTree()
         {
             RootDevice = AddDeviceInternal(ConfigurationManager.DeviceConfiguration.RootDevice, null);
         }
-        public RelayCommand GetParametersCommand { get; private set; }
+
         private void OnGetParameters()
         {
             ServerHelper.GetDeviceParameters(SelectedDevice.Device);
             SelectedDevice.Device.OnAUParametersChanged();
         }
-        bool CanGetParameters()
+
+        private bool CanGetParameters()
         {
             return SelectedDevice != null;
         }
-        private static DeviceViewModel AddDeviceInternal(Device device, TreeItemViewModel<DeviceViewModel> parentDeviceViewModel)
+
+        private void OnSetParameters()
+        {
+            ServerHelper.SetDeviceParameters(SelectedDevice.Device);
+        }
+
+        private bool CanSetParameters()
+        {
+            return SelectedDevice != null;
+        }
+
+        private static DeviceViewModel AddDeviceInternal(Device device,
+                                                         TreeItemViewModel<DeviceViewModel> parentDeviceViewModel)
         {
             var deviceViewModel = new DeviceViewModel(device);
             if (parentDeviceViewModel != null)
                 parentDeviceViewModel.Children.Add(deviceViewModel);
 
-            foreach (var childDevice in device.Children)
+            foreach (Device childDevice in device.Children)
                 AddDeviceInternal(childDevice, deviceViewModel);
             return deviceViewModel;
         }

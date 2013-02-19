@@ -9,5 +9,6 @@ namespace Infrustructure.Plans.Designer
 		ICommand Command { get; set; }
 		InstrumentAdorner Adorner { get; set; }
 		bool Autostart { get; set; }
+		int Index { get; set; }
 	}
 }

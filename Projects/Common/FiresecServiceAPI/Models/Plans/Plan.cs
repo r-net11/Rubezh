@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
@@ -17,8 +17,8 @@ namespace FiresecAPI.Models
 			Children = new List<Plan>();
 			ElementSubPlans = new List<ElementSubPlan>();
 			Caption = "Новый план";
-			Width = 400;
-			Height = 400;
+			Width = 297;
+			Height = 210;
 			BackgroundColor = Colors.White;
 			IsVectorImage = false;
 			ClearElements();
