@@ -1,7 +1,7 @@
-﻿using ClientFS2;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using ServerFS2;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -22,6 +22,7 @@ namespace MonitorClientFS2.ViewModels
 		}
 
 		DeviceViewModel _selectedDevice;
+
 		public DeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
@@ -33,7 +34,9 @@ namespace MonitorClientFS2.ViewModels
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
+
 		DeviceViewModel _rootDevice;
+
 		public DeviceViewModel RootDevice
 		{
 			get { return _rootDevice; }
@@ -43,14 +46,17 @@ namespace MonitorClientFS2.ViewModels
 				OnPropertyChanged("RootDevice");
 			}
 		}
+
 		public DeviceViewModel[] RootDevices
 		{
 			get { return new[] { RootDevice }; }
 		}
-		void BuildTree()
+
+		private void BuildTree()
 		{
 			RootDevice = AddDeviceInternal(ConfigurationManager.DeviceConfiguration.RootDevice, null);
 		}
+
 		private static DeviceViewModel AddDeviceInternal(Device device, TreeItemViewModel<DeviceViewModel> parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
@@ -63,21 +69,23 @@ namespace MonitorClientFS2.ViewModels
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
-		void OnSetIgnore()
-		{
 
+		private void OnSetIgnore()
+		{
 		}
-		bool CanSetIgnore()
+
+		private bool CanSetIgnore()
 		{
 			return SelectedDevice != null;
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
-		void OnResetIgnore()
-		{
 
+		private void OnResetIgnore()
+		{
 		}
-		bool CanResetIgnore()
+
+		private bool CanResetIgnore()
 		{
 			return SelectedDevice != null;
 		}

@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         xmlns:Views="clr-namespace:MonitorClientFS2.Views"
-        Title="Оперативная Задача Firesec-2"
-        Height="600" Width="600"
-        Closing="Window_Closing">
+        Title="Оперативная Задача Firesec-2" Height="600" Width="600" Closing="Window_Closing">
     <Grid>
         <TabControl>
             <TabItem Header="Журнал">
@@ -16,9 +14,19 @@
                     <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" Height="300" MinRowHeight="20">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="No" Binding="{Binding No}" />
-                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                            <DataGridTextColumn Header="EventName" Binding="{Binding EventName}" />
+                            <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
+                            <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
+                            <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                            <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
+                            <DataGridTextColumn Header="DeviceUID" Binding="{Binding DeviceUID}" />
+                            <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
+                            <DataGridTextColumn Header="PanelUID" Binding="{Binding PanelUID}" />
+                            <DataGridTextColumn Header="SubsystemType" Binding="{Binding SubsystemType}" />
+                            <DataGridTextColumn Header="StateType" Binding="{Binding StateType}" />
+                            <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
+                            <DataGridTextColumn Header="DeviceCategory" Binding="{Binding DeviceCategory}" />
+                            <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

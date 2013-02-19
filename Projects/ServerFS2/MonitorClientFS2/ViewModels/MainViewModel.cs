@@ -23,20 +23,20 @@ namespace MonitorClientFS2
 			TestCommand = new RelayCommand(OnTest);
 
 			DevicesViewModel = new DevicesViewModel();
-			JournalItems = new ObservableCollection<JournalItem>();
+			JournalItems = new ObservableCollection<FSJournalItem>();
 
 			devicesLastRecord = new Dictionary<Device, int>();
+			Guid guid = new Guid();
+			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(guid));
+
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == DriverType.Rubezh_2AM)
+				if (device.Driver.IsPanel)
 				{
 					try
 					{
 						devicesLastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
-						foreach (var journalItem in JournalHelper.GetJournalItems(device, JournalHelper.GetLastJournalItemId(device), JournalHelper.GetLastJournalItemId(device) - 1))
-						{
-							JournalItems.Add(journalItem);
-						}
+						DBJournalHelper.SetLastId(guid, JournalHelper.GetLastJournalItemId(device));
 					}
 					catch { }
 				}
@@ -68,7 +68,7 @@ namespace MonitorClientFS2
 						autoResetEvent.WaitOne(1000);
 						foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 						{
-							if (device.Driver.DriverType == DriverType.Rubezh_2AM)
+							if (device.Driver.IsPanel)
 							{
 								devicesLastRecord.TryGetValue(device, out lastDisplayedRecord);
 								lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
@@ -77,24 +77,27 @@ namespace MonitorClientFS2
 									Trace.WriteLine("Дочитываю записи с " +
 										lastDisplayedRecord.ToString() +
 										" до " +
-										JournalHelper.GetLastJournalItemId(device).ToString());
+										lastDeviceRecord.ToString());
 									var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
-
+									int i = lastDisplayedRecord + 1;
 									foreach (var journalItem in newItems)
+									{
+										journalItem.No = i;
 										Dispatcher.Invoke(new Action(() =>
 										{
 											JournalItems.Add(journalItem);
 										}));
-
+										DBJournalHelper.AddJournalItem(journalItem);
+									}
 									devicesLastRecord.Remove(device);
 									devicesLastRecord.Add(device, lastDeviceRecord);
+									DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
 								}
 								else
 								{
 									Trace.WriteLine("Новых записей нет");
 								}
 							}
-							Trace.WriteLineIf(stop, "stop=true");
 						}
 					}
 					autoResetEvent.Set();
@@ -112,9 +115,9 @@ namespace MonitorClientFS2
 			Trace.WriteLine("Останавливаю мониторинг");
 		}
 
-		private ObservableCollection<JournalItem> _journalItems;
+		private ObservableCollection<FSJournalItem> _journalItems;
 
-		public ObservableCollection<JournalItem> JournalItems
+		public ObservableCollection<FSJournalItem> JournalItems
 		{
 			get { return _journalItems; }
 			set
@@ -171,9 +174,10 @@ namespace MonitorClientFS2
 				fsJournalItems.Add(fsJournalItem);
 			}
 			DBJournalHelper.AddJournalItems(fsJournalItems);
-
-			var topfsJournalItems = DBJournalHelper.GetJournalItems(deviceUID);
-			;
+			foreach (var item in fsJournalItems)
+			{
+				JournalItems.Add(item);
+			}
 		}
 	}
 }

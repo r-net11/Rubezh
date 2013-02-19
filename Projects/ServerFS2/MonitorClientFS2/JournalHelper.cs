@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2;
+using ServerFS2.DataBase;
 
 namespace MonitorClientFS2
 {
@@ -23,12 +25,22 @@ namespace MonitorClientFS2
 
 		private static int _usbRequestNo;
 
-		public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
+		//public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
+		//{
+		//    lock (Locker)
+		//    {
+		//        var journalParser = new JournalParser(bytes);
+		//        var journalItem = journalParser.Parce();
+		//        journalItems.Add(journalItem);
+		//    }
+		//}
+
+		public static void ParseJournal(List<byte> bytes, List<FSJournalItem> journalItems)
 		{
 			lock (Locker)
 			{
 				var journalParser = new JournalParser(bytes);
-				var journalItem = journalParser.Parce();
+				var journalItem = journalParser.FSParce();
 				journalItems.Add(journalItem);
 			}
 		}
@@ -43,13 +55,13 @@ namespace MonitorClientFS2
 				FuncCode = bytes[6]
 			};
 			UsbRequests.Add(usbRequest);
-            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000, 100);
+			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, 1000, 100);
 		}
 
-		public static List<JournalItem> GetSecJournalItems2Op(Device device)
+		public static List<FSJournalItem> GetSecJournalItems2Op(Device device)
 		{
 			int lastindex = GetLastSecJournalItemId2Op(device);
-			var journlaItems = new List<JournalItem>();
+			var journlaItems = new List<FSJournalItem>();
 			for (int i = 0; i <= lastindex; i++)
 			{
 				var bytes = new List<byte>();
@@ -62,7 +74,7 @@ namespace MonitorClientFS2
 				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
 				ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journlaItems);
 			}
-			journlaItems = journlaItems.OrderByDescending(x => x.IntDate).ToList();
+			journlaItems = journlaItems.OrderByDescending(x => x.SystemTime).ToList();
 			int no = 0;
 			foreach (var item in journlaItems)
 			{
@@ -149,17 +161,17 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public static List<JournalItem> GetAllJournalItems(Device device)
+		public static List<FSJournalItem> GetAllJournalItems(Device device)
 		{
 			int lastindex = GetLastJournalItemId(device);
 			int firstindex = GetFirstJournalItemId(device);
 			return GetJournalItems(device, lastindex, firstindex);
 		}
 
-		public static List<JournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
+		public static List<FSJournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
 		{
-			var journalItems = new List<JournalItem>();
-			var secJournalItems = new List<JournalItem>();
+			var journalItems = new List<FSJournalItem>();
+			var secJournalItems = new List<FSJournalItem>();
 			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
 			{
 				secJournalItems = GetSecJournalItems2Op(device);
@@ -190,7 +202,7 @@ namespace MonitorClientFS2
 			return journalItems;
 		}
 
-		private static void ReadItem(Device device, List<JournalItem> journalItems, int i)
+		private static void ReadItem(Device device, List<FSJournalItem> journalItems, int i)
 		{
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -201,7 +213,11 @@ namespace MonitorClientFS2
 			bytes.Add(0x20);
 			bytes.Add(0x00);
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-			ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journalItems);
+			var data = SendCode(bytes).Result.FirstOrDefault();
+			if (data != null)
+				ParseJournal(data.Data, journalItems);
+			else
+				Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
 		}
 	}
 

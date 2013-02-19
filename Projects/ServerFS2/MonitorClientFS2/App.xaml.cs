@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using ClientFS2;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using ServerFS2;
 
 namespace MonitorClientFS2
 {
@@ -9,7 +9,8 @@ namespace MonitorClientFS2
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			ConfigurationManager.Load();
+			//ConfigurationManager.Load();
+			ServerHelper.Init();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

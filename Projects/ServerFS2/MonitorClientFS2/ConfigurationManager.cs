@@ -5,11 +5,12 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
 
-namespace ClientFS2
+namespace MonitorClientFS2
 {
 	public static class ConfigurationManager
 	{
 		public static DeviceConfiguration DeviceConfiguration { get; set; }
+
 		public static DriversConfiguration DriversConfiguration { get; set; }
 
 		public static void Load()
@@ -32,11 +33,11 @@ namespace ClientFS2
 
 			configurationFileName = Path.Combine(unzipFolderPath, "DriversConfiguration.xml");
 			DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
-            DriverConfigurationParametersHelper.CreateKnownProperties(DriversConfiguration.Drivers);
+			DriverConfigurationParametersHelper.CreateKnownProperties(DriversConfiguration.Drivers);
 			Update();
 		}
 
-		static void Update()
+		private static void Update()
 		{
 			DeviceConfiguration.Update();
 			DeviceConfiguration.Reorder();

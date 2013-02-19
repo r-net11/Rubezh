@@ -22,6 +22,7 @@ namespace ServerFS2
 	public class BitsExtracter
 	{
 		List<bool> bits;
+
 		public BitsExtracter(List<byte> bytes)
 		{
 			bits = new List<bool>();
