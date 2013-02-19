@@ -33,13 +33,13 @@ namespace ServerFS2
                 journalItems.Add(journalItem);
             }
         }
-        static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int delay = 1000, int timeout = 1000)
+        static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
         {
-            return UsbRunner.AddRequest(bytesList, delay, timeout);
+            return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout);
         }
-        static OperationResult<List<Response>> SendCode(List<byte> bytes, int delay = 1000, int timeout = 1000)
+        static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
         {
-            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, delay, timeout);
+            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout);
         }
 		public static List<JournalItem> GetSecJournalItems2Op(Device device)
 		{
@@ -325,13 +325,16 @@ namespace ServerFS2
                 }
             }
         }
-        public static List<Property> SetDeviceParameters(Device device)
+        public static void SetDeviceParameters(Device device)
         {
-            var values = new List<Property>();
             var bytesList = new List<List<byte>>();
-            foreach (var property in device.Driver.Properties)
+            var properties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
+            var properties1 = properties;
+            var properties2 = properties;
+            properties.RemoveAll(x => properties1.FirstOrDefault(z => (properties2.IndexOf(x) > properties1.IndexOf(z)) && (z.No == x.No)) != null); // Удаляем из списка все параметры, коды которых уже есть в этом списке (чтобы не дублировать запрос)
+            foreach (var property in properties)
             {
-                if ((!property.IsAUParameter) || (bytesList.FirstOrDefault(x => x[12] == property.No)) != null)
+                if ((property == null)||(!property.IsAUParameter))
                     continue;
                 var bytes = new List<byte>();
                 bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -344,23 +347,13 @@ namespace ServerFS2
                 bytes.Add(Convert.ToByte(device.IntAddress % 256));
                 bytes.Add(0x00);
                 bytes.Add(property.No);
-                bytes.Add(0x00);
-                bytes.Add(0x00);
+                var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));
+                bytes.Add(Convert.ToByte(value % 256));
+                bytes.Add(Convert.ToByte(value / 256));
                 bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
                 bytesList.Add(bytes);
             }
-            var results = SendCode(bytesList, 1000000);
-            foreach (var result in results.Result)
-            {
-                var properties = device.Driver.Properties.FindAll(x => x.No == result.Data[11]);
-                foreach (var property in properties)
-                {
-                    var value = ParametersHelper.CreateProperty(result.Data[12] * 256 + result.Data[13], property);
-                    value.Name = property.Caption;
-                    values.Add(value);
-                }
-            }
-            return values;
+            SendCode(bytesList, 3000, 300);
         }
     }
 }

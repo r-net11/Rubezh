@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 
@@ -13,7 +12,6 @@ namespace ClientFS2.ViewModels
             CancelText = "Отменить";
             CloseOnEscape = false;
             AllowClose = false;
-            StopCommand = new RelayCommand(OnStop);
             ServerHelper.Progress -= Progress;
             ServerHelper.Progress += Progress;
         }
@@ -78,12 +76,6 @@ namespace ClientFS2.ViewModels
                 _cancelText = value;
                 OnPropertyChanged("CancelText");
             }
-        }
-
-        public RelayCommand StopCommand { get; private set; }
-        void OnStop()
-        {
-            //FiresecManager.FSAgent.CancelProgress();
         }
     }
 }

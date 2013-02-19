@@ -32,8 +32,6 @@
                 <Button Content="Задать пароль" Command = "{Binding SetPasswordCommand}" Width="300" Margin="2" />
                 <Button Content="Установить режим глухой панели" Command = "{Binding SetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Снять режим глухой панели" Command = "{Binding UnsetPanelRegimeCommand}" Width="300" Margin="2" />
-                <Button Content="Считать параметры устройства" Command = "{Binding GetParametersCommand}" Width="300" Margin="2" />
-                <Button Content="Записать параметры устройства" Command = "{Binding SetParametersCommand}" Width="300" Margin="2" />
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Visibility="{Binding DevicesViewModel.SelectedDevice, Converter={StaticResource NullObjectToVisibiltyConverter}}" >

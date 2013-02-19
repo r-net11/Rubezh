@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 	[DataContract]
 	[KnownType(typeof(Plan))]
 	[KnownType(typeof(PlanFolder))]
-	public class Plan : IElementBackground
+	public class Plan //: IElementBackground
 	{
 		public Plan()
 		{
