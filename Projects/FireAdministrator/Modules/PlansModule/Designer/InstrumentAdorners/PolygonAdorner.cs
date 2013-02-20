@@ -2,6 +2,7 @@
 using System.Windows.Shapes;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.InstrumentAdorners;
 using PlansModule.Designer;
 
 namespace PlansModule.InstrumentAdorners
