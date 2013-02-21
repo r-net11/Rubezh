@@ -35,8 +35,8 @@ namespace MonitorClientFS2
 				{
 					try
 					{
-						devicesLastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
-						DBJournalHelper.SetLastId(guid, JournalHelper.GetLastJournalItemId(device));
+						devicesLastRecord.Add(device, DBJournalHelper.GetLastId(guid));
+						//DBJournalHelper.SetLastId(guid, JournalHelper.GetLastJournalItemId(device));
 					}
 					catch { }
 				}
@@ -79,10 +79,8 @@ namespace MonitorClientFS2
 										" до " +
 										lastDeviceRecord.ToString());
 									var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
-									int i = lastDisplayedRecord + 1;
 									foreach (var journalItem in newItems)
 									{
-										journalItem.No = i;
 										Dispatcher.Invoke(new Action(() =>
 										{
 											JournalItems.Add(journalItem);
@@ -92,10 +90,6 @@ namespace MonitorClientFS2
 									devicesLastRecord.Remove(device);
 									devicesLastRecord.Add(device, lastDeviceRecord);
 									DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
-								}
-								else
-								{
-									Trace.WriteLine("Новых записей нет");
 								}
 							}
 						}

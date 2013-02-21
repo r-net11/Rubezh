@@ -10,7 +10,7 @@ namespace MonitorClientFS2
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			//ConfigurationManager.Load();
-			ServerHelper.Init();
+			ServerHelper.Initialize();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

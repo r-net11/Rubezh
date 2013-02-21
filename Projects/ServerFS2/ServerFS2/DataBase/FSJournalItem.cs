@@ -6,7 +6,7 @@ namespace ServerFS2.DataBase
 {
 	public class FSJournalItem
 	{
-		public int No { get; set; }
+		public int No { get; set; } //?
 
 		public DateTime DeviceTime { get; set; } //
 
