@@ -3,8 +3,10 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using System.Diagnostics;
+using System.Windows;
 
-namespace PlansModule.InstrumentAdorners
+namespace Infrustructure.Plans.InstrumentAdorners
 {
 	public abstract class BasePolygonAdorner : InstrumentAdorner
 	{
@@ -48,7 +50,10 @@ namespace PlansModule.InstrumentAdorners
 			{
 				if (!AdornerCanvas.IsMouseCaptured)
 					AdornerCanvas.CaptureMouse();
-				Points[Points.Count - 1] = CutPoint(e.GetPosition(this));
+				var point = e.GetPosition(this);
+				if (Points.Count > 2 && (Keyboard.Modifiers & ModifierKeys.Shift) > 0)
+					point = GeometryHelper.TranslatePoint(Points[Points.Count - 3], Points[Points.Count - 2], point);
+				Points[Points.Count - 1] = CutPoint(point);
 				e.Handled = true;
 			}
 		}
@@ -63,7 +68,6 @@ namespace PlansModule.InstrumentAdorners
 							Points.Add(CutPoint(e.GetPosition(this)));
 						break;
 					case MouseButton.Right:
-						AdornerCanvas.ReleaseMouseCapture();
 						AdornerCanvas.Children.Remove(rubberband);
 						ElementBaseShape element = CreateElement();
 						if (element != null)
@@ -73,7 +77,9 @@ namespace PlansModule.InstrumentAdorners
 							else
 								element.Position = CutPoint(e.GetPosition(this));
 							DesignerCanvas.CreateDesignerItem(element);
+							Points.Clear();
 						}
+						AdornerCanvas.ReleaseMouseCapture();
 						break;
 				}
 		}
@@ -83,6 +89,12 @@ namespace PlansModule.InstrumentAdorners
 			base.KeyboardInput(key);
 			if (key == Key.Enter)
 				ClosePolygon();
+			else if (key == Key.RightShift || key == Key.LeftShift)
+			{
+				var args = new MouseEventArgs(Mouse.PrimaryDevice, 0);
+				args.RoutedEvent = UIElement.MouseMoveEvent;
+				RaiseEvent(args);
+			}
 		}
 		private void ClosePolygon()
 		{
@@ -98,6 +110,11 @@ namespace PlansModule.InstrumentAdorners
 					DesignerCanvas.CreateDesignerItem(element);
 				}
 			}
+		}
+		public override void UpdateZoom()
+		{
+			base.UpdateZoom();
+			rubberband.StrokeThickness = 1 / ZoomFactor;
 		}
 	}
 }

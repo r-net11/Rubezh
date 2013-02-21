@@ -7,9 +7,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Infrastructure;
-using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.InstrumentAdorners;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
 

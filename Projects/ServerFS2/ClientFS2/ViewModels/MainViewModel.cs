@@ -83,25 +83,7 @@ namespace ClientFS2.ViewModels
 		}
 		bool CanReadJournal()
 		{
-			if (DevicesViewModel.SelectedDevice == null)
-				return false;
-
-			switch (DevicesViewModel.SelectedDevice.Driver.DriverType)
-			{
-				case DriverType.USB_Rubezh_2AM:
-				case DriverType.USB_Rubezh_4A:
-				case DriverType.USB_Rubezh_2OP:
-				case DriverType.USB_BUNS:
-				case DriverType.USB_BUNS_2:
-				case DriverType.Rubezh_2AM:
-				case DriverType.BUNS:
-				case DriverType.BUNS_2:
-				case DriverType.Rubezh_10AM:
-				case DriverType.Rubezh_4A:
-				case DriverType.Rubezh_2OP:
-					return true;
-			}
-			return false;
+            return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
@@ -127,11 +109,11 @@ namespace ClientFS2.ViewModels
 		public RelayCommand SynchronizeTimeCommand { get; private set; }
 		private void OnSynchronizeTime()
 		{
-
+            ServerHelper.SynchronizeTime(DevicesViewModel.SelectedDevice.Device);
 		}
 		bool CanSynchronizeTime()
 		{
-			return false;
+            return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }

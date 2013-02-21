@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 
-namespace PlansModule.InstrumentAdorners
+namespace Infrustructure.Plans.InstrumentAdorners
 {
 	public abstract class BaseRectangleAdorner : InstrumentAdorner
 	{
@@ -84,8 +84,6 @@ namespace PlansModule.InstrumentAdorners
 
 		private void UpdateRubberband()
 		{
-			rubberband.StrokeThickness = 1 / ZoomFactor;
-
 			double left = Math.Min(StartPoint.Value.X, endPoint.Value.X);
 			double top = Math.Min(StartPoint.Value.Y, endPoint.Value.Y);
 
@@ -96,6 +94,11 @@ namespace PlansModule.InstrumentAdorners
 			rubberband.Height = height;
 			Canvas.SetLeft(rubberband, left);
 			Canvas.SetTop(rubberband, top);
+		}
+		public override void UpdateZoom()
+		{
+			base.UpdateZoom();
+			rubberband.StrokeThickness = 1 / ZoomFactor;
 		}
 	}
 }

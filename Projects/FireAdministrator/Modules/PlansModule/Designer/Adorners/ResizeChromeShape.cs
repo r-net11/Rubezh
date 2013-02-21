@@ -8,6 +8,7 @@ using System.Windows.Media;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.InstrumentAdorners;
 
 namespace PlansModule.Designer.Adorners
 {
@@ -92,17 +93,16 @@ namespace PlansModule.Designer.Adorners
 			if (_index > -1)
 			{
 				ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-				double x = element.Points[_index].X + shift.X;
-				if (x < 0)
-					x = 0;
-				else if (x > DesignerCanvas.CanvasWidth)
-					x = DesignerCanvas.CanvasWidth;
-				double y = element.Points[_index].Y + shift.Y;
-				if (y < 0)
-					y = 0;
-				else if (y > DesignerCanvas.CanvasHeight)
-					y = DesignerCanvas.CanvasHeight;
-				element.Points[_index] = new Point(x, y);
+				var newPoint = new Point(element.Points[_index].X + shift.X, element.Points[_index].Y + shift.Y);
+				if (newPoint.X < 0)
+					newPoint.X = 0;
+				else if (newPoint.X > DesignerCanvas.CanvasWidth)
+					newPoint.X = DesignerCanvas.CanvasWidth;
+				if (newPoint.Y < 0)
+					newPoint.Y = 0;
+				else if (newPoint.Y > DesignerCanvas.CanvasHeight)
+					newPoint.Y = DesignerCanvas.CanvasHeight;
+				element.Points[_index] = newPoint;
 				DesignerItem.RefreshPainter();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
