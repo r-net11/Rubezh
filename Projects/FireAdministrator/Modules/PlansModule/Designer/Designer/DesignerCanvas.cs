@@ -95,6 +95,12 @@ namespace PlansModule.Designer
 				_startPoint = null;
 		}
 
+		protected override void OnDragOver(DragEventArgs e)
+		{
+			base.OnDragOver(e);
+			e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
+			e.Handled = true;
+		}
 		protected override void OnDrop(DragEventArgs e)
 		{
 			base.OnDrop(e);
@@ -110,6 +116,12 @@ namespace PlansModule.Designer
 				e.Handled = true;
 			}
 		}
+		//protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+		//{
+		//    base.OnGiveFeedback(e);
+		//    e.UseDefaultCursors = false;
+		//    e.Handled = true;
+		//}
 		public override void CreateDesignerItem(ElementBase elementBase)
 		{
 			var designerItem = AddElement(elementBase);
