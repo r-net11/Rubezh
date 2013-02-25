@@ -29,7 +29,7 @@ namespace MonitorClientFS2
 			else
 			{
 				Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
-				return null;
+				return new FSJournalItem();
 			}
 		}
 
