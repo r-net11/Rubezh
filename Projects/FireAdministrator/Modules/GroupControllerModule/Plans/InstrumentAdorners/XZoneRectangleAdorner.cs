@@ -3,7 +3,7 @@ using GKModule.Plans.Designer;
 using GKModule.Plans.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
-using PlansModule.InstrumentAdorners;
+using Infrustructure.Plans.InstrumentAdorners;
 
 namespace GKModule.Plans.InstrumentAdorners
 {

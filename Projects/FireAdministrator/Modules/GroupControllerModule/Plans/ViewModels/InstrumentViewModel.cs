@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.InstrumentAdorners;
 
 namespace GKModule.Plans.ViewModels
 {

@@ -6,7 +6,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using PlansModule.InstrumentAdorners;
+using Infrustructure.Plans.InstrumentAdorners;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {

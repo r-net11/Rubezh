@@ -3,8 +3,8 @@ using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
-using PlansModule.InstrumentAdorners;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.InstrumentAdorners;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {

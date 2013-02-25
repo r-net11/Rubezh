@@ -42,9 +42,7 @@ namespace Controls
 		{
 			var textBox = e.OriginalSource as TextBox;
 			if (textBox != null)
-			{
 				textBox.SelectAll();
-			}
 		}
 		private static void OnMouseLeftButtonDownSetFocus(object sender, MouseButtonEventArgs e)
 		{

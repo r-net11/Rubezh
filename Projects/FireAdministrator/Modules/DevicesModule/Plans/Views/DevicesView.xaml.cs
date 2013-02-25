@@ -48,7 +48,7 @@ namespace DevicesModule.Plans.Views
 				};
 
 				var dataObject = new DataObject("DESIGNER_ITEM", plansElement);
-				DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
+				DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Move);
 			}
 
 			e.Handled = true;

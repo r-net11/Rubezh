@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
-using FiresecClient;
 using GKModule.ViewModels;
 using Infrustructure.Plans.Elements;
 
@@ -50,7 +48,7 @@ namespace GKModule.Plans.Views
 				};
 
 				var dataObject = new DataObject("DESIGNER_ITEM", plansElement);
-				DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
+				DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Move);
 			}
 
 			e.Handled = true;
