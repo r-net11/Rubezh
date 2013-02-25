@@ -36,7 +36,6 @@ namespace MonitorClientFS2
 					try
 					{
 						devicesLastRecord.Add(device, DBJournalHelper.GetLastId(guid));
-						//DBJournalHelper.SetLastId(guid, JournalHelper.GetLastJournalItemId(device));
 					}
 					catch { }
 				}
@@ -74,7 +73,7 @@ namespace MonitorClientFS2
 								lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
 								if (lastDeviceRecord != lastDisplayedRecord)
 								{
-									Trace.WriteLine("Дочитываю записи с " +
+									Trace.Write("Дочитываю записи с " +
 										lastDisplayedRecord.ToString() +
 										" до " +
 										lastDeviceRecord.ToString());
@@ -86,7 +85,9 @@ namespace MonitorClientFS2
 											JournalItems.Add(journalItem);
 										}));
 										DBJournalHelper.AddJournalItem(journalItem);
+										Trace.Write(".");
 									}
+									Trace.WriteLine(" дочитал");
 									devicesLastRecord.Remove(device);
 									devicesLastRecord.Add(device, lastDeviceRecord);
 									DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
@@ -143,9 +144,6 @@ namespace MonitorClientFS2
 		private void OnTest()
 		{
 			var deviceUID = new Guid("444C11C8-D5E7-4309-9209-56F6720262B9");
-			//DBJournalHelper.SetLastId(deviceUID, 100);
-			//var lastID = DBJournalHelper.GetLastId(deviceUID);
-
 			var fsJournalItems = new List<FSJournalItem>();
 			for (int i = 0; i < 100; i++)
 			{

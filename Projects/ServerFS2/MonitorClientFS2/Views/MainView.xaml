@@ -13,7 +13,6 @@
                     <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
                     <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" Height="300" MinRowHeight="20">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="No" Binding="{Binding No}" />
                             <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
                             <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
