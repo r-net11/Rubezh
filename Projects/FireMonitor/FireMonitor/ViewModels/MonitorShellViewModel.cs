@@ -24,11 +24,11 @@ namespace FireMonitor.ViewModels
 			MinWidth = 980;
 			MinHeight = 550;
 			//HideInTaskbar = App.IsMulticlient;
-			if (RegistryHelper.IsIntegrated)
+			if (ShellIntegrationHelper.IsIntegrated)
 			{
 				AllowMaximize = false;
 				AllowMinimize = false;
-				Surface.WindowState = WindowState.Maximized;
+				Sizable = false;
 			}
 		}
 
