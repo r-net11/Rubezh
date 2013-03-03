@@ -13,7 +13,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Content="Сброс" ToolTip="Сбросить все" Command="{Binding ResetCommand}" FontSize="20" Width="70" Height="70" />
+        <Button Grid.Column="0" Content="Сброс" ToolTip="Сбросить все" Command="{Binding ResetCommand}" MouseDown="Button_MouseDown" FontSize="20" Width="70" Height="70" />
         <ItemsControl Grid.Column="1" ItemsSource="{Binding AlarmGroups}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

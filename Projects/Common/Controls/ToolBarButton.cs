@@ -17,10 +17,5 @@ namespace Controls
 			get { return (string)GetValue(ImageSourceProperty); }
 			set { SetValue(ImageSourceProperty, value); }
 		}
-
-		public ToolBarButton()
-		{
-			//Image image;image.Source
-		}
 	}
 }

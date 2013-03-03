@@ -7,21 +7,21 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AlarmModule.ViewModels
 {
-	public class AlarmGroupsViewModel : BaseViewModel
-	{
+    public class AlarmGroupsViewModel : BaseViewModel
+    {
         public static AlarmGroupsViewModel Current { get; private set; }
-		public AlarmGroupsViewModel()
-		{
+        public AlarmGroupsViewModel()
+        {
             Current = this;
             ResetCommand = new RelayCommand(OnReset);
-			AlarmGroups = new List<AlarmGroupViewModel>();
-			foreach (AlarmType alarmType in Enum.GetValues(typeof(AlarmType)))
-			{
-				AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
-			}
-		}
+            AlarmGroups = new List<AlarmGroupViewModel>();
+            foreach (AlarmType alarmType in Enum.GetValues(typeof(AlarmType)))
+            {
+                AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
+            }
+        }
 
-		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
+        public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
 
         public void Update(List<Alarm> alarms)
         {
@@ -37,5 +37,5 @@ namespace AlarmModule.ViewModels
         {
             AlarmsViewModel.Current.ResetAllCommand.Execute();
         }
-	}
+    }
 }
