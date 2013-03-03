@@ -28,11 +28,18 @@ namespace Infrustructure.Plans.Painters
 
 		static PainterCache()
 		{
-			BlackBrush = new SolidColorBrush(Colors.Black);
-			BlackBrush.Freeze();
-			ZonePen = new Pen(BlackBrush, 1);
-			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
-			_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
+            try
+            {
+                BlackBrush = new SolidColorBrush(Colors.Black);
+                BlackBrush.Freeze();
+                ZonePen = new Pen(BlackBrush, 1);
+                PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
+                _transparentBackgroundBrush = CreateTransparentBackgroundBrush();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "PainterCache.PainterCache()");
+            }
 		}
 		public static void Initialize(Converter<Guid, BitmapImage> imageFactory, Converter<Guid, Drawing> drawingFactory)
 		{

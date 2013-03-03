@@ -15,7 +15,7 @@ namespace Infrastructure.Common.Services.Content
 
 		public ContentService(string applicationName)
 		{
-			ContentFolder = AppDataFolderHelper.GetFolder(Path.Combine(applicationName, ContentFolderRelativePath));
+			ContentFolder = AppDataFolderHelper.GetLocalFolder(Path.Combine(applicationName, ContentFolderRelativePath));
 			Invalidate();
 		}
 

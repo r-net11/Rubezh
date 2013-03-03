@@ -75,6 +75,24 @@ namespace FiresecAPI
 		public bool IsImitatorEnabled { get; set; }
 
 		[DataMember]
+		public bool IsMenuIconText { get; set; }
+
+		[DataMember]
+		public bool HidePlansTreeMonitor { get; set; }
+
+		[DataMember]
+		public bool ForceShutdown { get; set; }
+
+		[DataMember]
+		public bool DoNotShowConfirmatinoOnIgnore { get; set; }
+
+		[DataMember]
+		public bool DoNotShowZonesInMonitor { get; set; }
+
+		[DataMember]
+		public bool DoNotAutoconnectAdm { get; set; }
+
+		[DataMember]
 		public string Modules { get; set; }
 
 		[DataMember]

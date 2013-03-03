@@ -54,7 +54,10 @@ namespace FiresecAPI.Models
                         {
 							zones.Add(zone);
                             device.ZonesInLogic.Add(zone);
-                            zone.DevicesInZoneLogic.Add(device);
+							if (!zone.DevicesInZoneLogic.Any(x => x.UID == device.UID))
+							{
+								zone.DevicesInZoneLogic.Add(device);
+							}
                         }
                     }
 					clause.Zones = zones;
@@ -88,6 +91,7 @@ namespace FiresecAPI.Models
 					if (zone != null)
 					{
 						zones.Add(zone);
+						if (!zone.IndicatorsInZone.Any(x=>x.UID == device.UID))
 						zone.IndicatorsInZone.Add(device);
 					}
 				}
