@@ -13,6 +13,7 @@ namespace DevicesModule.Validation
         {
             _validateDevicesWithSerialNumber = new List<Guid>();
             ValidatePduCount();
+			ValidateEmptyConfiguration();
 
             foreach (var device in _firesecConfiguration.DeviceConfiguration.Devices)
             {
@@ -56,6 +57,12 @@ namespace DevicesModule.Validation
             if (pduCount > 10)
                 _errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
         }
+
+		void ValidateEmptyConfiguration()
+		{
+			if (_firesecConfiguration.DeviceConfiguration.Devices.Count <= 1)
+				_errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Конфигурация не содержит подключенных приборов"), ValidationErrorLevel.Warning));
+		}
 
         void ValidateAddressEquality(Device device)
         {

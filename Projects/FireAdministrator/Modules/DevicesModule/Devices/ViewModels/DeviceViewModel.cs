@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -32,6 +33,7 @@ namespace DevicesModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
+			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
 			PropertiesViewModel = new PropertiesViewModel(device);
 
@@ -249,9 +251,6 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			//var testWindow = new XXX.TestWindow();
-			//testWindow.ShowDialog();
-
 			var newDeviceViewModel = new NewDeviceViewModel(this);
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
@@ -312,6 +311,17 @@ namespace DevicesModule.ViewModels
 		{
 			switch (Device.Driver.DriverType)
 			{
+				case DriverType.Page:
+					if (DialogService.ShowModalWindow(new IndicatorPageDetailsViewModel(Device)))
+					{
+						ServiceFactory.SaveService.FSChanged = true;
+						foreach (var deviceViewModel in Children)
+						{
+							deviceViewModel.UpdateZoneName();
+						}
+					}
+					break;
+
 				case DriverType.Indicator:
 					OnShowIndicatorLogic();
 					break;
@@ -353,6 +363,7 @@ namespace DevicesModule.ViewModels
 		{
 			switch (Device.Driver.DriverType)
 			{
+				case DriverType.Page:
 				case DriverType.Indicator:
 				case DriverType.Valve:
 				case DriverType.Pump:
@@ -395,6 +406,16 @@ namespace DevicesModule.ViewModels
 			return Driver != null && Driver.IsPlaceable;
 		}
 
+		public RelayCommand ShowParentCommand { get; private set; }
+		void OnShowParent()
+		{
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.Parent.UID);
+		}
+		bool CanShowParent()
+		{
+			return Device.Parent != null;
+		}
+
 		public Driver Driver
 		{
 			get { return Device.Driver; }
@@ -402,15 +423,110 @@ namespace DevicesModule.ViewModels
 			{
 				if (Device.Driver.DriverType != value.DriverType)
 				{
-					FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
+					if (value.DriverType == DriverType.MS_1)
+					{
+						if (Device.Children.Count == 2)
+						{
+							FiresecManager.FiresecConfiguration.RemoveDevice(Device.Children[1]);
+							Device.Children.RemoveAt(1);
+						}
+					}
+					if (value.DriverType == DriverType.MS_2)
+					{
+						if (Device.Children.Count == 1)
+						{
+							FiresecManager.FiresecConfiguration.RemoveDevice(Device.Children[1]);
+							var channelDevice = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_2);
+							AddDeviceOnDriverChanged(channelDevice, 0);
+						}
+					}
+
+					if (value.IsPanel)
+					{
+						var devicesToRemove = new List<DeviceViewModel>();
+						if (value.ShleifCount < Device.Driver.ShleifCount)
+						{
+							foreach (var child in Children)
+							{
+								if (child.Device.IntAddress / 256 > value.ShleifCount)
+									devicesToRemove.Add(child);
+							}
+						}
+						foreach (var child in Children)
+						{
+							if (Driver.AutoCreateChildren.Contains(child.Driver.UID) && !value.AutoCreateChildren.Contains(child.Driver.UID))
+								devicesToRemove.Add(child);
+						}
+						foreach (var deviceToRemove in devicesToRemove)
+						{
+							FiresecManager.FiresecConfiguration.RemoveDevice(deviceToRemove.Device);
+							Children.Remove(deviceToRemove);
+						}
+
+						foreach (var autoCreateDriverId in value.AutoCreateChildren)
+						{
+							var autoCreateDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
+
+							for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+							{
+								if (!Device.Children.Any(x => x.IntAddress == i))
+									AddDeviceOnDriverChanged(autoCreateDriver, i);
+							}
+						}
+
+						Device.Driver = value;
+						Device.DriverUID = value.UID;
+					}
+					else
+					{
+						FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
+						for (int i = Device.Children.Count - 1; i > 0; i--)
+						{
+							var child = Device.Children[i];
+							FiresecManager.FiresecConfiguration.RemoveDevice(child);
+						}
+						for (int i = Children.Count - 1; i > 0; i--)
+						{
+							var child = Children[i];
+							DevicesViewModel.Current.AllDevices.Remove(child);
+						}
+						Children.Clear();
+						Device.Children.Clear();
+						if (Device.Driver.AutoChild != Guid.Empty)
+						{
+							var autoChildDriver = FiresecManager.FiresecConfiguration.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == Device.Driver.AutoChild);
+							for (int i = 0; i < Device.Driver.AutoChildCount; i++)
+							{
+								AddDeviceOnDriverChanged(autoChildDriver, Device.IntAddress + i);
+							}
+						}
+					}
+
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Driver");
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
 					Update();
 					ServiceFactory.SaveService.FSChanged = true;
+					DevicesViewModel.UpdateGuardVisibility();
 				}
 			}
+		}
+
+		void AddDeviceOnDriverChanged(Driver driver, int address)
+		{
+			var device = new Device()
+			{
+				DriverUID = driver.UID,
+				Driver = driver,
+				IntAddress = address,
+				Parent = Device
+			};
+			Device.Children.Insert(0, device);
+			var deviceViewModel = new DeviceViewModel(device);
+			Children.Insert(0, deviceViewModel);
+			DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
+			FiresecManager.Devices.Add(device);
 		}
 
 		public ObservableCollection<Driver> AvailvableDrivers { get; private set; }
@@ -420,6 +536,35 @@ namespace DevicesModule.ViewModels
 			AvailvableDrivers.Clear();
 			if (CanChangeDriver)
 			{
+#if DEBUG
+				if (Driver.DriverType == DriverType.MS_1 || Driver.DriverType == DriverType.MS_2)
+				{
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
+					return;
+				}
+
+				if (Driver.IsPanel && Device.Parent.Driver.DriverType != DriverType.Computer)
+				{
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS_2));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_4A));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2OP));
+					return;
+				}
+
+				if (Driver.IsPanel && Device.Parent.Driver.DriverType == DriverType.Computer)
+				{
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_2AM));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_4A));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_2OP));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS_2));
+					return;
+				}
+#endif
+
 				switch (Device.Parent.Driver.DriverType)
 				{
 					case DriverType.AM4:
@@ -432,12 +577,12 @@ namespace DevicesModule.ViewModels
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzUnblockButton));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_T));
-						break;
+						return;
 
 					case DriverType.AM4_P:
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
-						break;
+						return;
 
 					default:
 						foreach (var driverUID in Device.Parent.Driver.AvaliableChildren)
@@ -465,8 +610,16 @@ namespace DevicesModule.ViewModels
 
 			if (driver.IsAutoCreate)
 				return false;
-			if (Device.Parent.Driver.IsChildAddressReservedRange)
+
+			if (Device.Parent.Driver.AutoChildCount > 0)
 				return false;
+
+			if (driver.IsChildAddressReservedRange)
+				return true;
+
+			if (driver.IsPanel)
+				return true;
+
 			return (driver.Category == DeviceCategoryType.Sensor) || (driver.Category == DeviceCategoryType.Effector);
 		}
 
