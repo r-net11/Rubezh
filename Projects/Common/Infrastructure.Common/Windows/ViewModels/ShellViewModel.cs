@@ -38,7 +38,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool textVisibility = true;
+		private bool textVisibility = !RegistrySettingsHelper.GetBool("ShellViewModel.TextVisibility");
 		public bool TextVisibility
 		{
 			get { return textVisibility; }
@@ -46,6 +46,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				textVisibility = value;
 				OnPropertyChanged("TextVisibility");
+				RegistrySettingsHelper.SetBool("ShellViewModel.TextVisibility", !value);
 			}
 		}
 

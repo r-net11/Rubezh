@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Diagnostics;
 
 namespace JournalModule.ViewModels
 {
@@ -29,6 +30,11 @@ namespace JournalModule.ViewModels
         void Initialize()
         {
             var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
+			foreach (var journalRecord in operationResult.Result)
+			{
+				Trace.WriteLine("OldId = " + journalRecord.OldId.ToString());
+			}
+
             JournalRecords = new ObservableCollection<JournalRecordViewModel>();
             if (operationResult.HasError == false)
             {

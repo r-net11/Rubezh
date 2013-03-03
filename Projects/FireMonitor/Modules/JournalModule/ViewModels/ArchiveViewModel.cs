@@ -272,5 +272,4 @@ namespace JournalModule.ViewModels
 			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 	}
-
 }
