@@ -12,47 +12,7 @@ namespace MonitorClientFS2
 	public static class JournalHelper
 	{
 		static readonly object Locker = new object();
-		private static int _usbRequestNo;
-
-		private static FSJournalItem ReadItem(Device device, int i)
-		{
-			List<byte> bytes = new List<byte> { 0x20, 0x00 };
-			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-			var data = SendByteCommand(bytes, device);
-			if (data != null)
-			{
-				lock (Locker)
-				{
-					return JournalParser.FSParce(data.Data);
-				}
-			}
-			else
-			{
-				Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
-				return new FSJournalItem();
-			}
-		}
-
-		public static List<FSJournalItem> GetSecJournalItems2Op(Device device)
-		{
-			int lastindex = GetLastSecJournalItemId2Op(device);
-			var journalItems = new List<FSJournalItem>();
-			for (int i = 0; i <= lastindex; i++)
-			{
-				var bytes = new List<byte> { 0x20, 0x02 };
-				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				var data = SendByteCommand(bytes, device);
-				if (data != null)
-					lock (Locker)
-					{
-						journalItems.Add(JournalParser.FSParce(data.Data));
-					}
-				else
-					Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
-			}
-			journalItems = journalItems.OrderByDescending(x => x.SystemTime).ToList();
-			return journalItems;
-		}
+		static int _usbRequestNo;
 
 		public static int GetLastSecJournalItemId2Op(Device device)
 		{
@@ -108,21 +68,56 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public static List<FSJournalItem> GetAllJournalItems(Device device)
-		{
-			return GetJournalItems(device, GetLastJournalItemId(device), GetFirstJournalItemId(device));
-		}
-
 		public static List<FSJournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
 		{
 			var journalItems = new List<FSJournalItem>();
 			for (int i = firstindex; i <= lastindex; i++)
 				journalItems.Add(ReadItem(device, i));
-			if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-			{
-				journalItems.AddRange(GetSecJournalItems2Op(device));
-			}
 			return journalItems;
+		}
+
+		public static List<FSJournalItem> GetSecJournalItems2Op(Device device, int lastindex, int firstindex)
+		{
+			var journalItems = new List<FSJournalItem>();
+			for (int i = firstindex; i <= lastindex; i++)
+				journalItems.Add(ReadSecItem(device, i));
+			return journalItems;
+		}
+
+		public static List<FSJournalItem> GetAllJournalItems(Device device)
+		{
+			return GetJournalItems(device, GetLastJournalItemId(device), GetFirstJournalItemId(device));
+		}
+
+		private static FSJournalItem ReadItem(Device device, int i)
+		{
+			List<byte> bytes = new List<byte> { 0x20, 0x00 };
+			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
+			return SendBytesAndParse(bytes, device);
+		}
+
+		private static FSJournalItem ReadSecItem(Device device, int i)
+		{
+			List<byte> bytes = new List<byte> { 0x20, 0x02 };
+			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
+			return SendBytesAndParse(bytes, device);
+		}
+
+		private static FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
+		{
+			var data = SendByteCommand(bytes, device);
+			if (data != null)
+			{
+				lock (Locker)
+				{
+					return JournalParser.FSParce(data.Data);
+				}
+			}
+			else
+			{
+				Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
+				return new FSJournalItem();
+			}
 		}
 
 		private static ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)

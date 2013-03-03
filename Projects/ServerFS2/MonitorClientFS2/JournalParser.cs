@@ -24,6 +24,11 @@ namespace MonitorClientFS2
 			_fsjournalItem.Description = GetEvent(_bytes);
 
 			var ShleifNo = _bytes[6] + 1;
+			if (_bytes[0] == 0x83)
+				_fsjournalItem.Detalization += "Выход: " + ShleifNo + "\n";
+			if (_bytes[0] == 0x0F)
+				_fsjournalItem.Detalization += "АЛС: " + ShleifNo + "\n";
+
 			_fsjournalItem.DeviceCategory = _bytes[7];
 
 			var PanelAddress = _allBytes[5];
@@ -36,6 +41,7 @@ namespace MonitorClientFS2
 
 			var byteState = _bytes[9];
 			_fsjournalItem.StateType = (StateType)byteState;
+
 			// Системная неисправность
 			if (_bytes[0] == 0x0D && byteState == 0x20)
 			{
@@ -43,12 +49,6 @@ namespace MonitorClientFS2
 			}
 
 			SetZone(_bytes, _fsjournalItem);
-
-			var DescriptorNo = _bytes[12] * 256 * 256 + _bytes[13] * 256 + _bytes[14];
-			if (_bytes[0] == 0x83)
-				_fsjournalItem.Detalization += "Выход: " + ShleifNo + "\n";
-			if (_bytes[0] == 0x0F)
-				_fsjournalItem.Detalization += "АЛС: " + ShleifNo + "\n";
 
 			//Охранные события (сброс тревоги, постановка, снятие)
 			GuardEvents(_allBytes, _fsjournalItem);
@@ -58,6 +58,7 @@ namespace MonitorClientFS2
 
 			_fsjournalItem.DeviceUID = MetadataHelper.GetUidById((ushort)_fsjournalItem.DeviceCategory);
 			var deviceUid = _fsjournalItem.DeviceUID.ToString().ToUpper();
+
 			var device = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(deviceUid))));
 
 			if (device != null)
@@ -71,6 +72,7 @@ namespace MonitorClientFS2
 				_fsjournalItem.DeviceName = "Неизвестное устройство";
 
 			int tableType = 99999;
+
 			if (deviceUid != "00000000-0000-0000-0000-000000000000")
 			{
 				if (_fsjournalItem.DeviceCategory != 0)
@@ -133,7 +135,6 @@ namespace MonitorClientFS2
 						_fsjournalItem.Detalization += "Неизв. устр." + "(" + _bytes[7] + ") Адрес:" + _bytes[6] + "\n";
 						break;
 				}
-				//return _fsjournalItem;
 			}
 		}
 
@@ -186,7 +187,6 @@ namespace MonitorClientFS2
 			if (zone == null)
 			{
 				_fsjournalItem.ZoneName = "";
-				zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault();
 			}
 			else
 			{

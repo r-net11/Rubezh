@@ -37,6 +37,27 @@ namespace ServerFS2.DataBase
 			return lastIndex;
 		}
 
+		public static int GetLastSecId(Guid deviceUID)
+		{
+			var lastIndex = 0;
+			try
+			{
+				using (var dataContext = new SqlCeConnection(ConnectionString))
+				{
+					dataContext.ConnectionString = ConnectionString;
+					dataContext.Open();
+					var sqlCeCommand = new SqlCeCommand();
+					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.CommandText = @"SELECT LastSecID FROM LastSecIndexes WHERE DeviceUID = @p1";
+					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
+					lastIndex = (int)sqlCeCommand.ExecuteScalar();
+					dataContext.Close();
+				}
+			}
+			catch { }
+			return lastIndex;
+		}
+
 		public static void SetLastId(Guid deviceUID, int lastIndex)
 		{
 			try
@@ -49,6 +70,28 @@ namespace ServerFS2.DataBase
 					sqlCeCommand.Connection = dataContext;
 					sqlCeCommand.CommandText = @"Update LastIndexes " +
 						"set LastID = @p2 " +
+						"where DeviceUID = @p1";
+					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
+					sqlCeCommand.Parameters.AddWithValue("@p2", lastIndex);
+					sqlCeCommand.ExecuteNonQuery();
+					dataContext.Close();
+				}
+			}
+			catch { }
+		}
+
+		public static void SetLastSecId(Guid deviceUID, int lastIndex)
+		{
+			try
+			{
+				using (var dataContext = new SqlCeConnection(ConnectionString))
+				{
+					dataContext.ConnectionString = ConnectionString;
+					dataContext.Open();
+					var sqlCeCommand = new SqlCeCommand();
+					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.CommandText = @"Update LastSecIndexes " +
+						"set LastSecID = @p2 " +
 						"where DeviceUID = @p1";
 					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
 					sqlCeCommand.Parameters.AddWithValue("@p2", lastIndex);
