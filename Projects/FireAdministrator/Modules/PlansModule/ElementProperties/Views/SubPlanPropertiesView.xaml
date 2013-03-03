@@ -11,8 +11,8 @@
 			</Style>
 		</Controls:TreeListView.ItemContainerStyle>
 		<Controls:TreeListView.Columns>
-			<GridViewColumn Width="250" DisplayMemberBinding="{Binding PlanFolder.Caption}" Header="Название" />
-			<GridViewColumn DisplayMemberBinding="{Binding PlanFolder.Description}" Header="Описание" />
+			<GridViewColumn Width="250" DisplayMemberBinding="{Binding Plan.Caption}" Header="Название" />
+			<GridViewColumn DisplayMemberBinding="{Binding Plan.Description}" Header="Описание" />
 		</Controls:TreeListView.Columns>
 	</Controls:TreeListView>
 </UserControl>

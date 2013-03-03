@@ -25,10 +25,10 @@ namespace DevicesModule.Plans.ViewModels
 			_devicesViewModel = devicesViewModel;
 			// TODO: FIX IT
 			_devicesViewModel.PropertyChanged += (s, e) =>
-				{
-					if (e.PropertyName == "SelectedDevice")
-						OnPropertyChanged(e.PropertyName);
-				};
+			{
+				if (e.PropertyName == "SelectedDevice")
+					OnPropertyChanged(e.PropertyName);
+			};
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
@@ -88,15 +88,15 @@ namespace DevicesModule.Plans.ViewModels
 			Guid guid = Guid.Empty;
 			_lockSelection = true;
 			elements.ForEach(element =>
+			{
+				ElementDevice elementDevice = element as ElementDevice;
+				if (elementDevice != null)
 				{
-					ElementDevice elementDevice = element as ElementDevice;
-					if (elementDevice != null)
-					{
-						if (guid != Guid.Empty)
-							OnDeviceChanged(guid);
-						guid = elementDevice.DeviceUID;
-					}
-				});
+					if (guid != Guid.Empty)
+						OnDeviceChanged(guid);
+					guid = elementDevice.DeviceUID;
+				}
+			});
 			_lockSelection = false;
 			if (guid != Guid.Empty)
 				OnDeviceChanged(guid);

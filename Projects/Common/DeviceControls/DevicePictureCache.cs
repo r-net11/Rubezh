@@ -170,32 +170,39 @@ namespace DeviceControls
 		private static Brush GetDynamicBrush(Guid guid, DeviceState deviceState)
 		{
 			Brush brush = null;
-			if (_dynamicBrushes.ContainsKey(guid))
-			{
-				var brushes = _dynamicBrushes[guid].ContainsKey(deviceState.StateType) ? _dynamicBrushes[guid][deviceState.StateType] : null;
-				brush = brushes != null && brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
-				if (brushes != null)
-					foreach (var state in deviceState.ThreadSafeStates)
-						if (state.DriverState.StateType == deviceState.StateType && brushes.ContainsKey(state.DriverState.Code))
-						{
-							brush = brushes[state.DriverState.Code];
-							break;
-						}
-				if (brush == null)
-				{
-					brush = brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
-					if (_dynamicBrushes[guid].ContainsKey(StateType.No))
-					{
-						brushes = _dynamicBrushes[guid][StateType.No];
-						foreach (var state in deviceState.ThreadSafeStates)
-							if (state.DriverState.StateType == deviceState.StateType && brushes.ContainsKey(state.DriverState.Code))
-							{
-								brush = brushes[state.DriverState.Code];
-								break;
-							}
-					}
-				}
-			}
+            try
+            {
+                if (_dynamicBrushes.ContainsKey(guid))
+                {
+                    var brushes = _dynamicBrushes[guid].ContainsKey(deviceState.StateType) ? _dynamicBrushes[guid][deviceState.StateType] : null;
+                    brush = brushes != null && brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
+                    if (brushes != null)
+                        foreach (var state in deviceState.ThreadSafeStates)
+                            if (state.DriverState.StateType == deviceState.StateType && brushes.ContainsKey(state.DriverState.Code))
+                            {
+                                brush = brushes[state.DriverState.Code];
+                                break;
+                            }
+                    if (brush == null && brushes != null)
+                    {
+                        brush = brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
+                        if (_dynamicBrushes[guid].ContainsKey(StateType.No))
+                        {
+                            brushes = _dynamicBrushes[guid][StateType.No];
+                            foreach (var state in deviceState.ThreadSafeStates)
+                                if (state.DriverState.StateType == deviceState.StateType && brushes.ContainsKey(state.DriverState.Code))
+                                {
+                                    brush = brushes[state.DriverState.Code];
+                                    break;
+                                }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "DevicePictureCache.GetDynamicBrush(Guid guid, DeviceState deviceState)");
+            }
 			return brush ?? EmptyBrush;
 		}
 		private static Brush GetDynamicBrush(Guid guid, XDeviceState deviceState)
