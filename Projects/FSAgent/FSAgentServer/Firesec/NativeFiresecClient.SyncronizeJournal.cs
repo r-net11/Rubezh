@@ -70,6 +70,7 @@ namespace FSAgentServer
 				}
 
 				var journalRecords = GetEvents(SynchrinizeJournalNo);
+				journalRecords.RemoveAll(x => x.OldId < SynchrinizeJournalNo);
 				if (journalRecords.Count > 0)
 				{
 					DatabaseHelper.AddJournalRecords(journalRecords);

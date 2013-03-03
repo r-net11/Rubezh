@@ -47,7 +47,7 @@ namespace FSAgentServer
 			Logger.Error("NativeFiresecClient.StartSocketServerIfNotRunning не удалось запустить процесс scktsrvr");
 		}
 
-		static void Stop()
+		public static void Stop()
 		{
 			foreach (var process in Process.GetProcesses())
 			{
