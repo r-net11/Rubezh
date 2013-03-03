@@ -53,7 +53,7 @@ namespace DevicesModule
 		{
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
-			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0;
+			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0 && !GlobalSettingsHelper.GlobalSettings.DoNotShowZonesInMonitor;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}
@@ -110,21 +110,26 @@ namespace DevicesModule
 
 			if (firstTime)
 			{
-#if RELEASE
-                LoadingService.DoStep("Проверка HASP-ключа");
-                var operationResult = FiresecManager.FiresecDriver.CheckHaspPresence();
-                if (operationResult.HasError)
-                    MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
-#endif
+				CheckHasp();
 			}
 
 			return true;
 		}
 
+		void CheckHasp()
+		{
+#if DEBUG
+			return;
+#endif
+			LoadingService.DoStep("Проверка HASP-ключа");
+			var operationResult = FiresecManager.FiresecDriver.CheckHaspPresence();
+			if (operationResult.HasError || !operationResult.Result)
+				MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
+		}
+
 		public override void AfterInitialize()
 		{
 			ServiceFactory.SubscribeEvents();
-			//ProgressWatcher.Run();
 		}
 	}
 }

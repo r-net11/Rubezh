@@ -84,46 +84,47 @@
             </Grid>
         </Border>
 
-        <Grid Grid.Row="1" Margin="0, 5, 0, 0">
-            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
-                <Controls:TreeListView.Columns>
-                    <GridViewColumn Width="250" Header="Устройство">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
-                                        <TextBlock.Style>
-                                            <Style>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsBold}" Value="True">
-                                                        <DataTrigger.Setters>
-                                                            <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                        </DataTrigger.Setters>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <StackPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                            <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-                                    <StackPanel.InputBindings>
-                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
-                                    </StackPanel.InputBindings>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding PresentationAddress}" />
-                    <GridViewColumn Header="Зона" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
-                    <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
-                </Controls:TreeListView.Columns>
-            </Controls:TreeListView>
-        </Grid>
+        <Controls:TreeListView Grid.Row="1" Margin="0, 5, 0, 0" Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
+            <Controls:TreeListView.Columns>
+                <GridViewColumn Width="250" Header="Устройство">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsBold}" Value="True">
+                                                    <DataTrigger.Setters>
+                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                    </DataTrigger.Setters>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                        <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+                                        <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <MenuItem Header="Снять с охраны" Command="{Binding UnsetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                                <StackPanel.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                                </StackPanel.InputBindings>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding PresentationAddress}" />
+                <GridViewColumn Header="Зона" Width="200" DisplayMemberBinding="{Binding PresentationZone}" />
+                <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
+            </Controls:TreeListView.Columns>
+        </Controls:TreeListView>
     </Grid>
 </UserControl>
