@@ -16,40 +16,20 @@ namespace FiresecDB
 		{
 			try
 			{
-				InsertJournalRecordToDb(journalRecords);
+				var sortedJournalRecords = new List<JournalRecord>();
+				foreach (var journalRecord in journalRecords)
+				{
+					if (journalRecord.Description == "Потеря связи с пользователем." || journalRecord.Description == "Вход пользователя в систему")
+						continue;
+					sortedJournalRecords.Add(journalRecord);
+				}
+				if (sortedJournalRecords.Count > 0)
+					InsertJournalRecordToDb(sortedJournalRecords);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове DatabaseHelper.AddJournalRecords");
 			}
-		}
-
-		public static bool AddJournalRecord(JournalRecord journalRecord)
-		{
-			try
-			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
-				{
-					var query = "SELECT * FROM Journal WHERE " +
-								"\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-								"\n AND OldId = " + journalRecord.OldId;
-					var result = new SqlCeCommand(query, dataContext);
-					dataContext.Open();
-					var reader = result.ExecuteReader();
-					if (reader.Read() == false)
-					{
-						var journalRecords = new List<JournalRecord>();
-						journalRecords.Add(journalRecord);
-						InsertJournalRecordToDb(journalRecords);
-					}
-					return true;
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове DatabaseHelper.AddJournalRecord");
-			}
-			return false;
 		}
 
 		public static int GetLastOldId()
@@ -86,6 +66,16 @@ namespace FiresecDB
 				dataContext.Open();
 				foreach (var journalRecord in journalRecords)
 				{
+					var query = "SELECT * FROM Journal WHERE " +
+								"\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+								"\n AND OldId = " + journalRecord.OldId;
+					var result = new SqlCeCommand(query, dataContext);
+					var reader = result.ExecuteReader();
+					if (reader.Read())
+					{
+						continue;
+					}
+
 					var sqlCeCommand = new SqlCeCommand();
 					sqlCeCommand.Connection = dataContext;
 					sqlCeCommand.CommandText = @"Insert Into Journal" +
@@ -197,8 +187,7 @@ namespace FiresecDB
 						journalRecord.PanelDatabaseId = reader.GetString(reader.GetOrdinal("PanelDatabaseId"));
 						journalRecord.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
 						journalRecord.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
-						journalRecord.SubsystemType =
-							(SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
+						journalRecord.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
 						journalRecord.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
 						journalRecord.User = reader.GetString(reader.GetOrdinal("UserName"));
 						journalRecord.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
@@ -303,8 +292,7 @@ namespace FiresecDB
 							journalRecord.PanelDatabaseId = reader.GetString(reader.GetOrdinal("PanelDatabaseId"));
 							journalRecord.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
 							journalRecord.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
-							journalRecord.SubsystemType =
-								(SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
+							journalRecord.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
 							journalRecord.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
 							journalRecord.User = reader.GetString(reader.GetOrdinal("UserName"));
 							journalRecord.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));

@@ -24,9 +24,9 @@
                                 <Setter Property="Width" Value="24" />
                             </Style>
                         </HierarchicalDataTemplate.Resources>
-                        <StackPanel Orientation="Horizontal" ToolTip="{Binding Title}">
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding Title}" HorizontalAlignment="Stretch">
                             <Image Source="{Binding Icon, Converter={StaticResource NullToImageConverter}, Mode=OneTime}" />
-                            <TextBlock Text="{Binding Title}"  Visibility="{Binding Context.TextVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding Title}" Visibility="{Binding Context.TextVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
