@@ -6,7 +6,7 @@
 
     <DirectoryRef Id="ProgramMenuDir.AdditionalFolder">
       <Component Id="FSAgent.ProgramsMenuShortcut" Guid="*">
-        <Shortcut Id="FSAgent.ProgramsMenuShortcut" Name="$(var.FSAgentName)" Target="[SERVERLOCATION]$(var.FSAgent.TargetFileName)"
+        <Shortcut Id="FSAgent.ProgramsMenuShortcut" Name="$(var.FSAgentName)" Target="[FSAGENTLOCATION]$(var.FSAgent.TargetFileName)"
             WorkingDirectory="FSAGENTLOCATION" Description="$(var.FSAgentName)" Icon="FSAgentIcon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FSAgentName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
         <Condition>SHORTCUT_PROGRAMMENU</Condition>

@@ -26,7 +26,6 @@
         <File Id="Administrator.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Manual.pdf" Name="Manual.pdf" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />

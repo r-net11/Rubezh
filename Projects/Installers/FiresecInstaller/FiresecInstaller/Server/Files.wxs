@@ -86,5 +86,11 @@
       </Component>
     </DirectoryRef>
 
+    <DirectoryRef Id="AppData.FiresecLocation">
+      <Component Id="AppData.Manual.pdf">
+        <File Id="Server.Manual.pdf" Name="Manual.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
+      </Component>
+    </DirectoryRef>
+
   </Fragment>
 </Wix>
