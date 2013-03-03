@@ -160,18 +160,35 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.GKChanged = true;
 					ServiceFactory.SaveService.XInstructionsChanged = true;
 
-					ServiceFactory.Layout.Close();
-					if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
-						ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-					if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
-						ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
-					ServiceFactory.Layout.ShowFooter(null);
+					ShowFirstDevice();
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.CreateNew");
 				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+			}
+		}
+
+		public static void ShowFirstDevice()
+		{
+			ServiceFactory.Layout.Close();
+			ServiceFactory.Layout.ShowFooter(null);
+			if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
+			{
+				var deviceUID = Guid.Empty;
+				var firstDevice = FiresecManager.Devices.FirstOrDefault();
+				if (firstDevice != null)
+					deviceUID = firstDevice.UID;
+				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(deviceUID);
+			}
+			else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+			{
+				var deviceUID = Guid.Empty;
+				var firstDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault();
+				if (firstDevice != null)
+					deviceUID = firstDevice.UID;
+				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(deviceUID);
 			}
 		}
 	}

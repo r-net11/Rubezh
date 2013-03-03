@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
@@ -14,7 +15,19 @@ namespace PlansModule.ViewModels
 		public DesignerPropertiesViewModel(Plan plan)
 		{
 			Title = "Свойства элемента: План";
-			Plan = plan ?? new Plan();
+			if (plan == null)
+			{
+				plan = new Plan();
+				var width = RegistrySettingsHelper.GetDouble("Administrator.Plans.DefaultWidth");
+				var height = RegistrySettingsHelper.GetDouble("Administrator.Plans.DefaultHeight");
+				var color = RegistrySettingsHelper.GetColor("Administrator.Plans.DefaultColor");
+				if (width != 0)
+					plan.Width = width;
+				if (height != 0)
+					plan.Height = height;
+				plan.BackgroundColor = color;
+			}
+			Plan = plan;
 			ImagePropertiesViewModel = new ViewModels.ImagePropertiesViewModel(Plan);
 			CopyProperties();
 		}
@@ -61,17 +74,6 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		double _height;
-		public double Height
-		{
-			get { return _height; }
-			set
-			{
-				_height = value;
-				OnPropertyChanged("Height");
-			}
-		}
-
 		double _width;
 		public double Width
 		{
@@ -83,6 +85,17 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		double _height;
+		public double Height
+		{
+			get { return _height; }
+			set
+			{
+				_height = value;
+				OnPropertyChanged("Height");
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Caption);
@@ -90,10 +103,14 @@ namespace PlansModule.ViewModels
 
 		protected override bool Save()
 		{
+			RegistrySettingsHelper.SetDouble("Administrator.Plans.DefaultWidth", Width);
+			RegistrySettingsHelper.SetDouble("Administrator.Plans.DefaultHeight", Height);
+			RegistrySettingsHelper.SetColor("Administrator.Plans.DefaultColor", BackgroundColor);
+
 			Plan.Caption = Caption;
 			Plan.Description = Description;
-			Plan.Height = Height;
 			Plan.Width = Width;
+			Plan.Height = Height;
 			Plan.BackgroundColor = BackgroundColor;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
