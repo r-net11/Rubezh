@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace Infrastructure.Common.Navigation
 {

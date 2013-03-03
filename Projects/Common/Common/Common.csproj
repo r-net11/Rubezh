@@ -140,6 +140,7 @@
     <Compile Include="HashHelper.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
+    <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

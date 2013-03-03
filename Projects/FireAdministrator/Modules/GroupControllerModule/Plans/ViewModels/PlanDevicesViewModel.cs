@@ -19,6 +19,7 @@ namespace GKModule.Plans.ViewModels
 
 		public PlanDevicesViewModel(DevicesViewModel devicesViewModel)
 		{
+			_lockSelection = false;
 			_devicesViewModel = devicesViewModel;
 			_devicesViewModel.PropertyChanged += (s, e) =>
 			{

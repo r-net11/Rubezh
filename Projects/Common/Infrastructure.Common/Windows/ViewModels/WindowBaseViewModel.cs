@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Interop;
+using Common;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

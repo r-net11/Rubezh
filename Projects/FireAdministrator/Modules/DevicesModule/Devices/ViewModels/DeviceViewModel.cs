@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -30,6 +31,7 @@ namespace DevicesModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 
 			PropertiesViewModel = new PropertiesViewModel(device);
 
@@ -145,7 +147,7 @@ namespace DevicesModule.ViewModels
 		string _editingPresentationZone;
 		public string EditingPresentationZone
 		{
-			get{return _editingPresentationZone;}
+			get { return _editingPresentationZone; }
 			set
 			{
 				_editingPresentationZone = value;
@@ -377,6 +379,20 @@ namespace DevicesModule.ViewModels
 		{
 			if (Device.PlanElementUIDs.Count > 0)
 				ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
+		}
+
+		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
+		private void OnCreateDragObjectCommand(DataObject dataObject)
+		{
+			var plansElement = new ElementDevice()
+			{
+				DeviceUID = Device.UID
+			};
+			dataObject.SetData("DESIGNER_ITEM", plansElement);
+		}
+		private bool CanCreateDragObjectCommand(DataObject dataObject)
+		{
+			return Driver != null && Driver.IsPlaceable;
 		}
 
 		public Driver Driver

@@ -58,6 +58,7 @@ namespace Controls
 		{
 			DefaultSeparatorStyle = new Style(typeof(Rectangle));
 			DefaultSeparatorStyle.Setters.Add(new Setter(Shape.FillProperty, SystemColors.ControlLightBrush));
+			DefaultSeparatorStyle.Setters.Add(new Setter(UIElement.IsHitTestVisibleProperty, false));
 			SeparatorStyleProperty = DependencyProperty.Register("SeparatorStyle", typeof(Style), typeof(TreeGridViewRowPresenter), new UIPropertyMetadata(DefaultSeparatorStyle, SeparatorStyleChanged));
 		}
 
@@ -75,9 +76,7 @@ namespace Controls
 			var presenter = (TreeGridViewRowPresenter)d;
 			var style = (Style)e.NewValue;
 			foreach (FrameworkElement line in presenter._lines)
-			{
 				line.Style = style;
-			}
 		}
 		private void EnsureLines()
 		{

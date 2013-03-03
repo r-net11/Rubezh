@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
+using Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows

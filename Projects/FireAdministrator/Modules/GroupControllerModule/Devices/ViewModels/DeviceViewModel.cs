@@ -1,14 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
-using Infrastructure.Events;
-using System;
-using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -20,15 +21,16 @@ namespace GKModule.ViewModels
 		public DeviceViewModel(XDevice device)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-            AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
+			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
-            ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
-            ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
+			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
+			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
+			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
@@ -42,7 +44,7 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
-            OnPropertyChanged("EditingPresentationZone");
+			OnPropertyChanged("EditingPresentationZone");
 		}
 
 		public void UpdateProperties()
@@ -75,7 +77,7 @@ namespace GKModule.ViewModels
 					{
 						foreach (var deviceViewModel in Children)
 						{
-                            deviceViewModel.OnPropertyChanged("Address");
+							deviceViewModel.OnPropertyChanged("Address");
 							deviceViewModel.OnPropertyChanged("PresentationAddress");
 						}
 					}
@@ -86,10 +88,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public string PresentationAddress
-        {
-            get { return Device.PresentationAddress; }
-        }
+		public string PresentationAddress
+		{
+			get { return Device.PresentationAddress; }
+		}
 
 		public string Description
 		{
@@ -120,38 +122,38 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-            var newDeviceViewModel = new NewDeviceViewModel(this);
-            if (newDeviceViewModel.Drivers.Count == 1)
-            {
-                newDeviceViewModel.SaveCommand.Execute();
+			var newDeviceViewModel = new NewDeviceViewModel(this);
+			if (newDeviceViewModel.Drivers.Count == 1)
+			{
+				newDeviceViewModel.SaveCommand.Execute();
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
-                ServiceFactory.SaveService.GKChanged = true;
-                return;
-            }
+				ServiceFactory.SaveService.GKChanged = true;
+				return;
+			}
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-        public bool CanAdd()
-        {
+		public bool CanAdd()
+		{
 			if (Driver.Children.Count > 0)
 				return true;
 			if (Driver.DriverType == XDriverType.MPT && Parent != null && Parent.Driver.DriverType == XDriverType.KAU)
 				return true;
 			return false;
-        }
+		}
 
-        public RelayCommand AddToParentCommand { get; private set; }
-        void OnAddToParent()
-        {
-            Parent.AddCommand.Execute();
-        }
-        public bool CanAddToParent()
-        {
-            return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
-        }
+		public RelayCommand AddToParentCommand { get; private set; }
+		void OnAddToParent()
+		{
+			Parent.AddCommand.Execute();
+		}
+		public bool CanAddToParent()
+		{
+			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
+		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
@@ -186,38 +188,38 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-        bool CanShowProperties()
-        {
-            return Device.Driver.DriverType == XDriverType.PumpStation;
-        }
+		bool CanShowProperties()
+		{
+			return Device.Driver.DriverType == XDriverType.PumpStation;
+		}
 
-        public string PresentationZone
-        {
-            get
+		public string PresentationZone
+		{
+			get
 			{
 				if (Device.IsNotUsed)
 					return null;
 				return XManager.GetPresentationZone(Device);
 			}
-        }
+		}
 
-        public string EditingPresentationZone
-        {
-            get
-            {
+		public string EditingPresentationZone
+		{
+			get
+			{
 				if (Device.IsNotUsed)
 					return null;
-                var presentationZone = XManager.GetPresentationZone(Device);
-                if (string.IsNullOrEmpty(presentationZone))
-                {
-                    if (Driver.HasZone)
-                        presentationZone = "Нажмите для выбора зон";
-                    if (Driver.HasLogic)
-                        presentationZone = "Нажмите для настройки логики";
-                }
-                return presentationZone;
-            }
-        }
+				var presentationZone = XManager.GetPresentationZone(Device);
+				if (string.IsNullOrEmpty(presentationZone))
+				{
+					if (Driver.HasZone)
+						presentationZone = "Нажмите для выбора зон";
+					if (Driver.HasLogic)
+						presentationZone = "Нажмите для настройки логики";
+				}
+				return presentationZone;
+			}
+		}
 
 		public bool IsOnPlan
 		{
@@ -228,61 +230,75 @@ namespace GKModule.ViewModels
 			get { return !Device.IsNotUsed && (Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0); }
 		}
 
+		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
+		private void OnCreateDragObjectCommand(DataObject dataObject)
+		{
+			var plansElement = new ElementXDevice()
+			{
+				XDeviceUID = Device.UID
+			};
+			dataObject.SetData("DESIGNER_ITEM", plansElement);
+		}
+		private bool CanCreateDragObjectCommand(DataObject dataObject)
+		{
+			return Driver != null && Driver.IsPlaceable;
+		}
+
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
 			if (Device.PlanElementUIDs.Count > 0)
 				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
 		}
-		
+
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-            if (DialogService.ShowModalWindow(new DeviceLogicViewModel(Device)))
-            {
-                OnPropertyChanged("PresentationZone");
-                ServiceFactory.SaveService.GKChanged = true;
-            }
+			if (DialogService.ShowModalWindow(new DeviceLogicViewModel(Device)))
+			{
+				OnPropertyChanged("PresentationZone");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
-        bool CanShowLogic()
-        {
+		bool CanShowLogic()
+		{
 			return (Driver.HasLogic && !Device.IsNotUsed);
-        }
+		}
 
-        public RelayCommand ShowZonesCommand { get; private set; }
-        void OnShowZones()
-        {
+		public RelayCommand ShowZonesCommand { get; private set; }
+		void OnShowZones()
+		{
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones);
-            if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-            {
+			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
+			{
 				XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
-                OnPropertyChanged("PresentationZone");
-                ServiceFactory.SaveService.GKChanged = true;
-            }
-        }
-        bool CanShowZones()
-        {
-            return (Driver.HasZone);
-        }
+				OnPropertyChanged("PresentationZone");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanShowZones()
+		{
+			return (Driver.HasZone);
+		}
 
-        public RelayCommand ShowZoneOrLogicCommand { get; private set; }
-        void OnShowZoneOrLogic()
-        {
-            if (CanShowZones())
-                OnShowZones();
+		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
+		void OnShowZoneOrLogic()
+		{
+			if (CanShowZones())
+				OnShowZones();
 
-            if (CanShowLogic())
-                OnShowLogic();
-        }
-        bool CanShowZoneOrLogic()
-        {
-            return (Driver.HasZone || Driver.HasLogic);
-        }
+			if (CanShowLogic())
+				OnShowLogic();
+		}
+		bool CanShowZoneOrLogic()
+		{
+			return (Driver.HasZone || Driver.HasLogic);
+		}
 
-        public bool IsZoneOrLogic
-        {
-            get { return CanShowZoneOrLogic(); }
-        }
+		public bool IsZoneOrLogic
+		{
+			get { return CanShowZoneOrLogic(); }
+		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()

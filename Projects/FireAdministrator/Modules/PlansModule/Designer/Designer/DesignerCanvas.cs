@@ -100,6 +100,8 @@ namespace PlansModule.Designer
 			base.OnDragOver(e);
 			e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
 			e.Handled = true;
+			if (e.Effects == DragDropEffects.Move)
+				Toolbox.SetDefault();
 		}
 		protected override void OnDrop(DragEventArgs e)
 		{
@@ -109,7 +111,6 @@ namespace PlansModule.Designer
 			{
 				Toolbox.SetDefault();
 				//elementBase.SetDefault();
-
 				Point position = e.GetPosition(this);
 				elementBase.Position = position;
 				CreateDesignerItem(elementBase);

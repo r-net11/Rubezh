@@ -159,11 +159,16 @@
     <Compile Include="ServerLoadHelper.cs" />
     <Compile Include="Services\Content\IContentService.cs" />
     <Compile Include="Services\Content\ContentService.cs" />
+    <Compile Include="Services\DragDrop\TreeListDragDropDecorator.cs" />
+    <Compile Include="Services\DragDrop\DragAdorner.cs" />
+    <Compile Include="Services\DragDrop\DragDropDecorator.cs" />
+    <Compile Include="Services\DragDrop\DragDropService.cs" />
+    <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\Resources\ResourceDescription.cs" />
     <Compile Include="Services\Resources\ResourceHelper.cs" />
     <Compile Include="Services\Resources\ResourceService.cs" />
     <Compile Include="StackTraceHelper.cs" />
-    <Compile Include="Tree\TreeItemViewModel.cs" />
+    <Compile Include="TreeList\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />
     <Compile Include="Reports\IReportPrintExtension.cs" />
     <Compile Include="Reports\IMultiReportProvider.cs" />
@@ -209,7 +214,7 @@
     </Compile>
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SingleLaunchHelper.cs" />
-    <Compile Include="Tree\TreeBaseViewModel.cs" />
+    <Compile Include="TreeList\TreeBaseViewModel.cs" />
     <Compile Include="Video\VideoService.cs" />
     <Compile Include="Video\VideoWindow.xaml.cs">
       <DependentUpon>VideoWindow.xaml</DependentUpon>

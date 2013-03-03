@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using Common;
 using Infrastructure.Common.About.ViewModels;
 
 namespace Infrastructure.Common.Windows.ViewModels
@@ -49,11 +50,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			Surface.WindowState = WindowState.Normal;
 		}
-        public virtual void ShowHelp()
-        {
-            if (File.Exists("Manual.pdf"))
-                Process.Start("Manual.pdf");
-        }
+		public virtual void ShowHelp()
+		{
+			if (File.Exists("Manual.pdf"))
+				Process.Start("Manual.pdf");
+		}
 		public virtual void ShowAbout()
 		{
 			var aboutViewModel = new AboutViewModel();
