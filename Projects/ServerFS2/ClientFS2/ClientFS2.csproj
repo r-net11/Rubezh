@@ -60,6 +60,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationWriter\BytesHelper.cs" />
+    <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />

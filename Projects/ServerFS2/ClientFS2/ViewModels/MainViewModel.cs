@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
+using ClientFS2.ConfigurationWriter;
 
 namespace ClientFS2.ViewModels
 {
@@ -27,6 +28,7 @@ namespace ClientFS2.ViewModels
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
+			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			DevicesViewModel = new DevicesViewModel();
             new PropertiesViewModel(DevicesViewModel);
 		}
@@ -158,6 +160,16 @@ namespace ClientFS2.ViewModels
 		bool CanUnsetPanelRegime()
 		{
 			return false;
+		}
+
+		public RelayCommand WriteConfigurationCommand { get; private set; }
+		private void OnWriteConfiguration()
+		{
+			ConfigurationWriterHelper.Run();
+		}
+		bool CanWriteConfiguration()
+		{
+			return true;
 		}
 	}
 }
