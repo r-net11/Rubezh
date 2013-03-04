@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common

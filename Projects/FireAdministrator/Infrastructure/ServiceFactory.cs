@@ -1,10 +1,11 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
-using Infrastructure.Services;
-using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
+using Infrastructure.Common.Services.DragDrop;
+using Infrastructure.Services;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
 {
@@ -20,6 +21,7 @@ namespace Infrastructure
 			ValidationService = IValidationService;
 			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
 			ContentService = new ContentService("Administrator");
+			DragDropService = new DragDropService();
 		}
 
 		public static SaveService SaveService { get; private set; }

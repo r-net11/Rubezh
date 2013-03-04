@@ -9,6 +9,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Devices = DevicesModule.ViewModels;
+using System.Windows;
+using Infrastructure.Common;
 
 namespace DevicesModule.Plans.ViewModels
 {
