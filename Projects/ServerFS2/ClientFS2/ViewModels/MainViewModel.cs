@@ -89,13 +89,17 @@ namespace ClientFS2.ViewModels
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		private void OnReadConfiguration()
 		{
-
+            var devicesViewModel = new DevicesViewModel(new Device());
+            _progressService.Run(() =>
+            {
+                var device = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
+                devicesViewModel = new DevicesViewModel(device);
+            }, () => DialogService.ShowModalWindow(devicesViewModel), "Считывание конфигурации с устройства");
 		}
 		bool CanReadConfiguration()
 		{
-			return false;
+            return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
-
 		public RelayCommand GetInformationCommand { get; private set; }
 		private void OnGetInformation()
 		{

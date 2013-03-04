@@ -63,25 +63,27 @@ namespace ServerFS2
 			_writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
 		List<Response> _responses = new List<Response>();
+	    List<byte> _localresult = new List<byte>();
 		private void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
-			var localresult = new List<byte>();
-			foreach (var b in e.Buffer)
+            var buffer = e.Buffer.Where((val, idx) => idx != 0).ToArray();
+            foreach (var b in buffer)
 			{
-				if (localresult.Count > 0)
+				if (_localresult.Count > 0)
 				{
-					localresult.Add(b);
+					_localresult.Add(b);
 					if (b == 0x3E)
 					{
-						localresult = CreateInputBytes(localresult); // Преобразуем ответ в правильный вид
-						var responseId = (uint)(localresult.ToList()[3] +
-							localresult.ToList()[2] * 256 +
-							localresult.ToList()[1] * 256 * 256 +
-							localresult.ToList()[0] * 256 * 256 * 256); // id ответа
+						_localresult = CreateInputBytes(_localresult); // Преобразуем ответ в правильный вид
+						var responseId = (uint)(_localresult.ToList()[3] +
+							_localresult.ToList()[2] * 256 +
+							_localresult.ToList()[1] * 256 * 256 +
+							_localresult.ToList()[0] * 256 * 256 * 256); // id ответа
 						var request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
 						if (request == null) // если не нашли, то выходим из цикла, иначе
 							break;
-						_result = localresult.ToList();
+						_result = _localresult.ToList();
+                        _localresult = new List<byte>();
 						var response = new Response
 										   {
 											   Id = responseId,
@@ -90,14 +92,13 @@ namespace ServerFS2
 						_responses.Add(response);
 					    _requests.RemoveAll(x => x.Id == responseId);
 						_autoResetEvent.Set();
-						break;
+						return;
 					}
 				}
 				if (b == 0x7E)
 				{
-					localresult = new List<byte> { b };
+					_localresult = new List<byte> { b };
 				}
-
                 if (_requests.Count == 0)
                     _autoWaitEvent.Set();
 			}
