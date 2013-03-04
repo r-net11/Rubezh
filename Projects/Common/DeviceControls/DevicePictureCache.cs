@@ -159,9 +159,20 @@ namespace DeviceControls
 			return _xbrushes[driverUID];
 		}
 
-		public static Brush GetDynamicBrush(Device device)
+		public static Brush GetDynamicBrush(Device device, Guid alternativeDriverUID)
 		{
-			return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetBrush(device) : GetDynamicBrush(device.DriverUID, device.DeviceState);
+			if (device == null || device.DriverUID == Guid.Empty || device.DeviceState == null)
+			{
+				return GetBrush(device);
+			}
+			else
+			{
+				var driverUID = device.DriverUID;
+				if (alternativeDriverUID != Guid.Empty)
+					driverUID = alternativeDriverUID;
+				return GetDynamicBrush(driverUID, device.DeviceState);
+			}
+			//return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetBrush(device) : GetDynamicBrush(device.DriverUID, device.DeviceState);
 		}
 		public static Brush GetDynamicBrush(XDevice device)
 		{

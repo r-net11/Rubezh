@@ -15,6 +15,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
+		[DataMember]
+		public Guid AlternativeDriverUID { get; set; }
+
 		public override ElementBase Clone()
 		{
 			ElementDevice elementBase = new ElementDevice()

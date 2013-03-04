@@ -43,6 +43,7 @@ namespace DevicesModule.Plans.ViewModels
 				ExpandChild(Devices[0]);
 			}
 
+			SelectedDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == _elementDevice.AlternativeDriverUID);
 			Select(elementDevice.DeviceUID);
 		}
 
@@ -87,6 +88,7 @@ namespace DevicesModule.Plans.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged("SelectedDevice");
+				UpdateAvailableDriver();
 			}
 		}
 
@@ -112,6 +114,56 @@ namespace DevicesModule.Plans.ViewModels
 			}
 		}
 
+		ObservableCollection<Driver> _availableDrivers;
+		public ObservableCollection<Driver> AvailableDrivers
+		{
+			get { return _availableDrivers; }
+			set
+			{
+				_availableDrivers = value;
+				OnPropertyChanged("AvailableDrivers");
+			}
+		}
+
+		Driver _selectedDriver;
+		public Driver SelectedDriver
+		{
+			get { return _selectedDriver; }
+			set
+			{
+				_selectedDriver = value;
+				OnPropertyChanged("SelectedDriver");
+			}
+		}
+
+		bool _canChangeDriver;
+		public bool CanChangeDriver
+		{
+			get { return _canChangeDriver; }
+			set
+			{
+				_canChangeDriver = value;
+				OnPropertyChanged("CanChangeDriver");
+			}
+		}
+
+		void UpdateAvailableDriver()
+		{
+			AvailableDrivers = new ObservableCollection<Driver>();
+			CanChangeDriver = false;
+			if (SelectedDevice != null)
+			{
+				if (SelectedDevice.Driver.DriverType == DriverType.AMP_4)
+				{
+					AvailableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
+					AvailableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HeatDetector));
+					CanChangeDriver = true;
+				}
+			}
+			if (SelectedDriver != null)
+				SelectedDriver = AvailableDrivers.FirstOrDefault(x => x.UID == SelectedDriver.UID);
+		}
+
 		protected override bool Save()
 		{
 			Guid deviceUID = _elementDevice.DeviceUID;
@@ -120,6 +172,10 @@ namespace DevicesModule.Plans.ViewModels
 				Update(deviceUID);
 			Update(_elementDevice.DeviceUID);
 			_devicesViewModel.Select(_elementDevice.DeviceUID);
+			if (SelectedDriver != null)
+				_elementDevice.AlternativeDriverUID = SelectedDriver.UID;
+			else
+				_elementDevice.AlternativeDriverUID = Guid.Empty;
 			return base.Save();
 		}
 		private void Update(Guid deviceUID)
