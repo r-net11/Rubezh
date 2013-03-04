@@ -124,12 +124,17 @@ namespace MonitorClientFS2
 		{
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			//bytes.Add(Convert.ToByte(device.IntAddress / 256));
-			bytes.Add(0x03); // 1 шлейф
+			bytes.Add(GetSheifByte(device));
 			bytes.Add(Convert.ToByte(device.IntAddress % 256));
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
 			return ServerHelper.SendCode(bytes).Result.FirstOrDefault();
+		}
+
+		private static byte GetSheifByte(Device device)
+		{
+			//Convert.ToByte(device.IntAddress / 256);
+			return 0x03;
 		}
 	}
 }

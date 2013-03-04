@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.Models;
 using ServerFS2;
 using ServerFS2.DataBase;
 
@@ -10,9 +11,8 @@ namespace MonitorClientFS2
 {
 	public class JournalParser
 	{
-		public static FSJournalItem FSParce(List<byte> allbytes)
+		public static FSJournalItem FSParce(List<byte> _allBytes)
 		{
-			List<byte> _allBytes = allbytes;
 			List<byte> _bytes = new List<byte>(_allBytes);
 			_bytes.RemoveRange(0, 7);
 			FSJournalItem _fsjournalItem = new FSJournalItem();
@@ -35,9 +35,7 @@ namespace MonitorClientFS2
 			var Panel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.AddressFullPath == PanelAddress.ToString());
 			_fsjournalItem.PanelName = Panel.Driver.Name;
 			_fsjournalItem.PanelUID = Panel.Driver.UID;
-
-			var FirstAddress = _bytes[17] + 1;
-			var Address = _bytes[8];
+			_fsjournalItem.SubsystemType = GetSubsystemType(Panel);
 
 			var byteState = _bytes[9];
 			_fsjournalItem.StateType = (StateType)byteState;
@@ -54,7 +52,7 @@ namespace MonitorClientFS2
 			GuardEvents(_allBytes, _fsjournalItem);
 
 			// Потеря связи с мониторинговой станцией (БИ, ПДУ, УОО-ТЛ, МС-1, МС-2)
-			LostConnection(_bytes, _fsjournalItem);
+			_fsjournalItem.Detalization += LostConnection(_bytes);
 
 			_fsjournalItem.DeviceUID = MetadataHelper.GetUidById((ushort)_fsjournalItem.DeviceCategory);
 			var deviceUid = _fsjournalItem.DeviceUID.ToString().ToUpper();
@@ -71,71 +69,80 @@ namespace MonitorClientFS2
 			else
 				_fsjournalItem.DeviceName = "Неизвестное устройство";
 
-			int tableType = 99999;
-
-			if (deviceUid != "00000000-0000-0000-0000-000000000000")
-			{
-				if (_fsjournalItem.DeviceCategory != 0)
-				{
-					tableType = Convert.ToInt32(MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(deviceUid)))).tableType);
-				}
-			}
-
-			_fsjournalItem.Detalization += "Устройство: " + _fsjournalItem.DeviceName + " " + FirstAddress + "." + Address + "\n";
-
-			// Детализация событий
-			if (tableType != 99999)
-			{
-				var even = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + _bytes[0].ToString("X2"));
-				if (even.detailsFor != null)
-				{
-					var details = even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString());
-					if (details != null)
-					{
-						var dictionaryName =
-							even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString()).dictionary;
-						var dictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == dictionaryName);
-						var bitState = new BitArray(new int[] { byteState });
-						foreach (var bit in dictionary.bit)
-						{
-							if (bitState.Get(Convert.ToInt32(bit.no)))
-								_fsjournalItem.Detalization += dictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
-						}
-					}
-				}
-			}
-
+			_fsjournalItem.Detalization += EventDetalization(_bytes, _fsjournalItem);
 			_fsjournalItem.UserName = "Usr";
 			return _fsjournalItem;
 		}
 
-		// Потеря связи с мониторинговой станцией (БИ, ПДУ, УОО-ТЛ, МС-1, МС-2)
-		private static void LostConnection(List<byte> _bytes, FSJournalItem _fsjournalItem)
+		private static string EventDetalization(List<byte> _bytes, FSJournalItem _fsjournalItem)
 		{
+			int tableType = 99999;
+			var FirstAddress = _bytes[17] + 1;
+			var Address = _bytes[8];
+			string detalization = String.Empty;
+			if (_fsjournalItem.DeviceUID.ToString().ToUpper() != "00000000-0000-0000-0000-000000000000" && _fsjournalItem.DeviceCategory != 0)
+			{
+				tableType = Convert.ToInt32(MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(_fsjournalItem.DeviceUID.ToString().ToUpper())))).tableType);
+			}
+			detalization += "Устройство: " + _fsjournalItem.DeviceName + " " + FirstAddress + "." + Address + "\n";
+			var even = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + _bytes[0].ToString("X2"));
+			if (even.detailsFor != null && tableType != 99999)
+			{
+				var dictionaryName = even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString()).dictionary;
+				var dictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == dictionaryName);
+				var bitState = new BitArray(new int[] { _bytes[9] });
+				foreach (var bit in dictionary.bit)
+					if (bitState.Get(Convert.ToInt32(bit.no)))
+						detalization = dictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+			}
+			return detalization;
+		}
+
+		private static SubsystemType GetSubsystemType(Device Panel)
+		{
+			SubsystemType subsystemType;
+			if (Panel.Driver.DriverType == DriverType.Rubezh_2OP || Panel.Driver.DriverType == DriverType.USB_Rubezh_2OP)
+				subsystemType = SubsystemType.Guard;
+			else if (Panel.Driver.DriverType == DriverType.Rubezh_10AM ||
+					Panel.Driver.DriverType == DriverType.Rubezh_2AM ||
+					Panel.Driver.DriverType == DriverType.Rubezh_4A ||
+					Panel.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
+					Panel.Driver.DriverType == DriverType.USB_Rubezh_4A)
+				subsystemType = SubsystemType.Fire;
+			else
+				subsystemType = SubsystemType.Other;
+			return subsystemType;
+		}
+
+		// Потеря связи с мониторинговой станцией (БИ, ПДУ, УОО-ТЛ, МС-1, МС-2)
+		private static string LostConnection(List<byte> _bytes)
+		{
+			string detalization = "";
 			if (_bytes[0] == 0x85)
 			{
 				switch (_bytes[7])
 				{
 					case 3:
-						_fsjournalItem.Detalization += "Прибор: Рубеж-БИ Адрес:" + _bytes[6] + "\n";
+						detalization += "Прибор: Рубеж-БИ Адрес:" + _bytes[6] + "\n";
 						break;
 					case 7:
-						_fsjournalItem.Detalization += "Прибор: Рубеж-ПДУ Адрес:" + _bytes[6] + "\n";
+						detalization += "Прибор: Рубеж-ПДУ Адрес:" + _bytes[6] + "\n";
 						break;
 					case 100:
-						_fsjournalItem.Detalization += "Устройство: МС-3 Адрес:" + _bytes[6] + "\n";
+						detalization += "Устройство: МС-3 Адрес:" + _bytes[6] + "\n";
 						break;
 					case 101:
-						_fsjournalItem.Detalization += "Устройство: МС-4 Адрес:" + _bytes[6] + "\n";
+						detalization += "Устройство: МС-4 Адрес:" + _bytes[6] + "\n";
 						break;
 					case 102:
-						_fsjournalItem.Description += "Устройство: УОО-ТЛ Адрес:" + _bytes[6] + "\n";
+						detalization += "Устройство: УОО-ТЛ Адрес:" + _bytes[6] + "\n";
 						break;
 					default:
-						_fsjournalItem.Detalization += "Неизв. устр." + "(" + _bytes[7] + ") Адрес:" + _bytes[6] + "\n";
+						detalization += "Неизв. устр." + "(" + _bytes[7] + ") Адрес:" + _bytes[6] + "\n";
 						break;
 				}
 			}
+			return detalization;
 		}
 
 		//Охранные события (сброс тревоги, постановка, снятие)
@@ -186,7 +193,7 @@ namespace MonitorClientFS2
 			var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == _bytes[10] * 256 + _bytes[11]);
 			if (zone == null)
 			{
-				_fsjournalItem.ZoneName = "";
+				_fsjournalItem.ZoneName = String.Empty;
 			}
 			else
 			{
@@ -225,7 +232,6 @@ namespace MonitorClientFS2
 			var hour = bitsExtracter.Get(15, 19);
 			var min = bitsExtracter.Get(20, 25);
 			var sec = bitsExtracter.Get(26, 31);
-
 			var resultString = day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString();
 			return DateTime.Parse(resultString);
 		}

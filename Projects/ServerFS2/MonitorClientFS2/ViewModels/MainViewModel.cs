@@ -86,21 +86,7 @@ namespace MonitorClientFS2
 								lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
 								if (lastDeviceRecord != lastDisplayedRecord)
 								{
-									Trace.Write("Дочитываю записи с " +
-										lastDisplayedRecord.ToString() +
-										" до " +
-										lastDeviceRecord.ToString());
-									var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
-									foreach (var journalItem in newItems)
-									{
-										AddToJournalObservable(journalItem);
-										DBJournalHelper.AddJournalItem(journalItem);
-										Trace.Write(".");
-									}
-									Trace.WriteLine(" дочитал");
-									devicesLastRecord.Remove(device);
-									devicesLastRecord.Add(device, lastDeviceRecord);
-									DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
+									ReadNewItems(lastDisplayedRecord, lastDeviceRecord, device);
 								}
 
 								if (device.Driver.DriverType == DriverType.Rubezh_2OP)
@@ -109,21 +95,7 @@ namespace MonitorClientFS2
 									lastDeviceSecRecord = JournalHelper.GetLastSecJournalItemId2Op(device);
 									if (lastDeviceSecRecord != lastDisplayedSecRecord)
 									{
-										Trace.Write("Дочитываю охранные записи с " +
-											lastDisplayedSecRecord.ToString() +
-											" до " +
-											lastDeviceSecRecord.ToString());
-										var newItems = JournalHelper.GetJournalItems(device, lastDeviceSecRecord, lastDisplayedSecRecord + 1);
-										foreach (var journalItem in newItems)
-										{
-											AddToJournalObservable(journalItem);
-											DBJournalHelper.AddJournalItem(journalItem);
-											Trace.Write(".");
-										}
-										Trace.WriteLine(" дочитал");
-										devicesLastRecord.Remove(device);
-										devicesLastRecord.Add(device, lastDeviceSecRecord);
-										DBJournalHelper.SetLastSecId(new Guid(), lastDeviceSecRecord);
+										ReadNewSecItems(lastDisplayedSecRecord, lastDeviceSecRecord, device);
 									}
 								}
 							}
@@ -135,6 +107,44 @@ namespace MonitorClientFS2
 
 			monitoringThread.IsBackground = true;
 			monitoringThread.Start();
+		}
+
+		private void ReadNewSecItems(int lastDisplayedSecRecord, int lastDeviceSecRecord, Device device)
+		{
+			Trace.Write("Дочитываю охранные записи с " +
+											  lastDisplayedSecRecord.ToString() +
+											  " до " +
+											  lastDeviceSecRecord.ToString());
+			var newItems = JournalHelper.GetSecJournalItems2Op(device, lastDeviceSecRecord, lastDisplayedSecRecord + 1);
+			foreach (var journalItem in newItems)
+			{
+				AddToJournalObservable(journalItem);
+				DBJournalHelper.AddJournalItem(journalItem);
+				Trace.Write(".");
+			}
+			Trace.WriteLine(" дочитал");
+			devicesLastRecord.Remove(device);
+			devicesLastRecord.Add(device, lastDeviceSecRecord);
+			DBJournalHelper.SetLastSecId(new Guid(), lastDeviceSecRecord);
+		}
+
+		private void ReadNewItems(int lastDisplayedRecord, int lastDeviceRecord, Device device)
+		{
+			Trace.Write("Дочитываю записи с " +
+										   lastDisplayedRecord.ToString() +
+										   " до " +
+										   lastDeviceRecord.ToString());
+			var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
+			foreach (var journalItem in newItems)
+			{
+				AddToJournalObservable(journalItem);
+				DBJournalHelper.AddJournalItem(journalItem);
+				Trace.Write(".");
+			}
+			Trace.WriteLine(" дочитал");
+			devicesLastRecord.Remove(device);
+			devicesLastRecord.Add(device, lastDeviceRecord);
+			DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
 		}
 
 		private void AddToJournalObservable(FSJournalItem journalItem)

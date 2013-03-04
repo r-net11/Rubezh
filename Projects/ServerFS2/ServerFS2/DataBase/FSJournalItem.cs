@@ -22,7 +22,7 @@ namespace ServerFS2.DataBase
 
 		public Guid PanelUID { get; set; } //
 
-		public SubsystemType SubsystemType { get; set; }
+		public SubsystemType SubsystemType { get; set; } //
 
 		public StateType StateType { get; set; } //
 
