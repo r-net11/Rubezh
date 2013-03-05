@@ -11,6 +11,11 @@ namespace Infrastructure.Common.Services.DragDrop
 {
 	public class TreeListDragDropDecorator : DragDropDecorator
 	{
+		private const int DRAG_WAIT_COUNTER_LIMIT = 10;
+		private const int DRAG_SCROLL_AREA_WIDTH = 25;
+		private int _dragScrollWaitCounter;
+		private int _dragExpandWaitCounter;
+		private ScrollViewer _scrollViewer;
 		private TreeView TreeView
 		{
 			get { return Child as TreeView; }
@@ -18,18 +23,28 @@ namespace Infrastructure.Common.Services.DragDrop
 
 		public TreeListDragDropDecorator()
 		{
+			DragEffect = DragDropEffects.Move | DragDropEffects.Copy | DragDropEffects.None;
 		}
-		
+
 		protected override void IsTargetChanged()
 		{
 			base.IsTargetChanged();
 			if (Child == null)
 				return;
 			if (IsTarget)
+			{
 				Child.PreviewDragOver += new DragEventHandler(OnPreviewDragOver);
+				Child.PreviewDragEnter += new DragEventHandler(OnPreviewDragOver);
+				Child.PreviewDragLeave += new DragEventHandler(OnPreviewDragOver);
+			}
 			else
+			{
+				Child.PreviewDragLeave += new DragEventHandler(OnPreviewDragOver);
+				Child.PreviewDragEnter += new DragEventHandler(OnPreviewDragOver);
 				Child.PreviewDragOver += new DragEventHandler(OnPreviewDragOver);
+			}
 		}
+
 		protected override void StartDrag()
 		{
 			var data = TreeView.SelectedItem as TreeItemViewModel;
@@ -37,22 +52,57 @@ namespace Infrastructure.Common.Services.DragDrop
 			{
 				TreeViewItem draggedItemContainer = GetItemContainer(data);
 				var dataObject = new DataObject(data);
-				ServiceFactoryBase.DragDropService.DoDragDrop(dataObject, draggedItemContainer, ShowDragVisual, true);
+				_dragScrollWaitCounter = 0;
+				_dragExpandWaitCounter = 0;
+				_scrollViewer = FindScrollViewer(TreeView);
+				ServiceFactoryBase.DragDropService.DoDragDrop(dataObject, draggedItemContainer, ShowDragVisual, true, DragEffect);
 			}
 		}
 
 		private void OnPreviewDragOver(object sender, DragEventArgs e)
 		{
-			//ItemsControl itemsControl = (ItemsControl)sender;
-			//if (e.Data.GetDataPresent(ItemType))
-			//{
-			//    UpdateDragAdorner(e.GetPosition(itemsControl));
-			//    UpdateInsertAdorner(itemsControl, e);
-			//    HandleDragScrolling(itemsControl, e);
-			//}
-			//e.Effects = ((e.KeyStates & DragDropKeyStates.ControlKey) != 0) ? DragDropEffects.Copy : DragDropEffects.Move;
-			e.Effects = DropCommand != null && DropCommand.CanExecute(e.Data) ? DragEffect : DragDropEffects.None;
+			HandleDragScrolling(e);
+			HandleDragExpanding(e);
+			UpdateInsertAdorner(e);
+			bool _shiftPressed = (e.KeyStates & DragDropKeyStates.ShiftKey) != 0;
+			e.Effects = DropCommand != null && DropCommand.CanExecute(e.Data) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
 			e.Handled = true;
+		}
+
+		private void HandleDragScrolling(DragEventArgs e)
+		{
+			if (_scrollViewer != null && _scrollViewer.CanContentScroll && _scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible && _scrollViewer.ExtentHeight > _scrollViewer.ViewportHeight)
+			{
+				bool? isMouseAtTop = IsMousePointerAtTop(e);
+				if (isMouseAtTop.HasValue)
+				{
+					if (_dragScrollWaitCounter == DRAG_WAIT_COUNTER_LIMIT)
+					{
+						_dragScrollWaitCounter = 8;
+						if (isMouseAtTop.Value)
+							_scrollViewer.LineUp();
+						else
+							_scrollViewer.LineDown();
+					}
+					else
+						_dragScrollWaitCounter++;
+				}
+				else
+					_dragScrollWaitCounter = 0;
+			}
+		}
+		private void HandleDragExpanding(DragEventArgs e)
+		{
+		}
+		private void UpdateInsertAdorner(DragEventArgs e)
+		{
+			var point = e.GetPosition(TreeView);
+			var obj = TreeView.InputHitTest(point) as DependencyObject;
+			while (obj != null && !(obj is TreeViewItem))
+				obj = VisualTreeHelper.GetParent(obj);
+			var element = obj as TreeViewItem;
+			//ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(element))))
+			//((ItemsControl)ItemsControl.ItemsControlFromItemContainer(element)).ItemContainerGenerator.ItemFromContainer(element)
 		}
 
 		private TreeViewItem GetItemContainer(TreeItemViewModel item)
@@ -76,6 +126,33 @@ namespace Infrastructure.Common.Services.DragDrop
 					element = VisualTreeHelper.GetParent(element) as UIElement;
 			}
 			return false;
+		}
+		private bool? IsMousePointerAtTop(DragEventArgs e)
+		{
+			var content = _scrollViewer.Content as IInputElement ?? TreeView;
+			if (content != null)
+			{
+				var point = e.GetPosition(content);
+				if (point.Y > 0.0 && point.Y < DRAG_SCROLL_AREA_WIDTH)
+					return true;
+				else if (point.Y > _scrollViewer.ViewportHeight - DRAG_SCROLL_AREA_WIDTH && point.Y < _scrollViewer.ViewportHeight)
+					return false;
+			}
+			return null;
+		}
+		private ScrollViewer FindScrollViewer(UIElement element)
+		{
+			if (element != null)
+				for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+				{
+					var child = VisualTreeHelper.GetChild(element, i) as UIElement;
+					if (child is ScrollViewer)
+						return (ScrollViewer)child;
+					child = FindScrollViewer(child);
+					if (child != null)
+						return child as ScrollViewer;
+				}
+			return null;
 		}
 	}
 }

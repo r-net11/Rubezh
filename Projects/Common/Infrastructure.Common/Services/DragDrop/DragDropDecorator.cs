@@ -180,7 +180,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				data = dataObject;
 			}
 			if (!cancel)
-				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), DragVisual ?? Child, ShowDragVisual, true);
+				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), DragVisual ?? Child, ShowDragVisual, true, DragEffect);
 		}
 	}
 }

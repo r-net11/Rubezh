@@ -18,7 +18,7 @@ namespace PlansModule.ViewModels
 		}
 		private bool CanDrop(IDataObject data)
 		{
-			return true;
+			return data.GetDataPresent(typeof(PlanViewModel));
 		}
 	}
 }
