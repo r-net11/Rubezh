@@ -23,26 +23,25 @@ namespace Revisor
 			{
 				try
 				{
-					var firemonitorpath = (string)RegistrySettingsHelper.GetString("FireMonitorPath");
-					var isException = RegistrySettingsHelper.GetBool("isException");
+					var isRunning = RegistrySettingsHelper.GetBool("FireMonitor.IsRunning");
+					var processes = Process.GetProcessesByName("FireMonitor");
+					var processes2 = Process.GetProcessesByName("FireMonitor.vshost");
 
-					if (!String.IsNullOrEmpty(firemonitorpath))
+					if (isRunning && processes.Count() == 0)
 					{
-						var processes = Process.GetProcessesByName("FireMonitor");
-						var processes2 = Process.GetProcessesByName("FireMonitor.vshost");
-						if (isException != null)
-							if ((processes.Count() == 0) && (isException.Equals("True")))// && (processes2.Count() == 0))
-							{
-								RegistrySettingsHelper.SetBool("isAutoConnect", true);
-								Process.Start(firemonitorpath);
-							}
+						var firemonitorpath = (string)RegistrySettingsHelper.GetString("FireMonitorPath");
+						if (!String.IsNullOrEmpty(firemonitorpath))
+						{
+							RegistrySettingsHelper.SetBool("isAutoConnect", true);
+							Process.Start(firemonitorpath);
+						}
 					}
 				}
 				catch (Exception ex)
 				{
 					throw ex;
 				}
-				if (StopLifetimeEvent.WaitOne(20000))
+				if (StopLifetimeEvent.WaitOne(TimeSpan.FromMinutes(1)))
 					break;
 			}
 		}

@@ -11,12 +11,14 @@ namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
 	{
+		public static PlanTreeViewModel Current { get; private set; }
 		public event EventHandler SelectedPlanChanged;
 		public List<PlanViewModel> AllPlans { get; private set; }
 		private PlansViewModel _plansViewModel;
 
 		public PlanTreeViewModel(PlansViewModel plansViewModel)
 		{
+			Current = this;
 			_plansViewModel = plansViewModel;
 		}
 

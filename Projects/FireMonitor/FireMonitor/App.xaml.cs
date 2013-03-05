@@ -43,6 +43,11 @@ namespace FireMonitor
 			base.OnStartup(e);
 			try
 			{
+				if (CheckIntegrateCommandLineArguments(e.Args))
+				{
+					Shutdown();
+					return;
+				}
 				InitializeCommandLineArguments(e.Args);
 
 				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
@@ -71,17 +76,20 @@ namespace FireMonitor
 
 		void StartRevisor()
 		{
+#if DEBUG
+			return;
+#endif
 			try
 			{
 				var path = System.Reflection.Assembly.GetExecutingAssembly();
 				RegistrySettingsHelper.SetString("FireMonitorPath", path.Location);
+				RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", true);
 				RegistrySettingsHelper.SetBool("IsException", false);
 				var isAutoConnect = RegistrySettingsHelper.GetBool("isAutoConnect");
-				if (isAutoConnect != null)
-					if (isAutoConnect.Equals("True"))
-					{
-						RegistrySettingsHelper.SetBool("isAutoConnect", false);
-					}
+				if (isAutoConnect)
+				{
+					RegistrySettingsHelper.SetBool("isAutoConnect", false);
+				}
 				RevisorLoadHelper.Load();
 			}
 			catch (Exception e)
@@ -95,15 +103,16 @@ namespace FireMonitor
 			IsClosingOnException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 
-#if RELEASE
-                Restart();
-#endif
+			Restart();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}
 
 		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
+			if (e.Cancel)
+				return;
+
 			GKDBHelper.AddMessage("Выход пользователя из системы");
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
@@ -111,15 +120,19 @@ namespace FireMonitor
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
-			if (RegistryHelper.IsIntegrated)
+			if (ShellIntegrationHelper.IsIntegrated)
 			{
 				if (!IsClosingOnException)
-					RegistryHelper.ShutDown();
+					ShellIntegrationHelper.ShutDown();
 			}
+			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
 		}
 
 		void Restart()
 		{
+#if DEBUG
+			//return;
+#endif
 			string commandLineArguments = null;
 			if (Login != null && Password != null)
 			{
@@ -154,6 +167,29 @@ namespace FireMonitor
 					}
 				}
 			}
+		}
+
+		bool CheckIntegrateCommandLineArguments(string[] args)
+		{
+			if (args != null)
+			{
+				if (args.Count() == 1)
+				{
+					switch(args[0])
+					{
+						case "/integrate":
+							ShellIntegrationHelper.Integrate();
+							MessageBox.Show("ОЗ интегрирована");
+							return true;
+
+						case "/deintegrate":
+							ShellIntegrationHelper.Desintegrate();
+							MessageBox.Show("ОЗ деинтегрирована");
+							return true;
+					}
+				}
+			}
+			return false;
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Common;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Infrastructure.Common
 {
@@ -28,6 +29,16 @@ namespace Infrastructure.Common
 			if (registryData != null)
 			{
 				return registryData.IntValue;
+			}
+			return 0;
+		}
+
+		public static double GetDouble(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.DoubleValue;
 			}
 			return 0;
 		}
@@ -62,6 +73,16 @@ namespace Infrastructure.Common
 			return null;
 		}
 
+		public static Color GetColor(string name)
+		{
+			var registryData = GetRegistryData(name);
+			if (registryData != null)
+			{
+				return registryData.ColorValue;
+			}
+			return Colors.White;
+		}
+
 		public static void SetString(string name, string stringValue)
 		{
 			var registryData = new RegistryData()
@@ -78,6 +99,16 @@ namespace Infrastructure.Common
 			{
 				Name = name,
 				IntValue = intValue
+			};
+			SetRegistryData(registryData);
+		}
+
+		public static void SetDouble(string name, double doubleValue)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				DoubleValue = doubleValue
 			};
 			SetRegistryData(registryData);
 		}
@@ -112,6 +143,16 @@ namespace Infrastructure.Common
 			SetRegistryData(registryData);
 		}
 
+		public static void SetColor(string name, Color color)
+		{
+			var registryData = new RegistryData()
+			{
+				Name = name,
+				ColorValue = color
+			};
+			SetRegistryData(registryData);
+		}
+
 		static RegistryData GetRegistryData(string name)
 		{
 			try
@@ -122,7 +163,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "RegistrySettingsHelper.Get");
+				Logger.Error(e, "RegistrySettingsHelper.GetRegistryData " + name);
 				return null;
 			}
 		}
@@ -143,9 +184,11 @@ namespace Infrastructure.Common
 				}
 				registryData.StringValue = newRegistryData.StringValue;
 				registryData.IntValue = newRegistryData.IntValue;
+				registryData.DoubleValue = newRegistryData.DoubleValue;
 				registryData.BoolValue = newRegistryData.BoolValue;
 				registryData.StringsValue = newRegistryData.StringsValue;
 				registryData.WindowRectValue = newRegistryData.WindowRectValue;
+				registryData.ColorValue = newRegistryData.ColorValue;
 				SetRegistryDataConfiguration(registryDataConfiguration);
 			}
 			catch (Exception e)
@@ -208,6 +251,9 @@ namespace Infrastructure.Common
 		public int IntValue { get; set; }
 
 		[DataMember]
+		public double DoubleValue { get; set; }
+
+		[DataMember]
 		public bool BoolValue { get; set; }
 
 		[DataMember]
@@ -215,6 +261,9 @@ namespace Infrastructure.Common
 
 		[DataMember]
 		public WindowRect WindowRectValue { get; set; }
+
+		[DataMember]
+		public Color ColorValue { get; set; }
 	}
 
 	[DataContract]

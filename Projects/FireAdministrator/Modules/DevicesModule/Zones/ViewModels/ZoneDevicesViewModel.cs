@@ -32,6 +32,9 @@ namespace DevicesModule.ViewModels
 
 			foreach (var device in FiresecManager.Devices)
 			{
+				if (device.IsNotUsed)
+					continue;
+
 				if (device.Driver.IsZoneDevice)
 				{
 					if (device.ZoneUID == Guid.Empty)

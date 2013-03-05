@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
@@ -106,6 +107,11 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 			OnSelectPlan(args.PlanUID);
 			OnShowElement(args.ElementUID);
+		}
+
+		public bool IsPlanTreeVisible
+		{
+			get { return !GlobalSettingsHelper.GlobalSettings.HidePlansTreeMonitor; }
 		}
 
 		public override void OnShow()

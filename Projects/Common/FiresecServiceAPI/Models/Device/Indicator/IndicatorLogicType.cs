@@ -1,8 +1,8 @@
 ﻿namespace FiresecAPI.Models
 {
-    public enum IndicatorLogicType
-    {
-        Device,
-        Zone
-    }
+	public enum IndicatorLogicType
+	{
+		Device,
+		Zone
+	}
 }

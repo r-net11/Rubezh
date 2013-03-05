@@ -28,11 +28,12 @@ namespace JournalModule.ViewModels
 		{
 			get
 			{
-				var name = Device.DottedPresentationAddressAndName + " ";
-				if (string.IsNullOrEmpty(Device.Description) == false)
-				{
-					name += " (" + Device.Description + ")";
-				}
+				//var name = Device.DottedPresentationAddressAndName + " ";
+				var name = Device.PresentationName + " " + Device.DottedAddress + " ";
+				//if (string.IsNullOrEmpty(Device.Description) == false)
+				//{
+				//    name += " (" + Device.Description + ")";
+				//}
 				return name;
 			}
 		}

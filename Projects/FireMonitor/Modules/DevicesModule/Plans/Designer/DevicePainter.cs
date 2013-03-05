@@ -20,18 +20,19 @@ namespace DevicesModule.Plans.Designer
 {
 	class DevicePainter : PointPainter
 	{
-		private PresenterItem _presenterItem;
-		private Device _device;
-		private ContextMenu _contextMenu;
+		PresenterItem _presenterItem;
+		Device _device;
+		ElementDevice _elementDevice;
+		ContextMenu _contextMenu;
 
 		public DevicePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
 		{
 			_contextMenu = null;
-			var elementDevice = presenterItem.Element as ElementDevice;
-			if (elementDevice != null)
+			_elementDevice = presenterItem.Element as ElementDevice;
+			if (_elementDevice != null)
 			{
-				_device = Helper.GetDevice(elementDevice);
+				_device = Helper.GetDevice(_elementDevice);
 				if (_device != null)
 				{
 					_device.DeviceState.StateChanged += OnPropertyChanged;
@@ -45,12 +46,12 @@ namespace DevicesModule.Plans.Designer
 			_presenterItem.Title = GetDeviceTooltip();
 		}
 
-		private void OnParametersChanged()
+		void OnParametersChanged()
 		{
 			if (_presenterItem != null)
 				_presenterItem.Title = GetDeviceTooltip();
 		}
-		private void OnPropertyChanged()
+		void OnPropertyChanged()
 		{
 			if (_presenterItem != null)
 			{
@@ -59,7 +60,7 @@ namespace DevicesModule.Plans.Designer
 				_presenterItem.DesignerCanvas.Refresh();
 			}
 		}
-		private string GetDeviceTooltip()
+		string GetDeviceTooltip()
 		{
 			if (_device == null)
 				return null;
@@ -91,7 +92,7 @@ namespace DevicesModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicBrush(_device);
+			return DevicePictureCache.GetDynamicBrush(_device, _elementDevice.AlternativeDriverUID);
 		}
 
 		public DeviceState DeviceState
@@ -120,7 +121,7 @@ namespace DevicesModule.Plans.Designer
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
 		}
 
-		private ContextMenu CreateContextMenu()
+		ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
 			{

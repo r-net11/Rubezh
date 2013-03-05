@@ -32,7 +32,8 @@
 			<Label Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Content="Курсив" />
 			<Label Grid.Row="10" Grid.Column="0" HorizontalAlignment="Right" Content="Растянуть" />
 
-			<TextBox Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True"
+            <Grid Grid.Row="0" Grid.Column="1" Background="White">
+                <TextBox Height="160" Margin="2" AcceptsReturn="True"
 			         AcceptsTab="False"
 			         Background="{Binding BackgroundColor, Converter={StaticResource ColorToBrushConverter}}"
 			         FontFamily="{Binding FontFamilyName}"
@@ -43,7 +44,8 @@
 					 FontStyle="{Binding FontItalic, Converter={StaticResource BoolToFontStyleConverter}}" 
 					 FontWeight="{Binding FontBold, Converter={StaticResource BoolToFontWeightConverter}}" 
 					 TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" />
-			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedItem="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" SelectedItem="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
 			<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" SelectedItem="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />

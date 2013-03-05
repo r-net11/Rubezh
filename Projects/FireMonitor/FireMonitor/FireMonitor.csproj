@@ -113,7 +113,6 @@
     <Compile Include="MulticlientController.cs" />
     <Compile Include="Notifier.cs" />
     <Compile Include="PatchManager.cs" />
-    <Compile Include="RegistryHelper.cs" />
     <Compile Include="Services\ProgressWatcher.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
@@ -327,6 +326,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(SolutionDir)..\Deploy\Manual $(TargetDir) /e /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

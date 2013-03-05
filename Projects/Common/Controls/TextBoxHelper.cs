@@ -27,22 +27,25 @@ namespace Controls
 			{
 				if ((bool)e.NewValue)
 				{
-					sender.GotKeyboardFocus += OnKeyboardFocusSelectText;
+					sender.GotFocus += new RoutedEventHandler(OnGotFocus);
 					sender.PreviewMouseLeftButtonDown += OnMouseLeftButtonDownSetFocus;
 				}
 				else
 				{
-					sender.GotKeyboardFocus -= OnKeyboardFocusSelectText;
+					sender.GotFocus -= new RoutedEventHandler(OnGotFocus);
 					sender.PreviewMouseLeftButtonDown -= OnMouseLeftButtonDownSetFocus;
 				}
 			}
 		}
 
-		private static void OnKeyboardFocusSelectText(object sender, KeyboardFocusChangedEventArgs e)
+		static void OnGotFocus(object sender, RoutedEventArgs e)
 		{
 			var textBox = e.OriginalSource as TextBox;
 			if (textBox != null)
+			{
 				textBox.SelectAll();
+				System.Diagnostics.Trace.WriteLine("sender_GotFocus");
+			}
 		}
 		private static void OnMouseLeftButtonDownSetFocus(object sender, MouseButtonEventArgs e)
 		{

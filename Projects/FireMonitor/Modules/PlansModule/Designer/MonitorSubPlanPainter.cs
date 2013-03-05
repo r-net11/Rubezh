@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -12,14 +13,14 @@ namespace PlansModule.Designer
 {
 	class MonitorSubPlanPainter : SubPlanPainter
 	{
-		private PresenterItem _presenterItem;
-		private PlanViewModel _planViewModel;
-		private SubPlanPainter _painter;
+		PresenterItem _presenterItem;
+		SubPlanPainter _painter;
+		Guid PlanUID;
 
-		public MonitorSubPlanPainter(PresenterItem presenterItem, PlanViewModel planViewModel)
+		public MonitorSubPlanPainter(PresenterItem presenterItem, Guid planUID)
 			: base(presenterItem.Element)
 		{
-			_planViewModel = planViewModel;
+			PlanUID = planUID;
 			_presenterItem = presenterItem;
 			_painter = (SubPlanPainter)presenterItem.Painter;
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
@@ -31,7 +32,7 @@ namespace PlansModule.Designer
 
 		private void OnPlanStateChanged(Guid planUID)
 		{
-			if (_planViewModel != null && _planViewModel.Plan.UID == planUID)
+			if (PlanUID == planUID)
 			{
 				_presenterItem.InvalidatePainter();
 				_presenterItem.DesignerCanvas.Refresh();
@@ -40,7 +41,13 @@ namespace PlansModule.Designer
 
 		protected override Brush GetBrush()
 		{
-			var color = GetStateColor(_planViewModel.StateType);
+			Color color = Colors.Transparent;
+			if (PlanTreeViewModel.Current != null)
+			{
+				var planViewModel = PlanTreeViewModel.Current.AllPlans.FirstOrDefault(x => x.Plan.UID == PlanUID);
+				if(planViewModel != null)
+					color = GetStateColor(planViewModel.StateType);
+			}
 			return PainterCache.GetTransparentBrush(color);
 		}
 
@@ -60,6 +67,7 @@ namespace PlansModule.Designer
 				case StateType.Unknown:
 					return Colors.Gray;
 				case StateType.Info:
+					return Colors.LightBlue;
 				case StateType.Norm:
 				default:
 					return Colors.Transparent;

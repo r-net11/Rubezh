@@ -34,11 +34,16 @@ namespace FSAgentServer.Views
 		{
 			_window = Window.GetWindow(this);
 			_window.StateChanged += new EventHandler(Window_StateChanged);
-			_window.WindowState = WindowState.Minimized;
+			_window.ShowInTaskbar = false;
+			_window.Left = SystemParameters.WorkArea.Right;
+			_window.Top = SystemParameters.WorkArea.Bottom;
 		}
 
 		private void OnShow(object sender, EventArgs e)
 		{
+			_window.Left = SystemParameters.WorkArea.Right - _window.ActualWidth;
+			_window.Top = SystemParameters.WorkArea.Bottom - _window.ActualHeight;
+			_window.ShowInTaskbar = true;
 			_window.WindowState = WindowState.Normal;
 			_window.Activate();
 		}

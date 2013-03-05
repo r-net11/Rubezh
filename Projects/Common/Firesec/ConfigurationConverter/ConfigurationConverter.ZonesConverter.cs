@@ -82,6 +82,10 @@ namespace Firesec
 					no = zone.No.ToString(),
 					desc = zone.Description
 				};
+				if (innerZone.name != null)
+					innerZone.name = innerZone.name.Replace('№', 'N');
+				if (innerZone.desc != null)
+					innerZone.desc = innerZone.desc.Replace('№', 'N');
 
 				if (zone.ShapeIds != null && zone.ShapeIds.Count > 0)
 				{

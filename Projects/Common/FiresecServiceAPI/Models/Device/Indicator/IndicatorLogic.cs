@@ -61,7 +61,7 @@ namespace FiresecAPI.Models
                             {
                                 if (i > 0)
                                     zonesString += ",";
-                                zonesString += Zones[i].No;
+                                zonesString += Zones[i].PresentationName;
                             }
 
                             return zonesString;

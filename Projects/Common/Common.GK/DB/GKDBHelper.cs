@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.GK.DB;
 using XFiresecAPI;
+using System.IO;
+using Infrastructure.Common;
 
 namespace Common.GK
 {
@@ -28,22 +30,25 @@ namespace Common.GK
 
 		public static void Add(JournalItem journalItem)
         {
-			try
-			{
-				lock (locker)
-				{
-					using (var dataContext = ConnectionManager.CreateGKDataContext())
-					{
-						var journal = JournalToJournalItem(journalItem);
-						dataContext.Journal.InsertOnSubmit(journal);
-						dataContext.SubmitChanges();
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.Add");
-			}
+            try
+            {
+                lock (locker)
+                {
+                    if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                    {
+                        using (var dataContext = ConnectionManager.CreateGKDataContext())
+                        {
+                            var journal = JournalToJournalItem(journalItem);
+                            dataContext.Journal.InsertOnSubmit(journal);
+                            dataContext.SubmitChanges();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "GKDBHelper.Add");
+            }
         }
 
 		public static void AddMany(List<JournalItem> journalItems)

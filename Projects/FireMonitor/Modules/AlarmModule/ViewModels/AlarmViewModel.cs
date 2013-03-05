@@ -75,8 +75,15 @@ namespace AlarmModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Alarm.Device.UID);
-		}
+			if (Alarm.Device != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Alarm.Device.UID);
+			}
+			if (Alarm.Zone != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Alarm.Zone.UID);
+			}
+		}       
         bool CanShowOnPlan()
         {
 			if (Alarm.Device != null)

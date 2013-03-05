@@ -11,6 +11,8 @@ namespace FiresecAPI.Models
 		{
 			Stretch = true;
 			TextAlignment = 0;
+			BorderThickness = 0;
+			BackgroundColor = Colors.Transparent;
 		}
 
 		[DataMember]

@@ -5,13 +5,13 @@ using FSAgentAPI;
 
 namespace FSAgentClient
 {
-    public partial class FSAgent
-    {
-        #region Main
-        public List<FSAgentCallbac> Poll(Guid clientUID)
-        {
+	public partial class FSAgent
+	{
+		#region Main
+		public List<FSAgentCallbac> Poll(Guid clientUID)
+		{
 			return SafeOperationCall(() => { return FSAgentContract.Poll(clientUID); }, "Poll");
-        }
+		}
 		public void CancelPoll(Guid clientUID)
 		{
 			SafeOperationCall(() => { FSAgentContract.CancelPoll(clientUID); }, "CancelPoll");
@@ -20,75 +20,75 @@ namespace FSAgentClient
 		{
 			SafeOperationCall(() => { FSAgentContract.CancelProgress(); }, "CanceProgress");
 		}
-        #endregion
+		#endregion
 
-        #region Common
-        public OperationResult<string> GetCoreConfig()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.GetCoreConfig(); }, "GetCoreConfig");
-        }
-        public OperationResult<string> GetMetadata()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.GetMetadata(); }, "GetMetadata");
-        }
-        #endregion
+		#region Common
+		public OperationResult<string> GetCoreConfig()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetCoreConfig(); }, "GetCoreConfig");
+		}
+		public OperationResult<string> GetMetadata()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetMetadata(); }, "GetMetadata");
+		}
+		#endregion
 
-        #region Monitor
-        public OperationResult<string> GetCoreState()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.GetCoreState(); }, "GetCoreState");
-        }
-        public OperationResult<string> GetCoreDeviceParams()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
-        }
-        public OperationResult<string> ReadEvents(int fromId, int limit)
-        {
-            return SafeOperationCall(() => { return FSAgentContract.ReadEvents(fromId, limit); }, "ReadEvents");
-        }
-        public void AddToIgnoreList(List<string> devicePaths)
-        {
-            SafeOperationCall(() => { FSAgentContract.AddToIgnoreList(devicePaths); }, "AddToIgnoreList");
-        }
-        public void RemoveFromIgnoreList(List<string> devicePaths)
-        {
-            SafeOperationCall(() => { FSAgentContract.RemoveFromIgnoreList(devicePaths); }, "RemoveFromIgnoreList");
-        }
-        public void ResetStates(string states)
-        {
-            SafeOperationCall(() => { FSAgentContract.ResetStates(states); }, "ResetStates");
-        }
-        public void SetZoneGuard(string placeInTree, string localZoneNo)
-        {
-            SafeOperationCall(() => { FSAgentContract.SetZoneGuard(placeInTree, localZoneNo); }, "SetZoneGuard");
-        }
-        public void UnSetZoneGuard(string placeInTree, string localZoneNo)
-        {
-            SafeOperationCall(() => { FSAgentContract.UnSetZoneGuard(placeInTree, localZoneNo); }, "UnSetZoneGuard");
-        }
-        public void AddUserMessage(string message)
-        {
-            SafeOperationCall(() => { FSAgentContract.AddUserMessage(message); }, "AddUserMessage");
-        }
-        public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
-        {
-            return SafeOperationCall(() => { return FSAgentContract.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters); }, "ExecuteRuntimeDeviceMethod");
-        }
-        public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
-        {
-            return SafeOperationCall(() => { return FSAgentContract.ExecuteCommand(devicePath, methodName); }, "ExecuteCommand");
-        }
-        public OperationResult<bool> CheckHaspPresence()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.CheckHaspPresence(); }, "CheckHaspPresence");
-        }
-        #endregion
+		#region Monitor
+		public OperationResult<string> GetCoreState()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetCoreState(); }, "GetCoreState");
+		}
+		public OperationResult<string> GetCoreDeviceParams()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
+		}
+		public OperationResult<string> ReadEvents(int fromId, int limit)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.ReadEvents(fromId, limit); }, "ReadEvents");
+		}
+		public void AddToIgnoreList(List<string> devicePaths)
+		{
+			SafeOperationCall(() => { FSAgentContract.AddToIgnoreList(devicePaths); }, "AddToIgnoreList");
+		}
+		public void RemoveFromIgnoreList(List<string> devicePaths)
+		{
+			SafeOperationCall(() => { FSAgentContract.RemoveFromIgnoreList(devicePaths); }, "RemoveFromIgnoreList");
+		}
+		public void ResetStates(string states)
+		{
+			SafeOperationCall(() => { FSAgentContract.ResetStates(states); }, "ResetStates");
+		}
+		public void SetZoneGuard(string placeInTree, string localZoneNo)
+		{
+			SafeOperationCall(() => { FSAgentContract.SetZoneGuard(placeInTree, localZoneNo); }, "SetZoneGuard");
+		}
+		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
+		{
+			SafeOperationCall(() => { FSAgentContract.UnSetZoneGuard(placeInTree, localZoneNo); }, "UnSetZoneGuard");
+		}
+		public void AddUserMessage(string message)
+		{
+			SafeOperationCall(() => { FSAgentContract.AddUserMessage(message); }, "AddUserMessage");
+		}
+		public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters); }, "ExecuteRuntimeDeviceMethod");
+		}
+		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
+		{
+			return SafeOperationCall(() => { return FSAgentContract.ExecuteCommand(devicePath, methodName); }, "ExecuteCommand");
+		}
+		public OperationResult<bool> CheckHaspPresence()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.CheckHaspPresence(); }, "CheckHaspPresence");
+		}
+		#endregion
 
-        #region Administrator
-        public OperationResult<string> GetPlans()
-        {
-            return SafeOperationCall(() => { return FSAgentContract.GetPlans(); }, "GetPlans");
-        }
+		#region Administrator
+		public OperationResult<string> GetPlans()
+		{
+			return SafeOperationCall(() => { return FSAgentContract.GetPlans(); }, "GetPlans");
+		}
 		public OperationResult<bool> SetNewConfig(string coreConfig)
 		{
 			return SafeOperationCall(() => { return FSAgentContract.SetNewConfig(coreConfig); }, "SetNewConfig");
@@ -152,7 +152,7 @@ namespace FSAgentClient
 		public OperationResult<string> DeviceGetMDS5Data(string coreConfig, string devicePath)
 		{
 			return SafeOperationCall(() => { return FSAgentContract.DeviceGetMDS5Data(coreConfig, devicePath); }, "DeviceGetMDS5Data");
-        }
-        #endregion
-    }
+		}
+		#endregion
+	}
 }

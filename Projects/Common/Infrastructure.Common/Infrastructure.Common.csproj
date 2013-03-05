@@ -167,6 +167,7 @@
     <Compile Include="Services\Resources\ResourceDescription.cs" />
     <Compile Include="Services\Resources\ResourceHelper.cs" />
     <Compile Include="Services\Resources\ResourceService.cs" />
+    <Compile Include="ShellIntegrationHelper.cs" />
     <Compile Include="StackTraceHelper.cs" />
     <Compile Include="TreeList\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />

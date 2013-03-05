@@ -69,7 +69,7 @@ namespace PlansModule.ViewModels
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{
 				var presenterItem = CreatePresenter(elementBase);
-				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, PlanViewModel));
+				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, elementBase.PlanUID));
 			}
 
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)

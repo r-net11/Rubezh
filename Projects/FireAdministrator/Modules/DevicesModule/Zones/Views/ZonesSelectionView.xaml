@@ -16,43 +16,40 @@
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <ListView x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" >
-            <ListView.Resources>
+        <DataGrid x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" CanUserSortColumns="True">
+            <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
                 </InputBindingCollection>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
                     <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
                 </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Zone.No}" Header="№" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Name}" Header="Не выбранные зоны" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="listView2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" >
-            <ListView.Resources>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
+                <DataGridTextColumn Header="Выбранные зоны" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="listView2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" CanUserSortColumns="True">
+            <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />
                 </InputBindingCollection>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
                     <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
                 </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Zone.No}" Header="№" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Name}" Header="Не выбранные зоны" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
+                <DataGridTextColumn Header="Не выбранные зоны" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

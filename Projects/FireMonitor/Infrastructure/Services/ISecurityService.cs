@@ -1,7 +1,7 @@
 ﻿namespace Infrastructure
 {
-    public interface ISecurityService
-    {
-        bool Validate();
-    }
+	public interface ISecurityService
+	{
+		bool Validate();
+	}
 }

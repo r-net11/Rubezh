@@ -8,7 +8,7 @@ using System.Text;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Device: ICloneable
+	public class Device : ICloneable
 	{
 		public Device()
 		{
@@ -24,15 +24,15 @@ namespace FiresecAPI.Models
 			ShapeIds = new List<string>();
 			ZonesInLogic = new List<Zone>();
 			DependentDevices = new List<Device>();
-            ZonesConfiguration = new DeviceConfiguration();
+			ZonesConfiguration = new DeviceConfiguration();
 		}
 
-        public DeviceConfiguration ZonesConfiguration { get; set; }
+		public DeviceConfiguration ZonesConfiguration { get; set; }
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
-        public bool HasDifferences { get; set; }
+		public bool HasDifferences { get; set; }
 
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic
@@ -58,21 +58,21 @@ namespace FiresecAPI.Models
 			set { _dependentDevices = value; }
 		}
 
-        bool _hasExternalDevices;
-        public bool HasExternalDevices
-        {
-            get { return _hasExternalDevices; }
-            set
-            {
-                if (_hasExternalDevices != value)
-                {
-                    _hasExternalDevices = value;
-                    OnChanged();
-                }
-            }
-        }
+		bool _hasExternalDevices;
+		public bool HasExternalDevices
+		{
+			get { return _hasExternalDevices; }
+			set
+			{
+				if (_hasExternalDevices != value)
+				{
+					_hasExternalDevices = value;
+					OnChanged();
+				}
+			}
+		}
 
-        [DataMember]
+		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
@@ -87,8 +87,8 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int IntAddress { get; set; }
 
-        [DataMember]
-        public Guid ZoneUID { get; set; }
+		[DataMember]
+		public Guid ZoneUID { get; set; }
 
 		[DataMember]
 		public ZoneLogic ZoneLogic { get; set; }
@@ -161,40 +161,40 @@ namespace FiresecAPI.Models
 						}
 					}
 				}
-                return reservedCount;
+				return reservedCount;
 			}
 			return reservedCount - 1;
 		}
 
 		public void SetAddress(string address)
 		{
-            var intAddress = AddressConverter.StringToIntAddress(Driver, address);
-            if (Driver.IsChildAddressReservedRange)
-            {
-                if ((intAddress & 0xff) + GetReservedCount() > 255)
-                    return;
-            }
+			var intAddress = AddressConverter.StringToIntAddress(Driver, address);
+			if (Driver.IsChildAddressReservedRange)
+			{
+				if ((intAddress & 0xff) + GetReservedCount() > 255)
+					return;
+			}
 
-            var oldIntAddress = IntAddress;
-            IntAddress = intAddress;
-            if (Driver.IsChildAddressReservedRange)
-            {
-                if (Driver.DriverType == DriverType.MRK_30)
-                {
-                    foreach (var child in Children)
-                    {
-                        child.IntAddress += IntAddress - oldIntAddress;
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < Children.Count; i++)
-                    {
-                        Children[i].IntAddress = IntAddress + i;
-                    }
-                }
-            }
-            OnChanged();
+			var oldIntAddress = IntAddress;
+			IntAddress = intAddress;
+			if (Driver.IsChildAddressReservedRange)
+			{
+				if (Driver.DriverType == DriverType.MRK_30)
+				{
+					foreach (var child in Children)
+					{
+						child.IntAddress += IntAddress - oldIntAddress;
+					}
+				}
+				else
+				{
+					for (int i = 0; i < Children.Count; i++)
+					{
+						Children[i].IntAddress = IntAddress + i;
+					}
+				}
+			}
+			OnChanged();
 		}
 
 		public string AddressFullPath
@@ -280,10 +280,10 @@ namespace FiresecAPI.Models
 			}
 		}
 
-        public Device ParentPanel
-        {
-            get { return AllParents.FirstOrDefault(x => (x.Driver.IsPanel)); }
-        }
+		public Device ParentPanel
+		{
+			get { return AllParents.FirstOrDefault(x => (x.Driver.IsPanel)); }
+		}
 
 		public string ConnectedTo
 		{
@@ -301,25 +301,25 @@ namespace FiresecAPI.Models
 			}
 		}
 
-        public void UpdateHasExternalDevices()
-        {
-            if (this.ZoneLogic != null)
-            {
-                foreach (var clause in this.ZoneLogic.Clauses)
-                {
-                    foreach (var zone in clause.Zones)
-                    {
-                        foreach (var deviceInZone in zone.DevicesInZone)
-                        {
+		public void UpdateHasExternalDevices()
+		{
+			if (this.ZoneLogic != null)
+			{
+				foreach (var clause in this.ZoneLogic.Clauses)
+				{
+					foreach (var zone in clause.Zones)
+					{
+						foreach (var deviceInZone in zone.DevicesInZone)
+						{
 							if (this.ParentPanel.UID != deviceInZone.ParentPanel.UID)
 							{
 								HasExternalDevices = true;
 								return;
 							}
-                        }
-                    }
-                }
-            }
+						}
+					}
+				}
+			}
 			if (Driver.DriverType == DriverType.MPT)
 			{
 				if (Zone != null)
@@ -335,7 +335,7 @@ namespace FiresecAPI.Models
 				}
 			}
 			HasExternalDevices = false;
-        }
+		}
 
 		public void SynchronizeChildern()
 		{
@@ -449,18 +449,18 @@ namespace FiresecAPI.Models
 			if (Changed != null)
 				Changed();
 		}
-        public event Action Changed;
+		public event Action Changed;
 
-        public void OnAUParametersChanged()
-        {
-            if (AUParametersChanged != null)
-                AUParametersChanged();
-        }
-        public event Action AUParametersChanged;
+		public void OnAUParametersChanged()
+		{
+			if (AUParametersChanged != null)
+				AUParametersChanged();
+		}
+		public event Action AUParametersChanged;
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
 	}
 }

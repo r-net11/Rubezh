@@ -55,7 +55,7 @@ namespace FiresecClient
 				var stream = FiresecManager.FiresecService.GetConfig();
 				FiresecConfiguration = new FiresecConfiguration();
 
-				var folderName = AppDataFolderHelper.GetFolder(configurationFolderName);
+				var folderName = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
 				var configFileName = Path.Combine(folderName, "Config.fscp");
 				if (Directory.Exists(folderName))
 					Directory.Delete(folderName, true);

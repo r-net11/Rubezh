@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="FireAdministrator.Views.MenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel Height="40" Margin="5,0,0,0" Orientation="Horizontal">
-		<Controls:ToolBarButton Click="OnCreateNew" ImageSource="/Controls;component/Images/new.png" ToolTip="Создать новую конфигурацию" />
-		<Controls:ToolBarButton Click="OnLoadFromFile" ImageSource="/Controls;component/Images/load.png" ToolTip="Считать конфигурацию из файла" />
-		<Controls:ToolBarButton Click="OnSaveToFile" ImageSource="/Controls;component/Images/save.png" ToolTip="Сохранить конфигурацию в файл" />
-		<Controls:ToolBarButton Click="OnValidate" ImageSource="/Controls;component/Images/check.png" ToolTip="Проверить конфигурацию" />
-		<Controls:ToolBarButton Name="_saveButton" Click="OnSetNewConfig" ImageSource="/Controls;component/Images/download.png" IsEnabled="False" ToolTip="Применить конфигурацию" />
+        <Controls:ToolBarButton2 Click="OnCreateNew" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Click="OnLoadFromFile" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Click="OnSaveToFile" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Click="OnValidate" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Name="_saveButton" Click="OnSetNewConfig" ImageSource="/Controls;component/Images/download.png" IsEnabled="False" Text="Применить" ToolTip="Применить конфигурацию" HasText="{Binding ShowTextInMenu}" />
 		<ContentControl Grid.Column="1" MinWidth="400" Content="{Binding ExtendedMenu}" />
 	</StackPanel>
 </UserControl>
