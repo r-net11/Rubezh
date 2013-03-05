@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?include Variables.wxi?>
+  <Fragment>
+    <DirectoryRef Id="FIRESECLOCATION5">
+      <Component Id="Firesec5.Files1" Guid="100F6CD7-02A4-4ED4-A5B6-5CAF45F55C54" Permanent='yes'>
+        <File Id="Firesec5.fs_server.exe" Name="fs_server.exe" Source="$(var.Firesec5.TargetDir)" KeyPath="yes" />
+        <File Id="Firesec5.scktsrvr.exe" Name="scktsrvr.exe" Source="$(var.Firesec5.TargetDir)" />
+        <File Id="Firesec5.xdDatasetScheme.dtd" Name="xdDatasetScheme.dtd" Source="$(var.Firesec5.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIRESECLOCATION5_LIB">
+      <Component Id="Firesec5.Files2" Guid="C274DDE2-0633-4F59-AB54-F18211EFA06E" Permanent='yes'>
+        <File Id="Firesec5.fs_srvcon.dll" Name="fs_srvcon.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+        <File Id="Firesec5.fs_types.dll" Name="fs_types.dll" Source="$(var.Firesec5.TargetDir)lib\">
+          <!--<TypeLib Id="B6F46032-081B-4379-AD1B-4D55FAD4D198" Language="0" Advertise="no" />-->
+        </File>
+        <File Id="Firesec5.htmltortf.dll" Name="htmltortf.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+        <File Id="Firesec5.iconv.dll" Name="iconv.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+        <File Id="Firesec5.libxml2.dll" Name="libxml2.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+        <File Id="Firesec5.report.dll" Name="report.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+        <File Id="Firesec5.SockProxy.dll" Name="SockProxy.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+        <File Id="Firesec5.zlib1.dll" Name="zlib1.dll" Source="$(var.Firesec5.TargetDir)lib\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIRESECLOCATION5_CONFIG">
+      <Component Id="Firesec5.Files3" Guid="9A131560-AC4A-4973-BB52-70CF5926260D" Permanent='yes'>
+        <File Id="Firesec5.fs_server.ini" Name="fs_server.ini" Source="$(var.Firesec5.TargetDir)Config\" />
+        <File Id="Firesec5.fs_client.ini" Name="fs_client.ini" Source="$(var.Firesec5.TargetDir)Config\" />
+        <File Id="Firesec5.Config.cdb" Name="Config.cdb" Source="$(var.Firesec5.TargetDir)Config\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIRESECLOCATION5_FireBird">
+      <Component Id="Firesec5.Files4" Guid="BBE31649-75C0-4294-A735-2DB348F44219" Permanent='yes'>
+        <File Id="Firesec5.firebird.msg" Name="firebird.msg" Source="$(var.Firesec5.TargetDir)lib\FireBird\" />
+        <File Id="Firesec5.gds32.dll" Name="gds32.dll" Source="$(var.Firesec5.TargetDir)lib\FireBird\" />
+        <File Id="Firesec5.ib_util.dll" Name="ib_util.dll" Source="$(var.Firesec5.TargetDir)lib\FireBird\" />
+        <File Id="Firesec5.icudt30.dll" Name="icudt30.dll" Source="$(var.Firesec5.TargetDir)lib\FireBird\" />
+        <File Id="Firesec5.icuin30.dll" Name="icuin30.dll" Source="$(var.Firesec5.TargetDir)lib\FireBird\" />
+        <File Id="Firesec5.icuuc30.dll" Name="icuuc30.dll" Source="$(var.Firesec5.TargetDir)lib\FireBird\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIRESECLOCATION5_INTL">
+      <Component Id="Firesec5.fbintl.dll" Guid="6685AF8D-5C89-4B3E-9076-E27EEB8C1FDD" Permanent="yes">
+        <File Id="Firesec5.fbintl.dll" Name="fbintl.dll" Source="$(var.Firesec5.TargetDir)lib\FireBird\intl\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <!--<DirectoryRef Id="SystemFolder" >
+      <Component Id="Firesec5.msvcp60.dll" Guid="E14869E9-D0A0-49DC-84F6-1CB1104E708E" Permanent="yes" >
+        <File Id="Firesec5.msvcp60.dll" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>-->
+  </Fragment>
+</Wix>

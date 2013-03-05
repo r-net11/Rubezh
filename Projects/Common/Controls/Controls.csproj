@@ -789,6 +789,27 @@
     <Resource Include="Images\Folder.png" />
     <Resource Include="Images\FolderOpen.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\USB_Rubezh_P.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\BlindPanel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\Sonar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\ControlCabinet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\PowerSupply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\FanCabinet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\SonarDirection.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

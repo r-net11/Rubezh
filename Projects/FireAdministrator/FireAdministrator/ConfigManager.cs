@@ -97,6 +97,7 @@ namespace FireAdministrator
 
 					var zipFile = new ZipFile(tempFileName);
 					zipFile.AddDirectory(tempFolderName);
+					//zipFile.AddDirectory(destinationImagesDirectory, "Content");
 					zipFile.Save(tempFileName);
 					zipFile.Dispose();
 					if (Directory.Exists(tempFolderName))

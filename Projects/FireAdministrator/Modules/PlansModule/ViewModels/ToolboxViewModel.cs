@@ -147,7 +147,7 @@ namespace PlansModule.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/SubPlanRectangle.png",
+					ImageSource="/Controls;component/Images/Rectangle.png",
 					ToolTip="Подплан",
 					Index = 300,
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),

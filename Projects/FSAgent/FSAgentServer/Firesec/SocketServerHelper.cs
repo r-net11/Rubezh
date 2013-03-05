@@ -116,14 +116,32 @@ namespace FSAgentServer
 				{
 					Logger.Error("SocketServerHelper.GetSocketServerPath File2 Not Exists " + filePath2);
 				}
-				var filePath3 = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Firesec\scktsrvr.exe");
-				if (File.Exists(filePath2))
+				var filePath3 = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec\scktsrvr.exe");
+				if (File.Exists(filePath3))
 				{
 					return filePath3;
 				}
 				else
 				{
 					Logger.Error("SocketServerHelper.GetSocketServerPath File3 Not Exists " + filePath3);
+				}
+				var filePath4 = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec5\scktsrvr.exe");
+				if (File.Exists(filePath4))
+				{
+					return filePath4;
+				}
+				else
+				{
+					Logger.Error("SocketServerHelper.GetSocketServerPath File4 Not Exists " + filePath4);
+				}
+				var filePath5 = @"C:\Program Files\Firesec5\scktsrvr.exe";
+				if (File.Exists(filePath5))
+				{
+					return filePath5;
+				}
+				else
+				{
+					Logger.Error("SocketServerHelper.GetSocketServerPath File5 Not Exists " + filePath5);
 				}
 
                 LoadingErrorManager.Add("Не удалось обнаружить драйвер устройств");

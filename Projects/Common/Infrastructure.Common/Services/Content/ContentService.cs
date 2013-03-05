@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Common;
 
 namespace Infrastructure.Common.Services.Content
 {
@@ -33,6 +34,11 @@ namespace Infrastructure.Common.Services.Content
 		{
 			return GetContentStream(guid.ToString());
 		}
+		public bool CheckIfExists(string guid)
+		{
+			var fileName = GetContentFileName(guid);
+			return File.Exists(fileName);
+		}
 		public Stream GetContentStream(string guid)
 		{
 			var fileName = GetContentFileName(guid);
@@ -49,9 +55,20 @@ namespace Infrastructure.Common.Services.Content
 		public BitmapImage GetBitmapContent(string guid)
 		{
 			BitmapImage bitmap = new BitmapImage();
-			bitmap.BeginInit();
-			bitmap.StreamSource = GetContentStream(guid);
-			bitmap.EndInit();
+			try
+			{
+				bitmap.BeginInit();
+				var contentStream = GetContentStream(guid);
+				if (contentStream != null)
+				{
+					bitmap.StreamSource = contentStream;
+				}
+				bitmap.EndInit();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ContentService.GetBitmapContent");
+			}
 			return bitmap;
 		}
 		public T GetObject<T>(Guid guid)

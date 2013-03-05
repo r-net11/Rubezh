@@ -31,6 +31,7 @@
   <ItemGroup>
     <Compile Include="Binary.wxs" />
     <Compile Include="Common.wxs" />
+    <Compile Include="Firesec\Files5.wxs" />
     <Compile Include="FSAgent\Files.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />

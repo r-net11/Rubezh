@@ -60,7 +60,8 @@ namespace FiresecClient
 				if (Directory.Exists(folderName))
 					Directory.Delete(folderName, true);
 				Directory.CreateDirectory(folderName);
-				ServiceFactoryBase.ContentService.Invalidate();
+				if (ServiceFactoryBase.ContentService != null)
+					ServiceFactoryBase.ContentService.Invalidate();
 
 				var configFileStream = File.Create(configFileName);
 				CopyStream(stream, configFileStream);

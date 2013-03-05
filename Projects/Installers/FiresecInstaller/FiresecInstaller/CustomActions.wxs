@@ -8,9 +8,13 @@
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="CloseApplications" Execute="immediate" Impersonate="yes" Return="check"/>
     <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
 
-    <CustomAction Id="RegisterFs_types" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s "[FIRESECLOCATION]fs_types.dll"' Return="check"  />
+    <CustomAction Id="RegisterFs_types" Directory="FIRESECLOCATION" ExeCommand='C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regtlibv12.exe "[FIRESECLOCATION]fs_types.dll"' Return="check" />
     <CustomAction Id="RegisterSockProxy" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s "[FIRESECLOCATION]SockProxy.dll"' Return="check" />
     <CustomAction Id="RegisterServer" Directory="FIRESECLOCATION" ExeCommand="[FIRESECLOCATION]Fs_server.exe -regserver" Execute="immediate" Impersonate="yes" Return="check" />
+
+    <!--<CustomAction Id="RegisterFs_types" Directory="FIRESECLOCATION5_LIB" ExeCommand='C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regtlibv12.exe "[FIRESECLOCATION5_LIB]fs_types.dll"' Return="check" />
+    <CustomAction Id="RegisterSockProxy" Directory="FIRESECLOCATION5_LIB" ExeCommand='regsvr32.exe /s "[FIRESECLOCATION5_LIB]SockProxy.dll"' Return="check" />
+    <CustomAction Id="RegisterServer" Directory="FIRESECLOCATION5" ExeCommand="[FIRESECLOCATION5]Fs_server.exe -regserver" Execute="immediate" Impersonate="yes" Return="check" />-->
     
     <!--<CustomAction Id="UnregisterSockProxy" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s /u "[FIRESECLOCATION]SockProxy.dll"' Return='ignore' />
     <CustomAction Id="UnregisterFs_types" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s /u "[FIRESECLOCATION]fs_types.dll"' Return='ignore' />
