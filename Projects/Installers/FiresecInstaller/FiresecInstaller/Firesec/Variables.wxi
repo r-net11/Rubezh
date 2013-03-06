@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define Firesec.TargetDir="..\..\..\..\..\Deploy\Firesec\"?>
+  <?define Firesec.TargetDir="C:\Program Files\Firesec\"?>
+  <?define Firesec2.TargetDir="..\..\..\..\..\Deploy\Firesec\"?>
   <?define Firesec5.TargetDir="C:\Program Files\Firesec\"?>
 </Include>

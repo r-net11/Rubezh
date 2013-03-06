@@ -160,10 +160,7 @@ namespace DevicesModule.ViewModels
 
 		public bool CanSelectDevice
 		{
-			get
-			{
-				return (SelectedState == ZoneLogicState.AM1TOn);
-			}
+			get { return (SelectedState == ZoneLogicState.AM1TOn); }
 		}
 
 		void Update()
@@ -249,8 +246,8 @@ namespace DevicesModule.ViewModels
                     }
                 }
                 var zoneUIDs = from Zone zone in zones orderby zone.No select zone.UID;
+				Zones = zoneUIDs.ToList();
 				//Zones = zonesSelectionViewModel.Zones;
-                Zones = zoneUIDs.ToList();
 				OnPropertyChanged("PresenrationZones");
 			}
 		}

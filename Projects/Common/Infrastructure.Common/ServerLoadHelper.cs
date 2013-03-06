@@ -57,7 +57,15 @@ namespace Infrastructure.Common
 		{
 			Process[] processes = Process.GetProcessesByName("FiresecService");
 			Process[] processesVsHost = Process.GetProcessesByName("FiresecService.vshost");
-			if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
+			var isRunning = false;
+			foreach (var process in processes)
+			{
+				var isCurrentUser = ProcessHelper.IsCurrentUserProcess(process.Id);
+				if (isCurrentUser)
+					isRunning = true;
+			}
+			if (!isRunning && (processesVsHost.Count() == 0))
+			//if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
 			{
 				try
 				{

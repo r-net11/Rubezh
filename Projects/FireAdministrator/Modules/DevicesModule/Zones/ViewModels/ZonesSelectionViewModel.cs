@@ -103,30 +103,6 @@ namespace DevicesModule.ViewModels
 
         public RelayCommand<object> AddCommand { get; private set; }
 	    public IList SelectedSourceZones;
-		//void OnAdd2(object parameter)
-		//{
-		//    //var index = SourceZones.IndexOf(SelectedSourceZone);
-
-		//    //SelectedSourceZones = (IList)parameter;
-		//    //var zoneViewModels = new List<Zone>();
-		//    //foreach (var selectedZone in SelectedSourceZones)
-		//    //{
-		//    //    var zoneViewModel = selectedZone as Zone;
-		//    //    if (zoneViewModel != null)
-		//    //        zoneViewModels.Add(zoneViewModel);
-		//    //}
-		//    //foreach (var zoneViewModel in zoneViewModels)
-		//    //{
-		//    //    TargetZones.Add(zoneViewModel);
-		//    //    SourceZones.Remove(zoneViewModel);
-		//    //}
-		//    //SelectedTargetZone = TargetZones.LastOrDefault();
-		//    //OnPropertyChanged("SourceZones");
-
-		//    //index = Math.Min(index, SourceZones.Count - 1);
-		//    //if (index > -1)
-		//    //    SelectedSourceZone = SourceZones[index];
-		//}
 
         void OnAdd(object parameter)
 		{
@@ -147,7 +123,6 @@ namespace DevicesModule.ViewModels
             }
 
             OnPropertyChanged("SourceZones");
-		    //SelectedSourceZone = SourceZones.FirstOrDefault();
 
 			index = Math.Min(index, SourceZones.Count - 1);
 			if (index > -1)
