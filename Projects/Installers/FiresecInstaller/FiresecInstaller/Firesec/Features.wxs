@@ -10,16 +10,16 @@
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
             Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
 		</Feature>
-    <Feature Id="Firesec5.Features" Title="Драйвер FireSec 5.0" Description="Программа установит драйверы приборов Рубеж-4а, Рубеж-2ОП, БУНС. Выключите данную опцию для обеспечения обратной соместимости с FireSec-1"
+    <!--<Feature Id="Firesec5.Features" Title="Драйвер FireSec 5.0" Description="Программа установит драйверы приборов Рубеж-4а, Рубеж-2ОП, БУНС. Выключите данную опцию для обеспечения обратной соместимости с FireSec-1"
            Level="0" Display="expand" ConfigurableDirectory="FIRESECLOCATION" AllowAdvertise="no" Absent='allow' InstallDefault="local">
       <ComponentRef Id="Firesec5.Files1" />
       <ComponentRef Id="Firesec5.Files2" />
       <ComponentRef Id="Firesec5.Files3" />
       <ComponentRef Id="Firesec5.Files4" />
       <ComponentRef Id="Firesec5.fbintl.dll" />
-      <!--<ComponentRef Id="Firesec5.msvcp60.dll" />-->
+      --><!--<ComponentRef Id="Firesec5.msvcp60.dll" />--><!--
       <Feature Id="Firesec5.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
             Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
-    </Feature>
+    </Feature>-->
 	</Fragment>
 </Wix>

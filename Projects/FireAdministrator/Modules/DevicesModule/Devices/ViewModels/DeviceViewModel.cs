@@ -539,8 +539,8 @@ namespace DevicesModule.ViewModels
 #if DEBUG
 				if (Driver.DriverType == DriverType.MS_1 || Driver.DriverType == DriverType.MS_2)
 				{
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
 					return;
 				}
 
@@ -619,6 +619,11 @@ namespace DevicesModule.ViewModels
 
 			if (driver.IsPanel)
 				return true;
+
+#if DEBUG
+			if (Driver.DriverType == DriverType.MS_1 || Driver.DriverType == DriverType.MS_2)
+				return true;
+#endif
 
 			return (driver.Category == DeviceCategoryType.Sensor) || (driver.Category == DeviceCategoryType.Effector);
 		}

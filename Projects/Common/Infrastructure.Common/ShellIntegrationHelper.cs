@@ -14,7 +14,7 @@ namespace Infrastructure.Common
 			{
 				var executablePath = Assembly.GetEntryAssembly().Location;
 
-				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
 				shellRegistryKey.SetValue("Shell", executablePath);
 				shellRegistryKey.Flush();
 
@@ -32,9 +32,13 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
 				shellRegistryKey.SetValue("Shell", "explorer.exe");
 				shellRegistryKey.Flush();
+
+				RegistryKey shellRegistryKeyLocalMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+				shellRegistryKeyLocalMachine.SetValue("Shell", "explorer.exe");
+				shellRegistryKeyLocalMachine.Flush();
 
 				RegistryKey taskManagerRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
 				taskManagerRegistryKey.SetValue("DisableTaskMgr", 0, RegistryValueKind.DWord);

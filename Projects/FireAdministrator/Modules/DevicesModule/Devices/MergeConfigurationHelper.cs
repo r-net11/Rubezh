@@ -94,6 +94,13 @@ namespace DevicesModuleMerge
 				}
 			}
 
+			var destinationImagesDirectory = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration/Unzip/Content");
+			var sourceImagesDirectoryInfo = new DirectoryInfo(Path.Combine(unzipFolderPath, "Content"));
+			foreach (var imageFileInfo in sourceImagesDirectoryInfo.GetFiles())
+			{
+				imageFileInfo.CopyTo(Path.Combine(destinationImagesDirectory, imageFileInfo.Name), true);
+			}
+
 			zipFile.Dispose();
 		}
 
