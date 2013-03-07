@@ -30,6 +30,12 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
+		[DataMember]
+		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
+
+		[DataMember]
+		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
+
 		public bool CanSelectOperation
 		{
 			get

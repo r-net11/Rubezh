@@ -9,6 +9,8 @@
 		<Converters:ClauseOperationToStringConverter x:Key="ClauseOperationToStringConverter" />
 		<Converters:ClauseStateToStringConverter x:Key="ClauseStateToStringConverter" />
 		<Converters:ZoneLogicJoinOperatorConverter x:Key="ZoneLogicJoinOperatorConverter" />
+        <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
+        <Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
 	</UserControl.Resources>
 
     <Border Padding="5">
@@ -93,6 +95,22 @@
 										CommandParameter="{Binding}"
 										ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" />
 								</Grid>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsSonar, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                                    <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
 								<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
 										Content="{Binding JoinOperator, Converter={StaticResource ZoneLogicJoinOperatorConverter}}"

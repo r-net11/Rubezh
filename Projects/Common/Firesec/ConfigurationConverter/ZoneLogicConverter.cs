@@ -74,6 +74,50 @@ namespace Firesec
 							break;
 					}
 
+					if (!string.IsNullOrEmpty(innerClause.MRO_MessageNo))
+					{
+						switch (innerClause.MRO_MessageNo)
+						{
+							case "0":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message1;
+								break;
+
+							case "1":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message2;
+								break;
+
+							case "2":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message3;
+								break;
+
+							case "3":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message4;
+								break;
+
+							case "4":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message5;
+								break;
+
+							case "5":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message6;
+								break;
+						}
+					}
+
+					if (!string.IsNullOrEmpty(innerClause.MRO_MessageType))
+					{
+						switch (innerClause.MRO_MessageType)
+						{
+							case "0":
+								clause.ZoneLogicMROMessageType = ZoneLogicMROMessageType.Add;
+								break;
+
+							case "1":
+								clause.ZoneLogicMROMessageType = ZoneLogicMROMessageType.Remove;
+								break;
+						}
+					}
+
 					zoneLogic.Clauses.Add(clause);
 				}
 			}
@@ -119,6 +163,58 @@ namespace Firesec
 					default:
 						innerClause.joinOperator = null;
 						break;
+				}
+
+				if (clause.ZoneLogicMROMessageNo != ZoneLogicMROMessageNo.Message1)
+				{
+					switch (clause.ZoneLogicMROMessageNo)
+					{
+						case ZoneLogicMROMessageNo.Message1:
+							innerClause.MRO_MessageNo = "0";
+							break;
+
+						case ZoneLogicMROMessageNo.Message2:
+							innerClause.MRO_MessageNo = "1";
+							break;
+
+						case ZoneLogicMROMessageNo.Message3:
+							innerClause.MRO_MessageNo = "2";
+							break;
+
+						case ZoneLogicMROMessageNo.Message4:
+							innerClause.MRO_MessageNo = "3";
+							break;
+
+						case ZoneLogicMROMessageNo.Message5:
+							innerClause.MRO_MessageNo = "4";
+							break;
+
+						case ZoneLogicMROMessageNo.Message6:
+							innerClause.MRO_MessageNo = "5";
+							break;
+
+						default:
+							innerClause.MRO_MessageNo = null;
+							break;
+					}
+				}
+
+				if (clause.ZoneLogicMROMessageType != ZoneLogicMROMessageType.Add)
+				{
+					switch (clause.ZoneLogicMROMessageType)
+					{
+						case ZoneLogicMROMessageType.Add:
+							innerClause.MRO_MessageNo = "0";
+							break;
+
+						case ZoneLogicMROMessageType.Remove:
+							innerClause.MRO_MessageNo = "1";
+							break;
+
+						default:
+							innerClause.MRO_MessageNo = null;
+							break;
+					}
 				}
 
 				if (clause.DeviceUID != Guid.Empty)

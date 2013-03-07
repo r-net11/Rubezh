@@ -18,18 +18,18 @@ namespace Infrastructure.Common
 		}
 
 		public string Address { get; set; }
-		public string FullAddress { get; set; }
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			var vlcControl = new VlcControl();
+			var rstpAddress = Address;
 			//var rstpAddress = "rtsp://" + Address + "/snl/live/1/1/";
-			var rstpAddress = "rtsp://admin:admin@" + Address + "/cam/realmonitor?channel=1&subtype=0";
-			if (!string.IsNullOrEmpty(FullAddress))
-			{
-				rstpAddress = FullAddress;
-				//rstpAddress = "rtsp://admin:admin@172.16.2.81:554/cam/realmonitor?channel=1&subtype=0";
-			}
+			//var rstpAddress = "rtsp://admin:admin@" + Address + "/cam/realmonitor?channel=1&subtype=0";
+			//if (!string.IsNullOrEmpty(FullAddress))
+			//{
+			//    rstpAddress = FullAddress;
+			//    //rstpAddress = "rtsp://admin:admin@172.16.2.81:554/cam/realmonitor?channel=1&subtype=0";
+			//}
 			var locationMedia = new LocationMedia(rstpAddress);
 			vlcControl.Media = locationMedia;
 			_windowsFormsHost.Child = vlcControl;

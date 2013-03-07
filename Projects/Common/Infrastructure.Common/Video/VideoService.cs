@@ -20,7 +20,6 @@ namespace Infrastructure.Common
 				{
 					Title = "Видео с камеры " + camera.Address,
 					Address = camera.Address,
-					FullAddress = camera.FullAddress,
 					Left = camera.Left,
 					Top = camera.Top,
 					Width = camera.Width,
@@ -62,7 +61,6 @@ namespace Infrastructure.Common
 				{
 					Title = "Видео с камеры " + camera.Address,
 					Address = camera.Address,
-					FullAddress = camera.FullAddress,
 					Left = camera.Left,
 					Top = camera.Top,
 					Width = camera.Width,

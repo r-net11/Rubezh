@@ -37,5 +37,13 @@
         <File Id="Firesec.msvcp60.dll" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="Firesec.RegistryFix" Guid="87A50B3D-DB65-4ABB-867F-7BFF80082188">
+        <RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Control\Network">
+          <RegistryValue Type="integer" Value="#0000000e" />
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
   </Fragment>
 </Wix>

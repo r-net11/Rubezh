@@ -85,6 +85,9 @@ namespace Firesec
                         driversConfiguration.Drivers.Add(driver);
                 }
             }
+
+			//ZipSerializeHelper.Serialize<DriversConfiguration>(driversConfiguration, "D:/DriversConfiguration.xml");
+
             DriverConfigurationParametersHelper.CreateKnownProperties(driversConfiguration.Drivers);
             return driversConfiguration;
         }
