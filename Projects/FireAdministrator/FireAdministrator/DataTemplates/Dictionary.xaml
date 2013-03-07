@@ -1,18 +1,14 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:FireAdministrator.Views"
-                    xmlns:ViewModels="clr-namespace:FireAdministrator.ViewModels">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:FireAdministrator.Views" xmlns:ViewModels="clr-namespace:FireAdministrator.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
-        <Views:ProgressView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
+		<Views:ProgressView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ValidationErrorsViewModel}">
-        <Views:ValidationErrorsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ValidationErrorsViewModel}">
+		<Views:ValidationErrorsView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:MenuViewModel}">
 		<Views:MenuView />
 	</DataTemplate>
-
 </ResourceDictionary>

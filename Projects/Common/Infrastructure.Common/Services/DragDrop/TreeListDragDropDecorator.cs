@@ -101,8 +101,10 @@ namespace Infrastructure.Common.Services.DragDrop
 			while (obj != null && !(obj is TreeViewItem))
 				obj = VisualTreeHelper.GetParent(obj);
 			var element = obj as TreeViewItem;
+			var item = ((ItemsControl)ItemsControl.ItemsControlFromItemContainer(element)).ItemContainerGenerator.ItemFromContainer(element);
 			//ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(element))))
-			//((ItemsControl)ItemsControl.ItemsControlFromItemContainer(element)).ItemContainerGenerator.ItemFromContainer(element)
+			//
+			//
 		}
 
 		private TreeViewItem GetItemContainer(TreeItemViewModel item)

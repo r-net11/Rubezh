@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
@@ -15,10 +12,6 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
-using System.IO;
-using Infrastructure.Common;
 
 namespace PlansModule.Designer
 {
