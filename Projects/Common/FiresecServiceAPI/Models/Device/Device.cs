@@ -345,7 +345,6 @@ namespace FiresecAPI.Models
 			}
 		}
 
-
 		public string EditingPresentationAddress
 		{
 			get
@@ -441,6 +440,14 @@ namespace FiresecAPI.Models
 				if (Driver.HasAddress)
 					return DottedAddress + " - " + PresentationName;
 				return PresentationName;
+			}
+		}
+
+		public int ShleifNo
+		{
+			get
+			{
+				return IntAddress / 256;
 			}
 		}
 
