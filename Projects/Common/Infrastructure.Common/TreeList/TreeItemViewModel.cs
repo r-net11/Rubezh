@@ -100,7 +100,7 @@ namespace Infrastructure.Common
 			Parent = null;
 		}
 
-		private List<T> GetAllParents()
+		public List<T> GetAllParents()
 		{
 			if (Parent == null)
 				return new List<T>();
