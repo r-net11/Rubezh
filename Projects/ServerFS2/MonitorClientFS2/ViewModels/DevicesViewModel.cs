@@ -11,6 +11,8 @@ namespace MonitorClientFS2.ViewModels
 		{
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			ReadRomRamCommand = new RelayCommand(OnReadRomRam, CanReadRomRam);
+			GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
 
 			BuildTree();
 			if (RootDevice != null)
@@ -86,6 +88,31 @@ namespace MonitorClientFS2.ViewModels
 		}
 
 		private bool CanResetIgnore()
+		{
+			return SelectedDevice != null;
+		}
+
+		public RelayCommand ReadRomRamCommand { get; private set; }
+
+		private void OnReadRomRam()
+		{
+			var device = ServerHelper.GetDeviceConfig(SelectedDevice.Device);
+		}
+
+		private bool CanReadRomRam()
+		{
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsPanel));
+		}
+
+		public RelayCommand GetParametersCommand { get; private set; }
+
+		private void OnGetParameters()
+		{
+			ServerHelper.GetDeviceParameters(SelectedDevice.Device);
+			SelectedDevice.Device.OnAUParametersChanged();
+		}
+
+		private bool CanGetParameters()
 		{
 			return SelectedDevice != null;
 		}

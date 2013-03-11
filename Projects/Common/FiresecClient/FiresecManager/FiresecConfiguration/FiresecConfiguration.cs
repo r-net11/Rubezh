@@ -180,6 +180,13 @@ namespace FiresecClient
 			return ((device.Driver.DriverType == DriverType.MPT) && (device.Parent.Driver.DriverType == DriverType.MPT));
 		}
 
+		public bool IsChildMRO2(Device device)
+		{
+			if (device.Parent == null)
+				return false;
+			return ((device.Driver.DriverType == DriverType.MRO_2) && (device.Parent.Driver.DriverType == DriverType.MRO_2));
+		}
+
 		public int GetZoneLocalSecNo(Zone zone)
 		{
 			if (zone.SecPanelUID != Guid.Empty)

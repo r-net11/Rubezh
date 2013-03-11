@@ -36,7 +36,7 @@ namespace Common.GK
 				{
 					No = 0,
 					Name = "Parameter 0",
-					Caption = "Порог питания основного, 0.1 В",
+					Caption = "Порог питания, 0.1 В",
 					ToolTip = "",
 					Min = 100,
 					Max = 240,
@@ -52,14 +52,13 @@ namespace Common.GK
 				{
 					No = 1,
 					Name = "Parameter 1",
-					Caption = "Порог питания резервного, 0.1 В",
+					Caption = "Яркость, %",
 					ToolTip = "",
-					Min = 100,
-					Max = 240,
-					Default = 180,
+					Min = 0,
+					Max = 100,
+					Default = 50,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true,
-					Multiplier = 2.8169
+					IsAUParameter = true
 				}
 				);
 

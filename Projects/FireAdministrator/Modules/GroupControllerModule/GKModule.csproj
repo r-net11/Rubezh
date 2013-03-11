@@ -64,6 +64,8 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
+    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />

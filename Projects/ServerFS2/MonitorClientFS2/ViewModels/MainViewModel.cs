@@ -34,7 +34,8 @@ namespace MonitorClientFS2
 				{
 					try
 					{
-						devicesLastRecord.Add(device, DBJournalHelper.GetLastId(guid));
+						//devicesLastRecord.Add(device, DBJournalHelper.GetLastId(guid));
+						devicesLastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
 					}
 					catch { }
 
@@ -112,15 +113,18 @@ namespace MonitorClientFS2
 		private void ReadNewSecItems(int lastDisplayedSecRecord, int lastDeviceSecRecord, Device device)
 		{
 			Trace.Write("Дочитываю охранные записи с " +
-											  lastDisplayedSecRecord.ToString() +
-											  " до " +
-											  lastDeviceSecRecord.ToString());
+				lastDisplayedSecRecord.ToString() +
+				" до " +
+				lastDeviceSecRecord.ToString());
 			var newItems = JournalHelper.GetSecJournalItems2Op(device, lastDeviceSecRecord, lastDisplayedSecRecord + 1);
 			foreach (var journalItem in newItems)
 			{
-				AddToJournalObservable(journalItem);
-				DBJournalHelper.AddJournalItem(journalItem);
-				Trace.Write(".");
+				if (journalItem != null)
+				{
+					AddToJournalObservable(journalItem);
+					DBJournalHelper.AddJournalItem(journalItem);
+					Trace.Write(".");
+				}
 			}
 			Trace.WriteLine(" дочитал");
 			devicesLastRecord.Remove(device);
@@ -131,15 +135,18 @@ namespace MonitorClientFS2
 		private void ReadNewItems(int lastDisplayedRecord, int lastDeviceRecord, Device device)
 		{
 			Trace.Write("Дочитываю записи с " +
-										   lastDisplayedRecord.ToString() +
-										   " до " +
-										   lastDeviceRecord.ToString());
+				lastDisplayedRecord.ToString() +
+				" до " +
+				lastDeviceRecord.ToString() + "с прибора " + device.PresentationName + "\n");
 			var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
 			foreach (var journalItem in newItems)
 			{
-				AddToJournalObservable(journalItem);
-				DBJournalHelper.AddJournalItem(journalItem);
-				Trace.Write(".");
+				if (journalItem != null)
+				{
+					AddToJournalObservable(journalItem);
+					DBJournalHelper.AddJournalItem(journalItem);
+					Trace.Write(".");
+				}
 			}
 			Trace.WriteLine(" дочитал");
 			devicesLastRecord.Remove(device);

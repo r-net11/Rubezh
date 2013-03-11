@@ -209,10 +209,10 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		#region Sonar
+		#region IsMRO_2M
 		public bool IsSonar
 		{
-			get { return _device.Driver.DriverType == DriverType.SonarDirection; }
+			get { return _device.Driver.DriverType == DriverType.SonarDirection || _device.Driver.DriverType == DriverType.MRO_2; }
 		}
 
 		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos

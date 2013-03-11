@@ -105,7 +105,7 @@ namespace GKModule.Validation
 
 		static void ValidateKAUNotEmptyChildren(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.KAU)
+			if (device.Driver.DriverType == XDriverType.KAU || device.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
 				if (device.Children.Count <= 1)
 					Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
