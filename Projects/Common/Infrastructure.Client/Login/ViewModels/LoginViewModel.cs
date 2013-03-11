@@ -6,6 +6,7 @@ using Infrastructure.Client.Properties;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace Infrastructure.Client.Login.ViewModels
 {
@@ -109,6 +110,17 @@ namespace Infrastructure.Client.Login.ViewModels
 
         protected override bool Save()
         {
+			if (UserName == "Integrate")
+			{
+				ShellIntegrationHelper.Integrate();
+				return false;
+			}
+			if (UserName == "Desintegrate")
+			{
+				ShellIntegrationHelper.Desintegrate();
+				Process.Start("explorer.exe");
+				return false;
+			}
             Close(true);
             IsCanceled = false;
 			switch (_passwordViewType)

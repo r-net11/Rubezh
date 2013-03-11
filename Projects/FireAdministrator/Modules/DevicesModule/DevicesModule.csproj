@@ -76,6 +76,9 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -110,6 +113,7 @@
     <Compile Include="Devices\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
+    <Compile Include="Devices\MergeConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceReadConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceWriteConfigurationHelper.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="Devices\ViewModels\Actions\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorPageDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\MptDetailsViewModel.cs" />
@@ -170,6 +175,9 @@
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml.cs">
       <DependentUpon>IndicatorDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorPageDetailsView.xaml.cs">
+      <DependentUpon>IndicatorPageDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml.cs">
       <DependentUpon>IndicatorZoneSelectionView.xaml</DependentUpon>
@@ -277,6 +285,8 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
+    <Compile Include="Zones\Converters\MROMessageNoToStringConverter.cs" />
+    <Compile Include="Zones\Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Zones\ViewModels\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
@@ -466,6 +476,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorPageDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

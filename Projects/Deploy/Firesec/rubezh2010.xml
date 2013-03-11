@@ -69,7 +69,7 @@
     <bit no="7" value="Вскрытие" />
   </dictionary>
 
-  <dictionary name="МПТ_Неисправности">
+<dictionary name="МПТ_Неисправности">
     <bit val="0x12" value="Напряжение питания ШС ниже нормы" />
     <bit val="0x13" value="Ошибка памяти" />
 <!--    <bit val="0x14" value="Вскрытие корпуса" /> -->
@@ -86,6 +86,14 @@
     <bit val="0x32" value="Обрыв выхода 3" />
     <bit val="0x33" value="Обрыв выхода 4" />
     <bit val="0x34" value="Обрыв выхода 5" />
+    <bit val="0x50" value="КЗ датчика двери-окна" />
+    <bit val="0x51" value="Обрыв датчика двери-окна" />
+    <bit val="0x52" value="КЗ датчика массы" />
+    <bit val="0x53" value="Обрыв датчика массы" />
+    <bit val="0x54" value="КЗ датчика давления" />
+    <bit val="0x55" value="Обрыв датчика давления" />
+    <bit val="0x56" value="КЗ кнопки стоп" />
+    <bit val="0x57" value="Обрыв кнопки стоп" />
   </dictionary>
   
   <dictionary name="МПТ_Неисправности_0x81">
@@ -111,6 +119,17 @@
     <bit no="2" value="Обрыв выхода 3" />
     <bit no="3" value="Обрыв выхода 4" />
     <bit no="4" value="Обрыв выхода 5" />
+  </dictionary>
+
+  <dictionary name="МПТ_Неисправности_0x85">
+    <bit no="0" value="КЗ датчика двери-окна" />
+    <bit no="1" value="Обрыв датчика двери-окна" />
+    <bit no="2" value="КЗ датчика массы" />
+    <bit no="3" value="Обрыв датчика массы" />
+    <bit no="4" value="КЗ датчика давления" />
+    <bit no="5" value="Обрыв датчика давления" />
+    <bit no="6" value="КЗ кнопки стоп" />
+    <bit no="7" value="Обрыв кнопки стоп" />
   </dictionary>
 
   <dictionary name="Дымовой_Сработки">
@@ -212,9 +231,23 @@
     <bit no="0" val="1" value="Обрыв линии кнопки пуск (сопротивление больше нормы)" />
     <bit no="2" val="1" value="Сопротивление линии OUT больше уставки" />
     <bit no="3" val="1" value="Сопротивление линии OUT меньше уставки" />
-    <bit no="4" val="1" value="Нет сообщений в памяти" />
     <bit no="5" val="1" value="Питание ниже нормы" />
     <bit no="6" val="1" value="Обрыв линии кнопки стоп (сопротивление больше нормы)" />
+    <bit no="8" val="1" value="Нет сообщений в памяти" />
+    <bit no="9" val="1" value="к.з. кнопки пуск" />
+    <bit no="10" val="1" value="к.з. кнопки стоп" />
+  </dictionary>
+  
+  <dictionary name="МРОи2_Неисправности_ж">
+    <bit val="0x10" value="Обрыв линии кнопки пуск (сопротивление больше нормы)" />
+    <bit val="0x12" value="Сопротивление линии OUT больше уставки" />
+    <bit val="0x13" value="Сопротивление линии OUT меньше уставки" />    
+    <bit val="0x15" value="Питание ниже нормы" />
+    <bit val="0x16" value="Обрыв линии кнопки стоп (сопротивление больше нормы)" />
+
+    <bit val="0x20" value="Нет сообщений в памяти" />
+    <bit val="0x21" value="К.З. кнопки пуск" />
+    <bit val="0x22" value="К.З. кнопки стоп" />
   </dictionary>
   
   <dictionary name="Задвижка_Неисправности">
@@ -372,13 +405,16 @@
       
       <detalization class="2" dictionary="МПТ_Неисправности_0x81" source="Data_DB_0x80L"/>
       <detalization class="2" dictionary="МПТ_Неисправности_0x82" source="Data_Mpt_0x82" />
-      <detalization class="2" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />  
+      <detalization class="2" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />
       
       <detalization class="3" dictionary="МПТ_Неисправности_0x81" source="Data_DB_0x80L" />
       <detalization class="3" dictionary="МПТ_Неисправности_0x82" source="Data_Mpt_0x82" />
-      <detalization class="3" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />  
+      <detalization class="3" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />
+
+      <detalization class="3" dictionary="МПТ_Неисправности_0x85" source="Data_Mpt_0x85" />
+      <detalization class="2" dictionary="МПТ_Неисправности_0x85" source="Data_Mpt_0x85" />
       
-      <detalization class="7" dictionary="МПТ_Причины_0x83" source="Data_Mpt_0x83" />  
+      <detalization class="7" dictionary="МПТ_Причины_0x83" source="Data_Mpt_0x83" />
       
     </deviceTable>
        
@@ -856,10 +892,12 @@
       <detalization class="2" dictionary="МПТ_Неисправности_0x81" source="Data_DB_0x80L"/>
       <detalization class="2" dictionary="МПТ_Неисправности_0x82" source="Data_Mpt_0x82" />
       <detalization class="2" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />  
-      
+      <detalization class="2" dictionary="МПТ_Неисправности_0x85" source="Data_Mpt_0x85" />
+
       <detalization class="3" dictionary="МПТ_Неисправности_0x81" source="Data_DB_0x80L"/>
       <detalization class="3" dictionary="МПТ_Неисправности_0x82" source="Data_Mpt_0x82" />
-      <detalization class="3" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />  
+      <detalization class="3" dictionary="МПТ_Неисправности_0x83" source="Data_Mpt_0x83" />
+      <detalization class="3" dictionary="МПТ_Неисправности_0x85" source="Data_Mpt_0x85" />
       
       <detalization class="7" dictionary="МПТ_Причины_0x83" source="Data_Mpt_0x83" />  
 
@@ -974,8 +1012,8 @@
     <deviceTable tableType="22" recordType="device"
       deviceDriverID ="713702A8-E3A1-4328-9A43-DE9CB5167133"
 	  deviceClassID= "89C01469-69B7-4AAD-907A-0868DF5E167C"
-      deviceName="Модуль речевого оповещения (исполнение 2)"
-      shortName="МРО-2(исп.2)"
+      deviceName="Модуль речевого оповещения МРО-2М"
+      shortName="МРО-2М"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
       minOutputDeviceCount="1"
       maxOutputDeviceCount="-1"
@@ -990,7 +1028,7 @@
       <detalization class="1" dictionary="МРО_Сработки" />
       
     </deviceTable>
-
+<!--
     <deviceTable tableType="-1" recordType="composite"
       deviceDriverID ="6636AF15-F8D7-44F8-8AA3-62DA77B41B42"
 	  deviceClassID= "8EA0168B-C139-44C7-8670-82ACE6C3D6A2"
@@ -1006,10 +1044,6 @@
       type="fire"
       category="transport">
 
-      <detalization class="2" dictionary="МРОи2_Неисправности" />
-      <detalization class="6" dictionary="МРОи2_Неисправности" />
-      <detalization class="1" dictionary="МРО_Сработки" />
-      
     </deviceTable>	
 	
     <deviceTable tableType="23" recordType="outputDevice"
@@ -1025,10 +1059,6 @@
       type="fire"
       category="effector">
 
-      <detalization class="2" dictionary="МРОи2_Неисправности" />
-      <detalization class="6" dictionary="МРОи2_Неисправности" />
-      <detalization class="1" dictionary="МРО_Сработки" />
-      
     </deviceTable>	
 
     <deviceTable tableType="24" recordType="outputDevice"
@@ -1044,12 +1074,8 @@
       type="fire"
       category="effector">
 
-      <detalization class="2" dictionary="МРОи2_Неисправности" />
-      <detalization class="6" dictionary="МРОи2_Неисправности" />
-      <detalization class="1" dictionary="МРО_Сработки" />
-      
     </deviceTable>	
-
+-->
 	
 <!-- групповые устройства -->
 
@@ -1091,6 +1117,7 @@
       shortName="РМ-2"
       deviceCount="2"
       Icon="Device_Connector"
+      BaseDevice="1"
       addressMask="R[7-15];[0-6]"
       category="transport"
     />
@@ -1103,6 +1130,7 @@
       maxOutputDeviceCount="0"
       shortName="РМ-3"
       deviceCount="3"
+      BaseDevice="1"
       Icon="Device_Connector"
       addressMask="R[7-15];[0-6]"
       category="transport"
@@ -1116,6 +1144,7 @@
       maxOutputDeviceCount="0"
       shortName="РМ-4"
       deviceCount="4"
+      BaseDevice="1"
       Icon="Device_Connector"
       addressMask="R[7-15];[0-6]"
       category="transport"
@@ -1129,17 +1158,16 @@
       maxOutputDeviceCount="0"
       shortName="РМ-5"
       deviceCount="5"
+      BaseDevice="1"
       Icon="Device_Connector"
       addressMask="R[7-15];[0-6]"
       category="transport"
     />
 
 <!-- В составе группового -->
-	
 
 <!-- * -->
-
-    
+   
 <!--    
     <deviceTable tableType="-1" recordType="childDevice" 
       deviceDriverID ="DDA49454-380D-453D-B136-9725F10EA951"
@@ -1152,14 +1180,11 @@
       category="detector"
       IgnoreInZoneState="1"
       addressMask="[0(1)-8(30)]"
-
-    />    
+/>    
     
 -->
     
 </deviceTables>
-
-
 
   <events> 
     <event rawEventCode="$01" eventClass="6" eventClass1="0" eventClass2="6" eventMessage="[Тревога от обойдённого ИП/Пожарная тревога/Дым ниже порога]" hasDevice="1">
@@ -1214,7 +1239,7 @@
       <detailsFor tableType="14" dictionary="АМ_Неисправности" />
       <detailsFor tableType="15" dictionary="АМ4Т_Неисправности" />
       <detailsFor tableType="7" dictionary="АМ1о_Неисправности" />
-
+      <detailsFor tableType="22" dictionary="МРОи2_Неисправности_ж" />
      
       <alterFor tableType="1024" useState="1" eventMessage="[Устранение неисправности/Неисправность/Устранение отказа основного питания/Отказ основного питания/Устранено вскрытие устройства/Вскрытие/Контактор шкафа в норме/После команд ПУСК не сработал контактор шкафа/Устранен обрыв линии ЭКМ /Обрыв линии ЭКМ на выходе насоса/Устранено КЗ линии ЭКМ на выходе насоса /КЗ линии ЭКМ на выходе насоса/Рабочий режим восстановлен/После включения насос не вышел на рабочий режим/УЗН СТАРТ Обрыв устранено/УЗН СТАРТ Обрыв/УЗН СТАРТ КЗ устранено/УЗН СТАРТ КЗ/УЗН отказ устранено/УЗН отказ/УЗН СТОП Обрыв устранено/УЗН СТОП Обрыв/УЗН СТОП КЗ устранено/УЗН СТОП КЗ/Обрыв линии КССБ устранено/Обрыв линии КССБ/КЗ линии КССБ устранено/КЗ линии КССБ]" />
       <alterFor tableType="1036" useState="1" eventMessage="[Устранение неисправности/Неисправность/Устранение отказа основного питания/Отказ основного питания/Устранено вскрытие устройства/Вскрытие/Контактор шкафа в норме/После команд ПУСК не сработал контактор шкафа/Устранен обрыв линии связи с датчиком минимального давления/Обрыв линии связи с датчиком минимального давления/Устранено КЗ линии связи с датчиком минимального давления/КЗ линии связи с датчиком минимального давления/Устранен обрыв линии связи с датчиком максимального давления/Обрыв линии связи с датчиком максимального давления/Устранено КЗ линии связи с датчиком максимального давления/КЗ линии связи с датчиком максимального давления/Устранено некорректное сочетание сигналов датчиков уровней/Некорректное сочетание сигналов датчиков уровней/Давление в мембранном баке в норме/Не создается заданное давление в мембранном баке]" />
@@ -1581,7 +1606,7 @@
     <deviceState tableType="13" class="7" name="Ход на открытие" Intbitno="3" ID="Bolt_Opening"  type="Fire"/>
     <deviceState tableType="13" class="7" name="Ход на закрытие" Intbitno="15" ID="Bolt_Closing"  type="Fire"/>
 
-    <deviceState tableType="13" class="1" name="Автоматика отключена" ID="Bolt_PanelAutoOff" bitno="6" type="Auto" ManualReset="1">
+    <deviceState tableType="13" class="3" name="Автоматика отключена" ID="Bolt_PanelAutoOff" bitno="6" type="Auto" ManualReset="1">
       <enter event1="$34"/>
       <leave event="$34"/>
     </deviceState>
@@ -1880,7 +1905,7 @@
 
     <!-- управление и конфигурация устройствами
 	class:  1 - управление
-			2 - конфигурирование
+		2 - конфигурирование
 	-->
   <devicePropInfos>
 

@@ -104,7 +104,7 @@ namespace Firesec
 				string output = Encoding.UTF8.GetString(memoryStream.ToArray());
 				output = output.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 				output = output.Replace("\r\n", "");
-
+				output = output.Replace("version=\"1.0\"", "version=\"1.0\" encoding=\"windows-1251\"");
 				return output;
 			}
 		}

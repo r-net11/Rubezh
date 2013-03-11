@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             MinWidth="600" MinHeight="400">
+             MinWidth="650" MinHeight="400">
 
     <UserControl.Resources>
         <Converters:ZoneTypeToStringConverter x:Key="ZoneTypeToStringConverter" />
@@ -12,7 +12,7 @@
 
     <TabControl>
         <TabItem Header="Основные">
-            <Grid Grid.Row="0">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -27,7 +27,7 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" MaxLength="5" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" MaxLength="20" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" MaxLength="20" Name="nameTextBox" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" TextWrapping="Wrap" />
             </Grid>
         </TabItem>
@@ -111,6 +111,5 @@
                 </StackPanel>
             </StackPanel>
         </TabItem>
-
     </TabControl>
 </UserControl>

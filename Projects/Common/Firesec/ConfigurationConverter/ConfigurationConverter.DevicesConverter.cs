@@ -15,7 +15,7 @@ namespace Firesec
 		{
 			deviceConfiguration.Devices = new List<Device>();
 
-            if (coreConfig.dev == null || coreConfig.dev.Count() == 0 || coreConfig.drv == null)
+            if (coreConfig == null || coreConfig.dev == null || coreConfig.dev.Count() == 0 || coreConfig.drv == null)
             {
                 Logger.Error("ConfigurationConverter.ConvertDevices coreConfig.dev = null");
                 LoadingErrorManager.Add("Пустая коллекция устройств или драйверов при конвертации конфигурации");
@@ -229,6 +229,8 @@ namespace Firesec
 		{
 			var innerDevice = new devType();
 			innerDevice.name = device.Description;
+			if (innerDevice.name != null)
+				innerDevice.name = innerDevice.name.Replace('№', 'N');
 
 			innerDevice.drv = coreConfig.drv.FirstOrDefault(x => x.id.ToUpper() == device.Driver.StringUID).idx;
 

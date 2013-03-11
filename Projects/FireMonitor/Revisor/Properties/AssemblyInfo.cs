@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -8,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Revisor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("qq")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Revisor")]
-[assembly: AssemblyCopyright("Copyright © qq 2012")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

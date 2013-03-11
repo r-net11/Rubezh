@@ -32,6 +32,15 @@ namespace DevicesModule.ViewModels
 			if (device.IndicatorLogic == null)
 				return;
 
+			if (device.IndicatorLogic.Device == null && device.IndicatorLogic.Zones.Count == 0)
+			{
+				var intLogicType = Infrastructure.Common.RegistrySettingsHelper.GetInt("FireAdministrator.Indicator.IndicatorLogicType");
+				if(intLogicType != 0)
+				{
+					device.IndicatorLogic.IndicatorLogicType = (IndicatorLogicType)intLogicType;
+				}
+			}
+
 			switch (device.IndicatorLogic.IndicatorLogicType)
 			{
 				case IndicatorLogicType.Zone:
@@ -196,6 +205,7 @@ namespace DevicesModule.ViewModels
 				indicatorLogic.ConnectionColor = ConnectionColor;
 			}
             FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
+			RegistrySettingsHelper.SetInt("FireAdministrator.Indicator.IndicatorLogicType", (int)indicatorLogic.IndicatorLogicType);
 			return base.Save();
 		}
 	}

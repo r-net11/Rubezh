@@ -89,5 +89,12 @@
 		USB_BUNS_2,
 		PDU_PT,
 		PDU_PTDirection,
+		BlindPanel,
+		ControlCabinet,
+		PowerSupply,
+		FanCabinet,
+		SonarDirection,
+		USB_Rubezh_P,
+		Sonar
 	}
 }

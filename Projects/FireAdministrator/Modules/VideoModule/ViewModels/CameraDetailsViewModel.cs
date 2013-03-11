@@ -44,7 +44,6 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Address;
-			FullAddress = Camera.FullAddress;
 			Left = Camera.Left;
 			Top = Camera.Top;
 			Width = Camera.Width;
@@ -75,17 +74,6 @@ namespace VideoModule.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
-			}
-		}
-
-		string _fullAddress;
-		public string FullAddress
-		{
-			get { return _fullAddress; }
-			set
-			{
-				_fullAddress = value;
-				OnPropertyChanged("FullAddress");
 			}
 		}
 
@@ -209,7 +197,6 @@ namespace VideoModule.ViewModels
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
-			Camera.FullAddress = FullAddress;
 			Camera.Left = Left;
 			Camera.Top = Top;
 			Camera.Width = Width;

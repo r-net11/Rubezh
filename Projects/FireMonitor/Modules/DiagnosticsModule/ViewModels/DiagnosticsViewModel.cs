@@ -110,6 +110,9 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
 		{
+			throw new Exception("TestException");
+			return;
+
 			var thread = new Thread(new ThreadStart(() =>
 			{
 				while (true)

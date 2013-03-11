@@ -55,6 +55,14 @@ namespace Firesec.Models.ZonesLogic
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string state;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string MRO_MessageNo;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string MRO_MessageType;
     }
     
     /// <remarks/>

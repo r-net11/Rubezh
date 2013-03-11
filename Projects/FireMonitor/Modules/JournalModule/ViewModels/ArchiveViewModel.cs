@@ -125,9 +125,8 @@ namespace JournalModule.ViewModels
                 {
                     _archiveDefaultState = archiveSettingsViewModel.GetModel();
                     ClientSettings.ArchiveDefaultState = _archiveDefaultState;
-                    //if (IsFilterOn == false)
                     IsFilterOn = false;
-                    Update(true);
+                    //Update(true);
                 }
             }
             catch (Exception e)
@@ -272,5 +271,4 @@ namespace JournalModule.ViewModels
 			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 	}
-
 }

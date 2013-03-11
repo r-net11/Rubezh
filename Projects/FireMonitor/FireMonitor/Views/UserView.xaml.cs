@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using FiresecClient;
 
 namespace FireMonitor.Views
 {
@@ -13,6 +14,11 @@ namespace FireMonitor.Views
             ChangeUserCommand = new RelayCommand(OnChangeUser);
             DataContext = this;
         }
+
+		public string UserName
+		{
+			get { return FiresecManager.CurrentUser.Name; }
+		}
 
         public RelayCommand ChangeUserCommand { get; private set; }
         void OnChangeUser()

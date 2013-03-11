@@ -8,8 +8,8 @@ using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
-    public partial class App : Application
-    {
+	public partial class App : Application
+	{
 		private const string SignalId = "7D46A5A4-AC89-4F36-A834-1070CFCFF609";
 		private const string WaitId = "A64BC0A9-319C-4028-B666-5CE56BFD1B1B";
 
@@ -19,22 +19,22 @@ namespace FSAgentServer
 			PatchManager.Patch();
 			Microsoft.Win32.SystemEvents.SessionEnding += new Microsoft.Win32.SessionEndingEventHandler(SystemEvents_SessionEnding);
 
-            using (new DoubleLaunchLocker(SignalId, WaitId, true))
-            {
-                try
-                {
-                    AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-                    ThemeHelper.LoadThemeFromRegister();
+			using (new DoubleLaunchLocker(SignalId, WaitId, true))
+			{
+				try
+				{
+					AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+					ThemeHelper.LoadThemeFromRegister();
 					FSAgentLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                    FSAgentLoadHelper.SetStatus(FSAgentState.Opening);
-                    Bootstrapper.Run();
-                }
-                catch(Exception ex)
-                {
+					FSAgentLoadHelper.SetStatus(FSAgentState.Opening);
+					Bootstrapper.Run();
+				}
+				catch (Exception ex)
+				{
 					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки");
-                    Logger.Error(ex, "App.OnStartup");
-                }
-            }
+					Logger.Error(ex, "App.OnStartup");
+				}
+			}
 		}
 		protected override void OnExit(ExitEventArgs e)
 		{
@@ -47,42 +47,59 @@ namespace FSAgentServer
 			Restart();
 		}
 
-        public static void Restart()
-        {
+		public static void Restart()
+		{
 			Logger.Error("App.Restart");
 #if DEBUG
-            return;
+			return;
 #endif
 			BalloonHelper.Show("Драйвер Firesec", "Перезапуск");
-            Bootstrapper.Close();
-            var processStartInfo = new ProcessStartInfo()
-            {
-                FileName = Application.ResourceAssembly.Location,
-            };
-            System.Diagnostics.Process.Start(processStartInfo);
+			Bootstrapper.Close();
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location,
+			};
+			System.Diagnostics.Process.Start(processStartInfo);
 
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
-        }
+		}
 
 		static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
 		{
 			Bootstrapper.Close();
+			ShutDownComServer();
+			ShutDownComputer();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
-			ShutDownComputer();
 		}
 
 		static void ShutDownComputer()
 		{
-			var processStartInfo = new ProcessStartInfo()
+			if (GlobalSettingsHelper.GlobalSettings.ForceShutdown)
 			{
-				FileName = "shutdown.exe",
-				Arguments = "/s /t 00 /f",
-				CreateNoWindow = true,
-				WindowStyle = ProcessWindowStyle.Hidden
-			};
-			Process.Start(processStartInfo);
+				var processStartInfo = new ProcessStartInfo()
+				{
+					FileName = "shutdown.exe",
+					Arguments = "/s /t 00 /f",
+					CreateNoWindow = true,
+					WindowStyle = ProcessWindowStyle.Hidden
+				};
+				Process.Start(processStartInfo);
+			}
 		}
-    }
+
+		static void ShutDownComServer()
+		{
+			SocketServerHelper.Stop();
+			var processes = Process.GetProcessesByName("FS_SER~1.EXE");
+			if (processes != null)
+			{
+				foreach (var process in processes)
+				{
+					process.Kill();
+				}
+			}
+		}
+	}
 }

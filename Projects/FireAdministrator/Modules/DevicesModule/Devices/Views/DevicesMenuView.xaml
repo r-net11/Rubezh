@@ -53,6 +53,7 @@
                     <MenuItem Name="usbSetPasswordButton" Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource True}" Header="_Задать пароль" />
                     <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="_Другие функции" />
                 </MenuItem>
+                <MenuItem Command="{Binding MergeConfigurationCommand}" Header="Слияние конфигураций"/>
             </MenuItem>
         </Menu>
 

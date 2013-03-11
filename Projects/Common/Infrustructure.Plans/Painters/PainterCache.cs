@@ -28,11 +28,18 @@ namespace Infrustructure.Plans.Painters
 
 		static PainterCache()
 		{
-			BlackBrush = new SolidColorBrush(Colors.Black);
-			BlackBrush.Freeze();
-			ZonePen = new Pen(BlackBrush, 1);
-			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
-			_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
+			try
+			{
+				BlackBrush = new SolidColorBrush(Colors.Black);
+				BlackBrush.Freeze();
+				ZonePen = new Pen(BlackBrush, 1);
+				PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
+				_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "PainterCache.PainterCache()");
+			}
 		}
 		public static void Initialize(Converter<Guid, BitmapImage> imageFactory, Converter<Guid, Drawing> drawingFactory)
 		{
@@ -144,11 +151,11 @@ namespace Infrustructure.Plans.Painters
 		}
 		private static ImageBrush CreateTransparentBackgroundBrush()
 		{
-			BitmapImage bi = new BitmapImage();
-			bi.BeginInit();
-			bi.UriSource = new System.Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
-			bi.EndInit();
-			var brush = new ImageBrush(bi)
+			var bitmapImage = new BitmapImage();
+			bitmapImage.BeginInit();
+			bitmapImage.UriSource = new System.Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
+			bitmapImage.EndInit();
+			var brush = new ImageBrush(bitmapImage)
 			{
 				TileMode = TileMode.Tile,
 				ViewportUnits = BrushMappingMode.Absolute,

@@ -26,6 +26,7 @@ namespace DevicesModule.ViewModels
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
+			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
             DeviceCommandsAuParametersViewModel = new ViewModels.DeviceCommandsAuParametersViewModel(DevicesViewModel);
@@ -177,5 +178,18 @@ namespace DevicesModule.ViewModels
         {
             get { return (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB); }
         }
+
+		public RelayCommand MergeConfigurationCommand { get; private set; }
+		void OnMergeConfiguration()
+		{
+			DevicesModuleMerge.MergeConfigurationHelper.Merge();
+		}
+		bool CanMergeConfiguration()
+		{
+#if DEBUG
+			return true;
+#endif
+			return false;
+		}
     }
 }

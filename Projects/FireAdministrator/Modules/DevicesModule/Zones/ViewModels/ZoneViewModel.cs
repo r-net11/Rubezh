@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -10,6 +11,30 @@ namespace DevicesModule.ViewModels
 		public ZoneViewModel(Zone zone)
 		{
 			Zone = zone;
+		}
+
+		public string Name
+		{
+			get { return Zone.Name; }
+			set
+			{
+				Zone.Name = value;
+				Zone.OnChanged();
+				OnPropertyChanged("Name");
+				ServiceFactory.SaveService.FSChanged = true;
+			}
+		}
+
+		public string Description
+		{
+			get { return Zone.Description; }
+			set
+			{
+				Zone.Description = value;
+				Zone.OnChanged();
+				OnPropertyChanged("Description");
+				ServiceFactory.SaveService.FSChanged = true;
+			}
 		}
 
 		public string DetectorCount
@@ -26,6 +51,8 @@ namespace DevicesModule.ViewModels
 		{
 			Zone = zone;
 			OnPropertyChanged("Zone");
+			OnPropertyChanged("Name");
+			OnPropertyChanged("Description");
 			OnPropertyChanged("DetectorCount");
 		}
 	}

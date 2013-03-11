@@ -12,6 +12,7 @@ namespace Infrastructure.Common.Services.Content
 	{
 		string ContentFolder { get; }
 
+		bool CheckIfExists(string guid);
 		string GetContentFileName(Guid guid);
 		string GetContentFileName(string guid);
 		Stream GetContentStream(Guid guid);

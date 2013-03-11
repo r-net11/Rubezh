@@ -186,6 +186,7 @@
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
+    <Compile Include="ToolBarButton2.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -789,7 +790,25 @@
     <Resource Include="Images\FolderOpen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SubPlanRectangle.png" />
+    <Resource Include="FSIcons\USB_Rubezh_P.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\BlindPanel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\Sonar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\ControlCabinet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\PowerSupply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\FanCabinet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\SonarDirection.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

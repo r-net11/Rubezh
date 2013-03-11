@@ -59,6 +59,14 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
 					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 					{
+						if(plan.BackgroundImageSource.HasValue)
+						{
+							if (!ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
+							{
+								plan.BackgroundImageSource = null;
+							}
+						}
+						
 						Helper.UpgradeBackground(plan);
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							Helper.UpgradeBackground(elementBase);

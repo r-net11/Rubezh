@@ -132,20 +132,6 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		private bool editingEnabled;
-		public bool EditingEnabled
-		{
-			get
-			{
-				return editingEnabled;
-			}
-			set
-			{
-				editingEnabled = value;
-				OnPropertyChanged("EditingEnabled");
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -180,10 +166,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			if (SelectedZone != null)
-			{
-				OnEdit(SelectedZone.Zone);
-			}
+			OnEdit(SelectedZone.Zone);
 		}
 
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }

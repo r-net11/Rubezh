@@ -12,6 +12,7 @@ namespace GKModule.Validation
 
 		public static IEnumerable<IValidationError> Validate()
 		{
+			XManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateDevices();
 			ValidateZones();

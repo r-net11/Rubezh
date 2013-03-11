@@ -13,18 +13,25 @@ using Cursor = System.Windows.Input.Cursor;
 using Cursors = System.Windows.Input.Cursors;
 using MessageBox = System.Windows.MessageBox;
 using FiresecAPI;
+using Infrastructure.Common.Windows;
+using System.Windows;
 
 namespace ManagementConsole
 {
 	public class ManagementConsoleViewModel : BaseViewModel
 	{
+		public static ManagementConsoleViewModel Curent { get; private set; }
+		public GlobalSettingsViewModel GlobalSettingsViewModel { get; private set; }
+
 		public ManagementConsoleViewModel()
 		{
+			Curent = this;
 			SaveLogsCommand = new RelayCommand(OnSaveLogs);
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
 			ResetCommand = new RelayCommand(OnReset);
 			GlobalSettingsViewModel = new GlobalSettingsViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
+			HasChanges = false;
 		}
 
 		public bool IsServerAuto
@@ -199,20 +206,14 @@ namespace ManagementConsole
 			}
 		}
 
-		GlobalSettingsViewModel _globalSettingsViewModel;
-		public GlobalSettingsViewModel GlobalSettingsViewModel
-		{
-			get { return _globalSettingsViewModel; }
-			set
-			{
-				_globalSettingsViewModel = value;
-				OnPropertyChanged("GlobalSettingsViewModel");
-			}
-		}
-
 		public RelayCommand ResetCommand { get; private set; }
 		public void OnReset()
 		{
+			var result = MessageBox.Show("Вы уверены, что хотите сбросить все настройки, базу данных и конфигурацию");
+			if (result != MessageBoxResult.OK)
+			{
+				return;
+			}
 			GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
 			GlobalSettingsHelper.Save();
 			GlobalSettingsViewModel = new GlobalSettingsViewModel();
@@ -221,6 +222,24 @@ namespace ManagementConsole
 			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
 			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
 			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
+		}
+
+
+		bool _hasChanges;
+		public bool HasChanges
+		{
+			get { return _hasChanges; }
+			set
+			{
+				_hasChanges = value;
+				base.OnPropertyChanged("HasChanges");
+			}
+		}
+
+		void OnPropertyChanged(string propertyName)
+		{
+			base.OnPropertyChanged(propertyName);
+			HasChanges = true;
 		}
 	}
 }

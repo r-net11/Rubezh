@@ -42,6 +42,8 @@ namespace FSAgentServer
 				return DateTime.MinValue;
 			}
 
+			firesecTime = firesecTime.Replace("\n    ", "");
+			firesecTime = firesecTime.Replace("\n", "");
 			return new DateTime(
 				int.Parse(firesecTime.Substring(0, 4)),
 				int.Parse(firesecTime.Substring(4, 2)),

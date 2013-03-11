@@ -62,7 +62,7 @@ namespace Infrustructure.Plans.Painters
 				return FreezeBrush(new ImageBrush());
 			using (var imageStream = new MemoryStream(backgroundPixels))
 			{
-				BitmapImage bitmapImage = new BitmapImage();
+				var bitmapImage = new BitmapImage();
 				bitmapImage.BeginInit();
 				//bitmapImage.CreateOptions = BitmapCreateOptions.DelayCreation;
 				bitmapImage.CacheOption = BitmapCacheOption.OnLoad;

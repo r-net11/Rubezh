@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Client.Properties;
 
 namespace Infrastructure.Client.Login
 {
@@ -48,7 +49,7 @@ namespace Infrastructure.Client.Login
 				}
 				else
 				{
-					if (isAutoconnect)
+					if (isAutoconnect && (Settings.Default.UserName != "adm" || !GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm))
 					{
 						loginViewModel.SaveCommand.Execute();
 					}

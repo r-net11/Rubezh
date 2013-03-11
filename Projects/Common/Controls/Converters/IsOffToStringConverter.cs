@@ -7,7 +7,7 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return (bool)value ? "Включить" : "Отключить";
+			return (bool)value ? "Снять отключение" : "Отключить";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

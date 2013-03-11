@@ -9,12 +9,12 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-	    public static Thread CurrentThread;
+		public static Thread CurrentThread;
 		public OperationResult<int> GetJournalLastId()
 		{
 			return new OperationResult<int>()
 				{
-                    Result = FiresecDB.DatabaseHelper.GetLastOldId()
+					Result = FiresecDB.DatabaseHelper.GetLastOldId()
 				};
 		}
 
@@ -25,41 +25,41 @@ namespace FiresecService.Service
 
 		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-            
-            return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter,true);
+
+			return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, true);
 		}
 		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-            if (CurrentThread != null)
-            {
-                FiresecDB.DatabaseHelper.IsAbort = true;
-                CurrentThread.Join(TimeSpan.FromMinutes(1));
-                CurrentThread = null;
-            }
-            FiresecDB.DatabaseHelper.IsAbort = false;
-            var thread = new Thread(new ThreadStart((new Action(() =>
-            {
-                FiresecDB.DatabaseHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-                FiresecDB.DatabaseHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-                FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, false);
-            }))));
-            CurrentThread = thread;
-            thread.Start();
-        }
+			if (CurrentThread != null)
+			{
+				FiresecDB.DatabaseHelper.IsAbort = true;
+				CurrentThread.Join(TimeSpan.FromMinutes(1));
+				CurrentThread = null;
+			}
+			FiresecDB.DatabaseHelper.IsAbort = false;
+			var thread = new Thread(new ThreadStart((new Action(() =>
+			{
+				FiresecDB.DatabaseHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+				FiresecDB.DatabaseHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+				FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, false);
+			}))));
+			CurrentThread = thread;
+			thread.Start();
+		}
 
-        void DatabaseHelper_ArchivePortionReady(List<JournalRecord> obj)
-        {
-            FiresecService.NotifyArchivePortionCompleted(obj);
-        }
+		void DatabaseHelper_ArchivePortionReady(List<JournalRecord> obj)
+		{
+			FiresecService.NotifyArchivePortionCompleted(obj);
+		}
 
 		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
 		{
-		    return FiresecDB.DatabaseHelper.GetDistinctDescriptions();
+			return FiresecDB.DatabaseHelper.GetDistinctDescriptions();
 		}
 
 		public OperationResult<DateTime> GetArchiveStartDate()
 		{
-		    return FiresecDB.DatabaseHelper.GetArchiveStartDate();
+			return FiresecDB.DatabaseHelper.GetArchiveStartDate();
 		}
 
 		public void AddJournalRecords(List<JournalRecord> journalRecords)
@@ -80,7 +80,7 @@ namespace FiresecService.Service
 
 		public void SetJournal(List<JournalRecord> journalRecords)
 		{
-            FiresecDB.DatabaseHelper.SetJournal(journalRecords);
+			FiresecDB.DatabaseHelper.SetJournal(journalRecords);
 		}
 
 		void AddInfoMessage(string userName, string mesage)
@@ -99,7 +99,7 @@ namespace FiresecService.Service
 				ZoneName = ""
 			};
 
-			FiresecDB.DatabaseHelper.AddJournalRecord(journalRecord);
+			FiresecDB.DatabaseHelper.AddJournalRecords(new List<JournalRecord>() { journalRecord });
 			NotifyNewJournal(new List<JournalRecord>() { journalRecord });
 		}
 	}

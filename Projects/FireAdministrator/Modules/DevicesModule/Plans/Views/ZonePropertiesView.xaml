@@ -9,30 +9,26 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-        <ListView Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="OnSelectionChanged">
-            <ListView.Resources>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True" Name="ZonesDataGrid">
+            <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
                 </InputBindingCollection>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
                     <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
                 </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
-                </GridView>
-            </ListView.View>
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>
-		<Button Grid.Row="1" Width="100" Margin="0, 2, 0, 2" HorizontalAlignment="Right" Command="{Binding CreateCommand}" Content="Создать" />
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Zone.No}" Header="№" />
+                <DataGridTextColumn Binding="{Binding Zone.Name}" Header="Наименование" />
+                <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+                </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="100" Command="{Binding EditCommand}" Content="Редактировать" Margin="2" />
+            <Button Width="100" Command="{Binding CreateCommand}" Content="Создать" Margin="2" />
+        </StackPanel>
 	</Grid>
 </UserControl>

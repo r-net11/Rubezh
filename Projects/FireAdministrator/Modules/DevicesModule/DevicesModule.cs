@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using DevicesModule.Plans;
 using DevicesModule.Validation;
 using DevicesModule.ViewModels;
 using FiresecAPI;
@@ -15,6 +14,7 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using DevicesModule.Plans;
 
 namespace DevicesModule
 {
@@ -31,6 +31,7 @@ namespace DevicesModule
 		{
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 			ServiceFactory.Events.GetEvent<EditZoneEvent>().Subscribe(OnEditZone);
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
 
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -46,6 +47,10 @@ namespace DevicesModule
 		void OnEditZone(Guid zoneUID)
 		{
 			ZonesViewModel.EditZone(zoneUID);
+		}
+		void OnShowDevice(Guid deviceUID)
+		{
+			DevicesViewModel.Select(deviceUID);
 		}
 
 		public override void RegisterResource()

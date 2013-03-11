@@ -18,17 +18,17 @@ namespace FireMonitor.ViewModels
 		{
 			Title = "Оперативная задача ОПС FireSec-2";
 			Toolbar = new ToolbarViewModel();
-			ContentFotter = new UserFotterViewModel();
+			//ContentFotter = new UserFotterViewModel();
 			Height = 700;
 			Width = 1100;
 			MinWidth = 980;
 			MinHeight = 550;
 			//HideInTaskbar = App.IsMulticlient;
-			if (RegistryHelper.IsIntegrated)
+			if (ShellIntegrationHelper.IsIntegrated)
 			{
 				AllowMaximize = false;
 				AllowMinimize = false;
-				Surface.WindowState = WindowState.Maximized;
+				Sizable = false;
 			}
 		}
 
