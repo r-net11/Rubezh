@@ -17,6 +17,7 @@ namespace Common.GK
 			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(PumpStation_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(KAU_RSR2_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAUIndicator_Helper.Create());
 
 			AddDriverToKau(SmokeDetectorHelper.Create());
@@ -31,6 +32,7 @@ namespace Common.GK
 
 			AddDriverToKau(RM_1_Helper.Create());
 			AddDriverToKau(MRO_Helper.Create());
+			AddDriverToKau(MRO_2_Helper.Create());
 			AddDriverToKau(MDU_Helper.Create());
 			AddDriverToKau(MPT_Helper.Create());
 			AddDriverToKau(BUZ_Helper.Create());
@@ -42,12 +44,27 @@ namespace Common.GK
 			AddDriverToKau(RM_5_Helper.Create());
 			AddDriverToKau(AM_4_Helper.Create());
 			AddDriverToKau(AMP_4_Helper.Create());
+
+			XManager.DriversConfiguration.XDrivers.Add(RSR2_RM_1_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(RSR2_AM_1_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_HandDetector_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_SmokeDetector_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_RM_2_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_AM_4_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_MDU_Helper.Create());
 		}
 
 		static void AddDriverToKau(XDriver driver)
 		{
 			XManager.DriversConfiguration.XDrivers.Add(driver);
 			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+			kauDriver.Children.Add(driver.DriverType);
+		}
+
+		static void AddDriverToKau_RSR2(XDriver driver)
+		{
+			XManager.DriversConfiguration.XDrivers.Add(driver);
+			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
 			kauDriver.Children.Add(driver.DriverType);
 		}
 	}

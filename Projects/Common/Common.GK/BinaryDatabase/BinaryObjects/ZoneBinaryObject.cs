@@ -90,28 +90,41 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(XStateType.Fire2, Zone);
 
-			Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
-			Formula.Add(FormulaOperationType.MUL);
-			Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
-			Formula.Add(FormulaOperationType.XOR);
-			Formula.Add(FormulaOperationType.OR);
+			//Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
+			//Formula.Add(FormulaOperationType.MUL);
+			//Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
+			//Formula.Add(FormulaOperationType.XOR);
+			//Formula.Add(FormulaOperationType.OR);
+			//Formula.Add(FormulaOperationType.DUP);
+			//Formula.AddGetBit(XStateType.Fire1, Zone);
+			//Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
+			//Formula.Add(FormulaOperationType.MUL);
+			//Formula.Add(FormulaOperationType.ADD);
+			//Formula.Add(FormulaOperationType.CONST, 0, (ushort)(Zone.Fire1Count + 0x8000), "15-ый бит + rоличество устройств для формирования Пожар1");
+			//Formula.Add(FormulaOperationType.GE);
+			//Formula.Add(FormulaOperationType.DUP);
+			//Formula.AddPutBit(XStateType.Fire1, Zone);
+
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddGetBit(XStateType.Fire1, Zone);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
-			Formula.Add(FormulaOperationType.MUL);
-			Formula.Add(FormulaOperationType.ADD);
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)(Zone.Fire1Count + 0x8000), "15-ый бит + rоличество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(XStateType.Fire1, Zone);
 
-			Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
-			Formula.Add(FormulaOperationType.MUL);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.Add(FormulaOperationType.AND);
-			Formula.Add(FormulaOperationType.CONST, 0, 0x8001, "15-ый бит + rоличество устройств для формирования Внимание");
+			//Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
+			//Formula.Add(FormulaOperationType.MUL);
+			//Formula.Add(FormulaOperationType.COM);
+			//Formula.Add(FormulaOperationType.AND);
+			//Formula.Add(FormulaOperationType.CONST, 0, 0x8001, "15-ый бит + rоличество устройств для формирования Внимание");
+			//Formula.Add(FormulaOperationType.GE);
+			//Formula.AddPutBit(XStateType.Attention, Zone);
+
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
+			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(XStateType.Attention, Zone);
+
 			Formula.Add(FormulaOperationType.END);
 		}
 	}

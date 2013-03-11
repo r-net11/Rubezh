@@ -11,6 +11,8 @@
         <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
         <Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
         <Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
+        <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
+        <Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
     </UserControl.Resources>
 
     <Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -114,6 +116,22 @@
 										CommandParameter="{Binding}"
 										ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
                                 </Grid>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsSonar, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                                    <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
                                 <Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
 									    Content="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}"

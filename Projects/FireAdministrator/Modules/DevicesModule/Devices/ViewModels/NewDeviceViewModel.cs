@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
 			if (ParentDevice != null)
 			{
 				var parentShleif = ParentDevice;
-				if (ParentDevice.Driver.DriverType == DriverType.MPT)
+				if (ParentDevice.Driver.DriverType == DriverType.MPT || ParentDevice.Driver.DriverType == DriverType.MRO_2)
 					parentShleif = ParentDevice.Parent;
 				for (int i = 0; i < parentShleif.Driver.ShleifCount; i++)
 				{
