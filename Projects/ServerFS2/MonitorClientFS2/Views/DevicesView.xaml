@@ -43,6 +43,8 @@
         <StackPanel Grid.Row="1" Margin="2">
             <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Margin="2" />
             <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Margin="2" />
+            <Button Content="Считать rom/ram" Command="{Binding ReadRomRamCommand}" Width="200" Margin="2" />
+            <Button Content="GetParametersCommand" Command="{Binding GetParametersCommand}" Width="200" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

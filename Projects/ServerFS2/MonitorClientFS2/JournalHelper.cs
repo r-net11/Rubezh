@@ -63,7 +63,7 @@ namespace MonitorClientFS2
 			}
 			catch (NullReferenceException ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message + "\n Проверьте связь с прибором");
 				throw;
 			}
 		}
@@ -106,7 +106,7 @@ namespace MonitorClientFS2
 		private static FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
 		{
 			var data = SendByteCommand(bytes, device);
-			if (data != null)
+			if (data != null && JournalParser.IsValidInput(data.Data))
 			{
 				lock (Locker)
 				{
