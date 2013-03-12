@@ -76,6 +76,11 @@ namespace PlansModule.ViewModels
 		public bool HasPermissionsToScale
 		{ get { return true; } }
 
+		public bool AlwaysShowScroll
+		{
+			get { return true; }
+		}
+
 		#endregion
 	}
 }

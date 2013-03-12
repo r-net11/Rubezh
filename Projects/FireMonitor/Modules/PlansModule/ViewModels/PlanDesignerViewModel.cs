@@ -142,6 +142,10 @@ namespace PlansModule.ViewModels
 		{
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
 		}
+		public bool AlwaysShowScroll
+		{
+			get { return false; }
+		}
 
 		#endregion
 	}

@@ -21,7 +21,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Menu);
 			}
 		}
-
 		private ViewPartViewModel _content;
 		public ViewPartViewModel Content
 		{
@@ -32,14 +31,14 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Content);
 			}
 		}
-		private double _width;
-		public double Width
+		private double _minWidth;
+		public double MinWidth
 		{
-			get { return _width; }
+			get { return _minWidth; }
 			set
 			{
-				_width = value;
-				OnPropertyChanged(() => Width);
+				_minWidth = value;
+				OnPropertyChanged(() => MinWidth);
 			}
 		}
 	}

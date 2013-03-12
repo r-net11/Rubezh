@@ -50,6 +50,14 @@ namespace Infrastructure.Common.Windows.Views
 				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
 				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+			var shellViewModel = _model as ShellViewModel;
+			if (shellViewModel != null)
+			{
+				MinHeight = shellViewModel.MinHeight;
+				MinWidth = shellViewModel.MinWidth;
+				Height = shellViewModel.Height;
+				Width = shellViewModel.Width;
+			}
 			if (_model.HideInTaskbar)
 				ShowInTaskbar = false;
 		}

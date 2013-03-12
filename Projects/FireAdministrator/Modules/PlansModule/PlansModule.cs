@@ -56,7 +56,8 @@ namespace PlansModule
 			var viewModel = new RightContentViewModel()
 			{
 				Content = PlansViewModel,
-				Menu = PlansViewModel.Menu
+				Menu = PlansViewModel.Menu,
+				MinWidth = 400,
 			};
 			ServiceFactory.Layout.ShowRightContent(viewModel);
 		}

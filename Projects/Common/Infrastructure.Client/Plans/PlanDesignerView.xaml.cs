@@ -39,8 +39,11 @@ namespace Infrastructure.Client.Plans
 		}
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			((IPlanDesignerViewModel)DataContext).Updated += (s, ee) => Reset();
+			var viewModel = (IPlanDesignerViewModel)DataContext;
+			viewModel.Updated += (s, ee) => Reset();
 			Reset();
+			_scrollViewer.VerticalScrollBarVisibility = viewModel.AlwaysShowScroll ? ScrollBarVisibility.Visible : ScrollBarVisibility.Auto;
+			_scrollViewer.HorizontalScrollBarVisibility = viewModel.AlwaysShowScroll ? ScrollBarVisibility.Visible : ScrollBarVisibility.Auto;
 		}
 
 		public void Reset()

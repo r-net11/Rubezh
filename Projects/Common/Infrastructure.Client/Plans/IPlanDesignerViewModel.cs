@@ -7,6 +7,7 @@ namespace Infrastructure.Client.Plans
 	{
 		event EventHandler Updated;
 
+		bool AlwaysShowScroll { get; }
 		object Toolbox { get; }
 		object Canvas { get; }
 		Plan Plan { get; }
