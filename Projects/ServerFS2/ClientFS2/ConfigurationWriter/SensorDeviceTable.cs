@@ -6,12 +6,12 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryNonIUDevice : TableBase
+	public class SensorDeviceTable : TableBase
 	{
 		Device Device;
 
-		public BinaryNonIUDevice(Device panelDevice, Device device)
-			: base(panelDevice)
+		public SensorDeviceTable(PanelDatabase panelDatabase, Device device)
+			: base(panelDatabase)
 		{
 			Device = device;
 
@@ -23,7 +23,7 @@ namespace ClientFS2.ConfigurationWriter
 			var zoneNo = 0;
 			if (device.Zone != null)
 			{
-				zoneNo = ZonePanelRelations.GetLocalZoneNo(device.Zone, panelDevice);
+				zoneNo = ZonePanelRelations.GetLocalZoneNo(device.Zone, ParentPanel);
 			}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
@@ -144,7 +144,7 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddByte((byte)amVitualType, "ID виртуального типа");
 
 			BytesDatabase.AddShort((short)0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			for (int i = 0; i < PanelDevice.Driver.ShleifCount; i++)
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
 				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
@@ -182,7 +182,7 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddString(event2PropertyValue, "Описание состояния норма");
 
 			BytesDatabase.AddShort((short)0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			for (int i = 0; i < PanelDevice.Driver.ShleifCount; i++)
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
 				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());

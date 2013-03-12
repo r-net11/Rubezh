@@ -66,10 +66,10 @@ namespace ClientFS2.ConfigurationWriter
 			return byteDescriptions[0];
 		}
 
-		public ByteDescription AddReferenceToDevice(Device device, string description = null)
+		public ByteDescription AddReferenceToTable(TableBase tableBase, string description = null)
 		{
 			var byteDescriptions = AddBytes(new List<byte>() { 0, 0, 0 }, description);
-			byteDescriptions.DeviceReference = device;
+			byteDescriptions.TableBaseReference = tableBase;
 			return byteDescriptions;
 		}
 
@@ -93,9 +93,9 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			foreach (var byteDescription in ByteDescriptions)
 			{
-				if (byteDescription.DeviceReference != null)
+				if (byteDescription.TableBaseReference != null)
 				{
-					byteDescription.AddressReference = ByteDescriptions.FirstOrDefault(x => x.DeviceHeader == byteDescription.DeviceReference);
+					byteDescription.AddressReference = ByteDescriptions.FirstOrDefault(x => x.TableHeader == byteDescription.TableBaseReference);
 				}
 			}
 		}

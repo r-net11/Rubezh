@@ -8,13 +8,17 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class TableBase
 	{
-		public Device PanelDevice;
-		public BytesDatabase BytesDatabase;
+		public PanelDatabase PanelDatabase { get; set; }
+		public Device ParentPanel
+		{
+			get { return PanelDatabase.ParentPanel; }
+		}
+		public BytesDatabase BytesDatabase { get; set; }
 		public List<BytesDatabase> ReferenceBytesDatabase { get; set; }
 
-		public TableBase(Device panelDevice)
+		public TableBase(PanelDatabase panelDatabase)
 		{
-			PanelDevice = panelDevice;
+			PanelDatabase = panelDatabase;
 			BytesDatabase = new BytesDatabase();
 			ReferenceBytesDatabase = new List<BytesDatabase>();
 		}
@@ -22,6 +26,11 @@ namespace ClientFS2.ConfigurationWriter
 		public virtual void Create()
 		{
 
+		}
+
+		public virtual Guid UID
+		{
+			get { return Guid.Empty; }
 		}
 	}
 }
