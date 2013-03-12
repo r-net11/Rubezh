@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
@@ -20,5 +21,11 @@ namespace XFiresecAPI
 
         [DataMember]
         public List<XClause> Clauses { get; set; }
+
+		[DataMember]
+		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
+
+		[DataMember]
+		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
 	}
 }

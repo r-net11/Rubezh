@@ -8,32 +8,13 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class BinaryDirection
 	{
-		public BinaryDirection(Device panelDevice)
-		{
-			var localDirections = new List<Direction>();
-			foreach (var direction in ConfigurationManager.DeviceConfiguration.Directions)
-			{
-				foreach (var zoneUID in direction.ZoneUIDs)
-				{
-					var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						if (ZonePanelRelations.IsLocalZone(zone, panelDevice))
-							localDirections.Add(direction);
-					}
-				}
-			}
-			foreach (var direction in localDirections)
-			{
-				AddBinaryDirection(panelDevice, direction);
-			}
-		}
+		BytesDatabase BytesDatabase;
 
-		public void AddBinaryDirection(Device panelDevice, Direction direction)
+		public BinaryDirection(Device panelDevice, Direction direction)
 		{
-			var bytesDatabase = new BytesDatabase();
-			bytesDatabase.AddString(direction.Name, "Имя");
-			bytesDatabase.AddByte(0, "Резерв");
+			BytesDatabase = new BytesDatabase();
+			BytesDatabase.AddString(direction.Name, "Имя");
+			BytesDatabase.AddByte(0, "Резерв");
 
 			var localValves = new List<Device>();
 			foreach (var zoneUID in direction.ZoneUIDs)
@@ -51,7 +32,7 @@ namespace ClientFS2.ConfigurationWriter
 
 			foreach (var valve in localValves)
 			{
-				bytesDatabase.AddReference(null, "Указатель на локальную задвижку");
+				BytesDatabase.AddReference(null, "Указатель на локальную задвижку");
 			}
 
 			var rmShleif = 0;
@@ -64,8 +45,8 @@ namespace ClientFS2.ConfigurationWriter
 					rmShleif = rmDevice.ShleifNo;
 					rmAddress = rmDevice.IntAddress / 256;
 				}
-				bytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
-				bytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
+				BytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
+				BytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
 			}
 		}
 	}

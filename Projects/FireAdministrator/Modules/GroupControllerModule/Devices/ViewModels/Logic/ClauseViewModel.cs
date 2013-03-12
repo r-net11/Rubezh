@@ -35,9 +35,6 @@ namespace GKModule.ViewModels
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = clause.StateType;
-
-			SelectedMROMessageNo = clause.ZoneLogicMROMessageNo;
-			SelectedMROMessageType = clause.ZoneLogicMROMessageType;
 		}
 
 		public List<ClauseConditionType> ClauseConditionTypes { get; private set; }
@@ -219,44 +216,5 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("PresenrationDirections");
 			}
 		}
-
-		#region IsMRO_2M
-		public bool IsSonar
-		{
-			get { return Device.Driver.DriverType == XDriverType.MRO_2; }
-		}
-
-		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
-		{
-			get { return Enum.GetValues(typeof(ZoneLogicMROMessageNo)).Cast<ZoneLogicMROMessageNo>().ToList(); }
-		}
-
-		ZoneLogicMROMessageNo _selectedMROMessageNo;
-		public ZoneLogicMROMessageNo SelectedMROMessageNo
-		{
-			get { return _selectedMROMessageNo; }
-			set
-			{
-				_selectedMROMessageNo = value;
-				OnPropertyChanged("SelectedMROMessageNo");
-			}
-		}
-
-		public List<ZoneLogicMROMessageType> AvailableMROMessageTypes
-		{
-			get { return Enum.GetValues(typeof(ZoneLogicMROMessageType)).Cast<ZoneLogicMROMessageType>().ToList(); }
-		}
-
-		ZoneLogicMROMessageType _selectedMROMessageType;
-		public ZoneLogicMROMessageType SelectedMROMessageType
-		{
-			get { return _selectedMROMessageType; }
-			set
-			{
-				_selectedMROMessageType = value;
-				OnPropertyChanged("SelectedMROMessageType");
-			}
-		}
-		#endregion
 	}
 }

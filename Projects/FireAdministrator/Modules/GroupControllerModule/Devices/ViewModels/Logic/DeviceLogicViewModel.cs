@@ -4,6 +4,9 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecAPI.Models;
+using System.Collections.Generic;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -32,6 +35,9 @@ namespace GKModule.ViewModels
 				JoinOperator = clause.ClauseJounOperationType;
 			}
 			UpdateJoinOperatorVisibility();
+
+			SelectedMROMessageNo = device.DeviceLogic.ZoneLogicMROMessageNo;
+			SelectedMROMessageType = device.DeviceLogic.ZoneLogicMROMessageType;
 		}
 
 		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
@@ -87,6 +93,45 @@ namespace GKModule.ViewModels
 			UpdateJoinOperatorVisibility();
 		}
 
+		#region IsMRO_2M
+		public bool IsSonar
+		{
+			get { return Device.Driver.DriverType == XDriverType.MRO_2; }
+		}
+
+		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
+		{
+			get { return Enum.GetValues(typeof(ZoneLogicMROMessageNo)).Cast<ZoneLogicMROMessageNo>().ToList(); }
+		}
+
+		ZoneLogicMROMessageNo _selectedMROMessageNo;
+		public ZoneLogicMROMessageNo SelectedMROMessageNo
+		{
+			get { return _selectedMROMessageNo; }
+			set
+			{
+				_selectedMROMessageNo = value;
+				OnPropertyChanged("SelectedMROMessageNo");
+			}
+		}
+
+		public List<ZoneLogicMROMessageType> AvailableMROMessageTypes
+		{
+			get { return Enum.GetValues(typeof(ZoneLogicMROMessageType)).Cast<ZoneLogicMROMessageType>().ToList(); }
+		}
+
+		ZoneLogicMROMessageType _selectedMROMessageType;
+		public ZoneLogicMROMessageType SelectedMROMessageType
+		{
+			get { return _selectedMROMessageType; }
+			set
+			{
+				_selectedMROMessageType = value;
+				OnPropertyChanged("SelectedMROMessageType");
+			}
+		}
+		#endregion
+
 		protected override bool Save()
 		{
 			var deviceLogic = new XDeviceLogic();
@@ -97,9 +142,7 @@ namespace GKModule.ViewModels
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
 					StateType = clauseViewModel.SelectedStateType,
 					ClauseJounOperationType = JoinOperator,
-					ClauseOperationType = clauseViewModel.SelectedClauseOperationType,
-					ZoneLogicMROMessageNo = clauseViewModel.SelectedMROMessageNo,
-					ZoneLogicMROMessageType = clauseViewModel.SelectedMROMessageType
+					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
 				};
 				switch (clause.ClauseOperationType)
 				{
@@ -123,6 +166,8 @@ namespace GKModule.ViewModels
 				}
 				if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)
 					deviceLogic.Clauses.Add(clause);
+				deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
+				deviceLogic.ZoneLogicMROMessageType = SelectedMROMessageType;
 			}
 
 			XManager.ChangeDeviceLogic(Device, deviceLogic);

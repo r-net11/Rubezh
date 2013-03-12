@@ -56,6 +56,14 @@ namespace Common.GK
 				"Запись состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
+		public void AddArgumentPutBit(byte bit, XBinaryBase binaryBase)
+		{
+			Add(FormulaOperationType.PUTBIT,
+				(byte)bit,
+				binaryBase.GetDatabaseNo(DatabaseType.Gk),
+				"Запись бита-параметра " + XBinaryBaseToString(binaryBase));
+		}
+
 		public void AddStandardTurning(XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.DUP);

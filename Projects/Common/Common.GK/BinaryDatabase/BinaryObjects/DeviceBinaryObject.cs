@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+using FiresecAPI.Models;
 
 namespace Common.GK
 {
@@ -34,15 +35,15 @@ namespace Common.GK
 			Formula = new FormulaBuilder();
 			if (DatabaseType == DatabaseType.Gk)
 			{
-                if (Device.Driver.HasLogic)
-                {
-                    if (Device.DeviceLogic.Clauses.Count > 0)
-                    {
-                        AddClauseFormula(Device.DeviceLogic);
-                    }
-                }
+				if (Device.Driver.HasLogic)
+				{
+					if (Device.DeviceLogic.Clauses.Count > 0)
+					{
+						AddClauseFormula(Device.DeviceLogic);
+					}
+				}
 			}
-            Formula.Add(FormulaOperationType.END);
+			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}
 
@@ -52,18 +53,18 @@ namespace Common.GK
 			foreach (var clause in deviceLogic.Clauses)
 			{
 				var baseObjects = new List<XBinaryBase>();
-                foreach (var zone in clause.Zones)
-                {
-                    baseObjects.Add(zone);
-                }
+				foreach (var zone in clause.Zones)
+				{
+					baseObjects.Add(zone);
+				}
 				foreach (var device in clause.Devices)
 				{
 					baseObjects.Add(device);
 				}
-                foreach (var direction in clause.Directions)
-                {
-                    baseObjects.Add(direction);
-                }
+				foreach (var direction in clause.Directions)
+				{
+					baseObjects.Add(direction);
+				}
 
 				var objectIndex = 0;
 				foreach (var baseObject in baseObjects)
@@ -76,13 +77,13 @@ namespace Common.GK
 						{
 							case ClauseOperationType.AllDevices:
 							case ClauseOperationType.AllZones:
-                            case ClauseOperationType.AllDirections:
+							case ClauseOperationType.AllDirections:
 								Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
 							case ClauseOperationType.AnyDevice:
 							case ClauseOperationType.AnyZone:
-                            case ClauseOperationType.AnyDirection:
+							case ClauseOperationType.AnyDirection:
 								Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}
@@ -109,7 +110,24 @@ namespace Common.GK
 				clauseIndex++;
 			}
 
+			AddMro2MFormula();
 			Formula.AddStandardTurning(Device);
+		}
+
+		void AddMro2MFormula()
+		{
+			if (Device.Driver.DriverType == XDriverType.MRO_2)
+			{
+				if (Device.DeviceLogic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
+					Formula.AddArgumentPutBit(31, Device);
+				var value = (int)Device.DeviceLogic.ZoneLogicMROMessageNo;
+				if ((value & 4) == 4)
+					Formula.AddArgumentPutBit(30, Device);
+				if ((value & 2) == 2)
+					Formula.AddArgumentPutBit(29, Device);
+				if ((value & 1) == 1)
+					Formula.AddArgumentPutBit(28, Device);
+			}
 		}
 
 		void SetPropertiesBytes()
@@ -152,7 +170,7 @@ namespace Common.GK
 					}
 					if (driverProperty.Offset > 0)
 						value = (ushort)(value << driverProperty.Offset);
-					if(driverProperty.Mask > 0)
+					if (driverProperty.Mask > 0)
 						value = (ushort)(value & driverProperty.Mask);
 					binProperty.Value += value;
 				}

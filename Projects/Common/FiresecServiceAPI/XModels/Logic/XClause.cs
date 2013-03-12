@@ -45,11 +45,5 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public ClauseJounOperationType ClauseJounOperationType { get; set; }
-
-		[DataMember]
-		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
-
-		[DataMember]
-		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
 	}
 }
