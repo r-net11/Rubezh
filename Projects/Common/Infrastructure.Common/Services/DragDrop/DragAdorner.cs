@@ -33,7 +33,6 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 			else
 				_child = adornerElement;
-			//_vector = new Vector(adornerElement.RenderSize.Width / 2, adornerElement.RenderSize.Height / 2);
 		}
 
 		public void UpdatePosition(Point position)
@@ -55,6 +54,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		protected override Size MeasureOverride(Size finalSize)
 		{
 			_child.Measure(finalSize);
+			_vector = new Vector(_child.DesiredSize.Width / 2, _child.DesiredSize.Height / 2);
 			return _child.DesiredSize;
 		}
 		protected override Size ArrangeOverride(Size finalSize)

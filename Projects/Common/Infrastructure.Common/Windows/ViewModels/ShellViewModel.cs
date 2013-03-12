@@ -122,9 +122,19 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		private BaseViewModel _toolbar;
+		public BaseViewModel Toolbar
+		{
+			get { return _toolbar; }
+			set
+			{
+				_toolbar = value;
+				OnPropertyChanged("Toolbar");
+			}
+		}
 
-		private BaseViewModel _rightContent;
-		public BaseViewModel RightContent
+		private RightContentViewModel _rightContent;
+		public RightContentViewModel RightContent
 		{
 			get { return _rightContent; }
 			set

@@ -62,17 +62,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			DialogService.ShowModalWindow(aboutViewModel);
 		}
 
-		private BaseViewModel _toolbar;
-		public BaseViewModel Toolbar
-		{
-			get { return _toolbar; }
-			set
-			{
-				_toolbar = value;
-				OnPropertyChanged("Toolbar");
-			}
-		}
-
 		private BaseViewModel _headerTop;
 		public BaseViewModel HeaderTop
 		{
@@ -92,17 +81,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_contentFotter = value;
 				OnPropertyChanged("ContentFotter");
-			}
-		}
-
-		private RightContentViewModel _rightContent;
-		public RightContentViewModel RightContent
-		{
-			get { return _rightContent; }
-			set
-			{
-				_rightContent = value;
-				OnPropertyChanged("RightContent");
 			}
 		}
 	}

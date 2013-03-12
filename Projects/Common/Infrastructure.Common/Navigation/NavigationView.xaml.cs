@@ -33,8 +33,15 @@ namespace Infrastructure.Common.Navigation
 				{
 					CheckPermissions(items);
 					UpdateParent(null, items);
-					if (items.Count > 0)
-						items[0].IsSelected = true;
+					int index = 0;
+					while (index < items.Count)
+						if (items[index].IsVisible && items[index].IsSelectionAllowed)
+						{
+							items[index].IsSelected = true;
+							break;
+						}
+						else
+							index++;
 				}
 			}
 		}

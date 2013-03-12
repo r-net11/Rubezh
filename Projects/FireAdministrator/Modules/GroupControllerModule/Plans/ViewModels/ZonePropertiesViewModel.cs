@@ -46,6 +46,7 @@ namespace GKModule.Plans.ViewModels
 			var createZoneEventArg = new CreateXZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
 			IElementZone.ZoneUID = createZoneEventArg.ZoneUID;
+			Helper.BuildMap();
 			Helper.SetXZone(IElementZone);
 			if (!createZoneEventArg.Cancel)
 				Close(true);

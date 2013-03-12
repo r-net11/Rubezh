@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using GKModule.Plans.Designer;
 
 namespace GKModule.ViewModels
 {

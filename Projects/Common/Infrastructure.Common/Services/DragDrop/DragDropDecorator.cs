@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		public static readonly DependencyProperty ShowDragVisualProperty = DependencyProperty.Register("ShowDragVisual", typeof(bool), typeof(DragDropDecorator), new UIPropertyMetadata(true));
 		public static readonly DependencyProperty DragObjectProperty = DependencyProperty.Register("DragObject", typeof(object), typeof(DragDropDecorator), new UIPropertyMetadata(null));
 		public static readonly DependencyProperty DragVisualProperty = DependencyProperty.Register("DragVisual", typeof(UIElement), typeof(DragDropDecorator), new UIPropertyMetadata(null));
+		public static readonly DependencyProperty DragVisualProviderProperty = DependencyProperty.Register("DragVisualProvider", typeof(Converter<IDataObject, UIElement>), typeof(DragDropDecorator), new UIPropertyMetadata(null));
 
 		private static void IsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -71,6 +72,11 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			get { return (UIElement)GetValue(DragVisualProperty); }
 			set { SetValue(DragVisualProperty, value); }
+		}
+		public Converter<IDataObject, UIElement> DragVisualProvider
+		{
+			get { return (Converter<IDataObject, UIElement>)GetValue(DragVisualProviderProperty); }
+			set { SetValue(DragVisualProviderProperty, value); }
 		}
 
 		protected Point DragStartPoint { get; private set; }
@@ -179,8 +185,9 @@ namespace Infrastructure.Common.Services.DragDrop
 					cancel = true;
 				data = dataObject;
 			}
+			var visual = DragVisualProvider == null ? null : DragVisualProvider(data);
 			if (!cancel)
-				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), DragVisual ?? Child, ShowDragVisual, true, DragEffect);
+				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), visual ?? DragVisual ?? Child, ShowDragVisual, visual == null, DragEffect);
 		}
 	}
 }

@@ -10,6 +10,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
+using System.Windows.Shapes;
+using DeviceControls;
+using Infrustructure.Plans.Painters;
 
 namespace GKModule.ViewModels
 {
@@ -31,6 +34,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
+			CreateDragVisual = OnCreateDragVisual;
 
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
@@ -134,6 +138,7 @@ namespace GKModule.ViewModels
 			{
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
 				ServiceFactory.SaveService.GKChanged = true;
+				GKModule.Plans.Designer.Helper.BuildMap();
 			}
 		}
 		public bool CanAdd()
@@ -173,6 +178,7 @@ namespace GKModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
 			}
+			GKModule.Plans.Designer.Helper.BuildMap();
 		}
 		bool CanRemove()
 		{
@@ -244,6 +250,18 @@ namespace GKModule.ViewModels
 			return Driver != null && Driver.IsPlaceable;
 		}
 
+		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
+		private UIElement OnCreateDragVisual(IDataObject dataObject)
+		{
+			var brush = DevicePictureCache.GetXBrush(Device);
+			return new Rectangle()
+			{
+				Fill = brush,
+				Height = PainterCache.PointZoom * PainterCache.Zoom,
+				Width = PainterCache.PointZoom * PainterCache.Zoom,
+			};
+		}
+		
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{

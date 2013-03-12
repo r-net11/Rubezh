@@ -10,6 +10,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System.Windows;
 using System.Collections.Generic;
+using DevicesModule.Plans.Designer;
+using DeviceControls;
+using System.Windows.Shapes;
+using Infrustructure.Plans.Painters;
 
 namespace DevicesModule.ViewModels
 {
@@ -34,7 +38,7 @@ namespace DevicesModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-
+			CreateDragVisual = OnCreateDragVisual;
 			PropertiesViewModel = new PropertiesViewModel(device);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
@@ -258,6 +262,7 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.CreatedDeviceViewModel);
+				Helper.BuildMap();
 			}
 		}
 		public bool CanAdd()
@@ -303,6 +308,7 @@ namespace DevicesModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
 			}
+			Helper.BuildMap();
 		}
 		bool CanRemove()
 		{
@@ -407,6 +413,18 @@ namespace DevicesModule.ViewModels
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
 			return Driver != null && Driver.IsPlaceable;
+		}
+
+		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
+		private UIElement OnCreateDragVisual(IDataObject dataObject)
+		{
+			var brush = DevicePictureCache.GetBrush(Device);
+			return new Rectangle()
+			{
+				Fill = brush,
+				Height = PainterCache.PointZoom * PainterCache.Zoom,
+				Width = PainterCache.PointZoom * PainterCache.Zoom,
+			};
 		}
 
 		public RelayCommand ShowParentCommand { get; private set; }

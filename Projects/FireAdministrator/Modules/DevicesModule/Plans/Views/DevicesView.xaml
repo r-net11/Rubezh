@@ -16,7 +16,7 @@
 			<GridViewColumn Width="250" Header="Устройство">
 				<GridViewColumn.CellTemplate>
 					<DataTemplate>
-						<drag:DragDropDecorator DragCommand="{Binding CreateDragObjectCommand}" DragVisual="{Binding ElementName=image}" IsSource="True">
+						<drag:DragDropDecorator DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" IsSource="True">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="auto" />
