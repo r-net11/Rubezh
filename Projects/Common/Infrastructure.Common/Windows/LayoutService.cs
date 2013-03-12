@@ -43,13 +43,14 @@ namespace Infrastructure.Common.Windows
 		{
 			ShellViewModel.Toolbar = model;
 		}
-		public void ShowHeader(BaseViewModel model)
-		{
-			ShellViewModel.ContentHeader = model;
-		}
 		public void ShowFooter(BaseViewModel model)
 		{
 			ShellViewModel.ContentFotter = model;
+		}
+		public void ShowRightContent(RightContentViewModel model)
+		{
+			ShellViewModel.RightContent = model;
+			model.Content.Show();
 		}
 	}
 }

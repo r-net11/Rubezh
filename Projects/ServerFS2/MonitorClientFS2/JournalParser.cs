@@ -74,6 +74,11 @@ namespace MonitorClientFS2
 			return _fsjournalItem;
 		}
 
+		public static bool IsValidInput(List<byte> bytes)
+		{
+			return bytes.Count > 20;
+		}
+
 		private static string EventDetalization(List<byte> _bytes, FSJournalItem _fsjournalItem)
 		{
 			int tableType = 99999;

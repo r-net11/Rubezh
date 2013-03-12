@@ -60,8 +60,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationWriter\BinaryDirection.cs" />
+    <Compile Include="ConfigurationWriter\BinaryIUDevice.cs" />
+    <Compile Include="ConfigurationWriter\BinaryNonIUDevice.cs" />
+    <Compile Include="ConfigurationWriter\BinaryRemoteZone.cs" />
+    <Compile Include="ConfigurationWriter\BinaryZone.cs" />
+    <Compile Include="ConfigurationWriter\ByteDescription.cs" />
+    <Compile Include="ConfigurationWriter\BytesDatabase.cs" />
     <Compile Include="ConfigurationWriter\BytesHelper.cs" />
     <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
+    <Compile Include="ConfigurationWriter\ConfigurationWriterHelper2.cs" />
+    <Compile Include="ConfigurationWriter\DevicesOnShleif.cs" />
+    <Compile Include="ConfigurationWriter\ZonePanelRelations.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />

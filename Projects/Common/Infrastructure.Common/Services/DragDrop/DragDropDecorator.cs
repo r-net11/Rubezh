@@ -145,7 +145,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			DragStartPoint = e.GetPosition(Child);
 		}
 
-		private void OnDrop(object sender, DragEventArgs e)
+		protected virtual void OnDrop(object sender, DragEventArgs e)
 		{
 			if (DropCommand != null)
 				DropCommand.Execute(e.Data);

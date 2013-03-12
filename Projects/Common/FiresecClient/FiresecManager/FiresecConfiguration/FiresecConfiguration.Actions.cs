@@ -219,30 +219,47 @@ namespace FiresecClient
             }
         }
 
-        public void SetDeviceZoneLogic(Device device, ZoneLogic zoneLogic)
-        {
-            foreach (var zone in device.ZonesInLogic)
-            {
-                zone.DevicesInZoneLogic.Remove(device);
-                zone.OnChanged();
-            }
-            device.ZonesInLogic.Clear();
+		List<Device> GetMRO2Group(Device device)
+		{
+			var devices = new List<Device>();
+			devices.Add(device);
+			if (device.Driver.DriverType == DriverType.MRO_2)
+			{
+				foreach (var child in device.Children)
+				{
+					devices.Add(child);
+				}
+			}
+			return devices;
+		}
 
-			var dependentDevices = new List<Device>(device.DependentDevices);
-            foreach (var dependentDevice in dependentDevices)
-            {
-                DeviceConfiguration.InvalidateOneDevice(dependentDevice);
-                DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
-                device.OnChanged();
-            }
-            device.DependentDevices.Clear();
+		public void SetDeviceZoneLogic(Device parentDevice, ZoneLogic zoneLogic)
+		{
+			foreach (var device in GetMRO2Group(parentDevice))
+			{
+				foreach (var zone in device.ZonesInLogic)
+				{
+					zone.DevicesInZoneLogic.Remove(device);
+					zone.OnChanged();
+				}
+				device.ZonesInLogic.Clear();
 
-            device.ZoneLogic = zoneLogic;
-            DeviceConfiguration.InvalidateOneDevice(device);
-            DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
-            device.UpdateHasExternalDevices();
-            device.OnChanged();
-        }
+				var dependentDevices = new List<Device>(device.DependentDevices);
+				foreach (var dependentDevice in dependentDevices)
+				{
+					DeviceConfiguration.InvalidateOneDevice(dependentDevice);
+					DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
+					device.OnChanged();
+				}
+				device.DependentDevices.Clear();
+
+				device.ZoneLogic = zoneLogic;
+				DeviceConfiguration.InvalidateOneDevice(device);
+				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+				device.UpdateHasExternalDevices();
+				device.OnChanged();
+			}
+		}
 
         public void SetIndicatorLogic(Device device, IndicatorLogic indicatorLogic)
         {

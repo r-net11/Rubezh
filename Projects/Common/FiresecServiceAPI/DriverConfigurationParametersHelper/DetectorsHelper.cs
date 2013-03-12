@@ -28,6 +28,7 @@ namespace FiresecAPI.Models
 					//return;
 					//ConfigurationDriverHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 0, 0, 255);
 				}
+				ConfigurationDriverHelper.AddIntProprety(driver, 0x80, "Слово состояние", "AU_State", 0, 0, 0, 255);
 			}
 		}
 	}

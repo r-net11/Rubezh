@@ -17,6 +17,7 @@ namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{
+		public static event EventHandler Starting;
 		public static event CancelEventHandler Closing;
 		public static Window ApplicationWindow { get; private set; }
 		public static User User { get; set; }
@@ -82,6 +83,8 @@ namespace Infrastructure.Common.Windows
 		public static void Run(ShellViewModel model)
 		{
 			Layout = new LayoutService(model);
+			if (Starting != null)
+				Starting(Layout, EventArgs.Empty);
 			if (ApplicationController == null)
 				Run((ApplicationViewModel)model, false, true);
 			else

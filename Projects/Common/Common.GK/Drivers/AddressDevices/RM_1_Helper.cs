@@ -39,9 +39,9 @@ namespace Common.GK
 			GKDriversHelper.AddPropertyParameter(property1, "Мерцает Замкнуто", 6);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 255).IsLowByte=true;
-			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания", 8, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0x84, "Недокументированный параметр", 0, 1, 1, 1).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск, с", 0, 0, 0, 255).IsLowByte=true;
+			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания, с", 8, 0, 0, 255);
+			//GKDriversHelper.AddIntProprety(driver, 0x84, "Недокументированный параметр", 0, 1, 1, 1).IsLowByte = true;
 
 			var property2 = new XDriverProperty()
 			{

@@ -83,5 +83,27 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("HeaderTop");
 			}
 		}
+
+		private BaseViewModel _contentFotter;
+		public BaseViewModel ContentFotter
+		{
+			get { return _contentFotter; }
+			set
+			{
+				_contentFotter = value;
+				OnPropertyChanged("ContentFotter");
+			}
+		}
+
+		private RightContentViewModel _rightContent;
+		public RightContentViewModel RightContent
+		{
+			get { return _rightContent; }
+			set
+			{
+				_rightContent = value;
+				OnPropertyChanged("RightContent");
+			}
+		}
 	}
 }

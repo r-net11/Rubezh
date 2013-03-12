@@ -9,6 +9,8 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using PlansModule.ViewModels;
 using Infrustructure.Plans.Painters;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule
 {
@@ -26,6 +28,7 @@ namespace PlansModule
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnConfigurationSavingEvent);
 			PlansViewModel = new PlansViewModel();
+			ApplicationService.Starting += (s, e) => ShowRightContent();
 		}
 
 		public override void RegisterResource()
@@ -41,12 +44,21 @@ namespace PlansModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
+				//new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
 			};
 		}
 		public override string Name
 		{
 			get { return "Графические планы"; }
+		}
+		private void ShowRightContent()
+		{
+			var viewModel = new RightContentViewModel()
+			{
+				Content = PlansViewModel,
+				Menu = PlansViewModel.Menu
+			};
+			ServiceFactory.Layout.ShowRightContent(viewModel);
 		}
 
 		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)

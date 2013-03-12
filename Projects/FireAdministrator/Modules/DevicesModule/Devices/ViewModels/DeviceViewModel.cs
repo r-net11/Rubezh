@@ -129,7 +129,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
 					presentationZone = "Нажмите для выбора зон";
-				if (Driver.IsZoneLogicDevice)
+				if (Driver.IsZoneLogicDevice && !FiresecManager.FiresecConfiguration.IsChildMRO2(Device))
 					presentationZone = "Нажмите для настройки логики";
 			}
 			EditingPresentationZone = presentationZone;
@@ -178,7 +178,8 @@ namespace DevicesModule.ViewModels
 			}
 			if (Driver.IsZoneLogicDevice)
 			{
-				OnShowZoneLogic();
+				if (CanShowZoneLogic())
+					OnShowZoneLogic();
 			}
 			if (Driver.DriverType == DriverType.Indicator)
 			{
@@ -204,7 +205,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanShowZoneLogic()
 		{
-			return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
+			return (Driver.IsZoneLogicDevice && !FiresecManager.FiresecConfiguration.IsChildMRO2(Device) && !Device.IsNotUsed);
 		}
 		#endregion
 
@@ -262,6 +263,8 @@ namespace DevicesModule.ViewModels
 		public bool CanAdd()
 		{
 			if (FiresecManager.FiresecConfiguration.IsChildMPT(Device))
+				return false;
+			if (FiresecManager.FiresecConfiguration.IsChildMRO2(Device))
 				return false;
 			return (Driver.CanAddChildren && Driver.AutoChild == Guid.Empty);
 		}

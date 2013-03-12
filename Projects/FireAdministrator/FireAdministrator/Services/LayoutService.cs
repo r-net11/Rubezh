@@ -1,9 +1,9 @@
-﻿using Infrastructure;
+﻿using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator
 {
-	public class LayoutService : ILayoutService
+	public class LayoutService : Infrastructure.ILayoutService
 	{
 		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
 		{
@@ -26,18 +26,16 @@ namespace FireAdministrator
 		{
 			ApplicationLayoutService.ShowToolbar(model);
 		}
-
-		public void ShowHeader(BaseViewModel model)
-		{
-			ApplicationLayoutService.ShowHeader(model);
-		}
-
 		public void ShowFooter(BaseViewModel model)
 		{
 			ApplicationLayoutService.ShowFooter(model);
 		}
+		public void ShowRightContent(RightContentViewModel model)
+		{
+			ApplicationLayoutService.ShowRightContent(model);
+		}
 
-		public Infrastructure.Common.Windows.ShortcutService ShortcutService
+		public ShortcutService ShortcutService
 		{
 			get { return ApplicationLayoutService.ShortcutService; }
 		}

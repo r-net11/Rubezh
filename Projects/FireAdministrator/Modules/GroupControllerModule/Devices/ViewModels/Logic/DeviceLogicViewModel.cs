@@ -97,7 +97,9 @@ namespace GKModule.ViewModels
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
 					StateType = clauseViewModel.SelectedStateType,
 					ClauseJounOperationType = JoinOperator,
-					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
+					ClauseOperationType = clauseViewModel.SelectedClauseOperationType,
+					ZoneLogicMROMessageNo = clauseViewModel.SelectedMROMessageNo,
+					ZoneLogicMROMessageType = clauseViewModel.SelectedMROMessageType
 				};
 				switch (clause.ClauseOperationType)
 				{

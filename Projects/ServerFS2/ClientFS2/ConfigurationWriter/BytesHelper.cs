@@ -12,7 +12,7 @@ namespace ClientFS2.ConfigurationWriter
 			return BitConverter.GetBytes(shortValue).ToList();
 		}
 
-		public static List<byte> StringDescriptionToBytes(string str, int length = 32)
+		public static List<byte> StringToBytes(string str, int length = 20)
 		{
 			if (str == null)
 				return new List<byte>();

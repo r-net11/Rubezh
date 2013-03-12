@@ -13,18 +13,23 @@ namespace Infrastructure.Common
 			try
 			{
 				var executablePath = Assembly.GetEntryAssembly().Location;
-
 				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
 				shellRegistryKey.SetValue("Shell", executablePath);
 				shellRegistryKey.Flush();
-
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FireMonitor.Integrate 1");
+			}
+			try
+			{
 				RegistryKey taskManagerRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
 				taskManagerRegistryKey.SetValue("DisableTaskMgr", 1, RegistryValueKind.DWord);
 				taskManagerRegistryKey.Flush();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FireMonitor.Integrate");
+				Logger.Error(e, "FireMonitor.Integrate 2");
 			}
 		}
 
@@ -56,7 +61,7 @@ namespace Infrastructure.Common
 			{
 				try
 				{
-					RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", false);
+					RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", false);
 					object shell = shellRegistryKey.GetValue("Shell");
                     var assemblyLocation = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).Location;
                     return shell != null && shell.ToString() == assemblyLocation;

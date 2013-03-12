@@ -285,6 +285,8 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
+    <Compile Include="Zones\Converters\MROMessageNoToStringConverter.cs" />
+    <Compile Include="Zones\Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Zones\ViewModels\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />

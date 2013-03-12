@@ -11,11 +11,22 @@ namespace Infrastructure.Common.Services.DragDrop
 {
 	public class TreeListDragDropDecorator : DragDropDecorator
 	{
+		public static readonly DependencyProperty TreeItemDropCommandProperty = DependencyProperty.Register("TreeItemDropCommand", typeof(RelayCommand<TreeItemDropObject>), typeof(TreeListDragDropDecorator), new UIPropertyMetadata(null));
+		public RelayCommand<TreeItemDropObject> TreeItemDropCommand
+		{
+			get { return (RelayCommand<TreeItemDropObject>)GetValue(TreeItemDropCommandProperty); }
+			set { SetValue(TreeItemDropCommandProperty, value); }
+		}
+
 		private const int DRAG_WAIT_COUNTER_LIMIT = 10;
 		private const int DRAG_SCROLL_AREA_WIDTH = 25;
 		private int _dragScrollWaitCounter;
 		private int _dragExpandWaitCounter;
 		private ScrollViewer _scrollViewer;
+		private TreeItemViewModel _targetElement;
+		private TreeViewItem _target;
+		private TreeItemDropObject _dropObject;
+
 		private TreeView TreeView
 		{
 			get { return Child as TreeView; }
@@ -50,6 +61,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			var data = TreeView.SelectedItem as TreeItemViewModel;
 			if (data != null && ValidateStartPoint())
 			{
+				_dropObject = new TreeItemDropObject();
 				TreeViewItem draggedItemContainer = GetItemContainer(data);
 				var dataObject = new DataObject(data);
 				_dragScrollWaitCounter = 0;
@@ -58,17 +70,40 @@ namespace Infrastructure.Common.Services.DragDrop
 				ServiceFactoryBase.DragDropService.DoDragDrop(dataObject, draggedItemContainer, ShowDragVisual, true, DragEffect);
 			}
 		}
+		protected override void OnDrop(DragEventArgs e)
+		{
+			if (TreeItemDropCommand != null)
+				TreeItemDropCommand.Execute(_dropObject);
+		}
 
 		private void OnPreviewDragOver(object sender, DragEventArgs e)
 		{
+			FindTarget(e);
 			HandleDragScrolling(e);
 			HandleDragExpanding(e);
 			UpdateInsertAdorner(e);
 			bool _shiftPressed = (e.KeyStates & DragDropKeyStates.ShiftKey) != 0;
-			e.Effects = DropCommand != null && DropCommand.CanExecute(e.Data) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
+			e.Effects = TreeItemDropCommand != null && TreeItemDropCommand.CanExecute(_dropObject) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
+			_targetElement = null;
 			e.Handled = true;
 		}
 
+		private void FindTarget(DragEventArgs e)
+		{
+			var point = e.GetPosition(TreeView);
+			var obj = TreeView.InputHitTest(point) as DependencyObject;
+			while (obj != null && !(obj is TreeViewItem) && !(obj is TreeView))
+				obj = VisualTreeHelper.GetParent(obj);
+			var container = obj as TreeViewItem;
+			_targetElement = container == null ? null : ((ItemsControl)ItemsControl.ItemsControlFromItemContainer(container)).ItemContainerGenerator.ItemFromContainer(container) as TreeItemViewModel;
+			if (container != _target)
+			{
+				_dragExpandWaitCounter = 0;
+				_target = container;
+			}
+			_dropObject.DataObject = e.Data;
+			_dropObject.Target = _targetElement;
+		}
 		private void HandleDragScrolling(DragEventArgs e)
 		{
 			if (_scrollViewer != null && _scrollViewer.CanContentScroll && _scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible && _scrollViewer.ExtentHeight > _scrollViewer.ViewportHeight)
@@ -93,18 +128,20 @@ namespace Infrastructure.Common.Services.DragDrop
 		}
 		private void HandleDragExpanding(DragEventArgs e)
 		{
+			if (_target != null)
+			{
+				if (_dragExpandWaitCounter == 3 * DRAG_WAIT_COUNTER_LIMIT)
+				{
+					_dragExpandWaitCounter = 0;
+					_target.IsExpanded = true;
+				}
+				else
+					_dragExpandWaitCounter++;
+			}
 		}
 		private void UpdateInsertAdorner(DragEventArgs e)
 		{
-			var point = e.GetPosition(TreeView);
-			var obj = TreeView.InputHitTest(point) as DependencyObject;
-			while (obj != null && !(obj is TreeViewItem))
-				obj = VisualTreeHelper.GetParent(obj);
-			var element = obj as TreeViewItem;
-			var item = ((ItemsControl)ItemsControl.ItemsControlFromItemContainer(element)).ItemContainerGenerator.ItemFromContainer(element);
-			//ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(ItemsControl.ItemsControlFromItemContainer(element))))
-			//
-			//
+			//TODO:
 		}
 
 		private TreeViewItem GetItemContainer(TreeItemViewModel item)

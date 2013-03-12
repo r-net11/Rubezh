@@ -47,11 +47,6 @@ namespace FireMonitor
 			ApplicationLayoutService.ShowToolbar(model);
 		}
 
-		public void ShowHeader(BaseViewModel model)
-		{
-			ApplicationLayoutService.ShowHeader(model);
-		}
-
 		public void ShowFooter(BaseViewModel model)
 		{
 			ApplicationLayoutService.ShowFooter(model);
@@ -60,6 +55,11 @@ namespace FireMonitor
 		public Infrastructure.Common.Windows.ShortcutService ShortcutService
 		{
 			get { return ApplicationLayoutService.ShortcutService; }
+		}
+
+		public void ShowRightContent(RightContentViewModel model)
+		{
+			ApplicationLayoutService.ShowRightContent(model);
 		}
 
 		#endregion

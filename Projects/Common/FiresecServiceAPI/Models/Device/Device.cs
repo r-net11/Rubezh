@@ -345,7 +345,6 @@ namespace FiresecAPI.Models
 			}
 		}
 
-
 		public string EditingPresentationAddress
 		{
 			get
@@ -390,7 +389,7 @@ namespace FiresecAPI.Models
 				var address = new StringBuilder();
 				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
 				{
-					if (parentDevice.Driver.DriverType == DriverType.MPT)
+					if (parentDevice.Driver.DriverType == DriverType.MPT || parentDevice.Driver.DriverType == DriverType.MRO_2)
 						continue;
 					if (parentDevice.Driver.IsChildAddressReservedRange)
 						continue;
@@ -441,6 +440,14 @@ namespace FiresecAPI.Models
 				if (Driver.HasAddress)
 					return DottedAddress + " - " + PresentationName;
 				return PresentationName;
+			}
+		}
+
+		public int ShleifNo
+		{
+			get
+			{
+				return IntAddress / 256;
 			}
 		}
 

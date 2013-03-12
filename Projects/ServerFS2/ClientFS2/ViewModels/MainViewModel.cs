@@ -166,6 +166,8 @@ namespace ClientFS2.ViewModels
 		private void OnWriteConfiguration()
 		{
 			ConfigurationWriterHelper.Run();
+			var configurationWriterHelper2 = new ConfigurationWriterHelper2();
+			configurationWriterHelper2.Run();
 		}
 		bool CanWriteConfiguration()
 		{

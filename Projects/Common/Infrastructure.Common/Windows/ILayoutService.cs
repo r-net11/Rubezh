@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Windows
 		void Show(ViewPartViewModel model);
 		void Close();
 		void ShowToolbar(BaseViewModel model);
-		void ShowHeader(BaseViewModel model);
 		void ShowFooter(BaseViewModel model);
+		void ShowRightContent(RightContentViewModel model);
 	}
 }

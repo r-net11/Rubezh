@@ -121,31 +121,42 @@ namespace Common.GK
 				Parameters = new List<byte>();
 				return;
 			}
-            foreach (var property in Device.Properties)
-            {
-                var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                if (driverProperty != null)
-                {
-					if (driverProperty.IsAUParameter)
-                    {
-                        byte no = driverProperty.No;
-                        ushort value = property.Value;
-						if (driverProperty.Multiplier != 0)
-							value = (ushort)(value*driverProperty.Multiplier);
+			foreach (var property in Device.Properties)
+			{
+				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null && driverProperty.IsAUParameter)
+				{
+					byte no = driverProperty.No;
+					ushort value = property.Value;
+					if (driverProperty.IsHieghByte)
+						value = (ushort)(value * 256);
+					if (driverProperty.Multiplier != 0)
+						value = (ushort)(value * driverProperty.Multiplier);
+					if (Device.Driver.DriverType == XDriverType.KAU)
+					{
+						value = (ushort)(value % 256);
+					}
+					if (Device.Driver.DriverType == XDriverType.RSR2_KAU)
+					{
+						value = (ushort)(256 + value % 256);
+					}
 
-                        var binProperty = binProperties.FirstOrDefault(x => x.No == no);
-                        if (binProperty == null)
-                        {
-                            binProperty = new BinProperty()
-                            {
-                                No = no
-                            };
-                            binProperties.Add(binProperty);
-                        }
-                        binProperty.Value += (ushort)(value << driverProperty.Offset);
-                    }
-                }
-            }
+					var binProperty = binProperties.FirstOrDefault(x => x.No == no);
+					if (binProperty == null)
+					{
+						binProperty = new BinProperty()
+						{
+							No = no
+						};
+						binProperties.Add(binProperty);
+					}
+					if (driverProperty.Offset > 0)
+						value = (ushort)(value << driverProperty.Offset);
+					if(driverProperty.Mask > 0)
+						value = (ushort)(value & driverProperty.Mask);
+					binProperty.Value += value;
+				}
+			}
 
 			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)

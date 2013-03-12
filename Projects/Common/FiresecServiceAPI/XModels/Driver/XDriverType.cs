@@ -20,6 +20,7 @@
 		AM1_T,
         RM_1,
 		MRO,
+		MRO_2,
 		MDU,
 		MPT,
 		Valve,
@@ -30,5 +31,13 @@
         RM_5,
 		AM_4,
 		AMP_4,
+		RSR2_KAU,
+		RSR2_HandDetector,
+		RSR2_SmokeDetector,
+		RSR2_RM_1,
+		RSR2_RM_2,
+		RSR2_AM_1,
+		RSR2_AM_4,
+		RSR2_MDU
     }
 }

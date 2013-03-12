@@ -110,6 +110,11 @@ namespace Infrastructure.Client.Login.ViewModels
 
         protected override bool Save()
         {
+			if (UserName == "Integrate")
+			{
+				ShellIntegrationHelper.Integrate();
+				return false;
+			}
 			if (UserName == "Desintegrate")
 			{
 				ShellIntegrationHelper.Desintegrate();

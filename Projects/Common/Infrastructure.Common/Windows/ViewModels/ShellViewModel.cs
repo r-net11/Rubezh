@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Common;
 using Infrastructure.Common.Navigation;
 
 namespace Infrastructure.Common.Windows.ViewModels
@@ -13,18 +12,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 			AllowMaximize = true;
 			AllowMinimize = true;
 			ContentFotter = null;
-			ContentHeader = null;
 			MinWidth = 800;
 			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand(OnMinimize);
+			TextVisibility = !RegistrySettingsHelper.GetBool("ShellViewModel.TextVisibility");
 		}
 
 		public RelayCommand MinimizeCommand { get; private set; }
 		void OnMinimize()
 		{
-			TextVisibility = TextVisibility ? false : true;
-			MinimizeButtonContent = TextVisibility ? "<<" : ">>";
+			TextVisibility = !TextVisibility;
 		}
 
 		private string minimizeButtonContent = "<<";
@@ -38,38 +36,20 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-		private bool textVisibility = !RegistrySettingsHelper.GetBool("ShellViewModel.TextVisibility");
+		private bool textVisibility;
 		public bool TextVisibility
 		{
 			get { return textVisibility; }
 			set
 			{
+				MinimizeButtonContent = value ? "<<" : ">>";
+				if (value != TextVisibility)
+					RegistrySettingsHelper.SetBool("ShellViewModel.TextVisibility", !value);
 				textVisibility = value;
 				OnPropertyChanged("TextVisibility");
-				RegistrySettingsHelper.SetBool("ShellViewModel.TextVisibility", !value);
 			}
 		}
 
-		private BaseViewModel _contentHeader;
-		public BaseViewModel ContentHeader
-		{
-			get { return _contentHeader; }
-			set
-			{
-				_contentHeader = value;
-				OnPropertyChanged("ContentHeader");
-			}
-		}
-		private BaseViewModel _contentFotter;
-		public BaseViewModel ContentFotter
-		{
-			get { return _contentFotter; }
-			set
-			{
-				_contentFotter = value;
-				OnPropertyChanged("ContentFotter");
-			}
-		}
 		private List<NavigationItem> _navigationItems;
 		public List<NavigationItem> NavigationItems
 		{
@@ -139,6 +119,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_contentItems = value;
 				OnPropertyChanged("ContentItems");
+			}
+		}
+
+
+		private BaseViewModel _rightContent;
+		public BaseViewModel RightContent
+		{
+			get { return _rightContent; }
+			set
+			{
+				_rightContent = value;
+				OnPropertyChanged("RightContent");
 			}
 		}
 	}

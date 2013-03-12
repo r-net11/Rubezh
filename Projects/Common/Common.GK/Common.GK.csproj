@@ -86,7 +86,10 @@
     </Compile>
     <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MRO_2_Helper.cs" />
     <Compile Include="Drivers\GKDevices\PumpStation_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAU_RSR2_Helper.cs" />
     <Compile Include="Drivers\GKDriversCreator.cs" />
     <Compile Include="Drivers\AddressDevices\AM_1_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AMP_1_Helper.cs" />
@@ -100,7 +103,12 @@
     <Compile Include="Drivers\AddressDevices\MPT_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\MRO_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\RM_1_Helper.cs" />
-    <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MDU_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_AM_4_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_RM_1_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_RM_2_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKLine_Helper.cs" />
@@ -114,6 +122,7 @@
     <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_HandDetector_Helper.cs" />
     <Compile Include="Journal\InternalJournalItem.cs" />
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="Journal\JournalItemType.cs" />

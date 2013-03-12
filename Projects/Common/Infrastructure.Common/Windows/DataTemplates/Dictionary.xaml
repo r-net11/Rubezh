@@ -52,4 +52,8 @@
 		<Views:LoadingView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:RightContentViewModel}">
+		<Views:RightContentView />
+	</DataTemplate>
+
 </ResourceDictionary>

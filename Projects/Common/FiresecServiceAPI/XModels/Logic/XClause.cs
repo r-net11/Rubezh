@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
@@ -44,5 +45,11 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public ClauseJounOperationType ClauseJounOperationType { get; set; }
+
+		[DataMember]
+		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
+
+		[DataMember]
+		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
 	}
 }
