@@ -6,13 +6,11 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryDirection
+	public class BinaryDirection : TableBase
 	{
-		BytesDatabase BytesDatabase;
-
 		public BinaryDirection(Device panelDevice, Direction direction)
+			: base(panelDevice)
 		{
-			BytesDatabase = new BytesDatabase();
 			BytesDatabase.AddString(direction.Name, "Имя");
 			BytesDatabase.AddByte(0, "Резерв");
 
@@ -48,6 +46,7 @@ namespace ClientFS2.ConfigurationWriter
 				BytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
 				BytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
 			}
+			BytesDatabase.SetGroupName(direction.Name);
 		}
 	}
 }

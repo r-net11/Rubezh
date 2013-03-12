@@ -27,17 +27,22 @@ namespace Infrastructure.Common
 
 		public static void SetStatus(FSServerState fsServerState)
 		{
-			RegistrySettingsHelper.SetInt("FiresecServiceState", (int)fsServerState);
+			RegistrySettingsHelper.SetInt("FiresecService.State", (int)fsServerState);
+			Logger.Info("ServerLoadHelper.SetStatus FiresecService.State = " + fsServerState.ToString());
 		}
 
 		public static FSServerState GetStatus()
 		{
-			var value = RegistrySettingsHelper.GetInt("FiresecServiceState");
+			var value = RegistrySettingsHelper.GetInt("FiresecService.State");
 			try
 			{
+				Logger.Info("ServerLoadHelper.GetStatus FiresecService.State = " + ((FSServerState)value).ToString());
 				return (FSServerState)value;
 			}
-			catch { }
+			catch(Exception e)
+			{
+				Logger.Error(e, "ServerLoadHelper.GetStatus");
+			}
 			return FSServerState.Closed;
 		}
 
@@ -73,7 +78,10 @@ namespace Infrastructure.Common
 					if (!Start())
 						return false;
 					if (!WaitUntinlStarted())
+					{
+						Logger.Error("ServerLoadHelper.Load !WaitUntinlStarted");
 						return false;
+					}
 				}
 				catch (Exception e)
 				{
@@ -91,7 +99,10 @@ namespace Infrastructure.Common
 			{
 				fileName = GetLocation();
 				if (fileName == null)
+				{
+					Logger.Error("ServerLoadHelper.Start File Not Exist " + fileName);
 					return false;
+				}
 			}
 			if (!File.Exists(fileName))
 			{

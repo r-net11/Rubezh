@@ -6,18 +6,17 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryNonIUDevice
+	public class BinaryNonIUDevice : TableBase
 	{
-		BytesDatabase BytesDatabase;
-		Device PanelDevice;
 		Device Device;
 
 		public BinaryNonIUDevice(Device panelDevice, Device device)
+			: base(panelDevice)
 		{
-			PanelDevice = panelDevice;
 			Device = device;
-			BytesDatabase = new BytesDatabase();
 
+			var headerBytesDatabase = BytesDatabase.AddByte((byte)Device.AddressOnShleif, "Адрес");
+			headerBytesDatabase.DeviceHeader = device;
 			BytesDatabase.AddByte((byte)Device.ShleifNo, "Шлейф");
 			BytesDatabase.AddShort((byte)0, "Внутренние параметры");
 			BytesDatabase.AddByte((byte)0, "Динамические параметры для базы");
@@ -27,7 +26,7 @@ namespace ClientFS2.ConfigurationWriter
 				zoneNo = ZonePanelRelations.GetLocalZoneNo(device.Zone, panelDevice);
 			}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
-			BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
+			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
 			for (int i = 0; i < Get80ByteCount(); i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Байт 0x80 или 0x81");
@@ -66,6 +65,8 @@ namespace ClientFS2.ConfigurationWriter
 					AddPowerSupplyConfig();
 					break;
 			}
+			lengtByteDescription.Value = BytesDatabase.ByteDescriptions.Count - 8;
+			BytesDatabase.SetGroupName(device.PresentationAddressAndName);
 		}
 
 		int Get80ByteCount()
@@ -146,7 +147,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < PanelDevice.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
-				BytesDatabase.AddShort((byte)0, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
 		}
 
@@ -184,7 +185,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < PanelDevice.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-				BytesDatabase.AddShort((byte)0, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
 		}
 

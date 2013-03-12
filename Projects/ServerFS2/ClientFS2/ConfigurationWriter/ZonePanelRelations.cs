@@ -38,11 +38,13 @@ namespace ClientFS2.ConfigurationWriter
 				foreach (var zone in localZones)
 				{
 					zone.No = localZoneNo;
+					localZoneNo++;
 				}
 				var remoteZones = GetAllZonesForPanel(device, true);
 				foreach (var zone in remoteZones)
 				{
 					zone.No = localZoneNo;
+					localZoneNo++;
 				}
 			}
 		}

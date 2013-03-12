@@ -126,7 +126,6 @@ namespace JournalModule.ViewModels
                     _archiveDefaultState = archiveSettingsViewModel.GetModel();
                     ClientSettings.ArchiveDefaultState = _archiveDefaultState;
                     IsFilterOn = false;
-                    //Update(true);
                 }
             }
             catch (Exception e)

@@ -451,6 +451,14 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public int AddressOnShleif
+		{
+			get
+			{
+				return IntAddress % 256;
+			}
+		}
+
 		public void OnChanged()
 		{
 			if (Changed != null)

@@ -174,24 +174,7 @@ namespace FiresecDB
 					var reader = result.ExecuteReader();
 					while (reader.Read())
 					{
-						var journalRecord = new JournalRecord();
-						journalRecord.Description = reader.GetString(reader.GetOrdinal("Description"));
-						journalRecord.Detalization = reader.IsDBNull(12)
-														 ? null
-														 : reader.GetString(reader.GetOrdinal("Detalization"));
-						journalRecord.DeviceCategory = reader.GetInt32(reader.GetOrdinal("DeviceCategory"));
-						journalRecord.DeviceDatabaseId = reader.GetString(reader.GetOrdinal("DeviceDatabaseId"));
-						journalRecord.DeviceName = reader.GetString(reader.GetOrdinal("DeviceName"));
-						journalRecord.DeviceTime = reader.GetDateTime(reader.GetOrdinal("DeviceTime"));
-						journalRecord.OldId = reader.GetInt32(reader.GetOrdinal("OldId"));
-						journalRecord.PanelDatabaseId = reader.GetString(reader.GetOrdinal("PanelDatabaseId"));
-						journalRecord.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
-						journalRecord.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
-						journalRecord.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
-						journalRecord.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
-						journalRecord.User = reader.GetString(reader.GetOrdinal("UserName"));
-						journalRecord.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
-						journalRecord.No = reader.GetInt32(reader.GetOrdinal("Id"));
+						var journalRecord = ReadOneJournalRecord(reader);
 						operationResult.Result.Add(journalRecord);
 					}
 					DataBaseContext.Close();
@@ -279,24 +262,7 @@ namespace FiresecDB
 							break;
 						try
 						{
-							var journalRecord = new JournalRecord();
-							journalRecord.Description = reader.GetString(reader.GetOrdinal("Description"));
-							journalRecord.Detalization = reader.IsDBNull(12)
-															 ? null
-															 : reader.GetString(reader.GetOrdinal("Detalization"));
-							journalRecord.DeviceCategory = reader.GetInt32(reader.GetOrdinal("DeviceCategory"));
-							journalRecord.DeviceDatabaseId = reader.GetString(reader.GetOrdinal("DeviceDatabaseId"));
-							journalRecord.DeviceName = reader.GetString(reader.GetOrdinal("DeviceName"));
-							journalRecord.DeviceTime = reader.GetDateTime(reader.GetOrdinal("DeviceTime"));
-							journalRecord.OldId = reader.GetInt32(reader.GetOrdinal("OldId"));
-							journalRecord.PanelDatabaseId = reader.GetString(reader.GetOrdinal("PanelDatabaseId"));
-							journalRecord.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
-							journalRecord.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
-							journalRecord.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
-							journalRecord.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
-							journalRecord.User = reader.GetString(reader.GetOrdinal("UserName"));
-							journalRecord.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
-							journalRecord.No = reader.GetInt32(reader.GetOrdinal("Id"));
+							var journalRecord = ReadOneJournalRecord(reader);
 							operationResult.Result.Add(journalRecord);
 							if (!isReport)
 							{
@@ -331,6 +297,42 @@ namespace FiresecDB
 				operationResult.Error = e.Message.ToString();
 			}
 			return operationResult;
+		}
+
+		static JournalRecord ReadOneJournalRecord(SqlCeDataReader reader)
+		{
+			var journalRecord = new JournalRecord();
+			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
+				journalRecord.Description = reader.GetString(reader.GetOrdinal("Description"));
+			if (!reader.IsDBNull(reader.GetOrdinal("Detalization")))
+				journalRecord.Detalization = reader.GetString(reader.GetOrdinal("Detalization"));
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceCategory")))
+				journalRecord.DeviceCategory = reader.GetInt32(reader.GetOrdinal("DeviceCategory"));
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDatabaseId")))
+				journalRecord.DeviceDatabaseId = reader.GetString(reader.GetOrdinal("DeviceDatabaseId"));
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceName")))
+				journalRecord.DeviceName = reader.GetString(reader.GetOrdinal("DeviceName"));
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceTime")))
+				journalRecord.DeviceTime = reader.GetDateTime(reader.GetOrdinal("DeviceTime"));
+			if (!reader.IsDBNull(reader.GetOrdinal("OldId")))
+				journalRecord.OldId = reader.GetInt32(reader.GetOrdinal("OldId"));
+			if (!reader.IsDBNull(reader.GetOrdinal("PanelDatabaseId")))
+				journalRecord.PanelDatabaseId = reader.GetString(reader.GetOrdinal("PanelDatabaseId"));
+			if (!reader.IsDBNull(reader.GetOrdinal("PanelName")))
+				journalRecord.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
+			if (!reader.IsDBNull(reader.GetOrdinal("StateType")))
+				journalRecord.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
+			if (!reader.IsDBNull(reader.GetOrdinal("SubsystemType")))
+				journalRecord.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
+			if (!reader.IsDBNull(reader.GetOrdinal("SystemTime")))
+				journalRecord.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
+			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
+				journalRecord.User = reader.GetString(reader.GetOrdinal("UserName"));
+			if (!reader.IsDBNull(reader.GetOrdinal("ZoneName")))
+				journalRecord.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
+			if (!reader.IsDBNull(reader.GetOrdinal("Id")))
+				journalRecord.No = reader.GetInt32(reader.GetOrdinal("Id"));
+			return journalRecord;
 		}
 
 		public static event Action<List<JournalRecord>> ArchivePortionReady;

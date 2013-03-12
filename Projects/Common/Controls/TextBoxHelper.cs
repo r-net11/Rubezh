@@ -44,7 +44,6 @@ namespace Controls
 			if (textBox != null)
 			{
 				textBox.SelectAll();
-				System.Diagnostics.Trace.WriteLine("sender_GotFocus");
 			}
 		}
 		private static void OnMouseLeftButtonDownSetFocus(object sender, MouseButtonEventArgs e)

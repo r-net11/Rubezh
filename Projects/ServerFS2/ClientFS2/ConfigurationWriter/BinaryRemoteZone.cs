@@ -6,11 +6,10 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryRemoteZone
+	public class BinaryRemoteZone : TableBase
 	{
-		public BytesDatabase BytesDatabase;
-
 		public BinaryRemoteZone(Device panelDevice, ZonePanelItem zonePanelItem)
+			: base(panelDevice)
 		{
 			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны");
 			BytesDatabase.AddShort((short)zonePanelItem.No, "Номер локальной, для удаленного прибора, зоны");
@@ -21,6 +20,7 @@ namespace ClientFS2.ConfigurationWriter
 				localZoneNo = (short)localZonePanelItem.No;
 			BytesDatabase.AddShort(localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
 			BytesDatabase.AddShort((short)zonePanelItem.No, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ");
+			BytesDatabase.SetGroupName(zonePanelItem.Zone.PresentationName);
 		}
 
 		List<Zone> GetRemoteZonesForPanel(Device panelDevice)

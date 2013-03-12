@@ -9,13 +9,13 @@ namespace ClientFS2.ConfigurationWriter
 	{
 		public static List<byte> ShortToBytes(short shortValue)
 		{
-			return BitConverter.GetBytes(shortValue).ToList();
+			return BitConverter.GetBytes(shortValue).Reverse().ToList();
 		}
 
 		public static List<byte> StringToBytes(string str, int length = 20)
 		{
 			if (str == null)
-				return new List<byte>();
+				str = "";
 			if (str.Length > length)
 				str = str.Substring(0, length);
 			var bytes = Encoding.GetEncoding(1251).GetBytes(str).ToList();

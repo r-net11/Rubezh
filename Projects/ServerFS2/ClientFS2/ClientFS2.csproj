@@ -71,9 +71,13 @@
     <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
     <Compile Include="ConfigurationWriter\ConfigurationWriterHelper2.cs" />
     <Compile Include="ConfigurationWriter\DevicesOnShleif.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
+    <Compile Include="ConfigurationWriter\TableBase.cs" />
     <Compile Include="ConfigurationWriter\ZonePanelRelations.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\IsBoldToColorConverter.cs" />
     <Compile Include="ProgressService.cs" />
+    <Compile Include="ViewModels\ConfigurationDatabaseViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
@@ -82,6 +86,9 @@
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
+    <Compile Include="Views\ConfigurationDatabaseView.xaml.cs">
+      <DependentUpon>ConfigurationDatabaseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
@@ -97,6 +104,10 @@
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ConfigurationDatabaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

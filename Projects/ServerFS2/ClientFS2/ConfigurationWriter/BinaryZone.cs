@@ -6,20 +6,19 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryZone
+	public class BinaryZone : TableBase
 	{
+		public Zone Zone { get; set; }
+
 		public BinaryZone(Device panelDevice, Zone zone)
+			: base(panelDevice)
 		{
-			PanelDevice = panelDevice;
 			Zone = zone;
-			BytesDatabase = new BytesDatabase();
 
 			BytesDatabase.AddShort((short)zone.No, "Номер");
-			BytesDatabase.AddString(zone.Name, "Номер");
-			short length = 0;
-			BytesDatabase.AddShort(length, "Длина записи");
-			short parametersLength = 6;
-			BytesDatabase.AddShort(parametersLength, "Длина нижеследующих параметров");
+			BytesDatabase.AddString(zone.Name, "Описание");
+			var lengtByteDescription = BytesDatabase.AddShort((short)0, "Длина записи");
+			BytesDatabase.AddShort((short)10, "Длина нижеследующих параметров");
 			var zoneConfig = 0;
 			if(zone.ZoneType == ZoneType.Guard)
 				zoneConfig = 1;
@@ -67,6 +66,8 @@ namespace ClientFS2.ConfigurationWriter
 			InitializeRemoteIUDevices();
 			InitializeRemoteIUPanels();
 			InitializeAllDevices();
+			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
+			BytesDatabase.SetGroupName(zone.PresentationName);
 		}
 
 		void InitializeMPT()
@@ -130,8 +131,17 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			foreach (var devicesOnShleif in devicesOnShleifs)
 			{
+				var referenceBytesDatabase = new BytesDatabase();
+				foreach (var device in devicesOnShleif.Devices)
+				{
+					referenceBytesDatabase.AddReferenceToDevice(device);
+				}
+				if (referenceBytesDatabase.ByteDescriptions.Count > 0)
+					ReferenceBytesDatabase.Add(referenceBytesDatabase);
+				var byteDescriptions = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
+				byteDescriptions = null;
 				BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных внешних ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
-				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списек связанного внешнего ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
+				BytesDatabase.AddReference(byteDescriptions, "Указатель на размещение абсолютного адреса размещения первого в списек связанного внешнего ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
 			}
 		}
 
@@ -181,9 +191,5 @@ namespace ClientFS2.ConfigurationWriter
 				BytesDatabase.AddReference(null, "Абсолютный адрес размещения связанного с зоной внешнего ИУ");
 			}
 		}
-
-		public Device PanelDevice { get; set; }
-		public Zone Zone { get; set; }
-		public BytesDatabase BytesDatabase { get; set; }
 	}
 }

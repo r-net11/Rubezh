@@ -67,10 +67,6 @@ namespace ClientFS2.ConfigurationWriter
 			CreateBytesForDetectorGroup(AMT_4_Group, 102);
 		}
 
-		static void CreateBytesForIUGroup(DevicesGroup devicesGroup, int offset)
-		{
-		}
-
 		static void CreateBytesForDetectorGroup(DevicesGroup devicesGroup, int offset)
 		{
 			devicesGroup.Offset = list2.Count;

@@ -6,28 +6,29 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryIUDevice
+	public class BinaryIUDevice : TableBase
 	{
-		BytesDatabase BytesDatabase;
-		Device PanelDevice;
 		Device Device;
 
 		public BinaryIUDevice(Device panelDevice, Device device)
+			: base(panelDevice)
 		{
-			PanelDevice = panelDevice;
 			Device = device;
-			BytesDatabase = new BytesDatabase();
-			BytesDatabase.AddByte((byte)0, "Адрес прибора привязки в сети");
+
+			var headerBytesDatabase = BytesDatabase.AddByte((byte)0, "Адрес прибора привязки в сети");
+			headerBytesDatabase.DeviceHeader = device;
 			BytesDatabase.AddByte((byte)(Device.IntAddress / 256), "Адрес");
 			BytesDatabase.AddByte((byte)Device.ShleifNo, "Номер шлейфа");
 			BytesDatabase.AddShort(0, "Внутренние параметры");
 			BytesDatabase.AddByte(0, "Динамические параметры для базы");
 			BytesDatabase.AddString(Device.Description, "Описание");
 			BytesDatabase.AddByte(0, "Длина переменной части блока с конфигурацией и сырыми параметрами");
-			BytesDatabase.AddShort(0, "Общая длина записи");
+			var lengtByteDescription = BytesDatabase.AddShort(0, "Общая длина записи");
 			AddDynamicBlock();
 			AddConfig();
 			AddLogic();
+			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
+			BytesDatabase.SetGroupName(device.PresentationAddressAndName);
 		}
 
 		void AddDynamicBlock()

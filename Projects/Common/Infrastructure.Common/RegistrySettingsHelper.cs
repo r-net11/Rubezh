@@ -12,6 +12,7 @@ namespace Infrastructure.Common
 	public class RegistrySettingsHelper
 	{
 		static string FileName = AppDataFolderHelper.GetRegistryDataConfigurationFileName();
+		static object locker = new object();
 
 		public static string GetString(string name)
 		{
@@ -163,7 +164,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "RegistrySettingsHelper.GetRegistryData " + name);
+				//Logger.Error(e, "RegistrySettingsHelper.GetRegistryData " + name);
 				return null;
 			}
 		}
@@ -193,30 +194,36 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "RegistrySettingsHelper.Set");
+				//Logger.Error(e, "RegistrySettingsHelper.Set " + newRegistryData.Name);
 			}
 		}
 
 		static RegistryDataConfiguration GetRegistryDataConfiguration()
 		{
-			var registryDataConfiguration = new RegistryDataConfiguration();
-			if (File.Exists(FileName))
+			lock (locker)
 			{
-				using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				var registryDataConfiguration = new RegistryDataConfiguration();
+				if (File.Exists(FileName))
 				{
-					var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
-					registryDataConfiguration = (RegistryDataConfiguration)dataContractSerializer.ReadObject(fileStream);
+					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					{
+						var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
+						registryDataConfiguration = (RegistryDataConfiguration)dataContractSerializer.ReadObject(fileStream);
+					}
 				}
+				return registryDataConfiguration;
 			}
-			return registryDataConfiguration;
 		}
 
 		static void SetRegistryDataConfiguration(RegistryDataConfiguration registryDataConfiguration)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
-			using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+			lock (locker)
 			{
-				dataContractSerializer.WriteObject(fileStream, registryDataConfiguration);
+				var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
+				using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+				{
+					dataContractSerializer.WriteObject(fileStream, registryDataConfiguration);
+				}
 			}
 		}
 	}

@@ -10,6 +10,10 @@
         <Views:DevicesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ConfigurationDatabaseViewModel}">
+        <Views:ConfigurationDatabaseView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
         <Views:PropertiesView />
     </DataTemplate>
