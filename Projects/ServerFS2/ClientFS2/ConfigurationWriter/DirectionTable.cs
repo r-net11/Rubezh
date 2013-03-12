@@ -6,10 +6,10 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryDirection : TableBase
+	public class DirectionTable : TableBase
 	{
-		public BinaryDirection(Device panelDevice, Direction direction)
-			: base(panelDevice)
+		public DirectionTable(PanelDatabase panelDatabase, Direction direction)
+			: base(panelDatabase)
 		{
 			BytesDatabase.AddString(direction.Name, "Имя");
 			BytesDatabase.AddByte(0, "Резерв");
@@ -22,7 +22,7 @@ namespace ClientFS2.ConfigurationWriter
 				{
 					foreach (var device in zone.DevicesInZoneLogic)
 					{
-						if (device.Driver.DriverType == DriverType.Valve && device.ParentPanel.UID == panelDevice.UID)
+						if (device.Driver.DriverType == DriverType.Valve && device.ParentPanel.UID == ParentPanel.UID)
 							localValves.Add(device);
 					}
 				}

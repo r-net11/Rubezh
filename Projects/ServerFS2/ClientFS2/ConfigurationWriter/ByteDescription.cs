@@ -8,6 +8,8 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class ByteDescription
 	{
+		public TableBase TableHeader { get; set; }
+
 		public int Offset { get; set; }
 		public int Value { get; set; }
 		public string Description { get; set; }
@@ -16,7 +18,7 @@ namespace ClientFS2.ConfigurationWriter
 		public int ByteIndex { get; set; }
 
 		public ByteDescription AddressReference { get; set; }
-		public Device DeviceReference { get; set; }
+		public TableBase TableBaseReference { get; set; }
 
 		public Device DeviceHeader { get; set; }
 	}

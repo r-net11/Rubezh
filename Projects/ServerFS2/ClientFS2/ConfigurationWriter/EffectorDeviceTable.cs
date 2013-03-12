@@ -6,12 +6,17 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class BinaryIUDevice : TableBase
+	public class EffectorDeviceTable : TableBase
 	{
 		Device Device;
 
-		public BinaryIUDevice(Device panelDevice, Device device)
-			: base(panelDevice)
+		public override Guid UID
+		{
+			get { return Device.UID; }
+		}
+
+		public EffectorDeviceTable(PanelDatabase panelDatabase, Device device)
+			: base(panelDatabase)
 		{
 			Device = device;
 
@@ -149,9 +154,9 @@ namespace ClientFS2.ConfigurationWriter
 					var localZoneNo = 0;
 					if (Device.Zone != null)
 					{
-						if (ZonePanelRelations.IsLocalZone(Device.Zone, PanelDevice))
+						if (ZonePanelRelations.IsLocalZone(Device.Zone, ParentPanel))
 						{
-							localZoneNo = ZonePanelRelations.GetLocalZoneNo(Device.Zone, PanelDevice);
+							localZoneNo = ZonePanelRelations.GetLocalZoneNo(Device.Zone, ParentPanel);
 						}
 					}
 					BytesDatabase.AddShort((short)localZoneNo, "Номер привязанной зоны");
@@ -171,7 +176,7 @@ namespace ClientFS2.ConfigurationWriter
 
 				case DriverType.MDU:
 					BytesDatabase.AddShort((short)0, "Общее количество связанных ИУ");
-					for (int i = 0; i < PanelDevice.ShleifNo; i++)
+					for (int i = 0; i < ParentPanel.ShleifNo; i++)
 					{
 						BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
 						BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого саиска связанного ИУ шлейфа " + (i + 1).ToString());
@@ -268,7 +273,7 @@ namespace ClientFS2.ConfigurationWriter
 
 				foreach (var zone in clause.Zones)
 				{
-					if (ZonePanelRelations.IsLocalZone(zone, PanelDevice))
+					if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
 					{
 						BytesDatabase.AddReference(null, "Указатель на участвующую в логике ЛОКАЛЬНУЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
 					}
