@@ -52,12 +52,20 @@ namespace Common.GK
 
 		public static int SubstructInt(List<byte> bytes, int startByte)
 		{
+			if (startByte + 4 > bytes.Count)
+			{
+				return 0;
+			}
 			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1] + 256 * 256 * bytes[startByte + 2] + 256 * 256 * 256 * bytes[startByte + 3];
 			return result;
 		}
 
 		public static ushort SubstructShort(List<byte> bytes, int startByte)
 		{
+			if (startByte + 2 > bytes.Count)
+			{
+				return 0;
+			}
 			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1];
 			return (ushort)result;
 		}

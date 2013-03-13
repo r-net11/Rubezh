@@ -224,7 +224,10 @@ namespace DeviceControls
 				var brushes = _dynamicXBrushes[guid].ContainsKey(deviceState.StateClass) ? _dynamicXBrushes[guid][deviceState.StateClass] : null;
 				brush = brushes != null && brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
 				if (brush == null && _dynamicXBrushes[guid].ContainsKey(XStateClass.No))
-					brush = brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
+				{
+					if (brushes != null)
+						brush = brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
+				}
 			}
 			return brush ?? EmptyBrush;
 		}

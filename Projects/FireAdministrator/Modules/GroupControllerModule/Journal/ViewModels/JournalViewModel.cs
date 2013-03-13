@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 			}
 			var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
 			TotalCount = internalJournalItem.GKNo;
-			StartIndex = Math.Max(0, TotalCount - 100);
+			StartIndex = Math.Max(1, TotalCount - 100);
 			EndIndex = TotalCount;
 			return true;
 		}
