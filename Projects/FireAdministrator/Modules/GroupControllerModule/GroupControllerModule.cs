@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using GKModule.Plans.ViewModels;
+using GKModule.Plans.Designer;
 
 namespace GKModule
 {
@@ -54,6 +55,7 @@ namespace GKModule
 
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			Helper.BuildMap();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

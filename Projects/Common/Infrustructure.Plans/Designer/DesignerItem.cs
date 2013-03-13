@@ -94,6 +94,8 @@ namespace Infrustructure.Plans.Designer
 			Painter.Invalidate();
 			if (DesignerCanvas != null)
 				DesignerCanvas.Refresh();
+			if (ResizeChrome != null)
+				ResizeChrome.ResetElement();
 		}
 		protected override void ResetIsEnabled()
 		{

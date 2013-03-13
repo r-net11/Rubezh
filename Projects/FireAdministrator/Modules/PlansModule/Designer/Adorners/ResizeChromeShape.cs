@@ -21,9 +21,13 @@ namespace PlansModule.Designer.Adorners
 		public ResizeChromeShape(DesignerItem designerItem)
 			: base(designerItem)
 		{
+			PrepareSizableBounds();
+		}
+		public override void ResetElement()
+		{
+			base.ResetElement();
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			_points = element == null ? new PointCollection() : element.Points;
-			PrepareSizableBounds();
 			_transforms = new List<TranslateTransform>();
 			for (int i = 0; i < _points.Count; i++)
 				_transforms.Add(new TranslateTransform());

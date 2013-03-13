@@ -82,7 +82,6 @@ namespace PlansModule.ViewModels
 				}
 
 				SelectedPlan = null;
-				SelectedTabIndex = 0;
 			}
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
@@ -129,6 +128,7 @@ namespace PlansModule.ViewModels
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
+					UpdateTabIndex();
 				}
 			}
 		}

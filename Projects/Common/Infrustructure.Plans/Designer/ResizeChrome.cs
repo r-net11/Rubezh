@@ -102,6 +102,10 @@ namespace Infrustructure.Plans.Designer
 			_canResize = false;
 			_isVisible = false;
 			DesignerItem = designerItem;
+			ResetElement();
+		}
+		public virtual void ResetElement()
+		{
 		}
 		protected void PrepareBounds()
 		{

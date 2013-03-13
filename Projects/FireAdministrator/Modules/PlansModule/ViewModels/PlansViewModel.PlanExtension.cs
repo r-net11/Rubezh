@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Controls.Converters;
 using FiresecAPI.Models;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
-using Controls.Converters;
 
 namespace PlansModule.ViewModels
 {
@@ -95,6 +94,11 @@ namespace PlansModule.ViewModels
 			{
 				layers
 			};
+			SelectedTabIndex = -1;
+		}
+		private void UpdateTabIndex()
+		{
+			SelectedTabIndex = SelectedPlan == null ? -1 : 0;
 		}
 
 		private void ExtensionAttached()

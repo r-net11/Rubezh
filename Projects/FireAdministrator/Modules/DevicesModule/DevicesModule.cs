@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using DevicesModule.Plans;
+using DevicesModule.Plans.Designer;
 
 namespace DevicesModule
 {
@@ -70,6 +71,7 @@ namespace DevicesModule
 			_planExtension.Initialize();
 
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			Helper.BuildMap();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
