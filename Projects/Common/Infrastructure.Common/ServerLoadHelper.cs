@@ -74,11 +74,26 @@ namespace Infrastructure.Common
 			{
 				try
 				{
+					Logger.Info("isRunning: " + isRunning.ToString());
+					foreach (var process in processes)
+					{
+						Logger.Info("Processes: " + process.ProcessName);
+					}
+					foreach (var process in processes)
+					{
+						Logger.Info("processesVsHost: " + process.ProcessName);
+					}
 					SetStatus(FSServerState.Closed);
 					if (!Start())
+					{
+						Logger.Error("ServerLoadHelper.Load !Start");
 						return false;
+					}
 					if (!WaitUntinlStarted())
 					{
+						processes = Process.GetProcessesByName("FiresecService");
+						Logger.Info("Processes.Count=" + processes.Count().ToString());
+
 						Logger.Error("ServerLoadHelper.Load !WaitUntinlStarted");
 						return false;
 					}
@@ -112,6 +127,7 @@ namespace Infrastructure.Common
 			System.Diagnostics.Process process = new System.Diagnostics.Process();
 			process.StartInfo.FileName = fileName;
 			process.Start();
+			Logger.Info("Server process is starting up " + fileName);
 			return true;
 		}
 	}

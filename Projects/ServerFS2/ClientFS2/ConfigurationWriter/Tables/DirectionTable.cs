@@ -8,14 +8,26 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class DirectionTable : TableBase
 	{
+		public Direction Direction { get; set; }
+
+		public override Guid UID
+		{
+			get { return Direction.UID; }
+		}
+
 		public DirectionTable(PanelDatabase panelDatabase, Direction direction)
 			: base(panelDatabase)
 		{
-			BytesDatabase.AddString(direction.Name, "Имя");
+			Direction = direction;
+		}
+
+		public override void Create()
+		{
+			BytesDatabase.AddString(Direction.Name, "Имя");
 			BytesDatabase.AddByte(0, "Резерв");
 
 			var localValves = new List<Device>();
-			foreach (var zoneUID in direction.ZoneUIDs)
+			foreach (var zoneUID in Direction.ZoneUIDs)
 			{
 				var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 				if (zone != null)
@@ -28,25 +40,26 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var valve in localValves)
+			foreach (var valveDevice in localValves)
 			{
-				BytesDatabase.AddReference(null, "Указатель на локальную задвижку");
+				var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == valveDevice.UID);
+				BytesDatabase.AddReferenceToTable(table, "Указатель на локальную задвижку");
 			}
 
 			var rmShleif = 0;
 			var rmAddress = 0;
-			if (direction.DeviceRm != Guid.Empty)
+			if (Direction.DeviceRm != Guid.Empty)
 			{
-				var rmDevice = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == direction.DeviceRm);
+				var rmDevice = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceRm);
 				if (rmDevice != null)
 				{
 					rmShleif = rmDevice.ShleifNo;
-					rmAddress = rmDevice.IntAddress / 256;
+					rmAddress = rmDevice.AddressOnShleif;
 				}
 				BytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
 				BytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
 			}
-			BytesDatabase.SetGroupName(direction.Name);
+			BytesDatabase.SetGroupName(Direction.Name);
 		}
 	}
 }

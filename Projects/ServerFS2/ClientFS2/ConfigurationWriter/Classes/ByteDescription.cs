@@ -19,7 +19,5 @@ namespace ClientFS2.ConfigurationWriter
 
 		public ByteDescription AddressReference { get; set; }
 		public TableBase TableBaseReference { get; set; }
-
-		public Device DeviceHeader { get; set; }
 	}
 }

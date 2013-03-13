@@ -73,8 +73,8 @@ namespace ClientFS2.ConfigurationWriter
 			devicesGroup.Count = devicesGroup.Devices.Count;
 			foreach (var device in devicesGroup.Devices)
 			{
-				var address = device.IntAddress % 256;
-				var shleif = device.IntAddress / 256 - 1;
+				var address = device.AddressOnShleif;
+				var shleif = device.ShleifNo - 1;
 				byte internalParameter1 = 0;
 				byte internalParameter2 = 0;
 				byte dynamicParameter = 0;

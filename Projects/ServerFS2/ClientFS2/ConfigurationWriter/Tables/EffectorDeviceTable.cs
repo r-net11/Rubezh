@@ -9,31 +9,48 @@ namespace ClientFS2.ConfigurationWriter
 	public class EffectorDeviceTable : TableBase
 	{
 		Device Device;
+		bool IsOuter;
 
 		public override Guid UID
 		{
 			get { return Device.UID; }
 		}
 
-		public EffectorDeviceTable(PanelDatabase panelDatabase, Device device)
+		public EffectorDeviceTable(PanelDatabase panelDatabase, Device device, bool isOuter)
 			: base(panelDatabase)
 		{
 			Device = device;
+			IsOuter = isOuter;
+		}
 
-			var headerBytesDatabase = BytesDatabase.AddByte((byte)0, "Адрес прибора привязки в сети");
-			headerBytesDatabase.DeviceHeader = device;
-			BytesDatabase.AddByte((byte)(Device.IntAddress / 256), "Адрес");
+		public override void  Create()
+{
+			if (IsOuter)
+			{
+				var deviceCode = DriversHelper.GetCodeForFriver(Device.Driver.DriverType);
+				BytesDatabase.AddByte((byte)deviceCode, "Тип внешнего ИУ");
+			}
+			var outerPanelAddress = 0;
+			if (IsOuter)
+			{
+				outerPanelAddress = ParentPanel.IntAddress;
+			}
+			BytesDatabase.AddByte((byte)outerPanelAddress, "Адрес прибора привязки в сети");
+			BytesDatabase.AddByte((byte)(Device.AddressOnShleif), "Адрес");
 			BytesDatabase.AddByte((byte)Device.ShleifNo, "Номер шлейфа");
 			BytesDatabase.AddShort(0, "Внутренние параметры");
 			BytesDatabase.AddByte(0, "Динамические параметры для базы");
 			BytesDatabase.AddString(Device.Description, "Описание");
-			BytesDatabase.AddByte(0, "Длина переменной части блока с конфигурацией и сырыми параметрами");
+			var configLengtByteDescription = BytesDatabase.AddByte(0, "Длина переменной части блока с конфигурацией и сырыми параметрами");
 			var lengtByteDescription = BytesDatabase.AddShort(0, "Общая длина записи");
+			var configLengt1 = BytesDatabase.ByteDescriptions.Count;
 			AddDynamicBlock();
 			AddConfig();
+			var configLengt2 = BytesDatabase.ByteDescriptions.Count;
+			configLengtByteDescription.Value = configLengt2 - configLengt1;
 			AddLogic();
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
-			BytesDatabase.SetGroupName(device.PresentationAddressAndName);
+			BytesDatabase.SetGroupName(Device.PresentationAddressAndName);
 		}
 
 		void AddDynamicBlock()
@@ -139,7 +156,7 @@ namespace ClientFS2.ConfigurationWriter
 					var mptParentShleif = 0;
 					if (Device.Parent.Driver.DriverType == DriverType.MPT)
 					{
-						mptParentAddress = Device.Parent.IntAddress / 256;
+						mptParentAddress = Device.Parent.AddressOnShleif;
 						mptParentShleif = Device.Parent.ShleifNo;
 					}
 					BytesDatabase.AddByte((byte)mptParentAddress, "Адрес родителя");
@@ -167,7 +184,7 @@ namespace ClientFS2.ConfigurationWriter
 					var mroParentShleif = 0;
 					if (Device.Parent.Driver.DriverType == DriverType.MRO_2)
 					{
-						mroParentAddress = Device.Parent.IntAddress / 256;
+						mroParentAddress = Device.Parent.AddressOnShleif;
 						mroParentShleif = Device.Parent.ShleifNo;
 					}
 					BytesDatabase.AddByte((byte)mroParentAddress, "Адрес родителя");
@@ -275,11 +292,13 @@ namespace ClientFS2.ConfigurationWriter
 				{
 					if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
 					{
-						BytesDatabase.AddReference(null, "Указатель на участвующую в логике ЛОКАЛЬНУЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+						var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
+						BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ЛОКАЛЬНУЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
 					}
 					else
 					{
-						BytesDatabase.AddReference(null, "Указатель на участвующую в логике ВНЕШНЮЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+						var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
+						BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ВНЕШНЮЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
 					}
 				}
 			}

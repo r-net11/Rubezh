@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using Common;
 using System.Windows;
 using System.Windows.Media;
+using System.Threading;
 
 namespace Infrastructure.Common
 {
@@ -164,7 +165,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				//Logger.Error(e, "RegistrySettingsHelper.GetRegistryData " + name);
+				Logger.Error(e, "RegistrySettingsHelper.GetRegistryData " + name);
 				return null;
 			}
 		}
@@ -194,7 +195,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				//Logger.Error(e, "RegistrySettingsHelper.Set " + newRegistryData.Name);
+				Logger.Error(e, "RegistrySettingsHelper.SetRegistryData " + newRegistryData.Name);
 			}
 		}
 
@@ -202,16 +203,32 @@ namespace Infrastructure.Common
 		{
 			lock (locker)
 			{
-				var registryDataConfiguration = new RegistryDataConfiguration();
-				if (File.Exists(FileName))
-				{
-					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				//using (var mutex = new Mutex(true, "RegistryDataConfiguration"))
+				//{
+				//    mutex.WaitOne(TimeSpan.FromSeconds(1));
+					try
 					{
-						var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
-						registryDataConfiguration = (RegistryDataConfiguration)dataContractSerializer.ReadObject(fileStream);
+						var registryDataConfiguration = new RegistryDataConfiguration();
+						if (File.Exists(FileName))
+						{
+							using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+							{
+								var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
+								registryDataConfiguration = (RegistryDataConfiguration)dataContractSerializer.ReadObject(fileStream);
+							}
+						}
+						return registryDataConfiguration;
 					}
-				}
-				return registryDataConfiguration;
+					catch (Exception e)
+					{
+						Logger.Error(e, "RegistrySettingsHelper.GetRegistryDataConfiguration ");
+						return new RegistryDataConfiguration();
+					}
+					finally
+					{
+						//mutex.ReleaseMutex();
+					}
+				//}
 			}
 		}
 
@@ -219,11 +236,26 @@ namespace Infrastructure.Common
 		{
 			lock (locker)
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
-				using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-				{
-					dataContractSerializer.WriteObject(fileStream, registryDataConfiguration);
-				}
+				//using (var mutex = new Mutex(false, "RegistryDataConfiguration"))
+				//{
+				//    mutex.WaitOne(TimeSpan.FromSeconds(1));
+					try
+					{
+						var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
+						using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+						{
+							dataContractSerializer.WriteObject(fileStream, registryDataConfiguration);
+						}
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "RegistrySettingsHelper.Set ");
+					}
+					finally
+					{
+						//mutex.ReleaseMutex();
+					}
+				//}
 			}
 		}
 	}

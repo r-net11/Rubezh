@@ -8,19 +8,33 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class RemoteZoneTable : TableBase
 	{
+		public Zone Zone { get; set; }
+		public ZonePanelItem ZonePanelItem { get; set; }
+
+		public override Guid UID
+		{
+			get { return Zone.UID; }
+		}
+
 		public RemoteZoneTable(PanelDatabase panelDatabase, ZonePanelItem zonePanelItem)
 			: base(panelDatabase)
 		{
+			Zone = zonePanelItem.Zone;
+			ZonePanelItem = zonePanelItem;
+		}
+
+		public override void Create()
+		{
 			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны");
-			BytesDatabase.AddShort((short)zonePanelItem.No, "Номер локальной, для удаленного прибора, зоны");
+			BytesDatabase.AddShort((short)ZonePanelItem.No, "Номер локальной, для удаленного прибора, зоны");
 			var localZones = ZonePanelRelations.GetAllZonesForPanel(ParentPanel, false);
 			short localZoneNo = 0;
 			var localZonePanelItem = localZones.FirstOrDefault(x => x.PanelDevice.UID == ParentPanel.UID);
 			if (localZonePanelItem != null)
 				localZoneNo = (short)localZonePanelItem.No;
 			BytesDatabase.AddShort(localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
-			BytesDatabase.AddShort((short)zonePanelItem.No, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ");
-			BytesDatabase.SetGroupName(zonePanelItem.Zone.PresentationName);
+			BytesDatabase.AddShort((short)ZonePanelItem.No, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ");
+			BytesDatabase.SetGroupName(ZonePanelItem.Zone.PresentationName);
 		}
 
 		List<Zone> GetRemoteZonesForPanel(Device panelDevice)

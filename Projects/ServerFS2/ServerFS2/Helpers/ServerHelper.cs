@@ -64,7 +64,7 @@ namespace ServerFS2
 				var bytes = new List<byte>();
 				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
+				bytes.Add(Convert.ToByte(device.AddressOnShleif));
 				bytes.Add(0x01);
 				bytes.Add(0x20);
 				bytes.Add(0x02);
@@ -86,7 +86,7 @@ namespace ServerFS2
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.Add(0x21);
 			bytes.Add(0x02);
@@ -108,7 +108,7 @@ namespace ServerFS2
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.Add(0x24);
 			bytes.Add(0x01);
@@ -137,7 +137,7 @@ namespace ServerFS2
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.Add(0x21);
 			bytes.Add(0x00);
@@ -169,7 +169,7 @@ namespace ServerFS2
 				var bytes = new List<byte>();
 				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
+				bytes.Add(Convert.ToByte(device.AddressOnShleif));
 				bytes.Add(0x01);
 				bytes.Add(0x20);
 				bytes.Add(0x00);
@@ -327,12 +327,12 @@ namespace ServerFS2
 				bytes.Add(0x53);
 				bytes.Add(0x02);
 				bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
+				bytes.Add(Convert.ToByte(device.AddressOnShleif));
 				bytes.Add(0x00);
 				bytes.Add(property.No);
 				bytes.Add(0x00);
 				bytes.Add(0x00);
-				bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
+				bytes.Add(Convert.ToByte(device.ShleifNo - 1));
 				bytesList.Add(bytes);
 			}
 			var results = SendCode(bytesList, 3000, 300);
@@ -367,13 +367,13 @@ namespace ServerFS2
 				bytes.Add(0x53);
 				bytes.Add(0x03);
 				bytes.Add((byte)MetadataHelper.GetIdByUid(device.Driver.UID));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
+				bytes.Add(Convert.ToByte(device.AddressOnShleif));
 				bytes.Add(0x00);
 				bytes.Add(property.No);
 				var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));
 				bytes.Add(Convert.ToByte(value % 256));
 				bytes.Add(Convert.ToByte(value / 256));
-				bytes.Add(Convert.ToByte(device.IntAddress / 256 - 1));
+				bytes.Add(Convert.ToByte(device.AddressOnShleif - 1));
 				bytesList.Add(bytes);
 			}
 			SendCode(bytesList, 3000, 300);
@@ -487,7 +487,7 @@ namespace ServerFS2
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.Add(0x52);
 			bytes.AddRange(BitConverter.GetBytes(0x100).Reverse());
@@ -497,7 +497,7 @@ namespace ServerFS2
 			bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.Add(0x52);
 			bytes.AddRange(BitConverter.GetBytes(0x200).Reverse());
@@ -513,7 +513,7 @@ namespace ServerFS2
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.Add(0x57);
 			var result = SendCode(bytes).Result.FirstOrDefault().Data;
@@ -526,7 +526,7 @@ namespace ServerFS2
 			bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x38);
 			bytes.AddRange(BitConverter.GetBytes(begin));
 			bytes.Add(0xFF);
@@ -544,7 +544,7 @@ namespace ServerFS2
 				bytes = new List<byte>();
 				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
+				bytes.Add(Convert.ToByte(device.AddressOnShleif));
 				bytes.Add(0x38);
 				bytes.AddRange(BitConverter.GetBytes(i));
 				bytes.Add(0xFF);
@@ -558,7 +558,7 @@ namespace ServerFS2
 			bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x38);
 			bytes.AddRange(BitConverter.GetBytes(offset));
 			bytes.Add(count);

@@ -95,7 +95,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				if (byteDescription.TableBaseReference != null)
 				{
-					byteDescription.AddressReference = ByteDescriptions.FirstOrDefault(x => x.TableHeader == byteDescription.TableBaseReference);
+					byteDescription.AddressReference = ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.UID == byteDescription.TableBaseReference.UID);
 				}
 			}
 		}
@@ -107,13 +107,13 @@ namespace ClientFS2.ConfigurationWriter
 				var byteDescription = ByteDescriptions[i];
 				if (byteDescription.AddressReference != null)
 				{
-					var index = byteDescription.AddressReference.ByteIndex;
+					var index = byteDescription.AddressReference.Offset;
 					var bit3 = index >> 16;
 					var bit2 = (index >> 8) % 256;
 					var bit1 = index % 256;
 					ByteDescriptions[i + 0].Value = bit3;
 					ByteDescriptions[i + 1].Value = bit2;
-					ByteDescriptions[i + 3].Value = bit1;
+					ByteDescriptions[i + 2].Value = bit1;
 				}
 			}
 		}

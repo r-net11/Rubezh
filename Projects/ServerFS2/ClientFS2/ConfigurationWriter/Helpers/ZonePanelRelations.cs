@@ -24,7 +24,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				foreach (var device in zone.DevicesInZoneLogic)
 				{
-					if (!ZonePanelItems.Any(x => x.PanelDevice.UID == device.ParentPanel.UID))
+					if (ZonePanelItems.Any(x => x.PanelDevice.UID != device.ParentPanel.UID))
 					{
 						Add(zone, device.ParentPanel, true);
 					}

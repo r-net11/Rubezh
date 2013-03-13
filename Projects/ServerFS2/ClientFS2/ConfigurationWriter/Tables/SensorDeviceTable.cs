@@ -14,16 +14,18 @@ namespace ClientFS2.ConfigurationWriter
 			: base(panelDatabase)
 		{
 			Device = device;
+		}
 
-			var headerBytesDatabase = BytesDatabase.AddByte((byte)Device.AddressOnShleif, "Адрес");
-			headerBytesDatabase.DeviceHeader = device;
+		public override void Create()
+		{
+			BytesDatabase.AddByte((byte)Device.AddressOnShleif, "Адрес");
 			BytesDatabase.AddByte((byte)Device.ShleifNo, "Шлейф");
 			BytesDatabase.AddShort((byte)0, "Внутренние параметры");
 			BytesDatabase.AddByte((byte)0, "Динамические параметры для базы");
 			var zoneNo = 0;
-			if (device.Zone != null)
+			if (Device.Zone != null)
 			{
-				zoneNo = ZonePanelRelations.GetLocalZoneNo(device.Zone, ParentPanel);
+				zoneNo = ZonePanelRelations.GetLocalZoneNo(Device.Zone, ParentPanel);
 			}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
@@ -66,7 +68,7 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 			}
 			lengtByteDescription.Value = BytesDatabase.ByteDescriptions.Count - 8;
-			BytesDatabase.SetGroupName(device.PresentationAddressAndName);
+			BytesDatabase.SetGroupName(Device.PresentationAddressAndName);
 		}
 
 		int Get80ByteCount()
@@ -121,10 +123,10 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 				case DriverType.RadioSmokeDetector:
 					BytesDatabase.AddByte((byte)smokeParameterValue, "Запыленность");
-					BytesDatabase.AddByte((byte)(Device.Parent.IntAddress % 256), "Адрес родительского МРК");
+					BytesDatabase.AddByte((byte)(Device.Parent.AddressOnShleif), "Адрес родительского МРК");
 					break;
 				case DriverType.RadioHandDetector:
-					BytesDatabase.AddByte((byte)(Device.Parent.IntAddress % 256), "Адрес родительского МРК");
+					BytesDatabase.AddByte((byte)(Device.Parent.AddressOnShleif), "Адрес родительского МРК");
 					break;
 			}
 		}
