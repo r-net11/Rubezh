@@ -13,34 +13,23 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="0 0 0 5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <Rectangle Fill="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                        <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                        <TextBlock Text="Состояние" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5, 0, 0, 0" />
-                        <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
-                    </StackPanel>
-                    <ItemsControl ItemsSource="{Binding DirectionState.StateClasses}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+                <Rectangle Fill="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
+                <ItemsControl ItemsSource="{Binding StateClasses}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
             <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                 <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">

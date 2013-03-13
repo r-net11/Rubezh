@@ -10,6 +10,7 @@ using Infrastructure.Events;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -41,11 +42,22 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
+			OnPropertyChanged("StateClasses");
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
 			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
+		}
+
+		public List<XStateClass> StateClasses
+		{
+			get
+			{
+				var stateClasses = DirectionState.StateClasses.ToList();
+				stateClasses.Sort();
+				return stateClasses;
+			}
 		}
 
 		public int InputZonesCount
