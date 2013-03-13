@@ -125,7 +125,7 @@
     <ControlTemplate 
   x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" 
   TargetType="MenuItem">
-        <Border Name="Border" >
+        <Border Name="Border">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
