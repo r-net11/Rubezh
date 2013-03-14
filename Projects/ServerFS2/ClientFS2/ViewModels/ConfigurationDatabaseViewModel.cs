@@ -16,6 +16,5 @@ namespace ClientFS2.ViewModels
 		}
 
 		public List<PanelDatabase> PanelDatabases { get; set; }
-		public BytesDatabase BytesDatabase { get; set; }
 	}
 }

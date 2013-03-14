@@ -122,6 +122,7 @@ namespace ClientFS2.ConfigurationWriter
 					var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
 					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				}
+				referenceBytesDatabase.SetGroupName("");
 				if (referenceBytesDatabase.ByteDescriptions.Count > 0)
 					ReferenceBytesDatabase.Add(referenceBytesDatabase);
 				var byteDescriptions = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();

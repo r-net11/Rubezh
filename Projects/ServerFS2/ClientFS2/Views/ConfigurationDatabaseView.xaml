@@ -16,42 +16,85 @@
         </TabControl.ItemTemplate>
         <TabControl.ContentTemplate>
             <DataTemplate>
-                <DataGrid ItemsSource="{Binding BytesDatabase2.ByteDescriptions}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
-                        <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                        <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
-                        <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
-                    </DataGrid.Columns>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Style.Setters>
-                            </Style.Setters>
-                        </Style>
-                    </DataGrid.RowStyle>
-                    <DataGrid.CellStyle>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Style.Setters>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                <ContentPresenter VerticalAlignment="Center" />
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
-                            </Style.Setters>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                                    <Setter Property="Foreground" Value="White" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.CellStyle>
-                </DataGrid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding BytesDatabase1.ByteDescriptions}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                            <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                            <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Style.Setters>
+                                </Style.Setters>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
+                                </Style.Setters>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding BytesDatabase2.ByteDescriptions}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                            <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                            <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Style.Setters>
+                                </Style.Setters>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
+                                </Style.Setters>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </DataGrid>
+                </Grid>
             </DataTemplate>
         </TabControl.ContentTemplate>
     </TabControl>

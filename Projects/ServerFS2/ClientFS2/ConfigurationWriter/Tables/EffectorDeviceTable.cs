@@ -196,7 +196,7 @@ namespace ClientFS2.ConfigurationWriter
 					for (int i = 0; i < ParentPanel.ShleifNo; i++)
 					{
 						BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-						BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого саиска связанного ИУ шлейфа " + (i + 1).ToString());
+						BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого саиска связанного ИУ шлейфа " + (i + 1).ToString());
 					}
 					break;
 			}

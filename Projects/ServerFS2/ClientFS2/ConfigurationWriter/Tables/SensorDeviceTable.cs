@@ -10,6 +10,11 @@ namespace ClientFS2.ConfigurationWriter
 	{
 		Device Device;
 
+		public override Guid UID
+		{
+			get { return Device.UID; }
+		}
+
 		public SensorDeviceTable(PanelDatabase panelDatabase, Device device)
 			: base(panelDatabase)
 		{
@@ -149,7 +154,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
-				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
 		}
 
@@ -187,7 +192,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
 		}
 
