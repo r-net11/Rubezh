@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace ClientFS2.Converters
 {
-    public class ZoneLogicJoinOperatorConverter : IValueConverter
+    public class ClauseOperationToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            switch ((ZoneLogicJoinOperator)value)
-            {
-                case ZoneLogicJoinOperator.And:
-                    return "и";
-                case ZoneLogicJoinOperator.Or:
-                    return "или";
-                default:
-                    return "";
-            }
+            if (value is ZoneLogicOperation)
+                return ((ZoneLogicOperation)value).ToDescription();
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

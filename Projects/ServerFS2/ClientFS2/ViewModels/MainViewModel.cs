@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
@@ -68,7 +66,7 @@ namespace ClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
         private void OnAutoDetectDevice()
         {
-            var autoDetectedDevicesViewModel = new DevicesViewModel(new Device());
+            var autoDetectedDevicesViewModel = new DevicesViewModel(DevicesViewModel.Current.SelectedDevice.Device);
             _progressService.Run(() =>
             {
                 var device = ServerHelper.AutoDetectDevice();
@@ -91,12 +89,19 @@ namespace ClientFS2.ViewModels
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		private void OnReadConfiguration()
 		{
-            var devicesViewModel = new DevicesViewModel(new Device());
+            //var devicesViewModel = new DevicesViewModel();
+            //_progressService.Run(() =>
+            //{
+            //    var device = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
+            //    devicesViewModel = new DevicesViewModel(device);
+            //}, () => DialogService.ShowModalWindow(devicesViewModel), "Считывание конфигурации с устройства");
+		    var remoteDeviceConfiguration = new DeviceConfiguration();
             _progressService.Run(() =>
             {
-                var device = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
-                devicesViewModel = new DevicesViewModel(device);
-            }, () => DialogService.ShowModalWindow(devicesViewModel), "Считывание конфигурации с устройства");
+                remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
+            },
+            () => DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration)), "Считывание конфигурации с устройства");
+                                    
 		}
 		bool CanReadConfiguration()
 		{

@@ -21,5 +21,17 @@
     <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
         <Views:ProgressView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:DeviceConfigurationViewModel}">
+        <Views:DeviceConfigurationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneSelectationViewModel}">
+        <Views:ZoneSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneLogicViewModel}">
+        <Views:ZoneLogicView />
+    </DataTemplate>
+
 </ResourceDictionary>
