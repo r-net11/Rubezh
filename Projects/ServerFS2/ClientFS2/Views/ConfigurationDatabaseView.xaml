@@ -21,7 +21,7 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <DataGrid Grid.Row="0" ItemsSource="{Binding BytesDatabase1.ByteDescriptions}">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding PanelDatabase1.BytesDatabase.ByteDescriptions}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
                             <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
@@ -58,7 +58,7 @@
                         </DataGrid.CellStyle>
                     </DataGrid>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding BytesDatabase2.ByteDescriptions}">
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding PanelDatabase2.BytesDatabase.ByteDescriptions}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
                             <DataGridTextColumn Binding="{Binding Value}" Header="Value" />

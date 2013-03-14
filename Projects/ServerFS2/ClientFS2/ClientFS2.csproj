@@ -63,6 +63,8 @@
     <Compile Include="ConfigurationWriter\Classes\DevicesGroup.cs" />
     <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
     <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
+    <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
     <Compile Include="ConfigurationWriter\Tables\DirectionTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\EffectorDeviceTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\SensorDeviceTable.cs" />
@@ -71,14 +73,14 @@
     <Compile Include="ConfigurationWriter\Classes\ByteDescription.cs" />
     <Compile Include="ConfigurationWriter\Classes\BytesDatabase.cs" />
     <Compile Include="ConfigurationWriter\Helpers\BytesHelper.cs" />
-    <Compile Include="ConfigurationWriter\ConfigurationWriterHelper2.cs" />
+    <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
-    <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase2.cs" />
     <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Helpers\ZonePanelRelations.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\IsBoldToColorConverter.cs" />
-    <Compile Include="PanelDatabase2.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase1.cs" />
     <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\ConfigurationDatabaseViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />

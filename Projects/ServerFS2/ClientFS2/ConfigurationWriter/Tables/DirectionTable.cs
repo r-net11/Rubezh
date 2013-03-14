@@ -15,8 +15,8 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Direction.UID; }
 		}
 
-		public DirectionTable(PanelDatabase panelDatabase, Direction direction)
-			: base(panelDatabase)
+		public DirectionTable(PanelDatabase2 panelDatabase2, Direction direction)
+			: base(panelDatabase2, direction.Name)
 		{
 			Direction = direction;
 		}
@@ -59,7 +59,6 @@ namespace ClientFS2.ConfigurationWriter
 				BytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
 				BytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
 			}
-			BytesDatabase.SetGroupName(Direction.Name);
 		}
 	}
 }

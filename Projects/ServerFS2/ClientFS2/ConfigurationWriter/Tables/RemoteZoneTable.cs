@@ -16,8 +16,8 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Zone.UID; }
 		}
 
-		public RemoteZoneTable(PanelDatabase panelDatabase, ZonePanelItem zonePanelItem)
-			: base(panelDatabase)
+		public RemoteZoneTable(PanelDatabase2 panelDatabase, ZonePanelItem zonePanelItem)
+			: base(panelDatabase, zonePanelItem.Zone.PresentationName)
 		{
 			Zone = zonePanelItem.Zone;
 			ZonePanelItem = zonePanelItem;
@@ -34,7 +34,6 @@ namespace ClientFS2.ConfigurationWriter
 				localZoneNo = (short)localZonePanelItem.No;
 			BytesDatabase.AddShort(localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
 			BytesDatabase.AddShort((short)ZonePanelItem.No, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ");
-			BytesDatabase.SetGroupName(ZonePanelItem.Zone.PresentationName);
 		}
 
 		List<Zone> GetRemoteZonesForPanel(Device panelDevice)

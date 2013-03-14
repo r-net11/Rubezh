@@ -6,9 +6,9 @@ using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public class ConfigurationWriterHelper2
+	public class ConfigurationWriterHelper
 	{
-		public ConfigurationWriterHelper2()
+		public ConfigurationWriterHelper()
 		{
 			PanelDatabases = new List<PanelDatabase>();
 		}

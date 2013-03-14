@@ -8,7 +8,7 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class TableBase
 	{
-		public PanelDatabase PanelDatabase { get; set; }
+		public PanelDatabase2 PanelDatabase { get; set; }
 		public Device ParentPanel
 		{
 			get { return PanelDatabase.ParentPanel; }
@@ -16,10 +16,10 @@ namespace ClientFS2.ConfigurationWriter
 		public BytesDatabase BytesDatabase { get; set; }
 		public List<BytesDatabase> ReferenceBytesDatabase { get; set; }
 
-		public TableBase(PanelDatabase panelDatabase)
+		public TableBase(PanelDatabase2 panelDatabase, string name = null)
 		{
 			PanelDatabase = panelDatabase;
-			BytesDatabase = new BytesDatabase();
+			BytesDatabase = new BytesDatabase(name);
 			ReferenceBytesDatabase = new List<BytesDatabase>();
 		}
 

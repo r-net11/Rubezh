@@ -16,8 +16,8 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Device.UID; }
 		}
 
-		public EffectorDeviceTable(PanelDatabase panelDatabase, Device device, bool isOuter)
-			: base(panelDatabase)
+		public EffectorDeviceTable(PanelDatabase2 panelDatabase, Device device, bool isOuter)
+			: base(panelDatabase, device.PresentationAddressAndName)
 		{
 			Device = device;
 			IsOuter = isOuter;
@@ -50,7 +50,6 @@ namespace ClientFS2.ConfigurationWriter
 			configLengtByteDescription.Value = configLengt2 - configLengt1;
 			AddLogic();
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
-			BytesDatabase.SetGroupName(Device.PresentationAddressAndName);
 		}
 
 		void AddDynamicBlock()

@@ -44,7 +44,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 
 		DevicesGroup CreateDevicesGroup(string name, params DriverType[] driverTypes)
 		{
-			var devicesGroup = new DevicesGroup(driverTypes[0], name);
+			var devicesGroup = new DevicesGroup(name);
 			foreach (var device in ParentPanel.Children)
 			{
 				if (driverTypes.Contains(device.Driver.DriverType))

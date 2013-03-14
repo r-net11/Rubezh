@@ -15,8 +15,8 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Zone.UID; }
 		}
 
-		public ZoneTable(PanelDatabase panelDatabase, Zone zone)
-			: base(panelDatabase)
+		public ZoneTable(PanelDatabase2 panelDatabase2, Zone zone)
+			: base(panelDatabase2, zone.PresentationName)
 		{
 			Zone = zone;
 		}
@@ -76,7 +76,6 @@ namespace ClientFS2.ConfigurationWriter
 			InitializeRemoteIUPanels();
 			InitializeAllDevices();
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
-			BytesDatabase.SetGroupName(Zone.PresentationName);
 		}
 
 		void InitializeMPT()
@@ -97,23 +96,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		void InitializeLocalIUDevices()
 		{
-			var devicesOnShleifs = new List<DevicesOnShleif>();
-			for (int i = 1; i <= ParentPanel.Driver.ShleifCount; i++)
-			{
-				var devicesOnShleif = new DevicesOnShleif()
-				{
-					ShleifNo = i
-				};
-				devicesOnShleifs.Add(devicesOnShleif);
-			}
-			foreach (var device in Zone.DevicesInZoneLogic)
-			{
-				if (device.ParentPanel.UID == ParentPanel.UID)
-				{
-					var devicesOnShleif = devicesOnShleifs.FirstOrDefault(x => x.ShleifNo == device.ShleifNo);
-					devicesOnShleif.Devices.Add(device);
-				}
-			}
+			var devicesOnShleifs = DevicesOnShleifHelper.GetLocalForZone(ParentPanel, Zone);
 			foreach (var devicesOnShleif in devicesOnShleifs)
 			{
 				var referenceBytesDatabase = new BytesDatabase();
@@ -122,7 +105,6 @@ namespace ClientFS2.ConfigurationWriter
 					var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
 					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				}
-				referenceBytesDatabase.SetGroupName("");
 				if (referenceBytesDatabase.ByteDescriptions.Count > 0)
 					ReferenceBytesDatabase.Add(referenceBytesDatabase);
 				var byteDescriptions = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
@@ -133,23 +115,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		void InitializeRemoteIUDevices()
 		{
-			var devicesOnShleifs = new List<DevicesOnShleif>();
-			for (int i = 1; i <= ParentPanel.Driver.ShleifCount; i++)
-			{
-				var devicesOnShleif = new DevicesOnShleif()
-				{
-					ShleifNo = i
-				};
-				devicesOnShleifs.Add(devicesOnShleif);
-			}
-			foreach (var device in Zone.DevicesInZoneLogic)
-			{
-				if (device.ParentPanel.UID != ParentPanel.UID)
-				{
-					var devicesOnShleif = devicesOnShleifs.FirstOrDefault(x => x.ShleifNo == device.ShleifNo);
-					devicesOnShleif.Devices.Add(device);
-				}
-			}
+			var devicesOnShleifs = DevicesOnShleifHelper.GetRemoteForZone(ParentPanel, Zone);
 			foreach (var devicesOnShleif in devicesOnShleifs)
 			{
 				var referenceBytesDatabase = new BytesDatabase();

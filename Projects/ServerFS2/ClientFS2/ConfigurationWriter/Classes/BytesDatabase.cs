@@ -8,14 +8,16 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class BytesDatabase
 	{
-		public BytesDatabase()
+		public BytesDatabase(string name = null)
 		{
+			Name = name;
 			ByteDescriptions = new List<ByteDescription>();
-			LastIsBold = !LastIsBold;
-			IsBold = LastIsBold;
 		}
 
+		public string Name { get; set; }
 		public List<ByteDescription> ByteDescriptions { get; set; }
+		public bool IsBold { get; set; }
+		static bool LastIsBold;
 
 		public ByteDescription AddShort(short value, string description = null)
 		{
@@ -82,6 +84,14 @@ namespace ClientFS2.ConfigurationWriter
 
 		public void Add(BytesDatabase bytesDatabase)
 		{
+			LastIsBold = !LastIsBold;
+			bytesDatabase.IsBold = LastIsBold;
+
+			foreach (var byteDescription in bytesDatabase.ByteDescriptions)
+			{
+				byteDescription.GroupName = bytesDatabase.Name;
+				byteDescription.IsBold = bytesDatabase.IsBold;
+			}
 			foreach (var byteDescription in bytesDatabase.ByteDescriptions)
 			{
 				ByteDescriptions.Add(byteDescription);
@@ -129,17 +139,5 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 		}
-
-		public void SetGroupName(string groupName)
-		{
-			foreach (var byteDescription in ByteDescriptions)
-			{
-				byteDescription.GroupName = groupName;
-				byteDescription.IsBold = IsBold;
-			}
-		}
-
-		public bool IsBold { get; set; }
-		static bool LastIsBold;
 	}
 }

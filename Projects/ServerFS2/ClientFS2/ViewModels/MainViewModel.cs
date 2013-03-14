@@ -165,9 +165,9 @@ namespace ClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		private void OnWriteConfiguration()
 		{
-			var configurationWriterHelper2 = new ConfigurationWriterHelper2();
-			configurationWriterHelper2.Run();
-			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper2.PanelDatabases);
+			var configurationWriterHelper = new ConfigurationWriterHelper();
+			configurationWriterHelper.Run();
+			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper.PanelDatabases);
 			DialogService.ShowModalWindow(configurationDatabaseViewModel);
 		}
 		bool CanWriteConfiguration()

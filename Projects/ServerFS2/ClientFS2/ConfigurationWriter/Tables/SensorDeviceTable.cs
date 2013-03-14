@@ -15,8 +15,8 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Device.UID; }
 		}
 
-		public SensorDeviceTable(PanelDatabase panelDatabase, Device device)
-			: base(panelDatabase)
+		public SensorDeviceTable(PanelDatabase2 panelDatabase2, Device device)
+			: base(panelDatabase2, device.PresentationAddressAndName)
 		{
 			Device = device;
 		}
@@ -73,7 +73,6 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 			}
 			lengtByteDescription.Value = BytesDatabase.ByteDescriptions.Count - 8;
-			BytesDatabase.SetGroupName(Device.PresentationAddressAndName);
 		}
 
 		int Get80ByteCount()
