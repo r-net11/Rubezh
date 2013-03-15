@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
+using System.Diagnostics;
+using FiresecAPI.Models.Binary;
 
 namespace ClientFS2.ConfigurationWriter.Classes
 {
 	public class DevicesGroupHelper
 	{
+		static int totalMiliseconds = 0;
+
+		BinaryPanel BinaryPanel;
 		Device ParentPanel;
 		public List<DevicesGroup> DevicesGroups { get; set; }
 
-		public DevicesGroupHelper(Device parentPanel)
+		public DevicesGroupHelper(BinaryPanel binaryPanel)
 		{
-			ParentPanel = parentPanel;
+			var startDateTime = DateTime.Now;
+			BinaryPanel = binaryPanel;
+			ParentPanel = binaryPanel.ParentPanel;
 			DevicesGroups = new List<DevicesGroup>();
 
 			CreateDevicesGroup("Указатель на таблицу РМ", DriverType.RM_1);
@@ -40,16 +47,20 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу Выход реле", DriverType.Exit);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный ручной", DriverType.RadioHandDetector);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный дымовой", DriverType.RadioSmokeDetector);
+
+			var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
+			totalMiliseconds += deltaMiliseconds;
+			Trace.WriteLine("TotalMiliseconds=" + totalMiliseconds.ToString());
 		}
 
 		DevicesGroup CreateDevicesGroup(string name, params DriverType[] driverTypes)
 		{
 			var devicesGroup = new DevicesGroup(name);
-			foreach (var device in ParentPanel.Children)
+			foreach (var binaryDevice in BinaryPanel.BinaryLocalDevices)
 			{
-				if (driverTypes.Contains(device.Driver.DriverType))
+				if (driverTypes.Contains(binaryDevice.Device.Driver.DriverType))
 				{
-					devicesGroup.Devices.Add(device);
+					devicesGroup.BinaryDevices.Add(binaryDevice);
 				}
 			}
 			DevicesGroups.Add(devicesGroup);

@@ -30,7 +30,11 @@ namespace ClientFS2.ConfigurationWriter
 			var zoneNo = 0;
 			if (Device.Zone != null)
 			{
-				zoneNo = ZonePanelRelations.GetLocalZoneNo(Device.Zone, ParentPanel);
+				var binaryZone = PanelDatabase.BinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone == Device.Zone);
+				if (binaryZone != null)
+				{
+					zoneNo = binaryZone.Zone.No;
+				}
 			}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");

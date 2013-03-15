@@ -112,7 +112,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				if (byteDescription.TableBaseReference != null)
 				{
-					byteDescription.AddressReference = ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.UID == byteDescription.TableBaseReference.UID);
+					byteDescription.AddressReference = byteDescription.TableBaseReference.BytesDatabase.ByteDescriptions.FirstOrDefault();
 				}
 			}
 		}

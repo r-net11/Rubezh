@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI.Models;
 using System.Diagnostics;
 using ClientFS2.ConfigurationWriter.Classes;
+using FiresecAPI.Models.Binary;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -12,23 +13,25 @@ namespace ClientFS2.ConfigurationWriter
 	{
 		public Device ParentPanel { get; set; }
 		public BytesDatabase BytesDatabase { get; set; }
+		public BinaryPanel BinaryPanel { get; set; }
 
 		public List<TableBase> Tables = new List<TableBase>();
 		public List<TableGroup> TableGroups = new List<TableGroup>();
 		public TableGroup RemoteZonesTableGroup = new TableGroup();
 		public TableGroup LocalZonesTableGroup = new TableGroup();
-		public List<TableBase> LocalZoneTables = new List<TableBase>();
-		public List<TableBase> RemoteDeviceTables = new List<TableBase>();
+		public List<ZoneTable> LocalZoneTables = new List<ZoneTable>();
+		public List<EffectorDeviceTable> RemoteDeviceTables = new List<EffectorDeviceTable>();
 		public List<TableBase> DirectionsTables = new List<TableBase>();
 
-		public PanelDatabase2(Device panelDevice)
+		public PanelDatabase2(Device parentPanel)
 		{
-			ParentPanel = panelDevice;
+			ParentPanel = parentPanel;
 			BytesDatabase = new BytesDatabase();
+			BinaryPanel = ConfigurationWriterHelper.BinaryConfigurationHelper.BinaryPanels.FirstOrDefault(x => x.ParentPanel == ParentPanel);
 
 			CreateEmptyTable();
 			CreateZones();
-			CreateLocalDevices();
+			CreateDevices();
 			CreateDirections();
 
 			foreach (var table in Tables)
@@ -57,6 +60,32 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.ResolverReferences();
 		}
 
+		void CreateZones()
+		{
+			RemoteZonesTableGroup = new TableGroup()
+			{
+				Name = "Внешние зоны"
+			};
+			foreach (var zone in BinaryPanel.BinaryRemoteZones)
+			{
+				var remoteZoneTable = new RemoteZoneTable(this, zone);
+				Tables.Add(remoteZoneTable);
+				RemoteZonesTableGroup.Tables.Add(remoteZoneTable);
+			}
+
+			LocalZonesTableGroup = new TableGroup()
+			{
+				Name = "Локальные зоны"
+			};
+			foreach (var zone in BinaryPanel.BinaryLocalZones)
+			{
+				var zoneTable = new ZoneTable(this, zone);
+				Tables.Add(zoneTable);
+				LocalZoneTables.Add(zoneTable);
+				LocalZonesTableGroup.Tables.Add(zoneTable);
+			}
+		}
+
 		void CreateRemoteDevices()
 		{
 			var tableGroup = new TableGroup()
@@ -65,19 +94,26 @@ namespace ClientFS2.ConfigurationWriter
 			};
 			TableGroups.Add(tableGroup);
 
-			var devices = GetOuterDevices();
-			foreach (var device in devices)
+			foreach (var binaryRemoteDevice in BinaryPanel.BinaryRemoteDevices)
 			{
-				var table = new EffectorDeviceTable(this, device, true);
-				Tables.Add(table);
-				tableGroup.Tables.Add(table);
-				RemoteDeviceTables.Add(table);
+				var table = RemoteDeviceTables.FirstOrDefault(x => x.UID == binaryRemoteDevice.Device.UID);
+				if (table == null)
+				{
+					table = new EffectorDeviceTable(this, binaryRemoteDevice, true);
+					Tables.Add(table);
+					tableGroup.Tables.Add(table);
+					RemoteDeviceTables.Add(table);
+				}
 			}
 		}
 
-		void CreateLocalDevices()
+		static int CreateLocalDevices_Miliseconds = 0;
+
+		void CreateDevices()
 		{
-			var devicesGroupHelper = new DevicesGroupHelper(ParentPanel);
+			var startDateTime = DateTime.Now;
+
+			var devicesGroupHelper = new DevicesGroupHelper(BinaryPanel);
 			foreach (var devicesGroup in devicesGroupHelper.DevicesGroups)
 			{
 				if (devicesGroup.IsRemoteDevicesPointer)
@@ -90,14 +126,14 @@ namespace ClientFS2.ConfigurationWriter
 					Name = devicesGroup.Name
 				};
 				TableGroups.Add(tableGroup);
-				foreach (var device in devicesGroup.Devices)
+				foreach (var device in devicesGroup.BinaryDevices)
 				{
 					TableBase deviceTable = null;
-					if (device.Driver.Category == DeviceCategoryType.Sensor)
+					if (device.Device.Driver.Category == DeviceCategoryType.Sensor)
 					{
-						deviceTable = new SensorDeviceTable(this, device);
+						deviceTable = new SensorDeviceTable(this, device.Device);
 					}
-					if (device.Driver.Category == DeviceCategoryType.Effector)
+					if (device.Device.Driver.Category == DeviceCategoryType.Effector)
 					{
 						deviceTable = new EffectorDeviceTable(this, device, false);
 					}
@@ -108,36 +144,10 @@ namespace ClientFS2.ConfigurationWriter
 					}
 				}
 			}
-		}
 
-		void CreateZones()
-		{
-			var remoteTableGroup = new TableGroup()
-			{
-				Name = "Внешние зоны"
-			};
-			RemoteZonesTableGroup = remoteTableGroup;
-			var remoteZones = ZonePanelRelations.GetAllZonesForPanel(ParentPanel, true);
-			foreach (var zone in remoteZones)
-			{
-				var remoteZoneTable = new RemoteZoneTable(this, zone);
-				Tables.Add(remoteZoneTable);
-				remoteTableGroup.Tables.Add(remoteZoneTable);
-			}
-
-			var localTableGroup = new TableGroup()
-			{
-				Name = "Локальные зоны"
-			};
-			LocalZonesTableGroup = localTableGroup;
-			var localZones = GetLocalZonesForPanelDevice();
-			foreach (var zone in localZones)
-			{
-				var zoneTable = new ZoneTable(this, zone);
-				Tables.Add(zoneTable);
-				LocalZoneTables.Add(zoneTable);
-				localTableGroup.Tables.Add(zoneTable);
-			}
+			var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
+			CreateLocalDevices_Miliseconds += deltaMiliseconds;
+			Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
 		}
 
 		void CreateDirections()
@@ -175,32 +185,6 @@ namespace ClientFS2.ConfigurationWriter
 			Tables.Add(table);
 		}
 
-		public List<Device> GetOuterDevices()
-		{
-			var devices = new List<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				foreach (var zone in device.ZonesInLogic)
-				{
-					foreach (var deviceInZone in zone.DevicesInZoneLogic)
-					{
-						if (deviceInZone.ParentPanel.UID != ParentPanel.UID)
-						{
-							if (!devices.Any(x => x.UID == deviceInZone.UID))
-							{
-								devices.Add(deviceInZone);
-							}
-						}
-					}
-				}
-			}
-			if (devices.Count > 0)
-			{
-				Trace.WriteLine("GetOuterDevices.Count=" + devices.Count.ToString());
-			}
-			return devices;
-		}
-
 		List<Zone> GetLocalZonesForPanelDevice()
 		{
 			var localZones = new List<Zone>();
@@ -223,6 +207,7 @@ namespace ClientFS2.ConfigurationWriter
 					}
 				}
 			}
+
 			return localZones;
 		}
 	}

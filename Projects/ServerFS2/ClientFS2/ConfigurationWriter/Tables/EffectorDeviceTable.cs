@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Binary;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -16,10 +17,15 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Device.UID; }
 		}
 
-		public EffectorDeviceTable(PanelDatabase2 panelDatabase, Device device, bool isOuter)
-			: base(panelDatabase, device.PresentationAddressAndName)
+		BinaryDevice BinaryDevice;
+		public List<ZoneTable> ZonesInLogic = new List<ZoneTable>();
+
+		public EffectorDeviceTable(PanelDatabase2 panelDatabase, BinaryDevice binaryDevice, bool isOuter)
+			: base(panelDatabase, binaryDevice.Device.PresentationAddressAndName)
 		{
-			Device = device;
+			binaryDevice.TableBase = this;
+			BinaryDevice = binaryDevice;
+			Device = binaryDevice.Device;
 			IsOuter = isOuter;
 		}
 
@@ -170,9 +176,10 @@ namespace ClientFS2.ConfigurationWriter
 					var localZoneNo = 0;
 					if (Device.Zone != null)
 					{
-						if (ZonePanelRelations.IsLocalZone(Device.Zone, ParentPanel))
+						var binaryZone = PanelDatabase.BinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone == Device.Zone);
+						if (binaryZone != null)
 						{
-							localZoneNo = ZonePanelRelations.GetLocalZoneNo(Device.Zone, ParentPanel);
+							localZoneNo = binaryZone.Zone.No;
 						}
 					}
 					BytesDatabase.AddShort((short)localZoneNo, "Номер привязанной зоны");
@@ -289,16 +296,22 @@ namespace ClientFS2.ConfigurationWriter
 
 				foreach (var zone in clause.Zones)
 				{
-					if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
-					{
-						var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
-						BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ЛОКАЛЬНУЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
-					}
-					else
-					{
-						var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
-						BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ВНЕШНЮЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
-					}
+					var binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone);
+					TableBase table = null;
+					if (binaryZone != null)
+						table = (TableBase)binaryZone.TableBase;
+					BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+
+					//if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
+					//{
+					//    var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
+					//    BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ЛОКАЛЬНУЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+					//}
+					//else
+					//{
+					//    var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
+					//    BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ВНЕШНЮЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+					//}
 				}
 			}
 		}

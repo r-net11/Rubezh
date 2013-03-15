@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Binary;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -15,20 +16,25 @@ namespace ClientFS2.ConfigurationWriter
 			get { return Zone.UID; }
 		}
 
-		public ZoneTable(PanelDatabase2 panelDatabase2, Zone zone)
-			: base(panelDatabase2, zone.PresentationName)
+		BinaryZone BinaryZone;
+		public List<EffectorDeviceTable> EffectorDeviceTables = new List<EffectorDeviceTable>();
+
+		public ZoneTable(PanelDatabase2 panelDatabase2, BinaryZone binaryZone)
+			: base(panelDatabase2, binaryZone.Zone.PresentationName)
 		{
-			Zone = zone;
+			binaryZone.TableBase = this;
+			BinaryZone = binaryZone;
+			Zone = binaryZone.Zone;
 		}
 
-		public override void  Create()
-{
-			BytesDatabase.AddShort((short)Zone.No, "Номер");
+		public override void Create()
+		{
+			BytesDatabase.AddShort((short)BinaryZone.LocalNo, "Номер");
 			BytesDatabase.AddString(Zone.Name, "Описание");
 			var lengtByteDescription = BytesDatabase.AddShort((short)0, "Длина записи");
 			BytesDatabase.AddShort((short)10, "Длина нижеследующих параметров");
 			var zoneConfig = 0;
-			if(Zone.ZoneType == ZoneType.Guard)
+			if (Zone.ZoneType == ZoneType.Guard)
 				zoneConfig = 1;
 			BytesDatabase.AddByte((byte)zoneConfig, "Конфиг");
 			int zoneAttributes = 0;
@@ -38,7 +44,7 @@ namespace ClientFS2.ConfigurationWriter
 				zoneAttributes += 8;
 			if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
 				zoneAttributes += 16;
-			if(Zone.Skipped)
+			if (Zone.Skipped)
 				zoneAttributes += 2;
 			var hasMPT = false;
 			foreach (var device in Zone.DevicesInZone)
@@ -54,7 +60,7 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddShort((short)Zone.No, "Глобальный номер");
 
 			var autosetTime = 0;
-			if(!string.IsNullOrEmpty(Zone.AutoSet))
+			if (!string.IsNullOrEmpty(Zone.AutoSet))
 			{
 				autosetTime = Int32.Parse(Zone.AutoSet) * 10;
 			}
@@ -102,7 +108,7 @@ namespace ClientFS2.ConfigurationWriter
 				var referenceBytesDatabase = new BytesDatabase();
 				foreach (var device in devicesOnShleif.Devices)
 				{
-					var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
+					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
 					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				}
 				if (referenceBytesDatabase.ByteDescriptions.Count > 0)
@@ -121,7 +127,8 @@ namespace ClientFS2.ConfigurationWriter
 				var referenceBytesDatabase = new BytesDatabase();
 				foreach (var device in devicesOnShleif.Devices)
 				{
-					var table = PanelDatabase.Tables.FirstOrDefault(x=>x.UID == device.UID);
+					TableBase table = EffectorDeviceTables.FirstOrDefault(x => x.UID == device.UID);
+					//TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
 					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				}
 				if (referenceBytesDatabase.ByteDescriptions.Count > 0)

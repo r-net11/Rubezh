@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -14,10 +15,16 @@ namespace ClientFS2.ConfigurationWriter
 		}
 
 		public List<PanelDatabase> PanelDatabases { get; set; }
+		public static BinaryConfigurationHelper BinaryConfigurationHelper { get; set; }
 
 		public void Run()
 		{
-			ZonePanelRelations.Initialize();
+			var startDateTime = DateTime.Now;
+			BinaryConfigurationHelper = new BinaryConfigurationHelper();
+
+			var deltaMiliseconds = (DateTime.Now - startDateTime).TotalMilliseconds;
+			Trace.WriteLine("ConfigurationWriterHelper Miliseconds=" + deltaMiliseconds.ToString());
+
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.IsPanel)
@@ -26,6 +33,9 @@ namespace ClientFS2.ConfigurationWriter
 					PanelDatabases.Add(panelDatabase);
 				}
 			}
+
+			deltaMiliseconds = (DateTime.Now - startDateTime).TotalMilliseconds;
+			Trace.WriteLine("ConfigurationWriterHelper Miliseconds=" + deltaMiliseconds.ToString());
 		}
 	}
 }

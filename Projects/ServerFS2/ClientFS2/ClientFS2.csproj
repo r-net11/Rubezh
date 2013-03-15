@@ -65,12 +65,14 @@
     <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
     <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
+    <Compile Include="ConfigurationWriter\BinaryConfigurationHelper.cs" />
     <Compile Include="ConfigurationWriter\Tables\DirectionTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\EffectorDeviceTable.cs" />
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="ConfigurationWriter\Tables\SensorDeviceTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\RemoteZoneTable.cs" />
+    <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\Classes\ByteDescription.cs" />
     <Compile Include="ConfigurationWriter\Classes\BytesDatabase.cs" />
@@ -78,7 +80,6 @@
     <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
     <Compile Include="ConfigurationWriter\PanelDatabase2.cs" />
-    <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Helpers\ZonePanelRelations.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\IsBoldToColorConverter.cs" />

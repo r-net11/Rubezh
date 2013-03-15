@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using FiresecAPI.Models.Binary;
 
 
 namespace FiresecAPI.Models
@@ -33,6 +34,8 @@ namespace FiresecAPI.Models
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
+
+		public BinaryDevice BinaryDevice { get; set; }
 
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic
