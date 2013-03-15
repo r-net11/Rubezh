@@ -65,6 +65,7 @@
     <Compile Include="SpecifiedDevice.cs" />
     <Compile Include="SpecifiedInputReport.cs" />
     <Compile Include="SpecifiedOutputReport.cs" />
+    <Compile Include="USBDeviceFinder.cs" />
     <Compile Include="UsbHidPort.cs">
       <SubType>Component</SubType>
     </Compile>

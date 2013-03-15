@@ -114,7 +114,7 @@ namespace ServerFS2.Monitoring
 							return;
 						if (monitoringPanel.IsInitialized)
 						{
-							monitoringPanel.CheckTasks();
+							monitoringPanel.ProcessMonitoring();
 						}
 					}
 
@@ -192,40 +192,52 @@ namespace ServerFS2.Monitoring
 
 		void CheckConnection()
 		{
-			if (USBDevice.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
-				USBDevice.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
-				USBDevice.Driver.DriverType == DriverType.USB_Rubezh_4A ||
-				USBDevice.Driver.DriverType == DriverType.USB_BUNS ||
-				USBDevice.Driver.DriverType == DriverType.USB_BUNS_2 ||
-				USBDevice.Driver.DriverType == DriverType.USB_Rubezh_P)
-				return;
-
-			var response = USBManager.Send(USBDevice, 0x01, 0x32);
-			if (response.HasError)
+			try
 			{
-				if (USBDevice.DeviceState.IsUsbConnectionLost == false)
+				//if (USBDevice.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
+				//    USBDevice.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
+				//    USBDevice.Driver.DriverType == DriverType.USB_Rubezh_4A ||
+				//    USBDevice.Driver.DriverType == DriverType.USB_BUNS ||
+				//    USBDevice.Driver.DriverType == DriverType.USB_BUNS_2 ||
+				//    USBDevice.Driver.DriverType == DriverType.USB_Rubezh_P)
+				//{
+				//    if (MonitoringPanels.Count == 1 && MonitoringPanels.FirstOrDefault().IsInitialized)
+				//        return;
+				//}
+
+				var response = USBManager.Send(USBDevice, 0x01, 0x12);
+				if (response.HasError)
 				{
-					USBDevice.DeviceState.IsUsbConnectionLost = true;
-					var deviceStatesManager = new DeviceStatesManager();
-					deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
-					foreach (var monitoringPanel in MonitoringPanels)
+					if (USBDevice.DeviceState.IsUsbConnectionLost == false)
 					{
-						monitoringPanel.OnConnectionLost();
+						USBDevice.DeviceState.IsUsbConnectionLost = true;
+						var deviceStatesManager = new DeviceStatesManager();
+						deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
+						foreach (var monitoringPanel in MonitoringPanels)
+						{
+							monitoringPanel.OnConnectionLost();
+						}
+					}
+					//USBManager.ReInitialize(USBDevice);
+					USBManager.Initialize();
+				}
+				else
+				{
+					if (USBDevice.DeviceState.IsUsbConnectionLost == true)
+					{
+						USBDevice.DeviceState.IsUsbConnectionLost = false;
+						var deviceStatesManager = new DeviceStatesManager();
+						deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
+						foreach (var monitoringPanel in MonitoringPanels)
+						{
+							monitoringPanel.OnConnectionAppeared();
+						}
 					}
 				}
 			}
-			else
+			catch (Exception e)
 			{
-				if (USBDevice.DeviceState.IsUsbConnectionLost == true)
-				{
-					USBDevice.DeviceState.IsUsbConnectionLost = false;
-					var deviceStatesManager = new DeviceStatesManager();
-					deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
-					foreach (var monitoringPanel in MonitoringPanels)
-					{
-						monitoringPanel.OnConnectionAppeared();
-					}
-				}
+				;
 			}
 		}
 	}

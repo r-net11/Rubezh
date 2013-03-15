@@ -12,8 +12,6 @@ namespace ServerFS2
 {
 	public class UsbHid : UsbHidBase
 	{
-		static int NextNo = 0;
-		public int No { get; private set; }
 		public UsbHidPort UsbHidPort { get; private set; }
 		bool IsDisposed = false;
 
@@ -31,6 +29,14 @@ namespace ServerFS2
 			UsbHidPort.SpecifiedDevice.DataRecieved += new DataRecievedEventHandler(OnDataRecieved);
 			UsbHidPort.SpecifiedDevice.OnDeviceRemoved += new EventHandler(UsbHidPort_OnDeviceRemoved);
 			return true;
+		}
+
+		public void SetUsbHidPort(UsbHidPort usbHidPort)
+		{
+			No = NextNo++;
+			UsbHidPort = usbHidPort;
+			UsbHidPort.SpecifiedDevice.DataRecieved += new DataRecievedEventHandler(OnDataRecieved);
+			UsbHidPort.SpecifiedDevice.OnDeviceRemoved += new EventHandler(UsbHidPort_OnDeviceRemoved);
 		}
 
 		void UsbHidPort_OnDeviceRemoved(object sender, EventArgs e)
@@ -110,7 +116,7 @@ namespace ServerFS2
 
 		void OnResponseRecieved(Response response)
 		{
-			Trace.WriteLine("Response " + No + " " + BytesHelper.BytesToString(response.Bytes));
+			//Trace.WriteLine("Response " + No + " " + BytesHelper.BytesToString(response.Bytes));
 			if (UseId)
 			{
 				var request = RequestCollection.GetById(response.Id);

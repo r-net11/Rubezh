@@ -18,146 +18,164 @@ namespace ServerFS2
 			get { return RequestNo++; }
 		}
 
+		static object Locker = new object();
 		public static List<UsbHidInfo> UsbHidInfos { get; set; }
 
 		public static Response SendWithoutException(Device device, params object[] value)
 		{
-			return Send(device, true, value);
+			return InternalSend(device, true, 15, value);
 		}
 
 		public static Response Send(Device device, params object[] value)
 		{
-			return Send(device, false, value);
+			return InternalSend(device, false, 15, value);
 		}
 
-		static Response Send(Device device, bool throwException, params object[] value)
+		public static Response SendForUSBPanel(Device device, params object[] value)
 		{
-			var usbHid = GetUsbUsbHid(device);
-			if (usbHid != null)
-			{
-				var bytes = CreateBytesArray(value);
-				var outputFunctionCode = Convert.ToByte(bytes[0]);
-				var rootBytes = CreateRootBytes(device, usbHid.UseId);
-				bytes.InsertRange(0, rootBytes);
+			return InternalSend(device, false, 1, value);
+		}
 
-				var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
-				if (response != null)
+		static Response InternalSend(Device device, bool throwException, int countRacall, params object[] value)
+		{
+			lock (Locker)
+			{
+				var usbHid = GetUsbUsbHid(device);
+				if (usbHid != null)
 				{
-					var inputBytes = response.Bytes.ToList();
-					if (usbHid.UseId)
+					var bytes = CreateBytesArray(value);
+					var outputFunctionCode = Convert.ToByte(bytes[0]);
+					var rootBytes = CreateRootBytes(device, usbHid.UseId);
+					bytes.InsertRange(0, rootBytes);
+
+					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall);
+					if (response != null)
 					{
-						response.Bytes.RemoveRange(0, 4);
-						if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+						var inputBytes = response.Bytes.ToList();
+						if (usbHid.UseId)
 						{
-							var usbRoot = response.Bytes[0];
-							response.Bytes.RemoveRange(0, 1);
-							if (usbRoot != rootBytes[0])
+							if (response.Bytes.Count < 4)
 							{
 								if (throwException)
-									throw new FS2USBException("В ответе не совпадает первый байт маршрута");
-								return response.SetError("В ответе не совпадает первый байт маршрута");
+									throw new FS2USBException("В ответе содержится недостаточное количество байт");
+								return response.SetError("В ответе содержится недостаточное количество байт");
+							}
+							response.Bytes.RemoveRange(0, 4);
+							if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+							{
+								var usbRoot = response.Bytes[0];
+								response.Bytes.RemoveRange(0, 1);
+								if (usbRoot != rootBytes[0])
+								{
+									if (throwException)
+										throw new FS2USBException("В ответе не совпадает первый байт маршрута");
+									return response.SetError("В ответе не совпадает первый байт маршрута");
+								}
+							}
+							else
+							{
+								var usbRoot = response.Bytes[0];
+								var panelRoot = response.Bytes[1];
+								response.MsFlag = panelRoot;
+								response.Bytes.RemoveRange(0, 2);
+
+								if (usbRoot != rootBytes[0])
+								{
+									if (throwException)
+										throw new FS2USBException("В ответе не совпадает первый байт маршрута");
+									return response.SetError("В ответе не совпадает первый байт маршрута");
+								}
+
+								if (panelRoot != rootBytes[1])
+								{
+									if (throwException)
+										throw new FS2USBException("В ответе не совпадает второй байт маршрута");
+									return response.SetError("В ответе не совпадает второй байт маршрута");
+								}
 							}
 						}
 						else
 						{
 							var usbRoot = response.Bytes[0];
-							var panelRoot = response.Bytes[1];
-						response.MsFlag = panelRoot;
-							response.Bytes.RemoveRange(0, 2);
-
-							if (usbRoot != rootBytes[0])
-							{
-								if (throwException)
-									throw new FS2USBException("В ответе не совпадает первый байт маршрута");
-								return response.SetError("В ответе не совпадает первый байт маршрута");
-							}
-
-							if (panelRoot != rootBytes[1])
-							{
-								if (throwException)
-									throw new FS2USBException("В ответе не совпадает второй байт маршрута");
-								return response.SetError("В ответе не совпадает второй байт маршрута");
-							}
+							response.Bytes.RemoveRange(0, 1);
 						}
-					}
-					else
-					{
-						var usbRoot = response.Bytes[0];
-						response.Bytes.RemoveRange(0, 1);
-					}
 
-					if (response.Bytes.Count < 1)
-					{
-						if (throwException)
-							throw new FS2USBException("Недостаточное количество байт в ответе");
-						return response.SetError("Недостаточное количество байт в ответе");
-					}
-					var functionCode = response.Bytes[0];
-					response.FunctionCode = functionCode;
-					if ((functionCode & 128) == 128)
-					{
-						var errorName = "В ответе содержится код ошибки";
-						if (response.Bytes.Count >= 2)
+						if (response.Bytes.Count < 1)
 						{
-							errorName = USBExceptionHelper.GetError(response.Bytes[1]);
+							if (throwException)
+								throw new FS2USBException("Недостаточное количество байт в ответе");
+							return response.SetError("Недостаточное количество байт в ответе");
 						}
-						if (throwException)
-							throw new FS2USBException(errorName);
-						return response.SetError(errorName);
-					}
-					if ((functionCode & 64) != 64)
-					{
-						if (throwException)
-							throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
-						return response.SetError("В пришедшем ответе не содержится маркер ответа");
-					}
+						var functionCode = response.Bytes[0];
+						response.FunctionCode = functionCode;
+						if ((functionCode & 128) == 128)
+						{
+							var errorName = "В ответе содержится код ошибки";
+							if (response.Bytes.Count >= 2)
+							{
+								errorName = USBExceptionHelper.GetError(response.Bytes[1]);
+							}
+							if (throwException)
+								throw new FS2USBException(errorName);
+							return response.SetError(errorName);
+						}
+						if ((functionCode & 64) != 64)
+						{
+							if (throwException)
+								throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
+							return response.SetError("В пришедшем ответе не содержится маркер ответа");
+						}
 
-					if ((functionCode & 63) != outputFunctionCode)
-					{
-						if (throwException)
-							throw new FS2USBException("В пришедшем ответе не совпадает код функции");
-						return response.SetError("В пришедшем ответе не совпадает код функции");
-					}
+						if ((functionCode & 63) != outputFunctionCode)
+						{
+							if (throwException)
+								throw new FS2USBException("В пришедшем ответе не совпадает код функции");
+							return response.SetError("В пришедшем ответе не совпадает код функции");
+						}
 
-					response.Bytes.RemoveRange(0, 1);
-					return response;
+						response.Bytes.RemoveRange(0, 1);
+						return response;
+					}
+					if (throwException)
+						throw new FS2USBException("Не получен ответ в заданное время");
+					return new Response("Не получен ответ в заданное время");
 				}
-				if (throwException)
-					throw new FS2USBException("Не получен ответ в заданное время");
-				return new Response("Не получен ответ в заданное время");
-			}
-			else
-			{
-				Initialize();
-				if (throwException)
-					throw new FS2USBException("USB устройство отсутствует");
-				return new Response("USB устройство отсутствует");
+				else
+				{
+					//Initialize();
+					if (throwException)
+						throw new FS2USBException("USB устройство отсутствует");
+					return new Response("USB устройство отсутствует");
+				}
 			}
 		}
 
 		public static void SendAsync(Device device, Request request)
 		{
-			var usbHid = GetUsbUsbHid(device);
-			if (usbHid != null)
+			lock (Locker)
 			{
-				var bytes = request.Bytes.ToList();
-				var rootBytes = CreateRootBytes(device, usbHid.UseId);
-				bytes.InsertRange(0, rootBytes);
-				var requestNo = NextRequestNo;
-				if (usbHid.UseId)
+				var usbHid = GetUsbUsbHid(device);
+				if (usbHid != null)
 				{
-					request.Id = requestNo;
+					var bytes = request.Bytes.ToList();
+					var rootBytes = CreateRootBytes(device, usbHid.UseId);
+					bytes.InsertRange(0, rootBytes);
+					var requestNo = NextRequestNo;
+					if (usbHid.UseId)
+					{
+						request.Id = requestNo;
+					}
+					else
+					{
+						request.Id = 0;
+					}
+					request.RootBytes = rootBytes;
+					usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
 				}
 				else
 				{
-					request.Id = 0;
+					request.Id = -1;
 				}
-				request.RootBytes = rootBytes;
-				usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
-			}
-			else
-			{
-				request.Id = -1;
 			}
 		}
 
@@ -225,21 +243,52 @@ namespace ServerFS2
 
 		public static void Initialize()
 		{
-			Dispose();
-			UsbHidInfos = USBDetectorHelper.Detect();
-			foreach (var usbHidInfo in UsbHidInfos)
+			lock (Locker)
 			{
-				usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
-				usbHidInfo.UsbHid.NewResponse += new Action<Response>((response) =>
+				Dispose();
+				UsbHidInfos = USBDetectorHelper.Detect();
+				foreach (var usbHidInfo in UsbHidInfos)
 				{
-					Trace.WriteLine("usbProcessorInfo.UsbProcessor.NewResponse " + usbHidInfo.UsbHid.No);
-					if (usbHidInfo.USBDevice.Driver.DriverType == DriverType.MS_1)
-					{
-						Trace.WriteLine("DriverType.MS_1");
-					}
+					usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
+					usbHidInfo.UsbHid.NewResponse += new Action<UsbHidBase, Response>(OnNewResponse);
+				}
+			}
+		}
+
+		public static void ReInitialize(Device usbDevice)
+		{
+			lock (Locker)
+			{
+				var removingUsbHidInfo = UsbHidInfos.FirstOrDefault(x => x.USBDevice == usbDevice);
+				if (removingUsbHidInfo != null)
+				{
+					removingUsbHidInfo.UsbHid.Dispose();
+					UsbHidInfos.Remove(removingUsbHidInfo);
+				}
+				var newUsbHidInfos = USBDetectorHelper.Detect();
+				foreach (var usbHidInfo in newUsbHidInfos)
+				{
+					usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
+					usbHidInfo.UsbHid.NewResponse += new Action<UsbHidBase, Response>(OnNewResponse);
+				}
+				UsbHidInfos.AddRange(newUsbHidInfos);
+			}
+		}
+
+		static void OnNewResponse(UsbHidBase usbHidBase, Response response)
+		{
+			try
+			{
+				var usbHidInfo = UsbHidInfos.FirstOrDefault(x => x.UsbHid != null && x.UsbHid == usbHidBase);
+				if (usbHidInfo != null)
+				{
 					if (NewResponse != null)
 						NewResponse(usbHidInfo.USBDevice, response);
-				});
+				}
+			}
+			catch (Exception e)
+			{
+				;
 			}
 		}
 

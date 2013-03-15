@@ -8,6 +8,7 @@ using ServerFS2.Journal;
 using ServerFS2.Service;
 using System.Diagnostics;
 using ServerFS2.Operations;
+using System.Text;
 
 namespace ServerFS2.Monitoring
 {
@@ -16,6 +17,7 @@ namespace ServerFS2.Monitoring
 		int SequentUnAnswered = 0;
 		int AnsweredCount;
 		int UnAnsweredCount;
+		string SerialNo;
 
 		void CheckConnectionLost()
 		{
@@ -55,15 +57,7 @@ namespace ServerFS2.Monitoring
 		{
 			if (IsConnectionLost)
 			{
-				//var serialNo = PanelDevice.Properties.FirstOrDefault(x => x.Name == "SerialNo").Value;
-				//GetInformationOperationHelper.GetDeviceInformation(PanelDevice);
-				//if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "SerialNo").Value == null)
-				//    return;
-				//if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "serialNo").Value != serialNo)
-				//{
-				//    OnWrongPanel();
-				//    return;
-				//}
+				CheckWrongPanel();
 
 				if (!IsInitialized)
 				{
@@ -86,30 +80,52 @@ namespace ServerFS2.Monitoring
 				ConnectionChanged();
 		}
 
-		void OnWrongPanel()
+		void CheckWrongPanel()
 		{
-			var deviceStatesManager = new DeviceStatesManager();
-			var deviceStates = new List<DeviceState>();
-			var panelState = PanelDevice.Driver.States.FirstOrDefault(y => y.Name == "Несоответствие версий БД с панелью");
-			PanelDevice.DeviceState.IsWrongPanel = true;
-			deviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-			foreach (var device in PanelDevice.GetRealChildren())
+			var serialNo = GetSerialNo();
+			if (SerialNo == null)
 			{
-				if (!device.DeviceState.ParentStates.Any(x => x.DriverState.Id == panelState.Id))
-				{
-					var parentDeviceState = new ParentDeviceState()
-					{
-						ParentDeviceUID = device.ParentPanel.UID,
-						DriverState = panelState
-					};
-					device.DeviceState.ParentStates.Add(parentDeviceState);
-				}
-
-				device.DeviceState.IsWrongPanel = true;
-				deviceStates.Add(device.DeviceState);
+				SerialNo = serialNo;
 			}
-			CallbackManager.DeviceStateChanged(deviceStates);
-			OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью"));
+			else
+			{
+				if (serialNo != SerialNo)
+				{
+					if (!PanelDevice.DeviceState.IsDBMissmatch)
+					{
+						PanelDevice.DeviceState.IsDBMissmatch = true;
+						DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
+						OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью"));
+						return;
+					}
+				}
+				else
+				{
+					if (PanelDevice.DeviceState.IsDBMissmatch)
+					{
+						PanelDevice.DeviceState.IsDBMissmatch = false;
+						DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
+						OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью устранено"));
+						return;
+					}
+				}
+			}
+		}
+
+		string GetSerialNo()
+		{
+			var response = USBManager.Send(PanelDevice, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
+			if (!response.HasError)
+			{
+				var result = new string(Encoding.Default.GetChars(response.Bytes.ToArray()));
+				return result;
+			}
+			return null;
+		}
+
+		void CheckDBMissmatch()
+		{
+
 		}
 	}
 }

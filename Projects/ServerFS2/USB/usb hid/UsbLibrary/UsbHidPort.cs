@@ -125,6 +125,7 @@ namespace UsbLibrary
 		public SpecifiedDevice SpecifiedDevice
 		{
 			get { return this.specified_device; }
+			set { this.specified_device = value; }
 		}
 
 		/// <summary>
@@ -197,6 +198,41 @@ namespace UsbLibrary
 						}
 						break;
 				}
+			}
+		}
+
+		public void SetSpecifiedDevice(SpecifiedDevice specifiedDevice)
+		{
+			try
+			{
+				//Mind if the specified device existed before.
+				bool history = false;
+				if (specified_device != null)
+				{
+					history = true;
+				}
+
+				specified_device = specifiedDevice;
+				if (specified_device != null)	// did we find it?
+				{
+					if (OnSpecifiedDeviceArrived != null)
+					{
+						this.OnSpecifiedDeviceArrived(this, new EventArgs());
+						specified_device.DataRecieved += new DataRecievedEventHandler(OnDataRecieved);
+						specified_device.DataSend += new DataSendEventHandler(OnDataSend);
+					}
+				}
+				else
+				{
+					if (OnSpecifiedDeviceRemoved != null && history)
+					{
+						this.OnSpecifiedDeviceRemoved(this, new EventArgs());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
 			}
 		}
 

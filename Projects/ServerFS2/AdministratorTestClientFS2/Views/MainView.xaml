@@ -87,7 +87,8 @@
         <Button Grid.Row="3" Content="Отмена" Command="{Binding CancelProgressCommand}" Width="100" />
         <DataGrid Grid.Row="4" ItemsSource="{Binding ProgressInfos}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Stage" Binding="{Binding Stage}" Width="*" />
+                <DataGridTextColumn Header="CurrentStage" Binding="{Binding CurrentStage}" Width="Auto" />
+                <DataGridTextColumn Header="StageCount" Binding="{Binding StageCount}" Width="Auto" />
                 <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*" />
                 <DataGridTextColumn Header="PercentComplete" Binding="{Binding PercentComplete}" Width="Auto" />
                 <DataGridTextColumn Header="BytesRW" Binding="{Binding BytesRW}" Width="Auto" />

@@ -59,25 +59,26 @@ namespace ServerFS2.Monitoring
 			IsInitialized = DeviceStatesManager.ReadConfigurationAndUpdateStates(PanelDevice);
 			if (!IsInitialized)
 			{
-				IsConnectionLost = true;
 				PanelDevice.DeviceState.IsPanelConnectionLost = true;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
+				CheckDBMissmatch();
 				return false;
 			}
 			else
 			{
-				IsConnectionLost = false;
+				PanelDevice.DeviceState.IsPanelConnectionLost = false;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 			}
 			DeviceStatesManager.UpdatePanelState(PanelDevice);
 			GetInformationOperationHelper.GetDeviceInformation(PanelDevice);
 			DeviceStatesManager.CanNotifyClients = true;
+			SerialNo = GetSerialNo();
 			return true;
 		}
 
-		public void CheckTasks()
+		public void ProcessMonitoring()
 		{
-			if (IsInitialized)
+			if (IsInitialized && !PanelDevice.DeviceState.IsDBMissmatch)
 			{
 				if (IsReadingNeeded)
 				{
@@ -102,7 +103,7 @@ namespace ServerFS2.Monitoring
 			}
 			if (PanelDevice.ParentUSB.UID == PanelDevice.UID)
 			{
-				var response = USBManager.Send(PanelDevice, request.Bytes);
+				var response = USBManager.SendForUSBPanel(PanelDevice, request.Bytes);
 				if (!response.HasError)
 				{
 					OnResponceRecieved(request, response);

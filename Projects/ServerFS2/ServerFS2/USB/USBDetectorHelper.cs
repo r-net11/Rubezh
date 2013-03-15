@@ -77,34 +77,53 @@ namespace ServerFS2
 
 		public static List<UsbHidInfo> FindAllUsbHidInfo()
 		{
-			var usbHidInfos = new List<UsbHidInfo>();
-
-			HIDDevice.AddedDevices = new List<string>();
-			while (true)
+			try
 			{
-				try
+				var usbHidInfos = new List<UsbHidInfo>();
+
+				var usbHidPorts = USBDeviceFinder.FindDevices(0xC251, 0x1303);
+				foreach (var usbHidPort in usbHidPorts)
 				{
 					var usbHid = new UsbHid();
-					var result = usbHid.Open();
-					if (!result)
-						break;
+					usbHid.SetUsbHidPort(usbHidPort);
 					var usbHidInfo = new UsbHidInfo()
 					{
 						UsbHid = usbHid
 					};
 					usbHidInfos.Add(usbHidInfo);
 				}
-				catch (Exception)
-				{
-					break;
-				}
-			}
 
-			foreach (var usbHidInfo in usbHidInfos)
-			{
-				usbHidInfo.Initialize();
+				//HIDDevice.AddedDevices = new List<string>();
+				//while (true)
+				//{
+				//    try
+				//    {
+				//        var usbHid = new UsbHid();
+				//        var result = usbHid.Open();
+				//        if (!result)
+				//            break;
+				//        var usbHidInfo = new UsbHidInfo()
+				//        {
+				//            UsbHid = usbHid
+				//        };
+				//        usbHidInfos.Add(usbHidInfo);
+				//    }
+				//    catch (Exception)
+				//    {
+				//        break;
+				//    }
+				//}
+
+				foreach (var usbHidInfo in usbHidInfos)
+				{
+					usbHidInfo.Initialize();
+				}
+				return usbHidInfos;
 			}
-			return usbHidInfos;
+			catch (Exception e)
+			{
+				return new List<UsbHidInfo>();
+			}
 		}
 
 		static List<Device> GetAllUSBDevices()

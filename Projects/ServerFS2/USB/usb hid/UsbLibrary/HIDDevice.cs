@@ -117,13 +117,20 @@ namespace UsbLibrary
 
 		private void BeginAsyncRead()
 		{
-			if (IsDisposing)
-				return;
-
-			byte[] arrInputReport = new byte[m_nInputReportLength];
-			if (m_oFile != null)
+			try
 			{
-				m_oFile.BeginRead(arrInputReport, 0, m_nInputReportLength, new AsyncCallback(ReadCompleted), arrInputReport);
+				if (IsDisposing)
+					return;
+
+				byte[] arrInputReport = new byte[m_nInputReportLength];
+				if (m_oFile != null)
+				{
+					m_oFile.BeginRead(arrInputReport, 0, m_nInputReportLength, new AsyncCallback(ReadCompleted), arrInputReport);
+				}
+			}
+			catch (Exception e)
+			{
+				;
 			}
 		}
 
@@ -214,6 +221,56 @@ namespace UsbLibrary
 		public static List<string> AddedDevices = new List<string>();
 
 		#region Public static
+
+
+		public static List<HIDDevice> FindAllDevice(int nVid, int nPid, Type oType)
+		{
+			var result = new List<HIDDevice>();
+			var addedDevices = new List<string>();
+
+			string strPath = string.Empty;
+			string strSearch = string.Format("vid_{0:x4}&pid_{1:x4}", nVid, nPid);
+			Guid gHid = HIDGuid;
+			IntPtr hInfoSet = SetupDiGetClassDevs(ref gHid, null, IntPtr.Zero, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);	// this gets a list of all HID devices currently connected to the computer (InfoSet)
+			try
+			{
+				DeviceInterfaceData oInterface = new DeviceInterfaceData();	// build up a device interface data block
+				oInterface.Size = Marshal.SizeOf(oInterface);
+				// Now iterate through the InfoSet memory block assigned within Windows in the call to SetupDiGetClassDevs
+				// to get device details for each device connected
+				int nIndex = 0;
+				while (SetupDiEnumDeviceInterfaces(hInfoSet, 0, ref gHid, (uint)nIndex, ref oInterface))	// this gets the device interface information for a device at index 'nIndex' in the memory block
+				{
+					string strDevicePath = GetDevicePath(hInfoSet, ref oInterface);	// get the device path (see helper method 'GetDevicePath')
+					if (strDevicePath.IndexOf(strSearch) >= 0)	// do a string search, if we find the VID/PID string then we found our device!
+					{
+						if (!addedDevices.Contains(strDevicePath))
+						{
+							addedDevices.Add(strDevicePath);
+							//Trace.WriteLine(strDevicePath);
+
+							HIDDevice oNewDevice = (HIDDevice)Activator.CreateInstance(oType);	// create an instance of the class for this device
+							oNewDevice.Initialise(strDevicePath);	// initialise it with the device path
+							result.Add(oNewDevice);	// and return it
+						}
+					}
+					nIndex++;	// if we get here, we didn't find our device. So move on to the next one.
+				}
+			}
+			catch (Exception ex)
+			{
+				//throw HIDDeviceException.GenerateError(ex.ToString());
+				//Console.WriteLine(ex.ToString());
+			}
+			finally
+			{
+				// Before we go, we have to free up the InfoSet memory reserved by SetupDiGetClassDevs
+				SetupDiDestroyDeviceInfoList(hInfoSet);
+			}
+			return result;
+		}
+
+
 		/// <summary>
 		/// Finds a device given its PID and VID
 		/// </summary>
@@ -243,7 +300,7 @@ namespace UsbLibrary
 						if (!AddedDevices.Contains(strDevicePath))
 						{
 							AddedDevices.Add(strDevicePath);
-							Trace.WriteLine(strDevicePath);
+							//Trace.WriteLine(strDevicePath);
 
 							HIDDevice oNewDevice = (HIDDevice)Activator.CreateInstance(oType);	// create an instance of the class for this device
 							oNewDevice.Initialise(strDevicePath);	// initialise it with the device path

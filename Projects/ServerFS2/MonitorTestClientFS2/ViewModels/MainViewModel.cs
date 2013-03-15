@@ -81,12 +81,24 @@ namespace MonitorClientFS2
 			Dispatcher.Invoke(new Action(() =>
 			{
 				JournalItems.Insert(0, journalItem);
+				JournalItemsCount++;
 			}));
 		}
 
 		void ShowNewItems(List<FS2JournalItem> journalItems)
 		{
 			journalItems.ForEach(x => ShowNewItem(x));
+		}
+
+		int _journalItemsCount = 0;
+		public int JournalItemsCount
+		{
+			get { return _journalItemsCount; }
+			set
+			{
+				_journalItemsCount = value;
+				OnPropertyChanged("JournalItemsCount");
+			}
 		}
 
 		ObservableCollection<FS2JournalItem> _journalItems;
@@ -173,18 +185,18 @@ namespace MonitorClientFS2
 		public RelayCommand ReadStatesCommand { get; private set; }
 		void OnReadStates()
 		{
-			var result = new HashSet<string>();
-			foreach (var driver in ConfigurationManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.AffectChildren)
-					{
-						if (result.Add(state.Name))
-							Trace.WriteLine(state.Name);
-					}
-				}
-			}
+			//var result = new HashSet<string>();
+			//foreach (var driver in ConfigurationManager.Drivers)
+			//{
+			//    foreach (var state in driver.States)
+			//    {
+			//        if (state.AffectChildren)
+			//        {
+			//            if (result.Add(state.Name))
+			//                Trace.WriteLine(state.Name);
+			//        }
+			//    }
+			//}
 		}
 	}
 }

@@ -351,11 +351,20 @@ namespace ServerFS2.Monitoring
 			{
 				RemoveDeviceState(device, "Устройство инициализируется");
 			}
+
+			if (device.DeviceState.IsDBMissmatch)
+			{
+				AddDeviceState(device, "База данных прибора не соответствует базе данных ПК");
+			}
+			else
+			{
+				RemoveDeviceState(device, "База данных прибора не соответствует базе данных ПК");
+			}
 		}
 
 		void AddDeviceState(Device device, string stateName)
 		{
-			var state = device.Driver.States.FirstOrDefault(y => y.Name == stateName);
+			var state = device.Driver.States.FirstOrDefault(x => x.Name == stateName);
 			if (state != null)
 			{
 				var deviceDriverState = new DeviceDriverState
@@ -363,7 +372,8 @@ namespace ServerFS2.Monitoring
 					DriverState = state,
 					Time = DateTime.Now
 				};
-				device.DeviceState.States.Add(deviceDriverState);
+				if (!device.DeviceState.States.Any(x => x.DriverState.Name == stateName))
+					device.DeviceState.States.Add(deviceDriverState);
 			}
 		}
 

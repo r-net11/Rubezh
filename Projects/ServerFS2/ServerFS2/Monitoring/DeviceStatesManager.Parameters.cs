@@ -26,7 +26,7 @@ namespace ServerFS2.Monitoring
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
 					if (data == null || data.Count < 9)
 						return;
-					GetStateWord(device, data);
+					UpdateStateWord(device, data);
 					GetSmokiness(device);
 					GetDustiness(device, data[8]);
 					break;
@@ -34,14 +34,14 @@ namespace ServerFS2.Monitoring
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
 					if (data == null || data.Count < 9)
 						return;
-					GetStateWord(device, data);
+					UpdateStateWord(device, data);
 					GetTemperature(device, data[8]);
 					break;
 				case DriverType.CombinedDetector:
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
 					if (data == null || data.Count < 11)
 						return;
-					GetStateWord(device, data);
+					UpdateStateWord(device, data);
 					GetSmokiness(device);
 					GetDustiness(device, data[9]);
 					GetTemperature(device, data[10]);
@@ -50,10 +50,10 @@ namespace ServerFS2.Monitoring
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
 					if (data == null || data.Count < 2)
 						return;
-					GetStateWord(device, data);
+					UpdateStateWord(device, data);
 					break;
 			}
-			GetStateWord(device, data);
+			UpdateStateWord(device, data);
 			if (hasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
@@ -157,8 +157,31 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void GetStateWord(Device device, List<byte> data)
+		public void SetParameter(Device device, float byteValue, string name)
 		{
+			var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Caption == name);
+			if (parameter == null)
+			{
+				var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Caption == name);
+				device.DeviceState.Parameters.Add(driverParameter);
+				parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Caption == name);
+			}
+
+			if (parameter == null)
+			{
+				throw(new Exception("DeviceStatesManager.ChangeParameter parameter == null"));
+			}
+
+			if (parameter.Value != byteValue.ToString())
+			{
+				parameter.Value = byteValue.ToString();
+				hasChanges = true;
+			}
+		}
+
+		void UpdateStateWord(Device device, List<byte> data)
+		{
+			return;
 			var states = new List<DeviceDriverState>();
 			var stateWordBytesArray = data.GetRange(0, 2).ToArray();
 
@@ -179,28 +202,6 @@ namespace ServerFS2.Monitoring
 			if (SetNewDeviceStates(device, states))
 			{
 				ForseUpdateDeviceStates(device);
-			}
-		}
-
-		public void SetParameter(Device device, float byteValue, string name)
-		{
-			var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Caption == name);
-			if (parameter == null)
-			{
-				var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Caption == name);
-				device.DeviceState.Parameters.Add(driverParameter);
-				parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Caption == name);
-			}
-
-			if (parameter == null)
-			{
-				throw(new Exception("DeviceStatesManager.ChangeParameter parameter == null"));
-			}
-
-			if (parameter.Value != byteValue.ToString())
-			{
-				parameter.Value = byteValue.ToString();
-				hasChanges = true;
 			}
 		}
 	}  

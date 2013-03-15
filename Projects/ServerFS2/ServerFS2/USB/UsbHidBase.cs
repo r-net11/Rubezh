@@ -7,6 +7,9 @@ namespace ServerFS2
 {
 	public abstract class UsbHidBase
 	{
+				protected static int NextNo = 0;
+		public int No { get; protected set; }
+
 		protected readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		protected readonly AutoResetEvent AutoWaitEvent = new AutoResetEvent(false);
 		protected List<Response> Responses = new List<Response>();
@@ -20,11 +23,11 @@ namespace ServerFS2
 		public abstract bool Send(List<byte> data);
 		public abstract Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15);
 
-		public event Action<Response> NewResponse;
+		public event Action<UsbHidBase, Response> NewResponse;
 		protected void OnNewResponse(Response response)
 		{
 			if (NewResponse != null)
-				NewResponse(response);
+				NewResponse(this, response);
 		}
 
 		protected List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
