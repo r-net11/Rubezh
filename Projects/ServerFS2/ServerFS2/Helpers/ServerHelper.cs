@@ -492,12 +492,10 @@ namespace ServerFS2
                         if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
                         {
                             clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-                            clause.Zones.Add(zones.FirstOrDefault(x => x.No == zone.No));
                             continue;
                         }
 
                         clause.ZoneUIDs.Add(zone.UID);
-                        clause.Zones.Add(zone);
                         zones.Add(zone);
                         var zonePanelItem = new ZonePanelItem();
                         zonePanelItem.IsRemote = true;

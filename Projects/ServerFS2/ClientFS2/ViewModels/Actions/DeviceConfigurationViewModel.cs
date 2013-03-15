@@ -244,7 +244,7 @@ namespace ClientFS2.ViewModels
 
             if ((device.ZonesInLogic != null) && (device.ZonesInLogic.Count > 0))
             {
-                List<Zone> tempZonesInLogic = new List<Zone>();
+                var newZonesInLogic = new List<Zone>();
                 foreach (var zoneInLogic in device.ZonesInLogic)
                 {
                     if (!FiresecManager.Zones.Any(x => (x.No == zoneInLogic.No)))
@@ -252,15 +252,24 @@ namespace ClientFS2.ViewModels
                         FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
                         ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
                     }
-                    tempZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => x.No == zoneInLogic.No));
+                    else
+                    {
+                        newZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => (x.No == zoneInLogic.No)));
+                    }
                 }
-                device.ZonesInLogic = tempZonesInLogic;
-                device.ZoneLogic.Clauses[0].Zones = tempZonesInLogic;
-                device.ZoneLogic.Clauses[0].ZoneUIDs = new List<Guid>();
-                foreach (var tempZoneInLogic in tempZonesInLogic)
+                device.ZonesInLogic = newZonesInLogic;
+
+                foreach (var clause in device.ZoneLogic.Clauses)
                 {
-                    device.ZoneLogic.Clauses[0].ZoneUIDs.Add(tempZoneInLogic.UID);
+                    clause.ZoneUIDs = new List<Guid>();
+                    foreach (var zone in clause.Zones)
+                    {
+                        var newZone = device.ZonesInLogic.FirstOrDefault(x => x.No == zone.No);
+                        zone.UID = newZone.UID;
+                        clause.ZoneUIDs.Add(newZone.UID);
+                    }
                 }
+
             }
 
             if (device.Children != null)
