@@ -12,6 +12,7 @@ namespace ClientFS2.ViewModels
             CancelText = "Отменить";
             CloseOnEscape = false;
             AllowClose = false;
+            ServerHelper.Initialize();
             ServerHelper.Progress -= Progress;
             ServerHelper.Progress += Progress;
         }

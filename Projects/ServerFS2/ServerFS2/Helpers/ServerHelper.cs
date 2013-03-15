@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using ClientFS2.ConfigurationWriter;
 using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2.Helpers;
@@ -26,6 +27,7 @@ namespace ServerFS2
 			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
 			UsbRunner = new UsbRunner();
 			UsbRunner.Open();
+            ZonePanelRelationsInfo.Initialize();
 		}
 
 		public static void Initialize()
@@ -483,14 +485,26 @@ namespace ServerFS2
                                            DeviceRom[pointer + 40 + zoneNo * 3] * 256 + DeviceRom[pointer + 41 + zoneNo * 3] - 0x100;
                         // ... здесь инициализируются все зоны учавствующие в логике ... //
                         var zone = new Zone();
-                        zone.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5] + 1;
+                        zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
                         zone.Name = new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
-                        child.ZonesInLogic.Add(zone); // добавляем зону к этому ИУ
                         zone.DevicesInZoneLogic.Add(child);
+                        tableDynamicSize += 3;
+                        if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+                        {
+                            clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+                            clause.Zones.Add(zones.FirstOrDefault(x => x.No == zone.No));
+                            continue;
+                        }
+
                         clause.ZoneUIDs.Add(zone.UID);
                         clause.Zones.Add(zone);
-                        tableDynamicSize += 3;
                         zones.Add(zone);
+                        var zonePanelItem = new ZonePanelItem();
+                        zonePanelItem.IsRemote = true;
+                        zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5]; // локальный номер зоны
+                        zonePanelItem.PanelDevice = device;
+                        zonePanelItem.Zone = zone;
+                        ZonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
                         remoteDeviceConfiguration.Zones.Add(zone);
                     }
                     child.ZoneLogic.Clauses.Add(clause);
@@ -509,7 +523,7 @@ namespace ServerFS2
                 {
                     var zone = new Zone();
                     // 0,1,2,3 - Внутренние параметры (снят с охраны/ на охране, неисправность, пожар, ...)
-                    zone.No = DeviceRom[pointer + 4] * 256 + DeviceRom[pointer + 5] + 1;
+                    zone.No = DeviceRom[pointer + 33] * 256 + DeviceRom[pointer + 34]; // Глобальный номер зоны
                     if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то пропускаем её
                         continue;
                     zone.Name = new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
@@ -542,7 +556,6 @@ namespace ServerFS2
                         //    int intAddress = DeviceRom[localPointer - 0x100 + 1] +
                         //                     (DeviceRom[localPointer - 0x100 + 2] + 1) * 256;
                         //    child = device.Children.FirstOrDefault(x => x.IntAddress == intAddress);
-                        //    child.ZonesInLogic.Add(zone); // добавляем зону к этому ИУ
                         //    zone.DevicesInZoneLogic.Add(child);
                         //    child.ZoneLogic = new ZoneLogic();
                         //    child.ZoneLogic.Clauses = new List<Clause>();
@@ -569,6 +582,13 @@ namespace ServerFS2
                     var outPanelCount = DeviceRom[pointer + 48 + sleifCount*4]; // Количество внешних приборов, ИУ которого могут управляться нашими ИП по логике "межприборное И" или 0 (1)
                     tableDynamicSize += outPanelCount; // не умнажаем на 3, т.к. адрес прибора записывается в 1 байт
                     pointer = pointer + 48 + sleifCount*4 + tableDynamicSize + 1;
+                    
+                    var zonePanelItem = new ZonePanelItem();
+                    zonePanelItem.IsRemote = true;
+                    zonePanelItem.No = DeviceRom[pointer + 4] * 256 + DeviceRom[pointer + 5]; // локальный номер зоны
+                    zonePanelItem.PanelDevice = device;
+                    zonePanelItem.Zone = zone;
+                    ZonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
                     zones.Add(zone);
                     remoteDeviceConfiguration.Zones.Add(zone);
                 }
@@ -584,10 +604,15 @@ namespace ServerFS2
 				child.DriverUID = new Guid("1e045ad6-66f9-4f0b-901c-68c46c89e8da");
 				child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
                 child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                int zoneNo = DeviceRom[pointer + 5]*256 + DeviceRom[pointer + 6] + 1;
-                if(zoneNo !=0)
-                    child.Zone = zones.FirstOrDefault(x => x.No == zoneNo);
-				device.Children.Add(child);
+                int zoneNo = DeviceRom[pointer + 5]*256 + DeviceRom[pointer + 6];
+                if (zoneNo != 0)
+                {
+                    child.Zone =
+                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                            x => (x.No == zoneNo) && x.IsRemote).Zone;
+                    child.ZoneUID = child.Zone.UID;
+                }
+                device.Children.Add(child);
 			}
             if ((pointer = DeviceRam[30] * 256 * 256 + DeviceRam[31] * 256 + DeviceRam[32]) != 0)  // ИП-29
 			{
@@ -596,9 +621,14 @@ namespace ServerFS2
 				child.DriverUID = new Guid("799686b6-9cfa-4848-a0e7-b33149ab940c");
 				child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
                 child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6] + 1;
+                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
                 if (zoneNo != 0)
-                    child.Zone = zones.FirstOrDefault(x => x.No == zoneNo);
+                {
+                    child.Zone =
+                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                            x => (x.No == zoneNo) && x.IsRemote).Zone;
+                    child.ZoneUID = child.Zone.UID;
+                }
 				device.Children.Add(child);
 			}
             if ((pointer = DeviceRam[36] * 256 * 256 + DeviceRam[37] * 256 + DeviceRam[38]) != 0)  // ИП-64К
@@ -608,9 +638,14 @@ namespace ServerFS2
 				child.DriverUID = new Guid("37f13667-bc77-4742-829b-1c43fa404c1f");
 				child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
                 child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6] + 1;
+                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
                 if (zoneNo != 0)
-                    child.Zone = zones.FirstOrDefault(x => x.No == zoneNo);
+                {
+                    child.Zone =
+                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                            x => (x.No == zoneNo) && x.IsRemote).Zone;
+                    child.ZoneUID = child.Zone.UID;
+                }
 				device.Children.Add(child);
 			}
             if ((pointer = DeviceRam[42] * 256 * 256 + DeviceRam[43] * 256 + DeviceRam[44]) != 0)  // АМ-1
@@ -620,9 +655,14 @@ namespace ServerFS2
 				child.DriverUID = new Guid("dba24d99-b7e1-40f3-a7f7-8a47d4433392");
 				child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
                 child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6] + 1;
+                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
                 if (zoneNo != 0)
-                    child.Zone = zones.FirstOrDefault(x => x.No == zoneNo);
+                {
+                    child.Zone =
+                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                            x => (x.No == zoneNo) && x.IsRemote).Zone;
+                    child.ZoneUID = child.Zone.UID;
+                }
 				device.Children.Add(child);
 			}
             if ((pointer = DeviceRam[48] * 256 * 256 + DeviceRam[49] * 256 + DeviceRam[50]) != 0)  // РПИ
@@ -632,9 +672,14 @@ namespace ServerFS2
 				child.DriverUID = new Guid("641fa899-faa0-455b-b626-646e5fbe785a");
 				child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
                 child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6] + 1;
+                int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
                 if (zoneNo != 0)
-                    child.Zone = zones.FirstOrDefault(x => x.No == zoneNo);
+                {
+                    child.Zone =
+                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                            x => (x.No == zoneNo) && x.IsRemote).Zone;
+                    child.ZoneUID = child.Zone.UID;
+                }
 				device.Children.Add(child);
 			}
             if ((pointer = DeviceRam[54] * 256 * 256 + DeviceRam[55] * 256 + DeviceRam[56]) != 0)
@@ -745,7 +790,7 @@ namespace ServerFS2
                 result.AddRange(request);
 			}
 
-			#endregion Читаем все кроме последнего блока
+			#endregion
 
 			#region Читаем последний блок
 
@@ -759,7 +804,7 @@ namespace ServerFS2
             request = SendCode(bytes).Result.FirstOrDefault().Data;
             request.RemoveRange(0, 7); // удаляем служебные символы
             result.AddRange(request);
-
+            #endregion
             DeviceRam = new List<byte>(result);
 		}
 

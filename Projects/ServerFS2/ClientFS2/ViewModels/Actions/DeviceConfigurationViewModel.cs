@@ -202,7 +202,6 @@ namespace ClientFS2.ViewModels
         public RelayCommand ReplaceCommand { get; private set; }
         void OnReplace()
         {
-
             LocalRootDevice.Children = new List<Device>();
             LocalRootDevice.Children = RemoteRootDevice.Children;
 

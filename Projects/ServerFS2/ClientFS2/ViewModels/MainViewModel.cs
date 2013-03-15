@@ -12,6 +12,7 @@ namespace ClientFS2.ViewModels
 	public class MainViewModel : BaseViewModel
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
+        public ZonesViewModel ZonesViewModel { get; private set; }
         private readonly ProgressService _progressService = new ProgressService();
 		public MainViewModel()
 		{
@@ -28,6 +29,8 @@ namespace ClientFS2.ViewModels
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			DevicesViewModel = new DevicesViewModel();
+            ZonesViewModel = new ZonesViewModel();
+            ZonesViewModel.Initialize();
             new PropertiesViewModel(DevicesViewModel);
 		}
 
