@@ -8,6 +8,11 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class ByteDescription
 	{
+		public ByteDescription()
+		{
+			Children = new List<ByteDescription>();
+		}
+
 		public TableBase TableHeader { get; set; }
 
 		public int Offset { get; set; }
@@ -19,5 +24,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		public ByteDescription AddressReference { get; set; }
 		public TableBase TableBaseReference { get; set; }
+
+		public List<ByteDescription> Children { get; set; }
 	}
 }

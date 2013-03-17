@@ -4,7 +4,7 @@
         xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
         xmlns:Views="clr-namespace:ClientFS2.Views" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters1="clr-namespace:ClientFS2.Converters" WindowStartupLocation="CenterScreen"
         Title="Администратор Firesec-2"
-        Height="800" Width="800">
+        Height="800" Width="1000">
 
     <Window.Resources>
         <Converters:NullToVisibilityConverter x:Key="NullObjectToVisibiltyConverter"/>

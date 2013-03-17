@@ -23,6 +23,8 @@ namespace ClientFS2.ConfigurationWriter
 		public List<EffectorDeviceTable> RemoteDeviceTables = new List<EffectorDeviceTable>();
 		public List<TableBase> DirectionsTables = new List<TableBase>();
 
+		public List<ByteDescription> RootBytes { get; set; }
+
 		public PanelDatabase2(Device parentPanel)
 		{
 			ParentPanel = parentPanel;
@@ -58,6 +60,71 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.Order();
 			BytesDatabase.ResolveTableReferences();
 			BytesDatabase.ResolverReferences();
+
+			CreateRootBytes();
+		}
+
+		void CreateRootBytes()
+		{
+			RootBytes = new List<ByteDescription>();
+
+			var remoteZonesByteDescription = new ByteDescription()
+			{
+				Description = "Внешние Зоны"
+			};
+			RootBytes.Add(remoteZonesByteDescription);
+			foreach (var table in RemoteZonesTableGroup.Tables)
+			{
+				var zoneByteDescription = new ByteDescription()
+				{
+					Description = table.BytesDatabase.Name
+				};
+				remoteZonesByteDescription.Children.Add(zoneByteDescription);
+				foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
+				{
+					zoneByteDescription.Children.Add(byteDescription);
+				}
+			}
+
+			var localZonesByteDescription = new ByteDescription()
+			{
+				Description = "Локальные Зоны"
+			};
+			RootBytes.Add(localZonesByteDescription);
+			foreach (var table in LocalZonesTableGroup.Tables)
+			{
+				var zoneByteDescription = new ByteDescription()
+				{
+					Description = table.BytesDatabase.Name
+				};
+				localZonesByteDescription.Children.Add(zoneByteDescription);
+				foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
+				{
+					zoneByteDescription.Children.Add(byteDescription);
+				}
+			}
+
+			foreach (var tableGroup in TableGroups)
+			{
+				var deviceGroupByteDescription = new ByteDescription()
+				{
+					Description = tableGroup.Name
+				};
+				RootBytes.Add(deviceGroupByteDescription);
+
+				foreach (var table in tableGroup.Tables)
+				{
+					var deviceByteDescription = new ByteDescription()
+					{
+						Description = table.BytesDatabase.Name
+					};
+					deviceGroupByteDescription.Children.Add(deviceByteDescription);
+					foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
+					{
+						deviceByteDescription.Children.Add(byteDescription);
+					}
+				}
+			}
 		}
 
 		void CreateZones()
@@ -83,27 +150,6 @@ namespace ClientFS2.ConfigurationWriter
 				Tables.Add(zoneTable);
 				LocalZoneTables.Add(zoneTable);
 				LocalZonesTableGroup.Tables.Add(zoneTable);
-			}
-		}
-
-		void CreateRemoteDevices()
-		{
-			var tableGroup = new TableGroup()
-			{
-				Name = "Указатель на таблицу Внешних ИУ"
-			};
-			TableGroups.Add(tableGroup);
-
-			foreach (var binaryRemoteDevice in BinaryPanel.BinaryRemoteDevices)
-			{
-				var table = RemoteDeviceTables.FirstOrDefault(x => x.UID == binaryRemoteDevice.Device.UID);
-				if (table == null)
-				{
-					table = new EffectorDeviceTable(this, binaryRemoteDevice, true);
-					Tables.Add(table);
-					tableGroup.Tables.Add(table);
-					RemoteDeviceTables.Add(table);
-				}
 			}
 		}
 
@@ -148,6 +194,27 @@ namespace ClientFS2.ConfigurationWriter
 			var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
 			CreateLocalDevices_Miliseconds += deltaMiliseconds;
 			Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
+		}
+
+		void CreateRemoteDevices()
+		{
+			var tableGroup = new TableGroup()
+			{
+				Name = "Указатель на таблицу Внешних ИУ"
+			};
+			TableGroups.Add(tableGroup);
+
+			foreach (var binaryRemoteDevice in BinaryPanel.BinaryRemoteDevices)
+			{
+				var table = RemoteDeviceTables.FirstOrDefault(x => x.UID == binaryRemoteDevice.Device.UID);
+				if (table == null)
+				{
+					table = new EffectorDeviceTable(this, binaryRemoteDevice, true);
+					Tables.Add(table);
+					tableGroup.Tables.Add(table);
+					RemoteDeviceTables.Add(table);
+				}
+			}
 		}
 
 		void CreateDirections()
