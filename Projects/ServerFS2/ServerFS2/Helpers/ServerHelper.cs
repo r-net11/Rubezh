@@ -27,7 +27,6 @@ namespace ServerFS2
 			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
 			UsbRunner = new UsbRunner();
 			UsbRunner.Open();
-            ZonePanelRelationsInfo.Initialize();
 		}
 
 		public static void Initialize()
@@ -395,6 +394,7 @@ namespace ServerFS2
             int pPointer;
 			Device child;
             int sleifCount = device.Driver.ShleifCount;
+            var zonePanelRelationsInfo = new ZonePanelRelationsInfo();
 
             #region Хидеры таблиц на исполнительные устройства
             if ((pointer = DeviceRam[18] * 256 * 256 + DeviceRam[19] * 256 + DeviceRam[20]) != 0) // МПТ
@@ -487,6 +487,7 @@ namespace ServerFS2
                         var zone = new Zone();
                         zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
                         zone.Name = new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
+                        zone.Name.Replace(" ", "");
                         zone.DevicesInZoneLogic.Add(child);
                         tableDynamicSize += 3;
                         if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
@@ -502,7 +503,7 @@ namespace ServerFS2
                         zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5]; // локальный номер зоны
                         zonePanelItem.PanelDevice = device;
                         zonePanelItem.Zone = zone;
-                        ZonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+                        zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
                         remoteDeviceConfiguration.Zones.Add(zone);
                     }
                     child.ZoneLogic.Clauses.Add(clause);
@@ -525,6 +526,7 @@ namespace ServerFS2
                     if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то пропускаем её
                         continue;
                     zone.Name = new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+                    zone.Name.Replace(" ", "");
                     // Длина записи (2) pointer + 26
                     // Длина нижеследующих параметров (1) pointer + 28
                     // Конфин (1) (0-пожараная, 1-охранная, 2-комбирированная, 3-технологическая) pointer + 29
@@ -586,7 +588,7 @@ namespace ServerFS2
                     zonePanelItem.No = DeviceRom[pointer + 4] * 256 + DeviceRom[pointer + 5]; // локальный номер зоны
                     zonePanelItem.PanelDevice = device;
                     zonePanelItem.Zone = zone;
-                    ZonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+                    zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
                     zones.Add(zone);
                     remoteDeviceConfiguration.Zones.Add(zone);
                 }
@@ -606,8 +608,8 @@ namespace ServerFS2
                 if (zoneNo != 0)
                 {
                     child.Zone =
-                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
-                            x => (x.No == zoneNo) && x.IsRemote).Zone;
+                        zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                            x => (x.No == zoneNo) && x.IsRemote && x.PanelDevice == device).Zone;
                     child.ZoneUID = child.Zone.UID;
                 }
                 device.Children.Add(child);
@@ -623,7 +625,7 @@ namespace ServerFS2
                 if (zoneNo != 0)
                 {
                     child.Zone =
-                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                        zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
                             x => (x.No == zoneNo) && x.IsRemote).Zone;
                     child.ZoneUID = child.Zone.UID;
                 }
@@ -640,7 +642,7 @@ namespace ServerFS2
                 if (zoneNo != 0)
                 {
                     child.Zone =
-                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                        zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
                             x => (x.No == zoneNo) && x.IsRemote).Zone;
                     child.ZoneUID = child.Zone.UID;
                 }
@@ -657,7 +659,7 @@ namespace ServerFS2
                 if (zoneNo != 0)
                 {
                     child.Zone =
-                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                        zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
                             x => (x.No == zoneNo) && x.IsRemote).Zone;
                     child.ZoneUID = child.Zone.UID;
                 }
@@ -674,7 +676,7 @@ namespace ServerFS2
                 if (zoneNo != 0)
                 {
                     child.Zone =
-                        ZonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                        zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
                             x => (x.No == zoneNo) && x.IsRemote).Zone;
                     child.ZoneUID = child.Zone.UID;
                 }
