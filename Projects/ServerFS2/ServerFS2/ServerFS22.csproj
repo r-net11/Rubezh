@@ -68,6 +68,7 @@
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
+    <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Models\JournalItem.cs" />
     <Compile Include="JournalParser.cs" />
     <Compile Include="Helpers\MetadataHelper.cs" />

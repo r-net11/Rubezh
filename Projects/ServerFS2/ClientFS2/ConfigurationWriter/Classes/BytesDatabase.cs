@@ -8,14 +8,16 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class BytesDatabase
 	{
-		public BytesDatabase()
+		public BytesDatabase(string name = null)
 		{
+			Name = name;
 			ByteDescriptions = new List<ByteDescription>();
-			LastIsBold = !LastIsBold;
-			IsBold = LastIsBold;
 		}
 
+		public string Name { get; set; }
 		public List<ByteDescription> ByteDescriptions { get; set; }
+		public bool IsBold { get; set; }
+		static bool LastIsBold;
 
 		public ByteDescription AddShort(short value, string description = null)
 		{
@@ -37,9 +39,9 @@ namespace ClientFS2.ConfigurationWriter
 			return AddBytes(new List<byte>() { value }, description);
 		}
 
-		public void AddString(string value, string description = null)
+		public void AddString(string value, string description = null, int lenght = 20)
 		{
-			var bytes = BytesHelper.StringToBytes(value);
+			var bytes = BytesHelper.StringToBytes(value, lenght);
 			AddBytes(bytes, description);
 		}
 
@@ -47,6 +49,13 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			var byteDescriptions = AddBytes(new List<byte>() { 0, 0, 0 }, description);
 			byteDescriptions.AddressReference = byteDescription;
+		}
+
+		public void AddReference(BytesDatabase bytesDatabase, string description = null)
+		{
+			var byteDescriptions = AddBytes(new List<byte>() { 0, 0, 0 }, description);
+			if (bytesDatabase != null)
+				byteDescriptions.AddressReference = bytesDatabase.ByteDescriptions.FirstOrDefault();
 		}
 
 		public ByteDescription AddBytes(List<byte> bytes, string description = null)
@@ -75,6 +84,14 @@ namespace ClientFS2.ConfigurationWriter
 
 		public void Add(BytesDatabase bytesDatabase)
 		{
+			LastIsBold = !LastIsBold;
+			bytesDatabase.IsBold = LastIsBold;
+
+			foreach (var byteDescription in bytesDatabase.ByteDescriptions)
+			{
+				byteDescription.GroupName = bytesDatabase.Name;
+				byteDescription.IsBold = bytesDatabase.IsBold;
+			}
 			foreach (var byteDescription in bytesDatabase.ByteDescriptions)
 			{
 				ByteDescriptions.Add(byteDescription);
@@ -89,13 +106,13 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		public void ResolverDeviceHeaderReferences()
+		public void ResolveTableReferences()
 		{
 			foreach (var byteDescription in ByteDescriptions)
 			{
 				if (byteDescription.TableBaseReference != null)
 				{
-					byteDescription.AddressReference = ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.UID == byteDescription.TableBaseReference.UID);
+					byteDescription.AddressReference = byteDescription.TableBaseReference.BytesDatabase.ByteDescriptions.FirstOrDefault();
 				}
 			}
 		}
@@ -114,20 +131,13 @@ namespace ClientFS2.ConfigurationWriter
 					ByteDescriptions[i + 0].Value = bit3;
 					ByteDescriptions[i + 1].Value = bit2;
 					ByteDescriptions[i + 2].Value = bit1;
+
+					//var offsetBytes = BitConverter.GetBytes(devicesGroup.Offset);
+					//bytes1[offset + 0] = offsetBytes[1];
+					//bytes1[offset + 1] = offsetBytes[2];
+					//bytes1[offset + 2] = offsetBytes[3];
 				}
 			}
 		}
-
-		public void SetGroupName(string groupName)
-		{
-			foreach (var byteDescription in ByteDescriptions)
-			{
-				byteDescription.GroupName = groupName;
-				byteDescription.IsBold = IsBold;
-			}
-		}
-
-		public bool IsBold { get; set; }
-		static bool LastIsBold;
 	}
 }

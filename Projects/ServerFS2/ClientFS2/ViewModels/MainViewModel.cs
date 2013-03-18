@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
@@ -14,6 +12,7 @@ namespace ClientFS2.ViewModels
 	public class MainViewModel : BaseViewModel
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
+        public ZonesViewModel ZonesViewModel { get; private set; }
         private readonly ProgressService _progressService = new ProgressService();
 		public MainViewModel()
 		{
@@ -30,6 +29,8 @@ namespace ClientFS2.ViewModels
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			DevicesViewModel = new DevicesViewModel();
+            ZonesViewModel = new ZonesViewModel();
+            ZonesViewModel.Initialize();
             new PropertiesViewModel(DevicesViewModel);
 		}
 
@@ -68,7 +69,7 @@ namespace ClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
         private void OnAutoDetectDevice()
         {
-            var autoDetectedDevicesViewModel = new DevicesViewModel(new Device());
+            var autoDetectedDevicesViewModel = new DevicesViewModel(DevicesViewModel.Current.SelectedDevice.Device);
             _progressService.Run(() =>
             {
                 var device = ServerHelper.AutoDetectDevice();
@@ -91,12 +92,19 @@ namespace ClientFS2.ViewModels
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		private void OnReadConfiguration()
 		{
-            var devicesViewModel = new DevicesViewModel(new Device());
+            //var devicesViewModel = new DevicesViewModel();
+            //_progressService.Run(() =>
+            //{
+            //    var device = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
+            //    devicesViewModel = new DevicesViewModel(device);
+            //}, () => DialogService.ShowModalWindow(devicesViewModel), "Считывание конфигурации с устройства");
+		    var remoteDeviceConfiguration = new DeviceConfiguration();
             _progressService.Run(() =>
             {
-                var device = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
-                devicesViewModel = new DevicesViewModel(device);
-            }, () => DialogService.ShowModalWindow(devicesViewModel), "Считывание конфигурации с устройства");
+                remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
+            },
+            () => DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration)), "Считывание конфигурации с устройства");
+                                    
 		}
 		bool CanReadConfiguration()
 		{
@@ -165,9 +173,9 @@ namespace ClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		private void OnWriteConfiguration()
 		{
-			var configurationWriterHelper2 = new ConfigurationWriterHelper2();
-			configurationWriterHelper2.Run();
-			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper2.PanelDatabases);
+			var configurationWriterHelper = new ConfigurationWriterHelper();
+			configurationWriterHelper.Run();
+			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper.PanelDatabases);
 			DialogService.ShowModalWindow(configurationDatabaseViewModel);
 		}
 		bool CanWriteConfiguration()

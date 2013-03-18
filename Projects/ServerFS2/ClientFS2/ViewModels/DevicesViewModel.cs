@@ -1,4 +1,8 @@
-﻿using FiresecAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
@@ -9,9 +13,11 @@ namespace ClientFS2.ViewModels
     {
         private DeviceViewModel _rootDevice;
         private DeviceViewModel _selectedDevice;
+        public static DevicesViewModel Current { get; private set; }
 
         public DevicesViewModel()
         {
+            Current = this;
             GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
             SetParametersCommand = new RelayCommand(OnSetParameters, CanSetParameters);
             BuildTree();
@@ -27,6 +33,48 @@ namespace ClientFS2.ViewModels
                 SelectedDevice = RootDevice;
             }
             OnPropertyChanged("RootDevices");
+        }
+
+        #region DeviceSelection
+        public List<DeviceViewModel> AllDevices;
+
+        public void FillAllDevices()
+        {
+            AllDevices = new List<DeviceViewModel>();
+            AddChildPlainDevices(RootDevice);
+        }
+
+        void AddChildPlainDevices(DeviceViewModel parentViewModel)
+        {
+            AllDevices.Add(parentViewModel);
+            foreach (var childViewModel in parentViewModel.Children)
+                AddChildPlainDevices(childViewModel);
+        }
+
+        public static void UpdateGuardVisibility()
+        {
+            var hasSecurityDevice = FiresecManager.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
+            //ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
+        }
+
+        public void Select(Guid deviceUID)
+        {
+            if (deviceUID != Guid.Empty)
+            {
+                FillAllDevices();
+                var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+                if (deviceViewModel != null)
+                    deviceViewModel.ExpantToThis();
+                SelectedDevice = deviceViewModel;
+            }
+        }
+        #endregion
+
+        public DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+        {
+            var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
+            FillAllDevices();
+            return deviceViewModel;
         }
 
         public DeviceViewModel SelectedDevice
@@ -62,11 +110,13 @@ namespace ClientFS2.ViewModels
         private void BuildTree(Device device)
         {
             RootDevice = AddDeviceInternal(device, null);
+            FillAllDevices();
         }
 
         private void BuildTree()
         {
             RootDevice = AddDeviceInternal(ConfigurationManager.DeviceConfiguration.RootDevice, null);
+            FillAllDevices();
         }
 
         private void OnGetParameters()

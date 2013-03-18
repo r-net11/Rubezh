@@ -28,7 +28,6 @@ namespace FiresecAPI.Models
             device.ZonesInLogic = new List<Zone>();
             device.DependentDevices = new List<Device>();
 
-			var dateTime = DateTime.Now;
             if (device.Driver.IsZoneDevice)
             {
                 if ((device.ZoneUID != Guid.Empty))

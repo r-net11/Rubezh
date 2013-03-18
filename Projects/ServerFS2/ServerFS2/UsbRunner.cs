@@ -211,6 +211,7 @@ namespace ServerFS2
                 _autoResetEvent.WaitOne(delay);
             }
 
+            #region Для зашумленного канала (требует доработки, для многоблочных ответов)
             if (_requests.Count != 0) // Если у нас ещё остались не отвеченные запросы
             {
                 var requests = new List<Request>(_requests);
@@ -225,6 +226,7 @@ namespace ServerFS2
                     }
                 }
             }
+            #endregion
             return new OperationResult<List<Response>> { Result = _responses };
         }
 	}

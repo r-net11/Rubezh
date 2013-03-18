@@ -10,8 +10,13 @@ namespace ClientFS2.ConfigurationWriter
 	{
 		Device Device;
 
-		public SensorDeviceTable(PanelDatabase panelDatabase, Device device)
-			: base(panelDatabase)
+		public override Guid UID
+		{
+			get { return Device.UID; }
+		}
+
+		public SensorDeviceTable(PanelDatabase2 panelDatabase2, Device device)
+			: base(panelDatabase2, device.PresentationAddressAndName)
 		{
 			Device = device;
 		}
@@ -25,7 +30,11 @@ namespace ClientFS2.ConfigurationWriter
 			var zoneNo = 0;
 			if (Device.Zone != null)
 			{
-				zoneNo = ZonePanelRelations.GetLocalZoneNo(Device.Zone, ParentPanel);
+				var binaryZone = PanelDatabase.BinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone == Device.Zone);
+				if (binaryZone != null)
+				{
+					zoneNo = binaryZone.Zone.No;
+				}
 			}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
@@ -68,7 +77,6 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 			}
 			lengtByteDescription.Value = BytesDatabase.ByteDescriptions.Count - 8;
-			BytesDatabase.SetGroupName(Device.PresentationAddressAndName);
 		}
 
 		int Get80ByteCount()
@@ -149,7 +157,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
-				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
 		}
 
@@ -187,7 +195,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-				BytesDatabase.AddReference(null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
 		}
 

@@ -60,24 +60,36 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationWriter\Classes\DevicesGroup.cs" />
+    <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
+    <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
+    <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
+    <Compile Include="ConfigurationWriter\BinaryConfigurationHelper.cs" />
     <Compile Include="ConfigurationWriter\Tables\DirectionTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\EffectorDeviceTable.cs" />
+    <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
+    <Compile Include="Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="ConfigurationWriter\Tables\SensorDeviceTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\RemoteZoneTable.cs" />
+    <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\Classes\ByteDescription.cs" />
     <Compile Include="ConfigurationWriter\Classes\BytesDatabase.cs" />
     <Compile Include="ConfigurationWriter\Helpers\BytesHelper.cs" />
     <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
-    <Compile Include="ConfigurationWriter\ConfigurationWriterHelper2.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
-    <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
-    <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase2.cs" />
     <Compile Include="ConfigurationWriter\Helpers\ZonePanelRelations.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\IsBoldToColorConverter.cs" />
+    <Compile Include="ConfigurationWriter\PanelDatabase1.cs" />
+    <Compile Include="Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\ConfigurationDatabaseViewModel.cs" />
+    <Compile Include="ViewModels\Actions\DeviceConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Actions\DeviceTreeViewModel.cs" />
+    <Compile Include="ViewModels\ClauseViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
@@ -88,6 +100,16 @@
     <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="Views\ConfigurationDatabaseView.xaml.cs">
       <DependentUpon>ConfigurationDatabaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
+    <Compile Include="ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
+    <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
+    <Compile Include="ViewModels\ZoneSelectationViewModel.cs" />
+    <Compile Include="ViewModels\ZonesSelectionViewModel.cs" />
+    <Compile Include="ViewModels\ZonesViewModel.cs" />
+    <Compile Include="ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Views\Actions\DeviceConfigurationView.xaml.cs">
+      <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
@@ -104,7 +126,20 @@
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZonesSelectionView.xaml.cs">
+      <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\ConfigurationDatabaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="Views\ZoneLogicView.xaml.cs">
+      <DependentUpon>ZoneLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneSelectationView.xaml.cs">
+      <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Actions\DeviceConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,6 +178,18 @@
     <Page Include="Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneLogicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

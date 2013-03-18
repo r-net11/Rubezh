@@ -9,169 +9,24 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class PanelDatabase
 	{
+		public PanelDatabase1 PanelDatabase1 { get; set; }
+		public PanelDatabase2 PanelDatabase2 { get; set; }
 		public Device ParentPanel { get; set; }
-		public BytesDatabase BytesDatabase1 { get; set; }
-		public BytesDatabase BytesDatabase2 { get; set; }
-		public List<BytesDatabase> ReferenceBytesDatabase { get; set; }
-		public List<TableBase> Tables { get; set; }
 
-		public PanelDatabase(Device panelDevice)
+		static double Total_Miliseconds;
+
+		public PanelDatabase(Device parentDevice)
 		{
-			ParentPanel = panelDevice;
-			BytesDatabase1 = new BytesDatabase();
-			BytesDatabase2 = new BytesDatabase();
-			ReferenceBytesDatabase = new List<BytesDatabase>();
-			Tables = new List<TableBase>();
+			var startDateTime = DateTime.Now;
 
-			CreateDevices();
-			CreateZones();
-			CreateDirections();
+			ParentPanel = parentDevice;
+			PanelDatabase2 = new PanelDatabase2(parentDevice);
+			PanelDatabase1 = new PanelDatabase1(PanelDatabase2);
+			Trace.WriteLine("PanelDatabase Done");
 
-			foreach (var table in Tables)
-			{
-				table.Create();
-			}
-			foreach (var table in Tables)
-			{
-				var firstByteDescriptions = table.BytesDatabase.ByteDescriptions.FirstOrDefault();
-				if (firstByteDescriptions != null)
-					firstByteDescriptions.TableHeader = table;
-			}
-			foreach (var table in Tables)
-			{
-				BytesDatabase2.Add(table.BytesDatabase);
-			}
-			foreach (var table in Tables)
-			{
-				ReferenceBytesDatabase.AddRange(table.ReferenceBytesDatabase);
-			}
-			foreach (var bytesDatabase in ReferenceBytesDatabase)
-			{
-				foreach (var byteDescription in bytesDatabase.ByteDescriptions)
-				{
-					if (byteDescription.TableBaseReference != null)
-					{
-						;
-					}
-				}
-				BytesDatabase2.Add(bytesDatabase);
-			}
-			BytesDatabase2.Order();
-			BytesDatabase2.ResolverDeviceHeaderReferences();
-			BytesDatabase2.ResolverReferences();
-		}
-
-		void CreateDevices()
-		{
-			var outerDevices = GetOuterDevices();
-			foreach (var device in outerDevices)
-			{
-				var effectorDeviceTable = new EffectorDeviceTable(this, device, true);
-				Tables.Add(effectorDeviceTable);
-			}
-			foreach (var device in ParentPanel.Children)
-			{
-				if (device.Driver.Category == DeviceCategoryType.Sensor)
-				{
-					var sensorDeviceTable = new SensorDeviceTable(this, device);
-					Tables.Add(sensorDeviceTable);
-				}
-				if (device.Driver.Category == DeviceCategoryType.Effector)
-				{
-					var effectorDeviceTable = new EffectorDeviceTable(this, device, false);
-					Tables.Add(effectorDeviceTable);
-				}
-			}
-		}
-
-		void CreateZones()
-		{
-			var localZones = GetLocalZonesForPanelDevice();
-			foreach (var zone in localZones)
-			{
-				var zoneTable = new ZoneTable(this, zone);
-				Tables.Add(zoneTable);
-			}
-
-			var remoteZones = ZonePanelRelations.GetAllZonesForPanel(ParentPanel, true);
-			foreach (var zone in remoteZones)
-			{
-				var remoteZoneTable = new RemoteZoneTable(this, zone);
-				Tables.Add(remoteZoneTable);
-			}
-		}
-
-		void CreateDirections()
-		{
-			var localDirections = new List<Direction>();
-			foreach (var direction in ConfigurationManager.DeviceConfiguration.Directions)
-			{
-				foreach (var zoneUID in direction.ZoneUIDs)
-				{
-					var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
-							localDirections.Add(direction);
-					}
-				}
-			}
-			foreach (var direction in localDirections)
-			{
-				var binaryDirection = new DirectionTable(this, direction);
-				Tables.Add(binaryDirection);
-			}
-		}
-
-		public List<Device> GetOuterDevices()
-		{
-			var devices = new List<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				foreach (var zone in device.ZonesInLogic)
-				{
-					foreach (var deviceInZone in zone.DevicesInZoneLogic)
-					{
-						if (deviceInZone.ParentPanel.UID != ParentPanel.UID)
-						{
-							if (!devices.Any(x => x.UID == deviceInZone.UID))
-							{
-								devices.Add(deviceInZone);
-							}
-						}
-					}
-				}
-			}
-			if (devices.Count > 0)
-			{
-				Trace.WriteLine("GetOuterDevices.Count=" + devices.Count.ToString());
-			}
-			return devices;
-		}
-
-		List<Zone> GetLocalZonesForPanelDevice()
-		{
-			var localZones = new List<Zone>();
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
-			{
-				foreach (var device in zone.DevicesInZone)
-				{
-					if (device.ParentPanel.UID == ParentPanel.UID)
-					{
-						if (!localZones.Contains(zone))
-							localZones.Add(zone);
-					}
-				}
-				foreach (var device in zone.DevicesInZoneLogic)
-				{
-					if (device.ParentPanel.UID == ParentPanel.UID)
-					{
-						if (!localZones.Contains(zone))
-							localZones.Add(zone);
-					}
-				}
-			}
-			return localZones;
+			var deltaMiliseconds = (DateTime.Now - startDateTime).TotalMilliseconds;
+			Total_Miliseconds += deltaMiliseconds;
+			Trace.WriteLine("PanelDatabase Total_Miliseconds=" + Total_Miliseconds.ToString());
 		}
 	}
 }
