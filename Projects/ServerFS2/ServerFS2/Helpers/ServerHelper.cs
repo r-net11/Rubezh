@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -741,6 +742,16 @@ namespace ServerFS2
 			bytes.Add(Convert.ToByte(0x99));
             DeviceRom.AddRange(SendCode(bytes).Result.FirstOrDefault().Data);
             DeviceRom.RemoveRange(0x100, 7); // удаляем служебные символы
+
+            // Записываем БД DeviceRom в deviceRom.txt
+            var deviceRomTxt = new StreamWriter("..\\deviceRom.txt");
+            int j = 0;
+            foreach (var b in DeviceRom)
+            {
+                deviceRomTxt.WriteLine("{0}\t{1}", j, b);
+                j++;
+            }
+            deviceRomTxt.Close();
 		}
         static int _deviceRamFirstIndex;
         public static void GetDeviceRam(Device device)
@@ -806,6 +817,16 @@ namespace ServerFS2
             result.AddRange(request);
             #endregion
             DeviceRam = new List<byte>(result);
+
+            // Записываем БД DeviceRam в deviceRam.txt
+            var deviceRamTxt = new StreamWriter("..\\deviceRam.txt");
+            int j = 0;
+            foreach (var b in DeviceRam)
+            {
+                deviceRamTxt.WriteLine("{0}\t{1}", j, b);
+                j++;
+            }
+            deviceRamTxt.Close();
 		}
 
 		public static void SynchronizeTime(Device device)
