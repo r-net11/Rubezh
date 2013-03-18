@@ -63,7 +63,7 @@ namespace ClientFS2.ConfigurationWriter
 				};
 				devicesOnShleifs.Add(devicesOnShleif);
 			}
-			foreach (var device in parentPanel.Children)
+			foreach (var device in parentPanel.GetRealChildren())
 			{
 				if (device.ParentPanel.UID == parentPanel.UID)
 				{
@@ -74,6 +74,31 @@ namespace ClientFS2.ConfigurationWriter
 					}
 				}
 			}
+			return devicesOnShleifs;
+		}
+
+		public static List<DevicesOnShleif> GetLocalForPanelToMax(Device parentPanel)
+		{
+			var devicesOnShleifs = GetLocalForPanel(parentPanel);
+
+			foreach (var devicesOnShleif in devicesOnShleifs)
+			{
+				var maxAddress = 0;
+				if (devicesOnShleif.Devices.Count > 0)
+					maxAddress = devicesOnShleif.Devices.Max(x => x.AddressOnShleif);
+
+				var devices = new List<Device>();
+				for (int i = 1; i <= maxAddress; i++)
+				{
+					devices.Add(null);
+				}
+				foreach (var device in devicesOnShleif.Devices)
+				{
+					devices[device.AddressOnShleif - 1] = device;
+				}
+				devicesOnShleif.Devices = devices;
+			}
+
 			return devicesOnShleifs;
 		}
 	}

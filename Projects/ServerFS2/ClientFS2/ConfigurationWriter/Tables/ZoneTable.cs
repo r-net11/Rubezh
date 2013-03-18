@@ -105,15 +105,17 @@ namespace ClientFS2.ConfigurationWriter
 			var devicesOnShleifs = DevicesOnShleifHelper.GetLocalForZone(ParentPanel, Zone);
 			foreach (var devicesOnShleif in devicesOnShleifs)
 			{
-				var referenceBytesDatabase = new BytesDatabase();
+				var referenceTable = new TableBase(PanelDatabase, "Локальные устройства шлейфа " + devicesOnShleif.ShleifNo.ToString() + " для зоны " + Zone.PresentationName);
 				foreach (var device in devicesOnShleif.Devices)
 				{
 					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
+					referenceTable.BytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				}
-				if (referenceBytesDatabase.ByteDescriptions.Count > 0)
-					ReferenceBytesDatabase.Add(referenceBytesDatabase);
-				var byteDescriptions = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
+				if (referenceTable.BytesDatabase.ByteDescriptions.Count > 0)
+				{
+					ReferenceTables.Add(referenceTable);
+				}
+				var byteDescriptions = referenceTable.BytesDatabase.ByteDescriptions.FirstOrDefault();
 				BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных локальных ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
 				BytesDatabase.AddReference(byteDescriptions, "Указатель на размещение абсолютного адреса размещения первого в списек связанного локального ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
 			}
@@ -124,16 +126,17 @@ namespace ClientFS2.ConfigurationWriter
 			var devicesOnShleifs = DevicesOnShleifHelper.GetRemoteForZone(ParentPanel, Zone);
 			foreach (var devicesOnShleif in devicesOnShleifs)
 			{
-				var referenceBytesDatabase = new BytesDatabase();
+				var referenceTable = new TableBase(PanelDatabase, "Внешние устройства шлейфа " + devicesOnShleif.ShleifNo.ToString() + " для зоны " + Zone.PresentationName);
 				foreach (var device in devicesOnShleif.Devices)
 				{
 					TableBase table = EffectorDeviceTables.FirstOrDefault(x => x.UID == device.UID);
-					//TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
+					referenceTable.BytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				}
-				if (referenceBytesDatabase.ByteDescriptions.Count > 0)
-					ReferenceBytesDatabase.Add(referenceBytesDatabase);
-				var byteDescriptions = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
+				if (referenceTable.BytesDatabase.ByteDescriptions.Count > 0)
+				{
+					ReferenceTables.Add(referenceTable);
+				}
+				var byteDescriptions = referenceTable.BytesDatabase.ByteDescriptions.FirstOrDefault();
 				BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных внешних ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
 				BytesDatabase.AddReference(byteDescriptions, "Указатель на размещение абсолютного адреса размещения первого в списек связанного внешнего ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
 			}

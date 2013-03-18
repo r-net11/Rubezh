@@ -22,7 +22,9 @@ namespace ClientFS2.ConfigurationWriter
 		public ByteDescription AddShort(short value, string description = null)
 		{
 			var bytes = BytesHelper.ShortToBytes(value);
-			return AddBytes(bytes, description);
+			var byteDescription = AddBytes(bytes, description);
+			byteDescription.RealValue = value.ToString();
+			return byteDescription;
 		}
 
 		public void SetShort(ByteDescription byteDescription, short value)
@@ -30,25 +32,30 @@ namespace ClientFS2.ConfigurationWriter
 			var bytes = BytesHelper.ShortToBytes(value);
 			for (int i = 0; i < bytes.Count; i++)
 			{
-				ByteDescriptions[byteDescription.ByteIndex + i].Value = bytes[i];
+				var index = ByteDescriptions.IndexOf(byteDescription);
+				ByteDescriptions[index + i].Value = bytes[i];
 			}
+			byteDescription.RealValue = value.ToString();
 		}
 
 		public ByteDescription AddByte(byte value, string description = null)
 		{
-			return AddBytes(new List<byte>() { value }, description);
+			var byteDescription = AddBytes(new List<byte>() { value }, description);
+			return byteDescription;
 		}
 
 		public void AddString(string value, string description = null, int lenght = 20)
 		{
 			var bytes = BytesHelper.StringToBytes(value, lenght);
-			AddBytes(bytes, description);
+			var byteDescription = AddBytes(bytes, description);
+			byteDescription.RealValue = value;
 		}
 
-		public void AddReference(ByteDescription byteDescription, string description = null)
+		public ByteDescription AddReference(ByteDescription byteDescription, string description = null)
 		{
-			var byteDescriptions = AddBytes(new List<byte>() { 0, 0, 0 }, description);
-			byteDescriptions.AddressReference = byteDescription;
+			var newByteDescription = AddBytes(new List<byte>() { 0, 0, 0 }, description);
+			newByteDescription.AddressReference = byteDescription;
+			return newByteDescription;
 		}
 
 		public void AddReference(BytesDatabase bytesDatabase, string description = null)
@@ -69,10 +76,10 @@ namespace ClientFS2.ConfigurationWriter
 				};
 				byteDescriptions.Add(byteDescription);
 			}
-			byteDescriptions[0].Description = description;
-			byteDescriptions[0].ByteIndex = ByteDescriptions.Count;
+			var firstByteDescriptions = byteDescriptions[0];
+			firstByteDescriptions.Description = description;
 			ByteDescriptions.AddRange(byteDescriptions);
-			return byteDescriptions[0];
+			return firstByteDescriptions;
 		}
 
 		public ByteDescription AddReferenceToTable(TableBase tableBase, string description = null)
@@ -98,11 +105,11 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		public void Order()
+		public void Order(int startOffset = 0)
 		{
 			for (int i = 0; i < ByteDescriptions.Count; i++)
 			{
-				ByteDescriptions[i].Offset = i;
+				ByteDescriptions[i].Offset = startOffset + i;
 			}
 		}
 
@@ -124,20 +131,36 @@ namespace ClientFS2.ConfigurationWriter
 				var byteDescription = ByteDescriptions[i];
 				if (byteDescription.AddressReference != null)
 				{
-					var index = byteDescription.AddressReference.Offset;
-					var bit3 = index >> 16;
-					var bit2 = (index >> 8) % 256;
-					var bit1 = index % 256;
-					ByteDescriptions[i + 0].Value = bit3;
-					ByteDescriptions[i + 1].Value = bit2;
-					ByteDescriptions[i + 2].Value = bit1;
+					var value = byteDescription.AddressReference.Offset;
+					//var bit3 = value >> 16;
+					//var bit2 = (value >> 8) % 256;
+					//var bit1 = value % 256;
+					//ByteDescriptions[i + 0].Value = bit3;
+					//ByteDescriptions[i + 1].Value = bit2;
+					//ByteDescriptions[i + 2].Value = bit1;
 
-					//var offsetBytes = BitConverter.GetBytes(devicesGroup.Offset);
-					//bytes1[offset + 0] = offsetBytes[1];
-					//bytes1[offset + 1] = offsetBytes[2];
-					//bytes1[offset + 2] = offsetBytes[3];
+					var bytes = BitConverter.GetBytes(value);
+					ByteDescriptions[i + 0].Value = bytes[2];
+					ByteDescriptions[i + 1].Value = bytes[1];
+					ByteDescriptions[i + 2].Value = bytes[0];
+					byteDescription.RealValue = value.ToString();
+
+					if (byteDescription.Offset == 39486)
+					{
+						;
+					}
 				}
 			}
+		}
+
+		public List<byte> GetBytes()
+		{
+			var bytes = new List<byte>();
+			foreach (var byteDescription in ByteDescriptions)
+			{
+				bytes.Add((byte)byteDescription.Value);
+			}
+			return bytes;
 		}
 	}
 }

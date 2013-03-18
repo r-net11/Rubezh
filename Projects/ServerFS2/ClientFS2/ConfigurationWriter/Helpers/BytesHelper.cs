@@ -18,7 +18,8 @@ namespace ClientFS2.ConfigurationWriter
 				str = "";
 			if (str.Length > length)
 				str = str.Substring(0, length);
-			var bytes = Encoding.GetEncoding(1251).GetBytes(str).ToList();
+			//var bytes = Encoding.GetEncoding(1251).GetBytes(str).ToList();
+			var bytes = Encoding.Default.GetBytes(str).ToList();
 			for (int i = 0; i < length - str.Length; i++)
 			{
 				bytes.Add(32);

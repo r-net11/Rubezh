@@ -23,7 +23,7 @@ namespace FiresecAPI.Models.Binary
 
 		public void CreatreDevices()
 		{
-			foreach (var device in ParentPanel.Children)
+			foreach (var device in ParentPanel.GetRealChildren())
 			{
 				var binaryDevice = new BinaryDevice()
 				{
@@ -38,7 +38,7 @@ namespace FiresecAPI.Models.Binary
 
 		public void Initialize()
 		{
-			foreach (var device in ParentPanel.Children)
+			foreach (var device in ParentPanel.GetRealChildren())
 			{
 				var binaryDevice = new BinaryDevice()
 				{

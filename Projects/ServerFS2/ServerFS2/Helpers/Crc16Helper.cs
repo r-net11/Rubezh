@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ServerFS2
 {
@@ -39,18 +40,18 @@ namespace ServerFS2
 			0x7BC7, 0x6A4E, 0x58D5, 0x495C, 0x3DE3, 0x2C6A, 0x1EF1, 0x0F78
 		};
 
-		public static ushort ComputeChecksum(params byte[] buffer)
+		public static ushort ComputeChecksum(List<byte> buffer)
 		{
 			if (buffer == null) throw new ArgumentNullException();
 			ushort crc = 0;
-			for (int i = 0; i < buffer.Length; ++i)
+			for (int i = 0; i < buffer.Count; ++i)
 			{
 				crc = (ushort)((crc >> 8) ^ table[(crc ^ buffer[i]) & 0xff]);
 			}
 			return crc;
 		}
 
-		public static byte[] ComputeChecksumBytes(params byte[] buffer)
+		public static byte[] ComputeChecksumBytes(List<byte> buffer)
 		{
 			return BitConverter.GetBytes(ComputeChecksum(buffer));
 		}
