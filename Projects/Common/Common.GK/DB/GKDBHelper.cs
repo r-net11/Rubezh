@@ -235,14 +235,17 @@ namespace Common.GK
 			{
 				lock (locker)
 				{
-					using (var dataContext = ConnectionManager.CreateGKDataContext())
+					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 					{
-						var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY DateTime DESC";
-						var result = dataContext.ExecuteQuery<Journal>(query);
-						foreach (var journal in result)
+						using (var dataContext = ConnectionManager.CreateGKDataContext())
 						{
-							var journalItem = JournalItem.FromJournal(journal);
-							journalItems.Add(journalItem);
+							var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY DateTime DESC";
+							var result = dataContext.ExecuteQuery<Journal>(query);
+							foreach (var journal in result)
+							{
+								var journalItem = JournalItem.FromJournal(journal);
+								journalItems.Add(journalItem);
+							}
 						}
 					}
 				}

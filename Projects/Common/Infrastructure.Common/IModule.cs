@@ -4,15 +4,15 @@ using Infrastructure.Common.Navigation;
 
 namespace Infrastructure.Common
 {
-    public interface IModule : IDisposable
-    {
-        string Name { get; }
+	public interface IModule : IDisposable
+	{
+		string Name { get; }
 		int Order { get; }
-        void RegisterResource();
+		void RegisterResource();
 		bool BeforeInitialize(bool firstTime);
-        void Initialize();
+		void Initialize();
 		void AfterInitialize();
 		void CreateViewModels();
-        IEnumerable<NavigationItem> CreateNavigation();
-    }
+		IEnumerable<NavigationItem> CreateNavigation();
+	}
 }

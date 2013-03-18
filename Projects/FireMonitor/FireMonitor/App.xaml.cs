@@ -19,7 +19,7 @@ namespace FireMonitor
 	{
 		const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
 		const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
-		Bootstrapper _bootstrapper;
+		Bootstrapper Bootstrapper;
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
@@ -56,9 +56,17 @@ namespace FireMonitor
 				bool trace = false;
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-				_bootstrapper = new Bootstrapper();
+				Bootstrapper = new Bootstrapper();
+				var result = true;
 				using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
-					_bootstrapper.Initialize();
+				{
+					result = Bootstrapper.Initialize();
+				}
+				if (!result)
+				{
+					Application.Current.Shutdown();
+					return;
+				}
 			}
 			catch (Exception ex)
 			{
