@@ -32,7 +32,7 @@ namespace Common.GK
 
 					foreach (var kauDevice in device.Children)
 					{
-						if (kauDevice.Driver.DriverType == XDriverType.KAU)
+						if (kauDevice.Driver.IsKauOrRSR2Kau)
 						{
 							var kauDatabase = new KauDatabase(kauDevice);
 							gkDatabase.KauDatabases.Add(kauDatabase);

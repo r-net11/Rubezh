@@ -43,17 +43,23 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			BytesDatabase.AddByte((byte)outerPanelAddress, "Адрес прибора привязки в сети");
 			BytesDatabase.AddByte((byte)(Device.AddressOnShleif), "Адрес");
-			BytesDatabase.AddByte((byte)Device.ShleifNo, "Номер шлейфа");
+			BytesDatabase.AddByte((byte)Math.Max(Device.ShleifNo-1, 0), "Номер шлейфа");
 			BytesDatabase.AddShort(0, "Внутренние параметры");
 			BytesDatabase.AddByte(0, "Динамические параметры для базы");
-			BytesDatabase.AddString(Device.Description, "Описание");
+			var description = Device.Description;
+			if (Device.Driver.DriverType == DriverType.Exit)
+			{
+				description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
+			}
+			BytesDatabase.AddString(description, "Описание");
 			var configLengtByteDescription = BytesDatabase.AddByte(0, "Длина переменной части блока с конфигурацией и сырыми параметрами");
 			var lengtByteDescription = BytesDatabase.AddShort(0, "Общая длина записи");
 			var configLengt1 = BytesDatabase.ByteDescriptions.Count;
 			AddDynamicBlock();
-			AddConfig();
 			var configLengt2 = BytesDatabase.ByteDescriptions.Count;
 			configLengtByteDescription.Value = configLengt2 - configLengt1;
+			BytesDatabase.AddByte((byte)0, "Конфиг с компа");
+			AddConfig();
 			AddLogic();
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
 		}
@@ -210,6 +216,13 @@ namespace ClientFS2.ConfigurationWriter
 
 		void AddLogic()
 		{
+			if (Device.ZoneLogic.Clauses.Count == 0)
+			{
+				BytesDatabase.AddByte((byte)0, "Пустая логика");
+				BytesDatabase.AddByte((byte)0, "Пустая логика");
+				BytesDatabase.AddByte((byte)0, "Пустая логика");
+				return;
+			}
 			foreach (var clause in Device.ZoneLogic.Clauses)
 			{
 				var mroLogic = 0;

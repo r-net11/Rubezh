@@ -18,6 +18,8 @@ namespace ClientFS2.ConfigurationWriter
 
 		public List<TableBase> Tables = new List<TableBase>();
 		public TableBase FirstTable;
+		public TableBase ServiceTable;
+		public TableBase LastTable;
 		public List<TableGroup> DevicesTableGroups = new List<TableGroup>();
 		public TableGroup RemoteZonesTableGroup = new TableGroup("Внешние зоны");
 		public TableGroup LocalZonesTableGroup = new TableGroup("Локальные зоны");
@@ -34,8 +36,10 @@ namespace ClientFS2.ConfigurationWriter
 
 			CreateEmptyTable();
 			CreateZones();
+			CreateServiceTable();
 			CreateDevices();
 			CreateDirections();
+			CreateLastTable();
 
 			foreach (var table in Tables)
 			{
@@ -69,7 +73,7 @@ namespace ClientFS2.ConfigurationWriter
 		void CreateEmptyTable()
 		{
 			FirstTable = new TableBase(this);
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 256; i++)
 			{
 				FirstTable.BytesDatabase.AddByte(0);
 			}
@@ -94,7 +98,17 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		static int CreateLocalDevices_Miliseconds = 0;
+		void CreateServiceTable()
+		{
+			ServiceTable = new TableBase(this, "Служебная таблица");
+			for (int i = 0; i < 32; i++)
+			{
+				ServiceTable.BytesDatabase.AddByte(0);
+			}
+			Tables.Add(ServiceTable);
+		}
+
+		//static int CreateLocalDevices_Miliseconds = 0;
 
 		void CreateDevices()
 		{
@@ -108,7 +122,7 @@ namespace ClientFS2.ConfigurationWriter
 					CreateRemoteDevices();
 					continue;
 				}
-				var tableGroup = new TableGroup(devicesGroup.Name);
+				var tableGroup = new TableGroup(devicesGroup.Name, devicesGroup.Length);
 				DevicesTableGroups.Add(tableGroup);
 				foreach (var device in devicesGroup.BinaryDevices)
 				{
@@ -129,14 +143,14 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 
-			var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
-			CreateLocalDevices_Miliseconds += deltaMiliseconds;
-			Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
+			//var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
+			//CreateLocalDevices_Miliseconds += deltaMiliseconds;
+			//Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
 		}
 
 		void CreateRemoteDevices()
 		{
-			var tableGroup = new TableGroup("Указатель на таблицу Внешних ИУ");
+			var tableGroup = new TableGroup("Указатель на таблицу Внешних ИУ", 0);
 			DevicesTableGroups.Add(tableGroup);
 
 			foreach (var binaryRemoteDevice in BinaryPanel.BinaryRemoteDevices)
@@ -175,6 +189,21 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
+		void CreateLastTable()
+		{
+			LastTable = new TableBase(this, "Последняя таблица");
+			LastTable.BytesDatabase.AddByte((byte)8, "Версия MD5");
+			for (int i = 0; i < 16; i++)
+			{
+				LastTable.BytesDatabase.AddByte(0, "MD5");
+			}
+			for (int i = 0; i < 20; i++)
+			{
+				LastTable.BytesDatabase.AddByte(0, "Для нужд базы");
+			}
+			Tables.Add(LastTable);
+		}
+
 		void CreateRootBytes()
 		{
 			RootBytes = new List<ByteDescription>();
@@ -182,6 +211,7 @@ namespace ClientFS2.ConfigurationWriter
 			RootBytes.Add(FirstTable.GetTreeRootByteDescription());
 			RootBytes.Add(RemoteZonesTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(LocalZonesTableGroup.GetTreeRootByteDescription());
+			RootBytes.Add(ServiceTable.GetTreeRootByteDescription());
 
 			foreach (var tableGroup in DevicesTableGroups)
 			{
@@ -191,6 +221,7 @@ namespace ClientFS2.ConfigurationWriter
 
 			RootBytes.Add(DirectionsTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(ReferenceTableGroup.GetTreeRootByteDescription());
+			RootBytes.Add(LastTable.GetTreeRootByteDescription());
 		}
 	}
 }

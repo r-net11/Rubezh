@@ -87,5 +87,17 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 		}
+
+		
+		void CreateDirections()
+		{
+			foreach (var direction in ConfigurationManager.DeviceConfiguration.Directions)
+			{
+				var binaryDirection = new BinaryDirection()
+				{
+					Direction = direction
+				};
+			}
+		}
 	}
 }

@@ -139,6 +139,10 @@ namespace Common.GK
 				Parameters = new List<byte>();
 				return;
 			}
+			if (Device.Driver.DriverType == XDriverType.RSR2_MDU)
+			{
+				;
+			}
 			foreach (var property in Device.Properties)
 			{
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
@@ -150,7 +154,7 @@ namespace Common.GK
 						value = (ushort)(value * 256);
 					if (driverProperty.Multiplier != 0)
 						value = (ushort)(value * driverProperty.Multiplier);
-					if (Device.Driver.DriverType == XDriverType.KAU)
+					if (Device.Driver.IsKauOrRSR2Kau)
 					{
 						value = (ushort)(value % 256);
 					}

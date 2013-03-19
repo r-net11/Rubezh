@@ -15,6 +15,7 @@ namespace FiresecAPI.Models.Binary
 		public List<BinaryDevice> BinaryLocalDevices = new List<BinaryDevice>();
 		public List<Device> remoteDevices = new List<Device>();
 		public List<BinaryDevice> BinaryRemoteDevices = new List<BinaryDevice>();
+		public List<BinaryDirection> BinaryDirections = new List<BinaryDirection>();
 
 		public BinaryPanel(Device parentPanel)
 		{

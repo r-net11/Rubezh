@@ -32,20 +32,23 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddShort((short)BinaryZone.LocalNo, "Номер");
 			BytesDatabase.AddString(Zone.Name, "Описание");
 			var lengtByteDescription = BytesDatabase.AddShort((short)0, "Длина записи");
-			BytesDatabase.AddShort((short)10, "Длина нижеследующих параметров");
+			BytesDatabase.AddByte((byte)10, "Длина нижеследующих параметров");
 			var zoneConfig = 0;
 			if (Zone.ZoneType == ZoneType.Guard)
 				zoneConfig = 1;
 			BytesDatabase.AddByte((byte)zoneConfig, "Конфиг");
 			int zoneAttributes = 0;
-			if (Zone.GuardZoneType == GuardZoneType.Ordinary)
-				zoneAttributes += 1;
-			if (Zone.GuardZoneType == GuardZoneType.Delay)
-				zoneAttributes += 8;
-			if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
-				zoneAttributes += 16;
-			if (Zone.Skipped)
-				zoneAttributes += 2;
+			if (Zone.ZoneType == ZoneType.Guard)
+			{
+				if (Zone.GuardZoneType == GuardZoneType.Ordinary)
+					zoneAttributes += 1;
+				if (Zone.GuardZoneType == GuardZoneType.Delay)
+					zoneAttributes += 8;
+				if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
+					zoneAttributes += 16;
+				if (Zone.Skipped)
+					zoneAttributes += 2;
+			}
 			var hasMPT = false;
 			foreach (var device in Zone.DevicesInZone)
 			{

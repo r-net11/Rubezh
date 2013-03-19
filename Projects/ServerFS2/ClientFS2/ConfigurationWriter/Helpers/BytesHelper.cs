@@ -14,11 +14,24 @@ namespace ClientFS2.ConfigurationWriter
 
 		public static List<byte> StringToBytes(string str, int length = 20)
 		{
+			//var bytes1 = new List<byte>();
+			//bytes1.Add(194);
+			//bytes1.Add(251);
+			//bytes1.Add(245);
+			//bytes1.Add(238);
+			//bytes1.Add(228);
+			//bytes1.Add(32);
+			//bytes1.Add(48);
+			//bytes1.Add(46);
+			//bytes1.Add(49);
+			//bytes1.Add(46);
+			//bytes1.Add(49);
+			//var description = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
+
 			if (str == null)
 				str = "";
 			if (str.Length > length)
 				str = str.Substring(0, length);
-			//var bytes = Encoding.GetEncoding(1251).GetBytes(str).ToList();
 			var bytes = Encoding.Default.GetBytes(str).ToList();
 			for (int i = 0; i < length - str.Length; i++)
 			{

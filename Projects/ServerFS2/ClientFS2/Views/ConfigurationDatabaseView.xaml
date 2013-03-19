@@ -22,7 +22,9 @@
                         <DataGrid ItemsSource="{Binding PanelDatabase1.BytesDatabase.ByteDescriptions}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                                <DataGridTextColumn Binding="{Binding RelativeOffset}" Header="RelativeOffset" />
                                 <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
                                 <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
                                 <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
                             </DataGrid.Columns>
@@ -158,6 +160,12 @@
                                 </GridViewColumn>
                             </Controls:TreeListView.Columns>
                         </Controls:TreeListView>
+                    </TabItem>
+                    <TabItem Header="Сравнение базы 1">
+                        
+                    </TabItem>
+                    <TabItem Header="Сравнение базы 2">
+
                     </TabItem>
                 </TabControl>
             </DataTemplate>

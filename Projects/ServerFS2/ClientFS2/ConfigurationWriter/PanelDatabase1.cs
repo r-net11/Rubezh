@@ -63,11 +63,6 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			BytesDatabase.Add(DirectionsBytesDatabase);
 
-			var countLeft = 256 - BytesDatabase.ByteDescriptions.Count % 256;
-			for (int i = 0; i < countLeft; i++)
-			{
-				BytesDatabase.AddByte(0);
-			}
 			pointerToLast.AddressReference = BytesDatabase.ByteDescriptions.LastOrDefault();
 
 			BytesDatabase.Order(startOffset);
@@ -108,10 +103,7 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			var bytesDatabase = new BytesDatabase("Указатель на указатели на локальные зоны");
 			bytesDatabase.AddReference(LocalZonesBytesDatabase, "Абсолютный указатель на таблицу");
-			var length = 0;
-			if (PanelDatabase2.LocalZonesTableGroup.Tables.Count > 0)
-				length = 3;
-			bytesDatabase.AddByte((byte)length, "Длина записи в таблице");
+			bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
 			bytesDatabase.AddShort((short)PanelDatabase2.LocalZonesTableGroup.Tables.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
@@ -130,10 +122,7 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			var bytesDatabase = new BytesDatabase("Указатель на указатели на Внешние устройства");
 			bytesDatabase.AddReference(RemoteDevicesBytesDatabase, "Абсолютный указатель на таблицу");
-			var length = 0;
-			if (PanelDatabase2.RemoteDeviceTables.Count > 0)
-				length = 3;
-			bytesDatabase.AddByte((byte)length, "Длина записи в таблице");
+			bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
 			bytesDatabase.AddShort((short)PanelDatabase2.RemoteDeviceTables.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
@@ -152,10 +141,7 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			var bytesDatabase = new BytesDatabase("Указатель на указатели на Направления");
 			bytesDatabase.AddReference(DirectionsBytesDatabase, "Абсолютный указатель на таблицу");
-			var length = 0;
-			if (PanelDatabase2.DirectionsTableGroup.Tables.Count > 0)
-				length = 3;
-			bytesDatabase.AddByte((byte)length, "Длина записи в таблице");
+			bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
 			bytesDatabase.AddShort((short)PanelDatabase2.DirectionsTableGroup.Tables.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
@@ -163,9 +149,9 @@ namespace ClientFS2.ConfigurationWriter
 		void AddServiceTablePointers()
 		{
 			var bytesDatabase = new BytesDatabase("Указатель Служебную таблицу");
-			bytesDatabase.AddReference((BytesDatabase)null, "Абсолютный указатель на таблицу");
-			bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
-			bytesDatabase.AddShort((short)0, "Текущее число записей в таблице");
+			bytesDatabase.AddReferenceToTable(PanelDatabase2.ServiceTable, "Абсолютный указатель на таблицу");
+			bytesDatabase.AddByte((byte)1, "Длина записи в таблице");
+			bytesDatabase.AddShort((short)PanelDatabase2.ServiceTable.BytesDatabase.ByteDescriptions.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
 
@@ -199,14 +185,11 @@ namespace ClientFS2.ConfigurationWriter
 					shleifBytesDatabase = LocalDevicesBytesDatabase[i];
 				var bytesDatabase = new BytesDatabase("Указатель на указатели на локальное устройство шлейфа " + (i + 1).ToString());
 				bytesDatabase.AddReference(shleifBytesDatabase, "Абсолютный указатель на таблицу");
-				var length = 0;
-				if (shleifBytesDatabase != null)
-					length = 3;
-				bytesDatabase.AddByte((byte)length, "Длина записи в таблице");
+				bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
 				var count = 0;
 				if (shleifBytesDatabase != null)
 					count = shleifBytesDatabase.ByteDescriptions.Count / 3;
-				bytesDatabase.AddByte((byte)count, "Текущее число записей в таблице");
+				bytesDatabase.AddByte((byte)1, "Текущее число записей в таблице");
 				BytesDatabase.Add(bytesDatabase);
 			}
 		}

@@ -61,8 +61,7 @@ namespace GKModule.Models
 		}
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.KAU ||
-				SelectedDevice.Device.Driver.DriverType == XDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -129,7 +128,7 @@ namespace GKModule.Models
 				return;
 			}
 
-			if (device.Driver.DriverType == XDriverType.KAU)
+			if (device.Driver.IsKauOrRSR2Kau)
 			{
 				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
 				if (remoteDevices != null)
@@ -159,7 +158,7 @@ namespace GKModule.Models
 		}
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.GK || SelectedDevice.Device.Driver.DriverType == XDriverType.KAU));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau));
 		}
 
 		public RelayCommand GetAllParametersCommand { get; private set; }
@@ -212,7 +211,7 @@ namespace GKModule.Models
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == XDriverType.KAU && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && SelectedDevice.Driver.IsKauOrRSR2Kau && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

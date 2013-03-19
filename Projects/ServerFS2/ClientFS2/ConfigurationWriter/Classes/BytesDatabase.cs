@@ -110,6 +110,7 @@ namespace ClientFS2.ConfigurationWriter
 			for (int i = 0; i < ByteDescriptions.Count; i++)
 			{
 				ByteDescriptions[i].Offset = startOffset + i;
+				ByteDescriptions[i].RelativeOffset = i;
 			}
 		}
 

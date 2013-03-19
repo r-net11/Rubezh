@@ -160,6 +160,7 @@
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
     <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />
+    <Compile Include="Models\Binary\BinaryDirection.cs" />
     <Compile Include="Models\Binary\BinaryPanel.cs" />
     <Compile Include="Models\Binary\BinaryZone.cs" />
     <Compile Include="Models\ClientCredentials.cs" />

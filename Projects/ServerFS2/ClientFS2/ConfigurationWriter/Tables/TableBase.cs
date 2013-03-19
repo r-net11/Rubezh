@@ -28,9 +28,10 @@ namespace ClientFS2.ConfigurationWriter
 
 		}
 
+		Guid uid = Guid.NewGuid();
 		public virtual Guid UID
 		{
-			get { return Guid.Empty; }
+			get { return uid; }
 		}
 
 		public ByteDescription GetTreeRootByteDescription()
