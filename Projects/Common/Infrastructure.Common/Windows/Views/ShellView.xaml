@@ -50,7 +50,9 @@
 		</Grid.ColumnDefinitions>-->
 	<!--  <Expander x:Name="LeftExpander" Grid.Column="0" ExpandDirection="Left" IsExpanded="True">  -->
 	<DockPanel>
-		<ContentPresenter Content="{Binding RightContent}" DockPanel.Dock="Right" />
+		<Grid DockPanel.Dock="Right" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}" Width="800">
+			<ContentPresenter Content="{Binding RightContent}"/>
+		</Grid>
 		<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
 			<ContentPresenter Content="{Binding Toolbar}" />
 		</Border>
