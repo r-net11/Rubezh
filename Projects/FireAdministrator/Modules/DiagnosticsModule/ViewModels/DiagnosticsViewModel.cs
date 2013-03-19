@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Windows;
-using DevicesModule.ViewModels;
+using DiagnosticsModule.Mime;
 using DiagnosticsModule.Views;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -16,11 +16,11 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Mail;
+using Infrastructure.Common.RegistryHelper;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
-using DiagnosticsModule.Mime;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -42,6 +42,8 @@ namespace DiagnosticsModule.ViewModels
 			Test8Command = new RelayCommand(OnTest8);
 			Test9Command = new RelayCommand(OnTest9);
 			Test10Command = new RelayCommand(OnTest10);
+			IntegrateCommand = new RelayCommand(OnIntegrate);
+			DesintegrateCommand = new RelayCommand(OnDesintegrate);
 			Test11Command = new RelayCommand(OnTest11);
 			BalloonTestCommand = new RelayCommand(OnBalloonTest);
 			PlanDuplicateTestCommand = new RelayCommand(OnPlanDuplicateTest);
@@ -84,6 +86,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand TreeListViewTestCommand { get; private set; }
+
 		private void OnTreeListViewTest()
 		{
 			var treeViewTestViewModel = new TreeViewTestViewModel();
@@ -101,6 +104,7 @@ namespace DiagnosticsModule.ViewModels
 		int counter = 0;
 
 		public RelayCommand Test1Command { get; private set; }
+
 		private void OnTest1()
 		{
 			//var text = "ZCMPeNpdUEtOwzAQ3fcUUfbgOCiCSJPpDg5AF3RpOSaxlDqW7RJyPE7AFdhUVILegckH2rCa99G8+cD6dddEL8p53Zoi5tdJHCkj21Kbqog7bcq281c8zXi8xhX4vXsWUvllB0Ll2r31c0Vgi0r63Pe/LfRWoWyE91oCGxl0ugw18iQBNkGola7qgBkpMwQpbKAcfDt8Rsfvw+kI7FeiHXS5GaLSYf6MR/UxKPtE0ZM+sT9juzC2tLMRdtM+kIAc2AUDYfS9EzvlB+NMoBG9cpEuizjN89vkJr/LUrrSkIvvXx8nYCOE4ITxVjh6dI80dMGBjTFU56edkcfVD8cHmz8=";
@@ -124,6 +128,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test2Command { get; private set; }
+
 		private void OnTest2()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -351,6 +356,20 @@ namespace DiagnosticsModule.ViewModels
 			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, "obychevma@rubezh.ru",
 							@"This message was automatically sent by Firesec-2 application",
 							"Testing message from Firesec-2");
+		}
+
+		public RelayCommand IntegrateCommand { get; private set; }
+
+		private void OnIntegrate()
+		{
+			RegistryHelper.Integrate();
+		}
+
+		public RelayCommand DesintegrateCommand { get; private set; }
+
+		private void OnDesintegrate()
+		{
+			RegistryHelper.Desintegrate();
 		}
 	}
 }
