@@ -6,6 +6,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows;
 
 namespace AlarmModule
 {
@@ -41,6 +42,11 @@ namespace AlarmModule
 		public override string Name
 		{
 			get { return "Состояния"; }
+		}
+
+		public override void AfterInitialize()
+		{
+			AlarmsViewModel.SubscribeShortcuts();
 		}
 	}
 }

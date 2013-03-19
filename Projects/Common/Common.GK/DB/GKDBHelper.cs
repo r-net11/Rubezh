@@ -211,21 +211,24 @@ namespace Common.GK
 			{
 				lock (locker)
 				{
-					using (var dataContext = ConnectionManager.CreateGKDataContext())
+					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 					{
-						string query = "SELECT DISTINCT GKIpAddress FROM Journal";
-						var result = dataContext.ExecuteQuery<string>(query);
-						var addresses = result.ToList();
-						addresses.RemoveAll(x => string.IsNullOrEmpty(x));
-						return addresses;
+						using (var dataContext = ConnectionManager.CreateGKDataContext())
+						{
+							string query = "SELECT DISTINCT GKIpAddress FROM Journal";
+							var result = dataContext.ExecuteQuery<string>(query);
+							var addresses = result.ToList();
+							addresses.RemoveAll(x => string.IsNullOrEmpty(x));
+							return addresses;
+						}
 					}
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "GKDBHelper.GetGKIPAddresses");
-				return new List<string>();
 			}
+			return new List<string>();
         }
 
 		public static List<JournalItem> GetTopLast(int count)

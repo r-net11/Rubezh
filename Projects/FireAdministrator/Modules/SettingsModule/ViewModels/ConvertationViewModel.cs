@@ -59,6 +59,20 @@ namespace SettingsModule.ViewModels
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
 					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 
+					var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
+					if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
+					{
+						if (Directory.Exists(destinationImagesDirectory))
+							Directory.Delete(destinationImagesDirectory);
+						if (!Directory.Exists(destinationImagesDirectory))
+							Directory.CreateDirectory(destinationImagesDirectory);
+						var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
+						foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
+						{
+							fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
+						}
+					}
+
 					var zipFile = new ZipFile(tempFileName);
 					zipFile.AddDirectory(tempFolderName);
 					zipFile.Save(tempFileName);

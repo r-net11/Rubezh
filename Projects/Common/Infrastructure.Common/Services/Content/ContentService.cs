@@ -101,9 +101,9 @@ namespace Infrastructure.Common.Services.Content
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
 			byte[] buffer = new byte[byte.MaxValue];
 			int count = 0;
-			using (var fs = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
-				while ((count = fs.Read(buffer, 0, buffer.Length)) > 0)
-					fs.Write(buffer, 0, count);
+			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
+				while ((count = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+					fileStream.Write(buffer, 0, count);
 			return guid;
 		}
 		public Guid AddContent(byte[] bytes)
@@ -118,8 +118,8 @@ namespace Infrastructure.Common.Services.Content
 		{
 			var guid = Guid.NewGuid();
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
-			using (var fs = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
-				XamlWriter.Save(data, fs);
+			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
+				XamlWriter.Save(data, fileStream);
 			return guid;
 		}
 
