@@ -13,7 +13,7 @@ namespace FiresecClient
 		{
 			if (zones.Count == 1)
 			{
-                var Zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == zones[0].PresentationName);
+                var Zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zones[0].UID);
 				if (Zone != null)
 				{
 					return Zone.PresentationName;
@@ -24,7 +24,7 @@ namespace FiresecClient
                 var orderedZones = new List<int>();
                 foreach (var zone in zones)
                 {
-                    var Zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == zone.PresentationName);
+                    var Zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zone.UID);
                     if (Zone != null)
                     {
                         orderedZones.Add(Zone.No);

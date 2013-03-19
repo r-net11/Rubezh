@@ -90,7 +90,7 @@ namespace Infrastructure.Client
 				}
 		}
 
-		protected void RunShell(ShellViewModel shellViewModel)
+		protected bool RunShell(ShellViewModel shellViewModel)
 		{
 			LoadingService.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
@@ -101,11 +101,17 @@ namespace Infrastructure.Client
 				LoadingService.DoStep("Запуск приложения");
 				ApplicationService.Run(shellViewModel);
 			}
+			else
+			{
+				return false;
+			}
+			return true;
 		}
 		protected bool InitializeModules()
 		{
 			ReadConfiguration();
 			foreach (IModule module in _modules.OrderBy(module => module.Order))
+			{
 				try
 				{
 					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
@@ -120,6 +126,7 @@ namespace Infrastructure.Client
 					Application.Current.Shutdown();
 					return false;
 				}
+			}
 			return true;
 		}
 		protected List<NavigationItem> GetNavigationItems()

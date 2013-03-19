@@ -217,8 +217,8 @@ namespace ClientFS2.ViewModels
 
             foreach (var device in LocalRootDevice.Children)
             {
-                DevicesViewModel.Current.AddDevice(device, deviceViewModel);
                 BuildZones(device);
+                DevicesViewModel.Current.AddDevice(device, deviceViewModel);
             }
 
             deviceViewModel.ExpandChildren();
@@ -269,7 +269,6 @@ namespace ClientFS2.ViewModels
                         clause.ZoneUIDs.Add(newZone.UID);
                     }
                 }
-
             }
 
             if (device.Children != null)

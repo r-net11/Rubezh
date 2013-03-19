@@ -220,8 +220,8 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in LocalRootDevice.Children)
 		    {
+				BuildZones(device);
                 DevicesViewModel.Current.AddDevice(device, deviceViewModel);
-		        BuildZones(device);
 		    }
 		    
             deviceViewModel.ExpandChildren();

@@ -19,7 +19,7 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = false;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 			IsExpertMode = false;
-			EnableRemoteConnections = true;
+			EnableRemoteConnections = false;
 			IsImitatorEnabled = false;
 			Modules =
 				"DevicesModule.dll" + "\r\n" +

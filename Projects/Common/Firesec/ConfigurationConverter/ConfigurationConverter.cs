@@ -64,13 +64,20 @@ namespace Firesec
             return deviceConfiguration;
         }
 
-        public DriversConfiguration ConvertMetadataFromFiresec()
+        public OperationResult<DriversConfiguration> ConvertMetadataFromFiresec()
         {
             var driversConfiguration = new DriversConfiguration();
 			var metadataResult = FiresecSerializedClient.GetMetaData();
+			if (metadataResult.HasError)
+			{
+				LoadingErrorManager.Add(metadataResult.Error);
+				return new OperationResult<DriversConfiguration>(metadataResult.Error);
+			}
 			var coreDriversConfig = metadataResult.Result;
-            if (coreDriversConfig == null)
-                return null;
+			if (coreDriversConfig == null)
+			{
+				return new OperationResult<DriversConfiguration>("Список драйверов пуст");
+			}
             foreach (var innerDriver in coreDriversConfig.drv)
             {
                 var driver = DriverConverter.Convert(coreDriversConfig, innerDriver);
@@ -89,7 +96,7 @@ namespace Firesec
 			//ZipSerializeHelper.Serialize<DriversConfiguration>(driversConfiguration, "D:/DriversConfiguration.xml");
 
             DriverConfigurationParametersHelper.CreateKnownProperties(driversConfiguration.Drivers);
-            return driversConfiguration;
+			return new OperationResult<DriversConfiguration>() { Result = driversConfiguration };
         }
 
         public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)

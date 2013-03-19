@@ -7,11 +7,10 @@ using ServerFS2;
 
 namespace ClientFS2.ConfigurationWriter
 {
-	public static class ZonePanelRelationsInfo
+	public class ZonePanelRelationsInfo
 	{
-		public static List<ZonePanelItem> ZonePanelItems { get; set; }
-
-		public static void Initialize()
+		public List<ZonePanelItem> ZonePanelItems { get; set; }
+        public ZonePanelRelationsInfo()
 		{
 			ZonePanelItems = new List<ZonePanelItem>();
 			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
@@ -50,7 +49,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		public static List<Device> GetAllPanelDevices()
+		public List<Device> GetAllPanelDevices()
 		{
 			var devices = new List<Device>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
@@ -61,7 +60,7 @@ namespace ClientFS2.ConfigurationWriter
 			return devices;
 		}
 
-		public static List<ZonePanelItem> GetAllZonesForPanel(Device panelDevice, bool isRemote = false)
+		public List<ZonePanelItem> GetAllZonesForPanel(Device panelDevice, bool isRemote = false)
 		{
 			var zones = new List<ZonePanelItem>();
 			foreach (var zonePanelItem in ZonePanelItems)
@@ -72,12 +71,12 @@ namespace ClientFS2.ConfigurationWriter
 			return zones;
 		}
 
-		public static bool IsLocalZone(Zone zone, Device panelDevice)
+		public bool IsLocalZone(Zone zone, Device panelDevice)
 		{
 			return ZonePanelItems.Any(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == false);
 		}
 
-		public static int GetLocalZoneNo(Zone zone, Device panelDevice)
+		public int GetLocalZoneNo(Zone zone, Device panelDevice)
 		{
 			var zonePanelItem = ZonePanelItems.FirstOrDefault(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == false);
 			if (zonePanelItem != null)
@@ -87,7 +86,7 @@ namespace ClientFS2.ConfigurationWriter
 			return 0;
 		}
 
-		static void Add(Zone zone, Device panelDevice, bool isRemote)
+		void Add(Zone zone, Device panelDevice, bool isRemote)
 		{
 			if (!ZonePanelItems.Any(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == isRemote))
 			{

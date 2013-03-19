@@ -25,14 +25,14 @@ namespace Firesec
 
                 ConfigurationConverter = new ConfigurationConverter(FiresecSerializedClient);
 				var result = ConfigurationConverter.ConvertMetadataFromFiresec();
-                if (result != null)
+                if (!result.HasError)
                 {
-                    ConfigurationCash.DriversConfiguration = result;
+                    ConfigurationCash.DriversConfiguration = result.Result;
                     return new OperationResult<bool>() { Result = true };
                 }
                 else
                 {
-                    return new OperationResult<bool>("Список драйверов пуст");
+					return new OperationResult<bool>(result.Error);
                 }
 			}
 			catch (Exception e)

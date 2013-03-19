@@ -18,8 +18,9 @@ namespace FireMonitor
 {
 	public class Bootstrapper : BaseBootstrapper
 	{
-		public void Initialize()
+		public bool Initialize()
 		{
+			var result = true;
 			LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
@@ -64,7 +65,8 @@ namespace FireMonitor
 						var shell = new MonitorShellViewModel();
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
-						RunShell(shell);
+						if (!RunShell(shell))
+							result = false;
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
@@ -91,15 +93,16 @@ namespace FireMonitor
 					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
-					return;
+					return false;
 				}
 			}
 			else
 			{
 				if (Application.Current != null)
 					Application.Current.Shutdown();
-				return;
+				return false;
 			}
+			return result;
 		}
 
 		bool IsRestarting = false;

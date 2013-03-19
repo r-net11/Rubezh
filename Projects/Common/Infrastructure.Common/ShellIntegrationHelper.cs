@@ -12,6 +12,22 @@ namespace Infrastructure.Common
 		{
 			try
 			{
+				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+				if (registryKey != null)
+				{
+					registryKey.DeleteValue("FiresecService");
+					registryKey.DeleteValue("FSAgentServer");
+					registryKey.DeleteValue("FiresecOPCServer");
+					registryKey.Close();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FireMonitor.Integrate 3");
+			}
+
+			try
+			{
 				var executablePath = Assembly.GetEntryAssembly().Location;
 				RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
 				shellRegistryKey.SetValue("Shell", executablePath);
