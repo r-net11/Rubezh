@@ -23,9 +23,9 @@ namespace Common.GK
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535).IsLowByte=true;
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 8, 128, 1, 65535).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 8, 128, 1, 65535).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 128, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 128, 1, 65535);
 
 			var property1 = new XDriverProperty()
 			{

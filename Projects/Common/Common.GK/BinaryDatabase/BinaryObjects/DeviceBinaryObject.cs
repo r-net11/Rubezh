@@ -139,7 +139,7 @@ namespace Common.GK
 				Parameters = new List<byte>();
 				return;
 			}
-			if (Device.Driver.DriverType == XDriverType.RSR2_MDU)
+			if (Device.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
 				;
 			}
@@ -150,15 +150,15 @@ namespace Common.GK
 				{
 					byte no = driverProperty.No;
 					ushort value = property.Value;
+					if (driverProperty.Offset > 0)
+						value = (ushort)(value << driverProperty.Offset);
+					if (driverProperty.Mask > 0)
+						value = (ushort)(value & driverProperty.Mask);
 					if (driverProperty.IsHieghByte)
 						value = (ushort)(value * 256);
 					if (driverProperty.Multiplier != 0)
 						value = (ushort)(value * driverProperty.Multiplier);
-					if (Device.Driver.IsKauOrRSR2Kau)
-					{
-						value = (ushort)(value % 256);
-					}
-					if (Device.Driver.DriverType == XDriverType.RSR2_KAU)
+					if (Device.Driver.DriverType == XDriverType.RSR2_KAU && driverProperty.No == 1)
 					{
 						value = (ushort)(256 + value % 256);
 					}
@@ -172,10 +172,6 @@ namespace Common.GK
 						};
 						binProperties.Add(binProperty);
 					}
-					if (driverProperty.Offset > 0)
-						value = (ushort)(value << driverProperty.Offset);
-					if (driverProperty.Mask > 0)
-						value = (ushort)(value & driverProperty.Mask);
 					binProperty.Value += value;
 				}
 			}

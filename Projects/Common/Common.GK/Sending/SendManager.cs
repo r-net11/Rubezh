@@ -28,73 +28,69 @@ namespace Common.GK
             StreamWriter.Close();
         }
 
-        public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
-        {
-            lock (locker)
-            {
-                return DoSend(device, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
-            }
-        }
-        public static SendResult DoSend(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
-        {
-            byte whom = 0;
-            byte address = 0;
+		public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 1000)
+		{
+			lock (locker)
+			{
+				if ((device == null) || (device.Driver == null))
+				{
+					return new SendResult("Неизвестное устройство");
+				}
 
-            if ((device == null) || (device.Driver == null))
-            {
-                return new SendResult("Неизвестное устройство");
-            }
+				byte whom = 0;
+				byte address = 0;
 
-            switch (device.Driver.DriverType)
-            {
-                case XDriverType.GK:
-                    whom = 2;
-                    address = device.IntAddress;
-                    break;
+				switch (device.Driver.DriverType)
+				{
+					case XDriverType.GK:
+						whom = 2;
+						address = device.IntAddress;
+						break;
 
-                case XDriverType.KAU:
-				case XDriverType.RSR2_KAU:
-                    whom = 4;
-                    address = device.IntAddress;
-                    var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
-                    if (modeProperty != null)
-                    {
-                        switch (modeProperty.Value)
-                        {
-                            case 0:
-                                break;
+					case XDriverType.KAU:
+					case XDriverType.RSR2_KAU:
+						whom = 4;
+						address = device.IntAddress;
+						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
+						if (modeProperty != null)
+						{
+							switch (modeProperty.Value)
+							{
+								case 0:
+									break;
 
-                            case 1:
-                                address += 127;
-                                break;
+								case 1:
+									address += 127;
+									break;
 
-                            default:
-                                throw new Exception("Неизвестный тип линии");
-                        }
-                    }
-                    break;
+								default:
+									throw new Exception("Неизвестный тип линии");
+							}
+						}
+						break;
 
-                default:
-                    throw new Exception("Команду можно отправлять только в ГК или в КАУ");
-            }
-            var bytes = new List<byte>();
-            bytes.Add(whom);
-            bytes.Add(address);
-            bytes.AddRange(ToBytes(length));
-            bytes.Add(command);
-            if (data != null)
-                bytes.AddRange(data);
+					default:
+						throw new Exception("Команду можно отправлять только в ГК или в КАУ");
+				}
+				var bytes = new List<byte>();
+				bytes.Add(whom);
+				bytes.Add(address);
+				bytes.AddRange(ToBytes(length));
+				bytes.Add(command);
+				if (data != null)
+					bytes.AddRange(data);
 
-            string ipAddress = XManager.GetIpAddress(device);
-            if (string.IsNullOrEmpty(ipAddress))
-            {
-                return new SendResult("Не задан адрес ГК");
-            }
-            var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer, sleepInsteadOfRecieve);
-            return resultBytes;
-        }
+				string ipAddress = XManager.GetIpAddress(device);
+				if (string.IsNullOrEmpty(ipAddress))
+				{
+					return new SendResult("Не задан адрес ГК");
+				}
+				var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer, sleepInsteadOfRecieve, receiveTimeout);
+				return resultBytes;
+			}
+		}
 
-        static SendResult SendBytes(string stringIPAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
+		static SendResult SendBytes(string stringIPAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 1000)
         {
 			IPAddress ipAddress;
 			var result = IPAddress.TryParse(stringIPAddress, out ipAddress);
@@ -104,7 +100,7 @@ namespace Common.GK
 			}
 			var endPoint = new IPEndPoint(ipAddress, 1025);
             var udpClient = new UdpClient();
-            udpClient.Client.ReceiveTimeout = 1000;
+			udpClient.Client.ReceiveTimeout = receiveTimeout;
             udpClient.Client.SendTimeout = 1000;
 
             try

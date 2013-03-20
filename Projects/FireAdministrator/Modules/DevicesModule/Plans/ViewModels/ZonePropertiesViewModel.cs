@@ -72,7 +72,10 @@ namespace DevicesModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Helper.SetZone(IElementZone, SelectedZone.Zone);
+			if (SelectedZone != null)
+			{
+				Helper.SetZone(IElementZone, SelectedZone.Zone);
+			}
 			return base.Save();
 		}
 	}
