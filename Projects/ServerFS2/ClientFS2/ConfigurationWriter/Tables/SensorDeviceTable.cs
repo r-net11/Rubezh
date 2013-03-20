@@ -24,7 +24,7 @@ namespace ClientFS2.ConfigurationWriter
 		public override void Create()
 		{
 			BytesDatabase.AddByte((byte)Device.AddressOnShleif, "Адрес");
-			BytesDatabase.AddByte((byte)Device.ShleifNo, "Шлейф");
+			BytesDatabase.AddByte((byte)Math.Max(Device.ShleifNo - 1, 0), "Шлейф");
 			BytesDatabase.AddShort((byte)0, "Внутренние параметры");
 			BytesDatabase.AddByte((byte)0, "Динамические параметры для базы");
 			var zoneNo = 0;
@@ -38,6 +38,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
+			BytesDatabase.AddByte((byte)0, "Сырой параметр");
 			for (int i = 0; i < Get80ByteCount(); i++)
 			{
 				BytesDatabase.AddByte((byte)0, "Байт 0x80 или 0x81");
@@ -115,6 +116,8 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			byte computerConfigurationData = 0;
+			smokeParameterValue = 0;
+			temperatureParameterValue = 0;
 
 			switch (Device.Driver.DriverType)
 			{

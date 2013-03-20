@@ -45,7 +45,7 @@ namespace GKModule.Converter
 			var kauCount = (totalShleifCount + 1) / 8 + Math.Min(1, totalShleifCount % 8);
 			for (int i = 0; i < kauCount; i++)
 			{
-				XManager.AddChild(gkDevice, XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, (byte)(i + 1));
+				XManager.AddChild(gkDevice, XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), 0, (byte)(i + 1));
 			}
 			XManager.UpdateConfiguration();
 		}

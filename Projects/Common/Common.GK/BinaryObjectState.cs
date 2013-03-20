@@ -41,6 +41,7 @@ namespace Common.GK
 				switch (Driver.DriverType)
 				{
 					case XDriverType.KAU:
+					case XDriverType.RSR2_KAU:
 						var bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[0])
 							AdditionalStates.Add("Неисправность питания 1");

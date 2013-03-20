@@ -11,6 +11,7 @@ namespace ClientFS2.ConfigurationWriter
 	{
 		public TableBase TableHeader { get; set; }
 
+		public int RelativeOffset { get; set; }
 		public int Offset { get; set; }
 		public int Value { get; set; }
 		public string Description { get; set; }

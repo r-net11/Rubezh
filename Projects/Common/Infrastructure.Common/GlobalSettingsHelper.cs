@@ -23,16 +23,15 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				var globalSettings = new GlobalSettings();
+				GlobalSettings = new GlobalSettings();
 				if (File.Exists(FileName))
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
 						var dataContractSerializer = new DataContractSerializer(typeof(GlobalSettings));
-						globalSettings = (GlobalSettings)dataContractSerializer.ReadObject(fileStream);
+						GlobalSettings = (GlobalSettings)dataContractSerializer.ReadObject(fileStream);
 					}
 				}
-				GlobalSettings = globalSettings;
 			}
 			catch (Exception e)
 			{

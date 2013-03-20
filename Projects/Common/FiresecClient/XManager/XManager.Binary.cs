@@ -24,7 +24,7 @@ namespace FiresecClient
 				var kauParents = new HashSet<XDevice>();
 				foreach (var device in zone.Devices)
 				{
-					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU || x.Driver.DriverType == XDriverType.RSR2_KAU);
+					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.IsKauOrRSR2Kau);
 					kauParents.Add(kauParent);
 				}
 

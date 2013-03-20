@@ -101,7 +101,7 @@ namespace GKModule
 			if (driver != null)
 			{
 				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)
-					driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+					driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.IsKauOrRSR2Kau);
 				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
 					driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
 
@@ -125,7 +125,7 @@ namespace GKModule
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
 				}
-				if (driver.DriverType == XDriverType.KAU)
+				if (driver.IsKauOrRSR2Kau)
 				{
 					device.IntAddress = (byte)(controllerAdress % 256);
 					var modeProperty = new XProperty()
@@ -138,7 +138,7 @@ namespace GKModule
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
 				}
-				if(driver.DriverType != XDriverType.GK && driver.DriverType != XDriverType.KAU)
+				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau)
 				{
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)

@@ -64,7 +64,7 @@ namespace GKModule.ViewModels
 				var parentShleif = ParentDevice;
 				if (ParentDevice.Driver.DriverType == XDriverType.MPT)
 					parentShleif = ParentDevice.Parent;
-				if (parentShleif.Driver.DriverType == XDriverType.KAU)
+				if (parentShleif.Driver.IsKauOrRSR2Kau)
 				{
 					for (byte i = 1; i <= 8; i++)
 					{

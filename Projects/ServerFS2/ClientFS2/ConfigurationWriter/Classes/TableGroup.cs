@@ -8,10 +8,11 @@ namespace ClientFS2.ConfigurationWriter.Classes
 {
 	public class TableGroup
 	{
-		public TableGroup(string name)
+		public TableGroup(string name, int length = 0)
 		{
 			Tables = new List<TableBase>();
 			Name = name;
+			Length = length;
 		}
 
 		public List<TableBase> Tables { get; set; }
@@ -22,7 +23,9 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			get { return Tables.Count; }
 		}
 
-		public int Length
+		public int Length { get; set; }
+
+		public int ComputedLength
 		{
 			get
 			{
@@ -37,21 +40,6 @@ namespace ClientFS2.ConfigurationWriter.Classes
 				return lenght;
 			}
 		}
-
-		//public int Pointer
-		//{
-		//    get
-		//    {
-		//        var firstTable = Tables.FirstOrDefault();
-		//        if (firstTable != null)
-		//        {
-		//            var firstByteDescription = firstTable.BytesDatabase.ByteDescriptions.FirstOrDefault();
-		//            if (firstByteDescription != null)
-		//                return firstByteDescription.Offset;
-		//        }
-		//        return 0;
-		//    }
-		//}
 
 		public ByteDescription GetTreeRootByteDescription()
 		{

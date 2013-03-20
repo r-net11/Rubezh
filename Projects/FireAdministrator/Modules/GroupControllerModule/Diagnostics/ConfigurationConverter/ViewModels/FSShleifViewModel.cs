@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 			KAUDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.KAU)
+				if (device.Driver.IsKauOrRSR2Kau)
 					KAUDevices.Add(device);
 			}
 

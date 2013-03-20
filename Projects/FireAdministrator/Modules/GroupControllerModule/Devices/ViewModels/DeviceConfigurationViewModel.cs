@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeCommand { get; private set; }
 		void OnChange()
 		{
-			ChildDevices.RemoveAll(x => x.Driver.DriverType == XDriverType.KAU);
+			ChildDevices.RemoveAll(x => x.Driver.IsKauOrRSR2Kau);
 			KauDevice.Children = new List<XDevice>();
 			KauDevice.Children.AddRange(ChildDevices);
 			ServiceFactory.SaveService.GKChanged = true;

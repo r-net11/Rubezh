@@ -47,6 +47,9 @@ namespace Infrastructure.Common
 			{
 				Logger.Error(e, "FireMonitor.Integrate 2");
 			}
+
+			GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections = false;
+			GlobalSettingsHelper.Save();
 		}
 
 		public static void Desintegrate()

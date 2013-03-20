@@ -73,7 +73,7 @@ namespace FiresecClient
 
 		public static ushort GetKauLine(XDevice device)
 		{
-			if (device.Driver.DriverType != XDriverType.KAU)
+			if (!device.Driver.IsKauOrRSR2Kau)
 			{
 				throw new Exception("В XManager.GetKauLine передан неверный тип устройства");
 			}
@@ -97,6 +97,7 @@ namespace FiresecClient
                     break;
 
                 case XDriverType.KAU:
+				case XDriverType.RSR2_KAU:
                     gkDevice = device.Parent;
                     break;
 
