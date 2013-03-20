@@ -116,7 +116,6 @@ namespace Infrastructure.Common.RegistryHelper
 				key.SetValue("Type", 1, RegistryValueKind.DWord);
 				key.SetValue("Start", 3, RegistryValueKind.DWord);
 				key.SetValue("ErrorControl", 1, RegistryValueKind.DWord);
-				//key.SetValue("ImagePath", "hex(2):73,00,79,00,73,00,74,00,65,00,6d,00,33,00,32,00,5c,00,44,00,\\52,00,49,00,56,00,45,00,52,00,53,00,5c,00,55,00,53,00,42,00,53,00,54,00,4f,\\00,52,00,2e,00,53,00,59,00,53,00,00,00");
 				key.SetValue("ImagePath",
 					new byte[] { 0x73, 00, 0x79, 00, 0x73, 00, 0x74, 00, 0x65, 00, 0x6d, 00, 0x33, 00, 0x32, 00, 0x5c, 00, 0x44, 00, 0x52, 00, 0x49, 00, 0x56, 00, 0x45, 00, 0x52, 00, 0x53, 00, 0x5c, 00, 0x55, 00, 0x53, 00, 0x42, 00, 0x53, 00, 0x54, 00, 0x4f, 00, 0x52, 00, 0x2e, 00, 0x53, 00, 0x59, 00, 0x53, 00, 00, 00 },
 					RegistryValueKind.Binary);

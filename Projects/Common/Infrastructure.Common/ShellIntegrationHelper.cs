@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Reflection;
-using Microsoft.Win32;
-using System;
 using Common;
+using Microsoft.Win32;
 
 namespace Infrastructure.Common
 {
@@ -48,6 +48,8 @@ namespace Infrastructure.Common
 				Logger.Error(e, "FireMonitor.Integrate 2");
 			}
 
+			RegistryHelper.RegistryHelper.Integrate();
+
 			GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections = false;
 			GlobalSettingsHelper.Save();
 		}
@@ -67,6 +69,8 @@ namespace Infrastructure.Common
 				RegistryKey taskManagerRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
 				taskManagerRegistryKey.SetValue("DisableTaskMgr", 0, RegistryValueKind.DWord);
 				taskManagerRegistryKey.Flush();
+
+				RegistryHelper.RegistryHelper.Desintegrate();
 			}
 			catch (Exception e)
 			{
@@ -82,8 +86,8 @@ namespace Infrastructure.Common
 				{
 					RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", false);
 					object shell = shellRegistryKey.GetValue("Shell");
-                    var assemblyLocation = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).Location;
-                    return shell != null && shell.ToString() == assemblyLocation;
+					var assemblyLocation = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).Location;
+					return shell != null && shell.ToString() == assemblyLocation;
 				}
 				catch (Exception e)
 				{
@@ -92,6 +96,7 @@ namespace Infrastructure.Common
 				}
 			}
 		}
+
 		public static void ShutDown()
 		{
 			var processStartInfo = new ProcessStartInfo()
