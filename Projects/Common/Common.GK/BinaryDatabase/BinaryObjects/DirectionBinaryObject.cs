@@ -63,12 +63,12 @@ namespace Common.GK
 
 			Formula.AddGetBit(XStateType.Norm, Direction);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateType.TurnOn, Direction);
+			Formula.AddPutBit(XStateType.TurnOn_InAutomatic, Direction);
 
 			Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
 			Formula.AddGetBit(XStateType.Norm, Direction);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateType.TurnOff, Direction);
+			Formula.AddPutBit(XStateType.TurnOff_InAutomatic, Direction);
 		}
 
 		void SetPropertiesBytes()

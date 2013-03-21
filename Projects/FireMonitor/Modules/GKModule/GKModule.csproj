@@ -125,6 +125,7 @@
     <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="ShowOnPlanHelper.cs" />
     <Compile Include="ViewModels\DeviceControlRegime.cs" />
+    <Compile Include="ViewModels\DeviceExecutableCommandViewModel.cs" />
     <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />
@@ -178,7 +179,7 @@
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
-    <Compile Include="ViewModels\DeviceDetailsView.xaml.cs">
+    <Compile Include="Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
@@ -246,7 +247,7 @@
     <Resource Include="Reports\JournalReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="ViewModels\DeviceDetailsView.xaml">
+    <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

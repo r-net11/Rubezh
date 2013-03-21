@@ -55,8 +55,7 @@
                                                 <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
                                                 <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
                                                 <Separator />
-                                                <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
-                                                <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />
+                                                <MenuItem Command="{Binding ResetFireCommand}" Header="Сбросить Пожар" />
                                             </ContextMenu>
                                         </Grid.ContextMenu>
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />

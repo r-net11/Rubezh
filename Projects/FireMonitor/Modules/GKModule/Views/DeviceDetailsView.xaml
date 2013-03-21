@@ -98,15 +98,20 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
+                        <StackPanel Grid.Column="0">                           
                             <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Margin="2" />
                             <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Margin="2" />
                             <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Margin="2" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-                            <Button Content="Включить" Command="{Binding TurnOnCommand}" Width="200" Margin="2" />
-                            <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Margin="2" />
-                            <Button Content="Выключить" Command="{Binding TurnOffCommand}" Width="200" Margin="2" />
+                            <ItemsControl ItemsSource="{Binding DeviceExecutableCommands}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}"
+                                                Command="{Binding ExecuteControlCommand}" Width="200" Margin="2" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -126,8 +131,8 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Снять отключение" Command="{Binding SetOnStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
-                        <Button Grid.Column="1" Content="Отключение" Command="{Binding SetOffStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                        <Button Grid.Column="0" Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                        <Button Grid.Column="1" Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
                     </Grid>
                 </Grid>
             </TabItem>

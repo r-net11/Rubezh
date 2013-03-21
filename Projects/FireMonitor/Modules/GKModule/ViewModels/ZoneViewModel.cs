@@ -18,8 +18,7 @@ namespace GKModule.ViewModels
 		public ZoneViewModel(XZoneState zoneState)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
-			ResetFire1Command = new RelayCommand(OnResetFire1, CanResetFire1);
-			ResetFire2Command = new RelayCommand(OnResetFire2, CanResetFire2);
+			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 
@@ -56,30 +55,20 @@ namespace GKModule.ViewModels
 			return ShowOnPlanHelper.CanShowZone(Zone);
 		}
 
-		public RelayCommand ResetFire1Command { get; private set; }
-		void OnResetFire1()
+		public RelayCommand ResetFireCommand { get; private set; }
+		void OnResetFire()
 		{
-			SendControlCommand(0x02);
+			SendControlCommand(XStateType.Reset);
 		}
-		bool CanResetFire1()
+		bool CanResetFire()
 		{
 			return ZoneState.States.Contains(XStateType.Fire1);
-		}
-
-		public RelayCommand ResetFire2Command { get; private set; }
-		void OnResetFire2()
-		{
-			SendControlCommand(0x03);
-		}
-		bool CanResetFire2()
-		{
-			return ZoneState.States.Contains(XStateType.Fire2);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			SendControlCommand(0x86);
+			SendControlCommand(XStateType.SetRegime_Off);
 		}
 		bool CanSetIgnore()
 		{
@@ -89,16 +78,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			SendControlCommand(0x06);
+			SendControlCommand(XStateType.SetRegime_Automatic);
 		}
 		bool CanResetIgnore()
 		{
             return ZoneState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
-		void SendControlCommand(byte code)
+		void SendControlCommand(XStateType stateType)
 		{
-			ObjectCommandSendHelper.SendControlCommand(Zone, code);
+			var code = 0x80 + (int)stateType;
+			ObjectCommandSendHelper.SendControlCommand(Zone, (byte)code);
 		}
 	}
 }

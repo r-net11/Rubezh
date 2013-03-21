@@ -24,6 +24,11 @@ namespace Common.GK
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
+			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
+
 			GKDriversHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x8c, "Время разновременного пуска, с", 0, 1, 1, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания выхода насоса на режим, с", 0, 3, 3, 30);

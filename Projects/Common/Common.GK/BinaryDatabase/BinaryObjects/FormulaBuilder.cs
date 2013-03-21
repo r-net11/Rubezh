@@ -73,11 +73,11 @@ namespace Common.GK
 			AddGetBit(XStateType.Save, binaryBase);
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
-			AddPutBit(XStateType.TurnOn, binaryBase);
+			AddPutBit(XStateType.TurnOn_InAutomatic, binaryBase);
 			Add(FormulaOperationType.COM);
 			AddGetBit(XStateType.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateType.TurnOff, binaryBase);
+			AddPutBit(XStateType.TurnOff_InAutomatic, binaryBase);
 			AddPutBit(XStateType.Save, binaryBase);
 		}
 

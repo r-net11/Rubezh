@@ -37,37 +37,58 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Выключается")]
 		TurningOff = 10,
 
-		[DescriptionAttribute("Включить")]
-		TurnOn = 11,
+		[DescriptionAttribute("Включить для режима Автоматика")]
+		TurnOn_InAutomatic = 11,
 
-		[DescriptionAttribute("Отменить задержку")]
-		CancelDelay = 12,
+		[DescriptionAttribute("Резерв")]
+		Reserve1 = 12,
 
-		[DescriptionAttribute("Выключить")]
-		TurnOff = 13,
+		[DescriptionAttribute("Выключить для режима Автоматика")]
+		TurnOff_InAutomatic = 13,
 
 		[DescriptionAttribute("Остановить")]
-		Stop = 14,
+		Stop_InManual = 14,
 
 		[DescriptionAttribute("Запретить пуск")]
-		ForbidStart = 15,
+		ForbidStart_InManual = 15,
+
+		[DescriptionAttribute("Включить немедленно для режима Автоматика")]
+		TurnOnNow_InAutomatic = 16,
+
+		[DescriptionAttribute("Выключить немедленно для режима Автоматика")]
+		TurnOffNow_InAutomatic = 17,
+
+		[DescriptionAttribute("Перевести в режим Автоматика")]
+		SetRegime_Automatic = 18,
+
+		[DescriptionAttribute("Перевести в режим Ручное")]
+		SetRegime_Manual = 19,
+
+		[DescriptionAttribute("Включить")]
+		TurnOn_InManual = 20,
+
+		[DescriptionAttribute("Выключить")]
+		TurnOff_InManual= 21,
 
 		[DescriptionAttribute("Включить немедленно")]
-		TurnOnNow = 16,
+		TurnOnNow_InManual = 22,
 
 		[DescriptionAttribute("Выключить немедленно")]
-		TurnOffNow = 17,
+		TurnOffNow_InManual = 23,
 
-		[DescriptionAttribute("Выключить немедленно")]
-		Reserve1 = 18,
+		[DescriptionAttribute("Перевести в режим Отключение")]
+		SetRegime_Off = 24,
 
-		[DescriptionAttribute("Выключить немедленно")]
-		Reserve2 = 19,
+        [DescriptionAttribute("Сброс")]
+        Reset = 25,
 
-        [DescriptionAttribute("Сохранение состояния")]
-        Save = 31,
+		[DescriptionAttribute("Резерв")]
+		Reserve2 = 26,
 
-        [DescriptionAttribute("Нет")]
-        No = 32
+		[DescriptionAttribute("Сохранение состояния")]
+		Save = 31,
+
+		[DescriptionAttribute("Нет")]
+		No = 32
 	}
 }
