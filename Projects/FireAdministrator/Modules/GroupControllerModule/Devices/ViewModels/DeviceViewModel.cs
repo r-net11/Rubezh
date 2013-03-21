@@ -145,7 +145,7 @@ namespace GKModule.ViewModels
 		{
 			if (Driver.Children.Count > 0)
 				return true;
-			if (Driver.DriverType == XDriverType.MPT && Parent != null && Parent.Driver.DriverType == XDriverType.KAU)
+			if (Driver.DriverType == XDriverType.MPT && Parent != null && Parent.Driver.IsKauOrRSR2Kau)
 				return true;
 			return false;
 		}

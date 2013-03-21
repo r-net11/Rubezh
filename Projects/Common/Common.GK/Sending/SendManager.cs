@@ -53,6 +53,7 @@ namespace Common.GK
                     break;
 
                 case XDriverType.KAU:
+				case XDriverType.RSR2_KAU:
                     whom = 4;
                     address = device.IntAddress;
                     var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");

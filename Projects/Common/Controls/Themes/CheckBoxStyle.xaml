@@ -4,7 +4,7 @@
     <SolidColorBrush x:Key="NormalBrush" Color="White" />
     <SolidColorBrush x:Key="NormalBorderBrush" Color="Black" />
     <SolidColorBrush x:Key="GlyphBrush" Color="Black" />
-    
+
     <Style x:Key="CheckBoxFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -16,7 +16,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="{x:Type CheckBox}" TargetType="CheckBox">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -27,7 +27,11 @@
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
                             <Border x:Name="Border" Width="13" Height="13" CornerRadius="0" Background="{StaticResource NormalBrush}" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}">
-                                <Path Width="7" Height="7" x:Name="CheckMark" SnapsToDevicePixels="False" Stroke="{StaticResource GlyphBrush}" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0" />
+                                <Path Width="4" Height="4" x:Name="CheckMark" SnapsToDevicePixels="False" Fill="{StaticResource GlyphBrush}" StrokeThickness="2">
+                                    <Path.Data>
+                                        <RectangleGeometry Rect="0,0,4,4" />
+                                    </Path.Data>
+                                </Path>
                             </Border>
                         </BulletDecorator.Bullet>
                         <ContentPresenter Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>

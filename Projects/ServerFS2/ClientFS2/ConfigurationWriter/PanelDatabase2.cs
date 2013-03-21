@@ -14,16 +14,19 @@ namespace ClientFS2.ConfigurationWriter
 		public Device ParentPanel { get; set; }
 		public BytesDatabase BytesDatabase { get; set; }
 		public BinaryPanel BinaryPanel { get; set; }
+		public List<ByteDescription> RootBytes { get; set; }
 
 		public List<TableBase> Tables = new List<TableBase>();
-		public List<TableGroup> TableGroups = new List<TableGroup>();
-		public TableGroup RemoteZonesTableGroup = new TableGroup();
-		public TableGroup LocalZonesTableGroup = new TableGroup();
-		public List<ZoneTable> LocalZoneTables = new List<ZoneTable>();
+		public TableBase FirstTable;
+		public TableBase ServiceTable;
+		public TableBase LastTable;
+		public List<TableGroup> DevicesTableGroups = new List<TableGroup>();
+		public TableGroup RemoteZonesTableGroup = new TableGroup("Внешние зоны");
+		public TableGroup LocalZonesTableGroup = new TableGroup("Локальные зоны");
+		public TableGroup DirectionsTableGroup = new TableGroup("Направления");
+		public TableGroup ReferenceTableGroup = new TableGroup("Ссылки");
 		public List<EffectorDeviceTable> RemoteDeviceTables = new List<EffectorDeviceTable>();
-		public List<TableBase> DirectionsTables = new List<TableBase>();
-
-		public List<ByteDescription> RootBytes { get; set; }
+		public ByteDescription Crc16ByteDescription;
 
 		public PanelDatabase2(Device parentPanel)
 		{
@@ -33,8 +36,10 @@ namespace ClientFS2.ConfigurationWriter
 
 			CreateEmptyTable();
 			CreateZones();
+			CreateServiceTable();
 			CreateDevices();
 			CreateDirections();
+			CreateLastTable();
 
 			foreach (var table in Tables)
 			{
@@ -52,9 +57,10 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			foreach (var table in Tables)
 			{
-				foreach (var referenceBytesDatabase in table.ReferenceBytesDatabase)
+				foreach (var referenceTable in table.ReferenceTables)
 				{
-					BytesDatabase.Add(referenceBytesDatabase);
+					BytesDatabase.Add(referenceTable.BytesDatabase);
+					ReferenceTableGroup.Tables.Add(referenceTable);
 				}
 			}
 			BytesDatabase.Order();
@@ -64,75 +70,19 @@ namespace ClientFS2.ConfigurationWriter
 			CreateRootBytes();
 		}
 
-		void CreateRootBytes()
+		void CreateEmptyTable()
 		{
-			RootBytes = new List<ByteDescription>();
-
-			var remoteZonesByteDescription = new ByteDescription()
+			FirstTable = new TableBase(this);
+			for (int i = 0; i < 256; i++)
 			{
-				Description = "Внешние Зоны"
-			};
-			RootBytes.Add(remoteZonesByteDescription);
-			foreach (var table in RemoteZonesTableGroup.Tables)
-			{
-				var zoneByteDescription = new ByteDescription()
-				{
-					Description = table.BytesDatabase.Name
-				};
-				remoteZonesByteDescription.Children.Add(zoneByteDescription);
-				foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
-				{
-					zoneByteDescription.Children.Add(byteDescription);
-				}
+				FirstTable.BytesDatabase.AddByte(0);
 			}
-
-			var localZonesByteDescription = new ByteDescription()
-			{
-				Description = "Локальные Зоны"
-			};
-			RootBytes.Add(localZonesByteDescription);
-			foreach (var table in LocalZonesTableGroup.Tables)
-			{
-				var zoneByteDescription = new ByteDescription()
-				{
-					Description = table.BytesDatabase.Name
-				};
-				localZonesByteDescription.Children.Add(zoneByteDescription);
-				foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
-				{
-					zoneByteDescription.Children.Add(byteDescription);
-				}
-			}
-
-			foreach (var tableGroup in TableGroups)
-			{
-				var deviceGroupByteDescription = new ByteDescription()
-				{
-					Description = tableGroup.Name
-				};
-				RootBytes.Add(deviceGroupByteDescription);
-
-				foreach (var table in tableGroup.Tables)
-				{
-					var deviceByteDescription = new ByteDescription()
-					{
-						Description = table.BytesDatabase.Name
-					};
-					deviceGroupByteDescription.Children.Add(deviceByteDescription);
-					foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
-					{
-						deviceByteDescription.Children.Add(byteDescription);
-					}
-				}
-			}
+			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort((short)0, "CRC от ROM части базы");
+			Tables.Add(FirstTable);
 		}
 
 		void CreateZones()
 		{
-			RemoteZonesTableGroup = new TableGroup()
-			{
-				Name = "Внешние зоны"
-			};
 			foreach (var zone in BinaryPanel.BinaryRemoteZones)
 			{
 				var remoteZoneTable = new RemoteZoneTable(this, zone);
@@ -140,20 +90,25 @@ namespace ClientFS2.ConfigurationWriter
 				RemoteZonesTableGroup.Tables.Add(remoteZoneTable);
 			}
 
-			LocalZonesTableGroup = new TableGroup()
-			{
-				Name = "Локальные зоны"
-			};
 			foreach (var zone in BinaryPanel.BinaryLocalZones)
 			{
 				var zoneTable = new ZoneTable(this, zone);
 				Tables.Add(zoneTable);
-				LocalZoneTables.Add(zoneTable);
 				LocalZonesTableGroup.Tables.Add(zoneTable);
 			}
 		}
 
-		static int CreateLocalDevices_Miliseconds = 0;
+		void CreateServiceTable()
+		{
+			ServiceTable = new TableBase(this, "Служебная таблица");
+			for (int i = 0; i < 32; i++)
+			{
+				ServiceTable.BytesDatabase.AddByte(0);
+			}
+			Tables.Add(ServiceTable);
+		}
+
+		//static int CreateLocalDevices_Miliseconds = 0;
 
 		void CreateDevices()
 		{
@@ -167,11 +122,8 @@ namespace ClientFS2.ConfigurationWriter
 					CreateRemoteDevices();
 					continue;
 				}
-				var tableGroup = new TableGroup()
-				{
-					Name = devicesGroup.Name
-				};
-				TableGroups.Add(tableGroup);
+				var tableGroup = new TableGroup(devicesGroup.Name, devicesGroup.Length);
+				DevicesTableGroups.Add(tableGroup);
 				foreach (var device in devicesGroup.BinaryDevices)
 				{
 					TableBase deviceTable = null;
@@ -191,18 +143,15 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 
-			var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
-			CreateLocalDevices_Miliseconds += deltaMiliseconds;
-			Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
+			//var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
+			//CreateLocalDevices_Miliseconds += deltaMiliseconds;
+			//Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
 		}
 
 		void CreateRemoteDevices()
 		{
-			var tableGroup = new TableGroup()
-			{
-				Name = "Указатель на таблицу Внешних ИУ"
-			};
-			TableGroups.Add(tableGroup);
+			var tableGroup = new TableGroup("Указатель на таблицу Внешних ИУ", 0);
+			DevicesTableGroups.Add(tableGroup);
 
 			foreach (var binaryRemoteDevice in BinaryPanel.BinaryRemoteDevices)
 			{
@@ -236,46 +185,43 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				var table = new DirectionTable(this, direction);
 				Tables.Add(table);
-				DirectionsTables.Add(table);
+				DirectionsTableGroup.Tables.Add(table);
 			}
 		}
 
-		void CreateEmptyTable()
+		void CreateLastTable()
 		{
-			var table = new TableBase(this);
-			var crcValue = 0;
-			table.BytesDatabase.AddShort((short)crcValue, "CRC от ROM части базы");
-			for (int i = 0; i < 98; i++)
+			LastTable = new TableBase(this, "Последняя таблица");
+			LastTable.BytesDatabase.AddByte((byte)8, "Версия MD5");
+			for (int i = 0; i < 16; i++)
 			{
-				table.BytesDatabase.AddByte(0);
+				LastTable.BytesDatabase.AddByte(0, "MD5");
 			}
-			Tables.Add(table);
+			for (int i = 0; i < 20; i++)
+			{
+				LastTable.BytesDatabase.AddByte(0, "Для нужд базы");
+			}
+			Tables.Add(LastTable);
 		}
 
-		List<Zone> GetLocalZonesForPanelDevice()
+		void CreateRootBytes()
 		{
-			var localZones = new List<Zone>();
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			RootBytes = new List<ByteDescription>();
+
+			RootBytes.Add(FirstTable.GetTreeRootByteDescription());
+			RootBytes.Add(RemoteZonesTableGroup.GetTreeRootByteDescription());
+			RootBytes.Add(LocalZonesTableGroup.GetTreeRootByteDescription());
+			RootBytes.Add(ServiceTable.GetTreeRootByteDescription());
+
+			foreach (var tableGroup in DevicesTableGroups)
 			{
-				foreach (var device in zone.DevicesInZone)
-				{
-					if (device.ParentPanel.UID == ParentPanel.UID)
-					{
-						if (!localZones.Contains(zone))
-							localZones.Add(zone);
-					}
-				}
-				foreach (var device in zone.DevicesInZoneLogic)
-				{
-					if (device.ParentPanel.UID == ParentPanel.UID)
-					{
-						if (!localZones.Contains(zone))
-							localZones.Add(zone);
-					}
-				}
+				var byteDescription = tableGroup.GetTreeRootByteDescription();
+				RootBytes.Add(byteDescription);
 			}
 
-			return localZones;
+			RootBytes.Add(DirectionsTableGroup.GetTreeRootByteDescription());
+			RootBytes.Add(ReferenceTableGroup.GetTreeRootByteDescription());
+			RootBytes.Add(LastTable.GetTreeRootByteDescription());
 		}
 	}
 }

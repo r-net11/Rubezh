@@ -14,13 +14,13 @@ namespace ClientFS2.ConfigurationWriter
 			get { return PanelDatabase.ParentPanel; }
 		}
 		public BytesDatabase BytesDatabase { get; set; }
-		public List<BytesDatabase> ReferenceBytesDatabase { get; set; }
+		public List<TableBase> ReferenceTables { get; set; }
 
 		public TableBase(PanelDatabase2 panelDatabase, string name = null)
 		{
 			PanelDatabase = panelDatabase;
 			BytesDatabase = new BytesDatabase(name);
-			ReferenceBytesDatabase = new List<BytesDatabase>();
+			ReferenceTables = new List<TableBase>();
 		}
 
 		public virtual void Create()
@@ -28,9 +28,33 @@ namespace ClientFS2.ConfigurationWriter
 
 		}
 
+		Guid uid = Guid.NewGuid();
 		public virtual Guid UID
 		{
-			get { return Guid.Empty; }
+			get { return uid; }
+		}
+
+		public ByteDescription GetTreeRootByteDescription()
+		{
+			var rootByteDescription = new ByteDescription()
+			{
+				Description = BytesDatabase.Name,
+				IsHeader = true
+			};
+			foreach (var byteDescription in BytesDatabase.ByteDescriptions)
+			{
+				rootByteDescription.Children.Add(byteDescription);
+			}
+			var tableChild = rootByteDescription.Children.FirstOrDefault();
+			if (tableChild != null)
+			{
+				rootByteDescription.Offset = tableChild.Offset;
+			}
+			else
+			{
+				rootByteDescription.HasNoOffset = true;
+			}
+			return rootByteDescription;
 		}
 	}
 }

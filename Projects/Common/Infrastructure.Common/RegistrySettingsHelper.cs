@@ -206,12 +206,16 @@ namespace Infrastructure.Common
 				//using (var mutex = new Mutex(true, "RegistryDataConfiguration"))
 				//{
 				//    mutex.WaitOne(TimeSpan.FromSeconds(1));
+				for (int i = 0; i < 3; i++)
+				{
+					var tempFileName = FileName + "." + Guid.NewGuid().ToString();
 					try
 					{
 						var registryDataConfiguration = new RegistryDataConfiguration();
 						if (File.Exists(FileName))
 						{
-							using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+							File.Copy(FileName, tempFileName);
+							using (var fileStream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 							{
 								var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
 								registryDataConfiguration = (RegistryDataConfiguration)dataContractSerializer.ReadObject(fileStream);
@@ -222,12 +226,17 @@ namespace Infrastructure.Common
 					catch (Exception e)
 					{
 						Logger.Error(e, "RegistrySettingsHelper.GetRegistryDataConfiguration ");
-						return new RegistryDataConfiguration();
 					}
 					finally
 					{
+						if (File.Exists(tempFileName))
+						{
+							File.Delete(tempFileName);
+						}
 						//mutex.ReleaseMutex();
 					}
+				}
+				return new RegistryDataConfiguration();
 				//}
 			}
 		}
@@ -236,25 +245,37 @@ namespace Infrastructure.Common
 		{
 			lock (locker)
 			{
+				//EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "");
+				//eventWaitHandle.
 				//using (var mutex = new Mutex(false, "RegistryDataConfiguration"))
 				//{
 				//    mutex.WaitOne(TimeSpan.FromSeconds(1));
+				for (int i = 0; i < 3; i++)
+				{
+					var tempFileName = FileName + "." + Guid.NewGuid().ToString();
 					try
 					{
 						var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
-						using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+						using (var fileStream = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 						{
 							dataContractSerializer.WriteObject(fileStream, registryDataConfiguration);
 						}
+						File.Copy(tempFileName, FileName, true);
+						return;
 					}
 					catch (Exception e)
 					{
-						Logger.Error(e, "RegistrySettingsHelper.Set ");
+						Logger.Error(e, "RegistrySettingsHelper.SetRegistryDataConfiguration");
 					}
 					finally
 					{
+						if (File.Exists(tempFileName))
+						{
+							File.Delete(tempFileName);
+						}
 						//mutex.ReleaseMutex();
 					}
+				}
 				//}
 			}
 		}

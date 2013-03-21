@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Common;
@@ -6,8 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -23,9 +23,11 @@ namespace PlansModule.ViewModels
 		}
 
 		public PlansViewModel PlansViewModel { get; private set; }
+
 		public bool AcceptKeyboard { get; set; }
 
 		private ObservableCollection<IInstrument> _instruments;
+
 		public ObservableCollection<IInstrument> Instruments
 		{
 			get { return _instruments; }
@@ -37,6 +39,7 @@ namespace PlansModule.ViewModels
 		}
 
 		private IInstrument _activeInstrument;
+
 		public IInstrument ActiveInstrument
 		{
 			get { return _activeInstrument; }
@@ -52,6 +55,7 @@ namespace PlansModule.ViewModels
 		}
 
 		private bool _isEnabled;
+
 		public bool IsEnabled
 		{
 			get { return _isEnabled; }
@@ -70,11 +74,13 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
 					ActiveInstrument.Adorner.Show(point);
 		}
+
 		public void SetDefault()
 		{
 			if (ActiveInstrument != _defaultInstrument)
 				ActiveInstrument = _defaultInstrument;
 		}
+
 		public void UpdateZoom()
 		{
 			if (ActiveInstrument.Adorner != null)
@@ -147,7 +153,7 @@ namespace PlansModule.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Rectangle.png",
+					ImageSource="/Controls;component/Images/Subplan.png",
 					ToolTip="Подплан",
 					Index = 300,
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),
@@ -157,6 +163,7 @@ namespace PlansModule.ViewModels
 			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
 			ActiveInstrument = _defaultInstrument;
 		}
+
 		private void SortInstruments()
 		{
 			var sortedItems = Instruments.OrderBy(item => item.Index);
@@ -167,6 +174,7 @@ namespace PlansModule.ViewModels
 				index++;
 			}
 		}
+
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
 			if (!AcceptKeyboard)
@@ -209,6 +217,7 @@ namespace PlansModule.ViewModels
 			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
 				ActiveInstrument.Adorner.KeyboardInput(e.Key);
 		}
+
 		private void ExecuteCommand(ICommand command)
 		{
 			if (command.CanExecute(null))

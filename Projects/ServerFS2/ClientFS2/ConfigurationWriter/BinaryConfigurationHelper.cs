@@ -15,11 +15,6 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			CreatePanels();
 			CreateZones();
-
-			foreach (var binaryPanel in BinaryPanels)
-			{
-				//binaryPanel.Initialize();
-			}
 		}
 
 		void CreatePanels()
@@ -82,13 +77,6 @@ namespace ClientFS2.ConfigurationWriter
 					}
 
 					device.BinaryDevice.BinaryZones.Add(binaryZone);
-
-					//if (parantPanels.Contains(device.ParentPanel))
-					//{
-					//}
-					//else
-					//{
-					//}
 				}
 			}
 			foreach (var binaryPanel in BinaryPanels)
@@ -97,6 +85,18 @@ namespace ClientFS2.ConfigurationWriter
 				{
 					binaryPanel.BinaryLocalZones[i].LocalNo = i;
 				}
+			}
+		}
+
+		
+		void CreateDirections()
+		{
+			foreach (var direction in ConfigurationManager.DeviceConfiguration.Directions)
+			{
+				var binaryDirection = new BinaryDirection()
+				{
+					Direction = direction
+				};
 			}
 		}
 	}

@@ -40,9 +40,7 @@ namespace GKModule
                 {
                     GoToWorkingRegime(kauDatabase.RootDevice);
                 }
-
                 GoToWorkingRegime(gkDatabase.RootDevice);
-
                 LoadingService.Close();
             }
             //SendManager.StopLog();
@@ -76,7 +74,6 @@ namespace GKModule
         {
             foreach (var binaryObject in commonDatabase.BinaryObjects)
             {
-				var x = binaryObject.BinaryBase.GetBinaryDescription();
                 var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
 					binaryObject.BinaryBase.GetBinaryDescription() + " " +
                     "(" + binaryObject.GetNo().ToString() + ")" +
@@ -144,13 +141,13 @@ namespace GKModule
                     if (sendResult.Bytes.Count > 0)
                     {
                         var version = sendResult.Bytes[0];
-                        if (version >= 127)
+                        if (version > 127)
                         {
                             return;
                         }
                     }
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
             MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим в заданное время");
@@ -169,22 +166,35 @@ namespace GKModule
                     if (sendResult.Bytes.Count > 0)
                     {
                         var version = sendResult.Bytes[0];
-                        if (version < 127)
+                        if (version <= 127)
                         {
                             return;
                         }
                     }
                 }
-                Thread.Sleep(1000);
+				Thread.Sleep(TimeSpan.FromSeconds(1));
             }
 
-            //MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+            MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
         }
 
         static void EraseDatabase(XDevice device)
         {
             LoadingService.DoStep(device.ShortPresentationAddressAndDriver + " Стирание базы данных");
-            SendManager.Send(device, 0, 15, 0);
+			for (int i = 0; i < 10; i++)
+			{
+				var sendResult = SendManager.Send(device, 0, 15, 0);
+				if (!sendResult.HasError)
+				{
+					return;
+				}
+				else
+				{
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+					;
+				}
+			}
+			MessageBoxService.ShowError("Не удалось стереть базу данных");
         }
 
         static void WriteEndDescriptor(CommonDatabase commonDatabase)

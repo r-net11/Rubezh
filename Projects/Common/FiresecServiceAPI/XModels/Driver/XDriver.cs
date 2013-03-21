@@ -85,6 +85,11 @@ namespace XFiresecAPI
 		[DataMember]
 		public byte GroupDeviceChildrenCount { get; set; }
 
+		public bool IsKauOrRSR2Kau
+		{
+			get { return DriverType == XDriverType.KAU || DriverType == XDriverType.RSR2_KAU; }
+		}
+
 		public string ImageSource
 		{
 			get { return "/Controls;component/GKIcons/" + this.DriverType.ToString() + ".png"; }

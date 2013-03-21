@@ -462,6 +462,39 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public List<Device> GetRealChildren()
+		{
+			var devices = new List<Device>();
+			foreach (var device in Children)
+			{
+				if (!IsGroupDevice(device.Driver.DriverType))
+				{
+					devices.Add(device);
+				}
+				foreach (var child in device.Children)
+				{
+					devices.Add(child);
+				}
+			}
+			return devices;
+		}
+
+		bool IsGroupDevice(DriverType driverType)
+		{
+			switch (driverType)
+			{
+				case DriverType.AM4:
+				case DriverType.AMP_4:
+				case DriverType.AMT_4:
+				case DriverType.RM_2:
+				case DriverType.RM_3:
+				case DriverType.RM_4:
+				case DriverType.RM_5:
+					return true;
+			}
+			return false;
+		}
+
 		public void OnChanged()
 		{
 			if (Changed != null)

@@ -8,6 +8,12 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
+using System.Windows.Input;
+using Common;
+using FiresecAPI;
+using System.Diagnostics;
+using System.IO;
 
 namespace AlarmModule.ViewModels
 {
@@ -25,6 +31,12 @@ namespace AlarmModule.ViewModels
 
 			allAlarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
+		}
+
+		public void SubscribeShortcuts()
+		{
+			ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
+			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}
 
         public void Update(List<Alarm> alarms)
@@ -140,6 +152,52 @@ namespace AlarmModule.ViewModels
 		public bool CanRemoveAllFromIgnoreList()
 		{
 			return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);
+		}
+
+		void AddToIgnoreAllDevicesInFire()
+		{
+			foreach (var device in FiresecManager.Devices)
+			{
+				if (device.DeviceState.StateType == StateType.Fire)
+				{
+					if (ServiceFactory.SecurityService.Validate())
+					{
+						FiresecManager.ChangeDisabled(device.DeviceState);
+					}
+				}
+			}
+		}
+
+		void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
+		{
+			try
+			{
+				if (e.Key == System.Windows.Input.Key.F1)
+				{
+					return;
+					var fileName = Infrastructure.Common.AppDataFolderHelper.GetFile("Manual.pdf");
+					if (File.Exists(fileName))
+						Process.Start(fileName);
+				}
+				if (e.Key == System.Windows.Input.Key.F2)
+				{
+					if (CanRemoveAllFromIgnoreList())
+						OnRemoveAllFromIgnoreList();
+				}
+				if (e.Key == System.Windows.Input.Key.F3)
+				{
+					AddToIgnoreAllDevicesInFire();
+				}
+				if (e.Key == System.Windows.Input.Key.F4)
+				{
+					if (CanResetAll())
+						OnResetAll();
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "AlarmsViewModel.ShortcutService_KeyPressed");
+			}
 		}
 	}
 }
