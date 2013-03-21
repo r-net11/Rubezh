@@ -27,9 +27,9 @@
                     <BulletDecorator Background="Transparent">
                         <BulletDecorator.Bullet>
                             <Border x:Name="Border" Width="13" Height="13" CornerRadius="0" Background="{StaticResource NormalBrush}" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}">
-                                <Path Width="7" Height="7" x:Name="CheckMark" SnapsToDevicePixels="False" Fill="{StaticResource GlyphBrush}" StrokeThickness="2">
+                                <Path Width="4" Height="4" x:Name="CheckMark" SnapsToDevicePixels="False" Fill="{StaticResource GlyphBrush}" StrokeThickness="2">
                                     <Path.Data>
-                                        <RectangleGeometry Rect="0,0,7,7" />
+                                        <RectangleGeometry Rect="0,0,4,4" />
                                     </Path.Data>
                                 </Path>
                             </Border>

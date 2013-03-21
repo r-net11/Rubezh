@@ -8,6 +8,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using System.Globalization;
 
 namespace Firesec
 {
@@ -478,8 +479,15 @@ namespace Firesec
 			Double result;
 			try
 			{
-				input = input.Replace(".", ",");
-				result = Double.Parse(input);
+				var index = input.IndexOf(".");
+				if (index >= 0)
+					input = input.Substring(0, index);
+
+				index = input.IndexOf(",");
+				if (index >= 0)
+					input = input.Substring(0, index);
+
+				result = Double.Parse(input, NumberStyles.Float, CultureInfo.InvariantCulture);
 				return result;
 			}
 			catch
