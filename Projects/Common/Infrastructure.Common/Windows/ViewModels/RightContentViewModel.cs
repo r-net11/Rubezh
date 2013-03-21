@@ -31,15 +31,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Content);
 			}
 		}
-		private double _minWidth;
-		public double MinWidth
+			
+		private ShellViewModel _shell;
+		public ShellViewModel Shell
 		{
-			get { return _minWidth; }
+			get { return _shell; }
 			set
 			{
-				_minWidth = value;
-				OnPropertyChanged(() => MinWidth);
+				_shell = value;
+				OnPropertyChanged(() => Shell);
 			}
 		}
+		
 	}
 }

@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="Infrastructure.Common.Navigation.NavigationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:loc ="clr-namespace:Infrastructure.Common.Windows.ViewModels">
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -33,7 +34,7 @@
             </TreeView>
         </Grid>
         <Grid Grid.Row="1">
-            <Button Content="{Binding MinimizeButtonContent}" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding MinimizeCommand}"/>
+			<Button Content="{Binding TextVisibility, Converter={StaticResource BoolToMinimizeTextConverter}}" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.NavigationText}"/>
         </Grid>
     </Grid>
 </UserControl>

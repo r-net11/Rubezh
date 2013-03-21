@@ -1,57 +1,16 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" Width="{Binding Width}" Height="{Binding Height}" MinWidth="{Binding MinWidth}" MinHeight="{Binding MinHeight}">
+﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels" xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" Width="{Binding Width}" Height="{Binding Height}" MinWidth="{Binding MinWidth}" MinHeight="{Binding MinHeight}">
 	<Grid>
-		<!--
-			<Grid.Resources>
-			<Style TargetType="{x:Type Expander}">
-			
-			</Style>
-			</Grid.Resources>
-		-->
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition>
-				<!--
-					<ColumnDefinition.Style>
-					<Style TargetType="{x:Type ColumnDefinition}">
-					<Style.Triggers>
-					<DataTrigger Binding="{Binding IsExpanded, ElementName=LeftExpander}" Value="False">
-					<Setter Property="Width" Value="Auto" />
-					</DataTrigger>
-					<DataTrigger Binding="{Binding IsExpanded, ElementName=LeftExpander}" Value="True">
-					<Setter Property="Width" Value="*" />
-					</DataTrigger>
-					</Style.Triggers>
-					</Style>
-					</ColumnDefinition.Style>
-				-->
-			</ColumnDefinition>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition>
-				<ColumnDefinition.Style>
-					<Style TargetType="{x:Type ColumnDefinition}">
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding RightContent, Converter={StaticResource NullToBoolConverter}}" Value="False">
-								<Setter Property="Width" Value="0" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding RightContent, Converter={StaticResource NullToBoolConverter}}" Value="True">
-								<Setter Property="Width" Value="*" />
-							</DataTrigger>
-							<!--
-								<DataTrigger Binding="{Binding IsExpanded, ElementName=RightExpander}" Value="False">
-								<Setter Property="Width" Value="Auto" />
-								</DataTrigger>
-								<DataTrigger Binding="{Binding IsExpanded, ElementName=RightExpander}" Value="True">
-								<Setter Property="Width" Value="*" />
-								</DataTrigger>
-							-->
-						</Style.Triggers>
-					</Style>
-				</ColumnDefinition.Style>
-			</ColumnDefinition>
+			<ColumnDefinition Width="{Binding Width1, Mode=TwoWay}" MinWidth="{Binding Width1, Converter={StaticResource GridLengthToMinWidthConverter}}" />
+			<ColumnDefinition Width="{Binding Width2, Mode=TwoWay}" />
+			<ColumnDefinition Width="{Binding Width3, Mode=TwoWay}" MinWidth="{Binding Width3, Converter={StaticResource GridLengthToMinWidthConverter}}" />
 		</Grid.ColumnDefinitions>
-		<!--  <Expander x:Name="LeftExpander" Grid.Column="0" ExpandDirection="Left" IsExpanded="True">  -->
-		<DockPanel>
+		<DockPanel Grid.Row="0">
 			<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
-				<ContentPresenter Content="{Binding Toolbar}" />
+				<DockPanel>
+					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<ContentPresenter Content="{Binding Toolbar}" />
+				</DockPanel>
 			</Border>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -75,10 +34,7 @@
 				</ItemsControl>
 			</Grid>
 		</DockPanel>
-		<!--  </Expander>  -->
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}" />
-		<!--  <Expander x:Name="RightExpander" Grid.Column="2" ExpandDirection="Right" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}">  -->
-		<ContentPresenter Grid.Column="2" Content="{Binding RightContent}" />
-		<!--  </Expander>  -->
+		<ContentPresenter Grid.Column="2" MinWidth="200" Content="{Binding RightContent}" />
 	</Grid>
 </UserControl>

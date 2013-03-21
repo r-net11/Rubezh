@@ -1,13 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Navigation;
+using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ShellViewModel : ApplicationViewModel
 	{
+		private double _splitterDistance;
+		private GridLength _emptyGridColumn;
 		public ShellViewModel()
 		{
+			_emptyGridColumn = new GridLength(0, GridUnitType.Pixel);
+			_splitterDistance = RegistrySettingsHelper.GetDouble("ShellSplitterDistance");
+			if (_splitterDistance == 0)
+				_splitterDistance = 1;
+			LeftPanelVisible = true;
 			AllowHelp = true;
 			AllowMaximize = true;
 			AllowMinimize = true;
@@ -15,24 +23,26 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinWidth = 800;
 			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
-			MinimizeCommand = new RelayCommand(OnMinimize);
+			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
 			TextVisibility = !RegistrySettingsHelper.GetBool("ShellViewModel.TextVisibility");
 		}
 
-		public RelayCommand MinimizeCommand { get; private set; }
-		void OnMinimize()
+		public RelayCommand<MinimizeTarget> MinimizeCommand { get; private set; }
+		void OnMinimize(MinimizeTarget target)
 		{
-			TextVisibility = !TextVisibility;
-		}
-
-		private string minimizeButtonContent = "<<";
-		public string MinimizeButtonContent
-		{
-			get { return minimizeButtonContent; }
-			set
+			switch (target)
 			{
-				minimizeButtonContent = value;
-				OnPropertyChanged("MinimizeButtonContent");
+				case MinimizeTarget.NavigationText:
+					TextVisibility = !TextVisibility;
+					break;
+				case MinimizeTarget.LeftPanel:
+					LeftPanelVisible = !RightPanelVisible;
+					RightPanelVisible = true;
+					break;
+				case MinimizeTarget.RightPanel:
+					RightPanelVisible = !LeftPanelVisible;
+					LeftPanelVisible = true;
+					break;
 			}
 		}
 
@@ -42,7 +52,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return textVisibility; }
 			set
 			{
-				MinimizeButtonContent = value ? "<<" : ">>";
 				if (value != TextVisibility)
 					RegistrySettingsHelper.SetBool("ShellViewModel.TextVisibility", !value);
 				textVisibility = value;
@@ -141,7 +150,97 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_rightContent = value;
 				OnPropertyChanged("RightContent");
+				RightPanelVisible = RightContent != null;
+				if (RightContent != null)
+					RightContent.Shell = this;
 			}
+		}
+
+		private bool _isRightPanelEnabled;
+		public bool IsRightPanelEnabled
+		{
+			get { return _isRightPanelEnabled; }
+			set
+			{
+				_isRightPanelEnabled = RightContent == null ? false : value;
+				OnPropertyChanged(() => IsRightPanelEnabled);
+				if (!IsRightPanelEnabled)
+					RightPanelVisible = false;
+			}
+		}
+
+		private bool _leftPanelVisible;
+		public bool LeftPanelVisible
+		{
+			get { return _leftPanelVisible; }
+			set
+			{
+				if (LeftPanelVisible == value)
+					return;
+				_leftPanelVisible = value;
+				OnPropertyChanged(() => LeftPanelVisible);
+				UpdateWidth();
+			}
+		}
+		private bool _rightPanelVisible;
+		public bool RightPanelVisible
+		{
+			get { return _rightPanelVisible; }
+			set
+			{
+				if (RightPanelVisible == value || (value && !IsRightPanelEnabled))
+					return;
+				_rightPanelVisible = RightContent == null ? false : value;
+				OnPropertyChanged(() => RightPanelVisible);
+				UpdateWidth();
+			}
+		}
+
+		private GridLength _width1;
+		public GridLength Width1
+		{
+			get { return _width1; }
+			set
+			{
+				_width1 = value;
+				OnPropertyChanged(() => Width1);
+			}
+		}
+		private GridLength _width2;
+		public GridLength Width2
+		{
+			get { return _width2; }
+			set
+			{
+				_width2 = value;
+				OnPropertyChanged(() => Width2);
+			}
+		}
+		private GridLength _width3;
+		public GridLength Width3
+		{
+			get { return _width3; }
+			set
+			{
+				_width3 = value;
+				OnPropertyChanged(() => Width3);
+			}
+		}
+
+		private void UpdateWidth()
+		{
+			if (Width1 != _emptyGridColumn && Width3 != _emptyGridColumn)
+				_splitterDistance = Width1.Value / Width3.Value;
+			Width1 = LeftPanelVisible ? new GridLength(_splitterDistance, GridUnitType.Star) : _emptyGridColumn;
+			Width2 = LeftPanelVisible && RightPanelVisible ? GridLength.Auto : _emptyGridColumn;
+			Width3 = RightPanelVisible ? new GridLength(1, GridUnitType.Star) : _emptyGridColumn;
+		}
+
+		public override void OnClosed()
+		{
+			UpdateWidth();
+			RegistrySettingsHelper.SetDouble("ShellSplitterDistance", _splitterDistance);
+			base.OnClosed();
 		}
 	}
 }

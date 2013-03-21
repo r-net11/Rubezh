@@ -31,6 +31,8 @@ namespace DevicesModule.ViewModels
 			Menu = new DevicesMenuViewModel(this);
 			PropMenu = new PropertiesViewModel(this);
 			RegisterShortcuts();
+			IsRightPanelEnabled = true;
+			IsRightPanelVisible = true;
 		}
 
 		public void Initialize()

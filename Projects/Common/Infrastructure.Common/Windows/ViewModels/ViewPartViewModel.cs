@@ -20,6 +20,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		public bool IsRightPanelEnabled { get; set; }
+		public bool IsRightPanelVisible { get; set; }
+
 		public ViewPartViewModel()
 		{
 			Shortcuts = new Dictionary<KeyGesture, RelayCommand>();

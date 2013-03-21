@@ -29,6 +29,8 @@ namespace DevicesModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
 			RegisterShortcuts();
+			IsRightPanelEnabled = true;
+			IsRightPanelVisible = false;
 		}
 
 		public void Initialize()

@@ -114,6 +114,8 @@
     <Compile Include="Converters\ColorToNameConverter.cs" />
     <Compile Include="Converters\BoolToFontStyleConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
+    <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
+    <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
     <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\IntToEnumConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
@@ -836,6 +838,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\MRO_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Subplan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SubPlanRectangle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
