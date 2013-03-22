@@ -26,7 +26,7 @@ namespace Common.GK
 			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
+			driver.AvailableCommands.Add(XStateType.Stop_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки, с", 0, 1, 1, 65535);
 			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);

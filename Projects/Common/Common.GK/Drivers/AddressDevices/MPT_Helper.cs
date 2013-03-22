@@ -24,9 +24,7 @@ namespace Common.GK
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
 			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
 
 			AddLogic(driver, 0xBB, "логика работы выхода 1", 1);
 			AddLogic(driver, 0xBC, "логика работы выхода 2", 2);
