@@ -69,48 +69,40 @@ namespace GKModule.ViewModels
 			get { return ControlRegime == DeviceControlRegime.Manual; }
 		}
 
-        void SendControlCommand(byte code)
-        {
-            ObjectCommandSendHelper.SendControlCommand(Direction, code);
-        }
+		public RelayCommand SetAutomaticStateCommand { get; private set; }
+		void OnSetAutomaticState()
+		{
+			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.SetRegime_Automatic);
+		}
 
-        public RelayCommand SetAutomaticStateCommand { get; private set; }
-        void OnSetAutomaticState()
-        {
-            SendControlCommand(0x80);
-            SendControlCommand(0x06);
-        }
+		public RelayCommand SetManualStateCommand { get; private set; }
+		void OnSetManualState()
+		{
+			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.SetRegime_Manual);
+		}
 
-        public RelayCommand SetManualStateCommand { get; private set; }
-        void OnSetManualState()
-        {
-            SendControlCommand(0x00);
-            SendControlCommand(0x06);
-        }
-
-        public RelayCommand SetIgnoreStateCommand { get; private set; }
-        void OnSetIgnoreState()
-        {
-            SendControlCommand(0x86);
-            SendControlCommand(0x00);
-        }
+		public RelayCommand SetIgnoreStateCommand { get; private set; }
+		void OnSetIgnoreState()
+		{
+			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.SetRegime_Off);
+		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			SendControlCommand(0x8b);
+			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOn_InManual);
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			SendControlCommand(0x90);
+			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOnNow_InManual);
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			SendControlCommand(0x8d);
+			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOff_InManual);
 		}
 
         #region IWindowIdentity Members

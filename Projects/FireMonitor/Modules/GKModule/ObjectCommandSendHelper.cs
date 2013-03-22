@@ -6,6 +6,12 @@ namespace GKModule
 {
 	public static class ObjectCommandSendHelper
 	{
+		public static void SendControlCommand(XBinaryBase binaryBase, XStateType stateType)
+		{
+			var code = 0x80 + (int)stateType;
+			ObjectCommandSendHelper.SendControlCommand(binaryBase, (byte)code);
+		}
+
 		public static void SendControlCommand(XBinaryBase binaryBase, byte code)
 		{
 			var bytes = new List<byte>();

@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			SendControlCommand(XStateType.Reset);
+			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.Reset);
 		}
 		bool CanResetFire()
 		{
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			SendControlCommand(XStateType.SetRegime_Off);
+			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.SetRegime_Off);
 		}
 		bool CanSetIgnore()
 		{
@@ -78,17 +78,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			SendControlCommand(XStateType.SetRegime_Automatic);
+			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.SetRegime_Automatic);
 		}
 		bool CanResetIgnore()
 		{
             return ZoneState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
-		}
-
-		void SendControlCommand(XStateType stateType)
-		{
-			var code = 0x80 + (int)stateType;
-			ObjectCommandSendHelper.SendControlCommand(Zone, (byte)code);
 		}
 	}
 }

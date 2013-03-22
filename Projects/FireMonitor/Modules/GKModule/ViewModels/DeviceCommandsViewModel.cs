@@ -29,15 +29,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void SendControlCommand(XStateType stateType)
-		{
-			if (Device.Driver.IsDeviceOnShleif)
-			{
-				var code = 0x80 + (int)stateType;
-				ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
-			}
-		}
-
         public bool IsTriStateControl
         {
             get { return Device.Driver.IsDeviceOnShleif && Device.Driver.IsControlDevice; }
@@ -70,19 +61,19 @@ namespace GKModule.ViewModels
         public RelayCommand SetAutomaticStateCommand { get; private set; }
         void OnSetAutomaticState()
         {
-			SendControlCommand(XStateType.SetRegime_Automatic);
+			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Automatic);
         }
 
         public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
         {
-			SendControlCommand(XStateType.SetRegime_Manual);
+			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Manual);
         }
 
         public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
         {
-			SendControlCommand(XStateType.SetRegime_Off);
+			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Off);
         }
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
