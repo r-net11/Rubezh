@@ -33,18 +33,18 @@ namespace ClientFS2.ConfigurationWriter
 			var panelDevices = GetAllPanelDevices();
 			foreach (var device in panelDevices)
 			{
-				var localZoneNo = 1;
+				//var localZoneNo = 1;
 				var localZones = GetAllZonesForPanel(device, false);
 				foreach (var zone in localZones)
 				{
-					zone.No = localZoneNo;
-					localZoneNo++;
+					//zone.No = localZoneNo;
+					//localZoneNo++;
 				}
 				var remoteZones = GetAllZonesForPanel(device, true);
 				foreach (var zone in remoteZones)
 				{
-					zone.No = localZoneNo;
-					localZoneNo++;
+					//zone.No = localZoneNo;
+					//localZoneNo++;
 				}
 			}
 		}
