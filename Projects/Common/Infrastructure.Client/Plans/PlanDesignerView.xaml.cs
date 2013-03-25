@@ -149,6 +149,8 @@ namespace Infrastructure.Client.Plans
 			double scale = Math.Min(scaleX, scaleY);
 			if (scale < 0)
 				return;
+			if (Double.IsNaN(scale))
+				scale = 1;
 			initialScale = scale;
 
 			scaleTransform.ScaleX = scale;
