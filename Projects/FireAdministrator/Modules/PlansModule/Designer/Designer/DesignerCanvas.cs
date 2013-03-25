@@ -41,7 +41,6 @@ namespace PlansModule.Designer
 			ContextMenu = new ContextMenu();
 			ContextMenu.Items.Add(pasteItem);
 			_moveAdorner = new MoveAdorner(this);
-
 		}
 
 		public override double Zoom
@@ -71,6 +70,16 @@ namespace PlansModule.Designer
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
+		public override void BackgroundMouseDown(MouseButtonEventArgs e)
+		{
+			base.BackgroundMouseDown(e);
+			if (Toolbox.ActiveInstrument != null & Toolbox.ActiveInstrument.Adorner != null && Toolbox.ActiveInstrument.Adorner.AllowBackgroundStart)
+			{
+				var ee = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton);
+				ee.RoutedEvent = MouseDownEvent;
+				DesignerSurface.RaiseEvent(ee);
+			}
+		}
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
 			base.OnMouseDown(e);
@@ -222,6 +231,7 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
+			Margin = new Thickness(25 / Zoom);
 			ZoomChanged();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)

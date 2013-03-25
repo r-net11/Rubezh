@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
+using System.Windows.Controls;
 
 namespace FireAdministrator
 {

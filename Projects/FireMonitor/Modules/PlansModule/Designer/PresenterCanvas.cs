@@ -12,6 +12,7 @@ using Infrustructure.Plans.Presenter;
 using Infrastructure.Common;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
 
 namespace PlansModule.Designer
 {
@@ -115,7 +116,6 @@ namespace PlansModule.Designer
 			}
 			else
 				_border.Hide();
-
 		}
 	}
 }

@@ -19,7 +19,8 @@ namespace DevicesModule.Plans.InstrumentAdorners
 		{
 			var element = new ElementRectangleZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element);
-			DialogService.ShowModalWindow(propertiesViewModel);
+			if (!DialogService.ShowModalWindow(propertiesViewModel))
+				return null;
 			Helper.SetZone(element);
 			return element;
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using FiresecAPI.Models;
+using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Client.Plans
 {
@@ -9,7 +10,7 @@ namespace Infrastructure.Client.Plans
 
 		bool AlwaysShowScroll { get; }
 		object Toolbox { get; }
-		object Canvas { get; }
+		CommonDesignerCanvas Canvas { get; }
 		Plan Plan { get; }
 
 		void ResetZoom(double zoom, double deviceZoom);

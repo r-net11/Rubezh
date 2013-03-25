@@ -5,6 +5,7 @@ using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -68,7 +69,7 @@ namespace PlansModule.ViewModels
 			get { return DesignerCanvas.Toolbox; }
 		}
 
-		public object Canvas
+		public CommonDesignerCanvas Canvas
 		{
 			get { return DesignerCanvas; }
 		}

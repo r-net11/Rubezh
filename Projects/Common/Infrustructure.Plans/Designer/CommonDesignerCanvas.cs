@@ -8,6 +8,7 @@ using Common;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Microsoft.Practices.Prism.Events;
+using System.Windows.Input;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -24,7 +25,7 @@ namespace Infrustructure.Plans.Designer
 			_map = new Dictionary<Guid, CommonDesignerItem>();
 			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
-			ClipToBounds = true;
+			ClipToBounds = false;
 
 			DesignerSurface = new DesignerSurface(this);
 			Child = DesignerSurface;
@@ -169,6 +170,10 @@ namespace Infrustructure.Plans.Designer
 		{
 		}
 		protected internal virtual void SetDesignerItemOver(CommonDesignerItem designerItem, bool isOver)
+		{
+		}
+
+		public virtual void BackgroundMouseDown(MouseButtonEventArgs e)
 		{
 		}
 	}

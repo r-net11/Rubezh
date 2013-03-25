@@ -115,7 +115,7 @@ namespace PlansModule.ViewModels
 		{
 			get { return null; }
 		}
-		public object Canvas
+		public CommonDesignerCanvas Canvas
 		{
 			get { return DesignerCanvas; }
 		}

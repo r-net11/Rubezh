@@ -53,5 +53,11 @@ namespace PlansModule.Designer.DesignerItems
 				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
 			base.UpdateElementProperties();
 		}
+		protected override void SetIsMouseOver(bool value)
+		{
+			if (Element is ElementSubPlan)
+				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
+			base.SetIsMouseOver(value);
+		}
 	}
 }

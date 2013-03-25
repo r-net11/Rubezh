@@ -26,6 +26,10 @@ namespace PlansModule.InstrumentAdorners
 			};
 		}
 
+		public override bool AllowBackgroundStart
+		{
+			get { return true; }
+		}
 		protected override void Show()
 		{
 			rubberband.Width = 0;

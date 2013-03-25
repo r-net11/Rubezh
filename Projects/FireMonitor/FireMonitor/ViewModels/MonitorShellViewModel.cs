@@ -15,6 +15,7 @@ namespace FireMonitor.ViewModels
 	public class MonitorShellViewModel : ShellViewModel
 	{
 		public MonitorShellViewModel()
+			: base("Monitor")
 		{
 			Title = "Оперативная задача ОПС FireSec-2";
 			Toolbar = new ToolbarViewModel();

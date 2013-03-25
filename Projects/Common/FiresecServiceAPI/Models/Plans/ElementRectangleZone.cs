@@ -9,12 +9,15 @@ namespace FiresecAPI.Models
 	{
 		[DataMember]
         public Guid ZoneUID { get; set; }
+		[DataMember]
+		public bool IsHidden { get; set; }
 
 		public override ElementBase Clone()
 		{
 			ElementRectangleZone elementBase = new ElementRectangleZone()
 			{
-                ZoneUID = ZoneUID
+                ZoneUID = ZoneUID,
+				IsHidden = IsHidden
 			};
 			Copy(elementBase);
 			return elementBase;

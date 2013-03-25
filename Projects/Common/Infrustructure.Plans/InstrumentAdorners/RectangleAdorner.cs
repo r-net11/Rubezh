@@ -35,8 +35,9 @@ namespace Infrustructure.Plans.InstrumentAdorners
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed)
+			if (e.LeftButton == MouseButtonState.Pressed && !endPoint.HasValue)
 			{
+				DesignerCanvas.DeselectAll();
 				StartPoint = e.GetPosition(this);
 				endPoint = null;
 				if (!AdornerCanvas.Children.Contains(rubberband))
@@ -48,7 +49,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed && AdornerCanvas.Children.Contains(rubberband))
+			if (StartPoint.HasValue && AdornerCanvas.Children.Contains(rubberband))
 			{
 				if (!AdornerCanvas.IsMouseCaptured)
 					AdornerCanvas.CaptureMouse();
@@ -59,10 +60,8 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (AdornerCanvas.IsMouseCaptured && StartPoint.HasValue)
+			if (AdornerCanvas.IsMouseCaptured && StartPoint.HasValue && endPoint.HasValue)
 			{
-				AdornerCanvas.ReleaseMouseCapture();
-				AdornerCanvas.Children.Remove(rubberband);
 				//AdornerCanvas.Cursor = Cursors.Pen;
 				ElementBaseRectangle element = CreateElement();
 				if (element != null)
@@ -79,6 +78,11 @@ namespace Infrustructure.Plans.InstrumentAdorners
 					DesignerCanvas.CreateDesignerItem(element);
 				}
 				StartPoint = null;
+				endPoint = null;
+				rubberband.Width = 0;
+				rubberband.Height = 0;
+				AdornerCanvas.ReleaseMouseCapture();
+				AdornerCanvas.Children.Remove(rubberband);
 			}
 		}
 

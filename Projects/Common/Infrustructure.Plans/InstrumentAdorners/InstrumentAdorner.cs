@@ -32,6 +32,10 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		{
 			get { return DesignerCanvas.Zoom; }
 		}
+		public virtual bool AllowBackgroundStart
+		{
+			get { return false; }
+		}
 
 		public InstrumentAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)

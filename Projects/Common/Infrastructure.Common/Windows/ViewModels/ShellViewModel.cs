@@ -9,12 +9,14 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		private double _splitterDistance;
 		private GridLength _emptyGridColumn;
-		public ShellViewModel()
+		public ShellViewModel(string name)
 		{
+			Name = name;
 			_emptyGridColumn = new GridLength(0, GridUnitType.Pixel);
-			_splitterDistance = RegistrySettingsHelper.GetDouble("ShellSplitterDistance");
+			_splitterDistance = RegistrySettingsHelper.GetDouble(Name + ".Shell.SplitterDistance");
 			if (_splitterDistance == 0)
 				_splitterDistance = 1;
+			Width1 = new GridLength(_splitterDistance, GridUnitType.Star);
 			LeftPanelVisible = true;
 			AllowHelp = true;
 			AllowMaximize = true;
@@ -24,7 +26,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
-			TextVisibility = !RegistrySettingsHelper.GetBool("ShellViewModel.TextVisibility");
+			TextVisibility = !RegistrySettingsHelper.GetBool(Name + ".Shell.TextVisibility");
 		}
 
 		public RelayCommand<MinimizeTarget> MinimizeCommand { get; private set; }
@@ -52,12 +54,14 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return textVisibility; }
 			set
 			{
-				if (value != TextVisibility)
-					RegistrySettingsHelper.SetBool("ShellViewModel.TextVisibility", !value);
+				if (TextVisibility != value)
+					RegistrySettingsHelper.SetBool(Name + ".Shell.TextVisibility", !value);
 				textVisibility = value;
 				OnPropertyChanged("TextVisibility");
 			}
 		}
+
+		public string Name { get; private set; }
 
 		private List<NavigationItem> _navigationItems;
 		public List<NavigationItem> NavigationItems
@@ -239,7 +243,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public override void OnClosed()
 		{
 			UpdateWidth();
-			RegistrySettingsHelper.SetDouble("ShellSplitterDistance", _splitterDistance);
+			RegistrySettingsHelper.SetDouble(Name + ".Shell.SplitterDistance", _splitterDistance);
 			base.OnClosed();
 		}
 	}

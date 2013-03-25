@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
+using DeviceControls;
 using DevicesModule.Plans.Designer;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using Common;
-using DeviceControls;
 
 namespace DevicesModule.Plans
 {
@@ -46,9 +45,9 @@ namespace DevicesModule.Plans
 		{
 			foreach (var element in plan.ElementDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
+			foreach (var element in plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
-			foreach (var element in plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
+			foreach (var element in plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
 		}
 

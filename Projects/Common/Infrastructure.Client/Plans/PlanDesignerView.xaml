@@ -9,7 +9,7 @@
 		<ContentPresenter Grid.Row="0" Content="{Binding Toolbox}" DockPanel.Dock="Top" />
 
 		<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-			<Grid Name="_grid">
+			<Grid Name="_grid" Background="Transparent" MouseDown="OnContentMouseDown">
 				<Grid.LayoutTransform>
 					<TransformGroup>
 						<ScaleTransform x:Name="scaleTransform" />
@@ -30,11 +30,13 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Controls:ToolBarButton Grid.Column="0" Click="OnDeviceZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
-            <Slider x:Name="deviceSlider" Grid.Column="1" Minimum="15" Maximum="50" Value="30" ToolTip="Изменить размер устройства" Orientation="Horizontal" TickFrequency="1" IsSnapToTickEnabled="True" TickPlacement="None" VerticalAlignment="Center" IsMoveToPointEnabled="True" />
+			<Slider x:Name="deviceSlider" Grid.Column="1" VerticalAlignment="Center" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True"
+			        Maximum="50" Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None"
+			        ToolTip="Изменить размер устройства" Value="30" />
 			<Controls:ToolBarButton Grid.Column="2" Click="OnDeviceZoomIn" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
 
 			<Controls:ToolBarButton Grid.Column="3" Click="OnZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
-            <Slider x:Name="slider" Grid.Column="4" Minimum="1" Maximum="10" Value="1" ToolTip="Изменить масштаб плана" Orientation="Horizontal" VerticalAlignment="Center" IsMoveToPointEnabled="True" />
+			<Slider x:Name="slider" Grid.Column="4" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="10" Minimum="1" Orientation="Horizontal" ToolTip="Изменить масштаб плана" Value="1" />
 			<Controls:ToolBarButton Grid.Column="5" Click="OnZoomIn" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
 		</Grid>
 	</Grid>

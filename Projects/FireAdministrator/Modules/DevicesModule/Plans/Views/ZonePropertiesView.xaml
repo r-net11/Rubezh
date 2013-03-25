@@ -8,6 +8,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True" Name="ZonesDataGrid">
             <DataGrid.Resources>
@@ -26,7 +27,8 @@
                 <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
                 </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+		<CheckBox Grid.Row="1" VerticalAlignment="Center" IsChecked="{Binding IsHidden, UpdateSourceTrigger=PropertyChanged}" Content="Невидимая зона"/>
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Width="100" Command="{Binding EditCommand}" Content="Редактировать" Margin="2" />
             <Button Width="100" Command="{Binding CreateCommand}" Content="Создать" Margin="2" />
         </StackPanel>

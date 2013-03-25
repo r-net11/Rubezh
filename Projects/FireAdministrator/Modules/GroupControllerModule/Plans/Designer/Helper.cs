@@ -46,7 +46,7 @@ namespace GKModule.Plans.Designer
 		}
 		public static Color GetXZoneColor(XZone zone)
 		{
-			Color color = Colors.Gray;
+			Color color = Colors.Black;
 			if (zone != null)
 				color = Colors.Purple;
 			return color;

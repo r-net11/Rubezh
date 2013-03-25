@@ -40,7 +40,7 @@ namespace PlansModule.Designer.Adorners
 			{
 				_transforms.Clear();
 				for (int i = 0; i < _points.Count; i++)
-					_transforms.Add(new TranslateTransform());
+					_transforms.Add(new TranslateTransform(_points[i].X, _points[i].Y));
 			}
 			for (int i = 0; i < _transforms.Count; i++)
 				DrawThumb(drawingContext, _transforms[i]);

@@ -62,6 +62,12 @@ namespace Infrastructure.Client.Plans
 				slider.Value += e.Delta > 0 ? WheelScrollSpeed : -WheelScrollSpeed;
 			e.Handled = true;
 		}
+		private void OnContentMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			var viewModel = (IPlanDesignerViewModel)DataContext;
+			if (viewModel != null && viewModel.Canvas != null)
+				viewModel.Canvas.BackgroundMouseDown(e);
+		}
 
 		private void OnZoomIn(object sender, RoutedEventArgs e)
 		{
@@ -133,12 +139,13 @@ namespace Infrastructure.Client.Plans
 
 		private void FullSize()
 		{
-			var canvas = _contentControl.Content as FrameworkElement;
-			if (canvas == null)
+			var viewModel = (IPlanDesignerViewModel)DataContext;
+			if (viewModel == null || viewModel.Canvas == null)
 				return;
+			var margin = viewModel.AlwaysShowScroll ? 51 : 5;
 
-			double scaleX = (_scrollViewer.ActualWidth - 30) / canvas.Width;
-			double scaleY = (_scrollViewer.ActualHeight - 30) / canvas.Height;
+			double scaleX = (_scrollViewer.ViewportWidth - margin) / viewModel.Canvas.CanvasWidth;
+			double scaleY = (_scrollViewer.ViewportHeight - margin) / viewModel.Canvas.CanvasHeight;
 			double scale = Math.Min(scaleX, scaleY);
 			if (scale < 0)
 				return;

@@ -1,10 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             xmlns:Views="clr-namespace:DevicesModule.Views"
-             Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -28,7 +22,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
-        <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True" Name="DevicesTreeListView">
+		<Controls:TreeListView Name="DevicesTreeListView" Grid.Row="0" Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<Controls:TreeListView.Resources>
 				<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -48,8 +42,27 @@
 									<ControlTemplate>
 										<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+											<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+											<Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
+												<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
+												<Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+											</Grid>
+
 											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-											<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Width="200" />
+											<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}">
+												<TextBlock.Style>
+													<Style>
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding Device.Driver.IsPlaceable}" Value="True">
+																<DataTrigger.Setters>
+																	<Setter Property="TextBlock.FontWeight" Value="Bold" />
+																</DataTrigger.Setters>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</TextBlock.Style>
+											</TextBlock>
 										</StackPanel>
 									</ControlTemplate>
 								</Controls:EditorPresenter.ViewTemplate>
@@ -58,16 +71,16 @@
 										<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
 											<StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
 												<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+												<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+												<TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											</StackPanel>
 											<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
-                                                        <Grid>
-                                                            <Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5, 0, 5, 0" />
-                                                            <TextBlock Text="{Binding ShortName}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="Black" Margin="31 0 0 0" />
-                                                        </Grid>
+														<Grid>
+															<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ImageSource}" />
+															<TextBlock Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Black" Text="{Binding ShortName}" />
+														</Grid>
 													</DataTemplate>
 												</ComboBox.ItemTemplate>
 											</ComboBox>

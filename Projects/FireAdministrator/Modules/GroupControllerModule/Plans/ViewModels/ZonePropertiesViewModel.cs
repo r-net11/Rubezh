@@ -25,6 +25,7 @@ namespace GKModule.Plans.ViewModels
 			Zones = new ObservableCollection<XZone>(XManager.DeviceConfiguration.SortedZones);
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
+			IsHidden = iElementZone.IsHidden;
 		}
 
 		public ObservableCollection<XZone> Zones { get; private set; }
@@ -37,6 +38,17 @@ namespace GKModule.Plans.ViewModels
 			{
 				_selectedZone = value;
 				OnPropertyChanged("SelectedZone");
+			}
+		}
+
+		private bool _isHidden;
+		public bool IsHidden
+		{
+			get { return _isHidden; }
+			set
+			{
+				_isHidden = value;
+				OnPropertyChanged(() => IsHidden);
 			}
 		}
 
@@ -66,6 +78,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Helper.SetXZone(IElementZone, SelectedZone);
+			IElementZone.IsHidden = IsHidden;
 			return base.Save();
 		}
 	}

@@ -11,10 +11,12 @@ namespace Infrustructure.Plans.InstrumentAdorners
 	public abstract class BasePolygonAdorner : InstrumentAdorner
 	{
 		private Shape rubberband;
+		private bool _opened;
 
 		public BasePolygonAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
+			_opened = false;
 		}
 
 		protected Shape Rubberband
@@ -36,17 +38,21 @@ namespace Infrustructure.Plans.InstrumentAdorners
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
+			DesignerCanvas.DeselectAll();
 			if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
 			{
 				if (!AdornerCanvas.Children.Contains(rubberband))
 					AdornerCanvas.Children.Add(rubberband);
+				if (!AdornerCanvas.IsMouseCaptured)
+					AdornerCanvas.CaptureMouse();
+				_opened = true;
 			}
 			if (e.LeftButton == MouseButtonState.Pressed && e.ClickCount == 2)
 				ClosePolygon();
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (Points.Count > 0)
+			if (Points.Count > 0 && _opened)
 			{
 				if (!AdornerCanvas.IsMouseCaptured)
 					AdornerCanvas.CaptureMouse();
@@ -59,7 +65,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (e.ButtonState == MouseButtonState.Released)
+			if (e.ButtonState == MouseButtonState.Released && _opened)
 				switch (e.ChangedButton)
 				{
 					case MouseButton.Left:
@@ -68,7 +74,6 @@ namespace Infrustructure.Plans.InstrumentAdorners
 							Points.Add(CutPoint(e.GetPosition(this)));
 						break;
 					case MouseButton.Right:
-						AdornerCanvas.Children.Remove(rubberband);
 						ElementBaseShape element = CreateElement();
 						if (element != null)
 						{
@@ -77,13 +82,17 @@ namespace Infrustructure.Plans.InstrumentAdorners
 							else
 								element.Position = CutPoint(e.GetPosition(this));
 							DesignerCanvas.CreateDesignerItem(element);
-							Points.Clear();
 						}
-						AdornerCanvas.ReleaseMouseCapture();
+						Cleanup();
 						break;
 				}
 		}
 
+		public override void UpdateZoom()
+		{
+			base.UpdateZoom();
+			rubberband.StrokeThickness = 1 / ZoomFactor;
+		}
 		public override void KeyboardInput(Key key)
 		{
 			base.KeyboardInput(key);
@@ -100,8 +109,6 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		{
 			if (Points.Count > 2)
 			{
-				AdornerCanvas.ReleaseMouseCapture();
-				AdornerCanvas.Children.Remove(rubberband);
 				ElementBaseShape element = CreateElement();
 				if (element != null)
 				{
@@ -109,12 +116,15 @@ namespace Infrustructure.Plans.InstrumentAdorners
 					element.Points = new PointCollection(Points);
 					DesignerCanvas.CreateDesignerItem(element);
 				}
+				Cleanup();
 			}
 		}
-		public override void UpdateZoom()
+		private void Cleanup()
 		{
-			base.UpdateZoom();
-			rubberband.StrokeThickness = 1 / ZoomFactor;
+			_opened = false;
+			Points.Clear();
+			AdornerCanvas.ReleaseMouseCapture();
+			AdornerCanvas.Children.Remove(rubberband);
 		}
 	}
 }

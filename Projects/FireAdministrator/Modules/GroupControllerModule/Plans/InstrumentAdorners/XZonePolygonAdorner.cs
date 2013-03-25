@@ -29,7 +29,8 @@ namespace GKModule.Plans.InstrumentAdorners
 		{
 			var element = new ElementPolygonXZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element);
-			DialogService.ShowModalWindow(propertiesViewModel);
+			if (!DialogService.ShowModalWindow(propertiesViewModel))
+				return null;
 			Helper.SetXZone(element);
 			return element;
 		}

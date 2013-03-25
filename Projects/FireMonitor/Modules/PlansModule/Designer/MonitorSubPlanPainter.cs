@@ -8,6 +8,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
+using System.Windows.Input;
 
 namespace PlansModule.Designer
 {
@@ -26,7 +27,9 @@ namespace PlansModule.Designer
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = null;
-			_presenterItem.DoubleClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
+			_presenterItem.Cursor = Cursors.Hand;
+			//_presenterItem.DoubleClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
+			_presenterItem.ClickEvent += (s, e) => ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(((ElementSubPlan)_presenterItem.Element).PlanUID);
 			ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
 		}
 

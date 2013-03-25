@@ -11,16 +11,19 @@ namespace Infrustructure.Plans.Presenter
 	public class PresenterItem : CommonDesignerItem
 	{
 		public event EventHandler DoubleClickEvent;
+		public event EventHandler ClickEvent;
 
 		public bool IsPoint { get; set; }
 
 		public Func<ContextMenu> ContextMenuProvider { get; set; }
 
 		public bool ShowBorderOnMouseOver { get; set; }
+		public Cursor Cursor { get; set; }
 
 		public PresenterItem(ElementBase element)
 			: base(element)
 		{
+			Cursor = null;
 			ShowBorderOnMouseOver = false;
 			IsEnabled = true;
 			IsPoint = false;
@@ -56,10 +59,21 @@ namespace Infrustructure.Plans.Presenter
 			if (DoubleClickEvent != null)
 				DoubleClickEvent(this, e);
 		}
+		protected override void MouseUp(Point point, MouseButtonEventArgs e)
+		{
+			base.MouseUp(point, e);
+			if (ClickEvent != null)
+				ClickEvent(this, e);
+		}
 
 		protected override ContextMenu ContextMenuOpening()
 		{
 			return ContextMenuProvider == null ? null : ContextMenuProvider();
+		}
+		protected override void SetIsMouseOver(bool value)
+		{
+			base.SetIsMouseOver(value);
+			DesignerCanvas.Cursor = value && Cursor != null ? Cursor : Cursors.Arrow;
 		}
 
 		public override Rect GetRectangle()

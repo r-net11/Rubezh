@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
+using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans.Designer;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using Common;
-using DeviceControls;
 
 namespace GKModule.Plans
 {
@@ -48,9 +47,9 @@ namespace GKModule.Plans
 		{
 			foreach (var element in plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
+			foreach (var element in plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
-			foreach (var element in plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty))
+			foreach (var element in plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
 		}
 

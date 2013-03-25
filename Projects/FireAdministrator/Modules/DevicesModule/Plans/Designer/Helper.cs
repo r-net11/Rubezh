@@ -47,7 +47,7 @@ namespace DevicesModule.Plans.Designer
 		}
 		public static Color GetZoneColor(Zone zone)
 		{
-			Color color = Colors.Gray;
+			Color color = Colors.Black;
 			if (zone != null)
 				switch (zone.ZoneType)
 				{
