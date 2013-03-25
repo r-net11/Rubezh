@@ -181,9 +181,9 @@ namespace GKModule
         static void EraseDatabase(XDevice device)
         {
             LoadingService.DoStep(device.ShortPresentationAddressAndDriver + " Стирание базы данных");
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 3; i++)
 			{
-				var sendResult = SendManager.Send(device, 0, 15, 0);
+				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
 				{
 					return;
@@ -191,7 +191,6 @@ namespace GKModule
 				else
 				{
 					Thread.Sleep(TimeSpan.FromSeconds(1));
-					;
 				}
 			}
 			MessageBoxService.ShowError("Не удалось стереть базу данных");

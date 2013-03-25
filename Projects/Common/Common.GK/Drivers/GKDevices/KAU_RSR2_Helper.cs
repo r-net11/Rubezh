@@ -43,7 +43,7 @@ namespace Common.GK
 					Default = 180,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true,
-					Multiplier = 2.8169
+					//Multiplier = 2.8169
 				}
 				);
 
@@ -58,7 +58,8 @@ namespace Common.GK
 					Max = 100,
 					Default = 50,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					IsLowByte = true
 				}
 				);
 
@@ -73,7 +74,8 @@ namespace Common.GK
 					Max = 10,
 					Default = 5,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsAUParameter = true
+					IsAUParameter = true,
+					IsLowByte = true
 				}
 				);
 
@@ -102,12 +104,12 @@ namespace Common.GK
 				IsAUParameter = false
 			};
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Основная", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 1 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 3 });
 			driver.Properties.Add(modeProperty);
 
 			var als12Property = new XDriverProperty()
 			{
-				No = 1,
+				No = 2,
 				IsHieghByte = true,
 				Mask = 0x03,
 				Name = "als12",
@@ -115,62 +117,58 @@ namespace Common.GK
 				ToolTip = "",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsAUParameter = false
+				IsAUParameter = true
 			};
-			als12Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Радиальный", Value = 0 });
-			als12Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Кольцевой", Value = 1 });
-			als12Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Кольцевой - Радиальный", Value = 2 });
+			als12Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Две радиальных", Value = 0 });
+			als12Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Одна кольцевая", Value = 0x03 });
 			driver.Properties.Add(als12Property);
 
 			var als34Property = new XDriverProperty()
 			{
-				No = 1,
+				No = 2,
 				IsHieghByte = true,
 				Mask = 0x0C,
-				Name = "als12",
-				Caption = "АЛС 1-2",
+				Name = "als34",
+				Caption = "АЛС 3-4",
 				ToolTip = "",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsAUParameter = false
+				IsAUParameter = true
 			};
-			als34Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Радиальный", Value = 0 });
-			als34Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Кольцевой", Value = 1 });
-			als34Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Кольцевой - Радиальный", Value = 2 });
+			als34Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Две радиальных", Value = 0 });
+			als34Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Одна кольцевая", Value = 0x0C });
 			driver.Properties.Add(als34Property);
 
 			var als56Property = new XDriverProperty()
 			{
-				No = 1,
+				No = 2,
 				IsHieghByte = true,
 				Mask = 0x30,
-				Name = "als12",
-				Caption = "АЛС 1-2",
+				Name = "als56",
+				Caption = "АЛС 5-6",
 				ToolTip = "",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsAUParameter = false
+				IsAUParameter = true
 			};
-			als56Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Радиальный", Value = 0 });
-			als56Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Кольцевой", Value = 1 });
-			als56Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Кольцевой - Радиальный", Value = 2 });
+			als56Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Две радиальных", Value = 0 });
+			als56Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Одна кольцевая", Value = 0x30 });
 			driver.Properties.Add(als56Property);
 
 			var als78Property = new XDriverProperty()
 			{
-				No = 1,
+				No = 2,
 				IsHieghByte = true,
 				Mask = 0xC0,
-				Name = "als12",
-				Caption = "АЛС 1-2",
+				Name = "als78",
+				Caption = "АЛС 7-8",
 				ToolTip = "",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsAUParameter = false
+				IsAUParameter = true
 			};
-			als78Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Радиальный", Value = 0 });
-			als78Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Радиальный - Кольцевой", Value = 1 });
-			als78Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Кольцевой - Радиальный", Value = 2 });
+			als78Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Две радиальных", Value = 0 });
+			als78Property.Parameters.Add(new XDriverPropertyParameter() { Name = "Одна кольцевая", Value = 0xC0 });
 			driver.Properties.Add(als78Property);
 
 			return driver;

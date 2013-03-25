@@ -41,9 +41,9 @@ namespace GKModule
 				finally
 				{
 					LoadingService.Close();
+					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public static void SetAllParameters()
@@ -151,6 +151,7 @@ namespace GKModule
 			finally
 			{
 				LoadingService.Close();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -195,12 +196,13 @@ namespace GKModule
 						}
 						if (driverProperty.IsHieghByte)
 						{
-							paramValue = (ushort)(paramValue >> 8);
-							paramValue = (ushort)(paramValue << 8);
+							paramValue = (ushort)(paramValue / 256);
 						}
 						paramValue = (ushort)(paramValue >> driverProperty.Offset);
 						if (driverProperty.Mask != 0)
+						{
 							paramValue = (byte)(paramValue & driverProperty.Mask);
+						}
 						if (driverProperty.Multiplier != 0)
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);

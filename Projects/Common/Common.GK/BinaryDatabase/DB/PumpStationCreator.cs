@@ -150,7 +150,7 @@ namespace Common.GK
 						formula.Add(FormulaOperationType.AND);
 					}
 
-					formula.AddPutBit(XStateType.TurnOn, MainDelay);
+					formula.AddPutBit(XStateType.TurnOn_InAutomatic, MainDelay);
 				}
 
 				formula.Add(FormulaOperationType.END);
@@ -172,9 +172,9 @@ namespace Common.GK
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(XStateType.On, MainDelay);
-					formula.AddPutBit(XStateType.TurnOn, delay);
+					formula.AddPutBit(XStateType.TurnOn_InAutomatic, delay);
 					formula.AddGetBit(XStateType.Off, MainDelay);
-					formula.AddPutBit(XStateType.TurnOff, delay);
+					formula.AddPutBit(XStateType.TurnOff_InAutomatic, delay);
 
 					formula.Add(FormulaOperationType.END);
 					delayBinaryObject.Formula = formula;
@@ -213,13 +213,13 @@ namespace Common.GK
 
 					formula.AddGetBit(XStateType.On, MainDelay);
 					formula.Add(FormulaOperationType.AND);
-					formula.AddPutBit(XStateType.TurnOn, pumpDevice); // включить насос
+					formula.AddPutBit(XStateType.TurnOn_InAutomatic, pumpDevice); // включить насос
 
 					formula.AddGetBit(XStateType.On, MainDelay);
 					formula.Add(FormulaOperationType.COM);
 					formula.AddGetBit(XStateType.Norm, pumpDevice);
 					formula.Add(FormulaOperationType.AND); // бит дежурный у самого насоса
-					formula.AddPutBit(XStateType.TurnOff, pumpDevice); // выключить насос
+					formula.AddPutBit(XStateType.TurnOff_InAutomatic, pumpDevice); // выключить насос
 					formula.Add(FormulaOperationType.END);
 
 					pumpBinaryObject.Formula = formula;

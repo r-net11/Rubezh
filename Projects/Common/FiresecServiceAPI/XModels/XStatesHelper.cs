@@ -30,23 +30,9 @@ namespace FiresecAPI.XModels
 				case XStateType.TurningOn:
 					return 6;
 
-				case XStateType.TurnOn:
-				case XStateType.TurnOff:
-				case XStateType.CancelDelay:
-				case XStateType.Stop:
-				case XStateType.ForbidStart:
-				case XStateType.TurnOnNow:
-				case XStateType.TurnOffNow:
-				case XStateType.Reserve1:
-				case XStateType.Reserve2:
-					return 7;
-
-				case XStateType.Norm:
-				case XStateType.Off:
-				case XStateType.TurningOff:
+				default:
 					return 7;
 			}
-			return 7;
 		}
 
 		public static List<XStateType> StatesFromInt(int intValue)
