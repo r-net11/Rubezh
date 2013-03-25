@@ -231,7 +231,7 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
-			Margin = new Thickness(25 / (Zoom > 0 ? Zoom : 1));
+			Margin = new Thickness(25 / (!double.IsNaN(Zoom) && Zoom > 0 ? Zoom : 1));
 			ZoomChanged();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
