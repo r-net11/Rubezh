@@ -64,9 +64,12 @@ namespace Infrastructure.Client.Plans
 		}
 		private void OnContentMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			var viewModel = (IPlanDesignerViewModel)DataContext;
-			if (viewModel != null && viewModel.Canvas != null)
-				viewModel.Canvas.BackgroundMouseDown(e);
+			if (e.Source == _grid)
+			{
+				var viewModel = (IPlanDesignerViewModel)DataContext;
+				if (viewModel != null && viewModel.Canvas != null)
+					viewModel.Canvas.BackgroundMouseDown(e);
+			}
 		}
 
 		private void OnZoomIn(object sender, RoutedEventArgs e)

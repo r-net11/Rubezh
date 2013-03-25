@@ -78,6 +78,7 @@ namespace PlansModule.Designer
 				var ee = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton);
 				ee.RoutedEvent = MouseDownEvent;
 				DesignerSurface.RaiseEvent(ee);
+				e.Handled = true;
 			}
 		}
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -231,7 +232,7 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
-			Margin = new Thickness(25 / (!double.IsNaN(Zoom) && Zoom > 0 ? Zoom : 1));
+			Margin = new Thickness(25 / Zoom);
 			ZoomChanged();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
