@@ -12,6 +12,7 @@ using Common;
 using FSAgentAPI;
 using FSAgentServer.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common;
 
 namespace FSAgentServer
 {
@@ -34,12 +35,14 @@ namespace FSAgentServer
 		{
 			StartRunThread();
 			StartLifetimeThread();
+			CloseWindowHelper.StartWatchThread();
 		}
 
 		public void Stop()
 		{
 			StopLifetimeThread();
 			StopRunThread();
+			CloseWindowHelper.StopWatchThread();
 		}
 
         public void StartRunThread()

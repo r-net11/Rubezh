@@ -107,9 +107,9 @@
     <FeatureRef Id="FiresecFeature" />
 
     <InstallExecuteSequence>
+      <Custom Action="CloseApplications" Sequence="1" />
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
-      <Custom Action="CloseApplications" Before="InstallInitialize">1</Custom>
 
       <Custom Action="RegisterFS_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
       <Custom Action="RegisterFs_types" After="InstallInitialize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
