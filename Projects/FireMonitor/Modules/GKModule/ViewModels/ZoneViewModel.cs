@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetFire()
 		{
-			return ZoneState.States.Contains(XStateType.Fire1);
+			return ZoneState.States.Contains(XStateType.Fire2) || ZoneState.States.Contains(XStateType.Fire1) || ZoneState.States.Contains(XStateType.Attention);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
