@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -177,40 +178,43 @@ namespace PlansModule.ViewModels
 
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
-			if (!AcceptKeyboard)
+			if (!AcceptKeyboard || !ApplicationService.ApplicationWindow.IsKeyboardFocusWithin)
 				return;
 
-			if (Keyboard.Modifiers == ModifierKeys.Control)
-				switch (e.Key)
-				{
-					case Key.C:
-						ExecuteCommand(PlansViewModel.CopyCommand);
-						break;
-					case Key.X:
-						ExecuteCommand(PlansViewModel.CutCommand);
-						break;
-					case Key.V:
-						ExecuteCommand(PlansViewModel.PasteCommand);
-						break;
-					case Key.Z:
-						ExecuteCommand(PlansViewModel.UndoCommand);
-						break;
-					case Key.Y:
-						ExecuteCommand(PlansViewModel.RedoCommand);
-						break;
-					case Key.A:
-						var designerCanvas = PlansViewModel.DesignerCanvas;
-						if (designerCanvas != null)
-							using (new WaitWrapper())
-							using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
-								designerCanvas.SelectAll();
-						break;
-				}
-			else if (e.Key == Key.Delete)
+			if (ActiveInstrument == null || ActiveInstrument == _defaultInstrument)
 			{
-				var designerCanvas = PlansViewModel.DesignerCanvas;
-				if (designerCanvas != null)
-					designerCanvas.RemoveAllSelected();
+				if (Keyboard.Modifiers == ModifierKeys.Control)
+					switch (e.Key)
+					{
+						case Key.C:
+							ExecuteCommand(PlansViewModel.CopyCommand);
+							break;
+						case Key.X:
+							ExecuteCommand(PlansViewModel.CutCommand);
+							break;
+						case Key.V:
+							ExecuteCommand(PlansViewModel.PasteCommand);
+							break;
+						case Key.Z:
+							ExecuteCommand(PlansViewModel.UndoCommand);
+							break;
+						case Key.Y:
+							ExecuteCommand(PlansViewModel.RedoCommand);
+							break;
+						case Key.A:
+							var designerCanvas = PlansViewModel.DesignerCanvas;
+							if (designerCanvas != null)
+								using (new WaitWrapper())
+								using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
+									designerCanvas.SelectAll();
+							break;
+					}
+				else if (e.Key == Key.Delete)
+				{
+					var designerCanvas = PlansViewModel.DesignerCanvas;
+					if (designerCanvas != null)
+						designerCanvas.RemoveAllSelected();
+				}
 			}
 			else if (e.Key == Key.Escape)
 				SetDefault();

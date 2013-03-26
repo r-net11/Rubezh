@@ -206,6 +206,7 @@ namespace PlansModule.Designer
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
+			System.Console.WriteLine("CloneElements");
 			_initialElements = new List<ElementBase>();
 			foreach (var designerItem in designerItems)
 			{
@@ -217,6 +218,7 @@ namespace PlansModule.Designer
 
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{
+			System.Console.WriteLine("BeginChange");
 			_initialElements = CloneElements(designerItems);
 		}
 		public override void BeginChange()
@@ -225,6 +227,7 @@ namespace PlansModule.Designer
 		}
 		public override void EndChange()
 		{
+			System.Console.WriteLine("EndChange");
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(_initialElements);
 			foreach (var designerItem in SelectedItems)
 				designerItem.UpdateElementProperties();

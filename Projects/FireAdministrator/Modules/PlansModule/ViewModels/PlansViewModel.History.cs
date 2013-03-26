@@ -116,6 +116,7 @@ namespace PlansModule.ViewModels
 					ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsBefore);
 					break;
 			}
+			DesignerCanvas.Refresh();
 			_historyAction = false;
 			DesignerCanvas.Toolbox.SetDefault();
 		}

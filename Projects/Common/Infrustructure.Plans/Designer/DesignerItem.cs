@@ -89,8 +89,12 @@ namespace Infrustructure.Plans.Designer
 
 		public override void ResetElement(ElementBase element)
 		{
+			var isNewElement = Element == null || Element.UID != element.UID;
 			base.ResetElement(element);
-			Painter = PainterFactory.Create(Element);
+			if (isNewElement || Painter == null)
+				Painter = PainterFactory.Create(Element);
+			else
+				Painter.ResetElement(Element);
 			Painter.Invalidate();
 			if (DesignerCanvas != null)
 				DesignerCanvas.Refresh();

@@ -64,7 +64,8 @@ namespace DevicesModule.Plans.ViewModels
 		{
 			var createZoneEventArg = new CreateZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
-			IElementZone.ZoneUID = createZoneEventArg.Zone.UID;
+			if (createZoneEventArg.Zone != null)
+				IElementZone.ZoneUID = createZoneEventArg.Zone.UID;
 			Helper.BuildMap();
 			Helper.SetZone(IElementZone);
 			if (!createZoneEventArg.Cancel)

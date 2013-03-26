@@ -6,6 +6,7 @@ namespace Infrustructure.Plans.Painters
 {
 	public interface IPainter
 	{
+		void ResetElement(ElementBase element);
 		Rect Bounds { get; }
 		void Invalidate();
 		void Draw(DrawingContext drawingContext);

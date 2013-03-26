@@ -19,6 +19,14 @@ namespace Infrustructure.Plans.Painters
 			Geometry = CreateGeometry();
 		}
 
+		public void ResetElement(ElementBase element)
+		{
+			bool recreateGeometry = element.GetType() == Element.GetType();
+			Element = element;
+			if (recreateGeometry)
+				Geometry = CreateGeometry();
+		}
+
 		protected abstract T CreateGeometry();
 		protected virtual void InnerDraw(DrawingContext drawingContext)
 		{

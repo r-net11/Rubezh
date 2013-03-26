@@ -277,7 +277,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			if (DesignerItem.IsSelected)
 			{
-				DesignerCanvas.BeginChange();
+				if (!IsMoved)
+					DesignerCanvas.BeginChange();
 				if (_resizeDirection != ResizeDirection.None)
 				{
 					var vector = CalculateSize(_resizeDirection, shift);
