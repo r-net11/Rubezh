@@ -13,6 +13,7 @@ namespace Infrastructure.Client.Plans
 		Point? lastMousePositionOnTarget;
 		Point? lastCenterPositionOnTarget;
 		double initialScale = 1;
+		private bool _requreRefresh;
 
 		public PlanDesignerView()
 		{
@@ -31,11 +32,18 @@ namespace Infrastructure.Client.Plans
 
 			Loaded += new RoutedEventHandler(OnLoaded);
 			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
+			_scrollViewer.LayoutUpdated += new EventHandler(OnLayoutUpdated);
+			_requreRefresh = true;
 		}
 
+		void OnLayoutUpdated(object sender, EventArgs e)
+		{
+			if (_requreRefresh)
+				Reset();
+		}
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			Reset();
+			_requreRefresh = true;
 		}
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
@@ -48,6 +56,7 @@ namespace Infrastructure.Client.Plans
 
 		public void Reset()
 		{
+			_requreRefresh = false;
 			FullSize();
 			slider.Value = 1;
 			((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * initialScale, deviceSlider.Value);

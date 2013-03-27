@@ -22,15 +22,6 @@ namespace PlansModule.ViewModels
 				_planExtensions.Add(planExtension);
 				planExtension.ExtensionRegistered(DesignerCanvas);
 				ElementsViewModel.Update();
-				if (planExtension.TabPage != null)
-				{
-					TabPages.Insert(planExtension.Index + 1, new TabItem()
-					{
-						Header = planExtension.Title,
-						Content = planExtension.TabPage
-					});
-					OnPropertyChanged("TabPages");
-				}
 				DesignerCanvas.Toolbox.RegisterInstruments(planExtension.Instruments);
 			}
 		}

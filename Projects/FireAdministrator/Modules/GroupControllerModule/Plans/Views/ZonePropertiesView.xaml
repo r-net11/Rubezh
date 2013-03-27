@@ -4,36 +4,35 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Border Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<DockPanel>
-				<CheckBox VerticalAlignment="Center" Content="Невидимая зона" DockPanel.Dock="Bottom" IsChecked="{Binding IsHidden, UpdateSourceTrigger=PropertyChanged}" />
-				<ListView Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="OnSelectionChanged">
-					<ListView.Resources>
-						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-							<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-						</InputBindingCollection>
-					</ListView.Resources>
-					<ListView.ItemContainerStyle>
-						<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-						</Style>
-					</ListView.ItemContainerStyle>
-					<ListView.View>
-						<GridView>
-							<GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
-							<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
-							<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
-						</GridView>
-					</ListView.View>
-					<ListView.ContextMenu>
-						<ContextMenu>
-							<MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
-						</ContextMenu>
-					</ListView.ContextMenu>
-				</ListView>
-			</DockPanel>
+		<ListView Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="OnSelectionChanged">
+			<ListView.Resources>
+				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+					<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+				</InputBindingCollection>
+			</ListView.Resources>
+			<ListView.ItemContainerStyle>
+				<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+				</Style>
+			</ListView.ItemContainerStyle>
+			<ListView.View>
+				<GridView>
+					<GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
+					<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
+					<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
+				</GridView>
+			</ListView.View>
+			<ListView.ContextMenu>
+				<ContextMenu>
+					<MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
+				</ContextMenu>
+			</ListView.ContextMenu>
+		</ListView>
+		<Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+			<CheckBox Margin="5" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHidden, UpdateSourceTrigger=PropertyChanged}" />
 		</Border>
-		<Button Grid.Row="1" Width="100" Margin="0, 2, 0, 2" HorizontalAlignment="Right" Command="{Binding CreateCommand}" Content="Создать" />
+		<Button Grid.Row="2" Width="100" Margin="0, 2, 0, 2" HorizontalAlignment="Right" Command="{Binding CreateCommand}" Content="Создать" />
 	</Grid>
 </UserControl>

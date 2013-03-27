@@ -12,6 +12,9 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrustructure.Plans.Elements;
+using DevicesModule.Plans.Designer;
+using Infrustructure.Plans.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -20,8 +23,10 @@ namespace DevicesModule.ViewModels
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		public PropertiesViewModel PropMenu { get; private set; }
+		private bool _lockSelection;
 		public DevicesViewModel()
 		{
+			_lockSelection = false;
 			Current = this;
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
@@ -33,8 +38,20 @@ namespace DevicesModule.ViewModels
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
+			SubscribeEvents();
 		}
+		private void SubscribeEvents()
+		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
 		public void Initialize()
 		{
 			BuildTree();
@@ -249,5 +266,50 @@ namespace DevicesModule.ViewModels
 					}
 				});
 		}
+
+		private void OnDeviceChanged(Guid deviceUID)
+		{
+			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (device != null)
+			{
+				device.Update();
+				// TODO: FIX IT
+				if (!_lockSelection)
+				{
+					device.ExpantToThis();
+					SelectedDevice = device;
+				}
+			}
+		}
+		private void OnElementRemoved(List<ElementBase> elements)
+		{
+			elements.OfType<ElementDevice>().ToList().ForEach(element => Helper.ResetDevice(element));
+			OnElementChanged(elements);
+		}
+		private void OnElementChanged(List<ElementBase> elements)
+		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
+			elements.ForEach(element =>
+			{
+				ElementDevice elementDevice = element as ElementDevice;
+				if (elementDevice != null)
+				{
+					if (guid != Guid.Empty)
+						OnDeviceChanged(guid);
+					guid = elementDevice.DeviceUID;
+				}
+			});
+			_lockSelection = false;
+			if (guid != Guid.Empty)
+				OnDeviceChanged(guid);
+		}
+		private void OnElementSelected(ElementBase element)
+		{
+			ElementDevice elementDevice = element as ElementDevice;
+			if (elementDevice != null)
+				Select(elementDevice.DeviceUID);
+		}
+
 	}
 }

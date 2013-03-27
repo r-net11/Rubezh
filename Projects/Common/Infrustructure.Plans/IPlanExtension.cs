@@ -6,9 +6,7 @@ namespace Infrustructure.Plans
 {
 	public interface IPlanExtension<T>
 	{
-		int Index { get; }
 		string Title { get; }
-		object TabPage { get; }
 		bool ElementAdded(T plan, ElementBase element);
 		bool ElementRemoved(T plan, ElementBase element);
 		void RegisterDesignerItem(DesignerItem designerItem);

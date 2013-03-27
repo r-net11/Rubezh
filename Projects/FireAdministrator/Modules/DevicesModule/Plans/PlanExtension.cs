@@ -28,7 +28,7 @@ namespace DevicesModule.Plans
 {
 	public class PlanExtension : IPlanExtension<Plan>
 	{
-		private DevicesViewModel _devicesViewModel;
+		private Devices.DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		public PlanExtension(Devices.DevicesViewModel devicesViewModel)
 		{
@@ -42,7 +42,7 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateDeviceInZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateDeviceInZones);
 
-			_devicesViewModel = new DevicesViewModel(devicesViewModel);
+			_devicesViewModel = devicesViewModel;
 		}
 
 		public void Initialize()
@@ -53,18 +53,9 @@ namespace DevicesModule.Plans
 
 		#region IPlanExtension Members
 
-		public int Index
-		{
-			get { return 0; }
-		}
 		public string Title
 		{
 			get { return "Устройства"; }
-		}
-
-		public object TabPage
-		{
-			get { return _devicesViewModel; }
 		}
 
 		public IEnumerable<IInstrument> Instruments

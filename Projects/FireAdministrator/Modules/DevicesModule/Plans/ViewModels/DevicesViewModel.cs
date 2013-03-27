@@ -101,7 +101,6 @@ namespace DevicesModule.Plans.ViewModels
 			if (guid != Guid.Empty)
 				OnDeviceChanged(guid);
 		}
-
 		private void OnElementSelected(ElementBase element)
 		{
 			ElementDevice elementDevice = element as ElementDevice;

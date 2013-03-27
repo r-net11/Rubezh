@@ -23,12 +23,6 @@ namespace FiresecAPI.Models
 		{
 			AllPlans = new List<Plan>();
 			AddChildren(Plans, null);
-			foreach (var plan in Plans)
-			{
-				var realPlan = plan as Plan;
-				if (realPlan != null)
-					AllPlans.Add(realPlan);
-			}
 		}
 		private void AddChildren(List<Plan> plans, Plan parent)
 		{

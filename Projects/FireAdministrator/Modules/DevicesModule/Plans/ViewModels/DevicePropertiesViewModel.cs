@@ -7,15 +7,16 @@ using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Devices = DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private DevicesViewModel _devicesViewModel;
+		private Devices.DevicesViewModel _devicesViewModel;
 		private ElementDevice _elementDevice;
 
-		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementDevice elementDevice)
+		public DevicePropertiesViewModel(Devices.DevicesViewModel devicesViewModel, ElementDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство";
 			_elementDevice = elementDevice;
