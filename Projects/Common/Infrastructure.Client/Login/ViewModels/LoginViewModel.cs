@@ -51,6 +51,9 @@ namespace Infrastructure.Client.Login.ViewModels
             Sizable = false;
         }
 
+		public string Address { get; set; }
+		public int Port { get; set; }
+
         string _userName;
         public string UserName
         {
@@ -128,7 +131,7 @@ namespace Infrastructure.Client.Login.ViewModels
 				case PasswordViewType.Connect:
 					var preLoadWindow = new ConnectionViewModel();
 					DialogService.ShowWindow(preLoadWindow);
-					DoConnect();
+					Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
 					preLoadWindow.ForceClose();
 					break;
 				case PasswordViewType.Reconnect:
@@ -158,11 +161,6 @@ namespace Infrastructure.Client.Login.ViewModels
         {
             IsCanceled = true;
             base.OnClosed();
-        }
-
-        private void DoConnect()
-        {
-            Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
         }
 
         public enum PasswordViewType

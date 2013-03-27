@@ -6,20 +6,20 @@ using Infrastructure.Common;
 
 namespace FireMonitor
 {
-    public static class AppConfigHelper
-    {
-        public static void InitializeAppSettings()
-        {
-            var appSettings = new AppSettings();
-            try
-            {
+	public static class AppConfigHelper
+	{
+		public static void InitializeAppSettings()
+		{
+			var appSettings = new AppSettings();
+			try
+			{
 				appSettings.HasLicenseToControl = LicenseHelper.CheckLicense(1) || LicenseHelper.CheckLicense(3);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "AppConfigHelper.InitializeAppSettings");
-            }
-            ServiceFactory.AppSettings = appSettings;
-        }
-    }
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "AppConfigHelper.InitializeAppSettings");
+			}
+			ServiceFactory.AppSettings = appSettings;
+		}
+	}
 }

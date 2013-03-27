@@ -137,7 +137,8 @@ namespace DevicesModule.ViewModels
 					stringBuilder.AppendLine(parameter.Value);
 				}
 
-				return stringBuilder.ToString();
+				var result = stringBuilder.ToString();
+				return result;
 			}
 		}
 

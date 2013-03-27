@@ -6,15 +6,26 @@ namespace Infrastructure.Common
 {
 	public static class AppSettingsManager
 	{
-		public static string RemoteAddress { get; set; }
+		static string _remoteAddress;
+		public static string RemoteAddress
+		{
+			get { return _remoteAddress; }
+			set
+			{
+				_remoteAddress = value;
+				if (_remoteAddress == "localhost")
+					_remoteAddress = "127.0.0.1";
+			}
+		}
+
+		public static int RemotePort { get; set; }
 
 		static AppSettingsManager()
 		{
 			try
 			{
 				RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
-				if (RemoteAddress == "localhost")
-					RemoteAddress = "127.0.0.1";
+				RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			}
 			catch (Exception e)
 			{
@@ -29,7 +40,7 @@ namespace Infrastructure.Common
 				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
+					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
 				}
 				return serviceAddress;
 			}
@@ -42,7 +53,7 @@ namespace Infrastructure.Common
 				var serviceAddress = "net.pipe://127.0.0.1/FSAgent/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FSAgent/";
+					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FSAgent/";
 				}
 				return serviceAddress;
 			}

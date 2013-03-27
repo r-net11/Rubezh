@@ -57,7 +57,7 @@ namespace FireMonitor
 				ApplicationService.ApplicationController = OnControlChanged;
 				var app = new App();
 				app.Exit += new ExitEventHandler(app_Exit);
-				App.SetMulticlientData(multiclientData);
+				app.SetMulticlientData(multiclientData);
 				app.InitializeComponent();
 				app.Run();
 			});
@@ -67,6 +67,7 @@ namespace FireMonitor
 
 		public void ShutDown()
 		{
+			Environment.Exit(0);
 			ApplicationService.ShutDown();
 		}
 

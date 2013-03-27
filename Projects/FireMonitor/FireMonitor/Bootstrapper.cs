@@ -27,7 +27,7 @@ namespace FireMonitor
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
-			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
+			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password, App.IsMulticlient))
 			{
 				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(false);
 				App.Login = ServiceFactory.LoginService.Login;

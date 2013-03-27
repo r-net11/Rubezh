@@ -26,10 +26,14 @@ namespace FireMonitor
 		public static bool IsMulticlient { get; private set; }
 		public static string MulticlientId { get; private set; }
 
-		public static void SetMulticlientData(MulticlientData multiclientData)
+		public void SetMulticlientData(MulticlientData multiclientData)
 		{
 			IsMulticlient = true;
 			MulticlientId = multiclientData.Id;
+			Login = multiclientData.Login;
+			Password = multiclientData.Password;
+			AppSettingsManager.RemoteAddress = multiclientData.Address;
+			AppSettingsManager.RemotePort = multiclientData.Port;
 		}
 
 		public App()
