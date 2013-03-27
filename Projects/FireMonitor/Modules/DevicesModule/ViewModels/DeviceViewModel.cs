@@ -138,6 +138,8 @@ namespace DevicesModule.ViewModels
 				}
 
 				var result = stringBuilder.ToString();
+				if (result.EndsWith("\r\n"))
+					result = result.Remove(result.Length - 2);
 				return result;
 			}
 		}

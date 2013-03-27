@@ -10,8 +10,8 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="3*" MinWidth="200" />
         </Grid.ColumnDefinitions>
-        <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True" Focusable="True"
-                SelectionMode="Extended" VirtualizingStackPanel.VirtualizationMode="Standard">
+        <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True" Focusable="True">
+                <!--SelectionMode="Extended" VirtualizingStackPanel.VirtualizationMode="Standard">-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
                 <DataGridTemplateColumn  Header="Наименование" SortMemberPath="Name" Width="2*">

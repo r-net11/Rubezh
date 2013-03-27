@@ -16,8 +16,8 @@
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" CanUserSortColumns="True"
-                  SelectionMode="Extended" VirtualizingStackPanel.VirtualizationMode="Standard">
+        <DataGrid x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" CanUserSortColumns="True">
+                  <!--SelectionMode="Extended" VirtualizingStackPanel.VirtualizationMode="Standard">-->
             <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />

@@ -31,7 +31,7 @@ namespace InstructionsModule.Converters
 
 				var result = stringBuilder.ToString();
 				if (result.EndsWith(delimiter))
-					result = result.Remove(stringBuilder.Length - delimiter.Length);
+					result = result.Remove(result.Length - delimiter.Length);
 				return result;
 			}
 			return null;
