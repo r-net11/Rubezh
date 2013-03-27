@@ -18,6 +18,8 @@ namespace Infrustructure.Plans.Elements
 			BackgroundImageSource = null;
 			BackgroundSourceName = null;
 			IsVectorImage = false;
+			IsLocked = false;
+			IsHidden = false;
 			SetDefault();
 		}
 
@@ -45,6 +47,10 @@ namespace Infrustructure.Plans.Elements
 		public bool IsVectorImage { get; set; }
 		[DataMember]
 		public int ZIndex { get; set; }
+		[DataMember]
+		public bool IsLocked { get; set; }
+		[DataMember]
+		public bool IsHidden { get; set; }
 
 		public bool AllowTransparent
 		{
@@ -81,6 +87,8 @@ namespace Infrustructure.Plans.Elements
 			element.BackgroundSourceName = BackgroundSourceName;
 			element.IsVectorImage = IsVectorImage;
 			element.ZIndex = ZIndex;
+			element.IsLocked = IsLocked;
+			element.IsHidden = IsHidden;
 		}
 	}
 }

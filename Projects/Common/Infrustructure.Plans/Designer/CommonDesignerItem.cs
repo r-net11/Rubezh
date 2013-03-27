@@ -40,15 +40,14 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
-		private bool _isVisibleLayout;
 		public virtual bool IsVisibleLayout
 		{
-			get { return _isVisibleLayout; }
+			get { return !Element.IsHidden; }
 			set
 			{
-				if (_isVisibleLayout != value)
+				if (Element.IsHidden == value)
 				{
-					_isVisibleLayout = value;
+					Element.IsHidden = !value;
 					ResetIsEnabled();
 					if (DesignerCanvas != null)
 						DesignerCanvas.Refresh();
@@ -64,8 +63,8 @@ namespace Infrustructure.Plans.Designer
 		public CommonDesignerItem(ElementBase element)
 		{
 			IsBusy = false;
-			ResetIsEnabled();
 			ResetElement(element);
+			ResetIsEnabled();
 		}
 
 		public double MinHeight { get; protected set; }

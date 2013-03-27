@@ -5,7 +5,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="CheckBox">
-						<Image Margin="3,0,0,0" Name="_image" Source="/Controls;component/Images/Lock.png" />
+						<Image Name="_image" Margin="3,0,0,0" Source="/Controls;component/Images/Lock.png" />
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsChecked" Value="true">
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Unlock.png" />
@@ -60,7 +60,7 @@
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
 
-							<StackPanel Grid.Column="1" Orientation="Horizontal" ContextMenu="{Binding ContextMenu}">
+							<StackPanel Grid.Column="1" ContextMenu="{Binding ContextMenu}" Orientation="Horizontal">
 								<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
 								<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />
 								<TextBlock Margin="1" Text="{Binding Name}">

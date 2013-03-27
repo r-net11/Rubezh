@@ -4,11 +4,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Controls;
 using System.Windows.Threading;
+using Infrastructure.Common;
 
 namespace Infrastructure.Client.Plans
 {
 	public partial class PlanDesignerView : UserControl
 	{
+		private const string DeviceZoomSetting = "Plans.DeviceZoom";
 		private double WheelScrollSpeed = 1;
 		Point? lastMousePositionOnTarget;
 		Point? lastCenterPositionOnTarget;
@@ -18,6 +20,11 @@ namespace Infrastructure.Client.Plans
 		public PlanDesignerView()
 		{
 			InitializeComponent();
+
+			var deviceZoom = RegistrySettingsHelper.GetDouble(DeviceZoomSetting);
+			if (deviceZoom == 0)
+				deviceZoom = 30;
+			deviceSlider.Value = deviceZoom;
 
 			_scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
 			_scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
@@ -34,6 +41,7 @@ namespace Infrastructure.Client.Plans
 			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
 			_scrollViewer.LayoutUpdated += new EventHandler(OnLayoutUpdated);
 			_requreRefresh = true;
+			Dispatcher.ShutdownStarted += (s,e) => RegistrySettingsHelper.SetDouble(DeviceZoomSetting, deviceSlider.Value);
 		}
 
 		void OnLayoutUpdated(object sender, EventArgs e)

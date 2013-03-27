@@ -77,7 +77,6 @@ namespace Infrustructure.Plans.Designer
 			: base(element)
 		{
 			Group = string.Empty;
-			IsVisibleLayout = true;
 		}
 
 		public override void UpdateZoom()
@@ -91,6 +90,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			var isNewElement = Element == null || Element.UID != element.UID;
 			base.ResetElement(element);
+			IsSelectable = !element.IsLocked;
 			if (isNewElement || Painter == null)
 				Painter = PainterFactory.Create(Element);
 			else
@@ -180,8 +180,10 @@ namespace Infrustructure.Plans.Designer
 
 		protected void IsSelectableChanged()
 		{
+			Element.IsLocked = !IsSelectable;
 			ResetIsEnabled();
-			SetIsMouseOver(false);
+			if (DesignerCanvas != null)
+				SetIsMouseOver(false);
 		}
 		protected void IsSelectedChanged()
 		{
