@@ -39,7 +39,7 @@
         <File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
-      <Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB" Permanent='yes'>
+      <Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">
         <File Id="Monitor.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Monitor.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Monitor.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />

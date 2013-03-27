@@ -5,12 +5,16 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using Common;
+using Infrastructure.Common.Windows;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
     public class AutoSearchViewModel : SaveCancelDialogViewModel
     {
-        public ObservableCollection<DeviceViewModel> DeviceViewModels { get; set; }
+		public List<AutoSearchDeviceViewModel> Devices { get; set; }
         List<AutoSearchDeviceViewModel> allDevices;
 
         public AutoSearchViewModel(DeviceConfiguration autodetectedDeviceConfiguration)
@@ -40,8 +44,6 @@ namespace DevicesModule.ViewModels
             return deviceViewModel;
         }
 
-        public List<AutoSearchDeviceViewModel> Devices { get; set; }
-
         public RelayCommand ContinueCommand { get; private set; }
         void OnContinue()
         {
@@ -54,30 +56,47 @@ namespace DevicesModule.ViewModels
             {
                 if (autodetectedDevice.IsSelected)
                 {
-                    AddAutoDevice(autodetectedDevice);
+                    AddAutoDevice(autodetectedDevice.Device);
                     AddFromTree(autodetectedDevice);
                 }
             }
         }
 
-        void AddAutoDevice(AutoSearchDeviceViewModel autoDetectedDevice)
+        void AddAutoDevice(Device device)
         {
-            var device = autoDetectedDevice.Device;
 			var parentDevice = FiresecManager.Devices.FirstOrDefault(x => x.PathId == device.Parent.PathId);
-            parentDevice.Children.Add(device);
+			if (parentDevice != null)
+			{
+				if (!parentDevice.Children.Any(x => x.UID == device.UID))
+				{
+					parentDevice.Children.Add(device);
+					FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
+				}
+			}
 
-            var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.UID == parentDevice.UID);
-            var deviceViewModel = new DeviceViewModel(device);
-            parentDeviceViewModel.Children.Add(deviceViewModel);
-
-            parentDeviceViewModel.Update();
-
-			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
+			var parentDeviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.PathId == device.Parent.PathId);
+			if (parentDeviceViewModel != null)
+			{
+				var deviceViewModel = new DeviceViewModel(device);
+				parentDeviceViewModel.Children.Add(deviceViewModel);
+				DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
+				parentDeviceViewModel.Update();
+			}
         }
 
 		protected override bool Save()
 		{
-			AddFromTree(Devices[0]);
+			try
+			{
+				FiresecManager.FiresecConfiguration.DeviceConfiguration.UpdateIdPath();
+				AddFromTree(Devices[0]);
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
+				Logger.Error(e, "AutoSearchViewModel.Save");
+			}
+			ServiceFactory.SaveService.FSChanged = true;
 			Close(false);
 			return false;
 		}

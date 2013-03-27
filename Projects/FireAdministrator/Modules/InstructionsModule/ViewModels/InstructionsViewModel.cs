@@ -31,19 +31,14 @@ namespace InstructionsModule.ViewModels
 		{
 			Instructions = new ObservableCollection<InstructionViewModel>();
 
-			if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
+			foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
 			{
-				foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
+				if (instruction.InstructionType == InstructionType.Details)
 				{
-					if (instruction.InstructionType == InstructionType.Details)
-					{
-                        if (instruction.ZoneUIDs == null)
-                            instruction.ZoneUIDs = new List<Guid>();
-						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => FiresecManager.Devices.Any(x => x.UID == deviceGuid)));
-						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => FiresecManager.Zones.Any(x => x.UID == zoneUID)));
-					}
-					Instructions.Add(new InstructionViewModel(instruction));
+					instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => FiresecManager.Devices.Any(x => x.UID == deviceGuid)));
+					instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => FiresecManager.Zones.Any(x => x.UID == zoneUID)));
 				}
+				Instructions.Add(new InstructionViewModel(instruction));
 			}
 
 			SelectedInstruction = Instructions.FirstOrDefault();
@@ -111,8 +106,7 @@ namespace InstructionsModule.ViewModels
 		{
 			FiresecManager.SystemConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
 			Instructions.Remove(SelectedInstruction);
-			if (Instructions.IsNotNullOrEmpty())
-				SelectedInstruction = Instructions[0];
+			SelectedInstruction = Instructions.FirstOrDefault();
 			ServiceFactory.SaveService.InstructionsChanged = true;
 		}
 

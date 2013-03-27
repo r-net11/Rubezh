@@ -13,22 +13,26 @@ namespace InstructionsModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var devices = value as ICollection<Guid>;
-			if (devices.IsNotNullOrEmpty())
+			var deviceUIDs = value as ICollection<Guid>;
+			if (deviceUIDs.IsNotNullOrEmpty())
 			{
-				var delimString = ", ";
-				var result = new StringBuilder();
+				var delimiter = ", ";
+				var stringBuilder = new StringBuilder();
 
-				Device device = null;
-				foreach (var deviceGuid in devices)
+				foreach (var deviceUID in deviceUIDs)
 				{
-					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceGuid);
-
-					result.Append(device.PresentationAddressAndName);
-					result.Append(delimString);
+					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (device != null)
+					{
+						stringBuilder.Append(device.PresentationAddressAndName);
+						stringBuilder.Append(delimiter);
+					}
 				}
 
-				return result.ToString().Remove(result.Length - delimString.Length);
+				var result = stringBuilder.ToString();
+				if (result.EndsWith(delimiter))
+					result = result.Remove(stringBuilder.Length - delimiter.Length);
+				return result;
 			}
 			return null;
 		}

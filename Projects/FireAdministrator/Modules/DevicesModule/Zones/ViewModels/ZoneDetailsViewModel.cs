@@ -15,20 +15,10 @@ namespace DevicesModule.ViewModels
 		public bool ComboboxIsEnabled { get; private set; }
 
 		public ZoneDetailsViewModel(ZoneType zoneType)
+			:this(null)
 		{
 			ComboboxIsEnabled = false;
-			Title = "Создание новой зоны";
-
-			Zone = new Zone()
-			{
-				Name = "Новая зона",
-				No = 1,
-				DetectorCount = LastDetectorCount
-			};
-			if (FiresecManager.Zones.Count != 0)
-				Zone.No = FiresecManager.Zones.Select(x => x.No).Max() + 1;
 			Zone.ZoneType = zoneType;
-			CopyProperties();
 		}
 
 		public ZoneDetailsViewModel(Zone zone = null)
@@ -46,6 +36,8 @@ namespace DevicesModule.ViewModels
 				};
 				if (FiresecManager.Zones.Count != 0)
 					Zone.No = FiresecManager.Zones.Select(x => x.No).Max() + 1;
+				if (Zone.No > 99999)
+					Zone.No = 99999;
 			}
 			else
 			{

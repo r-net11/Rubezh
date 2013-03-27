@@ -20,6 +20,7 @@ namespace Common.GK
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
 
 			var property1 = new XDriverProperty()
 			{

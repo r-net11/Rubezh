@@ -15,7 +15,6 @@
             <DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" />
             <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
             <DataGridTextColumn Header="Устройства" Width="200" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
-            <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

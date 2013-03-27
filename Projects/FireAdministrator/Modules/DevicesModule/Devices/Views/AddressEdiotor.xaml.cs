@@ -105,28 +105,27 @@ namespace DevicesModule.Views
 			set
 			{
 				if (value > 0 && _hasDelimiter)
-					addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
+					addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString();
+					//addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
 			}
 		}
 
 		private static void OnDevicePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			AddressEditor addressEditor = dp as AddressEditor;
-			if (addressEditor == null)
+			if (addressEditor != null)
 			{
-				return;
+				addressEditor.InitializeDevice();
 			}
-			addressEditor.InitializeDevice();
 		}
 
 		private static void OnAddressPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			AddressEditor addressEditor = dp as AddressEditor;
-			if (addressEditor == null)
+			if (addressEditor != null)
 			{
-				return;
+				addressEditor.InitializeAddress();
 			}
-			addressEditor.InitializeAddress();
 		}
 
 		void InitializeDevice()
@@ -140,7 +139,6 @@ namespace DevicesModule.Views
 		{
 			if (Device == null || Device.CanEditAddress == false)
 				return;
-
 			if (_isSaving)
 				return;
 
@@ -164,6 +162,8 @@ namespace DevicesModule.Views
 
 			addressEditor.Focus();
 			addressEditor.CaretIndex = 0;
+			addressEditor.SelectionStart = 0;
+			addressEditor.SelectionLength = 1;
 		}
 
 		void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
@@ -228,8 +228,9 @@ namespace DevicesModule.Views
 				key != System.Windows.Input.Key.NumPad9 &&
 				key != System.Windows.Input.Key.Left &&
 				key != System.Windows.Input.Key.Right &&
-				key != System.Windows.Input.Key.Enter
-			)
+				key != System.Windows.Input.Key.Enter &&
+				key != System.Windows.Input.Key.Delete
+				)
 				return true;
 			return false;
 		}
@@ -250,6 +251,11 @@ namespace DevicesModule.Views
 						OnLeftKey();
 						return;
 
+					case Key.Delete:
+						e.Handled = true;
+						OnDeleteKey();
+						return;
+
 					default:
 						return;
 				}
@@ -264,6 +270,8 @@ namespace DevicesModule.Views
 				return;
 
 			addressEditor.CaretIndex += 1;
+
+			if (addressEditor.Text.Length > addressEditor.CaretIndex)
 			if (addressEditor.Text[addressEditor.CaretIndex] == DOT)
 				addressEditor.CaretIndex += 1;
 		}
@@ -273,10 +281,22 @@ namespace DevicesModule.Views
 			if (addressEditor.CaretIndex <= 0)
 				return;
 
+			if (addressEditor.Text.Length > addressEditor.CaretIndex - 1)
 			if (addressEditor.Text[addressEditor.CaretIndex - 1] == DOT)
 				addressEditor.CaretIndex -= 2;
 			else
 				addressEditor.CaretIndex -= 1;
+		}
+
+		void OnDeleteKey()
+		{
+			if (addressEditor.CaretIndex < 2)
+				return;
+
+			if (addressEditor.Text.IndexOf(DOT) != -1 && addressEditor.Text.Length - addressEditor.Text.IndexOf(DOT) > 2)
+			{
+				addressEditor.Text = addressEditor.Text.Remove(addressEditor.CaretIndex, 1);
+			}
 		}
 
 		void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -326,15 +346,26 @@ namespace DevicesModule.Views
 
 		void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
 		{
-			if (addressEditor.SelectionStart >= addressEditor.Text.Length)
-				addressEditor.SelectionStart = addressEditor.Text.Length - 1;
+			if (!buisy)
+			{
+				buisy = true;
 
-			if (addressEditor.Text[addressEditor.SelectionStart] == DOT)
-				addressEditor.SelectionStart += 1;
+				//if (addressEditor.SelectionStart >= addressEditor.Text.Length)
+				//    addressEditor.SelectionStart = addressEditor.Text.Length - 1;
 
-			if (addressEditor.SelectionLength != 1)
-				addressEditor.SelectionLength = 1;
+				if (addressEditor.Text.Length > addressEditor.SelectionStart)
+				{
+					if (addressEditor.Text[addressEditor.SelectionStart] == DOT)
+						addressEditor.SelectionStart += 1;
+				}
+
+				if (addressEditor.SelectionLength != 1)
+					addressEditor.SelectionLength = 1;
+				buisy = false;
+			}
 		}
+
+		bool buisy = false;
 
 		void OnPreviewHandled(object sender, DragEventArgs e)
 		{

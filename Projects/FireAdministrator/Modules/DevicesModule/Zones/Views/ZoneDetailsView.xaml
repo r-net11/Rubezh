@@ -26,7 +26,7 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" MaxLength="5" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" MaxLength="5" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" MaxLength="20" Name="nameTextBox" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" TextWrapping="Wrap" />
             </Grid>
@@ -67,7 +67,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Число датчиков для формирования сигнала Пожар" HorizontalAlignment="Right" />
-                        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Margin="2" />
+                        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
                         <StackPanel Grid.Row="1" Grid.Column="0">
                             <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, сек(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />

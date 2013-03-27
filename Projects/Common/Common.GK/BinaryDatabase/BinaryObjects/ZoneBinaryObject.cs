@@ -35,16 +35,16 @@ namespace Common.GK
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.HandDetector)
-					continue;
-
-				Formula.AddGetBitOff(XStateType.Fire1, device);
-
-				if (count > 0)
+				if (device.Driver.AvailableStates.Contains(XStateType.Fire1))
 				{
-					Formula.Add(FormulaOperationType.ADD);
+					Formula.AddGetBitOff(XStateType.Fire1, device);
+
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.ADD);
+					}
+					count++;
 				}
-				count++;
 			}
 			return count;
 		}
@@ -53,17 +53,16 @@ namespace Common.GK
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.Driver.DriverType != XDriverType.HandDetector)
-					continue;
-
-				if (device.Driver.DriverType == XDriverType.HandDetector)
+				if (device.Driver.AvailableStates.Contains(XStateType.Fire2))
+				{
 					Formula.AddGetBitOff(XStateType.Fire2, device);
 
-				if (count > 0)
-				{
-					Formula.Add(FormulaOperationType.OR);
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
 				}
-				count++;
 			}
 			Formula.AddGetBit(XStateType.Fire2, Zone);
 			if (count > 0)

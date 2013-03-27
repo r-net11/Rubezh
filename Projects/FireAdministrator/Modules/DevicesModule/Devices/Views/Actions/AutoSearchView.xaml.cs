@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class AutoSearchView : UserControl
-    {
-        public AutoSearchView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class AutoSearchView : UserControl
+	{
+		public AutoSearchView()
+		{
+			InitializeComponent();
+		}
+	}
 }

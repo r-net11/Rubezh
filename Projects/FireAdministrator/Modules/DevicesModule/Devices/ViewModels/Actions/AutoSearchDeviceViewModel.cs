@@ -6,7 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class AutoSearchDeviceViewModel : SaveCancelDialogViewModel
+	public class AutoSearchDeviceViewModel : BaseViewModel
 	{
 		public Device Device { get; private set; }
 
