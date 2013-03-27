@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI;
+using System.Windows;
 
 namespace XFiresecAPI
 {
 	public abstract class XBaseState
 	{
+		public static void SafeCall(Action action)
+		{
+			if (Application.Current != null && Application.Current.Dispatcher != null)
+				Application.Current.Dispatcher.BeginInvoke(action);
+		}
+
 		public XBaseState()
 		{
 			AdditionalStates = new List<string>();
@@ -15,8 +22,11 @@ namespace XFiresecAPI
 		public event Action StateChanged;
 		protected void OnStateChanged()
 		{
-			if (StateChanged != null)
-				StateChanged();
+			SafeCall(() =>
+			{
+				if (StateChanged != null)
+					StateChanged();
+			});
 		}
 
 		protected bool _isConnectionLost;

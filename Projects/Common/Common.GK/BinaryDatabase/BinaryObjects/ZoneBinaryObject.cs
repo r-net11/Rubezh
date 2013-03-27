@@ -53,6 +53,10 @@ namespace Common.GK
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
+				if (device.Driver.DriverType == XDriverType.AM_1)
+				{
+					;
+				}
 				if (device.Driver.AvailableStates.Contains(XStateType.Fire2))
 				{
 					Formula.AddGetBitOff(XStateType.Fire2, device);

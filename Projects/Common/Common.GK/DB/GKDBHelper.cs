@@ -187,8 +187,7 @@ namespace Common.GK
 				{
 					using (var dataContext = ConnectionManager.CreateGKDataContext())
 					{
-						var query =
-						"SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = '" + gkIPAddress + "'";
+						var query = "SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = '" + gkIPAddress + "'";
 
 						var result = dataContext.ExecuteQuery<int?>(query);
 						var firstResult = result.FirstOrDefault();
