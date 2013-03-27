@@ -80,6 +80,7 @@ namespace Common.GK
 				ObjectState = ObjectState,
 				JournalItemType = JournalItemType,
 				GKObjectNo = GKObjectNo,
+				UserName = UserName,
 				InternalJournalItem = this
 			};
 
@@ -164,7 +165,7 @@ namespace Common.GK
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
 							bytes1.AddRange(bytes2);
-							UserName = Encoding.UTF8.GetString(bytes1.ToArray(), 0, bytes1.Count);
+							UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							break;
 
 						case 8:
@@ -173,7 +174,7 @@ namespace Common.GK
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
-							UserName = Encoding.UTF8.GetString(bytes1.ToArray(), 0, bytes1.Count);
+							UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							break;
 
 						case 9:

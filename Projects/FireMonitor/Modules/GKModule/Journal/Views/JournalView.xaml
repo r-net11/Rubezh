@@ -23,6 +23,7 @@
                 <DataGridTextColumn Header="Зона" Binding="{Binding ZoneState.Zone.PresentationName}" />
                 <DataGridTextColumn Header="Направление" Binding="{Binding DirectionState.Direction.PresentationName}" />
                 <DataGridTextColumn Header="Класс состояния" Binding="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">

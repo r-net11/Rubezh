@@ -17,6 +17,7 @@ namespace Common.GK
 		public string GKIpAddress { get; set; }
 		public int? GKJournalRecordNo { get; set; }
         public XStateClass StateClass { get; set; }
+		public string UserName { get; set; }
 
 		public InternalJournalItem InternalJournalItem { get; set; }
 
