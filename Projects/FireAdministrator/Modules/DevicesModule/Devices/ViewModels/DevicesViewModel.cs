@@ -24,6 +24,7 @@ namespace DevicesModule.ViewModels
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		public PropertiesViewModel PropMenu { get; private set; }
 		private bool _lockSelection;
+
 		public DevicesViewModel()
 		{
 			_lockSelection = false;
@@ -40,18 +41,7 @@ namespace DevicesModule.ViewModels
 			IsRightPanelVisible = true;
 			SubscribeEvents();
 		}
-		private void SubscribeEvents()
-		{
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		}
 		public void Initialize()
 		{
 			BuildTree();
@@ -267,6 +257,18 @@ namespace DevicesModule.ViewModels
 				});
 		}
 
+		private void SubscribeEvents()
+		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
 		private void OnDeviceChanged(Guid deviceUID)
 		{
 			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -310,6 +312,5 @@ namespace DevicesModule.ViewModels
 			if (elementDevice != null)
 				Select(elementDevice.DeviceUID);
 		}
-
 	}
 }

@@ -11,6 +11,7 @@ namespace Infrustructure.Plans.Elements
 		public ElementBase()
 		{
 			UID = Guid.NewGuid();
+			UpdateZLayer();
 			BackgroundColor = Colors.White;
 			BorderColor = Colors.Black;
 			BorderThickness = 1;
@@ -57,10 +58,8 @@ namespace Infrustructure.Plans.Elements
 			get { return false; }
 		}
 
-		public virtual int ZLayer
-		{
-			get { return 0; }
-		}
+		[DataMember]
+		public int ZLayer { get; protected set; }
 
 		public Point Position
 		{
@@ -89,6 +88,10 @@ namespace Infrustructure.Plans.Elements
 			element.ZIndex = ZIndex;
 			element.IsLocked = IsLocked;
 			element.IsHidden = IsHidden;
+		}
+		public virtual void UpdateZLayer()
+		{
+			ZLayer = 0;
 		}
 	}
 }

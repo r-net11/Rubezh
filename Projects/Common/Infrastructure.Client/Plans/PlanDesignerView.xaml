@@ -28,6 +28,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Controls:ToolBarButton Grid.Column="0" Click="OnDeviceZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
 			<Slider x:Name="deviceSlider" Grid.Column="1" VerticalAlignment="Center" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True"
@@ -38,6 +39,7 @@
 			<Controls:ToolBarButton Grid.Column="3" Click="OnZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
 			<Slider x:Name="slider" Grid.Column="4" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="10" Minimum="1" Orientation="Horizontal" ToolTip="Изменить масштаб плана" Value="1" />
 			<Controls:ToolBarButton Grid.Column="5" Click="OnZoomIn" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
+			<ToggleButton Grid.Column="6" Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding IsCollapsed, Converter={StaticResource BoolToMinimizeTextConverter}}" IsChecked="{Binding IsCollapsed}" Visibility="{Binding CanCollapse, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</Grid>
 	</Grid>
 </UserControl>

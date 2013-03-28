@@ -14,13 +14,11 @@ namespace PlansModule.ViewModels
 			Zoom = zoom;
 			DesignerCanvas.UpdateZoom();
 		}
-
 		public void ChangeDeviceZoom(double deviceZoom)
 		{
 			DeviceZoom = deviceZoom;
 			DesignerCanvas.UpdateZoomPoint();
 		}
-
 		public void ResetZoom(double zoom, double deviceZoom)
 		{
 			DeviceZoom = deviceZoom;

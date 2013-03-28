@@ -45,9 +45,9 @@ namespace DevicesModule.Plans
 		{
 			foreach (var element in plan.ElementDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
-			foreach (var element in plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
 		}
 

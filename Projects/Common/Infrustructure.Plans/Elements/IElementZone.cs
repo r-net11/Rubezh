@@ -8,6 +8,6 @@ namespace Infrustructure.Plans.Elements
 		Guid ZoneUID { get; set; }
 		Color BackgroundColor { get; set; }
 		void SetZLayer(int zlayer);
-		bool IsHidden { get; set; }
+		bool IsHiddenZone { get; set; }
 	}
 }

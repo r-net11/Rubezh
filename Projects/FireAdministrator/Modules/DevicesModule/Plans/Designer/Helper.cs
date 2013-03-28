@@ -75,8 +75,7 @@ namespace DevicesModule.Plans.Designer
 		public static Device SetDevice(ElementDevice element)
 		{
 			Device device = GetDevice(element);
-			if (device != null)
-				device.PlanElementUIDs.Add(element.UID);
+			SetDevice(element, device);
 			return device;
 		}
 		public static void ResetDevice(ElementDevice element)

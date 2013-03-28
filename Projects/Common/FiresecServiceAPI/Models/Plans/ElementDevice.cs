@@ -27,10 +27,9 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
-
-		public override int ZLayer
+		public override void UpdateZLayer()
 		{
-			get { return 7; }
+			ZLayer = 7;
 		}
 	}
 }

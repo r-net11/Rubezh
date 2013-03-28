@@ -10,14 +10,14 @@ namespace FiresecAPI.Models
 		[DataMember]
         public Guid ZoneUID { get; set; }
 		[DataMember]
-		public bool IsHidden { get; set; }
+		public bool IsHiddenZone { get; set; }
 
 		public override ElementBase Clone()
 		{
 			ElementRectangleZone elementBase = new ElementRectangleZone()
 			{
                 ZoneUID = ZoneUID,
-				IsHidden = IsHidden
+				IsHiddenZone = IsHiddenZone
 			};
 			Copy(elementBase);
 			return elementBase;
@@ -32,14 +32,9 @@ namespace FiresecAPI.Models
 
 		#endregion
 
-		private int _zlayer;
-		public override int ZLayer
-		{
-			get { return _zlayer; }
-		}
 		public void SetZLayer(int zlayer)
 		{
-			_zlayer = zlayer;
+			ZLayer = zlayer;
 		}
 	}
 }

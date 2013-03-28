@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {

@@ -24,7 +24,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<CheckBox Margin="5" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHidden, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Margin="5" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHiddenZone, UpdateSourceTrigger=PropertyChanged}" />
 		</Border>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button Width="100" Margin="2" Command="{Binding EditCommand}" Content="Редактировать" />

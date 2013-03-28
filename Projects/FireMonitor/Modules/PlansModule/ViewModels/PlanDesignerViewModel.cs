@@ -147,6 +147,12 @@ namespace PlansModule.ViewModels
 			get { return false; }
 		}
 
+		public bool CanCollapse
+		{
+			get { return false; }
+		}
+		public bool IsCollapsed { get; set; }
+
 		#endregion
 	}
 }

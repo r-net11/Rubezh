@@ -32,7 +32,7 @@ namespace DevicesModule.Plans.ViewModels
 			}
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
-			IsHidden = iElementZone.IsHidden;
+			IsHiddenZone = iElementZone.IsHiddenZone;
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
@@ -48,14 +48,14 @@ namespace DevicesModule.Plans.ViewModels
 			}
 		}
 
-		private bool _isHidden;
-		public bool IsHidden
+		private bool _isHiddenZone;
+		public bool IsHiddenZone
 		{
-			get { return _isHidden; }
+			get { return _isHiddenZone; }
 			set
 			{
-				_isHidden = value;
-				OnPropertyChanged(() => IsHidden);
+				_isHiddenZone = value;
+				OnPropertyChanged(() => IsHiddenZone);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace DevicesModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Helper.SetZone(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
-			IElementZone.IsHidden = IsHidden;
+			IElementZone.IsHiddenZone = IsHiddenZone;
 			return base.Save();
 		}
 	}

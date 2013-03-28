@@ -197,6 +197,13 @@ namespace Infrastructure.Common.Windows.ViewModels
 				_rightPanelVisible = RightContent == null ? false : value;
 				OnPropertyChanged(() => RightPanelVisible);
 				UpdateWidth();
+				if (RightContent != null)
+				{
+					if (RightPanelVisible)
+						RightContent.Content.Show();
+					else
+						RightContent.Content.Hide();
+				}
 			}
 		}
 

@@ -12,6 +12,7 @@ namespace PlansModule.ViewModels
 	public partial class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		public event EventHandler Updated;
+		public event EventHandler IsCollapsedChanged;
 		public DesignerCanvas DesignerCanvas { get; set; }
 		public Plan Plan { get; private set; }
 
@@ -43,19 +44,16 @@ namespace PlansModule.ViewModels
 						OnUpdated();
 				}
 		}
-
 		public void Save()
 		{
 			if (Plan == null)
 				return;
 			NormalizeZIndex();
 		}
-
 		public void Update()
 		{
 			OnUpdated();
 		}
-
 		private void OnUpdated()
 		{
 			if (Updated != null)
@@ -80,6 +78,27 @@ namespace PlansModule.ViewModels
 		public bool AlwaysShowScroll
 		{
 			get { return true; }
+		}
+
+		public bool CanCollapse
+		{
+			get { return true; }
+		}
+
+		private bool _isCollapsed;
+		public bool IsCollapsed
+		{
+			get { return _isCollapsed; }
+			set
+			{
+				if (IsCollapsed != value)
+				{
+					_isCollapsed = value;
+					OnPropertyChanged(() => IsCollapsed);
+					if (IsCollapsedChanged != null)
+						IsCollapsedChanged(this, EventArgs.Empty);
+				}
+			}
 		}
 
 		#endregion

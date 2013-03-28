@@ -29,7 +29,9 @@ namespace GKModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
             RegisterShortcuts();
-        }
+			IsRightPanelEnabled = true;
+			IsRightPanelVisible = false;
+		}
 
         public void Initialize()
         {

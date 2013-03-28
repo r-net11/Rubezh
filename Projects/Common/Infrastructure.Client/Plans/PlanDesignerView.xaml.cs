@@ -12,10 +12,12 @@ namespace Infrastructure.Client.Plans
 	{
 		private const string DeviceZoomSetting = "Plans.DeviceZoom";
 		private double WheelScrollSpeed = 1;
-		Point? lastMousePositionOnTarget;
-		Point? lastCenterPositionOnTarget;
-		double initialScale = 1;
+		private Point? lastMousePositionOnTarget;
+		private Point? lastCenterPositionOnTarget;
+		private double initialScale = 1;
 		private bool _requreRefresh;
+		private bool _locked;
+		private DispatcherTimer _timer;
 
 		public PlanDesignerView()
 		{
@@ -40,8 +42,15 @@ namespace Infrastructure.Client.Plans
 			Loaded += new RoutedEventHandler(OnLoaded);
 			_scrollViewer.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
 			_scrollViewer.LayoutUpdated += new EventHandler(OnLayoutUpdated);
+			_timer = new DispatcherTimer()
+			{
+				Interval = TimeSpan.FromMilliseconds(100),
+				IsEnabled = false,
+			};
+			_timer.Tick += (s, e) => _locked = false;
 			_requreRefresh = true;
-			Dispatcher.ShutdownStarted += (s,e) => RegistrySettingsHelper.SetDouble(DeviceZoomSetting, deviceSlider.Value);
+			_locked = true;
+			Dispatcher.ShutdownStarted += (s, e) => RegistrySettingsHelper.SetDouble(DeviceZoomSetting, deviceSlider.Value);
 		}
 
 		void OnLayoutUpdated(object sender, EventArgs e)
@@ -51,10 +60,12 @@ namespace Infrastructure.Client.Plans
 		}
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			_requreRefresh = true;
+			if (e.NewSize != e.PreviousSize)
+				_requreRefresh = true;
 		}
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
+			_locked = false;
 			var viewModel = (IPlanDesignerViewModel)DataContext;
 			viewModel.Updated += (s, ee) => Reset();
 			Reset();
@@ -65,9 +76,15 @@ namespace Infrastructure.Client.Plans
 		public void Reset()
 		{
 			_requreRefresh = false;
-			FullSize();
-			slider.Value = 1;
-			((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * initialScale, deviceSlider.Value);
+			if (!_locked)
+			{
+				FullSize();
+				slider.Value = 1;
+				_timer.IsEnabled = false;
+				_locked = false;
+				UpdateScale();
+				((IPlanDesignerViewModel)DataContext).ResetZoom(slider.Value * initialScale, deviceSlider.Value);
+			}
 		}
 
 		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -102,7 +119,14 @@ namespace Infrastructure.Client.Plans
 		{
 			if (e.NewValue == 0)
 				return;
-
+			_locked = true;
+			_timer.IsEnabled = true;
+			_timer.Stop();
+			_timer.Start();
+			UpdateScale();
+		}
+		private void UpdateScale()
+		{
 			scaleTransform.ScaleX = slider.Value * initialScale;
 			scaleTransform.ScaleY = slider.Value * initialScale;
 

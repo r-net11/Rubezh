@@ -15,6 +15,9 @@ using PlansModule.Designer;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
+using Controls;
+using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -38,6 +41,7 @@ namespace PlansModule.ViewModels
 
 			DesignerCanvas = new DesignerCanvas();
 			PlanDesignerViewModel = new PlanDesignerViewModel();
+			PlanDesignerViewModel.IsCollapsedChanged += new EventHandler(PlanDesignerViewModel_IsCollapsedChanged);
 			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 			DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
 			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
@@ -50,6 +54,11 @@ namespace PlansModule.ViewModels
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
 			Menu = new PlansMenuViewModel(this);
+			_splitterDistance = 0.3;
+			_emptyGridColumn = new GridLength(0, GridUnitType.Pixel);
+			Width1 = new GridLength(1, GridUnitType.Star);
+			Width2 = GridLength.Auto;
+			Width3 = new GridLength(_splitterDistance, GridUnitType.Star);
 		}
 
 		public void Initialize()
@@ -59,14 +68,14 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
 					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 					{
-						if(plan.BackgroundImageSource.HasValue)
+						if (plan.BackgroundImageSource.HasValue)
 						{
 							if (!ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
 							{
 								plan.BackgroundImageSource = null;
 							}
 						}
-						
+
 						Helper.UpgradeBackground(plan);
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							Helper.UpgradeBackground(elementBase);
@@ -326,6 +335,48 @@ namespace PlansModule.ViewModels
 			base.OnHide();
 			if (DesignerCanvas.Toolbox != null)
 				DesignerCanvas.Toolbox.AcceptKeyboard = false;
+		}
+
+		private double _splitterDistance;
+		private GridLength _emptyGridColumn;
+
+		private GridLength _width1;
+		public GridLength Width1
+		{
+			get { return _width1; }
+			set
+			{
+				_width1 = value;
+				OnPropertyChanged(() => Width1);
+			}
+		}
+		private GridLength _width2;
+		public GridLength Width2
+		{
+			get { return _width2; }
+			set
+			{
+				_width2 = value;
+				OnPropertyChanged(() => Width2);
+			}
+		}
+		private GridLength _width3;
+		public GridLength Width3
+		{
+			get { return _width3; }
+			set
+			{
+				_width3 = value;
+				OnPropertyChanged(() => Width3);
+			}
+		}
+		private void PlanDesignerViewModel_IsCollapsedChanged(object sender, EventArgs e)
+		{
+			if (Width3 != _emptyGridColumn)
+				_splitterDistance = Width3.Value / Width1.Value;
+			Width1 = new GridLength(1, GridUnitType.Star);
+			Width2 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : GridLength.Auto;
+			Width3 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : new GridLength(_splitterDistance, GridUnitType.Star);
 		}
 	}
 }
