@@ -55,53 +55,7 @@ namespace FireAdministrator
 						}
 					}
 
-					var tempFolderName = AppDataFolderHelper.GetTempFolder();
-					if (!Directory.Exists(tempFolderName))
-						Directory.CreateDirectory(tempFolderName);
-
-					var tempFileName = AppDataFolderHelper.GetTempFileName();
-					if (File.Exists(tempFileName))
-						File.Delete(tempFileName);
-
-					TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
-
-					if (ServiceFactory.SaveService.FSChanged)
-						AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
-					if (ServiceFactory.SaveService.PlansChanged)
-						AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
-					if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged) || (ServiceFactory.SaveService.EmailsChanged))
-						AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
-					if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged)
-						AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
-					AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
-					if (ServiceFactory.SaveService.SecurityChanged)
-						AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
-					if (ServiceFactory.SaveService.LibraryChanged)
-						AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
-					if (ServiceFactory.SaveService.XLibraryChanged)
-						AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.XDeviceLibraryConfiguration, 1, 1);
-
-					var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
-					if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
-					{
-						if (Directory.Exists(destinationImagesDirectory))
-							Directory.Delete(destinationImagesDirectory);
-						if (!Directory.Exists(destinationImagesDirectory))
-							Directory.CreateDirectory(destinationImagesDirectory);
-						var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
-						foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
-						{
-							fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
-						}
-					}
-
-					var zipFile = new ZipFile(tempFileName);
-					zipFile.AddDirectory(tempFolderName);
-					zipFile.Save(tempFileName);
-					zipFile.Dispose();
-					if (Directory.Exists(tempFolderName))
-						Directory.Delete(tempFolderName, true);
-
+					var tempFileName = SaveAllConfigToFile();
 					using (var fileStream = new FileStream(tempFileName, FileMode.Open))
 					{
 						FiresecManager.FiresecService.SetConfig(fileStream);
@@ -125,9 +79,69 @@ namespace FireAdministrator
 			}
 		}
 
+		public static string SaveAllConfigToFile(bool saveAnyway = false)
+		{
+			try
+			{
+				var tempFolderName = AppDataFolderHelper.GetTempFolder();
+				if (!Directory.Exists(tempFolderName))
+					Directory.CreateDirectory(tempFolderName);
+
+				var tempFileName = AppDataFolderHelper.GetTempFileName();
+				if (File.Exists(tempFileName))
+					File.Delete(tempFileName);
+
+				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+
+				if (ServiceFactory.SaveService.FSChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
+				if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged) || (ServiceFactory.SaveService.EmailsChanged) || saveAnyway)
+					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+				AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
+				if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.XDeviceLibraryConfiguration, 1, 1);
+
+				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
+				if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
+				{
+					if (Directory.Exists(destinationImagesDirectory))
+						Directory.Delete(destinationImagesDirectory);
+					if (!Directory.Exists(destinationImagesDirectory))
+						Directory.CreateDirectory(destinationImagesDirectory);
+					var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
+					foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
+					{
+						fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
+					}
+				}
+
+				var zipFile = new ZipFile(tempFileName);
+				zipFile.AddDirectory(tempFolderName);
+				zipFile.Save(tempFileName);
+				zipFile.Dispose();
+				if (Directory.Exists(tempFolderName))
+					Directory.Delete(tempFolderName, true);
+
+				return tempFileName;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigManager.SaveAllConfigToFile");
+			}
+			return null;
+		}
+
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		private static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };

@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -54,17 +55,6 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
 			OnPropertyChanged("DetectorCount");
-		}
-
-		bool _isSelected;
-		public bool IsSelected
-		{
-			get { return _isSelected; }
-			set
-			{
-				_isSelected = value;
-				OnPropertyChanged("IsSelected");
-			}
 		}
 	}
 }

@@ -28,7 +28,6 @@ namespace Infrastructure.Common
 		public static void SetStatus(FSServerState fsServerState)
 		{
 			RegistrySettingsHelper.SetInt("FiresecService.State", (int)fsServerState);
-			Logger.Info("ServerLoadHelper.SetStatus FiresecService.State = " + fsServerState.ToString());
 		}
 
 		public static FSServerState GetStatus()
@@ -36,7 +35,6 @@ namespace Infrastructure.Common
 			var value = RegistrySettingsHelper.GetInt("FiresecService.State");
 			try
 			{
-				Logger.Info("ServerLoadHelper.GetStatus FiresecService.State = " + ((FSServerState)value).ToString());
 				return (FSServerState)value;
 			}
 			catch(Exception e)
@@ -74,15 +72,6 @@ namespace Infrastructure.Common
 			{
 				try
 				{
-					Logger.Info("isRunning: " + isRunning.ToString());
-					foreach (var process in processes)
-					{
-						Logger.Info("Processes: " + process.ProcessName);
-					}
-					foreach (var process in processes)
-					{
-						Logger.Info("processesVsHost: " + process.ProcessName);
-					}
 					SetStatus(FSServerState.Closed);
 					if (!Start())
 					{
@@ -91,9 +80,6 @@ namespace Infrastructure.Common
 					}
 					if (!WaitUntinlStarted())
 					{
-						processes = Process.GetProcessesByName("FiresecService");
-						Logger.Info("Processes.Count=" + processes.Count().ToString());
-
 						Logger.Error("ServerLoadHelper.Load !WaitUntinlStarted");
 						return false;
 					}
@@ -127,7 +113,6 @@ namespace Infrastructure.Common
 			System.Diagnostics.Process process = new System.Diagnostics.Process();
 			process.StartInfo.FileName = fileName;
 			process.Start();
-			Logger.Info("Server process is starting up " + fileName);
 			return true;
 		}
 	}

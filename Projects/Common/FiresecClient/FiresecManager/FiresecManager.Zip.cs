@@ -10,8 +10,9 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static void LoadFromZipFile(string fileName)
+		public static void LoadFromZipFile(string fileName, out bool isFullConfiguration)
 		{
+			isFullConfiguration = false;
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(fileName);
 			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
@@ -39,6 +40,7 @@ namespace FiresecClient
 					{
 						case "SecurityConfiguration.xml":
 							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName);
+							isFullConfiguration = true;
 							break;
 
 						case "PlansConfiguration.xml":
