@@ -74,7 +74,8 @@ namespace Firesec
 					return default(T);
 				}
 				
-				input = input.Replace("&#xD;&#xA;", "");
+				input = input.Replace("&#xD;", "");
+				input = input.Replace("&#xA;", "");
 				using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
 				{
 					var serializer = new XmlSerializer(typeof(T));

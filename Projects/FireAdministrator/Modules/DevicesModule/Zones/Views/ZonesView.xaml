@@ -10,41 +10,13 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="3*" MinWidth="200" />
         </Grid.ColumnDefinitions>
-        <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True" Focusable="True">
-                <!--SelectionMode="Extended" VirtualizingStackPanel.VirtualizationMode="Standard">-->
+        <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True" Focusable="True" IsReadOnly="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
-                <DataGridTemplateColumn  Header="Наименование" SortMemberPath="Name" Width="2*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" BorderThickness="0" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn  Header="Примечание" SortMemberPath="Description" Width="2*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" BorderThickness="0" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
+                <DataGridTextColumn Binding="{Binding Name}" Header="Наименование" SortMemberPath="Description" Width="2*" />
+                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" SortMemberPath="Description" Width="2*" />
+                <DataGridTextColumn Binding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" SortMemberPath="DetectorCount" IsReadOnly="True" Width="2*" />
             </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                </Style>
-            </DataGrid.RowStyle>
         </Controls:XDataGrid>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
         <Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" />

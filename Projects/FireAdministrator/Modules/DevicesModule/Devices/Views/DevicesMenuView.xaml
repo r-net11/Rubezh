@@ -56,6 +56,5 @@
                 <MenuItem Command="{Binding MergeConfigurationCommand}" Header="Слияние конфигураций"/>
             </MenuItem>
         </Menu>
-
     </StackPanel>
 </UserControl>

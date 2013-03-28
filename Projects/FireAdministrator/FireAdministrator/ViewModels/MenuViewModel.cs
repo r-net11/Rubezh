@@ -1,11 +1,27 @@
 ﻿using System.ComponentModel;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using System;
+using Infrastructure;
 
 namespace FireAdministrator.ViewModels
 {
 	public class MenuViewModel : BaseViewModel
 	{
+		string FileName;
+		bool HasChanges = true;
+
+		public MenuViewModel()
+		{
+			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
+			SaveCommand = new RelayCommand(OnSave, CanSave);
+			SaveAsCommand = new RelayCommand(OnSaveAs);
+			SaveAllCommand = new RelayCommand(OnSaveAll);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
+			ValidateCommand = new RelayCommand(OnValidate);
+			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+		}
+
 		private BaseViewModel _extendedMenu;
 		public BaseViewModel ExtendedMenu
 		{
@@ -29,6 +45,79 @@ namespace FireAdministrator.ViewModels
 			if (SetNewConfigEvent != null)
 				SetNewConfigEvent(this, e);
 			return e.Cancel;
+		}
+
+		public bool CanShowMainMenu
+		{
+			get
+			{
+#if DEBUG
+				return true;
+#endif
+				return false;
+			}
+		}
+
+		void SaveService_Changed()
+		{
+			HasChanges = ServiceFactory.SaveService.HasChanges;
+		}
+
+		public RelayCommand LoadFromFileCommand { get; private set; }
+		void OnLoadFromFile()
+		{
+			var fileName = FileConfigurationHelper.LoadFromFile();
+			if (!string.IsNullOrEmpty(fileName))
+				FileName = fileName;
+		}
+
+		public RelayCommand SaveCommand { get; private set; }
+		void OnSave()
+		{
+			if (string.IsNullOrEmpty(FileName))
+			{
+				WaitHelper.Execute(() =>
+				{
+					OnSaveAs();
+				});
+			}
+			else
+			{
+				FileConfigurationHelper.SaveToZipFile(FileName);
+			}
+
+			if (!string.IsNullOrEmpty(FileName))
+				FileConfigurationHelper.SaveToZipFile(FileName);
+		}
+		bool CanSave()
+		{
+			return HasChanges;
+		}
+
+		public RelayCommand SaveAsCommand { get; private set; }
+		void OnSaveAs()
+		{
+			var fileName = FileConfigurationHelper.SaveToFile();
+			if (!string.IsNullOrEmpty(fileName))
+				FileName = fileName;
+		}
+
+		public RelayCommand SaveAllCommand { get; private set; }
+		void OnSaveAll()
+		{
+			FileConfigurationHelper.SaveAllToFile();
+		}
+
+		public RelayCommand CreateNewCommand { get; private set; }
+		void OnCreateNew()
+		{
+			ConfigManager.CreateNew();
+		}
+
+		public RelayCommand ValidateCommand { get; private set; }
+		void OnValidate()
+		{
+			ServiceFactory.ValidationService.Validate();
 		}
 	}
 }

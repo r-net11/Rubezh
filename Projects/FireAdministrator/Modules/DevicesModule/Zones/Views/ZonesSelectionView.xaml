@@ -11,16 +11,16 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}"/>
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}"/>
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" CanUserSortColumns="True">
-                  <!--SelectionMode="Extended" VirtualizingStackPanel.VirtualizationMode="Standard">-->
+        <DataGrid x:Name="DataGrid1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" CanUserSortColumns="True"
+                  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
             <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                    <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
+                    <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" />
                 </InputBindingCollection>
             </DataGrid.Resources>
             <DataGrid.ItemContainerStyle>
@@ -35,10 +35,11 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="listView2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" CanUserSortColumns="True">
+        <DataGrid x:Name="DataGrid2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" CanUserSortColumns="True"
+                  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
             <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />
+                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" />
                 </InputBindingCollection>
             </DataGrid.Resources>
             <DataGrid.ItemContainerStyle>

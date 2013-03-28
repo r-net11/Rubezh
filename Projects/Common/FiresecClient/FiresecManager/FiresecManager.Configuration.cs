@@ -65,7 +65,8 @@ namespace FiresecClient
 
 				var configFileStream = File.Create(configFileName);
 				CopyStream(stream, configFileStream);
-				LoadFromZipFile(configFileName);
+				bool isFullConfiguration;
+				LoadFromZipFile(configFileName, out isFullConfiguration);
 
 				UpdateConfiguration();
 				FiresecConfiguration.CreateStates();

@@ -17,7 +17,7 @@ namespace FireAdministrator
 {
 	public static class FileConfigurationHelper
 	{
-		public static void SaveToFile()
+		public static string SaveToFile()
 		{
 			try
 			{
@@ -39,6 +39,7 @@ namespace FireAdministrator
 					{
 						SaveToZipFile(saveDialog.FileName);
 					});
+					return saveDialog.FileName;
 				}
 			}
 			catch (Exception e)
@@ -46,6 +47,7 @@ namespace FireAdministrator
 				Logger.Error(e, "MenuView.SaveToFile");
 				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
 			}
+			return null;
 		}
 
 		public static void SaveToZipFile(string fileName)
@@ -83,7 +85,6 @@ namespace FireAdministrator
 			zipFile.AddDirectory(folderName);
 			zipFile.Save(fileName);
 			zipFile.Dispose();
-
 			if (Directory.Exists(folderName))
 				Directory.Delete(folderName, true);
 		}
@@ -99,7 +100,7 @@ namespace FireAdministrator
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
-		public static void LoadFromFile()
+		public static string LoadFromFile()
 		{
 			try
 			{
@@ -120,7 +121,8 @@ namespace FireAdministrator
 							Directory.Delete(folderName, true);
 						Directory.CreateDirectory(folderName);
 						File.Copy(openDialog.FileName, configFileName);
-						FiresecManager.LoadFromZipFile(configFileName);
+						bool isFullConfiguration;
+						FiresecManager.LoadFromZipFile(configFileName, out isFullConfiguration);
 						ServiceFactory.ContentService.Invalidate();
 
 						FiresecManager.UpdateConfiguration();
@@ -130,15 +132,57 @@ namespace FireAdministrator
 
 						ConfigManager.ShowFirstDevice();
 
-						ServiceFactory.SaveService.FSChanged = true;
-						ServiceFactory.SaveService.PlansChanged = true;
-						ServiceFactory.SaveService.GKChanged = true;
+						if (isFullConfiguration)
+						{
+							ServiceFactory.SaveService.Set();
+						}
+						else
+						{
+							ServiceFactory.SaveService.FSChanged = true;
+							ServiceFactory.SaveService.PlansChanged = true;
+							ServiceFactory.SaveService.GKChanged = true;
+						}
 					});
+					return openDialog.FileName;
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.LoadFromFile");
+				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+			}
+			return null;
+		}
+
+		public static void SaveAllToFile()
+		{
+			try
+			{
+				var saveDialog = new SaveFileDialog()
+				{
+					Filter = "firesec2 files|*.fscp",
+					DefaultExt = "firesec2 files|*.fscp"
+				};
+				if (saveDialog.InitialDirectory != null)
+				{
+					var fileName = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+					fileName = fileName.Replace(":", " ");
+					saveDialog.FileName = Path.Combine(saveDialog.InitialDirectory, fileName + ".fscp");
+				}
+
+				if (saveDialog.ShowDialog().Value)
+				{
+					WaitHelper.Execute(() =>
+					{
+						var tempFileName = ConfigManager.SaveAllConfigToFile();
+						File.Copy(tempFileName, saveDialog.FileName);
+						File.Delete(tempFileName);
+					});
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MenuView.SaveToFile");
 				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
 			}
 		}
