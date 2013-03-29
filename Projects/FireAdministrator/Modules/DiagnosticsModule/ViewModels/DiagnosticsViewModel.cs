@@ -109,6 +109,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test1Command { get; private set; }
 		private void OnTest1()
 		{
+			//CloseWindowHelper.Close();
 			CloseWindowHelper.StartWatchThread();
 		}
 

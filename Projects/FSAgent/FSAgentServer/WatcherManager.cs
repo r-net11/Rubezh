@@ -35,14 +35,14 @@ namespace FSAgentServer
 		{
 			StartRunThread();
 			StartLifetimeThread();
-			CloseWindowHelper.StartWatchThread();
+			ComServerExceptionWatcher.StartWatchThread();
 		}
 
 		public void Stop()
 		{
 			StopLifetimeThread();
 			StopRunThread();
-			CloseWindowHelper.StopWatchThread();
+			ComServerExceptionWatcher.StopWatchThread();
 		}
 
         public void StartRunThread()

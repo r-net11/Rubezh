@@ -3,7 +3,9 @@
      xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Variables.wxi?>
+  <?include ../Variables.wxi?>
   <Fragment>
+    <?if $(var.Firesec1Version)=48?>
     <DirectoryRef Id="FIRESECLOCATION">
       <Component Id="Firesec.Files" Guid="CCA1D261-4B12-478A-99EF-C2264AD1A5AA" Permanent='yes'>
         <File Id="Firesec.fs_server.exe" Name="fs_server.exe" Source="$(var.Firesec.TargetDir)" KeyPath="yes" />
@@ -46,5 +48,6 @@
         </RegistryKey>
       </Component>
     </DirectoryRef>
+    <?endif?>
   </Fragment>
 </Wix>

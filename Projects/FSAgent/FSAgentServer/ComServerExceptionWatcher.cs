@@ -2,22 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Win32;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Diagnostics;
+using System.Threading;
 
-namespace Infrastructure.Common
+namespace FSAgentServer
 {
-	public static class CloseWindowHelper
+	public static class ComServerExceptionWatcher
 	{
-		[DllImport("user32.dll")]
-		public static extern int FindWindow(string lpClassName, string lpWindowName);
-		[DllImport("user32.dll")]
-		public static extern int SendMessage(int hWnd, uint Msg, int wParam, int lParam);
-
-		const int WM_SYSCOMMAND = 0x0112;
-		const int SC_CLOSE = 0xF060;
+		static AutoResetEvent StopWatchEvent;
+		static Thread WatchThread;
 
 		public static void Close()
 		{
@@ -27,23 +20,25 @@ namespace Infrastructure.Common
 			{
 				if (process.MainWindowTitle == "Предупреждение COM Сервера")
 				{
+					App.CloseOnComputerShutdown();
 					process.Kill();
 				}
 			}
 		}
 
-		static void Close2()
+		public static void Close2()
 		{
-			int iHandle = FindWindow("fs_server.exe", "Предупреждение COM Сервера");
-			int iHandle2 = FindWindow("fs_server", "Предупреждение COM Сервера");
-			if (iHandle > 0)
+			var processes = Process.GetProcessesByName("FS_SER~1");
+			var process = processes.FirstOrDefault();
+			if (process != null)
 			{
-				SendMessage(iHandle, WM_SYSCOMMAND, SC_CLOSE, 0);
+				if (process.MainWindowTitle == "Предупреждение COM Сервера")
+				{
+					App.CloseOnComputerShutdown();
+					process.Kill();
+				}
 			}
 		}
-
-		static AutoResetEvent StopWatchEvent;
-		static Thread WatchThread;
 
 		public static void StartWatchThread()
 		{
@@ -72,6 +67,7 @@ namespace Infrastructure.Common
 			while (true)
 			{
 				Close();
+				Close2();
 				if (StopWatchEvent.WaitOne(5000))
 					return;
 			}

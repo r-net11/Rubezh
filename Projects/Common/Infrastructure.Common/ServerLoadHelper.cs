@@ -67,8 +67,8 @@ namespace Infrastructure.Common
 				if (isCurrentUser)
 					isRunning = true;
 			}
-			if (!isRunning && (processesVsHost.Count() == 0))
-			//if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
+			//if (!isRunning && (processesVsHost.Count() == 0))
+			if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
 			{
 				try
 				{

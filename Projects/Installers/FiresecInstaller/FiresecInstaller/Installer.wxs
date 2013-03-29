@@ -121,7 +121,6 @@
       <Custom Action="StartFiresecServiceOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
       <Custom Action="StartFSAgentOnExit" After="StartFiresecServiceOnExit">INSTALLMODE</Custom>
       <Custom Action="StartOPCServerOnExit" After="StartFSAgentOnExit">INSTALLMODE</Custom>
-      <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 
       <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->
       <!--<Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
