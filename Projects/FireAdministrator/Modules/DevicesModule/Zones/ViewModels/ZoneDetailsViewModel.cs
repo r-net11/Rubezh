@@ -5,12 +5,13 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		static int LastDetectorCount = 2;
+		static int LastDetectorCount = 1;
 		public Zone Zone;
 		public bool ComboboxIsEnabled { get; private set; }
 
@@ -45,6 +46,14 @@ namespace DevicesModule.ViewModels
 				Zone = zone;
 			}
 			CopyProperties();
+
+			AvailableNames = new ObservableCollection<string>();
+			AvailableDescription = new ObservableCollection<string>();
+			foreach (var existingZone in FiresecManager.Zones)
+			{
+				AvailableNames.Add(existingZone.Name);
+				AvailableDescription.Add(existingZone.Description);
+			}
 		}
 
 		void CopyProperties()
@@ -206,6 +215,9 @@ namespace DevicesModule.ViewModels
 		{
 			get { return ZoneType == ZoneType.Guard; }
 		}
+
+		public ObservableCollection<string> AvailableNames { get; private set; }
+		public ObservableCollection<string> AvailableDescription { get; private set; }
 
 		protected override bool Save()
 		{

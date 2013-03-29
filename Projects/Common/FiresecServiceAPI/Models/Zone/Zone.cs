@@ -12,7 +12,7 @@ namespace FiresecAPI.Models
 			UID = Guid.NewGuid();
 			ZoneType = ZoneType.Fire;
 			GuardZoneType = GuardZoneType.Ordinary;
-			DetectorCount = 2;
+			DetectorCount = 1;
 			EvacuationTime = "0";
 			AutoSet = "0";
 			Delay = "0";

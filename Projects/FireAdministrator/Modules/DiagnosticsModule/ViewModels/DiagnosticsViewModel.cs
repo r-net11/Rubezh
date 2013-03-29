@@ -21,6 +21,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using System.Collections.ObjectModel;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -48,6 +49,12 @@ namespace DiagnosticsModule.ViewModels
 			BalloonTestCommand = new RelayCommand(OnBalloonTest);
 			PlanDuplicateTestCommand = new RelayCommand(OnPlanDuplicateTest);
 			MailCommand = new RelayCommand(OnMail);
+
+			AutoCompleteItems = new ObservableCollection<string>();
+			foreach (var zone in FiresecManager.Zones)
+			{
+				AutoCompleteItems.Add(zone.Name);
+			}
 		}
 
 		public void StopThreads()
@@ -370,6 +377,19 @@ namespace DiagnosticsModule.ViewModels
 		private void OnDesintegrate()
 		{
 			RegistryHelper.Desintegrate();
+		}
+
+		public ObservableCollection<string> AutoCompleteItems { get; private set; }
+
+		string _autoText;
+		public string AutoText
+		{
+			get { return _autoText; }
+			set
+			{
+				_autoText = value;
+				OnPropertyChanged("AutoText");
+			}
 		}
 	}
 }

@@ -1,4 +1,9 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:DiagnosticsModule.Views">
+﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:DiagnosticsModule.Views"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit">
 
     <TabControl>
         <TabItem Header="Отладка">
@@ -36,6 +41,17 @@
         </TabItem>
         <TabItem Header="FS">
             <Button Width="300" Margin="2" Command="{Binding Test5Command}" Content="WCF Test" />
+        </TabItem>
+        <TabItem Header="Test Controls">
+            <StackPanel>
+
+                <toolkit:AutoCompleteBox ItemsSource="{Binding AutoCompleteItems}" Text="{Binding AutoText}" IsTextCompletionEnabled="True" />
+
+                <extToolkit:ColorCanvas />
+                <extToolkit:ColorPicker  />
+                <extToolkit:Magnifier />
+                <extToolkit:SplitButton />
+            </StackPanel>
         </TabItem>
     </TabControl>
 </UserControl>
