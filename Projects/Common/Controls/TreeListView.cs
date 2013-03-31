@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Common;
 using Infrastructure.Common;
+using System.Windows.Media;
 
 namespace Controls
 {
@@ -106,8 +107,12 @@ namespace Controls
 				element.BringIntoView();
 			else if (container.Items.Contains(item))
 			{
-				container.UpdateLayout();
 				var vsp = (VirtualizingStackPanel)typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.NonPublic, null, container, null);
+				if (vsp == null)
+				{
+					container.UpdateLayout();
+					vsp = (VirtualizingStackPanel)typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.GetField | BindingFlags.NonPublic, null, container, null);
+				}
 				if (vsp != null)
 				{
 					var index = container.Items.IndexOf(item);

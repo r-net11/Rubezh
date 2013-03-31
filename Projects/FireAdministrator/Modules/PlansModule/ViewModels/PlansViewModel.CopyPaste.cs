@@ -15,7 +15,7 @@ using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : MenuViewPartViewModel
+	public partial class PlansViewModel
 	{
 		private List<ElementBase> _buffer;
 

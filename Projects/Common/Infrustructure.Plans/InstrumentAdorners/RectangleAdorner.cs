@@ -26,6 +26,11 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 			AdornerCanvas.Cursor = Cursors.Pen;
 		}
+		public override void Hide()
+		{
+			base.Hide();
+			endPoint = null;
+		}
 
 		protected virtual Shape CreateRubberband()
 		{
@@ -77,12 +82,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 						element.Position = StartPoint.Value;
 					DesignerCanvas.CreateDesignerItem(element);
 				}
-				StartPoint = null;
-				endPoint = null;
-				rubberband.Width = 0;
-				rubberband.Height = 0;
-				AdornerCanvas.ReleaseMouseCapture();
-				AdornerCanvas.Children.Remove(rubberband);
+				Cleanup();
 			}
 		}
 
@@ -103,6 +103,26 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		{
 			base.UpdateZoom();
 			rubberband.StrokeThickness = 1 / ZoomFactor;
+		}
+
+		public override bool KeyboardInput(Key key)
+		{
+			var handled = base.KeyboardInput(key);
+			if (!handled && key == Key.Escape && endPoint.HasValue)
+			{
+				Cleanup();
+				handled = true;
+			}
+			return handled;
+		}
+		private void Cleanup()
+		{
+			StartPoint = null;
+			endPoint = null;
+			rubberband.Width = 0;
+			rubberband.Height = 0;
+			AdornerCanvas.ReleaseMouseCapture();
+			AdornerCanvas.Children.Remove(rubberband);
 		}
 	}
 }

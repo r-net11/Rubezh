@@ -158,6 +158,7 @@
     <Compile Include="SortableObservableCollection.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="TimeCounter.cs" />
+    <Compile Include="VisualHelper.cs" />
     <Compile Include="WCF\BindingHelper.cs" />
     <Compile Include="XamlHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -31,6 +31,11 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 			AdornerCanvas.Cursor = Cursors.Pen;
 		}
+		public override void Hide()
+		{
+			base.Hide();
+			Cleanup();
+		}
 
 		protected abstract Shape CreateRubberband();
 		protected abstract PointCollection Points { get; }
@@ -93,17 +98,30 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			base.UpdateZoom();
 			rubberband.StrokeThickness = 1 / ZoomFactor;
 		}
-		public override void KeyboardInput(Key key)
+		public override bool KeyboardInput(Key key)
 		{
-			base.KeyboardInput(key);
-			if (key == Key.Enter)
-				ClosePolygon();
-			else if (key == Key.RightShift || key == Key.LeftShift)
+			var handled = base.KeyboardInput(key);
+			if (!handled)
 			{
-				var args = new MouseEventArgs(Mouse.PrimaryDevice, 0);
-				args.RoutedEvent = UIElement.MouseMoveEvent;
-				RaiseEvent(args);
+				if (key == Key.Enter)
+				{
+					ClosePolygon();
+					handled = true;
+				}
+				else if (key == Key.Escape && _opened)
+				{
+					Cleanup();
+					handled = true;
+				}
+				else if (key == Key.RightShift || key == Key.LeftShift)
+				{
+					var args = new MouseEventArgs(Mouse.PrimaryDevice, 0);
+					args.RoutedEvent = UIElement.MouseMoveEvent;
+					RaiseEvent(args);
+					handled = true;
+				}
 			}
+			return handled;
 		}
 		private void ClosePolygon()
 		{

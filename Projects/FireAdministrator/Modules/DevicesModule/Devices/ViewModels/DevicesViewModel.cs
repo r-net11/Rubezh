@@ -15,6 +15,7 @@ using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Elements;
 using DevicesModule.Plans.Designer;
 using Infrustructure.Plans.Events;
+using Common;
 
 namespace DevicesModule.ViewModels
 {

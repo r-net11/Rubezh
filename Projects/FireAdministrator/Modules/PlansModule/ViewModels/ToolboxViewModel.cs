@@ -209,6 +209,11 @@ namespace PlansModule.ViewModels
 									designerCanvas.SelectAll();
 							break;
 					}
+			}
+			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null && !ActiveInstrument.Adorner.KeyboardInput(e.Key))
+			{
+				if (e.Key == Key.Escape)
+					SetDefault();
 				else if (e.Key == Key.Delete)
 				{
 					var designerCanvas = PlansViewModel.DesignerCanvas;
@@ -216,10 +221,6 @@ namespace PlansModule.ViewModels
 						designerCanvas.RemoveAllSelected();
 				}
 			}
-			else if (e.Key == Key.Escape)
-				SetDefault();
-			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
-				ActiveInstrument.Adorner.KeyboardInput(e.Key);
 		}
 
 		private void ExecuteCommand(ICommand command)

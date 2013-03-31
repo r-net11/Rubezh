@@ -63,7 +63,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 			}
 		}
 		protected abstract void Show();
-		public void Hide()
+		public virtual void Hide()
 		{
 			if (IsMouseCaptured)
 				ReleaseMouseCapture();
@@ -76,8 +76,9 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		public virtual void UpdateZoom()
 		{
 		}
-		public virtual void KeyboardInput(Key key)
+		public virtual bool KeyboardInput(Key key)
 		{
+			return false;
 		}
 
 		protected Point CutPoint(Point point)

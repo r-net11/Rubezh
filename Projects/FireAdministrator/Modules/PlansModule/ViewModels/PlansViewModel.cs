@@ -21,8 +21,9 @@ using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : MenuViewPartViewModel
+	public partial class PlansViewModel : ViewPartViewModel
 	{
+		public BaseViewModel Menu { get; protected set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
 
@@ -54,11 +55,11 @@ namespace PlansModule.ViewModels
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
 			Menu = new PlansMenuViewModel(this);
-			_splitterDistance = 0.3;
+			_splitterDistance = 300;
 			_emptyGridColumn = new GridLength(0, GridUnitType.Pixel);
 			Width1 = new GridLength(1, GridUnitType.Star);
 			Width2 = GridLength.Auto;
-			Width3 = new GridLength(_splitterDistance, GridUnitType.Star);
+			Width3 = new GridLength(_splitterDistance, GridUnitType.Pixel);
 		}
 
 		public void Initialize()
@@ -373,10 +374,10 @@ namespace PlansModule.ViewModels
 		private void PlanDesignerViewModel_IsCollapsedChanged(object sender, EventArgs e)
 		{
 			if (Width3 != _emptyGridColumn)
-				_splitterDistance = Width3.Value / Width1.Value;
+				_splitterDistance = Width3.Value;
 			Width1 = new GridLength(1, GridUnitType.Star);
 			Width2 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : GridLength.Auto;
-			Width3 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : new GridLength(_splitterDistance, GridUnitType.Star);
+			Width3 = PlanDesignerViewModel.IsCollapsed ? _emptyGridColumn : new GridLength(_splitterDistance, GridUnitType.Pixel);
 		}
 	}
 }

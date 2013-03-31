@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Common;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : MenuViewPartViewModel
+	public partial class PlansViewModel
 	{
 		private List<HistoryItem> HistoryItems;
 		private int Offset;

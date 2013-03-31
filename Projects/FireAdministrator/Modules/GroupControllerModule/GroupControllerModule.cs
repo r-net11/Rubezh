@@ -71,7 +71,7 @@ namespace GKModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("ГК", null, new List<NavigationItem>()
+				new NavigationItem("ГК", "/Controls;component/Images/tree.png", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),

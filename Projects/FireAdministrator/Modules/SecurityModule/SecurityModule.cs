@@ -32,7 +32,7 @@ namespace SecurityModule
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("Права доступа", null, new List<NavigationItem>(){
+				new NavigationItem("Права доступа", "/Controls;component/Images/users.png", new List<NavigationItem>(){
 					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
 					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Группы", "/Controls;component/Images/users.png"),
 				}),
