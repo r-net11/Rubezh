@@ -21,6 +21,7 @@ namespace FSAgentServer
 		static bool needToReadParameters = false;
 		static bool needToReadJournal = false;
 		static int CriticalErrorsCount = 0;
+		public static bool ContinueProgress = true;
 
 		public void NewEventsAvailable(int eventMask)
 		{
@@ -128,9 +129,7 @@ namespace FSAgentServer
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
 				return false;
 			}
-		}
-
-		public static bool ContinueProgress = true;
+		}		
 
 		void OnCriticalError()
 		{

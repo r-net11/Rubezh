@@ -1001,7 +1001,7 @@ namespace ServerFS2
                     if (config[4])
                     {
                         var localNoInPPU = Convert.ToInt32(config[3])*4 + Convert.ToInt32(config[2])*2 +  Convert.ToInt32(config[1]);
-                        if ((localNoInPPU == 0)||(child.IntAddress - groupDevice.IntAddress > 3)) // если это первое устройство в составе группового устройства, то  создаем новое групповое устройство
+                        if ((localNoInPPU == 0)||(child.IntAddress - groupDevice.IntAddress > 3)) // если это первое устройство в составе группового устройства, то  создаем новое групповое устройство или оно не относится к предыдущему групповому устройству
                         {
                             groupDevice = new Device();
                             groupDevice.DriverUID = new Guid("E495C37A-A414-4B47-AF24-FEC1F9E43D86"); // АМ-4
@@ -1010,9 +1010,20 @@ namespace ServerFS2
                             groupDevice.IntAddress = child.IntAddress - localNoInPPU;
                         }
                         groupDevice.Children.Add(child);
-                        //device.Children.FirstOrDefault(x => x.UID == groupDevice.UID).Children.Add(child););
                         continue;
                     }
+                    //for (int j = 0; j < 4; j++) // Смотрим пропущеные дочерние для ГУ устройства, если есть пропущенные позиции, то заполняем эту позицию устройством, которое не используется (IsNotUsed).
+                    //{
+                    //    if (groupDevice.Children.FirstOrDefault(x => x.IntAddress == groupDevice.IntAddress + j) == null)
+                    //    {
+                    //        var notUsedChild = new Device();
+                    //        notUsedChild.DriverUID = FiresecAPI.Models.DriversHelper.GetDriverUidByType(DriverType.AM_1);
+                    //        notUsedChild.Driver = Drivers.FirstOrDefault(x => x.UID == notUsedChild.DriverUID);
+                    //        notUsedChild.IsNotUsed = true;
+                    //        notUsedChild.IntAddress = groupDevice.IntAddress + j;
+                    //        groupDevice.Children.Add(notUsedChild);
+                    //    }
+                    //}
                     device.Children.Add(child);
                 }
             }

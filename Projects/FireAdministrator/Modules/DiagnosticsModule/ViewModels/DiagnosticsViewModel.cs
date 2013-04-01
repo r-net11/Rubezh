@@ -21,6 +21,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using System.Collections.ObjectModel;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -48,6 +49,12 @@ namespace DiagnosticsModule.ViewModels
 			BalloonTestCommand = new RelayCommand(OnBalloonTest);
 			PlanDuplicateTestCommand = new RelayCommand(OnPlanDuplicateTest);
 			MailCommand = new RelayCommand(OnMail);
+
+			AutoCompleteItems = new ObservableCollection<string>();
+			foreach (var zone in FiresecManager.Zones)
+			{
+				AutoCompleteItems.Add(zone.Name);
+			}
 		}
 
 		public void StopThreads()
@@ -70,7 +77,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowDriversCommand { get; private set; }
-
 		private void OnShowDrivers()
 		{
 			var driversView = new DriversView();
@@ -78,7 +84,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowXDriversCommand { get; private set; }
-
 		private void OnShowXDrivers()
 		{
 			var driversView = new XDriversView();
@@ -86,7 +91,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand TreeListViewTestCommand { get; private set; }
-
 		private void OnTreeListViewTest()
 		{
 			var treeViewTestViewModel = new TreeViewTestViewModel();
@@ -94,7 +98,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowTreeCommand { get; private set; }
-
 		private void OnShowTree()
 		{
 			var devicesTreeViewModel = new DevicesTreeViewModel();
@@ -104,31 +107,13 @@ namespace DiagnosticsModule.ViewModels
 		int counter = 0;
 
 		public RelayCommand Test1Command { get; private set; }
-
 		private void OnTest1()
 		{
-			//var text = "ZCMPeNpdUEtOwzAQ3fcUUfbgOCiCSJPpDg5AF3RpOSaxlDqW7RJyPE7AFdhUVILegckH2rCa99G8+cD6dddEL8p53Zoi5tdJHCkj21Kbqog7bcq281c8zXi8xhX4vXsWUvllB0Ll2r31c0Vgi0r63Pe/LfRWoWyE91oCGxl0ugw18iQBNkGola7qgBkpMwQpbKAcfDt8Rsfvw+kI7FeiHXS5GaLSYf6MR/UxKPtE0ZM+sT9juzC2tLMRdtM+kIAc2AUDYfS9EzvlB+NMoBG9cpEuizjN89vkJr/LUrrSkIvvXx8nYCOE4ITxVjh6dI80dMGBjTFU56edkcfVD8cHmz8=";
-			//byte[] data = System.Text.UnicodeEncoding.UTF8.GetBytes(text);
-			//Base64Encoder myEncoder = new Base64Encoder(data);
-			//StringBuilder sb = new StringBuilder();
-			//sb.Append(myEncoder.GetEncoded());
-			//text = sb.ToString();
-
-			var text = "ZCMPeNpdUEtOwzAQ3fcUUfbgOCiCSJPpDg5AF3RpOSaxlDqW7RJyPE7AFdhUVILegckH2rCa99G8+cD6dddEL8p53Zoi5tdJHCkj21Kbqog7bcq281c8zXi8xhX4vXsWUvllB0Ll2r31c0Vgi0r63Pe/LfRWoWyE91oCGxl0ugw18iQBNkGola7qgBkpMwQpbKAcfDt8Rsfvw+kI7FeiHXS5GaLSYf6MR/UxKPtE0ZM+sT9juzC2tLMRdtM+kIAc2AUDYfS9EzvlB+NMoBG9cpEuizjN89vkJr/LUrrSkIvvXx8nYCOE4ITxVjh6dI80dMGBjTFU56edkcfVD8cHmz8=";
-			char[] data = text.ToCharArray();
-			Base64Decoder myDecoder = new Base64Decoder(data);
-			StringBuilder sb = new StringBuilder();
-			byte[] temp = myDecoder.GetDecoded();
-			using (var fileStream = new FileStream("E:/xxx.zip", FileMode.Create))
-			{
-				fileStream.Write(temp, 0, temp.Length);
-			}
-			sb.Append(System.Text.UTF8Encoding.UTF8.GetChars(temp));
-			text = sb.ToString();
+			//CloseWindowHelper.Close();
+			CloseWindowHelper.StartWatchThread();
 		}
 
 		public RelayCommand Test2Command { get; private set; }
-
 		private void OnTest2()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -150,7 +135,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test3Command { get; private set; }
-
 		private void OnTest3()
 		{
 			var viewModel = new SVGTestViewModel();
@@ -158,13 +142,11 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test4Command { get; private set; }
-
 		private void OnTest4()
 		{
 		}
 
 		public RelayCommand Test5Command { get; private set; }
-
 		private void OnTest5()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -193,7 +175,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test6Command { get; private set; }
-
 		private void OnTest6()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -224,14 +205,12 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test8Command { get; private set; }
-
 		private void OnTest8()
 		{
 			FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
 		}
 
 		public RelayCommand Test7Command { get; private set; }
-
 		private void OnTest7()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -251,7 +230,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test9Command { get; private set; }
-
 		private void OnTest9()
 		{
 			FiresecManager.DeviceLibraryConfiguration = null;
@@ -281,7 +259,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test10Command { get; private set; }
-
 		private void OnTest10()
 		{
 			//DiagnosticsModule.stopWatch.Reset();
@@ -291,7 +268,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test11Command { get; private set; }
-
 		private void OnTest11()
 		{
 			//ZoneTestViewModel.Stopwatch.Restart();
@@ -310,14 +286,12 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand BalloonTestCommand { get; private set; }
-
 		private void OnBalloonTest()
 		{
 			BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
 		}
 
 		public RelayCommand PlanDuplicateTestCommand { get; private set; }
-
 		private void OnPlanDuplicateTest()
 		{
 			using (new WaitWrapper())
@@ -350,7 +324,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand MailCommand { get; private set; }
-
 		private void OnMail()
 		{
 			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, "obychevma@rubezh.ru",
@@ -359,17 +332,28 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand IntegrateCommand { get; private set; }
-
 		private void OnIntegrate()
 		{
 			RegistryHelper.Integrate();
 		}
 
 		public RelayCommand DesintegrateCommand { get; private set; }
-
 		private void OnDesintegrate()
 		{
 			RegistryHelper.Desintegrate();
+		}
+
+		public ObservableCollection<string> AutoCompleteItems { get; private set; }
+
+		string _autoText;
+		public string AutoText
+		{
+			get { return _autoText; }
+			set
+			{
+				_autoText = value;
+				OnPropertyChanged("AutoText");
+			}
 		}
 	}
 }

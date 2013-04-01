@@ -52,7 +52,7 @@
       <ComponentRef Id="Monitor.PLANS_MODULE" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />
-      <ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />
+      <!--<ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />-->
     </Feature>
   </Fragment>
 </Wix>

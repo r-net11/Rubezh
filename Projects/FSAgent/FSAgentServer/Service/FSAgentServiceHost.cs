@@ -9,7 +9,6 @@ using FSAgentServer.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common;
 
-
 namespace FSAgentServer
 {
 	public class FSAgentServiceHost
@@ -19,6 +18,7 @@ namespace FSAgentServer
 
 		public static bool Start()
 		{
+			//SeviceRightsHelper.Enable();
 			try
 			{
 				Stop();

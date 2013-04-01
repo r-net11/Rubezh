@@ -66,6 +66,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ComServerExceptionWatcher.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Journal.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SyncronizeJournal.cs" />
     <Compile Include="MainWindow.xaml.cs">

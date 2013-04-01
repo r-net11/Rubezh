@@ -12,41 +12,41 @@ using System.Diagnostics;
 
 namespace FSAgentServer
 {
-    [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
-    InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class FSAgentContract : IFSAgentContract
-    {
+	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
+	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
+	public class FSAgentContract : IFSAgentContract
+	{
 		NativeFiresecClient DirectClient
 		{
 			get { return WatcherManager.Current.DirectClient; }
 		}
 
-        #region Main
-        public List<FSAgentCallbac> Poll(Guid clientUID)
-        {
-            try
-            {
-                ClientsManager.Add(clientUID);
+		#region Main
+		public List<FSAgentCallbac> Poll(Guid clientUID)
+		{
+			try
+			{
+				ClientsManager.Add(clientUID);
 
-                var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
-                if (clientInfo != null)
-                {
-                    var result = CallbackManager.Get(clientInfo);
-                    if (result.Count == 0)
-                    {
-                        clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
-                        result = CallbackManager.Get(clientInfo);
-                    }
-                    return result;
-                }
-                return new List<FSAgentCallbac>();
-            }
-            catch(Exception e)
-            {
-                Logger.Error(e, "FSAgentContract.Poll");
-                return null;
-            }
-        }
+				var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
+				if (clientInfo != null)
+				{
+					var result = CallbackManager.Get(clientInfo);
+					if (result.Count == 0)
+					{
+						clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
+						result = CallbackManager.Get(clientInfo);
+					}
+					return result;
+				}
+				return new List<FSAgentCallbac>();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FSAgentContract.Poll");
+				return null;
+			}
+		}
 
 		public void CancelPoll(Guid clientUID)
 		{
@@ -61,116 +61,116 @@ namespace FSAgentServer
 		{
 			NativeFiresecClient.ContinueProgress = false;
 		}
-        #endregion
+		#endregion
 
-        #region Common
-        public OperationResult<string> GetCoreConfig()
-        {
-            return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.GetCoreConfig();
-            }));
-        }
-        public OperationResult<string> GetMetadata()
-        {
-            return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.GetMetadata();
-            }));
-        }
-        #endregion
+		#region Common
+		public OperationResult<string> GetCoreConfig()
+		{
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.GetCoreConfig();
+			}));
+		}
+		public OperationResult<string> GetMetadata()
+		{
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.GetMetadata();
+			}));
+		}
+		#endregion
 
-        #region Monitor
-        public OperationResult<string> GetCoreState()
-        {
-            return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.GetCoreState();
-            }));
-        }
-        public OperationResult<string> GetCoreDeviceParams()
-        {
-            return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.GetCoreDeviceParams();
-            }));
-        }
-        public OperationResult<string> ReadEvents(int fromId, int limit)
-        {
-            return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.ReadEvents(fromId, limit);
-            }));
-        }
-        public void AddToIgnoreList(List<string> devicePaths)
-        {
-            WatcherManager.Current.AddNonBlockingTask(() =>
-            {
-                DirectClient.AddToIgnoreList(devicePaths);
-            });
-        }
-        public void RemoveFromIgnoreList(List<string> devicePaths)
-        {
-            WatcherManager.Current.AddNonBlockingTask(() =>
-            {
-                DirectClient.RemoveFromIgnoreList(devicePaths);
-            });
-        }
-        public void ResetStates(string states)
-        {
-            WatcherManager.Current.AddNonBlockingTask(() =>
-            {
-                DirectClient.ResetStates(states);
-            });
-        }
-        public void SetZoneGuard(string placeInTree, string localZoneNo)
-        {
-            WatcherManager.Current.AddNonBlockingTask(() =>
-            {
-                DirectClient.SetZoneGuard(placeInTree, localZoneNo);
-            });
-        }
-        public void UnSetZoneGuard(string placeInTree, string localZoneNo)
-        {
-            WatcherManager.Current.AddNonBlockingTask(() =>
-            {
-                DirectClient.UnSetZoneGuard(placeInTree, localZoneNo);
-            });
-        }
-        public void AddUserMessage(string message)
-        {
-            WatcherManager.Current.AddNonBlockingTask(() =>
-            {
-                DirectClient.AddUserMessage(message);
-            });
-        }
-        public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
-        {
-            return (OperationResult<StringRequestIdResult>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
-            }));
-        }
+		#region Monitor
+		public OperationResult<string> GetCoreState()
+		{
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.GetCoreState();
+			}));
+		}
+		public OperationResult<string> GetCoreDeviceParams()
+		{
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.GetCoreDeviceParams();
+			}));
+		}
+		public OperationResult<string> ReadEvents(int fromId, int limit)
+		{
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.ReadEvents(fromId, limit);
+			}));
+		}
+		public void AddToIgnoreList(List<string> devicePaths)
+		{
+			WatcherManager.Current.AddNonBlockingTask(() =>
+			{
+				DirectClient.AddToIgnoreList(devicePaths);
+			});
+		}
+		public void RemoveFromIgnoreList(List<string> devicePaths)
+		{
+			WatcherManager.Current.AddNonBlockingTask(() =>
+			{
+				DirectClient.RemoveFromIgnoreList(devicePaths);
+			});
+		}
+		public void ResetStates(string states)
+		{
+			WatcherManager.Current.AddNonBlockingTask(() =>
+			{
+				DirectClient.ResetStates(states);
+			});
+		}
+		public void SetZoneGuard(string placeInTree, string localZoneNo)
+		{
+			WatcherManager.Current.AddNonBlockingTask(() =>
+			{
+				DirectClient.SetZoneGuard(placeInTree, localZoneNo);
+			});
+		}
+		public void UnSetZoneGuard(string placeInTree, string localZoneNo)
+		{
+			WatcherManager.Current.AddNonBlockingTask(() =>
+			{
+				DirectClient.UnSetZoneGuard(placeInTree, localZoneNo);
+			});
+		}
+		public void AddUserMessage(string message)
+		{
+			WatcherManager.Current.AddNonBlockingTask(() =>
+			{
+				DirectClient.AddUserMessage(message);
+			});
+		}
+		public OperationResult<StringRequestIdResult> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		{
+			return (OperationResult<StringRequestIdResult>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters);
+			}));
+		}
 
-        public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
-        {
-            return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.ExecuteCommand(devicePath, methodName);
-            }));
-        }
+		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
+		{
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.ExecuteCommand(devicePath, methodName);
+			}));
+		}
 
-        public OperationResult<bool> CheckHaspPresence()
-        {
-            return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.CheckHaspPresence();
-            }));
-        }
-        #endregion
+		public OperationResult<bool> CheckHaspPresence()
+		{
+			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.CheckHaspPresence();
+			}));
+		}
+		#endregion
 
-        #region Administrator
-        public OperationResult<bool> SetNewConfig(string coreConfig)
+		#region Administrator
+		public OperationResult<bool> SetNewConfig(string coreConfig)
 		{
 			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
@@ -282,13 +282,13 @@ namespace FSAgentServer
 				return DirectClient.DeviceGetMDS5Data(coreConfig, devicePath);
 			}));
 		}
-        public OperationResult<string> GetPlans()
-        {
-            return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
-            {
-                return DirectClient.GetPlans();
-            }));
-        }
-        #endregion
-    }
+		public OperationResult<string> GetPlans()
+		{
+			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
+			{
+				return DirectClient.GetPlans();
+			}));
+		}
+		#endregion
+	}
 }
