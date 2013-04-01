@@ -1,57 +1,52 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:DiagnosticsModule.Views"
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit">
+﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Views="clr-namespace:DiagnosticsModule.Views">
 
-    <TabControl>
-        <TabItem Header="Отладка">
-            <Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Margin="10">
-                        <Button Width="300" Margin="2" Command="{Binding ShowDriversCommand}" Content="Драйверы" />
-                        <Button Width="300" Margin="2" Command="{Binding ShowXDriversCommand}" Content="Драйверы ГК" />
-                        <Button Width="300" Margin="2" Command="{Binding ShowTreeCommand}" Content="Дерево" />
-                        <Button Width="300" Margin="2" Command="{Binding TreeListViewTestCommand}" Content="TreeListView Test" />
-                        <Button Width="300" Margin="2" Command="{Binding Test1Command}" Content="MIME" />
-                        <Button Width="300" Margin="2" Command="{Binding Test2Command}" Content="Применить" />
-                        <Button Width="300" Margin="2" Command="{Binding Test3Command}" Content="SVG" />
-                        <Button Width="300" Margin="2" Command="{Binding Test6Command}" Content="Сообщение" />
-                        <Button Width="300" Margin="2" Command="{Binding Test7Command}" Content="FiresecService.Test" />
-                        <Button Width="300" Margin="2" Command="{Binding Test8Command}" Content="FiresecService.SingleTest" />
-                        <Button Width="300" Margin="2" Command="{Binding Test9Command}" Content="Обновить конфигурацию" />
-                        <Button Width="300" Margin="2" Command="{Binding BalloonTestCommand}" Content="Предупреждение из трея" />
-                        <Button Width="300" Margin="2" Command="{Binding PlanDuplicateTestCommand}" Content="Удвоение планов" />
-                        <Button Width="300" Margin="2" Command="{Binding MailCommand}" Content="Почта" />
-                        <Button Width="300" Margin="2" Command="{Binding Test11Command}" Content="Зоны" />
-                        <Button Width="300" Margin="2" Command="{Binding Test10Command}" Content="Др" />
-                        <Button Width="300" Margin="2" Command="{Binding IntegrateCommand}" Content="IntegrateCommand" />
-                        <Button Width="300" Margin="2" Command="{Binding DesintegrateCommand}" Content="DesintegrateCommand" />
-                    </StackPanel>
-                    <ScrollViewer Grid.Row="1">
-                        <TextBox Text="{Binding Text}" />
-                    </ScrollViewer>
-                </Grid>
-            </Border>
-        </TabItem>
-        <TabItem Header="FS">
-            <Button Width="300" Margin="2" Command="{Binding Test5Command}" Content="WCF Test" />
-        </TabItem>
-        <TabItem Header="Test Controls">
-            <StackPanel>
+	<TabControl>
+		<TabItem Header="Отладка">
+			<Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<StackPanel Grid.Row="0" Margin="10">
+						<Button Width="300" Margin="2" Command="{Binding ShowDriversCommand}" Content="Драйверы" />
+						<Button Width="300" Margin="2" Command="{Binding ShowXDriversCommand}" Content="Драйверы ГК" />
+						<Button Width="300" Margin="2" Command="{Binding ShowTreeCommand}" Content="Дерево" />
+						<Button Width="300" Margin="2" Command="{Binding TreeListViewTestCommand}" Content="TreeListView Test" />
+						<Button Width="300" Margin="2" Command="{Binding Test1Command}" Content="MIME" />
+						<Button Width="300" Margin="2" Command="{Binding Test2Command}" Content="Применить" />
+						<Button Width="300" Margin="2" Command="{Binding Test3Command}" Content="SVG" />
+						<Button Width="300" Margin="2" Command="{Binding Test6Command}" Content="Сообщение" />
+						<Button Width="300" Margin="2" Command="{Binding Test7Command}" Content="FiresecService.Test" />
+						<Button Width="300" Margin="2" Command="{Binding Test8Command}" Content="FiresecService.SingleTest" />
+						<Button Width="300" Margin="2" Command="{Binding Test9Command}" Content="Обновить конфигурацию" />
+						<Button Width="300" Margin="2" Command="{Binding BalloonTestCommand}" Content="Предупреждение из трея" />
+						<Button Width="300" Margin="2" Command="{Binding PlanDuplicateTestCommand}" Content="Удвоение планов" />
+						<Button Width="300" Margin="2" Command="{Binding MailCommand}" Content="Почта" />
+						<Button Width="300" Margin="2" Command="{Binding Test11Command}" Content="Зоны" />
+						<Button Width="300" Margin="2" Command="{Binding Test10Command}" Content="Др" />
+						<Button Width="300" Margin="2" Command="{Binding IntegrateCommand}" Content="IntegrateCommand" />
+						<Button Width="300" Margin="2" Command="{Binding DesintegrateCommand}" Content="DesintegrateCommand" />
+					</StackPanel>
+					<ScrollViewer Grid.Row="1">
+						<TextBox Text="{Binding Text}" />
+					</ScrollViewer>
+				</Grid>
+			</Border>
+		</TabItem>
+		<TabItem Header="FS">
+			<Button Width="300" Margin="2" Command="{Binding Test5Command}" Content="WCF Test" />
+		</TabItem>
+		<TabItem Header="Test Controls">
+			<StackPanel>
 
-                <toolkit:AutoCompleteBox ItemsSource="{Binding AutoCompleteItems}" Text="{Binding AutoText}" IsTextCompletionEnabled="True" />
+				<toolkit:AutoCompleteBox IsTextCompletionEnabled="True" ItemsSource="{Binding AutoCompleteItems}" Text="{Binding AutoText}" />
 
-                <extToolkit:ColorCanvas />
-                <extToolkit:ColorPicker  />
-                <extToolkit:Magnifier />
-                <extToolkit:SplitButton />
-            </StackPanel>
-        </TabItem>
-    </TabControl>
+				<extToolkit:ColorCanvas SelectedColor="{Binding SelectedColor, ElementName=picker, Mode=TwoWay}" />
+				<extToolkit:ColorPicker x:Name="picker"  DisplayColorAndName="True" ShowRecentColors="True"/>
+				<extToolkit:Magnifier /> 
+				<extToolkit:SplitButton Content="test"/>
+			</StackPanel>
+		</TabItem>
+	</TabControl>
 </UserControl>
