@@ -4,25 +4,47 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
-    public class LibraryDevice
-    {
-        public LibraryDevice()
-        {
-            States = new List<LibraryState>();
-            var libraryState = new LibraryState()
-            {
-                StateType = StateType.No,
-            };
-            States.Add(libraryState);
-        }
+	[DataContract]
+	public class LibraryDevice
+	{
+		public LibraryDevice()
+		{
+			States = new List<LibraryState>();
+			var libraryState = new LibraryState()
+			{
+				StateType = StateType.No,
+			};
+			States.Add(libraryState);
+			IsAlternative = false;
+		}
 
-        public Driver Driver { get; set; }
+		public Driver Driver { get; set; }
 
-        [DataMember]
-        public Guid DriverId { get; set; }
+		[DataMember]
+		public Guid DriverId { get; set; }
 
-        [DataMember]
-        public List<LibraryState> States { get; set; }
-    }
+		[DataMember]
+		public bool IsAlternative { get; set; }
+
+		[DataMember]
+		public string AlternativeName { get; set; }
+
+		[DataMember]
+		public List<LibraryState> States { get; set; }
+
+		public string PresentationName
+		{
+			get
+			{
+				string result = null;
+				if (Driver != null)
+				{
+					result = Driver.ShortName;
+				}
+				if (!string.IsNullOrEmpty(AlternativeName))
+					result += " (" + AlternativeName + ")";
+				return result;
+			}
+		}
+	}
 }

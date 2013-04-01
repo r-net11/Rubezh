@@ -70,20 +70,13 @@ namespace GKModule.ViewModels
 			get { return Device.Address; }
 			set
 			{
-				if (Device.Parent.Children.Where(x => (x != Device) && (x.Driver.IsAutoCreate == false)).Any(x => x.Address == value))
+				Device.SetAddress(value);
+				if (Driver.IsGroupDevice)
 				{
-					MessageBoxService.Show("Устройство с таким адресом уже существует");
-				}
-				else
-				{
-					Device.SetAddress(value);
-					if (Driver.IsGroupDevice)
+					foreach (var deviceViewModel in Children)
 					{
-						foreach (var deviceViewModel in Children)
-						{
-							deviceViewModel.OnPropertyChanged("Address");
-							deviceViewModel.OnPropertyChanged("PresentationAddress");
-						}
+						deviceViewModel.OnPropertyChanged("Address");
+						deviceViewModel.OnPropertyChanged("PresentationAddress");
 					}
 				}
 				OnPropertyChanged("Address");
@@ -371,12 +364,10 @@ namespace GKModule.ViewModels
 				{
 					case XDriverType.AM_4:
 						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM_1));
-						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_O));
 						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_T));
 						break;
 
 					case XDriverType.AMP_4:
-						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_O));
 						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AMP_1));
 						break;
 
@@ -400,8 +391,6 @@ namespace GKModule.ViewModels
 				return false;
 
 			if (Device.Parent.Driver.DriverType == XDriverType.AM_4)
-				return true;
-			if (Device.Parent.Driver.DriverType == XDriverType.AMP_4)
 				return true;
 
 			if (driver.IsAutoCreate)

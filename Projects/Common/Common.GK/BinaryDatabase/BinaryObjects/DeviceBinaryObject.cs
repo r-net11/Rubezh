@@ -139,7 +139,7 @@ namespace Common.GK
 				Parameters = new List<byte>();
 				return;
 			}
-			if (Device.Driver.DriverType == XDriverType.RSR2_KAU)
+			if (Device.Driver.DriverType == XDriverType.Pump)
 			{
 				;
 			}
@@ -153,7 +153,17 @@ namespace Common.GK
 					if (driverProperty.Offset > 0)
 						value = (ushort)(value << driverProperty.Offset);
 					if (driverProperty.Mask > 0)
-						value = (ushort)(value & driverProperty.Mask);
+					{
+						if (driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)
+						{
+							if (value > 0)
+								value = (ushort)driverProperty.Mask;
+						}
+						else
+						{
+							value = (ushort)(value & driverProperty.Mask);
+						}
+					}
 					if (driverProperty.IsHieghByte)
 						value = (ushort)(value * 256);
 					if (driverProperty.Multiplier != 0)

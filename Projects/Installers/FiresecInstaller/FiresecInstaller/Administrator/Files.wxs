@@ -13,7 +13,9 @@
         <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Common.dll" Name="Common.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Controls.dll" Name="Controls.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Administrator.TargetDir)" />

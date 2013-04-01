@@ -30,8 +30,8 @@ namespace Common.GK
 			var property1 = new XDriverProperty()
 			{
 				No = 0x82,
-				Name = "Время переключения в положение НОРМА, сек",
-				Caption = "Время переключения в положение НОРМА, сек",
+				Name = "Время переключения в положение НОРМА, с",
+				Caption = "Время переключения в положение НОРМА, с",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 30,
@@ -42,8 +42,8 @@ namespace Common.GK
 			var property2 = new XDriverProperty()
 			{
 				No = 0x83,
-				Name = "Время переключения электропривода в положение ЗАЩИТА, сек",
-				Caption = "Время переключения электропривода в положение ЗАЩИТА, сек",
+				Name = "Время переключения электропривода в положение ЗАЩИТА, с",
+				Caption = "Время переключения электропривода в положение ЗАЩИТА, с",
 				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 30,
@@ -54,8 +54,8 @@ namespace Common.GK
 			var property3 = new XDriverProperty()
 			{
 				No = 0x84,
-				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
-				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
+				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, с",
+				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, с",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -66,8 +66,8 @@ namespace Common.GK
 			var property4 = new XDriverProperty()
 			{
 				No = 0x86,
-				Name = "Отказ обмена, сек",
-				Caption = "Отказ обмена, сек",
+				Name = "Отказ обмена, с",
+				Caption = "Отказ обмена, с",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,

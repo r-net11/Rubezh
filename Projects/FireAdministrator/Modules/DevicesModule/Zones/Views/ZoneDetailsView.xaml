@@ -77,7 +77,7 @@
                         <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
                         <StackPanel Grid.Row="1" Grid.Column="0">
-                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, сек(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
                         </StackPanel>
                         <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
                     </Grid>
@@ -109,10 +109,10 @@
                             <Label Content="Тихая тревога" VerticalAlignment="Center" />
                         </CheckBox>
 
-                        <Label Grid.Row="2" Grid.Column="0" Content="Входная/выходная задержка, сек" HorizontalAlignment="Right" />
+                        <Label Grid.Row="2" Grid.Column="0" Content="Входная/выходная задержка, с" HorizontalAlignment="Right" />
                         <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" IsEnabled="{Binding CanDelay}" Minimum="0" Maximum="2550" Increment="10" Margin="2" />
 
-                        <Label Grid.Row="3" Grid.Column="0" Content="Автоперевзятие, сек" HorizontalAlignment="Right" />
+                        <Label Grid.Row="3" Grid.Column="0" Content="Автоперевзятие, с" HorizontalAlignment="Right" />
                         <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AutoSet}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Maximum="255" Margin="2" />
                     </Grid>
                 </StackPanel>

@@ -59,9 +59,9 @@ namespace GKModule
 						if (binaryObject.Device != null)
 						{
 							var result = SetDeviceParameters(kauDatabase, binaryObject);
-							if (!result)
+							if (!string.IsNullOrEmpty(result))
 							{
-								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + binaryObject.Device.ShortPresentationAddressAndDriver);
+								MessageBoxService.ShowError("Ошибка при записи параметра устройства " + binaryObject.Device.ShortPresentationAddressAndDriver + "\n" + result);
 								return;
 							}
 						}
@@ -99,9 +99,9 @@ namespace GKModule
 					if (binaryObject != null)
 					{
 						var result = SetDeviceParameters(commonDatabase, binaryObject);
-						if (!result)
+						if (!string.IsNullOrEmpty(result))
 						{
-							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.ShortPresentationAddressAndDriver);
+							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.ShortPresentationAddressAndDriver + "\n" + result);
 						}
 					}
 				}
@@ -224,7 +224,7 @@ namespace GKModule
 			return true;
 		}
 
-		static bool SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
+		static string SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
 		{
 			if (binaryObject.Device != null)
 			{
@@ -233,6 +233,14 @@ namespace GKModule
 					var driverProperty = binaryObject.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
 					{
+						if (driverProperty.Min != 0)
+							if (property.Value < driverProperty.Min)
+								return "Парметр " + driverProperty.Caption + " должен быть больше " + driverProperty.Min.ToString();
+
+						if (driverProperty.Max != 0)
+							if (property.Value > driverProperty.Max)
+								return "Парметр " + driverProperty.Caption + " должен быть меньше " + driverProperty.Max.ToString();
+
 						if (driverProperty.Multiplier != 0)
 						{
 							property.Value = (ushort)(property.Value * driverProperty.Multiplier);
@@ -250,9 +258,10 @@ namespace GKModule
 				bytes.AddRange(binaryObject.Parameters);
 				LoadingService.DoStep("Запись параметров объекта " + no);
 				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
-				return !sendResult.HasError;
+				if (sendResult.HasError)
+					return sendResult.Error;
 			}
-			return true;
+			return null;
 		}
 	}
 

@@ -8,37 +8,45 @@
             <ColumnDefinition Width="400" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Single" Margin="2">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Обозначение" Width="150">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="5, 1, 0, 0">
-                                        <Image Width="14" Margin="5,0" Source="{Binding Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding Driver.ShortName}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Наименование" Width="450">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Driver.Name}" ToolTip="{Binding Driver.Name}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}" />
-                    <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" CanUserSortColumns="True" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Обозначение" Width="150" SortMemberPath="Driver.ShortName">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="5, 1, 0, 0">
+                                    <Image Width="14" Margin="5,0" Source="{Binding Driver.ImageSource}" />
+                                    <TextBlock Text="{Binding LibraryDevice.PresentationName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Наименование" Width="450" SortMemberPath="Driver.Name">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Driver.Name}" ToolTip="{Binding Driver.Name}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}" />
+                        <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
+                        <MenuItem Header="Добавить дополнительное устройство" Command="{Binding AddAdditionalDeviceCommand}" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+            <WrapPanel Grid.Row="1" DataContext="{Binding SelectedDevice}"
+                    Visibility="{Binding LibraryDevice.IsAlternative, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Text="Альтернативное название" Foreground="White" Margin="2" />
+                <TextBox Text="{Binding AlternativeName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </WrapPanel>
+        </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -108,7 +116,7 @@
                                     <Label Content=" Длительность, мс: " VerticalAlignment="Center" />
                                     <ExtToolkit:IntegerUpDown Minimum="100" Maximum="10000" Increment="100" IsEditable="False" Text="{Binding Duration, Mode=TwoWay}" Height="20" Width="75" />
                                     <Controls:ToolBarButton Command="{Binding ImportSvgCommand}" ToolTip="Импорт из .svg" ImageSource="/Controls;component/Images/Arrow-up-left.png" />
-                                    <Controls:ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="/Controls;component/Images/Arrow-down-right.png" />
+                                    <!--<Controls:ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="/Controls;component/Images/Arrow-down-right.png" />-->
                                 </StackPanel>
                                 <ContentControl Content="{Binding XamlOfImage}" Width="500" Height="500" HorizontalAlignment="Center" Margin="0, 0, 150, 0">
                                     <ContentControl.LayoutTransform>
