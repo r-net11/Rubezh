@@ -166,6 +166,18 @@ namespace FiresecClient
                     DeviceUID = device.UID,
                     Device = device
                 };
+				if(device.Driver.AvailableStates.Contains(XStateType.Fire1))
+				{
+					directionDevice.StateType = XStateType.Fire1;
+				}
+				else if (device.Driver.AvailableStates.Contains(XStateType.Fire2))
+				{
+					directionDevice.StateType = XStateType.Fire2;
+				}
+				else if (device.Driver.AvailableStates.Contains(XStateType.On))
+				{
+					directionDevice.StateType = XStateType.On;
+				}
                 var existingDirectionDevice = oldDirectionDevices.FirstOrDefault(x => x.Device == device);
                 if (existingDirectionDevice != null)
                 {

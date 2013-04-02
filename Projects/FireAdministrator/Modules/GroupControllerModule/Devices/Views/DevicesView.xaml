@@ -116,7 +116,7 @@
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 
-				<GridViewColumn Header="Зона или Логика">
+				<GridViewColumn Header="Зона или Логика" Width="300">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<Controls:EditorPresenter>

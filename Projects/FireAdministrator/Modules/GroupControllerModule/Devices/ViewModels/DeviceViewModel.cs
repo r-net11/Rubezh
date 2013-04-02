@@ -345,6 +345,8 @@ namespace GKModule.ViewModels
 					XManager.ChangeDriver(Device, value);
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Driver");
+					OnPropertyChanged("PresentationZone");
+					OnPropertyChanged("EditingPresentationZone");
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
 					Update();
