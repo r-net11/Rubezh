@@ -160,11 +160,11 @@ namespace GKModule
 			var no = binaryObject.GetNo();
 			LoadingService.DoStep("Запрос параметров объекта " + no);
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
-
 			if (sendResult.HasError)
 			{
 				return false;
 			}
+
 			var binProperties = new List<BinProperty>();
 			for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
 			{
@@ -213,6 +213,10 @@ namespace GKModule
 							if (property.Value != paramValue)
 								property.Value = paramValue;
 						}
+					}
+					else
+					{
+						return false;
 					}
 				}
 			}
