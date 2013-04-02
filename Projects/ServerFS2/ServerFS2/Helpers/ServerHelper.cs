@@ -398,6 +398,7 @@ namespace ServerFS2
 			Device child;
             int sleifCount = device.Driver.ShleifCount;
             var zonePanelRelationsInfo = new ZonePanelRelationsInfo();
+            var groupDevice = new Device();
 
             #region Хидеры таблицы указателей на указатели на зоны
             if ((pPointer = DeviceRam[1542] * 256 * 256 + DeviceRam[1543] * 256 + DeviceRam[1544]) != 0)
@@ -488,42 +489,7 @@ namespace ServerFS2
             {
                 var count = DeviceRam[16] * 256 + DeviceRam[17]; // текущее число записей в таблице
                 pointer -= 0x100;
-                var groupDevice = new Device();
-                //for (int i = 0; i < count; i++)
-                //{
-                //    child = new Device();
-                //    child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                //    int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
-                //    if (zoneNo != 0)
-                //    {
-                //        child.Zone =
-                //            zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
-                //                x => (x.No == zoneNo) && x.PanelDevice.IntAddress == device.IntAddress).Zone;
-                //        child.ZoneUID = child.Zone.UID;
-                //    }
-                //    var tableDynamicSize = DeviceRom[pointer + 7];
-                //    var deviceType = DeviceRom[pointer + 10];
-                //    child.DriverUID = MetadataHelper.GetUidById(deviceType);
-                //    child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-                //    var config = new BitArray(new byte[] { DeviceRom[pointer + 9] });
-                //    pointer = pointer + 8 + tableDynamicSize; // указатель на следующую запись в таблице
-                //    if (config[4])
-                //    {
-                //        var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
-                //        if (localNoInPPU == 0) // если это первое устройство в составе группового устройства, то  создаем новое групповое устройство
-                //        {
-                //            groupDevice = new Device();
-                //            groupDevice.DriverUID = new Guid("E495C37A-A414-4B47-AF24-FEC1F9E43D86"); // АМ-4
-                //            groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-                //            device.Children.Add(groupDevice);
-                //            groupDevice.IntAddress = child.IntAddress;
-                //        }
-                //        groupDevice.Children.Add(child);
-                //        //device.Children.FirstOrDefault(x => x.UID == groupDevice.UID).Children.Add(child););
-                //        continue;
-                //    }
-                //    device.Children.Add(child);
-                //}
+                groupDevice = new Device();
                 for (int i = 0; i < count; i++)
                 {
                     child = new Device();
@@ -919,7 +885,6 @@ namespace ServerFS2
             }
 
             #endregion
-
             #region Хидеры таблиц на не исполнительные устройства по типам
 
             if ((pointer = DeviceRam[24] * 256 * 256 + DeviceRam[25] * 256 + DeviceRam[26]) != 0) // ИП-64
@@ -979,7 +944,6 @@ namespace ServerFS2
                 // TODO: проверить АМ-4 с АМ-1О, АМ-1Т, т.е. для тех устройств, которые не входят в таблицу АМ-1
                 var count = DeviceRam[46]*256 + DeviceRam[47]; // текущее число записей в таблице
 				pointer -= 0x100;
-                var groupDevice = new Device();
                 for (int i = 0; i < count; i++)
                 {
                     child = new Device();
@@ -1001,7 +965,7 @@ namespace ServerFS2
                     if (config[4])
                     {
                         var localNoInPPU = Convert.ToInt32(config[3])*4 + Convert.ToInt32(config[2])*2 +  Convert.ToInt32(config[1]);
-                        if ((localNoInPPU == 0)||(child.IntAddress - groupDevice.IntAddress > 3)) // если это первое устройство в составе группового устройства, то  создаем новое групповое устройство или оно не относится к предыдущему групповому устройству
+                        if ((device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU)) == null) // если такое ГУ ещё не добавлено
                         {
                             groupDevice = new Device();
                             groupDevice.DriverUID = new Guid("E495C37A-A414-4B47-AF24-FEC1F9E43D86"); // АМ-4
@@ -1012,18 +976,6 @@ namespace ServerFS2
                         groupDevice.Children.Add(child);
                         continue;
                     }
-                    //for (int j = 0; j < 4; j++) // Смотрим пропущеные дочерние для ГУ устройства, если есть пропущенные позиции, то заполняем эту позицию устройством, которое не используется (IsNotUsed).
-                    //{
-                    //    if (groupDevice.Children.FirstOrDefault(x => x.IntAddress == groupDevice.IntAddress + j) == null)
-                    //    {
-                    //        var notUsedChild = new Device();
-                    //        notUsedChild.DriverUID = FiresecAPI.Models.DriversHelper.GetDriverUidByType(DriverType.AM_1);
-                    //        notUsedChild.Driver = Drivers.FirstOrDefault(x => x.UID == notUsedChild.DriverUID);
-                    //        notUsedChild.IsNotUsed = true;
-                    //        notUsedChild.IntAddress = groupDevice.IntAddress + j;
-                    //        groupDevice.Children.Add(notUsedChild);
-                    //    }
-                    //}
                     device.Children.Add(child);
                 }
             }
@@ -1044,6 +996,42 @@ namespace ServerFS2
                 }
 				device.Children.Add(child);
 			}
+
+            if ((pointer = DeviceRam[78] * 256 * 256 + DeviceRam[79] * 256 + DeviceRam[80]) != 0) // АМП-4
+            {
+                var count = DeviceRam[82] * 256 + DeviceRam[83]; // текущее число записей в таблице
+                pointer -= 0x100;
+                for (int i = 0; i < count; i++)
+                {
+                    child = new Device();
+                    child.DriverUID = new Guid("D8997F3B-64C4-4037-B176-DE15546CE568"); // АМ-1
+                    child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
+                    child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+                    int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
+                    if (zoneNo != 0)
+                    {
+                        child.Zone =
+                            zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
+                                x => (x.No == zoneNo) && x.PanelDevice.IntAddress == device.IntAddress).Zone;
+                        child.ZoneUID = child.Zone.UID;
+                    }
+                    var tableDynamicSize = DeviceRom[pointer + 7];
+                    var config = new BitArray(new byte[] { DeviceRom[pointer + 7 + tableDynamicSize] });
+                    var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
+                    groupDevice = (device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU));
+                    if (groupDevice == null) // если такое ГУ ещё не добавлено
+                    {
+                        groupDevice = new Device();
+                        groupDevice.DriverUID = new Guid("A15D9258-D5B5-4A81-A60A-3C9A308FB528"); // АМП-4
+                        groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+                        device.Children.Add(groupDevice);
+                        groupDevice.IntAddress = child.IntAddress - localNoInPPU;
+                    }
+                    pointer = pointer + 8 + tableDynamicSize; // указатель на следующую запись в таблице
+                    groupDevice.Children.Add(child);
+                }
+            }
+
             if ((pointer = DeviceRam[54] * 256 * 256 + DeviceRam[55] * 256 + DeviceRam[56]) != 0) // АМ-1О
             {
                 var count = DeviceRam[58] * 256 + DeviceRam[59]; // текущее число записей в таблице
@@ -1063,7 +1051,33 @@ namespace ServerFS2
                         child.ZoneUID = child.Zone.UID;
                     }
                     var tableDynamicSize = DeviceRom[pointer + 7];
+                    var config = new BitArray(new byte[] { DeviceRom[pointer + 7 + tableDynamicSize] });
                     pointer = pointer + 8 + tableDynamicSize; // указатель на следующую запись в таблице
+                    if (config[4])
+                    {
+                        var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
+                        groupDevice = (device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU));
+                        if (groupDevice == null) // если такое ГУ ещё не добавлено
+                        {
+                            groupDevice = new Device();
+                            groupDevice.DriverUID = new Guid("E495C37A-A414-4B47-AF24-FEC1F9E43D86"); // АМ-4
+                            groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+                            device.Children.Add(groupDevice);
+                            groupDevice.IntAddress = child.IntAddress - localNoInPPU;
+                        }
+                        else
+                        {
+
+                            if ((groupDevice.Driver.DriverType == DriverType.AM4_P))
+                            {
+                                var groupDeviceChild =
+                                    groupDevice.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress);
+                                groupDeviceChild = child;
+                            }
+                        }
+                        groupDevice.Children.Add(child);
+                        continue;
+                    }
                     device.Children.Add(child);
                 }
             }
@@ -1087,37 +1101,25 @@ namespace ServerFS2
                         child.ZoneUID = child.Zone.UID;
                     }
                     var tableDynamicSize = DeviceRom[pointer + 7];
+                    var config = new BitArray(new byte[] { DeviceRom[pointer + 9] });
                     pointer = pointer + 8 + tableDynamicSize; // указатель на следующую запись в таблице
-                    device.Children.Add(child);
-                }
-            }
-
-            if ((pointer = DeviceRam[78] * 256 * 256 + DeviceRam[79] * 256 + DeviceRam[80]) != 0) // АМП-4
-            {
-                var count = DeviceRam[82] * 256 + DeviceRam[83]; // текущее число записей в таблице
-                pointer -= 0x100;
-                var groupDevice = new Device();
-                groupDevice.DriverUID = new Guid("A15D9258-D5B5-4A81-A60A-3C9A308FB528"); // АМП-4
-                groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-                device.Children.Add(groupDevice);
-                groupDevice.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                for (int i = 0; i < count; i++)
-                {
-                    child = new Device();
-                    child.DriverUID = new Guid("D8997F3B-64C4-4037-B176-DE15546CE568"); // АМ-1
-                    child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-                    child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
-                    int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
-                    if (zoneNo != 0)
+                    if (config[4])
                     {
-                        child.Zone =
-                            zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
-                                x => (x.No == zoneNo) && x.PanelDevice.IntAddress == device.IntAddress).Zone;
-                        child.ZoneUID = child.Zone.UID;
+                        var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
+                        groupDevice = device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU);
+                        if (groupDevice == null) // если такое ГУ ещё не добавлено
+                        {
+                            groupDevice = new Device();
+                            groupDevice.DriverUID = new Guid("E495C37A-A414-4B47-AF24-FEC1F9E43D86"); // АМ-4
+                            groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+                            device.Children.Add(groupDevice);
+                            groupDevice.IntAddress = child.IntAddress - localNoInPPU;
+                        }
+
+                        groupDevice.Children.Add(child);
+                        continue;
                     }
-                    var tableDynamicSize = DeviceRom[pointer + 7];
-                    pointer = pointer + 8 + tableDynamicSize; // указатель на следующую запись в таблице
-                    groupDevice.Children.Add(child);
+                    device.Children.Add(child);
                 }
             }
 
@@ -1140,7 +1142,7 @@ namespace ServerFS2
             {
                 var count = DeviceRam[136]*256 + DeviceRam[137]; // текущее число записей в таблице
                 pointer -= 0x100;
-                var groupDevice = new Device();
+                groupDevice = new Device();
                 groupDevice.DriverUID = new Guid("AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B"); // МРК-30
                 groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
                 for (int i = 0; i < count; i++)
@@ -1171,7 +1173,7 @@ namespace ServerFS2
             {
                 var count = DeviceRam[142]*256 + DeviceRam[143]; // текущее число записей в таблице
                 pointer -= 0x100;
-                var groupDevice = new Device();
+                groupDevice = new Device();
                 groupDevice.DriverUID = new Guid("AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B"); // МРК-30
                 groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
                 for (int i = 0; i < count; i++)
