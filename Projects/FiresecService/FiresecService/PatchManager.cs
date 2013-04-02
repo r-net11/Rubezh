@@ -21,11 +21,33 @@ namespace FiresecService
 			try
 			{
 				Patch1();
+				Patch2();
 			}
 			catch(Exception e)
 			{
 				Logger.Error(e, "PatchManager.Patch");
 			}
+		}
+
+		static void Patch2()
+		{
+			var patchNo = PatchHelper.GetPatchNo("Server");
+			if (patchNo > 1)
+				return;
+
+			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+
+			var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+			var deviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "DeviceLibraryConfiguration.xml", typeof(DeviceLibraryConfiguration));
+			var driversConfiguration = GetConfigurationFomZip(emptyZipFile, "DriversConfiguration.xml", typeof(DriversConfiguration));
+
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+			AddConfigurationToZip(zipFile, deviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
+			AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
+			zipFile.Save(fileName);
+
+			//PatchHelper.SetPatchNo("Server", 2);
 		}
 
 		static void Patch1()
@@ -141,11 +163,12 @@ namespace FiresecService
 		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
 		{
 			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
-			if (!zipFile.Entries.Any(x => x.FileName == fileName))
+			if (zipFile.Entries.Any(x => x.FileName == fileName))
 			{
-				configuarationMemoryStream.Position = 0;
-				zipFile.AddEntry(fileName, configuarationMemoryStream);
+				zipFile.RemoveEntry(fileName);
 			}
+			configuarationMemoryStream.Position = 0;
+			zipFile.AddEntry(fileName, configuarationMemoryStream);
 		}
 
 		static VersionedConfiguration GetConfigurationFromDisk(string fileName, Type type)
