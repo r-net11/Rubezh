@@ -486,7 +486,6 @@ namespace FiresecAPI.Models
 			{
 				case DriverType.AM4:
 				case DriverType.AMP_4:
-				case DriverType.AMT_4:
 				case DriverType.RM_2:
 				case DriverType.RM_3:
 				case DriverType.RM_4:

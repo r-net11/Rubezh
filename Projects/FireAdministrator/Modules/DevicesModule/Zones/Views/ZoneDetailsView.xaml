@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <Converters:ZoneTypeToStringConverter x:Key="ZoneTypeToStringConverter" />
         <Converters:GuardZoneTypeToStringConverter x:Key="GuardZoneTypeToStringConverter" />
+        <Converters:ExitRestoreTypeToStringConverter x:Key="ExitRestoreTypeToStringConverter" />
     </UserControl.Resources>
 
     <TabControl>
@@ -51,7 +52,7 @@
                         <ColumnDefinition SharedSizeGroup="group2" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="Назначение зоны" HorizontalAlignment="Right" />
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2" IsEnabled="{Binding ComboboxIsEnabled}">
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" IsEnabled="{Binding ComboboxIsEnabled}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ., Converter={StaticResource ZoneTypeToStringConverter}}" />
@@ -69,14 +70,26 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Content="Число датчиков для формирования сигнала Пожар" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Число датчиков для формирования сигнала Пожар" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                         <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
-                        <StackPanel Grid.Row="1" Grid.Column="0">
-                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
-                        </StackPanel>
+                        <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" HorizontalAlignment="Right" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Foreground="White" Margin="2" />
                         <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Влючить отсчет времени задержки" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding EnableExitTime}" Margin="2" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="При возобновлении запуска" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableExitRestoreTypes}" SelectedItem="{Binding ExitRestoreType}" Margin="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource ExitRestoreTypeToStringConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </Grid>
                 </StackPanel>
 

@@ -13,9 +13,11 @@ namespace FiresecAPI.Models
 			ZoneType = ZoneType.Fire;
 			GuardZoneType = GuardZoneType.Ordinary;
 			DetectorCount = 1;
-			EvacuationTime = "0";
-			AutoSet = "0";
-			Delay = "0";
+			EvacuationTime = 0;
+			AutoSet = 0;
+			Delay = 0;
+			EnableExitTime = true;
+			ExitRestoreType = ExitRestoreType.SetTimer;
 
 			ShapeIds = new List<string>();
 			DevicesInZone = new List<Device>();
@@ -81,16 +83,22 @@ namespace FiresecAPI.Models
 		public int DetectorCount { get; set; }
 
 		[DataMember]
-		public string EvacuationTime { get; set; }
+		public int EvacuationTime { get; set; }
 
 		[DataMember]
-		public string AutoSet { get; set; }
+		public int AutoSet { get; set; }
 
 		[DataMember]
-		public string Delay { get; set; }
+		public int Delay { get; set; }
 
 		[DataMember]
 		public bool Skipped { get; set; }
+
+		[DataMember]
+		public bool EnableExitTime { get; set; }
+
+		[DataMember]
+		public ExitRestoreType ExitRestoreType { get; set; }
 
 		[DataMember]
 		public GuardZoneType GuardZoneType { get; set; }

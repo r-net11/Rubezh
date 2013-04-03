@@ -42,7 +42,6 @@
 									<ControlTemplate>
 										<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-
 											<StackPanel Orientation="Horizontal">
 												<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
 												<drag:DragDropDecorator Cursor="Hand" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" IsSource="True">
@@ -55,7 +54,6 @@
 													</Grid>
 												</drag:DragDropDecorator>
 											</StackPanel>
-
 											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
 											<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}">
 												<TextBlock.Style>

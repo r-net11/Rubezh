@@ -68,6 +68,8 @@ namespace DevicesModule.ViewModels
 			Delay = Zone.Delay;
 			Skipped = Zone.Skipped;
 			GuardZoneType = Zone.GuardZoneType;
+			EnableExitTime = Zone.EnableExitTime;
+			ExitRestoreType = Zone.ExitRestoreType;
 		}
 
 		public List<ZoneType> AvailableZoneTypes
@@ -132,8 +134,8 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		string _evacuationTime;
-		public string EvacuationTime
+		int _evacuationTime;
+		public int EvacuationTime
 		{
 			get { return _evacuationTime; }
 			set
@@ -169,8 +171,8 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		string _delay;
-		public string Delay
+		int _delay;
+		public int Delay
 		{
 			get { return _delay; }
 			set
@@ -180,14 +182,36 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		string _autoSet;
-		public string AutoSet
+		int _autoSet;
+		public int AutoSet
 		{
 			get { return _autoSet; }
 			set
 			{
 				_autoSet = value;
 				OnPropertyChanged("AutoSet");
+			}
+		}
+
+		bool _enableExitTime;
+		public bool EnableExitTime
+		{
+			get { return _enableExitTime; }
+			set
+			{
+				_enableExitTime = value;
+				OnPropertyChanged("EnableExitTime");
+			}
+		}
+
+		ExitRestoreType _exitRestoreType;
+		public ExitRestoreType ExitRestoreType
+		{
+			get { return _exitRestoreType; }
+			set
+			{
+				_exitRestoreType = value;
+				OnPropertyChanged("ExitRestoreType");
 			}
 		}
 
@@ -204,6 +228,11 @@ namespace DevicesModule.ViewModels
 		public List<GuardZoneType> AvailableGuardZoneTypes
 		{
 			get { return Enum.GetValues(typeof(GuardZoneType)).Cast<GuardZoneType>().ToList(); }
+		}
+
+		public List<ExitRestoreType> AvailableExitRestoreTypes
+		{
+			get { return Enum.GetValues(typeof(ExitRestoreType)).Cast<ExitRestoreType>().ToList(); }
 		}
 
 		public bool IsFireZone
@@ -239,6 +268,8 @@ namespace DevicesModule.ViewModels
 			Zone.Skipped = Skipped;
 			Zone.Delay = Delay;
 			Zone.AutoSet = AutoSet;
+			Zone.EnableExitTime = EnableExitTime;
+			Zone.ExitRestoreType = ExitRestoreType;
 			FiresecManager.FiresecConfiguration.ChangeZone(Zone);
 			Zone.OnColorTypeChanged();
 			return base.Save();

@@ -89,9 +89,9 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("641FA899-FAA0-455B-B626-646E5FBE785A", 0, "Ручной извещатель ИПР513-11", DriverType.HandDetector));
 			DriverDataList.Add(new DriverData("EFCA74B2-AD85-4C30-8DE8-8115CC6DFDD2", 0, "Охранная адресная метка АМ1-О", DriverType.AM1_O));
 			DriverDataList.Add(new DriverData("E495C37A-A414-4B47-AF24-FEC1F9E43D86", 0, "Адресная метка  АМ4", DriverType.AM4));
-			DriverDataList.Add(new DriverData("29F67E91-AD29-410C-B473-EFD341AF1D79", 0, "Технологическая адресная метка АМ4-Т", DriverType.AM4_T));
+			//DriverDataList.Add(new DriverData("29F67E91-AD29-410C-B473-EFD341AF1D79", 0, "Технологическая адресная метка АМ4-Т", DriverType.AM4_T));
 			DriverDataList.Add(new DriverData("A15D9258-D5B5-4A81-A60A-3C9A308FB528", 0, "Пожарная адресная метка АМ4-П", DriverType.AM4_P));
-			DriverDataList.Add(new DriverData("1B6D6509-DEF0-42B2-B31C-F8383040BF18", 0, "Охранная адресная метка АМ4-О", DriverType.AM4_O));
+			//DriverDataList.Add(new DriverData("1B6D6509-DEF0-42B2-B31C-F8383040BF18", 0, "Охранная адресная метка АМ4-О", DriverType.AM4_O));
 			DriverDataList.Add(new DriverData("AF05094E-4556-4CEE-A3F3-981149264E89", 0, "Насосная Станция", DriverType.PumpStation));
 			DriverDataList.Add(new DriverData("8BFF7596-AEF4-4BEE-9D67-1AE3DC63CA94", 0, "Насос", DriverType.Pump));
 			DriverDataList.Add(new DriverData("68E8E353-8CFC-4C54-A1A8-D6B6BF4FD20F", 0, "Жокей-насос", DriverType.JokeyPump));
@@ -102,7 +102,7 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("2D078D43-4D3B-497C-9956-990363D9B19B", 0, "Модуль речевого оповещения", DriverType.MRO));
 			DriverDataList.Add(new DriverData("4935848F-0084-4151-A0C8-3A900E3CB5C5", 0, "Задвижка", DriverType.Valve));
 			DriverDataList.Add(new DriverData("F5A34CE2-322E-4ED9-A75F-FC8660AE33D8", 0, "Технологическая адресная метка АМ1-Т", DriverType.AM1_T));
-			DriverDataList.Add(new DriverData("C707299B-CAE0-46FD-A68A-4E04755332E4", 2, "Технологическая адресная метка АМТ-4", DriverType.AMT_4));
+			//DriverDataList.Add(new DriverData("C707299B-CAE0-46FD-A68A-4E04755332E4", 2, "Технологическая адресная метка АМТ-4", DriverType.AMT_4));
 			DriverDataList.Add(new DriverData("3C4B8739-A1F4-4241-A760-C6B906A19BF0", 2, "Прибор пожарный управления", DriverType.PPU));
 			DriverDataList.Add(new DriverData("FD200EDF-94A4-4560-81AA-78C449648D45", 0, "АСПТ", DriverType.ASPT));
 			DriverDataList.Add(new DriverData("043FBBE0-8733-4C8D-BE0C-E5820DBF7039", 0, "Модуль дымоудаления-1.02//3", DriverType.MDU));

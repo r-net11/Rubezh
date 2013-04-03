@@ -256,6 +256,7 @@
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
     <Compile Include="Guard\Converters\GuardZoneTypeToStringConverter.cs" />
     <Compile Include="Devices\Converters\ValveActionConverter.cs" />
+    <Compile Include="Zones\Converters\ExitRestoreTypeToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneActionToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />

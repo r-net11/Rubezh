@@ -5,12 +5,12 @@ using FiresecAPI.Models;
 
 namespace DevicesModule.Converters
 {
-    public class ZoneTypeToStringConverter : IValueConverter
+	public class ExitRestoreTypeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-			if (value is ZoneType)
-				return ((ZoneType)value).ToDescription();
+			if (value is ExitRestoreType)
+				return ((ExitRestoreType)value).ToDescription();
 			return "";
         }
 

@@ -179,6 +179,7 @@
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
+    <Compile Include="Models\Zone\ExitRestoreType.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
