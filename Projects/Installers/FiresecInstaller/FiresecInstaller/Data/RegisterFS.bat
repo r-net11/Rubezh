@@ -1,4 +1,20 @@
-"C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regtlibv12.exe" "C:\Program Files\Firesec\fs_types.dll"
-regsvr32.exe "C:\Program Files\Firesec\fs_types.dll"
-regsvr32.exe "C:\Program Files\Firesec\SockProxy.dll"
-"C:\Program Files\Firesec\fs_server.exe" -regserver
+@Echo off
+if defined ProgramFiles(x86) goto INS64
+goto INS32
+
+:INS32
+"C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regtlibv12.exe" "%ProgramFiles%\Firesec5\lib\fs_types.dll" /S
+regsvr32.exe "%ProgramFiles%\Firesec5\lib\fs_types.dll" /S
+regsvr32.exe "%ProgramFiles%\Firesec5\lib\SockProxy.dll" /S
+"%ProgramFiles%\Firesec5\fs_server.exe" -regserver /S
+goto END
+
+:INS64
+"C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regtlibv12.exe" "%ProgramFiles(x86)%\Firesec5\lib\fs_types.dll" /S
+regsvr32.exe "%ProgramFiles(x86)%\Firesec5\lib\fs_types.dll" /S
+regsvr32.exe "%ProgramFiles(x86)%\Firesec5\lib\SockProxy.dll" /S
+"%ProgramFiles(x86)%\Firesec5\fs_server.exe" -regserver /S
+goto END
+
+:END
+
