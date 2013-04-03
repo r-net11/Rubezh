@@ -44,7 +44,7 @@ namespace Firesec
             }
             var plans = result.Result;
             if (plans == null)
-                return null;
+                return new OperationResult<PlansConfiguration>();
             var plansConfiguration = ConvertPlans(plans, deviceConfiguration);
             return new OperationResult<PlansConfiguration>() { Result = plansConfiguration };
         }
