@@ -96,6 +96,8 @@
   <ItemGroup>
     <Content Include="Data\FSAgent.ico" />
     <Content Include="Data\RegisterFS.bat" />
+    <Content Include="Data\RegisterFS48.bat" />
+    <Content Include="Data\RegisterFSx86x64.bat" />
     <Content Include="FSAgent\Variables.wxi" />
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />
