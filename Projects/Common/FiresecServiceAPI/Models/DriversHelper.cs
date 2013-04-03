@@ -114,10 +114,10 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("6636AF15-F8D7-44F8-8AA3-62DA77B41B42", 0, "Шкаф управления вентиляцией", DriverType.FanControl));
 			DriverDataList.Add(new DriverData("8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B", 0, "Вентилятор", DriverType.Fan));
 			DriverDataList.Add(new DriverData("8A18E2E6-7ED7-4D3F-8DFA-1E042671F072", 0, "Клапан", DriverType.Klapan));
-			DriverDataList.Add(new DriverData("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6", 0, "USB преобразователь МС-2", DriverType.MS_1));
-			DriverDataList.Add(new DriverData("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1", DriverType.MS_2));
-			DriverDataList.Add(new DriverData("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2", DriverType.USB_Channel_2));
+			DriverDataList.Add(new DriverData("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1", DriverType.MS_1));
+			DriverDataList.Add(new DriverData("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6", 0, "USB преобразователь МС-2", DriverType.MS_2));
 			DriverDataList.Add(new DriverData("780DE2E6-8EDD-4CFA-8320-E832EB699544", 0, "USB Канал МС-1", DriverType.USB_Channel_1));
+			DriverDataList.Add(new DriverData("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2", DriverType.USB_Channel_2));
 			DriverDataList.Add(new DriverData("2863E7A3-5122-47F8-BB44-4358450CD0EE", 2, "Канал с резервированием", DriverType.ReserveChannel));
 			DriverDataList.Add(new DriverData("C2E0F845-D836-4AAE-9894-D5CBE2B9A7DD", 0, "Состав", DriverType.Sostav));
 			DriverDataList.Add(new DriverData("B9680002-511D-4505-9EF6-0C322E61135F", 0, "USB Канал", DriverType.USB_Channel));

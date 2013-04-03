@@ -12,7 +12,7 @@ namespace FSAgentServer
 		static AutoResetEvent StopWatchEvent;
 		static Thread WatchThread;
 
-		public static void Close()
+		public static void Close(string processName)
 		{
 			var processes = Process.GetProcessesByName("fs_server");
 			var process = processes.FirstOrDefault();
@@ -20,21 +20,7 @@ namespace FSAgentServer
 			{
 				if (process.MainWindowTitle == "Предупреждение COM Сервера")
 				{
-					App.CloseOnComputerShutdown();
-					process.Kill();
-				}
-			}
-		}
-
-		public static void Close2()
-		{
-			var processes = Process.GetProcessesByName("FS_SER~1");
-			var process = processes.FirstOrDefault();
-			if (process != null)
-			{
-				if (process.MainWindowTitle == "Предупреждение COM Сервера")
-				{
-					App.CloseOnComputerShutdown();
+					App.CloseOnComputerShutdown(false);
 					process.Kill();
 				}
 			}
@@ -66,8 +52,8 @@ namespace FSAgentServer
 		{
 			while (true)
 			{
-				Close();
-				Close2();
+				Close("fs_server");
+				Close("FS_SER~1");
 				if (StopWatchEvent.WaitOne(5000))
 					return;
 			}

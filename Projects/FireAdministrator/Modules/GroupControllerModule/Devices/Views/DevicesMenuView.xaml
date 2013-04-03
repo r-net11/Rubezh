@@ -17,7 +17,7 @@
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding ReadConfigurationCommand}" Header="Считать конфигурацию" />
-                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию в устройства" />
+                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию в приборы" />
                 <Separator />
                 <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация об устройстве" />
                 <MenuItem Command="{Binding SynchroniseTimeCommand}" Header="Синхронизация времени" />

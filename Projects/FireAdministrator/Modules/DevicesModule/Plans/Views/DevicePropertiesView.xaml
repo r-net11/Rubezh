@@ -54,10 +54,14 @@
                 <ComboBox Grid.Row="1" ItemsSource="{Binding AvailableDrivers}" SelectedItem="{Binding SelectedDriver}" Margin="2">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0" />
-                                <TextBlock Text="{Binding ShortName}" />
-                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0" />
+                                <TextBlock Grid.Column="1" Text="{Binding PresentationName}" />
+                            </Grid>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

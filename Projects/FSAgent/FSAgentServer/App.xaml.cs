@@ -67,14 +67,17 @@ namespace FSAgentServer
 
 		static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
 		{
-			CloseOnComputerShutdown();
+			CloseOnComputerShutdown(true);
 		}
 
-		public static void CloseOnComputerShutdown()
+		public static void CloseOnComputerShutdown(bool isShuttingDown)
 		{
 			Bootstrapper.Close();
 			ShutDownComServer();
-			ShutDownComputer();
+			if (isShuttingDown)
+			{
+				ShutDownComputer();
+			}
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}

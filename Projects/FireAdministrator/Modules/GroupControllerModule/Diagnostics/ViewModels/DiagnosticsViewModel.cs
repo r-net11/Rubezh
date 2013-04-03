@@ -59,6 +59,7 @@ namespace GKModule.ViewModels
 		{
 			var gkToFiresecConverter = new GKToFiresecConverter();
 			gkToFiresecConverter.Convert();
+			ServiceFactory.SaveService.FSChanged = true;
 		}
 	}
 }

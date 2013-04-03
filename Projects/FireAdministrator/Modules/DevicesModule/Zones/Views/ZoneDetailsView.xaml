@@ -13,34 +13,31 @@
 
     <TabControl>
         <TabItem Header="Основные">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
-
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" MaxLength="5" />
-                <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" Name="nameTextBox" Margin="2">
-                    <toolkit:AutoCompleteBox.TextBoxStyle>
-                        <Style TargetType="TextBox">
-                            <Setter Property="MaxLength" Value="20" />
-                        </Style>
-                    </toolkit:AutoCompleteBox.TextBoxStyle>
-                </toolkit:AutoCompleteBox>
-                <toolkit:AutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
-            </Grid>
-        </TabItem>
-
-        <TabItem Header="Настройки зоны">
             <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" MaxLength="5" />
+                    <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" Name="nameTextBox" Margin="2">
+                        <toolkit:AutoCompleteBox.TextBoxStyle>
+                            <Style TargetType="TextBox">
+                                <Setter Property="MaxLength" Value="20" />
+                            </Style>
+                        </toolkit:AutoCompleteBox.TextBoxStyle>
+                    </toolkit:AutoCompleteBox>
+                    <toolkit:AutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
+                </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="group1" Width="300" />
@@ -77,7 +74,7 @@
                         <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
                         <StackPanel Grid.Row="1" Grid.Column="0">
-                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, сек(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
                         </StackPanel>
                         <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
                     </Grid>
@@ -109,10 +106,10 @@
                             <Label Content="Тихая тревога" VerticalAlignment="Center" />
                         </CheckBox>
 
-                        <Label Grid.Row="2" Grid.Column="0" Content="Входная/выходная задержка, сек" HorizontalAlignment="Right" />
+                        <Label Grid.Row="2" Grid.Column="0" Content="Входная/выходная задержка, с" HorizontalAlignment="Right" />
                         <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" IsEnabled="{Binding CanDelay}" Minimum="0" Maximum="2550" Increment="10" Margin="2" />
 
-                        <Label Grid.Row="3" Grid.Column="0" Content="Автоперевзятие, сек" HorizontalAlignment="Right" />
+                        <Label Grid.Row="3" Grid.Column="0" Content="Автоперевзятие, с" HorizontalAlignment="Right" />
                         <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AutoSet}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Maximum="255" Margin="2" />
                     </Grid>
                 </StackPanel>

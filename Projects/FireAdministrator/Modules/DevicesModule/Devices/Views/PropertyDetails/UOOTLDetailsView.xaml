@@ -37,9 +37,9 @@
                     <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" Content="Линия 4" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}"/>
                     <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" Content="Номер объекта" />
                     <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" Content="Период проверки тона, мин" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}"/>
-                    <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" Content="Период проверки линейного нарпяжения, сек" />
+                    <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" Content="Период проверки линейного нарпяжения, с" />
                     <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" Content="Количество попыток связи" />
-                    <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Right" Content="Время потери связи с ППКП, сек" />
+                    <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Right" Content="Время потери связи с ППКП, с" />
                     <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Right" Content="Период проверки исходящего теста, мин" />
 
                     <TextBox Views:UOOTLDetailsView.IsNumericOnly="True" Grid.Column="1" Grid.Row="0" Text="{Binding Phone1}" Margin="2" MaxLength="21" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}"/>

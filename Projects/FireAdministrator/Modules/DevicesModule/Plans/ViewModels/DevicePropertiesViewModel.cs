@@ -44,7 +44,7 @@ namespace DevicesModule.Plans.ViewModels
 				ExpandChild(Devices[0]);
 			}
 
-			SelectedDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == _elementDevice.AlternativeDriverUID);
+			SelectedDriver = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _elementDevice.AlternativeDriverUID);
 			Select(elementDevice.DeviceUID);
 		}
 
@@ -115,8 +115,8 @@ namespace DevicesModule.Plans.ViewModels
 			}
 		}
 
-		ObservableCollection<Driver> _availableDrivers;
-		public ObservableCollection<Driver> AvailableDrivers
+		ObservableCollection<LibraryDevice> _availableDrivers;
+		public ObservableCollection<LibraryDevice> AvailableDrivers
 		{
 			get { return _availableDrivers; }
 			set
@@ -126,8 +126,8 @@ namespace DevicesModule.Plans.ViewModels
 			}
 		}
 
-		Driver _selectedDriver;
-		public Driver SelectedDriver
+		LibraryDevice _selectedDriver;
+		public LibraryDevice SelectedDriver
 		{
 			get { return _selectedDriver; }
 			set
@@ -150,19 +150,27 @@ namespace DevicesModule.Plans.ViewModels
 
 		void UpdateAvailableDriver()
 		{
-			AvailableDrivers = new ObservableCollection<Driver>();
+			AvailableDrivers = new ObservableCollection<LibraryDevice>();
+			AvailableDrivers.Add(FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == SelectedDevice.Device.Driver.DriverType));
 			CanChangeDriver = false;
 			if (SelectedDevice != null)
 			{
+				foreach (var libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices)
+				{
+					if (libraryDevice.DriverId == SelectedDevice.Device.DriverUID && libraryDevice.IsAlternative)
+					{
+						AvailableDrivers.Add(libraryDevice);
+						CanChangeDriver = true;
+					}
+				}
 				if (SelectedDevice.Driver.DriverType == DriverType.AMP_4)
 				{
-					AvailableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
-					AvailableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HeatDetector));
+					AvailableDrivers.Add(FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == DriverType.HeatDetector));
 					CanChangeDriver = true;
 				}
 			}
 			if (SelectedDriver != null)
-				SelectedDriver = AvailableDrivers.FirstOrDefault(x => x.UID == SelectedDriver.UID);
+				SelectedDriver = AvailableDrivers.FirstOrDefault(x => x.DriverId == SelectedDriver.DriverId);
 		}
 
 		protected override bool Save()
@@ -174,7 +182,7 @@ namespace DevicesModule.Plans.ViewModels
 			Update(_elementDevice.DeviceUID);
 			_devicesViewModel.Select(_elementDevice.DeviceUID);
 			if (SelectedDriver != null)
-				_elementDevice.AlternativeDriverUID = SelectedDriver.UID;
+				_elementDevice.AlternativeDriverUID = SelectedDriver.DriverId;
 			else
 				_elementDevice.AlternativeDriverUID = Guid.Empty;
 			return base.Save();

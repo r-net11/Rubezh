@@ -20,23 +20,23 @@ namespace FiresecAPI.Models
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2, 4, "2");
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4, 4, 6, "1");
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1, сек", "AU_TimeExit1", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2, сек", "AU_TimeExit2", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3, сек", "AU_TimeExit3", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4, сек", "AU_TimeExit4", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5, сек", "AU_TimeExit5", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1, с", "AU_TimeExit1", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2, с", "AU_TimeExit2", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3, с", "AU_TimeExit3", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4, с", "AU_TimeExit4", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5, с", "AU_TimeExit5", 0, 2, 0, 255, true);
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1, сек", "AU_PeriodExit1", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2, сек", "AU_PeriodExit2", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3, сек", "AU_PeriodExit3", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4, сек", "AU_PeriodExit4", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5, сек", "AU_PeriodExit5", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1, с", "AU_PeriodExit1", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2, с", "AU_PeriodExit2", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3, с", "AU_PeriodExit3", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4, с", "AU_PeriodExit4", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5, с", "AU_PeriodExit5", 0, 1, 0, 255, true);
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC1, "задержка включения выхода 1, сек", "AU_DelayExit1", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC2, "задержка включения выхода 2, сек", "AU_DelayExit2", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC3, "задержка включения выхода 3, сек", "AU_DelayExit3", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC4, "задержка включения выхода 4, сек", "AU_DelayExit4", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, сек", "AU_Delay", 0, 60, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC1, "задержка включения выхода 1, с", "AU_DelayExit1", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC2, "задержка включения выхода 2, с", "AU_DelayExit2", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC3, "задержка включения выхода 3, с", "AU_DelayExit3", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC4, "задержка включения выхода 4, с", "AU_DelayExit4", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, с", "AU_Delay", 0, 60, 0, 255, true);
 
 			AddRegime(driver, 0xBB, "логика работы выхода 1", "1");
 			AddRegime(driver, 0xBC, "логика работы выхода 2", "3");

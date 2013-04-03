@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 
 namespace LibraryModule.ViewModels
 {
@@ -15,5 +16,17 @@ namespace LibraryModule.ViewModels
         {
             LibraryDevice = libraryDevice;
         }
+
+		public string AlternativeName
+		{
+			get { return LibraryDevice.AlternativeName; }
+			set
+			{
+				LibraryDevice.AlternativeName = value;
+				//OnPropertyChanged("AlternativeName");
+				OnPropertyChanged("LibraryDevice");
+				ServiceFactory.SaveService.LibraryChanged = true;
+			}
+		}
     }
 }

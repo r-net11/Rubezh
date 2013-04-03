@@ -57,6 +57,8 @@ namespace GKModule.ViewModels
 				if (value != null)
 					value.Update();
 				OnPropertyChanged("SelectedDirection");
+				OnPropertyChanged("ZonesCount");
+				OnPropertyChanged("DevicesCount");
 			}
 		}
 

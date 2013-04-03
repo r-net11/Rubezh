@@ -124,15 +124,15 @@ namespace GKModule.ViewModels
 			StartAddress = (byte)(maxAddress % 256);
 		}
 
-		void CreateDevices()
+		bool CreateDevices()
 		{
 			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
-			for (int i = StartAddress; i <= StartAddress + Count * step; i++)
+			for (int i = StartAddress; i < StartAddress + Count * step; i++)
 			{
 				if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
 				{
 					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
-					return;
+					return false;
 				}
 			}
 
@@ -146,12 +146,13 @@ namespace GKModule.ViewModels
 				var address = StartAddress + i * step;
 				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
 				{
-					return;
+					return true;
 				}
 
 				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
 				AddedDevice = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 			}
+			return true;
 		}
 
 		protected override bool CanSave()
@@ -161,10 +162,13 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			CreateDevices();
-			_parentDeviceViewModel.Update();
-			XManager.DeviceConfiguration.Update();
-			return base.Save();
+			var result = CreateDevices();
+			if (result)
+			{
+				_parentDeviceViewModel.Update();
+				XManager.DeviceConfiguration.Update();
+			}
+			return result;
 		}
 	}
 }

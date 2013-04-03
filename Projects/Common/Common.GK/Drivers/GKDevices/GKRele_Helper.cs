@@ -39,9 +39,9 @@ namespace Common.GK
 				IsAUParameter = true
 			};
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Выключено", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.25 сек", Value = 1 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.5 сек", Value = 3 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.75 сек", Value = 7 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.25 с", Value = 1 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.5 с", Value = 3 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.75 с", Value = 7 });
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Включено", Value = 15 });
 			driver.Properties.Add(modeProperty);
 

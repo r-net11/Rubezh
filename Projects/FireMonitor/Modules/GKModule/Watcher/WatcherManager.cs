@@ -62,19 +62,20 @@ namespace GKModule
 			Stop();
 		}
 
-		public static void Send(SendPriority sendPriority, XDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
+		public static void Send(Action<SendResult> onCompleted, SendPriority sendPriority, XDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
 		{
 			var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkParentDevice.UID);
 			if (watcher != null)
 			{
 				watcher.AddTask(() =>
 				{
-					SendManager.Send(gkParentDevice, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
+					var sendResult = SendManager.Send(gkParentDevice, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
+					onCompleted(sendResult);
 				});
 			}
 			else
 			{
-				Logger.Error("JournalWatcherManager.Send journalWatcher = null " + gkParentDevice.UID.ToString());
+				Logger.Error("JournalWatcherManager.Send watcher = null " + gkParentDevice.UID.ToString());
 			}
 		}
 

@@ -69,7 +69,7 @@ namespace Common
 			var mD5CryptoServiceProvider = new MD5CryptoServiceProvider();
 			var hash = new StringBuilder();
 
-			using (var fileStream = fileInfo.Open(FileMode.Open,FileAccess.Read,FileShare.Read))
+			using (var fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
 				foreach (byte passByte in mD5CryptoServiceProvider.ComputeHash(fileStream))
 				{

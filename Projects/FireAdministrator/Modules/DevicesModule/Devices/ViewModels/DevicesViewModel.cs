@@ -157,7 +157,7 @@ namespace DevicesModule.ViewModels
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
 				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.UID
-				|| SelectedDevice.Driver.DriverType == DriverType.MPT);
+				|| FiresecManager.FiresecConfiguration.IsChildMPT(SelectedDevice.Device));
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
