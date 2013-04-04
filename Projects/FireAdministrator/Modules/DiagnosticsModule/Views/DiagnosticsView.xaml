@@ -42,16 +42,5 @@
         <TabItem Header="FS">
             <Button Width="300" Margin="2" Command="{Binding Test5Command}" Content="WCF Test" />
         </TabItem>
-        <TabItem Header="Test Controls">
-            <StackPanel>
-
-                <toolkit:AutoCompleteBox ItemsSource="{Binding AutoCompleteItems}" Text="{Binding AutoText}" IsTextCompletionEnabled="True" />
-
-                <extToolkit:ColorCanvas />
-                <extToolkit:ColorPicker  />
-                <extToolkit:Magnifier />
-                <extToolkit:SplitButton />
-            </StackPanel>
-        </TabItem>
     </TabControl>
 </UserControl>

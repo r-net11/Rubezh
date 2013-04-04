@@ -9,6 +9,8 @@ namespace XFiresecAPI
     {
         public LibraryXDevice()
         {
+			UID = Guid.NewGuid();
+			IsAlternative = false;
             XStates = new List<LibraryXState>();
             var libraryXState = new LibraryXState()
             {
@@ -19,8 +21,17 @@ namespace XFiresecAPI
 
         public XDriver Driver { get; set; }
 
+		[DataMember]
+		public Guid UID { get; set; }
+
         [DataMember]
         public Guid XDriverId { get; set; }
+
+		[DataMember]
+		public bool IsAlternative { get; set; }
+
+		[DataMember]
+		public string AlternativeName { get; set; }
 
         [DataMember]
         public List<LibraryXState> XStates { get; set; }

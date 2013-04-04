@@ -30,12 +30,5 @@
                 </StackPanel>
             </Border>
         </TabItem>
-        <TabItem Header="Поддержка формата *.fsc2" DataContext="{Binding FSC2ViewModel}">
-            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
-                <StackPanel Margin="10">
-                    <Button Command="{Binding LoadFromFileOldCommand}" Width="300" Content="Считать конфигурацию из файла" ToolTip="Считать конфигурацию из файла" />
-                </StackPanel>
-            </Border>
-        </TabItem>
     </TabControl>
 </UserControl>

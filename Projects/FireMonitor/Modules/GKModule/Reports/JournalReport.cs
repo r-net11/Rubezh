@@ -67,7 +67,7 @@ namespace GKModule.Reports
 				table.Rows.Add(
 					journalItem.DateTime,
 					journalItem.Name,
-					journalItem.YesNo ? "Нет" : "Есть",
+					journalItem.YesNo.ToDescription(),
 					journalItem.Description,
 					deviceName,
 					zoneName,

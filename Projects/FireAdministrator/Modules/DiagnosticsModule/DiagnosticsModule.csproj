@@ -116,7 +116,6 @@
     <Compile Include="DiagnosticsModule.cs" />
     <Compile Include="ViewModels\DeviceIconTestViewModel.cs" />
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
-    <Compile Include="ViewModels\JournalTestViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\SVGTestViewModel.cs" />
     <Compile Include="ViewModels\TreeDeviceViewModel.cs" />
@@ -130,9 +129,6 @@
     </Compile>
     <Compile Include="Views\DriversView.xaml.cs">
       <DependentUpon>DriversView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\JournalTestView.xaml.cs">
-      <DependentUpon>JournalTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
@@ -173,10 +169,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DriversView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\JournalTestView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

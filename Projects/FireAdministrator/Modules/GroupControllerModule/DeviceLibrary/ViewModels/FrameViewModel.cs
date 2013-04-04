@@ -20,6 +20,17 @@ namespace GKModule.ViewModels
 
 		public LibraryXFrame Frame { get; private set; }
 
+		public string Image
+		{
+			get { return Frame.Image; }
+			set
+			{
+				Frame.Image = value;
+				OnPropertyChanged("Image");
+				ServiceFactory.SaveService.XLibraryChanged = true;
+			}
+		}
+
 		public int Duration
 		{
 			get { return Frame.Duration; }

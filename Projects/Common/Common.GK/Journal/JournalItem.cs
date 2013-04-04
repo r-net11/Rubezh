@@ -1,5 +1,4 @@
 ﻿using System;
-using Common.GK.DB;
 using XFiresecAPI;
 
 namespace Common.GK
@@ -10,7 +9,7 @@ namespace Common.GK
         public DateTime DateTime { get; set; }
         public Guid ObjectUID { get; set; }
         public string Name { get; set; }
-        public bool YesNo { get; set; }
+		public JournalYesNoType YesNo { get; set; }
         public string Description { get; set; }
         public int ObjectState { get; set; }
         public ushort GKObjectNo { get; set; }
@@ -20,43 +19,5 @@ namespace Common.GK
 		public string UserName { get; set; }
 
 		public InternalJournalItem InternalJournalItem { get; set; }
-
-		public static JournalItem FromJournal(Journal journal)
-		{
-			var journalItem = new JournalItem()
-			{
-				GKIpAddress = journal.GKIpAddress,
-				GKJournalRecordNo = journal.GKJournalRecordNo,
-				Name = journal.Name,
-				YesNo = journal.YesNo,
-				Description = journal.Description,
-			};
-			if (journal.DateTime.HasValue)
-				journalItem.DateTime = journal.DateTime.Value;
-			if (journal.ObjectUID.HasValue)
-				journalItem.ObjectUID = journal.ObjectUID.Value;
-			if (journal.ObjectState.HasValue)
-				journalItem.ObjectState = journal.ObjectState.Value;
-			if (journal.JournalItemType.HasValue)
-			{
-				journalItem.JournalItemType = (JournalItemType)journal.JournalItemType.Value;
-			}
-            journalItem.StateClass = (XStateClass)journal.StateClass;
-
-			return journalItem;
-		}
-
-        public Journal ToJournal(JournalItem journalItem)
-        {
-            var journal = new Journal();
-            journal.JournalItemType = (byte)JournalItemType;
-            journal.DateTime = DateTime;
-            journal.ObjectUID = ObjectUID;
-            journal.Name = Name;
-            journal.YesNo = YesNo;
-            journal.Description = Description;
-            journal.ObjectState = ObjectState;
-            return journal;
-        }
     }
 }

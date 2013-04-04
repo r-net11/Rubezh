@@ -100,7 +100,6 @@
     </Compile>
     <Compile Include="SettingsModule.cs" />
     <Compile Include="ViewModels\ConvertationViewModel.cs" />
-    <Compile Include="ViewModels\FSC2ViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="Views\SettingsView.xaml.cs">

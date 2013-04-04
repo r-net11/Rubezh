@@ -109,7 +109,7 @@ namespace GKModule
 				{
 					if (journalItem.Name == "Пожар-1")
 					{
-						if (journalItem.YesNo)
+						if (journalItem.YesNo == JournalYesNoType.Yes)
 						{
 							var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
 							if (property != null)
@@ -117,7 +117,7 @@ namespace GKModule
 								journalItem.Name = property.StringValue;
 							}
 						}
-						else
+						else if (journalItem.YesNo == JournalYesNoType.No)
 						{
 							var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
 							if (property != null)

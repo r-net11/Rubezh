@@ -20,6 +20,7 @@ namespace GKModule.ViewModels
             SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
             SetManualStateCommand = new RelayCommand(OnSetManualState);
             SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
+			ResetCommand = new RelayCommand(OnReset, CanReset);
 
 			DeviceExecutableCommands = new ObservableCollection<DeviceExecutableCommandViewModel>();
 			foreach (var availableCommand in Device.Driver.AvailableCommands)
@@ -82,6 +83,21 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
+		}
+
+		public bool HasReset
+		{
+			get { return Device.Driver.DriverType == XDriverType.AMP_1; }
+		}
+
+		public RelayCommand ResetCommand { get; private set; }
+		void OnReset()
+		{
+			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.Reset);
+		}
+		bool CanReset()
+		{
+			return DeviceState.States.Contains(XStateType.Fire2) || DeviceState.States.Contains(XStateType.Fire1);
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace DevicesModule.Plans.ViewModels
 				ExpandChild(Devices[0]);
 			}
 
-			SelectedDriver = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _elementDevice.AlternativeDriverUID);
+			SelectedDriver = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _elementDevice.AlternativeLibraryDeviceUID);
 			Select(elementDevice.DeviceUID);
 		}
 
@@ -182,9 +182,9 @@ namespace DevicesModule.Plans.ViewModels
 			Update(_elementDevice.DeviceUID);
 			_devicesViewModel.Select(_elementDevice.DeviceUID);
 			if (SelectedDriver != null)
-				_elementDevice.AlternativeDriverUID = SelectedDriver.DriverId;
+				_elementDevice.AlternativeLibraryDeviceUID = SelectedDriver.DriverId;
 			else
-				_elementDevice.AlternativeDriverUID = Guid.Empty;
+				_elementDevice.AlternativeLibraryDeviceUID = Guid.Empty;
 			return base.Save();
 		}
 		private void Update(Guid deviceUID)

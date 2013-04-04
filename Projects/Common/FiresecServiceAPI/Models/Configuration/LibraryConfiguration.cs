@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -13,5 +14,19 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<LibraryDevice> Devices { get; set; }
+
+		public override bool ValidateVersion()
+		{
+			var result = true;
+			foreach (var libraryDevice in Devices)
+			{
+				if (libraryDevice.UID == Guid.Empty)
+				{
+					libraryDevice.UID = Guid.NewGuid();
+					result = false;
+				}
+			}
+			return result;
+		}
 	}
 }

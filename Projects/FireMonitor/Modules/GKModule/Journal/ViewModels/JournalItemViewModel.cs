@@ -64,6 +64,10 @@ namespace GKModule.ViewModels
 					}
 					break;
 
+				case JournalItemType.User:
+					PresentationName = JournalItem.UserName;
+					break;
+
 				case JournalItemType.System:
 					break;
 			}

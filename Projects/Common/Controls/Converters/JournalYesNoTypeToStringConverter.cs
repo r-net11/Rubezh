@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecAPI;
+using XFiresecAPI;
 
 namespace Controls.Converters
 {
-	public class BoolToGKYesNoConverter : IValueConverter
+	public class JournalYesNoTypeToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (parameter != null && System.Convert.ToBoolean(parameter))
-			{
-				return (bool)value ? "Нет" : "Есть";
-			}
-			return (bool)value ? "Есть" : "Нет";
+			return ((JournalYesNoType)value).ToDescription();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

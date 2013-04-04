@@ -53,9 +53,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="400" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Margin="2">
+            <DataGrid Grid.Row="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" CanUserSortColumns="True" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Состояние">
+                    <DataGridTemplateColumn SortMemberPath="State.StateType" Header="Состояние">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -76,7 +76,7 @@
             </DataGrid>
             <Grid Grid.Row="1" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Height="100">
                 <TextBox AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-                         DataContext="{Binding SelectedState.SelectedFrame.Frame}" Text="{Binding Image}" Margin="2" />
+                         DataContext="{Binding SelectedState.SelectedFrame}" Text="{Binding Image}" Margin="2" />
             </Grid>
             <Grid Grid.Row="2" Margin="5 0 0 0">
                 <Grid.ColumnDefinitions>

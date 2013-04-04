@@ -41,14 +41,14 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="400" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Margin="2">
+            <DataGrid Grid.Row="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" CanUserSortColumns="True" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Состояние" Width="*">
+                    <DataGridTemplateColumn Header="Состояние" SortMemberPath="State.XStateClass" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" />
-                                    <TextBlock Text="{Binding ClassName}" />
+                                    <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource XStateClassToDeviceStringConverter}}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -63,7 +63,7 @@
             </DataGrid>
             <Grid Grid.Row="1" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Height="100">
                 <TextBox AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-                         DataContext="{Binding SelectedState.SelectedFrame.Frame}" Text="{Binding Image}" Margin="2" />
+                         DataContext="{Binding SelectedState.SelectedFrame}" Text="{Binding Image}" Margin="2" />
             </Grid>
             <Grid Grid.Row="2" Margin="5 0 0 0">
                 <Grid.ColumnDefinitions>

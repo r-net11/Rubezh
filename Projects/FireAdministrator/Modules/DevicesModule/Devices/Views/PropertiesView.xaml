@@ -14,11 +14,11 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" HorizontalAlignment="Left" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="5">
             <StackPanel Orientation="Horizontal">
                 <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
                 <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
@@ -71,7 +71,7 @@
                 </TextBlock>
             </StackPanel>
         </StackPanel>
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel DataContext="{Binding PropertiesViewModel}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
                 <Grid>
                     <Grid.ColumnDefinitions>

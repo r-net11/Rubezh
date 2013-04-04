@@ -4,25 +4,28 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel Height="40" Margin="5,0,0,0" Orientation="Horizontal">
 
-        <Menu Name="mainMenu" Background="Transparent" VerticalAlignment="Center" Visibility="{Binding CanShowMainMenu, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Menu Name="mainMenu" Background="Transparent" VerticalAlignment="Center" Visibility="{Binding CanShowMainMenu, Converter={StaticResource BoolToVisibilityConverter}}" Height="30">
             <MenuItem >
                 <MenuItem.Header>
                     <Image Source="/Controls;component/Images/Logo.png" Height="24" ToolTip="Меню" />
                 </MenuItem.Header>
-                <MenuItem Command="{Binding LoadFromFileCommand}" Header="Загрузить из файла" />
-                <MenuItem Command="{Binding SaveCommand}" Header="Сохранить" />
-                <MenuItem Command="{Binding SaveAsCommand}" Header="Сохранить как" />
-                <MenuItem Command="{Binding SaveAllCommand}" Header="Сохранить все" />
-                <MenuItem Command="{Binding CreateNewCommand}" Header="Создать новую конфигурацию" />
-                <MenuItem Command="{Binding ValidateCommand}" Header="Проверить конфигурацию" />
+                <MenuItem Command="{Binding LoadFromFileCommand}" Header="Считать конфигурацию из файла" Margin="1" />
+                <MenuItem Command="{Binding SaveCommand}" Header="Сохранить" Margin="1" />
+                <MenuItem Command="{Binding SaveAsCommand}" Header="Сохранить как" Margin="1" />
+                <MenuItem Command="{Binding SaveAllCommand}" Header="Сохранить все" Margin="1" />
+                <MenuItem Command="{Binding CreateNewCommand}" Header="Создать новую конфигурацию" Margin="1" />
+                <MenuItem Command="{Binding ValidateCommand}" Header="Проверить конфигурацию" Margin="1" />
+                <MenuItem Command="{Binding ValidateCommand}" Header="Проверить конфигурацию" Margin="1" />
+                <MenuItem Command="{Binding SetNewConfigCommand}" Header="Применить конфигурацию" Margin="1" />
+                <MenuItem Command="{Binding SetPnanNameToZoneDescriptionsCommand}" Header="Привязать названия планов к примечаниям зон" Margin="1" />
             </MenuItem>
         </Menu>
-        
-        <Controls:ToolBarButton2 Click="OnCreateNew" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" HasText="{Binding ShowTextInMenu}" />
-        <Controls:ToolBarButton2 Click="OnLoadFromFile" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" HasText="{Binding ShowTextInMenu}" />
-        <Controls:ToolBarButton2 Click="OnSaveToFile" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" HasText="{Binding ShowTextInMenu}" />
-        <Controls:ToolBarButton2 Click="OnValidate" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" HasText="{Binding ShowTextInMenu}" />
-        <Controls:ToolBarButton2 Name="_saveButton" Click="OnSetNewConfig" ImageSource="/Controls;component/Images/download.png" IsEnabled="False" Text="Применить" ToolTip="Применить конфигурацию" HasText="{Binding ShowTextInMenu}" />
+
+        <Controls:ToolBarButton2 Command="{Binding CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Command="{Binding LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Command="{Binding SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Command="{Binding ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" HasText="{Binding ShowTextInMenu}" />
+        <Controls:ToolBarButton2 Name="_saveButton" Command="{Binding SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" IsEnabled="False" Text="Применить" ToolTip="Применить конфигурацию" HasText="{Binding ShowTextInMenu}" />
 		<ContentControl Grid.Column="1" MinWidth="400" Content="{Binding ExtendedMenu}" />
 	</StackPanel>
 </UserControl>

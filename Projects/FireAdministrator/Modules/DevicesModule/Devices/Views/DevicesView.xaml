@@ -1,4 +1,12 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:DevicesModule.Converters"
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
+             xmlns:Views="clr-namespace:DevicesModule.Views"
+             Focusable="True">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -149,7 +157,7 @@
 								</Controls:EditorPresenter.ViewTemplate>
 								<Controls:EditorPresenter.EditTemplate>
 									<ControlTemplate>
-										<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                                        <toolkit:AutoCompleteBox Name="descriptionTextBox" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Populating="Description_Populating" IsTextCompletionEnabled="True" />
 										<ControlTemplate.Triggers>
 											<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
 												<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />

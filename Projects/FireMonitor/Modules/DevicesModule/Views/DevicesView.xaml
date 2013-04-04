@@ -41,7 +41,13 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding PresentationAddress}" />
-                    <GridViewColumn Header="Зона" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
+                    <GridViewColumn Width="100" Header="Зона">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" HorizontalAlignment="Stretch" Width="200" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
                     <GridViewColumn Header="Неисправность" Width="200" DisplayMemberBinding="{Binding FailureType}" />
                     <GridViewColumn Header="Причина тревоги" Width="200" DisplayMemberBinding="{Binding AlarmReason}" />

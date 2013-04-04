@@ -9,16 +9,20 @@ namespace FiresecAPI.Models
 	{
 		public LibraryDevice()
 		{
+			UID = Guid.NewGuid();
+			IsAlternative = false;
 			States = new List<LibraryState>();
 			var libraryState = new LibraryState()
 			{
 				StateType = StateType.No,
 			};
 			States.Add(libraryState);
-			IsAlternative = false;
 		}
 
 		public Driver Driver { get; set; }
+
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public Guid DriverId { get; set; }

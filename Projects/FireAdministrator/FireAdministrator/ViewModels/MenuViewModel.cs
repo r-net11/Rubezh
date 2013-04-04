@@ -3,6 +3,10 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using System;
 using Infrastructure;
+using Infrastructure.Common.Windows;
+using FiresecClient;
+using FiresecAPI.Models;
+using System.Windows;
 
 namespace FireAdministrator.ViewModels
 {
@@ -19,6 +23,8 @@ namespace FireAdministrator.ViewModels
 			SaveAllCommand = new RelayCommand(OnSaveAll);
 			CreateNewCommand = new RelayCommand(OnCreateNew);
 			ValidateCommand = new RelayCommand(OnValidate);
+			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
+			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 		}
 
@@ -118,6 +124,29 @@ namespace FireAdministrator.ViewModels
 		void OnValidate()
 		{
 			ServiceFactory.ValidationService.Validate();
+		}
+
+		public RelayCommand SetNewConfigCommand { get; private set; }
+		void OnSetNewConfig()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
+			{
+				if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+				{
+					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+					return;
+				}
+				ConfigManager.SetNewConfig();
+			}
+		}
+		public bool CanSetNewConfig()
+		{
+			return ServiceFactory.SaveService.HasChanges;
+		}
+
+		public RelayCommand SetPnanNameToZoneDescriptionsCommand { get; private set; }
+		void OnSetPnanNameToZoneDescriptions()
+		{
 		}
 	}
 }

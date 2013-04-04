@@ -76,17 +76,20 @@
 													<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
 													<Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
 												</Grid>
-												<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+                                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
                                                 <TextBlock VerticalAlignment="Center" Text="{Binding Device.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											</StackPanel>
 											<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
-														<TextBlock Foreground="Black" Text="{Binding ShortName}" />
+                                                        <Grid>
+                                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ImageSource}" />
+                                                            <TextBlock Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Black" Text="{Binding ShortName}" />
+                                                        </Grid>
 													</DataTemplate>
 												</ComboBox.ItemTemplate>
 											</ComboBox>
-										</DockPanel>
+                                        </DockPanel>
 									</ControlTemplate>
 								</Controls:EditorPresenter.EditTemplate>
 							</Controls:EditorPresenter>
