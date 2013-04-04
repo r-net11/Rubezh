@@ -93,6 +93,9 @@
                 </WrapPanel>
             </ScrollViewer>
         </Border>
-        <Button Grid.Row="3" Content="Включить все" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" HorizontalAlignment="Right" Margin="2" />
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Content="Включить все" ToolTip="F2" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" HorizontalAlignment="Right" Margin="2" />
+            <Button Content="Отключить все в пожаре" ToolTip="F3" Command="{Binding AddToIgnoreAllDevicesInFireCommand}" Width="200" Height="30" HorizontalAlignment="Right" Margin="2" />
+        </StackPanel>
     </Grid>
 </UserControl>

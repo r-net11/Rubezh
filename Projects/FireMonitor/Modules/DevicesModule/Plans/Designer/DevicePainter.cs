@@ -92,7 +92,7 @@ namespace DevicesModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicBrush(_device, _elementDevice.AlternativeDriverUID);
+			return DevicePictureCache.GetDynamicBrush(_device, _elementDevice.AlternativeLibraryDeviceUID);
 		}
 
 		public DeviceState DeviceState

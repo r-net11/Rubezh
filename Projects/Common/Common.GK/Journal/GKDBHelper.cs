@@ -57,32 +57,35 @@ namespace Common.GK
 
 		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
-			using (var dataContext = new SqlCeConnection(ConnectionString))
+			if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
-				dataContext.ConnectionString = ConnectionString;
-				dataContext.Open();
-				foreach (var journalItem in journalItems)
+				using (var dataContext = new SqlCeConnection(ConnectionString))
 				{
-					var sqlCeCommand = new SqlCeCommand();
-					sqlCeCommand.Connection = dataContext;
-					sqlCeCommand.CommandText = @"Insert Into Journal" +
-						"(JournalItemType,DateTime,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName) Values" +
-						"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12)";
-					sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.DateTime ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.ObjectUID ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Name ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.YesNo ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.Description ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.ObjectState ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKObjectNo ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.GKIpAddress ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.StateClass ?? DBNull.Value);
-					sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
-					sqlCeCommand.ExecuteNonQuery();
+					dataContext.ConnectionString = ConnectionString;
+					dataContext.Open();
+					foreach (var journalItem in journalItems)
+					{
+						var sqlCeCommand = new SqlCeCommand();
+						sqlCeCommand.Connection = dataContext;
+						sqlCeCommand.CommandText = @"Insert Into Journal" +
+							"(JournalItemType,DateTime,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12)";
+						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.DateTime ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.ObjectUID ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Name ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.YesNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.Description ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.ObjectState ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKObjectNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.GKIpAddress ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.StateClass ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
+						sqlCeCommand.ExecuteNonQuery();
+					}
+					dataContext.Close();
 				}
-				dataContext.Close();
 			}
 		}
 

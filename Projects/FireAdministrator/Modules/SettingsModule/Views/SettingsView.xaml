@@ -30,5 +30,12 @@
                 </StackPanel>
             </Border>
         </TabItem>
+        <TabItem Header="Настройки">
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <StackPanel Margin="10">
+                    <Button Content="Настройки" Command="{Binding ShowSettingsCommand}" Width="200" Margin="2" />
+                </StackPanel>
+            </Border>
+        </TabItem>
     </TabControl>
 </UserControl>

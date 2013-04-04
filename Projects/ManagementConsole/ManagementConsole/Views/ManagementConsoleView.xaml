@@ -25,13 +25,14 @@
                     <Button Background="#C0C0C0" Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Height="25" FontSize="13" Margin="2" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Настройки" DataContext="{Binding GlobalSettingsViewModel}">
+            <TabItem Header="Соединение" DataContext="{Binding GlobalSettingsViewModel}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -44,53 +45,14 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Автоконнект" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Запретить администратору автоконнект" HorizontalAlignment="Right" Margin="2" />
 
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RemoteAddress}" Margin="2" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemotePort}" Margin="2" />
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login}" Margin="2" />
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password}" Margin="2" />
                     <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding AutoConnect}" HorizontalAlignment="Left" Margin="2" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Настройки 2" DataContext="{Binding GlobalSettingsViewModel}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Расширеное редактирование" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Разрешить имитатор" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Текст в иконках меню" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Скрывать дерево планов в ОЗ" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Принудительное выключение компьютера" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Не показывать подтверждение при сбросе" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Не показывать вкладку Зоны в ОЗ" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Запретить администратору автоконнект" HorizontalAlignment="Right" Margin="2" />
-
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LibVlcDllsPath}" Margin="2" />
-                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsExpertMode}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsImitatorEnabled}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsMenuIconText}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding HidePlansTreeMonitor}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding ForceShutdown}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding DoNotShowConfirmatinoOnIgnore}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding DoNotShowZonesInMonitor}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding DoNotAutoconnectAdm}" HorizontalAlignment="Left" Margin="2" />
+                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoNotAutoconnectAdm}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Модули" DataContext="{Binding GlobalSettingsViewModel}">

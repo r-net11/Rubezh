@@ -41,7 +41,7 @@ namespace FireAdministrator.ViewModels
 
 		public bool ShowTextInMenu
 		{
-			get { return GlobalSettingsHelper.GlobalSettings.IsMenuIconText; }
+			get { return GlobalSettingsHelper.GlobalSettings.Administrator_IsMenuIconText; }
 		}
 
 		public event CancelEventHandler SetNewConfigEvent;
@@ -147,6 +147,11 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SetPnanNameToZoneDescriptionsCommand { get; private set; }
 		void OnSetPnanNameToZoneDescriptions()
 		{
+		}
+
+		public bool IsMainMenuIconsVisible
+		{
+			get { return !GlobalSettingsHelper.GlobalSettings.Administrator_HideMainMenuIcons; }
 		}
 	}
 }
