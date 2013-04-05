@@ -94,34 +94,6 @@ namespace DevicesModule.ViewModels
 				CountUsers++;
 			}
 
-			//TEST MODE
-			#region
-			/*
-            List<User> Users = new List<User>(80);
-            Byte CountUsers = 0;
-            User user1 = new User();
-            user1.Attr[0] = true;
-            user1.Attr[1] = true;
-            user1.Name = "man".ToCharArray();
-            user1.Pass = "123".ToCharArray();
-            user1.Zones[0] = true;
-            user1.Zones[2] = true;
-            UsersMask[Users.Count] = true;
-            Users.Add(user1);
-            CountUsers++;
-
-            User user2 = new User();
-            user2.Attr[0] = false;
-            user2.Attr[1] = true;
-            user2.Name = "woman".ToCharArray();
-            user2.Pass = "456".ToCharArray();
-            user2.Zones[1] = true;
-            UsersMask[Users.Count] = true;
-            Users.Add(user2);
-            CountUsers++;
-			*/
-			#endregion
-
 			string s;
 			CountUsers.ToString();
 			var DeviceGuardData = string.Format("{0,3}", CountUsers.ToString()).Replace(' ', '0'); //3
@@ -391,11 +363,6 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public bool CanShowSynchronization()
-		{
-			return SelectedDevice != null;
-		}
-
 		public RelayCommand ShowSynchronizationCommand { get; private set; }
 		void OnShowSynchronization()
 		{
@@ -404,6 +371,10 @@ namespace DevicesModule.ViewModels
 			{
 				ServiceFactory.SaveService.FSChanged = true;
 			}
+		}
+		public bool CanShowSynchronization()
+		{
+			return SelectedDevice != null;
 		}
 
 		bool CanEditDelete()
@@ -464,31 +435,22 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		bool CanAddUser()
-		{
-			return SelectedAvailableUser != null;
-		}
-
 		public RelayCommand AddUserCommand { get; private set; }
 		void OnAddUser()
 		{
-			foreach (var guardUser in FiresecManager.GuardUsers)
-			{
-				if (guardUser.DeviceUID == SelectedDevice.UID)
-					guardUser.DeviceUID = Guid.Empty;
-			}
-			SelectedAvailableUser.GuardUser.DeviceUID = SelectedDevice.UID;
-
 			DeviceUsers.Add(SelectedAvailableUser);
+			foreach (var deviceUser in DeviceUsers)
+			{
+				deviceUser.GuardUser.DeviceUID = SelectedDevice.UID;
+			}
 			AvailableUsers.Remove(SelectedAvailableUser);
 
 			UpdateUsersSelectation();
 			ServiceFactory.SaveService.FSChanged = true;
 		}
-
-		bool CanRemoveUser()
+		bool CanAddUser()
 		{
-			return SelectedDeviceUser != null;
+			return SelectedAvailableUser != null;
 		}
 
 		public RelayCommand RemoveUserCommand { get; private set; }
@@ -503,10 +465,9 @@ namespace DevicesModule.ViewModels
 			UpdateUsersSelectation();
 			ServiceFactory.SaveService.FSChanged = true;
 		}
-
-		bool CanAddZone()
+		bool CanRemoveUser()
 		{
-			return ((SelectedDeviceUser != null) && (SelectedDeviceZone != null));
+			return SelectedDeviceUser != null;
 		}
 
 		public RelayCommand AddZoneCommand { get; private set; }
@@ -519,10 +480,9 @@ namespace DevicesModule.ViewModels
 			UpdateZonesSelectation();
 			ServiceFactory.SaveService.FSChanged = true;
 		}
-
-		bool CanRemoveZone()
+		bool CanAddZone()
 		{
-			return SelectedUserZone != null;
+			return ((SelectedDeviceUser != null) && (SelectedDeviceZone != null));
 		}
 
 		public RelayCommand RemoveZoneCommand { get; private set; }
@@ -534,6 +494,10 @@ namespace DevicesModule.ViewModels
 
 			UpdateZonesSelectation();
 			ServiceFactory.SaveService.FSChanged = true;
+		}
+		bool CanRemoveZone()
+		{
+			return SelectedUserZone != null;
 		}
 
 		public override void OnShow()

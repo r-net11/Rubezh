@@ -123,6 +123,8 @@ namespace FiresecAPI
 		public bool Administrator_IsMenuIconText { get; set; }
 		[DataMember]
 		public bool Administrator_HideMainMenuIcons { get; set; }
+		[DataMember]
+		public bool Administrator_HidePlanAlignInstruments { get; set; }
 
 		public List<string> GetModules()
 		{

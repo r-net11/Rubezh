@@ -212,7 +212,7 @@ namespace DevicesModule.Validation
                     _errors.Add(new DeviceValidationError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ValidationErrorLevel.CannotWrite));
                 if (device.Parent.Driver.IsChildAddressReservedRange)
                     return;
-                if (device.Parent.Driver.Properties.Any(x => x.Name == "DeviceCountSecDev") == false)
+				if (device.ParentPanel.Driver.DriverType != DriverType.Rubezh_2OP && device.ParentPanel.Driver.DriverType != DriverType.USB_Rubezh_2OP)
                     _errors.Add(new DeviceValidationError(device, "Устройство подключено к недопустимому устройству", ValidationErrorLevel.CannotWrite));
             }
         }

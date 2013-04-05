@@ -6,7 +6,13 @@ namespace DevicesModule.Views
 	{
 		public UserDetailsView()
 		{
+			Loaded += new System.Windows.RoutedEventHandler(ZoneDetailsView_Loaded);
 			InitializeComponent();
+		}
+
+		void ZoneDetailsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+		{
+			nameTextBox.Focus();
 		}
 	}
 }

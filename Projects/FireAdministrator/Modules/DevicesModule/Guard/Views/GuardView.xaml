@@ -23,10 +23,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick" CanUserSortColumns="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="25" Binding="{Binding GuardUser.Id}" />
-                    <DataGridTextColumn Header="Пользователь устройства" Width="2*" Binding="{Binding GuardUser.Name}" />
+                    <DataGridTextColumn Header="Пользователь прибора" Width="2*" Binding="{Binding GuardUser.Name}" />
                     <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
                     <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
                 </DataGrid.Columns>
@@ -38,7 +38,7 @@
                 <Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
                 <Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1">
+            <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1" CanUserSortColumns="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="25" Binding="{Binding GuardUser.Id}" />
                     <DataGridTextColumn Header="Пользователь" Width="2*" Binding="{Binding GuardUser.Name}" />
@@ -59,7 +59,17 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding UserZones}" SelectedItem="{Binding SelectedUserZone}">
+            <DataGrid Name="dataGrid1" Grid.Row="0" ItemsSource="{Binding UserZones}" SelectedItem="{Binding SelectedUserZone}" CanUserSortColumns="True">
+                <DataGrid.Resources>
+                    <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                        <MouseBinding Command="{Binding DataContext.RemoveZoneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+                    </InputBindingCollection>
+                </DataGrid.Resources>
+                <DataGrid.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                    </Style>
+                </DataGrid.ItemContainerStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Зоны пользователя" Binding="{Binding PresentationName}" Width="*" />
                 </DataGrid.Columns>
@@ -68,9 +78,19 @@
                 <Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить зону" ImageSource="/Controls;component/Images/ArrowUp.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить зону" ImageSource="/Controls;component/Images/ArrowDown.png" />
             </StackPanel>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding DeviceZones}" SelectedItem="{Binding SelectedDeviceZone}">
+            <DataGrid Name="dataGrid2" Grid.Row="2" ItemsSource="{Binding DeviceZones}" SelectedItem="{Binding SelectedDeviceZone}" CanUserSortColumns="True">
+                <DataGrid.Resources>
+                    <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                        <MouseBinding Command="{Binding DataContext.AddZoneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+                    </InputBindingCollection>
+                </DataGrid.Resources>
+                <DataGrid.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                    </Style>
+                </DataGrid.ItemContainerStyle>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Зоны" Binding="{Binding PresentationName}" Width="*" />
+                    <DataGridTextColumn Header="Зоны прибора" Binding="{Binding PresentationName}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
