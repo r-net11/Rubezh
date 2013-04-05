@@ -17,6 +17,9 @@ namespace Common.GK
 		Zone = 3,
 
 		[DescriptionAttribute("Направление")]
-		Direction = 4
+		Direction = 4,
+
+		[DescriptionAttribute("Полльзователь")]
+		User = 5
 	}
 }

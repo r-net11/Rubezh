@@ -42,13 +42,14 @@ namespace GKModule.Validation
 
 		static void ValidateZoneDetectorCount(XZone zone)
 		{
-			var nonHandDetector = zone.Devices.Count(x => x.Driver.DriverType != XDriverType.HandDetector);
-			if (zone.Fire1Count < nonHandDetector)
+			var fire1Count = zone.Devices.Count(x => x.Driver.AvailableStates.Contains(XStateType.Fire1));
+			var fire2Count = zone.Devices.Count(x => x.Driver.AvailableStates.Contains(XStateType.Fire2));
+			if (fire1Count < zone.Fire1Count)
 			{
 				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 1", ValidationErrorLevel.CannotWrite));
 				return;
 			}
-			if (zone.Fire2Count < nonHandDetector)
+			if (fire2Count == 0 && fire1Count < zone.Fire2Count)
 			{
 				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
 			}
@@ -56,9 +57,9 @@ namespace GKModule.Validation
 
 		static void ValidateZoneFire1Fire2Count(XZone zone)
 		{
-			if (zone.Fire1Count > zone.Fire2Count)
+			if (zone.Fire1Count >= zone.Fire2Count)
 			{
-				Errors.Add(new ZoneValidationError(zone, "Количество датчиков для сработки Пожар 1 меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new ZoneValidationError(zone, "Количество датчиков для сработки Пожар 1 должно быть меньше количества датчиков для сработки Пожар 2", ValidationErrorLevel.CannotWrite));
 			}
 		}
 	}

@@ -30,9 +30,7 @@
 				</ContextMenu>
 			</ListView.ContextMenu>
 		</ListView>
-		<Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<CheckBox Margin="5" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHiddenZone, UpdateSourceTrigger=PropertyChanged}" />
-		</Border>
-		<Button Grid.Row="2" Width="100" Margin="0, 2, 0, 2" HorizontalAlignment="Right" Command="{Binding CreateCommand}" Content="Создать" />
+        <CheckBox Grid.Row="1" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHiddenZone, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+        <Button Grid.Row="2" Width="100" Margin="0, 2, 0, 2" HorizontalAlignment="Right" Command="{Binding CreateCommand}" Content="Создать" />
 	</Grid>
 </UserControl>

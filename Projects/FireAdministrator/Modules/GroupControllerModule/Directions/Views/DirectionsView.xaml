@@ -143,23 +143,16 @@
                                         <Controls:EditorPresenter>
                                             <Controls:EditorPresenter.ViewTemplate>
                                                 <ControlTemplate>
-                                                    <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
+                                                                VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
                                                 </ControlTemplate>
                                             </Controls:EditorPresenter.ViewTemplate>
-                                            <Controls:EditorPresenter.EditTemplate>
-                                                <ControlTemplate>
-                                                    <Grid>
-                                                        <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
-                                                                VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                            <ComboBox.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
-                                                                </DataTemplate>
-                                                            </ComboBox.ItemTemplate>
-                                                        </ComboBox>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Controls:EditorPresenter.EditTemplate>
                                         </Controls:EditorPresenter>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

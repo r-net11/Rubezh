@@ -274,7 +274,8 @@ namespace FiresecAPI.Models
 					x.Driver.DriverType == DriverType.USB_BUNS_2 ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
-					x.Driver.DriverType == DriverType.USB_Rubezh_4A));
+					x.Driver.DriverType == DriverType.USB_Rubezh_4A ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_P));
 
 				if (usbDevice != null)
 					return usbDevice;
@@ -489,7 +490,6 @@ namespace FiresecAPI.Models
 			{
 				case DriverType.AM4:
 				case DriverType.AMP_4:
-				case DriverType.AMT_4:
 				case DriverType.RM_2:
 				case DriverType.RM_3:
 				case DriverType.RM_4:

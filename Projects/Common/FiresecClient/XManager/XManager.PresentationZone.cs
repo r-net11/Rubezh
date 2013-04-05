@@ -13,17 +13,14 @@ namespace FiresecClient
 			if (device.Driver.HasZone)
 			{
 				var stringBuilder = new StringBuilder();
-				var indx = 0;
-				foreach (var zoneUID in device.ZoneUIDs)
+				if (device.Zones.Count == 1)
 				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						if (indx > 0)
-							stringBuilder.Append(", ");
-						stringBuilder.Append(zone.PresentationName);
-						indx++;
-					}
+					stringBuilder.Append(device.Zones[0].PresentationName);
+				}
+				else if (device.Zones.Count > 1)
+				{
+					stringBuilder.Append("зоны: ");
+					stringBuilder.Append(GetCommaSeparatedZones(device.Zones));
 				}
 				return stringBuilder.ToString();
 			}

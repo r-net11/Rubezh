@@ -612,6 +612,7 @@ namespace DevicesModule.ViewModels
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS_2));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_4A));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2OP));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_P));
 					return;
 				}
 
@@ -622,6 +623,7 @@ namespace DevicesModule.ViewModels
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_2OP));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS_2));
+					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_P));
 					return;
 				}
 #endif

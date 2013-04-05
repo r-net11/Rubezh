@@ -11,6 +11,7 @@
         <File Id="Firesec5.fs_server.exe" Name="fs_server.exe" Source="$(var.Firesec5.TargetDir)" KeyPath="yes" />
         <File Id="Firesec5.scktsrvr.exe" Name="scktsrvr.exe" Source="$(var.Firesec5.TargetDir)" />
         <File Id="Firesec5.xdDatasetScheme.dtd" Name="xdDatasetScheme.dtd" Source="$(var.Firesec5.TargetDir)" />
+        <File Id="Firesec.RegisterFS.bat" Name="RegisterFS.bat" Source="Data\RegisterFS.bat" />
       </Component>
     </DirectoryRef>
 

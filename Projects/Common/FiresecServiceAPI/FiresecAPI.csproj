@@ -170,7 +170,6 @@
     <Compile Include="Models\Configuration\ZipConfigurationItemsCollection.cs" />
     <Compile Include="Models\Configuration\DeviceConfiguration.Invalidate.cs" />
     <Compile Include="Models\Configuration\DriversConfiguration.cs" />
-    <Compile Include="Models\Configuration\FullConfiguration.cs" />
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
@@ -179,6 +178,7 @@
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
+    <Compile Include="Models\Zone\ExitRestoreType.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
@@ -269,6 +269,7 @@
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
+    <Compile Include="XModels\Journal\JournalYesNoType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />
     <Compile Include="XModels\Library\LibraryXState.cs" />

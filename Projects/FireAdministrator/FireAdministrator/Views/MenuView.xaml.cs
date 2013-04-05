@@ -28,38 +28,5 @@ namespace FireAdministrator.Views
 		{
 			_saveButton.IsEnabled = ServiceFactory.SaveService.HasChanges;
 		}
-
-		void OnSetNewConfig(object sender, RoutedEventArgs e)
-		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
-			{
-				if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
-				{
-					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-					return;
-				}
-				ConfigManager.SetNewConfig();
-			}
-		}
-
-		void OnCreateNew(object sender, RoutedEventArgs e)
-		{
-			ConfigManager.CreateNew();
-		}
-
-		void OnValidate(object sender, RoutedEventArgs e)
-		{
-			ServiceFactory.ValidationService.Validate();
-		}
-
-		void OnSaveToFile(object sender, RoutedEventArgs e)
-		{
-			FileConfigurationHelper.SaveToFile();
-		}
-
-		void OnLoadFromFile(object sender, RoutedEventArgs e)
-		{
-			FileConfigurationHelper.LoadFromFile();
-		}
 	}
 }

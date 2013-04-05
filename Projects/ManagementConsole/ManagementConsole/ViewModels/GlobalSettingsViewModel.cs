@@ -18,15 +18,6 @@ namespace ManagementConsole
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
-			LibVlcDllsPath = GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath;
-			IsExpertMode = GlobalSettingsHelper.GlobalSettings.IsExpertMode;
-			EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections;
-			IsImitatorEnabled = GlobalSettingsHelper.GlobalSettings.IsImitatorEnabled;
-			IsMenuIconText = GlobalSettingsHelper.GlobalSettings.IsMenuIconText;
-			HidePlansTreeMonitor = GlobalSettingsHelper.GlobalSettings.HidePlansTreeMonitor;
-			ForceShutdown = GlobalSettingsHelper.GlobalSettings.ForceShutdown;
-			DoNotShowConfirmatinoOnIgnore = GlobalSettingsHelper.GlobalSettings.DoNotShowConfirmatinoOnIgnore;
-			DoNotShowZonesInMonitor = GlobalSettingsHelper.GlobalSettings.DoNotShowZonesInMonitor;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			Modules = GlobalSettingsHelper.GlobalSettings.Modules;
 			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
@@ -98,105 +89,6 @@ namespace ManagementConsole
 			{
 				_doNotOverrideFS1 = value;
 				OnPropertyChanged("DoNotOverrideFS1");
-			}
-		}
-
-		string _libVlcDllsPath;
-		public string LibVlcDllsPath
-		{
-			get { return _libVlcDllsPath; }
-			set
-			{
-				_libVlcDllsPath = value;
-				OnPropertyChanged("LibVlcDllsPath");
-			}
-		}
-
-		bool _isExpertMode;
-		public bool IsExpertMode
-		{
-			get { return _isExpertMode; }
-			set
-			{
-				_isExpertMode = value;
-				OnPropertyChanged("IsExpertMode");
-			}
-		}
-
-		bool _enableRemoteConnections;
-		public bool EnableRemoteConnections
-		{
-			get { return _enableRemoteConnections; }
-			set
-			{
-				_enableRemoteConnections = value;
-				OnPropertyChanged("EnableRemoteConnections");
-			}
-		}
-
-		bool _isImitatorEnabled;
-		public bool IsImitatorEnabled
-		{
-			get { return _isImitatorEnabled; }
-			set
-			{
-				_isImitatorEnabled = value;
-				OnPropertyChanged("IsImitatorEnabled");
-			}
-		}
-
-		bool _isMenuIconText;
-		public bool IsMenuIconText
-		{
-			get { return _isMenuIconText; }
-			set
-			{
-				_isMenuIconText = value;
-				OnPropertyChanged("IsMenuIconText");
-			}
-		}
-
-		bool _hidePlansTreeMonitor;
-		public bool HidePlansTreeMonitor
-		{
-			get { return _hidePlansTreeMonitor; }
-			set
-			{
-				_hidePlansTreeMonitor = value;
-				OnPropertyChanged("HidePlansTreeMonitor");
-			}
-		}
-
-		bool _forceShutdown;
-		public bool ForceShutdown
-		{
-			get { return _forceShutdown; }
-			set
-			{
-				_forceShutdown = value;
-				OnPropertyChanged("ForceShutdown");
-			}
-		}
-
-		bool _doNotShowConfirmatinoOnIgnore;
-		public bool DoNotShowConfirmatinoOnIgnore
-		{
-			get { return _doNotShowConfirmatinoOnIgnore; }
-			set
-			{
-				_doNotShowConfirmatinoOnIgnore = value;
-				OnPropertyChanged("DoNotShowConfirmatinoOnIgnore");
-			}
-		}
-
-		bool _doNotShowZonesInMonitor;
-		public bool DoNotShowZonesInMonitor
-		{
-			get { return _doNotShowZonesInMonitor; }
-			set
-			{
-				_doNotShowZonesInMonitor = value;
-				OnPropertyChanged("DoNotShowZonesInMonitor");
 			}
 		}
 
@@ -275,15 +167,6 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
-			GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath = LibVlcDllsPath;
-			GlobalSettingsHelper.GlobalSettings.IsExpertMode = IsExpertMode;
-			GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections = EnableRemoteConnections;
-			GlobalSettingsHelper.GlobalSettings.IsImitatorEnabled = IsImitatorEnabled;
-			GlobalSettingsHelper.GlobalSettings.IsMenuIconText = IsMenuIconText;
-			GlobalSettingsHelper.GlobalSettings.HidePlansTreeMonitor = HidePlansTreeMonitor;
-			GlobalSettingsHelper.GlobalSettings.ForceShutdown = ForceShutdown;
-			GlobalSettingsHelper.GlobalSettings.DoNotShowConfirmatinoOnIgnore = DoNotShowConfirmatinoOnIgnore;
-			GlobalSettingsHelper.GlobalSettings.DoNotShowZonesInMonitor = DoNotShowZonesInMonitor;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.Modules = Modules;
 			GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress = FS_RemoteAddress;

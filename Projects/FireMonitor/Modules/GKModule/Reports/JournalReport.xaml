@@ -40,7 +40,7 @@
 			<Table.Columns>
 				<TableColumn Width="1*" />
 				<TableColumn Width="1*" />
-				<TableColumn Width="2*" />
+				<TableColumn Width="0.5*" />
 				<TableColumn Width="2*" />
 				<TableColumn Width="1*" />
 				<TableColumn Width="1.5*" />

@@ -61,7 +61,7 @@ namespace GKModule.Models
 		}
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.Driver.DriverType == XDriverType.GK));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }

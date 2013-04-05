@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("qq")]
 [assembly: AssemblyProduct("MuliclientAPI")]
-[assembly: AssemblyCopyright("Copyright © qq 2012")]
+[assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

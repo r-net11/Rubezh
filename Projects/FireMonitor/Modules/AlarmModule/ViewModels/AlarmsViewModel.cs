@@ -28,6 +28,7 @@ namespace AlarmModule.ViewModels
             Current = this;
 			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
+			AddToIgnoreAllDevicesInFireCommand = new RelayCommand(OnAddToIgnoreAllDevicesInFire, CanAddToIgnoreAllDevicesInFire);
 
 			allAlarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
@@ -154,7 +155,8 @@ namespace AlarmModule.ViewModels
 			return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);
 		}
 
-		void AddToIgnoreAllDevicesInFire()
+		public RelayCommand AddToIgnoreAllDevicesInFireCommand { get; private set; }
+		void OnAddToIgnoreAllDevicesInFire()
 		{
 			foreach (var device in FiresecManager.Devices)
 			{
@@ -167,28 +169,32 @@ namespace AlarmModule.ViewModels
 				}
 			}
 		}
+		bool CanAddToIgnoreAllDevicesInFire()
+		{
+			return FiresecManager.Devices.Any(x => x.DeviceState.StateType == StateType.Fire);
+		}
 
 		void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
 		{
 			try
 			{
-				if (e.Key == System.Windows.Input.Key.F1)
+				if (e.Key == System.Windows.Input.Key.F1 && GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled)
 				{
-					return;
 					var fileName = Infrastructure.Common.AppDataFolderHelper.GetFile("Manual.pdf");
 					if (File.Exists(fileName))
 						Process.Start(fileName);
 				}
-				if (e.Key == System.Windows.Input.Key.F2)
+				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{
 					if (CanRemoveAllFromIgnoreList())
 						OnRemoveAllFromIgnoreList();
 				}
-				if (e.Key == System.Windows.Input.Key.F3)
+				if (e.Key == System.Windows.Input.Key.F3 && GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled)
 				{
-					AddToIgnoreAllDevicesInFire();
+					if (CanAddToIgnoreAllDevicesInFire())
+						OnAddToIgnoreAllDevicesInFire();
 				}
-				if (e.Key == System.Windows.Input.Key.F4)
+				if (e.Key == System.Windows.Input.Key.F4 && GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled)
 				{
 					if (CanResetAll())
 						OnResetAll();

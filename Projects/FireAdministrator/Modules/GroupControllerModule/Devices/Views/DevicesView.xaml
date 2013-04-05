@@ -1,4 +1,10 @@
-﻿<UserControl x:Class="GKModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:Views="clr-namespace:GKModule.Views">
+﻿<UserControl x:Class="GKModule.Views.DevicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:GKModule.Converters"
+             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
+             xmlns:Views="clr-namespace:GKModule.Views">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -70,17 +76,20 @@
 													<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
 													<Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
 												</Grid>
-												<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-												<TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Device.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 											</StackPanel>
 											<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
-														<TextBlock Foreground="Black" Text="{Binding ShortName}" />
+                                                        <Grid>
+                                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding ImageSource}" />
+                                                            <TextBlock Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Black" Text="{Binding ShortName}" />
+                                                        </Grid>
 													</DataTemplate>
 												</ComboBox.ItemTemplate>
 											</ComboBox>
-										</DockPanel>
+                                        </DockPanel>
 									</ControlTemplate>
 								</Controls:EditorPresenter.EditTemplate>
 							</Controls:EditorPresenter>
@@ -110,7 +119,7 @@
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 
-				<GridViewColumn Header="Зона или Логика">
+				<GridViewColumn Header="Зона или Логика" Width="300">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<Controls:EditorPresenter>

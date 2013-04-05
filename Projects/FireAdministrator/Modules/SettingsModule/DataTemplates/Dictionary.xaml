@@ -6,4 +6,8 @@
     <DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
         <Views:SettingsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GloobalSettingsViewModel}">
+        <Views:GloobalSettingsView />
+    </DataTemplate>
 </ResourceDictionary>

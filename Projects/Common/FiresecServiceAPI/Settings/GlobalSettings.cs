@@ -18,7 +18,7 @@ namespace FiresecAPI
 			AutoConnect = true;
 			DoNotOverrideFS1 = false;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
-			IsExpertMode = false;
+			Administrator_IsExpertMode = false;
 			EnableRemoteConnections = false;
 			IsImitatorEnabled = false;
 			Modules =
@@ -42,6 +42,13 @@ namespace FiresecAPI
 			FS_Port = 211;
 			FS_Login = "adm";
 			FS_Password = "";
+
+			Monitor_F1_Enabled = false;
+			Monitor_F2_Enabled = true;
+			Monitor_F3_Enabled = true;
+			Monitor_F4_Enabled = true;
+
+			Administrator_HideMainMenuIcons = false;
 		}
 
 		[DataMember]
@@ -66,16 +73,10 @@ namespace FiresecAPI
 		public string LibVlcDllsPath { get; set; }
 
 		[DataMember]
-		public bool IsExpertMode { get; set; }
-
-		[DataMember]
 		public bool EnableRemoteConnections { get; set; }
 
 		[DataMember]
 		public bool IsImitatorEnabled { get; set; }
-
-		[DataMember]
-		public bool IsMenuIconText { get; set; }
 
 		[DataMember]
 		public bool HidePlansTreeMonitor { get; set; }
@@ -106,6 +107,22 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string FS_Password { get; set; }
+
+		[DataMember]
+		public bool Monitor_F1_Enabled { get; set; }
+		[DataMember]
+		public bool Monitor_F2_Enabled { get; set; }
+		[DataMember]
+		public bool Monitor_F3_Enabled { get; set; }
+		[DataMember]
+		public bool Monitor_F4_Enabled { get; set; }
+
+		[DataMember]
+		public bool Administrator_IsExpertMode { get; set; }
+		[DataMember]
+		public bool Administrator_IsMenuIconText { get; set; }
+		[DataMember]
+		public bool Administrator_HideMainMenuIcons { get; set; }
 
 		public List<string> GetModules()
 		{

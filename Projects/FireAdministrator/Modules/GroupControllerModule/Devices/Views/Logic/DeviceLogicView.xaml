@@ -42,19 +42,19 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
 
+                                            <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
                                             <ComboBox Width="150" Height="30" VerticalAlignment="Center" Margin="2"
 											    ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-
-                                            <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>

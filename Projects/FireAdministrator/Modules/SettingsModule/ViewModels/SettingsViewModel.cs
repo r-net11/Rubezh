@@ -1,18 +1,35 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using FiresecClient;
+using FiresecAPI.Models;
 
 namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel
 	{
+		public ThemeViewModel ThemeContext { get; set; }
+		public ConvertationViewModel ConvertationViewModel { get; set; }
+
 		public void Initialize()
 		{
 			ThemeContext = new ThemeViewModel();
 			ConvertationViewModel = new ConvertationViewModel();
-			FSC2ViewModel = new FSC2ViewModel();
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 		}
 
-		public ThemeViewModel ThemeContext { get; set; }
-		public ConvertationViewModel ConvertationViewModel { get; set; }
-		public FSC2ViewModel FSC2ViewModel { get; set; }
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		void OnShowSettings()
+		{
+			if (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				var gloobalSettingsViewModel = new GloobalSettingsViewModel();
+				DialogService.ShowModalWindow(gloobalSettingsViewModel);
+			}
+			else
+			{
+				MessageBoxService.ShowError("У Вас нет прав для изменения настроек");
+			}
+		}
 	}
 }

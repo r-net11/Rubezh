@@ -16,7 +16,7 @@ namespace Common.GK
 		JournalItemType JournalItemType;
 		Guid ObjectUID;
 		string EventName;
-		bool EventYesNo;
+		JournalYesNoType EventYesNo;
 		string EventDescription;
 		string UserName;
 		int ObjectState;
@@ -166,6 +166,7 @@ namespace Common.GK
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
 							bytes1.AddRange(bytes2);
 							UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
+							JournalItemType = JournalItemType.User;
 							break;
 
 						case 8:
@@ -175,6 +176,7 @@ namespace Common.GK
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
+							JournalItemType = JournalItemType.User;
 							break;
 
 						case 9:
@@ -184,10 +186,12 @@ namespace Common.GK
 
 						case 10:
 							EventName = "Введен новый пользователь";
+							JournalItemType = JournalItemType.User;
 							break;
 
 						case 11:
 							EventName = "Изменена учетная информация пользователя";
+							JournalItemType = JournalItemType.User;
 							break;
 
 						case 12:
@@ -294,13 +298,13 @@ namespace Common.GK
 
 	public static class StringHelper
 	{
-		public static bool ToYesNo(byte b)
+		public static JournalYesNoType ToYesNo(byte b)
 		{
 			if (b == 0)
-				return false;
+				return JournalYesNoType.No;
 			if (b == 1)
-				return true;
-			return false;
+				return JournalYesNoType.Yes;
+			return JournalYesNoType.Unknown;
 		}
 
 		public static string ToRegime(byte b)

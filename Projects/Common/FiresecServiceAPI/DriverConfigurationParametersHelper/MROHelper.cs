@@ -28,7 +28,7 @@ namespace FiresecAPI.Models
 				IsAUParameter = true,
 				No = 0x88,
 				Name = "AU_Delay",
-				Caption = "Задержка включения МРО, сек",
+				Caption = "Задержка включения МРО, с",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,

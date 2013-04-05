@@ -21,6 +21,17 @@ namespace LibraryModule.ViewModels
 
 		public LibraryFrame Frame { get; private set; }
 
+		public string Image
+		{
+			get { return Frame.Image; }
+			set
+			{
+				Frame.Image = value;
+				OnPropertyChanged("Image");
+				ServiceFactory.SaveService.XLibraryChanged = true;
+			}
+		}
+
 		public int Duration
 		{
 			get { return Frame.Duration; }

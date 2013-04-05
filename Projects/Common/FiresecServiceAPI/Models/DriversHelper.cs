@@ -89,9 +89,9 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("641FA899-FAA0-455B-B626-646E5FBE785A", 0, "Ручной извещатель ИПР513-11", DriverType.HandDetector));
 			DriverDataList.Add(new DriverData("EFCA74B2-AD85-4C30-8DE8-8115CC6DFDD2", 0, "Охранная адресная метка АМ1-О", DriverType.AM1_O));
 			DriverDataList.Add(new DriverData("E495C37A-A414-4B47-AF24-FEC1F9E43D86", 0, "Адресная метка  АМ4", DriverType.AM4));
-			DriverDataList.Add(new DriverData("29F67E91-AD29-410C-B473-EFD341AF1D79", 0, "Технологическая адресная метка АМ4-Т", DriverType.AM4_T));
+			//DriverDataList.Add(new DriverData("29F67E91-AD29-410C-B473-EFD341AF1D79", 0, "Технологическая адресная метка АМ4-Т", DriverType.AM4_T));
 			DriverDataList.Add(new DriverData("A15D9258-D5B5-4A81-A60A-3C9A308FB528", 0, "Пожарная адресная метка АМ4-П", DriverType.AM4_P));
-			DriverDataList.Add(new DriverData("1B6D6509-DEF0-42B2-B31C-F8383040BF18", 0, "Охранная адресная метка АМ4-О", DriverType.AM4_O));
+			//DriverDataList.Add(new DriverData("1B6D6509-DEF0-42B2-B31C-F8383040BF18", 0, "Охранная адресная метка АМ4-О", DriverType.AM4_O));
 			DriverDataList.Add(new DriverData("AF05094E-4556-4CEE-A3F3-981149264E89", 0, "Насосная Станция", DriverType.PumpStation));
 			DriverDataList.Add(new DriverData("8BFF7596-AEF4-4BEE-9D67-1AE3DC63CA94", 0, "Насос", DriverType.Pump));
 			DriverDataList.Add(new DriverData("68E8E353-8CFC-4C54-A1A8-D6B6BF4FD20F", 0, "Жокей-насос", DriverType.JokeyPump));
@@ -102,7 +102,7 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("2D078D43-4D3B-497C-9956-990363D9B19B", 0, "Модуль речевого оповещения", DriverType.MRO));
 			DriverDataList.Add(new DriverData("4935848F-0084-4151-A0C8-3A900E3CB5C5", 0, "Задвижка", DriverType.Valve));
 			DriverDataList.Add(new DriverData("F5A34CE2-322E-4ED9-A75F-FC8660AE33D8", 0, "Технологическая адресная метка АМ1-Т", DriverType.AM1_T));
-			DriverDataList.Add(new DriverData("C707299B-CAE0-46FD-A68A-4E04755332E4", 2, "Технологическая адресная метка АМТ-4", DriverType.AMT_4));
+			//DriverDataList.Add(new DriverData("C707299B-CAE0-46FD-A68A-4E04755332E4", 2, "Технологическая адресная метка АМТ-4", DriverType.AMT_4));
 			DriverDataList.Add(new DriverData("3C4B8739-A1F4-4241-A760-C6B906A19BF0", 2, "Прибор пожарный управления", DriverType.PPU));
 			DriverDataList.Add(new DriverData("FD200EDF-94A4-4560-81AA-78C449648D45", 0, "АСПТ", DriverType.ASPT));
 			DriverDataList.Add(new DriverData("043FBBE0-8733-4C8D-BE0C-E5820DBF7039", 0, "Модуль дымоудаления-1.02//3", DriverType.MDU));
@@ -114,10 +114,10 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("6636AF15-F8D7-44F8-8AA3-62DA77B41B42", 0, "Шкаф управления вентиляцией", DriverType.FanControl));
 			DriverDataList.Add(new DriverData("8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B", 0, "Вентилятор", DriverType.Fan));
 			DriverDataList.Add(new DriverData("8A18E2E6-7ED7-4D3F-8DFA-1E042671F072", 0, "Клапан", DriverType.Klapan));
-			DriverDataList.Add(new DriverData("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6", 0, "USB преобразователь МС-2", DriverType.MS_1));
-			DriverDataList.Add(new DriverData("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1", DriverType.MS_2));
-			DriverDataList.Add(new DriverData("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2", DriverType.USB_Channel_2));
+			DriverDataList.Add(new DriverData("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1", DriverType.MS_1));
+			DriverDataList.Add(new DriverData("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6", 0, "USB преобразователь МС-2", DriverType.MS_2));
 			DriverDataList.Add(new DriverData("780DE2E6-8EDD-4CFA-8320-E832EB699544", 0, "USB Канал МС-1", DriverType.USB_Channel_1));
+			DriverDataList.Add(new DriverData("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2", DriverType.USB_Channel_2));
 			DriverDataList.Add(new DriverData("2863E7A3-5122-47F8-BB44-4358450CD0EE", 2, "Канал с резервированием", DriverType.ReserveChannel));
 			DriverDataList.Add(new DriverData("C2E0F845-D836-4AAE-9894-D5CBE2B9A7DD", 0, "Состав", DriverType.Sostav));
 			DriverDataList.Add(new DriverData("B9680002-511D-4505-9EF6-0C322E61135F", 0, "USB Канал", DriverType.USB_Channel));

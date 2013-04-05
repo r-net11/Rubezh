@@ -197,9 +197,6 @@
     <Compile Include="Devices\Views\PropertyDetails\UOOTLDetailsView.xaml.cs">
       <DependentUpon>UOOTLDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\TestWindow.xaml.cs">
-      <DependentUpon>TestWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
       <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
     </Compile>
@@ -256,6 +253,7 @@
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
     <Compile Include="Guard\Converters\GuardZoneTypeToStringConverter.cs" />
     <Compile Include="Devices\Converters\ValveActionConverter.cs" />
+    <Compile Include="Zones\Converters\ExitRestoreTypeToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneActionToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />
@@ -504,10 +502,6 @@
     <Page Include="Devices\Views\PropertyDetails\UOOTLDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Devices\Views\TestWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\ZoneSelectationView.xaml">
       <SubType>Designer</SubType>

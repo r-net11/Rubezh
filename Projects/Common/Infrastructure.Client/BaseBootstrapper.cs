@@ -165,17 +165,25 @@ namespace Infrastructure.Client
 				var globalSettingsModules = GlobalSettingsHelper.GlobalSettings.GetModules();
 				foreach (ModuleElement moduleElement in moduleSection.Modules)
 				{
-					if (!globalSettingsModules.Contains(moduleElement.AssemblyFile))
-						continue;
-
-					string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
-					if (File.Exists(path))
+					try
 					{
-						Assembly assembly = GetAssemblyByFileName(path);
-						if (assembly != null)
-							foreach (Type t in assembly.GetExportedTypes())
-								if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-									_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+						if (!globalSettingsModules.Contains(moduleElement.AssemblyFile))
+							continue;
+
+						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
+						if (File.Exists(path))
+						{
+							Assembly assembly = GetAssemblyByFileName(path);
+							if (assembly != null)
+								foreach (Type t in assembly.GetExportedTypes())
+									if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
+										_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+						}
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "BaseBootstrapper.ReadConfiguration");
+						MessageBoxService.ShowError("Не удалось загрузить модуль " + moduleElement.AssemblyFile);
 					}
 				}
 			}

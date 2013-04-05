@@ -29,46 +29,51 @@ namespace Common.GK
 			driver.AvailableCommands.Add(XStateType.Stop_InManual);
 			driver.AvailableCommands.Add(XStateType.ForbidStart_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x8c, "Время разновременного пуска, с", 0, 1, 1, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания выхода насоса на режим, с", 0, 3, 3, 30);
 
 			var property3 = new XDriverProperty()
 			{
-				No = 0x8b,
-				Name = "Разрешение функции УЗН",
-				Caption = "Разрешение функции УЗН",
+				No = 0x8d,
+				Name = "ЭКМ на выходе насоса НЗ",
+				Caption = "ЭКМ на выходе насоса НЗ",
 				DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
-				Offset = 3 + 8
+				IsLowByte = true,
+				Mask = 1
 			};
 			driver.Properties.Add(property3);
 
 			var property4 = new XDriverProperty()
 			{
-				No = 0x8b,
-				Name = "Настройка выхода",
-				Caption = "Настройка выхода",
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				No = 0x8d,
+				Name = "УЗН Старт НЗ",
+				Caption = "УЗН Старт НЗ",
+				DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+				IsLowByte = true,
+				Mask = 2
 			};
-			var parmeter1 = new XDriverPropertyParameter()
-			{
-				Name = "ЭКМ на выходе насоса",
-				Value = 0
-			};
-			var parmeter2 = new XDriverPropertyParameter()
-			{
-				Name = "УЗН Старт",
-				Value = 1
-			};
-			var parmeter3 = new XDriverPropertyParameter()
-			{
-				Name = "УЗН Стоп",
-				Value = 2
-			};
-			property4.Parameters.Add(parmeter1);
-			property4.Parameters.Add(parmeter2);
-			property4.Parameters.Add(parmeter3);
 			driver.Properties.Add(property4);
+
+			var property5 = new XDriverProperty()
+			{
+				No = 0x8d,
+				Name = "УЗН Стоп НЗ",
+				Caption = "УЗН Стоп НЗ",
+				DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+				IsLowByte = true,
+				Mask = 4
+			};
+			driver.Properties.Add(property5);
+
+			//var property6 = new XDriverProperty()
+			//{
+			//    No = 0x8d,
+			//    Name = "Функция УЗН Вкл",
+			//    Caption = "Функция УЗН Вкл",
+			//    DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+			//    Mask = 256
+			//};
+			//driver.Properties.Add(property6);
 
 			return driver;
 		}

@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using System.Collections.Generic;
+using FiresecClient;
 
 namespace DevicesModule.Views
 {
@@ -7,6 +9,20 @@ namespace DevicesModule.Views
 		public DevicesView()
 		{
 			InitializeComponent();
+		}
+
+		void Description_Populating(object sender, PopulatingEventArgs e)
+		{
+			var result = new List<string>();
+			foreach (var device in FiresecManager.Devices)
+			{
+				result.Add(device.Description);
+			}
+			AutoCompleteBox autoCompleteBox = sender as AutoCompleteBox;
+			if (autoCompleteBox != null)
+			{
+				autoCompleteBox.ItemsSource = result;
+			}
 		}
 	}
 }

@@ -2,12 +2,13 @@
 using System.Linq;
 using Firesec.Models.CoreConfiguration;
 using FiresecAPI.Models;
+using System;
 
 namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-        void ConvertZones(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
+		void ConvertZones(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			deviceConfiguration.Zones = new List<Zone>();
 
@@ -41,7 +42,11 @@ namespace Firesec
 
 						var exitTimeParam = innerZone.param.FirstOrDefault(x => x.name == "ExitTime");
 						if (exitTimeParam != null)
-							zone.EvacuationTime = exitTimeParam.value;
+						{
+							int value;
+							if (int.TryParse(exitTimeParam.value, out value))
+								zone.EvacuationTime = value;
+						}
 
 						var fireDeviceCountParam = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount");
 						if (fireDeviceCountParam != null)
@@ -49,15 +54,33 @@ namespace Firesec
 
 						var autoSetParam = innerZone.param.FirstOrDefault(x => x.name == "AutoSet");
 						if (autoSetParam != null)
-							zone.AutoSet = autoSetParam.value;
+						{
+							int value;
+							if (int.TryParse(autoSetParam.value, out value))
+								zone.AutoSet = value;
+						}
 
 						var delayParam = innerZone.param.FirstOrDefault(x => x.name == "Delay");
 						if (delayParam != null)
-							zone.Delay = delayParam.value;
+						{
+							int value;
+							if (int.TryParse(delayParam.value, out value))
+								zone.Delay = value;
+						}
 
 						var skippedParam = innerZone.param.FirstOrDefault(x => x.name == "Skipped");
 						if (skippedParam != null)
 							zone.Skipped = skippedParam.value == "1" ? true : false;
+
+						var enableExitTimeParam = innerZone.param.FirstOrDefault(x => x.name == "EnableExitTime");
+						if (enableExitTimeParam != null)
+							zone.EnableExitTime = enableExitTimeParam.value == "1" ? true : false;
+
+						var exitRestoreTypeTypeParam = innerZone.param.FirstOrDefault(x => x.name == "ExitRestoreType");
+						if (exitRestoreTypeTypeParam != null)
+						{
+							zone.ExitRestoreType = (exitRestoreTypeTypeParam.value == "0") ? ExitRestoreType.SetTimer : ExitRestoreType.RestoreTimer;
+						}
 
 						var guardZoneTypeParam = innerZone.param.FirstOrDefault(x => x.name == "GuardZoneType");
 						if (guardZoneTypeParam != null)
@@ -70,7 +93,7 @@ namespace Firesec
 			}
 		}
 
-        void ConvertZonesBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
+		void ConvertZonesBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			var innerZones = new List<zoneType>();
 			foreach (var zone in deviceConfiguration.Zones)
@@ -111,8 +134,20 @@ namespace Firesec
 				zoneParams.Add(new paramType()
 				{
 					name = "Skipped",
-					type = "Int",
+					type = "Bool",
 					value = zone.Skipped ? "1" : "0"
+				});
+				zoneParams.Add(new paramType()
+				{
+					name = "EnableExitTime",
+					type = "Bool",
+					value = zone.EnableExitTime ? "1" : "0"
+				});
+				zoneParams.Add(new paramType()
+				{
+					name = "ExitRestoreType",
+					type = "Int",
+					value = (zone.ExitRestoreType == ExitRestoreType.SetTimer) ? "0" : "1"
 				});
 				zoneParams.Add(new paramType()
 				{
@@ -129,34 +164,24 @@ namespace Firesec
 						value = zone.DetectorCount.ToString()
 					});
 				}
-				if (string.IsNullOrEmpty(zone.EvacuationTime) == false)
+				zoneParams.Add(new paramType()
 				{
-					zoneParams.Add(new paramType()
-					{
-						name = "ExitTime",
-						type = "SmallInt",
-						value = zone.EvacuationTime
-					});
-				}
-				if (string.IsNullOrEmpty(zone.AutoSet) == false)
+					name = "ExitTime",
+					type = "SmallInt",
+					value = zone.EvacuationTime.ToString()
+				});
+				zoneParams.Add(new paramType()
 				{
-					zoneParams.Add(new paramType()
-					{
-						name = "AutoSet",
-						type = "Int",
-						value = zone.AutoSet
-					});
-				}
-
-				if (string.IsNullOrEmpty(zone.Delay) == false)
+					name = "AutoSet",
+					type = "Int",
+					value = zone.AutoSet.ToString()
+				});
+				zoneParams.Add(new paramType()
 				{
-					zoneParams.Add(new paramType()
-					{
-						name = "Delay",
-						type = "Int",
-						value = zone.Delay
-					});
-				}
+					name = "Delay",
+					type = "Int",
+					value = zone.Delay.ToString()
+				});
 
 				if (zoneParams.Count > 0)
 					innerZone.param = zoneParams.ToArray();

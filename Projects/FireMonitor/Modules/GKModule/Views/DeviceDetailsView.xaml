@@ -120,19 +120,23 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <TextBlock Text="Режим" Foreground="White" HorizontalAlignment="Center" Margin="2" />
                         <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" Foreground="White" Margin="2" />
                     </StackPanel>
-                    <Grid Grid.Row="1" Background="White">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
-                        <Button Grid.Column="1" Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                    <Grid Grid.Row="2" Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0" Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                        <Button Grid.Row="1" Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" VerticalAlignment="Top" Margin="2" />
+                        <Button Grid.Row="2" Content="Сбросить" Command="{Binding ResetCommand}" Width="200" Margin="2"
+                            Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
                 </Grid>
             </TabItem>

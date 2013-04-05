@@ -52,6 +52,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\3rdParty\MSSQLCEv35\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -77,13 +80,7 @@
     <Compile Include="BinaryDatabase\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="BinaryDatabase\DB\PumpStationCreator.cs" />
     <Compile Include="BinaryDatabase\KauChildrenHelper.cs" />
-    <Compile Include="DB\ConnectionManager.cs" />
-    <Compile Include="DB\GKDBHelper.cs" />
-    <Compile Include="DB\GkJournalDatabase.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-    </Compile>
+    <Compile Include="Journal\GKDBHelper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
@@ -182,16 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DB\GkJournalDatabase.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>GkJournalDatabase.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DB\GkJournalDatabase.dbml.layout">
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
