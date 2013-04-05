@@ -12,6 +12,9 @@
 			<MenuItem Command="{Binding RemoveCommand}" Header="Удалить (Ctrl+Del)" />
 			<MenuItem Command="{Binding ShowZoneLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
 			<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
+			<Separator />
+			<MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" Header="Разрешить множественную визуализацию" />
+			<MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" Header="Запретить множественную визуализацию" />
 		</ContextMenu>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	</UserControl.Resources>
@@ -42,17 +45,19 @@
 									<ControlTemplate>
 										<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-
 											<StackPanel Orientation="Horizontal">
-												<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-												<drag:DragDropDecorator Cursor="Hand" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" IsSource="True">
+												<!--
+													<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+													<Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
+													<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
+													<Image Source="/Controls;component/Images/map2.png" ToolTip="Для размещения устройства на плане зажмите левую кнопку мыши и и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+													</Grid>
+												-->
+												<drag:DragDropDecorator DynamicCursor ="True"  DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" IsSource="True">
 													<drag:DragDropDecorator.InputBindings>
 														<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftClick" />
 													</drag:DragDropDecorator.InputBindings>
-													<Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
-														<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
-														<Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-													</Grid>
+													<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationToolTip}" />
 												</drag:DragDropDecorator>
 											</StackPanel>
 

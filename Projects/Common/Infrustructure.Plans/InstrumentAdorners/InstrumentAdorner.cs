@@ -94,5 +94,16 @@ namespace Infrustructure.Plans.InstrumentAdorners
 				result = new Point(result.X, AdornerCanvas.ActualHeight);
 			return result;
 		}
+
+		protected override void OnDragOver(DragEventArgs e)
+		{
+			base.OnDragOver(e);
+			AdornedElement.RaiseEvent(e);
+		}
+		protected override void OnDrop(DragEventArgs e)
+		{
+			base.OnDrop(e);
+			AdornedElement.RaiseEvent(e);
+		}
 	}
 }

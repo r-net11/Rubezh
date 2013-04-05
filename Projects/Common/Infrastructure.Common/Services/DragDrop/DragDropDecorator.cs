@@ -19,6 +19,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		public static readonly DependencyProperty DragObjectProperty = DependencyProperty.Register("DragObject", typeof(object), typeof(DragDropDecorator), new UIPropertyMetadata(null));
 		public static readonly DependencyProperty DragVisualProperty = DependencyProperty.Register("DragVisual", typeof(UIElement), typeof(DragDropDecorator), new UIPropertyMetadata(null));
 		public static readonly DependencyProperty DragVisualProviderProperty = DependencyProperty.Register("DragVisualProvider", typeof(Converter<IDataObject, UIElement>), typeof(DragDropDecorator), new UIPropertyMetadata(null));
+		public static readonly DependencyProperty DynamicCursorProperty = DependencyProperty.Register("DynamicCursor", typeof(bool), typeof(DragDropDecorator), new UIPropertyMetadata(false));
 
 		private static void IsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -78,6 +79,11 @@ namespace Infrastructure.Common.Services.DragDrop
 			get { return (Converter<IDataObject, UIElement>)GetValue(DragVisualProviderProperty); }
 			set { SetValue(DragVisualProviderProperty, value); }
 		}
+		public bool DynamicCursor
+		{
+			get { return (bool)GetValue(DynamicCursorProperty); }
+			set { SetValue(DynamicCursorProperty, value); }
+		}
 
 		protected Point DragStartPoint { get; private set; }
 		public bool IsDragging { get; private set; }
@@ -135,6 +141,7 @@ namespace Infrastructure.Common.Services.DragDrop
 
 		private void OnPreviewMouseMove(object sender, MouseEventArgs e)
 		{
+			UpdateCursor();
 			if (e.LeftButton == MouseButtonState.Pressed && !IsDragging)
 			{
 				Point position = e.GetPosition(Child);
@@ -173,6 +180,16 @@ namespace Infrastructure.Common.Services.DragDrop
 		protected virtual void StartDrag()
 		{
 			var cancel = false;
+			IDataObject data = GetDataObject(out cancel);
+			if (!cancel)
+			{
+				var visual = DragVisualProvider == null ? null : DragVisualProvider(data);
+				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), visual ?? DragVisual ?? Child, ShowDragVisual, visual == null, DragEffect);
+			}
+		}
+		private IDataObject GetDataObject(out bool cancel)
+		{
+			cancel = false;
 			IDataObject data = DragObject as IDataObject;
 			if (data == null && DragObject != null)
 				data = new DataObject(DragObject);
@@ -185,9 +202,16 @@ namespace Infrastructure.Common.Services.DragDrop
 					cancel = true;
 				data = dataObject;
 			}
-			var visual = DragVisualProvider == null ? null : DragVisualProvider(data);
-			if (!cancel)
-				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), visual ?? DragVisual ?? Child, ShowDragVisual, visual == null, DragEffect);
+			return data;
+		}
+		protected virtual void UpdateCursor()
+		{
+			if (DynamicCursor)
+			{
+				bool cancel;
+				GetDataObject(out cancel);
+				Cursor = cancel ? Cursors.Arrow : Cursors.Hand;
+			}
 		}
 	}
 }

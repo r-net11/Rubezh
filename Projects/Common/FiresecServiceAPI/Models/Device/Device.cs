@@ -21,6 +21,7 @@ namespace FiresecAPI.Models
 			PlanElementUIDs = new List<Guid>();
 			IsRmAlarmDevice = false;
 			IsNotUsed = false;
+			AllowMultipleVizualization = false;
 
 			ShapeIds = new List<string>();
 			ZonesInLogic = new List<Zone>();
@@ -134,6 +135,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<string> ShapeIds { get; set; }
+
+		[DataMember]
+		public bool AllowMultipleVizualization { get; set; }
 
 		public bool CanBeNotUsed
 		{

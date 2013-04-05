@@ -33,6 +33,7 @@
 		<ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
 		<ResourceDictionary Source="TreeListViewStyle.xaml" />
 		<ResourceDictionary Source="ListViewStyle.xaml" />
+		<ResourceDictionary Source="Constants.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>

@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Shapes;
+using DeviceControls;
 using DevicesModule.DeviceProperties;
+using DevicesModule.Plans.Designer;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using System.Windows;
-using System.Collections.Generic;
-using DevicesModule.Plans.Designer;
-using DeviceControls;
-using System.Windows.Shapes;
 using Infrustructure.Plans.Painters;
+using System.Windows.Controls;
+using Infrustructure.Plans.Helper;
 
 namespace DevicesModule.ViewModels
 {
 	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
+		private const string VizualizationImageSource = "/Controls;component/Images/map{0}.png";
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
@@ -40,6 +43,7 @@ namespace DevicesModule.ViewModels
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			CreateDragVisual = OnCreateDragVisual;
 			PropertiesViewModel = new PropertiesViewModel(device);
+			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
@@ -72,8 +76,10 @@ namespace DevicesModule.ViewModels
 		{
 			IsExpanded = false;
 			IsExpanded = true;
-			OnPropertyChanged("HasChildren");
-			OnPropertyChanged("IsOnPlan");
+			OnPropertyChanged(() => HasChildren);
+			OnPropertyChanged(() => IsOnPlan);
+			OnPropertyChanged(() => VisualizationState);
+			OnPropertyChanged(() => VisualizationToolTip);
 		}
 
 		public string Address
@@ -245,6 +251,29 @@ namespace DevicesModule.ViewModels
 			get { return !Device.IsNotUsed && (Device.Driver.IsPlaceable || Device.Children.Count > 0); }
 		}
 
+		public VisualizationState VisualizationState
+		{
+			get { return Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit; }
+		}
+		public string VisualizationToolTip
+		{
+			get
+			{
+				switch (VisualizationState)
+				{
+					case VisualizationState.Prohibit:
+						return "Устройство нельзя размещать на плане";
+					case VisualizationState.Single:
+						return "Устройство уже размещено на плане";
+					case VisualizationState.NotPresent:
+					case VisualizationState.Multiple:
+						return "Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство";
+					default:
+						return string.Empty;
+				}
+			}
+		}
+
 		void OnShowIndicatorLogic()
 		{
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
@@ -401,6 +430,17 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
 		}
 
+		public RelayCommand<bool> AllowMultipleVizualizationCommand { get; private set; }
+		private void OnAllowMultipleVizualizationCommand(bool isAllow)
+		{
+			Device.AllowMultipleVizualization = isAllow;
+			Update();
+		}
+		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
+		{
+			return Device.AllowMultipleVizualization != isAllow;
+		}
+
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
@@ -412,7 +452,7 @@ namespace DevicesModule.ViewModels
 		}
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
-			return Driver != null && Driver.IsPlaceable;
+			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }

@@ -116,6 +116,7 @@
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
     <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\IntToEnumConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
@@ -217,6 +218,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\BorderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Constants.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -452,6 +457,10 @@
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -844,6 +853,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SubPlanRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\map4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

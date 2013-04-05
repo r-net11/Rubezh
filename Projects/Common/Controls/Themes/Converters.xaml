@@ -34,4 +34,5 @@
 	<Converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
 	<Converters:GridLengthToMinWidthConverter x:Key="GridLengthToMinWidthConverter" />
 	<Converters:BoolToMinimizeTextConverter x:Key="BoolToMinimizeTextConverter" />
+	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 </ResourceDictionary>

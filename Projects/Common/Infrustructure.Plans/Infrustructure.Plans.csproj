@@ -64,6 +64,7 @@
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\RegisterPlanPresenterEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
+    <Compile Include="Helper\VisualizationState.cs" />
     <Compile Include="InstrumentAdorners\GeometryHelper.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
