@@ -89,15 +89,15 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.Navigate(presenterItem);
 				}
 		}
-		private void OnFindElementEvent(Guid deviceUID)
+		private void OnFindElementEvent(List<Guid> deviceUIDs)
 		{
 			foreach (var plan in PlanTreeViewModel.AllPlans)
 				if (plan.PlanFolder == null)
 					foreach (var elementDevice in plan.Plan.ElementUnion)
-						if (elementDevice.UID == deviceUID)
+						if (deviceUIDs.Contains(elementDevice.UID))
 						{
 							PlanTreeViewModel.SelectedPlan = plan;
-							OnShowElement(deviceUID);
+							OnShowElement(elementDevice.UID);
 							return;
 						}
 		}
