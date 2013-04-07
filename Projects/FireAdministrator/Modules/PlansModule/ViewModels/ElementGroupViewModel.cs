@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Infrustructure.Plans.Services;
+using System.ComponentModel;
 
 namespace PlansModule.ViewModels
 {
@@ -7,15 +8,22 @@ namespace PlansModule.ViewModels
 	{
 		private ElementsViewModel _elementsViewModel;
 
-		public ElementGroupViewModel(ObservableCollection<ElementBaseViewModel> sourceElements, ElementsViewModel elementsViewModel, string alias)
+		public ElementGroupViewModel(ElementsViewModel elementsViewModel, string alias)
 		{
-			Source = sourceElements;
 			IsBold = true;
 			_elementsViewModel = elementsViewModel;
 			Group = alias;
 			Name = LayerGroupService.Instance[alias];
 			_isVisible = true;
 			_isSelectable = true;
+			IsGroupHasChild = HasChildren;
+			PropertyChanged += ElementGroupViewModel_PropertyChanged;
+		}
+
+		private void ElementGroupViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "HasChildren")
+				IsGroupHasChild = HasChildren;
 		}
 
 		public string Name { get; private set; }

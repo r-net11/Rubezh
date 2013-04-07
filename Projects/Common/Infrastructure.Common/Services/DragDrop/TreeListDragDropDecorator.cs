@@ -78,14 +78,17 @@ namespace Infrastructure.Common.Services.DragDrop
 
 		private void OnPreviewDragOver(object sender, DragEventArgs e)
 		{
-			FindTarget(e);
-			HandleDragScrolling(e);
-			HandleDragExpanding(e);
-			UpdateInsertAdorner(e);
-			bool _shiftPressed = (e.KeyStates & DragDropKeyStates.ShiftKey) != 0;
-			e.Effects = TreeItemDropCommand != null && TreeItemDropCommand.CanExecute(_dropObject) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
-			_targetElement = null;
-			e.Handled = true;
+			if (_dropObject != null)
+			{
+				FindTarget(e);
+				HandleDragScrolling(e);
+				HandleDragExpanding(e);
+				UpdateInsertAdorner(e);
+				bool _shiftPressed = (e.KeyStates & DragDropKeyStates.ShiftKey) != 0;
+				e.Effects = TreeItemDropCommand != null && TreeItemDropCommand.CanExecute(_dropObject) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
+				_targetElement = null;
+				e.Handled = true;
+			}
 		}
 
 		private void FindTarget(DragEventArgs e)

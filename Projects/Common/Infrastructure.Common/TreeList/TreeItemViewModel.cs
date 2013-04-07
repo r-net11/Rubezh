@@ -137,6 +137,7 @@ namespace Infrastructure.Common
 						item.Parent = (T)this;
 					break;
 			}
+			OnPropertyChanged(() => HasChildren);
 		}
 	}
 }

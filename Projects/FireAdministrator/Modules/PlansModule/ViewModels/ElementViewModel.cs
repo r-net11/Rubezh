@@ -10,12 +10,12 @@ namespace PlansModule.ViewModels
 {
 	public class ElementViewModel : ElementBaseViewModel
 	{
-		public ElementViewModel(ObservableCollection<ElementBaseViewModel> sourceElement, DesignerItem designerItem)
+		public ElementViewModel(DesignerItem designerItem)
 		{
-			Source = sourceElement;
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			DesignerItem = designerItem;
 			DesignerItem.TitleChanged += (s, e) => OnPropertyChanged("Name");
+			IsGroupHasChild = true;
 		}
 
 		public DesignerItem DesignerItem { get; private set; }

@@ -116,6 +116,7 @@
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
     <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\IntToEnumConverter.cs" />

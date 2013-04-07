@@ -195,7 +195,8 @@ namespace PlansModule.Designer
 
 		public override void Update()
 		{
-			Update(Plan);
+			if (Plan != null)
+				Update(Plan);
 		}
 		private void Update(Plan plan)
 		{

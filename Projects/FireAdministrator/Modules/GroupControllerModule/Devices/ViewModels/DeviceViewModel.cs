@@ -259,7 +259,7 @@ namespace GKModule.ViewModels
 		void OnShowOnPlan()
 		{
 			if (Device.PlanElementUIDs.Count > 0)
-				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
+				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs);
 		}
 
 		public RelayCommand ShowLogicCommand { get; private set; }

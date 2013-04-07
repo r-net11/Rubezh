@@ -28,10 +28,11 @@ namespace PlansModule.ViewModels
 			OnPropertyChanged("Plan");
 			using (new TimeCounter("\tPlanDesignerViewModel.Initialize: {0}"))
 			using (new WaitWrapper())
+			{
+				using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
+					DesignerCanvas.Initialize(plan);
 				if (Plan != null)
 				{
-					using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-						DesignerCanvas.Initialize(plan);
 					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 					{
 						foreach (var elementBase in PlanEnumerator.Enumerate(Plan))
@@ -43,6 +44,7 @@ namespace PlansModule.ViewModels
 					using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
 						OnUpdated();
 				}
+			}
 		}
 		public void Save()
 		{

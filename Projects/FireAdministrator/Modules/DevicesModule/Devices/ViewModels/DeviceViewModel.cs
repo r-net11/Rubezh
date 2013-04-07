@@ -44,6 +44,7 @@ namespace DevicesModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
+			BeginDragCommand = new RelayCommand(OnBeginDragCommand);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
@@ -79,7 +80,6 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
-			OnPropertyChanged(() => VisualizationToolTip);
 		}
 
 		public string Address
@@ -255,24 +255,7 @@ namespace DevicesModule.ViewModels
 		{
 			get { return Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit; }
 		}
-		public string VisualizationToolTip
-		{
-			get
-			{
-				switch (VisualizationState)
-				{
-					case VisualizationState.Prohibit:
-						return "Устройство нельзя размещать на плане";
-					case VisualizationState.Single:
-						return "Устройство уже размещено на плане";
-					case VisualizationState.NotPresent:
-					case VisualizationState.Multiple:
-						return "Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство";
-					default:
-						return string.Empty;
-				}
-			}
-		}
+
 
 		void OnShowIndicatorLogic()
 		{
@@ -427,7 +410,7 @@ namespace DevicesModule.ViewModels
 		void OnShowOnPlan()
 		{
 			if (Device.PlanElementUIDs.Count > 0)
-				ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
+				ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(Device.PlanElementUIDs);
 		}
 
 		public RelayCommand<bool> AllowMultipleVizualizationCommand { get; private set; }
@@ -439,6 +422,12 @@ namespace DevicesModule.ViewModels
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			return Device.AllowMultipleVizualization != isAllow;
+		}
+
+		public RelayCommand BeginDragCommand { get; private set; }
+		private void OnBeginDragCommand()
+		{
+			Console.WriteLine("BeginDrag");
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }

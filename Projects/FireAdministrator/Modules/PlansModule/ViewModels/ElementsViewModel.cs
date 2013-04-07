@@ -42,15 +42,14 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedElement = value;
-				OnPropertyChanged("SelectedElement");
 				if (!_isSelectedEvent && _selectedElement != null && _selectedElement.ShowOnPlanCommand != null)
+				{
+					_isSelectedEvent = true;
 					_selectedElement.ShowOnPlanCommand.Execute();
+					_isSelectedEvent = false;
+				}
+				OnPropertyChanged("SelectedElement");
 			}
-		}
-
-		void OnPlansChanged(Guid planUID)
-		{
-			Update();
 		}
 
 		public void Update()
@@ -60,13 +59,13 @@ namespace PlansModule.ViewModels
 			Groups = new Dictionary<string, ElementGroupViewModel>();
 			foreach (string alias in LayerGroupService.Instance)
 			{
-				var group = new ElementGroupViewModel(Elements, this, alias);
+				var group = new ElementGroupViewModel(this, alias);
 				Groups.Add(alias, group);
 				Elements.Add(group);
 			}
 
 			foreach (var designerItem in DesignerCanvas.Items)
-				AddElement(new ElementViewModel(Elements, designerItem));
+				AddElement(new ElementViewModel(designerItem));
 
 			foreach (var group in Groups.Values)
 			{
@@ -82,10 +81,14 @@ namespace PlansModule.ViewModels
 
 		public void Select(Guid elementUID)
 		{
-			var elementViewModel = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementUID);
-			if (elementViewModel != null)
-				elementViewModel.ExpantToThis();
-			SelectedElement = elementViewModel;
+			var elementViewModel = SelectedElement as ElementViewModel;
+			if (elementViewModel == null || elementViewModel.DesignerItem.Element.UID != elementUID)
+			{
+				elementViewModel = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementUID);
+				if (elementViewModel != null)
+					elementViewModel.ExpantToThis();
+				SelectedElement = elementViewModel;
+			}
 		}
 
 		#endregion
@@ -102,12 +105,7 @@ namespace PlansModule.ViewModels
 			if (parentElementViewModel == null)
 				Elements.Add(elementViewModel);
 			else
-			{
-				elementViewModel.Parent = parentElementViewModel;
 				parentElementViewModel.Children.Add(elementViewModel);
-				var indexOf = Elements.IndexOf(parentElementViewModel);
-				Elements.Insert(indexOf + 1, elementViewModel);
-			}
 			AllElements.Add(elementViewModel);
 		}
 
@@ -117,7 +115,7 @@ namespace PlansModule.ViewModels
 			{
 				var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
 				if (designerItem != null)
-					AddElement(new ElementViewModel(Elements, designerItem));
+					AddElement(new ElementViewModel(designerItem));
 			}
 			if (elements.Count > 0)
 			{
@@ -136,7 +134,7 @@ namespace PlansModule.ViewModels
 				{
 					if ((element.Parent != null) && (element.Parent.Children != null))
 						element.Parent.Children.Remove(element);
-					element.Parent = null;
+					//element.Parent = null;
 					Elements.Remove(element);
 					AllElements.Remove(element);
 				}
@@ -149,9 +147,12 @@ namespace PlansModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			_isSelectedEvent = true;
-			Select(element.UID);
-			_isSelectedEvent = false;
+			if (!_isSelectedEvent)
+			{
+				_isSelectedEvent = true;
+				Select(element.UID);
+				_isSelectedEvent = false;
+			}
 		}
 
 		private void CollapseChild(ElementBaseViewModel parentElementViewModel)

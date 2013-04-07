@@ -1,12 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
-             xmlns:Views="clr-namespace:DevicesModule.Views"
-             Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -25,6 +17,12 @@
 			<MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" Header="Запретить множественную визуализацию" />
 		</ContextMenu>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+		<Conv:SwitchConverter x:Key="Tooltip">
+			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="Multiple" />
+			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="NotPresent" />
+			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
+			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
+		</Conv:SwitchConverter>
 	</UserControl.Resources>
 
 	<Grid>
@@ -48,27 +46,19 @@
 				<GridViewColumn Width="250" Header="Устройство">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<Controls:EditorPresenter>
-								<Controls:EditorPresenter.ViewTemplate>
-									<ControlTemplate>
-										<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
-											<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-											<StackPanel Orientation="Horizontal">
-												<!--
-													<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-													<Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
-													<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
-													<Image Source="/Controls;component/Images/map2.png" ToolTip="Для размещения устройства на плане зажмите левую кнопку мыши и и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-													</Grid>
-												-->
-												<drag:DragDropDecorator DynamicCursor ="True"  DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" IsSource="True">
-													<drag:DragDropDecorator.InputBindings>
-														<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftClick" />
-													</drag:DragDropDecorator.InputBindings>
-													<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationToolTip}" />
-												</drag:DragDropDecorator>
-											</StackPanel>
-											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+							<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<drag:DragDropDecorator DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
+									<drag:DragDropDecorator.InputBindings>
+										<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftClick" />
+										<MouseBinding Command="{Binding BeginDragCommand}" MouseAction="LeftDoubleClick" />
+									</drag:DragDropDecorator.InputBindings>
+									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+								</drag:DragDropDecorator>
+								<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+								<Controls:EditorPresenter>
+									<Controls:EditorPresenter.ViewTemplate>
+										<ControlTemplate>
 											<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}">
 												<TextBlock.Style>
 													<Style>
@@ -82,22 +72,10 @@
 													</Style>
 												</TextBlock.Style>
 											</TextBlock>
-										</StackPanel>
-									</ControlTemplate>
-								</Controls:EditorPresenter.ViewTemplate>
-								<Controls:EditorPresenter.EditTemplate>
-									<ControlTemplate>
-										<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
-											<StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-												<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-												<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-												<Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
-													<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
-													<Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-												</Grid>
-												<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-												<TextBlock VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-											</StackPanel>
+										</ControlTemplate>
+									</Controls:EditorPresenter.ViewTemplate>
+									<Controls:EditorPresenter.EditTemplate>
+										<ControlTemplate>
 											<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
@@ -108,10 +86,10 @@
 													</DataTemplate>
 												</ComboBox.ItemTemplate>
 											</ComboBox>
-										</DockPanel>
-									</ControlTemplate>
-								</Controls:EditorPresenter.EditTemplate>
-							</Controls:EditorPresenter>
+										</ControlTemplate>
+									</Controls:EditorPresenter.EditTemplate>
+								</Controls:EditorPresenter>
+							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
@@ -136,7 +114,6 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-
 				<GridViewColumn Width="200" Header="Зона">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
@@ -151,7 +128,6 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-
 				<GridViewColumn Header="Примечание">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
@@ -163,7 +139,7 @@
 								</Controls:EditorPresenter.ViewTemplate>
 								<Controls:EditorPresenter.EditTemplate>
 									<ControlTemplate>
-                                        <toolkit:AutoCompleteBox Name="descriptionTextBox" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Populating="Description_Populating" IsTextCompletionEnabled="True" />
+										<toolkit:AutoCompleteBox Name="descriptionTextBox" IsTextCompletionEnabled="True" Populating="Description_Populating" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 										<ControlTemplate.Triggers>
 											<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
 												<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />

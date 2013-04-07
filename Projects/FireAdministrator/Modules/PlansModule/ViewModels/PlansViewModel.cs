@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using Infrustructure.Plans.Painters;
-using Infrastructure.Client.Plans;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Windows;
-using Controls;
-using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -69,14 +65,8 @@ namespace PlansModule.ViewModels
 				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
 					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 					{
-						if (plan.BackgroundImageSource.HasValue)
-						{
-							if (!ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-							{
-								plan.BackgroundImageSource = null;
-							}
-						}
-
+						if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
+							plan.BackgroundImageSource = null;
 						Helper.UpgradeBackground(plan);
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							Helper.UpgradeBackground(elementBase);
@@ -123,8 +113,8 @@ namespace PlansModule.ViewModels
 			get { return _selectedPlan; }
 			set
 			{
-				if (SelectedPlan == value)
-					return;
+				//if (SelectedPlan == value)
+				//    return;
 				using (new TimeCounter("PlansViewModel.SelectedPlan: {0}", true, true))
 				{
 					_selectedPlan = value;
@@ -133,8 +123,7 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.Save();
 					PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
 					using (new TimeCounter("\tPlansViewModel.UpdateElements: {0}"))
-						if (value != null)
-							ElementsViewModel.Update();
+						ElementsViewModel.Update();
 					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
@@ -284,23 +273,40 @@ namespace PlansModule.ViewModels
 		{
 			DesignerCanvas.Toolbox.SetDefault();
 			DesignerCanvas.DeselectAll();
-
 			foreach (var designerItem in DesignerCanvas.Items)
 				if (designerItem.Element.UID == elementUID && designerItem.IsEnabled)
+				{
 					designerItem.IsSelected = true;
+					break;
+				}
 		}
-		private void OnShowElementDevice(Guid deviceUID)
+		private void OnShowElementDevice(List<Guid> deviceUIDs)
 		{
-			var plans = new List<PlanViewModel>();
-			GetAllPlans(plans, Plans);
-			foreach (var plan in plans)
-				foreach (var elementDevice in plan.Plan.ElementUnion)
-					if (elementDevice.UID == deviceUID)
-					{
-						SelectedPlan = plan;
-						OnShowElement(deviceUID);
-						return;
-					}
+			DesignerCanvas.Toolbox.SetDefault();
+			DesignerCanvas.DeselectAll();
+			if (deviceUIDs.Count > 0)
+			{
+				OnShowDevices(deviceUIDs);
+				if (DesignerCanvas.SelectedItems.Count() == 0)
+				{
+					var plans = new List<PlanViewModel>();
+					GetAllPlans(plans, Plans);
+					foreach (var plan in plans)
+						foreach (var elementDevice in plan.Plan.ElementUnion)
+							if (deviceUIDs.Contains(elementDevice.UID))
+							{
+								SelectedPlan = plan;
+								OnShowDevices(deviceUIDs);
+								return;
+							}
+				}
+			}
+		}
+		private void OnShowDevices(List<Guid> deviceUIDs)
+		{
+			foreach (var item in DesignerCanvas.Items)
+				if (deviceUIDs.Contains(item.Element.UID) && item.IsEnabled)
+					item.IsSelected = true;
 		}
 		private void GetAllPlans(List<PlanViewModel> allPlans, IEnumerable<PlanViewModel> plans)
 		{

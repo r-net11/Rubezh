@@ -3,13 +3,35 @@ using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
-    public class ElementBaseViewModel : TreeBaseViewModel<ElementBaseViewModel>
-    {
-        public RelayCommand ShowOnPlanCommand { get; protected set; }
+	public class ElementBaseViewModel : TreeItemViewModel<ElementBaseViewModel>
+	{
+		public RelayCommand ShowOnPlanCommand { get; protected set; }
 
 		public virtual ContextMenu ContextMenu
 		{
 			get { return null; }
 		}
-    }
+
+		private bool _isBold;
+		public bool IsBold
+		{
+			get { return _isBold; }
+			set
+			{
+				_isBold = value;
+				OnPropertyChanged(() => IsBold);
+			}
+		}
+		private bool _isGroupHaveChild;
+		public bool IsGroupHasChild	
+		{
+			get { return _isGroupHaveChild; }
+			set
+			{
+				_isGroupHaveChild = value;
+				OnPropertyChanged(() => IsGroupHasChild);
+			}
+		}
+		
+	}
 }
