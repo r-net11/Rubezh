@@ -203,7 +203,14 @@ namespace Common.GK
 				case JournalSourceType.Device:
 					var unknownType = BytesHelper.SubstructShort(bytes, 32 + 14);
 					var unknownAddress = BytesHelper.SubstructShort(bytes, 32 + 16);
-					var unknownDescription = "Тип: " + unknownType.ToString() + " Адрес: " + unknownAddress.ToString();
+					var presentationAddress = (unknownAddress / 256).ToString() + "." + (unknownAddress % 256).ToString();
+					var driverName = unknownType.ToString();
+					var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == unknownType);
+					if (driver != null)
+					{
+						driverName = driver.ShortName;
+					};
+					var unknownDescription = "Тип: " + driverName + " Адрес: " + presentationAddress;
 					switch (Code)
 					{
 						case 0:
@@ -236,11 +243,15 @@ namespace Common.GK
 							break;
 						case 2:
 							EventName = "Пожар-1";
+							if(JournalItemType == GK.JournalItemType.Device)
+								EventName = "Сработка-1";
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 3:
 							EventName = "Пожар-2";
+							if (JournalItemType == GK.JournalItemType.Device)
+								EventName = "Сработка-2";
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 

@@ -96,78 +96,81 @@ namespace Common.GK
 			{
 				lock (locker)
 				{
-					using (var dataContext = new SqlCeConnection(ConnectionString))
+					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 					{
-						var query =
-						"SELECT * FROM Journal WHERE " +
-						"\n DateTime > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-						"\n AND DateTime < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-
-						if (archiveFilter.JournalItemTypes.Count > 0)
+						using (var dataContext = new SqlCeConnection(ConnectionString))
 						{
-							query += "\n AND (";
-							int index = 0;
-							foreach (var journalItemType in archiveFilter.JournalItemTypes)
+							var query =
+							"SELECT * FROM Journal WHERE " +
+							"\n DateTime > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+							"\n AND DateTime < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+
+							if (archiveFilter.JournalItemTypes.Count > 0)
 							{
-								if (index > 0)
-									query += "\n OR ";
-								index++;
-								query += "JournalItemType = '" + ((int)journalItemType).ToString() + "'";
+								query += "\n AND (";
+								int index = 0;
+								foreach (var journalItemType in archiveFilter.JournalItemTypes)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "JournalItemType = '" + ((int)journalItemType).ToString() + "'";
+								}
+								query += ")";
 							}
-							query += ")";
-						}
 
-						if (archiveFilter.StateClasses.Count > 0)
-						{
-							query += "\n AND (";
-							int index = 0;
-							foreach (var stateClass in archiveFilter.StateClasses)
+							if (archiveFilter.StateClasses.Count > 0)
 							{
-								if (index > 0)
-									query += "\n OR ";
-								index++;
-								query += "StateClass = '" + ((int)stateClass).ToString() + "'";
+								query += "\n AND (";
+								int index = 0;
+								foreach (var stateClass in archiveFilter.StateClasses)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "StateClass = '" + ((int)stateClass).ToString() + "'";
+								}
+								query += ")";
 							}
-							query += ")";
-						}
 
-						if (archiveFilter.GKAddresses.Count > 0)
-						{
-							query += "\n AND (";
-							int index = 0;
-							foreach (var addresses in archiveFilter.GKAddresses)
+							if (archiveFilter.GKAddresses.Count > 0)
 							{
-								if (index > 0)
-									query += "\n OR ";
-								index++;
-								query += "GKIpAddress = '" + addresses + "'";
+								query += "\n AND (";
+								int index = 0;
+								foreach (var addresses in archiveFilter.GKAddresses)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "GKIpAddress = '" + addresses + "'";
+								}
+								query += ")";
 							}
-							query += ")";
-						}
 
-						if (archiveFilter.EventNames.Count > 0)
-						{
-							query += "\n AND (";
-							int index = 0;
-							foreach (var eventName in archiveFilter.EventNames)
+							if (archiveFilter.EventNames.Count > 0)
 							{
-								if (index > 0)
-									query += "\n OR ";
-								index++;
-								query += "Name = '" + eventName + "'";
+								query += "\n AND (";
+								int index = 0;
+								foreach (var eventName in archiveFilter.EventNames)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "Name = '" + eventName + "'";
+								}
+								query += ")";
 							}
-							query += ")";
-						}
 
-						query += "\n ORDER BY DateTime DESC";
+							query += "\n ORDER BY DateTime DESC";
 
-						var sqlCeCommand = new SqlCeCommand(query, dataContext);
-						dataContext.Open();
-						var reader = sqlCeCommand.ExecuteReader();
-						while (reader.Read())
-						{
-							var journalItem = ReadOneJournalItem(reader);
-							journalItems.Add(journalItem);
+							var sqlCeCommand = new SqlCeCommand(query, dataContext);
+							dataContext.Open();
+							var reader = sqlCeCommand.ExecuteReader();
+							while (reader.Read())
+							{
+								var journalItem = ReadOneJournalItem(reader);
+								journalItems.Add(journalItem);
+							}
 						}
 					}
 				}
@@ -185,30 +188,33 @@ namespace Common.GK
 			{
 				lock (locker)
 				{
-					using (var dataContext = new SqlCeConnection(ConnectionString))
+					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 					{
-						var query = "SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = '" + gkIPAddress + "'";
-						var sqlCeCommand = new SqlCeCommand(query, dataContext);
-						dataContext.Open();
-						var reader = sqlCeCommand.ExecuteReader();
-						int result = -1;
-						if (reader.Read())
+						using (var dataContext = new SqlCeConnection(ConnectionString))
 						{
-							if (!reader.IsDBNull(0))
+							var query = "SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = '" + gkIPAddress + "'";
+							var sqlCeCommand = new SqlCeCommand(query, dataContext);
+							dataContext.Open();
+							var reader = sqlCeCommand.ExecuteReader();
+							int result = -1;
+							if (reader.Read())
 							{
-								result = reader.GetInt32(0);
+								if (!reader.IsDBNull(0))
+								{
+									result = reader.GetInt32(0);
+								}
 							}
+							dataContext.Close();
+							return result;
 						}
-						dataContext.Close();
-						return result;
 					}
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "GKDBHelper.GetLastGKID");
-				return -1;
 			}
+			return -1;
 		}
 
         public static List<string> GetGKIPAddresses()

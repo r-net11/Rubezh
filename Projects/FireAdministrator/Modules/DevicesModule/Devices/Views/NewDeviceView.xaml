@@ -54,7 +54,7 @@
             </StackPanel>
             <StackPanel Grid.Column="2" Visibility="{Binding SelectedDriver.IsDeviceOnShleif, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                 <Label Content="Свободный адрес" />
-                <ComboBox ItemsSource="{Binding FreeAddresses}" SelectedItem="{Binding SelectedFreeAddress}"  />
+                <ComboBox ItemsSource="{Binding FreeAddresses}" SelectedItem="{Binding SelectedFreeAddress}" />
             </StackPanel>
             <StackPanel Grid.Column="3" Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                 <Label Content="Количество" />

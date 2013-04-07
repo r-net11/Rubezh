@@ -50,13 +50,13 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Скрывать дерево планов в ОЗ" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding HidePlansTreeMonitor}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Monitor_HidePlansTree}" HorizontalAlignment="Left" Margin="2" />
                 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Не показывать подтверждение при сбросе" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding DoNotShowConfirmatinoOnIgnore}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Monitor_DoNotShowConfirmatinoOnIgnore}" HorizontalAlignment="Left" Margin="2" />
                 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Не показывать вкладку Зоны в ОЗ" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding DoNotShowZonesInMonitor}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Monitor_DoNotShowZones}" HorizontalAlignment="Left" Margin="2" />
 
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="F1 - показать справку" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Monitor_F1_Enabled}" HorizontalAlignment="Left" Margin="2" />
@@ -82,7 +82,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Агент">

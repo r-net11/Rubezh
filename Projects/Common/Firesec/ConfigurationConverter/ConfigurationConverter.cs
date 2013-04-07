@@ -3,6 +3,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace Firesec
 {
@@ -161,7 +162,7 @@ namespace Firesec
             deviceConfiguration.UpdateIdPath();
         }
 
-		public void SynchronyzeConfiguration()
+		public void SynchronyzeConfiguration(bool removeMissing = false)
 		{
             var result = FiresecSerializedClient.GetCoreConfig();
             if (result.HasError || result.Result == null)
@@ -172,6 +173,8 @@ namespace Firesec
             var firesecDeviceConfiguration = ConvertOnlyDevices(result.Result);
 			Update(firesecDeviceConfiguration);
 			Update(ConfigurationCash.DeviceConfiguration);
+
+			var missingDevices = new List<Device>();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
 				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
@@ -182,9 +185,25 @@ namespace Firesec
 				}
 				else
 				{
+					missingDevices.Add(device);
 					LoadingErrorManager.Add("Для устройства " + device.PresentationAddressAndName + " не найдено устройство в конфигурации firesec-1");
 				}
 			}
+			if (removeMissing)
+			{
+				foreach (var device in missingDevices)
+				{
+					if (device.Parent != null)
+					{
+						device.Parent.Children.Remove(device);
+					}
+				}
+				if (missingDevices.Count > 0)
+				{
+					ConfigurationCash.DeviceConfiguration.Update();
+				}
+			}
+
             foreach (var firesecDevice in firesecDeviceConfiguration.Devices)
             {
                 var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == firesecDevice.PathId);

@@ -15,8 +15,8 @@
         <Control Id="LicenseText" Type="ScrollableText" X="8" Y="54" Width="358" Height="130" Sunken="yes" TabSkip="yes">
           <Text SourceFile="Data\License.rtf" />
         </Control>
-        <Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" TabSkip="no" />
         <Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" TabSkip="no" Default="yes" />
+        <Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" TabSkip="no" />
         <Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
       </Dialog>
     </UI>

@@ -205,39 +205,41 @@ namespace DevicesModule.Views
 
 		bool IsUndesirableKey(Key key)
 		{
-			if (
-				key != System.Windows.Input.Key.D0 &&
-				key != System.Windows.Input.Key.D1 &&
-				key != System.Windows.Input.Key.D2 &&
-				key != System.Windows.Input.Key.D3 &&
-				key != System.Windows.Input.Key.D4 &&
-				key != System.Windows.Input.Key.D5 &&
-				key != System.Windows.Input.Key.D6 &&
-				key != System.Windows.Input.Key.D7 &&
-				key != System.Windows.Input.Key.D8 &&
-				key != System.Windows.Input.Key.D9 &&
-				key != System.Windows.Input.Key.NumPad0 &&
-				key != System.Windows.Input.Key.NumPad1 &&
-				key != System.Windows.Input.Key.NumPad2 &&
-				key != System.Windows.Input.Key.NumPad3 &&
-				key != System.Windows.Input.Key.NumPad4 &&
-				key != System.Windows.Input.Key.NumPad5 &&
-				key != System.Windows.Input.Key.NumPad6 &&
-				key != System.Windows.Input.Key.NumPad7 &&
-				key != System.Windows.Input.Key.NumPad8 &&
-				key != System.Windows.Input.Key.NumPad9 &&
-				key != System.Windows.Input.Key.Left &&
-				key != System.Windows.Input.Key.Right &&
-				key != System.Windows.Input.Key.Enter &&
-				key != System.Windows.Input.Key.Delete
-				)
-				return true;
+			switch(key)
+			{
+				case System.Windows.Input.Key.D0:
+				case System.Windows.Input.Key.D1:
+				case System.Windows.Input.Key.D2:
+				case System.Windows.Input.Key.D3:
+				case System.Windows.Input.Key.D4:
+				case System.Windows.Input.Key.D5:
+				case System.Windows.Input.Key.D6:
+				case System.Windows.Input.Key.D7:
+				case System.Windows.Input.Key.D8:
+				case System.Windows.Input.Key.D9:
+				case System.Windows.Input.Key.NumPad0:
+				case System.Windows.Input.Key.NumPad1:
+				case System.Windows.Input.Key.NumPad2:
+				case System.Windows.Input.Key.NumPad3:
+				case System.Windows.Input.Key.NumPad4:
+				case System.Windows.Input.Key.NumPad5:
+				case System.Windows.Input.Key.NumPad6:
+				case System.Windows.Input.Key.NumPad7:
+				case System.Windows.Input.Key.NumPad8:
+				case System.Windows.Input.Key.NumPad9:
+				case System.Windows.Input.Key.Left:
+				case System.Windows.Input.Key.Right:
+				case System.Windows.Input.Key.Enter:
+				case System.Windows.Input.Key.Delete:
+				case System.Windows.Input.Key.Back:
+					return true;
+			}
 			return false;
 		}
 
 		void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
 		{
-			if (e.IsRepeat == false && IsUndesirableKey(e.Key) == false)
+			if (IsUndesirableKey(e.Key))
 			{
 				switch (e.Key)
 				{
@@ -254,6 +256,11 @@ namespace DevicesModule.Views
 					case Key.Delete:
 						e.Handled = true;
 						OnDeleteKey();
+						return;
+
+					case Key.Back:
+						e.Handled = true;
+						OnBackspaceKey();
 						return;
 
 					default:
@@ -290,12 +297,29 @@ namespace DevicesModule.Views
 
 		void OnDeleteKey()
 		{
+			var oldCaretIndex = addressEditor.CaretIndex;
 			if (addressEditor.CaretIndex < 2)
 				return;
 
 			if (addressEditor.Text.IndexOf(DOT) != -1 && addressEditor.Text.Length - addressEditor.Text.IndexOf(DOT) > 2)
 			{
-				addressEditor.Text = addressEditor.Text.Remove(addressEditor.CaretIndex, 1);
+				if (addressEditor.Text.Length > addressEditor.CaretIndex)
+					addressEditor.Text = addressEditor.Text.Remove(addressEditor.CaretIndex, 1);
+				addressEditor.CaretIndex = oldCaretIndex;
+			}
+		}
+
+		void OnBackspaceKey()
+		{
+			var oldCaretIndex = addressEditor.CaretIndex;
+			if (addressEditor.CaretIndex < 3)
+				return;
+
+			if (addressEditor.Text.IndexOf(DOT) != -1 && addressEditor.Text.Length - addressEditor.Text.IndexOf(DOT) > 2)
+			{
+				if (addressEditor.Text.Length > addressEditor.CaretIndex - 1)
+					addressEditor.Text = addressEditor.Text.Remove(addressEditor.CaretIndex - 1, 1);
+				addressEditor.CaretIndex = oldCaretIndex;
 			}
 		}
 
@@ -393,6 +417,12 @@ namespace DevicesModule.Views
 				toolTip = null;
 				timer = null;
 			});
+		}
+
+		private void addressEditor_GotFocus(object sender, RoutedEventArgs e)
+		{
+			//addressEditor.CaretIndex = 0;
+			//addressEditor.SelectionLength = 1;
 		}
 	}
 }

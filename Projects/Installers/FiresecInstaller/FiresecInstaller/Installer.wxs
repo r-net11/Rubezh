@@ -84,6 +84,7 @@
             <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">
             </Directory>
           </Directory>
+          <Directory Id="FIRMWHARELOCATION" Name="Актуальные прошивки" />
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">

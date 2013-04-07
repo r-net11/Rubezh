@@ -18,8 +18,7 @@ namespace FiresecAPI
 			AutoConnect = true;
 			DoNotOverrideFS1 = false;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
-			Administrator_IsExpertMode = false;
-			EnableRemoteConnections = false;
+			Server_EnableRemoteConnections = false;
 			IsImitatorEnabled = false;
 			Modules =
 				"DevicesModule.dll" + "\r\n" +
@@ -49,6 +48,7 @@ namespace FiresecAPI
 			Monitor_F4_Enabled = true;
 
 			Administrator_HideMainMenuIcons = false;
+			Administrator_IsExpertMode = false;
 		}
 
 		[DataMember]
@@ -67,34 +67,10 @@ namespace FiresecAPI
 		public bool AutoConnect { get; set; }
 
 		[DataMember]
-		public bool DoNotOverrideFS1 { get; set; }
-
-		[DataMember]
-		public string LibVlcDllsPath { get; set; }
-
-		[DataMember]
-		public bool EnableRemoteConnections { get; set; }
-
-		[DataMember]
-		public bool IsImitatorEnabled { get; set; }
-
-		[DataMember]
-		public bool HidePlansTreeMonitor { get; set; }
-
-		[DataMember]
-		public bool ForceShutdown { get; set; }
-
-		[DataMember]
-		public bool DoNotShowConfirmatinoOnIgnore { get; set; }
-
-		[DataMember]
-		public bool DoNotShowZonesInMonitor { get; set; }
-
-		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }
 
 		[DataMember]
-		public string Modules { get; set; }
+		public bool DoNotOverrideFS1 { get; set; }
 
 		[DataMember]
 		public string FS_RemoteAddress { get; set; }
@@ -109,6 +85,21 @@ namespace FiresecAPI
 		public string FS_Password { get; set; }
 
 		[DataMember]
+		public bool Server_EnableRemoteConnections { get; set; }
+
+		[DataMember]
+		public bool IsImitatorEnabled { get; set; }
+
+		[DataMember]
+		public string LibVlcDllsPath { get; set; }
+
+		[DataMember]
+		public bool ForceShutdown { get; set; }
+
+		[DataMember]
+		public string Modules { get; set; }
+
+		[DataMember]
 		public bool Monitor_F1_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_F2_Enabled { get; set; }
@@ -116,6 +107,12 @@ namespace FiresecAPI
 		public bool Monitor_F3_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_F4_Enabled { get; set; }
+		[DataMember]
+		public bool Monitor_DoNotShowConfirmatinoOnIgnore { get; set; }
+		[DataMember]
+		public bool Monitor_DoNotShowZones { get; set; }
+		[DataMember]
+		public bool Monitor_HidePlansTree { get; set; }
 
 		[DataMember]
 		public bool Administrator_IsExpertMode { get; set; }

@@ -7,7 +7,7 @@ namespace FireMonitor
 	{
 		public bool Validate()
 		{
-			if (GlobalSettingsHelper.GlobalSettings.DoNotShowConfirmatinoOnIgnore)
+			if (GlobalSettingsHelper.GlobalSettings.Monitor_DoNotShowConfirmatinoOnIgnore)
 				return true;
 			return ServiceFactory.LoginService.ExecuteValidate();
 		}

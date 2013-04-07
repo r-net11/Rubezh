@@ -40,10 +40,12 @@ namespace FiresecService
 
 			var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var deviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "DeviceLibraryConfiguration.xml", typeof(DeviceLibraryConfiguration));
+			var xDeviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
 			var driversConfiguration = GetConfigurationFomZip(emptyZipFile, "DriversConfiguration.xml", typeof(DriversConfiguration));
 
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			AddConfigurationToZip(zipFile, deviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
+			AddConfigurationToZip(zipFile, xDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml");
 			AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
 			zipFile.Save(fileName);
 

@@ -41,6 +41,28 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		DeviceViewModel _selectedOutputDevice;
+		public DeviceViewModel SelectedOutputDevice
+		{
+			get { return _selectedOutputDevice; }
+			set
+			{
+				_selectedOutputDevice = value;
+				OnPropertyChanged("SelectedOutputDevice");
+			}
+		}
+
+		DeviceViewModel _selectedInputDevice;
+		public DeviceViewModel SelectedInputDevice
+		{
+			get { return _selectedInputDevice; }
+			set
+			{
+				_selectedInputDevice = value;
+				OnPropertyChanged("SelectedInputDevice");
+			}
+		}
+
 		public void Select(Guid directionUID)
 		{
 			if (directionUID != Guid.Empty)

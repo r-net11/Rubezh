@@ -11,6 +11,7 @@ namespace FSAgentServer
 	{
 		public static JournalRecord Convert(journalType innerJournalRecord)
 		{
+			NormalizeJournalType(innerJournalRecord);
 			var journalRecord = new JournalRecord()
 			{
 				OldId = int.Parse(innerJournalRecord.IDEvents),
@@ -29,6 +30,35 @@ namespace FSAgentServer
 			};
 
 			return journalRecord;
+		}
+
+		static void NormalizeJournalType(journalType innerJournalRecord)
+		{
+				innerJournalRecord.IDEvents = NormalizeString(innerJournalRecord.IDEvents);
+				innerJournalRecord.Dt = NormalizeString(innerJournalRecord.Dt);
+				innerJournalRecord.SysDt = NormalizeString(innerJournalRecord.SysDt);
+				innerJournalRecord.ZoneName = NormalizeString(innerJournalRecord.ZoneName);
+				innerJournalRecord.EventDesc = NormalizeString(innerJournalRecord.EventDesc);
+				innerJournalRecord.CLC_Device = NormalizeString(innerJournalRecord.CLC_Device);
+				innerJournalRecord.CLC_DeviceSource = NormalizeString(innerJournalRecord.CLC_DeviceSource);
+				innerJournalRecord.IDDevices = NormalizeString(innerJournalRecord.IDDevices);
+				innerJournalRecord.IDDevicesSource = NormalizeString(innerJournalRecord.IDDevicesSource);
+				innerJournalRecord.UserInfo = NormalizeString(innerJournalRecord.UserInfo);
+				innerJournalRecord.CLC_Detalization = NormalizeString(innerJournalRecord.CLC_Detalization);
+				innerJournalRecord.IDSubSystem = NormalizeString(innerJournalRecord.IDSubSystem);
+				innerJournalRecord.IDTypeEvents = NormalizeString(innerJournalRecord.IDTypeEvents);
+		}
+
+		static string NormalizeString(string value)
+		{
+			if (value != null)
+			{
+				value = value.Replace("\n", "");
+				value = value.Replace("\r", "");
+				value = value.TrimStart(' ');
+				value = value.TrimEnd(' ');
+			}
+			return value;
 		}
 
 		public static DateTime ConvertTime(string firesecTime)

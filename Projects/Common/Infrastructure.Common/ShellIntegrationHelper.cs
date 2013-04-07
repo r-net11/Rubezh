@@ -50,7 +50,7 @@ namespace Infrastructure.Common
 
 			RegistryHelper.RegistryHelper.Integrate();
 
-			GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections = false;
+			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = false;
 			GlobalSettingsHelper.Save();
 		}
 

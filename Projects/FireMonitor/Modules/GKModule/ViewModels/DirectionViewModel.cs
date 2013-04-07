@@ -23,7 +23,6 @@ namespace GKModule.ViewModels
 		public DirectionViewModel(XDirectionState directionState)
 		{
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-
 			DirectionState = directionState;
 			DirectionState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
@@ -33,8 +32,10 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("ToolTip");
-			OnPropertyChanged("TimeLeft");
-			OnPropertyChanged("ShowTimeLeft");
+			OnPropertyChanged("DelayTimeLeft");
+			OnPropertyChanged("ShowDelayTimeLeft");
+			OnPropertyChanged("HoldTimeLeft");
+			OnPropertyChanged("ShowHoldTimeLeft");
 		}
 
 		public string ToolTip
@@ -53,7 +54,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public int TimeLeft
+		public int DelayTimeLeft
 		{
 			get
 			{
@@ -65,10 +66,26 @@ namespace GKModule.ViewModels
 				return 0;
 			}
 		}
-
-		public bool ShowTimeLeft
+		public bool ShowDelayTimeLeft
 		{
-			get { return TimeLeft > 0; }
+			get { return DelayTimeLeft > 0; }
+		}
+
+		public int HoldTimeLeft
+		{
+			get
+			{
+				var additionalStateProperty = DirectionState.AdditionalStateProperties.FirstOrDefault(x => x.Name == "Удержание");
+				if (additionalStateProperty != null)
+				{
+					return additionalStateProperty.Value;
+				}
+				return 0;
+			}
+		}
+		public bool ShowHoldTimeLeft
+		{
+			get { return HoldTimeLeft > 0; }
 		}
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
