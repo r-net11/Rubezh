@@ -109,6 +109,7 @@ namespace DevicesModule.ViewModels
 
 		void UpdateFreeAddresses()
 		{
+			var oldSelectedFreeAddress = SelectedFreeAddress;
 			FreeAddresses = new ObservableCollection<int>();
 			for (int i = 1; i <= 256; i++)
 			{
@@ -123,6 +124,10 @@ namespace DevicesModule.ViewModels
 				}
 			}
 			RemoveBuisyAddress(ParentDevice);
+			if (oldSelectedFreeAddress != 0)
+			{
+				SelectedFreeAddress = SelectedFreeAddress;
+			}
 		}
 
 		void RemoveBuisyAddress(Device device)

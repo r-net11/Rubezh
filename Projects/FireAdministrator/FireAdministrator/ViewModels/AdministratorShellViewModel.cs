@@ -18,6 +18,7 @@ namespace FireAdministrator.ViewModels
 			MinWidth = 1000;
 			MinHeight = 550;
 			Toolbar = new MenuViewModel();
+			this.AllowLogoIcon = false;
 		}
 
 		public override bool OnClosing(bool isCanceled)

@@ -13,6 +13,45 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                    <TextBlock Text="Состояние" Margin="5, 0, 0, 0" Foreground="White" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                </StackPanel>
+                <ItemsControl ItemsSource="{Binding DirectionState.StateClasses}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
+                                Visibility="{Binding ShowDelayTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Задержка: " Foreground="White" />
+                    <TextBlock Text="{Binding DelayTimeLeft}" Foreground="White" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
+                                Visibility="{Binding ShowHoldTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Удержание: " Foreground="White" />
+                    <TextBlock Text="{Binding HoldTimeLeft}" Foreground="White" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -33,11 +72,6 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Выходных устройств: " Foreground="White" />
                             <TextBlock Text="{Binding OutputDevicesCount}" Foreground="White" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
-                                Visibility="{Binding ShowTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="Задержка: " Foreground="White" />
-                            <TextBlock Text="{Binding TimeLeft}" Foreground="White" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

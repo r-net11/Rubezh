@@ -25,7 +25,7 @@ namespace FiresecService.Service
 				FiresecService = new FiresecService();
 				ServiceHost = new ServiceHost(FiresecService);
 
-				if (GlobalSettingsHelper.GlobalSettings.EnableRemoteConnections && UACHelper.IsAdministrator)
+				if (GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
 					CreateHttpEndpoint();
 				}

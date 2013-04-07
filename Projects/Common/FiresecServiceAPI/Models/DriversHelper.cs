@@ -145,6 +145,7 @@ namespace FiresecAPI.Models
 				panelDrivers.Add(DriverType.Rubezh_2AM);
 				panelDrivers.Add(DriverType.Rubezh_2OP);
 				panelDrivers.Add(DriverType.Rubezh_4A);
+				panelDrivers.Add(DriverType.USB_Rubezh_P);
 				return panelDrivers;
 			}
 		}
@@ -159,6 +160,7 @@ namespace FiresecAPI.Models
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_2AM);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_2OP);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_4A);
+				usbPanelDrivers.Add(DriverType.USB_Rubezh_P);
 				return usbPanelDrivers;
 			}
 		}

@@ -92,6 +92,9 @@ namespace DevicesModule.ViewModels
 
         private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
         {
+			if (device.Children.Count > 0 && device.Children.All(x => x.IsNotUsed))
+				return null;
+
             var deviceViewModel = new DeviceViewModel(device);
             if (parentDeviceViewModel != null)
                 parentDeviceViewModel.Children.Add(deviceViewModel);

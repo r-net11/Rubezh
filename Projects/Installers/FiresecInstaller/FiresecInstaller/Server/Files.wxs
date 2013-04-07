@@ -70,7 +70,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="AppData.EmptyLocation">
-      <Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
+      <Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />
         <File Id="Server.AppData.EmptyLocation.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\Firesec.sdf" />
         <File Id="Server.AppData.EmptyLocation.FSDB.sdf" Name="FSDB.sdf" Source="..\..\..\..\..\Deploy\SqlCE\FSDB.sdf" />

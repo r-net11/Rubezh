@@ -6,36 +6,36 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class DirectionDetailsViewModel : DialogViewModel, IWindowIdentity
-    {
-        public XDirection Direction { get; private set; }
-        public XDirectionState DirectionState { get; private set; }
+	public class DirectionDetailsViewModel : DialogViewModel, IWindowIdentity
+	{
+		public XDirection Direction { get; private set; }
+		public XDirectionState DirectionState { get; private set; }
 		public DirectionViewModel DirectionViewModel { get; private set; }
 
-        public DirectionDetailsViewModel(XDirection direction)
-        {
-            Direction = direction;
-            DirectionState = Direction.DirectionState;
+		public DirectionDetailsViewModel(XDirection direction)
+		{
+			Direction = direction;
+			DirectionState = Direction.DirectionState;
 			DirectionViewModel = new DirectionViewModel(DirectionState);
-            DirectionState.StateChanged += new Action(OnStateChanged);
+			DirectionState.StateChanged += new Action(OnStateChanged);
 
-            SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
-            SetManualStateCommand = new RelayCommand(OnSetManualState);
-            SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 
-            Title = Direction.PresentationName;
-            TopMost = true;
-        }
+			Title = Direction.PresentationName;
+			TopMost = true;
+		}
 
-        void OnStateChanged()
-        {
-            OnPropertyChanged("DirectionState");
+		void OnStateChanged()
+		{
+			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
-        }
+		}
 
 		public int InputZonesCount
 		{
@@ -50,19 +50,19 @@ namespace GKModule.ViewModels
 			get { return Direction.OutputDevices.Count; }
 		}
 
-        public DeviceControlRegime ControlRegime
-        {
-            get
-            {
-                if (DirectionState.States.Contains(XStateType.Ignore))
-                    return DeviceControlRegime.Ignore;
+		public DeviceControlRegime ControlRegime
+		{
+			get
+			{
+				if (DirectionState.States.Contains(XStateType.Ignore))
+					return DeviceControlRegime.Ignore;
 
-                if (DirectionState.States.Contains(XStateType.Norm))
-                    return DeviceControlRegime.Automatic;
+				if (DirectionState.States.Contains(XStateType.Norm))
+					return DeviceControlRegime.Automatic;
 
-                return DeviceControlRegime.Manual;
-            }
-        }
+				return DeviceControlRegime.Manual;
+			}
+		}
 
 		public bool IsControlRegime
 		{
@@ -105,11 +105,11 @@ namespace GKModule.ViewModels
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOff_InManual);
 		}
 
-        #region IWindowIdentity Members
-        public string Guid
-        {
-            get { return Direction.UID.ToString(); }
-        }
-        #endregion
-    }
+		#region IWindowIdentity Members
+		public string Guid
+		{
+			get { return Direction.UID.ToString(); }
+		}
+		#endregion
+	}
 }

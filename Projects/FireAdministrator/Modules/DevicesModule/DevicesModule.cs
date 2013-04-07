@@ -113,7 +113,7 @@ namespace DevicesModule
 					return false;
 				}
 				LoadingService.DoStep("Синхронизация конфигурации");
-				FiresecManager.FiresecDriver.Synchronyze();
+				FiresecManager.FiresecDriver.Synchronyze(false);
 				LoadingService.DoStep("Старт мониторинга");
 				FiresecManager.FiresecDriver.StartWatcher(false, false);
 				FiresecManager.FSAgent.Start();

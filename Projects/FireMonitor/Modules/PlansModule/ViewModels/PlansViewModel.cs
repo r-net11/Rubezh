@@ -111,7 +111,7 @@ namespace PlansModule.ViewModels
 
 		public bool IsPlanTreeVisible
 		{
-			get { return !GlobalSettingsHelper.GlobalSettings.HidePlansTreeMonitor; }
+			get { return !GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree; }
 		}
 
 		public override void OnShow()

@@ -179,19 +179,46 @@
 		</Controls:TreeListView>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-		<Grid Grid.Row="2" Margin="0, 5, 0, 0" DataContext="{Binding SelectedDevice}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="40" />
-			</Grid.ColumnDefinitions>
-			<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5">
+        <Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="0,5,5,0">
+            <Grid Grid.Row="2" Margin="0, 5, 0, 0" DataContext="{Binding SelectedDevice}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1" DataContext="{Binding PropertiesViewModel}" Orientation="Horizontal">
+                        <Controls:ToggleButton Command="{Binding PropVisCommand}" ImageSource="/Controls;component/Images/devparameters.png" IsChecked="{Binding ParameterVis, Converter={StaticResource InverseBooleanConverter}}" Style="{StaticResource ToggleButtonImageStyle}" ToolTip="Информация об устройстве" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Controls:ToggleButton Command="{Binding ParamVisCommand}" ImageSource="/Controls;component/Images/adrparameters.png" IsChecked="{Binding ParameterVis}" Style="{StaticResource ToggleButtonImageStyle}" ToolTip="Параметры устройства" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Views:PropertiesView Visibility="{Binding PropertiesViewModel.ParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                    <Grid Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
+                        <Views:ParametersView Grid.Column="0" DataContext="{Binding PropertiesViewModel}" />
+                        <StackPanel Grid.Column="1" DataContext="{Binding PropertiesViewModel}" IsEnabled="{Binding IsAuParametersReady}">
+                            <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.SetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры на устройство" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <Controls:ToolBarButton Width="36" Height="36" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.ResetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!--<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5">
 				<Grid>
 					<Views:PropertiesView Visibility="{Binding PropertiesViewModel.ParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
 					<Views:ParametersView DataContext="{Binding PropertiesViewModel}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}" />
 				</Grid>
 			</Border>
-			<Border Grid.Column="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="0,5,5,0">
-				<StackPanel DataContext="{Binding PropertiesViewModel}">
+			<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="0,5,5,0">
+				<StackPanel DataContext="{Binding PropertiesViewModel}" Orientation="Horizontal">
 					<Controls:ToggleButton Command="{Binding PropVisCommand}" ImageSource="/Controls;component/Images/devparameters.png" IsChecked="{Binding ParameterVis, Converter={StaticResource InverseBooleanConverter}}" Style="{StaticResource ToggleButtonImageStyle}" ToolTip="Информация об устройстве" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<Controls:ToggleButton Command="{Binding ParamVisCommand}" ImageSource="/Controls;component/Images/adrparameters.png" IsChecked="{Binding ParameterVis}" Style="{StaticResource ToggleButtonImageStyle}" ToolTip="Параметры устройства" Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel IsEnabled="{Binding IsAuParametersReady}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -200,7 +227,8 @@
 						<Controls:ToolBarButton Width="36" Height="36" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.ResetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 				</StackPanel>
-			</Border>
-		</Grid>
+			</Border>-->
+            </Grid>
+        </Border>
 	</Grid>
 </UserControl>

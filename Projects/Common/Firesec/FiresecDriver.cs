@@ -43,9 +43,9 @@ namespace Firesec
 			}
 		}
 
-        public void Synchronyze()
+		public void Synchronyze(bool removeMissing = false)
         {
-            ConfigurationConverter.SynchronyzeConfiguration();
+			ConfigurationConverter.SynchronyzeConfiguration(removeMissing);
         }
 
         public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)

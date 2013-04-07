@@ -4,9 +4,19 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="600" MinHeight="500">
 
-    <DataGrid ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
+    <DataGrid ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True">
+        <DataGrid.Resources>
+            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+            </InputBindingCollection>
+        </DataGrid.Resources>
+        <DataGrid.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+            </Style>
+        </DataGrid.ItemContainerStyle>
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Название" Width="*">
+            <DataGridTemplateColumn Header="Название" SortMemberPath="ShortName" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

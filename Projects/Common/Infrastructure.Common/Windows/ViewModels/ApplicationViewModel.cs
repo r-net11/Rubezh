@@ -15,6 +15,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			AllowHelp = false;
 			AllowMaximize = false;
 			AllowMinimize = false;
+			AllowLogoIcon = true;
 		}
 
 		private bool _allowHelp;
@@ -35,6 +36,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_allowMinimize = value;
 				OnPropertyChanged("AllowMinimize");
+			}
+		}
+		private bool _allowLogoIcon;
+		public bool AllowLogoIcon
+		{
+			get { return _allowLogoIcon; }
+			set
+			{
+				_allowLogoIcon = value;
+				OnPropertyChanged("AllowLogoIcon");
 			}
 		}
 

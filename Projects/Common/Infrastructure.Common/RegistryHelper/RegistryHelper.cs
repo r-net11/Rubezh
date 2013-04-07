@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Win32;
+using Common;
 
 namespace Infrastructure.Common.RegistryHelper
 {
@@ -15,9 +16,9 @@ namespace Infrastructure.Common.RegistryHelper
 				key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", true);
 				key.SetValue("DisableTaskMgr", 1, RegistryValueKind.DWord);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				;
+				Logger.Error(e, "RegistryHelper.Integrate 1");
 			}
 
 			//Выключает WinKey
@@ -28,11 +29,34 @@ namespace Infrastructure.Common.RegistryHelper
 					new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 03, 00, 00, 00, 00, 00, 0x5b, 0xe0, 00, 00, 0x5c, 0xe0, 00, 00, 00, 00 },
 					RegistryValueKind.Binary);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				;
+				Logger.Error(e, "RegistryHelper.Integrate 2");
 			}
 
+			//Выключить Cdrom
+			try
+			{
+				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Cdrom", true);
+				key.SetValue("Start", "dword:00000004");
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "RegistryHelper.Integrate 3");
+			}
+
+			//Выключить floppy
+			try
+			{
+				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Flpydisk", true);
+				key.SetValue("Start", "dword:00000004");
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "RegistryHelper.Integrate 4");
+			}
+
+			return;
 			//Отключить Usb
 			try
 			{
@@ -55,31 +79,9 @@ namespace Infrastructure.Common.RegistryHelper
 					key.SetValue("NextInstance", 0, RegistryValueKind.DWord);
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				;
-			}
-
-			//Выключить Cdrom
-			try
-			{
-				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Cdrom", true);
-				key.SetValue("Start", "dword:00000004");
-			}
-			catch (Exception)
-			{
-				;
-			}
-
-			//Выключить floppy
-			try
-			{
-				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Flpydisk", true);
-				key.SetValue("Start", "dword:00000004");
-			}
-			catch (Exception)
-			{
-				;
+				Logger.Error(e, "RegistryHelper.Desintegrate 5");
 			}
 		}
 
@@ -93,9 +95,9 @@ namespace Infrastructure.Common.RegistryHelper
 				key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", true);
 				key.SetValue("DisableTaskMgr", 0, RegistryValueKind.DWord);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				;
+				Logger.Error(e, "RegistryHelper.Desintegrate 1");
 			}
 
 			//Включает WinKey
@@ -104,11 +106,34 @@ namespace Infrastructure.Common.RegistryHelper
 				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Keyboard Layout", true);
 				key.DeleteValue("Scancode Map");
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				;
+				Logger.Error(e, "RegistryHelper.Desintegrate 2");
 			}
 
+			//Включить Cdrom
+			try
+			{
+				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Cdrom", true);
+				key.SetValue("Start", 1, RegistryValueKind.DWord);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "RegistryHelper.Desintegrate 3");
+			}
+
+			//Включить Floppy
+			try
+			{
+				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Flpydisk", true);
+				key.SetValue("Start", 1, RegistryValueKind.DWord);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "RegistryHelper.Desintegrate 4");
+			}
+
+			return;
 			//Включить Usb
 			try
 			{
@@ -133,31 +158,9 @@ namespace Infrastructure.Common.RegistryHelper
 					key.SetValue("0", "USB\\Vid_1005&Pid_b113\\0D91018070E3595A");
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				;
-			}
-
-			//Включить Cdrom
-			try
-			{
-				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Cdrom", true);
-				key.SetValue("Start", 1, RegistryValueKind.DWord);
-			}
-			catch (Exception)
-			{
-				;
-			}
-
-			//Включить Floppy
-			try
-			{
-				key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Services\\Flpydisk", true);
-				key.SetValue("Start", 1, RegistryValueKind.DWord);
-			}
-			catch (Exception)
-			{
-				;
+				Logger.Error(e, "RegistryHelper.Desintegrate 5");
 			}
 		}
 	}

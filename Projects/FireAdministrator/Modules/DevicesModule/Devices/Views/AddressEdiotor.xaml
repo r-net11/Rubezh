@@ -11,7 +11,8 @@
                 PreviewDragEnter="OnPreviewHandled"
                 PreviewDragLeave="OnPreviewHandled"
                 PreviewDragOver="OnPreviewHandled"
-                PreviewDrop="OnPreviewHandled">
+                PreviewDrop="OnPreviewHandled" 
+                GotFocus="addressEditor_GotFocus">
         </TextBox>
     </WrapPanel>
 </UserControl>

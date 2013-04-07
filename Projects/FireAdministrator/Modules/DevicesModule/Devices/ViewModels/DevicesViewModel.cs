@@ -164,11 +164,22 @@ namespace DevicesModule.ViewModels
 		void OnPaste()
 		{
 			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, false);
-			PasteDevice(pasteDevice);
+			if (CanDoPaste(SelectedDevice))
+			{
+				PasteDevice(pasteDevice, SelectedDevice);
+			}
+			else if (CanDoPaste(SelectedDevice.Parent))
+			{
+				PasteDevice(pasteDevice, SelectedDevice.Parent);
+			}
 		}
 		bool CanPaste()
 		{
-			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID) && !SelectedDevice.Driver.IsChildAddressReservedRange);
+			return CanDoPaste(SelectedDevice) || CanDoPaste(SelectedDevice.Parent);
+		}
+		bool CanDoPaste(DeviceViewModel deviceViewModel)
+		{
+			return (deviceViewModel != null && _deviceToCopy != null && deviceViewModel.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID) && !deviceViewModel.Driver.IsChildAddressReservedRange && !FiresecManager.FiresecConfiguration.IsChildMPT(deviceViewModel.Device));
 		}
 
 		public RelayCommand PasteAsCommand { get; private set; }
@@ -191,12 +202,14 @@ namespace DevicesModule.ViewModels
 				(SelectedDevice.Driver.DriverType == DriverType.Computer || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_1 || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_2));
 		}
 
-		void PasteDevice(Device device)
+		void PasteDevice(Device device, DeviceViewModel deviceViewModel = null)
 		{
-			SelectedDevice.Device.Children.Add(device);
-			device.Parent = SelectedDevice.Device;
+			if (deviceViewModel == null)
+				deviceViewModel = SelectedDevice;
+			deviceViewModel.Device.Children.Add(device);
+			device.Parent = deviceViewModel.Device;
 
-			var newDevice = AddDeviceInternal(device, SelectedDevice);
+			var newDevice = AddDeviceInternal(device, deviceViewModel);
 			newDevice.CollapseChildren();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();

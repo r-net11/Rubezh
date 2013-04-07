@@ -53,7 +53,7 @@ namespace DevicesModule
 		{
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
-			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0 && !GlobalSettingsHelper.GlobalSettings.DoNotShowZonesInMonitor;
+			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0 && !GlobalSettingsHelper.GlobalSettings.Monitor_DoNotShowZones;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}
@@ -99,7 +99,7 @@ namespace DevicesModule
 			}
 
 			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.FiresecDriver.Synchronyze();
+			FiresecManager.FiresecDriver.Synchronyze(true);
 			LoadingService.DoStep("Старт мониторинга");
 			FiresecManager.FiresecDriver.StartWatcher(true, true);
 

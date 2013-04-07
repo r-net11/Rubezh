@@ -11,8 +11,9 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <ContentPresenter Grid.Row="0" Grid.ColumnSpan="3" Content="{Binding Content.HeaderTop}" />
-            <Image Grid.Row="1" Grid.Column="0" Width="32" Height="26" Margin="10 5 0 5" HorizontalAlignment="Left" Opacity="0.5" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="/Controls;component/Images/logo.png" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Margin="0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="White" Opacity="0.5" Text="{Binding Content.Title}" />
+        <Image Grid.Row="1" Grid.Column="0" Width="32" Height="26" Margin="10 5 0 5" HorizontalAlignment="Left" Opacity="0.5" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="/Controls;component/Images/logo.png"
+                   Visibility="{Binding Content.AllowLogoIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="White" Opacity="0.5" Text="{Binding Content.Title}" />
             <StackPanel Grid.Row="1" Grid.Column="2" Margin="0, 2, 2, 0" VerticalAlignment="Top" Orientation="Horizontal">
                 <Menu VerticalAlignment="Center" Background="Transparent" Visibility="{Binding Content.AllowHelp, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem>
