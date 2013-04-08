@@ -169,14 +169,14 @@ namespace DevicesModule.ViewModels
 			{
 				PasteDevice(pasteDevice, SelectedDevice);
 			}
-			else if (CanDoPaste(SelectedDevice.Parent))
+			else if (SelectedDevice != null && CanDoPaste(SelectedDevice.Parent))
 			{
 				PasteDevice(pasteDevice, SelectedDevice.Parent);
 			}
 		}
 		bool CanPaste()
 		{
-			return CanDoPaste(SelectedDevice) || CanDoPaste(SelectedDevice.Parent);
+			return CanDoPaste(SelectedDevice) || (SelectedDevice!= null && CanDoPaste(SelectedDevice.Parent));
 		}
 		bool CanDoPaste(DeviceViewModel deviceViewModel)
 		{

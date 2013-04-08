@@ -79,6 +79,7 @@
             <Directory Id="FSAgent.LogsFolder" Name="Logs" />
           </Directory>
           <Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
+          <Directory Id="UTILSLOCATION" Name="Утилиты" />
           <Directory Id="OPCLOCATION" Name="OPC">
             <Directory Id="OPC.LogsFolder" Name="Logs" />
             <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">

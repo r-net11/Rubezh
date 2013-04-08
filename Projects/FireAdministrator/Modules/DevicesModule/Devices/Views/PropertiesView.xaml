@@ -18,11 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="5">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
-                <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
-            </StackPanel>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Подключено к " Foreground="White" Margin="2 2 5 2" />
                 <TextBlock Foreground="White" FontWeight="Bold" VerticalAlignment="Center">

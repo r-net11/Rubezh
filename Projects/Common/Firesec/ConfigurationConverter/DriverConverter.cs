@@ -229,6 +229,8 @@ namespace Firesec
 						continue;
 					if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
 						continue;
+					if (internalProperty.shiftInMemory != "0")
+						continue;
 
 					var driverProperty = new DriverProperty()
 					{

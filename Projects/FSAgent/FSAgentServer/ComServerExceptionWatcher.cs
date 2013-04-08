@@ -18,7 +18,7 @@ namespace FSAgentServer
 			var process = processes.FirstOrDefault();
 			if (process != null)
 			{
-				if (process.MainWindowTitle == "Предупреждение COM Сервера")
+				if (process.MainWindowTitle == "Предупреждение COM Сервера" || process.MainWindowTitle == "COM Server Warning")
 				{
 					App.CloseOnComputerShutdown(false);
 					process.Kill();

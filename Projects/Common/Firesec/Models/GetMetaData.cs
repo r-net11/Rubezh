@@ -250,6 +250,10 @@ namespace Firesec.Models.Metadata
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public string blockName;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string shiftInMemory;
 	}
 	
 	/// <remarks/>
