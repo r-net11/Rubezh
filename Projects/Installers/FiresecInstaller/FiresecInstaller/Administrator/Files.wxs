@@ -65,9 +65,9 @@
         <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
       </Component>
 
-      <Component Id="Administrator.OPC_MODULE" Guid="3D59A078-3323-4FD3-AEF8-C78DB210EE74">
+      <!--<Component Id="Administrator.OPC_MODULE" Guid="3D59A078-3323-4FD3-AEF8-C78DB210EE74">
         <File Id="Administrator.OPCModule.dll" Name="OPCModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-      </Component>
+      </Component>-->
 
       <Component Id="Administrator.SKUD_MODULE" Guid="*">
         <File Id="Administrator.SkudModule.dll" Name="SkudModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />

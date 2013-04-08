@@ -74,6 +74,15 @@
         <File Id="Firmwhare.11" Name="УОО-ТЛ_v1.3.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
       </Component>
     </DirectoryRef>
+
+    <DirectoryRef Id="UTILSLOCATION">
+      <Component Id="Firesec5.Utils" Guid="072F82EB-8A79-4EFD-B56B-4D794847C853">
+        <File Id="Firesec5.Utils.HASP_Manager.exe" Name="HASP_Manager.exe" Source="$(var.Firesec5.TargetDir)Utils\" KeyPath="yes" />
+        <File Id="Firesec5.Utils.RubezhCalc.exe" Name="RubezhCalc.exe" Source="$(var.Firesec5.TargetDir)Utils\" />
+        <File Id="Firesec5.Utils.ConfiguatorMSP" Name="Конфигуратор МС-П.exe" Source="$(var.Firesec5.TargetDir)Utils\" />
+        <File Id="Firesec5.Utils.ConfiguratorMRO2M.exe" Name="КонфигураторМРО2М.exe" Source="$(var.Firesec5.TargetDir)Utils\" />
+      </Component>
+    </DirectoryRef>
     <?endif?>
   </Fragment>
 </Wix>

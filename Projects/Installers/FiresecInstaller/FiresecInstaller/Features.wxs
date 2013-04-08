@@ -9,7 +9,7 @@
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
       <FeatureRef Id="ManagementConsole.Features" />
-      <FeatureRef Id="OPC.Features" />
+      <!--<FeatureRef Id="OPC.Features" />-->
       
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-4а, Рубеж-2ОП, БУНС">
         <ComponentRef Id="Administrator.FS_MODULE" />
@@ -19,7 +19,7 @@
         <ComponentRef Id="FSAgent.AutorunComponent" />
         <ComponentRef Id="FSAgent.ProgramsMenuShortcut" />
       </Feature>
-      <Feature Id="GK.Features" Title="ГК" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
+      <Feature Id="GK.Features" Title="ГК" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
         <ComponentRef Id="Monitor.GkJournalDatabase.sdf" />
@@ -32,7 +32,7 @@
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
       </Feature>
 
-      <Feature Id="Multiclient.Features" Title="Мультиклиент" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для Мультисерверной Оперативной Задачи">
+      <Feature Id="Multiclient.Features" Title="Мультиклиент" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для Мультисерверной Оперативной Задачи">
         <ComponentRef Id="MultiClient.Files"/>
         <ComponentRef Id="MultiClientMonitor.ProgramsMenuShortcut" />
         <ComponentRef Id="MultiClientMonitor.DesktopShortcut" />
