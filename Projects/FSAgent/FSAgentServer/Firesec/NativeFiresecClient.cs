@@ -15,7 +15,11 @@ namespace FSAgentServer
 		}
 		public OperationResult<string> GetPlans()
 		{
-			return SafeCall<string>(() => { return Connection.GetCoreAreasW(); }, "GetPlans");
+			return SafeCall<string>(() =>
+			{
+				var result = Connection.GetCoreAreasW();
+				return result;
+			}, "GetPlans");
 		}
 		public OperationResult<string> GetMetadata()
 		{
