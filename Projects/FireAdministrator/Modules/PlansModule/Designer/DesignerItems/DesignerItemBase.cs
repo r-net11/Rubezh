@@ -161,5 +161,11 @@ namespace PlansModule.Designer.DesignerItems
 		//    IsBusy = false;
 		//    ((DesignerCanvas)DesignerCanvas).EndMove();
 		//}
+
+		protected override void OnChanged()
+		{
+			base.OnChanged();
+			ServiceFactory.SaveService.PlansChanged = true;
+		}
 	}
 }

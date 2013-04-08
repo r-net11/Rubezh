@@ -180,10 +180,13 @@ namespace Infrustructure.Plans.Designer
 
 		protected void IsSelectableChanged()
 		{
+			var isLocked = Element.IsLocked;
 			Element.IsLocked = !IsSelectable;
 			ResetIsEnabled();
 			if (DesignerCanvas != null)
 				SetIsMouseOver(false);
+			if (isLocked == IsSelectable)
+				OnChanged();
 		}
 		protected void IsSelectedChanged()
 		{

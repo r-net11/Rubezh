@@ -79,7 +79,8 @@ namespace DevicesModule.ViewModels
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpantToThis();
-				SelectedDevice = deviceViewModel;
+				//SelectedDevice = deviceViewModel;
+				deviceViewModel.IsSelected = true;
 			}
 		}
 		#endregion

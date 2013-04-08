@@ -224,7 +224,7 @@ namespace Infrastructure.Client.Plans
 				if (mousePos.X <= _scrollViewer.ViewportWidth && mousePos.Y < _scrollViewer.ViewportHeight)
 				{
 					lastDragPoint = mousePos;
-					_scrollViewer.Cursor = Cursors.Hand;
+					_scrollViewer.Cursor = Cursors.SizeAll;
 					_scrollViewer.CaptureMouse();
 				}
 				e.Handled = true;

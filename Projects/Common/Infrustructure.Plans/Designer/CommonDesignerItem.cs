@@ -51,6 +51,7 @@ namespace Infrustructure.Plans.Designer
 					ResetIsEnabled();
 					if (DesignerCanvas != null)
 						DesignerCanvas.Refresh();
+					OnChanged();
 				}
 			}
 		}
@@ -202,6 +203,10 @@ namespace Infrustructure.Plans.Designer
 		{
 		}
 		public virtual void DragDelta(Point point, Vector shift)
+		{
+		}
+
+		protected virtual void OnChanged()
 		{
 		}
 	}
