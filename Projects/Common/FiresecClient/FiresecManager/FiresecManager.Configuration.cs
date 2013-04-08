@@ -5,9 +5,9 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using XFiresecAPI;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using XFiresecAPI;
 
 namespace FiresecClient
 {

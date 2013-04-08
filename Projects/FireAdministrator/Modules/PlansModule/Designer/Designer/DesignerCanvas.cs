@@ -34,7 +34,7 @@ namespace PlansModule.Designer
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
 			{
-				Header = "Вставить",
+				Header = "Вставить (Ctrl+V)",
 				CommandParameter = this
 			};
 			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));

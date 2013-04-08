@@ -67,18 +67,24 @@ namespace PlansModule.Designer.DesignerItems
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CopyCommand,
-					Header = "Копировать"
+					Header = "Копировать (Ctrl+C)"
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CutCommand,
-					Header = "Вырезать",
+					Header = "Вырезать (Ctrl+X)",
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.PasteCommand,
+					CommandParameter = DesignerCanvas,
+					Header = "Вставить (Ctrl+V)",
 				});
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = DeleteCommand,
-					Header = "Удалить"
+					Header = "Удалить (Del)"
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{

@@ -5,6 +5,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
+using Infrustructure.Plans.Painters;
 
 namespace Infrastructure.Common.Services.Content
 {
@@ -148,6 +149,7 @@ namespace Infrastructure.Common.Services.Content
 				_streams.ForEach(stream => stream.Dispose());
 				_streams = null;
 			}
+			PainterCache.Dispose();
 		}
 
 		#endregion

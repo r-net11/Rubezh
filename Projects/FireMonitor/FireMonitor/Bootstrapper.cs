@@ -12,8 +12,6 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Microsoft.Win32;
-using System.Windows.Input;
 
 namespace FireMonitor
 {
