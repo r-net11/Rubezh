@@ -82,18 +82,15 @@ namespace FireAdministrator.ViewModels
 		{
 			if (string.IsNullOrEmpty(FileName))
 			{
-				WaitHelper.Execute(() =>
-				{
-					OnSaveAs();
-				});
+				OnSaveAs();
 			}
 			else
 			{
-				FileConfigurationHelper.SaveToZipFile(FileName);
+				WaitHelper.Execute(() =>
+				{
+					FileConfigurationHelper.SaveToZipFile(FileName);
+				});
 			}
-
-			if (!string.IsNullOrEmpty(FileName))
-				FileConfigurationHelper.SaveToZipFile(FileName);
 		}
 		bool CanSave()
 		{
@@ -103,9 +100,12 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SaveAsCommand { get; private set; }
 		void OnSaveAs()
 		{
-			var fileName = FileConfigurationHelper.SaveToFile();
-			if (!string.IsNullOrEmpty(fileName))
-				FileName = fileName;
+			WaitHelper.Execute(() =>
+			{
+				var fileName = FileConfigurationHelper.SaveToFile();
+				if (!string.IsNullOrEmpty(fileName))
+					FileName = fileName;
+			});
 		}
 
 		public RelayCommand SaveAllCommand { get; private set; }

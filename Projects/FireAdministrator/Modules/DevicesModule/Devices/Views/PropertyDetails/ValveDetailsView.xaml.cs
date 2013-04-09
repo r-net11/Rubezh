@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class ValveDetailsView : UserControl
-    {
-        public ValveDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ValveDetailsView : UserControl
+	{
+		public ValveDetailsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

@@ -142,7 +142,6 @@
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorPageDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\MptDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\UOOTLDetailsViewModel.cs" />
@@ -184,9 +183,6 @@
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorPageDetailsView.xaml.cs">
       <DependentUpon>IndicatorPageDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml.cs">
-      <DependentUpon>IndicatorZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Actions\SetPasswordView.xaml.cs">
       <DependentUpon>SetPasswordView.xaml</DependentUpon>
@@ -261,8 +257,8 @@
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserViewModel.cs" />
-    <Compile Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml.cs">
-      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\PropertyDetails\PDUDetailsView.xaml.cs">
+      <DependentUpon>PDUDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -471,7 +467,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml">
+    <Page Include="Devices\Views\PropertyDetails\PDUDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -484,10 +480,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorPageDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

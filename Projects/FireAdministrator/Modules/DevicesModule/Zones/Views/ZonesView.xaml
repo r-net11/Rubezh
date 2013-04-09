@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True" Focusable="True" IsReadOnly="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" SortMemberPath="No" />
+                <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" SortMemberPath="Zone.No" />
                 <DataGridTemplateColumn Header="Наименование" SortMemberPath="Name" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

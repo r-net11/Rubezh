@@ -6,7 +6,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Во всех зонах из")]
 		All,
 
-		[DescriptionAttribute("В любых зонах из")]
+		[DescriptionAttribute("В любой зоне из")]
 		Any
 	}
 }
