@@ -141,6 +141,8 @@ namespace DevicesModule.ViewModels
 					presentationZone = "Нажмите для выбора зон";
 				if (Driver.IsZoneLogicDevice && !FiresecManager.FiresecConfiguration.IsChildMRO2(Device))
 					presentationZone = "Нажмите для настройки логики";
+				if (Driver.DriverType == DriverType.Indicator)
+					presentationZone = "Нажмите для настройки индикатора";
 			}
 			EditingPresentationZone = presentationZone;
 		}
@@ -259,6 +261,11 @@ namespace DevicesModule.ViewModels
 
 		void OnShowIndicatorLogic()
 		{
+			if (Device.IndicatorLogic.Device != null && Device.IndicatorLogic.Device.Driver.DriverType == DriverType.Indicator)
+			{
+				MessageBoxService.ShowError("Разрешено редактировать только исходный индикатор, привязанный к НС");
+				return;
+			}
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
 			if (DialogService.ShowModalWindow(indicatorDetailsViewModel))
 				ServiceFactory.SaveService.FSChanged = true;

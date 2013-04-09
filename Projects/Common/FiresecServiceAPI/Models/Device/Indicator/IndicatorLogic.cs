@@ -46,7 +46,14 @@ namespace FiresecAPI.Models
                         if (DeviceUID != Guid.Empty)
                         {
                             var deviceString = "Устр: ";
-							deviceString += Device.PresentationAddressAndName;
+							deviceString += Device.DottedPresentationNameAndAddress;
+							if (Device.Driver.DriverType == DriverType.Indicator)
+							{
+								if (Device.IndicatorLogic.Device != null)
+								{
+									deviceString += "(" + Device.IndicatorLogic.Device.DottedPresentationNameAndAddress + ")";
+								}
+							}
                             return deviceString;
                         }
                         break;

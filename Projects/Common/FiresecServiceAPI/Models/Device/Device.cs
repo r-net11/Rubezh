@@ -394,6 +394,10 @@ namespace FiresecAPI.Models
 		{
 			get
 			{
+				if (Driver.DriverType == DriverType.PumpStation)
+				{
+					;
+				}
 				var address = new StringBuilder();
 				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
 				{
@@ -445,9 +449,15 @@ namespace FiresecAPI.Models
 		{
 			get
 			{
-				if (Driver.HasAddress)
-					return DottedAddress + " - " + PresentationName;
-				return PresentationName;
+				return DottedAddress + " - " + PresentationName;
+			}
+		}
+
+		public string DottedPresentationNameAndAddress
+		{
+			get
+			{
+				return PresentationName + " - " + DottedAddress;
 			}
 		}
 

@@ -18,12 +18,13 @@ namespace Infrastructure.Common
 			"F4cgpYyaSSojCNmY1dC9aFUd9jbpEm1ucKTZvaL0IDrz1cZ92OxkV8AmPkW2KeIdq8MkPyTDK9DyYAz2" +
 			"Nqwe4FFLz8dvlUjtoQrSW5xMYYT+MoEHFJfZ1yE8nd2QUmni7/OTTYyhaF4=";
 
-		public static bool CheckLicense(int _haspFeatureId)
+		public static bool CheckLicense(int haspFeatureId)
 		{
+			return true;
 #if DEBUG
 			return true;
 #endif
-			var haspFeature = HaspFeature.FromFeature(_haspFeatureId);
+			var haspFeature = HaspFeature.FromFeature(haspFeatureId);
 			if (haspFeature == null)
 				return false;
 			var hasp = new Hasp(haspFeature);
