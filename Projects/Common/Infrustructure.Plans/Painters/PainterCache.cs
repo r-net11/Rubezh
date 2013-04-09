@@ -21,6 +21,8 @@ namespace Infrustructure.Plans.Painters
 		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
 		public static Pen ZonePen { get; private set; }
+		public static Pen GridLinePen { get; private set; }
+		public static Brush GridLineBrush { get; private set; }
 		public static Brush BlackBrush { get; private set; }
 		public static RectangleGeometry PointGeometry { get; private set; }
 		public static double Zoom { get; private set; }
@@ -33,6 +35,10 @@ namespace Infrustructure.Plans.Painters
 				BlackBrush = new SolidColorBrush(Colors.Black);
 				BlackBrush.Freeze();
 				ZonePen = new Pen(BlackBrush, 1);
+				GridLineBrush = new SolidColorBrush(Colors.Orange);
+				GridLineBrush.Freeze();
+				GridLinePen = new Pen(GridLineBrush, 1);
+				GridLinePen.DashStyle = DashStyles.Dash;
 				PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
 				_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
 			}
@@ -58,6 +64,7 @@ namespace Infrustructure.Plans.Painters
 			Zoom = zoom;
 			PointZoom = pointZoom;
 			ZonePen.Thickness = 1 / Zoom;
+			GridLinePen.Thickness = 1 / Zoom;
 			PointGeometry.Rect = new Rect(-pointZoom / 2, -pointZoom / 2, pointZoom, pointZoom);
 			_transparentBackgroundBrush.Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom);
 		}

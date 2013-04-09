@@ -859,6 +859,15 @@
   <ItemGroup>
     <Resource Include="Images\map4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GridLineHorizontal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GridLineVertical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GridLineEdit.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

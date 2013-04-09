@@ -4,26 +4,6 @@
 		<TemplateSelector:InterfaceTemplateSelector x:Key="ToolboxItemTemplateSelector" Type="{x:Type i:IInstrument}" />
 	</UserControl.Resources>
 
-	<StackPanel Orientation="Horizontal">
-		<!--<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">-->
-			<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
-		<!--</Border>-->
+	<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
 
-		<!--<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Visibility="Collapsed">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel Orientation="Horizontal">
-					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-center.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-left.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-right.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-align-verti-bottom.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-align-verti-middle.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-align-verti-top.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-flip-horizontal.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-flip-vertical.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-rotate-anticlockwise.png" />
-					<Image Height="24" Source="/Controls;component/Images/shapes-rotate-clockwise.png" />
-				</StackPanel>
-			</StackPanel>
-		</Border>-->
-	</StackPanel>
 </UserControl>

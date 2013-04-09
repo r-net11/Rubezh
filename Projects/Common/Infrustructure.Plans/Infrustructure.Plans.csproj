@@ -55,6 +55,7 @@
     <Compile Include="Designer\CommonDesignerItem.cs" />
     <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerSurface.cs" />
+    <Compile Include="Designer\GridLine.cs" />
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Designer\IVisualItem.cs" />
     <Compile Include="Designer\MoveAdorner.cs" />

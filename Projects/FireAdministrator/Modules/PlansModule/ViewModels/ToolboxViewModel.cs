@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
 using Infrastructure.Common.Windows;
+using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -24,11 +25,9 @@ namespace PlansModule.ViewModels
 		}
 
 		public PlansViewModel PlansViewModel { get; private set; }
-
 		public bool AcceptKeyboard { get; set; }
 
 		private ObservableCollection<IInstrument> _instruments;
-
 		public ObservableCollection<IInstrument> Instruments
 		{
 			get { return _instruments; }
@@ -40,7 +39,6 @@ namespace PlansModule.ViewModels
 		}
 
 		private IInstrument _activeInstrument;
-
 		public IInstrument ActiveInstrument
 		{
 			get { return _activeInstrument; }
@@ -49,14 +47,13 @@ namespace PlansModule.ViewModels
 				if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
 					ActiveInstrument.Adorner.Hide();
 				_activeInstrument = value;
-				OnPropertyChanged("ActiveInstrument");
+				OnPropertyChanged(() => ActiveInstrument);
 				if (ActiveInstrument.Autostart)
 					Apply(null);
 			}
 		}
 
 		private bool _isEnabled;
-
 		public bool IsEnabled
 		{
 			get { return _isEnabled; }
@@ -74,14 +71,18 @@ namespace PlansModule.ViewModels
 				using (new WaitWrapper())
 				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
 					ActiveInstrument.Adorner.Show(point);
+			else if (ActiveInstrument.Command != null)
+			{
+				ExecuteCommand(ActiveInstrument.Command);
+				SetDefault();
+				OnPropertyChanged(() => ActiveInstrument);
+			}
 		}
-
 		public void SetDefault()
 		{
 			if (ActiveInstrument != _defaultInstrument)
 				ActiveInstrument = _defaultInstrument;
 		}
-
 		public void UpdateZoom()
 		{
 			if (ActiveInstrument.Adorner != null)
@@ -97,7 +98,6 @@ namespace PlansModule.ViewModels
 				SortInstruments();
 			}
 		}
-
 		private void RegisterInstruments()
 		{
 			Instruments = new ObservableCollection<IInstrument>()
@@ -159,12 +159,32 @@ namespace PlansModule.ViewModels
 					Index = 300,
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),
 				},
+				new InstrumentViewModel()
+				{
+					ImageSource="/Controls;component/Images/GridLineHorizontal.png",
+					ToolTip="Добавить горизонтальную линию привязки",
+					Index = 501,
+					Adorner = new GridLineAdorner(PlansViewModel.DesignerCanvas, Orientation.Horizontal),
+				},
+				new InstrumentViewModel()
+				{
+					ImageSource="/Controls;component/Images/GridLineVertical.png",
+					ToolTip="Добавить вертикальную линию привязки",
+					Index = 502,
+					Adorner = new GridLineAdorner(PlansViewModel.DesignerCanvas, Orientation.Vertical),
+				},
+				new InstrumentViewModel()
+				{
+					ImageSource="/Controls;component/Images/GridLineEdit.png",
+					ToolTip="Удалить линии привязки",
+					Index = 503,
+					Command = PlansViewModel.DesignerCanvas.RemoveGridLinesCommand,
+				},
 			};
 			SortInstruments();
 			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
 			ActiveInstrument = _defaultInstrument;
 		}
-
 		private void SortInstruments()
 		{
 			var sortedItems = Instruments.OrderBy(item => item.Index);
@@ -222,7 +242,6 @@ namespace PlansModule.ViewModels
 				}
 			}
 		}
-
 		private void ExecuteCommand(ICommand command)
 		{
 			if (command.CanExecute(null))

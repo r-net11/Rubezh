@@ -12,6 +12,10 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
+using System.Windows.Media;
+using Common;
+using System.Windows.Shapes;
+using Infrastructure.Common;
 
 namespace PlansModule.Designer
 {
@@ -19,6 +23,7 @@ namespace PlansModule.Designer
 	{
 		public Plan Plan { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
+		public GridLinePresenter GridLinePresenter { get; private set; }
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
@@ -47,6 +52,8 @@ namespace PlansModule.Designer
 			ContextMenu.Items.Add(pasteItem);
 			ContextMenu.Items.Add(editItem);
 			_moveAdorner = new MoveAdorner(this);
+			GridLinePresenter = new GridLinePresenter(this);
+			RemoveGridLinesCommand = new RelayCommand(OnRemoveGridLinesCommand);
 		}
 
 		public override double Zoom
@@ -209,6 +216,7 @@ namespace PlansModule.Designer
 			CanvasWidth = plan.Width;
 			CanvasHeight = plan.Height;
 			CanvasBackground = PainterCache.GetBrush(plan);
+			GridLinePresenter.Invalidate();
 		}
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
@@ -267,6 +275,17 @@ namespace PlansModule.Designer
 		public void EndMove()
 		{
 			_moveAdorner.Hide();
+		}
+
+		protected override void RenderForeground(DrawingContext drawingContext)
+		{
+			GridLinePresenter.Render(drawingContext);
+		}
+
+		public RelayCommand RemoveGridLinesCommand { get; private set; }
+		private void OnRemoveGridLinesCommand()
+		{
+			GridLinePresenter.GridLines.Clear();
 		}
 	}
 }

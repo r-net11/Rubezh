@@ -62,8 +62,8 @@ namespace Infrustructure.Plans.InstrumentAdorners
 				if (!AdornerCanvas.IsMouseCaptured)
 					AdornerCanvas.CaptureMouse();
 				var point = e.GetPosition(this);
-				if (Points.Count > 2 && (Keyboard.Modifiers & ModifierKeys.Shift) > 0)
-					point = GeometryHelper.TranslatePoint(Points[Points.Count - 3], Points[Points.Count - 2], point);
+				if (Points.Count >= 2 && (Keyboard.Modifiers & ModifierKeys.Shift) > 0)
+					point = GeometryHelper.TranslatePoint(Points.Count > 2 ? Points[Points.Count - 3] : new Point(Points[Points.Count - 2].X, -100), Points[Points.Count - 2], point);
 				Points[Points.Count - 1] = CutPoint(point);
 				e.Handled = true;
 			}

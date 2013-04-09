@@ -140,7 +140,10 @@
     <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
+    <Compile Include="Designer\Designer\GridLinePresenter.cs" />
     <Compile Include="Designer\Designer\Helper.cs" />
+    <Compile Include="Designer\InstrumentAdorners\GridLineAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\GridLineShape.cs" />
     <Compile Include="Designer\InstrumentAdorners\PointsAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\RectangleAdorner.cs" />
