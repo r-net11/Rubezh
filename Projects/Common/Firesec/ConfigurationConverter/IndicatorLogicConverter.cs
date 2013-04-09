@@ -2,6 +2,7 @@
 using Common;
 using Firesec.Models.IndicatorsLogic;
 using FiresecAPI.Models;
+using System;
 
 namespace Firesec
 {
@@ -76,7 +77,7 @@ namespace Firesec
 					lEDProperties.type = "1";
 					lEDProperties.zone = null;
 					lEDProperties.device = new deviceType[1];
-					lEDProperties.device[0] = new deviceType()
+					var indicatorDevice = new deviceType()
 					{
 						UID = GuidHelper.ToString(indicatorLogic.DeviceUID),
 						state1 = ((int)indicatorLogic.OnColor).ToString(),
@@ -84,6 +85,15 @@ namespace Firesec
 						state3 = ((int)indicatorLogic.FailureColor).ToString(),
 						state4 = ((int)indicatorLogic.ConnectionColor).ToString()
 					};
+					if (indicatorLogic.Device != null && indicatorLogic.Device.Driver.DriverType == DriverType.Indicator)
+					{
+						lEDProperties.type = "2";
+						indicatorDevice.state1 = null;
+						indicatorDevice.state2 = null;
+						indicatorDevice.state3 = null;
+						indicatorDevice.state4 = null;
+					}
+					lEDProperties.device[0] = indicatorDevice;
 					break;
 			}
 

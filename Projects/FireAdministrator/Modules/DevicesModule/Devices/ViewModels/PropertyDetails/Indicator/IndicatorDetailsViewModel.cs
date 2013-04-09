@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
 			if (device.IndicatorLogic.Device == null && device.IndicatorLogic.Zones.Count == 0)
 			{
 				var intLogicType = Infrastructure.Common.RegistrySettingsHelper.GetInt("FireAdministrator.Indicator.IndicatorLogicType");
-				if(intLogicType != 0)
+				if (intLogicType != 0)
 				{
 					device.IndicatorLogic.IndicatorLogicType = (IndicatorLogicType)intLogicType;
 				}
@@ -45,8 +45,8 @@ namespace DevicesModule.ViewModels
 			{
 				case IndicatorLogicType.Zone:
 					IsZone = true;
-                    if (device.IndicatorLogic.ZoneUIDs != null)
-                        Zones = device.IndicatorLogic.ZoneUIDs;
+					if (device.IndicatorLogic.ZoneUIDs != null)
+						Zones = device.IndicatorLogic.ZoneUIDs;
 					break;
 
 				case IndicatorLogicType.Device:
@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
 				string presenrationZones = "";
 				for (int i = 0; i < Zones.Count; i++)
 				{
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Zones[i]);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Zones[i]);
 					if (i > 0)
 						presenrationZones += ", ";
 					presenrationZones += zone.PresentationName;
@@ -175,9 +175,11 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowDevicesCommand { get; private set; }
 		void OnShowDevices()
 		{
-			var indicatorDeviceSelectionViewModel = new IndicatorDeviceSelectionViewModel();
+			var indicatorDeviceSelectionViewModel = new IndicatorDeviceSelectionViewModel(SelectedDevice);
 			if (DialogService.ShowModalWindow(indicatorDeviceSelectionViewModel))
-				SelectedDevice = indicatorDeviceSelectionViewModel.SelectedDevice.Device;
+			{
+				SelectedDevice = indicatorDeviceSelectionViewModel.SelectedDevice;
+			}
 		}
 
 		public RelayCommand ResetDeviceCommand { get; private set; }
@@ -192,7 +194,7 @@ namespace DevicesModule.ViewModels
 			if (IsZone)
 			{
 				indicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
-                indicatorLogic.ZoneUIDs = Zones;
+				indicatorLogic.ZoneUIDs = Zones;
 			}
 			else if (IsDevice)
 			{
@@ -203,8 +205,38 @@ namespace DevicesModule.ViewModels
 				indicatorLogic.OffColor = OffColor;
 				indicatorLogic.FailureColor = FailureColor;
 				indicatorLogic.ConnectionColor = ConnectionColor;
+
+				if (indicatorLogic.Device != null &&
+				indicatorLogic.Device.Driver.DriverType == DriverType.PumpStation ||
+				indicatorLogic.Device.Driver.DriverType == DriverType.Pump ||
+				indicatorLogic.Device.Driver.DriverType == DriverType.JokeyPump ||
+				indicatorLogic.Device.Driver.DriverType == DriverType.Compressor ||
+				indicatorLogic.Device.Driver.DriverType == DriverType.DrenazhPump ||
+				indicatorLogic.Device.Driver.DriverType == DriverType.CompensationPump)
+				{
+					if (Device.IntAddress > 10)
+					{
+						MessageBoxService.ShowError("Размещать устройства данного типа можно только на индикаторах с адресом меньше 11");
+						return false;
+					}
+					if (MessageBoxService.ShowQuestion("Разместить устройство на нескольких индикаторах?") != System.Windows.MessageBoxResult.Yes)
+						return false;
+
+					for (int i = 1; i < 5; i++)
+					{
+						var nextIndicatorDevice = Device.Parent.Children[Device.IntAddress + i * 10 - 1];
+						var nextIndicatorLogic = new IndicatorLogic()
+						{
+							IndicatorLogicType = IndicatorLogicType.Device,
+							Device = Device,
+							DeviceUID = Device.UID
+						};
+						FiresecManager.FiresecConfiguration.SetIndicatorLogic(nextIndicatorDevice, nextIndicatorLogic);
+					}
+				}
+				FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
 			}
-            FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
+
 			RegistrySettingsHelper.SetInt("FireAdministrator.Indicator.IndicatorLogicType", (int)indicatorLogic.IndicatorLogicType);
 			return base.Save();
 		}

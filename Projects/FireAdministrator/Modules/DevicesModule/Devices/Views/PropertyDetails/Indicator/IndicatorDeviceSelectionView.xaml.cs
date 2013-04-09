@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class IndicatorDeviceSelectionView : UserControl
-    {
-        public IndicatorDeviceSelectionView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class IndicatorDeviceSelectionView : UserControl
+	{
+		public IndicatorDeviceSelectionView()
+		{
+			InitializeComponent();
+		}
+	}
 }
