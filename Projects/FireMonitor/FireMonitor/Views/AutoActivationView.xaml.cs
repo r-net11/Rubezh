@@ -79,6 +79,9 @@ namespace FireMonitor.Views
 				{
 					App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
 					App.Current.MainWindow.Activate();
+					App.Current.MainWindow.BringIntoView();
+					App.Current.MainWindow.Focus();
+					App.Current.MainWindow.Show();
 				}
 			}
 			if (IsPlansAutoActivation)
