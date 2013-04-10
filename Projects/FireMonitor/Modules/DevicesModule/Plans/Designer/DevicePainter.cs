@@ -78,9 +78,7 @@ namespace DevicesModule.Plans.Designer
 			if (_device.DeviceState.ThreadSafeParameters != null)
 				foreach (var parameter in _device.DeviceState.ThreadSafeParameters)
 				{
-					if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
-						continue;
-					if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
+					if (parameter.IsIgnore)
 						continue;
 
 					stringBuilder.Append(parameter.Caption);

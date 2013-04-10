@@ -56,13 +56,13 @@ namespace DevicesModule.Reports
 					var parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));
 					if (parameter != null)
 					{
-						if (string.IsNullOrEmpty(parameter.Value) == false && parameter.Value != "<NULL>")
+						if (!parameter.IsIgnore)
 							dustiness = parameter.Value;
 					}
 					parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "FailureType" && x.Visible));
 					if (parameter != null)
 					{
-						if (string.IsNullOrEmpty(parameter.Value) == false && parameter.Value != "<NULL>")
+						if (!parameter.IsIgnore)
 							failureType = parameter.Value;
 					}
 					//DataList.Add(new ReportDeviceParamsModel()

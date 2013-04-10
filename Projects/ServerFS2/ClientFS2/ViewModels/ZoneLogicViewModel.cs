@@ -175,7 +175,10 @@ namespace ClientFS2.ViewModels
                             {
                                 State = clauseViewModel.SelectedState,
                                 Operation = clauseViewModel.SelectedOperation,
-                                ZoneUIDs = clauseViewModel.Zones
+                                ZoneUIDs = clauseViewModel.Zones,
+                                ZoneLogicMROMessageNo = clauseViewModel.SelectedMROMessageNo,
+								ZoneLogicMROMessageType = clauseViewModel.SelectedMROMessageType
+
                             };
                             zoneLogic.Clauses.Add(clause);
                         }

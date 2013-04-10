@@ -13,6 +13,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Diagnostics;
 
 namespace JournalModule.ViewModels
 {
@@ -51,11 +52,15 @@ namespace JournalModule.ViewModels
 					var richTextBox = new RichTextBox();
 					richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
 					TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
-					return textrange.Text;
+					var result = textrange.Text;
+					result = result.Replace("</li><li>", "\r\n");
+					result = result.Replace("<li>", "");
+					result = result.Replace("</li>", "");
+					return result;
 				}
 				catch (Exception e)
 				{
-					Logger.Error("JournalRecordViewModel.Description JournalRecord.Detalization = " + JournalRecord.Detalization);
+					Logger.Error(e, "JournalRecordViewModel.Description JournalRecord.Detalization = " + JournalRecord.Detalization);
 					return null;
 				}
 			}

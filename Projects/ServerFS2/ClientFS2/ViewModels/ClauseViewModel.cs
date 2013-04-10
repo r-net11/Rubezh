@@ -32,6 +32,9 @@ namespace ClientFS2.ViewModels
 
             if (clause.DeviceUID != Guid.Empty)
                 SelectedDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
+
+            SelectedMROMessageNo = clause.ZoneLogicMROMessageNo;
+            SelectedMROMessageType = clause.ZoneLogicMROMessageType;
         }
 
         public List<ZoneLogicState> States
@@ -130,7 +133,6 @@ namespace ClientFS2.ViewModels
                 var operations = new List<ZoneLogicOperation>();
                 operations.Add(ZoneLogicOperation.All);
                 operations.Add(ZoneLogicOperation.Any);
-
                 return operations;
             }
         }
@@ -161,10 +163,7 @@ namespace ClientFS2.ViewModels
 
         public bool CanSelectDevice
         {
-            get
-            {
-                return (SelectedState == ZoneLogicState.AM1TOn);
-            }
+            get { return (SelectedState == ZoneLogicState.AM1TOn); }
         }
 
         void Update()
@@ -211,6 +210,45 @@ namespace ClientFS2.ViewModels
             }
         }
 
+        #region IsMRO_2M
+        public bool IsSonar
+        {
+            get { return _device.Driver.DriverType == DriverType.SonarDirection || _device.Driver.DriverType == DriverType.MRO_2; }
+        }
+
+        public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
+        {
+            get { return Enum.GetValues(typeof(ZoneLogicMROMessageNo)).Cast<ZoneLogicMROMessageNo>().ToList(); }
+        }
+
+        ZoneLogicMROMessageNo _selectedMROMessageNo;
+        public ZoneLogicMROMessageNo SelectedMROMessageNo
+        {
+            get { return _selectedMROMessageNo; }
+            set
+            {
+                _selectedMROMessageNo = value;
+                OnPropertyChanged("SelectedMROMessageNo");
+            }
+        }
+
+        public List<ZoneLogicMROMessageType> AvailableMROMessageTypes
+        {
+            get { return Enum.GetValues(typeof(ZoneLogicMROMessageType)).Cast<ZoneLogicMROMessageType>().ToList(); }
+        }
+
+        ZoneLogicMROMessageType _selectedMROMessageType;
+        public ZoneLogicMROMessageType SelectedMROMessageType
+        {
+            get { return _selectedMROMessageType; }
+            set
+            {
+                _selectedMROMessageType = value;
+                OnPropertyChanged("SelectedMROMessageType");
+            }
+        }
+        #endregion
+
         Device _selectedDevice;
         public Device SelectedDevice
         {
@@ -239,7 +277,19 @@ namespace ClientFS2.ViewModels
             var zonesSelectionViewModel = new ZonesSelectionViewModel(_device, Zones, SelectedState);
             if (DialogService.ShowModalWindow(zonesSelectionViewModel))
             {
-                Zones = zonesSelectionViewModel.Zones;
+                var zones = new List<Zone>();
+                if (zonesSelectionViewModel.Zones != null)
+                {
+                    foreach (var zoneUID in zonesSelectionViewModel.Zones)
+                    {
+                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                        if (zone != null)
+                            zones.Add(zone);
+                    }
+                }
+                var zoneUIDs = from Zone zone in zones orderby zone.No select zone.UID;
+                Zones = zoneUIDs.ToList();
+                //Zones = zonesSelectionViewModel.Zones;
                 OnPropertyChanged("PresenrationZones");
             }
         }
