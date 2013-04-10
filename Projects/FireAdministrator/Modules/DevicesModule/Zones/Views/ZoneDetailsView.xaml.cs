@@ -12,7 +12,9 @@ namespace DevicesModule.Views
 
 		void ZoneDetailsView_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
-			nameTextBox.Focus();
+			var textBox = nameTextBox.Template.FindName("Text", nameTextBox) as TextBox;
+			if (textBox != null)
+				textBox.Focus();
 		}
 	}
 }
