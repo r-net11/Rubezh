@@ -33,5 +33,16 @@ namespace Infrustructure.Plans.Designer
 					break;
 			}
 		}
+		public bool IsInside(double width, double height)
+		{
+			switch (Orientation)
+			{
+				case Orientation.Horizontal:
+					return Position > 0 && Position < height;
+				case Orientation.Vertical:
+					return Position > 0 && Position < width;
+			}
+			return false;
+		}
 	}
 }

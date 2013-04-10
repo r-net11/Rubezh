@@ -1,62 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls.Primitives;
-using Infrustructure.Plans.Designer;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
-using Infrustructure.Plans.Painters;
-using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Data;
+using Infrustructure.Plans.Designer;
+using System.Windows.Shapes;
 
 namespace PlansModule.InstrumentAdorners
 {
 	public class GridLineShape : Thumb
 	{
 		public GridLine GridLine { get; private set; }
+		public GridLineAdorner GridLineAdorner
+		{
+			get { return DataContext as GridLineAdorner; }
+		}
 
-		public GridLineShape(GridLine gridLine, double zoomFactor)
+		public GridLineShape(GridLine gridLine, double thickness)
 		{
 			GridLine = gridLine;
 
-			switch (GridLine.Orientation)
-			{
-				case Orientation.Horizontal:
-					Canvas.SetTop(this, GridLine.Position);
-					break;
-				case Orientation.Vertical:
-					Canvas.SetLeft(this, GridLine.Position);
-					break;
-			}
-			UpdateZoom(zoomFactor);
+			UpdateZoom(thickness);
+			UpdatePosition();
 			DragDelta += new DragDeltaEventHandler(GridLineShape_DragDelta);
+			DragCompleted += new DragCompletedEventHandler(GridLineShape_DragCompleted);
 			MouseDoubleClick += new MouseButtonEventHandler(GridLineShape_MouseDoubleClick);
 		}
 
-		public void UpdateZoom(double zoomFactor)
+		public void UpdateZoom(double thickness)
 		{
 			switch (GridLine.Orientation)
 			{
 				case Orientation.Horizontal:
-					Height = 2 / zoomFactor;
+					Height = 6 * thickness;
+					Padding = new Thickness(0, 2 * thickness, 0, 2 * thickness);
 					break;
 				case Orientation.Vertical:
-					Width = 2 / zoomFactor;
+					Width = 6 * thickness;
+					Padding = new Thickness(2 * thickness, 0, 2 * thickness, 0);
 					break;
 			}
 		}
 		public void UpdatePosition(Point point)
 		{
 			GridLine.UpdatePosition(point);
+			UpdatePosition();
+		}
+		private void UpdatePosition()
+		{
 			switch (GridLine.Orientation)
 			{
 				case Orientation.Horizontal:
-					Canvas.SetTop(this, GridLine.Position);
+					Canvas.SetTop(this, GridLine.Position - Height / 2);
 					break;
 				case Orientation.Vertical:
-					Canvas.SetLeft(this, GridLine.Position);
+					Canvas.SetLeft(this, GridLine.Position - Width / 2);
 					break;
 			}
 		}
@@ -66,19 +63,22 @@ namespace PlansModule.InstrumentAdorners
 			{
 				case Orientation.Horizontal:
 					GridLine.Position += e.VerticalChange;
-					Canvas.SetTop(this, GridLine.Position);
 					break;
 				case Orientation.Vertical:
 					GridLine.Position += e.HorizontalChange;
-					Canvas.SetLeft(this, GridLine.Position);
 					break;
 			}
+			UpdatePosition();
+		}
+		private void GridLineShape_DragCompleted(object sender, DragCompletedEventArgs e)
+		{
+			if (!GridLine.IsInside(GridLineAdorner.CanvasWidth, GridLineAdorner.CanvasHeight))
+				GridLineAdorner.Remove(this);
 		}
 		private void GridLineShape_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			var adorner = DataContext as GridLineAdorner;
-			if (adorner != null)
-				adorner.Remove(this);
+			if (GridLineAdorner != null)
+				GridLineAdorner.Remove(this);
 		}
 	}
 }

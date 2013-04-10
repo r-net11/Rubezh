@@ -23,7 +23,6 @@ namespace PlansModule.Designer
 	{
 		public Plan Plan { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
-		public GridLinePresenter GridLinePresenter { get; private set; }
 		public ToolboxViewModel Toolbox { get; set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
@@ -52,7 +51,7 @@ namespace PlansModule.Designer
 			ContextMenu.Items.Add(pasteItem);
 			ContextMenu.Items.Add(editItem);
 			_moveAdorner = new MoveAdorner(this);
-			GridLinePresenter = new GridLinePresenter(this);
+			GridLineController = new GridLineController(this);
 			RemoveGridLinesCommand = new RelayCommand(OnRemoveGridLinesCommand);
 		}
 
@@ -216,7 +215,7 @@ namespace PlansModule.Designer
 			CanvasWidth = plan.Width;
 			CanvasHeight = plan.Height;
 			CanvasBackground = PainterCache.GetBrush(plan);
-			GridLinePresenter.Invalidate();
+			GridLineController.Invalidate();
 		}
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
@@ -277,15 +276,10 @@ namespace PlansModule.Designer
 			_moveAdorner.Hide();
 		}
 
-		protected override void RenderForeground(DrawingContext drawingContext)
-		{
-			GridLinePresenter.Render(drawingContext);
-		}
-
 		public RelayCommand RemoveGridLinesCommand { get; private set; }
 		private void OnRemoveGridLinesCommand()
 		{
-			GridLinePresenter.GridLines.Clear();
+			GridLineController.GridLines.Clear();
 		}
 	}
 }

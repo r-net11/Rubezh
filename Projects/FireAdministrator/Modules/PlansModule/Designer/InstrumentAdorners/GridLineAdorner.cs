@@ -19,11 +19,16 @@ namespace PlansModule.InstrumentAdorners
 	public class GridLineAdorner : InstrumentAdorner
 	{
 		public Orientation Orientation { get; private set; }
-		private DesignerCanvas Canvas
-		{
-			get { return (DesignerCanvas)DesignerCanvas; }
-		}
 		private GridLineShape _gridLineShape;
+		private double _thickness;
+		public double CanvasWidth
+		{
+			get { return DesignerCanvas.CanvasWidth; }
+		}
+		public double CanvasHeight
+		{
+			get { return DesignerCanvas.CanvasHeight; }
+		}
 
 		public GridLineAdorner(DesignerCanvas designerCanvas, Orientation orientation)
 			: base(designerCanvas)
@@ -33,17 +38,19 @@ namespace PlansModule.InstrumentAdorners
 
 		protected override void Show()
 		{
+			_thickness = 1 / ZoomFactor;
 			Cleanup();
-			Canvas.GridLinePresenter.IsVisible = false;
-			foreach (var gridLine in Canvas.GridLinePresenter.GridLines)
-				AdornerCanvas.Children.Add(new GridLineShape(gridLine, ZoomFactor) { DataContext = this });
+			DesignerCanvas.GridLineController.IsVisible = false;
+			foreach (var gridLine in DesignerCanvas.GridLineController.GridLines)
+				if (gridLine.IsInside(CanvasWidth, CanvasHeight))
+					AdornerCanvas.Children.Add(new GridLineShape(gridLine, _thickness) { DataContext = this });
 		}
 		public override void Hide()
 		{
 			base.Hide();
 			Cleanup();
-			Canvas.GridLinePresenter.Invalidate();
-			Canvas.GridLinePresenter.IsVisible = true;
+			DesignerCanvas.GridLineController.Invalidate();
+			DesignerCanvas.GridLineController.IsVisible = true;
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -53,7 +60,7 @@ namespace PlansModule.InstrumentAdorners
 			{
 				DesignerCanvas.DeselectAll();
 				StartPoint = e.GetPosition(this);
-				_gridLineShape = new GridLineShape(new GridLine(Orientation, StartPoint.Value), ZoomFactor);
+				_gridLineShape = new GridLineShape(new GridLine(Orientation, StartPoint.Value), _thickness);
 				_gridLineShape.DataContext = this;
 				switch (Orientation)
 				{
@@ -84,7 +91,7 @@ namespace PlansModule.InstrumentAdorners
 		{
 			if (e.ButtonState == MouseButtonState.Released && e.ChangedButton == MouseButton.Left && _gridLineShape != null)
 			{
-				Canvas.GridLinePresenter.GridLines.Add(_gridLineShape.GridLine);
+				DesignerCanvas.GridLineController.GridLines.Add(_gridLineShape.GridLine);
 				Cleanup();
 			}
 		}
@@ -92,8 +99,9 @@ namespace PlansModule.InstrumentAdorners
 		public override void UpdateZoom()
 		{
 			base.UpdateZoom();
+			_thickness = 1 / ZoomFactor;
 			foreach (var shape in AdornerCanvas.Children.OfType<GridLineShape>())
-				shape.UpdateZoom(ZoomFactor);
+				shape.UpdateZoom(_thickness);
 		}
 		private void Cleanup()
 		{
@@ -103,7 +111,7 @@ namespace PlansModule.InstrumentAdorners
 		}
 		public void Remove(GridLineShape gridLineShape)
 		{
-			Canvas.GridLinePresenter.GridLines.Remove(gridLineShape.GridLine);
+			DesignerCanvas.GridLineController.GridLines.Remove(gridLineShape.GridLine);
 			AdornerCanvas.Children.Remove(gridLineShape);
 		}
 	}

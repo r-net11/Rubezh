@@ -10,6 +10,7 @@ using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
 using Infrastructure.Common.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace PlansModule.ViewModels
 {
@@ -49,7 +50,7 @@ namespace PlansModule.ViewModels
 				_activeInstrument = value;
 				OnPropertyChanged(() => ActiveInstrument);
 				if (ActiveInstrument.Autostart)
-					Apply(null);
+					ApplicationService.BeginInvoke(() => Apply(null));
 			}
 		}
 
