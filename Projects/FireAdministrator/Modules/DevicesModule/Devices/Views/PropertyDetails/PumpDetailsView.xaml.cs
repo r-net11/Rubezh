@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class PumpDetailsView : UserControl
-    {
-        public PumpDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class PumpDetailsView : UserControl
+	{
+		public PumpDetailsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

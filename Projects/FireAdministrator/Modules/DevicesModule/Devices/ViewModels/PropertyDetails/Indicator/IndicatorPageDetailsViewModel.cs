@@ -48,10 +48,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(Zones, Device);
-			if (DialogService.ShowModalWindow(indicatorZoneSelectionViewModel))
+			var zonesSelectionViewModel = new ZonesSelectionViewModel(Device, Zones);
+			if (DialogService.ShowModalWindow(zonesSelectionViewModel))
 			{
-				Zones = indicatorZoneSelectionViewModel.Zones;
+				Zones = zonesSelectionViewModel.Zones;
 				Zones = Zones.Take(50).ToList();
 				OnPropertyChanged("PresenrationZones");
 			}

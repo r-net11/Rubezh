@@ -7,25 +7,9 @@
     <UserControl.Resources>
         <Converters:ColorIdToStringConverter x:Key="ColorIdToStringConverter" />
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
-        <Border Grid.Row="0">
-            <StackPanel>
-                <Label Content="Индикатор состояния" Margin="2" FontWeight="Bold" />
-                <StackPanel Orientation="Horizontal"  Margin="2">
-                    <RadioButton GroupName="1" IsChecked="{Binding IsZone}" Content="Зоны" Margin="0, 0, 100, 0" Foreground="White" />
-                    <RadioButton GroupName="1" IsChecked="{Binding IsDevice}" Content="Устройства" Foreground="White" />
-                </StackPanel>
-            </StackPanel>
-        </Border>
-
-        <Grid Grid.Row="1" Visibility="{Binding IsZone, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Border>
+        <TabControl>
+            <TabItem Header="Зоны" IsSelected="{Binding IsZone}">
                 <StackPanel Margin="5">
                     <Label Content="Выбранные зоны" FontWeight="Bold" />
                     <TextBlock>
@@ -45,22 +29,20 @@
                         </Hyperlink>
                     </TextBlock>
                 </StackPanel>
-            </Border>
-        </Grid>
+            </TabItem>
+            <TabItem Header="Устройства" IsSelected="{Binding IsDevice}">
+                <StackPanel>
+                    <Border>
+                        <StackPanel Margin="5">
+                            <Label Content="Выбранное устройство" FontWeight="Bold" />
 
-        <Grid Grid.Row="1" Visibility="{Binding IsDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel>
-                <Border>
-                    <StackPanel Margin="5">
-                        <Label Content="Выбранное устройство" FontWeight="Bold" />
+                            <Grid Grid.Row="1" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="1" Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0">
+                                <TextBlock Grid.Column="0">
                                 <Hyperlink Command="{Binding ShowDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
                                     <TextBlock Text="{Binding SelectedDevice.DottedPresentationAddressAndName}" />    
                                     <TextBlock Text="Нажмите для выбора устройства" Margin="2">
@@ -78,60 +60,60 @@
                                 </Hyperlink>
                             </TextBlock>
 
-                            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <Controls:ToolBarButton Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/deleteCross.png" HorizontalAlignment="Right" />
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </Border>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Controls:ToolBarButton Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/deleteCross.png" HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
 
-                <Border Grid.Row="2">
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Column="0" Grid.Row="0" Content="Включено" HorizontalAlignment="Right" />
-                        <Label Grid.Column="0" Grid.Row="1" Content="Выключено" HorizontalAlignment="Right" />
-                        <Label Grid.Column="0" Grid.Row="2" Content="Неисправность" HorizontalAlignment="Right" />
-                        <Label Grid.Column="0" Grid.Row="3" Content="Потеря связи" HorizontalAlignment="Right" />
-                        <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Colors}" SelectedItem="{Binding OnColor}" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Colors}" SelectedItem="{Binding OffColor}" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Colors}" SelectedItem="{Binding FailureColor}" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Colors}" SelectedItem="{Binding ConnectionColor}" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </Grid>
-                </Border>
-            </StackPanel>
-        </Grid>
-    </Grid>
+                    <Border>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Включено" HorizontalAlignment="Right" />
+                            <Label Grid.Column="0" Grid.Row="1" Content="Выключено" HorizontalAlignment="Right" />
+                            <Label Grid.Column="0" Grid.Row="2" Content="Неисправность" HorizontalAlignment="Right" />
+                            <Label Grid.Column="0" Grid.Row="3" Content="Потеря связи" HorizontalAlignment="Right" />
+                            <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Colors}" SelectedItem="{Binding OnColor}" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Colors}" SelectedItem="{Binding OffColor}" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Colors}" SelectedItem="{Binding FailureColor}" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Colors}" SelectedItem="{Binding ConnectionColor}" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
 </UserControl>

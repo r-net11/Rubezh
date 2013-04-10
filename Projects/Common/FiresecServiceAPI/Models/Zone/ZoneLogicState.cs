@@ -33,7 +33,7 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Неисправность прибора")]
 		Failure = 3,
 
-		[DescriptionAttribute("Сработка АМ1-Т")]
+		[DescriptionAttribute("Сработка Устройства")]
 		AM1TOn = 11,
 
 		[DescriptionAttribute("Тушение")]

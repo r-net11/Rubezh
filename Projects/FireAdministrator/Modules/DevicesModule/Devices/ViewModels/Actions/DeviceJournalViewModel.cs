@@ -1,6 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using Microsoft.Win32;
+using System;
+using Common;
+using System.IO;
 
 namespace DevicesModule.ViewModels
 {
@@ -9,6 +14,7 @@ namespace DevicesModule.ViewModels
 		public DeviceJournalViewModel(string htmlJournal)
 		{
 			Title = "Журнал событий устройства";
+			SaveCommand = new RelayCommand(OnSave);
 			HtmlString = "<head>\n<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>\n</head>" + htmlJournal;
 			OnPropertyChanged("HtmlString");
 		}
@@ -21,6 +27,35 @@ namespace DevicesModule.ViewModels
 			{
 				_htmlString = value;				
 				OnPropertyChanged("HtmlString");
+			}
+		}
+
+		public RelayCommand SaveCommand { get; private set; }
+		void OnSave()
+		{
+			try
+			{
+				var saveDialog = new SaveFileDialog()
+				{
+					Filter = "html files|*.html",
+					DefaultExt = "html files|*.html"
+				};
+
+				if (saveDialog.ShowDialog().Value)
+				{
+					WaitHelper.Execute(() =>
+					{
+						using (var streamWriter = new StreamWriter(saveDialog.FileName))
+						{
+							streamWriter.Write(HtmlString);
+						}
+					});
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MenuView.SaveToFile");
+				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
 			}
 		}
 	}

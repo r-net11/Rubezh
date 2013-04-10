@@ -75,6 +75,33 @@ namespace DevicesModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
+		public ZonesSelectionViewModel(Device device, List<Guid> zones)
+		{
+			Title = "Выбор зон индикатора";
+
+			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
+			AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
+			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
+
+			Zones = zones;
+			TargetZones = new ObservableCollection<ZoneViewModel>();
+			SourceZones = new ObservableCollection<ZoneViewModel>();
+
+			foreach (var zone in FiresecManager.FiresecConfiguration.GetChannelZones(device))
+			{
+				var zoneViewModel = new ZoneViewModel(zone);
+
+				if (Zones.Contains(zone.UID))
+					TargetZones.Add(zoneViewModel);
+				else
+					SourceZones.Add(zoneViewModel);
+			}
+
+			SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedSourceZone = SourceZones.FirstOrDefault();
+		}
+
 		public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }
 
    		ZoneViewModel _selectedSourceZone;

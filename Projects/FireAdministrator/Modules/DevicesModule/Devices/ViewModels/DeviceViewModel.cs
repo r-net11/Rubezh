@@ -135,6 +135,7 @@ namespace DevicesModule.ViewModels
 			if (Device.IsNotUsed)
 				EditingPresentationZone = null;
 			var presentationZone = PresentationZone;
+			IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 			if (string.IsNullOrEmpty(presentationZone))
 			{
 				if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
@@ -143,6 +144,8 @@ namespace DevicesModule.ViewModels
 					presentationZone = "Нажмите для настройки логики";
 				if (Driver.DriverType == DriverType.Indicator)
 					presentationZone = "Нажмите для настройки индикатора";
+				if (Driver.DriverType == DriverType.PDUDirection)
+					presentationZone = "Нажмите для выбора устройств";
 			}
 			EditingPresentationZone = presentationZone;
 		}
@@ -172,6 +175,17 @@ namespace DevicesModule.ViewModels
 		public bool IsZoneOrLogic
 		{
 			get { return Driver.IsZoneDevice || Driver.IsZoneLogicDevice || Driver.DriverType == DriverType.Indicator || Driver.DriverType == DriverType.PDUDirection; }
+		}
+
+		bool _isZoneGrayed = false;
+		public bool IsZoneGrayed
+		{
+			get { return _isZoneGrayed; }
+			set
+			{
+				_isZoneGrayed = value;
+				OnPropertyChanged("IsZoneGrayed");
+			}
 		}
 
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }

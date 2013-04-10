@@ -164,10 +164,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(Zones, Device);
-			if (DialogService.ShowModalWindow(indicatorZoneSelectionViewModel))
+			var zonesSelectionViewModel = new ZonesSelectionViewModel(Device, Zones);
+			if (DialogService.ShowModalWindow(zonesSelectionViewModel))
 			{
-				Zones = indicatorZoneSelectionViewModel.Zones;
+				Zones = zonesSelectionViewModel.Zones;
 				OnPropertyChanged("PresenrationZones");
 			}
 		}
@@ -234,9 +234,8 @@ namespace DevicesModule.ViewModels
 						FiresecManager.FiresecConfiguration.SetIndicatorLogic(nextIndicatorDevice, nextIndicatorLogic);
 					}
 				}
-				FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
 			}
-
+			FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
 			RegistrySettingsHelper.SetInt("FireAdministrator.Indicator.IndicatorLogicType", (int)indicatorLogic.IndicatorLogicType);
 			return base.Save();
 		}
