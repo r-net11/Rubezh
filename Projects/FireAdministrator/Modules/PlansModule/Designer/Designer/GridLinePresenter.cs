@@ -35,9 +35,6 @@ namespace PlansModule.Designer
 			_geometry = new StreamGeometry();
 			GridLines = new ObservableCollection<GridLine>();
 			GridLines.CollectionChanged += (s, e) => Invalidate();
-			GridLines.Add(new GridLine() { Position = 100, Orientation = Orientation.Horizontal });
-			GridLines.Add(new GridLine() { Position = 300, Orientation = Orientation.Horizontal });
-			GridLines.Add(new GridLine() { Position = 200, Orientation = Orientation.Vertical });
 			Invalidate();
 		}
 		public void Invalidate()

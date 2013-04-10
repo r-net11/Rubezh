@@ -38,6 +38,8 @@ namespace Infrustructure.Plans.Painters
 				GridLineBrush = new SolidColorBrush(Colors.Orange);
 				GridLineBrush.Freeze();
 				GridLinePen = new Pen(GridLineBrush, 1);
+				GridLinePen.EndLineCap = PenLineCap.Square;
+				GridLinePen.StartLineCap = PenLineCap.Square;
 				GridLinePen.DashStyle = DashStyles.Dash;
 				PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
 				_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
