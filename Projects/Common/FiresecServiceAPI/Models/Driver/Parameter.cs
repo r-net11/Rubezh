@@ -17,6 +17,18 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool Visible { get; set; }
 
+		public bool IsIgnore
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(Value) || Value == "<NULL>")
+					return true;
+				if (Name.StartsWith("Config$"))
+					return true;
+				return false;
+			}
+		}
+
         public Parameter Copy()
         {
             var parameter = new Parameter();

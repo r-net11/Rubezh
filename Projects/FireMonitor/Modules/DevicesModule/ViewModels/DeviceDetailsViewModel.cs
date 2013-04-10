@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -181,7 +182,7 @@ namespace DevicesModule.ViewModels
 				{
 					foreach (var parameter in DeviceState.ThreadSafeParameters)
 					{
-						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
+						if (parameter.IsIgnore)
 							continue;
 						if (!parameter.Visible)
 							continue;

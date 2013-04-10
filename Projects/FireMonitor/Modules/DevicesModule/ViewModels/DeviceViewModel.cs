@@ -124,12 +124,9 @@ namespace DevicesModule.ViewModels
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}
 
-				var nullString = "<NULL>";
 				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
-					if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == nullString)
-						continue;
-					if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
+					if (parameter.IsIgnore)
 						continue;
 
 					stringBuilder.Append(parameter.Caption);
@@ -151,7 +148,7 @@ namespace DevicesModule.ViewModels
 				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
 					string parameterValue = parameter.Value;
-					if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
+					if (parameter.IsIgnore)
 						parameterValue = " - ";
 
 					switch (parameter.Name)
@@ -192,9 +189,7 @@ namespace DevicesModule.ViewModels
 				if (DeviceState != null)
 					foreach (var parameter in DeviceState.ThreadSafeParameters)
 					{
-						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
-							continue;
-						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
+						if (parameter.IsIgnore)
 							continue;
 						parameters.Add(parameter.Caption + ": " + parameter.Value);
 					}
