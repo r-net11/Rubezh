@@ -499,7 +499,8 @@ namespace DevicesModule.ViewModels
 						if (Device.Children.Count == 2)
 						{
 							FiresecManager.FiresecConfiguration.RemoveDevice(Device.Children[1]);
-							Device.Children.RemoveAt(1);
+							if (Device.Children.Count > 1)
+								Device.Children.RemoveAt(1);
 						}
 					}
 					if (value.DriverType == DriverType.MS_2)
