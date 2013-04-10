@@ -1,16 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
-using System;
 
 namespace PlansModule.Designer
 {
 	public class GridLineController : IGridLineController
 	{
-		private const double DELTA = 30;
+		private const double DELTA = 20;
 		private DesignerCanvas _canvas;
 		private StreamGeometry _geometry;
 		private RectangleGeometry _clipGeometry;
@@ -21,7 +21,10 @@ namespace PlansModule.Designer
 			get { return _isVisible; }
 			set
 			{
+				_isVisible = false;
+#if DEBUG
 				_isVisible = value;
+#endif
 				if (_canvas != null)
 					_canvas.Refresh();
 			}
