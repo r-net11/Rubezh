@@ -39,6 +39,11 @@ namespace ClientFS2.ViewModels
                 OnPropertyChanged("Address");
             }
         }
+        public bool HasDifferences
+        {
+            get { return Device.HasDifferences; }
+            set { }
+        }
         public string ConnectedTo
         {
             get { return Device.ConnectedTo; }

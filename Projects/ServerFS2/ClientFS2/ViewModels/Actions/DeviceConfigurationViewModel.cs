@@ -186,8 +186,8 @@ namespace ClientFS2.ViewModels
         {
             if (device.Children != null)
             {
-                device.Children = device.Children.OrderByDescending(x => x.AddressFullPath).ToList();
-                device.Children = device.Children.OrderByDescending(x => x.PresentationName).ToList();
+                device.Children = device.Children.OrderBy(x => x.AddressFullPath).ToList();
+                device.Children = device.Children.OrderBy(x => x.PresentationName).ToList();
             }
             foreach (var child in device.Children)
             {
@@ -251,6 +251,7 @@ namespace ClientFS2.ViewModels
                     {
                         FiresecManager.FiresecConfiguration.AddZone(zoneInLogic);
                         ZonesViewModel.Current.Zones.Add(new ZoneViewModel(zoneInLogic));
+                        newZonesInLogic.Add(FiresecManager.Zones.FirstOrDefault(x => (x.No == zoneInLogic.No)));
                     }
                     else
                     {
