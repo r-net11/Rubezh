@@ -16,6 +16,7 @@ namespace DevicesModule.ViewModels
 	{
 		Device Device;
 		bool IsBuisy = false;
+		DispatcherTimer DispatcherTimer;
 
 		public DeviceControlViewModel(Device device)
 		{
@@ -91,6 +92,7 @@ namespace DevicesModule.ViewModels
 			try
 			{
 				var result = FiresecManager.FiresecDriver.ExecuteCommand(Device, GetCommandName());
+				var result2 = FiresecManager.FiresecDriver.ExecuteCommand(Device, "ClearAllQueries");
 			}
 			catch (Exception e)
 			{
@@ -137,53 +139,59 @@ namespace DevicesModule.ViewModels
 		}
 		#endregion
 
-        #region Timer
-        bool _isTimerEnabled;
-        public bool IsTimerEnabled
-        {
-            get { return _isTimerEnabled; }
-            set
-            {
-                _isTimerEnabled = value;
-                OnPropertyChanged("IsTimerEnabled");
-            }
-        }
+		#region Timer
+		bool _isTimerEnabled;
+		public bool IsTimerEnabled
+		{
+			get { return _isTimerEnabled; }
+			set
+			{
+				_isTimerEnabled = value;
+				OnPropertyChanged("IsTimerEnabled");
+			}
+		}
 
-        int _timeLeft;
-        public int TimeLeft
-        {
-            get { return _timeLeft; }
-            set
-            {
-                _timeLeft = value;
-                OnPropertyChanged("TimeLeft");
+		int _timeLeft;
+		public int TimeLeft
+		{
+			get { return _timeLeft; }
+			set
+			{
+				_timeLeft = value;
+				OnPropertyChanged("TimeLeft");
 
-                if (TimeLeft <= 0)
-                    IsTimerEnabled = false;
-            }
-        }
+				if (TimeLeft <= 0)
+					IsTimerEnabled = false;
+			}
+		}
 
-        public void StartTimer(int timeLeft)
-        {
-            TimeLeft = timeLeft;
-            IsTimerEnabled = true;
-            var dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Start();
-        }
+		public void StartTimer(int timeLeft)
+		{
+			TimeLeft = timeLeft;
+			IsTimerEnabled = true;
+			if (DispatcherTimer == null)
+			{
+				DispatcherTimer = new DispatcherTimer();
+				DispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+				DispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+				DispatcherTimer.Start();
+			}
+		}
 
-        void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            --TimeLeft;
-        }
+		void dispatcherTimer_Tick(object sender, EventArgs e)
+		{
+			--TimeLeft;
+		}
 
-        public void StopTimer()
-        {
-            TimeLeft = 0;
-        }
-        #endregion
-    }
+		public void StopTimer()
+		{
+			TimeLeft = 0;
+			if (DispatcherTimer != null)
+				DispatcherTimer.Stop();
+			DispatcherTimer = null;
+		}
+		#endregion
+	}
 
 	public class BlockViewModel : BaseViewModel
 	{

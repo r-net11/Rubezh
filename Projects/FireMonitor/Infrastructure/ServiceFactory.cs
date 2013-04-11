@@ -15,6 +15,12 @@ namespace Infrastructure
 {
 	public class ServiceFactory : ServiceFactoryBase
 	{
+		public static AppSettings AppSettings { get; set; }
+		public static ILayoutService Layout { get; private set; }
+		public static ISecurityService SecurityService { get; private set; }
+		public static LoginService LoginService { get; private set; }
+		static bool IsSubcsribed = false;
+
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
 			Events = new EventAggregator();
@@ -24,11 +30,6 @@ namespace Infrastructure
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
 		}
-
-		public static AppSettings AppSettings { get; set; }
-		public static ILayoutService Layout { get; private set; }
-		public static ISecurityService SecurityService { get; private set; }
-		public static LoginService LoginService { get; private set; }
 
 		public static void SubscribeEvents()
 		{
@@ -43,13 +44,17 @@ namespace Infrastructure
 				return;
 			}
 
-			SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
-			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
+			if (!IsSubcsribed)
+			{
+				SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
+				SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 
-			FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
-			FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
-			FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-			FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
+				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
+				FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
+				FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+			}
+			IsSubcsribed = true;
 		}
 
 		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)

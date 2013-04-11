@@ -22,11 +22,11 @@ namespace Firesec.Models.DeviceCustomFunctions
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
-	public class requests
+	public class Requests
 	{
         /// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("request", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public requestsRequest[] request;
+		[System.Xml.Serialization.XmlElementAttribute("Request", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+		public requestsRequest[] Request;
     }
     
     /// <remarks/>
@@ -52,6 +52,30 @@ namespace Firesec.Models.DeviceCustomFunctions
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
 		public int paramCount;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int RequestType;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int StartTime;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int BeginTime;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int EndTime;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int coNum;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int coCount;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int coProgress;
+
+		[System.Xml.Serialization.XmlElementAttribute("ResultString", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+		public resultString[] resultString;
     }
 
 	/// <remarks/>
@@ -69,5 +93,15 @@ namespace Firesec.Models.DeviceCustomFunctions
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public int value;
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class resultString
+	{
 	}
 }
