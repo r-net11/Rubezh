@@ -10,6 +10,7 @@ using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
 using Infrastructure.Common.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace PlansModule.ViewModels
 {
@@ -49,7 +50,7 @@ namespace PlansModule.ViewModels
 				_activeInstrument = value;
 				OnPropertyChanged(() => ActiveInstrument);
 				if (ActiveInstrument.Autostart)
-					Apply(null);
+					ApplicationService.BeginInvoke(() => Apply(null));
 			}
 		}
 
@@ -159,6 +160,7 @@ namespace PlansModule.ViewModels
 					Index = 300,
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),
 				},
+#if DEBUG
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineHorizontal.png",
@@ -180,6 +182,7 @@ namespace PlansModule.ViewModels
 					Index = 503,
 					Command = PlansViewModel.DesignerCanvas.RemoveGridLinesCommand,
 				},
+#endif
 			};
 			SortInstruments();
 			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);

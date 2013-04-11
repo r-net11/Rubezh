@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1251" ?> 
+- <Requests>
+- <Request ID="2" Code="0" RequestType="0" State="2" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="3" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="4" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="5" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="6" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="7" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="8" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+- <Request ID="9" Code="0" RequestType="0" State="1" StartTime="0" BeginTime="0" EndTime="0" coNum="0" coCount="0" coProgress="0">
+  <ResultString /> 
+  </Request>
+  </Requests>

@@ -84,6 +84,8 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\IsBoldToColorConverter.cs" />
     <Compile Include="ConfigurationWriter\PanelDatabase1.cs" />
+    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
+    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\ConfigurationDatabaseViewModel.cs" />

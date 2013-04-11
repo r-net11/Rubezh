@@ -71,7 +71,7 @@
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <Grid DataContext="{Binding SelectedRecord.JournalRecord}" TextElement.Foreground="White">
+                    <Grid DataContext="{Binding SelectedRecord.JournalRecord}" TextElement.Foreground="White" Visibility="Collapsed">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />

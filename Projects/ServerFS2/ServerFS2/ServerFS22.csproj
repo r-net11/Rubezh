@@ -67,6 +67,7 @@
     <Compile Include="DataBase\FSJournalItem.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
+    <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Models\JournalItem.cs" />

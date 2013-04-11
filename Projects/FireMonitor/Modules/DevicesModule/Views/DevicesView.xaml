@@ -58,7 +58,7 @@
             </Controls:TreeListView>
         </Grid>
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
-        <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
+        <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="12" TextBlock.Foreground="White" >
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>

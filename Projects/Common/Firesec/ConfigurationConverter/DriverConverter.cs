@@ -5,6 +5,7 @@ using Common;
 using Firesec.Models.Metadata;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace Firesec
 {
@@ -229,7 +230,7 @@ namespace Firesec
 						continue;
 					if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
 						continue;
-					if (internalProperty.shiftInMemory != "0")
+					if (internalProperty.name.StartsWith("Config$"))
 						continue;
 
 					var driverProperty = new DriverProperty()

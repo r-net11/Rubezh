@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace FiresecClient
 {
@@ -45,6 +46,12 @@ namespace FiresecClient
                 device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
                 if (device.Driver == null)
                 {
+					Trace.WriteLine(device.DriverUID.ToString());
+					foreach (var driver in DriversConfiguration.Drivers)
+					{
+						Trace.WriteLine(driver.UID.ToString());
+					}
+
                     LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
                     Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
                     continue;

@@ -212,6 +212,8 @@ namespace Infrustructure.Plans.Designer
 				if (!IsMoved)
 					DesignerCanvas.BeginChange();
 				IsMoved = true;
+				if (DesignerCanvas.GridLineController != null)
+					shift = DesignerCanvas.GridLineController.PullRectangle(shift, Element.GetRectangle());
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
 					var rect = designerItem.ContentBounds;

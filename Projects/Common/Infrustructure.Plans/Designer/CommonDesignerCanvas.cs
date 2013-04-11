@@ -17,6 +17,7 @@ namespace Infrustructure.Plans.Designer
 		private Dictionary<Guid, CommonDesignerItem> _map;
 		protected DesignerSurface DesignerSurface { get; private set; }
 		protected Guid SelectedUID { get; private set; }
+		public IGridLineController GridLineController { get; protected set; }
 		public virtual double Zoom { get { return 1; } }
 		public virtual double PointZoom { get { return CommonDesignerItem.DefaultPointSize; } }
 
@@ -26,6 +27,7 @@ namespace Infrustructure.Plans.Designer
 			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
 			ClipToBounds = false;
+			GridLineController = null;
 
 			DesignerSurface = new DesignerSurface(this);
 			Child = DesignerSurface;
@@ -168,6 +170,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected internal virtual void RenderForeground(DrawingContext drawingContext)
 		{
+			if (GridLineController != null)
+				GridLineController.Render(drawingContext);
 		}
 		protected internal virtual void SetDesignerItemOver(CommonDesignerItem designerItem, bool isOver)
 		{
