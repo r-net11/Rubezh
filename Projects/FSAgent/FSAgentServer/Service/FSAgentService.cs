@@ -172,6 +172,7 @@ namespace FSAgentServer
 		#region Administrator
 		public OperationResult<bool> SetNewConfig(string coreConfig)
 		{
+			DBHashHelper.RemoveHash();
 			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return DirectClient.SetNewConfig(coreConfig);
@@ -179,6 +180,7 @@ namespace FSAgentServer
 		}
 		public OperationResult<bool> DeviceWriteConfig(string coreConfig, string devicePath)
 		{
+			DBHashHelper.RemoveHash();
 			return (OperationResult<bool>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
 				return DirectClient.DeviceWriteConfig(coreConfig, devicePath);

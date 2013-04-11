@@ -19,7 +19,7 @@ namespace Common.GK
                 HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 14,
-				MaxAddress = 15,
+				MaxAddress = 16,
 				IsDeviceOnShleif = false,
 				IsPlaceable = true
 			};

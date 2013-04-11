@@ -95,6 +95,7 @@
 		FanCabinet,
 		SonarDirection,
 		USB_Rubezh_P,
-		Sonar
+		Sonar,
+		OP_VirtualPanel
 	}
 }

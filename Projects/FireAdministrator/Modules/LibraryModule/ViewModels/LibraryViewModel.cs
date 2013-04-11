@@ -28,7 +28,7 @@ namespace LibraryModule.ViewModels
 		{
 			foreach (var libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices)
 			{
-				var driver = FiresecClient.FiresecManager.Drivers.First(x => x.UID == libraryDevice.DriverId);
+				var driver = FiresecClient.FiresecManager.Drivers.FirstOrDefault(x => x.UID == libraryDevice.DriverId);
 				if (driver != null)
 				{
 					libraryDevice.Driver = driver;
@@ -38,6 +38,8 @@ namespace LibraryModule.ViewModels
 					Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverId.ToString());
 				}
 			}
+			FiresecManager.DeviceLibraryConfiguration.Devices.RemoveAll(x => x.Driver == null);
+
 			var devices = from LibraryDevice libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in devices)

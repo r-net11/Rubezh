@@ -13,13 +13,13 @@
 						<Button Width="300" Margin="2" Command="{Binding ShowXDriversCommand}" Content="Драйверы ГК" />
 						<Button Width="300" Margin="2" Command="{Binding ShowTreeCommand}" Content="Дерево" />
 						<Button Width="300" Margin="2" Command="{Binding TreeListViewTestCommand}" Content="TreeListView Test" />
-						<Button Width="300" Margin="2" Command="{Binding Test1Command}" Content="MIME" />
-						<Button Width="300" Margin="2" Command="{Binding Test2Command}" Content="Применить" />
-						<Button Width="300" Margin="2" Command="{Binding Test3Command}" Content="SVG" />
-						<Button Width="300" Margin="2" Command="{Binding Test6Command}" Content="Сообщение" />
-						<Button Width="300" Margin="2" Command="{Binding Test7Command}" Content="FiresecService.Test" />
-						<Button Width="300" Margin="2" Command="{Binding Test8Command}" Content="FiresecService.SingleTest" />
-						<Button Width="300" Margin="2" Command="{Binding Test9Command}" Content="Обновить конфигурацию" />
+                        <Button Width="300" Margin="2" Command="{Binding Test1Command}" Content="Test1" />
+                        <Button Width="300" Margin="2" Command="{Binding Test2Command}" Content="Test2" />
+                        <Button Width="300" Margin="2" Command="{Binding Test3Command}" Content="Test3" />
+                        <Button Width="300" Margin="2" Command="{Binding Test6Command}" Content="Test6" />
+                        <Button Width="300" Margin="2" Command="{Binding Test7Command}" Content="Test7" />
+                        <Button Width="300" Margin="2" Command="{Binding Test8Command}" Content="Test8" />
+                        <Button Width="300" Margin="2" Command="{Binding Test9Command}" Content="Test9" />
 						<Button Width="300" Margin="2" Command="{Binding BalloonTestCommand}" Content="Предупреждение из трея" />
 						<Button Width="300" Margin="2" Command="{Binding PlanDuplicateTestCommand}" Content="Удвоение планов" />
 						<Button Width="300" Margin="2" Command="{Binding MailCommand}" Content="Почта" />

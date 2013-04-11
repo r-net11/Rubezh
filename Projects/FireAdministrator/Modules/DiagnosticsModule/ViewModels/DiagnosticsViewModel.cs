@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -113,8 +114,6 @@ namespace DiagnosticsModule.ViewModels
 
 		private void OnTest1()
 		{
-			//CloseWindowHelper.Close();
-			//CloseWindowHelper.StartWatchThread();
 		}
 
 		public RelayCommand Test2Command { get; private set; }

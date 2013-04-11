@@ -69,7 +69,9 @@ namespace DevicesModule.ViewModels
 				}
 				if (Device.Parent.Driver.DriverType == DriverType.PDU_PT)
 				{
-					if (device.Driver.DriverType == DriverType.MPT && !FiresecManager.FiresecConfiguration.IsChildMPT(device))
+					if (device.Driver.DriverType == DriverType.MPT
+						&& !FiresecManager.FiresecConfiguration.IsChildMPT(device)
+						&& !FiresecManager.FiresecConfiguration.IsChildMRO2(device))
 					{
 						device.AllParents.ForEach(x => { devices.Add(x); });
 						devices.Add(device);

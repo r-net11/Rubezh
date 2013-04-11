@@ -34,6 +34,7 @@ namespace Infrastructure.Common.Windows
 		}
 		public static void Show(MessageBoxViewModel viewModel)
 		{
+			viewModel.TopMost = true;
 			DialogService.ShowModalWindow(viewModel);
 		}
 
