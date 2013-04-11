@@ -30,6 +30,8 @@ namespace FSAgentServer.ViewModels
 			menuItem2.Text = "Выход";
 			menuItem2.Click += new EventHandler(onClose);
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
+
+            _notifyIcon.Text = "Агент Firesec-2";
 		}
 		public static void Stop()
 		{
