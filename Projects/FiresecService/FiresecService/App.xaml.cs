@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using Common;
 using FiresecService;
 using Infrastructure.Common;
-using Infrastructure.Common.Theme;
-using System.Diagnostics;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Theme;
 
 namespace FiresecServiceRunner
 {
@@ -30,12 +30,13 @@ namespace FiresecServiceRunner
 				catch (Exception ex)
 				{
 					Logger.Error(ex, "App.OnStartup");
-					BalloonHelper.Show("Сервер приложений Firesec", "Ошибка во время загрузки");
+					BalloonHelper.ShowFromServer("Сервер приложений Firesec", "Ошибка во время загрузки");
 					return;
 				}
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			}
 		}
+
 		protected override void OnExit(ExitEventArgs e)
 		{
 			base.OnExit(e);
@@ -44,7 +45,7 @@ namespace FiresecServiceRunner
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error((Exception)e.ExceptionObject, "App.CurrentDomain_UnhandledException");
-			BalloonHelper.Show("Сервер приложений Firesec", "Перезагрузка");
+			BalloonHelper.ShowFromServer("Сервер приложений Firesec", "Перезагрузка");
 			var processStartInfo = new ProcessStartInfo()
 			{
 				FileName = Application.ResourceAssembly.Location

@@ -27,6 +27,8 @@ namespace FiresecService.Service
             menuItem2.Text = "Выход";
             menuItem2.Click += new EventHandler(onClose);
             _notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
+
+            _notifyIcon.Text = "Сервер Firesec-2";
         }
         public static void Stop()
         {

@@ -1,10 +1,10 @@
-﻿using System.Windows;
-using System;
-using Common;
+﻿using System;
 using System.Diagnostics;
-using Infrastructure.Common.Theme;
+using System.Windows;
+using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Theme;
 
 namespace FSAgentServer
 {
@@ -31,11 +31,12 @@ namespace FSAgentServer
 				}
 				catch (Exception ex)
 				{
-					BalloonHelper.Show("Драйвер Firesec", "Ошибка во время загрузки");
+					BalloonHelper.ShowFromAgent("Драйвер Firesec", "Ошибка во время загрузки");
 					Logger.Error(ex, "App.OnStartup");
 				}
 			}
 		}
+
 		protected override void OnExit(ExitEventArgs e)
 		{
 			base.OnExit(e);
@@ -53,7 +54,7 @@ namespace FSAgentServer
 #if DEBUG
 			return;
 #endif
-			BalloonHelper.Show("Драйвер Firesec", "Перезапуск");
+			BalloonHelper.ShowFromAgent("Драйвер Firesec", "Перезапуск");
 			Bootstrapper.Close();
 			var processStartInfo = new ProcessStartInfo()
 			{
@@ -65,7 +66,7 @@ namespace FSAgentServer
 			Application.Current.Shutdown();
 		}
 
-		static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
+		private static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
 		{
 			CloseOnComputerShutdown(true);
 		}
@@ -82,7 +83,7 @@ namespace FSAgentServer
 			Application.Current.Shutdown();
 		}
 
-		static void ShutDownComputer()
+		private static void ShutDownComputer()
 		{
 			if (GlobalSettingsHelper.GlobalSettings.ForceShutdown)
 			{
@@ -97,7 +98,7 @@ namespace FSAgentServer
 			}
 		}
 
-		static void ShutDownComServer()
+		private static void ShutDownComServer()
 		{
 			SocketServerHelper.Stop();
 			var processes = Process.GetProcessesByName("FS_SER~1.EXE");

@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -46,6 +47,7 @@ namespace DevicesModule.ViewModels
 
 			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
 			PresentationAddress = Device.PresentationAddress;
+
 		}
 
 		public string PresentationZone { get; private set; }
@@ -394,16 +396,24 @@ namespace DevicesModule.ViewModels
 							int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
 							if (secondsLeft > 0)
 							{
-								var mptTimerViewModel = new MPTTimerViewModel(Device);
-								DialogService.ShowWindow(mptTimerViewModel);
-								mptTimerViewModel.StartTimer(secondsLeft);
+								if (MPTTimerViewModel == null)
+									MPTTimerViewModel = new MPTTimerViewModel(Device);
+								DialogService.ShowWindow(MPTTimerViewModel);
+								MPTTimerViewModel.StartTimer(secondsLeft);
+								Trace.WriteLine("secondsLeft=" + secondsLeft.ToString());
 							}
 						}
 					}
 				}
+				else
+				{
+					if (MPTTimerViewModel != null)
+						MPTTimerViewModel.Stop();
+				}
 			}
 		}
 
+		MPTTimerViewModel MPTTimerViewModel { get; set; }
 		public bool IsBold { get; set; }
 	}
 }

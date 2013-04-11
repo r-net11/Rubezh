@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -7,7 +8,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Windows;
-using DiagnosticsModule.Mime;
 using DiagnosticsModule.Views;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -21,7 +21,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
-using System.Collections.ObjectModel;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -77,6 +76,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowDriversCommand { get; private set; }
+
 		private void OnShowDrivers()
 		{
 			var driversView = new DriversView();
@@ -84,6 +84,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowXDriversCommand { get; private set; }
+
 		private void OnShowXDrivers()
 		{
 			var driversView = new XDriversView();
@@ -91,6 +92,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand TreeListViewTestCommand { get; private set; }
+
 		private void OnTreeListViewTest()
 		{
 			var treeViewTestViewModel = new TreeViewTestViewModel();
@@ -98,6 +100,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand ShowTreeCommand { get; private set; }
+
 		private void OnShowTree()
 		{
 			var devicesTreeViewModel = new DevicesTreeViewModel();
@@ -107,6 +110,7 @@ namespace DiagnosticsModule.ViewModels
 		int counter = 0;
 
 		public RelayCommand Test1Command { get; private set; }
+
 		private void OnTest1()
 		{
 			//CloseWindowHelper.Close();
@@ -114,6 +118,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test2Command { get; private set; }
+
 		private void OnTest2()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -135,6 +140,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test3Command { get; private set; }
+
 		private void OnTest3()
 		{
 			var viewModel = new SVGTestViewModel();
@@ -142,11 +148,13 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test4Command { get; private set; }
+
 		private void OnTest4()
 		{
 		}
 
 		public RelayCommand Test5Command { get; private set; }
+
 		private void OnTest5()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -175,6 +183,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test6Command { get; private set; }
+
 		private void OnTest6()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -205,12 +214,14 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test8Command { get; private set; }
+
 		private void OnTest8()
 		{
 			FiresecManager.FiresecDriver.AddUserMessage("Single Test Message");
 		}
 
 		public RelayCommand Test7Command { get; private set; }
+
 		private void OnTest7()
 		{
 			var thread = new Thread(new ThreadStart(() =>
@@ -230,6 +241,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test9Command { get; private set; }
+
 		private void OnTest9()
 		{
 			FiresecManager.DeviceLibraryConfiguration = null;
@@ -259,6 +271,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test10Command { get; private set; }
+
 		private void OnTest10()
 		{
 			//DiagnosticsModule.stopWatch.Reset();
@@ -268,6 +281,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test11Command { get; private set; }
+
 		private void OnTest11()
 		{
 			//ZoneTestViewModel.Stopwatch.Restart();
@@ -286,12 +300,14 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand BalloonTestCommand { get; private set; }
+
 		private void OnBalloonTest()
 		{
-			BalloonHelper.Show("Предупреждение", "Это текст предупреждения");
+			BalloonHelper.ShowFromAdm("Предупреждение", "Это текст предупреждения");
 		}
 
 		public RelayCommand PlanDuplicateTestCommand { get; private set; }
+
 		private void OnPlanDuplicateTest()
 		{
 			using (new WaitWrapper())
@@ -324,6 +340,7 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand MailCommand { get; private set; }
+
 		private void OnMail()
 		{
 			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, "obychevma@rubezh.ru",
@@ -332,12 +349,14 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand IntegrateCommand { get; private set; }
+
 		private void OnIntegrate()
 		{
 			RegistryHelper.Integrate();
 		}
 
 		public RelayCommand DesintegrateCommand { get; private set; }
+
 		private void OnDesintegrate()
 		{
 			RegistryHelper.Desintegrate();
@@ -346,6 +365,7 @@ namespace DiagnosticsModule.ViewModels
 		public ObservableCollection<string> AutoCompleteItems { get; private set; }
 
 		string _autoText;
+
 		public string AutoText
 		{
 			get { return _autoText; }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using Common;
 using FiresecService.ViewModels;
-using System.Net;
-using System.Windows.Forms;
-using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FiresecService.Service
 {
@@ -37,12 +35,12 @@ namespace FiresecService.Service
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
 				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
-                BalloonHelper.Show("Ошибка при запуске хоста сервиса", e.Message);
-                return false;
+				BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса", e.Message);
+				return false;
 			}
 		}
 
-		static void CreateNetPipesEndpoint()
+		private static void CreateNetPipesEndpoint()
 		{
 			try
 			{
@@ -56,7 +54,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		static void CreateHttpEndpoint()
+		private static void CreateHttpEndpoint()
 		{
 			try
 			{
@@ -74,11 +72,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		static void CreateTcpEndpoint()
+		private static void CreateTcpEndpoint()
 		{
 			try
 			{
-					var ipAddress = GetIPAddress();
+				var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
 					var remoteAddress = "net.tcp://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
@@ -98,7 +96,7 @@ namespace FiresecService.Service
 				ServiceHost.Close();
 		}
 
-		static string GetIPAddress()
+		private static string GetIPAddress()
 		{
 			try
 			{

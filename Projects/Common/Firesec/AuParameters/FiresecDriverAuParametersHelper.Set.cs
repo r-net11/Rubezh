@@ -83,6 +83,7 @@ namespace Firesec
                 }
             }
 
+			var result2 = FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, "ClearAllQueries");
             foreach (var binProperty in binProperties)
             {
                 int requestId = 0;

@@ -14,27 +14,27 @@ namespace FiresecClient
 		public static Guid UID = Guid.NewGuid();
 		ChannelFactory<IFiresecService> ChannelFactory;
 
-        public IFiresecService Create(string serverAddress)
-        {
-            try
-            {
-                return DoCreate(serverAddress);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "FiresecServiceFactory.Create");
-            }
-            MessageBoxService.Show("Невозможно соединиться с сервером");
-            return null;
-        }
-
-        IFiresecService DoCreate(string serverAddress)
+		public IFiresecService Create(string serverAddress)
 		{
-            if (serverAddress.StartsWith("net.pipe:"))
-            {
-                if (!ServerLoadHelper.Load())
-                    BalloonHelper.Show("Сервер приложений Firesec", "Не удается соединиться с сервером");
-            }
+			try
+			{
+				return DoCreate(serverAddress);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecServiceFactory.Create");
+			}
+			MessageBoxService.Show("Невозможно соединиться с сервером");
+			return null;
+		}
+
+		private IFiresecService DoCreate(string serverAddress)
+		{
+			if (serverAddress.StartsWith("net.pipe:"))
+			{
+				if (!ServerLoadHelper.Load())
+					BalloonHelper.ShowFromAdm("Сервер приложений Firesec", "Не удается соединиться с сервером");
+			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
 
@@ -71,7 +71,7 @@ namespace FiresecClient
 						ChannelFactory.Abort();
 					}
 					catch { }
-                    ChannelFactory = null;
+					ChannelFactory = null;
 				}
 			}
 			catch (Exception e)

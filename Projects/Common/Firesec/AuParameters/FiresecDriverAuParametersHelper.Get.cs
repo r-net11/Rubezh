@@ -72,10 +72,10 @@ namespace Firesec
                         continue;
                     }
 
-                    Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
-					if (requests != null && requests.request.Count() > 0)
+                    Firesec.Models.DeviceCustomFunctions.Requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.Requests>(result.Result);
+					if (requests != null && requests.Request.Count() > 0)
 					{
-						foreach (var request in requests.request)
+						foreach (var request in requests.Request)
 						{
 							foreach (var devicePropertyRequest in devicePropertyRequests)
 							{

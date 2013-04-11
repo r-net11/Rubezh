@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.ServiceModel;
 using Common;
-using System.Net;
 using FSAgentServer.ViewModels;
-using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FSAgentServer
 {
@@ -26,10 +24,10 @@ namespace FSAgentServer
 				FsAgentContract = new FSAgentContract();
 				ServiceHost = new ServiceHost(FsAgentContract);
 
-                if (UACHelper.IsAdministrator)
-                {
-                    CreateHttpEndpoint();
-                }
+				if (UACHelper.IsAdministrator)
+				{
+					CreateHttpEndpoint();
+				}
 				CreateNetPipesEndpoint();
 				ServiceHost.Open();
 				return true;
@@ -37,13 +35,13 @@ namespace FSAgentServer
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
-                UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
-                BalloonHelper.Show("Ошибка при запуске хоста сервиса", e.Message);
+				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
+				BalloonHelper.ShowFromAgent("Ошибка при запуске хоста сервиса", e.Message);
 				return false;
 			}
 		}
 
-		static void CreateNetPipesEndpoint()
+		private static void CreateNetPipesEndpoint()
 		{
 			try
 			{
@@ -57,7 +55,7 @@ namespace FSAgentServer
 			}
 		}
 
-		static void CreateHttpEndpoint()
+		private static void CreateHttpEndpoint()
 		{
 			try
 			{
@@ -81,7 +79,7 @@ namespace FSAgentServer
 				ServiceHost.Close();
 		}
 
-		static string GetIPAddress()
+		private static string GetIPAddress()
 		{
 			try
 			{
