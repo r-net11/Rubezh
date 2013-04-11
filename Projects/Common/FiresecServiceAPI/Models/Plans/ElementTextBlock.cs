@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementTextBlock()
 		{
-			Stretch = true;
+			Stretch = false;
 			TextAlignment = 0;
 			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;

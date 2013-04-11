@@ -49,6 +49,8 @@ namespace FiresecAPI
 
 			Administrator_HideMainMenuIcons = false;
 			Administrator_IsExpertMode = false;
+			Administrator_ShowMainMenu = false;
+			Administrator_ShowGridLineInstruments = false;
 		}
 
 		[DataMember]
@@ -121,7 +123,11 @@ namespace FiresecAPI
 		[DataMember]
 		public bool Administrator_HideMainMenuIcons { get; set; }
 		[DataMember]
+		public bool Administrator_ShowMainMenu { get; set; }
+		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
+		[DataMember]
+		public bool Administrator_ShowGridLineInstruments { get; set; }
 
 		public List<string> GetModules()
 		{

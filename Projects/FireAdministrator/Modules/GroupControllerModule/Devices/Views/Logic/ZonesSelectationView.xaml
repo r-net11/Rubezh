@@ -25,7 +25,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding No}" Header="№" />
                 <DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" />
-                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
+                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
@@ -49,7 +49,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding No}" Header="№" />
                 <DataGridTextColumn Binding="{Binding Name}" Header="Не выбранные зоны" />
-                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
+                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

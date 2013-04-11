@@ -55,13 +55,7 @@ namespace FireAdministrator.ViewModels
 
 		public bool CanShowMainMenu
 		{
-			get
-			{
-#if DEBUG
-				return true;
-#endif
-				return false;
-			}
+			get { return GlobalSettingsHelper.GlobalSettings.Administrator_ShowMainMenu; }
 		}
 
 		void SaveService_Changed()

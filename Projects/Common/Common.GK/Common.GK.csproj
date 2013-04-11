@@ -80,6 +80,8 @@
     <Compile Include="BinaryDatabase\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="BinaryDatabase\DB\PumpStationCreator.cs" />
     <Compile Include="BinaryDatabase\KauChildrenHelper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MAP4_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MVK8_Helper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
