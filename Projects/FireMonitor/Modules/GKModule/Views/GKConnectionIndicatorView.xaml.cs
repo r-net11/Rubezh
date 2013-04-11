@@ -25,7 +25,7 @@ namespace GKModule.Views
 			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Subscribe(OnGKConnectionChanged);
 		}
 
-		void OnGKConnectionChanged(bool isConnected)
+		private void OnGKConnectionChanged(bool isConnected)
 		{
 			IsDeviceConnected = isConnected;
 			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
@@ -34,6 +34,7 @@ namespace GKModule.Views
 		}
 
 		bool _isDeviceConnected;
+
 		public bool IsDeviceConnected
 		{
 			get { return _isDeviceConnected; }
@@ -41,23 +42,23 @@ namespace GKModule.Views
 			{
 				_isDeviceConnected = value;
 				OnPropertyChanged("IsDeviceConnected");
-                if (value)
-                {
-                    _deviceConnectionControl.ToolTip = "Связь с устройствами ГК в норме";
-                    _deviceConnectionControl.Background = Brushes.Transparent;
-                    _connectionIndicator.Opacity = 0.4;
-                }
-                else
-                {
-                    _deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
-                    _deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
-                    _connectionIndicator.Opacity = 1;
-                    BalloonHelper.Show("ОЗ", "Связь с ГК потеряна");
-                }
+				if (value)
+				{
+					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК в норме";
+					_deviceConnectionControl.Background = Brushes.Transparent;
+					_connectionIndicator.Opacity = 0.4;
+				}
+				else
+				{
+					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
+					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+					_connectionIndicator.Opacity = 1;
+					BalloonHelper.ShowFromMonitor("ОЗ", "Связь с ГК потеряна");
+				}
 			}
 		}
 
-		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
+		private ObjectAnimationUsingKeyFrames GetAnimation(bool start)
 		{
 			var animation = new ObjectAnimationUsingKeyFrames();
 			if (!start)
@@ -78,6 +79,7 @@ namespace GKModule.Views
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
 		public void OnPropertyChanged(string propertyName)
 		{
 			if (PropertyChanged != null)

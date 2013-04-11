@@ -31,12 +31,12 @@ namespace FSAgentClient
 			return null;
 		}
 
-		IFSAgentContract DoCreate(string serverAddress)
+		private IFSAgentContract DoCreate(string serverAddress)
 		{
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!FSAgentLoadHelper.Load())
-					BalloonHelper.Show("Драйвер Firesec", "Не удается соединиться с агентом");
+					BalloonHelper.ShowFromAdm("Драйвер Firesec", "Не удается соединиться с агентом");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);

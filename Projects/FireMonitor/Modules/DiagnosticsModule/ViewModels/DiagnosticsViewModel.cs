@@ -14,14 +14,13 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 
-
-
 namespace DiagnosticsModule.ViewModels
 {
 	[Serializable]
 	public class DiagnosticsViewModel : ViewPartViewModel
 	{
 		public MulticlientTestViewModel MulticlientTestViewModel { get; private set; }
+
 		public DiagnosticsViewModel()
 		{
 			MulticlientTestViewModel = new MulticlientTestViewModel();
@@ -45,9 +44,11 @@ namespace DiagnosticsModule.ViewModels
 		{
 			IsThreadStoping = true;
 		}
+
 		bool IsThreadStoping = false;
 
 		string _text;
+
 		public string Text
 		{
 			get { return _text; }
@@ -59,7 +60,8 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test8Command { get; private set; }
-		void OnTest8()
+
+		private void OnTest8()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -108,7 +110,8 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test1Command { get; private set; }
-		void OnTest1()
+
+		private void OnTest1()
 		{
 			throw new Exception("TestException");
 			return;
@@ -126,7 +129,8 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test2Command { get; private set; }
-		void OnTest2()
+
+		private void OnTest2()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -143,7 +147,8 @@ namespace DiagnosticsModule.ViewModels
 		Random random = new Random(1);
 
 		public RelayCommand Test3Command { get; private set; }
-		void OnTest3()
+
+		private void OnTest3()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -158,14 +163,16 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test4Command { get; private set; }
-		void OnTest4()
+
+		private void OnTest4()
 		{
 			MessageBoxService.Show("ApplicationService.ApplicationWindow.Left = " + ApplicationService.ApplicationWindow.Left.ToString());
 			//throw new Exception("Unknown exception");
 		}
 
 		public RelayCommand Test5Command { get; private set; }
-		void OnTest5()
+
+		private void OnTest5()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -182,7 +189,8 @@ namespace DiagnosticsModule.ViewModels
 		bool IsGuardZoneInverse;
 
 		public RelayCommand Test6Command { get; private set; }
-		void OnTest6()
+
+		private void OnTest6()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -197,7 +205,8 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test7Command { get; private set; }
-		void OnTest7()
+
+		private void OnTest7()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -212,7 +221,7 @@ namespace DiagnosticsModule.ViewModels
 			thread.Start();
 		}
 
-		void RemoveFromIgnoreList()
+		private void RemoveFromIgnoreList()
 		{
 			var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
 			var zone = FiresecManager.Zones[zoneIndex];
@@ -227,7 +236,7 @@ namespace DiagnosticsModule.ViewModels
 			FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
 		}
 
-		void AddToIgnoreList()
+		private void AddToIgnoreList()
 		{
 			var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
 			var zone = FiresecManager.Zones[zoneIndex];
@@ -242,7 +251,7 @@ namespace DiagnosticsModule.ViewModels
 			FiresecManager.FiresecDriver.AddToIgnoreList(devices);
 		}
 
-		void ControlDevice()
+		private void ControlDevice()
 		{
 			var deviceControls = new List<DeviceControl>();
 			foreach (var device in FiresecManager.Devices)
@@ -266,7 +275,7 @@ namespace DiagnosticsModule.ViewModels
 			FiresecManager.FiresecDriver.ExecuteCommand(randomDeviceControl.Device, randomDeviceControl.DriverProperty.Name);
 		}
 
-		void ChangeGuardZone()
+		private void ChangeGuardZone()
 		{
 			var guardZones = new List<Zone>();
 			foreach (var zone in FiresecManager.Zones)
@@ -287,7 +296,7 @@ namespace DiagnosticsModule.ViewModels
 				FiresecManager.UnSetZoneGuard(guardZone);
 		}
 
-		void Navigate()
+		private void Navigate()
 		{
 			var eventIndex = random.Next(0, 10);
 			switch (eventIndex)
@@ -329,7 +338,8 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test9Command { get; private set; }
-		void OnTest9()
+
+		private void OnTest9()
 		{
 			var thread = new Thread(new ThreadStart(() =>
 			{
@@ -349,12 +359,14 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test10Command { get; private set; }
-		void OnTest10()
+
+		private void OnTest10()
 		{
 		}
 
 		public RelayCommand Test11Command { get; private set; }
-		void OnTest11()
+
+		private void OnTest11()
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementDevices)
@@ -382,30 +394,32 @@ namespace DiagnosticsModule.ViewModels
 					ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 		}
 
-		void OnWarningTest(object obj)
+		private void OnWarningTest(object obj)
 		{
 			Random rnd = new Random();
-			BalloonHelper.Show("Предупреждение", rnd.Next(100).ToString());
+			BalloonHelper.ShowFromMonitor("Предупреждение", rnd.Next(100).ToString());
 		}
 
 		public RelayCommand TestBalloonCommand { get; private set; }
-		void OnTestBalloon()
+
+		private void OnTestBalloon()
 		{
-			Infrastructure.Common.BalloonTrayTip.BalloonHelper.Show("Hi, there", "Hi, there");
+			Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowFromMonitor("Hi, there", "Hi, there");
 			var thread = new Thread(OnTestBalloonRun);
 			thread.Start();
 		}
 
-		void OnTestBalloonRun()
+		private void OnTestBalloonRun()
 		{
 			System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
-				Infrastructure.Common.BalloonTrayTip.BalloonHelper.Show("Hello", "Hello");
+				Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowFromMonitor("Hello", "Hello");
 			}));
 		}
 
 		public RelayCommand MulticlientTestCommand { get; private set; }
-		void OnMulticlientTest()
+
+		private void OnMulticlientTest()
 		{
 			ServiceFactory.Events.GetEvent<MulticlientStateChangedEvent>().Publish(StateType.Fire);
 		}
@@ -414,6 +428,7 @@ namespace DiagnosticsModule.ViewModels
 	internal class DeviceControl
 	{
 		public Device Device { get; set; }
+
 		public DriverProperty DriverProperty { get; set; }
 	}
 }

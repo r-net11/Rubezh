@@ -7,7 +7,6 @@ using System.Windows.Media.Animation;
 using FiresecClient;
 using FSAgentClient;
 using Infrastructure.Common.BalloonTrayTip;
-using System.Diagnostics;
 
 namespace DevicesModule.Views
 {
@@ -30,6 +29,7 @@ namespace DevicesModule.Views
 		}
 
 		bool _isServiceConnected = true;
+
 		public bool IsServiceConnected
 		{
 			get { return _isServiceConnected; }
@@ -39,22 +39,23 @@ namespace DevicesModule.Views
 				OnPropertyChanged("IsServiceConnected");
 				if (value)
 				{
-                    _serviceConnectionControl.ToolTip = "Связь с сервером в норме";
-				    _serviceConnectionControl.Background = Brushes.Transparent;
-                    _serviceConnectionIndicator.Opacity = 0.4;
+					_serviceConnectionControl.ToolTip = "Связь с сервером в норме";
+					_serviceConnectionControl.Background = Brushes.Transparent;
+					_serviceConnectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
-                    _serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
-                    _serviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
-                    _serviceConnectionControl.Background = Brushes.DarkOrange;
-				    _serviceConnectionIndicator.Opacity = 1;
-                    BalloonHelper.Show("Связь с сервером потеряна", "");
+					_serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
+					_serviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+					_serviceConnectionControl.Background = Brushes.DarkOrange;
+					_serviceConnectionIndicator.Opacity = 1;
+					BalloonHelper.ShowFromMonitor("Связь с сервером потеряна", "");
 				}
 			}
 		}
 
 		bool _isDeviceConnected = true;
+
 		public bool IsDeviceConnected
 		{
 			get { return _isDeviceConnected; }
@@ -64,26 +65,25 @@ namespace DevicesModule.Views
 				OnPropertyChanged("IsDeviceConnected");
 				if (value)
 				{
-                    _deviceConnectionControl.ToolTip = "Связь с устройствами в норме";
-                    _deviceConnectionControl.Background = Brushes.Transparent;
-                    _deviceConnectionIndicator.Opacity = 0.4;
+					_deviceConnectionControl.ToolTip = "Связь с устройствами в норме";
+					_deviceConnectionControl.Background = Brushes.Transparent;
+					_deviceConnectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
-                    _deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
-                    _deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
-				    _deviceConnectionIndicator.Opacity = 1;
-                    BalloonHelper.Show("Связь с агентом потеряна", "");
+					_deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
+					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+					_deviceConnectionIndicator.Opacity = 1;
+					BalloonHelper.ShowFromMonitor("Связь с агентом потеряна", "");
 				}
 			}
 		}
 
-		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
+		private ObjectAnimationUsingKeyFrames GetAnimation(bool start)
 		{
 			var animation = new ObjectAnimationUsingKeyFrames();
 			if (!start)
 			{
-
 				animation.Duration = TimeSpan.FromSeconds(1.5);
 				animation.RepeatBehavior = RepeatBehavior.Forever;
 				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.0))));
@@ -99,7 +99,7 @@ namespace DevicesModule.Views
 			return animation;
 		}
 
-		void OnConnectionLost()
+		private void OnConnectionLost()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -108,7 +108,7 @@ namespace DevicesModule.Views
 			}));
 		}
 
-		void OnConnectionAppeared()
+		private void OnConnectionAppeared()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -117,7 +117,7 @@ namespace DevicesModule.Views
 			}));
 		}
 
-		void FSAgent_ConnectionLost()
+		private void FSAgent_ConnectionLost()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -126,7 +126,7 @@ namespace DevicesModule.Views
 			}));
 		}
 
-		void FSAgent_ConnectionAppeared()
+		private void FSAgent_ConnectionAppeared()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -136,6 +136,7 @@ namespace DevicesModule.Views
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
 		public void OnPropertyChanged(string propertyName)
 		{
 			if (PropertyChanged != null)

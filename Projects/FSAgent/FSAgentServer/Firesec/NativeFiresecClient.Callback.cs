@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using System.Diagnostics;
+using FiresecDB;
 using FSAgentAPI;
 using Infrastructure.Common.BalloonTrayTip;
-using FiresecDB;
 
 namespace FSAgentServer
 {
 	public partial class NativeFiresecClient
 	{
 		public bool IsPing { get; set; }
+
 		public static bool IsSuspended { get; set; }
+
 		static bool needToRead = false;
 		static bool needToReadStates = false;
 		static bool needToReadParameters = false;
@@ -89,7 +85,7 @@ namespace FSAgentServer
 
 						if (journalRecords != null)
 						{
-                            DatabaseHelper.AddJournalRecords(journalRecords);
+							DatabaseHelper.AddJournalRecords(journalRecords);
 							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
 						}
 						else
@@ -129,15 +125,15 @@ namespace FSAgentServer
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
 				return false;
 			}
-		}		
+		}
 
-		void OnCriticalError()
+		private void OnCriticalError()
 		{
 			CriticalErrorsCount++;
 			if (CriticalErrorsCount > 5)
 				return;
 
-			BalloonHelper.Show("Драйвер Firesec", "Потеря соединения с драйвером");
+			BalloonHelper.ShowFromAgent("Драйвер Firesec", "Потеря соединения с драйвером");
 			CallbackManager.SetConnectionLost(true);
 			var result = Connect();
 			if (result == null || result.Result == false || result.HasError)
