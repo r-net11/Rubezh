@@ -48,7 +48,7 @@ namespace GKModule.Plans.Designer
 		{
 			Color color = Colors.Black;
 			if (zone != null)
-				color = Colors.Purple;
+				color = Colors.Green;
 			return color;
 		}
 

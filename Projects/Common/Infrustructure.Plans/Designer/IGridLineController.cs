@@ -14,6 +14,7 @@ namespace Infrustructure.Plans.Designer
 		ObservableCollection<GridLine> GridLines { get; }
 		void Render(DrawingContext drawingContext);
 		void Invalidate();
+		void PullReset();
 		Vector PullRectangle(Vector shift, Rect rect);
 	}
 }

@@ -11,7 +11,7 @@
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Column="2">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="*" MinHeight="200" />
+				<RowDefinition Height="{Binding LayersHeight, Mode=TwoWay}" MinHeight="200" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" MinHeight="200" />
 			</Grid.RowDefinitions>

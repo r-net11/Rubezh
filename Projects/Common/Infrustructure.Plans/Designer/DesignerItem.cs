@@ -197,6 +197,8 @@ namespace Infrustructure.Plans.Designer
 		public override void DragStarted(Point point)
 		{
 			IsBusy = true;
+			if (DesignerCanvas.GridLineController != null)
+				DesignerCanvas.GridLineController.PullReset();
 		}
 		public override void DragCompleted(Point point)
 		{

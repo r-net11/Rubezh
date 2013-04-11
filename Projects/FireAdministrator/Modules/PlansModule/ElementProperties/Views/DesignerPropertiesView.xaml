@@ -34,7 +34,7 @@
 				<ContentControl Grid.Column="0" Content="{Binding Image}" />
 				<StackPanel Grid.Column="1">
 					<Button Margin="2" Command="{Binding SelectPictureCommand}" Content="Выбрать картинку" />
-					<Button Margin="2" Command="{Binding RemovePictureCommand}" Content="Очистить картинку" />
+					<Button Margin="2" Command="{Binding RemovePictureCommand}" IsEnabled="{Binding HasImage}" Content="Очистить картинку" />
 				</StackPanel>
 			</Grid>
 		</TabItem>

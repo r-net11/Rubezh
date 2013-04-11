@@ -46,6 +46,11 @@ namespace PlansModule.ViewModels
 			UpdateImage();
 		}
 
+		public bool HasImage
+		{
+			get { return Image != null && Image.Source != null; }
+		}
+
 		public RelayCommand SelectPictureCommand { get; private set; }
 		void OnSelectPicture()
 		{
@@ -67,6 +72,7 @@ namespace PlansModule.ViewModels
 				UpdateImage();
 			}
 		}
+
 		public RelayCommand RemovePictureCommand { get; private set; }
 		void OnRemovePicture()
 		{
@@ -120,7 +126,8 @@ namespace PlansModule.ViewModels
 					Source = imageSource,
 					Stretch = Stretch.Uniform
 				};
-				OnPropertyChanged("Image");
+				OnPropertyChanged(() => Image);
+				OnPropertyChanged(() => HasImage);
 			}
 			catch (Exception e)
 			{

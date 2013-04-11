@@ -51,11 +51,20 @@ namespace PlansModule.ViewModels
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
 			Menu = new PlansMenuViewModel(this);
-			_splitterDistance = 300;
+			_splitterDistance = RegistrySettingsHelper.GetDouble("Administrator.Plans.SplitterDistance");
+			if (_splitterDistance == 0)
+				_splitterDistance = 300;
 			_emptyGridColumn = new GridLength(0, GridUnitType.Pixel);
 			Width1 = new GridLength(1, GridUnitType.Star);
 			Width2 = GridLength.Auto;
 			Width3 = new GridLength(_splitterDistance, GridUnitType.Pixel);
+			var layerDistance = RegistrySettingsHelper.GetDouble("Administrator.Plans.LayerDistance");
+			LayersHeight = new GridLength(layerDistance == 0 ? 500 : layerDistance, GridUnitType.Pixel);
+			ApplicationService.ShuttingDown += () =>
+			{
+				RegistrySettingsHelper.SetDouble("Administrator.Plans.SplitterDistance", Width3 == _emptyGridColumn ? _splitterDistance : Width3.Value);
+				RegistrySettingsHelper.SetDouble("Administrator.Plans.LayerDistance", LayersHeight.Value);
+			};
 		}
 
 		public void Initialize()
@@ -375,6 +384,16 @@ namespace PlansModule.ViewModels
 			{
 				_width3 = value;
 				OnPropertyChanged(() => Width3);
+			}
+		}
+		private GridLength _layersHeight;
+		public GridLength LayersHeight
+		{
+			get { return _layersHeight; }
+			set
+			{
+				_layersHeight = value;
+				OnPropertyChanged(() => LayersHeight);
 			}
 		}
 		private void PlanDesignerViewModel_IsCollapsedChanged(object sender, EventArgs e)

@@ -19,11 +19,21 @@ namespace Infrastructure.Common.Windows
 	{
 		public static event EventHandler Starting;
 		public static event CancelEventHandler Closing;
+		public static event Action ShuttingDown;
 		public static Window ApplicationWindow { get; private set; }
 		public static User User { get; set; }
 		public static Action<FrameworkElement> ApplicationController { get; set; }
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
+
+		static ApplicationService()
+		{
+			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+			{
+				if (ShuttingDown != null)
+					ShuttingDown();
+			};
+		}
 
 		public static void Run(ApplicationViewModel model, bool noBorder, bool isMaximized)
 		{

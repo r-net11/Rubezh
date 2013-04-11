@@ -11,6 +11,8 @@ namespace PlansModule.Designer
 	public class GridLineController : IGridLineController
 	{
 		private const double DELTA = 20;
+		private double _accamulateX = 0;
+		private double _accamulateY = 0;
 		private DesignerCanvas _canvas;
 		private StreamGeometry _geometry;
 		private RectangleGeometry _clipGeometry;
@@ -62,6 +64,11 @@ namespace PlansModule.Designer
 			}
 		}
 
+		public void PullReset()
+		{
+			_accamulateX = 0;
+			_accamulateY = 0;
+		}
 		public Vector PullRectangle(Vector shift, Rect rect)
 		{
 			var factor = DELTA / _canvas.Zoom;
@@ -70,19 +77,32 @@ namespace PlansModule.Designer
 					switch (gridLine.Orientation)
 					{
 						case Orientation.Vertical:
-							if (Math.Abs(rect.Left - gridLine.Position) < factor)
-								shift.X = gridLine.Position - rect.Left;
-							else if (Math.Abs(rect.Right - gridLine.Position) < factor)
-								shift.X = gridLine.Position - rect.Right;
+							shift.X = Pull(shift.X, gridLine.Position - rect.Left, factor, ref _accamulateX);
+							shift.X = Pull(shift.X, gridLine.Position - rect.Right, factor, ref _accamulateX);
 							break;
 						case Orientation.Horizontal:
-							if (Math.Abs(rect.Top - gridLine.Position) < factor)
-								shift.Y = gridLine.Position - rect.Top;
-							else if (Math.Abs(rect.Bottom - gridLine.Position) < factor)
-								shift.Y = gridLine.Position - rect.Bottom;
+							shift.Y = Pull(shift.Y, gridLine.Position - rect.Top, factor, ref _accamulateY);
+							shift.Y = Pull(shift.Y, gridLine.Position - rect.Bottom, factor, ref _accamulateY);
 							break;
 					}
 			return shift;
+		}
+
+		private double Pull(double shift, double margin, double factor, ref double accamulate)
+		{
+			double result = shift;
+			if (Math.Abs(margin) < factor)
+			{
+				accamulate += shift;
+				if (Math.Abs(accamulate) < factor)
+					result = margin;
+				else
+				{
+					result = accamulate;
+					accamulate = 0;
+				}
+			}
+			return result;
 		}
 	}
 }
