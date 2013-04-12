@@ -52,12 +52,12 @@ namespace Common.GK
 			property1.Parameters.Add(property1Parameter3);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 0.1В", 0, 1, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1, 0.1В", 0, 1, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2, 0.1В", 0, 1, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3, 0.1В", 0, 1, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1В", 0, 1, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1В", 0, 1, 0, 100);
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 0.1В", 0, 80, 1, 1000);
+			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1, 0.1В", 0, 250, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2, 0.1В", 0, 750, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3, 0.1В", 0, 1500, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1В", 0, 4500, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1В", 0, 6000, 1, 10000);
 
 			return driver;
 		}

@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("3E55ACEF-D0D6-443A-A247-E9D5D116429A"),
 				Name = "МВК-8 RSR2",
 				ShortName = "МВК-8 RSR2",
-				HasZone = true,
+				IsControlDevice = true,
+				HasLogic = true,
                 IsPlaceable = true
 			};
 
@@ -82,7 +83,7 @@ namespace Common.GK
 				No = 4,
 				Name = "Контроль",
 				Caption = "Контроль",
-				Default = 0,
+				Default = 3,
 				IsLowByte = true,
 			};
 			GKDriversHelper.AddPropertyParameter(property4, "Без контроля", 0);
@@ -91,7 +92,7 @@ namespace Common.GK
 			GKDriversHelper.AddPropertyParameter(property4, "Обрыв и КЗ", 3);
 			driver.Properties.Add(property4);
 
-			GKDriversHelper.AddIntProprety(driver, 6, "Норма питания, 0.1В", 0, 1, 0, 100);
+			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 0.1В", 0, 80, 1, 1000);
 
 			return driver;
 		}
