@@ -86,8 +86,11 @@ namespace PlansModule.ViewModels
 			{
 				elementViewModel = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementUID);
 				if (elementViewModel != null)
+				{
 					elementViewModel.ExpantToThis();
-				SelectedElement = elementViewModel;
+					elementViewModel.IsSelected = true;
+				}
+				//SelectedElement = elementViewModel;
 			}
 		}
 

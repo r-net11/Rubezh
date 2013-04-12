@@ -38,7 +38,6 @@ namespace DevicesModule.ViewModels
 			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			CreateDragVisual = OnCreateDragVisual;
@@ -272,7 +271,6 @@ namespace DevicesModule.ViewModels
 			get { return Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit; }
 		}
 
-
 		void OnShowIndicatorLogic()
 		{
 			if (Device.IndicatorLogic.Device != null && Device.IndicatorLogic.Device.Driver.DriverType == DriverType.Indicator)
@@ -425,13 +423,6 @@ namespace DevicesModule.ViewModels
 		{
 			if (Device.ZoneUID != Guid.Empty)
 				ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
-		}
-
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
-		{
-			if (Device.PlanElementUIDs.Count > 0)
-				ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(Device.PlanElementUIDs);
 		}
 
 		public RelayCommand<bool> AllowMultipleVizualizationCommand { get; private set; }

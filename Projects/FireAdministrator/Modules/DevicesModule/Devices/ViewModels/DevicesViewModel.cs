@@ -95,6 +95,8 @@ namespace DevicesModule.ViewModels
 				if (value != null)
 					value.ExpantToThis();
 				OnPropertyChanged("SelectedDevice");
+				if (_selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
 			}
 		}
 
@@ -176,7 +178,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return CanDoPaste(SelectedDevice) || (SelectedDevice!= null && CanDoPaste(SelectedDevice.Parent));
+			return CanDoPaste(SelectedDevice) || (SelectedDevice != null && CanDoPaste(SelectedDevice.Parent));
 		}
 		bool CanDoPaste(DeviceViewModel deviceViewModel)
 		{
