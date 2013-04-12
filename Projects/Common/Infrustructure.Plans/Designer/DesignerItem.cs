@@ -219,7 +219,7 @@ namespace Infrustructure.Plans.Designer
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
 					//var rect = designerItem.ContentBounds;
-					var rect = Element.GetRectangle();
+					var rect = designerItem.GetRectangle();
 					if (rect.Right + shift.X > DesignerCanvas.CanvasWidth)
 						shift.X = DesignerCanvas.CanvasWidth - rect.Right;
 					if (rect.Left + shift.X < 0)
