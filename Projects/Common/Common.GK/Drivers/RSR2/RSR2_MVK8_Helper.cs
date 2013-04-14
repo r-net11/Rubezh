@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0xE2,
 				DriverType = XDriverType.RSR2_MVK8,
 				UID = new Guid("3E55ACEF-D0D6-443A-A247-E9D5D116429A"),
-				Name = "МВК-8 RSR2",
-				ShortName = "МВК-8 RSR2",
+				Name = "МВК RSR2",
+				ShortName = "МВК RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
                 IsPlaceable = true
