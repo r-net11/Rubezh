@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0xDA,
 				DriverType = XDriverType.RSR2_RM_1,
 				UID = new Guid("58C2A881-783F-4638-A27C-42257D5B31F9"),
-				Name = "Релейный исполнительный модуль РМ-1 RSR2",
-				ShortName = "РМ-1 RSR2",
+				Name = "Релейный исполнительный модуль МР RSR2",
+				ShortName = "МР RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
                 IsPlaceable = true
@@ -29,8 +29,8 @@ namespace Common.GK
 			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 128, 1, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 128, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 0, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 0, 1, 65535);
 
 			var property1 = new XDriverProperty()
 			{
@@ -51,7 +51,7 @@ namespace Common.GK
 				No = 3,
 				Name = "Состояние контакта для режима Удержания",
 				Caption = "Состояние контакта для режима Удержания",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x0C
 			};
@@ -65,7 +65,7 @@ namespace Common.GK
 				No = 3,
 				Name = "Состояние контакта для режима Включено",
 				Caption = "Состояние контакта для режима Включено",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x30
 			};

@@ -50,7 +50,7 @@ namespace Common.GK
 					ToolTip = "Неответы",
 					Min = 0,
 					Max = 10,
-					Default = 1,
+					Default = 3,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
 				}

@@ -30,7 +30,7 @@ namespace Common.GK
 				No = 0,
 				Name = "Конфигурация",
 				Caption = "Конфигурация",
-				Default = 1
+				Default = 0
 			};
 			var property1Parameter1 = new XDriverPropertyParameter()
 			{
