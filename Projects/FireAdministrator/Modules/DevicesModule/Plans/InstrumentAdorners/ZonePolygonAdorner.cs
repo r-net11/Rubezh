@@ -7,14 +7,17 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {
 	public class ZonePolygonAdorner : BasePolygonAdorner
 	{
-		public ZonePolygonAdorner(CommonDesignerCanvas designerCanvas)
+		private ZonesViewModel _zonesViewModel;
+		public ZonePolygonAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{
+			_zonesViewModel = zonesViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -28,7 +31,7 @@ namespace DevicesModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonZone();
-			var propertiesViewModel = new ZonePropertiesViewModel(element);
+			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			Helper.SetZone(element);

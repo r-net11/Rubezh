@@ -13,6 +13,8 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Common;
+using System.Windows;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -35,6 +37,14 @@ namespace PlansModule.ViewModels
 			PlanTreeViewModel = new PlanTreeViewModel(this);
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
+			var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
+			if (planNavigationWidth == 0)
+				planNavigationWidth = 300;
+			PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
+			ApplicationService.ShuttingDown += () =>
+			{
+				RegistrySettingsHelper.SetDouble("Monitor.Plans.SplitterDistance", PlanNavigationWidth.Value);
+			};
 		}
 
 		public void Initialize()
@@ -57,7 +67,11 @@ namespace PlansModule.ViewModels
 
 		private void OnSelectPlan(Guid planUID)
 		{
-			PlanTreeViewModel.SelectedPlan = PlanTreeViewModel.FindPlan(planUID);
+			var newPlan = PlanTreeViewModel.FindPlan(planUID);
+			if (PlanTreeViewModel.SelectedPlan == newPlan)
+				PlanDesignerViewModel.Update();
+			else
+				PlanTreeViewModel.SelectedPlan = newPlan;
 		}
 		private void SelectedPlanChanged(object sender, EventArgs e)
 		{
@@ -121,5 +135,17 @@ namespace PlansModule.ViewModels
 				planPresenter.ExtensionAttached();
 			PlanTreeViewModel.Select();
 		}
+
+		private GridLength _planNavigationWidth;
+		public GridLength PlanNavigationWidth
+		{
+			get { return _planNavigationWidth; }
+			set
+			{
+				_planNavigationWidth = value;
+				OnPropertyChanged(() => PlanNavigationWidth);
+			}
+		}
+
 	}
 }

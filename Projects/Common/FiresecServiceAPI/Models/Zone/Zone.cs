@@ -23,6 +23,7 @@ namespace FiresecAPI.Models
 			DevicesInZone = new List<Device>();
 			DevicesInZoneLogic = new List<Device>();
 			IndicatorsInZone = new List<Device>();
+			PlanElementUIDs = new List<Guid>();
 		}
 
 		public ZoneState ZoneState { get; set; }
@@ -162,5 +163,6 @@ namespace FiresecAPI.Models
 				ColorTypeChanged();
 		}
 		public event Action ColorTypeChanged;
+		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

@@ -52,10 +52,10 @@ namespace Infrustructure.Plans.Elements
 				Points[i] = Points[i] + shift;
 		}
 
-		protected virtual void Copy(ElementBaseShape element)
+		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			element.Points = Points.Clone();
+			((ElementBaseShape)element).Points = Points.Clone();
 		}
 
 		protected override void SetDefault()

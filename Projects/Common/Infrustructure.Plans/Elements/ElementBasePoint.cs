@@ -34,11 +34,11 @@ namespace Infrustructure.Plans.Elements
 			Top = point.Y;
 		}
 
-		protected virtual void Copy(ElementBasePoint element)
+		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			element.Left = Left;
-			element.Top = Top;
+			((ElementBasePoint)element).Left = Left;
+			((ElementBasePoint)element).Top = Top;
 		}
 	}
 }

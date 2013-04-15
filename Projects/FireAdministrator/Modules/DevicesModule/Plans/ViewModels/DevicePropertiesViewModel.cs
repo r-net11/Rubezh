@@ -151,10 +151,10 @@ namespace DevicesModule.Plans.ViewModels
 		void UpdateAvailableDriver()
 		{
 			AvailableDrivers = new ObservableCollection<LibraryDevice>();
-			AvailableDrivers.Add(FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == SelectedDevice.Device.Driver.DriverType));
 			CanChangeDriver = false;
 			if (SelectedDevice != null)
 			{
+				AvailableDrivers.Add(FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == SelectedDevice.Device.Driver.DriverType));
 				foreach (var libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices)
 				{
 					if (libraryDevice.DriverId == SelectedDevice.Device.DriverUID && libraryDevice.IsAlternative)
@@ -168,9 +168,9 @@ namespace DevicesModule.Plans.ViewModels
 					AvailableDrivers.Add(FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == DriverType.HeatDetector));
 					CanChangeDriver = true;
 				}
+				if (SelectedDriver != null)
+					SelectedDriver = AvailableDrivers.FirstOrDefault(x => x.DriverId == SelectedDriver.DriverId);
 			}
-			if (SelectedDriver != null)
-				SelectedDriver = AvailableDrivers.FirstOrDefault(x => x.DriverId == SelectedDriver.DriverId);
 		}
 
 		protected override bool Save()

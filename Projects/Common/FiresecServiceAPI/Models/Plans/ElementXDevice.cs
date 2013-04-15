@@ -17,13 +17,16 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementXDevice elementBase = new ElementXDevice()
-			{
-				XDeviceUID = XDeviceUID
-			};
+			ElementXDevice elementBase = new ElementXDevice();
 			Copy(elementBase);
 			return elementBase;
 		}
+		public override void Copy(ElementBase element)
+		{
+			base.Copy(element);
+			((ElementXDevice)element).XDeviceUID = XDeviceUID;
+		}
+
 		public override void UpdateZLayer()
 		{
 			ZLayer = 7;

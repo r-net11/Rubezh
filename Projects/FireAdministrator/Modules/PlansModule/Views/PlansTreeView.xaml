@@ -10,6 +10,10 @@
 					<MenuItem Command="{Binding AddSubFolderCommand}" Header="Добавить дочернюю папку" />
 					<MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
 					<MenuItem Command="{Binding RemoveCommand}" Header="Удалить" />
+					<Separator />
+					<MenuItem Command="{Binding PlanCopyCommand}" Header="Копировать" />
+					<MenuItem Command="{Binding PlanCutCommand}" Header="Вырезать" />
+					<MenuItem Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" Header="Вставить" />
 				</ContextMenu>
 			</Controls:TreeListView.Resources>
 			<Controls:TreeListView.ItemContainerStyle>
@@ -23,6 +27,8 @@
 				<ContextMenu>
 					<MenuItem Command="{Binding PlansViewModel.AddCommand}" Header="Добавить план" />
 					<MenuItem Command="{Binding PlansViewModel.AddFolderCommand}" Header="Добавить папку" />
+					<Separator />
+					<MenuItem Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить" />
 				</ContextMenu>
 			</Controls:TreeListView.ContextMenu>
 			<Controls:TreeListView.Columns>

@@ -195,6 +195,18 @@ namespace PlansModule.Designer
 			if (designerItem != null)
 				RemoveElement(designerItem);
 		}
+		public void UpdateElement(ElementBase elementBase)
+		{
+			var designerItem = GetDesignerItem(elementBase);
+			if (designerItem != null)
+			{
+				var element = designerItem.Element;
+				elementBase.Copy(element);
+				designerItem.ResetElement(element);
+			}
+			else
+				Logger.Error("DesignerCanvas Undo/Redo designerItem = null");
+		}
 
 		public DesignerItem Create(ElementBase elementBase)
 		{
@@ -242,7 +254,8 @@ namespace PlansModule.Designer
 		public override void EndChange()
 		{
 			System.Console.WriteLine("EndChange");
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(_initialElements);
+			var after = Toolbox.PlansViewModel.AddHistoryItem(_initialElements);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(after);
 			foreach (var designerItem in SelectedItems)
 				designerItem.UpdateElementProperties();
 		}

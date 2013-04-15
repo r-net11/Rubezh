@@ -201,7 +201,7 @@ namespace PlansModule.ViewModels
 
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
-			if (!AcceptKeyboard || !ApplicationService.ApplicationWindow.IsKeyboardFocusWithin)
+			if (!AcceptKeyboard || !ApplicationService.ApplicationWindow.IsKeyboardFocusWithin || !ApplicationService.Layout.IsRightPanelFocused)
 				return;
 
 			if (ActiveInstrument == null || ActiveInstrument == _defaultInstrument)
@@ -232,17 +232,20 @@ namespace PlansModule.ViewModels
 									designerCanvas.SelectAll();
 							break;
 					}
+				DefaultKeyHandler(e);
 			}
 			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null && !ActiveInstrument.Adorner.KeyboardInput(e.Key))
+				DefaultKeyHandler(e);
+		}
+		private void DefaultKeyHandler(KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+				SetDefault();
+			else if (e.Key == Key.Delete)
 			{
-				if (e.Key == Key.Escape)
-					SetDefault();
-				else if (e.Key == Key.Delete)
-				{
-					var designerCanvas = PlansViewModel.DesignerCanvas;
-					if (designerCanvas != null)
-						designerCanvas.RemoveAllSelected();
-				}
+				var designerCanvas = PlansViewModel.DesignerCanvas;
+				if (designerCanvas != null)
+					designerCanvas.RemoveAllSelected();
 			}
 		}
 		private void ExecuteCommand(ICommand command)

@@ -14,13 +14,19 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementRectangleZone elementBase = new ElementRectangleZone()
-			{
-                ZoneUID = ZoneUID,
-				IsHiddenZone = IsHiddenZone
-			};
+			ElementRectangleZone elementBase = new ElementRectangleZone();
 			Copy(elementBase);
 			return elementBase;
+		}
+		public override void Copy(ElementBase element)
+		{
+			base.Copy(element);
+			Copy((ElementRectangleZone)element);
+		}
+		private void Copy(IElementZone element)
+		{
+			element.ZoneUID = ZoneUID;
+			element.IsHiddenZone = IsHiddenZone;
 		}
 
 		#region IPrimitive Members

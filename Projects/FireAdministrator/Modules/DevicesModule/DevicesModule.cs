@@ -38,7 +38,7 @@ namespace DevicesModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			GuardViewModel = new GuardViewModel();
-			_planExtension = new PlanExtension(DevicesViewModel);
+			_planExtension = new PlanExtension(DevicesViewModel, ZonesViewModel);
 		}
 
 		void OnCreateZone(CreateZoneEventArg createZoneEventArg)

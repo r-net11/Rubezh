@@ -1,60 +1,60 @@
-﻿<UserControl x:Class="DevicesModule.Views.ZonesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Views="clr-namespace:DevicesModule.Views"
-             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+﻿<UserControl x:Class="DevicesModule.Views.ZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Views="clr-namespace:DevicesModule.Views">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MinWidth="200" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="3*" MinWidth="200" />
-        </Grid.ColumnDefinitions>
-        <Controls:XDataGrid Grid.Column="0" Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="True" Focusable="True" IsReadOnly="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" SortMemberPath="Zone.No" IsReadOnly="True" Width="1*" />
-                <DataGridTemplateColumn Header="Наименование" SortMemberPath="Name" Width="2*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Controls:EditorPresenter>
-                                <Controls:EditorPresenter.ViewTemplate>
-                                    <ControlTemplate>
-                                        <TextBlock Text="{Binding Name}" />
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.ViewTemplate>
-                                <Controls:EditorPresenter.EditTemplate>
-                                    <ControlTemplate>
-                                        <toolkit:AutoCompleteBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Populating="Name_Populating" IsTextCompletionEnabled="True" />
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.EditTemplate>
-                            </Controls:EditorPresenter>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Примечание" SortMemberPath="Description" Width="2*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Controls:EditorPresenter>
-                                <Controls:EditorPresenter.ViewTemplate>
-                                    <ControlTemplate>
-                                        <TextBlock Text="{Binding Description}" />
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.ViewTemplate>
-                                <Controls:EditorPresenter.EditTemplate>
-                                    <ControlTemplate>
-                                        <toolkit:AutoCompleteBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Populating="Description_Populating" IsTextCompletionEnabled="True" Name="descriptionTextBox" />
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.EditTemplate>
-                            </Controls:EditorPresenter>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" SortMemberPath="DetectorCount" IsReadOnly="True" Width="2*" />
-            </DataGrid.Columns>
-        </Controls:XDataGrid>
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
-        <Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" />
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*" MinWidth="200" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="3*" MinWidth="200" />
+		</Grid.ColumnDefinitions>
+		<Controls:XDataGrid Name="_zones" Grid.Column="0" CanUserSortColumns="True" Focusable="True" IsReadOnly="False" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" VirtualizingStackPanel.IsVirtualizing="True">
+			<DataGrid.Columns>
+				<DataGridTextColumn Width="1*" Binding="{Binding Zone.No}" Header="№" IsReadOnly="True" SortMemberPath="Zone.No" />
+				<DataGridTemplateColumn Width="2*" Header="Наименование" SortMemberPath="Name">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Controls:EditorPresenter>
+								<Controls:EditorPresenter.ViewTemplate>
+									<ControlTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+											<TextBlock Text="{Binding Name}" />
+										</StackPanel>
+									</ControlTemplate>
+								</Controls:EditorPresenter.ViewTemplate>
+								<Controls:EditorPresenter.EditTemplate>
+									<ControlTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+											<toolkit:AutoCompleteBox IsTextCompletionEnabled="True" Populating="Name_Populating" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+										</StackPanel>
+									</ControlTemplate>
+								</Controls:EditorPresenter.EditTemplate>
+							</Controls:EditorPresenter>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="2*" Header="Примечание" SortMemberPath="Description">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Controls:EditorPresenter>
+								<Controls:EditorPresenter.ViewTemplate>
+									<ControlTemplate>
+										<TextBlock Text="{Binding Description}" />
+									</ControlTemplate>
+								</Controls:EditorPresenter.ViewTemplate>
+								<Controls:EditorPresenter.EditTemplate>
+									<ControlTemplate>
+										<toolkit:AutoCompleteBox Name="descriptionTextBox" IsTextCompletionEnabled="True" Populating="Description_Populating" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+									</ControlTemplate>
+								</Controls:EditorPresenter.EditTemplate>
+							</Controls:EditorPresenter>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Width="2*" Binding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" IsReadOnly="True" SortMemberPath="DetectorCount" />
+			</DataGrid.Columns>
+		</Controls:XDataGrid>
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+		<Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" />
+	</Grid>
 </UserControl>

@@ -5,20 +5,23 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {
 	public class ZoneRectangleAdorner : BaseRectangleAdorner
 	{
-		public ZoneRectangleAdorner(CommonDesignerCanvas designerCanvas)
+		private ZonesViewModel _zonesViewModel;
+		public ZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{
+			_zonesViewModel = zonesViewModel;
 		}
 
 		protected override ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleZone();
-			var propertiesViewModel = new ZonePropertiesViewModel(element);
+			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			Helper.SetZone(element);

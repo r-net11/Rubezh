@@ -18,6 +18,11 @@ namespace Infrastructure.Common.Windows
 			_cache = new Dictionary<string, ContentPresenter>();
 		}
 
+		public bool IsRightPanelFocused
+		{
+			get { return ShellViewModel == null ? false : ShellViewModel.IsRightPanelFocused; }
+		}
+
 		public void Show(ViewPartViewModel viewModel)
 		{
 			ViewPartViewModel exist = null;

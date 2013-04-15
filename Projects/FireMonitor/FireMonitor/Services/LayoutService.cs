@@ -4,8 +4,8 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor
 {
-    public class LayoutService : ILayoutService
-    {
+	public class LayoutService : ILayoutService
+	{
 		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
 		{
 			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
@@ -22,21 +22,15 @@ namespace FireMonitor
 		{
 			_toolbarViewModel.AlarmGroups = viewModel;
 		}
-
 		public void AddToolbarItem(BaseViewModel viewModel)
 		{
 			_toolbarViewModel.ToolbarItems.Add(viewModel);
 		}
 
-		#endregion
-	
-		#region ILayoutService Members
-
 		public void Show(ViewPartViewModel model)
 		{
 			ApplicationLayoutService.Show(model);
 		}
-
 		public void Close()
 		{
 			ApplicationLayoutService.Close();
@@ -46,7 +40,6 @@ namespace FireMonitor
 		{
 			ApplicationLayoutService.ShowToolbar(model);
 		}
-
 		public void ShowFooter(BaseViewModel model)
 		{
 			ApplicationLayoutService.ShowFooter(model);
@@ -60,6 +53,10 @@ namespace FireMonitor
 		public void ShowRightContent(RightContentViewModel model)
 		{
 			ApplicationLayoutService.ShowRightContent(model);
+		}
+		public bool IsRightPanelFocused
+		{
+			get { return ApplicationLayoutService.IsRightPanelFocused; }
 		}
 
 		#endregion
