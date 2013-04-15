@@ -54,6 +54,8 @@ namespace Common.GK
 			AddDriverToKau_RSR2(RSR2_MDU_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MAP4_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVK8_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_MAP4_Group_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_MVK8_Group_Helper.Create());
 		}
 
 		static void AddDriverToKau(XDriver driver)

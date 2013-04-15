@@ -248,7 +248,6 @@ namespace Firesec
 					{
 						//driverProperty.Name = internalProperty.name.Replace("Control$", "");
 						driverProperty.IsControl = true;
-						driver.HasControlProperties = true;
 					}
 
 					driverProperty.Parameters = new List<DriverPropertyParameter>();
@@ -354,7 +353,6 @@ namespace Firesec
 
 		static void AddValveControlProperties(Driver driver)
 		{
-			driver.HasControlProperties = true;
 			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltClose", Caption = "Закрыть" });
 			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltStop", Caption = "Стоп" });
 			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltOpen", Caption = "Открыть" });

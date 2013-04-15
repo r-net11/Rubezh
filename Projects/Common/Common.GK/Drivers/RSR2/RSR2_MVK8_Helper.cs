@@ -12,9 +12,10 @@ namespace Common.GK
 				DriverTypeNo = 0xE2,
 				DriverType = XDriverType.RSR2_MVK8,
 				UID = new Guid("3E55ACEF-D0D6-443A-A247-E9D5D116429A"),
-				Name = "МВК-8 RSR2",
-				ShortName = "МВК-8 RSR2",
-				HasZone = true,
+				Name = "МВК RSR2",
+				ShortName = "МВК RSR2",
+				IsControlDevice = true,
+				HasLogic = true,
                 IsPlaceable = true
 			};
 
@@ -32,8 +33,8 @@ namespace Common.GK
 			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 128, 1, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 128, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 0, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 0, 1, 65535);
 
 			var property1 = new XDriverProperty()
 			{
@@ -54,7 +55,7 @@ namespace Common.GK
 				No = 3,
 				Name = "Состояние контакта для режима Удержания",
 				Caption = "Состояние контакта для режима Удержания",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x0C
 			};
@@ -68,7 +69,7 @@ namespace Common.GK
 				No = 3,
 				Name = "Состояние контакта для режима Включено",
 				Caption = "Состояние контакта для режима Включено",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x30
 			};
@@ -82,7 +83,7 @@ namespace Common.GK
 				No = 4,
 				Name = "Контроль",
 				Caption = "Контроль",
-				Default = 0,
+				Default = 3,
 				IsLowByte = true,
 			};
 			GKDriversHelper.AddPropertyParameter(property4, "Без контроля", 0);
@@ -91,7 +92,7 @@ namespace Common.GK
 			GKDriversHelper.AddPropertyParameter(property4, "Обрыв и КЗ", 3);
 			driver.Properties.Add(property4);
 
-			GKDriversHelper.AddIntProprety(driver, 6, "Норма питания, 0.1В", 0, 1, 0, 100);
+			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 0.1В", 0, 80, 1, 1000);
 
 			return driver;
 		}

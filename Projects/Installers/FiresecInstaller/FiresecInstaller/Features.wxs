@@ -19,7 +19,7 @@
         <ComponentRef Id="FSAgent.AutorunComponent" />
         <ComponentRef Id="FSAgent.ProgramsMenuShortcut" />
       </Feature>
-      <Feature Id="GK.Features" Title="ГК" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
+      <Feature Id="GK.Features" Title="ГК" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
         <ComponentRef Id="Monitor.GkJournalDatabase.sdf" />

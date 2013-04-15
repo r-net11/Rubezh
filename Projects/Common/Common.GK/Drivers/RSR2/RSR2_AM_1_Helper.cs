@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0xDB,
 				DriverType = XDriverType.RSR2_AM_1,
 				UID = new Guid("860F3F6A-9EE9-437B-8220-B66AFDDBD285"),
-				Name = "Пожарная адресная метка АМ-1 RSR2",
-				ShortName = "АМ-1 RSR2",
+				Name = "Пожарная адресная метка МА RSR2",
+				ShortName = "МА RSR2",
 				HasZone = true,
                 IsPlaceable = true
 			};
