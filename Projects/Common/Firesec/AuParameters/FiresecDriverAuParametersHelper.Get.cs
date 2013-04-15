@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace Firesec
 {
@@ -43,7 +44,12 @@ namespace Firesec
                     return new OperationResult<bool>(result.Error);
                 }
 				Trace.WriteLine(requestId.ToString() + " " + device.PlaceInTree);
-                devicePropertyRequest.RequestIds.Add(requestId);
+				var requestInfo = new Firesec.DevicePropertyRequest.RequestInfo()
+				{
+					ParamNo = propertyNo,
+					RequestId = requestId
+				};
+				devicePropertyRequest.RequestIds.Add(requestInfo);
             }
             DevicePropertyRequests.Add(devicePropertyRequest);
 
@@ -56,34 +62,58 @@ namespace Firesec
             return new OperationResult<bool>() { Result = true };
         }
 
-        static void AUParametersThreadRun()
-        {
-            while (DevicePropertyRequests.Count > 0)
-            {
-                DevicePropertyRequests.RemoveAll(x=>x.IsDeleting);
-				var devicePropertyRequests = DevicePropertyRequests.ToList();
-				Trace.WriteLine("devicePropertyRequests.Count = " + devicePropertyRequests.Count().ToString());
+		static void AUParametersThreadRun()
+		{
+			try
+			{
+				while (DevicePropertyRequests.Count > 0)
+				{
+					DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
+					var devicePropertyRequests = DevicePropertyRequests.ToList();
+					Trace.WriteLine("devicePropertyRequests.Count = " + devicePropertyRequests.Count().ToString());
 
-                    int stateConfigQueriesRequestId = 0;
+					int stateConfigQueriesRequestId = 0;
 					var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod("", "StateConfigQueries", null, ref stateConfigQueriesRequestId);
 					if (result == null || result.HasError || result.Result == null)
-                    {
+					{
 						Thread.Sleep(TimeSpan.FromSeconds(1));
-                        continue;
-                    }
+						continue;
+					}
 
-                    Firesec.Models.DeviceCustomFunctions.Requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.Requests>(result.Result);
+					Firesec.Models.DeviceCustomFunctions.Requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.Requests>(result.Result);
 					if (requests != null && requests.Request.Count() > 0)
 					{
 						foreach (var request in requests.Request)
 						{
 							foreach (var devicePropertyRequest in devicePropertyRequests)
 							{
-								if (devicePropertyRequest.RequestIds.Contains(request.id))
+								if (devicePropertyRequest.RequestIds.Any(x => x.RequestId == request.ID))
 								{
-									devicePropertyRequest.RequestIds.Remove(request.id);
-									int propertyNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
-									int propertyValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
+									//if (request.param == null)
+									//    continue;
+
+									Trace.WriteLine("request.State = " + request.State);
+									if (request.State != "5")
+										continue;
+
+									var resultString = request.resultString;
+									if (resultString == null)
+										continue;
+									Trace.WriteLine("ResultString = " + resultString);
+
+									//continue;
+									var requestInfo = devicePropertyRequest.RequestIds.FirstOrDefault(x => x.RequestId == request.ID);
+									if (requestInfo == null)
+										continue;
+									devicePropertyRequest.RequestIds.RemoveAll(x => x.RequestId == request.ID);
+									int propertyNo = requestInfo.ParamNo;// devicePropertyRequest.RequestIds.devicePropertyRequest.RequestIds.FirstOrDefault();//request.param.FirstOrDefault(x => x.name == "ParamNo").value;
+									int propertyValue = 0;// request.param.FirstOrDefault(x => x.name == "ParamValue").value;
+									try
+									{
+										if (!string.IsNullOrEmpty(resultString))
+											propertyValue = int.Parse(resultString);
+									}
+									catch { ;}
 
 									foreach (var driverProperty in devicePropertyRequest.Device.Driver.Properties.FindAll(x => x.No == propertyNo))
 									{
@@ -117,11 +147,16 @@ namespace Firesec
 							}
 						}
 					}
-                    if (StopEvent.WaitOne(1000))
-                        break;
-            }
-            AUParametersThread = null;
-        }
+					if (StopEvent.WaitOne(1000))
+						break;
+				}
+				AUParametersThread = null;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriverAuParametersHelper.AUParametersThreadRun");
+			}
+		}
 
         static Property CreateProperty(int paramValue, DriverProperty driverProperty)
         {

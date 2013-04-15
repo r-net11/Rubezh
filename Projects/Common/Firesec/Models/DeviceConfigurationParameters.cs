@@ -43,39 +43,46 @@ namespace Firesec.Models.DeviceCustomFunctions
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-		public int id;
+		public int ID;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-		public int state;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-		public int paramCount;
+		public string State;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string Code;
+
+		///// <remarks/>
+		//[System.Xml.Serialization.XmlAttributeAttribute()]
+		//public int paramCount;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int RequestType;
+		public string RequestType;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int StartTime;
+		public string StartTime;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int BeginTime;
+		public string BeginTime;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int EndTime;
+		public string EndTime;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public int coNum;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int coCount;
+		public string coCount;
 
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int coProgress;
+		public string coProgress;
+
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string coCaption;
 
 		[System.Xml.Serialization.XmlElementAttribute("ResultString", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public resultString[] resultString;
+		public string resultString;
     }
 
 	/// <remarks/>
