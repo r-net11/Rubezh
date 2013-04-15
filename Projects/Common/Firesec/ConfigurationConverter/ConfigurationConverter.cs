@@ -94,7 +94,9 @@ namespace Firesec
                 }
             }
 
+#if DEBUG
 			//ZipSerializeHelper.Serialize<DriversConfiguration>(driversConfiguration, "D:/DriversConfiguration.xml");
+#endif
 
             DriverConfigurationParametersHelper.CreateKnownProperties(driversConfiguration.Drivers);
 			return new OperationResult<DriversConfiguration>() { Result = driversConfiguration };

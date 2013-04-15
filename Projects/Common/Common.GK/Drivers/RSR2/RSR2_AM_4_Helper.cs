@@ -11,8 +11,8 @@ namespace Common.GK
 			{
 				DriverType = XDriverType.RSR2_AM_4,
 				UID = new Guid("79EAC50A-D534-4775-A102-BE4872877400"),
-				Name = "Пожарная адресная метка АМ-4 RSR2",
-				ShortName = "АМ-4 RSR2",
+				Name = "Пожарная адресная метка МА-4 RSR2",
+				ShortName = "МА-4 RSR2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = XDriverType.RSR2_AM_1,
 				GroupDeviceChildrenCount = 4

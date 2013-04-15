@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0xE1,
 				DriverType = XDriverType.RSR2_MAP4,
 				UID = new Guid("42B3C448-2FDD-43D4-AEE0-F173CB8D6CF8"),
-				Name = "МАП-4 RSR2",
-				ShortName = "МАП-4 RSR2",
+				Name = "МАП RSR2",
+				ShortName = "МАП RSR2",
 				HasZone = true,
                 IsPlaceable = true
 			};
@@ -30,7 +30,7 @@ namespace Common.GK
 				No = 0,
 				Name = "Конфигурация",
 				Caption = "Конфигурация",
-				Default = 1
+				Default = 0
 			};
 			var property1Parameter1 = new XDriverPropertyParameter()
 			{
