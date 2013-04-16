@@ -35,11 +35,11 @@ namespace Infrustructure.Plans.Elements
 			Top = point.Y - Height / 2;
 		}
 
-		protected virtual void Copy(ElementBaseRectangle element)
+		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			element.Height = Height;
-			element.Width = Width;
+			((ElementBaseRectangle)element).Height = Height;
+			((ElementBaseRectangle)element).Width = Width;
 		}
 	}
 }

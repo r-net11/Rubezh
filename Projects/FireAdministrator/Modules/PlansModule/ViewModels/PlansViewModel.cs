@@ -93,7 +93,7 @@ namespace PlansModule.ViewModels
 				SelectedPlan = null;
 			}
 		}
-		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		private PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
 			var planViewModel = new PlanViewModel(plan);
 			if (parentPlanViewModel == null)
@@ -103,6 +103,7 @@ namespace PlansModule.ViewModels
 
 			foreach (var childPlan in plan.Children)
 				AddPlan(childPlan, planViewModel);
+			return planViewModel;
 		}
 
 		private ObservableCollection<PlanViewModel> _plans;
@@ -159,74 +160,21 @@ namespace PlansModule.ViewModels
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
-			{
-				var plan = planDetailsViewModel.Plan;
-				var planViewModel = new PlanViewModel(plan);
-				Plans.Add(planViewModel);
-				SelectedPlan = planViewModel;
-
-				FiresecManager.PlansConfiguration.Plans.Add(plan);
-				FiresecManager.PlansConfiguration.Update();
-				ServiceFactory.SaveService.PlansChanged = true;
-			}
+				OnPlanPaste(planDetailsViewModel.Plan, true);
 		}
 		public RelayCommand AddSubPlanCommand { get; private set; }
 		private void OnAddSubPlan()
 		{
 			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
-			{
-				var plan = planDetailsViewModel.Plan;
-				var planViewModel = new PlanViewModel(plan);
-				SelectedPlan.Children.Add(planViewModel);
-				SelectedPlan.Plan.Children.Add(plan);
-				SelectedPlan.Update();
-				SelectedPlan = planViewModel;
-
-				FiresecManager.PlansConfiguration.Update();
-				ServiceFactory.SaveService.PlansChanged = true;
-			}
+				OnPlanPaste(planDetailsViewModel.Plan, false);
 		}
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
 			string message = string.Format(SelectedPlan.PlanFolder != null ? "Вы уверены, что хотите удалить папку '{0}'?" : "Вы уверены, что хотите удалить план '{0}'?", SelectedPlan.Caption);
 			if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
-			{
-				var selectedPlan = SelectedPlan;
-				var parent = selectedPlan.Parent;
-				var plan = SelectedPlan.Plan;
-				ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(DesignerCanvas.Items.Select(item => item.Element).ToList());
-				if (parent == null)
-				{
-					Plans.Remove(selectedPlan);
-					FiresecManager.PlansConfiguration.Plans.Remove(plan);
-					foreach (var childPlanViewModel in selectedPlan.Children)
-					{
-						Plans.Add(childPlanViewModel);
-						FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
-						childPlanViewModel.Plan.Parent = null;
-						childPlanViewModel.ResetParent();
-					}
-				}
-				else
-				{
-					parent.Children.Remove(selectedPlan);
-					parent.Plan.Children.Remove(plan);
-					foreach (var childPlanViewModel in selectedPlan.Children)
-					{
-						parent.Children.Add(childPlanViewModel);
-						parent.Plan.Children.Add(childPlanViewModel.Plan);
-						childPlanViewModel.Plan.Parent = parent.Plan;
-					}
-					parent.Update();
-					parent.IsExpanded = true;
-				}
-
-				FiresecManager.PlansConfiguration.Update();
-				ServiceFactory.SaveService.PlansChanged = true;
-				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
-			}
+				OnPlanRemove(false);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -351,6 +299,14 @@ namespace PlansModule.ViewModels
 			base.OnHide();
 			if (DesignerCanvas.Toolbox != null)
 				DesignerCanvas.Toolbox.AcceptKeyboard = false;
+		}
+
+		private void ClearReferences(Plan plan)
+		{
+			foreach (var p in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var subPlan in p.ElementSubPlans)
+					if (subPlan.PlanUID == plan.UID)
+						Helper.SetSubPlan(subPlan);
 		}
 
 		private double _splitterDistance;

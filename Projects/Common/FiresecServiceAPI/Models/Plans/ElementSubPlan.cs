@@ -15,13 +15,15 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementSubPlan elementBase = new ElementSubPlan()
-			{
-				PlanUID = PlanUID,
-				Caption = Caption
-			};
+			ElementSubPlan elementBase = new ElementSubPlan();
 			Copy(elementBase);
 			return elementBase;
+		}
+		public override void Copy(ElementBase element)
+		{
+			base.Copy(element);
+			((ElementSubPlan)element).PlanUID = PlanUID;
+			((ElementSubPlan)element).Caption = Caption;
 		}
 
 		#region IPrimitive Members

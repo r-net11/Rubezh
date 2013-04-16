@@ -47,7 +47,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		private void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
 		{
-			if (IsActive && ApplicationService.ApplicationWindow.IsKeyboardFocusWithin)
+			if (IsActive && ApplicationService.ApplicationWindow.IsKeyboardFocusWithin && !ApplicationService.Layout.IsRightPanelFocused)
 			{
 				foreach (var keyGesture in Shortcuts.Keys)
 					if (e.Key == keyGesture.Key && keyGesture.Modifiers == Keyboard.Modifiers)

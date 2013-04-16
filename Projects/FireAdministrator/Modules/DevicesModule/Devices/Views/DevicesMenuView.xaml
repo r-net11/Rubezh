@@ -4,11 +4,6 @@
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <UserControl.Resources>
-        <s:Boolean x:Key="True">True</s:Boolean>
-        <s:Boolean x:Key="False">False</s:Boolean>
-    </UserControl.Resources>
-
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
         <Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
         <Controls:ToolBarButton Name="showPropertiesButton" Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />

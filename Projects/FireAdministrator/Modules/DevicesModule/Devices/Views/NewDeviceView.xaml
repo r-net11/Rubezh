@@ -33,7 +33,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name, Mode=OneTime}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name, Mode=OneTime}" Width="*" />
                 <DataGridTextColumn Header="Класс" Binding="{Binding DeviceClassName, Mode=OneTime}" />
             </DataGrid.Columns>
         </DataGrid>

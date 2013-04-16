@@ -868,6 +868,18 @@
   <ItemGroup>
     <Resource Include="Images\GridLineEdit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MVK8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MAP4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MVK8_Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_MAP4_Group.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

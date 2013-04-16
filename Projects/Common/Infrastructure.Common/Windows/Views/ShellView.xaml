@@ -5,7 +5,7 @@
 			<ColumnDefinition Width="{Binding Width2, Mode=TwoWay}" />
 			<ColumnDefinition Width="{Binding Width3, Mode=TwoWay}" MinWidth="{Binding Width3, Converter={StaticResource GridLengthToMinWidthConverter}}" />
 		</Grid.ColumnDefinitions>
-		<DockPanel Grid.Row="0">
+		<DockPanel x:Name="LeftContent" Grid.Row="0" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="LeftContent_GotKeyboardFocus" PreviewMouseDown="LeftContent_PreviewMouseDown">
 			<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
 				<DockPanel>
 					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -35,6 +35,6 @@
 			</Grid>
 		</DockPanel>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}" />
-		<ContentPresenter Grid.Column="2" MinWidth="200" Content="{Binding RightContent}" />
+		<ContentPresenter x:Name="RightContent" Grid.Column="2" MinWidth="200" Content="{Binding RightContent}" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="RightContent_GotKeyboardFocus" PreviewMouseDown="RightContent_PreviewMouseDown" />
 	</Grid>
 </UserControl>

@@ -133,6 +133,7 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("524505D6-0734-4812-9903-034E65E4ADCB", 0, "Направление СОНАР", DriverType.SonarDirection));
 			DriverDataList.Add(new DriverData("1AA50BF3-D67C-48BC-8921-F9AD1795ED1E", 0, "USB Рубеж-П", DriverType.USB_Rubezh_P));
 			DriverDataList.Add(new DriverData("C6D4ED92-493C-4F3E-87C6-730704BD17CA", 0, "СОНАР", DriverType.Sonar));
+			DriverDataList.Add(new DriverData("507FC2EC-0033-4833-8A6F-572934443EE6", 0, "ОП-виртуальная панель", DriverType.OP_VirtualPanel));
 		}
 
 		public static List<DriverType> PanelDrivers

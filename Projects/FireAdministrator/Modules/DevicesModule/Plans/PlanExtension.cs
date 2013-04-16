@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Shapes;
+using System.Windows.Media;
 using Common;
 using DeviceControls;
 using DevicesModule.Plans.Designer;
 using DevicesModule.Plans.InstrumentAdorners;
 using DevicesModule.Plans.ViewModels;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -18,11 +18,9 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
 using Devices = DevicesModule.ViewModels;
-using System.Windows.Media;
-using System.Windows.Threading;
-using Infrustructure.Plans.Painters;
 
 namespace DevicesModule.Plans
 {
@@ -30,7 +28,8 @@ namespace DevicesModule.Plans
 	{
 		private Devices.DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
-		public PlanExtension(Devices.DevicesViewModel devicesViewModel)
+		private ZonesViewModel _zonesViewModel;
+		public PlanExtension(Devices.DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel)
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -43,6 +42,7 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateDeviceInZones);
 
 			_devicesViewModel = devicesViewModel;
+			_zonesViewModel = zonesViewModel;
 		}
 
 		public void Initialize()
@@ -68,7 +68,7 @@ namespace DevicesModule.Plans
 						{
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
 							ToolTip="Зона",
-							Adorner = new ZoneRectangleAdorner(_designerCanvas),
+							Adorner = new ZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
 							Index = 100,
 							Autostart = true
 						},
@@ -76,7 +76,7 @@ namespace DevicesModule.Plans
 						{
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
 							ToolTip="Зона",
-							Adorner = new ZonePolygonAdorner(_designerCanvas),
+							Adorner = new ZonePolygonAdorner(_designerCanvas, _zonesViewModel),
 							Index = 101,
 							Autostart = true
 						},
@@ -253,7 +253,7 @@ namespace DevicesModule.Plans
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleZone || e.Element is ElementPolygonZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
 		}
 
 		public void UpdateDeviceInZones(List<ElementBase> items)

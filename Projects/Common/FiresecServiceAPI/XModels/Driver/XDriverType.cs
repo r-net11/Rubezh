@@ -38,6 +38,10 @@
 		RSR2_RM_2,
 		RSR2_AM_1,
 		RSR2_AM_4,
-		RSR2_MDU
+		RSR2_MDU,
+		RSR2_MAP4,
+		RSR2_MVK8,
+		RSR2_MAP4_Group,
+		RSR2_MVK8_Group
     }
 }

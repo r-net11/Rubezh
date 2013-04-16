@@ -1,0 +1,100 @@
+﻿using System;
+using XFiresecAPI;
+
+namespace Common.GK
+{
+	public static class RSR2_MVK8_Helper
+	{
+		public static XDriver Create()
+		{
+			var driver = new XDriver()
+			{
+				DriverTypeNo = 0xE2,
+				DriverType = XDriverType.RSR2_MVK8,
+				UID = new Guid("3E55ACEF-D0D6-443A-A247-E9D5D116429A"),
+				Name = "МВК RSR2",
+				ShortName = "МВК RSR2",
+				IsControlDevice = true,
+				HasLogic = true,
+                IsPlaceable = true
+			};
+
+			GKDriversHelper.AddControlAvailableStates(driver);
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Failure);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Info);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Failure);
+
+			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
+
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 0, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 0, 1, 65535);
+
+			var property1 = new XDriverProperty()
+			{
+				No = 3,
+				Name = "Состояние контакта для режима Выключено",
+				Caption = "Состояние контакта для режима Выключено",
+				Default = 0,
+				IsLowByte = true,
+				Mask = 0x03
+			};
+			GKDriversHelper.AddPropertyParameter(property1, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property1, "Контакт НЗ", 1);
+			GKDriversHelper.AddPropertyParameter(property1, "Контакт переключается", 2);
+			driver.Properties.Add(property1);
+
+			var property2 = new XDriverProperty()
+			{
+				No = 3,
+				Name = "Состояние контакта для режима Удержания",
+				Caption = "Состояние контакта для режима Удержания",
+				Default = 1,
+				IsLowByte = true,
+				Mask = 0x0C
+			};
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 1);
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 2);
+			driver.Properties.Add(property2);
+
+			var property3 = new XDriverProperty()
+			{
+				No = 3,
+				Name = "Состояние контакта для режима Включено",
+				Caption = "Состояние контакта для режима Включено",
+				Default = 1,
+				IsLowByte = true,
+				Mask = 0x30
+			};
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт НЗ", 1);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 2);
+			driver.Properties.Add(property3);
+
+			var property4 = new XDriverProperty()
+			{
+				No = 4,
+				Name = "Контроль",
+				Caption = "Контроль",
+				Default = 3,
+				IsLowByte = true,
+			};
+			GKDriversHelper.AddPropertyParameter(property4, "Без контроля", 0);
+			GKDriversHelper.AddPropertyParameter(property4, "Обрыв", 1);
+			GKDriversHelper.AddPropertyParameter(property4, "КЗ", 2);
+			GKDriversHelper.AddPropertyParameter(property4, "Обрыв и КЗ", 3);
+			driver.Properties.Add(property4);
+
+			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 0.1В", 0, 80, 1, 1000);
+
+			return driver;
+		}
+	}
+}

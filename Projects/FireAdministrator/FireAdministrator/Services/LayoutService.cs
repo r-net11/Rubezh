@@ -40,6 +40,11 @@ namespace FireAdministrator
 			get { return ApplicationLayoutService.ShortcutService; }
 		}
 
+		public bool IsRightPanelFocused
+		{
+			get { return ApplicationLayoutService.IsRightPanelFocused; }
+		}
+
 		#endregion
 	}
 }

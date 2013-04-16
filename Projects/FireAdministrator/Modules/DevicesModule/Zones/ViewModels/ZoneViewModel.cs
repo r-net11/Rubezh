@@ -1,17 +1,21 @@
 ﻿using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
-using System.Diagnostics;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Helper;
+using System;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
+		private VisualizationState _visualizetionState;
 		public Zone Zone { get; private set; }
 
 		public ZoneViewModel(Zone zone)
 		{
 			Zone = zone;
+			Update();
 		}
 
 		public string Name
@@ -25,7 +29,6 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
-
 		public string Description
 		{
 			get { return Zone.Description; }
@@ -37,7 +40,6 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
-
 		public string DetectorCount
 		{
 			get
@@ -47,7 +49,10 @@ namespace DevicesModule.ViewModels
 				return null;
 			}
 		}
-
+		public VisualizationState VisualizationState
+		{
+			get { return _visualizetionState; }
+		}
 		public void Update(Zone zone)
 		{
 			Zone = zone;
@@ -55,6 +60,15 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
 			OnPropertyChanged("DetectorCount");
+			Update();
+		}
+
+		public void Update()
+		{
+			if (Zone.PlanElementUIDs == null)
+				Zone.PlanElementUIDs = new List<Guid>();
+			_visualizetionState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			OnPropertyChanged(() => VisualizationState);
 		}
 	}
 }

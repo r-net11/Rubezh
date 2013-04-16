@@ -2,6 +2,8 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -62,11 +64,7 @@ namespace PlansModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (SelectedPlan != null)
-			{
-				_elementSubPlan.PlanUID = SelectedPlan.Plan.UID;
-				_elementSubPlan.Caption = SelectedPlan.Plan.Caption;
-			}
+			Helper.SetSubPlan(_elementSubPlan, SelectedPlan == null ? null : SelectedPlan.Plan);
 			return base.Save();
 		}
 	}

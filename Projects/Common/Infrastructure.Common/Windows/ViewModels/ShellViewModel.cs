@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Navigation;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -159,6 +160,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 					RightContent.Shell = this;
 			}
 		}
+
+		public bool IsRightPanelFocused { get; set; }
+		public bool IsLeftPanelFocused { get; set; }
 
 		private bool _isRightPanelEnabled;
 		public bool IsRightPanelEnabled

@@ -70,11 +70,13 @@ namespace PlansModule.ViewModels
 		}
 		void OnElementsChanged(List<ElementBase> elementsBefore)
 		{
+		}
+		public List<ElementBase> AddHistoryItem(List<ElementBase> elementsBefore)
+		{
+			var elementsAfter = DesignerCanvas.CloneElements(DesignerCanvas.SelectedItems);
 			if (!_historyAction)
-			{
-				var elementsAfter = DesignerCanvas.CloneElements(DesignerCanvas.SelectedItems);
 				AddHistoryItem(elementsBefore, elementsAfter, ActionType.Edited);
-			}
+			return elementsAfter;
 		}
 
 		private void DoUndo()
@@ -84,23 +86,10 @@ namespace PlansModule.ViewModels
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
-					List<ElementBase> elements = new List<ElementBase>();
 					foreach (var elementBase in historyItem.ElementsBefore)
-					{
-						var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
-						if (designerItem != null)
-						{
-							var element = elementBase.Clone();
-							designerItem.ResetElement(element);
-							elements.Add(element);
-						}
-						else
-						{
-							Logger.Error("PlansViewModel.DoUndo designerItem = null");
-						}
-					}
-					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(elements);
+						DesignerCanvas.UpdateElement(elementBase);
 					DesignerCanvas.UpdateZoom();
+					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(historyItem.ElementsBefore);
 					break;
 				case ActionType.Added:
 					foreach (var elementBase in historyItem.ElementsAfter)
@@ -125,18 +114,11 @@ namespace PlansModule.ViewModels
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
-					List<ElementBase> elements = new List<ElementBase>();
 					foreach (var elementBase in historyItem.ElementsAfter)
-					{
-						var designerItem = DesignerCanvas.GetDesignerItem(elementBase);
-						var element = elementBase.Clone();
-						designerItem.ResetElement(element);
-						elements.Add(element);
-					}
+						DesignerCanvas.UpdateElement(elementBase);
 					DesignerCanvas.UpdateZoom();
-					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(elements);
+					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(historyItem.ElementsAfter);
 					break;
-
 				case ActionType.Added:
 					foreach (var elementBase in historyItem.ElementsAfter)
 						DesignerCanvas.AddElement(elementBase);

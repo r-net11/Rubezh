@@ -13,10 +13,10 @@ namespace PlansModule.ViewModels
 {
 	public class ElementsViewModel : BaseViewModel
 	{
-		private bool _isSelectedEvent;
+		//private bool _isSelectedEvent;
 		public ElementsViewModel(DesignerCanvas designerCanvas)
 		{
-			_isSelectedEvent = false;
+			//_isSelectedEvent = false;
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementAdded);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
@@ -42,11 +42,13 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedElement = value;
-				if (!_isSelectedEvent && _selectedElement != null && _selectedElement.ShowOnPlanCommand != null)
+				var elementViewModel = SelectedElement as ElementViewModel;
+				if (elementViewModel != null && (DesignerCanvas.SelectedItems.Count() != 1 || !elementViewModel.DesignerItem.IsSelected))
+				//if (!_isSelectedEvent && _selectedElement != null && _selectedElement.ShowOnPlanCommand != null)
 				{
-					_isSelectedEvent = true;
+					//_isSelectedEvent = true;
 					_selectedElement.ShowOnPlanCommand.Execute();
-					_isSelectedEvent = false;
+					//_isSelectedEvent = false;
 				}
 				OnPropertyChanged("SelectedElement");
 			}
@@ -86,8 +88,11 @@ namespace PlansModule.ViewModels
 			{
 				elementViewModel = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementUID);
 				if (elementViewModel != null)
+				{
 					elementViewModel.ExpantToThis();
-				SelectedElement = elementViewModel;
+					elementViewModel.IsSelected = true;
+				}
+				//SelectedElement = elementViewModel;
 			}
 		}
 
@@ -118,11 +123,7 @@ namespace PlansModule.ViewModels
 					AddElement(new ElementViewModel(designerItem));
 			}
 			if (elements.Count > 0)
-			{
-				_isSelectedEvent = true;
-				Select(elements[elements.Count - 1].UID);
-				_isSelectedEvent = false;
-			}
+				OnElementSelected(elements[elements.Count - 1]);
 			UpdateHasChildren();
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
@@ -147,11 +148,11 @@ namespace PlansModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			if (!_isSelectedEvent)
+			//if (!_isSelectedEvent)
 			{
-				_isSelectedEvent = true;
+				//_isSelectedEvent = true;
 				Select(element.UID);
-				_isSelectedEvent = false;
+				//_isSelectedEvent = false;
 			}
 		}
 

@@ -68,7 +68,7 @@ namespace DevicesModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PainterCache.GetBrush(GetStateColor());
+			return PainterCache.GetTransparentBrush(GetStateColor());
 		}
 
 		#endregion

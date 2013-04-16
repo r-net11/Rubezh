@@ -11,8 +11,8 @@ namespace Common.GK
 			{
 				DriverType = XDriverType.RSR2_RM_2,
 				UID = new Guid("A2959070-BB9D-45C0-8113-F9662A1CE7BF"),
-				Name = "РМ-2 RSR2",
-				ShortName = "РМ-2 RSR2",
+				Name = "МР-2 RSR2",
+				ShortName = "МР-2 RSR2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = XDriverType.RSR2_RM_1,
 				GroupDeviceChildrenCount = 2

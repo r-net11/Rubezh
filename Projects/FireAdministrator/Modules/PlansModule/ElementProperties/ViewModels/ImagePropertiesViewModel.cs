@@ -42,17 +42,12 @@ namespace PlansModule.ViewModels
 				OptimizePath = true,
 			};
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
-			RemovePictureCommand = new RelayCommand(OnRemovePicture);
+			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
 			UpdateImage();
 		}
 
-		public bool HasImage
-		{
-			get { return Image != null && Image.Source != null; }
-		}
-
 		public RelayCommand SelectPictureCommand { get; private set; }
-		void OnSelectPicture()
+		private void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg";
@@ -74,7 +69,7 @@ namespace PlansModule.ViewModels
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
-		void OnRemovePicture()
+		private void OnRemovePicture()
 		{
 			if (_imageSource.HasValue)
 				ServiceFactory.ContentService.RemoveContent(_imageSource.Value);
@@ -84,6 +79,10 @@ namespace PlansModule.ViewModels
 			_newImage = false;
 			_drawing = null;
 			UpdateImage();
+		}
+		private bool CanRemovePicture()
+		{
+			return Image != null && Image.Source != null;
 		}
 
 		public void Save()
@@ -127,7 +126,6 @@ namespace PlansModule.ViewModels
 					Stretch = Stretch.Uniform
 				};
 				OnPropertyChanged(() => Image);
-				OnPropertyChanged(() => HasImage);
 			}
 			catch (Exception e)
 			{

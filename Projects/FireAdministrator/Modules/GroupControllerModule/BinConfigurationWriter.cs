@@ -31,8 +31,8 @@ namespace GKModule
 					result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 					if (!result)
 					{
-						MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим");
-						return;
+						//MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим");
+						//return;
 					}
 					EraseDatabase(gkDatabase.RootDevice);
 

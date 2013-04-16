@@ -15,10 +15,12 @@ namespace DevicesModule.Plans.ViewModels
 {
 	public class ZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		IElementZone IElementZone;
+		private IElementZone IElementZone;
+		private ZonesViewModel _zonesViewModel;
 
-		public ZonePropertiesViewModel(IElementZone iElementZone)
+		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel)
 		{
+			_zonesViewModel = zonesViewModel;
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -62,12 +64,14 @@ namespace DevicesModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
+			Guid zoneUID = IElementZone.ZoneUID;
 			var createZoneEventArg = new CreateZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 				IElementZone.ZoneUID = createZoneEventArg.Zone.UID;
 			Helper.BuildMap();
 			Helper.SetZone(IElementZone);
+			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
 				Close(true);
 		}
@@ -85,9 +89,27 @@ namespace DevicesModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			Guid zoneUID = IElementZone.ZoneUID;
 			Helper.SetZone(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
-			IElementZone.IsHiddenZone = IsHiddenZone;
+			UpdateZones(zoneUID);
 			return base.Save();
+		}
+		private void UpdateZones(Guid zoneUID)
+		{
+			IElementZone.IsHiddenZone = IsHiddenZone;
+			if (_zonesViewModel != null)
+			{
+				if (zoneUID != IElementZone.ZoneUID)
+					Update(zoneUID);
+				Update(IElementZone.ZoneUID);
+				_zonesViewModel.LockedSelect(IElementZone.ZoneUID);
+			}
+		}
+		private void Update(Guid zoneUID)
+		{
+			var zone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zone != null)
+				zone.Update();
 		}
 	}
 }

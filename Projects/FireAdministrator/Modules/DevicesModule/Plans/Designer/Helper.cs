@@ -38,12 +38,21 @@ namespace DevicesModule.Plans.Designer
 		public static void SetZone(IElementZone element)
 		{
 			Zone zone = GetZone(element);
-			element.BackgroundColor = GetZoneColor(zone);
+			SetZone(element, zone);
 		}
 		public static void SetZone(IElementZone element, Zone zone)
 		{
+			ResetZone(element);
 			element.ZoneUID = zone == null ? Guid.Empty : zone.UID;
 			element.BackgroundColor = GetZoneColor(zone);
+			if (zone != null)
+				zone.PlanElementUIDs.Add(element.UID);
+		}
+		public static void ResetZone(IElementZone element)
+		{
+			Zone zone = GetZone(element);
+			if (zone != null)
+				zone.PlanElementUIDs.Remove(element.UID);
 		}
 		public static Color GetZoneColor(Zone zone)
 		{

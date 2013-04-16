@@ -98,6 +98,7 @@ namespace FiresecClient
 			try
 			{
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
@@ -106,6 +107,8 @@ namespace FiresecClient
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 				var xzoneMap = new Dictionary<Guid, XZone>();
 				XManager.DeviceConfiguration.Zones.ForEach(xzone => xzoneMap.Add(xzone.UID, xzone));
+				var planMap = new Dictionary<Guid, Plan>();
+				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				{
 					for (int i = plan.ElementDevices.Count(); i > 0; i--)
@@ -122,14 +125,24 @@ namespace FiresecClient
 						if (xdeviceMap.ContainsKey(elementXDevice.XDeviceUID))
 							xdeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
 					}
-					foreach (var zone in plan.ElementPolygonZones)
-						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(zone.ZoneUID) ? zoneMap[zone.ZoneUID] : null);
-					foreach (var zone in plan.ElementRectangleZones)
-						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(zone.ZoneUID) ? zoneMap[zone.ZoneUID] : null);
+					foreach (var elementZone in plan.ElementPolygonZones)
+					{
+						UpdateZoneType(elementZone, elementZone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(elementZone.ZoneUID) ? zoneMap[elementZone.ZoneUID] : null);
+						if (zoneMap.ContainsKey(elementZone.ZoneUID))
+							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
+					}
+					foreach (var elementZone in plan.ElementRectangleZones)
+					{
+						UpdateZoneType(elementZone, elementZone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(elementZone.ZoneUID) ? zoneMap[elementZone.ZoneUID] : null);
+						if (zoneMap.ContainsKey(elementZone.ZoneUID))
+							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
+					}
 					foreach (var xzone in plan.ElementPolygonXZones)
 						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID) ? xzoneMap[xzone.ZoneUID] : null);
 					foreach (var xzone in plan.ElementRectangleXZones)
 						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID) ? xzoneMap[xzone.ZoneUID] : null);
+					foreach (var subplan in plan.ElementSubPlans)
+						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
 				}
 			}
 			catch (Exception e)
@@ -223,9 +236,9 @@ namespace FiresecClient
 		}
 
 
-		static void UpdateZoneType(IElementZone elementZone, Zone zone)
+		private static void UpdateZoneType(IElementZone elementZone, Zone zone)
 		{
-			elementZone.BackgroundColor = System.Windows.Media.Colors.Gray;
+			elementZone.BackgroundColor = System.Windows.Media.Colors.Black;
 			elementZone.SetZLayer(2);
 			if (zone != null)
 				switch (zone.ZoneType)
@@ -240,10 +253,14 @@ namespace FiresecClient
 						break;
 				}
 		}
-		static void UpdateZoneType(IElementZone elementZone, XZone zone)
+		private static void UpdateZoneType(IElementZone elementZone, XZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 5 : 6);
-			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Gray : System.Windows.Media.Colors.Purple;
+			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+		}
+		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
+		{
+			elementSubPlan.BackgroundColor = plan == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
 	}
 }

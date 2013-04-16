@@ -95,6 +95,8 @@ namespace DevicesModule.ViewModels
 				if (value != null)
 					value.ExpantToThis();
 				OnPropertyChanged("SelectedDevice");
+				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
 			}
 		}
 
@@ -176,7 +178,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return CanDoPaste(SelectedDevice) || (SelectedDevice!= null && CanDoPaste(SelectedDevice.Parent));
+			return CanDoPaste(SelectedDevice) || (SelectedDevice != null && CanDoPaste(SelectedDevice.Parent));
 		}
 		bool CanDoPaste(DeviceViewModel deviceViewModel)
 		{
@@ -276,7 +278,7 @@ namespace DevicesModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
@@ -312,20 +314,25 @@ namespace DevicesModule.ViewModels
 				ElementDevice elementDevice = element as ElementDevice;
 				if (elementDevice != null)
 				{
-					if (guid != Guid.Empty)
-						OnDeviceChanged(guid);
-					guid = elementDevice.DeviceUID;
+					OnDeviceChanged(elementDevice.DeviceUID);
+					//if (guid != Guid.Empty)
+					//OnDeviceChanged(guid);
+					//guid = elementDevice.DeviceUID;
 				}
 			});
 			_lockSelection = false;
-			if (guid != Guid.Empty)
-				OnDeviceChanged(guid);
+			//if (guid != Guid.Empty)
+			//    OnDeviceChanged(guid);
 		}
 		private void OnElementSelected(ElementBase element)
 		{
 			ElementDevice elementDevice = element as ElementDevice;
 			if (elementDevice != null)
+			{
+				_lockSelection = true;
 				Select(elementDevice.DeviceUID);
+				_lockSelection = false;
+			}
 		}
 	}
 }

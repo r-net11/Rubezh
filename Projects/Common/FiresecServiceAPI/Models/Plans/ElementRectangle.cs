@@ -10,9 +10,6 @@ namespace FiresecAPI.Models
 		{
 		}
 
-		[DataMember]
-		public int ZIndex { get; set; }
-
 		public override ElementBase Clone()
 		{
 			ElementRectangle elementBase = new ElementRectangle();

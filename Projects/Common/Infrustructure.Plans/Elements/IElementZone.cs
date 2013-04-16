@@ -5,6 +5,7 @@ namespace Infrustructure.Plans.Elements
 {
 	public interface IElementZone
 	{
+		Guid UID { get; }
 		Guid ZoneUID { get; set; }
 		Color BackgroundColor { get; set; }
 		void SetZLayer(int zlayer);

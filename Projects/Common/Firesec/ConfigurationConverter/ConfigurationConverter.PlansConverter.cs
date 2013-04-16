@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Windows.Media;
 using Common;
@@ -7,8 +9,6 @@ using Firesec.Models.Plans;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrustructure.Plans.Elements;
-using System.Globalization;
 
 namespace Firesec
 {
@@ -82,7 +82,7 @@ namespace Firesec
 							case "Зоны":
 								foreach (var innerElement in innerLayer.elements)
 								{
-									Guid zoneUID = Guid.Empty;
+									Zone activeZone = null;
 
 
 									long longId = long.Parse(innerElement.id);
@@ -90,16 +90,16 @@ namespace Firesec
 									foreach (var zone in deviceConfiguration.Zones)
 										foreach (var zoneShapeId in zone.ShapeIds)
 											if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
-												zoneUID = zone.UID;
+												activeZone = zone;
 
 									switch (innerElement.@class)
 									{
 										case "TFS_PolyZoneShape":
-											AddPolygonZone(plan, innerElement, zoneUID);
+											AddPolygonZone(plan, innerElement, activeZone);
 											break;
 
 										case "TFS_ZoneShape":
-											AddRectangleZone(plan, innerElement, zoneUID);
+											AddRectangleZone(plan, innerElement, activeZone);
 											break;
 
 										case "TSCDeRectangle":
@@ -309,7 +309,7 @@ namespace Firesec
 			}
 		}
 
-		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
+		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Zone zone)
 		{
 			try
 			{
@@ -317,11 +317,17 @@ namespace Firesec
 				{
 					var elementPolygonZone = new ElementPolygonZone()
 					{
-						ZoneUID = zoneUID
+						ZoneUID = zone == null ? Guid.Empty : zone.UID,
 					};
 					elementPolygonZone.Points = GetPointCollection(innerElement);
 					//elementPolygonZone.Normalize();
 					plan.ElementPolygonZones.Add(elementPolygonZone);
+					if (zone != null)
+					{
+						if (zone.PlanElementUIDs == null)
+							zone.PlanElementUIDs = new List<Guid>();
+						zone.PlanElementUIDs.Add(elementPolygonZone.UID);
+					}
 				};
 			}
 			catch (Exception e)
@@ -330,19 +336,25 @@ namespace Firesec
 			}
 		}
 
-		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
+		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Zone zone)
 		{
 			try
 			{
 				var elementRectangleZone = new ElementRectangleZone()
 				{
-					ZoneUID = zoneUID,
+					ZoneUID = zone == null ? Guid.Empty : zone.UID,
 					Left = Math.Min(Parse(innerElement.rect[0].left), Parse(innerElement.rect[0].right)),
 					Top = Math.Min(Parse(innerElement.rect[0].top), Parse(innerElement.rect[0].bottom)),
 					Width = Math.Abs(Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)),
 					Height = Math.Abs(Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top))
 				};
 				plan.ElementRectangleZones.Add(elementRectangleZone);
+				if (zone != null)
+				{
+					if (zone.PlanElementUIDs == null)
+						zone.PlanElementUIDs = new List<Guid>();
+					zone.PlanElementUIDs.Add(elementRectangleZone.UID);
+				}
 			}
 			catch (Exception e)
 			{

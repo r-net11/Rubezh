@@ -76,7 +76,7 @@ namespace Infrustructure.Plans.Elements
 		public abstract ElementBase Clone();
 		protected abstract void SetDefault();
 
-		protected virtual void Copy(ElementBase element)
+		public virtual void Copy(ElementBase element)
 		{
 			element.UID = UID;
 			element.BorderColor = BorderColor;

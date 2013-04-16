@@ -14,5 +14,9 @@ namespace Infrustructure.Plans.Painters
 		{
 			return PainterCache.GetTransparentBrush(Element);
 		}
+		protected override Pen GetPen()
+		{
+			return PainterCache.ZonePen;
+		}
 	}
 }
