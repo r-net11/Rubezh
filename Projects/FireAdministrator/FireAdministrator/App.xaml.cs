@@ -5,7 +5,6 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using System.Windows.Controls;
 
 namespace FireAdministrator
 {
@@ -18,10 +17,11 @@ namespace FireAdministrator
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
+			string fileName;
 			PatchManager.Patch();
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-            ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-            ThemeHelper.LoadThemeFromRegister();
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+			ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
 			bool trace = true;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
@@ -29,16 +29,20 @@ namespace FireAdministrator
 			_bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
 				_bootstrapper.Initialize();
+			if (e.Args.Length > 0)
+			{
+				fileName = e.Args[0];
+				FileConfigurationHelper.LoadFromFile(fileName);
+			}
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			MessageBoxService.ShowException(e.ExceptionObject as Exception);
-            if (MessageBoxService.ShowQuestion("В результате работы программы произошло исключение. Приложение будет закрыто. Вы хотите сохранить конфигурацию в файл") == MessageBoxResult.Yes)
-            {
-                FileConfigurationHelper.SaveToFile();
-            }
-            
+			if (MessageBoxService.ShowQuestion("В результате работы программы произошло исключение. Приложение будет закрыто. Вы хотите сохранить конфигурацию в файл") == MessageBoxResult.Yes)
+			{
+				FileConfigurationHelper.SaveToFile();
+			}
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{

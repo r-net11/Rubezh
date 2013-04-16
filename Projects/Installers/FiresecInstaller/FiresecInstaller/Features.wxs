@@ -10,7 +10,7 @@
       <FeatureRef Id="Monitor.Features" />
       <FeatureRef Id="ManagementConsole.Features" />
       <!--<FeatureRef Id="OPC.Features" />-->
-      
+
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-4а, Рубеж-2ОП, БУНС">
         <ComponentRef Id="Administrator.FS_MODULE" />
         <ComponentRef Id="Monitor.FS_MODULE" />
@@ -18,6 +18,12 @@
         <ComponentRef Id="FSAgent.DB" />
         <ComponentRef Id="FSAgent.AutorunComponent" />
         <ComponentRef Id="FSAgent.ProgramsMenuShortcut" />
+        <?if $(var.Firesec1Version)=50?>
+        <Feature Id="Utils.Features" Title="Дополнительные утилиты" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит дополнительные компопненты для конфигурирования адресной системы">
+          <ComponentRef Id="Firesec5.Utils"/>
+          <ComponentRef Id="Utils.ProgramMenuShortcut" />
+        </Feature>
+        <?endif?>
       </Feature>
       <Feature Id="GK.Features" Title="ГК" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <ComponentRef Id="Administrator.GK_MODULE" />
@@ -45,6 +51,7 @@
       <ComponentRef Id="OPC.Remove" />
       <ComponentRef Id="Server.Remove" />-->
 
+      <ComponentRef Id="ProgramMenuDir.Utils" />
       <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
       <ComponentRef Id="Administrator.SOUNDS_MODULE" />
@@ -52,6 +59,7 @@
       <ComponentRef Id="Monitor.PLANS_MODULE" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />
+      <ComponentRef Id="FscpAssociation" />
       <!--<ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />-->
     </Feature>
   </Fragment>
