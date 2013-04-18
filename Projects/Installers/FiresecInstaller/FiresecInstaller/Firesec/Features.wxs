@@ -24,6 +24,8 @@
       <ComponentRef Id="Firesec5.fbintl.dll" />
       <ComponentRef Id="Firesec5.msvcp60.dll" />
       <ComponentRef Id="Firesec5.Firmwhare.Files" />
+      <ComponentRef Id="Firesec5.Utils"/>
+      <ComponentRef Id="Utils.ProgramMenuShortcut" />
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
             Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
     </Feature>

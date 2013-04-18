@@ -18,12 +18,6 @@
         <ComponentRef Id="FSAgent.DB" />
         <ComponentRef Id="FSAgent.AutorunComponent" />
         <ComponentRef Id="FSAgent.ProgramsMenuShortcut" />
-        <?if $(var.Firesec1Version)=50?>
-        <Feature Id="Utils.Features" Title="Дополнительные утилиты" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит дополнительные компопненты для конфигурирования адресной системы">
-          <ComponentRef Id="Firesec5.Utils"/>
-          <ComponentRef Id="Utils.ProgramMenuShortcut" />
-        </Feature>
-        <?endif?>
       </Feature>
       <Feature Id="GK.Features" Title="ГК" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <ComponentRef Id="Administrator.GK_MODULE" />

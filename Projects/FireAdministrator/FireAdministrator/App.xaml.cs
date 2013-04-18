@@ -29,11 +29,15 @@ namespace FireAdministrator
 			_bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
 				_bootstrapper.Initialize();
-			if (e.Args.Length > 0)
+			try
 			{
-				fileName = e.Args[0];
-				FileConfigurationHelper.LoadFromFile(fileName);
+				if (e.Args != null && e.Args.Length > 0)
+				{
+					fileName = e.Args[0];
+					FileConfigurationHelper.LoadFromFile(fileName);
+				}
 			}
+			catch { }
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
