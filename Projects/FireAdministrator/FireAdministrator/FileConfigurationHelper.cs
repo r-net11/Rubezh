@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using Common;
 using FiresecAPI;
@@ -11,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
-using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {
@@ -67,19 +65,19 @@ namespace FireAdministrator
 			AddConfiguration(folderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
 			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 
-            var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(folderName, "Content"));
-            if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
-            {
-                if (Directory.Exists(destinationImagesDirectory))
-                    Directory.Delete(destinationImagesDirectory);
-                if (!Directory.Exists(destinationImagesDirectory))
-                    Directory.CreateDirectory(destinationImagesDirectory);
-                var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
-                foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
-                {
-                    fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
-                }
-            }
+			var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(folderName, "Content"));
+			if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
+			{
+				if (Directory.Exists(destinationImagesDirectory))
+					Directory.Delete(destinationImagesDirectory);
+				if (!Directory.Exists(destinationImagesDirectory))
+					Directory.CreateDirectory(destinationImagesDirectory);
+				var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
+				foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
+				{
+					fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
+				}
+			}
 
 			var zipFile = new ZipFile(fileName);
 			zipFile.AddDirectory(folderName);
@@ -111,40 +109,54 @@ namespace FireAdministrator
 					};
 				if (openDialog.ShowDialog().Value)
 				{
-					WaitHelper.Execute(() =>
-					{
-						ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-						ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
-						var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
-						var configFileName = Path.Combine(folderName, "Config.fscp");
-						if (Directory.Exists(folderName))
-							Directory.Delete(folderName, true);
-						Directory.CreateDirectory(folderName);
-						File.Copy(openDialog.FileName, configFileName);
-						bool isFullConfiguration;
-						FiresecManager.LoadFromZipFile(configFileName, out isFullConfiguration);
-						ServiceFactory.ContentService.Invalidate();
-
-						FiresecManager.UpdateConfiguration();
-						XManager.UpdateConfiguration();
-
-						ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-
-						ConfigManager.ShowFirstDevice();
-
-						if (isFullConfiguration)
-						{
-							ServiceFactory.SaveService.Set();
-						}
-						else
-						{
-							ServiceFactory.SaveService.FSChanged = true;
-							ServiceFactory.SaveService.PlansChanged = true;
-							ServiceFactory.SaveService.GKChanged = true;
-						}
-					});
-					return openDialog.FileName;
+					LoadFromFile(openDialog.FileName);
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MenuView.LoadFromFile");
+				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
+			}
+			return null;
+		}
+
+		public static string LoadFromFile(string FileName)
+		{
+			try
+			{
+				WaitHelper.Execute(() =>
+				{
+					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
+					ZipConfigActualizeHelper.Actualize(FileName, false);
+					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
+					var configFileName = Path.Combine(folderName, "Config.fscp");
+					if (Directory.Exists(folderName))
+						Directory.Delete(folderName, true);
+					Directory.CreateDirectory(folderName);
+					File.Copy(FileName, configFileName);
+					bool isFullConfiguration;
+					FiresecManager.LoadFromZipFile(configFileName, out isFullConfiguration);
+					ServiceFactory.ContentService.Invalidate();
+
+					FiresecManager.UpdateConfiguration();
+					XManager.UpdateConfiguration();
+
+					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+
+					ConfigManager.ShowFirstDevice();
+
+					if (isFullConfiguration)
+					{
+						ServiceFactory.SaveService.Set();
+					}
+					else
+					{
+						ServiceFactory.SaveService.FSChanged = true;
+						ServiceFactory.SaveService.PlansChanged = true;
+						ServiceFactory.SaveService.GKChanged = true;
+					}
+				});
+				return FileName;
 			}
 			catch (Exception e)
 			{

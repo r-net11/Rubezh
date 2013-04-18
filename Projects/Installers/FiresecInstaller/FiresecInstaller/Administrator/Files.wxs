@@ -79,6 +79,7 @@
         <File Id="Administrator.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Vlc.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
+
     </DirectoryRef>
 
     <DirectoryRef Id="Administrator.XslFolder">
@@ -100,5 +101,6 @@
         <File Id="Administrator.transform.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\transform.xsl" />
       </Component>
     </DirectoryRef>
+
   </Fragment>
 </Wix>

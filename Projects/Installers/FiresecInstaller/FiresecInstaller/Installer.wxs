@@ -97,6 +97,12 @@
               <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
             </Component>
           </Directory>
+          <Directory Id="ProgramMenuDir.UtilsFolder" Name="Утилиты">
+            <Component Id="ProgramMenuDir.Utils" Guid="3CD226CF-F3D8-4267-8E6D-F6852A425217">
+              <RemoveFolder Id='ProgramMenuDir.UtilsFolder' On='uninstall' />
+              <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+            </Component>
+          </Directory>
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" />
@@ -140,5 +146,6 @@
       <UIRef Id="WixUI_Wizard" />
       <UIRef Id="WixUI_ErrorProgressText" />
     </UI>
+
   </Product>
 </Wix>
