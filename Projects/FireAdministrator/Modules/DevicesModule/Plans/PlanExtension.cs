@@ -29,6 +29,7 @@ namespace DevicesModule.Plans
 		private Devices.DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		private ZonesViewModel _zonesViewModel;
+		private IEnumerable<IInstrument> _instruments;
 		public PlanExtension(Devices.DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel)
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -43,6 +44,7 @@ namespace DevicesModule.Plans
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
+			_instruments = null;
 		}
 
 		public void Initialize()
@@ -62,7 +64,8 @@ namespace DevicesModule.Plans
 		{
 			get
 			{
-				return new List<IInstrument>()
+				if (_instruments == null)
+					_instruments = new List<IInstrument>()
 					{
 						new InstrumentViewModel()
 						{
@@ -81,6 +84,7 @@ namespace DevicesModule.Plans
 							Autostart = true
 						},
 					};
+				return _instruments;
 			}
 		}
 

@@ -15,6 +15,7 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using System.Windows.Controls;
 using Controls.Converters;
+using System.Windows.Input;
 
 namespace DevicesModule.Plans.Designer
 {
@@ -44,6 +45,8 @@ namespace DevicesModule.Plans.Designer
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_presenterItem.Title = GetDeviceTooltip();
+			_presenterItem.Cursor = Cursors.Hand;
+			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
 		void OnParametersChanged()

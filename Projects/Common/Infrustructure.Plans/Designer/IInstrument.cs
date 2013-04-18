@@ -11,5 +11,6 @@ namespace Infrustructure.Plans.Designer
 		InstrumentAdorner Adorner { get; set; }
 		bool Autostart { get; set; }
 		int Index { get; set; }
+		bool IsActive { get; set; }
 	}
 }

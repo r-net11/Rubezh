@@ -445,6 +445,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
+			IsSelected = true;
 			var plansElement = new ElementDevice()
 			{
 				DeviceUID = Device.UID

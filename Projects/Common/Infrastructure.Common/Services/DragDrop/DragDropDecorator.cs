@@ -180,14 +180,14 @@ namespace Infrastructure.Common.Services.DragDrop
 		protected virtual void StartDrag()
 		{
 			var cancel = false;
-			IDataObject data = GetDataObject(out cancel);
+			IDataObject data = GetDataObject(out cancel, true);
 			if (!cancel)
 			{
 				var visual = DragVisualProvider == null ? null : DragVisualProvider(data);
 				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), visual ?? DragVisual ?? Child, ShowDragVisual, visual == null, DragEffect);
 			}
 		}
-		private IDataObject GetDataObject(out bool cancel)
+		private IDataObject GetDataObject(out bool cancel, bool drag)
 		{
 			cancel = false;
 			IDataObject data = DragObject as IDataObject;
@@ -197,7 +197,10 @@ namespace Infrastructure.Common.Services.DragDrop
 			{
 				var dataObject = new DataObject();
 				if (DragCommand.CanExecute(dataObject))
-					DragCommand.Execute(dataObject);
+				{
+					if (drag)
+						DragCommand.Execute(dataObject);
+				}
 				else
 					cancel = true;
 				data = dataObject;
@@ -209,7 +212,7 @@ namespace Infrastructure.Common.Services.DragDrop
 			if (DynamicCursor)
 			{
 				bool cancel;
-				GetDataObject(out cancel);
+				GetDataObject(out cancel, false);
 				Cursor = cancel ? Cursors.Arrow : Cursors.Hand;
 			}
 		}

@@ -116,7 +116,10 @@ namespace PlansModule.Designer
 			e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
 			e.Handled = true;
 			if (e.Effects == DragDropEffects.Move)
+			{
 				Toolbox.SetDefault();
+				DeselectAll();
+			}
 		}
 		protected override void OnDrop(DragEventArgs e)
 		{

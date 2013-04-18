@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using Common;
+using DeviceControls;
 using FiresecAPI.Models;
 using GKModule.Plans.Designer;
 using GKModule.Plans.InstrumentAdorners;
 using GKModule.Plans.ViewModels;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
@@ -10,9 +13,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
-using GKModule.ViewModels;
-using Common;
-using DeviceControls;
 
 namespace GKModule.Plans
 {
@@ -20,6 +20,7 @@ namespace GKModule.Plans
 	{
 		private PlanDevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
+		private IEnumerable<IInstrument> _instruments;
 
 		public GKPlanExtension(DevicesViewModel devicesViewModel)
 		{
@@ -34,6 +35,7 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateXDeviceInXZones(); });
 
 			_devicesViewModel = new PlanDevicesViewModel(devicesViewModel);
+			_instruments = null;
 		}
 
 		public void Initialize()
@@ -62,7 +64,8 @@ namespace GKModule.Plans
 		{
 			get
 			{
-				return new List<IInstrument>()
+				if (_instruments == null)
+					_instruments = new List<IInstrument>()
 					{
 						new InstrumentViewModel()
 						{
@@ -81,6 +84,7 @@ namespace GKModule.Plans
 							Autostart = true
 						},
 					};
+				return _instruments;
 			}
 		}
 

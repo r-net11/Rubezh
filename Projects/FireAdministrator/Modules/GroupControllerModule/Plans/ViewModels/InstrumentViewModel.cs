@@ -7,6 +7,11 @@ namespace GKModule.Plans.ViewModels
 {
 	public class InstrumentViewModel : BaseViewModel, IInstrument
 	{
+		public InstrumentViewModel()
+		{
+			IsActive = true;
+		}
+
 		private string _imageSource;
 		public string ImageSource
 		{
@@ -26,6 +31,17 @@ namespace GKModule.Plans.ViewModels
 			{
 				_toolTip = value;
 				OnPropertyChanged("ToolTip");
+			}
+		}
+
+		private bool _isActive;
+		public bool IsActive
+		{
+			get { return _isActive; }
+			set
+			{
+				_isActive = value;
+				OnPropertyChanged(() => IsActive);
 			}
 		}
 

@@ -285,5 +285,14 @@ namespace GKModule.ViewModels
 			if (elementDevice != null)
 				Select(elementDevice.DeviceUID);
 		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+		}
+		public override void OnHide()
+		{
+			base.OnHide();
+		}
 	}
 }

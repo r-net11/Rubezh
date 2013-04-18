@@ -29,9 +29,22 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		private bool _isActive;
+		public bool IsActive
+		{
+			get { return _isActive; }
+			set
+			{
+				_isActive = value;
+				OnPropertyChanged(() => IsActive);
+			}
+		}
+		
+
 		public InstrumentViewModel()
 		{
 			Autostart = true;
+			IsActive = true;
 		}
 
 		public ICommand Command { get; set; }
