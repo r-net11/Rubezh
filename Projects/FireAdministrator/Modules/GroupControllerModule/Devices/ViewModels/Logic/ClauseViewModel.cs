@@ -58,6 +58,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedClauseOperationType = value;
+				var oldSelectedStateType = SelectedStateType;
 
 				switch (value)
 				{
@@ -66,6 +67,7 @@ namespace GKModule.ViewModels
 						Zones = new List<XZone>();
 						Directions = new List<XDirection>();
 						StateTypes = new ObservableCollection<XStateType>();
+						StateTypes.Add(XStateType.Norm);
 						StateTypes.Add(XStateType.Fire2);
 						if (Device.Driver.DriverType != XDriverType.MPT)
 						{
@@ -96,7 +98,14 @@ namespace GKModule.ViewModels
 						StateTypes.Add(XStateType.On);
 						break;
 				}
-				SelectedStateType = StateTypes.FirstOrDefault();
+				if (StateTypes.Contains(oldSelectedStateType))
+				{
+					SelectedStateType = StateTypes.FirstOrDefault(x => x == oldSelectedStateType);
+				}
+				else
+				{
+					SelectedStateType = StateTypes.FirstOrDefault();
+				}
 				OnPropertyChanged("SelectedClauseOperationType");
 				OnPropertyChanged("PresenrationZones");
 				OnPropertyChanged("PresenrationDevices");

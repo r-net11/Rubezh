@@ -182,7 +182,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
-      <Name>Common</Name>
+      <Name>Common %28Common\Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
@@ -190,7 +190,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec %28Firesec\Firesec%29</Name>
+      <Name>Firesec</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>

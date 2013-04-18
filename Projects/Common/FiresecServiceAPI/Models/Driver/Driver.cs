@@ -215,5 +215,24 @@ namespace FiresecAPI.Models
 		{
 			get { return Properties.Any(x => x.IsControl); }
 		}
+
+		public bool IsGroupDevice
+		{
+			get
+			{
+				switch(DriverType)
+				{
+					case DriverType.AM4:
+					case DriverType.AMP_4:
+					case DriverType.AMT_4:
+					case DriverType.RM_2:
+					case DriverType.RM_3:
+					case DriverType.RM_4:
+					case DriverType.RM_5:
+						return true;
+				}
+				return false;
+			}
+		}
 	}
 }

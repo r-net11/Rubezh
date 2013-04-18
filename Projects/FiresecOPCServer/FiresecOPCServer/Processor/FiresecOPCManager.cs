@@ -23,7 +23,7 @@ namespace FiresecOPCServer
 
 		public static void Start()
 		{
-			OPCRegister();
+			//OPCRegister();
 			try
 			{
 				StopEvent = new AutoResetEvent(false);

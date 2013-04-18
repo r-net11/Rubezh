@@ -24,5 +24,7 @@ namespace ClientFS2.ConfigurationWriter
 		public bool IsBold { get; set; }
 		public bool IsHeader { get; set; }
 		public bool HasNoOffset { get; set; }
+
+		public bool IsNotEqualToOriginal { get; set; }
 	}
 }

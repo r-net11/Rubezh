@@ -11,6 +11,7 @@ namespace FiresecAPI
 	{
 		public GlobalSettings()
 		{
+			FSAgent_UseFS2 = false;
 			RemoteAddress = "localhost";
 			RemotePort = 8000;
 			Login = "adm";
@@ -97,6 +98,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool ForceShutdown { get; set; }
+		[DataMember]
+		public bool FSAgent_UseFS2 { get; set; }
 
 		[DataMember]
 		public string Modules { get; set; }

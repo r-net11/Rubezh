@@ -62,21 +62,11 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddByte((byte)0, "Количество потерянных ИП");
 			BytesDatabase.AddShort((short)Zone.No, "Глобальный номер");
 
-			var autosetTime = 0;
-			if (!string.IsNullOrEmpty(Zone.AutoSet))
-			{
-				autosetTime = Int32.Parse(Zone.AutoSet) * 10;
-			}
-			var delayTime = 0;
-			if (!string.IsNullOrEmpty(Zone.Delay))
-			{
-				delayTime = Int32.Parse(Zone.Delay);
-			}
 			var diectionNo = 0;
 
-			BytesDatabase.AddShort((short)delayTime, "Время задержки");
+			BytesDatabase.AddShort((short)(Zone.AutoSet * 10), "Время задержки");
 			BytesDatabase.AddByte((byte)diectionNo, "Номер направления");
-			BytesDatabase.AddByte((byte)autosetTime, "Время автоперевзятия");
+			BytesDatabase.AddByte((byte)Zone.Delay, "Время автоперевзятия");
 
 			BytesDatabase.AddShort((short)Zone.DevicesInZoneLogic.Count, "Общее количество связанных с зоной ИУ");
 			InitializeMPT();

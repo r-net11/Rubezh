@@ -46,7 +46,7 @@
 		AM4, // GROUP
 		AMP_4,
 		AM4_P, // GROUP
-		//AMT_4,
+		AMT_4, // GROUP
 		//AM4_T,
 		//AM4_O,
 		StopButton,

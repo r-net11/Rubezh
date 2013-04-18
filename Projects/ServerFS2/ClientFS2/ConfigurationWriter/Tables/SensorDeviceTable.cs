@@ -145,11 +145,11 @@ namespace ClientFS2.ConfigurationWriter
 		void AddAM1Config()
 		{
 			var config = 0;
-			if (Device.Parent.Driver.DriverType == DriverType.AM4)
+			if (Device.Parent.Driver.IsGroupDevice)
 			{
 				var childIndex = Device.Parent.Children.IndexOf(Device);
-				childIndex = childIndex << 2;
-				config += childIndex;
+				childIndex = childIndex << 1;
+				config += 8 + childIndex;
 			}
 			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
 

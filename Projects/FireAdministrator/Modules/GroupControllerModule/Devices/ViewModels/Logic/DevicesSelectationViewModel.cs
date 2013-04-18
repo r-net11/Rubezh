@@ -17,8 +17,8 @@ namespace GKModule.ViewModels
 		public DevicesSelectationViewModel(List<XDevice> devices, List<XDevice> sourceDevices = null)
 		{
 			Title = "Выбор устройства";
-            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
-            RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
+			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("AvailableDevices");
 		}
 
-        public List<XDevice> DevicesList { get; private set; }
+		public List<XDevice> DevicesList { get; private set; }
 		public ObservableCollection<XDevice> AvailableDevices { get; private set; }
 		public ObservableCollection<XDevice> Devices { get; private set; }
 
@@ -81,69 +81,69 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public RelayCommand<object> AddCommand { get; private set; }
-        public IList SelectedAvailableDevices;
-        void OnAdd(object parameter)
-        {
+		public RelayCommand<object> AddCommand { get; private set; }
+		public IList SelectedAvailableDevices;
+		void OnAdd(object parameter)
+		{
 			var index = AvailableDevices.IndexOf(SelectedAvailableDevice);
 
-            SelectedAvailableDevices = (IList)parameter;
-            var availabledeviceViewModels = new List<XDevice>();
-            foreach (var availabledevice in SelectedAvailableDevices)
-            {
-                var availabledeviceViewModel = availabledevice as XDevice;
-                if (availabledeviceViewModel != null)
-                    availabledeviceViewModels.Add(availabledeviceViewModel);
-            }
-            foreach (var availabledeviceViewModel in availabledeviceViewModels)
-            {
-                Devices.Add(availabledeviceViewModel);
-                AvailableDevices.Remove(availabledeviceViewModel);
-            }
+			SelectedAvailableDevices = (IList)parameter;
+			var availabledeviceViewModels = new List<XDevice>();
+			foreach (var availabledevice in SelectedAvailableDevices)
+			{
+				var availabledeviceViewModel = availabledevice as XDevice;
+				if (availabledeviceViewModel != null)
+					availabledeviceViewModels.Add(availabledeviceViewModel);
+			}
+			foreach (var availabledeviceViewModel in availabledeviceViewModels)
+			{
+				Devices.Add(availabledeviceViewModel);
+				AvailableDevices.Remove(availabledeviceViewModel);
+			}
 			SelectedDevice = Devices.LastOrDefault();
-            OnPropertyChanged("AvailableDevices");
+			OnPropertyChanged("AvailableDevices");
 
 			index = Math.Min(index, AvailableDevices.Count - 1);
 			if (index > -1)
 				SelectedAvailableDevice = AvailableDevices[index];
-        }
+		}
 
-        public RelayCommand<object> RemoveCommand { get; private set; }
-        public IList SelectedDevices;
-        void OnRemove(object parameter)
-        {
+		public RelayCommand<object> RemoveCommand { get; private set; }
+		public IList SelectedDevices;
+		void OnRemove(object parameter)
+		{
 			var index = Devices.IndexOf(SelectedDevice);
 
-            SelectedDevices = (IList)parameter;
-            var deviceViewModels = new List<XDevice>();
-            foreach (var device in SelectedDevices)
-            {
-                var deviceViewModel = device as XDevice;
-                if (deviceViewModel != null)
-                    deviceViewModels.Add(deviceViewModel);
-            }
-            foreach (var deviceViewModel in deviceViewModels)
-            {
-                AvailableDevices.Add(deviceViewModel);
-                Devices.Remove(deviceViewModel);
-            }
+			SelectedDevices = (IList)parameter;
+			var deviceViewModels = new List<XDevice>();
+			foreach (var device in SelectedDevices)
+			{
+				var deviceViewModel = device as XDevice;
+				if (deviceViewModel != null)
+					deviceViewModels.Add(deviceViewModel);
+			}
+			foreach (var deviceViewModel in deviceViewModels)
+			{
+				AvailableDevices.Add(deviceViewModel);
+				Devices.Remove(deviceViewModel);
+			}
 			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
-            OnPropertyChanged("Devices");
+			OnPropertyChanged("Devices");
 
 			index = Math.Min(index, Devices.Count - 1);
 			if (index > -1)
 				SelectedDevice = Devices[index];
-        }
+		}
 
-        public bool CanAdd(object parameter)
-        {
-            return SelectedAvailableDevice != null;
-        }
+		public bool CanAdd(object parameter)
+		{
+			return SelectedAvailableDevice != null;
+		}
 
-        public bool CanRemove(object parameter)
-        {
-            return SelectedDevice != null;
-        }
+		public bool CanRemove(object parameter)
+		{
+			return SelectedDevice != null;
+		}
 
 		public bool CanAddAll()
 		{
@@ -163,20 +163,20 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(device);
 			}
-            AvailableDevices.Clear();
-            SelectedDevice = Devices.FirstOrDefault();
+			AvailableDevices.Clear();
+			SelectedDevice = Devices.FirstOrDefault();
 		}
 
 
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-            foreach (var device in Devices)
-            {
-                AvailableDevices.Add(device);
-            }
-            Devices.Clear();
-            SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
+			foreach (var device in Devices)
+			{
+				AvailableDevices.Add(device);
+			}
+			Devices.Clear();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 		}
 
 		protected override bool Save()

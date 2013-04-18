@@ -105,6 +105,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Принудительное выключение компьютера" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding ForceShutdown}" HorizontalAlignment="Left" Margin="2" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать сервер FS2" HorizontalAlignment="Right" Margin="2"
+                    Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding FSAgent_UseFS2}" HorizontalAlignment="Left" Margin="2"
+                    Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </TabItem>
         <TabItem Header="Прочее">

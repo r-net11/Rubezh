@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using System.IO;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -27,6 +28,31 @@ namespace ClientFS2.ConfigurationWriter
 			var deltaMiliseconds = (DateTime.Now - startDateTime).TotalMilliseconds;
 			Total_Miliseconds += deltaMiliseconds;
 			Trace.WriteLine("PanelDatabase Total_Miliseconds=" + Total_Miliseconds.ToString());
+
+			foreach (var byteDescription in PanelDatabase2.BytesDatabase.ByteDescriptions)
+			{
+				byteDescription.IsNotEqualToOriginal = true;
+			}
+
+			var fileName = "FSBytes.bin";
+			if (File.Exists(fileName))
+			{
+				var byteArray = File.ReadAllBytes(fileName);
+				if (byteArray != null)
+				{
+					var bytes = byteArray.ToList();
+
+					foreach (var byteDescription in PanelDatabase2.BytesDatabase.ByteDescriptions)
+					{
+						if (bytes.Count > byteDescription.Offset)
+						{
+							var b = bytes[byteDescription.Offset];
+							if (byteDescription.Value == b)
+								byteDescription.IsNotEqualToOriginal = false;
+						}
+					}
+				}
+			}
 		}
 	}
 }
