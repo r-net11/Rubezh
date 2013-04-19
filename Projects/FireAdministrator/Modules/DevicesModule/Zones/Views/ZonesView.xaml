@@ -8,25 +8,34 @@
 		</Grid.ColumnDefinitions>
 		<Controls:XDataGrid Name="_zones" Grid.Column="0" CanUserSortColumns="True" Focusable="True" IsReadOnly="False" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" VirtualizingStackPanel.IsVirtualizing="True">
 			<DataGrid.Columns>
-				<DataGridTextColumn Width="1*" Binding="{Binding Zone.No}" Header="№" IsReadOnly="True" SortMemberPath="Zone.No" />
-				<DataGridTemplateColumn Width="2*" Header="Наименование" SortMemberPath="Name">
+                <DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" IsReadOnly="True" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Controls:EditorPresenter>
+                                <Controls:EditorPresenter.ViewTemplate>
+                                    <ControlTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                                            <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" Margin="2, 0, 5, 0" />
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Controls:EditorPresenter.ViewTemplate>
+                            </Controls:EditorPresenter>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="2*" Header="Наименование" SortMemberPath="Name">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Controls:EditorPresenter>
 								<Controls:EditorPresenter.ViewTemplate>
 									<ControlTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-											<TextBlock Text="{Binding Name}" />
-										</StackPanel>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 									</ControlTemplate>
 								</Controls:EditorPresenter.ViewTemplate>
 								<Controls:EditorPresenter.EditTemplate>
 									<ControlTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-											<toolkit:AutoCompleteBox IsTextCompletionEnabled="True" Populating="Name_Populating" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-										</StackPanel>
+                                        <toolkit:AutoCompleteBox IsTextCompletionEnabled="True" Populating="Name_Populating" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 									</ControlTemplate>
 								</Controls:EditorPresenter.EditTemplate>
 							</Controls:EditorPresenter>

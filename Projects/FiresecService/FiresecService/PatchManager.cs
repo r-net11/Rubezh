@@ -32,7 +32,7 @@ namespace FiresecService
 		static void Patch2()
 		{
 			var patchNo = PatchHelper.GetPatchNo("Server");
-			if (patchNo > 1)
+			if (patchNo > 2)
 				return;
 
 			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");

@@ -15,6 +15,7 @@ namespace DevicesModule.ViewModels
 		public MPTTimerViewModel(Device device)
 		{
 			Title = "Включение МПТ " + device.DottedAddress;
+			TopMost = true;
 			Device = device;
 			_guid = device.UID;
 		}
@@ -45,6 +46,13 @@ namespace DevicesModule.ViewModels
 					Close();
 				}
 			}
+		}
+
+		public void RestartTimer(int timeLeft)
+		{
+			if (TimeLeft <= 0)
+				TimeLeft = timeLeft;
+			StartTimer(TimeLeft);
 		}
 
 		public void StartTimer(int timeLeft)

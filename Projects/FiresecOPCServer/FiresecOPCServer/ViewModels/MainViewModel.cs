@@ -17,6 +17,7 @@ namespace FiresecOPCServer.ViewModels
 			Current = this;
 			Title = "OPC Сервер ОПС FireSec-2";
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
+			RegisterCommand = new RelayCommand(OnRegister);
 		}
 
 		public void AddLog(string message)
@@ -49,6 +50,12 @@ namespace FiresecOPCServer.ViewModels
 		void OnShowImitator()
 		{
 			ImitatorService.Show();
+		}
+
+		public RelayCommand RegisterCommand { get; private set; }
+		void OnRegister()
+		{
+			FiresecOPCManager.OPCRegister();
 		}
 
 		public override bool OnClosing(bool isCanceled)

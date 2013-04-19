@@ -8,6 +8,7 @@ using Graybox.OPC.ServerToolkit.CLRWrapper;
 using FiresecAPI.Models;
 using FiresecClient;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace FiresecOPCServer
 {
@@ -56,6 +57,9 @@ namespace FiresecOPCServer
 			}
 			catch (Exception e)
 			{
+#if DEBUG
+				MessageBox.Show(e.ToString());
+#endif
 				Logger.Error(e, "Исключение при вызове FiresecOPCManager.OnRun");
 			}
 		}

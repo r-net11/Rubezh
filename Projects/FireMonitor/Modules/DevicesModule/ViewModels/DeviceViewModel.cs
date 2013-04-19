@@ -396,11 +396,17 @@ namespace DevicesModule.ViewModels
 							int secondsLeft = timeout - (int)timeSpan.Value.TotalSeconds;
 							if (secondsLeft > 0)
 							{
-								if (MPTTimerViewModel == null)
-									MPTTimerViewModel = new MPTTimerViewModel(Device);
-								DialogService.ShowWindow(MPTTimerViewModel);
-								MPTTimerViewModel.StartTimer(secondsLeft);
-								Trace.WriteLine("secondsLeft=" + secondsLeft.ToString());
+								if (Device.Zone != null && Device.Zone.EnableExitTime)
+								{
+									if (MPTTimerViewModel == null)
+										MPTTimerViewModel = new MPTTimerViewModel(Device);
+									DialogService.ShowWindow(MPTTimerViewModel);
+									if (Device.Zone.ExitRestoreType == ExitRestoreType.SetTimer)
+										MPTTimerViewModel.StartTimer(secondsLeft);
+									else
+										MPTTimerViewModel.RestartTimer(secondsLeft);
+									Trace.WriteLine("secondsLeft=" + secondsLeft.ToString());
+								}
 							}
 						}
 					}

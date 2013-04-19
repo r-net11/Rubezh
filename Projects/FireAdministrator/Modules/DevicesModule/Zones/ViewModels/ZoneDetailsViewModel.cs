@@ -63,7 +63,7 @@ namespace DevicesModule.ViewModels
 			No = Zone.No;
 			Description = Zone.Description;
 			DetectorCount = Zone.DetectorCount;
-			EvacuationTime = Zone.EvacuationTime;
+			//EvacuationTime = Zone.EvacuationTime;
 			AutoSet = Zone.AutoSet;
 			Delay = Zone.Delay;
 			Skipped = Zone.Skipped;
@@ -137,12 +137,21 @@ namespace DevicesModule.ViewModels
 		int _evacuationTime;
 		public int EvacuationTime
 		{
-			get { return _evacuationTime; }
-			set
+			get
 			{
-				_evacuationTime = value;
-				OnPropertyChanged("EvacuationTime");
+				var mptDevice = Zone.DevicesInZone.FirstOrDefault(x => x.Driver.DriverType == DriverType.MPT);
+				if (mptDevice != null)
+				{
+					int timeout = MptDetailsViewModel.GetMPTTimeout(mptDevice);
+					return timeout;
+				}
+				return _evacuationTime;
 			}
+			//set
+			//{
+			//    _evacuationTime = value;
+			//    OnPropertyChanged("EvacuationTime");
+			//}
 		}
 
 		GuardZoneType _guardZoneType;

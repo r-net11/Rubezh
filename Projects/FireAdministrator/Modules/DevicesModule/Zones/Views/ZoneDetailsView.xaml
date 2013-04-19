@@ -78,7 +78,7 @@
                         <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" HorizontalAlignment="Right" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Foreground="White" Margin="2" />
-                        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EvacuationTime}" Foreground="White" Margin="2" />
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Влючить отсчет времени задержки" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                         <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding EnableExitTime}" Margin="2" />
