@@ -19,6 +19,10 @@ namespace ServerFS2
         private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent _autoWaitEvent = new AutoResetEvent(false);
         private uint _requestId;
+
+		List<Response> _responses = new List<Response>();
+		List<byte> _localresult = new List<byte>();
+
 		public void Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
@@ -37,6 +41,7 @@ namespace ServerFS2
 			_reader.DataReceivedEnabled = true;
 			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 		}
+
 		public void Close()
 		{
 			_reader.DataReceivedEnabled = false;
@@ -57,14 +62,14 @@ namespace ServerFS2
 				UsbDevice.Exit();
 			}
 		}
+
 		public void Send(List<byte> data)
 		{
 			int bytesWrite;
 			_writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
-		List<Response> _responses = new List<Response>();
-	    List<byte> _localresult = new List<byte>();
-		private void OnDataRecieved(object sender, EndpointDataEventArgs e)
+
+		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
             var buffer = e.Buffer.Where((val, idx) => idx != 0).ToArray();
             foreach (var b in buffer)
@@ -103,7 +108,8 @@ namespace ServerFS2
                     _autoWaitEvent.Set();
 			}
 		}
-		private static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
+
+		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
 			var bytes = new List<byte>(0) { 0x7e };
 			foreach (var b in messageBytes)
@@ -146,7 +152,8 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
-		private static List<byte> CreateInputBytes(List<byte> messageBytes)
+
+		static List<byte> CreateInputBytes(List<byte> messageBytes)
 		{
 			var bytes = new List<byte>();
 			var previousByte = new byte();
@@ -189,6 +196,7 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
+
         // Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
         public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout)
         {
@@ -230,11 +238,13 @@ namespace ServerFS2
             return new OperationResult<List<Response>> { Result = _responses };
         }
 	}
+
 	public class Request
 	{
 		public uint Id;
 		public List<byte> Data;
 	}
+
 	public class Response
 	{
 		public uint Id;

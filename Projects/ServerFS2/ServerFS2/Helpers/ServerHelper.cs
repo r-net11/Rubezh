@@ -15,12 +15,14 @@ namespace ServerFS2
 {
     public static class ServerHelper
     {
+		public static event Action<int, int, string> Progress;
+		public static List<Driver> Drivers;
+		public static List<byte> DeviceRom;
+		public static List<byte> DeviceRam;
         static readonly object Locker = new object();
         static readonly UsbRunner UsbRunner;
-        public static event Action<int, int, string> Progress;
-        public static List<Driver> Drivers;
-        public static List<byte> DeviceRom;
-        public static List<byte> DeviceRam;
+		static int _usbRequestNo;
+
         static ServerHelper()
         {
             var str = DateConverter.ConvertToBytes(DateTime.Now);
@@ -36,15 +38,13 @@ namespace ServerFS2
             ;
         }
 
-        private static int _usbRequestNo;
-
-        public static void ParseJournal(List<byte> bytes, List<JournalItem> journalItems)
+		public static JournalItem ParseJournal(List<byte> bytes)
         {
             lock (Locker)
             {
                 var journalParser = new JournalParser(bytes);
                 var journalItem = journalParser.Parce();
-                journalItems.Add(journalItem);
+				return journalItem;
             }
         }
 
@@ -60,9 +60,9 @@ namespace ServerFS2
 
         public static List<JournalItem> GetSecJournalItems2Op(Device device)
         {
-            int lastindex = GetLastSecJournalItemId2Op(device);
-            var journlaItems = new List<JournalItem>();
-            for (int i = 0; i <= lastindex; i++)
+            int lastIndex = GetLastSecJournalItemId2Op(device);
+            var journalItems = new List<JournalItem>();
+            for (int i = 0; i <= lastIndex; i++)
             {
                 var bytes = new List<byte>();
                 bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -72,16 +72,21 @@ namespace ServerFS2
                 bytes.Add(0x20);
                 bytes.Add(0x02);
                 bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-                ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journlaItems);
+				var result = SendCode(bytes).Result.FirstOrDefault();
+				if (result != null)
+				{
+					var journalItem = ParseJournal(result.Data);
+					journalItems.Add(journalItem);
+				}
             }
-            journlaItems = journlaItems.OrderByDescending(x => x.IntDate).ToList();
+            journalItems = journalItems.OrderByDescending(x => x.IntDate).ToList();
             int no = 0;
-            foreach (var item in journlaItems)
+            foreach (var journalItem in journalItems)
             {
                 no++;
-                item.No = no;
+                journalItem.No = no;
             }
-            return journlaItems;
+            return journalItems;
         }
 
         public static int GetLastSecJournalItemId2Op(Device device)
@@ -147,8 +152,8 @@ namespace ServerFS2
             try
             {
                 var lastindex = SendCode(bytes);
-                int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
-                return li;
+                int result = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+                return result;
             }
             catch (NullReferenceException ex)
             {
@@ -177,7 +182,12 @@ namespace ServerFS2
                 bytes.Add(0x20);
                 bytes.Add(0x00);
                 bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-                ParseJournal(SendCode(bytes).Result.FirstOrDefault().Data, journalItems);
+				var result = SendCode(bytes).Result.FirstOrDefault();
+				if (result != null)
+				{
+					var journalItem = ParseJournal(result.Data);
+					journalItems.Add(journalItem);
+				}
             }
             int no = 0;
             foreach (var item in journalItems)
