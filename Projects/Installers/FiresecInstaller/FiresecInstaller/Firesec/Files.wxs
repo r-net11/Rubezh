@@ -25,7 +25,7 @@
         <File Id="Firesec.zlib1.dll" Name="zlib1.dll" Source="$(var.Firesec.TargetDir)" />
         <File Id="Firesec.gds32.dll" Name="gds32.dll" Source="$(var.Firesec.TargetDir)" />
         <File Id="Firesec.firebird.msg" Name="firebird.msg" Source="$(var.Firesec.TargetDir)" />
-        <File Id="Firesec.RegisterFS.bat" Name="RegisterFS.bat" Source="Data\RegisterFS.bat" />
+        <File Id="Firesec.RegisterFS48.bat" Name="RegisterFS48.bat" Source="Data\RegisterFS48.bat" />
       </Component>
     </DirectoryRef>
 

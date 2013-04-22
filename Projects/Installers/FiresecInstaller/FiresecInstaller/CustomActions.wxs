@@ -13,6 +13,7 @@
     <CustomAction Id="RegisterSockProxy" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s "[FIRESECLOCATION]SockProxy.dll"' Return="check" />
     <CustomAction Id="RegisterServer" Directory="FIRESECLOCATION" ExeCommand="[FIRESECLOCATION]Fs_server.exe -regserver" Execute="immediate" Impersonate="yes" Return="check" />-->
     <CustomAction Id="RegisterFS_Bat" ExeCommand="[FIRESECLOCATION5]RegisterFS.bat" Directory="FIRESECLOCATION5" Execute="deferred" Return="asyncWait" />
+    <CustomAction Id="RegisterFS48_Bat" ExeCommand="[FIRESECLOCATION]RegisterFS48.bat" Directory="FIRESECLOCATION" Execute="deferred" Return="asyncWait" />
 
     <!--<CustomAction Id="RegisterFs_types" Directory="FIRESECLOCATION5_LIB" ExeCommand='C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regtlibv12.exe "[FIRESECLOCATION5_LIB]fs_types.dll"' Return="check" />
     <CustomAction Id="RegisterSockProxy" Directory="FIRESECLOCATION5_LIB" ExeCommand='regsvr32.exe /s "[FIRESECLOCATION5_LIB]SockProxy.dll"' Return="check" />

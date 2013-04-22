@@ -122,7 +122,14 @@
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
 
+      <?if $(var.Firesec1Version)=50?>
       <Custom Action="RegisterFS_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
+      <?endif?>
+
+      <?if $(var.Firesec1Version)=48?>
+      <Custom Action="RegisterFS48_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
+      <?endif?>
+
       <!--<Custom Action="RegisterFs_types" After="RegisterFS_Bat">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
       -->
       <!--<Custom Action="RegisterFs_types2" After="RegisterFs_types">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>-->
@@ -140,6 +147,7 @@
       <!--<Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
       <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT INSTALLMODE</Custom>
       <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT INSTALLMODE</Custom>-->
+
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">
