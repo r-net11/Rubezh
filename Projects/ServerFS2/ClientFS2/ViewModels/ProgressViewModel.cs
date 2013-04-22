@@ -13,8 +13,8 @@ namespace ClientFS2.ViewModels
 			CloseOnEscape = false;
 			AllowClose = false;
 			//ServerHelper.Initialize();
-			ServerHelper.Progress -= Progress;
-			ServerHelper.Progress += Progress;
+			//ServerHelper.Progress -= Progress;
+			//ServerHelper.Progress += Progress;
 		}
 
 		public void CloseProgress()
