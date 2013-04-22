@@ -19,7 +19,7 @@ namespace FireMonitor.Multiclient
 				Directory.Delete(folderName, true);
 			Directory.CreateDirectory(folderName);
 
-			if (!LicenseHelper.CheckLicense(0))
+			if (!LicenseHelper.CheckLicense(true))
 			{
 				MessageBoxService.ShowError("Отсутстует лицензия. Приложение будет закрыто");
 				Shutdown();
