@@ -25,7 +25,7 @@
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition />
+                    <!--<ColumnDefinition />-->
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Label FontWeight="Heavy" Content="Классы событий" />
@@ -37,7 +37,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
-                <StackPanel Grid.Column="1">
+                <!--<StackPanel Grid.Column="1">
                     <Label FontWeight="Heavy" Content="Категории устройств" />
                     <ItemsControl ItemsSource="{Binding Categories}">
                         <ItemsControl.ItemTemplate>
@@ -46,7 +46,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
+                </StackPanel>-->
             </Grid>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2">

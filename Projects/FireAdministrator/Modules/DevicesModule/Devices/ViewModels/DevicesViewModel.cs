@@ -78,9 +78,11 @@ namespace DevicesModule.ViewModels
 				FillAllDevices();
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
+				{
 					deviceViewModel.ExpantToThis();
-				//SelectedDevice = deviceViewModel;
-				deviceViewModel.IsSelected = true;
+					//SelectedDevice = deviceViewModel;
+					deviceViewModel.IsSelected = true;
+				}
 			}
 		}
 		#endregion

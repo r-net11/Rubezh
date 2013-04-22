@@ -75,7 +75,6 @@ namespace FiltersModule.ViewModels
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
 				SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
-
 				ServiceFactory.SaveService.FilterChanged = true;
 			}
 		}
@@ -90,7 +89,7 @@ namespace FiltersModule.ViewModels
 		{
 			FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
 			Filters.Remove(SelectedFilter);
-
+			SelectedFilter = Filters.FirstOrDefault();
 			ServiceFactory.SaveService.FilterChanged = true;
 		}
 

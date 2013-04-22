@@ -1,12 +1,12 @@
 ﻿namespace FiresecAPI.Models
 {
-    public enum DriverPropertyTypeEnum
-    {
-        EnumType,
-        StringType,
-        IntType,
-        ByteType,
-        BoolType,
+	public enum DriverPropertyTypeEnum
+	{
+		EnumType,
+		StringType,
+		IntType,
+		ByteType,
+		BoolType,
 		Empty
-    }
+	}
 }

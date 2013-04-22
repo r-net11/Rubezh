@@ -3,31 +3,31 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
-    public class DriverProperty
-    {
-        public DriverProperty()
-        {
-            Parameters = new List<DriverPropertyParameter>();
-        }
+	[DataContract]
+	public class DriverProperty
+	{
+		public DriverProperty()
+		{
+			Parameters = new List<DriverPropertyParameter>();
+		}
 
-        [DataMember]
-        public string Name { get; set; }
+		[DataMember]
+		public string Name { get; set; }
 
-        [DataMember]
-        public string Caption { get; set; }
+		[DataMember]
+		public string Caption { get; set; }
 
-        [DataMember]
-        public string ToolTip { get; set; }
+		[DataMember]
+		public string ToolTip { get; set; }
 
-        [DataMember]
-        public string Default { get; set; }
+		[DataMember]
+		public string Default { get; set; }
 
-        [DataMember]
-        public bool Visible { get; set; }
+		[DataMember]
+		public bool Visible { get; set; }
 
-        [DataMember]
-        public bool IsHidden { get; set; }
+		[DataMember]
+		public bool IsHidden { get; set; }
 
 		[DataMember]
 		public string BlockName { get; set; }
@@ -35,11 +35,11 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool IsControl { get; set; }
 
-        [DataMember]
-        public List<DriverPropertyParameter> Parameters { get; set; }
+		[DataMember]
+		public List<DriverPropertyParameter> Parameters { get; set; }
 
-        [DataMember]
-        public DriverPropertyTypeEnum DriverPropertyType { get; set; }
+		[DataMember]
+		public DriverPropertyTypeEnum DriverPropertyType { get; set; }
 
 		// свойства для конфигурации параметров устройств
 
@@ -67,10 +67,10 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool UseMask { get; set; }
 
-		[DataMember] 
+		[DataMember]
 		public bool HighByte { get; set; }
 
 		[DataMember]
 		public bool LargeValue { get; set; }
-    }
+	}
 }
