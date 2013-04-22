@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using FiresecAPI.Models;
@@ -15,6 +16,15 @@ namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
+		public class DeviceLastRecord
+		{
+			public Device Device;
+			public int LastRecord;
+			public int LastSecRecord;
+		}
+
+		List<DeviceLastRecord> devicesLastRecord;
+
 		public MainViewModel()
 		{
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
@@ -23,8 +33,7 @@ namespace MonitorClientFS2
 
 			DevicesViewModel = new DevicesViewModel();
 
-			devicesLastRecord = new Dictionary<Device, int>();
-			devicesLastSecRecord = new Dictionary<Device, int>();
+			devicesLastRecord = new List<DeviceLastRecord>();
 			Guid guid = new Guid();
 			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(guid));
 
@@ -34,18 +43,26 @@ namespace MonitorClientFS2
 				{
 					try
 					{
-						//devicesLastRecord.Add(device, DBJournalHelper.GetLastId(guid));
-						devicesLastRecord.Add(device, JournalHelper.GetLastJournalItemId(device));
-					}
-					catch { }
+						int LastRecord;
+						int LastSecRecord = -1;
 
-					if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+						LastRecord = JournalHelper.GetLastJournalItemId(device);
+						//LastRecord = DBJournalHelper.GetLastId(device);
+
+						if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+							LastSecRecord = JournalHelper.GetLastSecJournalItemId2Op(device);
+
+						devicesLastRecord.Add(new DeviceLastRecord
+							{
+								Device = device,
+								LastRecord = LastRecord,
+								LastSecRecord = LastSecRecord
+							});
+						Trace.WriteLine(device.PresentationAddressAndName + " " + LastRecord.ToString());
+					}
+					catch
 					{
-						try
-						{
-							devicesLastSecRecord.Add(device, DBJournalHelper.GetLastSecId(guid));
-						}
-						catch { }
+						Trace.Write("Ошибка при считывании последней записи");
 					}
 				}
 			}
@@ -59,21 +76,34 @@ namespace MonitorClientFS2
 		bool stop = false;
 		AutoResetEvent autoResetEvent;
 		Thread monitoringThread;
-		Dictionary<Device, int> devicesLastRecord;
-		Dictionary<Device, int> devicesLastSecRecord;
 
 		public void StartMonitoring()
 		{
+			//Trace.WriteLine("Начинаю мониторинг");
+			//while (true)
+			//{
+			//    foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			//    {
+			//        if (device.Driver.IsPanel)
+			//        {
+			//            var panelDevice = device;
+			//            Thread thread = new Thread(new ThreadStart(() =>
+			//            {
+			//                MonitoringPerDevice(panelDevice);
+			//            }));
+			//            thread.IsBackground = true;
+			//            thread.Start();
+			//            //MonitoringPerDevice(panelDevice);
+			//        }
+			//    }
+			//}
+
 			stop = false;
 			monitoringThread = new Thread(new ThreadStart(() =>
 			{
 				Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 				{
 					Trace.WriteLine("Начинаю мониторинг");
-
-					//int lastDisplayedSecRecord;
-					//int lastDeviceSecRecord;
-
 					while (!stop)
 					{
 						autoResetEvent.WaitOne(1000);
@@ -84,27 +114,11 @@ namespace MonitorClientFS2
 								var panelDevice = device;
 								Thread thread = new Thread(new ThreadStart(() =>
 								{
-									int lastDisplayedRecord;
-									int lastDeviceRecord;
-									devicesLastRecord.TryGetValue(panelDevice, out lastDisplayedRecord);
-									lastDeviceRecord = JournalHelper.GetLastJournalItemId(panelDevice);
-									if (lastDeviceRecord > lastDisplayedRecord)
-									{
-										ReadNewItems(lastDisplayedRecord, lastDeviceRecord, panelDevice);
-									}
-
-									//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-									//{
-									//    devicesLastSecRecord.TryGetValue(device, out lastDisplayedSecRecord);
-									//    lastDeviceSecRecord = JournalHelper.GetLastSecJournalItemId2Op(device);
-									//    if (lastDeviceSecRecord != lastDisplayedSecRecord)
-									//    {
-									//        ReadNewSecItems(lastDisplayedSecRecord, lastDeviceSecRecord, device);
-									//    }
-									//}
+									MonitoringPerDevice(panelDevice);
 								}));
 								thread.IsBackground = true;
 								thread.Start();
+								//MonitoringPerDevice(panelDevice);
 							}
 						}
 					}
@@ -116,34 +130,56 @@ namespace MonitorClientFS2
 			monitoringThread.Start();
 		}
 
-		private void ReadNewSecItems(int lastDisplayedSecRecord, int lastDeviceSecRecord, Device device)
+		private void MonitoringPerDevice(Device panelDevice)
 		{
-			Trace.Write("Дочитываю охранные записи с " +
-				lastDisplayedSecRecord.ToString() +
-				" до " +
-				lastDeviceSecRecord.ToString());
-			var newItems = JournalHelper.GetSecJournalItems2Op(device, lastDeviceSecRecord, lastDisplayedSecRecord + 1);
-			foreach (var journalItem in newItems)
+			int lastDisplayedRecord = devicesLastRecord.FirstOrDefault(x => x.Device == panelDevice).LastRecord;
+			int lastDeviceRecord = JournalHelper.GetLastJournalItemId(panelDevice);
+			if (lastDeviceRecord > lastDisplayedRecord)
 			{
-				if (journalItem != null)
-				{
-					AddToJournalObservable(journalItem);
-					DBJournalHelper.AddJournalItem(journalItem);
-					Trace.Write(".");
-				}
+				ReadNewItems(lastDisplayedRecord, lastDeviceRecord, panelDevice);
 			}
-			Trace.WriteLine(" дочитал");
-			devicesLastRecord.Remove(device);
-			devicesLastRecord.Add(device, lastDeviceSecRecord);
-			DBJournalHelper.SetLastSecId(new Guid(), lastDeviceSecRecord);
+
+			//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+			//{
+			//    devicesLastSecRecord.TryGetValue(device, out lastDisplayedSecRecord);
+			//    lastDeviceSecRecord = JournalHelper.GetLastSecJournalItemId2Op(device);
+			//    if (lastDeviceSecRecord != lastDisplayedSecRecord)
+			//    {
+			//        ReadNewSecItems(lastDisplayedSecRecord, lastDeviceSecRecord, device);
+			//    }
+			//}
 		}
+
+		//private void ReadNewSecItems(int lastDisplayedSecRecord, int lastDeviceSecRecord, Device device)
+		//{
+		//    Trace.Write("Дочитываю охранные записи с " +
+		//        lastDisplayedSecRecord.ToString() +
+		//        " до " +
+		//        lastDeviceSecRecord.ToString());
+		//    var newItems = JournalHelper.GetSecJournalItems2Op(device, lastDeviceSecRecord, lastDisplayedSecRecord + 1);
+		//    foreach (var journalItem in newItems)
+		//    {
+		//        if (journalItem != null)
+		//        {
+		//            AddToJournalObservable(journalItem);
+		//            DBJournalHelper.AddJournalItem(journalItem);
+		//            Trace.Write(".");
+		//        }
+		//    }
+		//    Trace.WriteLine(" дочитал");
+		//    devicesLastRecord.FirstOrDefault(x => x.Device == device).LastSecRecord = lastDeviceSecRecord;
+		//    DBJournalHelper.SetLastSecId(new Guid(), lastDeviceSecRecord);
+		//}
 
 		private void ReadNewItems(int lastDisplayedRecord, int lastDeviceRecord, Device device)
 		{
 			Trace.Write("Дочитываю записи с " +
 				lastDisplayedRecord.ToString() +
 				" до " +
-				lastDeviceRecord.ToString() + "с прибора " + device.PresentationName + "\n");
+				lastDeviceRecord.ToString() +
+				"с прибора " +
+				device.PresentationName +
+				"\n");
 			var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
 			foreach (var journalItem in newItems)
 			{
@@ -155,8 +191,7 @@ namespace MonitorClientFS2
 				}
 			}
 			Trace.WriteLine(" дочитал");
-			devicesLastRecord.Remove(device);
-			devicesLastRecord.Add(device, lastDeviceRecord);
+			devicesLastRecord.FirstOrDefault(x => x.Device == device).LastRecord = lastDeviceRecord;
 			DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
 		}
 
@@ -170,7 +205,6 @@ namespace MonitorClientFS2
 
 		private void StopMonitoring()
 		{
-			Trace.WriteLine(monitoringThread.ThreadState.ToString());
 			stop = true;
 			Trace.WriteLine("Останавливаю мониторинг");
 		}

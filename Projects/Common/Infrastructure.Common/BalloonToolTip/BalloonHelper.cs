@@ -12,22 +12,22 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void ShowFromAdm(string title, string text = "")
 		{
-			Show("[Administrator] " + title, text, Brushes.Black, Brushes.Cornsilk);
+			Show("[Администратор] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		public static void ShowFromMonitor(string title, string text = "")
 		{
-			Show("[Monitor] " + title, text, Brushes.Black, Brushes.Cornsilk);
+			Show("[ОЗ] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		public static void ShowFromAgent(string title, string text = "")
 		{
-			Show("[Agent] " + title, text, Brushes.Black, Brushes.Cornsilk);
+			Show("[Агент] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		public static void ShowFromServer(string title, string text = "")
 		{
-			Show("[Server] " + title, text, Brushes.Black, Brushes.Cornsilk);
+			Show("[Сервер] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		private static void Show(string title, string text = "")
@@ -37,6 +37,11 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void Show(string title, string text, Brush foregroundColor, Brush backgroundColor)
 		{
+			if (text == "")
+			{
+				text = title;
+				title = "";
+			}
 			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
 				try

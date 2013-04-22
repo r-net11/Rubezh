@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
@@ -19,8 +18,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendByteCommand(new List<byte> { 0x21, 0x02 }, device);
-				int li = 256 * lastindex.Data[9] + lastindex.Data[10];
-				return li;
+				return 256 * lastindex.Data[9] + lastindex.Data[10];
 			}
 			catch (NullReferenceException ex)
 			{
@@ -36,8 +34,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var firecount = SendByteCommand(new List<byte> { 0x24, 0x00 }, device);
-				int fc = 256 * firecount.Data[7] + firecount.Data[8];
-				return fc;
+				return 256 * firecount.Data[7] + firecount.Data[8];
 			}
 			catch (NullReferenceException ex)
 			{
@@ -58,10 +55,7 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendByteCommand(new List<byte> { 0x21, 0x00 }, device);
-				if (lastindex.Data.Count > 9)
-					return 256 * lastindex.Data[9] + lastindex.Data[10];
-				else
-					return 0;
+				return 256 * lastindex.Data[9] + lastindex.Data[10];
 			}
 			catch (NullReferenceException ex)
 			{
@@ -108,18 +102,18 @@ namespace MonitorClientFS2
 		private static FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
 		{
 			var data = SendByteCommand(bytes, device);
-			if (data != null && JournalParser.IsValidInput(data.Data))
+			//if (data != null && JournalParser.IsValidInput(data.Data))
+			//{
+			lock (Locker)
 			{
-				lock (Locker)
-				{
-					return JournalParser.FSParce(data.Data);
-				}
+				return JournalParser.FSParce(data.Data);
 			}
-			else
-			{
-				Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
-				return new FSJournalItem();
-			}
+			//}
+			//else
+			//{
+			//    Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
+			//    return new FSJournalItem();
+			//}
 		}
 
 		private static ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)
