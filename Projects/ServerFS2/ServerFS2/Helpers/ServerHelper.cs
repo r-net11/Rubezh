@@ -48,14 +48,14 @@ namespace ServerFS2
             }
         }
 
-        public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
+        public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
         {
-            return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout);
+            return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout, IsWrite);
         }
 
-        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
         {
-            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout);
+            return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
         }
 
         public static List<JournalItem> GetSecJournalItems2Op(Device device)
@@ -402,6 +402,8 @@ namespace ServerFS2
             GetDeviceRamFirstAndRomLastIndex(device);
             GetDeviceRom(device);
             GetDeviceRam(device);
+            SetDeviceRom(device);
+            SetDeviceRam(device);
             int pointer;
             int pPointer;
             Device child;
@@ -414,7 +416,9 @@ namespace ServerFS2
             {
                 // [1546] - длина записи
                 int count = DeviceRam[1546] * 256 + DeviceRam[1547];
-                pointer = DeviceRam[pPointer - _deviceRamFirstIndex] * 256 * 256 + DeviceRam[pPointer - _deviceRamFirstIndex + 1] * 256 + DeviceRam[pPointer - _deviceRamFirstIndex + 2] - 0x100;
+                pointer = 0;
+                if (count != 0)
+                    pointer = DeviceRam[pPointer - _deviceRamFirstIndex] * 256 * 256 + DeviceRam[pPointer - _deviceRamFirstIndex + 1] * 256 + DeviceRam[pPointer - _deviceRamFirstIndex + 2] - 0x100;
                 for (int i = 0; i < count; i++)
                 {
                     var zone = new Zone();
@@ -996,7 +1000,7 @@ namespace ServerFS2
 
             if ((pointer = DeviceRam[24] * 256 * 256 + DeviceRam[25] * 256 + DeviceRam[26]) != 0) // ИП-64
             {
-                var count = DeviceRam[40] * 256 + DeviceRam[41]; // текущее число записей в таблице
+                var count = DeviceRam[28] * 256 + DeviceRam[29]; // текущее число записей в таблице
                 pointer -= 0x100;
                 for (int i = 0; i < count; i++)
                 {
@@ -1018,7 +1022,7 @@ namespace ServerFS2
             }
             if ((pointer = DeviceRam[30] * 256 * 256 + DeviceRam[31] * 256 + DeviceRam[32]) != 0)  // ИП-29
             {
-                var count = DeviceRam[40] * 256 + DeviceRam[41]; // текущее число записей в таблице
+                var count = DeviceRam[34] * 256 + DeviceRam[35]; // текущее число записей в таблице
                 pointer -= 0x100;
                 for (int i = 0; i < count; i++)
                 {
@@ -1419,6 +1423,63 @@ namespace ServerFS2
             _deviceRomLastIndex = result[13] * 256 * 256 + result[14] * 256 + result[15];
             #endregion
         }
+
+        public static void SetDeviceRom(Device device)
+        {
+            var bytes = new List<byte>();
+            bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+            bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
+            bytes.Add(Convert.ToByte(device.AddressOnShleif));
+            bytes.Add(0x02);
+            bytes.Add(0x52);
+            bytes.AddRange(BitConverter.GetBytes(0x100).Reverse());
+            bytes.Add(Convert.ToByte(0xFF));
+            //DeviceRom[0x5c] = 10;
+            foreach (var b in DeviceRom)
+            {
+                if (bytes.Count < 64)
+                    bytes.Add(b);
+                else
+                {
+                    SendCode(bytes,1000,1000,true);
+                    bytes = new List<byte>();
+                }
+            }
+            bytes.Add(0x3E);
+            while (bytes.Count < 64)
+                bytes.Add(0);
+            SendCode(bytes, 1000, 1000, true);
+        }
+
+        public static void SetDeviceRam(Device device)
+        {
+            var bytes = new List<byte>();
+            var begin = _deviceRamFirstIndex / 0x100;
+            bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
+            bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
+            bytes.Add(Convert.ToByte(device.AddressOnShleif));
+            bytes.Add(0x02);
+            bytes.Add(0x52);
+            bytes.AddRange(BitConverter.GetBytes((begin + 1)*0x100).Reverse());
+            bytes.Add(Convert.ToByte(0xFF));
+            foreach (var b in DeviceRam)
+            {
+                if (bytes.Count < 64)
+                    bytes.Add(b);
+                else
+                {
+                    SendCode(bytes, 1000, 1000, true);
+                    bytes = new List<byte>();
+                }
+            }
+            bytes.Add(0x3E);
+            while (bytes.Count < 64)
+                bytes.Add(0);
+            SendCode(bytes, 1000, 1000, true);
+        }
+
         public static void GetDeviceRam(Device device)
         {
             var bytes = new List<byte>();

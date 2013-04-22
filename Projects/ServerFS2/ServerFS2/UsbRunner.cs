@@ -71,6 +71,13 @@ namespace ServerFS2
 
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
+            if (_isWrite)
+            { 
+                _autoResetEvent.Set();
+                _requests.Clear();
+                return;
+            }
+
             var buffer = e.Buffer.Where((val, idx) => idx != 0).ToArray();
             foreach (var b in buffer)
 			{
@@ -197,9 +204,11 @@ namespace ServerFS2
 			return bytes;
 		}
 
+	    private bool _isWrite = false;
         // Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
-        public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout)
+        public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout, bool IsWrite)
         {
+            _isWrite = IsWrite;
             _responses = new List<Response>();
             _requests = new List<Request>();
             foreach (var dataOne in dataList)
