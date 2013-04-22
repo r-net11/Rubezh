@@ -70,11 +70,9 @@ namespace MonitorClientFS2
 				Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 				{
 					Trace.WriteLine("Начинаю мониторинг");
-					int lastDisplayedRecord;
-					int lastDeviceRecord;
 
-					int lastDisplayedSecRecord;
-					int lastDeviceSecRecord;
+					//int lastDisplayedSecRecord;
+					//int lastDeviceSecRecord;
 
 					while (!stop)
 					{
@@ -83,22 +81,30 @@ namespace MonitorClientFS2
 						{
 							if (device.Driver.IsPanel)
 							{
-								devicesLastRecord.TryGetValue(device, out lastDisplayedRecord);
-								lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
-								if (lastDeviceRecord != lastDisplayedRecord)
+								var panelDevice = device;
+								Thread thread = new Thread(new ThreadStart(() =>
 								{
-									ReadNewItems(lastDisplayedRecord, lastDeviceRecord, device);
-								}
-
-								if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-								{
-									devicesLastSecRecord.TryGetValue(device, out lastDisplayedSecRecord);
-									lastDeviceSecRecord = JournalHelper.GetLastSecJournalItemId2Op(device);
-									if (lastDeviceSecRecord != lastDisplayedSecRecord)
+									int lastDisplayedRecord;
+									int lastDeviceRecord;
+									devicesLastRecord.TryGetValue(panelDevice, out lastDisplayedRecord);
+									lastDeviceRecord = JournalHelper.GetLastJournalItemId(panelDevice);
+									if (lastDeviceRecord > lastDisplayedRecord)
 									{
-										ReadNewSecItems(lastDisplayedSecRecord, lastDeviceSecRecord, device);
+										ReadNewItems(lastDisplayedRecord, lastDeviceRecord, panelDevice);
 									}
-								}
+
+									//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+									//{
+									//    devicesLastSecRecord.TryGetValue(device, out lastDisplayedSecRecord);
+									//    lastDeviceSecRecord = JournalHelper.GetLastSecJournalItemId2Op(device);
+									//    if (lastDeviceSecRecord != lastDisplayedSecRecord)
+									//    {
+									//        ReadNewSecItems(lastDisplayedSecRecord, lastDeviceSecRecord, device);
+									//    }
+									//}
+								}));
+								thread.IsBackground = true;
+								thread.Start();
 							}
 						}
 					}

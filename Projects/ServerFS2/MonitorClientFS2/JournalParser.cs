@@ -238,7 +238,11 @@ namespace MonitorClientFS2
 			var min = bitsExtracter.Get(20, 25);
 			var sec = bitsExtracter.Get(26, 31);
 			var resultString = day.ToString() + "/" + month.ToString() + "/" + (year + 2000).ToString() + " " + hour.ToString() + ":" + min.ToString() + ":" + sec.ToString();
-			return DateTime.Parse(resultString);
+			DateTime res;
+			if (DateTime.TryParse(resultString, out res))
+				return res;
+			else
+				return DateTime.Now;
 		}
 	}
 }

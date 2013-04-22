@@ -58,8 +58,10 @@ namespace MonitorClientFS2
 			try
 			{
 				var lastindex = SendByteCommand(new List<byte> { 0x21, 0x00 }, device);
-				int li = 256 * lastindex.Data[9] + lastindex.Data[10];
-				return li;
+				if (lastindex.Data.Count > 9)
+					return 256 * lastindex.Data[9] + lastindex.Data[10];
+				else
+					return 0;
 			}
 			catch (NullReferenceException ex)
 			{
