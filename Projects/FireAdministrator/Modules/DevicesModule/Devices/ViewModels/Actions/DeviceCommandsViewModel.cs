@@ -88,6 +88,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
+#if DEBUG
 			if (GlobalSettingsHelper.GlobalSettings.FSAgent_UseFS2)
 			{
 				ClientFS2.ConfigurationManager.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
@@ -99,7 +100,8 @@ namespace DevicesModule.ViewModels
 				DialogService.ShowModalWindow(configurationDatabaseViewModel);
 				return;
 			}
-            if (ValidateConfiguration())
+#endif
+			if (ValidateConfiguration())
             {
                 WriteAllDeviceConfigurationHelper.Run();
             }

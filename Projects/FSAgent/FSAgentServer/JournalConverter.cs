@@ -19,7 +19,6 @@ namespace FSAgentServer
 				SystemTime = ConvertTime(innerJournalRecord.SysDt),
 				ZoneName = innerJournalRecord.ZoneName,
 				Description = innerJournalRecord.EventDesc,
-				DeviceCategory = innerJournalRecord
 				DeviceName = innerJournalRecord.CLC_Device,
 				PanelName = innerJournalRecord.CLC_DeviceSource,
 				DeviceDatabaseId = innerJournalRecord.IDDevices,

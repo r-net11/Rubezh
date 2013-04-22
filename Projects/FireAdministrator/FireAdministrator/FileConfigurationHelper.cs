@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {
@@ -141,8 +142,10 @@ namespace FireAdministrator
 					FiresecManager.UpdateConfiguration();
 					XManager.UpdateConfiguration();
 
-					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					if (LoadingErrorManager.HasError)
+						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
 
+					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					ConfigManager.ShowFirstDevice();
 
 					if (isFullConfiguration)

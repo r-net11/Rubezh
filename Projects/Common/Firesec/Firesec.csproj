@@ -98,6 +98,7 @@
     <Compile Include="Firesec\EmptyConfigHelper.cs" />
     <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />
+    <Compile Include="Models\DeviceConfigurationParameters_50.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -145,6 +146,9 @@
     <Compile Include="Models\ReadEvents.cs" />
     <Compile Include="Models\ZoneLogic.cs" />
     <Compile Include="SerializerHelper.cs" />
+    <Compile Include="AuParameters_50\DevicePropertyRequest_50.cs" />
+    <Compile Include="AuParameters_50\FiresecDriverAuParametersHelper.Get_50.cs" />
+    <Compile Include="AuParameters_50\FiresecDriverAuParametersHelper.Set_50.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

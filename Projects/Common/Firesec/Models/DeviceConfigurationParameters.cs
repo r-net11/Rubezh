@@ -15,75 +15,44 @@ namespace Firesec.Models.DeviceCustomFunctions
 {
 
 
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
-	public class Requests
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+	public class requests
 	{
-        /// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("Request", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public requestsRequest[] Request;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("request", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+		public requestsRequest[] request;
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 	public partial class requestsRequest
 	{
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("param", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
 		public requestsParam[] param;
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-		public int ID;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-		public string State;
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public int id;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Code;
+		public int state;
 
-		///// <remarks/>
-		//[System.Xml.Serialization.XmlAttributeAttribute()]
-		//public int paramCount;
-
+		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string RequestType;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string StartTime;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string BeginTime;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string EndTime;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public int coNum;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string coCount;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string coProgress;
-
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string coCaption;
-
-		[System.Xml.Serialization.XmlElementAttribute("ResultString", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public string resultString;
-    }
+		public int paramCount;
+	}
 
 	/// <remarks/>
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
@@ -100,15 +69,5 @@ namespace Firesec.Models.DeviceCustomFunctions
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public int value;
-	}
-
-	/// <remarks/>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-	[System.SerializableAttribute()]
-	[System.Diagnostics.DebuggerStepThroughAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class resultString
-	{
 	}
 }

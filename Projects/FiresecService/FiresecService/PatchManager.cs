@@ -18,6 +18,7 @@ namespace FiresecService
 	{
 		public static void Patch()
 		{
+			return;
 			try
 			{
 				Patch1();

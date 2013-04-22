@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
 			try
 			{
 				var result = FiresecManager.FiresecDriver.ExecuteCommand(Device, GetCommandName());
-				var result2 = FiresecManager.FiresecDriver.ExecuteCommand(Device, "ClearAllQueries");
+				//var result2 = FiresecManager.FiresecDriver.ExecuteCommand(Device, "ClearAllQueries");
 			}
 			catch (Exception e)
 			{

@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class MPTTimerView : UserControl
-    {
-        public MPTTimerView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class MPTTimerView : UserControl
+	{
+		public MPTTimerView()
+		{
+			InitializeComponent();
+		}
+	}
 }

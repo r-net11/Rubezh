@@ -4,7 +4,7 @@
   <?include ../Variables.wxi?>
   <Fragment>
     <?if $(var.Firesec1Version)=48?>
-    <Feature Id="Firesec.Features" Title="Драйвер FireSec 4.8" Description="Программа установит драйверы приборов Рубеж-4а, Рубеж-2ОП, БУНС. Выключите данную опцию для обеспечения обратной соместимости с FireSec-1"
+    <Feature Id="Firesec.Features" Title="Драйвер FireSec" Description="Программа установит драйверы приборов Рубеж-4а, Рубеж-2ОП, БУНС. Выключите данную опцию для обеспечения обратной соместимости с FireSec-1"
            Level="1" Display="expand" ConfigurableDirectory="FIRESECLOCATION" AllowAdvertise="no" Absent='allow' InstallDefault="local">
       <ComponentRef Id="Firesec.Files" />
       <ComponentRef Id="Firesec.fbintl.dll" />

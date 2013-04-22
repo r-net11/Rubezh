@@ -4,20 +4,20 @@ using Controls;
 
 namespace DevicesModule.Views
 {
-    public partial class ZonesView : UserControl
-    {
-        public ZonesView()
-        {
-            InitializeComponent();
-            _zonesListBox.SelectionChanged += new SelectionChangedEventHandler(_zonesListBox_SelectionChanged);
+	public partial class ZonesView : UserControl
+	{
+		public ZonesView()
+		{
+			InitializeComponent();
+			_zonesListBox.SelectionChanged += new SelectionChangedEventHandler(_zonesListBox_SelectionChanged);
 
-            _scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
-            _scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
-            _scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
-            _scrollViewer.MouseLeave += OnMiddleMouseLeave;
+			_scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
+			_scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
+			_scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
+			_scrollViewer.MouseLeave += OnMiddleMouseLeave;
 
 			_scrollViewer.PreviewMouseWheel += new MouseWheelEventHandler(_scrollViewer_PreviewMouseWheel);
-        }
+		}
 
 		void _scrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
@@ -49,42 +49,42 @@ namespace DevicesModule.Views
 			}
 		}
 
-        void _zonesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_zonesListBox.SelectedItem != null)
-                _zonesListBox.ScrollIntoView(_zonesListBox.SelectedItem);
-        }
+		void _zonesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (_zonesListBox.SelectedItem != null)
+				_zonesListBox.ScrollIntoView(_zonesListBox.SelectedItem);
+		}
 
-        void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
-            }
-        }
+		void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.MiddleButton == MouseButtonState.Pressed)
+			{
+				MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
+			}
+		}
 
-        void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
-        {
-            if (e.MiddleButton == MouseButtonState.Released)
-            {
-                MiddleButtonScrollHelper.StopScrolling();
-            }
-        }
+		void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
+		{
+			if (e.MiddleButton == MouseButtonState.Released)
+			{
+				MiddleButtonScrollHelper.StopScrolling();
+			}
+		}
 
-        void OnMiddleMouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                MiddleButtonScrollHelper.UpdateScrolling(e);
-            }
-        }
+		void OnMiddleMouseMove(object sender, MouseEventArgs e)
+		{
+			if (e.MiddleButton == MouseButtonState.Pressed)
+			{
+				MiddleButtonScrollHelper.UpdateScrolling(e);
+			}
+		}
 
-        void OnMiddleMouseLeave(object sender, MouseEventArgs e)
-        {
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                MiddleButtonScrollHelper.StopScrolling();
-            }
-        }
-    }
+		void OnMiddleMouseLeave(object sender, MouseEventArgs e)
+		{
+			if (e.MiddleButton == MouseButtonState.Pressed)
+			{
+				MiddleButtonScrollHelper.StopScrolling();
+			}
+		}
+	}
 }

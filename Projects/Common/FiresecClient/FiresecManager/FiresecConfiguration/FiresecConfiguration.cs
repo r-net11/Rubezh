@@ -41,22 +41,30 @@ namespace FiresecClient
 			DeviceConfiguration.Update();
             DeviceConfiguration.Reorder();
 
+			var unknwnDevices = new List<Device>();
+
             foreach (var device in DeviceConfiguration.Devices)
             {
                 device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
                 if (device.Driver == null)
                 {
-					Trace.WriteLine(device.DriverUID.ToString());
-					foreach (var driver in DriversConfiguration.Drivers)
-					{
-						Trace.WriteLine(driver.UID.ToString());
-					}
+					//Trace.WriteLine(device.DriverUID.ToString());
+					//foreach (var driver in DriversConfiguration.Drivers)
+					//{
+					//    Trace.WriteLine(driver.UID.ToString());
+					//}
 
+					unknwnDevices.Add(device);
                     LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
                     Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
                     continue;
                 }
             }
+			foreach(var device in unknwnDevices)
+			{
+				device.Parent.Children.Remove(device);
+				DeviceConfiguration.Devices.Remove(device);
+			}
 
             InvalidateConfiguration();
 			UpateGuardZoneSecPanelUID();
