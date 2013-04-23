@@ -4,16 +4,16 @@ namespace FiresecAPI.Models
 {
 	public enum DeviceType
 	{
-		[DescriptionAttribute("пожарный")]
+		[DescriptionAttribute("Пожарное")]
 		Fire,
 
-		[DescriptionAttribute("охранный")]
+		[DescriptionAttribute("Охранное")]
 		Sequrity,
 
-		[DescriptionAttribute("технологический")]
+		[DescriptionAttribute("Технологическое")]
 		Technoligical,
 
-		[DescriptionAttribute("охранно-пожарный")]
+		[DescriptionAttribute("Охранно-пожарное")]
 		FireSecurity
 	}
 }

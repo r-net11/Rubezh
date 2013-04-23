@@ -44,7 +44,7 @@
                     <GridViewColumn Width="100" Header="Зона">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" HorizontalAlignment="Stretch" Width="200" />
+                                <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" HorizontalAlignment="Stretch" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

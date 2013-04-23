@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Helper;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -16,6 +17,27 @@ namespace DevicesModule.ViewModels
 		{
 			Zone = zone;
 			Update();
+
+			ZoneName = Name;
+		}
+
+		public static readonly DependencyProperty ZoneNameProperty =
+			DependencyProperty.Register("ZoneName", typeof(string), typeof(ZoneViewModel),
+			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnZoneNamePropertyChanged)));
+
+		public string ZoneName
+		{
+			get { return (string)GetValue(ZoneNameProperty); }
+			set { SetValue(ZoneNameProperty, value); }
+		}
+
+		private static void OnZoneNamePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+		{
+			ZoneViewModel zoneViewModel = dp as ZoneViewModel;
+			if (zoneViewModel != null)
+			{
+				zoneViewModel.Name = zoneViewModel.ZoneName;
+			}
 		}
 
 		public string Name

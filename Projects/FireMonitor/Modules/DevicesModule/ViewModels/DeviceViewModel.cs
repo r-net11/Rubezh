@@ -126,14 +126,18 @@ namespace DevicesModule.ViewModels
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}
 
+				if (Device.Driver.DriverType == DriverType.Rubezh_4A)
+				{
+					;
+				}
 				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
-					if (parameter.IsIgnore)
-						continue;
-
-					stringBuilder.Append(parameter.Caption);
-					stringBuilder.Append(" - ");
-					stringBuilder.AppendLine(parameter.Value);
+					if (!parameter.IsIgnore && parameter.Visible)
+					{
+						stringBuilder.Append(parameter.Caption);
+						stringBuilder.Append(" - ");
+						stringBuilder.AppendLine(parameter.Value);
+					}
 				}
 
 				var result = stringBuilder.ToString();

@@ -33,10 +33,14 @@ namespace ServerFS2
 			DeviceRom = GetDeviceRom(device);
 			DeviceRam = GetDeviceRam(device);
 
-			var DeviceRomStreamWriter = new StreamWriter("DeviceRom.bin");
-			DeviceRomStreamWriter.Write(DeviceRom.ToArray());
-			var DeviceRamStreamWriter = new StreamWriter("DeviceRam.bin");
-			DeviceRamStreamWriter.Write(DeviceRam.ToArray());
+            using (var DeviceRomStreamWriter = new BinaryWriter(new FileStream("DeviceRom.bin", FileMode.CreateNew)))
+            {
+                DeviceRomStreamWriter.Write(DeviceRom.ToArray());
+            }
+            using (var DeviceRamStreamWriter = new BinaryWriter(new FileStream("DeviceRam.bin", FileMode.CreateNew)))
+            {
+                DeviceRamStreamWriter.Write(DeviceRam.ToArray());
+            }
 
 			//SetDeviceRom(device);
 			//SetDeviceRam(device);

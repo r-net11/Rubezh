@@ -21,10 +21,14 @@
                 </Style>
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="40" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
+                <!--<DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="40" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.Name}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
-                <DataGridTextColumn Header="Число ИП для перехода в пожар" Binding="{Binding DetectorCount}" />
+                <DataGridTextColumn Header="Число ИП для перехода в пожар" Binding="{Binding DetectorCount}" />-->
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
