@@ -19,12 +19,11 @@ namespace Infrastructure.Common.Windows
 			return window ?? ApplicationService.ApplicationWindow;
 		}
 
-		public static bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel, bool allowsTransparency = true)
+		public static bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel)
 		{
 			try
 			{
 				WindowBaseView win = new WindowBaseView(windowBaseViewModel);
-				win.AllowsTransparency = allowsTransparency;
 				PrepareWindow(windowBaseViewModel);
 				bool? result = win.ShowDialog();
 				return result.HasValue ? result.Value : false;

@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace Infrastructure.Common.Windows.Views
 {
@@ -27,17 +28,40 @@ namespace Infrastructure.Common.Windows.Views
 		}
 		private WindowBaseViewModel _model;
 
+		DateTime startDateTime = DateTime.Now;
+		static double avarageTime = 0;
+		static int count = 0;
+		static double totalMilliseconds = 0;
+
 		public WindowBaseView()
 		{
+			this.ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
 			InitializeComponent();
 		}
+
 		public WindowBaseView(WindowBaseViewModel model)
 		{
+			this.ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
 			_model = model;
 			_model.Surface = this;
 			DataContext = _model;
 			InitializeComponent();
 		}
+
+		void WindowBaseView_ContentRendered(object sender, EventArgs e)
+		{
+			var timeDelta = DateTime.Now - startDateTime;
+			Trace.WriteLine("Window rendered at " + timeDelta.ToString());
+
+			if (Title.StartsWith("Выбор зоны устройства"))
+			{
+				totalMilliseconds += timeDelta.TotalMilliseconds;
+				count++;
+				avarageTime = totalMilliseconds / count;
+				Trace.WriteLine("Window AvarageTime rendered at " + avarageTime.ToString());
+			}
+		}
+
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);

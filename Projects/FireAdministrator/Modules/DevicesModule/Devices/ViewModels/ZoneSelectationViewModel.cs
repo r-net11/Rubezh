@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.ComponentModel;
 
 namespace DevicesModule.ViewModels
 {
@@ -22,7 +23,7 @@ namespace DevicesModule.ViewModels
 			Device = device;
 			IsGuardDevice = (device.Driver.DeviceType == DeviceType.Sequrity);
 
-			Zones = new ObservableCollection<ZoneViewModel>();
+			Zones = new BindingList<ZoneViewModel>();
 			foreach (var zone in from zone in FiresecManager.Zones orderby zone.No select zone)
 			{
 				var isGuardZone = (zone.ZoneType == ZoneType.Guard);
@@ -36,7 +37,7 @@ namespace DevicesModule.ViewModels
 		}
 
 		public bool IsGuardDevice { get; private set; }
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		public BindingList<ZoneViewModel> Zones { get; private set; }
 
 		private ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone

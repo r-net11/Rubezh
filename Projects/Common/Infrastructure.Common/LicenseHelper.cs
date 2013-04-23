@@ -28,9 +28,10 @@ namespace Infrastructure.Common
             byte[] bytesarray = enc.GetBytes(_vendorCode);
             GCHandle pinnedArray = GCHandle.Alloc(bytesarray, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+			uint statusNew = 0;
             try
             {
-                var statusNew = hasp_login(4294901762, pointer, 0);
+                statusNew = hasp_login(4294901762, pointer, 0);
                 if ((isMultiClient) && (statusNew != 0x07))
                     return true;
             }
@@ -40,7 +41,9 @@ namespace Infrastructure.Common
                 var status = hasp_logout(0);
                 return true;
             }
-            pinnedArray.Free();
+			pinnedArray.Free();
+			if (statusNew == 0)
+				return true;
 			return false;
 		}
 	}
