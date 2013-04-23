@@ -12,21 +12,25 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void ShowFromAdm(string title, string text = "")
 		{
+			EmptifyTitle(ref title, ref text);
 			Show("[Администратор] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		public static void ShowFromMonitor(string title, string text = "")
 		{
+			EmptifyTitle(ref title, ref text);
 			Show("[ОЗ] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		public static void ShowFromAgent(string title, string text = "")
 		{
+			EmptifyTitle(ref title, ref text);
 			Show("[Агент] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
 		public static void ShowFromServer(string title, string text = "")
 		{
+			EmptifyTitle(ref title, ref text);
 			Show("[Сервер] " + title, text, Brushes.Black, Brushes.Cornsilk);
 		}
 
@@ -37,11 +41,6 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void Show(string title, string text, Brush foregroundColor, Brush backgroundColor)
 		{
-			if (text == "")
-			{
-				text = title;
-				title = "";
-			}
 			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
 				try
@@ -57,6 +56,15 @@ namespace Infrastructure.Common.BalloonTrayTip
 					Logger.Error(e, "BalloonHelper.Show");
 				}
 			}));
+		}
+
+		private static void EmptifyTitle(ref string title, ref string text)
+		{
+			if (text == "")
+			{
+				text = title;
+				title = "";
+			}
 		}
 	}
 }
