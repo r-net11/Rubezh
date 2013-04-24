@@ -32,6 +32,7 @@ namespace ClientFS2.ViewModels
             ZonesViewModel = new ZonesViewModel();
             ZonesViewModel.Initialize();
             new PropertiesViewModel(DevicesViewModel);
+            ServerHelper.IsExtendedModeMethod();
 		}
 
 		private string _textBoxRequest;
