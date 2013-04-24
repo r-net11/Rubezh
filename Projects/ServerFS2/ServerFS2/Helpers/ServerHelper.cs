@@ -47,7 +47,7 @@ namespace ServerFS2
         }
 
         public static bool IsExtendedMode { get; private set; }
-        private static void IsExtendedModeMethod()
+        public static void IsExtendedModeMethod()
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -58,7 +58,6 @@ namespace ServerFS2
             IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
         }
 
-            IsExtendedModeMethod();
         public static List<byte> SendRequest(List<byte> bytes)
         {
             return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;

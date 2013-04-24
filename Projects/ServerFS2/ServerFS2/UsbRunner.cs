@@ -77,8 +77,12 @@ namespace ServerFS2
                 _requests.Clear();
                 return;
             }
-		    byte[] buffer = ServerHelper.IsExtendedMode ? e.Buffer.Where((val, idx) => (idx != 0)&&(idx != 1)).ToArray() : e.Buffer.Where((val, idx) => (idx != 0)).ToArray();
-            foreach (var b in buffer)
+		    byte[] buffer;
+		    if (ServerHelper.IsExtendedMode) 
+                buffer = e.Buffer.Where((val, idx) => (idx != 0) && (idx != 1)).ToArray();
+		    else 
+                buffer = e.Buffer.Where((val, idx) => (idx != 0)).ToArray();
+		    foreach (var b in buffer)
 			{
 				if (_localresult.Count > 0)
 				{
