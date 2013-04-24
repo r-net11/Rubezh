@@ -83,7 +83,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				for (int i = 0; i < binaryPanel.BinaryLocalZones.Count; i++)
 				{
-					binaryPanel.BinaryLocalZones[i].LocalNo = i;
+					binaryPanel.BinaryLocalZones[i].LocalNo = i+1;
 				}
 			}
 		}
