@@ -77,9 +77,12 @@ namespace ServerFS2
                 _requests.Clear();
                 return;
             }
-
-            var buffer = e.Buffer.Where((val, idx) => idx != 0).ToArray();
-            foreach (var b in buffer)
+		    byte[] buffer;
+		    if (ServerHelper.IsExtendedMode) 
+                buffer = e.Buffer.Where((val, idx) => (idx != 0) && (idx != 1)).ToArray();
+		    else 
+                buffer = e.Buffer.Where((val, idx) => (idx != 0)).ToArray();
+		    foreach (var b in buffer)
 			{
 				if (_localresult.Count > 0)
 				{
@@ -164,7 +167,7 @@ namespace ServerFS2
 		{
 			var bytes = new List<byte>();
 			var previousByte = new byte();
-			messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
+            messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
 			messageBytes.RemoveRange(messageBytes.IndexOf(0x3E), messageBytes.Count - messageBytes.IndexOf(0x3E));
 			foreach (var b in messageBytes)
 			{
