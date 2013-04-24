@@ -19,7 +19,7 @@ namespace ClientFS2.ConfigurationWriter
 				};
 				devicesOnShleifs.Add(devicesOnShleif);
 			}
-			foreach (var device in zone.DevicesInZoneLogic)
+			foreach (var device in GetDevicesInLogic(zone))
 			{
 				if (device.ParentPanel.UID == parentPanel.UID)
 				{
@@ -44,7 +44,7 @@ namespace ClientFS2.ConfigurationWriter
 				};
 				devicesOnShleifs.Add(devicesOnShleif);
 			}
-			foreach (var device in zone.DevicesInZoneLogic)
+			foreach (var device in GetDevicesInLogic(zone))
 			{
 				if (device.ParentPanel.UID != parentPanel.UID)
 				{
@@ -103,6 +103,19 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			return devicesOnShleifs;
+		}
+
+		static List<Device> GetDevicesInLogic(Zone zone)
+		{
+			var result = zone.DevicesInZoneLogic;
+			foreach (var device in zone.DevicesInZone)
+			{
+				//if (device.Driver.DriverType == DriverType.MPT)
+				//{
+				//    result.Add(device);
+				//}
+			}
+			return result;
 		}
 	}
 }

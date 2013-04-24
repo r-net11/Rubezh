@@ -48,7 +48,7 @@ namespace ClientFS2.ConfigurationWriter
                 {
                     var bytes = byteArray.ToList();
                     var emptyBytes = new List<byte>();
-                    for (int i = 0; i < 253; i++)
+                    for (int i = 0; i < 256; i++)
                     {
                         emptyBytes.Add(0);
                     }

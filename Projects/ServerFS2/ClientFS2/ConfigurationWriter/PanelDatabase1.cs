@@ -32,7 +32,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				var bytesDatabase = new BytesDatabase(tableGroup.Name);
 				bytesDatabase.AddReferenceToTable(tableGroup.Tables.FirstOrDefault(), tableGroup.Name);
-				bytesDatabase.AddByte((byte)tableGroup.Length, "Длина записи в таблице");
+				bytesDatabase.AddByte((byte)tableGroup.ComputedLength, "Длина записи в таблице");
 				bytesDatabase.AddShort((short)tableGroup.Count, "Текущее число записей в таблице");
 				BytesDatabase.Add(bytesDatabase);
 			}
@@ -189,7 +189,7 @@ namespace ClientFS2.ConfigurationWriter
 				var count = 0;
 				if (shleifBytesDatabase != null)
 					count = shleifBytesDatabase.ByteDescriptions.Count / 3;
-				bytesDatabase.AddByte((byte)1, "Текущее число записей в таблице");
+				bytesDatabase.AddByte((byte)count, "Текущее число записей в таблице");
 				BytesDatabase.Add(bytesDatabase);
 			}
 		}

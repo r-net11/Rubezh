@@ -18,7 +18,7 @@ namespace ServerFS2
         List<byte> _result = new List<byte>();
         private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent _autoWaitEvent = new AutoResetEvent(false);
-        private uint _requestId;
+        private uint _requestId; 
 
 		List<Response> _responses = new List<Response>();
 		List<byte> _localresult = new List<byte>();

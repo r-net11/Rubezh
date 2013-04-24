@@ -29,8 +29,8 @@ namespace ClientFS2.ConfigurationWriter
 			IsOuter = isOuter;
 		}
 
-		public override void  Create()
-{
+		public override void Create()
+		{
 			if (IsOuter)
 			{
 				var deviceCode = DriversHelper.GetCodeForFriver(Device.Driver.DriverType);
@@ -43,24 +43,28 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			BytesDatabase.AddByte((byte)outerPanelAddress, "Адрес прибора привязки в сети");
 			BytesDatabase.AddByte((byte)(Device.AddressOnShleif), "Адрес");
-			BytesDatabase.AddByte((byte)Math.Max(Device.ShleifNo-1, 0), "Номер шлейфа");
-			BytesDatabase.AddShort(0, "Внутренние параметры");
-			BytesDatabase.AddByte(0, "Динамические параметры для базы");
+			BytesDatabase.AddByte((byte)Math.Max(Device.ShleifNo - 1, 0), "Номер шлейфа");
+			BytesDatabase.AddShort(0, "Внутренние параметры", true);
+			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
 			var description = Device.Description;
 			if (Device.Driver.DriverType == DriverType.Exit)
 			{
 				description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
 			}
 			BytesDatabase.AddString(description, "Описание");
+
 			var configLengtByteDescription = BytesDatabase.AddByte(0, "Длина переменной части блока с конфигурацией и сырыми параметрами");
 			var lengtByteDescription = BytesDatabase.AddShort(0, "Общая длина записи");
 			var configLengt1 = BytesDatabase.ByteDescriptions.Count;
 			AddDynamicBlock();
+			AddConfig();
 			var configLengt2 = BytesDatabase.ByteDescriptions.Count;
 			configLengtByteDescription.Value = configLengt2 - configLengt1;
-			BytesDatabase.AddByte((byte)0, "Конфиг с компа");
-			AddConfig();
-			AddLogic();
+
+			if (Device.Driver.DriverType != DriverType.MPT)
+			{
+				AddLogic();
+			}
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
 		}
 
@@ -74,7 +78,7 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MPT:
-					count = 5;
+					count = 15;
 					break;
 
 				case DriverType.PumpStation:
@@ -124,7 +128,7 @@ namespace ClientFS2.ConfigurationWriter
 
 				case DriverType.MDU:
 					var mduType = 0;
-					var mduTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "начальное положение для привода пружинный ДУ");
+					var mduTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "Начальное положение для привода пружинный ДУ");
 					if ((mduTypeProperty == null) || (mduTypeProperty.Value == null))
 						mduType = 0;
 					else
@@ -188,7 +192,7 @@ namespace ClientFS2.ConfigurationWriter
 							localZoneNo = binaryZone.Zone.No;
 						}
 					}
-					BytesDatabase.AddShort((short)localZoneNo, "Номер привязанной зоны");
+					//BytesDatabase.AddShort((short)localZoneNo, "Номер привязанной зоны");
 					break;
 
 				case DriverType.MRO_2:
@@ -204,12 +208,16 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MDU:
-					BytesDatabase.AddShort((short)0, "Общее количество связанных ИУ");
-					for (int i = 0; i < ParentPanel.ShleifNo; i++)
-					{
-						BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-						BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого саиска связанного ИУ шлейфа " + (i + 1).ToString());
-					}
+					//var outDevicesCount = 0;
+					//BytesDatabase.AddShort((short)outDevicesCount, "Общее количество связанных ИУ");
+					//if (outDevicesCount > 0)
+					//{
+					//    for (int i = 0; i < ParentPanel.ShleifNo; i++)
+					//    {
+					//        BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+					//        BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого саиска связанного ИУ шлейфа " + (i + 1).ToString());
+					//    }
+					//}
 					break;
 			}
 		}
@@ -286,24 +294,24 @@ namespace ClientFS2.ConfigurationWriter
 				BytesDatabase.AddByte((byte)state, "Состояние");
 
 				var joinOperator = 0;
-				if(Device.ZoneLogic.Clauses.IndexOf(clause) < Device.ZoneLogic.Clauses.Count - 1)
+				if (Device.ZoneLogic.Clauses.IndexOf(clause) < Device.ZoneLogic.Clauses.Count - 1)
 				{
-				switch(Device.ZoneLogic.JoinOperator)
-				{
-					case ZoneLogicJoinOperator.And:
-						joinOperator = 1;
-						break;
+					switch (Device.ZoneLogic.JoinOperator)
+					{
+						case ZoneLogicJoinOperator.And:
+							joinOperator = 1;
+							break;
 
-					case ZoneLogicJoinOperator.Or:
-						joinOperator = 2;
-						break;
-				}
+						case ZoneLogicJoinOperator.Or:
+							joinOperator = 2;
+							break;
+					}
 				}
 				BytesDatabase.AddByte((byte)joinOperator, "Логика операции со следующей логической группой");
 
 				var zonesOrDevicesCount = 0;
 				zonesOrDevicesCount = clause.Zones.Count;
-				if(clause.Device != null)
+				if (clause.Device != null)
 					zonesOrDevicesCount = 1;
 				BytesDatabase.AddShort((short)zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
 

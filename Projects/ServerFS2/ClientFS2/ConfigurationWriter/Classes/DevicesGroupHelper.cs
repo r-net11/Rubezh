@@ -34,7 +34,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу Охранных извещателей", 0, DriverType.AM1_O);
 			var OuterDevices_Group = CreateDevicesGroup("Указатель на таблицу Внешних ИУ", 0, DriverType.Computer);
 			OuterDevices_Group.IsRemoteDevicesPointer = true;
-			CreateDevicesGroup("Указатель на таблицу МДУ", 0, DriverType.MDU);
+			CreateDevicesGroup("Указатель на таблицу МДУ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу БУНС", 0, DriverType.PumpStation);
 			CreateDevicesGroup("Указатель на таблицу АМП-4", 0, DriverType.AMP_4);
 			CreateDevicesGroup("Указатель на таблицу ОЗ", 0, DriverType.Computer);
@@ -43,7 +43,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу АМТ-4", 0, DriverType.AMT_4);
 			CreateDevicesGroup("Указатель на таблицу ППУ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу АСПТ", 0, DriverType.ASPT);
-			CreateDevicesGroup("Указатель на таблицу МУК-1Э", 0, DriverType.Computer);
+			CreateDevicesGroup("Указатель на таблицу МУК-1Э", 0, DriverType.MDU);
 			CreateDevicesGroup("Указатель на таблицу Выход реле", 0, DriverType.Exit);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный ручной", 0, DriverType.RadioHandDetector);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный дымовой", 0, DriverType.RadioSmokeDetector);

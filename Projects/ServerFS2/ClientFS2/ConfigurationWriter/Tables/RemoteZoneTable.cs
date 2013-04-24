@@ -27,7 +27,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		public override void Create()
 		{
-			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны");
+			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны", true);
 			BytesDatabase.AddShort((short)BinaryZone.LocalNo, "Номер локальной, для удаленного прибора, зоны");
 			short localZoneNo = 0;
 			BytesDatabase.AddShort(localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");

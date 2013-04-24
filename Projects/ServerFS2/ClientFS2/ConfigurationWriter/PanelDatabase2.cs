@@ -103,7 +103,7 @@ namespace ClientFS2.ConfigurationWriter
 			ServiceTable = new TableBase(this, "Служебная таблица");
 			for (int i = 0; i < 32; i++)
 			{
-				ServiceTable.BytesDatabase.AddByte(0);
+				ServiceTable.BytesDatabase.AddByte(0, "", true);
 			}
 			Tables.Add(ServiceTable);
 		}
@@ -197,7 +197,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				LastTable.BytesDatabase.AddByte(0, "MD5");
 			}
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 19; i++)
 			{
 				LastTable.BytesDatabase.AddByte(0, "Для нужд базы");
 			}
