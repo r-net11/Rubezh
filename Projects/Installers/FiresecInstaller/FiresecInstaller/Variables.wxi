@@ -15,6 +15,5 @@
   <?define SoundsFolder="Sounds"?>
   <?define XslFilesFolder="XslFiles"?>
   <?define xaml2svgFolder="xaml2svg"?>
-
   <?define Firesec1Version ="48"?>
 </Include>

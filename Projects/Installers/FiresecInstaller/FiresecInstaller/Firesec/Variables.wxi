@@ -12,6 +12,7 @@
 
   <?define ConfiguatorMSP.Name="Конфигуратор МС-ПИ"?>
   <?define ConfiguatorMSP.TargetFileName="Конфигуратор МС-ПИ.exe"?>
+  <?define ConfiguatorMSP.TargetFileName48="Конфигуратор МС-П.exe"?>
 
   <?define ConfiguratorMRO2M.Name="Конфигуратор МРО2М"?>
   <?define ConfiguratorMRO2M.TargetFileName="КонфигураторМРО2М.exe"?>

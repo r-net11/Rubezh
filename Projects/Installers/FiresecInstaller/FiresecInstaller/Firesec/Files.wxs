@@ -25,6 +25,8 @@
         <File Id="Firesec.zlib1.dll" Name="zlib1.dll" Source="$(var.Firesec.TargetDir)" />
         <File Id="Firesec.gds32.dll" Name="gds32.dll" Source="$(var.Firesec.TargetDir)" />
         <File Id="Firesec.firebird.msg" Name="firebird.msg" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.htmltortf.dll" Name="htmltortf.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.report.dll" Name="report.dll" Source="$(var.Firesec.TargetDir)" />
         <File Id="Firesec.RegisterFS48.bat" Name="RegisterFS48.bat" Source="Data\RegisterFS48.bat" />
       </Component>
     </DirectoryRef>
@@ -46,6 +48,27 @@
         <RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Control\Network">
           <RegistryValue Type="integer" Value="#0000000e" />
         </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="UTILSLOCATION">
+      <Component Id="Firesec.Utils" Guid="072F82EB-8A79-4EFD-B56B-4D794847C853">
+        <File Id="Firesec5.Utils.HASP_Manager.exe" Name="$(var.HASPManager.TargetFileName)" Source="$(var.Firesec.TargetDir)Utils\" KeyPath="yes" />
+        <File Id="Firesec5.Utils.RubezhCalc.exe" Name="$(var.RubezhCalc.TargetFileName)" Source="$(var.Firesec.TargetDir)Utils\" />
+        <File Id="Firesec5.Utils.ConfiguatorMSP" Name="$(var.ConfiguatorMSP.TargetFileName48)" Source="$(var.Firesec.TargetDir)Utils\" />
+        <File Id="Firesec5.Utils.ConfiguratorMRO2M.exe" Name="$(var.ConfiguratorMRO2M.TargetFileName)" Source="$(var.Firesec.TargetDir)Utils\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ProgramMenuDir.UtilsFolder">
+      <Component Id="Firesec.Utils.ProgramMenuShortcut" Guid="C8E3E0CF-3FB7-4785-9C76-D019817BB6B7">
+        <Shortcut Id="HASPManager.Shortcut" Name="$(var.HASPManager.Name)" Description="$(var.HASPManager.Name)" Target="[UTILSLOCATION]$(var.HASPManager.TargetFileName)" WorkingDirectory="UTILSLOCATION"/>
+        <Shortcut Id="RubezhCalc.Shortcut" Name="$(var.RubezhCalc.Name)" Description="$(var.RubezhCalc.Name)" Target="[UTILSLOCATION]$(var.RubezhCalc.TargetFileName)" WorkingDirectory="UTILSLOCATION"/>
+        <Shortcut Id="ConfiguatorMSP.Shortcut" Name="$(var.ConfiguatorMSP.Name)" Description="$(var.ConfiguatorMSP.Name)" Target="[UTILSLOCATION]$(var.ConfiguatorMSP.TargetFileName48)" WorkingDirectory="UTILSLOCATION"/>
+        <Shortcut Id="ConfiguratorMRO2M.Shortcut" Name="$(var.ConfiguratorMRO2M.Name)" Description="$(var.ConfiguratorMRO2M.Name)" Target="[UTILSLOCATION]$(var.ConfiguratorMRO2M.TargetFileName)" WorkingDirectory="UTILSLOCATION"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\Utils" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+        <Condition>SHORTCUT_PROGRAMMENU</Condition>
       </Component>
     </DirectoryRef>
     <?endif?>
