@@ -72,5 +72,8 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool LargeValue { get; set; }
+
+		[DataMember]
+		public bool IsReadOnly { get; set; }
 	}
 }

@@ -36,7 +36,7 @@ namespace JournalModule.ViewModels
 			else
 				_device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
 
-			_zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == JournalRecord.ZoneName);
+			_zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == JournalRecord.ZoneName);
 		}
 
 		public string Description
@@ -56,6 +56,8 @@ namespace JournalModule.ViewModels
 					result = result.Replace("</li><li>", "\r\n");
 					result = result.Replace("<li>", "");
 					result = result.Replace("</li>", "");
+					if (result == "я")
+						result = "";
 					return result;
 				}
 				catch (Exception e)

@@ -22,7 +22,8 @@
                                     <ColumnDefinition SharedSizeGroup="group2" Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    IsEnabled="{Binding IsEnabled}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

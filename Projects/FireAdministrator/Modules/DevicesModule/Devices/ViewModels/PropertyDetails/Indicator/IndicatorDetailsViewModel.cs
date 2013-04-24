@@ -206,13 +206,7 @@ namespace DevicesModule.ViewModels
 				indicatorLogic.FailureColor = FailureColor;
 				indicatorLogic.ConnectionColor = ConnectionColor;
 
-				if (indicatorLogic.Device != null &&
-				indicatorLogic.Device.Driver.DriverType == DriverType.PumpStation ||
-				indicatorLogic.Device.Driver.DriverType == DriverType.Pump ||
-				indicatorLogic.Device.Driver.DriverType == DriverType.JokeyPump ||
-				indicatorLogic.Device.Driver.DriverType == DriverType.Compressor ||
-				indicatorLogic.Device.Driver.DriverType == DriverType.DrenazhPump ||
-				indicatorLogic.Device.Driver.DriverType == DriverType.CompensationPump)
+				if (indicatorLogic.Device != null && indicatorLogic.Device.Driver.IsPump())
 				{
 					if (Device.IntAddress > 10)
 					{
@@ -236,8 +230,22 @@ namespace DevicesModule.ViewModels
 				}
 			}
 			FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
+			ValidateMissingPumpDevices();
 			RegistrySettingsHelper.SetInt("FireAdministrator.Indicator.IndicatorLogicType", (int)indicatorLogic.IndicatorLogicType);
 			return base.Save();
+		}
+
+		void ValidateMissingPumpDevices()
+		{
+			foreach (var device in Device.Parent.Children)
+			{
+				if (device.IndicatorLogic.Device != null && device.IndicatorLogic.Device.Driver.DriverType == DriverType.Indicator && device.IntAddress > 10 &&
+					Device.Parent.Children[device.IntAddress % 10].IndicatorLogic.Device == null)
+				{
+					device.IndicatorLogic.Device = null;
+					device.IndicatorLogic.DeviceUID = Guid.Empty;
+				}
+			}
 		}
 	}
 }

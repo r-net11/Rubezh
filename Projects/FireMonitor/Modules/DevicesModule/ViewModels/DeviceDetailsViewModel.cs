@@ -48,7 +48,6 @@ namespace DevicesModule.ViewModels
 			if (DeviceState != null && _deviceControl != null)
 				_deviceControl.StateType = DeviceState.StateType;
 			OnPropertyChanged("DeviceControlContent");
-			//OnPropertyChanged("DeviceState");
 
 			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeStates)
