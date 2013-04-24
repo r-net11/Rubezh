@@ -59,7 +59,7 @@ namespace ClientFS2.ConfigurationWriter
 				zoneAttributes += 4;
 			BytesDatabase.AddByte((byte)zoneAttributes, "Атрибуты");
 			BytesDatabase.AddByte((byte)Zone.DetectorCount, "Количество датчиков для формирования Пожара");
-			//BytesDatabase.AddByte((byte)0, "Количество потерянных ИП", true);
+			BytesDatabase.AddByte((byte)0, "Количество потерянных ИП", true);
 			BytesDatabase.AddShort((short)Zone.No, "Глобальный номер");
 
 			var diectionNo = 0;
@@ -75,7 +75,7 @@ namespace ClientFS2.ConfigurationWriter
 			InitializeRemoteIUPanels();
 			InitializeAllDevices();
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
-            BytesDatabase.AddByte(0, "Пустой байт", true);
+            //BytesDatabase.AddByte(0, "Пустой байт", true);
 		}
 
 		void InitializeMPT()
