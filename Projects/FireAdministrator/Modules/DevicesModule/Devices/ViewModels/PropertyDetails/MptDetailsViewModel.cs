@@ -8,6 +8,8 @@ namespace DevicesModule.ViewModels
 {
 	public class MptDetailsViewModel : SaveCancelDialogViewModel
 	{
+		Device _device;
+
 		public MptDetailsViewModel(Device device)
 		{
 			Title = "Параметры устройства: Модуль пожаротушения";
@@ -23,26 +25,6 @@ namespace DevicesModule.ViewModels
 			else
 				IsAutoBlock = true;
 		}
-
-		public static int GetMPTTimeout(Device device)
-		{
-			int result = 0;
-			try
-			{
-				var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "RunDelay");
-				if ((timeoutProperty == null) || (timeoutProperty.Value == null))
-					result = 0;
-				else
-					result = int.Parse(timeoutProperty.Value);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "MptDetailsViewModel.GetMPTTimeout");
-			}
-			return result;
-		}
-
-		Device _device;
 
 		int _timeoutMinutes;
 		public int TimeoutMinutes
@@ -102,6 +84,24 @@ namespace DevicesModule.ViewModels
 				_device.Properties.Remove(actionProperty);
 			}
 			return base.Save();
+		}
+
+		int GetMPTTimeout(Device device)
+		{
+			int result = 0;
+			try
+			{
+				var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "RunDelay");
+				if ((timeoutProperty == null) || (timeoutProperty.Value == null))
+					result = 0;
+				else
+					result = int.Parse(timeoutProperty.Value);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MptDetailsViewModel.GetMPTTimeout");
+			}
+			return result;
 		}
 	}
 }

@@ -26,6 +26,7 @@ namespace DevicesModule.Validation
                     ValidateZoneOutDevices(zone);
                     ValidateZoneSingleNS(zone);
                     ValidateZoneSingleMPT(zone);
+					ValidateMPTDetectorCount(zone);
                     ValidateZoneDifferentLine(zone);
                     ValidateZoneSingleBoltInDirectionZone(zone);
                     ValidateGuardZoneHasDevicesFromSinglePanel(zone);
@@ -132,6 +133,15 @@ namespace DevicesModule.Validation
             if (mptCount > 1)
                 _errors.Add(new ZoneValidationError(zone, "В зоне не может быть несколько МПТ", ValidationErrorLevel.CannotWrite));
         }
+
+		void ValidateMPTDetectorCount(Zone zone)
+		{
+			if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT))
+			{
+				if(zone.DevicesInZone.Count < 3)
+					_errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));
+			}
+		}
 
         void ValidateZoneDifferentLine(Zone zone)
         {

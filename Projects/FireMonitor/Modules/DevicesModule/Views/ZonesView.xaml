@@ -78,7 +78,7 @@
                     </ScrollViewer>
                 </Grid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" DataContext="{Binding SelectedZone}">
-                    <Label Content="{Binding Zone.PresentationName}" Margin="0" />
+                    <Label Content="{Binding Zone.FullPresentationName}" Margin="0" />
                     <Label Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="10, 0, 0, 0" />
                 </StackPanel>
             </Grid>

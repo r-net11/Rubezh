@@ -59,7 +59,7 @@ namespace DevicesModule.ViewModels
 						(device.Driver.DriverType == DriverType.RM_1) ||
 						(device.Driver.DriverType == DriverType.MDU) ||
 						(device.Driver.DriverType == DriverType.MRO) ||
-						(device.Driver.DriverType == DriverType.MRO_2) ||
+						((device.Driver.DriverType == DriverType.MRO_2) && !FiresecManager.FiresecConfiguration.IsChildMRO2(device)) ||
 						(device.Driver.DriverType == DriverType.AM1_T)
 					)
 					{
@@ -69,9 +69,7 @@ namespace DevicesModule.ViewModels
 				}
 				if (Device.Parent.Driver.DriverType == DriverType.PDU_PT)
 				{
-					if (device.Driver.DriverType == DriverType.MPT
-						&& !FiresecManager.FiresecConfiguration.IsChildMPT(device)
-						&& !FiresecManager.FiresecConfiguration.IsChildMRO2(device))
+					if (device.Driver.DriverType == DriverType.MPT && !FiresecManager.FiresecConfiguration.IsChildMPT(device))
 					{
 						device.AllParents.ForEach(x => { devices.Add(x); });
 						devices.Add(device);

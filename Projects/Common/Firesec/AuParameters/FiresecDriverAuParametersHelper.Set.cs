@@ -15,7 +15,7 @@ namespace Firesec
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 
-				if (driverProperty != null && driverProperty.IsAUParameter)
+				if (driverProperty != null && driverProperty.IsAUParameter && !driverProperty.IsReadOnly)
 				{
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 

@@ -57,7 +57,7 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				var toolTip = Zone.PresentationName;
+				var toolTip = Zone.FullPresentationName;
 				toolTip += "\n" + "Состояние: " + StateType.ToDescription();
 				if (Zone.ZoneType == ZoneType.Fire)
 				{

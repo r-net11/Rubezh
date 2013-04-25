@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.ZoneSelectationView"
+﻿﻿<UserControl x:Class="DevicesModule.Views.ZoneSelectationView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -21,14 +21,10 @@
                 </Style>
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.No}" />
-                <!--<DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="40" />
+                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="40" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.Name}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
-                <DataGridTextColumn Header="Число ИП для перехода в пожар" Binding="{Binding DetectorCount}" />-->
+                <DataGridTextColumn Header="Число ИП для перехода в пожар" Binding="{Binding DetectorCount}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

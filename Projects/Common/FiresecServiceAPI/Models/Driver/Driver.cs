@@ -220,7 +220,7 @@ namespace FiresecAPI.Models
 		{
 			get
 			{
-				switch(DriverType)
+				switch (DriverType)
 				{
 					case DriverType.AM4:
 					case DriverType.AMP_4:
@@ -233,6 +233,17 @@ namespace FiresecAPI.Models
 				}
 				return false;
 			}
+		}
+
+		public bool IsPump()
+		{
+			return
+				(DriverType == DriverType.PumpStation ||
+				DriverType == DriverType.Pump ||
+				DriverType == DriverType.JokeyPump ||
+				DriverType == DriverType.Compressor ||
+				DriverType == DriverType.DrenazhPump ||
+				DriverType == DriverType.CompensationPump);
 		}
 	}
 }

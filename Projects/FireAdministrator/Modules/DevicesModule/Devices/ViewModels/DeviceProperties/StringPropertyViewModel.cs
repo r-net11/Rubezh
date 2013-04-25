@@ -26,5 +26,10 @@ namespace DevicesModule.DeviceProperties
 				Save(value);
 			}
 		}
+
+		public bool IsEnabled
+		{
+			get { return !DriverProperty.IsReadOnly; }
+		}
 	}
 }

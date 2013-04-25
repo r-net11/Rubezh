@@ -112,9 +112,14 @@ namespace FiresecAPI.Models
 
 		public string PresentationName
 		{
+			get { return No + "." + Name; }
+		}
+
+		public string FullPresentationName
+		{
 			get
 			{
-				var result = No + "." + Name;
+				var result = PresentationName;
 				if (!string.IsNullOrEmpty(Description))
 				{
 					result += "(" + Description + ")";
