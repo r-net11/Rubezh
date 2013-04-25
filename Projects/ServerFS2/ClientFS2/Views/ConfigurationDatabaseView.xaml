@@ -201,7 +201,7 @@
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
                                             <DataTrigger.Setters>
-                                                <Setter Property="Background" Value="Green" />
+                                                <Setter Property="Background" Value="LightGray" />
                                             </DataTrigger.Setters>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -249,7 +249,7 @@
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
                                             <DataTrigger.Setters>
-                                                <Setter Property="Background" Value="Green" />
+                                                <Setter Property="Background" Value="LightGray" />
                                             </DataTrigger.Setters>
                                         </DataTrigger>
                                     </Style.Triggers>

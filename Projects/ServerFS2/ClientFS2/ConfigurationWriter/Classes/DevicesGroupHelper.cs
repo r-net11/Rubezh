@@ -28,7 +28,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу Дымовых", 12, DriverType.SmokeDetector);
 			CreateDevicesGroup("Указатель на таблицу Тепловых", 0, DriverType.HeatDetector);
 			CreateDevicesGroup("Указатель на таблицу Комбинированных", 0, DriverType.CombinedDetector);
-			CreateDevicesGroup("Указатель на таблицу АМ-1", 0, DriverType.AM_1,
+			CreateDevicesGroup("Указатель на таблицу АМ-1", -1, DriverType.AM_1,
 				DriverType.ShuzOffButton, DriverType.ShuzOnButton, DriverType.ShuzUnblockButton, DriverType.StartButton, DriverType.StopButton);
 			CreateDevicesGroup("Указатель на таблицу ИПР", 0, DriverType.HandDetector);
 			CreateDevicesGroup("Указатель на таблицу Охранных извещателей", 0, DriverType.AM1_O);
@@ -39,11 +39,11 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу АМП-4", 0, DriverType.AMP_4);
 			CreateDevicesGroup("Указатель на таблицу ОЗ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу Задвижек", 0, DriverType.Valve);
-			CreateDevicesGroup("Указатель на таблицу АМ-Т", 0, DriverType.AM1_T);
+			CreateDevicesGroup("Указатель на таблицу АМ-Т", -1, DriverType.AM1_T);
 			CreateDevicesGroup("Указатель на таблицу АМТ-4", 0, DriverType.AMT_4);
 			CreateDevicesGroup("Указатель на таблицу ППУ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу АСПТ", 0, DriverType.ASPT);
-			CreateDevicesGroup("Указатель на таблицу МУК-1Э", 0, DriverType.MDU);
+			CreateDevicesGroup("Указатель на таблицу МУК-1Э", -1, DriverType.MDU);
 			CreateDevicesGroup("Указатель на таблицу Выход реле", 0, DriverType.Exit);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный ручной", 0, DriverType.RadioHandDetector);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный дымовой", 0, DriverType.RadioSmokeDetector);

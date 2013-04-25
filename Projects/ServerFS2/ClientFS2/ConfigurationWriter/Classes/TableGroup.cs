@@ -29,6 +29,9 @@ namespace ClientFS2.ConfigurationWriter.Classes
 		{
 			get
 			{
+				if (Length == -1)
+					return 0;
+
 				var lenght = 0;
 				foreach(var table in Tables)
 				{

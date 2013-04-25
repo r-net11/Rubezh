@@ -188,7 +188,17 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			var config = 0;
 			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
-			BytesDatabase.AddString(Device.Description, "Описание");
+
+			var description = Device.Description;
+			if (string.IsNullOrEmpty(description))
+			{
+				description = Device.Driver.ShortName + " 0." + Device.PresentationAddress;
+				if (Device.Driver.DriverType == DriverType.Exit)
+				{
+					description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
+				}
+			}
+			BytesDatabase.AddString(description, "Описание");
 
 			var event1PropertyValue = "";
 			var event1Property = Device.Properties.FirstOrDefault(x => x.Name == "Event1");

@@ -47,9 +47,13 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddShort(0, "Внутренние параметры", true);
 			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
 			var description = Device.Description;
-			if (Device.Driver.DriverType == DriverType.Exit)
+			if (string.IsNullOrEmpty(description))
 			{
-				description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
+				description = Device.Driver.ShortName + " 0." + Device.PresentationAddress;
+				if (Device.Driver.DriverType == DriverType.Exit)
+				{
+					description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
+				}
 			}
 			BytesDatabase.AddString(description, "Описание");
 
@@ -65,6 +69,14 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				AddLogic();
 			}
+			else
+			{
+				BytesDatabase.AddByte((byte)0, "Пустой байт");
+				BytesDatabase.AddByte((byte)0, "Пустой байт");
+				BytesDatabase.AddByte((byte)0, "Пустой байт");
+				BytesDatabase.AddByte((byte)0, "Пустой байт");
+				BytesDatabase.AddByte((byte)0, "Пустой байт");
+			}
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
 		}
 
@@ -78,7 +90,7 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MPT:
-					count = 15;
+					count = 5;
 					break;
 
 				case DriverType.PumpStation:
@@ -189,10 +201,15 @@ namespace ClientFS2.ConfigurationWriter
 						var binaryZone = PanelDatabase.BinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone == Device.Zone);
 						if (binaryZone != null)
 						{
-							localZoneNo = binaryZone.Zone.No;
+							localZoneNo = binaryZone.LocalNo;
 						}
 					}
-					//BytesDatabase.AddShort((short)localZoneNo, "Номер привязанной зоны");
+					BytesDatabase.AddShort((short)localZoneNo, "Номер привязанной зоны");
+
+					BytesDatabase.AddByte((byte)0, "Пустой байт");
+					BytesDatabase.AddByte((byte)0, "Пустой байт");
+					BytesDatabase.AddByte((byte)0, "Пустой байт");
+
 					break;
 
 				case DriverType.MRO_2:
@@ -233,8 +250,10 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			foreach (var clause in Device.ZoneLogic.Clauses)
 			{
+				var joinOperation = clause.Operation.Value == ZoneLogicOperation.All ? 1 : 2;
 				var mroLogic = 0;
-				BytesDatabase.AddByte((byte)mroLogic, "Логика МРО внутри группы зон");
+				joinOperation += mroLogic;
+				BytesDatabase.AddByte((byte)joinOperation, "Логика внутри группы зон");
 
 				var state = 0;
 				switch (clause.State)
