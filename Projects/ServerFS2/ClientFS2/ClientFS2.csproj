@@ -128,6 +128,9 @@
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ZoneLogicDeviceSelectionView.xaml.cs">
+      <DependentUpon>ZoneLogicDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZonesSelectionView.xaml.cs">
       <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
     </Compile>
@@ -178,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneLogicDeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -38,4 +38,7 @@
         <Views:ZoneLogicView />
     </DataTemplate>
 
-</ResourceDictionary>
+    <DataTemplate DataType="{x:Type ViewModels:ZoneLogicDeviceSelectionViewModel}">
+        <Views:ZoneLogicDeviceSelectionView />
+    </DataTemplate>
+    </ResourceDictionary>

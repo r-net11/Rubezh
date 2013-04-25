@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using ClientFS2.ConfigurationWriter;
-using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
@@ -17,10 +16,8 @@ namespace ServerFS2
 	{
 		public static List<byte> DeviceRom;
 		public static List<byte> DeviceRam;
-
 		static int _deviceRamFirstIndex;
 		static int _deviceRomLastIndex;
-
 		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
 		{
 			var remoteDeviceConfiguration = new DeviceConfiguration();
@@ -136,7 +133,6 @@ namespace ServerFS2
 				}
 			}
 			#endregion
-
 			#region Хидеры таблиц на исполнительные устройства
 			if ((pointer = DeviceRam[12] * 256 * 256 + DeviceRam[13] * 256 + DeviceRam[14]) != 0) //РМ-1
 			{
@@ -166,10 +162,8 @@ namespace ServerFS2
 					while (outAndOr != 0)
 					{
 						pointer = pointer + tableDynamicSize;
-						byte inAndOr = DeviceRom[pointer + 29];
-						// логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
-						byte eventType = DeviceRom[pointer + 30];
-						// Тип события по которому срабатывать в этой группе зон (1)
+						byte inAndOr = DeviceRom[pointer + 29]; // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
+                        byte eventType = DeviceRom[pointer + 30]; // Тип события по которому срабатывать в этой группе зон (1)
 						outAndOr = DeviceRom[pointer + 31];
 						if (outAndOr == 0x01)
 							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
@@ -216,7 +210,8 @@ namespace ServerFS2
 							remoteDeviceConfiguration.Zones.Add(zone);
 						}
 						pointer = pointer + 34 + zonesCount * 3;
-						child.ZoneLogic.Clauses.Add(clause);
+                        if (inAndOr != 0)
+                            child.ZoneLogic.Clauses.Add(clause);
 					}
 					if (config[4])
 					{
@@ -718,10 +713,38 @@ namespace ServerFS2
 						child.Zone =
 							zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(
 								x => (x.No == zoneNo) && x.PanelDevice.IntAddress == device.IntAddress).Zone;
-						child.ZoneUID = child.Zone.UID;
+		
+                        child.ZoneUID = child.Zone.UID;
 					}
 					var tableDynamicSize = DeviceRom[pointer + 7];
 					var deviceType = DeviceRom[pointer + 10];
+                    var rmCount = DeviceRom[pointer + 11] * 256 + DeviceRom[pointer + 12]; // количество РМ привязанных к сработке виртуальных кнопок
+                    for (int j = 0; j < rmCount; j++)
+                    {
+                        var rmPointer = DeviceRom[pointer + 13 + j * 3] * 256 * 256 + DeviceRom[pointer + 14 + j * 3] * 256 + DeviceRom[pointer + 15 + j * 3] - 0x100; // абсолютный адрес размещения привязанного к сработке РМ (3)
+                        var clause = new Clause();
+                        clause.DeviceUID = child.UID;
+                        clause.State = ZoneLogicState.AM1TOn;
+                        var rm = new Device();
+                        foreach (var devicechild in device.Children)
+                        {
+                            if (devicechild.IntAddress == DeviceRom[rmPointer + 1] + 256 * (DeviceRom[rmPointer + 2] + 1))
+                            {
+                                rm = devicechild;
+                                break;
+                            }
+                            if ((devicechild.Children != null)&&(devicechild.Children.Count > 0))
+                                foreach (var devicechildchild in devicechild.Children)
+                                {
+                                    if (devicechildchild.IntAddress == DeviceRom[rmPointer + 1] + 256 * (DeviceRom[rmPointer + 2] + 1))
+                                    {
+                                        rm = devicechildchild;
+                                        break;
+                                    }
+                                }
+                        }
+                        rm.ZoneLogic.Clauses.Add(clause);
+                    }
 					child.DriverUID = MetadataHelper.GetUidById(deviceType);
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					var config = new BitArray(new byte[] { DeviceRom[pointer + 9] });
@@ -973,14 +996,12 @@ namespace ServerFS2
 				}
 			}
 			#endregion
-
 			foreach (var childDevice in device.Children)
 			{
 				remoteDeviceConfiguration.Devices.Add(childDevice);
 			}
 			return remoteDeviceConfiguration;
 		}
-
 		public static List<byte> GetDeviceRom(Device device)
 		{
 			var result = new List<byte>();
@@ -988,43 +1009,26 @@ namespace ServerFS2
 			var end = _deviceRomLastIndex / 0x100;
 			var count = _deviceRomLastIndex % 0x100;
 			var request = new List<byte>();
-			for (int i = 1; i < end; i++)
+            #region Читаем все кроме последнего блока
+            for (int i = 1; i < end; i++)
 			{
-				bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.AddressOnShleif));
-				bytes.Add(0x01);
-				bytes.Add(0x52);
-				bytes.AddRange(BitConverter.GetBytes(i * 0x100).Reverse());
-				bytes.Add(Convert.ToByte(0xFF));
+			    bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), Convert.ToByte(device.Parent.IntAddress + 2),
+				Convert.ToByte(device.AddressOnShleif), 0x01, 0x52, BitConverter.GetBytes(i * 0x100).Reverse(), Convert.ToByte(0xFF));
 				request = SendCode(bytes).Result.FirstOrDefault().Data;
 				request.RemoveRange(0, 7); // удаляем служебные символы
 				result.AddRange(request);
-			}
-
-			#region Читаем последний блок
-			bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.Add(0x52);
-			bytes.AddRange(BitConverter.GetBytes(end * 0x100).Reverse());
-			bytes.Add(Convert.ToByte(count));
-			request = SendCode(bytes).Result.FirstOrDefault().Data;
-			request.RemoveRange(0, 7); // удаляем служебные символы
-			result.AddRange(request);
+            }
+            #endregion
+            #region Читаем последний блок
+            bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), Convert.ToByte(device.Parent.IntAddress + 2),
+            Convert.ToByte(device.AddressOnShleif), 0x01, 0x52, BitConverter.GetBytes(end * 0x100).Reverse(), Convert.ToByte(count));
+            request = SendCode(bytes).Result.FirstOrDefault().Data;
+            request.RemoveRange(0, 7); // удаляем служебные символы
+            result.AddRange(request);
 			#endregion
-
-			// Записываем БД DeviceRom в deviceRom.txt
-			var deviceRomTxt = new StreamWriter("..\\deviceRom.txt");
+            #region Записываем БД DeviceRom в deviceRom.txt
+            var deviceRomTxt = new StreamWriter("..\\deviceRom.txt");
 			int j = 256;
-			//foreach (var b in DeviceRom)
-			//{
-			//    deviceRomTxt.WriteLine("{0}\t{1}", j, b);
-			//    j++;
-			//}
 			foreach (var b in result)
 			{
 				deviceRomTxt.Write("{0} ", b.ToString("X2"));
@@ -1033,99 +1037,59 @@ namespace ServerFS2
 					deviceRomTxt.Write("\n{0}   ", (j / 0x10).ToString("X2"));
 			}
 			deviceRomTxt.Close();
-			return result;
+            #endregion
+            return result;
 		}
-
 		private static void GetDeviceRamFirstAndRomLastIndex(Device device)
 		{
 			#region Находим адрес начального блока Ram
-			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.Add(0x57);
+            var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+            device.AddressOnShleif, 0x01, 0x57);
 			var result = SendCode(bytes).Result.FirstOrDefault().Data;
 			var begin = 256 * result[8] + result[9];
 			_deviceRamFirstIndex = begin * 0x100;
 			#endregion
-
 			#region Находим адрес конечного блока Rom
-			bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x38);
-			bytes.AddRange(BitConverter.GetBytes(_deviceRamFirstIndex).Reverse());
-			bytes.Add(0x0B);
-			result = SendCode(bytes).Result.FirstOrDefault().Data;
+            bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+            device.AddressOnShleif, 0x38, BitConverter.GetBytes(_deviceRamFirstIndex).Reverse(), 0x0B);
+            result = SendCode(bytes).Result.FirstOrDefault().Data;
 			_deviceRomLastIndex = result[13] * 256 * 256 + result[14] * 256 + result[15];
 			#endregion
 		}
-
 		public static List<byte> GetDeviceRam(Device device)
 		{
 			var bytes = new List<byte>();
 			var begin = _deviceRamFirstIndex / 0x100;
-
 			#region Находим адрес конечного блока Ram и число байт в этом блоке
-
-			bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x38);
-			bytes.AddRange(BitConverter.GetBytes(begin * 0x100).Reverse());
-			bytes.Add(0xFF);
+            bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+            device.AddressOnShleif, 0x38, BitConverter.GetBytes(begin * 0x100).Reverse(), 0xFF);
 			var result = SendCode(bytes).Result.FirstOrDefault().Data;
 			result.RemoveRange(0, 7); // удаляем служебные байты (id - 4б, адрес приемника - 1б, адрес получателя - 1б, код функции - 1б)
 			var end = 256 * result[9] + result[10];
 			var count = result[11];
-
 			#endregion Находим адрес конечного блока Rom и число байт в этом блоке
-
 			var request = new List<byte>();
 			#region Читаем все кроме последнего блока
 			for (int i = begin + 1; i < end; i++)
 			{
-				bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.AddressOnShleif));
-				bytes.Add(0x38);
-				bytes.AddRange(BitConverter.GetBytes(i * 0x100).Reverse());
-				bytes.Add(0xFF);
-				request = SendCode(bytes).Result.FirstOrDefault().Data;
+                bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+                device.AddressOnShleif, 0x38, BitConverter.GetBytes(i * 0x100).Reverse(), 0xFF);
+                request = SendCode(bytes).Result.FirstOrDefault().Data;
 				request.RemoveRange(0, 7); // удаляем служебные символы
 				result.AddRange(request);
 			}
-
 			#endregion
-
 			#region Читаем последний блок
-
-			bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x38);
-			bytes.AddRange(BitConverter.GetBytes(end * 0x100).Reverse());
-			bytes.Add(Convert.ToByte(count));
+			bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(),device.Parent.IntAddress + 2,
+			device.AddressOnShleif,0x38,BitConverter.GetBytes(end * 0x100).Reverse(),count);
 			request = SendCode(bytes).Result.FirstOrDefault().Data;
 			request.RemoveRange(0, 7); // удаляем служебные символы
 			result.AddRange(request);
 			#endregion
 			DeviceRam = new List<byte>(result);
-
-			// Записываем БД DeviceRam в deviceRam.txt
-			var deviceRamTxt = new StreamWriter("..\\deviceRam.txt");
+            #region Записываем БД DeviceRam в deviceRam.txt
+            var deviceRamTxt = new StreamWriter("..\\deviceRam.txt");
 			int j = 0;
-			//foreach (var b in DeviceRam)
-			//{
-			//    deviceRamTxt.WriteLine("{0}\t{1}", j, b);
-			//    j++;
-			//}
-
 			foreach (var b in DeviceRam)
 			{
 				deviceRamTxt.Write("{0} ", b.ToString("X2"));
@@ -1134,7 +1098,8 @@ namespace ServerFS2
 					deviceRamTxt.Write("\n{0}   ", (j / 0x10).ToString("X2"));
 			}
 			deviceRamTxt.Close();
-			return result;
+            #endregion
+            return result;
 		}
 	}
 }

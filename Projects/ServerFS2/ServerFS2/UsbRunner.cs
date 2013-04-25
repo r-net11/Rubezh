@@ -19,10 +19,8 @@ namespace ServerFS2
         private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent _autoWaitEvent = new AutoResetEvent(false);
         private uint _requestId; 
-
 		List<Response> _responses = new List<Response>();
 		List<byte> _localresult = new List<byte>();
-
 		public void Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
@@ -41,7 +39,6 @@ namespace ServerFS2
 			_reader.DataReceivedEnabled = true;
 			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 		}
-
 		public void Close()
 		{
 			_reader.DataReceivedEnabled = false;
@@ -62,13 +59,11 @@ namespace ServerFS2
 				UsbDevice.Exit();
 			}
 		}
-
 		public void Send(List<byte> data)
 		{
 			int bytesWrite;
 			_writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
-
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
             if (_isWrite)
@@ -118,36 +113,19 @@ namespace ServerFS2
                     _autoWaitEvent.Set();
 			}
 		}
-
 		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
 			var bytes = new List<byte>(0) { 0x7e };
 			foreach (var b in messageBytes)
 			{
 				if (b == 0x7E)
-				{
-					bytes.Add(0x7D);
-					bytes.Add(0x5E);
-					continue;
-				}
+                {bytes.Add(0x7D); bytes.Add(0x5E); continue;}
 				if (b == 0x7D)
-				{
-					bytes.Add(0x7D);
-					bytes.Add(0x5D);
-					continue;
-				}
+                {bytes.Add(0x7D); bytes.Add(0x5D); continue;}
 				if (b == 0x3E)
-				{
-					bytes.Add(0x3D);
-					bytes.Add(0x1E);
-					continue;
-				}
+				{bytes.Add(0x3D); bytes.Add(0x1E);continue;}
 				if (b == 0x3D)
-				{
-					bytes.Add(0x3D);
-					bytes.Add(0x1D);
-					continue;
-				}
+				{bytes.Add(0x3D); bytes.Add(0x1D);continue;}
 				bytes.Add(b);
 			}
 			bytes.Add(0x3e);
@@ -156,13 +134,10 @@ namespace ServerFS2
 			if (bytesCount < 64)
 			{
 				for (int i = 0; i < 64 - bytesCount; i++)
-				{
 					bytes.Add(0);
-				}
 			}
 			return bytes;
 		}
-
 		static List<byte> CreateInputBytes(List<byte> messageBytes)
 		{
 			var bytes = new List<byte>();
@@ -172,42 +147,26 @@ namespace ServerFS2
 			foreach (var b in messageBytes)
 			{
 				if ((b == 0x7D) || (b == 0x3D))
-				{
-					previousByte = b;
-					continue;
-				}
+				{previousByte = b;continue;}
 				if (previousByte == 0x7D)
 				{
 					if (b == 0x5E)
-					{
-						bytes.Add(0x7E);
-						continue;
-					}
+					{bytes.Add(0x7E);continue;}
 					if (b == 0x5D)
-					{
-						bytes.Add(0x7D);
-						continue;
-					}
+					{bytes.Add(0x7D);continue;}
 				}
 				if (previousByte == 0x3D)
 				{
 					if (b == 0x1E)
-					{
-						bytes.Add(0x3E);
-						continue;
-					}
+					{bytes.Add(0x3E);continue;}
 					if (b == 0x1D)
-					{
-						bytes.Add(0x3D);
-						continue;
-					}
+					{bytes.Add(0x3D);continue;}
 				}
 				bytes.Add(b);
 			}
 			return bytes;
 		}
-
-	    private bool _isWrite = false;
+	    private bool _isWrite;
         // Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
         public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout, bool IsWrite)
         {
@@ -250,13 +209,11 @@ namespace ServerFS2
             return new OperationResult<List<Response>> { Result = _responses };
         }
 	}
-
 	public class Request
 	{
 		public uint Id;
 		public List<byte> Data;
 	}
-
 	public class Response
 	{
 		public uint Id;
