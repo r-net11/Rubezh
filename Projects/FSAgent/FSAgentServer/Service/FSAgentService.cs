@@ -235,11 +235,11 @@ namespace FSAgentServer
 				return DirectClient.DeviceReadConfig(coreConfig, devicePath);
 			}));
 		}
-		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath)
+		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath, int type)
 		{
 			return (OperationResult<string>)WatcherManager.Current.AddBlockingTask(new Func<object>(() =>
 			{
-				return DirectClient.DeviceReadEventLog(coreConfig, devicePath);
+				return DirectClient.DeviceReadEventLog(coreConfig, devicePath, type);
 			}));
 		}
 		public OperationResult<string> DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)

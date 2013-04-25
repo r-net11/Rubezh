@@ -208,9 +208,9 @@ namespace Firesec
 			return FSAgent.DeviceVerifyFirmwareVersion(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath, fileName);
         }
 
-        public OperationResult<string> DeviceReadEventLog(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath)
+		public OperationResult<string> DeviceReadEventLog(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath, int type)
         {
-			return FSAgent.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath);
+			return FSAgent.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath, type);
         }
 
         public OperationResult<Firesec.Models.CoreConfiguration.config> DeviceAutoDetectChildren(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath, bool fastSearch)

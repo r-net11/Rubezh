@@ -171,7 +171,10 @@ namespace FiresecClient
 		{
 			return SafeOperationCall<string>(() =>
 				{
-					return FiresecDriver.DeviceReadEventLog(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
+					var journalType = 0;
+					if (device.Driver.DriverType == DriverType.Rubezh_2OP || device.Driver.DriverType == DriverType.USB_Rubezh_2OP)
+						journalType = 2;
+					return FiresecDriver.DeviceReadEventLog(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, journalType);
 				}, "ReadDeviceJournal");
 		}
 

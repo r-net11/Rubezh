@@ -18,7 +18,8 @@ namespace Controls.Converters
 
 				foreach (var stateType in stateTypes)
 				{
-					result.Append(stateType.ToDescription());
+					var stateTypeToJournalStringConverter = new StateTypeToJournalStringConverter();
+					result.Append(stateTypeToJournalStringConverter.Convert(stateType, null, null, null));
 					result.Append(delimString);
 				}
 

@@ -9,8 +9,17 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionZones}" 
-                                 SelectedItem="{Binding SelectedInstructionZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
+        <DataGrid Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}" CanUserSortColumns="True">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.RemoveOneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
                 <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />
@@ -22,8 +31,17 @@
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableZones}" 
-                                 SelectedItem="{Binding SelectedAvailableZone}" MouseDoubleClick="SelectedAvailableZoneDoubleClick">
+        <DataGrid Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}" CanUserSortColumns="True">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.AddOneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
                 <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />

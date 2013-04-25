@@ -171,11 +171,11 @@ namespace Firesec
 			return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.GetPlaceInTree(), fileName);
 		}
 
-		public OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+		public OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID, int type)
 		{
 			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceReadEventLog(firesecConfiguration, device.GetPlaceInTree());
+			return FiresecSerializedClient.DeviceReadEventLog(firesecConfiguration, device.GetPlaceInTree(), type);
 		}
 
 		public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)

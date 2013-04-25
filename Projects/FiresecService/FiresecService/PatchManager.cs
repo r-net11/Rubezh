@@ -18,10 +18,9 @@ namespace FiresecService
 	{
 		public static void Patch()
 		{
-			return;
 			try
 			{
-				Patch1();
+				//Patch1();
 				Patch2();
 			}
 			catch(Exception e)

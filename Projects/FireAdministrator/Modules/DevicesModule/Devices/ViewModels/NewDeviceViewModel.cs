@@ -31,6 +31,14 @@ namespace DevicesModule.ViewModels
 				from Driver driver in sortedDrivers
 				where (ParentDevice.Driver.AvaliableChildren.Contains(driver.UID))
 				select driver);
+			if (parent.Device.Driver.DriverType != DriverType.Rubezh_2OP && parent.Device.Driver.DriverType != DriverType.USB_Rubezh_2OP)
+			{
+				var am1_o_Driver = Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O);
+				if (am1_o_Driver != null)
+				{
+					Drivers.Remove(am1_o_Driver);
+				}
+			}
 			SelectedDriver = Drivers.FirstOrDefault();
 			Count = 1;
 		}

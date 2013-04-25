@@ -29,6 +29,13 @@ namespace DevicesModule.ViewModels
 				var isGuardZone = (zone.ZoneType == ZoneType.Guard);
 				if (isGuardZone ^ IsGuardDevice)
 					continue;
+
+				if (device.Driver.DriverType == DriverType.StopButton || device.Driver.DriverType == DriverType.StartButton || device.Driver.DriverType == DriverType.AutomaticButton)
+				{
+					if (!zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT))
+						continue;
+				}
+
 				var zoneViewModel = new ZoneViewModel(zone);
 				Zones.Add(zoneViewModel);
 			}

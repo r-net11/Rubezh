@@ -11,7 +11,8 @@ namespace DevicesModule.ViewModels
 		public ZoneLogicDeviceSelectionViewModel(Device parentDevice)
 		{
 			Title = "Выбор устройства";
-			Devices = new ObservableCollection<Device>(parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T || x.Driver.DriverType == DriverType.MDU));
+			//Devices = new ObservableCollection<Device>(parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T || x.Driver.DriverType == DriverType.MDU));
+			Devices = new ObservableCollection<Device>(parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T));
 			SelectedDevice = Devices.FirstOrDefault();
 		}
 

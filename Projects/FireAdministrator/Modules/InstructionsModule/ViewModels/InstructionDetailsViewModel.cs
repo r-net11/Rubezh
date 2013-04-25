@@ -144,7 +144,8 @@ namespace InstructionsModule.ViewModels
 		public RelayCommand SelectZoneCommand { get; private set; }
 		void OnSelectZoneCommand()
 		{
-			var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
+			var zoneType = AlarmType == AlarmType.Guard ? ZoneType.Guard : ZoneType.Fire;
+			var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList(), zoneType);
 			if (DialogService.ShowModalWindow(instructionZonesViewModel))
 			{
 				InstructionZones = new ObservableCollection<Guid>(instructionZonesViewModel.InstructionZonesList);

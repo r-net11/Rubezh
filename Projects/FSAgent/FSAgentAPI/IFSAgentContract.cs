@@ -94,7 +94,7 @@ namespace FSAgentAPI
         OperationResult<string> DeviceReadConfig(string coreConfig, string devicePath);
 
         [OperationContract]
-        OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath);
+        OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath, int type);
 
         [OperationContract]
         OperationResult<string> DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch);

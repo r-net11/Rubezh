@@ -17,14 +17,13 @@ namespace FiresecAPI.Models
 
 					case DriverType.HeatDetector:
 						driver.HasConfigurationProperties = true;
-						ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 0, 0, 85);
+						ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 65, 0, 85);
 						break;
 
 					case DriverType.CombinedDetector:
 						driver.HasConfigurationProperties = true;
 						ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01 дб/м", "AU_Smoke", 0, 18, 5, 20);
-						ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 0, 0, 85);
-						//ConfigurationDriverHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 0, 0, 255);
+						ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 65, 0, 85);
 						break;
 				}
 			}

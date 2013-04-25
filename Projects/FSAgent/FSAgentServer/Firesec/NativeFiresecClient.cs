@@ -153,9 +153,9 @@ namespace FSAgentServer
 		{
 			return SafeCall<string>(() => { return Connection.DeviceReadConfig(coreConfig, devicePath); }, "DeviceReadConfig");
 		}
-		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath)
+		public OperationResult<string> DeviceReadEventLog(string coreConfig, string devicePath, int type)
 		{
-			return SafeCall<string>(() => { return Connection.DeviceReadEventLog(coreConfig, devicePath, 2); }, "DeviceReadEventLog");
+			return SafeCall<string>(() => { return Connection.DeviceReadEventLog(coreConfig, devicePath, type); }, "DeviceReadEventLog");
 		}
 		public OperationResult<string> DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
 		{

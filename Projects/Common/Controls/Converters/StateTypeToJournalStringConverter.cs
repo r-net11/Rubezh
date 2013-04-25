@@ -11,7 +11,7 @@ namespace Controls.Converters
 			if ((StateType)value == StateType.Info)
 				return "Информация";
 			if ((StateType)value == StateType.No)
-				return "Причие";
+				return "Прочие";
 			return ((StateType)value).ToDescription();
 		}
 

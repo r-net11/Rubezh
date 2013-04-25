@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
 			:this(null)
 		{
 			ComboboxIsEnabled = false;
-			Zone.ZoneType = zoneType;
+			ZoneType = zoneType;
 		}
 
 		public ZoneDetailsViewModel(Zone zone = null)
