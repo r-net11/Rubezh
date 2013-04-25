@@ -86,7 +86,8 @@ namespace DevicesModule.Validation
         {
             if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.HandDetector))
                 return;
-            if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > zone.DevicesInZone.Count))
+			var sensorDevices = GetSensorsInZone(zone);
+			if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > sensorDevices.Count))
                 _errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ValidationErrorLevel.Warning));
         }
 
@@ -138,7 +139,8 @@ namespace DevicesModule.Validation
 		{
 			if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT))
 			{
-				if(zone.DevicesInZone.Count < 3)
+				var sensorDevices = GetSensorsInZone(zone);
+				if (sensorDevices.Count < 2)
 					_errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));
 			}
 		}
@@ -205,5 +207,26 @@ namespace DevicesModule.Validation
             if (string.IsNullOrWhiteSpace(zone.Name))
                 _errors.Add(new ZoneValidationError(zone, "Не указано наименование зоны", ValidationErrorLevel.CannotWrite));
         }
+
+		List<Device> GetSensorsInZone(Zone zone)
+		{
+			var sensorDevices = new List<Device>();
+			foreach (var device in zone.DevicesInZone)
+			{
+				switch (device.Driver.DriverType)
+				{
+					case DriverType.SmokeDetector:
+					case DriverType.HeatDetector:
+					case DriverType.CombinedDetector:
+					case DriverType.AM_1:
+					case DriverType.AMP_4:
+					case DriverType.RadioHandDetector:
+					case DriverType.RadioSmokeDetector:
+						sensorDevices.Add(device);
+						break;
+				}
+			}
+			return sensorDevices;
+		}
     }
 }

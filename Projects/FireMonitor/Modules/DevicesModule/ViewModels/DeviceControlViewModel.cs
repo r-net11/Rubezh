@@ -82,8 +82,13 @@ namespace DevicesModule.ViewModels
 				}
 				catch (Exception e)
 				{
+					IsBuisy = false;
 					Logger.Error(e, "DeviceControlViewModel.OnConfirm");
 				}
+			}
+			else
+			{
+				IsBuisy = false;
 			}
 		}
 
