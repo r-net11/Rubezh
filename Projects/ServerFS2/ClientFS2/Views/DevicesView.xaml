@@ -42,14 +42,7 @@
                 <GridViewColumn Width="100" Header="Зона">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <TextBlock MinWidth="100" Cursor="Hand" Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock.InputBindings>
-										<MouseBinding Command="{Binding ShowZoneOrLogicCommand}" MouseAction="LeftClick" />
-									</TextBlock.InputBindings>
-                                </TextBlock>
-                            </StackPanel>
+                            <TextBlock MinWidth="100" Cursor="Hand" Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
@@ -62,16 +55,6 @@
                                         <TextBlock Text="{Binding Description}" />
                                     </ControlTemplate>
                                 </Controls:EditorPresenter.ViewTemplate>
-                                <Controls:EditorPresenter.EditTemplate>
-                                    <ControlTemplate>
-                                        <TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-                                        <ControlTemplate.Triggers>
-                                            <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
-                                                <Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.EditTemplate>
                             </Controls:EditorPresenter>
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>

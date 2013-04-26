@@ -14,13 +14,11 @@ namespace ClientFS2.ConfigurationWriter
 			get { return PanelDatabase.ParentPanel; }
 		}
 		public BytesDatabase BytesDatabase { get; set; }
-		public List<TableBase> ReferenceTables { get; set; }
 
 		public TableBase(PanelDatabase2 panelDatabase, string name = null)
 		{
 			PanelDatabase = panelDatabase;
 			BytesDatabase = new BytesDatabase(name);
-			ReferenceTables = new List<TableBase>();
 		}
 
 		public virtual void Create()

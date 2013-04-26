@@ -23,13 +23,13 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			ParentPanel = binaryPanel.ParentPanel;
 			DevicesGroups = new List<DevicesGroup>();
 
-			CreateDevicesGroup("Указатель на таблицу РМ", 0, DriverType.RM_1);
+			CreateDevicesGroup("Указатель на таблицу РМ", -1, DriverType.RM_1);
 			CreateDevicesGroup("Указатель на таблицу МПТ", 0, DriverType.MPT);
 			CreateDevicesGroup("Указатель на таблицу Дымовых", 12, DriverType.SmokeDetector);
 			CreateDevicesGroup("Указатель на таблицу Тепловых", 0, DriverType.HeatDetector);
 			CreateDevicesGroup("Указатель на таблицу Комбинированных", 0, DriverType.CombinedDetector);
 			CreateDevicesGroup("Указатель на таблицу АМ-1", -1, DriverType.AM_1,
-				DriverType.ShuzOffButton, DriverType.ShuzOnButton, DriverType.ShuzUnblockButton, DriverType.StartButton, DriverType.StopButton);
+				DriverType.ShuzOffButton, DriverType.ShuzOnButton, DriverType.ShuzUnblockButton, DriverType.StartButton, DriverType.StopButton, DriverType.AutomaticButton);
 			CreateDevicesGroup("Указатель на таблицу ИПР", 0, DriverType.HandDetector);
 			CreateDevicesGroup("Указатель на таблицу Охранных извещателей", 0, DriverType.AM1_O);
 			var OuterDevices_Group = CreateDevicesGroup("Указатель на таблицу Внешних ИУ", 0, DriverType.Computer);
@@ -37,7 +37,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу МДУ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу БУНС", 0, DriverType.PumpStation);
 			CreateDevicesGroup("Указатель на таблицу АМП-4", 0, DriverType.AMP_4);
-			CreateDevicesGroup("Указатель на таблицу ОЗ", 0, DriverType.Computer);
+			CreateDevicesGroup("Указатель на таблицу МРО", -1, DriverType.MRO);
 			CreateDevicesGroup("Указатель на таблицу Задвижек", 0, DriverType.Valve);
 			CreateDevicesGroup("Указатель на таблицу АМ-Т", -1, DriverType.AM1_T);
 			CreateDevicesGroup("Указатель на таблицу АМТ-4", 0, DriverType.AMT_4);
@@ -47,6 +47,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу Выход реле", 0, DriverType.Exit);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный ручной", 0, DriverType.RadioHandDetector);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный дымовой", 0, DriverType.RadioSmokeDetector);
+			CreateDevicesGroup("Указатель на таблицу МРО-2М", -1, DriverType.MRO_2);
 
 			var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
 			totalMiliseconds += deltaMiliseconds;

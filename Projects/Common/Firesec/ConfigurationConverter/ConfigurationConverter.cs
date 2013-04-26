@@ -179,10 +179,6 @@ namespace Firesec
 			var missingDevices = new List<Device>();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (device.DatabaseId == "9609")
-				{
-					;
-				}
 				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
 				if (firesecDevice != null)
 				{

@@ -26,7 +26,7 @@ namespace FiresecService.Service
 		{
 			clientCredentials.ClientIpAddress = "127.0.0.1";
 			clientCredentials.ClientIpAddressAndPort = "127.0.0.1:0";
-			clientCredentials.FriendlyUserName = clientCredentials.UserName;
+			clientCredentials.UserName = clientCredentials.UserName;
 			try
 			{
 				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
@@ -83,9 +83,9 @@ namespace FiresecService.Service
 
 			MainViewModel.Current.EditClient(uid, login);
 			AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
-			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
-
 			clientCredentials.UserName = login;
+			SetUserFullName(clientCredentials);
+			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
 
 			operationResult.Result = true;
 			return operationResult;

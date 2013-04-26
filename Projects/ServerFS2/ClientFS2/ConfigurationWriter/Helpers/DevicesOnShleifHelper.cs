@@ -33,26 +33,17 @@ namespace ClientFS2.ConfigurationWriter
 			return devicesOnShleifs;
 		}
 
-		public static List<DevicesOnShleif> GetRemoteForZone(Device parentPanel, Zone zone)
+		public static List<Device> GetRemoteForZone(Device parentPanel, Zone zone)
 		{
-			var devicesOnShleifs = new List<DevicesOnShleif>();
-			for (int i = 1; i <= parentPanel.Driver.ShleifCount; i++)
-			{
-				var devicesOnShleif = new DevicesOnShleif()
-				{
-					ShleifNo = i
-				};
-				devicesOnShleifs.Add(devicesOnShleif);
-			}
+			var devices = new List<Device>();
 			foreach (var device in GetDevicesInLogic(zone))
 			{
 				if (device.ParentPanel.UID != parentPanel.UID)
 				{
-					var devicesOnShleif = devicesOnShleifs.FirstOrDefault(x => x.ShleifNo == device.ShleifNo);
-					devicesOnShleif.Devices.Add(device);
+					devices.Add(device);
 				}
 			}
-			return devicesOnShleifs;
+			return devices;
 		}
 
 		public static List<DevicesOnShleif> GetLocalForPanel(Device parentPanel)

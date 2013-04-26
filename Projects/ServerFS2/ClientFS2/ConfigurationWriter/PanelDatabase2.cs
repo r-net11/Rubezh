@@ -55,14 +55,6 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				BytesDatabase.Add(table.BytesDatabase);
 			}
-			foreach (var table in Tables)
-			{
-				foreach (var referenceTable in table.ReferenceTables)
-				{
-					BytesDatabase.Add(referenceTable.BytesDatabase);
-					ReferenceTableGroup.Tables.Add(referenceTable);
-				}
-			}
 			BytesDatabase.Order();
 			BytesDatabase.ResolveTableReferences();
 			BytesDatabase.ResolverReferences();

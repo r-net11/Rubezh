@@ -22,7 +22,8 @@ namespace ClientFS2.ConfigurationWriter
 
             ParentPanel = parentDevice;
             PanelDatabase2 = new PanelDatabase2(parentDevice);
-            PanelDatabase1 = new PanelDatabase1(PanelDatabase2, 12288);
+            //PanelDatabase1 = new PanelDatabase1(PanelDatabase2, 12288);
+			PanelDatabase1 = new PanelDatabase1(PanelDatabase2, 0x2000);
             Trace.WriteLine("PanelDatabase Done");
 
             var deltaMiliseconds = (DateTime.Now - startDateTime).TotalMilliseconds;
@@ -40,7 +41,7 @@ namespace ClientFS2.ConfigurationWriter
                 byteDescription.IsNotEqualToOriginal = true;
             }
 
-            var fileName = "DeviceRom.bin";
+			var fileName = @"C:\Program Files\Firesec\TstData\Рубеж-2AM - 1.1_flash.bin"; //"DeviceRom.bin";
             if (File.Exists(fileName))
             {
                 var byteArray = File.ReadAllBytes(fileName);
@@ -48,10 +49,10 @@ namespace ClientFS2.ConfigurationWriter
                 {
                     var bytes = byteArray.ToList();
                     var emptyBytes = new List<byte>();
-                    for (int i = 0; i < 256; i++)
-                    {
-                        emptyBytes.Add(0);
-                    }
+					//for (int i = 0; i < 256; i++)
+					//{
+					//    emptyBytes.Add(0);
+					//}
                     bytes.InsertRange(0, emptyBytes);
 
                     foreach (var byteDescription in PanelDatabase2.BytesDatabase.ByteDescriptions)
@@ -75,19 +76,21 @@ namespace ClientFS2.ConfigurationWriter
                 byteDescription.IsNotEqualToOriginal = true;
             }
 
-            var fileName = "DeviceRam.bin";
+			var fileName = @"C:\Program Files\Firesec\TstData\Рубеж-2AM - 1.1_rom.bin";  //"DeviceRam.bin";
             if (File.Exists(fileName))
             {
                 var byteArray = File.ReadAllBytes(fileName);
                 if (byteArray != null)
                 {
                     var bytes = byteArray.ToList();
-                    var emptyBytes = new List<byte>();
-                    for (int i = 0; i < 12288; i++)
-                    {
-                        emptyBytes.Add(0);
-                    }
-                    bytes.InsertRange(0, emptyBytes);
+					//bytes.RemoveRange(0, 0x2000);
+					//var emptyBytes = new List<byte>();
+					////for (int i = 0; i < 12288; i++)
+					//for (int i = 0; i < 0x2000; i++)
+					//{
+					//    emptyBytes.Add(0);
+					//}
+					//bytes.InsertRange(0, emptyBytes);
 
                     foreach (var byteDescription in PanelDatabase1.BytesDatabase.ByteDescriptions)
                     {

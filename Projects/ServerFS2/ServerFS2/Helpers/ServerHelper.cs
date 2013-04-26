@@ -15,15 +15,19 @@ namespace ServerFS2
         static readonly object Locker = new object();
         static readonly UsbRunner UsbRunner;
 		static int _usbRequestNo;
-        static ServerHelper()
-        {
-            var str = DateConverter.ConvertToBytes(DateTime.Now);
-            MetadataHelper.Initialize();
-            ConfigurationManager.Load();
-            Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-            UsbRunner = new UsbRunner();
-            UsbRunner.Open();
-        }
+		static ServerHelper()
+		{
+			var str = DateConverter.ConvertToBytes(DateTime.Now);
+			MetadataHelper.Initialize();
+			ConfigurationManager.Load();
+			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
+			UsbRunner = new UsbRunner();
+			try
+			{
+				UsbRunner.Open();
+			}
+			catch { }
+		}
         public static void Initialize()
         {
             ;

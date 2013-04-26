@@ -250,18 +250,20 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			switch (Device.Driver.DriverType)
 			{
+				case DriverType.AM_1:
+					return 0x51;
 				case DriverType.StopButton:
-					return 0;
-				case DriverType.StartButton:
-					return 1;
+					return 0x52;
 				case DriverType.AutomaticButton:
-					return 2;
+					return 0x53;
+				case DriverType.StartButton:
+					return 0x54;
 				case DriverType.ShuzOnButton:
-					return 3;
+					return 0x58;
 				case DriverType.ShuzOffButton:
-					return 4;
+					return 0x59;
 				case DriverType.ShuzUnblockButton:
-					return 5;
+					return 0x5A;
 			}
 			return 0;
 		}
