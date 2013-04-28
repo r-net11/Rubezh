@@ -38,7 +38,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу БУНС", 0, DriverType.PumpStation);
 			CreateDevicesGroup("Указатель на таблицу АМП-4", 0, DriverType.AMP_4);
 			CreateDevicesGroup("Указатель на таблицу МРО", -1, DriverType.MRO);
-			CreateDevicesGroup("Указатель на таблицу Задвижек", 0, DriverType.Valve);
+			CreateDevicesGroup("Указатель на таблицу Задвижек", -1, DriverType.Valve);
 			CreateDevicesGroup("Указатель на таблицу АМ-Т", -1, DriverType.AM1_T);
 			CreateDevicesGroup("Указатель на таблицу АМТ-4", 0, DriverType.AMT_4);
 			CreateDevicesGroup("Указатель на таблицу ППУ", 0, DriverType.Computer);

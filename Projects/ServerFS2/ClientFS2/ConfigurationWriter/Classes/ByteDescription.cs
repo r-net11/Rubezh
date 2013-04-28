@@ -26,7 +26,15 @@ namespace ClientFS2.ConfigurationWriter
 		public bool HasNoOffset { get; set; }
 
 		public bool IsNotEqualToOriginal { get; set; }
-        public int OriginalValue { get; set; }
-        public bool IsReadOnly { get; set; }
+		public int OriginalValue { get; set; }
+		public bool IsReadOnly { get; set; }
+		public string OriginalChar
+		{
+			get
+			{
+				var originalChar = Encoding.Default.GetString(new byte[] { (byte)OriginalValue }, 0, 1);
+				return originalChar;
+			}
+		}
 	}
 }

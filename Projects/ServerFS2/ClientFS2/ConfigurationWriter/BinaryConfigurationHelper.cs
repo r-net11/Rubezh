@@ -55,12 +55,37 @@ namespace ClientFS2.ConfigurationWriter
 				foreach (var device in zone.DevicesInZoneLogic)
 				{
 					var binaryPanel = device.BinaryDevice.BinaryPanel;
-					if (!binaryZone.BinaryPanels.Contains(binaryPanel))
+
+					foreach (var clause in device.ZoneLogic.Clauses)
 					{
-						if (!binaryPanel.RemoteZones.Contains(zone))
+						var binaryPanels = new HashSet<Device>();
+						foreach (var clauseZone in clause.Zones)
 						{
-							binaryPanel.RemoteZones.Add(zone);
-							binaryPanel.BinaryRemoteZones.Add(binaryZone);
+							var clauseBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
+							binaryPanels.Add(clauseBinaryPanel.ParentPanel);
+						}
+						if (!binaryZone.BinaryPanels.Contains(binaryPanel))
+						{
+							binaryZone.BinaryPanels.Add(binaryPanel);
+						}
+						if (!binaryPanel.LocalZones.Contains(zone))
+						{
+							binaryPanel.LocalZones.Add(zone);
+							binaryPanel.BinaryLocalZones.Add(binaryZone);
+						}
+						if (!binaryPanel.LocalZones.Contains(zone))
+						{
+							//if (binaryPanels.Count > 1)
+							{
+								//if (clause.Operation.Value == ZoneLogicOperation.All)
+								{
+									if (!binaryPanel.RemoteZones.Contains(zone))
+									{
+										binaryPanel.RemoteZones.Add(zone);
+										binaryPanel.BinaryRemoteZones.Add(binaryZone);
+									}
+								}
+							}
 						}
 					}
 
@@ -79,6 +104,7 @@ namespace ClientFS2.ConfigurationWriter
 					device.BinaryDevice.BinaryZones.Add(binaryZone);
 				}
 			}
+
 			foreach (var binaryPanel in BinaryPanels)
 			{
 				for (int i = 0; i < binaryPanel.BinaryLocalZones.Count; i++)

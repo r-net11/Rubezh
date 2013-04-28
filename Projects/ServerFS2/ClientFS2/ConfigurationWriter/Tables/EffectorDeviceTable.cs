@@ -71,11 +71,11 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			else
 			{
-				BytesDatabase.AddByte((byte)0, "Пустой байт");
-				BytesDatabase.AddByte((byte)0, "Пустой байт");
-				BytesDatabase.AddByte((byte)0, "Пустой байт");
-				BytesDatabase.AddByte((byte)0, "Пустой байт");
-				BytesDatabase.AddByte((byte)0, "Пустой байт");
+				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
+				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
+				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
+				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
+				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
 			}
 			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
 		}
@@ -151,27 +151,13 @@ namespace ClientFS2.ConfigurationWriter
 				case DriverType.RM_1:
 					if (Device.IsRmAlarmDevice)
 						config += 0x80;
-					if (Device.Parent.Driver.DriverType == DriverType.RM_2 || Device.Parent.Driver.DriverType == DriverType.RM_3 || Device.Parent.Driver.DriverType == DriverType.RM_4 || Device.Parent.Driver.DriverType == DriverType.RM_5)
+					var childCount = GetRmChildCount();
+					if (childCount > 0)
 					{
 						var childIndex = Device.Parent.Children.IndexOf(Device);
-						config += (childIndex << 2);
+						config += (childIndex << 1);
+						config += 16;
 					}
-					break;
-
-				case DriverType.RM_2:
-					config += (2 << 5);
-					break;
-
-				case DriverType.RM_3:
-					config += (3 << 5);
-					break;
-
-				case DriverType.RM_4:
-					config += (4 << 5);
-					break;
-
-				case DriverType.RM_5:
-					config += (5 << 5);
 					break;
 			}
 			BytesDatabase.AddByte((byte)config, "Конфиг");
@@ -184,7 +170,7 @@ namespace ClientFS2.ConfigurationWriter
 					if (Device.Parent.Driver.DriverType == DriverType.MPT)
 					{
 						mptParentAddress = Device.Parent.AddressOnShleif;
-						mptParentShleif = Device.Parent.ShleifNo;
+						mptParentShleif = Device.Parent.ShleifNo - 1;
 					}
 					BytesDatabase.AddByte((byte)mptParentAddress, "Адрес родителя");
 					BytesDatabase.AddByte((byte)mptParentShleif, "Шлейф родителя");
@@ -218,7 +204,7 @@ namespace ClientFS2.ConfigurationWriter
 					if (Device.Parent.Driver.DriverType == DriverType.MRO_2)
 					{
 						mroParentAddress = Device.Parent.AddressOnShleif;
-						mroParentShleif = Device.Parent.ShleifNo;
+						mroParentShleif = Device.Parent.ShleifNo - 1;
 					}
 					BytesDatabase.AddByte((byte)mroParentAddress, "Адрес родителя");
 					BytesDatabase.AddByte((byte)mroParentShleif, "Шлейф родителя");
@@ -241,8 +227,10 @@ namespace ClientFS2.ConfigurationWriter
 
 		void AddLogic()
 		{
-			if (Device.ZoneLogic.Clauses.Count == 0)
+			if (Device.ZonesInLogic.Count == 0)
 			{
+				BytesDatabase.AddByte((byte)0, "Пустая логика");
+				BytesDatabase.AddByte((byte)0, "Пустая логика");
 				BytesDatabase.AddByte((byte)0, "Пустая логика");
 				BytesDatabase.AddByte((byte)0, "Пустая логика");
 				BytesDatabase.AddByte((byte)0, "Пустая логика");
@@ -250,6 +238,19 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			foreach (var clause in Device.ZoneLogic.Clauses)
 			{
+				//if (clause.Operation.Value == ZoneLogicOperation.All)
+				{
+					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
+					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
+					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
+					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
+					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
+					//continue;
+				}
+				if (clause.Device != null)
+				{
+					continue;
+				}
 				var joinOperation = clause.Operation.Value == ZoneLogicOperation.All ? 1 : 2;
 				var mroLogic = 0;
 				joinOperation += mroLogic;
@@ -336,6 +337,9 @@ namespace ClientFS2.ConfigurationWriter
 
 				foreach (var zone in clause.Zones)
 				{
+					//if (clause.Operation.Value == ZoneLogicOperation.Any)
+					//    continue;
+
 					var binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone);
 					TableBase table = null;
 					if (binaryZone != null)
@@ -354,6 +358,25 @@ namespace ClientFS2.ConfigurationWriter
 					//}
 				}
 			}
+		}
+
+		int GetRmChildCount()
+		{
+			switch(Device.Parent.Driver.DriverType)
+			{
+				case DriverType.RM_2:
+					return 2;
+
+				case DriverType.RM_3:
+					return 3;
+
+				case DriverType.RM_4:
+					return 4;
+
+				case DriverType.RM_5:
+					return 5;
+			}
+			return 0;
 		}
 	}
 }

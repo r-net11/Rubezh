@@ -19,7 +19,9 @@ namespace ClientFS2.ConfigurationWriter
 				};
 				devicesOnShleifs.Add(devicesOnShleif);
 			}
-			foreach (var device in GetDevicesInLogic(zone))
+
+			var effectorDevices = GetDevicesInLogic(zone);
+			foreach (var device in effectorDevices.OrderBy(x=>x.IntAddress))
 			{
 				if (device.ParentPanel.UID == parentPanel.UID)
 				{
@@ -101,12 +103,13 @@ namespace ClientFS2.ConfigurationWriter
 			var result = zone.DevicesInZoneLogic;
 			foreach (var device in zone.DevicesInZone)
 			{
-				//if (device.Driver.DriverType == DriverType.MPT)
-				//{
-				//    result.Add(device);
-				//}
+				if (device.Driver.DriverType == DriverType.MPT)
+				{
+					result.Add(device);
+				}
 			}
-			return result;
+			var hashSet = new HashSet<Device>(result);
+			return hashSet.ToList();
 		}
 	}
 }

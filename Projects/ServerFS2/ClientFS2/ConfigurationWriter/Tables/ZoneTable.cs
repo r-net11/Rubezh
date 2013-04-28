@@ -76,7 +76,6 @@ namespace ClientFS2.ConfigurationWriter
             InitializeMPT();
             InitializeLocalIUDevices();
             InitializeRemoteIUDevices();
-            //InitializeRemoteIUPanelsOr();
             InitializeRemoteIUPanelsAnd();
             InitializeAllDevices();
             BytesDatabase.SetShort(lengtByteDescription, (short)(BytesDatabase.ByteDescriptions.Count));
@@ -103,52 +102,21 @@ namespace ClientFS2.ConfigurationWriter
 			var devicesOnShleifs = DevicesOnShleifHelper.GetLocalForZone(ParentPanel, Zone);
 			foreach (var devicesOnShleif in devicesOnShleifs)
 			{
-				//if (devicesOnShleif.Devices.Count > 1)
-				//{
 				var referenceBytesDatabase = new BytesDatabase("Локальные устройства шлейфа " + devicesOnShleif.ShleifNo.ToString() + " для зоны " + Zone.PresentationName);
 				ReferenceBytesDatabase.Add(referenceBytesDatabase);
 
-					//var referenceTable = new TableBase(PanelDatabase, "Локальные устройства шлейфа " + devicesOnShleif.ShleifNo.ToString() + " для зоны " + Zone.PresentationName);
-					foreach (var device in devicesOnShleif.Devices)
-					{
-						TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-						//referenceTable.BytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
-						referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
-					}
-					//if (referenceTable.BytesDatabase.ByteDescriptions.Count > 0)
-					//{
-					//     ReferenceTables.Add(referenceTable);
-					//}
-					//var byteDescription = referenceTable.BytesDatabase.ByteDescriptions.FirstOrDefault();
-					var byteDescription = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
-					BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных локальных ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
-					BytesDatabase.AddReference(byteDescription, "Указатель на размещение абсолютного адреса размещения первого в списке связанного локального ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
-				//}
-				//else
-				//{
-				//    ByteDescription byteDescription = null;
-				//    var firstDevice = devicesOnShleif.Devices.FirstOrDefault();
-				//    BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных локальных ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
-				//    var addedByteDescription = BytesDatabase.AddReference(byteDescription, "Указатель на размещение абсолютного адреса размещения первого в списек связанного локального ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
-
-				//    var referenceToOneDevice = new ReferenceToOneDevice()
-				//    {
-				//        Device = firstDevice,
-				//        ByteDescription = addedByteDescription
-				//    };
-				//    ReferenceToOneDeviceCollection.Add(referenceToOneDevice);
-				//}
+				foreach (var device in devicesOnShleif.Devices)
+				{
+					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
+					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
+				}
+				var byteDescription = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
+				BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных локальных ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
+				BytesDatabase.AddReference(byteDescription, "Указатель на размещение абсолютного адреса размещения первого в списке связанного локального ИУ шлейфа  " + devicesOnShleif.ShleifNo.ToString());
 			}
 		}
 
 		List<BytesDatabase> ReferenceBytesDatabase = new List<BytesDatabase>();
-
-		//List<ReferenceToOneDevice> ReferenceToOneDeviceCollection = new List<ReferenceToOneDevice>();
-		//class ReferenceToOneDevice
-		//{
-		//    public Device Device { get; set; }
-		//    public ByteDescription ByteDescription { get; set; }
-		//}
 
 		void InitializeRemoteIUDevices()
 		{
@@ -161,45 +129,12 @@ namespace ClientFS2.ConfigurationWriter
 			foreach (var device in devices)
 			{
 				TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-				//referenceTable.BytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
 				referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
-
-				//var referenceTable = new TableBase(PanelDatabase, "Внешние устройства шлейфа " + device.ShleifNo.ToString() + " для зоны " + Zone.PresentationName);
-				//foreach (var device in device.Devices)
-				//{
-				//    TableBase table = EffectorDeviceTables.FirstOrDefault(x => x.UID == device.UID);
-				//    referenceTable.BytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
-				//}
-				//if (referenceTable.BytesDatabase.ByteDescriptions.Count > 0)
-				//{
-				//    ReferenceTables.Add(referenceTable);
-				//}
-				//var byteDescription = referenceTable.BytesDatabase.ByteDescriptions.FirstOrDefault();
-				
-				//BytesDatabase.AddReference(byteDescription, "Указатель на размещение абсолютного адреса размещения первого в списек связанного внешнего ИУ шлейфа  " + device.ShleifNo.ToString());
 			}
 
 			var byteDescription = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
 			BytesDatabase.AddReference(byteDescription, "Указатель на размещение абсолютного адреса размещения первого в списке связанного внешнего ИУ");
 		}
-
-		//void InitializeRemoteIUPanelsOr()
-		//{
-		//    var remotePanels = new List<Device>();
-		//    foreach (var device in Zone.DevicesInZoneLogic)
-		//    {
-		//        if (device.ParentPanel.UID != ParentPanel.UID)
-		//        {
-		//            if (!remotePanels.Any(x => x.UID == device.ParentPanel.UID))
-		//            {
-		//                remotePanels.Add(device.ParentPanel);
-		//            }
-		//        }
-		//    }
-		//    BytesDatabase.AddByte((byte)remotePanels.Count, "Количество внешних приборов, ИУ которого могут управлятся нашими ИП по логике межприборное ИЛИ");
-		//    ByteDescription byteDescription = null;
-		//    BytesDatabase.AddReference(byteDescription, "Указатель на размещение абсолютного адреса размещения первого в списек связанного внешнего ИУ по логике межприборное ИЛИ");
-		//}
 
         void InitializeRemoteIUPanelsAnd()
         {
@@ -227,37 +162,6 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				BytesDatabase.Add(referenceBytesDatabase);
 			}
-
-			//var localDevices = new List<Device>();
-			//var remoteDevices = new List<Device>();
-			//foreach (var device in Zone.DevicesInZoneLogic)
-			//{
-			//    if (device.ParentPanel.UID == ParentPanel.UID)
-			//    {
-			//        localDevices.Add(device);
-			//    }
-			//    else
-			//    {
-			//        remoteDevices.Add(device);
-			//    }
-			//}
-			//localDevices = (from Device device in localDevices orderby device.ShleifNo select device).ToList();
-			//remoteDevices = (from Device device in remoteDevices orderby device.ShleifNo select device).ToList();
-			//foreach (var device in localDevices)
-			//{
-			//    var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-			//    var byteDescription = BytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения связанного с зоной ИУ");
-			//    var referenceToOneDevice = ReferenceToOneDeviceCollection.FirstOrDefault(x => x.Device == device);
-			//    if (referenceToOneDevice != null)
-			//    {
-			//        referenceToOneDevice.ByteDescription.AddressReference = byteDescription;
-			//    }
-			//}
-			//foreach (var device in remoteDevices)
-			//{
-			//    var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-			//    BytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения связанного с зоной внешнего ИУ");
-			//}
         }
 
 		List<Device> GetDevicesInLogic()
