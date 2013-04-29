@@ -137,6 +137,11 @@ namespace Firesec
 			else
 				offsetParamValue = lowByteValue;
 
+			if (driverProperty.Caption == "Проигрываемое сообщение")
+			{
+				return MRO2Helper.GetMessageNumber(offsetParamValue);
+			}
+
 			if (driverProperty.MinBit > 0)
 			{
 				byte byteOffsetParamValue = (byte)offsetParamValue;
