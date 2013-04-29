@@ -344,6 +344,10 @@ namespace ClientFS2.ConfigurationWriter
 					TableBase table = null;
 					if (binaryZone != null)
 						table = (TableBase)binaryZone.TableBase;
+					if (table != null)
+					{
+						;
+					}
 					BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
 
 					//if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))

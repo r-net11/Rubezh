@@ -7,9 +7,10 @@ namespace FiresecAPI.Models.Binary
 {
 	public class BinaryZone
 	{
-		public BinaryZone()
+		public BinaryZone(Zone zone)
 		{
 			BinaryPanels = new List<BinaryPanel>();
+			Zone = zone;
 		}
 		public Device ParentPanel { get; set; }
 		public Zone Zone { get; set; }

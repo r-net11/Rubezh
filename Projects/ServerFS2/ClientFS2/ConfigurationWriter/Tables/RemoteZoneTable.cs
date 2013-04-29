@@ -32,9 +32,19 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны", true);
 			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны", true);
 
-			BytesDatabase.AddShort((short)BinaryZone.LocalNo, "Номер локальной, для удаленного прибора, зоны");
-			short localZoneNo = 0;
-			BytesDatabase.AddShort(localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
+			var localBinaryPanel = BinaryZone.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID == ParentPanel.UID);
+			var remoteBinaryPanel = BinaryZone.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID != ParentPanel.UID);
+			var localBinaryZone = localBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == Zone.UID);
+			var remoteBinaryZone = remoteBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == Zone.UID);
+			var localZoneNo = 0;
+			if (localBinaryZone != null)
+				localZoneNo = localBinaryZone.LocalNo;
+			var remoteZoneNo = 0;
+			if (remoteBinaryZone != null)
+				remoteZoneNo = remoteBinaryZone.LocalNo;
+
+			BytesDatabase.AddShort((short)remoteZoneNo, "Номер локальной, для удаленного прибора, зоны");
+			BytesDatabase.AddShort((short)localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
 			BytesDatabase.AddByte((byte)BinaryZone.ParentPanel.IntAddress, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ по логике межприборное И");
 		}
 	}
