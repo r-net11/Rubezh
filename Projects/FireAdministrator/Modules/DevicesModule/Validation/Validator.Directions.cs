@@ -19,7 +19,7 @@ namespace DevicesModule.Validation
         {
             if (direction.ZoneUIDs.IsNotNullOrEmpty() == false)
             {
-                _errors.Add(new DirectionValidationError(direction, "В направлении тушения нет ни одной зоны", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DirectionValidationError(direction, "В направлении тушения нет ни одной зоны", ValidationErrorLevel.CannotWrite));
                 return false;
             }
             return true;

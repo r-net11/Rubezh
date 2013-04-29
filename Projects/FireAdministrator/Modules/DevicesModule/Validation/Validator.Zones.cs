@@ -17,7 +17,7 @@ namespace DevicesModule.Validation
             {
                 if (zone.DevicesInZone.Count == 0)
                 {
-                    _errors.Add(new ZoneValidationError(zone, "В зоне отсутствуют устройства", ValidationErrorLevel.Warning));
+                    Errors.Add(new ZoneValidationError(zone, "В зоне отсутствуют устройства", ValidationErrorLevel.Warning));
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace DevicesModule.Validation
                 deviceUIDs.Add(device.ParentChannel.UID);
             }
             if (deviceUIDs.Count > 1)
-                _errors.Add(new ZoneValidationError(zone, "В зоне указано устройство, находящееся в другой сети RS-485", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "В зоне указано устройство, находящееся в другой сети RS-485", ValidationErrorLevel.CannotWrite));
         }
 
 		void ValidateZoneHasDifferentDevices(Zone zone)
@@ -66,7 +66,7 @@ namespace DevicesModule.Validation
 					deviceUIDs.Add(device.ParentPanel.UID);
 				}
 				if (deviceUIDs.Count > 1)
-					_errors.Add(new ZoneValidationError(zone, "В охранной зоне указано устройство, находящееся в другом приборе", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, "В охранной зоне указано устройство, находящееся в другом приборе", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace DevicesModule.Validation
                     ++guardZonesCount;
             }
             if (guardZonesCount > 64)
-                _errors.Add(new CommonValidationError("FS", "Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
+                Errors.Add(new CommonValidationError("FS", "Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateZoneDetectorCount(Zone zone)
@@ -88,7 +88,7 @@ namespace DevicesModule.Validation
                 return;
 			var sensorDevices = GetSensorsInZone(zone);
 			if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > sensorDevices.Count))
-                _errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ValidationErrorLevel.Warning));
+                Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ValidationErrorLevel.Warning));
         }
 
         void ValidateZoneType(Zone zone)
@@ -98,13 +98,13 @@ namespace DevicesModule.Validation
                 case ZoneType.Fire:
                     var guardDevice = zone.DevicesInZone.FirstOrDefault(x => x.Driver.DeviceType == DeviceType.Sequrity);
                     if (guardDevice != null)
-                        _errors.Add(new ZoneValidationError(zone, string.Format("В зону не может быть помещено охранное устройство ({0})", guardDevice.PresentationAddress), ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ZoneValidationError(zone, string.Format("В зону не может быть помещено охранное устройство ({0})", guardDevice.PresentationAddress), ValidationErrorLevel.CannotSave));
                     break;
 
                 case ZoneType.Guard:
                     var fireDevice = zone.DevicesInZone.FirstOrDefault(x => x.Driver.DeviceType == DeviceType.Fire);
                     if (fireDevice != null)
-                        _errors.Add(new ZoneValidationError(zone, string.Format("В зону не может быть помещено пожарное устройство ({0})", fireDevice.PresentationAddress), ValidationErrorLevel.CannotSave));
+                        Errors.Add(new ZoneValidationError(zone, string.Format("В зону не может быть помещено пожарное устройство ({0})", fireDevice.PresentationAddress), ValidationErrorLevel.CannotSave));
                     break;
             }
         }
@@ -112,13 +112,13 @@ namespace DevicesModule.Validation
         void ValidateZoneOutDevices(Zone zone)
         {
             if (zone.DevicesInZone.All(x => x.Driver.IsOutDevice))
-                _errors.Add(new ZoneValidationError(zone, "К зоне нельзя отнести только выходные устройства", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "К зоне нельзя отнести только выходные устройства", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateZoneSingleNS(Zone zone)
         {
             if (zone.DevicesInZoneLogic.Where(x => x.Driver.DriverType == DriverType.PumpStation).Count() > 1)
-                _errors.Add(new ZoneValidationError(zone, "В одной зоне не может быть несколько внешних НС", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "В одной зоне не может быть несколько внешних НС", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateZoneSingleMPT(Zone zone)
@@ -132,7 +132,7 @@ namespace DevicesModule.Validation
                 }
             }
             if (mptCount > 1)
-                _errors.Add(new ZoneValidationError(zone, "В зоне не может быть несколько МПТ", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "В зоне не может быть несколько МПТ", ValidationErrorLevel.CannotWrite));
         }
 
 		void ValidateMPTDetectorCount(Zone zone)
@@ -141,7 +141,7 @@ namespace DevicesModule.Validation
 			{
 				var sensorDevices = GetSensorsInZone(zone);
 				if (sensorDevices.Count < 2)
-					_errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -153,7 +153,7 @@ namespace DevicesModule.Validation
                 var shliefCount = device.AddressFullPath.Substring(0, device.AddressFullPath.IndexOf('.'));
                 if (shliefCount != "0" && zone.DevicesInZone.Any(x => x.AddressFullPath.Substring(0, x.AddressFullPath.IndexOf('.')) != shliefCount))
                 {
-                    _errors.Add(new ZoneValidationError(zone, string.Format("Адрес встроенного устройства ({0}) в зоне не соответствует номерам шлейфа прочих устройств", device.PresentationAddress), ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new ZoneValidationError(zone, string.Format("Адрес встроенного устройства ({0}) в зоне не соответствует номерам шлейфа прочих устройств", device.PresentationAddress), ValidationErrorLevel.CannotWrite));
                     return;
                 }
             }
@@ -162,7 +162,7 @@ namespace DevicesModule.Validation
         void ValidateZoneSingleBoltInDirectionZone(Zone zone)
         {
             if (zone.DevicesInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && _firesecConfiguration.DeviceConfiguration.Directions.Any(x => x.ZoneUIDs.Contains(zone.UID)))
-                _errors.Add(new ZoneValidationError(zone, "В зоне направления не может быть более одной задвижки", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "В зоне направления не может быть более одной задвижки", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateGuardZoneHasDevicesFromSinglePanel(Zone zone)
@@ -179,7 +179,7 @@ namespace DevicesModule.Validation
                 }
                 if (panelDevices.Count > 1)
                 {
-                    _errors.Add(new ZoneValidationError(zone, "В охранной зоне присутствуют устройства из разных приборов", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new ZoneValidationError(zone, "В охранной зоне присутствуют устройства из разных приборов", ValidationErrorLevel.CannotWrite));
                 }
             }
         }
@@ -187,25 +187,25 @@ namespace DevicesModule.Validation
         void ValidateZoneNameLength(Zone zone)
         {
             if (zone.Name != null && zone.Name.Length > 20)
-                _errors.Add(new ZoneValidationError(zone, "Слишком длинное наименование зоны (более 20 символов)", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "Слишком длинное наименование зоны (более 20 символов)", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateZoneDescriptionLength(Zone zone)
         {
             if (zone.Description != null && zone.Description.Length > 256)
-                _errors.Add(new ZoneValidationError(zone, "Слишком длинное примечание в зоне (более 256 символов)", ValidationErrorLevel.CannotSave));
+                Errors.Add(new ZoneValidationError(zone, "Слишком длинное примечание в зоне (более 256 символов)", ValidationErrorLevel.CannotSave));
         }
 
         void ValidateZoneNumber(Zone zone)
         {
             if (_firesecConfiguration.DeviceConfiguration.Zones.Where(x => x != zone).Any(x => x.No == zone.No))
-                _errors.Add(new ZoneValidationError(zone, "Дублируется номер зоны", ValidationErrorLevel.CannotSave));
+                Errors.Add(new ZoneValidationError(zone, "Дублируется номер зоны", ValidationErrorLevel.CannotSave));
         }
 
         void ValidateZoneName(Zone zone)
         {
             if (string.IsNullOrWhiteSpace(zone.Name))
-                _errors.Add(new ZoneValidationError(zone, "Не указано наименование зоны", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new ZoneValidationError(zone, "Не указано наименование зоны", ValidationErrorLevel.CannotWrite));
         }
 
 		List<Device> GetSensorsInZone(Zone zone)

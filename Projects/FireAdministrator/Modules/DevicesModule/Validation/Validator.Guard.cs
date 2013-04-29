@@ -34,7 +34,7 @@ namespace DevicesModule.Validation
                             {
                                 if (missingPasswordUsers.Contains(guardUser) == false)
                                 {
-                                    _errors.Add(new DeviceValidationError(device, "Отсутствует информация у пользователя(Отсутствует пароль у пользователя\"" + guardUser.Name + "\")", ValidationErrorLevel.CannotWrite));
+                                    Errors.Add(new DeviceValidationError(device, "Отсутствует информация у пользователя(Отсутствует пароль у пользователя\"" + guardUser.Name + "\")", ValidationErrorLevel.CannotWrite));
                                     missingPasswordUsers.Add(guardUser);
                                 }
                             }
@@ -43,7 +43,7 @@ namespace DevicesModule.Validation
                                 var devicePlusPassword = device.UID.ToString() + guardUser.Password;
                                 if (devicePlusPasswords.Contains(devicePlusPassword))
                                 {
-                                    _errors.Add(new DeviceValidationError(device, "Нарушена уникальность пользователей прибора(Совпадение пароля у пользователя\"" + guardUser.Name + "\")", ValidationErrorLevel.CannotWrite));
+                                    Errors.Add(new DeviceValidationError(device, "Нарушена уникальность пользователей прибора(Совпадение пароля у пользователя\"" + guardUser.Name + "\")", ValidationErrorLevel.CannotWrite));
                                 }
                                 else
                                 {

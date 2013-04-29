@@ -9,7 +9,7 @@ namespace DevicesModule.Validation
 	{
 		private const string ValidChars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщыьъэюя- .1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$;%^:&?*()-_=+|[]'<>,\"\\/{}&#xD;№";
 		private FiresecConfiguration _firesecConfiguration;
-		public List<IValidationError> _errors;
+		public List<IValidationError> Errors;
 		private List<Guid> _validateDevicesWithSerialNumber;
 
 		public Validator(FiresecConfiguration firesecConfiguration)
@@ -19,14 +19,14 @@ namespace DevicesModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			_errors = new List<IValidationError>();
+			Errors = new List<IValidationError>();
 			_firesecConfiguration.DeviceConfiguration.UpdateGuardConfiguration();
 			_firesecConfiguration.InvalidateConfiguration();
 			ValidateDevices();
 			ValidateZones();
 			ValidateDirections();
 			ValidateGuardUsers();
-			return _errors;
+			return Errors;
 		}
 	}
 }

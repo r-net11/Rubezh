@@ -40,6 +40,8 @@ namespace DevicesModule.Validation
                 ValidateMRK30(device);
                 ValidatePumpStation(device);
 				ValidatePanelZonesCount(device);
+				ValidateExitExternal(device);
+				ValitateAmButtonsInMPTZones(device);
             }
         }
 
@@ -55,13 +57,13 @@ namespace DevicesModule.Validation
                 }
             }
             if (pduCount > 10)
-                _errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
+                Errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
         }
 
 		void ValidateEmptyConfiguration()
 		{
 			if (_firesecConfiguration.DeviceConfiguration.Devices.Count <= 1)
-				_errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Конфигурация не содержит подключенных приборов"), ValidationErrorLevel.Warning));
+				Errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Конфигурация не содержит подключенных приборов"), ValidationErrorLevel.Warning));
 		}
 
         void ValidateAddressEquality(Device device)
@@ -72,7 +74,7 @@ namespace DevicesModule.Validation
                 if (childDevice.Driver.HasAddress)
                 {
                     if (addresses.Contains(childDevice.IntAddress))
-                        _errors.Add(new DeviceValidationError(childDevice, string.Format("Дублируется адрес устройства"), ValidationErrorLevel.CannotWrite));
+                        Errors.Add(new DeviceValidationError(childDevice, string.Format("Дублируется адрес устройства"), ValidationErrorLevel.CannotWrite));
                     else
                         addresses.Add(childDevice.IntAddress);
                 }
@@ -95,7 +97,7 @@ namespace DevicesModule.Validation
             if ((device.Driver.DriverType == DriverType.Indicator) && (device.IndicatorLogic.Device != null))
             {
                 if ((device.IndicatorLogic.Device.ParentChannel == null) && (device.IndicatorLogic.Device.ParentChannel.UID != device.ParentChannel.UID))
-                    _errors.Add(new DeviceValidationError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ValidationErrorLevel.CannotWrite));
             }
         }
 
@@ -107,7 +109,7 @@ namespace DevicesModule.Validation
                 {
                     var zone = _firesecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
                     if ((zone.DevicesInZone.Count > 0) && (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false)))
-                        _errors.Add(new DeviceValidationError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone.No), ValidationErrorLevel.CannotWrite));
+                        Errors.Add(new DeviceValidationError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone.No), ValidationErrorLevel.CannotWrite));
                 }
             }
         }
@@ -120,7 +122,7 @@ namespace DevicesModule.Validation
                 {
                     if (device.Children.Count(x => x.IntAddress >> 8 == i) > 255)
                     {
-                        _errors.Add(new DeviceValidationError(device, "Число устройств на шлейфе не может превышать 255", ValidationErrorLevel.CannotWrite));
+                        Errors.Add(new DeviceValidationError(device, "Число устройств на шлейфе не может превышать 255", ValidationErrorLevel.CannotWrite));
                         return;
                     }
                 }
@@ -131,38 +133,38 @@ namespace DevicesModule.Validation
         {
             if (string.IsNullOrWhiteSpace(device.Description) == false)
                 if (ValidateString(device.Description) == false)
-                    _errors.Add(new DeviceValidationError(device, string.Format("Символы \"{0}\" не допустимы для записи в устройства", InvalidChars(device.Description)), ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, string.Format("Символы \"{0}\" не допустимы для записи в устройства", InvalidChars(device.Description)), ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateDeviceOwnerZone(Device device)
         {
             if (device.Driver.IsZoneDevice && device.ZoneUID == Guid.Empty)
-                _errors.Add(new DeviceValidationError(device, "Устройство должно содержать хотя бы одну зону", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, "Устройство должно содержать хотя бы одну зону", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateDeviceAddressRange(Device device)
         {
             if (device.Driver.HasAddress && device.Driver.IsRangeEnabled && (device.IntAddress > device.Driver.MaxAddress || device.IntAddress < device.Driver.MinAddress))
-                _errors.Add(new DeviceValidationError(device, string.Format("Устройство должно иметь адрес в диапазоне {0}-{1}", device.Driver.MinAddress, device.Driver.MaxAddress), ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, string.Format("Устройство должно иметь адрес в диапазоне {0}-{1}", device.Driver.MinAddress, device.Driver.MaxAddress), ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateDeviceOnEmpty(Device device)
         {
             if (device.Driver.CanWriteDatabase && device.Driver.IsNotValidateZoneAndChildren == false && device.Children.Where(x => x.Driver.IsAutoCreate == false).Count() == 0)
-                _errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateDeviceZoneLogic(Device device)
         {
             if (device.Driver.IsZoneLogicDevice && (device.ZoneLogic == null || device.ZoneLogic.Clauses.Count == 0) &&
                 device.Driver.DriverType != DriverType.ASPT && device.Driver.DriverType != DriverType.Exit && device.Driver.DriverType != DriverType.PumpStation)
-                _errors.Add(new DeviceValidationError(device, "Отсутствуют настроенные режимы срабатывания", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, "Отсутствуют настроенные режимы срабатывания", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateDeviceSingleInParent(Device device)
         {
             if (device.Driver.IsSingleInParent && device.Parent.Children.Count(x => x.DriverUID == device.DriverUID) > 1)
-                _errors.Add(new DeviceValidationError(device, "Устройство должно быть в единственном числе", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, "Устройство должно быть в единственном числе", ValidationErrorLevel.CannotWrite));
         }
 
         void ValidateDeviceConflictAddressWithMSChannel(Device device)
@@ -175,7 +177,7 @@ namespace DevicesModule.Validation
 
                 var children = device.Children.FirstOrDefault(x => x.AddressFullPath == address);
                 if (children != null)
-                    _errors.Add(new DeviceValidationError(children, "Конфликт адреса с адресом канала МС", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(children, "Конфликт адреса с адресом канала МС", ValidationErrorLevel.CannotWrite));
             }
         }
 
@@ -193,7 +195,7 @@ namespace DevicesModule.Validation
                 for (int i = 0; i < serialNumbers.Count; i++)
                 {
                     if (string.IsNullOrWhiteSpace(serialNumbers[i]) || serialNumbers.Count(x => x == serialNumbers[i]) > 1)
-                        _errors.Add(new DeviceValidationError(similarDevices[i], "При наличии в конфигурации одинаковых USB устройств, их серийные номера должны быть указаны и отличны", ValidationErrorLevel.CannotWrite));
+                        Errors.Add(new DeviceValidationError(similarDevices[i], "При наличии в конфигурации одинаковых USB устройств, их серийные номера должны быть указаны и отличны", ValidationErrorLevel.CannotWrite));
                 }
             }
         }
@@ -209,11 +211,11 @@ namespace DevicesModule.Validation
             if (device.Driver.DeviceType == DeviceType.Sequrity)
             {
                 if ((device.IntAddress & 0xff) > 250)
-                    _errors.Add(new DeviceValidationError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ValidationErrorLevel.CannotWrite));
                 if (device.Parent.Driver.IsChildAddressReservedRange)
                     return;
 				if (device.ParentPanel.Driver.DriverType != DriverType.Rubezh_2OP && device.ParentPanel.Driver.DriverType != DriverType.USB_Rubezh_2OP)
-                    _errors.Add(new DeviceValidationError(device, "Устройство подключено к недопустимому устройству", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, "Устройство подключено к недопустимому устройству", ValidationErrorLevel.CannotWrite));
             }
         }
 
@@ -222,13 +224,13 @@ namespace DevicesModule.Validation
             var eventProperty = device.Properties.FirstOrDefault(x => x.Name == "Event1");
             if (eventProperty != null && eventProperty.Value.Length > 20)
             {
-                _errors.Add(new DeviceValidationError(device, "Длинное описание события - в прибор будет записано первые 20 символов", ValidationErrorLevel.Warning));
+                Errors.Add(new DeviceValidationError(device, "Длинное описание события - в прибор будет записано первые 20 символов", ValidationErrorLevel.Warning));
             }
             else
             {
                 eventProperty = device.Properties.FirstOrDefault(x => x.Name == "Event2");
                 if (eventProperty != null && eventProperty.Value.Length > 20)
-                    _errors.Add(new DeviceValidationError(device, "Длинное описание события - в прибор будет записано первые 20 символов", ValidationErrorLevel.Warning));
+                    Errors.Add(new DeviceValidationError(device, "Длинное описание события - в прибор будет записано первые 20 символов", ValidationErrorLevel.Warning));
             }
         }
 
@@ -238,14 +240,14 @@ namespace DevicesModule.Validation
             if (loopLineProperty != null)
             {
                 var badChildren = device.Children.Where(x => x.IntAddress >> 8 == 2).ToList();
-                badChildren.ForEach(x => _errors.Add(new DeviceValidationError(x, "Данное устройство находится на четном номере АЛС, что недопустимо для кольцевых АЛС", ValidationErrorLevel.CannotWrite)));
+                badChildren.ForEach(x => Errors.Add(new DeviceValidationError(x, "Данное устройство находится на четном номере АЛС, что недопустимо для кольцевых АЛС", ValidationErrorLevel.CannotWrite)));
             }
 
             loopLineProperty = device.Properties.FirstOrDefault(x => x.Name == "LoopLine2");
             if (loopLineProperty != null)
             {
                 var badChildren = device.Children.Where(x => x.IntAddress >> 8 == 4).ToList();
-                badChildren.ForEach(x => _errors.Add(new DeviceValidationError(x, "Данное устройство находится на четном номере АЛС, что недопустимо для кольцевых АЛС", ValidationErrorLevel.CannotWrite)));
+                badChildren.ForEach(x => Errors.Add(new DeviceValidationError(x, "Данное устройство находится на четном номере АЛС, что недопустимо для кольцевых АЛС", ValidationErrorLevel.CannotWrite)));
             }
         }
 
@@ -269,7 +271,7 @@ namespace DevicesModule.Validation
 
                 int extendedDevicesCount = childZonesDevices.Where(x => x.Driver.IsZoneLogicDevice && x.Parent != device).Distinct().Count();
                 if (extendedDevicesCount > 250)
-                    _errors.Add(new DeviceValidationError(device, string.Format("В приборе не может быть более 250 внешних устройств. Сейчас : {0}", extendedDevicesCount), ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, string.Format("В приборе не может быть более 250 внешних устройств. Сейчас : {0}", extendedDevicesCount), ValidationErrorLevel.CannotWrite));
             }
         }
 
@@ -335,13 +337,13 @@ namespace DevicesModule.Validation
                 }
             }
             if (deviceOnFirstShliefCount > firstShliefMaxCount)
-                _errors.Add(new DeviceValidationError(device, "Превышено максимальное количество подключаемых охранных устройств на 1-ом шлейфе", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, "Превышено максимальное количество подключаемых охранных устройств на 1-ом шлейфе", ValidationErrorLevel.CannotWrite));
             if (deviceOnSecondShliefCount > secondShliefMaxCount)
-                _errors.Add(new DeviceValidationError(device, "Превышено максимальное количество подключаемых охранных устройств на 2-ом шлейфе", ValidationErrorLevel.CannotWrite));
+                Errors.Add(new DeviceValidationError(device, "Превышено максимальное количество подключаемых охранных устройств на 2-ом шлейфе", ValidationErrorLevel.CannotWrite));
             if (isFirstShliefOrederCorrupt)
-                _errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 1-ом шлейфе начиная  с 176 адреса", ValidationErrorLevel.Warning));
+                Errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 1-ом шлейфе начиная  с 176 адреса", ValidationErrorLevel.Warning));
             if (isSecondShliefOrederCorrupt)
-                _errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ValidationErrorLevel.Warning));
+                Errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ValidationErrorLevel.Warning));
         }
 
         void ValidateDeviceRangeAddress(Device device)
@@ -349,7 +351,7 @@ namespace DevicesModule.Validation
             if (device.Driver.IsChildAddressReservedRange && device.Driver.ChildAddressReserveRangeCount > 0)
             {
                 if (device.Children.Any(x => x.IntAddress < device.IntAddress || (x.IntAddress - device.IntAddress) > device.Driver.ChildAddressReserveRangeCount))
-                    _errors.Add(new DeviceValidationError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ValidationErrorLevel.Warning));
+                    Errors.Add(new DeviceValidationError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ValidationErrorLevel.Warning));
             }
         }
 
@@ -359,7 +361,7 @@ namespace DevicesModule.Validation
             {
                 var reservedCount = device.GetReservedCount();
                 if (reservedCount < 1 || reservedCount > 30)
-                    _errors.Add(new DeviceValidationError(device, string.Format("Количество подключаемых устройств должно быть в диапазоне 1 - 30: {0}", device.PresentationAddress), ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, string.Format("Количество подключаемых устройств должно быть в диапазоне 1 - 30: {0}", device.PresentationAddress), ValidationErrorLevel.CannotWrite));
 
                 int minChildAddress = device.IntAddress + 1;
                 int maxChildAddress = device.IntAddress + reservedCount;
@@ -371,7 +373,7 @@ namespace DevicesModule.Validation
                     if ((childDevice.IntAddress >= minChildAddress) && (childDevice.IntAddress <= maxChildAddress))
                     {
                         if (childDevice.Parent.UID != device.UID)
-                            _errors.Add(new DeviceValidationError(device, string.Format("Устройство находится в зарезервированном диапазоне адресов МРК-30: {0}", childDevice.PresentationAddress), ValidationErrorLevel.CannotWrite));
+                            Errors.Add(new DeviceValidationError(device, string.Format("Устройство находится в зарезервированном диапазоне адресов МРК-30: {0}", childDevice.PresentationAddress), ValidationErrorLevel.CannotWrite));
                     }
                 }
 
@@ -379,7 +381,7 @@ namespace DevicesModule.Validation
                 {
                     if ((childDevice.IntAddress < minChildAddress) && (childDevice.IntAddress > maxChildAddress))
                     {
-                        _errors.Add(new DeviceValidationError(device, string.Format("Устройство находится за пределами диапазона адресов МРК-30: {0}", childDevice.PresentationAddress), ValidationErrorLevel.CannotWrite));
+                        Errors.Add(new DeviceValidationError(device, string.Format("Устройство находится за пределами диапазона адресов МРК-30: {0}", childDevice.PresentationAddress), ValidationErrorLevel.CannotWrite));
                     }
                 }
             }
@@ -390,7 +392,7 @@ namespace DevicesModule.Validation
             if (device.Driver.DriverType == DriverType.PumpStation)
             {
                 if (device.Children.Count > 0 && device.ZoneLogic.Clauses.Count == 0)
-                    _errors.Add(new DeviceValidationError(device, "Отсутствуют настроенные режимы срабатывания", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, "Отсутствуют настроенные режимы срабатывания", ValidationErrorLevel.CannotWrite));
             }
         }
 
@@ -403,7 +405,36 @@ namespace DevicesModule.Validation
 					if (child.Driver.IsZoneDevice && child.ZoneUID != Guid.Empty)
 						return;
 				}
-				_errors.Add(new DeviceValidationError(device, "Менее одной зоны в приборе", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new DeviceValidationError(device, "Менее одной зоны в приборе", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateExitExternal(Device device)
+		{
+			if (device.Driver.DriverType == DriverType.Exit)
+			{
+				foreach(var zone in device.ZonesInLogic)
+				{
+					foreach(var deviceInZone in zone.DevicesInZone)
+					{
+						if(deviceInZone.ParentPanel.UID != device.ParentPanel.UID)
+						{
+							Errors.Add(new DeviceValidationError(device, "В логике устройства учавствуют внешние зоны", ValidationErrorLevel.CannotWrite));
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		void ValitateAmButtonsInMPTZones(Device device)
+		{
+			if (device.Driver.DriverType == DriverType.StartButton || device.Driver.DriverType == DriverType.StopButton || device.Driver.DriverType == DriverType.AutomaticButton)
+			{
+				if(!device.Zone.DevicesInZone.Any(x=>x.Driver.DriverType == DriverType.MPT))
+				{
+					Errors.Add(new DeviceValidationError(device, "Устройство не может быть привязано к зоне без МПТ", ValidationErrorLevel.CannotWrite));
+				}
 			}
 		}
 
