@@ -36,7 +36,6 @@ namespace Firesec
 						{
 							intValue = int.Parse(driverPropertyParameterValue.Value);
 						}
-
 					}
 					else if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.BoolType)
 					{
@@ -55,6 +54,10 @@ namespace Firesec
 						if (driverProperty.Caption == "Задержка включения МРО, с")
 						{
 							intValue = (int)Math.Truncate((double)intValue / 5);
+						}
+						if (driverProperty.Caption == "Проигрываемое сообщение")
+						{
+							intValue = MRO2Helper.SetMessageNumber(intValue);
 						}
 					}
 
@@ -79,7 +82,6 @@ namespace Firesec
 					}
 					else
 						binProperty.HighByte += intValue;
-
 				}
 			}
 
@@ -90,7 +92,7 @@ namespace Firesec
 			}
 		}
 
-		static int ExchengeLowAndHigtBytes(int value)
+		static int ExchangeLowAndHighBytes(int value)
 		{
 			return value / 256 + (value - (value / 256) * 256) * 256;
 		}

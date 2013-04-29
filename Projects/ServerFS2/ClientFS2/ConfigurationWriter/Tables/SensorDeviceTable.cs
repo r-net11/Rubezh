@@ -42,7 +42,7 @@ namespace ClientFS2.ConfigurationWriter
 			//}
 			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
-			if (Device.Driver.DriverType != DriverType.AM1_T)
+			if (!IsAm())
 			{
 				BytesDatabase.AddByte((byte)0, "Пустой байт");
 			}
@@ -89,61 +89,33 @@ namespace ClientFS2.ConfigurationWriter
 
 		int Get80ByteCount()
 		{
-			switch (Device.Driver.DriverType)
-			{
-				case DriverType.AMT_4:
-				case DriverType.AM1_T:
-				case DriverType.AM_1:
-				case DriverType.AM1_O:
-				case DriverType.StopButton:
-				case DriverType.StartButton:
-				case DriverType.AutomaticButton:
-				case DriverType.ShuzOnButton:
-				case DriverType.ShuzOffButton:
-				case DriverType.ShuzUnblockButton:
+			if(IsAm())
 					return 1;
-			}
 			return 2;
 		}
 
 		void AddDetectorProperties()
 		{
-			var smokeParameterValue = 18;
-			var smokeParameter = Device.Properties.FirstOrDefault(x => x.Name == "AU_Smoke");
-			if (smokeParameter != null)
-			{
-				smokeParameterValue = Int32.Parse(smokeParameter.Value);
-			}
-
-			var temperatureParameterValue = 18;
-			var temperatureParameter = Device.Properties.FirstOrDefault(x => x.Name == "AU_Temperature");
-			if (temperatureParameter != null)
-			{
-				temperatureParameterValue = Int32.Parse(temperatureParameter.Value);
-			}
-
 			byte computerConfigurationData = 0;
-			smokeParameterValue = 0;
-			temperatureParameterValue = 0;
 
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.SmokeDetector:
-					BytesDatabase.AddByte((byte)smokeParameterValue, "Запыленность", true);
+					BytesDatabase.AddByte((byte)0, "Запыленность", true);
 					break;
 				case DriverType.HeatDetector:
-					BytesDatabase.AddByte((byte)temperatureParameterValue, "Температура", true);
+					BytesDatabase.AddByte((byte)0, "Температура", true);
 					break;
 				case DriverType.CombinedDetector:
 					BytesDatabase.AddByte((byte)computerConfigurationData, "Конфигурация с компа");
-                    BytesDatabase.AddByte((byte)smokeParameterValue, "Запыленность", true);
-                    BytesDatabase.AddByte((byte)temperatureParameterValue, "Температура", true);
+                    BytesDatabase.AddByte((byte)0, "Запыленность", true);
+                    BytesDatabase.AddByte((byte)0, "Температура", true);
 
                     BytesDatabase.AddByte((byte)0, "Пустой байт", true);
                     BytesDatabase.AddByte((byte)0, "Пустой байт", true);
 					break;
 				case DriverType.RadioSmokeDetector:
-                    BytesDatabase.AddByte((byte)smokeParameterValue, "Запыленность", true);
+                    BytesDatabase.AddByte((byte)0, "Запыленность", true);
 					BytesDatabase.AddByte((byte)(Device.Parent.AddressOnShleif), "Адрес родительского МРК");
 					break;
 				case DriverType.RadioHandDetector:
@@ -159,13 +131,14 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				var childIndex = Device.Parent.Children.IndexOf(Device);
 				childIndex = childIndex << 1;
-				config += 8 + childIndex;
+				config += 16 + childIndex;
 			}
 			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
 
 			var amVitualType = GetAMVitualType();
 			BytesDatabase.AddByte((byte)amVitualType, "ID виртуального типа");
-			BytesDatabase.AddByte((byte)0, "Пустой байт");
+
+			BytesDatabase.AddShort((byte)0, "Общее оличество привязаннфх к сработке ИУ");
 
 			//BytesDatabase.AddShort((short)0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
 			//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
@@ -215,21 +188,43 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddString(event1PropertyValue, "Описание сработавшего состояния");
 			BytesDatabase.AddString(event2PropertyValue, "Описание состояния норма");
 
-			var virtualButtonsCount = 0;
-			BytesDatabase.AddShort((short)virtualButtonsCount, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			if (virtualButtonsCount > 0)
+			var rmDevices = new List<Device>();
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+				foreach (var clause in device.ZoneLogic.Clauses)
 				{
-					BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-					BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+					if (clause.Device != null && clause.Device.Driver.DriverType == DriverType.AM1_T)
+					{
+						rmDevices.Add(device);
+					}
 				}
+			}
+
+			BytesDatabase.AddShort((short)rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			if (rmDevices.Count > 0)
+			{
+				foreach (var rmDevice in rmDevices)
+				{
+					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == rmDevice.UID);
+					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ");
+				}
+				//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+				//{
+				//    BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+				//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				//}
 			}
 		}
 
 		void AddAMP_4Config()
 		{
 			var config = 0;
+			if (Device.Parent.Driver.IsGroupDevice)
+			{
+				var childIndex = Device.Parent.Children.IndexOf(Device);
+				childIndex = childIndex << 1;
+				config += 16 + childIndex;
+			}
 			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
 		}
 
@@ -266,6 +261,26 @@ namespace ClientFS2.ConfigurationWriter
 					return 0x5A;
 			}
 			return 0;
+		}
+
+		bool IsAm()
+		{
+			switch (Device.Driver.DriverType)
+			{
+				case DriverType.AMT_4:
+				case DriverType.AM1_T:
+				case DriverType.AM_1:
+				case DriverType.AM1_O:
+				case DriverType.StopButton:
+				case DriverType.StartButton:
+				case DriverType.AutomaticButton:
+				case DriverType.ShuzOnButton:
+				case DriverType.ShuzOffButton:
+				case DriverType.ShuzUnblockButton:
+				case DriverType.AMP_4:
+					return true;
+			}
+			return false;
 		}
 	}
 }

@@ -489,6 +489,8 @@ namespace FiresecAPI.Models
 				}
 				foreach (var child in device.Children)
 				{
+					if (child.IsNotUsed)
+						continue;
 					devices.Add(child);
 				}
 			}

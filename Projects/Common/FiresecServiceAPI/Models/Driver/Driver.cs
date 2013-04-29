@@ -223,7 +223,7 @@ namespace FiresecAPI.Models
 				switch (DriverType)
 				{
 					case DriverType.AM4:
-					case DriverType.AMP_4:
+					case DriverType.AM4_P:
 					case DriverType.AMT_4:
 					case DriverType.RM_2:
 					case DriverType.RM_3:

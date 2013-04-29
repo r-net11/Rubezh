@@ -34,32 +34,32 @@ namespace MonitorClientFS2
 			{
 				var thread = new Thread(() =>
 					{
-						while (true)
-						{
-							lock (Locker)
-							{
-								lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
-							}
-							if (lastDeviceRecord > lastDisplayedRecord)
-							{
-								ReadNewItems();
-								lastDisplayedRecord = lastDeviceRecord;
-								DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
-							}
-						}
+						Run();
 					});
+				thread.IsBackground = true;
 				thread.Start();
+			}
+
+			void Run()
+			{
+				while (true)
+				{
+					//lock (Locker)
+					{
+						lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
+						if (lastDeviceRecord > lastDisplayedRecord)
+						{
+							ReadNewItems();
+							lastDisplayedRecord = lastDeviceRecord;
+							DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
+						}
+					}
+				}
 			}
 
 			void ReadNewItems()
 			{
-				Trace.Write("Дочитываю записи с " +
-					lastDisplayedRecord.ToString() +
-					" до " +
-					lastDeviceRecord.ToString() +
-					"с прибора " +
-					device.PresentationName +
-					"\n");
+				Trace.Write("Дочитываю записи с " + lastDisplayedRecord.ToString() + " до " + lastDeviceRecord.ToString() + "с прибора " + device.PresentationName + "\n");
 				var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
 				foreach (var journalItem in newItems)
 				{
@@ -109,7 +109,6 @@ namespace MonitorClientFS2
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
-
 		bool stop = false;
 		AutoResetEvent autoResetEvent;
 
@@ -117,14 +116,11 @@ namespace MonitorClientFS2
 		{
 			foreach (var device in devicesLastRecord)
 			{
-				//var thread = new Thread(() =>
 				device.StartMonitoring();
-				//    );
-				//thread.Start();
 			}
 		}
 
-		private void AddToJournalObservable(FSJournalItem journalItem)
+		void AddToJournalObservable(FSJournalItem journalItem)
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -132,14 +128,13 @@ namespace MonitorClientFS2
 			}));
 		}
 
-		private void StopMonitoring()
+		void StopMonitoring()
 		{
 			stop = true;
 			Trace.WriteLine("Останавливаю мониторинг");
 		}
 
-		private ObservableCollection<FSJournalItem> _journalItems;
-
+		ObservableCollection<FSJournalItem> _journalItems;
 		public ObservableCollection<FSJournalItem> JournalItems
 		{
 			get { return _journalItems; }
@@ -151,8 +146,7 @@ namespace MonitorClientFS2
 		}
 
 		public RelayCommand StartMonitoringCommand { get; private set; }
-
-		private void OnStartMonitoring()
+		void OnStartMonitoring()
 		{
 			if (stop)
 			{
@@ -161,15 +155,13 @@ namespace MonitorClientFS2
 		}
 
 		public RelayCommand StopMonitoringCommand { get; private set; }
-
-		private void OnStopMonitoring()
+		void OnStopMonitoring()
 		{
 			StopMonitoring();
 		}
 
 		public RelayCommand TestCommand { get; private set; }
-
-		private void OnTest()
+		void OnTest()
 		{
 		}
 	}

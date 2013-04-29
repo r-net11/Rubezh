@@ -36,7 +36,7 @@ namespace FSAgentClient
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!FSAgentLoadHelper.Load())
-					BalloonHelper.ShowFromAdm("Драйвер Firesec", "Не удается соединиться с агентом");
+					BalloonHelper.ShowFromAdm("Не удается соединиться с агентом");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);

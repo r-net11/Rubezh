@@ -35,7 +35,8 @@ namespace ClientFS2.ConfigurationWriter
 			BinaryPanel = ConfigurationWriterHelper.BinaryConfigurationHelper.BinaryPanels.FirstOrDefault(x => x.ParentPanel == ParentPanel);
 
 			CreateEmptyTable();
-			CreateZones();
+			CreateRemoteZones();
+			CreateLocalZones();
 			CreateServiceTable();
 			CreateDevices();
 			CreateDirections();
@@ -69,24 +70,28 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				FirstTable.BytesDatabase.AddByte(0);
 			}
-			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort((short)0, "CRC от ROM части базы");
+			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort((short)0, "CRC от ROM части базы", true);
 			Tables.Add(FirstTable);
 		}
 
-		void CreateZones()
+		void CreateLocalZones()
 		{
-			foreach (var zone in BinaryPanel.BinaryRemoteZones)
-			{
-				var remoteZoneTable = new RemoteZoneTable(this, zone);
-				Tables.Add(remoteZoneTable);
-				RemoteZonesTableGroup.Tables.Add(remoteZoneTable);
-			}
-
 			foreach (var zone in BinaryPanel.BinaryLocalZones)
 			{
 				var zoneTable = new ZoneTable(this, zone);
 				Tables.Add(zoneTable);
 				LocalZonesTableGroup.Tables.Add(zoneTable);
+			}
+		}
+
+		void CreateRemoteZones()
+		{
+			foreach (var zone in BinaryPanel.BinaryRemoteZones)
+			{
+				var remoteZoneTable = new RemoteZoneTable(this, zone);
+				//var remoteZoneTable = new ZoneTable(this, zone);
+				Tables.Add(remoteZoneTable);
+				RemoteZonesTableGroup.Tables.Add(remoteZoneTable);
 			}
 		}
 
@@ -99,8 +104,6 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			Tables.Add(ServiceTable);
 		}
-
-		//static int CreateLocalDevices_Miliseconds = 0;
 
 		void CreateDevices()
 		{
@@ -134,10 +137,6 @@ namespace ClientFS2.ConfigurationWriter
 					}
 				}
 			}
-
-			//var deltaMiliseconds = (DateTime.Now - startDateTime).Milliseconds;
-			//CreateLocalDevices_Miliseconds += deltaMiliseconds;
-			//Trace.WriteLine("CreateLocalDevices_Miliseconds=" + CreateLocalDevices_Miliseconds.ToString());
 		}
 
 		void CreateRemoteDevices()
@@ -187,11 +186,11 @@ namespace ClientFS2.ConfigurationWriter
 			LastTable.BytesDatabase.AddByte((byte)8, "Версия MD5");
 			for (int i = 0; i < 16; i++)
 			{
-				LastTable.BytesDatabase.AddByte(0, "MD5");
+				LastTable.BytesDatabase.AddByte(0, "MD5", true);
 			}
 			for (int i = 0; i < 19; i++)
 			{
-				LastTable.BytesDatabase.AddByte(0, "Для нужд базы");
+				LastTable.BytesDatabase.AddByte(0, "Для нужд базы", true);
 			}
 			Tables.Add(LastTable);
 		}

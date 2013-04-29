@@ -53,7 +53,7 @@ namespace GKModule.Views
 					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
 					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
 					_connectionIndicator.Opacity = 1;
-					BalloonHelper.ShowFromMonitor("ОЗ", "Связь с ГК потеряна");
+					BalloonHelper.ShowFromMonitor("Связь с ГК потеряна");
 				}
 			}
 		}

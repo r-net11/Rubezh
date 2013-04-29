@@ -22,10 +22,10 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Подключено к " Foreground="White" Margin="2 2 5 2" />
                 <TextBlock Foreground="White" FontWeight="Bold" VerticalAlignment="Center">
-                        <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
-                            <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" />
-                        </Hyperlink>
-                    </TextBlock>
+                    <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
+                        <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" />
+                    </Hyperlink>
+                </TextBlock>
                 <StackPanel.Style>
                     <Style>
                         <Style.Triggers>

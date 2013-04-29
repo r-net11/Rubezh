@@ -94,7 +94,7 @@ namespace ClientFS2.ConfigurationWriter
 			var bytesDatabase = new BytesDatabase("Локальные зоны");
 			foreach (var table in PanelDatabase2.LocalZonesTableGroup.Tables)
 			{
-				bytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения зоны");
+				bytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения зоны " + (table as ZoneTable).Zone.PresentationName);
 			}
 			LocalZonesBytesDatabase = bytesDatabase;
 		}

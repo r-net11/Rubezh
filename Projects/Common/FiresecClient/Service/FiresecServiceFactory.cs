@@ -33,7 +33,7 @@ namespace FiresecClient
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!ServerLoadHelper.Load())
-					BalloonHelper.ShowFromAdm("Сервер приложений Firesec", "Не удается соединиться с сервером");
+					BalloonHelper.ShowFromAdm("Не удается соединиться с сервером");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);
