@@ -49,7 +49,7 @@ namespace DevicesModule.Views
 					_serviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
 					_serviceConnectionControl.Background = Brushes.DarkOrange;
 					_serviceConnectionIndicator.Opacity = 1;
-					BalloonHelper.ShowFromMonitor("Связь с сервером потеряна", "");
+					BalloonHelper.ShowFromMonitor("Связь с сервером потеряна");
 				}
 			}
 		}
@@ -74,7 +74,7 @@ namespace DevicesModule.Views
 					_deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
 					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
 					_deviceConnectionIndicator.Opacity = 1;
-					BalloonHelper.ShowFromMonitor("Связь с агентом потеряна", "");
+					BalloonHelper.ShowFromMonitor("Связь с агентом потеряна");
 				}
 			}
 		}

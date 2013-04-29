@@ -35,7 +35,7 @@ namespace FiresecService.Service
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
 				UILogger.Log("Ошибка при запуске хоста сервиса: " + e.Message);
-				BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса", e.Message);
+				BalloonHelper.ShowFromServer("Ошибка при запуске хоста сервиса \n" + e.Message);
 				return false;
 			}
 		}

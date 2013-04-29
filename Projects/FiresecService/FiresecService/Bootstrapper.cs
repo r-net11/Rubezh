@@ -45,7 +45,7 @@ namespace FiresecService
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
 				UILogger.Log("Ошибка при запуске сервера");
-				BalloonHelper.ShowFromServer("Сервер приложений Firesec", "Ошибка во время загрузки");
+				BalloonHelper.ShowFromServer("Ошибка во время загрузки");
 				Close();
 			}
 		}
@@ -60,7 +60,7 @@ namespace FiresecService
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
-				BalloonHelper.ShowFromServer("Сервер приложений Firesec", "Ошибка во время загрузки");
+				BalloonHelper.ShowFromServer("Ошибка во время загрузки");
 			}
 			MainViewStartedEvent.Set();
 			System.Windows.Threading.Dispatcher.Run();
