@@ -16,11 +16,11 @@ namespace ClientFS2.ConfigurationWriter
             get { return Zone.UID; }
         }
 
-        BinaryZone BinaryZone;
+        public BinaryZone BinaryZone;
         public List<EffectorDeviceTable> EffectorDeviceTables = new List<EffectorDeviceTable>();
 
         public ZoneTable(PanelDatabase2 panelDatabase2, BinaryZone binaryZone)
-            : base(panelDatabase2, binaryZone.Zone.PresentationName)
+            : base(panelDatabase2, "Зона " + binaryZone.Zone.PresentationName)
         {
             binaryZone.TableBase = this;
             BinaryZone = binaryZone;
@@ -72,6 +72,10 @@ namespace ClientFS2.ConfigurationWriter
             BytesDatabase.AddByte((byte)diectionNo, "Номер направления");
             BytesDatabase.AddByte((byte)Zone.Delay, "Время автоперевзятия");
 
+			if (Zone.No == 8)
+			{
+				;
+			}
 			BytesDatabase.AddShort((short)GetDevicesInLogic().Count, "Общее количество связанных с зоной ИУ");
             InitializeMPT();
             InitializeLocalIUDevices();
@@ -108,7 +112,7 @@ namespace ClientFS2.ConfigurationWriter
 				foreach (var device in devicesOnShleif.Devices)
 				{
 					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
+					referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на локальное устройство " + device.PresentationAddressAndName);
 				}
 				var byteDescription = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
 				BytesDatabase.AddByte((byte)devicesOnShleif.Devices.Count, "Количество связанных локальных ИУ шлейфа " + devicesOnShleif.ShleifNo.ToString());
@@ -121,6 +125,7 @@ namespace ClientFS2.ConfigurationWriter
 		void InitializeRemoteIUDevices()
 		{
 			var devices = DevicesOnShleifHelper.GetRemoteForZone(ParentPanel, Zone);
+			devices = devices.OrderBy(x => x.IntAddress).ToList();
 			BytesDatabase.AddByte((byte)devices.Count, "Количество связанных внешних ИУ");
 
 			var referenceBytesDatabase = new BytesDatabase("Внешние устройства" + " для зоны " + Zone.PresentationName);
@@ -129,7 +134,7 @@ namespace ClientFS2.ConfigurationWriter
 			foreach (var device in devices)
 			{
 				TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == device.UID);
-				referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на устройство " + device.PresentationAddressAndName);
+				referenceBytesDatabase.AddReferenceToTable(table, "Ссылка на внешнее устройство " + device.DottedPresentationAddressAndName);
 			}
 
 			var byteDescription = referenceBytesDatabase.ByteDescriptions.FirstOrDefault();
@@ -139,16 +144,26 @@ namespace ClientFS2.ConfigurationWriter
         void InitializeRemoteIUPanelsAnd()
         {
             var remotePanels = new List<Device>();
-            foreach (var device in Zone.DevicesInZoneLogic)
-            {
-                if (device.ParentPanel.UID != ParentPanel.UID)
-                {
-                    if (!remotePanels.Any(x => x.UID == device.ParentPanel.UID))
-                    {
-                        remotePanels.Add(device.ParentPanel);
-                    }
-                }
-            }
+			foreach (var device in DevicesOnShleifHelper.GetRemoteForZone2(ParentPanel, Zone))
+			{
+				if (device.ParentPanel.UID != ParentPanel.UID)
+				{
+					if (!remotePanels.Any(x => x.UID == device.ParentPanel.UID))
+					{
+						remotePanels.Add(device.ParentPanel);
+					}
+				}
+			}
+			//foreach (var device in GetDevicesInZoneLogic())
+			//{
+			//    if (device.ParentPanel.UID != ParentPanel.UID)
+			//    {
+			//        if (!remotePanels.Any(x => x.UID == device.ParentPanel.UID))
+			//        {
+			//            remotePanels.Add(device.ParentPanel);
+			//        }
+			//    }
+			//}
             BytesDatabase.AddByte((byte)remotePanels.Count, "Количество внешних приборов, ИУ которого могут управлятся нашими ИП по логике межприборное И");
             foreach (var device in remotePanels)
             {
@@ -164,9 +179,23 @@ namespace ClientFS2.ConfigurationWriter
 			}
         }
 
+		List<Device> GetDevicesInZoneLogic()
+		{
+			//var parentPanel = Zone.DevicesInZone.FirstOrDefault().ParentPanel;
+			var result = new List<Device>();
+			foreach (var device in Zone.DevicesInZoneLogic)
+			{
+				if (device.ParentPanel.UID == ParentPanel.UID)
+				{
+					result.Add(device);
+				}
+			}
+			return result;
+		}
+
 		List<Device> GetDevicesInLogic()
 		{
-			var result = Zone.DevicesInZoneLogic;
+			var result = GetDevicesInZoneLogic();
 			foreach (var device in Zone.DevicesInZone)
 			{
 				if (device.Driver.DriverType == DriverType.MPT)

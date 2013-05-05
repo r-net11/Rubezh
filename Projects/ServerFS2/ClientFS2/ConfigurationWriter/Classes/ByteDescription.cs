@@ -27,7 +27,9 @@ namespace ClientFS2.ConfigurationWriter
 
 		public bool IsNotEqualToOriginal { get; set; }
 		public int OriginalValue { get; set; }
+		public string OriginalReference { get; set; }
 		public bool IsReadOnly { get; set; }
+		public bool IgnoreUnequal { get; set; }
 		public string OriginalChar
 		{
 			get

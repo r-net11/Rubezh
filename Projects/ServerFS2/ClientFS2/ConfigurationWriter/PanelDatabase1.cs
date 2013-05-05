@@ -32,6 +32,10 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				var bytesDatabase = new BytesDatabase(tableGroup.Name);
 				bytesDatabase.AddReferenceToTable(tableGroup.Tables.FirstOrDefault(), tableGroup.Name);
+				if (tableGroup.Name == "Указатель на таблицу Внешних ИУ")
+				{
+					;
+				}
 				bytesDatabase.AddByte((byte)tableGroup.ComputedLength, "Длина записи в таблице");
 				bytesDatabase.AddShort((short)tableGroup.Count, "Текущее число записей в таблице");
 				BytesDatabase.Add(bytesDatabase);
@@ -45,12 +49,12 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.Add(emptyBytesDatabase);
 
 			CreateLocalZonesHeaders();
-			CreateOuterDevicesHeaders();
+			CreateRemoteDevicesHeaders();
 			CreateDirectionsHeaders();
 			CreateLocalDevicesHeaders();
 			AddLocalZonesHeaderPointers();
-			AddOuterZonesHeaders();
-			AddOuterDevicesHeadersPointers();
+			AddRemoteZonesHeaders();
+			AddRemoteDevicesHeadersPointers();
 			AddLocalDevicesHeadersPointers();
 			AddServiceTablePointers();
 			AddDirectionsHeadersPointers();
@@ -71,19 +75,29 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				if (byteDescription.TableBaseReference != null)
 				{
-					byteDescription.AddressReference = PanelDatabase2.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.UID == byteDescription.TableBaseReference.UID);
+					byteDescription.AddressReference = PanelDatabase2.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.ReferenceUID == byteDescription.TableBaseReference.ReferenceUID);
 				}
 			}
 			BytesDatabase.ResolverReferences();
 
-			var crc16Value = Crc16Helper.ComputeChecksum(BytesDatabase.GetBytes());
+			var allBytes = BytesDatabase.GetBytes();
+			var emptyBytes = new List<byte>();
+			for (int i = 0; i < 0x2000; i++)
+			{
+				emptyBytes.Add(0);
+			}
+			allBytes.InsertRange(0, emptyBytes);
+			var crc16Value = Crc16Helper.ComputeChecksum(allBytes);
 			PanelDatabase2.BytesDatabase.SetShort(PanelDatabase2.Crc16ByteDescription, (short)crc16Value);
 		}
 
-		void AddOuterZonesHeaders()
+		void AddRemoteZonesHeaders()
 		{
+			var tableBase = PanelDatabase2.RemoteZonesTableGroup.Tables.FirstOrDefault();
+			if(tableBase == null)
+				tableBase = PanelDatabase2.LocalZonesTableGroup.Tables.FirstOrDefault();
 			var bytesDatabase = new BytesDatabase("Указатели Внешние зоны");
-			bytesDatabase.AddReferenceToTable(PanelDatabase2.RemoteZonesTableGroup.Tables.FirstOrDefault(), "Абсолютный указатель на таблицу");
+			bytesDatabase.AddReferenceToTable(tableBase, "Абсолютный указатель на таблицу");
 			bytesDatabase.AddByte((byte)PanelDatabase2.RemoteZonesTableGroup.Length, "Длина записи в таблице");
 			bytesDatabase.AddShort((short)PanelDatabase2.RemoteZonesTableGroup.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
@@ -94,7 +108,7 @@ namespace ClientFS2.ConfigurationWriter
 			var bytesDatabase = new BytesDatabase("Локальные зоны");
 			foreach (var table in PanelDatabase2.LocalZonesTableGroup.Tables)
 			{
-				bytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения зоны " + (table as ZoneTable).Zone.PresentationName);
+				bytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения локальной зоны " + (table as ZoneTable).Zone.PresentationName);
 			}
 			LocalZonesBytesDatabase = bytesDatabase;
 		}
@@ -108,7 +122,7 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.Add(bytesDatabase);
 		}
 
-		void CreateOuterDevicesHeaders()
+		void CreateRemoteDevicesHeaders()
 		{
 			var bytesDatabase = new BytesDatabase("Внешние устройства");
 			foreach (var table in PanelDatabase2.RemoteDeviceTables)
@@ -118,12 +132,13 @@ namespace ClientFS2.ConfigurationWriter
 			RemoteDevicesBytesDatabase = bytesDatabase;
 		}
 
-		void AddOuterDevicesHeadersPointers()
+		void AddRemoteDevicesHeadersPointers()
 		{
 			var bytesDatabase = new BytesDatabase("Указатель на указатели на Внешние устройства");
 			bytesDatabase.AddReference(RemoteDevicesBytesDatabase, "Абсолютный указатель на таблицу");
 			bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
-			bytesDatabase.AddShort((short)PanelDatabase2.RemoteDeviceTables.Count, "Текущее число записей в таблице");
+			bytesDatabase.AddShort((short)0, "Текущее число записей в таблице");
+			//bytesDatabase.AddShort((short)PanelDatabase2.RemoteDeviceTables.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
 

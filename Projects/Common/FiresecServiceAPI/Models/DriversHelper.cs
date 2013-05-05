@@ -170,6 +170,12 @@ namespace FiresecAPI.Models
 		{
 			switch (driverType)
 			{
+				case DriverType.Rubezh_2AM:
+					return 1;
+
+				case DriverType.PDU:
+					return 7;
+
 				case DriverType.AM_1:
 				case DriverType.StopButton:
 				case DriverType.StartButton:

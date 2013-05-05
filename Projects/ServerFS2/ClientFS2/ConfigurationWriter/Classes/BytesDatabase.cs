@@ -19,10 +19,18 @@ namespace ClientFS2.ConfigurationWriter
 		public bool IsBold { get; set; }
 		static bool LastIsBold;
 
-		public ByteDescription AddShort(short value, string description = null, bool isReadOnly = false)
+		public ByteDescription AddShort(short value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
 		{
 			var bytes = BytesHelper.ShortToBytes(value);
-            var byteDescription = AddBytes(bytes, description, isReadOnly);
+			var byteDescription = AddBytes(bytes, description, isReadOnly, ignoreUnequal);
+			byteDescription.RealValue = value.ToString();
+			return byteDescription;
+		}
+
+		public ByteDescription AddInt(int value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
+		{
+			var bytes = BytesHelper.IntToBytes(value);
+			var byteDescription = AddBytes(bytes, description, isReadOnly, ignoreUnequal);
 			byteDescription.RealValue = value.ToString();
 			return byteDescription;
 		}
@@ -38,14 +46,15 @@ namespace ClientFS2.ConfigurationWriter
 			byteDescription.RealValue = value.ToString();
 		}
 
-        public ByteDescription AddByte(byte value, string description = null, bool isReadOnly = false)
+		public ByteDescription AddByte(byte value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
 		{
-            var byteDescription = AddBytes(new List<byte>() { value }, description, isReadOnly);
+			var byteDescription = AddBytes(new List<byte>() { value }, description, isReadOnly, ignoreUnequal);
 			return byteDescription;
 		}
 
 		public void AddString(string value, string description = null, int lenght = 20)
 		{
+			value = value.Replace("№", "N");
 			var bytes = BytesHelper.StringToBytes(value, lenght);
 			var byteDescription = AddBytes(bytes, description);
 			byteDescription.RealValue = value;
@@ -65,7 +74,7 @@ namespace ClientFS2.ConfigurationWriter
 				byteDescriptions.AddressReference = bytesDatabase.ByteDescriptions.FirstOrDefault();
 		}
 
-        public ByteDescription AddBytes(List<byte> bytes, string description = null, bool isReadOnly = false)
+		public ByteDescription AddBytes(List<byte> bytes, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
 		{
 			var byteDescriptions = new List<ByteDescription>();
 			foreach (var b in bytes)
@@ -73,7 +82,8 @@ namespace ClientFS2.ConfigurationWriter
 				var byteDescription = new ByteDescription()
 				{
 					Value = b,
-                    IsReadOnly = isReadOnly
+                    IsReadOnly = isReadOnly,
+					IgnoreUnequal = ignoreUnequal
 				};
 				byteDescriptions.Add(byteDescription);
 			}
@@ -134,18 +144,20 @@ namespace ClientFS2.ConfigurationWriter
 				if (byteDescription.AddressReference != null)
 				{
 					var value = byteDescription.AddressReference.Offset;
-					//var bit3 = value >> 16;
-					//var bit2 = (value >> 8) % 256;
-					//var bit1 = value % 256;
-					//ByteDescriptions[i + 0].Value = bit3;
-					//ByteDescriptions[i + 1].Value = bit2;
-					//ByteDescriptions[i + 2].Value = bit1;
-
 					var bytes = BitConverter.GetBytes(value);
-					ByteDescriptions[i + 0].Value = bytes[2];
-					ByteDescriptions[i + 1].Value = bytes[1];
-					ByteDescriptions[i + 2].Value = bytes[0];
-					byteDescription.RealValue = value.ToString();
+					if (BytesHelper.IsRevese)
+					{
+						ByteDescriptions[i + 0].Value = bytes[0];
+						ByteDescriptions[i + 1].Value = bytes[1];
+						ByteDescriptions[i + 2].Value = bytes[2];
+					}
+					else
+					{
+						ByteDescriptions[i + 0].Value = bytes[2];
+						ByteDescriptions[i + 1].Value = bytes[1];
+						ByteDescriptions[i + 2].Value = bytes[0];
+						byteDescription.RealValue = value.ToString();
+					}
 				}
 			}
 		}

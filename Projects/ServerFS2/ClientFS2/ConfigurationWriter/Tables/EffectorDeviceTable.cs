@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Binary;
+using System.Diagnostics;
 
 namespace ClientFS2.ConfigurationWriter
 {
 	public class EffectorDeviceTable : TableBase
 	{
-		Device Device;
+		public Device Device;
 		bool IsOuter;
 
 		public override Guid UID
@@ -21,7 +22,7 @@ namespace ClientFS2.ConfigurationWriter
 		public List<ZoneTable> ZonesInLogic = new List<ZoneTable>();
 
 		public EffectorDeviceTable(PanelDatabase2 panelDatabase, BinaryDevice binaryDevice, bool isOuter)
-			: base(panelDatabase, binaryDevice.Device.PresentationAddressAndName)
+			: base(panelDatabase, binaryDevice.Device.DottedPresentationAddressAndName)
 		{
 			binaryDevice.TableBase = this;
 			BinaryDevice = binaryDevice;
@@ -39,7 +40,7 @@ namespace ClientFS2.ConfigurationWriter
 			var outerPanelAddress = 0;
 			if (IsOuter)
 			{
-				outerPanelAddress = ParentPanel.IntAddress;
+				outerPanelAddress = Device.ParentPanel.IntAddress;
 			}
 			BytesDatabase.AddByte((byte)outerPanelAddress, "Адрес прибора привязки в сети");
 			BytesDatabase.AddByte((byte)(Device.AddressOnShleif), "Адрес");
@@ -50,6 +51,10 @@ namespace ClientFS2.ConfigurationWriter
 			if (string.IsNullOrEmpty(description))
 			{
 				description = Device.Driver.ShortName + " 0." + Device.PresentationAddress;
+				if (IsOuter)
+				{
+					description = Device.Driver.ShortName + " " + Device.ParentPanel.IntAddress.ToString() + "." + Device.PresentationAddress;
+				}
 				if (Device.Driver.DriverType == DriverType.Exit)
 				{
 					description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
@@ -77,7 +82,12 @@ namespace ClientFS2.ConfigurationWriter
 				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
 				BytesDatabase.AddByte((byte)0, "Пустая логика для МПТ");
 			}
-			BytesDatabase.SetShort(lengtByteDescription, (short)BytesDatabase.ByteDescriptions.Count);
+			var length = BytesDatabase.ByteDescriptions.Count;
+			if (IsOuter)
+			{
+				length -= 1;
+			}
+			BytesDatabase.SetShort(lengtByteDescription, (short)length);
 		}
 
 		void AddDynamicBlock()
@@ -238,15 +248,6 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			foreach (var clause in Device.ZoneLogic.Clauses)
 			{
-				//if (clause.Operation.Value == ZoneLogicOperation.All)
-				{
-					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
-					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
-					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
-					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
-					//BytesDatabase.AddByte((byte)0, "Пустая логика по И");
-					//continue;
-				}
 				if (clause.Device != null)
 				{
 					continue;
@@ -329,37 +330,60 @@ namespace ClientFS2.ConfigurationWriter
 				}
 				BytesDatabase.AddByte((byte)joinOperator, "Логика операции со следующей логической группой");
 
+				if (Device.AddressOnShleif == 12)
+				{
+					var x = IsOuter;
+					;
+				}
+				var actualZones = new List<TableBase>();
+				foreach (var zone in clause.Zones)
+				{
+					var binaryPanels = new HashSet<Device>();
+					foreach (var zoneDevice in zone.DevicesInZone)
+					{
+						binaryPanels.Add(zoneDevice.ParentPanel);
+					}
+
+					foreach (var binaryPanel in binaryPanels)
+					{
+						foreach (var table in PanelDatabase.RemoteZonesTableGroup.Tables)
+						{
+							if ((table as RemoteZoneTable).Zone.No == zone.No && (table as RemoteZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
+							{
+								actualZones.Add(table);
+							}
+						}
+					}
+
+					foreach (var binaryPanel in binaryPanels)
+					{
+						foreach (var table in PanelDatabase.LocalZonesTableGroup.Tables)
+						{
+							if ((table as ZoneTable).Zone.No == zone.No && (table as ZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
+							{
+								actualZones.Add(table);
+							}
+						}
+					}
+				}
+
 				var zonesOrDevicesCount = 0;
-				zonesOrDevicesCount = clause.Zones.Count;
+				zonesOrDevicesCount = actualZones.Count;
 				if (clause.Device != null)
 					zonesOrDevicesCount = 1;
 				BytesDatabase.AddShort((short)zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
 
-				foreach (var zone in clause.Zones)
+				foreach (var zone in actualZones)
 				{
-					//if (clause.Operation.Value == ZoneLogicOperation.Any)
-					//    continue;
-
-					var binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone);
-					TableBase table = null;
-					if (binaryZone != null)
-						table = (TableBase)binaryZone.TableBase;
-					if (table != null)
-					{
-						;
-					}
-					BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
-
-					//if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
-					//{
-					//    var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
-					//    BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ЛОКАЛЬНУЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
-					//}
-					//else
-					//{
-					//    var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == zone.UID);
-					//    BytesDatabase.AddReferenceToTable(table, "Указатель на участвующую в логике ВНЕШНЮЮ зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
-					//}
+					//var binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone && x.IsRemote);
+					//if (binaryZone == null)
+					//    binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone);
+					//TableBase table = zone;// null;
+					//if (binaryZone != null)
+					//    table = (TableBase)binaryZone.TableBase;
+					//var table = (TableBase)zone.TableBase;
+					var table = zone;
+					BytesDatabase.AddReferenceToTable(table, table.BytesDatabase.Name + " Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
 				}
 			}
 		}

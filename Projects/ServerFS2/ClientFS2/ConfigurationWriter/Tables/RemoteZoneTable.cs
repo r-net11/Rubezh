@@ -10,7 +10,7 @@ namespace ClientFS2.ConfigurationWriter
 	public class RemoteZoneTable : TableBase
 	{
 		public Zone Zone { get; set; }
-		BinaryZone BinaryZone;
+		public BinaryZone BinaryZone;
 
 		public override Guid UID
 		{
@@ -18,8 +18,9 @@ namespace ClientFS2.ConfigurationWriter
 		}
 
 		public RemoteZoneTable(PanelDatabase2 panelDatabase, BinaryZone binaryZone)
-			: base(panelDatabase, binaryZone.Zone.PresentationName)
+			: base(panelDatabase, "Удаленная зона " + binaryZone.Zone.PresentationName)
 		{
+			binaryZone.IsRemote = true;
 			BinaryZone = binaryZone;
 			binaryZone.TableBase = this;
 			Zone = binaryZone.Zone;
@@ -33,15 +34,28 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddByte(0, "Внутренние параметры внешней зоны", true);
 
 			var localBinaryPanel = BinaryZone.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID == ParentPanel.UID);
-			var remoteBinaryPanel = BinaryZone.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID != ParentPanel.UID);
 			var localBinaryZone = localBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == Zone.UID);
-			var remoteBinaryZone = remoteBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == Zone.UID);
+
 			var localZoneNo = 0;
 			if (localBinaryZone != null)
 				localZoneNo = localBinaryZone.LocalNo;
+
 			var remoteZoneNo = 0;
-			if (remoteBinaryZone != null)
-				remoteZoneNo = remoteBinaryZone.LocalNo;
+			BinaryZone remoteBinaryZone = null;
+			//var remoteBinaryPanel = BinaryZone.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID != ParentPanel.UID);
+			var remoteBinaryPanel = BinaryZone.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID == BinaryZone.ParentPanel.UID);
+			if (Zone.No == 8)
+			{
+				var panelAddess = remoteBinaryPanel.ParentPanel.IntAddress;
+			}
+			if (remoteBinaryPanel != null)
+			{
+				remoteBinaryZone = remoteBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == Zone.UID);
+				if (remoteBinaryZone != null)
+				{
+					remoteZoneNo = remoteBinaryZone.LocalNo;
+				}
+			}
 
 			BytesDatabase.AddShort((short)remoteZoneNo, "Номер локальной, для удаленного прибора, зоны");
 			BytesDatabase.AddShort((short)localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");

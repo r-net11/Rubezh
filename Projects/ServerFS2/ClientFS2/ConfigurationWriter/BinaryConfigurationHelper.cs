@@ -48,6 +48,40 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
+		void AddRemoteZoneToPanel(BinaryPanel binaryPanel, Zone zone)
+		{
+			if (zone.No == 8)
+			{
+				;
+			}
+			if (!binaryPanel.RemoteZones.Contains(zone))
+			{
+				var remoteBinaryPanels = new HashSet<Device>();
+				foreach (var zoneDevice in zone.DevicesInZone)
+				{
+					var remoteBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == zoneDevice.ParentPanel);
+					if (remoteBinaryPanel.ParentPanel.UID != binaryPanel.ParentPanel.UID)
+					{
+						remoteBinaryPanels.Add(remoteBinaryPanel.ParentPanel);
+					}
+				}
+
+				foreach (var remoteBinaryPanel in remoteBinaryPanels)
+				{
+					var zoneBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == remoteBinaryPanel);
+					var binaryZone = new BinaryZone(zone)
+					{
+						IsRemote = true,
+						ParentPanel = remoteBinaryPanel
+					};
+					binaryZone.BinaryPanels.Add(binaryPanel);
+					binaryZone.BinaryPanels.Add(zoneBinaryPanel);
+					binaryPanel.RemoteZones.Add(zone);
+					binaryPanel.BinaryRemoteZones.Add(binaryZone);
+				}
+			}
+		}
+
 		void CreateZones()
 		{
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
@@ -58,10 +92,72 @@ namespace ClientFS2.ConfigurationWriter
 				{
 					AddLocalZoneToPanel(localBinaryPanel, device.Zone);
 				}
-				//foreach (var zone in device.ZonesInLogic)
-				//{
-				//    AddLocalZoneToPanel(localBinaryPanel, zone);
-				//}
+			}
+
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
+
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					var binaryPanels = new HashSet<Device>();
+					foreach (var clauseZone in clause.Zones)
+					{
+						foreach (var zoneDevice in clauseZone.DevicesInZone)
+						{
+							var clauseBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == zoneDevice.ParentPanel);
+							binaryPanels.Add(clauseBinaryPanel.ParentPanel);
+						}
+					}
+					foreach (var zone in clause.Zones)
+					{
+						var binaryZone = new BinaryZone(zone);
+						if (!binaryZone.BinaryPanels.Contains(localBinaryPanel))
+						{
+							binaryZone.BinaryPanels.Add(localBinaryPanel);
+						}
+
+						if (clause.Operation.Value == ZoneLogicOperation.All && binaryPanels.Count > 1)
+						{
+							AddLocalZoneToPanel(localBinaryPanel, zone);
+						}
+						if (clause.Operation.Value == ZoneLogicOperation.All && zone.DevicesInZone.Any(x => x.ParentPanel.UID != device.ParentPanel.UID))
+						{
+							AddRemoteZoneToPanel(localBinaryPanel, zone);
+						}
+
+						var remotePanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID != localBinaryPanel.ParentPanel.UID);
+						if (remotePanel != null)
+						{
+							binaryZone.ParentPanel = remotePanel.ParentPanel;
+							if (!binaryZone.BinaryPanels.Contains(remotePanel))
+							{
+								binaryZone.BinaryPanels.Add(remotePanel);
+							}
+						}
+
+						if (clause.Operation.Value == ZoneLogicOperation.All && binaryPanels.Count > 1)
+						{
+							if (!zone.DevicesInZone.Any(x => x.ParentPanel.UID == localBinaryPanel.ParentPanel.UID))
+							{
+								if (!localBinaryPanel.RemoteZones.Contains(zone))
+								{
+									AddRemoteZoneToPanel(localBinaryPanel, zone);
+								}
+								if (!binaryZone.BinaryPanels.Contains(remotePanel))
+								{
+									binaryZone.BinaryPanels.Add(remotePanel);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
+
 				foreach (var clause in device.ZoneLogic.Clauses)
 				{
 					var binaryPanels = new HashSet<Device>();
@@ -79,45 +175,21 @@ namespace ClientFS2.ConfigurationWriter
 						{
 							;
 						}
-						var remotePanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID != localBinaryPanel.ParentPanel.UID);
-						var binaryZone = new BinaryZone(zone);
-						binaryZone.ParentPanel = remotePanel.ParentPanel;
-
 
 						if (!device.BinaryDevice.BinaryZones.Any(x => x.Zone.UID == zone.UID))
 						{
-							var existingLocalBinaryZone = localBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == zone.UID);
-							if (existingLocalBinaryZone != null)
-							{
-								device.BinaryDevice.BinaryZones.Add(existingLocalBinaryZone);
-							}
-							var existingRemoteBinaryZone = localBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == zone.UID);
+							var existingRemoteBinaryZone = localBinaryPanel.BinaryRemoteZones.FirstOrDefault(x => x.Zone.UID == zone.UID);
 							if (existingRemoteBinaryZone != null)
 							{
+								existingRemoteBinaryZone.IsRemote = true;
 								device.BinaryDevice.BinaryZones.Add(existingRemoteBinaryZone);
 							}
-						}
-
-						if (clause.Operation.Value == ZoneLogicOperation.All)
-						{
-							if (binaryPanels.Count > 1)
+							else
 							{
-								if (!zone.DevicesInZone.Any(x => x.ParentPanel.UID == localBinaryPanel.ParentPanel.UID))
+								var existingLocalBinaryZone = localBinaryPanel.BinaryLocalZones.FirstOrDefault(x => x.Zone.UID == zone.UID);
+								if (existingLocalBinaryZone != null)
 								{
-									if (!localBinaryPanel.RemoteZones.Contains(zone))
-									{
-										localBinaryPanel.RemoteZones.Add(zone);
-										localBinaryPanel.BinaryRemoteZones.Add(binaryZone);
-									}
-									if (!binaryZone.BinaryPanels.Contains(remotePanel))
-									{
-										binaryZone.BinaryPanels.Add(remotePanel);
-									}
-									if (!binaryZone.BinaryPanels.Contains(localBinaryPanel))
-									{
-										binaryZone.BinaryPanels.Add(localBinaryPanel);
-									}
-									AddLocalZoneToPanel(localBinaryPanel, zone);
+									device.BinaryDevice.BinaryZones.Add(existingLocalBinaryZone);
 								}
 							}
 						}
@@ -127,78 +199,56 @@ namespace ClientFS2.ConfigurationWriter
 
 			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
 			{
-			//    var binaryZone = new BinaryZone()
-			//    {
-			//        Zone = zone
-			//    };
-			//    var parantPanels = new HashSet<Device>();
-			//    foreach (var device in zone.DevicesInZone)
-			//    {
-			//        parantPanels.Add(device.ParentPanel);
-			//        var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
-			//        binaryZone.ParentPanel = localBinaryPanel.ParentPanel;
-			//        if (!localBinaryPanel.LocalZones.Contains(zone))
-			//        {
-			//            localBinaryPanel.LocalZones.Add(zone);
-			//            localBinaryPanel.BinaryLocalZones.Add(binaryZone);
-			//        }
-			//        binaryZone.BinaryPanels.Add(localBinaryPanel);
-			//    }
-			    foreach (var device in zone.DevicesInZoneLogic)
-			    {
-			//        var binaryPanel = device.BinaryDevice.BinaryPanel;
+				if (zone.No == 8)
+				{
+					;
+				}
+				var binaryPanels = new HashSet<Device>();
+				foreach (var device in zone.DevicesInZone)
+				{
+					binaryPanels.Add(device.ParentPanel);
+				}
 
-			//        foreach (var clause in device.ZoneLogic.Clauses)
-			//        {
-			//            var binaryPanels = new HashSet<Device>();
-			//            foreach (var BinaryZones in clause.Zones)
-			//            {
-			//                var clauseBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
-			//                binaryPanels.Add(clauseBinaryPanel.ParentPanel);
-			//            }
-			//            if (!binaryZone.BinaryPanels.Contains(binaryPanel))
-			//            {
-			//                binaryZone.BinaryPanels.Add(binaryPanel);
-			//            }
-			//            if (!binaryPanel.LocalZones.Contains(zone))
-			//            {
-			//                binaryPanel.LocalZones.Add(zone);
-			//                binaryPanel.BinaryLocalZones.Add(binaryZone);
-			//            }
-			//            if (!binaryPanel.LocalZones.Contains(zone))
-			//            {
-			//                //if (binaryPanels.Count > 1)
-			//                {
-			//                    //if (clause.Operation.Value == ZoneLogicOperation.All)
-			//                    {
-			//                        if (!binaryPanel.RemoteZones.Contains(zone))
-			//                        {
-			//                            binaryPanel.RemoteZones.Add(zone);
-			//                            binaryPanel.BinaryRemoteZones.Add(binaryZone);
-			//                        }
-			//                    }
-			//                }
-			//            }
-			//        }
+				foreach (var binaryPanel in binaryPanels)
+				{
+					var parentPanel = binaryPanel;// zone.DevicesInZone.FirstOrDefault().ParentPanel;
+					var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == parentPanel);
 
-			//        foreach (var zoneBinaryPanel in binaryZone.BinaryPanels)
-			//        {
-			//            if (zoneBinaryPanel != binaryPanel)
-			//            {
-			//                if (!zoneBinaryPanel.remoteDevices.Contains(device))
-			//                {
-			//                    zoneBinaryPanel.remoteDevices.Add(device);
-			//                    zoneBinaryPanel.BinaryRemoteDevices.Add(device.BinaryDevice);
-			//                }
-			//            }
-			//        }
-
-			        //device.BinaryDevice.BinaryZones.Add(binaryZone);
-			    }
+					foreach (var device in zone.DevicesInZoneLogic)
+					{
+						foreach (var clause in device.ZoneLogic.Clauses)
+						{
+							//if (clause.Operation.Value == ZoneLogicOperation.All)
+							{
+								foreach (var clauseZone in clause.Zones)
+								{
+									if (clauseZone.UID == zone.UID)
+									{
+										if (device.ParentPanel.UID != parentPanel.UID)
+										{
+											var binaryDevice = new BinaryDevice()
+											{
+												Device = device,
+												ParentPanel = parentPanel,
+											};
+											localBinaryPanel.BinaryRemoteDevices.Add(binaryDevice);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 
 			foreach (var binaryPanel in BinaryPanels)
 			{
+				binaryPanel.BinaryRemoteDevices = binaryPanel.BinaryRemoteDevices.OrderBy(x => x.Device.ParentPanel.IntAddress*256*256 + x.Device.IntAddress).ToList();
+			}
+
+			foreach (var binaryPanel in BinaryPanels)
+			{
+				binaryPanel.BinaryLocalZones = binaryPanel.BinaryLocalZones.OrderBy(x => x.Zone.No).ToList();
 				for (int i = 0; i < binaryPanel.BinaryLocalZones.Count; i++)
 				{
 					binaryPanel.BinaryLocalZones[i].LocalNo = i+1;
@@ -206,7 +256,6 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		
 		void CreateDirections()
 		{
 			foreach (var direction in ConfigurationManager.DeviceConfiguration.Directions)

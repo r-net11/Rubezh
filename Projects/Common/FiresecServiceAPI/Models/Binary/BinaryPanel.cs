@@ -54,16 +54,16 @@ namespace FiresecAPI.Models.Binary
 					var binaryLocalZone = BinaryLocalZones.FirstOrDefault(x => x.Zone == zone);
 					if (binaryLocalZone != null)
 					{
-						if (!binaryDevice.BinaryZones.Contains(binaryLocalZone))
-							binaryDevice.BinaryZones.Add(binaryLocalZone);
+						//if (!binaryDevice.BinaryZones.Contains(binaryLocalZone))
+						//    binaryDevice.BinaryZones.Add(binaryLocalZone);
 					}
 
 					if (binaryLocalZone == null)
 					{
 						foreach (var binaryRemoteZone in BinaryRemoteZones)
 						{
-							if (!binaryDevice.BinaryZones.Contains(binaryRemoteZone))
-								binaryDevice.BinaryZones.Add(binaryRemoteZone);
+							//if (!binaryDevice.BinaryZones.Contains(binaryRemoteZone))
+							//    binaryDevice.BinaryZones.Add(binaryRemoteZone);
 
 							foreach (var binaryPanel in binaryRemoteZone.BinaryPanels)
 							{

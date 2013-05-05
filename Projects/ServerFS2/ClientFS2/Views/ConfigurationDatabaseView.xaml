@@ -9,100 +9,102 @@
         <Converter:IsBoldToColorConverter x:Key="IsBoldToColorConverter" />
     </UserControl.Resources>
     
-    <TabControl Name="tabControl" ItemsSource="{Binding PanelDatabases}" SelectedIndex="0">
-        <TabControl.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding ParentPanel.PresentationAddressAndName}" />
-            </DataTemplate>
-        </TabControl.ItemTemplate>
-        <TabControl.ContentTemplate>
-            <DataTemplate>
-                <TabControl>
-                    <TabItem Header="База 1">
-                        <DataGrid ItemsSource="{Binding PanelDatabase1.BytesDatabase.ByteDescriptions}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
-                                <DataGridTextColumn Binding="{Binding RelativeOffset}" Header="RelativeOffset" />
-                                <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                                <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
-                                <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
-                                <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
-                            </DataGrid.Columns>
-                            <DataGrid.RowStyle>
-                                <Style TargetType="{x:Type DataGridRow}">
-                                    <Style.Setters>
-                                    </Style.Setters>
-                                </Style>
-                            </DataGrid.RowStyle>
-                            <DataGrid.CellStyle>
-                                <Style TargetType="{x:Type DataGridCell}">
-                                    <Style.Setters>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                        <ContentPresenter VerticalAlignment="Center" />
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
-                                    </Style.Setters>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                                            <Setter Property="Foreground" Value="White" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.CellStyle>
-                        </DataGrid>
-                    </TabItem>
-                    <TabItem Header="База 2 список">
-                        <DataGrid ItemsSource="{Binding PanelDatabase2.BytesDatabase.ByteDescriptions}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
-                                <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                                <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
-                                <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
-                            </DataGrid.Columns>
-                            <DataGrid.RowStyle>
-                                <Style TargetType="{x:Type DataGridRow}">
-                                    <Style.Setters>
-                                    </Style.Setters>
-                                </Style>
-                            </DataGrid.RowStyle>
-                            <DataGrid.CellStyle>
-                                <Style TargetType="{x:Type DataGridCell}">
-                                    <Style.Setters>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                        <ContentPresenter VerticalAlignment="Center" />
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
-                                    </Style.Setters>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                                            <Setter Property="Foreground" Value="White" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.CellStyle>
-                        </DataGrid>
-                    </TabItem>
-                    <TabItem Header="База 2 дерево">
-                        <Controls:TreeListView ItemsSource="{Binding PanelDatabase2.RootBytes}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                            <Controls:TreeListView.Columns>
-                                <GridViewColumn Header="Offset" Width="120">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Offset}" Visibility="{Binding HasNoOffset, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+    <TabControl>
+        <TabItem Header="Приборы">
+            <TabControl Name="tabControl" ItemsSource="{Binding PanelDatabases}" SelectedIndex="0">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ParentPanel.PresentationAddressAndName}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <TabControl>
+                            <TabItem Header="База 1">
+                                <DataGrid ItemsSource="{Binding PanelDatabase1.BytesDatabase.ByteDescriptions}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                                        <DataGridTextColumn Binding="{Binding RelativeOffset}" Header="RelativeOffset" />
+                                        <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                        <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
+                                        <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                                        <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                                    </DataGrid.Columns>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Style.Setters>
+                                            </Style.Setters>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Setters>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                                <ContentPresenter VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
+                                            </Style.Setters>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.CellStyle>
+                                </DataGrid>
+                            </TabItem>
+                            <TabItem Header="База 2 список">
+                                <DataGrid ItemsSource="{Binding PanelDatabase2.BytesDatabase.ByteDescriptions}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                                        <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                        <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                                        <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                                    </DataGrid.Columns>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Style.Setters>
+                                            </Style.Setters>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.CellStyle>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Setters>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                                <ContentPresenter VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Background" Value="{Binding IsBold, Converter={StaticResource IsBoldToColorConverter}}" />
+                                            </Style.Setters>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.CellStyle>
+                                </DataGrid>
+                            </TabItem>
+                            <TabItem Header="База 2 дерево">
+                                <Controls:TreeListView ItemsSource="{Binding PanelDatabase2.RootBytes}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                    <Controls:TreeListView.Columns>
+                                        <GridViewColumn Header="Offset" Width="120">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Offset}" Visibility="{Binding HasNoOffset, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                                                 <TextBlock.Style>
                                                     <Style>
                                                         <Style.Triggers>
@@ -114,28 +116,28 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Value" Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Value}" Visibility="{Binding IsHeader, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="RealValue" Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding RealValue}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Description" Width="500">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Description}">
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Value" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Value}" Visibility="{Binding IsHeader, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="RealValue" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding RealValue}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Description" Width="500">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Description}">
                                                 <TextBlock.Style>
                                                     <Style>
                                                         <Style.Triggers>
@@ -147,174 +149,273 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="GroupName">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding GroupName}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </Controls:TreeListView.Columns>
-                        </Controls:TreeListView>
-                    </TabItem>
-<TabItem Header="Сравнение базы 1">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="200" />
-                            </Grid.RowDefinitions>
-                            <DataGrid Grid.Row="0" ItemsSource="{Binding PanelDatabase1.BytesDatabase.ByteDescriptions}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
-                                    <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                                    <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
-                                    <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
-                                    <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
-                                    <DataGridTextColumn Binding="{Binding OriginalValue}" Header="OriginalValue" Width="*" />
-                                </DataGrid.Columns>
-                                <DataGrid.RowStyle>
-                                    <Style TargetType="{x:Type DataGridRow}">
-                                        <Style.Setters>
-                                        </Style.Setters>
-                                    </Style>
-                                </DataGrid.RowStyle>
-                                <DataGrid.CellStyle>
-                                    <Style TargetType="{x:Type DataGridCell}">
-                                        <Style.Setters>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                            <ContentPresenter VerticalAlignment="Center" />
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style.Setters>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                                                <Setter Property="Foreground" Value="White" />
-                                            </Trigger>
-                                            <DataTrigger Binding="{Binding IsNotEqualToOriginal}" Value="True">
-                                                <DataTrigger.Setters>
-                                                    <Setter Property="Background" Value="Red" />
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
-                                                <DataTrigger.Setters>
-                                                    <Setter Property="Background" Value="LightGray" />
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGrid.CellStyle>
-                            </DataGrid>
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding UnequalBytes1}">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Offset">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock VerticalAlignment="Center" Foreground="Black">
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="GroupName">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding GroupName}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </Controls:TreeListView.Columns>
+                                </Controls:TreeListView>
+                            </TabItem>
+                            <TabItem Header="Сравнение базы 1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="200" />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid Grid.Row="0" ItemsSource="{Binding PanelDatabase1.BytesDatabase.ByteDescriptions}" SelectedItem="{Binding SelectedByteDescription1}"
+                                      SelectionChanged="On_SelectionChanged">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
+                                            <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                                            <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalValue}" Header="OriginalValue" Width="*" />
+                                        </DataGrid.Columns>
+                                        <DataGrid.RowStyle>
+                                            <Style TargetType="{x:Type DataGridRow}">
+                                                <Style.Setters>
+                                                </Style.Setters>
+                                            </Style>
+                                        </DataGrid.RowStyle>
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="{x:Type DataGridCell}">
+                                                <Style.Setters>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style.Setters>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding IsNotEqualToOriginal}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IgnoreUnequal}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Background" Value="LightGray" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.CellStyle>
+                                    </DataGrid>
+                                    <DataGrid Grid.Row="1" ItemsSource="{Binding UnequalBytes1}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Header="Offset">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock VerticalAlignment="Center" Foreground="Black">
                                                     <Hyperlink Command="{Binding ShowUnEqualBytesCommand}" Style="{StaticResource HyperlinkStyle}">
                                                         <TextBlock Text="{Binding ByteDescription.Offset}" Foreground="Black" Margin="2" />
                                                     </Hyperlink>
                                                 </TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.Value}" Header="Value" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.RealValue}" Header="RealValue" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.Description}" Header="Description" Width="500" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.GroupName}" Header="GroupName" Width="*" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.OriginalValue}" Header="OriginalValue" Width="*" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
-                    </TabItem>
-                    <TabItem Header="Сравнение базы 2">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="200" />
-                            </Grid.RowDefinitions>
-                            <DataGrid Grid.Row="0" ItemsSource="{Binding PanelDatabase2.BytesDatabase.ByteDescriptions}" SelectedItem="{Binding SelectedByteDescription1}"
-                                      x:Name="DataGrid1" SelectionChanged="On_SelectionChanged1">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
-                                    <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                                    <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
-                                    <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
-                                    <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
-                                    <DataGridTextColumn Binding="{Binding OriginalValue}" Header="OriginalValue" Width="*" />
-                                    <DataGridTextColumn Binding="{Binding OriginalChar}" Header="OriginalChar" Width="*" />
-                                </DataGrid.Columns>
-                                <DataGrid.RowStyle>
-                                    <Style TargetType="{x:Type DataGridRow}">
-                                        <Style.Setters>
-                                        </Style.Setters>
-                                    </Style>
-                                </DataGrid.RowStyle>
-                                <DataGrid.CellStyle>
-                                    <Style TargetType="{x:Type DataGridCell}">
-                                        <Style.Setters>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                            <ContentPresenter VerticalAlignment="Center" />
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style.Setters>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                                                <Setter Property="Foreground" Value="White" />
-                                            </Trigger>
-                                            <DataTrigger Binding="{Binding IsNotEqualToOriginal}" Value="True">
-                                                <DataTrigger.Setters>
-                                                    <Setter Property="Background" Value="Red" />
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
-                                                <DataTrigger.Setters>
-                                                    <Setter Property="Background" Value="LightGray" />
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGrid.CellStyle>
-                            </DataGrid>
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding UnequalBytes2}">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Offset">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock VerticalAlignment="Center" Foreground="Black">
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.RealValue}" Header="RealValue" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.Description}" Header="Description" Width="500" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.GroupName}" Header="GroupName" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.OriginalValue}" Header="OriginalValue" Width="*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Сравнение базы 2" IsSelected="True" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="200" />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid Grid.Row="0" ItemsSource="{Binding PanelDatabase2.BytesDatabase.ByteDescriptions}" SelectedItem="{Binding SelectedByteDescription2}"
+                                      SelectionChanged="On_SelectionChanged">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
+                                            <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                                            <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalValue}" Header="OriginalValue" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalChar}" Header="OriginalChar" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalReference}" Header="OriginalReference" Width="*" />
+                                        </DataGrid.Columns>
+                                        <DataGrid.RowStyle>
+                                            <Style TargetType="{x:Type DataGridRow}">
+                                                <Style.Setters>
+                                                </Style.Setters>
+                                            </Style>
+                                        </DataGrid.RowStyle>
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="{x:Type DataGridCell}">
+                                                <Style.Setters>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style.Setters>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding IsNotEqualToOriginal}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IgnoreUnequal}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Background" Value="LightGray" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.CellStyle>
+                                    </DataGrid>
+                                    <DataGrid Grid.Row="1" ItemsSource="{Binding UnequalBytes2}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Header="Offset">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock VerticalAlignment="Center" Foreground="Black">
                                                     <Hyperlink Command="{Binding ShowUnEqualBytesCommand}" Style="{StaticResource HyperlinkStyle}">
                                                         <TextBlock Text="{Binding ByteDescription.Offset}" Foreground="Black" Margin="2" />
                                                     </Hyperlink>
                                                 </TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.Value}" Header="Value" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.RealValue}" Header="RealValue" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.Description}" Header="Description" Width="500" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.GroupName}" Header="GroupName" Width="*" />
-                                    <DataGridTextColumn Binding="{Binding ByteDescription.OriginalValue}" Header="OriginalValue" Width="*" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
-                    </TabItem>
-                </TabControl>
-            </DataTemplate>
-        </TabControl.ContentTemplate>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.RealValue}" Header="RealValue" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.Description}" Header="Description" Width="500" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.GroupName}" Header="GroupName" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.OriginalValue}" Header="OriginalValue" Width="*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </TabItem>
+
+
+        <TabItem Header="БИ">
+            <TabControl Name="tabControl2" ItemsSource="{Binding BIDatabases}" SelectedIndex="0">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ParentPanel.PresentationAddressAndName}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <TabControl>
+                            <TabItem Header="Сравнение базы 2" IsSelected="True" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="200" />
+                                    </Grid.RowDefinitions>
+                                    <DataGrid Grid.Row="0" ItemsSource="{Binding BytesDatabase.ByteDescriptions}" SelectedItem="{Binding SelectedByteDescription}"
+                                      SelectionChanged="On_SelectionChanged">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Offset}" Header="Offset" />
+                                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding RealValue}" Header="RealValue" />
+                                            <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="500" />
+                                            <DataGridTextColumn Binding="{Binding GroupName}" Header="GroupName" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalValue}" Header="OriginalValue" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalChar}" Header="OriginalChar" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding OriginalReference}" Header="OriginalReference" Width="*" />
+                                        </DataGrid.Columns>
+                                        <DataGrid.RowStyle>
+                                            <Style TargetType="{x:Type DataGridRow}">
+                                                <Style.Setters>
+                                                </Style.Setters>
+                                            </Style>
+                                        </DataGrid.RowStyle>
+                                        <DataGrid.CellStyle>
+                                            <Style TargetType="{x:Type DataGridCell}">
+                                                <Style.Setters>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style.Setters>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding IsNotEqualToOriginal}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IgnoreUnequal}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="Background" Value="LightGray" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.CellStyle>
+                                    </DataGrid>
+                                    <DataGrid Grid.Row="1" ItemsSource="{Binding UnequalBytes}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Header="Offset">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock VerticalAlignment="Center" Foreground="Black">
+                                                    <Hyperlink Command="{Binding ShowUnEqualBytesCommand}" Style="{StaticResource HyperlinkStyle}">
+                                                        <TextBlock Text="{Binding ByteDescription.Offset}" Foreground="Black" Margin="2" />
+                                                    </Hyperlink>
+                                                </TextBlock>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.Value}" Header="Value" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.RealValue}" Header="RealValue" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.Description}" Header="Description" Width="500" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.GroupName}" Header="GroupName" Width="*" />
+                                            <DataGridTextColumn Binding="{Binding ByteDescription.OriginalValue}" Header="OriginalValue" Width="*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </TabItem>
     </TabControl>
 </UserControl>

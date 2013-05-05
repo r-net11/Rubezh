@@ -37,15 +37,66 @@ namespace ClientFS2.ConfigurationWriter
 
 		public static List<Device> GetRemoteForZone(Device parentPanel, Zone zone)
 		{
-			var devices = new List<Device>();
+			var devices = new HashSet<Device>();
 			foreach (var device in GetDevicesInLogic(zone))
 			{
-				if (device.ParentPanel.UID != parentPanel.UID)
+				foreach (var clause in device.ZoneLogic.Clauses)
 				{
-					devices.Add(device);
+					var allZonesAreRemote = true;
+					foreach (var clauseZone in clause.Zones)
+					{
+						if (clauseZone.DevicesInZone.FirstOrDefault().ParentPanel.UID == device.ParentPanel.UID)
+							allZonesAreRemote = false;
+					}
+					if (clause.Operation.Value == ZoneLogicOperation.Any || allZonesAreRemote)
+					//if (clause.Operation.Value == ZoneLogicOperation.Any)
+					{
+						foreach (var clauseZone in clause.Zones)
+						{
+							if (clauseZone.UID == zone.UID)
+							{
+								if (device.ParentPanel.UID != parentPanel.UID)
+								{
+									devices.Add(device);
+								}
+							}
+						}
+					}
 				}
 			}
-			return devices;
+			return devices.ToList();
+		}
+
+		public static List<Device> GetRemoteForZone2(Device parentPanel, Zone zone)
+		{
+			var devices = new HashSet<Device>();
+			foreach (var device in GetDevicesInLogic(zone))
+			{
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					var allZonesAreRemote = true;
+					foreach (var clauseZone in clause.Zones)
+					{
+						if (clauseZone.DevicesInZone.FirstOrDefault().ParentPanel.UID == device.ParentPanel.UID)
+							allZonesAreRemote = false;
+					}
+					//if (clause.Operation.Value == ZoneLogicOperation.Any || allZonesAreRemote)
+					if (clause.Operation.Value == ZoneLogicOperation.All)
+					{
+						foreach (var clauseZone in clause.Zones)
+						{
+							if (clauseZone.UID == zone.UID)
+							{
+								if (device.ParentPanel.UID != parentPanel.UID)
+								{
+									devices.Add(device);
+								}
+							}
+						}
+					}
+				}
+			}
+			return devices.ToList();
 		}
 
 		public static List<DevicesOnShleif> GetLocalForPanel(Device parentPanel)

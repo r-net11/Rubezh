@@ -7,9 +7,30 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public static class BytesHelper
 	{
+		public static bool IsRevese { get; set; }
+
 		public static List<byte> ShortToBytes(short shortValue)
 		{
-			return BitConverter.GetBytes(shortValue).Reverse().ToList();
+			if (IsRevese)
+			{
+				return BitConverter.GetBytes(shortValue).ToList();
+			}
+			else
+			{
+				return BitConverter.GetBytes(shortValue).Reverse().ToList();
+			}
+		}
+
+		public static List<byte> IntToBytes(int intValue)
+		{
+			if (IsRevese)
+			{
+				return BitConverter.GetBytes(intValue).ToList();
+			}
+			else
+			{
+				return BitConverter.GetBytes(intValue).Reverse().ToList();
+			}
 		}
 
 		public static List<byte> StringToBytes(string str, int length = 20)

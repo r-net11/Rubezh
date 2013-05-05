@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using System.Diagnostics;
 using ClientFS2.ConfigurationWriter.Classes;
 using FiresecAPI.Models.Binary;
+using System.Security.Cryptography;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -48,9 +49,10 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			foreach (var table in Tables)
 			{
-				var firstByteDescriptions = table.BytesDatabase.ByteDescriptions.FirstOrDefault();
-				if (firstByteDescriptions != null)
-					firstByteDescriptions.TableHeader = table;
+				foreach (var byteDescription in table.BytesDatabase.ByteDescriptions)
+				{
+					byteDescription.TableHeader = table;
+				}
 			}
 			foreach (var table in Tables)
 			{
@@ -70,13 +72,13 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				FirstTable.BytesDatabase.AddByte(0);
 			}
-			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort((short)0, "CRC от ROM части базы", true);
+			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort((short)0, "CRC от ROM части базы", true, true);
 			Tables.Add(FirstTable);
 		}
 
 		void CreateLocalZones()
 		{
-			foreach (var zone in BinaryPanel.BinaryLocalZones)
+			foreach (var zone in BinaryPanel.BinaryLocalZones.OrderBy(x=>x.Zone.No))
 			{
 				var zoneTable = new ZoneTable(this, zone);
 				Tables.Add(zoneTable);
@@ -89,7 +91,6 @@ namespace ClientFS2.ConfigurationWriter
 			foreach (var zone in BinaryPanel.BinaryRemoteZones)
 			{
 				var remoteZoneTable = new RemoteZoneTable(this, zone);
-				//var remoteZoneTable = new ZoneTable(this, zone);
 				Tables.Add(remoteZoneTable);
 				RemoteZonesTableGroup.Tables.Add(remoteZoneTable);
 			}
@@ -97,12 +98,57 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateServiceTable()
 		{
-			ServiceTable = new TableBase(this, "Служебная таблица");
+			var addressList = new List<int>();
 			for (int i = 0; i < 32; i++)
 			{
-				ServiceTable.BytesDatabase.AddByte(0, "", true);
+				addressList.Add(0);
+			}
+			if (ParentPanel.Parent.Driver.DriverType != DriverType.Computer)
+			{
+				foreach (var binaryZones in BinaryPanel.BinaryRemoteZones)
+				{
+					AddToDevicelist(addressList, binaryZones.ParentPanel);
+				}
+				foreach (var binaryZones in BinaryPanel.BinaryLocalZones)
+				{
+					foreach (var device in binaryZones.Zone.DevicesInZone)
+					{
+						AddToDevicelist(addressList, device.ParentPanel);
+					}
+				}
+				AddToDevicelist(addressList, BinaryPanel.ParentPanel);
+			}
+
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.DriverType == DriverType.PDUDirection)
+				{
+					foreach (var pduDevice in device.PDUGroupLogic.Devices)
+					{
+						if (pduDevice.Device.ParentPanel.UID == ParentPanel.UID)
+						{
+							AddToDevicelist(addressList, device.ParentPanel);
+						}
+					}
+				}
+			}
+
+			ServiceTable = new TableBase(this, "Адресный лист");
+			foreach (var address in addressList)
+			{
+				ServiceTable.BytesDatabase.AddByte((byte)address, "", true);
 			}
 			Tables.Add(ServiceTable);
+		}
+
+		void AddToDevicelist(List<int> addressList, Device device)
+		{
+			var address = device.IntAddress;
+			if (address < addressList.Count)
+			{
+				var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+				addressList[address - 1] = deviceCode;
+			}
 		}
 
 		void CreateDevices()
@@ -141,7 +187,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateRemoteDevices()
 		{
-			var tableGroup = new TableGroup("Указатель на таблицу Внешних ИУ", 0);
+			var tableGroup = new TableGroup("Указатель на таблицу Внешних ИУ", -1);
 			DevicesTableGroups.Add(tableGroup);
 
 			foreach (var binaryRemoteDevice in BinaryPanel.BinaryRemoteDevices)
@@ -186,11 +232,11 @@ namespace ClientFS2.ConfigurationWriter
 			LastTable.BytesDatabase.AddByte((byte)8, "Версия MD5");
 			for (int i = 0; i < 16; i++)
 			{
-				LastTable.BytesDatabase.AddByte(0, "MD5", true);
+				LastTable.BytesDatabase.AddByte(0, "MD5", true, true);
 			}
 			for (int i = 0; i < 19; i++)
 			{
-				LastTable.BytesDatabase.AddByte(0, "Для нужд базы", true);
+				LastTable.BytesDatabase.AddByte(0, "Для нужд базы");
 			}
 			Tables.Add(LastTable);
 		}
@@ -212,6 +258,20 @@ namespace ClientFS2.ConfigurationWriter
 
 			RootBytes.Add(DirectionsTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(ReferenceTableGroup.GetTreeRootByteDescription());
+
+			var bytes = new List<byte>();
+			foreach (var byteDescription in RootBytes)
+			{
+				bytes.Add((byte)byteDescription.Value);
+			}
+			var md5 = MD5.Create();
+			var md5Bytes = md5.ComputeHash(bytes.ToArray());
+			for (int i = 0; i < 16; i++ )
+			{
+				var md5Byte = md5Bytes[i];
+				LastTable.BytesDatabase.ByteDescriptions[i + 1].Value = md5Byte;
+			}
+
 			RootBytes.Add(LastTable.GetTreeRootByteDescription());
 		}
 	}

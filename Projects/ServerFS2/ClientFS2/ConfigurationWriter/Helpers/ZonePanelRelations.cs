@@ -10,6 +10,11 @@ namespace ClientFS2.ConfigurationWriter
 	{
 		public static List<ZonePanelItem> ZonePanelItems { get; set; }
 
+		static ZonePanelRelations()
+		{
+			ZonePanelItems = new List<ZonePanelItem>();
+		}
+
 		public static void Initialize()
 		{
 			ZonePanelItems = new List<ZonePanelItem>();

@@ -60,15 +60,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\BIDatabase.cs" />
     <Compile Include="ConfigurationWriter\Classes\DevicesGroup.cs" />
     <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
     <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
     <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
     <Compile Include="ConfigurationWriter\BinaryConfigurationHelper.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\PDUItem.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\PDUPTTable.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\PDUPTDatabase.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\PDUDatabase.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\PDUTable.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\SingleTable.cs" />
+    <Compile Include="ConfigurationWriter\SingleTable\SingleTableUnequalByteViewModel.cs" />
     <Compile Include="ConfigurationWriter\Tables\DirectionTable.cs" />
     <Compile Include="ConfigurationWriter\Tables\EffectorDeviceTable.cs" />
     <Compile Include="ConfigurationWriter\UnequalByteViewModel.cs" />
+    <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="ConfigurationWriter\Tables\SensorDeviceTable.cs" />

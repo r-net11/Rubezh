@@ -21,16 +21,15 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase = new BytesDatabase(name);
 		}
 
-		public virtual void Create()
-		{
-
-		}
+		public virtual void Create() { }
 
 		Guid uid = Guid.NewGuid();
 		public virtual Guid UID
 		{
 			get { return uid; }
 		}
+
+		public Guid ReferenceUID = Guid.NewGuid();
 
 		public ByteDescription GetTreeRootByteDescription()
 		{

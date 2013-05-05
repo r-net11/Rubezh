@@ -32,7 +32,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 				DriverType.ShuzOffButton, DriverType.ShuzOnButton, DriverType.ShuzUnblockButton, DriverType.StartButton, DriverType.StopButton, DriverType.AutomaticButton);
 			CreateDevicesGroup("Указатель на таблицу ИПР", 0, DriverType.HandDetector);
 			CreateDevicesGroup("Указатель на таблицу Охранных извещателей", 0, DriverType.AM1_O);
-			var OuterDevices_Group = CreateDevicesGroup("Указатель на таблицу Внешних ИУ", 0, DriverType.Computer);
+			var OuterDevices_Group = CreateDevicesGroup("Указатель на таблицу Внешних ИУ", -1, DriverType.Computer);
 			OuterDevices_Group.IsRemoteDevicesPointer = true;
 			CreateDevicesGroup("Указатель на таблицу МДУ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу БУНС", 0, DriverType.PumpStation);

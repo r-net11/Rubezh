@@ -180,7 +180,7 @@ namespace ClientFS2.ViewModels
 		{
 			var configurationWriterHelper = new ConfigurationWriterHelper();
 			configurationWriterHelper.Run();
-			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper.PanelDatabases);
+			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper);
 			DialogService.ShowModalWindow(configurationDatabaseViewModel);
 		}
 		bool CanWriteConfiguration()
