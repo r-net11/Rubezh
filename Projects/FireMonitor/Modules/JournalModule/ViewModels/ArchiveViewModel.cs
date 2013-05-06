@@ -18,9 +18,9 @@ namespace JournalModule.ViewModels
     public class ArchiveViewModel : ViewPartViewModel
     {
         public static DateTime ArchiveFirstDate { get; private set; }
-        ArchiveDefaultState _archiveDefaultState;
-        ArchiveFilter _archiveFilter;
-        Thread _updateThread;
+        ArchiveDefaultState ArchiveDefaultState;
+        ArchiveFilter ArchiveFilter;
+        Thread UpdateThread;
 		bool firstTime = true;
 
         public ArchiveViewModel()
@@ -29,9 +29,9 @@ namespace JournalModule.ViewModels
             ShowSettingsCommand = new RelayCommand(OnShowSettings);
             ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 
-            _archiveDefaultState = ClientSettings.ArchiveDefaultState;
-            if (_archiveDefaultState == null)
-                _archiveDefaultState = new ArchiveDefaultState();
+            ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
+            if (ArchiveDefaultState == null)
+                ArchiveDefaultState = new ArchiveDefaultState();
         }
 
         public void Initialize()
@@ -80,7 +80,7 @@ namespace JournalModule.ViewModels
 
         public bool IsFilterExists
         {
-            get { return _archiveFilter != null; }
+            get { return ArchiveFilter != null; }
         }
 
         public RelayCommand ShowFilterCommand { get; private set; }
@@ -88,21 +88,21 @@ namespace JournalModule.ViewModels
         {
             try
             {
-                if (_archiveFilter == null)
-                    _archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+                if (ArchiveFilter == null)
+                    ArchiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
                 ArchiveFilterViewModel archiveFilterViewModel = null;
 
                 var result = WaitHelper.Execute(() =>
                 {
-                    archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+                    archiveFilterViewModel = new ArchiveFilterViewModel(ArchiveFilter);
                 });
 
                 if (result)
                 {
                     if (DialogService.ShowModalWindow(archiveFilterViewModel))
                     {
-                        _archiveFilter = archiveFilterViewModel.GetModel();
+                        ArchiveFilter = archiveFilterViewModel.GetModel();
                         OnPropertyChanged("IsFilterExists");
                         IsFilterOn = true;
                     }
@@ -120,11 +120,12 @@ namespace JournalModule.ViewModels
         {
             try
             {
-                var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
+                var archiveSettingsViewModel = new ArchiveSettingsViewModel(ArchiveDefaultState);
                 if (DialogService.ShowModalWindow(archiveSettingsViewModel))
                 {
-                    _archiveDefaultState = archiveSettingsViewModel.GetModel();
-                    ClientSettings.ArchiveDefaultState = _archiveDefaultState;
+					ArchiveFilter = null;
+                    ArchiveDefaultState = archiveSettingsViewModel.GetModel();
+                    ClientSettings.ArchiveDefaultState = ArchiveDefaultState;
                     IsFilterOn = false;
                 }
             }
@@ -186,16 +187,16 @@ namespace JournalModule.ViewModels
         {
             if (abortRunnig)
             {
-                if (_updateThread != null)
-                    _updateThread.Abort();
-                _updateThread = null;
+                if (UpdateThread != null)
+                    UpdateThread.Abort();
+                UpdateThread = null;
             }
-            if (_updateThread == null)
+            if (UpdateThread == null)
             {
                 Status = "Загрузка данных";
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
-                _updateThread = new Thread(OnUpdate);
-                _updateThread.Start();
+                UpdateThread = new Thread(OnUpdate);
+                UpdateThread.Start();
             }
         }
 
@@ -205,9 +206,9 @@ namespace JournalModule.ViewModels
             {
                 ArchiveFilter archiveFilter = null;
                 if (IsFilterOn)
-                    archiveFilter = _archiveFilter;
+                    archiveFilter = ArchiveFilter;
                 else
-                    archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+                    archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
                 FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
@@ -216,7 +217,7 @@ namespace JournalModule.ViewModels
             {
                 Logger.Error(e, "ArchiveViewModel.OnUpdate");
             }
-            _updateThread = null;
+            UpdateThread = null;
         }
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)

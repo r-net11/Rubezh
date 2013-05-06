@@ -158,11 +158,11 @@ namespace AlarmModule.ViewModels
 		public RelayCommand AddToIgnoreAllDevicesInFireCommand { get; private set; }
 		void OnAddToIgnoreAllDevicesInFire()
 		{
-			foreach (var device in FiresecManager.Devices)
+			if (ServiceFactory.SecurityService.Validate())
 			{
-				if (device.DeviceState.StateType == StateType.Fire)
+				foreach (var device in FiresecManager.Devices)
 				{
-					if (ServiceFactory.SecurityService.Validate())
+					if (device.DeviceState.StateType == StateType.Fire)
 					{
 						FiresecManager.ChangeDisabled(device.DeviceState);
 					}

@@ -448,34 +448,22 @@ namespace FiresecAPI.Models
 
 		public string DottedPresentationAddressAndName
 		{
-			get
-			{
-				return DottedAddress + " - " + PresentationName;
-			}
+			get { return DottedAddress + " - " + PresentationName; }
 		}
 
 		public string DottedPresentationNameAndAddress
 		{
-			get
-			{
-				return PresentationName + " - " + DottedAddress;
-			}
+			get { return PresentationName + " - " + DottedAddress; }
 		}
 
 		public int ShleifNo
 		{
-			get
-			{
-				return IntAddress / 256;
-			}
+			get { return IntAddress / 256; }
 		}
 
 		public int AddressOnShleif
 		{
-			get
-			{
-				return IntAddress % 256;
-			}
+			get { return IntAddress % 256; }
 		}
 
 		public List<Device> GetRealChildren()

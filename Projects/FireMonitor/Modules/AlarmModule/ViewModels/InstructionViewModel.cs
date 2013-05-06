@@ -52,6 +52,17 @@ namespace AlarmModule.ViewModels
                         return instruction;
                     }
                 }
+
+				foreach (var deviceInZone in zone.DevicesInZone)
+				{
+					foreach (var instruction in availableStateTypeInstructions)
+					{
+						if (instruction.Devices.Contains(deviceInZone.ParentPanel.UID))
+						{
+							return instruction;
+						}
+					}
+				}
             }
 
 			foreach (var instruction in availableStateTypeInstructions)

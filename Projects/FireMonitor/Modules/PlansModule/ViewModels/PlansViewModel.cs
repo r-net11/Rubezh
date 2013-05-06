@@ -38,8 +38,8 @@ namespace PlansModule.ViewModels
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
 			var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
-			if (planNavigationWidth == 0)
-				planNavigationWidth = 300;
+			if (!IsPlanTreeVisible)
+				planNavigationWidth = 0;
 			PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
 			ApplicationService.ShuttingDown += () =>
 			{

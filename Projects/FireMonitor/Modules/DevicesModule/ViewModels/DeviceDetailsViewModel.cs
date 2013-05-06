@@ -64,7 +64,7 @@ namespace DevicesModule.ViewModels
 			{
 				var stateViewModel = new StateViewModel()
 				{
-					DriverState = state.DriverState,
+					DriverState = state.DriverState.Clone(),
 					DeviceName = state.ParentDevice.DottedPresentationAddressAndName
 				};
 				ParentStates.Add(stateViewModel);
@@ -75,6 +75,7 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("IsAutomaticOff");
 
 			StartTimer(DriverType.RM_1, "RMOn");
+			StartTimer(DriverType.MRO, "MRO_On");
 			StartTimer(DriverType.MRO_2, "MRO_On");
 			StartTimer(DriverType.MDU, "ClapanOn1e");
 			StartTimer(DriverType.Valve, "Bolt_On");

@@ -20,11 +20,9 @@ namespace FiresecAPI.Models
 				Default = "6",
 				BitOffset = 4
 			};
-			//ConfigurationDriverHelper.AddPropertyParameter(property1, "Шлейф неадресных тепловых извещателей, контакты нормально замкнутые, один оконечный резистор", 6);
-			//ConfigurationDriverHelper.AddPropertyParameter(property1, "Шлейф неадресных тепловых извещателей, контакты нормально замкнутые, один оконечный резистор. Параллельно каждому извещателю дополнительно ставится резистор", 7);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "Охранная", 6);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "Охранная, дополнительный резистор", 7);
-			
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Охранный шлейф 300 мс", 6);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Охранный шлейф 70 мс", 7);
+
 			driver.Properties.Add(property1);
 		}
 	}

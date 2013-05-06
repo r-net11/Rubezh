@@ -222,7 +222,7 @@ namespace Firesec
 			driver.CanAutoDetect = allChildren.Any(x => (x.options != null) && (x.options.Contains("CanAutoDetectInstances")));
 
 			driver.Properties = new List<DriverProperty>();
-			if (innerDriver.propInfo != null)
+			if (innerDriver.propInfo != null && driver.DriverType != DriverType.PumpStation)
 			{
 				foreach (var internalProperty in innerDriver.propInfo)
 				{

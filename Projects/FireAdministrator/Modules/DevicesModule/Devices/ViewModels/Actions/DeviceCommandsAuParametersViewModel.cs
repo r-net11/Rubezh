@@ -67,7 +67,8 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanGetConfigurationParameters()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties) &&
+				(SelectedDevice.Device.Parent != null) && (!SelectedDevice.Device.Parent.IsMonitoringDisabled));
 		}
 
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
@@ -101,7 +102,8 @@ namespace DevicesModule.ViewModels
 
 		bool CanSetConfigurationParameters()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties) &&
+				(SelectedDevice.Device.Parent != null) && (!SelectedDevice.Device.Parent.IsMonitoringDisabled));
 		}
 
 		public RelayCommand SetAllDeviceConfigurationParametersCommand { get; private set; }
@@ -146,6 +148,9 @@ namespace DevicesModule.ViewModels
 		{
 			if (SelectedDevice != null)
 			{
+				if (SelectedDevice.Device.IsMonitoringDisabled)
+					return false;
+
 				foreach (var childDevice in SelectedDevice.Children)
 				{
 					if ((childDevice != null) && (childDevice.Device.Driver.HasConfigurationProperties))
@@ -189,6 +194,9 @@ namespace DevicesModule.ViewModels
 		{
 			if (SelectedDevice != null)
 			{
+				if(SelectedDevice.Device.IsMonitoringDisabled)
+					return false;
+
 				foreach (var childDevice in SelectedDevice.Children)
 				{
 					if ((childDevice != null) && (childDevice.Device.Driver.HasConfigurationProperties))

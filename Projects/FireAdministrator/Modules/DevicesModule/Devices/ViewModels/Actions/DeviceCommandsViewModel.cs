@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
 
 				var configurationWriterHelper = new ClientFS2.ConfigurationWriter.ConfigurationWriterHelper();
 				configurationWriterHelper.Run();
-				var configurationDatabaseViewModel = new ClientFS2.ViewModels.ConfigurationDatabaseViewModel(configurationWriterHelper.PanelDatabases);
+				var configurationDatabaseViewModel = new ClientFS2.ViewModels.ConfigurationDatabaseViewModel(configurationWriterHelper);
 				DialogService.ShowModalWindow(configurationDatabaseViewModel);
 				return;
 			}

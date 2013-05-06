@@ -240,10 +240,11 @@ namespace DevicesModule.ViewModels
 			foreach (var device in Device.Parent.Children)
 			{
 				if (device.IndicatorLogic.Device != null && device.IndicatorLogic.Device.Driver.DriverType == DriverType.Indicator && device.IntAddress > 10 &&
-					Device.Parent.Children[device.IntAddress % 10].IndicatorLogic.Device == null)
+					Device.Parent.Children[device.IntAddress % 10 - 1].IndicatorLogic.Device == null)
 				{
 					device.IndicatorLogic.Device = null;
 					device.IndicatorLogic.DeviceUID = Guid.Empty;
+					device.OnChanged();
 				}
 			}
 		}

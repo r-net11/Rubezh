@@ -641,13 +641,15 @@ namespace DevicesModule.ViewModels
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOnButton));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOffButton));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzUnblockButton));
-						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_T));
+						if (Device.Parent.Parent.Driver.DriverType == DriverType.Rubezh_2OP || Device.Parent.Parent.Driver.DriverType == DriverType.USB_Rubezh_2OP)
+							AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
 						return;
 
 					case DriverType.AM4_P:
-						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
 						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
+						if (Device.Parent.Parent.Driver.DriverType == DriverType.Rubezh_2OP || Device.Parent.Parent.Driver.DriverType == DriverType.USB_Rubezh_2OP)
+							AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
 						return;
 
 					default:
@@ -657,6 +659,14 @@ namespace DevicesModule.ViewModels
 							if (CanDriverBeChanged(driver))
 							{
 								AvailvableDrivers.Add(driver);
+							}
+						}
+						if (Device.Parent.Driver.DriverType != DriverType.Rubezh_2OP && Device.Parent.Driver.DriverType != DriverType.USB_Rubezh_2OP)
+						{
+							var am1_o_Driver = AvailvableDrivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O);
+							if (am1_o_Driver != null)
+							{
+								AvailvableDrivers.Remove(am1_o_Driver);
 							}
 						}
 						break;

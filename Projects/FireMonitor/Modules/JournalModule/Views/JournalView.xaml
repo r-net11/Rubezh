@@ -23,8 +23,8 @@
                 <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding JournalRecord.ZoneName}" MinWidth="100" />
                 <DataGridTextColumn Header="Описание" Binding="{Binding JournalRecord.Description}" MinWidth="200" Width="*" />
-                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding JournalRecord.DeviceName}" MinWidth="100" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding JournalRecord.PanelName}" MinWidth="100" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding JournalRecord.DeviceName}" MinWidth="100" />
+                <DataGridTextColumn Header="Прибор" Binding="{Binding JournalRecord.PanelName}" MinWidth="100" />
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalRecord.User}" MinWidth="100" />
                 <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalRecord.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" MinWidth="100" />
             </DataGrid.Columns>
@@ -89,8 +89,8 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Пользователь" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Время" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding DeviceName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Устройство" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding DeviceName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Прибор" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Зона" Visibility="{Binding ZoneName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
 
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Description}" />

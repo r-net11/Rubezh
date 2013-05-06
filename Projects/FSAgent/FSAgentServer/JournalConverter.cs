@@ -4,6 +4,7 @@ using Firesec.Models.Journals;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Common;
+using System.Diagnostics;
 
 namespace FSAgentServer
 {
@@ -19,7 +20,7 @@ namespace FSAgentServer
 				SystemTime = ConvertTime(innerJournalRecord.SysDt),
 				ZoneName = innerJournalRecord.ZoneName,
 				Description = innerJournalRecord.EventDesc,
-				DeviceName = innerJournalRecord.CLC_Device,
+				DeviceName = NormalizeDottedAddress(innerJournalRecord.CLC_Device),
 				PanelName = innerJournalRecord.CLC_DeviceSource,
 				DeviceDatabaseId = innerJournalRecord.IDDevices,
 				PanelDatabaseId = innerJournalRecord.IDDevicesSource,
@@ -30,6 +31,31 @@ namespace FSAgentServer
 			};
 
 			return journalRecord;
+		}
+
+		static string NormalizeDottedAddress(string originalName)
+		{
+			var index = originalName.LastIndexOf(' ');
+			var address = originalName.Substring(index);
+			var dotsCount = address.Count(x => x == '.');
+			if (dotsCount == 5)
+			{
+				var name = originalName;
+				var tempIndex = name.LastIndexOf('.');
+				name = name.Remove(tempIndex);
+				tempIndex = name.LastIndexOf('.');
+				var endIndex = tempIndex;
+				name = name.Remove(tempIndex);
+				tempIndex = name.LastIndexOf('.');
+				name = name.Remove(tempIndex);
+				tempIndex = name.LastIndexOf('.');
+				var startIndex = tempIndex;
+				name = name.Remove(tempIndex);
+
+				var result = originalName.Remove(startIndex, endIndex - startIndex);
+				return result;
+			}
+			return originalName;
 		}
 
 		static void NormalizeJournalType(journalType innerJournalRecord)

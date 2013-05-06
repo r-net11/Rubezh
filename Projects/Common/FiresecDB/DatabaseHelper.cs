@@ -258,7 +258,7 @@ namespace FiresecDB
 					var reader = result.ExecuteReader();
 					while (reader.Read())
 					{
-						if (IsAbort)
+						if (IsAbort && !isReport)
 							break;
 						try
 						{
@@ -281,7 +281,7 @@ namespace FiresecDB
 							Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
 						}
 					}
-					if ((journalRecords.Count > 0) && (!isReport))
+					if (!isReport)
 					{
 						if (ArchivePortionReady != null)
 							ArchivePortionReady(journalRecords.ToList());

@@ -139,6 +139,8 @@ namespace DevicesModule.Validation
 		{
 			if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT))
 			{
+				if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.HandDetector))
+					return;
 				var sensorDevices = GetSensorsInZone(zone);
 				if (sensorDevices.Count < 2)
 					Errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));

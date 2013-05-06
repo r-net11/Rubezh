@@ -31,7 +31,7 @@ namespace FSAgentServer
 				}
 				catch (Exception ex)
 				{
-					BalloonHelper.ShowFromAgent("Драйвер Firesec", "Ошибка во время загрузки");
+					BalloonHelper.ShowFromAgent("Ошибка во время загрузки");
 					Logger.Error(ex, "App.OnStartup");
 				}
 			}
@@ -54,7 +54,7 @@ namespace FSAgentServer
 #if DEBUG
 			return;
 #endif
-			BalloonHelper.ShowFromAgent("Драйвер Firesec", "Перезапуск");
+			BalloonHelper.ShowFromAgent("Перезапуск");
 			Bootstrapper.Close();
 			var processStartInfo = new ProcessStartInfo()
 			{

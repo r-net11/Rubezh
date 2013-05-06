@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace FireMonitor.ViewModels
 {
@@ -19,18 +20,21 @@ namespace FireMonitor.ViewModels
 		{
 			Title = "Оперативная задача ОПС FireSec-2";
 			Toolbar = new ToolbarViewModel();
-			//ContentFotter = new UserFotterViewModel();
 			Height = 700;
 			Width = 1100;
 			MinWidth = 980;
 			MinHeight = 550;
 			//HideInTaskbar = App.IsMulticlient;
-			if (ShellIntegrationHelper.IsIntegrated)
-			{
-				AllowMaximize = false;
-				AllowMinimize = false;
-				Sizable = false;
-			}
+			UptateOnChangeViewPermission();
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe((x) => { UptateOnChangeViewPermission(); });
+		}
+
+		void UptateOnChangeViewPermission()
+		{
+			var hasPermission = !ShellIntegrationHelper.IsIntegrated && FiresecManager.CheckPermission(PermissionType.Oper_ChangeView);
+			AllowMaximize = hasPermission;
+			AllowMinimize = hasPermission;
+			Sizable = hasPermission;
 		}
 
 		public override bool OnClosing(bool isCanceled)

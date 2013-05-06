@@ -397,14 +397,14 @@ namespace DiagnosticsModule.ViewModels
 		private void OnWarningTest(object obj)
 		{
 			Random rnd = new Random();
-			BalloonHelper.ShowFromMonitor("Предупреждение", rnd.Next(100).ToString());
+			BalloonHelper.ShowFromMonitor("Предупреждение");
 		}
 
 		public RelayCommand TestBalloonCommand { get; private set; }
 
 		private void OnTestBalloon()
 		{
-			Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowFromMonitor("Hi, there", "Hi, there");
+			Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowFromMonitor("Hi, there");
 			var thread = new Thread(OnTestBalloonRun);
 			thread.Start();
 		}
@@ -413,7 +413,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
-				Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowFromMonitor("Hello", "Hello");
+				Infrastructure.Common.BalloonTrayTip.BalloonHelper.ShowFromMonitor("Hello");
 			}));
 		}
 

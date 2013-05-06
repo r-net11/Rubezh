@@ -31,5 +31,21 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IsAutomatic { get; set; }
+
+		public DriverState Clone()
+		{
+			return new DriverState()
+			{
+				Code = Code,
+				Id = Id,
+				Name = Name,
+				StateType = StateType,
+				AffectChildren = AffectChildren,
+				AffectParent = AffectParent,
+				IsManualReset = IsManualReset,
+				CanResetOnPanel = CanResetOnPanel,
+				IsAutomatic = IsAutomatic
+			};
+		}
 	}
 }

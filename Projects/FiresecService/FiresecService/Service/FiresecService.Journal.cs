@@ -25,7 +25,6 @@ namespace FiresecService.Service
 
 		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-
 			return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, true);
 		}
 		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)

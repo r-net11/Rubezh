@@ -241,9 +241,26 @@ namespace Firesec
 						{
 							if (state == null)
 							{
+								var cloneddDiverState = driverState.Clone();
+								if (cloneddDiverState.Name == "Состояние 1")
+								{
+									var property = device.Properties.FirstOrDefault(x => x.Name == "Event1");
+									if (property != null && !string.IsNullOrEmpty(property.Value))
+									{
+										cloneddDiverState.Name = property.Value;
+									}
+								}
+								if (cloneddDiverState.Name == "Состояние 2")
+								{
+									var property = device.Properties.FirstOrDefault(x => x.Name == "Event2");
+									if (property != null && !string.IsNullOrEmpty(property.Value))
+									{
+										cloneddDiverState.Name = property.Value;
+									}
+								}
 								state = new DeviceDriverState()
 								{
-									DriverState = driverState
+									DriverState = cloneddDiverState
 								};
 								device.DeviceState.States.Add(state);
 							}

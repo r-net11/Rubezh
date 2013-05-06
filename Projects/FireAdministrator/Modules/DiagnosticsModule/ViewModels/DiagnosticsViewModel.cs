@@ -302,7 +302,7 @@ namespace DiagnosticsModule.ViewModels
 
 		private void OnBalloonTest()
 		{
-			BalloonHelper.ShowFromAdm("Предупреждение", "Это текст предупреждения");
+			BalloonHelper.ShowFromAdm("Это текст предупреждения");
 		}
 
 		public RelayCommand PlanDuplicateTestCommand { get; private set; }
