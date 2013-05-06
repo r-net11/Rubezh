@@ -36,10 +36,10 @@ namespace ClientFS2.ConfigurationWriter
 		public static List<byte> StringToBytes(string str, int length = 20)
 		{
 			//var bytes1 = new List<byte>();
-			//bytes1.Add(48);
-			//bytes1.Add(46);
-			//bytes1.Add(49);
-			//bytes1.Add(46);
+			//bytes1.Add(66);
+			//bytes1.Add(85);
+			//bytes1.Add(78);
+			//bytes1.Add(83);
 			//bytes1.Add(53);
 			//bytes1.Add(32);
 			//bytes1.Add(204);

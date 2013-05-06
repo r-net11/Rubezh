@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ServerFS2;
+using FiresecAPI.Models;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -22,7 +23,14 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase = new BytesDatabase();
 
 			var headBytesDatabase = new BytesDatabase("Заголовок");
-			headBytesDatabase.AddString("BASE", "Сигнатура базы", 4);
+			if (PanelDatabase2.ParentPanel.Driver.DriverType == DriverType.BUNS || PanelDatabase2.ParentPanel.Driver.DriverType == DriverType.USB_BUNS)
+			{
+				headBytesDatabase.AddString("BUNS", "Сигнатура базы", 4);
+			}
+			else
+			{
+				headBytesDatabase.AddString("BASE", "Сигнатура базы", 4);
+			}
 			headBytesDatabase.AddShort((short)4, "Версия базы");
 			headBytesDatabase.AddReference(PanelDatabase2.BytesDatabase.ByteDescriptions.Last(), "Абсолютный указатель на конец базы во внешней энергонезависимой паияти");
 			var pointerToLast = headBytesDatabase.AddReference((ByteDescription)null, "Абсолютный указатель на конец блока, записываемого в память кристалла");
@@ -32,10 +40,6 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				var bytesDatabase = new BytesDatabase(tableGroup.Name);
 				bytesDatabase.AddReferenceToTable(tableGroup.Tables.FirstOrDefault(), tableGroup.Name);
-				if (tableGroup.Name == "Указатель на таблицу Внешних ИУ")
-				{
-					;
-				}
 				bytesDatabase.AddByte((byte)tableGroup.ComputedLength, "Длина записи в таблице");
 				bytesDatabase.AddShort((short)tableGroup.Count, "Текущее число записей в таблице");
 				BytesDatabase.Add(bytesDatabase);

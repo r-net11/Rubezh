@@ -35,7 +35,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			var OuterDevices_Group = CreateDevicesGroup("Указатель на таблицу Внешних ИУ", -1, DriverType.Computer);
 			OuterDevices_Group.IsRemoteDevicesPointer = true;
 			CreateDevicesGroup("Указатель на таблицу МДУ", 0, DriverType.Computer);
-			CreateDevicesGroup("Указатель на таблицу БУНС", 0, DriverType.PumpStation);
+			CreateDevicesGroup("Указатель на таблицу БУНС", -1, DriverType.PumpStation);
 			CreateDevicesGroup("Указатель на таблицу АМП-4", 0, DriverType.AMP_4);
 			CreateDevicesGroup("Указатель на таблицу МРО", -1, DriverType.MRO);
 			CreateDevicesGroup("Указатель на таблицу Задвижек", -1, DriverType.Valve);

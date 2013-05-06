@@ -25,7 +25,10 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				if (device.ParentPanel.UID == parentPanel.UID)
 				{
-					var devicesOnShleif = devicesOnShleifs.FirstOrDefault(x => x.ShleifNo == device.ShleifNo);
+					var shleifNo = device.ShleifNo;
+					if(device.Driver.DriverType == DriverType.PumpStation)
+						shleifNo = 1;
+					var devicesOnShleif = devicesOnShleifs.FirstOrDefault(x => x.ShleifNo == shleifNo);
 					if (devicesOnShleif != null)
 					{
 						devicesOnShleif.Devices.Add(device);

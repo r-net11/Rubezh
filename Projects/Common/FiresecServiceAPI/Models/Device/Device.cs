@@ -518,5 +518,24 @@ namespace FiresecAPI.Models
 		{
 			return this.MemberwiseClone();
 		}
+
+		public int PumpAddress
+		{
+			get
+			{
+				switch(Driver.DriverType)
+				{
+					case DriverType.JokeyPump:
+						return 12;
+					case DriverType.Compressor:
+						return 13;
+					case DriverType.DrenazhPump:
+						return 14;
+					case DriverType.CompensationPump:
+						return 15;
+				}
+				return IntAddress;
+			}
+		}
 	}
 }

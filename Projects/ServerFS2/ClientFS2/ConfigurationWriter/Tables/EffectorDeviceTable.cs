@@ -50,15 +50,19 @@ namespace ClientFS2.ConfigurationWriter
 			var description = Device.Description;
 			if (string.IsNullOrEmpty(description))
 			{
-				description = Device.Driver.ShortName + " 0." + Device.PresentationAddress;
+				description = Device.Driver.ShortName + " ";
 				if (IsOuter)
 				{
-					description = Device.Driver.ShortName + " " + Device.ParentPanel.IntAddress.ToString() + "." + Device.PresentationAddress;
+					description += Device.Parent.IntAddress.ToString() + ".";
 				}
-				if (Device.Driver.DriverType == DriverType.Exit)
+				else
 				{
-					description = "Выход 0." + Device.Parent.IntAddress.ToString() + "." + Device.AddressOnShleif.ToString();
+					description += "0.";
 				}
+				var shleifNo = Device.ShleifNo;
+				if(Device.Driver.DriverType == DriverType.PumpStation)
+					shleifNo = 1;
+				description += shleifNo.ToString() + "." + Device.AddressOnShleif.ToString();
 			}
 			BytesDatabase.AddString(description, "Описание");
 
@@ -88,6 +92,11 @@ namespace ClientFS2.ConfigurationWriter
 				length -= 1;
 			}
 			BytesDatabase.SetShort(lengtByteDescription, (short)length);
+
+			if (Device.Driver.DriverType == DriverType.PumpStation)
+			{
+				AddPumpStation();
+			}
 		}
 
 		void AddDynamicBlock()
@@ -330,12 +339,7 @@ namespace ClientFS2.ConfigurationWriter
 				}
 				BytesDatabase.AddByte((byte)joinOperator, "Логика операции со следующей логической группой");
 
-				if (Device.AddressOnShleif == 12)
-				{
-					var x = IsOuter;
-					;
-				}
-				var actualZones = new List<TableBase>();
+				var actualZoneTables = new List<TableBase>();
 				foreach (var zone in clause.Zones)
 				{
 					var binaryPanels = new HashSet<Device>();
@@ -350,7 +354,7 @@ namespace ClientFS2.ConfigurationWriter
 						{
 							if ((table as RemoteZoneTable).Zone.No == zone.No && (table as RemoteZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
 							{
-								actualZones.Add(table);
+								actualZoneTables.Add(table);
 							}
 						}
 					}
@@ -361,29 +365,21 @@ namespace ClientFS2.ConfigurationWriter
 						{
 							if ((table as ZoneTable).Zone.No == zone.No && (table as ZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
 							{
-								actualZones.Add(table);
+								actualZoneTables.Add(table);
 							}
 						}
 					}
 				}
 
 				var zonesOrDevicesCount = 0;
-				zonesOrDevicesCount = actualZones.Count;
+				zonesOrDevicesCount = actualZoneTables.Count;
 				if (clause.Device != null)
 					zonesOrDevicesCount = 1;
 				BytesDatabase.AddShort((short)zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
 
-				foreach (var zone in actualZones)
+				foreach (var tableBase in actualZoneTables)
 				{
-					//var binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone && x.IsRemote);
-					//if (binaryZone == null)
-					//    binaryZone = BinaryDevice.BinaryZones.FirstOrDefault(x => x.Zone == zone);
-					//TableBase table = zone;// null;
-					//if (binaryZone != null)
-					//    table = (TableBase)binaryZone.TableBase;
-					//var table = (TableBase)zone.TableBase;
-					var table = zone;
-					BytesDatabase.AddReferenceToTable(table, table.BytesDatabase.Name + " Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+					BytesDatabase.AddReferenceToTable(tableBase, tableBase.BytesDatabase.Name + " Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
 				}
 			}
 		}
@@ -405,6 +401,49 @@ namespace ClientFS2.ConfigurationWriter
 					return 5;
 			}
 			return 0;
+		}
+
+		void AddPumpStation()
+		{
+			BytesDatabase.AddByte((byte)GetProperty("StartDelay"), "Тайм-аут пуска");
+			BytesDatabase.AddShort((short)GetProperty("DistTime"), "Время тушения");
+			BytesDatabase.AddByte((byte)GetProperty("PumpTime"), "Время разновременного пуска насосов");
+			BytesDatabase.AddByte((byte)GetProperty("PumpCount"), "Количество насосов, необходимых для тушения");
+			BytesDatabase.AddByte((byte)Device.Children.Count, "Число записей в переменной части");
+
+			foreach (var pumpDevice in Device.Children.OrderBy(x => x.PumpAddress))
+			{
+				var timeoutValue = 0;
+				try
+				{
+					var property = pumpDevice.Properties.FirstOrDefault(x => x.Name == "Time");
+					if (property != null)
+						timeoutValue = Int32.Parse(property.Value);
+				}
+				catch { }
+
+				BytesDatabase.AddByte((byte)0, "Битовое поле признаков РУ");
+				BytesDatabase.AddByte((byte)pumpDevice.PumpAddress, "Адрес");
+				BytesDatabase.AddShort((short)0, "№ аппаратной версии");
+				BytesDatabase.AddShort((short)0, "Заводской номер");
+				BytesDatabase.AddByte((byte)(timeoutValue % 256), "Параметр 1");
+				BytesDatabase.AddByte((byte)(timeoutValue / 256), "Параметр 1");
+				BytesDatabase.AddShort((short)0, "Параметр 2");
+				BytesDatabase.AddShort((short)0, "Параметр 3");
+			}
+		}
+
+		int GetProperty(string name)
+		{
+			var propertyValue = 0;
+			try
+			{
+				var property = Device.Parent.Properties.FirstOrDefault(x => x.Name == name);
+				if (property != null)
+					propertyValue = Int32.Parse(property.Value);
+			}
+			catch { }
+			return propertyValue;
 		}
 	}
 }
