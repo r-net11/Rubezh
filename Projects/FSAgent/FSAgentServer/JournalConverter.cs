@@ -35,31 +35,43 @@ namespace FSAgentServer
 
 		static string NormalizeDottedAddress(string originalName)
 		{
-			var index = originalName.LastIndexOf(' ');
-			var address = originalName.Substring(index);
-			var dotsCount = address.Count(x => x == '.');
-			if (dotsCount == 5)
+			try
 			{
-				var name = originalName;
-				var tempIndex = name.LastIndexOf('.');
-				name = name.Remove(tempIndex);
-				tempIndex = name.LastIndexOf('.');
-				var endIndex = tempIndex;
-				name = name.Remove(tempIndex);
-				tempIndex = name.LastIndexOf('.');
-				name = name.Remove(tempIndex);
-				tempIndex = name.LastIndexOf('.');
-				var startIndex = tempIndex;
-				name = name.Remove(tempIndex);
+				var index = originalName.LastIndexOf(' ');
+				if (index != -1)
+				{
+					var address = originalName.Substring(index);
+					var dotsCount = address.Count(x => x == '.');
+					if (dotsCount == 5)
+					{
+						var name = originalName;
+						var tempIndex = name.LastIndexOf('.');
+						name = name.Remove(tempIndex);
+						tempIndex = name.LastIndexOf('.');
+						var endIndex = tempIndex;
+						name = name.Remove(tempIndex);
+						tempIndex = name.LastIndexOf('.');
+						name = name.Remove(tempIndex);
+						tempIndex = name.LastIndexOf('.');
+						var startIndex = tempIndex;
+						name = name.Remove(tempIndex);
 
-				var result = originalName.Remove(startIndex, endIndex - startIndex);
-				return result;
+						var result = originalName.Remove(startIndex, endIndex - startIndex);
+						return result;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalConverter.NormalizeDottedAddress");
 			}
 			return originalName;
 		}
 
 		static void NormalizeJournalType(journalType innerJournalRecord)
 		{
+			try
+			{
 				innerJournalRecord.IDEvents = NormalizeString(innerJournalRecord.IDEvents);
 				innerJournalRecord.Dt = NormalizeString(innerJournalRecord.Dt);
 				innerJournalRecord.SysDt = NormalizeString(innerJournalRecord.SysDt);
@@ -73,6 +85,11 @@ namespace FSAgentServer
 				innerJournalRecord.CLC_Detalization = NormalizeString(innerJournalRecord.CLC_Detalization);
 				innerJournalRecord.IDSubSystem = NormalizeString(innerJournalRecord.IDSubSystem);
 				innerJournalRecord.IDTypeEvents = NormalizeString(innerJournalRecord.IDTypeEvents);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalConverter.NormalizeJournalType");
+			}
 		}
 
 		static string NormalizeString(string value)

@@ -117,19 +117,19 @@ namespace DevicesModule.ViewModels
 		string GetCommandName()
 		{
 			var commandName = SelectedBlock.SelectedCommand.Name;
-			if (Device.Driver.DriverType == DriverType.Valve)
-			{
-				switch (commandName)
-				{
-					case "BoltStart":
-						commandName = HasActionProprty() ? "BoltOpen" : "BoltClose";
-						break;
+			//if (Device.Driver.DriverType == DriverType.Valve)
+			//{
+			//    switch (commandName)
+			//    {
+			//        case "BoltStart":
+			//            commandName = HasActionProprty() ? "BoltOpen" : "BoltClose";
+			//            break;
 
-					case "BoltStop":
-						commandName = HasActionProprty() ? "BoltClose" : "BoltOpen";
-						break;
-				}
-			}
+			//        case "BoltStop":
+			//            commandName = HasActionProprty() ? "BoltClose" : "BoltOpen";
+			//            break;
+			//    }
+			//}
 			return commandName;
 		}
 

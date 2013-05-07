@@ -50,10 +50,6 @@ namespace ClientFS2.ConfigurationWriter
 
 		void AddRemoteZoneToPanel(BinaryPanel binaryPanel, Zone zone)
 		{
-			if (zone.No == 8)
-			{
-				;
-			}
 			if (!binaryPanel.RemoteZones.Contains(zone))
 			{
 				var remoteBinaryPanels = new HashSet<Device>();

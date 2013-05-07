@@ -18,7 +18,7 @@ namespace ClientFS2.ConfigurationWriter
 		}
 
 		public RemoteZoneTable(PanelDatabase2 panelDatabase, BinaryZone binaryZone)
-			: base(panelDatabase, "Удаленная зона " + binaryZone.Zone.PresentationName)
+			: base(panelDatabase, "Внешеяя зона " + binaryZone.Zone.PresentationName)
 		{
 			binaryZone.IsRemote = true;
 			BinaryZone = binaryZone;
