@@ -134,6 +134,10 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			ServiceTable = new TableBase(this, "Адресный лист");
+			for (int i = 0; i < 0; i++)
+			{
+				ServiceTable.BytesDatabase.AddByte((byte)0, "Пустаня таблица", true);
+			}
 			foreach (var address in addressList)
 			{
 				ServiceTable.BytesDatabase.AddByte((byte)address, "", true);

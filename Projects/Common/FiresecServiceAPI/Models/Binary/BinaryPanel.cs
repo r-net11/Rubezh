@@ -10,12 +10,16 @@ namespace FiresecAPI.Models.Binary
 		public Device ParentPanel { get; set; }
 		public List<Zone> LocalZones = new List<Zone>();
 		public List<Zone> RemoteZones = new List<Zone>();
+		public List<Device> remoteDevices = new List<Device>();
 		public List<BinaryZone> BinaryLocalZones = new List<BinaryZone>();
 		public List<BinaryZone> BinaryRemoteZones = new List<BinaryZone>();
 		public List<BinaryDevice> BinaryLocalDevices = new List<BinaryDevice>();
-		public List<Device> remoteDevices = new List<Device>();
 		public List<BinaryDevice> BinaryRemoteDevices = new List<BinaryDevice>();
 		public List<BinaryDirection> BinaryDirections = new List<BinaryDirection>();
+
+
+		public HashSet<Zone> TempLocalZones = new HashSet<Zone>();
+		public HashSet<Zone> TempRemoteZones = new HashSet<Zone>();
 
 		public BinaryPanel(Device parentPanel)
 		{
