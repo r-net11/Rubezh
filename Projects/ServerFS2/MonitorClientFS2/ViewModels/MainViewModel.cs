@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows.Threading;
-using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
@@ -15,67 +13,7 @@ namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
-		public class DeviceLastRecord
-		{
-			Device device;
-			int lastDisplayedRecord;
-			int lastDeviceRecord;
-			//int LastSecRecord;
-
-			public DeviceLastRecord(Device _device)
-			{
-				device = _device;
-				lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
-				lastDisplayedRecord = lastDeviceRecord;
-				Trace.WriteLine(device.PresentationAddressAndName + " " + lastDisplayedRecord.ToString());
-			}
-
-			public void StartMonitoring()
-			{
-				var thread = new Thread(() =>
-					{
-						Run();
-					});
-				thread.IsBackground = true;
-				thread.Start();
-			}
-
-			void Run()
-			{
-				while (true)
-				{
-					//lock (Locker)
-					{
-						lastDeviceRecord = JournalHelper.GetLastJournalItemId(device);
-						if (lastDeviceRecord > lastDisplayedRecord)
-						{
-							ReadNewItems();
-							lastDisplayedRecord = lastDeviceRecord;
-							DBJournalHelper.SetLastId(new Guid(), lastDeviceRecord);
-						}
-					}
-				}
-			}
-
-			void ReadNewItems()
-			{
-				Trace.Write("Дочитываю записи с " + lastDisplayedRecord.ToString() + " до " + lastDeviceRecord.ToString() + "с прибора " + device.PresentationName + "\n");
-				var newItems = JournalHelper.GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
-				foreach (var journalItem in newItems)
-				{
-					if (journalItem != null)
-					{
-						//AddToJournalObservable(journalItem);
-						DBJournalHelper.AddJournalItem(journalItem);
-						Trace.Write(".");
-					}
-				}
-				Trace.WriteLine(" дочитал");
-			}
-		}
-
 		List<DeviceLastRecord> devicesLastRecord;
-		public static readonly Object Locker = new object();
 
 		public MainViewModel()
 		{
@@ -86,8 +24,7 @@ namespace MonitorClientFS2
 			DevicesViewModel = new DevicesViewModel();
 
 			devicesLastRecord = new List<DeviceLastRecord>();
-			Guid guid = new Guid();
-			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(guid));
+			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
@@ -103,22 +40,10 @@ namespace MonitorClientFS2
 					}
 				}
 			}
-
-			autoResetEvent = new AutoResetEvent(false);
-			StartMonitoring();
+			OnStartMonitoring();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
-		bool stop = false;
-		AutoResetEvent autoResetEvent;
-
-		public void StartMonitoring()
-		{
-			foreach (var device in devicesLastRecord)
-			{
-				device.StartMonitoring();
-			}
-		}
 
 		void AddToJournalObservable(FSJournalItem journalItem)
 		{
@@ -126,12 +51,6 @@ namespace MonitorClientFS2
 			{
 				JournalItems.Add(journalItem);
 			}));
-		}
-
-		void StopMonitoring()
-		{
-			stop = true;
-			Trace.WriteLine("Останавливаю мониторинг");
 		}
 
 		ObservableCollection<FSJournalItem> _journalItems;
@@ -148,16 +67,21 @@ namespace MonitorClientFS2
 		public RelayCommand StartMonitoringCommand { get; private set; }
 		void OnStartMonitoring()
 		{
-			if (stop)
+			foreach (var device in devicesLastRecord)
 			{
-				StartMonitoring();
+				device.StartMonitoring();
 			}
+			Trace.WriteLine("Начинаю мониторинг");
 		}
 
 		public RelayCommand StopMonitoringCommand { get; private set; }
 		void OnStopMonitoring()
 		{
-			StopMonitoring();
+			foreach (var device in devicesLastRecord)
+			{
+				device.StopMonitoring();
+			}
+			Trace.WriteLine("Останавливаю мониторинг");
 		}
 
 		public RelayCommand TestCommand { get; private set; }

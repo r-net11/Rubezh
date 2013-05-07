@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 			if (driver != null)
 			{
 				driver.HasConfigurationProperties = true;
-				ConfigurationDriverHelper.AddIntProprety(driver, 0x80, "Проигрываемое сообщение", "Проигрываемое сообщение", 0, 1, 1, 8);
+				//ConfigurationDriverHelper.AddIntProprety(driver, 0x80, "Проигрываемое сообщение", "Проигрываемое сообщение", 0, 1, 1, 8);
 				ConfigurationDriverHelper.AddIntProprety(driver, 0x82, "Количество повторов", "Количество повторов", 0, 3, 0, 255);
 				ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Сообщений в памяти", "Сообщений в памяти", 0, 1, 0, 255).IsReadOnly = true;
 				ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Сопротивление выходной линии, 0.1 Ом", "Сопротивление выходной линии, 0.1 Ом", 0, 0, 0, 255).IsReadOnly = true;
@@ -35,6 +35,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		#region Методы для параметра "Проигрываемое сообщение"
 		public static int SetMessageNumber(int intValue)
 		{
 			int[] bits;
@@ -130,5 +131,6 @@ namespace FiresecAPI.Models
 			else
 				return false;
 		}
+		#endregion Методы для параметра "Проигрываемое сообщение"
 	}
 }
