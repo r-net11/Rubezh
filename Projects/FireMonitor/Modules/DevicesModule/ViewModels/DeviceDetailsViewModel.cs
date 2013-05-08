@@ -76,7 +76,7 @@ namespace DevicesModule.ViewModels
 
 			StartTimer(DriverType.RM_1, "RMOn");
 			StartTimer(DriverType.MRO, "MRO_On");
-			StartTimer(DriverType.MRO_2, "MRO_On");
+            StartTimer(DriverType.MRO_2, "MRO_On");
 			StartTimer(DriverType.MDU, "ClapanOn1e");
 			StartTimer(DriverType.Valve, "Bolt_On");
 			StartTimer(DriverType.MPT, "MPT_On");
@@ -107,6 +107,8 @@ namespace DevicesModule.ViewModels
 						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
 						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
+                        if(timeoutProperty == null)
+                            timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Задержка включения, с");
 						if (timeoutProperty != null)
 						{
 							int timeout = 0;
