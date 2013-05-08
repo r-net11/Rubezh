@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Threading;
+using System.Xml.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
@@ -13,7 +14,7 @@ namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
-		List<DeviceLastRecord> devicesLastRecord;
+		List<MonitoringDevice> devicesLastRecord;
 
 		public MainViewModel()
 		{
@@ -23,7 +24,7 @@ namespace MonitorClientFS2
 
 			DevicesViewModel = new DevicesViewModel();
 
-			devicesLastRecord = new List<DeviceLastRecord>();
+			devicesLastRecord = new List<MonitoringDevice>();
 			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
@@ -32,7 +33,7 @@ namespace MonitorClientFS2
 				{
 					try
 					{
-						devicesLastRecord.Add(new DeviceLastRecord(device));
+						devicesLastRecord.Add(new MonitoringDevice(device));
 					}
 					catch
 					{
@@ -40,7 +41,7 @@ namespace MonitorClientFS2
 					}
 				}
 			}
-			OnStartMonitoring();
+			//OnStartMonitoring();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
@@ -87,6 +88,43 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			string fileName = "DeviceLastRecords.xml";
+
+			XDocument deviceLastRecordsXml = new XDocument();
+
+			XElement root = new XElement("DevicesLastRecords");
+			deviceLastRecordsXml.Add(root);
+
+			XElement device = new XElement("Device");
+			device.Add(new XAttribute("Name", "2OP"));
+			device.Add(new XAttribute("LastRecord", "111"));
+			device.Add(new XAttribute("LastSecRecord", "222"));
+			deviceLastRecordsXml.Root.Add(device);
+
+			device = new XElement("Device");
+			device.Add(new XAttribute("Name", "4A"));
+			device.Add(new XAttribute("LastRecord", "333"));
+			deviceLastRecordsXml.Root.Add(device);
+
+			deviceLastRecordsXml.Save(fileName);
+
+			XDocument doc = XDocument.Load(fileName);
+
+			foreach (XElement el in doc.Root.Elements("Device"))
+			{
+				if (el.Attribute("LastSecRecord") != null)
+				{
+					el.Attribute("LastSecRecord").Value = "555";
+					Trace.WriteLine(el.Attribute("LastSecRecord").Value);
+				}
+			}
+
+			device = new XElement("Device");
+			device.Add(new XAttribute("Name", "2AМ"));
+			device.Add(new XAttribute("LastRecord", "999"));
+			doc.Root.Add(device);
+
+			doc.Save(fileName);
 		}
 	}
 }

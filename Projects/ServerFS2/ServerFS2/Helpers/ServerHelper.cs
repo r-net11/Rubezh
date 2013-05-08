@@ -41,16 +41,18 @@ namespace ServerFS2
             return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
         }
         public static void SendCodeAsync(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
+        public static bool IsExtendedMode { get; set; }
         {
             UsbRunner.AddAsyncRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
         }
-        public static bool IsExtendedMode { get; private set; }
         public static void IsExtendedModeMethod()
         {
-            var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);
-            var res = SendCode(bytes).Result;
-            IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
+            //var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);
+            //var res = SendCode(bytes).Result;
+            //IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
+            IsExtendedMode = true;
         }
+	    public static bool IsUsbDevice { get; set; }
         public static List<byte> SendRequest(List<byte> bytes)
         {
             return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;

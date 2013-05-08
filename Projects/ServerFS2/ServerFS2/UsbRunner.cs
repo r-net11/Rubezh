@@ -64,6 +64,8 @@ namespace ServerFS2
 			int bytesWrite;
 			_writer.Write(data.ToArray(), 2000, out bytesWrite);
 		}
+
+        private bool IsMs { get; set; }
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
             if (_isWrite)
@@ -73,6 +75,17 @@ namespace ServerFS2
                 return;
             }
 		    byte[] buffer;
+            if (e.Buffer[0] == 0)
+            {
+                IsMs = false;
+                ServerHelper.IsExtendedMode = false; // если не МС, то выключаем расширенный режим
+            }
+            else
+            {
+            if (!IsMs) // Если МС, (а до этого был не МС, то посылаем запрос, на проверку расширенного режима)
+                ServerHelper.IsExtendedModeMethod();
+            IsMs = true;
+            }
 		    if (ServerHelper.IsExtendedMode) 
                 buffer = e.Buffer.Where((val, idx) => (idx != 0) && (idx != 1)).ToArray();
 		    else 
@@ -85,23 +98,26 @@ namespace ServerFS2
 					if (b == 0x3E)
 					{
 						_localresult = CreateInputBytes(_localresult); // Преобразуем ответ в правильный вид
-						var responseId = (uint)(_localresult.ToList()[3] +
-							_localresult.ToList()[2] * 256 +
-							_localresult.ToList()[1] * 256 * 256 +
-							_localresult.ToList()[0] * 256 * 256 * 256); // id ответа
-						var request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
-						if (request == null) // если не нашли, то выходим из цикла, иначе
-							break;
+                        //var responseId = (uint)(_localresult.ToList()[3] +
+                        //    _localresult.ToList()[2] * 256 +
+                        //    _localresult.ToList()[1] * 256 * 256 +
+                        //    _localresult.ToList()[0] * 256 * 256 * 256); // id ответа
+					    var request = _requests.FirstOrDefault();
+						//var request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
+						//if (request == null) // если не нашли, то выходим из цикла, иначе
+						//	break;
 						_result = _localresult.ToList();
                         _localresult = new List<byte>();
 						var response = new Response
 										   {
-											   Id = responseId,
+											   //Id = responseId,
 											   Data = _result
 										   };
                         OnNewResponse(response);
+                        _responses.Clear();
 						_responses.Add(response);
-					    _requests.RemoveAll(x => x.Id == responseId);
+                        _requests.Clear();
+					    //_requests.RemoveAll(x => x.Id == responseId);
 						_autoResetEvent.Set();
 						return;
 					}
@@ -178,12 +194,12 @@ namespace ServerFS2
             {
                 var data = dataOne;
                 _stop = false;
-                _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+                //_requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
                 data = CreateOutputBytes(data);
                 // Создаем запрос
                 var request = new Request
                 {
-                    Id = _requestId,
+                    //Id = _requestId,
                     Data = data
                 };
                 _requests.Add(request); // добавляем его в коллекцию всех запросов

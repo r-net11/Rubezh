@@ -38,7 +38,15 @@ namespace ClientFS2.ViewModels
 			}
 			catch { }
 		}
-
+        public bool IsUsbDevice
+	    {
+	        get { return ServerHelper.IsUsbDevice; }
+            set 
+            { 
+                ServerHelper.IsUsbDevice = value;
+                OnPropertyChanged("IsUsbDevice");
+            }
+	    }
 		private string _textBoxRequest;
 		public string TextBoxRequest
 		{
