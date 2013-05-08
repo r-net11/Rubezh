@@ -99,6 +99,7 @@ namespace ServerFS2
 											   Id = responseId,
 											   Data = _result
 										   };
+                        OnNewResponse(response);
 						_responses.Add(response);
 					    _requests.RemoveAll(x => x.Id == responseId);
 						_autoResetEvent.Set();
@@ -207,6 +208,35 @@ namespace ServerFS2
             }
             #endregion
             return new OperationResult<List<Response>> { Result = _responses };
+        }
+
+        public void AddAsyncRequest(List<List<byte>> dataList, int delay, int timeout, bool IsWrite)
+        {
+            _isWrite = IsWrite;
+            _responses = new List<Response>();
+            _requests = new List<Request>();
+            foreach (var dataOne in dataList)
+            {
+                var data = dataOne;
+                _stop = false;
+                _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+                data = CreateOutputBytes(data);
+                var request = new Request
+                {
+                    Id = _requestId,
+                    Data = data
+                };
+                _requests.Add(request);
+                Send(data);
+                //_autoResetEvent.WaitOne(delay);
+            }
+        }
+
+        public Action<Response> NewResponse;
+        void OnNewResponse(Response response)
+        {
+            if (NewResponse != null)
+                NewResponse(response);
         }
 	}
 	public class Request

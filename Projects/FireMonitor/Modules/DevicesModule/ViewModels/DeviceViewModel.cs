@@ -126,13 +126,9 @@ namespace DevicesModule.ViewModels
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}
 
-				if (Device.Driver.DriverType == DriverType.Rubezh_4A)
-				{
-					;
-				}
 				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
-					if (!parameter.IsIgnore && parameter.Visible)
+                    if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
 					{
 						stringBuilder.Append(parameter.Caption);
 						stringBuilder.Append(" - ");

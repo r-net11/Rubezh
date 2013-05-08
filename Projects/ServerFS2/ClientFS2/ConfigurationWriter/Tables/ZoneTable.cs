@@ -67,15 +67,16 @@ namespace ClientFS2.ConfigurationWriter
             BytesDatabase.AddShort((short)Zone.No, "Глобальный номер");
 
             var diectionNo = 0;
+            foreach (var direction in PanelDatabase.BinaryPanel.TempDirections)
+            {
+                if (direction.ZoneUIDs.Contains(Zone.UID))
+                    diectionNo = direction.Id;
+            }
 
             BytesDatabase.AddShort((short)(Zone.AutoSet * 10), "Время задержки");
             BytesDatabase.AddByte((byte)diectionNo, "Номер направления");
             BytesDatabase.AddByte((byte)Zone.Delay, "Время автоперевзятия");
 
-			if (Zone.No == 8)
-			{
-				;
-			}
 			BytesDatabase.AddShort((short)GetDevicesInLogic().Count, "Общее количество связанных с зоной ИУ");
             InitializeMPT();
             InitializeLocalIUDevices();
@@ -143,27 +144,7 @@ namespace ClientFS2.ConfigurationWriter
 
         void InitializeRemoteIUPanelsAnd()
         {
-            var remotePanels = new List<Device>();
-			foreach (var device in DevicesOnShleifHelper.GetRemoteForZone2(ParentPanel, Zone))
-			{
-				if (device.ParentPanel.UID != ParentPanel.UID)
-				{
-					if (!remotePanels.Any(x => x.UID == device.ParentPanel.UID))
-					{
-						remotePanels.Add(device.ParentPanel);
-					}
-				}
-			}
-			//foreach (var device in GetDevicesInZoneLogic())
-			//{
-			//    if (device.ParentPanel.UID != ParentPanel.UID)
-			//    {
-			//        if (!remotePanels.Any(x => x.UID == device.ParentPanel.UID))
-			//        {
-			//            remotePanels.Add(device.ParentPanel);
-			//        }
-			//    }
-			//}
+            var remotePanels = DevicesOnShleifHelper.GetRemotePanelsForZone(ParentPanel, Zone);
             BytesDatabase.AddByte((byte)remotePanels.Count, "Количество внешних приборов, ИУ которого могут управлятся нашими ИП по логике межприборное И");
             foreach (var device in remotePanels)
             {

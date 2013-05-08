@@ -52,7 +52,6 @@ namespace ClientFS2.ConfigurationWriter
 							allZonesAreRemote = false;
 					}
 					if (clause.Operation.Value == ZoneLogicOperation.Any || allZonesAreRemote)
-					//if (clause.Operation.Value == ZoneLogicOperation.Any)
 					{
 						foreach (var clauseZone in clause.Zones)
 						{
@@ -70,37 +69,19 @@ namespace ClientFS2.ConfigurationWriter
 			return devices.ToList();
 		}
 
-		public static List<Device> GetRemoteForZone2(Device parentPanel, Zone zone)
-		{
-			var devices = new HashSet<Device>();
-			foreach (var device in GetDevicesInLogic(zone))
-			{
-				foreach (var clause in device.ZoneLogic.Clauses)
-				{
-					var allZonesAreRemote = true;
-					foreach (var clauseZone in clause.Zones)
-					{
-						if (clauseZone.DevicesInZone.FirstOrDefault().ParentPanel.UID == device.ParentPanel.UID)
-							allZonesAreRemote = false;
-					}
-					//if (clause.Operation.Value == ZoneLogicOperation.Any || allZonesAreRemote)
-					if (clause.Operation.Value == ZoneLogicOperation.All)
-					{
-						foreach (var clauseZone in clause.Zones)
-						{
-							if (clauseZone.UID == zone.UID)
-							{
-								if (device.ParentPanel.UID != parentPanel.UID)
-								{
-									devices.Add(device);
-								}
-							}
-						}
-					}
-				}
-			}
-			return devices.ToList();
-		}
+        public static List<Device> GetRemotePanelsForZone(Device parentPanel, Zone zone)
+        {
+            var devices = new HashSet<Device>();
+            foreach (var binaryPanel in BinaryConfigurationHelper.Current.BinaryPanels)
+            {
+                if (binaryPanel.ParentPanel != parentPanel)
+                {
+                    if (binaryPanel.TempRemoteZones.Contains(zone))
+                        devices.Add(binaryPanel.ParentPanel);
+                }
+            }
+            return devices.ToList();
+        }
 
 		public static List<DevicesOnShleif> GetLocalForPanel(Device parentPanel)
 		{

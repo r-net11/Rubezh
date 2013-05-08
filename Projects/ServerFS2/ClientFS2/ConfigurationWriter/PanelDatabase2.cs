@@ -36,11 +36,11 @@ namespace ClientFS2.ConfigurationWriter
 			BinaryPanel = ConfigurationWriterHelper.BinaryConfigurationHelper.BinaryPanels.FirstOrDefault(x => x.ParentPanel == ParentPanel);
 
 			CreateEmptyTable();
+            CreateDirections();
 			CreateRemoteZones();
 			CreateLocalZones();
 			CreateServiceTable();
 			CreateDevices();
-			CreateDirections();
 			CreateLastTable();
 
 			foreach (var table in Tables)
@@ -207,28 +207,19 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		void CreateDirections()
-		{
-			var localDirections = new List<Direction>();
-			foreach (var direction in ConfigurationManager.DeviceConfiguration.Directions)
-			{
-				foreach (var zoneUID in direction.ZoneUIDs)
-				{
-					var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						if (ZonePanelRelations.IsLocalZone(zone, ParentPanel))
-							localDirections.Add(direction);
-					}
-				}
-			}
-			foreach (var direction in localDirections)
-			{
-				var table = new DirectionTable(this, direction);
-				Tables.Add(table);
-				DirectionsTableGroup.Tables.Add(table);
-			}
-		}
+        void CreateDirections()
+        {
+            var binaryPanel = BinaryConfigurationHelper.Current.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID == ParentPanel.UID);
+            if (binaryPanel.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.Valve))
+            {
+                foreach (var direction in binaryPanel.TempDirections.OrderBy(x => x.Id))
+                {
+                    var table = new DirectionTable(this, direction);
+                    Tables.Add(table);
+                    DirectionsTableGroup.Tables.Add(table);
+                }
+            }
+        }
 
 		void CreateLastTable()
 		{
@@ -250,6 +241,7 @@ namespace ClientFS2.ConfigurationWriter
 			RootBytes = new List<ByteDescription>();
 
 			RootBytes.Add(FirstTable.GetTreeRootByteDescription());
+            RootBytes.Add(DirectionsTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(RemoteZonesTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(LocalZonesTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(ServiceTable.GetTreeRootByteDescription());
@@ -260,7 +252,6 @@ namespace ClientFS2.ConfigurationWriter
 				RootBytes.Add(byteDescription);
 			}
 
-			RootBytes.Add(DirectionsTableGroup.GetTreeRootByteDescription());
 			RootBytes.Add(ReferenceTableGroup.GetTreeRootByteDescription());
 
 			var bytes = new List<byte>();

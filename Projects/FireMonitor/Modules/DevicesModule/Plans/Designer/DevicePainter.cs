@@ -79,15 +79,15 @@ namespace DevicesModule.Plans.Designer
 				stringBuilder.AppendLine(state.DriverState.Name);
 
 			if (_device.DeviceState.ThreadSafeParameters != null)
-				foreach (var parameter in _device.DeviceState.ThreadSafeParameters)
-				{
-					if (parameter.IsIgnore)
-						continue;
-
-					stringBuilder.Append(parameter.Caption);
-					stringBuilder.Append(" - ");
-					stringBuilder.AppendLine(parameter.Value);
-				}
+                foreach (var parameter in _device.DeviceState.ThreadSafeParameters)
+                {
+                    if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
+                    {
+                        stringBuilder.Append(parameter.Caption);
+                        stringBuilder.Append(" - ");
+                        stringBuilder.AppendLine(parameter.Value);
+                    }
+                }
 			return stringBuilder.ToString().TrimEnd();
 		}
 

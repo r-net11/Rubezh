@@ -193,7 +193,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				foreach (var clause in device.ZoneLogic.Clauses)
 				{
-					if (clause.Device != null && clause.Device.Driver.DriverType == DriverType.AM1_T)
+                    if (clause.Device != null && clause.Device == Device && clause.Device.Driver.DriverType == DriverType.AM1_T)
 					{
 						rmDevices.Add(device);
 					}

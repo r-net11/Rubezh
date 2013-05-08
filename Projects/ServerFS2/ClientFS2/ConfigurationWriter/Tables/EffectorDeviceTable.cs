@@ -47,13 +47,14 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddByte((byte)Math.Max(Device.ShleifNo - 1, 0), "Номер шлейфа");
 			BytesDatabase.AddShort(0, "Внутренние параметры", true);
 			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
+
 			var description = Device.Description;
 			if (string.IsNullOrEmpty(description))
 			{
 				description = Device.Driver.ShortName + " ";
 				if (IsOuter)
 				{
-					description += Device.Parent.IntAddress.ToString() + ".";
+					description += Device.ParentPanel.IntAddress.ToString() + ".";
 				}
 				else
 				{
@@ -244,145 +245,207 @@ namespace ClientFS2.ConfigurationWriter
 			}
 		}
 
-		void AddLogic()
-		{
-			if (Device.ZonesInLogic.Count == 0)
-			{
-				BytesDatabase.AddByte((byte)0, "Пустая логика");
-				BytesDatabase.AddByte((byte)0, "Пустая логика");
-				BytesDatabase.AddByte((byte)0, "Пустая логика");
-				BytesDatabase.AddByte((byte)0, "Пустая логика");
-				BytesDatabase.AddByte((byte)0, "Пустая логика");
-				return;
-			}
-			foreach (var clause in Device.ZoneLogic.Clauses)
-			{
-				if (clause.Device != null)
-				{
-					continue;
-				}
-				var joinOperation = clause.Operation.Value == ZoneLogicOperation.All ? 1 : 2;
-				var mroLogic = 0;
-				joinOperation += mroLogic;
-				BytesDatabase.AddByte((byte)joinOperation, "Логика внутри группы зон");
+        void AddLogic()
+        {
+            var clauses = new List<Clause>();
+            {
+                foreach (var clause in Device.ZoneLogic.Clauses)
+                {
+                    var actualZoneTables = new List<TableBase>();
+                    foreach (var zone in clause.Zones)
+                    {
+                        var binaryPanels = new HashSet<Device>();
+                        foreach (var zoneDevice in zone.DevicesInZone)
+                        {
+                            binaryPanels.Add(zoneDevice.ParentPanel);
+                        }
 
-				var state = 0;
-				switch (clause.State)
-				{
-					case ZoneLogicState.MPTAutomaticOn:
-						state = 0x01;
-						break;
+                        foreach (var binaryPanel in binaryPanels)
+                        {
+                            foreach (var table in PanelDatabase.RemoteZonesTableGroup.Tables)
+                            {
+                                if ((table as RemoteZoneTable).Zone.No == zone.No && (table as RemoteZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
+                                {
+                                    actualZoneTables.Add(table);
+                                }
+                            }
+                        }
 
-					case ZoneLogicState.Alarm:
-						state = 0x02;
-						break;
+                        foreach (var binaryPanel in binaryPanels)
+                        {
+                            foreach (var table in PanelDatabase.LocalZonesTableGroup.Tables)
+                            {
+                                if ((table as ZoneTable).Zone.No == zone.No && (table as ZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
+                                {
+                                    actualZoneTables.Add(table);
+                                }
+                            }
+                        }
+                    }
 
-					case ZoneLogicState.GuardSet:
-						state = 0x03;
-						break;
+                    var zonesOrDevicesCount = 0;
+                    zonesOrDevicesCount = actualZoneTables.Count;
+                    if (clause.Device != null)
+                        zonesOrDevicesCount = 1;
 
-					case ZoneLogicState.GuardUnSet:
-						state = 0x05;
-						break;
+                    if (zonesOrDevicesCount > 0)
+                    {
+                        clauses.Add(clause.Clone());
+                    }
+                }
+            }
 
-					case ZoneLogicState.PCN:
-						state = 0x06;
-						break;
+            if (clauses.Count == 0)
+            {
+                BytesDatabase.AddByte((byte)0, "Пустая логика");
+                BytesDatabase.AddByte((byte)0, "Пустая логика");
+                BytesDatabase.AddByte((byte)0, "Пустая логика");
+                BytesDatabase.AddByte((byte)0, "Пустая логика");
+                BytesDatabase.AddByte((byte)0, "Пустая логика");
+                return;
+            }
 
-					case ZoneLogicState.Fire:
-						state = 0x04;
-						break;
+            foreach (var clause in clauses)
+            {
+                if (clause.Device != null)
+                {
+                    BytesDatabase.AddByte((byte)0, "Логика для ИУ");
+                    BytesDatabase.AddByte((byte)0, "Логика для ИУ");
+                    BytesDatabase.AddByte((byte)0, "Логика для ИУ");
+                    BytesDatabase.AddByte((byte)0, "Логика для ИУ");
+                    BytesDatabase.AddByte((byte)0, "Логика для ИУ");
+                    continue;
+                }
 
-					case ZoneLogicState.Failure:
-						state = 0x08;
-						break;
+                var actualZoneTables = new List<TableBase>();
+                foreach (var zone in clause.Zones)
+                {
+                    var binaryPanels = new HashSet<Device>();
+                    foreach (var zoneDevice in zone.DevicesInZone)
+                    {
+                        binaryPanels.Add(zoneDevice.ParentPanel);
+                    }
 
-					case ZoneLogicState.PumpStationOn:
-						state = 0x09;
-						break;
+                    foreach (var binaryPanel in binaryPanels)
+                    {
+                        foreach (var table in PanelDatabase.RemoteZonesTableGroup.Tables)
+                        {
+                            if ((table as RemoteZoneTable).Zone.No == zone.No && (table as RemoteZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
+                            {
+                                actualZoneTables.Add(table);
+                            }
+                        }
+                    }
 
-					case ZoneLogicState.PumpStationAutomaticOff:
-						state = 0x0A;
-						break;
+                    foreach (var binaryPanel in binaryPanels)
+                    {
+                        foreach (var table in PanelDatabase.LocalZonesTableGroup.Tables)
+                        {
+                            if ((table as ZoneTable).Zone.No == zone.No && (table as ZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
+                            {
+                                actualZoneTables.Add(table);
+                            }
+                        }
+                    }
+                }
 
-					case ZoneLogicState.Attention:
-						state = 0x20;
-						break;
+                var zonesOrDevicesCount = 0;
+                zonesOrDevicesCount = actualZoneTables.Count;
+                if (clause.Device != null)
+                    zonesOrDevicesCount = 1;
 
-					case ZoneLogicState.MPTOn:
-						state = 0x40;
-						break;
+                var joinOperation = clause.Operation.Value == ZoneLogicOperation.All ? 1 : 2;
+                var mroLogic = 0;
+                joinOperation += mroLogic;
+                BytesDatabase.AddByte((byte)joinOperation, "Логика внутри группы зон");
 
-					case ZoneLogicState.Firefighting:
-						state = 0x80;
-						break;
+                var state = 0;
+                switch (clause.State)
+                {
+                    case ZoneLogicState.MPTAutomaticOn:
+                        state = 0x01;
+                        break;
 
-					case ZoneLogicState.AM1TOn:
-						state = 0x0B;
-						break;
-				}
-				BytesDatabase.AddByte((byte)state, "Состояние");
+                    case ZoneLogicState.Alarm:
+                        state = 0x02;
+                        break;
 
-				var joinOperator = 0;
-				if (Device.ZoneLogic.Clauses.IndexOf(clause) < Device.ZoneLogic.Clauses.Count - 1)
-				{
-					switch (Device.ZoneLogic.JoinOperator)
-					{
-						case ZoneLogicJoinOperator.And:
-							joinOperator = 1;
-							break;
+                    case ZoneLogicState.GuardSet:
+                        state = 0x03;
+                        break;
 
-						case ZoneLogicJoinOperator.Or:
-							joinOperator = 2;
-							break;
-					}
-				}
-				BytesDatabase.AddByte((byte)joinOperator, "Логика операции со следующей логической группой");
+                    case ZoneLogicState.GuardUnSet:
+                        state = 0x05;
+                        break;
 
-				var actualZoneTables = new List<TableBase>();
-				foreach (var zone in clause.Zones)
-				{
-					var binaryPanels = new HashSet<Device>();
-					foreach (var zoneDevice in zone.DevicesInZone)
-					{
-						binaryPanels.Add(zoneDevice.ParentPanel);
-					}
+                    case ZoneLogicState.PCN:
+                        state = 0x06;
+                        break;
 
-					foreach (var binaryPanel in binaryPanels)
-					{
-						foreach (var table in PanelDatabase.RemoteZonesTableGroup.Tables)
-						{
-							if ((table as RemoteZoneTable).Zone.No == zone.No && (table as RemoteZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
-							{
-								actualZoneTables.Add(table);
-							}
-						}
-					}
+                    case ZoneLogicState.Fire:
+                        state = 0x04;
+                        break;
 
-					foreach (var binaryPanel in binaryPanels)
-					{
-						foreach (var table in PanelDatabase.LocalZonesTableGroup.Tables)
-						{
-							if ((table as ZoneTable).Zone.No == zone.No && (table as ZoneTable).BinaryZone.ParentPanel.UID == binaryPanel.UID)
-							{
-								actualZoneTables.Add(table);
-							}
-						}
-					}
-				}
+                    case ZoneLogicState.Failure:
+                        state = 0x08;
+                        break;
 
-				var zonesOrDevicesCount = 0;
-				zonesOrDevicesCount = actualZoneTables.Count;
-				if (clause.Device != null)
-					zonesOrDevicesCount = 1;
-				BytesDatabase.AddShort((short)zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
+                    case ZoneLogicState.PumpStationOn:
+                        state = 0x09;
+                        break;
 
-				foreach (var tableBase in actualZoneTables)
-				{
-					BytesDatabase.AddReferenceToTable(tableBase, tableBase.BytesDatabase.Name + " Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
-				}
-			}
-		}
+                    case ZoneLogicState.PumpStationAutomaticOff:
+                        state = 0x0A;
+                        break;
+
+                    case ZoneLogicState.Attention:
+                        state = 0x20;
+                        break;
+
+                    case ZoneLogicState.MPTOn:
+                        state = 0x40;
+                        break;
+
+                    case ZoneLogicState.Firefighting:
+                        state = 0x80;
+                        break;
+
+                    case ZoneLogicState.AM1TOn:
+                        state = 0x0B;
+                        break;
+                }
+                BytesDatabase.AddByte((byte)state, "Состояние");
+
+                if (Device.AddressOnShleif == 11)
+                {
+                    ;
+                }
+                var joinOperator = 0;
+                if (clauses.IndexOf(clause) < clauses.Count - 1)
+                {
+                    switch (Device.ZoneLogic.JoinOperator)
+                    {
+                        case ZoneLogicJoinOperator.And:
+                            joinOperator = 1;
+                            break;
+
+                        case ZoneLogicJoinOperator.Or:
+                            joinOperator = 2;
+                            break;
+                    }
+                }
+                BytesDatabase.AddByte((byte)joinOperator, "Логика операции со следующей логической группой");
+
+                if (zonesOrDevicesCount > 0 || clauses.IndexOf(clause) == 0)
+                {
+                    BytesDatabase.AddShort((short)zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
+                    foreach (var tableBase in actualZoneTables)
+                    {
+                        BytesDatabase.AddReferenceToTable(tableBase, tableBase.BytesDatabase.Name + " Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
+                    }
+                }
+            }
+        }
 
 		int GetRmChildCount()
 		{

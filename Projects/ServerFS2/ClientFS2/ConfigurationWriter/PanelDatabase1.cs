@@ -63,13 +63,13 @@ namespace ClientFS2.ConfigurationWriter
 			AddServiceTablePointers();
 			AddDirectionsHeadersPointers();
 
+            BytesDatabase.Add(DirectionsBytesDatabase);
 			BytesDatabase.Add(LocalZonesBytesDatabase);
 			BytesDatabase.Add(RemoteDevicesBytesDatabase);
 			foreach (var localDevicesBytesDatabase in LocalDevicesBytesDatabase)
 			{
 				BytesDatabase.Add(localDevicesBytesDatabase);
 			}
-			BytesDatabase.Add(DirectionsBytesDatabase);
 
 			pointerToLast.AddressReference = BytesDatabase.ByteDescriptions.LastOrDefault();
 
@@ -85,12 +85,12 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.ResolverReferences();
 
 			var allBytes = BytesDatabase.GetBytes();
-			var emptyBytes = new List<byte>();
-			for (int i = 0; i < 0x2000; i++)
-			{
-				emptyBytes.Add(0);
-			}
-			allBytes.InsertRange(0, emptyBytes);
+            //var emptyBytes = new List<byte>();
+            //for (int i = 0; i < 0x2000; i++)
+            //{
+            //    emptyBytes.Add(0);
+            //}
+            //allBytes.InsertRange(0, emptyBytes);
 			var crc16Value = Crc16Helper.ComputeChecksum(allBytes);
 			PanelDatabase2.BytesDatabase.SetShort(PanelDatabase2.Crc16ByteDescription, (short)crc16Value);
 		}
@@ -148,12 +148,27 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateDirectionsHeaders()
 		{
-			var bytesDatabase = new BytesDatabase("Направления");
-			foreach (var table in PanelDatabase2.DirectionsTableGroup.Tables)
-			{
-				bytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения Направления");
-			}
-			DirectionsBytesDatabase = bytesDatabase;
+            var maxDirectionNo = 0;
+            var localBinaryPanel = BinaryConfigurationHelper.Current.BinaryPanels.FirstOrDefault(x => x.ParentPanel.UID == this.PanelDatabase2.ParentPanel.UID);
+            if (localBinaryPanel.TempDirections.Count > 0)
+            {
+                maxDirectionNo = localBinaryPanel.TempDirections.Max(x => x.Id);
+            }
+            DirectionsBytesDatabase = new BytesDatabase("Направления");
+            for (int i = 1; i <= maxDirectionNo; i++)
+            {
+                var direction = localBinaryPanel.TempDirections.FirstOrDefault(x => x.Id == i);
+                if (direction != null)
+                {
+                    var table = PanelDatabase2.DirectionsTableGroup.Tables.FirstOrDefault(x => x.UID == direction.UID);
+                    DirectionsBytesDatabase.AddReferenceToTable(table, "Абсолютный адрес размещения Направления");
+                }
+                else
+                {
+                    TableBase table = null;
+                    DirectionsBytesDatabase.AddReferenceToTable(table, "Пропуск направления");
+                }
+            }
 		}
 
 		void AddDirectionsHeadersPointers()
@@ -161,7 +176,8 @@ namespace ClientFS2.ConfigurationWriter
 			var bytesDatabase = new BytesDatabase("Указатель на указатели на Направления");
 			bytesDatabase.AddReference(DirectionsBytesDatabase, "Абсолютный указатель на таблицу");
 			bytesDatabase.AddByte((byte)0, "Длина записи в таблице");
-			bytesDatabase.AddShort((short)PanelDatabase2.DirectionsTableGroup.Tables.Count, "Текущее число записей в таблице");
+			//bytesDatabase.AddShort((short)PanelDatabase2.DirectionsTableGroup.Tables.Count, "Текущее число записей в таблице");
+            bytesDatabase.AddShort((short)(DirectionsBytesDatabase.ByteDescriptions.Count / 3), "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
 

@@ -83,13 +83,11 @@ namespace ClientFS2.ConfigurationWriter
 			FirstTable.AddShort((short)IndicatorItems.Count, "Число приборов");
 			BytesDatabase.Add(FirstTable);
 
+            IndicatorItems = IndicatorItems.OrderBy(x => x.ParentPanel.IntAddress).ToList();
+
 			foreach (var indicatorItem in IndicatorItems)
 			{
 				var panelDatabase = ConfigurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == indicatorItem.ParentPanel.UID);
-				//if (panelDatabase == null)
-				//{
-				//    continue;
-				//}
 
 				var paneBytesDatabase = new BytesDatabase("Запись прибора");
 
@@ -122,10 +120,6 @@ namespace ClientFS2.ConfigurationWriter
 			foreach (var indicatorItem in IndicatorItems)
 			{
 				var panelDatabase = ConfigurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == indicatorItem.ParentPanel.UID);
-				//if (panelDatabase == null)
-				//{
-				//    continue;
-				//}
 
 				var firstFlag = true;
 				foreach (var zoneIndicator in indicatorItem.ZoneIndicators)
