@@ -5,18 +5,18 @@ using ServerFS2.DataBase;
 
 namespace MonitorClientFS2
 {
-	public class DeviceLastRecord
+	public class MonitoringDevice
 	{
-		Device Device;
-		int LastDisplayedRecord;
+		public Device Device;
+		public int LastDisplayedRecord;
 		int LastDeviceRecord;
 		int LastDeviceSecRecord;
-		int LastDisplayedSecRecord;
+		public int LastDisplayedSecRecord;
 		bool HasSecItems;
 		bool DoMonitoring;
 		DeviceJournal DeviceJournal;
 
-		public DeviceLastRecord(Device device)
+		public MonitoringDevice(Device device)
 		{
 			Device = device;
 			DeviceJournal = new DeviceJournal();
@@ -65,7 +65,8 @@ namespace MonitorClientFS2
 				{
 					ReadNewItems();
 					LastDisplayedRecord = LastDeviceRecord;
-					DBJournalHelper.SetLastId(Device.Driver.UID, LastDeviceRecord);
+					LastRecorsdXml.SetLastId(this);
+					//DBJournalHelper.SetLastId(Device.Driver.UID, LastDeviceRecord);
 				}
 
 				if (HasSecItems && LastDeviceSecRecord > LastDisplayedSecRecord)
