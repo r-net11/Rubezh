@@ -44,7 +44,7 @@ namespace ClientFS2.ConfigurationWriter.Classes
 			CreateDevicesGroup("Указатель на таблицу ППУ", 0, DriverType.Computer);
 			CreateDevicesGroup("Указатель на таблицу АСПТ", 0, DriverType.ASPT);
 			CreateDevicesGroup("Указатель на таблицу МУК-1Э", -1, DriverType.MDU);
-			CreateDevicesGroup("Указатель на таблицу Выход реле", 0, DriverType.Exit);
+			CreateDevicesGroup("Указатель на таблицу Выход реле", -1, DriverType.Exit);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный ручной", 0, DriverType.RadioHandDetector);
 			CreateDevicesGroup("Указатель на таблицу радиоканальный дымовой", 0, DriverType.RadioSmokeDetector);
 			CreateDevicesGroup("Указатель на таблицу МРО-2М", -1, DriverType.MRO_2);

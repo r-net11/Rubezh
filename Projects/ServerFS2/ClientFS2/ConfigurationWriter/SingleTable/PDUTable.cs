@@ -15,17 +15,17 @@ namespace ClientFS2.ConfigurationWriter
 		{
 			Device = devicePDUDirection.PDUGroupDevice.Device;
 			BytesDatabase = new BytesDatabase(Device.DottedPresentationNameAndAddress);
-			BytesDatabase.AddByte((byte)Device.AddressOnShleif, "Адрес");
-			BytesDatabase.AddByte((byte)(Device.ShleifNo - 1), "Шлейф");
-			BytesDatabase.AddByte((byte)Device.Parent.IntAddress, "Адрес прибора");
+			BytesDatabase.AddByte(Device.AddressOnShleif, "Адрес");
+			BytesDatabase.AddByte((Device.ShleifNo - 1), "Шлейф");
+			BytesDatabase.AddByte(Device.Parent.IntAddress, "Адрес прибора");
 			var deviceCode = DriversHelper.GetCodeForFriver(Device.Driver.DriverType);
-			BytesDatabase.AddByte((byte)deviceCode, "Тип ИУ");
+			BytesDatabase.AddByte(deviceCode, "Тип ИУ");
 			var option = 0;
 			if (devicePDUDirection.PDUGroupDevice.IsInversion)
 				option = 128;
-			BytesDatabase.AddByte((byte)option, "Опции");
-			BytesDatabase.AddByte((byte)devicePDUDirection.Device.IntAddress, "Направление");
-			BytesDatabase.AddByte((byte)0, "Пустой байт");
+			BytesDatabase.AddByte(option, "Опции");
+			BytesDatabase.AddByte(devicePDUDirection.Device.IntAddress, "Направление");
+			BytesDatabase.AddByte(0, "Пустой байт");
 
 			TableBase tableBase = null;
 			foreach (var tableGroup in panelDatabase.PanelDatabase2.DevicesTableGroups)
@@ -43,11 +43,11 @@ namespace ClientFS2.ConfigurationWriter
 				BytesDatabase.AddByte(offsetBytes[i], "Смещение");
 			}
 
-			BytesDatabase.AddByte((byte)devicePDUDirection.PDUGroupDevice.OnDelay, "Задержка на включение");
-			BytesDatabase.AddByte((byte)devicePDUDirection.PDUGroupDevice.OffDelay, "Задержка на выключение");
+			BytesDatabase.AddByte(devicePDUDirection.PDUGroupDevice.OnDelay, "Задержка на включение");
+			BytesDatabase.AddByte(devicePDUDirection.PDUGroupDevice.OffDelay, "Задержка на выключение");
 			for (int i = 0; i < 9; i++)
 			{
-				BytesDatabase.AddByte((byte)255, "ПДУ привязки");
+				BytesDatabase.AddByte(255, "ПДУ привязки");
 			}
 		}
 	}

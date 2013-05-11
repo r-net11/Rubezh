@@ -57,9 +57,9 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 
-			BytesDatabase.AddShort((short)remoteZoneNo, "Номер локальной, для удаленного прибора, зоны");
-			BytesDatabase.AddShort((short)localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
-			BytesDatabase.AddByte((byte)BinaryZone.ParentPanel.IntAddress, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ по логике межприборное И");
+			BytesDatabase.AddShort(remoteZoneNo, "Номер локальной, для удаленного прибора, зоны");
+			BytesDatabase.AddShort(localZoneNo, "Номер локальной зоны, с которой связано локальное ИУ");
+			BytesDatabase.AddByte(BinaryZone.ParentPanel.IntAddress, "Адрес удаленного прибора, ИП которого могут управлять локальными ИУ по логике межприборное И");
 		}
 	}
 }

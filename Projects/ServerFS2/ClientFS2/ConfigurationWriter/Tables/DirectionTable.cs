@@ -40,7 +40,7 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 
-            BytesDatabase.AddShort((short)localValves.Count, "Количество локальных задвижек в зонах направления");
+            BytesDatabase.AddShort(localValves.Count, "Количество локальных задвижек в зонах направления");
 			foreach (var valveDevice in localValves)
 			{
 				var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == valveDevice.UID);
@@ -57,8 +57,8 @@ namespace ClientFS2.ConfigurationWriter
 					rmShleif = rmDevice.ShleifNo - 1;
 					rmAddress = rmDevice.AddressOnShleif;
 				}
-				BytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
-				BytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
+				BytesDatabase.AddByte(rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
+				BytesDatabase.AddByte(rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
 			}
 		}
 	}

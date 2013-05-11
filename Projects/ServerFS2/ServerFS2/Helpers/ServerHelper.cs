@@ -24,7 +24,7 @@ namespace ServerFS2
 			UsbRunner = new UsbRunner();
 			try
 			{
-				UsbRunner.Open();
+				//UsbRunner.Open();
 			}
 			catch { }
 		}
@@ -40,8 +40,8 @@ namespace ServerFS2
         {
             return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
         }
+		public static bool IsExtendedMode { get; set; }
         public static void SendCodeAsync(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
-        public static bool IsExtendedMode { get; set; }
         {
             UsbRunner.AddAsyncRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
         }

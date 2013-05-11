@@ -28,7 +28,7 @@ namespace ClientFS2.ConfigurationWriter
 			var crcBytes = BytesDatabase.GetBytes();
 			crcBytes.RemoveRange(0, 10);
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
-			BytesDatabase.SetShort(Crc16ByteDescription, (short)crc16Value);
+			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
 			CreateRootBytes();
 			MergeDatabase();
@@ -59,33 +59,33 @@ namespace ClientFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(1, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort((short)0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
-			FirstTable.AddShort((short)PDUItems.Count, "Количество приборов");
+			FirstTable.AddShort(PDUItems.Count, "Количество приборов");
 
 			var devicesCount = 0;
 			foreach (var pduItem in PDUItems)
 			{
 				devicesCount += pduItem.DevicePDUDirections.Count;
 			}
-			FirstTable.AddShort((short)devicesCount, "Количество направлений");
+			FirstTable.AddShort(devicesCount, "Количество направлений");
 			BytesDatabase.Add(FirstTable);
 
-			BytesDatabase.AddByte((byte)1, "Хэш");
+			BytesDatabase.AddByte(1, "Хэш");
 			for (int i = 0; i < 15; i++)
 			{
-				BytesDatabase.AddByte((byte)255, "Хэш");
+				BytesDatabase.AddByte(255, "Хэш");
 			}
 			for (int i = 0; i < 48; i++)
 			{
-				BytesDatabase.AddByte((byte)255, "Доп. информация");
+				BytesDatabase.AddByte(255, "Доп. информация");
 			}
 
 			var emptyBytesDatabase1 = new BytesDatabase("Пусто");
 			var emptyBytesCount1 = 0x404C - BytesDatabase.ByteDescriptions.Count;
 			for (int i = 0; i < emptyBytesCount1; i++)
 			{
-				emptyBytesDatabase1.AddByte((byte)255, "Пустой байт 1");
+				emptyBytesDatabase1.AddByte(255, "Пустой байт 1");
 			}
 			BytesDatabase.Add(emptyBytesDatabase1);
 
@@ -94,11 +94,11 @@ namespace ClientFS2.ConfigurationWriter
 				var panelDatabase = ConfigurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == pduItem.ParentPanel.UID);
 				var paneBytesDatabase = new BytesDatabase("Прибор " + pduItem.ParentPanel.DottedPresentationNameAndAddress);
 
-				paneBytesDatabase.AddByte((byte)pduItem.ParentPanel.IntAddress, "Номер прибора");
+				paneBytesDatabase.AddByte(pduItem.ParentPanel.IntAddress, "Номер прибора");
 				for (int i = 0; i < 16; i++)
 				{
 					var value = panelDatabase.PanelDatabase2.LastTable.BytesDatabase.ByteDescriptions[i + 1].Value;
-					paneBytesDatabase.AddByte((byte)value, "MD5");
+					paneBytesDatabase.AddByte(value, "MD5");
 				}
 				var offset = panelDatabase.PanelDatabase2.LastTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
 				var offsetBytes = BitConverter.GetBytes(offset + 1);
@@ -108,7 +108,7 @@ namespace ClientFS2.ConfigurationWriter
 				}
 
 				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(pduItem.ParentPanel.Driver.DriverType);
-				paneBytesDatabase.AddByte((byte)deviceCode, "Тип прибора");
+				paneBytesDatabase.AddByte(deviceCode, "Тип прибора");
 
 				BytesDatabase.Add(paneBytesDatabase);
 			}
@@ -117,7 +117,7 @@ namespace ClientFS2.ConfigurationWriter
 			var emptyBytesCount2 = 0x430C-BytesDatabase.ByteDescriptions.Count;
 			for (int i = 0; i < emptyBytesCount2; i++)
 			{
-				emptyBytesDatabase2.AddByte((byte)255, "Пустой байт 2");
+				emptyBytesDatabase2.AddByte(255, "Пустой байт 2");
 			}
 			BytesDatabase.Add(emptyBytesDatabase2);
 
@@ -141,11 +141,11 @@ namespace ClientFS2.ConfigurationWriter
 				{
 					var mptDevice = devicePDUDirection.Device;
 					var paneBytesDatabase = new BytesDatabase("Направление " + devicePDUDirection.Device.DottedPresentationNameAndAddress);
-					paneBytesDatabase.AddByte((byte)devicePDUDirection.Device.IntAddress, "Номер направления");
-					paneBytesDatabase.AddShort((short)0, "Задержка запуска");
+					paneBytesDatabase.AddByte(devicePDUDirection.Device.IntAddress, "Номер направления");
+					paneBytesDatabase.AddShort(0, "Задержка запуска");
 					var uiCount = 1 + mptDevice.Children.Count;
-					paneBytesDatabase.AddByte((byte)uiCount, "Количество ИУ");
-					var offsetByteDescription = paneBytesDatabase.AddInt((int)0, "Смещение");
+					paneBytesDatabase.AddByte(uiCount, "Количество ИУ");
+					var offsetByteDescription = paneBytesDatabase.AddInt(0, "Смещение");
 					offsetByteDescription.AddressReference = devicePDUDirection.ReferenceToByteDescriptions;
 					BytesDatabase.Add(paneBytesDatabase);
 				}
@@ -155,7 +155,7 @@ namespace ClientFS2.ConfigurationWriter
 			var emptyBytesCount3 = 0x4334 - BytesDatabase.ByteDescriptions.Count;
 			for (int i = 0; i < emptyBytesCount3; i++)
 			{
-				emptyBytesDatabase3.AddByte((byte)255, "Пустой байт 3");
+				emptyBytesDatabase3.AddByte(255, "Пустой байт 3");
 			}
 			BytesDatabase.Add(emptyBytesDatabase3);
 
@@ -166,7 +166,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, (short)(BytesDatabase.ByteDescriptions.Count - 0x4000 - 12));
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12);
 		}
 
 		PDUItem AddPDUItem(Device pduDirectionDevice, Device device)
