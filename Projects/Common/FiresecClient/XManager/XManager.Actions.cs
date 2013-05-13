@@ -73,6 +73,7 @@ namespace FiresecClient
             }
 			device.OnChanged();
 			parentDevice.Children.Remove(device);
+			DeviceConfiguration.Devices.Remove(device);
 		}
 
 		public static void AddZone(XZone zone)

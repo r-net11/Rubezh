@@ -173,8 +173,26 @@ namespace FiresecAPI.Models
 				case DriverType.Rubezh_2AM:
 					return 1;
 
+				case DriverType.Rubezh_2OP:
+					return 6;
+
+				case DriverType.Rubezh_4A:
+					return 5;
+
+				case DriverType.BUNS:
+					return 2;
+
+				case DriverType.BUNS_2:
+					return 8;
+
+				case DriverType.IndicationBlock:
+					return 3;
+
 				case DriverType.PDU:
 					return 7;
+
+				case DriverType.PumpStation:
+					return 255;
 
 				case DriverType.AM_1:
 				case DriverType.StopButton:

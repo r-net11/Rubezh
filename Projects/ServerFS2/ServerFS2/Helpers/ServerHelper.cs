@@ -13,7 +13,7 @@ namespace ServerFS2
 		public static event Action<int, int, string> Progress;
 		public static List<Driver> Drivers;
 		static readonly object Locker = new object();
-		static readonly UsbRunner UsbRunner;
+        public static readonly UsbRunner UsbRunner;
 		static int _usbRequestNo;
 		static ServerHelper()
 		{
@@ -24,7 +24,7 @@ namespace ServerFS2
 			UsbRunner = new UsbRunner();
 			try
 			{
-				UsbRunner.Open();
+				//UsbRunner.Open();
 			}
 			catch { }
 		}
@@ -41,6 +41,10 @@ namespace ServerFS2
 			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
 		}
 		public static bool IsExtendedMode { get; set; }
+        public static void SendCodeAsync(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
+        {
+            UsbRunner.AddAsyncRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
+        }
 		public static void IsExtendedModeMethod()
 		{
 			var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);

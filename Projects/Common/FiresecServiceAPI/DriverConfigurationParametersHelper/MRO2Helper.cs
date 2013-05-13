@@ -16,6 +16,7 @@ namespace FiresecAPI.Models
 				ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Сообщений в памяти", "Сообщений в памяти", 0, 1, 0, 255).IsReadOnly = true;
 				ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Сопротивление выходной линии, 0.1 Ом", "Сопротивление выходной линии, 0.1 Ом", 0, 0, 0, 255).IsReadOnly = true;
 				ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x87, "Режим работы", 0, "Ведущий", "Ведомый", 0, 0, 0, false, false, "1");
+				ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x80, "Источник воспроизведения", 1, "Внутренняя память", "Аналоговый вход", 0, 1, 2);
 				ConfigurationDriverHelper.AddIntProprety(driver, 0x88, "Задержка включения, с", "Задержка включения, с", 0, 0, 0, 255);
 
 				var property1 = new DriverProperty()

@@ -69,6 +69,34 @@ namespace MonitorClientFS2
 			}
 		}
 
+        public int GetLastJournalItemId2(Device device)
+        {
+            try
+            {
+                SendByteCommand2(new List<byte> { 0x21, 0x00 }, device);
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message + "\n Проверьте связь с прибором");
+                throw;
+            }
+            return 0;
+        }
+        void SendByteCommand2(List<byte> commandBytes, Device device)
+        {
+            var bytes = new List<byte>();
+            bytes.AddRange(BitConverter.GetBytes(++UsbRequestNo).Reverse());
+            bytes.Add(GetSheifByte(device));
+            bytes.Add(Convert.ToByte(device.AddressOnShleif));
+            bytes.Add(0x01);
+            bytes.AddRange(commandBytes);
+            //lock (Locker)
+            {
+                ServerHelper.SendCodeAsync(bytes);
+            }
+        }
+
+
 		public List<FSJournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
 		{
 			var journalItems = new List<FSJournalItem>();

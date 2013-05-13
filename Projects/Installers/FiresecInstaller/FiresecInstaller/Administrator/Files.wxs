@@ -84,21 +84,21 @@
 
     <DirectoryRef Id="Administrator.XslFolder">
       <Component Id="Administrator.svg2xaml" Guid="393F97E9-1CAB-47BF-BAB2-B0AAB564DBC5">
-        <File Id="Administrator.svg2xaml.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\svg2xaml.xsl" />
-        <File Id="Administrator.xaml2svg.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg.xsl" />
+        <File Id="Administrator.svg2xaml.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\svg2xaml.xsl" />
+        <File Id="Administrator.xaml2svg.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg.xsl" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="Administrator.Xaml2svgFolder">
       <Component Id="Administrator.xaml2svg" Guid="1B4EF891-5572-4C28-8462-1844FE4F6989">
-        <File Id="Administrator.animation.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\animation.xsl" />
-        <File Id="Administrator.brushes.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\brushes.xsl" />
-        <File Id="Administrator.canvas.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\canvas.xsl" />
-        <File Id="Administrator.geometry.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\geometry.xsl" />
-        <File Id="Administrator.properties.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\properties.xsl" />
-        <File Id="Administrator.propertiesMODIF.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\properties-MODIF.xsl" />
-        <File Id="Administrator.shapes.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\shapes.xsl" />
-        <File Id="Administrator.transform.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\transform.xsl" />
+        <File Id="Administrator.animation.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\animation.xsl" />
+        <File Id="Administrator.brushes.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\brushes.xsl" />
+        <File Id="Administrator.canvas.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\canvas.xsl" />
+        <File Id="Administrator.geometry.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\geometry.xsl" />
+        <File Id="Administrator.properties.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\properties.xsl" />
+        <File Id="Administrator.propertiesMODIF.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\properties-MODIF.xsl" />
+        <File Id="Administrator.shapes.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\shapes.xsl" />
+        <File Id="Administrator.transform.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\transform.xsl" />
       </Component>
     </DirectoryRef>
 

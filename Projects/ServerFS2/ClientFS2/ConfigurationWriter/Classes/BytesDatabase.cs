@@ -19,9 +19,9 @@ namespace ClientFS2.ConfigurationWriter
 		public bool IsBold { get; set; }
 		static bool LastIsBold;
 
-		public ByteDescription AddShort(short value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
+		public ByteDescription AddShort(int value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
 		{
-			var bytes = BytesHelper.ShortToBytes(value);
+			var bytes = BytesHelper.ShortToBytes((short)value);
 			var byteDescription = AddBytes(bytes, description, isReadOnly, ignoreUnequal);
 			byteDescription.RealValue = value.ToString();
 			return byteDescription;
@@ -35,9 +35,9 @@ namespace ClientFS2.ConfigurationWriter
 			return byteDescription;
 		}
 
-		public void SetShort(ByteDescription byteDescription, short value)
+		public void SetShort(ByteDescription byteDescription, int value)
 		{
-			var bytes = BytesHelper.ShortToBytes(value);
+			var bytes = BytesHelper.ShortToBytes((short)value);
 			for (int i = 0; i < bytes.Count; i++)
 			{
 				var index = ByteDescriptions.IndexOf(byteDescription);
@@ -46,9 +46,9 @@ namespace ClientFS2.ConfigurationWriter
 			byteDescription.RealValue = value.ToString();
 		}
 
-		public ByteDescription AddByte(byte value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
+		public ByteDescription AddByte(int value, string description = null, bool isReadOnly = false, bool ignoreUnequal = false)
 		{
-			var byteDescription = AddBytes(new List<byte>() { value }, description, isReadOnly, ignoreUnequal);
+			var byteDescription = AddBytes(new List<byte>() { (byte)value }, description, isReadOnly, ignoreUnequal);
 			return byteDescription;
 		}
 

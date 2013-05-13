@@ -15,6 +15,7 @@ namespace MonitorClientFS2
 	public class MainViewModel : BaseViewModel
 	{
 		List<MonitoringDevice> devicesLastRecord;
+        MonitoringProcessor MonitoringProcessor;
 
 		public MainViewModel()
 		{
@@ -27,20 +28,22 @@ namespace MonitorClientFS2
 			devicesLastRecord = new List<MonitoringDevice>();
 			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				if (device.Driver.IsPanel)
-				{
-					try
-					{
-						devicesLastRecord.Add(new MonitoringDevice(device));
-					}
-					catch
-					{
-						Trace.Write("Ошибка при считывании последней записи");
-					}
-				}
-			}
+            MonitoringProcessor = new MonitoringProcessor();
+
+            //foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+            //{
+            //    if (device.Driver.IsPanel)
+            //    {
+            //        try
+            //        {
+            //            devicesLastRecord.Add(new MonitoringDevice(device));
+            //        }
+            //        catch
+            //        {
+            //            Trace.Write("Ошибка при считывании последней записи");
+            //        }
+            //    }
+            //}
 			//OnStartMonitoring();
 		}
 

@@ -54,13 +54,23 @@ namespace ClientFS2.ConfigurationWriter
 						IndicatorDevice = device,
 						Device = device.IndicatorLogic.Device
 					};
-					if (device.IndicatorLogic.Device.Driver.DriverType == DriverType.PumpStation)
+					switch(device.IndicatorLogic.Device.Driver.DriverType)
 					{
-						indicatorItem.PumpStations.Add(deviceIndicator);
-					}
-					else
-					{
-						indicatorItem.Devices.Add(deviceIndicator);
+						case DriverType.PumpStation:
+							indicatorItem.PumpStations.Add(deviceIndicator);
+							break;
+
+						case DriverType.Pump:
+						case DriverType.JokeyPump:
+						case DriverType.Compressor:
+						case DriverType.DrenazhPump:
+						case DriverType.CompensationPump:
+							indicatorItem.Pumps.Add(deviceIndicator);
+							break;
+
+						default:
+							indicatorItem.Devices.Add(deviceIndicator);
+							break;
 					}
 				}
 			}
@@ -78,26 +88,24 @@ namespace ClientFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(4, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort((short)0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
-			FirstTable.AddShort((short)IndicatorItems.Count, "Число приборов");
+			FirstTable.AddShort(IndicatorItems.Count, "Число приборов");
 			BytesDatabase.Add(FirstTable);
+
+            IndicatorItems = IndicatorItems.OrderBy(x => x.ParentPanel.IntAddress).ToList();
 
 			foreach (var indicatorItem in IndicatorItems)
 			{
 				var panelDatabase = ConfigurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == indicatorItem.ParentPanel.UID);
-				//if (panelDatabase == null)
-				//{
-				//    continue;
-				//}
 
 				var paneBytesDatabase = new BytesDatabase("Запись прибора");
 
-				paneBytesDatabase.AddByte((byte)indicatorItem.ParentPanel.IntAddress, "Номер прибора");
+				paneBytesDatabase.AddByte(indicatorItem.ParentPanel.IntAddress, "Номер прибора");
 				for (int i = 0; i < 16; i++)
 				{
 					var value = panelDatabase.PanelDatabase2.LastTable.BytesDatabase.ByteDescriptions[i + 1].Value;
-					paneBytesDatabase.AddByte((byte)value, "MD5", ignoreUnequal:true);
+					paneBytesDatabase.AddByte(value, "MD5", ignoreUnequal:true);
 				}
 				var offset = panelDatabase.PanelDatabase2.LastTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
 				var offsetBytes = BitConverter.GetBytes(offset + 1);
@@ -105,16 +113,16 @@ namespace ClientFS2.ConfigurationWriter
 				{
 					paneBytesDatabase.AddByte(offsetBytes[i], "Смещение MD5");
 				}
-				paneBytesDatabase.AddShort((short)indicatorItem.ZoneIndicators.Count, "Количество зон");
+				paneBytesDatabase.AddShort(indicatorItem.ZoneIndicators.Count, "Количество зон");
 				indicatorItem.ZonesReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение зон");
-				paneBytesDatabase.AddShort((short)indicatorItem.Devices.Count, "Количество ИУ");
+				paneBytesDatabase.AddShort(indicatorItem.Devices.Count, "Количество ИУ");
 				indicatorItem.DevicesReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение ИУ");
-				paneBytesDatabase.AddShort((short)indicatorItem.AM1_T_Devices.Count, "Количество ТМ");
+				paneBytesDatabase.AddShort(indicatorItem.AM1_T_Devices.Count, "Количество ТМ");
 				paneBytesDatabase.AddReference(new ByteDescription(), "Смещение ТМ");
-				paneBytesDatabase.AddShort((short)indicatorItem.PumpStations.Count, "Количество НС");
+				paneBytesDatabase.AddShort(indicatorItem.PumpStations.Count, "Количество НС");
 				indicatorItem.PumpStationReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение НС");
-				paneBytesDatabase.AddShort((short)indicatorItem.Pumps.Count, "Количество Насосов");
-				paneBytesDatabase.AddReference(new ByteDescription(), "Смещение Насосов");
+				paneBytesDatabase.AddShort(indicatorItem.Pumps.Count, "Количество Насосов");
+				indicatorItem.PumpReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение Насосов");
 
 				BytesDatabase.Add(paneBytesDatabase);
 			}
@@ -122,10 +130,6 @@ namespace ClientFS2.ConfigurationWriter
 			foreach (var indicatorItem in IndicatorItems)
 			{
 				var panelDatabase = ConfigurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == indicatorItem.ParentPanel.UID);
-				//if (panelDatabase == null)
-				//{
-				//    continue;
-				//}
 
 				var firstFlag = true;
 				foreach (var zoneIndicator in indicatorItem.ZoneIndicators)
@@ -138,13 +142,13 @@ namespace ClientFS2.ConfigurationWriter
 					{
 						paneBytesDatabase.AddByte(offsetBytes[i], "Смещение");
 					}
-					paneBytesDatabase.AddShort((short)zoneTable.BinaryZone.LocalNo, "Локальный номер");
+					paneBytesDatabase.AddShort(zoneTable.BinaryZone.LocalNo, "Локальный номер");
 					var zoneType = 0;
 					if (zoneIndicator.Zone.ZoneType == ZoneType.Guard)
 						zoneType = 1;
-					paneBytesDatabase.AddByte((byte)zoneType, "ID Зоны");
+					paneBytesDatabase.AddByte(zoneType, "ID Зоны");
 					var deviceNo = (zoneIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + zoneIndicator.IndicatorDevice.IntAddress;
-					paneBytesDatabase.AddByte((byte)deviceNo, "Номер светодиода");
+					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
 					BytesDatabase.Add(paneBytesDatabase);
 
 					if (firstFlag)
@@ -168,24 +172,28 @@ namespace ClientFS2.ConfigurationWriter
 							break;
 						}
 					}
-					var offset = effectorDeviceTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
+					var offset = effectorDeviceTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset + 3;
 					var offsetBytes = BitConverter.GetBytes(offset);
 					for (int i = 0; i < 3; i++)
 					{
 						paneBytesDatabase.AddByte(offsetBytes[i], "Смещение");
 					}
-					paneBytesDatabase.AddByte((byte)effectorDeviceTable.Device.AddressOnShleif, "Адрес");
-					paneBytesDatabase.AddByte((byte)(effectorDeviceTable.Device.ShleifNo - 1), "Шлейф");
+					paneBytesDatabase.AddByte(effectorDeviceTable.Device.AddressOnShleif, "Адрес");
+					paneBytesDatabase.AddByte(effectorDeviceTable.Device.ShleifNo - 1, "Шлейф");
 
-					for (int i = 0; i < 16; i++)
+					var firstValue = 16 * (int)deviceIndicator.IndicatorDevice.IndicatorLogic.OnColor + (int)deviceIndicator.IndicatorDevice.IndicatorLogic.OffColor;
+					var sectondValue = 16 * (int)deviceIndicator.IndicatorDevice.IndicatorLogic.FailureColor + (int)deviceIndicator.IndicatorDevice.IndicatorLogic.ConnectionColor;
+					paneBytesDatabase.AddByte(firstValue, "Индикация");
+					paneBytesDatabase.AddByte(sectondValue, "Индикация");
+					for (int i = 0; i < 14; i++)
 					{
-						paneBytesDatabase.AddByte((byte)0, "Индикация");
+						paneBytesDatabase.AddByte(0, "Индикация");
 					}
 
 					var deviceCode = DriversHelper.GetCodeForFriver(effectorDeviceTable.Device.Driver.DriverType);
-					paneBytesDatabase.AddByte((byte)deviceCode, "Тип ИУ");
+					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
-					paneBytesDatabase.AddByte((byte)deviceNo, "Номер светодиода");
+					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
 					BytesDatabase.Add(paneBytesDatabase);
 
 					if (firstFlag)
@@ -209,16 +217,16 @@ namespace ClientFS2.ConfigurationWriter
 							break;
 						}
 					}
-					var offset = effectorDeviceTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
+					var offset = effectorDeviceTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset + 3;
 					var offsetBytes = BitConverter.GetBytes(offset);
 					for (int i = 0; i < 3; i++)
 					{
 						paneBytesDatabase.AddByte(offsetBytes[i], "Смещение");
 					}
-					paneBytesDatabase.AddByte((byte)effectorDeviceTable.Device.PumpAddress, "Адрес");
+					paneBytesDatabase.AddByte(effectorDeviceTable.Device.PumpAddress, "Адрес");
 
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
-					paneBytesDatabase.AddByte((byte)deviceNo, "Номер светодиода");
+					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
 					BytesDatabase.Add(paneBytesDatabase);
 
 					if (firstFlag)
@@ -227,10 +235,45 @@ namespace ClientFS2.ConfigurationWriter
 						firstFlag = false;
 					}
 				}
+
+				firstFlag = true;
+				foreach (var deviceIndicator in indicatorItem.Pumps)
+				{
+					var paneBytesDatabase = new BytesDatabase("Насос " + deviceIndicator.Device.DottedPresentationNameAndAddress);
+
+					EffectorDeviceTable effectorDeviceTable = null;
+					foreach (var tableGroup in panelDatabase.PanelDatabase2.DevicesTableGroups)
+					{
+						effectorDeviceTable = tableGroup.Tables.FirstOrDefault(x => x.UID == deviceIndicator.Device.Parent.UID) as EffectorDeviceTable;
+						if (effectorDeviceTable != null)
+						{
+							break;
+						}
+					}
+
+					var offset = effectorDeviceTable.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.Description == "Адрес насоса " + deviceIndicator.Device.PumpAddress).Offset + 8;
+					var offsetBytes = BitConverter.GetBytes(offset);
+					for (int i = 0; i < 3; i++)
+					{
+						paneBytesDatabase.AddByte(offsetBytes[i], "Смещение");
+					}
+					paneBytesDatabase.AddByte(deviceIndicator.Device.PumpAddress, "Адрес");
+					paneBytesDatabase.AddByte(0, "Шлейф");
+
+					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
+					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
+					BytesDatabase.Add(paneBytesDatabase);
+
+					if (firstFlag)
+					{
+						indicatorItem.PumpReference.AddressReference = paneBytesDatabase.ByteDescriptions.FirstOrDefault();
+						firstFlag = false;
+					}
+				}
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, (short)(BytesDatabase.ByteDescriptions.Count - 0x4000 - 10));
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 10);
 		}
 
 		IndicatorItem AddIndicatorItem(Device indicatorDevice, Device device)
@@ -282,6 +325,7 @@ namespace ClientFS2.ConfigurationWriter
 		public ByteDescription ZonesReference { get; set; }
 		public ByteDescription DevicesReference { get; set; }
 		public ByteDescription PumpStationReference { get; set; }
+		public ByteDescription PumpReference { get; set; }
 	}
 
 	public class ZoneIndicator

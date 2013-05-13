@@ -62,6 +62,7 @@
     <Compile Include="DeviceJournal.cs" />
     <Compile Include="MonitoringDevice.cs" />
     <Compile Include="JournalParser.cs" />
+    <Compile Include="MonitoringProcessor.cs" />
     <Compile Include="XmlJournalHelper.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />

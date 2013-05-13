@@ -28,7 +28,7 @@ public class PDUDatabase : SingleTable
 			var crcBytes = BytesDatabase.GetBytes();
 			crcBytes.RemoveRange(0, 10);
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
-			BytesDatabase.SetShort(Crc16ByteDescription, (short)crc16Value);
+			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
 			CreateRootBytes();
 			MergeDatabase();
@@ -59,16 +59,16 @@ public class PDUDatabase : SingleTable
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(2, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort((short)0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
-			FirstTable.AddShort((short)PDUItems.Count, "Количество приборов");
+			FirstTable.AddShort(PDUItems.Count, "Количество приборов");
 
 			var devicesCount = 0;
 			foreach (var pduItem in PDUItems)
 			{
 				devicesCount += pduItem.DevicePDUDirections.Count;
 			}
-			FirstTable.AddShort((short)devicesCount, "Количество ИУ");
+			FirstTable.AddShort(devicesCount, "Количество ИУ");
 			BytesDatabase.Add(FirstTable);
 
 			foreach (var pduItem in PDUItems)
@@ -77,11 +77,11 @@ public class PDUDatabase : SingleTable
 
 				var paneBytesDatabase = new BytesDatabase("Прибор " + pduItem.ParentPanel.DottedPresentationNameAndAddress);
 
-				paneBytesDatabase.AddByte((byte)pduItem.ParentPanel.IntAddress, "Номер прибора");
+				paneBytesDatabase.AddByte(pduItem.ParentPanel.IntAddress, "Номер прибора");
 				for (int i = 0; i < 16; i++)
 				{
 					var value = panelDatabase.PanelDatabase2.LastTable.BytesDatabase.ByteDescriptions[i + 1].Value;
-					paneBytesDatabase.AddByte((byte)value, "MD5");
+					paneBytesDatabase.AddByte(value, "MD5");
 				}
 				var offset = panelDatabase.PanelDatabase2.LastTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
 				var offsetBytes = BitConverter.GetBytes(offset + 1);
@@ -91,7 +91,7 @@ public class PDUDatabase : SingleTable
 				}
 
 				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(pduItem.ParentPanel.Driver.DriverType);
-				paneBytesDatabase.AddByte((byte)deviceCode, "Тип прибора");
+				paneBytesDatabase.AddByte(deviceCode, "Тип прибора");
 
 				BytesDatabase.Add(paneBytesDatabase);
 			}
@@ -100,7 +100,7 @@ public class PDUDatabase : SingleTable
 			var emptyBytesCount = 0x42CC-BytesDatabase.ByteDescriptions.Count;
 			for (int i = 0; i < emptyBytesCount; i++)
 			{
-				emptyBytesDatabase.AddByte((byte)255, "Пустой байт");
+				emptyBytesDatabase.AddByte(255, "Пустой байт");
 			}
 			BytesDatabase.Add(emptyBytesDatabase);
 
@@ -123,7 +123,7 @@ public class PDUDatabase : SingleTable
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, (short)(BytesDatabase.ByteDescriptions.Count - 0x4000 - 12));
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12);
 		}
 
 		PDUItem AddPDUItem(Device pduDirectionDevice, Device device)

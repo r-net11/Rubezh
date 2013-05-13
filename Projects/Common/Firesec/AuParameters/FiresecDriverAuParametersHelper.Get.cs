@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace Firesec
 {
@@ -58,68 +59,75 @@ namespace Firesec
 
 		static void AUParametersThreadRun()
 		{
-			while (DevicePropertyRequests.Count > 0)
-			{
-				DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
-				var devicePropertyRequests = DevicePropertyRequests.ToList();
-				Trace.WriteLine("devicePropertyRequests.Count = " + devicePropertyRequests.Count().ToString());
+            while (DevicePropertyRequests.Count > 0)
+            {
+                try
+                {
+                    DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
+                    var devicePropertyRequests = DevicePropertyRequests.ToList();
+                    Trace.WriteLine("devicePropertyRequests.Count = " + devicePropertyRequests.Count().ToString());
 
-				int stateConfigQueriesRequestId = 0;
-				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod("", "StateConfigQueries", null, ref stateConfigQueriesRequestId);
-				if (result == null || result.HasError || result.Result == null)
-				{
-					Thread.Sleep(TimeSpan.FromSeconds(1));
-					continue;
-				}
+                    int stateConfigQueriesRequestId = 0;
+                    var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod("", "StateConfigQueries", null, ref stateConfigQueriesRequestId);
+                    if (result == null || result.HasError || result.Result == null)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        continue;
+                    }
 
-				Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
-				if (requests != null && requests.request.Count() > 0)
-				{
-					foreach (var request in requests.request)
-					{
-						foreach (var devicePropertyRequest in devicePropertyRequests)
-						{
-							if (devicePropertyRequest.RequestIds.Contains(request.id))
-							{
-								devicePropertyRequest.RequestIds.Remove(request.id);
-								int propertyNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
-								int propertyValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
+                    Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
+                    if (requests != null && requests.request.Count() > 0)
+                    {
+                        foreach (var request in requests.request)
+                        {
+                            foreach (var devicePropertyRequest in devicePropertyRequests)
+                            {
+                                if (devicePropertyRequest.RequestIds.Contains(request.id))
+                                {
+                                    devicePropertyRequest.RequestIds.Remove(request.id);
+                                    int propertyNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
+                                    int propertyValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
 
-								foreach (var driverProperty in devicePropertyRequest.Device.Driver.Properties.FindAll(x => x.No == propertyNo))
-								{
-									if (devicePropertyRequest.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
-									{
-										devicePropertyRequest.Properties.Add(CreateProperty(propertyValue, driverProperty));
-									}
-								}
-							}
-						}
+                                    foreach (var driverProperty in devicePropertyRequest.Device.Driver.Properties.FindAll(x => x.No == propertyNo))
+                                    {
+                                        if (devicePropertyRequest.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+                                        {
+                                            devicePropertyRequest.Properties.Add(CreateProperty(propertyValue, driverProperty));
+                                        }
+                                    }
+                                }
+                            }
 
-						foreach (var devicePropertyRequest in devicePropertyRequests)
-						{
-							if (devicePropertyRequest.RequestIds.Count == 0)
-							{
-								foreach (var resultProperty in devicePropertyRequest.Properties)
-								{
-									var property = devicePropertyRequest.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
-									if (property == null)
-									{
-										property = new Property()
-										{
-											Name = resultProperty.Name
-										};
-										devicePropertyRequest.Device.Properties.Add(property);
-									}
-									property.Value = resultProperty.Value;
-								}
-								devicePropertyRequest.Device.OnAUParametersChanged();
-							}
-						}
-					}
-				}
-				if (StopEvent.WaitOne(1000))
-					break;
-			}
+                            foreach (var devicePropertyRequest in devicePropertyRequests)
+                            {
+                                if (devicePropertyRequest.RequestIds.Count == 0)
+                                {
+                                    foreach (var resultProperty in devicePropertyRequest.Properties)
+                                    {
+                                        var property = devicePropertyRequest.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+                                        if (property == null)
+                                        {
+                                            property = new Property()
+                                            {
+                                                Name = resultProperty.Name
+                                            };
+                                            devicePropertyRequest.Device.Properties.Add(property);
+                                        }
+                                        property.Value = resultProperty.Value;
+                                    }
+                                    devicePropertyRequest.Device.OnAUParametersChanged();
+                                }
+                            }
+                        }
+                    }
+                    if (StopEvent.WaitOne(1000))
+                        break;
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e, "FiresecDriverAuParametersHelper.AUParametersThreadRun.while");
+                }
+            }
 			AUParametersThread = null;
 		}
 

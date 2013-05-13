@@ -23,10 +23,10 @@ namespace ClientFS2.ConfigurationWriter
 
 		public override void Create()
 		{
-			BytesDatabase.AddByte((byte)Device.AddressOnShleif, "Адрес");
-			BytesDatabase.AddByte((byte)Math.Max(Device.ShleifNo - 1, 0), "Шлейф");
-			BytesDatabase.AddShort((byte)0, "Внутренние параметры", true);
-			BytesDatabase.AddByte((byte)0, "Динамические параметры для базы", true);
+			BytesDatabase.AddByte(Device.AddressOnShleif, "Адрес");
+			BytesDatabase.AddByte(Math.Max(Device.ShleifNo - 1, 0), "Шлейф");
+			BytesDatabase.AddShort(0, "Внутренние параметры", true);
+			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
 			var zoneNo = 0;
 			if (Device.Zone != null)
 			{
@@ -36,19 +36,15 @@ namespace ClientFS2.ConfigurationWriter
 					zoneNo = binaryZone.LocalNo;
 				}
 			}
-			//if (Device.Driver.DriverType == DriverType.AM1_T)
-			//{
-			//    BytesDatabase.AddByte((byte)0, "Пустой конфиг АМ-1Т");
-			//}
-			BytesDatabase.AddShort((short)zoneNo, "Номер зоны");
-			var lengtByteDescription = BytesDatabase.AddByte((byte)0, "Длина блока данных устройства");
+			BytesDatabase.AddShort(zoneNo, "Номер зоны");
+			var lengtByteDescription = BytesDatabase.AddByte(0, "Длина блока данных устройства");
 			if (!IsAm())
 			{
-				BytesDatabase.AddByte((byte)0, "Пустой байт");
+				BytesDatabase.AddByte(0, "Пустой байт");
 			}
 			for (int i = 0; i < Get80ByteCount(); i++)
 			{
-				BytesDatabase.AddByte((byte)0, "Байт 0x80 или 0x81");
+				BytesDatabase.AddByte(0, "Байт 0x80 или 0x81");
 			}
 			AddDetectorProperties();
 
@@ -101,25 +97,25 @@ namespace ClientFS2.ConfigurationWriter
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.SmokeDetector:
-					BytesDatabase.AddByte((byte)0, "Запыленность", true);
+					BytesDatabase.AddByte(0, "Запыленность", true);
 					break;
 				case DriverType.HeatDetector:
-					BytesDatabase.AddByte((byte)0, "Температура", true);
+					BytesDatabase.AddByte(0, "Температура", true);
 					break;
 				case DriverType.CombinedDetector:
-					BytesDatabase.AddByte((byte)computerConfigurationData, "Конфигурация с компа");
-                    BytesDatabase.AddByte((byte)0, "Запыленность", true);
-                    BytesDatabase.AddByte((byte)0, "Температура", true);
+					BytesDatabase.AddByte(computerConfigurationData, "Конфигурация с компа");
+                    BytesDatabase.AddByte(0, "Запыленность", true);
+                    BytesDatabase.AddByte(0, "Температура", true);
 
-                    BytesDatabase.AddByte((byte)0, "Пустой байт", true);
-                    BytesDatabase.AddByte((byte)0, "Пустой байт", true);
+                    BytesDatabase.AddByte(0, "Пустой байт", true);
+                    BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.RadioSmokeDetector:
-                    BytesDatabase.AddByte((byte)0, "Запыленность", true);
-					BytesDatabase.AddByte((byte)(Device.Parent.AddressOnShleif), "Адрес родительского МРК");
+                    BytesDatabase.AddByte(0, "Запыленность", true);
+					BytesDatabase.AddByte(Device.Parent.AddressOnShleif, "Адрес родительского МРК");
 					break;
 				case DriverType.RadioHandDetector:
-					BytesDatabase.AddByte((byte)(Device.Parent.AddressOnShleif), "Адрес родительского МРК");
+					BytesDatabase.AddByte(Device.Parent.AddressOnShleif, "Адрес родительского МРК");
 					break;
 			}
 		}
@@ -133,17 +129,17 @@ namespace ClientFS2.ConfigurationWriter
 				childIndex = childIndex << 1;
 				config += 16 + childIndex;
 			}
-			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
+			BytesDatabase.AddByte(config, "Конфиг с компа");
 
 			var amVitualType = GetAMVitualType();
-			BytesDatabase.AddByte((byte)amVitualType, "ID виртуального типа");
+			BytesDatabase.AddByte(amVitualType, "ID виртуального типа");
 
-			BytesDatabase.AddShort((byte)0, "Общее оличество привязаннфх к сработке ИУ");
+			BytesDatabase.AddShort(0, "Общее оличество привязаннфх к сработке ИУ");
 
-			//BytesDatabase.AddShort((short)0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			//BytesDatabase.AddShort(0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
 			//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			//{
-			//    BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
+			//    BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
 			//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			//}
 		}
@@ -151,16 +147,16 @@ namespace ClientFS2.ConfigurationWriter
 		void AddAMT4Config()
 		{
 			var config = 0;
-			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
-			BytesDatabase.AddByte((byte)0, "Байт конфига порого минимума");
-			BytesDatabase.AddByte((byte)0, "Байт конфига порого максимума");
-			BytesDatabase.AddByte((byte)0, "Максимум измеряемого датчиком давления");
+			BytesDatabase.AddByte(config, "Конфиг с компа");
+			BytesDatabase.AddByte(0, "Байт конфига порого минимума");
+			BytesDatabase.AddByte(0, "Байт конфига порого максимума");
+			BytesDatabase.AddByte(0, "Максимум измеряемого датчиком давления");
 		}
 
 		void AddAM1_TConfig()
 		{
 			var config = 0;
-			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
+			BytesDatabase.AddByte(config, "Конфиг с компа");
 
 			var description = Device.Description;
 			if (string.IsNullOrEmpty(description))
@@ -188,29 +184,29 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.AddString(event1PropertyValue, "Описание сработавшего состояния");
 			BytesDatabase.AddString(event2PropertyValue, "Описание состояния норма");
 
-			var rmDevices = new List<Device>();
+			var rmDevices = new HashSet<Device>();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
 				foreach (var clause in device.ZoneLogic.Clauses)
 				{
-					if (clause.Device != null && clause.Device.Driver.DriverType == DriverType.AM1_T)
+                    if (clause.Device != null && clause.Device == Device && clause.Device.Driver.DriverType == DriverType.AM1_T)
 					{
 						rmDevices.Add(device);
 					}
 				}
 			}
 
-			BytesDatabase.AddShort((short)rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
 			if (rmDevices.Count > 0)
 			{
 				foreach (var rmDevice in rmDevices)
 				{
 					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == rmDevice.UID);
-					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ");
+					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ " + rmDevice.DottedPresentationAddressAndName);
 				}
 				//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 				//{
-				//    BytesDatabase.AddByte((byte)0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+				//    BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
 				//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 				//}
 			}
@@ -225,15 +221,15 @@ namespace ClientFS2.ConfigurationWriter
 				childIndex = childIndex << 1;
 				config += 16 + childIndex;
 			}
-			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
+			BytesDatabase.AddByte(config, "Конфиг с компа");
 		}
 
 		void AddAM1_OConfig()
 		{
-			BytesDatabase.AddByte((byte)0, "Неиспользуемый байт, можно убрать с инкрементом версии базы");
-			BytesDatabase.AddByte((byte)0, "Байт подтипа извещателя");
+			BytesDatabase.AddByte(0, "Неиспользуемый байт, можно убрать с инкрементом версии базы");
+			BytesDatabase.AddByte(0, "Байт подтипа извещателя");
 			var config = 0;
-			BytesDatabase.AddByte((byte)config, "Конфиг с компа");
+			BytesDatabase.AddByte(config, "Конфиг с компа");
 		}
 
 		void AddPowerSupplyConfig()

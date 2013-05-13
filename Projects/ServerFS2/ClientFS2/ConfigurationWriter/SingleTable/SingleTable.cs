@@ -54,7 +54,12 @@ namespace ClientFS2.ConfigurationWriter
 				byteDescription.IsNotEqualToOriginal = true;
 			}
 
-			var fileName = @"C:\Program Files\Firesec\TstData\" + ParentPanel.Driver.ShortName + " " + ParentPanel.DottedAddress + ".bin";
+            var panelName = ParentPanel.Driver.ShortName + " " + ParentPanel.DottedAddress;
+            if (!string.IsNullOrEmpty(ParentPanel.Description))
+            {
+                panelName += " (" + ParentPanel.Description + ")";
+            }
+            var fileName = @"C:\Program Files\Firesec\TstData\" + panelName + ".bin";
 			if (File.Exists(fileName))
 			{
 				var byteArray = File.ReadAllBytes(fileName);

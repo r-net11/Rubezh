@@ -25,7 +25,7 @@
         <File Id="Monitor.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />

@@ -20,6 +20,7 @@ namespace FiresecAPI.Models.Binary
 
 		public HashSet<Zone> TempLocalZones = new HashSet<Zone>();
 		public HashSet<Zone> TempRemoteZones = new HashSet<Zone>();
+        public HashSet<Direction> TempDirections = new HashSet<Direction>();
 
 		public BinaryPanel(Device parentPanel)
 		{

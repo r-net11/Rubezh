@@ -24,9 +24,9 @@ namespace ClientFS2.ConfigurationWriter
 		public override void Create()
 		{
 			BytesDatabase.AddString(Direction.Name, "Имя");
-			BytesDatabase.AddByte(0, "Резерв");
+			BytesDatabase.AddByte(1, "Резерв");
 
-			var localValves = new List<Device>();
+			var localValves = new HashSet<Device>();
 			foreach (var zoneUID in Direction.ZoneUIDs)
 			{
 				var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -40,6 +40,7 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 
+            BytesDatabase.AddShort(localValves.Count, "Количество локальных задвижек в зонах направления");
 			foreach (var valveDevice in localValves)
 			{
 				var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == valveDevice.UID);
@@ -53,11 +54,11 @@ namespace ClientFS2.ConfigurationWriter
 				var rmDevice = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceRm);
 				if (rmDevice != null)
 				{
-					rmShleif = rmDevice.ShleifNo;
+					rmShleif = rmDevice.ShleifNo - 1;
 					rmAddress = rmDevice.AddressOnShleif;
 				}
-				BytesDatabase.AddByte((byte)rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
-				BytesDatabase.AddByte((byte)rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
+				BytesDatabase.AddByte(rmShleif, "Шлейф РМ с внешней сигнализацией УАПТ");
+				BytesDatabase.AddByte(rmAddress, "Адрес РМ с внешней сигнализацией УАПТ");
 			}
 		}
 	}
