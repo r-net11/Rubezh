@@ -13,7 +13,7 @@ namespace ServerFS2
 		public static event Action<int, int, string> Progress;
 		public static List<Driver> Drivers;
         static readonly object Locker = new object();
-        static readonly UsbRunner UsbRunner;
+        public static readonly UsbRunner UsbRunner;
 		static int _usbRequestNo;
 		static ServerHelper()
 		{

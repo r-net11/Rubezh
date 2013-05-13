@@ -98,10 +98,10 @@ namespace ServerFS2
 					if (b == 0x3E)
 					{
 						_localresult = CreateInputBytes(_localresult); // Преобразуем ответ в правильный вид
-                        //var responseId = (uint)(_localresult.ToList()[3] +
-                        //    _localresult.ToList()[2] * 256 +
-                        //    _localresult.ToList()[1] * 256 * 256 +
-                        //    _localresult.ToList()[0] * 256 * 256 * 256); // id ответа
+                        var responseId = (uint)(_localresult.ToList()[3] +
+                            _localresult.ToList()[2] * 256 +
+                            _localresult.ToList()[1] * 256 * 256 +
+                            _localresult.ToList()[0] * 256 * 256 * 256); // id ответа
 					    var request = _requests.FirstOrDefault();
 						//var request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
 						//if (request == null) // если не нашли, то выходим из цикла, иначе
@@ -110,7 +110,7 @@ namespace ServerFS2
                         _localresult = new List<byte>();
 						var response = new Response
 										   {
-											   //Id = responseId,
+											   Id = responseId,
 											   Data = _result
 										   };
                         OnNewResponse(response);
@@ -248,7 +248,7 @@ namespace ServerFS2
             }
         }
 
-        public Action<Response> NewResponse;
+        public event Action<Response> NewResponse;
         void OnNewResponse(Response response)
         {
             if (NewResponse != null)

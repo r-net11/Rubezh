@@ -73,7 +73,7 @@ namespace FiresecClient
 			}
 			if (xDevice.Driver.DriverType == XDriverType.GK)
 			{
-				if (xDevice.Children.Count == 14)
+				if (xDevice.Children.Count == 15)
 				{
                     xDevice.Children[0].PredefinedName = "Индикатор Неисправность";
                     xDevice.Children[1].PredefinedName = "Индикатор Пожар 1";
@@ -89,6 +89,7 @@ namespace FiresecClient
 					xDevice.Children[11].PredefinedName = "Выход 2";
                     xDevice.Children[12].PredefinedName = "Реле 1";
                     xDevice.Children[13].PredefinedName = "Реле 2";
+                    xDevice.Children[13].PredefinedName = "Реле 3";
 				}
 			}
 		}

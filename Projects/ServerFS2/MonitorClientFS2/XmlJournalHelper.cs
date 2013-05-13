@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Infrastructure.Common;
 using ServerFS2;
+using FiresecAPI.Models;
 
 namespace MonitorClientFS2
 {
@@ -58,6 +59,11 @@ namespace MonitorClientFS2
 			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
 			return Int32.Parse(deviceElement.Attribute("LastId").Value);
 		}
+        public static int GetLastId2(Device device)
+        {
+            XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
+            return Int32.Parse(deviceElement.Attribute("LastId").Value);
+        }
 
 		public static int GetLastSecId(MonitoringDevice monitoringDevice)
 		{
