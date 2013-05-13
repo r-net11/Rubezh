@@ -69,14 +69,18 @@ namespace ClientFS2.ConfigurationWriter
 				{
                     var bytes = byteArray.ToList();
 
-                    bytes.RemoveRange(0, 4);
-                    for (int i = 0; i < 10; i++)
+                    if (ParentPanel.Driver.DriverType == DriverType.IndicationBlock)
                     {
-                        Trace.WriteLine("bytes " + i.ToString() + " - " + bytes[i]);
+                        var crcBytes = bytes.ToList();
+                        crcBytes.RemoveRange(0, 8);
+                        for (int i = 0; i < 10; i++)
+                        {
+                            Trace.WriteLine("CRC bytes " + i.ToString() + " - " + crcBytes[i]);
+                        }
+                        var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
+                        Trace.WriteLine("CRC " + crc16Value / 256);
+                        Trace.WriteLine("CRC " + crc16Value % 256);
                     }
-                    var crc16Value = Crc16Helper.ComputeChecksum(bytes);
-                    Trace.WriteLine("CRC " + crc16Value / 256);
-                    Trace.WriteLine("CRC " + crc16Value % 256);
 
 					var emptyBytes = new List<byte>();
 					for (int i = 0; i < 0x4000; i++)
