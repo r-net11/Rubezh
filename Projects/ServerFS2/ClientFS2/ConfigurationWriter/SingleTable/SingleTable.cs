@@ -5,6 +5,8 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using System.IO;
+using ServerFS2;
+using System.Diagnostics;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -65,7 +67,17 @@ namespace ClientFS2.ConfigurationWriter
 				var byteArray = File.ReadAllBytes(fileName);
 				if (byteArray != null)
 				{
-					var bytes = byteArray.ToList();
+                    var bytes = byteArray.ToList();
+
+                    bytes.RemoveRange(0, 4);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Trace.WriteLine("bytes " + i.ToString() + " - " + bytes[i]);
+                    }
+                    var crc16Value = Crc16Helper.ComputeChecksum(bytes);
+                    Trace.WriteLine("CRC " + crc16Value / 256);
+                    Trace.WriteLine("CRC " + crc16Value % 256);
+
 					var emptyBytes = new List<byte>();
 					for (int i = 0; i < 0x4000; i++)
 					{

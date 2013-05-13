@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Linq;
 
 namespace GKModule.Views
 {
