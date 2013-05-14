@@ -14,16 +14,16 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementPolygonXZone elementBase = new ElementPolygonXZone();
+			var elementBase = new ElementPolygonXZone();
 			Copy(elementBase);
 			return elementBase;
 		}
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			Copy((ElementPolygonXZone)element);
+			CopyZone((IElementZone)element);
 		}
-		private void Copy(IElementZone element)
+		private void CopyZone(IElementZone element)
 		{
 			element.ZoneUID = ZoneUID;
 			element.IsHiddenZone = IsHiddenZone;

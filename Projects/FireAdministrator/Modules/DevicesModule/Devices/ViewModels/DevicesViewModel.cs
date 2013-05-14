@@ -16,6 +16,7 @@ using Infrustructure.Plans.Elements;
 using DevicesModule.Plans.Designer;
 using Infrustructure.Plans.Events;
 using Common;
+using DevicesModule.Plans;
 
 namespace DevicesModule.ViewModels
 {
@@ -80,8 +81,8 @@ namespace DevicesModule.ViewModels
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.ExpantToThis();
-					//SelectedDevice = deviceViewModel;
-					deviceViewModel.IsSelected = true;
+					SelectedDevice = deviceViewModel;
+					//deviceViewModel.IsSelected = true;
 				}
 			}
 		}
@@ -142,15 +143,18 @@ namespace DevicesModule.ViewModels
 		}
 
 		Device _deviceToCopy;
+		List<Guid> _planUIDs;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
+			_planUIDs = null;
 			_deviceToCopy = FiresecManager.FiresecConfiguration.CopyDevice(SelectedDevice.Device, false);
 		}
 
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
+			_planUIDs = SelectedDevice.Device.PlanElementUIDs;
 			_deviceToCopy = FiresecManager.FiresecConfiguration.CopyDevice(SelectedDevice.Device, true);
 			SelectedDevice.RemoveCommand.Execute();
 
@@ -221,6 +225,18 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.SaveService.FSChanged = true;
 			UpdateGuardVisibility();
 			FillAllDevices();
+			Helper.BuildMap();
+			if (_planUIDs != null)
+			{
+				foreach (var uid in _planUIDs)
+					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+						foreach (var elementDevice in plan.ElementDevices)
+							if (uid == elementDevice.UID)
+								Helper.SetDevice(elementDevice, device);
+				PlanExtension.Invalidate(_planUIDs);
+				device.OnChanged();
+				_planUIDs = null;
+			}
 		}
 
 		public static void UpdateGuardVisibility()
