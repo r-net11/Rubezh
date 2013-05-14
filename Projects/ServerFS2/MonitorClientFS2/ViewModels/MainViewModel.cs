@@ -7,7 +7,6 @@ using System.Xml.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
-using ServerFS2;
 using ServerFS2.DataBase;
 
 namespace MonitorClientFS2
@@ -15,7 +14,7 @@ namespace MonitorClientFS2
 	public class MainViewModel : BaseViewModel
 	{
 		List<MonitoringDevice> devicesLastRecord;
-        MonitoringProcessor MonitoringProcessor;
+		MonitoringProcessor MonitoringProcessor;
 
 		public MainViewModel()
 		{
@@ -28,22 +27,22 @@ namespace MonitorClientFS2
 			devicesLastRecord = new List<MonitoringDevice>();
 			JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 
-            MonitoringProcessor = new MonitoringProcessor();
+			MonitoringProcessor = new MonitoringProcessor();
 
-            //foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-            //{
-            //    if (device.Driver.IsPanel)
-            //    {
-            //        try
-            //        {
-            //            devicesLastRecord.Add(new MonitoringDevice(device));
-            //        }
-            //        catch
-            //        {
-            //            Trace.Write("Ошибка при считывании последней записи");
-            //        }
-            //    }
-            //}
+			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			//{
+			//    if (device.Driver.IsPanel)
+			//    {
+			//        try
+			//        {
+			//            devicesLastRecord.Add(new MonitoringDevice(device));
+			//        }
+			//        catch
+			//        {
+			//            Trace.Write("Ошибка при считывании последней записи");
+			//        }
+			//    }
+			//}
 			//OnStartMonitoring();
 		}
 
@@ -75,7 +74,6 @@ namespace MonitorClientFS2
 			{
 				device.StartMonitoring();
 			}
-			Trace.WriteLine("Начинаю мониторинг");
 		}
 
 		public RelayCommand StopMonitoringCommand { get; private set; }
@@ -85,7 +83,7 @@ namespace MonitorClientFS2
 			{
 				device.StopMonitoring();
 			}
-			Trace.WriteLine("Останавливаю мониторинг");
+			//Trace.WriteLine("Останавливаю мониторинг");
 		}
 
 		public RelayCommand TestCommand { get; private set; }
