@@ -9,7 +9,7 @@ namespace Common.GK
 		{
 			var driver = new XDriver()
 			{
-				DriverTypeNo = 0xD9,
+				DriverTypeNo = 0xDD,
 				DriverType = XDriverType.RSR2_SmokeDetector,
 				UID = new Guid("A50FFA41-B53E-4B3B-ADDF-CDBBA631FEB2"),
 				Name = "Пожарный дымовой извещатель ИП 212-64 RSR2",

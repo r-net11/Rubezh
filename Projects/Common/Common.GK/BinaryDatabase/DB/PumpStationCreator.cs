@@ -153,6 +153,29 @@ namespace Common.GK
 					formula.AddPutBit(XStateType.TurnOn_InAutomatic, MainDelay);
 				}
 
+				if (Directions.Count > 0)
+				{
+					var inputDirectionsCount = 0;
+					foreach (var direction in Directions)
+					{
+						formula.AddGetBit(XStateType.On, direction);
+						formula.Add(FormulaOperationType.COM);
+						if (inputDirectionsCount > 0)
+						{
+							formula.Add(FormulaOperationType.OR);
+						}
+						inputDirectionsCount++;
+					}
+					foreach (var failurePumpDevice in FailurePumpDevices)
+					{
+						formula.AddGetBit(XStateType.Failure, failurePumpDevice);
+						formula.Add(FormulaOperationType.COM);
+						formula.Add(FormulaOperationType.AND);
+					}
+
+					formula.AddPutBit(XStateType.TurnOnNow_InAutomatic, MainDelay);
+				}
+
 				formula.Add(FormulaOperationType.END);
 				mainDelayBinaryObject.Formula = formula;
 				mainDelayBinaryObject.FormulaBytes = formula.GetBytes();
@@ -213,10 +236,12 @@ namespace Common.GK
 
 					formula.AddGetBit(XStateType.On, MainDelay);
 					formula.Add(FormulaOperationType.AND);
+					var pumpDelay = Delays.FirstOrDefault(x => x.Name == "Задержка пуска ШУН " + pumpDevice.DottedAddress);
+					formula.AddGetBit(XStateType.On, pumpDelay);
+					formula.Add(FormulaOperationType.AND);
 					formula.AddPutBit(XStateType.TurnOn_InAutomatic, pumpDevice); // включить насос
 
-					formula.AddGetBit(XStateType.On, MainDelay);
-					formula.Add(FormulaOperationType.COM);
+					formula.AddGetBit(XStateType.Off, MainDelay);
 					formula.AddGetBit(XStateType.Norm, pumpDevice);
 					formula.Add(FormulaOperationType.AND); // бит дежурный у самого насоса
 					formula.AddPutBit(XStateType.TurnOff_InAutomatic, pumpDevice); // выключить насос
@@ -240,8 +265,19 @@ namespace Common.GK
 			{
 				foreach (var delay in Delays)
 				{
-					pumpDevice.InputObjects.Add(delay);
-					delay.OutputObjects.Add(pumpDevice);
+					if (delay.Name == "Задержка пуска ШУН " + pumpDevice.DottedAddress || delay.Name == "Задержка пуска НС")					
+					{
+						pumpDevice.InputObjects.Add(delay);
+						delay.OutputObjects.Add(pumpDevice);
+					}
+				}
+
+				foreach (var delay in Delays)
+				{
+					if (delay.Name != "Задержка пуска НС")
+					{
+						delay.InputObjects.Add(pumpDevice);
+					}
 				}
 			}
 

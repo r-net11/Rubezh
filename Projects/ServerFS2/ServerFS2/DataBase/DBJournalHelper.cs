@@ -182,6 +182,7 @@ namespace ServerFS2.DataBase
 				dataContext.Open();
 				var sqlCeCommand = new SqlCeCommand();
 				sqlCeCommand.Connection = dataContext;
+				//sqlCeCommand.CommandText = @"SELECT Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName FROM Journal ";
 				sqlCeCommand.CommandText = @"SELECT Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName FROM Journal";
 				var reader = sqlCeCommand.ExecuteReader();
 				while (reader.Read())

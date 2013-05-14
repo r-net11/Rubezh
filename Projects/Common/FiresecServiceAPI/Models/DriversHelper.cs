@@ -191,6 +191,9 @@ namespace FiresecAPI.Models
 				case DriverType.PDU:
 					return 7;
 
+				case DriverType.PDU_PT:
+					return 9;
+
 				case DriverType.PumpStation:
 					return 255;
 

@@ -103,13 +103,13 @@ namespace GKModule.Models
 			{
 				BinConfigurationWriter.WriteConfig();
 			}
-			else
-			{
-				if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") == System.Windows.MessageBoxResult.Yes)
-				{
-					BinConfigurationWriter.WriteConfig();
-				}
-			}
+			//else
+			//{
+			//    if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") == System.Windows.MessageBoxResult.Yes)
+			//    {
+			//        BinConfigurationWriter.WriteConfig();
+			//    }
+			//}
 		}
         bool CanWriteConfig()
         {
