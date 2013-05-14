@@ -66,6 +66,7 @@ namespace ClientFS2.ConfigurationWriter
 			var devicesCount = 0;
 			foreach (var pduItem in PDUItems)
 			{
+				pduItem.DevicePDUDirections = pduItem.DevicePDUDirections.OrderBy(x => x.Device.IntAddress).ToList();
 				devicesCount += pduItem.DevicePDUDirections.Count;
 			}
 			FirstTable.AddShort(devicesCount, "Количество направлений");
@@ -159,7 +160,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			BytesDatabase.Add(emptyBytesDatabase3);
 
-			pduPTTables = pduPTTables.OrderBy(x => x.Device.IntAddress * 256 + x.Device.ParentPanel.IntAddress).ToList();
+			//pduPTTables = pduPTTables.OrderBy(x => x.Device.IntAddress * 256 + x.Device.ParentPanel.IntAddress).ToList();
 			foreach (var pduTable in pduPTTables)
 			{
 				BytesDatabase.Add(pduTable.BytesDatabase);
