@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
+using ServerFS2.DataBase;
 
 namespace MonitorClientFS2
 {
@@ -13,25 +14,46 @@ namespace MonitorClientFS2
 		int UsbRequestNo = 1;
 		static readonly object Locker = new object();
 		List<DeviceResponceRelation> DeviceResponceRelations = new List<DeviceResponceRelation>();
+		bool DoMonitoring;
+
+		public event Action<FSJournalItem> OnNewItems;
 
 		public MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel && x.Driver.DriverType == DriverType.Rubezh_2OP))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
+				//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+				//    DeviceResponceRelations.Add(new DeviceSecResponceRelation(device));
+				//else
 				DeviceResponceRelations.Add(new DeviceResponceRelation(device));
 			}
+			DoMonitoring = false;
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
-			var thread = new Thread(OnRun);
-			thread.Start();
+			StartMonitoring();
+		}
+
+		public void StartMonitoring()
+		{
+			if (!DoMonitoring)
+			{
+				DoMonitoring = true;
+				var thread = new Thread(OnRun);
+				thread.Start();
+			}
+		}
+
+		public void StopMonitoring()
+		{
+			DoMonitoring = false;
 		}
 
 		void OnRun()
 		{
-			while (true)
+			while (DoMonitoring)
 			{
-				foreach (var deviceResponceRelation in DeviceResponceRelations)
+				foreach (var deviceResponceRelation in DeviceResponceRelations.Where(x => !x.UnAnswered))
 				{
-					LastIndexRequest(deviceResponceRelation); //GetLastId
+					LastIndexRequest(deviceResponceRelation);
 					Thread.Sleep(1000);
 				}
 				Thread.Sleep(1000);
@@ -68,10 +90,7 @@ namespace MonitorClientFS2
 				{
 					NewItemReceived(deviceResponceRelation, response);
 				}
-				else
-				{
-					;
-				}
+				deviceResponceRelation.Requests.Remove(request);
 			}
 		}
 
@@ -88,8 +107,9 @@ namespace MonitorClientFS2
 		void NewItemReceived(DeviceResponceRelation deviceResponceRelation, Response response)
 		{
 			var journalItem = JournalParser.FSParce(response.Data);
-			//journalItem.Display
 			Trace.WriteLine("ReadItem Responce " + journalItem.Description);
+			DBJournalHelper.AddJournalItem(journalItem);
+			OnNewItems(journalItem);
 		}
 
 		void LastIndexRequest(DeviceResponceRelation deviceResponceRelation)
@@ -112,8 +132,9 @@ namespace MonitorClientFS2
 			else if (lastDeviceRecord > lastDisplayedRecord)
 			{
 				Trace.WriteLine("Дочитываю записи с " + (lastDisplayedRecord + 1).ToString() + " до " + lastDeviceRecord.ToString());
-				//for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
-				for (int i = lastDeviceRecord - 10; i <= lastDeviceRecord; i++)
+				//Trace.WriteLine("Дочитываю записи с " + (lastDeviceRecord - 10).ToString() + " до " + lastDeviceRecord.ToString());
+				for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
+				//for (int i = lastDeviceRecord - 10; i <= lastDeviceRecord; i++)
 				{
 					NewItemRequest(deviceResponceRelation, i);
 				}
@@ -124,6 +145,10 @@ namespace MonitorClientFS2
 
 	public class DeviceResponceRelation
 	{
+		public DeviceResponceRelation()
+		{
+			;
+		}
 		public DeviceResponceRelation(Device device)
 		{
 			Device = device;
@@ -132,6 +157,7 @@ namespace MonitorClientFS2
 		}
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
+		public bool UnAnswered { get { return Requests.Count > 0; } }
 		int lastDisplayedRecord;
 		public int LastDisplayedRecord
 		{
@@ -144,6 +170,17 @@ namespace MonitorClientFS2
 		}
 	}
 
+	//public class DeviceSecResponceRelation : DeviceResponceRelation
+	//{
+	//    public DeviceSecResponceRelation(Device device)
+	//    {
+	//        Device = device;
+	//        Requests = new List<Request>();
+	//        LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+	//    }
+	//    public int LastDisplayedSecRecord { get; set; }
+	//}
+
 	public class Request
 	{
 		public int Id { get; set; }
@@ -154,6 +191,8 @@ namespace MonitorClientFS2
 	{
 		ReadIndex,
 		ReadItem,
+		ReadSecIndex,
+		ReadSecItem,
 		Other
 	}
 }
