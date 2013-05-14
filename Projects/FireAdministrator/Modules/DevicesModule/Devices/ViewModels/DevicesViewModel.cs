@@ -142,25 +142,25 @@ namespace DevicesModule.ViewModels
 			return deviceViewModel;
 		}
 
-		Device _deviceToCopy;
-		List<Guid> _planUIDs;
+		private Device _deviceToCopy;
+		private bool _planUpdateRequired;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_planUIDs = null;
 			_deviceToCopy = FiresecManager.FiresecConfiguration.CopyDevice(SelectedDevice.Device, false);
+			_planUpdateRequired = false;
 		}
 
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
-			_planUIDs = SelectedDevice.Device.PlanElementUIDs;
 			_deviceToCopy = FiresecManager.FiresecConfiguration.CopyDevice(SelectedDevice.Device, true);
 			SelectedDevice.RemoveCommand.Execute();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.FSChanged = true;
 			UpdateGuardVisibility();
+			_planUpdateRequired = true;
 		}
 		bool CanCutCopy()
 		{
@@ -174,13 +174,9 @@ namespace DevicesModule.ViewModels
 		{
 			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, false);
 			if (CanDoPaste(SelectedDevice))
-			{
 				PasteDevice(pasteDevice, SelectedDevice);
-			}
 			else if (SelectedDevice != null && CanDoPaste(SelectedDevice.Parent))
-			{
 				PasteDevice(pasteDevice, SelectedDevice.Parent);
-			}
 		}
 		bool CanPaste()
 		{
@@ -225,20 +221,40 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.SaveService.FSChanged = true;
 			UpdateGuardVisibility();
 			FillAllDevices();
-			Helper.BuildMap();
-			if (_planUIDs != null)
-			{
-				foreach (var uid in _planUIDs)
-					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-						foreach (var elementDevice in plan.ElementDevices)
-							if (uid == elementDevice.UID)
-								Helper.SetDevice(elementDevice, device);
-				PlanExtension.Invalidate(_planUIDs);
-				device.OnChanged();
-				_planUIDs = null;
-			}
+			UpdatePlans(device);
 		}
 
+		private void UpdatePlans(Device device)
+		{
+			Helper.BuildMap();
+			if (_planUpdateRequired)
+			{
+				CopyPlanUIDs(device, _deviceToCopy);
+				var uids = new List<Guid>();
+				UpdatePlans(device, uids);
+				PlanExtension.Invalidate(uids);
+				_planUpdateRequired = false;
+			}
+		}
+		private void CopyPlanUIDs(Device device, Device originalDevice)
+		{
+			device.PlanElementUIDs = originalDevice.PlanElementUIDs;
+			for (int i = 0; i < device.Children.Count; i++)
+				CopyPlanUIDs(device.Children[i], originalDevice.Children[i]);
+		}
+		private void UpdatePlans(Device device, List<Guid> uids)
+		{
+			foreach (var uid in device.PlanElementUIDs)
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+					foreach (var elementDevice in plan.ElementDevices)
+						if (uid == elementDevice.UID)
+						{
+							elementDevice.DeviceUID = device.UID;
+							uids.Add(uid);
+						}
+			foreach (var child in device.Children)
+				UpdatePlans(child, uids);
+		}
 		public static void UpdateGuardVisibility()
 		{
 			var hasSecurityDevice = FiresecManager.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
