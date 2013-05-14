@@ -18,7 +18,7 @@
 			<MenuItem Command="{Binding ShowLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
 			<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 		</ContextMenu>
-		<Converters:InverseBooleanConverter x:Key="InverC:\Projects\Projects\FireAdministrator\Modules\GroupControllerModule\Devices\Views\DevicesView.xamlseBooleanConverter" />
+		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	</UserControl.Resources>
 
 	<Grid>

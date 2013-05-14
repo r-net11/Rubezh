@@ -137,7 +137,7 @@ namespace FireMonitor
 				InitializeModules();
 				if (ApplicationService.Modules.Any(x => x.Name == "Устройства и Зоны"))
 					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-				if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+				else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
 
 				AterInitialize();
