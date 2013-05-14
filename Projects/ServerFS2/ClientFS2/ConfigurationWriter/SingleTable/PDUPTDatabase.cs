@@ -140,7 +140,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				foreach (var devicePDUDirection in pduItem.DevicePDUDirections)
 				{
-					var mptDevice = devicePDUDirection.Device;
+					var mptDevice = devicePDUDirection.PDUGroupDevice.Device;
 					var paneBytesDatabase = new BytesDatabase("Направление " + devicePDUDirection.Device.DottedPresentationNameAndAddress);
 					paneBytesDatabase.AddByte(devicePDUDirection.Device.IntAddress, "Номер направления");
 					paneBytesDatabase.AddShort(0, "Задержка запуска");
@@ -167,7 +167,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12);
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12 - 53);
 		}
 
 		PDUItem AddPDUItem(Device pduDirectionDevice, Device device)
