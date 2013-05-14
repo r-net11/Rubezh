@@ -26,7 +26,7 @@ namespace ClientFS2.ConfigurationWriter
 			CreateEmptyTable();
 
 			var crcBytes = BytesDatabase.GetBytes();
-			crcBytes.RemoveRange(0, 10);
+			crcBytes.RemoveRange(0, 0x4C);
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
@@ -59,7 +59,7 @@ namespace ClientFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(1, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(PDUItems.Count, "Количество приборов");
 

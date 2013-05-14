@@ -72,7 +72,7 @@ namespace ClientFS2.ConfigurationWriter
                     if (ParentPanel.Driver.DriverType == DriverType.IndicationBlock)
                     {
                         var crcBytes = bytes.ToList();
-                        crcBytes.RemoveRange(0, 13);
+                        crcBytes.RemoveRange(0, 10);
 
                         //crcBytes = new List<byte>();
                         //crcBytes.Add(0x31);
