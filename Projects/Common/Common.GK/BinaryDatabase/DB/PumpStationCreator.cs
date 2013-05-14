@@ -213,10 +213,13 @@ namespace Common.GK
 
 					formula.AddGetBit(XStateType.On, MainDelay);
 					formula.Add(FormulaOperationType.AND);
+					var pumpDelay = Delays.FirstOrDefault(x => x.Name == "Задержка пуска ШУН " + pumpDevice.DottedAddress);
+					formula.AddGetBit(XStateType.On, pumpDelay);
+					formula.Add(FormulaOperationType.AND);
 					formula.AddPutBit(XStateType.TurnOn_InAutomatic, pumpDevice); // включить насос
 
-					formula.AddGetBit(XStateType.On, MainDelay);
-					formula.Add(FormulaOperationType.COM);
+					formula.AddGetBit(XStateType.Off, MainDelay);
+					//formula.Add(FormulaOperationType.COM);
 					formula.AddGetBit(XStateType.Norm, pumpDevice);
 					formula.Add(FormulaOperationType.AND); // бит дежурный у самого насоса
 					formula.AddPutBit(XStateType.TurnOff_InAutomatic, pumpDevice); // выключить насос
@@ -240,8 +243,19 @@ namespace Common.GK
 			{
 				foreach (var delay in Delays)
 				{
-					pumpDevice.InputObjects.Add(delay);
-					delay.OutputObjects.Add(pumpDevice);
+					if (delay.Name == "Задержка пуска ШУН " + pumpDevice.DottedAddress || delay.Name == "Задержка пуска НС")					
+					{
+						pumpDevice.InputObjects.Add(delay);
+						delay.OutputObjects.Add(pumpDevice);
+					}
+				}
+
+				foreach (var delay in Delays)
+				{
+					if (delay.Name != "Задержка пуска НС")
+					{
+						delay.InputObjects.Add(pumpDevice);
+					}
 				}
 			}
 

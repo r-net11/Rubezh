@@ -23,7 +23,7 @@ namespace FireAdministrator
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
-			bool trace = true;
+			bool trace = false;
 			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 			_bootstrapper = new Bootstrapper();
