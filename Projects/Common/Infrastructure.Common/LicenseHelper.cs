@@ -22,7 +22,7 @@ namespace Infrastructure.Common
         public static bool CheckLicense(bool isMultiClient)
         {
 #if DEBUG
-			return true;
+			//return true;
 #endif
             Encoding enc = Encoding.GetEncoding("windows-1251");
             byte[] bytesarray = enc.GetBytes(_vendorCode);

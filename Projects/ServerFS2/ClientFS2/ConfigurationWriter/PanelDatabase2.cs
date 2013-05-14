@@ -87,7 +87,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				FirstTable.BytesDatabase.AddByte(0);
 			}
-			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort(0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort(0, "CRC от ROM части базы");
 			Tables.Add(FirstTable);
 		}
 

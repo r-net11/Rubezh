@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using System.IO;
+using ServerFS2;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -22,6 +23,11 @@ namespace ClientFS2.ConfigurationWriter
 
 			Initialize();
 			CreateEmptyTable();
+
+			var crcBytes = BytesDatabase.GetBytes();
+			crcBytes.RemoveRange(0, 10);
+			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
+			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
 			CreateRootBytes();
 			MergeDatabase();
@@ -92,7 +98,7 @@ namespace ClientFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(4, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(IndicatorItems.Count, "Число приборов");
 			BytesDatabase.Add(FirstTable);
@@ -194,7 +200,7 @@ namespace ClientFS2.ConfigurationWriter
 						paneBytesDatabase.AddByte(0, "Индикация");
 					}
 
-					var deviceCode = DriversHelper.GetCodeForFriver(effectorDeviceTable.Device.Driver.DriverType);
+					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(effectorDeviceTable.Device.Driver.DriverType);
 					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
 					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
@@ -239,7 +245,7 @@ namespace ClientFS2.ConfigurationWriter
 						paneBytesDatabase.AddByte(0, "Индикация");
 					}
 
-					var deviceCode = DriversHelper.GetCodeForFriver(sensorDeviceTable.Device.Driver.DriverType);
+					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(sensorDeviceTable.Device.Driver.DriverType);
 					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
 					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
