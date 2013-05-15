@@ -24,7 +24,7 @@ namespace ServerFS2
 			UsbRunner = new UsbRunner();
 			try
 			{
-				UsbRunner.Open();
+				//UsbRunner.Open();
 			}
 			catch { }
 		}

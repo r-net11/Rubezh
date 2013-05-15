@@ -31,7 +31,7 @@ namespace GKModule.Plans.Designer
 			if (elementXDevice != null)
 			{
 				_xdevice = Helper.GetXDevice(elementXDevice);
-				if (_xdevice != null)
+				if (_xdevice != null && _xdevice.DeviceState != null)
 					_xdevice.DeviceState.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
@@ -67,7 +67,7 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicBrush(_xdevice);
+			return DevicePictureCache.GetDynamicXBrush(_xdevice);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
@@ -88,7 +88,7 @@ namespace GKModule.Plans.Designer
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-				
+
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{

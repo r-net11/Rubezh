@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using System.IO;
+using ServerFS2;
 
 namespace ClientFS2.ConfigurationWriter
 {
@@ -22,6 +23,11 @@ namespace ClientFS2.ConfigurationWriter
 
 			Initialize();
 			CreateEmptyTable();
+
+			var crcBytes = BytesDatabase.GetBytes();
+			crcBytes.RemoveRange(0, 10);
+			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
+			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
 			CreateRootBytes();
 			MergeDatabase();
@@ -68,6 +74,10 @@ namespace ClientFS2.ConfigurationWriter
 							indicatorItem.Pumps.Add(deviceIndicator);
 							break;
 
+						case DriverType.AM1_T:
+							indicatorItem.AM1_T_Devices.Add(deviceIndicator);
+							break;
+
 						default:
 							indicatorItem.Devices.Add(deviceIndicator);
 							break;
@@ -88,7 +98,7 @@ namespace ClientFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(4, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(IndicatorItems.Count, "Число приборов");
 			BytesDatabase.Add(FirstTable);
@@ -118,7 +128,7 @@ namespace ClientFS2.ConfigurationWriter
 				paneBytesDatabase.AddShort(indicatorItem.Devices.Count, "Количество ИУ");
 				indicatorItem.DevicesReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение ИУ");
 				paneBytesDatabase.AddShort(indicatorItem.AM1_T_Devices.Count, "Количество ТМ");
-				paneBytesDatabase.AddReference(new ByteDescription(), "Смещение ТМ");
+				indicatorItem.AM1_TReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение ТМ");
 				paneBytesDatabase.AddShort(indicatorItem.PumpStations.Count, "Количество НС");
 				indicatorItem.PumpStationReference = paneBytesDatabase.AddReference(new ByteDescription(), "Смещение НС");
 				paneBytesDatabase.AddShort(indicatorItem.Pumps.Count, "Количество Насосов");
@@ -190,7 +200,7 @@ namespace ClientFS2.ConfigurationWriter
 						paneBytesDatabase.AddByte(0, "Индикация");
 					}
 
-					var deviceCode = DriversHelper.GetCodeForFriver(effectorDeviceTable.Device.Driver.DriverType);
+					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(effectorDeviceTable.Device.Driver.DriverType);
 					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
 					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
@@ -199,6 +209,51 @@ namespace ClientFS2.ConfigurationWriter
 					if (firstFlag)
 					{
 						indicatorItem.DevicesReference.AddressReference = paneBytesDatabase.ByteDescriptions.FirstOrDefault();
+						firstFlag = false;
+					}
+				}
+
+				firstFlag = true;
+				foreach (var deviceIndicator in indicatorItem.AM1_T_Devices)
+				{
+					var paneBytesDatabase = new BytesDatabase("Устройство АМ1-Т " + deviceIndicator.Device.DottedPresentationNameAndAddress);
+
+					SensorDeviceTable sensorDeviceTable = null;
+					foreach (var tableGroup in panelDatabase.PanelDatabase2.DevicesTableGroups)
+					{
+						sensorDeviceTable = tableGroup.Tables.FirstOrDefault(x => x.UID == deviceIndicator.Device.UID) as SensorDeviceTable;
+						if (sensorDeviceTable != null)
+						{
+							break;
+						}
+					}
+					var offset = sensorDeviceTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset + 2;
+					var offsetBytes = BitConverter.GetBytes(offset);
+					for (int i = 0; i < 3; i++)
+					{
+						paneBytesDatabase.AddByte(offsetBytes[i], "Смещение");
+					}
+					paneBytesDatabase.AddByte(sensorDeviceTable.Device.AddressOnShleif, "Адрес");
+					paneBytesDatabase.AddByte(sensorDeviceTable.Device.ShleifNo - 1, "Шлейф");
+
+					var firstValue = 16 * (int)deviceIndicator.IndicatorDevice.IndicatorLogic.OnColor + (int)deviceIndicator.IndicatorDevice.IndicatorLogic.OffColor;
+					var sectondValue = 16 * (int)deviceIndicator.IndicatorDevice.IndicatorLogic.FailureColor + (int)deviceIndicator.IndicatorDevice.IndicatorLogic.ConnectionColor;
+					paneBytesDatabase.AddByte(firstValue, "Индикация");
+					paneBytesDatabase.AddByte(sectondValue, "Индикация");
+					for (int i = 0; i < 14; i++)
+					{
+						paneBytesDatabase.AddByte(0, "Индикация");
+					}
+
+					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(sensorDeviceTable.Device.Driver.DriverType);
+					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
+					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
+					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
+					BytesDatabase.Add(paneBytesDatabase);
+
+					if (firstFlag)
+					{
+						indicatorItem.AM1_TReference.AddressReference = paneBytesDatabase.ByteDescriptions.FirstOrDefault();
 						firstFlag = false;
 					}
 				}
@@ -324,6 +379,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		public ByteDescription ZonesReference { get; set; }
 		public ByteDescription DevicesReference { get; set; }
+		public ByteDescription AM1_TReference { get; set; }
 		public ByteDescription PumpStationReference { get; set; }
 		public ByteDescription PumpReference { get; set; }
 	}

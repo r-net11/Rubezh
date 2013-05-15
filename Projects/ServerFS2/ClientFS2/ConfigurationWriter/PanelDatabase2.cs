@@ -77,6 +77,17 @@ namespace ClientFS2.ConfigurationWriter
 			BytesDatabase.ResolveTableReferences();
 			BytesDatabase.ResolverReferences();
 
+			var crcBytes = BytesDatabase.GetBytes();
+			crcBytes.RemoveRange(0, 256);
+			crcBytes.RemoveRange(crcBytes.Count - 36, 36);
+			var md5 = MD5.Create();
+			var md5Bytes = md5.ComputeHash(crcBytes.ToArray());
+			for (int i = 0; i < 16; i++)
+			{
+				var md5Byte = md5Bytes[i];
+				LastTable.BytesDatabase.ByteDescriptions[i + 1].Value = md5Byte;
+			}
+
 			CreateRootBytes();
 		}
 
@@ -87,7 +98,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				FirstTable.BytesDatabase.AddByte(0);
 			}
-			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort(0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.BytesDatabase.AddShort(0, "CRC от ROM части базы");
 			Tables.Add(FirstTable);
 		}
 
@@ -113,6 +124,7 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateServiceTable()
 		{
+			var remotePanels = new HashSet<Device>();
 			var addressList = new List<int>();
 			for (int i = 0; i < 32; i++)
 			{
@@ -122,27 +134,31 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				foreach (var binaryZones in BinaryPanel.BinaryRemoteZones)
 				{
-					AddToDevicelist(addressList, binaryZones.ParentPanel);
+					remotePanels.Add(binaryZones.ParentPanel);
+					//AddToDevicelist(addressList, binaryZones.ParentPanel);
 				}
 				foreach (var binaryZones in BinaryPanel.BinaryLocalZones)
 				{
 					foreach (var device in binaryZones.Zone.DevicesInZone)
 					{
-						AddToDevicelist(addressList, device.ParentPanel);
+						remotePanels.Add(device.ParentPanel);
+						//AddToDevicelist(addressList, device.ParentPanel);
 					}
 				}
-				AddToDevicelist(addressList, BinaryPanel.ParentPanel);
+				//remotePanels.Add(BinaryPanel.ParentPanel);
+				//AddToDevicelist(addressList, BinaryPanel.ParentPanel);
 			}
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == DriverType.PDUDirection)
+				if (device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{
 					foreach (var pduDevice in device.PDUGroupLogic.Devices)
 					{
 						if (pduDevice.Device.ParentPanel.UID == ParentPanel.UID)
 						{
-							AddToDevicelist(addressList, device.ParentPanel);
+							remotePanels.Add(device.ParentPanel);
+							//AddToDevicelist(addressList, device.ParentPanel);
 						}
 					}
 				}
@@ -156,16 +172,27 @@ namespace ClientFS2.ConfigurationWriter
 							{
 								if (zone.DevicesInZone.Any(x => x.ParentPanel.UID == ParentPanel.UID))
 								{
-									AddToDevicelist(addressList, indicatorDevice.ParentPanel);
+									remotePanels.Add(indicatorDevice.ParentPanel);
+									//AddToDevicelist(addressList, indicatorDevice.ParentPanel);
 								}
 							}
 							if (indicatorDevice.IndicatorLogic.Device != null && indicatorDevice.IndicatorLogic.Device.ParentPanel.UID == ParentPanel.UID)
 							{
-								AddToDevicelist(addressList, device);
+								remotePanels.Add(device);
+								//AddToDevicelist(addressList, device);
 							}
 						}
 					}
 				}
+			}
+
+			var remotePanelLists = remotePanels.OrderBy(x => x.IntAddress).ToList();
+			remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
+			for (int i = 0; i < remotePanelLists.Count; i++)
+			{
+				var device = remotePanelLists[i];
+				var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+				addressList[i] = deviceCode;
 			}
 
 			ServiceTable = new TableBase(this, "Адресный лист");
@@ -176,15 +203,15 @@ namespace ClientFS2.ConfigurationWriter
 			Tables.Add(ServiceTable);
 		}
 
-		void AddToDevicelist(List<int> addressList, Device device)
-		{
-			var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
-			var index = device.ParentChannel.Children.Where(x => x.IntAddress != ParentPanel.IntAddress).OrderBy(x => x.IntAddress).ToList().IndexOf(device);
-			if (index != -1)
-			{
-				addressList[index] = deviceCode;
-			}
-		}
+		//void AddToDevicelist2(List<int> addressList, Device device)
+		//{
+		//    var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+		//    var index = device.ParentChannel.Children.Where(x => x.IntAddress != ParentPanel.IntAddress).OrderBy(x => x.IntAddress).ToList().IndexOf(device);
+		//    if (index != -1)
+		//    {
+		//        addressList[index] = deviceCode;
+		//    }
+		//}
 
 		void CreateDevices()
 		{
@@ -284,18 +311,18 @@ namespace ClientFS2.ConfigurationWriter
 
 			RootBytes.Add(ReferenceTableGroup.GetTreeRootByteDescription());
 
-			var bytes = new List<byte>();
-			foreach (var byteDescription in RootBytes)
-			{
-				bytes.Add((byte)byteDescription.Value);
-			}
-			var md5 = MD5.Create();
-			var md5Bytes = md5.ComputeHash(bytes.ToArray());
-			for (int i = 0; i < 16; i++ )
-			{
-				var md5Byte = md5Bytes[i];
-				LastTable.BytesDatabase.ByteDescriptions[i + 1].Value = md5Byte;
-			}
+			//var bytes = new List<byte>();
+			//foreach (var byteDescription in RootBytes)
+			//{
+			//    bytes.Add((byte)byteDescription.Value);
+			//}
+			//var md5 = MD5.Create();
+			//var md5Bytes = md5.ComputeHash(bytes.ToArray());
+			//for (int i = 0; i < 16; i++ )
+			//{
+			//    var md5Byte = md5Bytes[i];
+			//    LastTable.BytesDatabase.ByteDescriptions[i + 1].Value = md5Byte;
+			//}
 
 			RootBytes.Add(LastTable.GetTreeRootByteDescription());
 		}

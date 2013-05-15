@@ -35,7 +35,7 @@ namespace ClientFS2.ConfigurationWriter
 					break;
 				}
 			}
-			var offset = tableBase.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
+			var offset = tableBase.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset + 3;
 			var offsetBytes = BitConverter.GetBytes(offset);
 			for (int i = 0; i < 4; i++)
 			{

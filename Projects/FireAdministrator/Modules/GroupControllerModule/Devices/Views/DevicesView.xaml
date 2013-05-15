@@ -18,7 +18,7 @@
 			<MenuItem Command="{Binding ShowLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
 			<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 		</ContextMenu>
-		<Converters:InverseBooleanConverter x:Key="InverC:\Projects\Projects\FireAdministrator\Modules\GroupControllerModule\Devices\Views\DevicesView.xamlseBooleanConverter" />
+		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -27,7 +27,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
-		<Controls:TreeListView Grid.Row="0" Focusable="True" ItemsSource="{Binding RootDevices}" ScrollViewer.IsDeferredScrollingEnabled="True" SelectedObject="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+		<Controls:TreeListView Grid.Row="0" Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<Controls:TreeListView.Columns>
 				<GridViewColumn Width="250" Header="Устройство">
 					<GridViewColumn.CellTemplate>

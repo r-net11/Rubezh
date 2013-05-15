@@ -104,6 +104,23 @@ namespace FiresecClient
 			DeviceConfiguration.Zones.Remove(zone);
 		}
 
+		public static void EditZone(XZone zone)
+		{
+			foreach (var device in zone.Devices)
+			{
+				device.OnChanged();
+			}
+			foreach (var device in zone.DevicesInLogic)
+			{
+				device.OnChanged();
+			}
+			foreach (var direction in zone.Directions)
+			{
+				direction.OnChanged();
+			}
+			zone.OnChanged();
+		}
+
 		public static void AddDirection(XDirection direction)
 		{
 			DeviceConfiguration.Directions.Add(direction);

@@ -13,6 +13,7 @@ namespace FiresecClient
 			InitializeDevicesInZone();
 			InitializeLogic();
 			InitializeDirections();
+			UpdateGKChildrenDescription();
 		}
 
 		static void ClearAllReferences()
@@ -158,6 +159,42 @@ namespace FiresecClient
                 }
                 direction.DirectionZones = directionZones;
 			}
+		}
+
+		static void UpdateGKChildrenDescription()
+		{
+			foreach (var gkDevice in DeviceConfiguration.RootDevice.Children)
+			{
+				UpdateGKPredefinedName(gkDevice);
+			}
+		}
+
+		public static void UpdateGKPredefinedName(XDevice device)
+		{
+			if (device.Driver.DriverType == XDriverType.GK && device.Children.Count >= 15)
+			{
+				SetPredefinedName(device.Children[0], "");
+				SetPredefinedName(device.Children[0], "Индикатор Неисправность");
+				SetPredefinedName(device.Children[1], "Индикатор Пожар 1");
+				SetPredefinedName(device.Children[2], "Индикатор Пожар 2");
+				SetPredefinedName(device.Children[3], "Индикатор Внимание");
+				SetPredefinedName(device.Children[4], "Индикатор Включение ПУСК");
+				SetPredefinedName(device.Children[5], "Индикатор Тест");
+				SetPredefinedName(device.Children[6], "Индикатор Отключение");
+				SetPredefinedName(device.Children[7], "Индикатор Автоматика отключена");
+				SetPredefinedName(device.Children[8], "Индикатор Звук отключен");
+				SetPredefinedName(device.Children[9], "Индикатор Останов пуска");
+				SetPredefinedName(device.Children[10], "Выход 1");
+				SetPredefinedName(device.Children[11], "Выход 2");
+				SetPredefinedName(device.Children[12], "Реле 1");
+				SetPredefinedName(device.Children[13], "Реле 2");
+				SetPredefinedName(device.Children[14], "Реле 3");
+			}
+		}
+		static void SetPredefinedName(XDevice device, string name)
+		{
+			if (string.IsNullOrEmpty(device.PredefinedName))
+				device.PredefinedName = name;
 		}
 	}
 }

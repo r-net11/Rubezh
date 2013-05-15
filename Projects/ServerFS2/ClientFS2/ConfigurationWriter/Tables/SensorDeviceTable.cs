@@ -8,7 +8,7 @@ namespace ClientFS2.ConfigurationWriter
 {
 	public class SensorDeviceTable : TableBase
 	{
-		Device Device;
+		public Device Device { get; private set; }
 
 		public override Guid UID
 		{

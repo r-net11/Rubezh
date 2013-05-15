@@ -26,12 +26,14 @@ namespace DevicesModule.Plans
 {
 	public class PlanExtension : IPlanExtension<Plan>
 	{
+		private static PlanExtension _instance;
 		private Devices.DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		private ZonesViewModel _zonesViewModel;
 		private IEnumerable<IInstrument> _instruments;
 		public PlanExtension(Devices.DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel)
 		{
+			_instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
@@ -321,6 +323,19 @@ namespace DevicesModule.Plans
 					var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
 				}
 			}
+		}
+
+		public static void Invalidate(List<Guid> planUIDs)
+		{
+			if (_instance != null && _instance._designerCanvas != null)
+				foreach (var designerItem in _instance._designerCanvas.Items)
+					if (planUIDs.Contains(designerItem.Element.UID))
+					{
+						designerItem.UpdateElementProperties();
+						_instance.OnDevicePropertyChanged(designerItem);
+						designerItem.Painter.Invalidate();
+					}
+			_instance._designerCanvas.Refresh();
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace ClientFS2.ConfigurationWriter
 			CreateEmptyTable();
 
 			var crcBytes = BytesDatabase.GetBytes();
-			crcBytes.RemoveRange(0, 10);
+			crcBytes.RemoveRange(0, 0x4C);
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
@@ -59,13 +59,14 @@ namespace ClientFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(1, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", true, true);
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(PDUItems.Count, "Количество приборов");
 
 			var devicesCount = 0;
 			foreach (var pduItem in PDUItems)
 			{
+				pduItem.DevicePDUDirections = pduItem.DevicePDUDirections.OrderBy(x => x.Device.IntAddress).ToList();
 				devicesCount += pduItem.DevicePDUDirections.Count;
 			}
 			FirstTable.AddShort(devicesCount, "Количество направлений");
@@ -139,7 +140,7 @@ namespace ClientFS2.ConfigurationWriter
 			{
 				foreach (var devicePDUDirection in pduItem.DevicePDUDirections)
 				{
-					var mptDevice = devicePDUDirection.Device;
+					var mptDevice = devicePDUDirection.PDUGroupDevice.Device;
 					var paneBytesDatabase = new BytesDatabase("Направление " + devicePDUDirection.Device.DottedPresentationNameAndAddress);
 					paneBytesDatabase.AddByte(devicePDUDirection.Device.IntAddress, "Номер направления");
 					paneBytesDatabase.AddShort(0, "Задержка запуска");
@@ -159,14 +160,14 @@ namespace ClientFS2.ConfigurationWriter
 			}
 			BytesDatabase.Add(emptyBytesDatabase3);
 
-			pduPTTables = pduPTTables.OrderBy(x => x.Device.IntAddress * 256 + x.Device.ParentPanel.IntAddress).ToList();
+			//pduPTTables = pduPTTables.OrderBy(x => x.Device.IntAddress * 256 + x.Device.ParentPanel.IntAddress).ToList();
 			foreach (var pduTable in pduPTTables)
 			{
 				BytesDatabase.Add(pduTable.BytesDatabase);
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12);
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12 - 53);
 		}
 
 		PDUItem AddPDUItem(Device pduDirectionDevice, Device device)

@@ -23,6 +23,9 @@ namespace ClientFS2.ConfigurationWriter
 			var option = 0;
 			if (devicePDUDirection.PDUGroupDevice.IsInversion)
 				option = 128;
+			var anotherCount = devicePDUDirection.Device.Parent.Children.Count(x => x.PDUGroupLogic.Devices.Any(y => y.DeviceUID == Device.UID));
+			if (anotherCount > 1)
+				option += 64;
 			BytesDatabase.AddByte(option, "Опции");
 			BytesDatabase.AddByte(devicePDUDirection.Device.IntAddress, "Направление");
 			BytesDatabase.AddByte(0, "Пустой байт");
@@ -37,6 +40,14 @@ namespace ClientFS2.ConfigurationWriter
 				}
 			}
 			var offset = tableBase.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
+			if (Device.Driver.IsZoneLogicDevice)
+			{
+				offset += 3;
+			}
+			else
+			{
+				offset += 2;
+			}
 			var offsetBytes = BitConverter.GetBytes(offset);
 			for (int i = 0; i < 4; i++)
 			{

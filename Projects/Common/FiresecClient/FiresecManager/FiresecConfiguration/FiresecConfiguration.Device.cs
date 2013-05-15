@@ -23,6 +23,7 @@ namespace FiresecClient
 			{
 				newDevice.UID = device.UID;
 				newDevice.DatabaseId = device.DatabaseId;
+				newDevice.PlanElementUIDs = device.PlanElementUIDs;
 			}
 
 			if (device.ZoneLogic != null)

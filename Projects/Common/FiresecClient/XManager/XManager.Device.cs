@@ -73,24 +73,7 @@ namespace FiresecClient
 			}
 			if (xDevice.Driver.DriverType == XDriverType.GK)
 			{
-				if (xDevice.Children.Count == 15)
-				{
-                    xDevice.Children[0].PredefinedName = "Индикатор Неисправность";
-                    xDevice.Children[1].PredefinedName = "Индикатор Пожар 1";
-                    xDevice.Children[2].PredefinedName = "Индикатор Пожар 2";
-                    xDevice.Children[3].PredefinedName = "Индикатор Внимание";
-					xDevice.Children[4].PredefinedName = "Индикатор Включение ПУСК";
-                    xDevice.Children[5].PredefinedName = "Индикатор Тест";
-                    xDevice.Children[6].PredefinedName = "Индикатор Отключение";
-                    xDevice.Children[7].PredefinedName = "Индикатор Автоматика отключена";
-                    xDevice.Children[8].PredefinedName = "Индикатор Звук отключен";
-                    xDevice.Children[9].PredefinedName = "Индикатор Останов пуска";
-                    xDevice.Children[10].PredefinedName = "Выход 1";
-					xDevice.Children[11].PredefinedName = "Выход 2";
-                    xDevice.Children[12].PredefinedName = "Реле 1";
-                    xDevice.Children[13].PredefinedName = "Реле 2";
-                    xDevice.Children[13].PredefinedName = "Реле 3";
-				}
+				UpdateGKPredefinedName(xDevice);
 			}
 		}
 

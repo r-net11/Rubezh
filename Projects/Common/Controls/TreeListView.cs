@@ -88,7 +88,8 @@ namespace Controls
 					{
 						var treeViewItem = treeView.BringTreeViewItemIntoView(item);
 						if (treeViewItem != null)
-							treeViewItem.Focus();
+							treeViewItem.IsSelected = true;
+							//treeViewItem.Focus();
 					}
 				}
 		}

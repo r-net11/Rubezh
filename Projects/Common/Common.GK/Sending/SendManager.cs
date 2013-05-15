@@ -28,7 +28,7 @@ namespace Common.GK
             StreamWriter.Close();
         }
 
-		public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 1000)
+		public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
 			lock (locker)
 			{
@@ -90,7 +90,7 @@ namespace Common.GK
 			}
 		}
 
-		static SendResult SendBytes(string stringIPAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 1000)
+		static SendResult SendBytes(string stringIPAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
         {
 			IPAddress ipAddress;
 			var result = IPAddress.TryParse(stringIPAddress, out ipAddress);

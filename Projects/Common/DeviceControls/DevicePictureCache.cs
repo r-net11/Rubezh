@@ -80,7 +80,7 @@ namespace DeviceControls
 					if (!_dynamicXBrushes[item.XDriverId].ContainsKey(state.XStateClass))
 						_dynamicXBrushes[item.XDriverId].Add(state.XStateClass, new Dictionary<string, Brush>());
 					if (!_dynamicXBrushes[item.XDriverId][state.XStateClass].ContainsKey(state.Code ?? string.Empty))
-						_dynamicXBrushes[item.XDriverId][state.XStateClass].Add(state.Code ?? string.Empty, CreateDynamicBrush(state.XFrames));
+						_dynamicXBrushes[item.XDriverId][state.XStateClass].Add(state.Code ?? string.Empty, CreateDynamicXBrush(state.XFrames));
 				});
 			});
 		}
@@ -96,7 +96,7 @@ namespace DeviceControls
 		}
 		private static void RegisterXBrush(LibraryXDevice libraryXDevice)
 		{
-			var frameworkElement = libraryXDevice == null ? EmptyPicture : GetDefaultPicture(libraryXDevice);
+			var frameworkElement = libraryXDevice == null ? EmptyPicture : GetDefaultXPicture(libraryXDevice);
 			var brush = new VisualBrush(frameworkElement);
 			if (_xbrushes.ContainsKey(libraryXDevice == null ? Guid.Empty : libraryXDevice.XDriverId))
 				_xbrushes[libraryXDevice == null ? Guid.Empty : libraryXDevice.XDriverId] = brush;
@@ -109,7 +109,7 @@ namespace DeviceControls
 			visualBrush.Visual = new FramesControl(frames);
 			return visualBrush;
 		}
-		private static Brush CreateDynamicBrush(List<LibraryXFrame> frames)
+		private static Brush CreateDynamicXBrush(List<LibraryXFrame> frames)
 		{
 			var visualBrush = new VisualBrush();
 			visualBrush.Visual = new FramesControl(frames);
@@ -163,9 +163,9 @@ namespace DeviceControls
 		{
 			return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetBrush(device) : GetDynamicBrush(alternativeDriverUID == Guid.Empty ? device.DriverUID : alternativeDriverUID, device.DeviceState);
 		}
-		public static Brush GetDynamicBrush(XDevice device)
+		public static Brush GetDynamicXBrush(XDevice device)
 		{
-			return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetXBrush(device) : GetDynamicBrush(device.DriverUID, device.DeviceState);
+			return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetXBrush(device) : GetDynamicXBrush(device.DriverUID, device.DeviceState);
 		}
 		private static Brush GetDynamicBrush(Guid guid, DeviceState deviceState)
 		{
@@ -205,10 +205,10 @@ namespace DeviceControls
 			}
 			return brush ?? EmptyBrush;
 		}
-		private static Brush GetDynamicBrush(Guid guid, XDeviceState deviceState)
+		private static Brush GetDynamicXBrush(Guid guid, XDeviceState deviceState)
 		{
 			Brush brush = null;
-			if (_dynamicBrushes.ContainsKey(guid))
+			if (_dynamicXBrushes.ContainsKey(guid))
 			{
 				var brushes = _dynamicXBrushes[guid].ContainsKey(deviceState.StateClass) ? _dynamicXBrushes[guid][deviceState.StateClass] : null;
 				brush = brushes != null && brushes.ContainsKey(string.Empty) ? brushes[string.Empty] : null;
@@ -226,7 +226,7 @@ namespace DeviceControls
 			var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
 			return state.Frames.Count > 0 ? Helper.GetVisual(state.Frames[0].Image) : EmptyPicture;
 		}
-		private static FrameworkElement GetDefaultPicture(LibraryXDevice device)
+		private static FrameworkElement GetDefaultXPicture(LibraryXDevice device)
 		{
 			var state = device.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
 			return state.XFrames.Count > 0 ? Helper.GetVisual(state.XFrames[0].Image) : EmptyPicture;

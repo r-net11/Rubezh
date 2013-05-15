@@ -11,29 +11,50 @@ namespace MonitorClientFS2
 {
 	public class MonitoringProcessor
 	{
-		int UsbRequestNo;
+		int UsbRequestNo = 1;
 		static readonly object Locker = new object();
 		List<DeviceResponceRelation> DeviceResponceRelations = new List<DeviceResponceRelation>();
+		bool DoMonitoring;
+
+		public event Action<FSJournalItem> OnNewItems;
 
 		public MonitoringProcessor()
 		{
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
+			{
+				//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+				//    DeviceResponceRelations.Add(new DeviceSecResponceRelation(device));
+				//else
+				DeviceResponceRelations.Add(new DeviceResponceRelation(device));
+			}
+			DoMonitoring = false;
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
-			var thread = new Thread(OnRun);
-			thread.Start();
+			StartMonitoring();
+		}
+
+		public void StartMonitoring()
+		{
+			if (!DoMonitoring)
+			{
+				DoMonitoring = true;
+				var thread = new Thread(OnRun);
+				thread.Start();
+			}
+		}
+
+		public void StopMonitoring()
+		{
+			DoMonitoring = false;
 		}
 
 		void OnRun()
 		{
-			while (true)
+			while (DoMonitoring)
 			{
-				foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+				foreach (var deviceResponceRelation in DeviceResponceRelations.Where(x => !x.UnAnswered))
 				{
-					if (device.Driver.IsPanel)
-					{
-						var deviceResponceRelation = new DeviceResponceRelation(device, ++UsbRequestNo);
-						DeviceResponceRelations.Add(deviceResponceRelation);
-						SendByteCommand(new List<byte> { 0x21, 0x00 }, device, deviceResponceRelation.Id);
-					}
+					LastIndexRequest(deviceResponceRelation);
+					Thread.Sleep(1000);
 				}
 				Thread.Sleep(1000);
 			}
@@ -57,83 +78,121 @@ namespace MonitorClientFS2
 
 		void UsbRunner_NewResponse(Response response)
 		{
-			var deviceResponceRelation = DeviceResponceRelations.FirstOrDefault(x => x.Id == response.Id);
+			var deviceResponceRelation = DeviceResponceRelations.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y.Id == response.Id) != null);
 			if (deviceResponceRelation != null)
 			{
-				var lastDeviceRecord = 256 * response.Data[9] + response.Data[10];
-				if (lastDeviceRecord > deviceResponceRelation.LastDisplayedRecord)
+				var request = deviceResponceRelation.Requests.FirstOrDefault(y => y.Id == response.Id);
+				if (request.RequestType == RequestTypes.ReadIndex)
 				{
-					ReadNewItems(deviceResponceRelation.Device, lastDeviceRecord, lastDeviceRecord - 10);//deviceResponceRelation.LastDisplayedRecord);
-					deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
-					//XmlJournalHelper.SetLastId(this);
+					LastIndexReceived(deviceResponceRelation, response);
 				}
-
-				DeviceResponceRelations.RemoveAll(x => x.Device == deviceResponceRelation.Device);
-			}
-		}
-
-		void ReadNewItems(Device device, int lastDeviceRecord, int lastDisplayedRecord)
-		{
-			Trace.Write("Дочитываю записи с " + lastDisplayedRecord.ToString() + " до " + lastDeviceRecord.ToString() + "с прибора " + device.PresentationName + "\n");
-			var newItems = GetJournalItems(device, lastDeviceRecord, lastDisplayedRecord + 1);
-			foreach (var journalItem in newItems)
-			{
-				if (journalItem != null)
+				else if (request.RequestType == RequestTypes.ReadItem)
 				{
-					//AddToJournalObservable(journalItem);
-					DBJournalHelper.AddJournalItem(journalItem);
-					Trace.Write(device.PresentationAddress + " ");
+					NewItemReceived(deviceResponceRelation, response);
 				}
+				deviceResponceRelation.Requests.Remove(request);
 			}
-			Trace.WriteLine(" дочитал");
 		}
 
-		List<FSJournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
+		void NewItemRequest(DeviceResponceRelation deviceResponceRelation, int ItemIndex)
 		{
-			var journalItems = new List<FSJournalItem>();
-			for (int i = firstindex; i <= lastindex; i++)
-				journalItems.Add(ReadItem(device, i));
-			return journalItems;
+			++UsbRequestNo;
+			deviceResponceRelation.Requests.Add(new Request { Id = UsbRequestNo, RequestType = RequestTypes.ReadItem });
+			var bytes = new List<byte> { 0x20, 0x00 };
+			bytes.AddRange(BitConverter.GetBytes(ItemIndex).Reverse());
+			SendByteCommand(bytes, deviceResponceRelation.Device, UsbRequestNo);
+			Thread.Sleep(2000);
 		}
-		FSJournalItem ReadItem(Device device, int i)
+
+		void NewItemReceived(DeviceResponceRelation deviceResponceRelation, Response response)
 		{
-			List<byte> bytes = new List<byte> { 0x20, 0x00 };
-			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-			return SendBytesAndParse(bytes, device);
+			var journalItem = JournalParser.FSParce(response.Data);
+			Trace.WriteLine("ReadItem Responce " + journalItem.Description);
+			DBJournalHelper.AddJournalItem(journalItem);
+			OnNewItems(journalItem);
 		}
-		FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
+
+		void LastIndexRequest(DeviceResponceRelation deviceResponceRelation)
 		{
-			var data = SendByteCommand(bytes, device);
-			lock (Locker)
+			++UsbRequestNo;
+			var request = new Request { Id = UsbRequestNo, RequestType = RequestTypes.ReadIndex };
+			deviceResponceRelation.Requests.Add(request);
+			SendByteCommand(new List<byte> { 0x21, 0x00 }, deviceResponceRelation.Device, UsbRequestNo);
+		}
+
+		void LastIndexReceived(DeviceResponceRelation deviceResponceRelation, Response response)
+		{
+			var lastDeviceRecord = 256 * response.Data[9] + response.Data[10];
+			Trace.WriteLine("ReadIndex Response " + lastDeviceRecord);
+			var lastDisplayedRecord = deviceResponceRelation.LastDisplayedRecord;
+			if (lastDisplayedRecord == -1)
 			{
-				return JournalParser.FSParce(data.Data);
+				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
 			}
-		}
-		ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)
-		{
-			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++UsbRequestNo).Reverse());
-			bytes.Add(GetSheifByte(device));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.AddRange(commandBytes);
-			lock (Locker)
+			else if (lastDeviceRecord > lastDisplayedRecord)
 			{
-				return ServerHelper.SendCode(bytes).Result.FirstOrDefault();
+				Trace.WriteLine("Дочитываю записи с " + (lastDisplayedRecord + 1).ToString() + " до " + lastDeviceRecord.ToString());
+				//Trace.WriteLine("Дочитываю записи с " + (lastDeviceRecord - 10).ToString() + " до " + lastDeviceRecord.ToString());
+				for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
+				//for (int i = lastDeviceRecord - 10; i <= lastDeviceRecord; i++)
+				{
+					NewItemRequest(deviceResponceRelation, i);
+				}
+				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
 			}
 		}
 	}
 
-	class DeviceResponceRelation
+	public class DeviceResponceRelation
 	{
-		public DeviceResponceRelation(Device device, int id)
+		public DeviceResponceRelation()
+		{
+			;
+		}
+		public DeviceResponceRelation(Device device)
 		{
 			Device = device;
-			Id = id;
-			LastDisplayedRecord = XmlJournalHelper.GetLastId2(Device);
+			Requests = new List<Request>();
+			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
 		}
 		public Device Device { get; set; }
+		public List<Request> Requests { get; set; }
+		public bool UnAnswered { get { return Requests.Count > 0; } }
+		int lastDisplayedRecord;
+		public int LastDisplayedRecord
+		{
+			get { return lastDisplayedRecord; }
+			set
+			{
+				lastDisplayedRecord = value;
+				XmlJournalHelper.SetLastId(Device, value);
+			}
+		}
+	}
+
+	//public class DeviceSecResponceRelation : DeviceResponceRelation
+	//{
+	//    public DeviceSecResponceRelation(Device device)
+	//    {
+	//        Device = device;
+	//        Requests = new List<Request>();
+	//        LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+	//    }
+	//    public int LastDisplayedSecRecord { get; set; }
+	//}
+
+	public class Request
+	{
 		public int Id { get; set; }
-		public int LastDisplayedRecord { get; set; }
+		public RequestTypes RequestType { get; set; }
+	}
+
+	public enum RequestTypes
+	{
+		ReadIndex,
+		ReadItem,
+		ReadSecIndex,
+		ReadSecItem,
+		Other
 	}
 }
