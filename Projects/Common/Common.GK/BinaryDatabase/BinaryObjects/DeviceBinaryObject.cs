@@ -139,7 +139,7 @@ namespace Common.GK
 				Parameters = new List<byte>();
 				return;
 			}
-			if (Device.Driver.DriverType == XDriverType.Pump)
+			if (Device.Driver.DriverType == XDriverType.RSR2_MVK8)
 			{
 				;
 			}
@@ -148,6 +148,10 @@ namespace Common.GK
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
+					if (driverProperty.No == 3)
+					{
+						;
+					}
 					byte no = driverProperty.No;
 					ushort value = property.Value;
 					if (driverProperty.Offset > 0)
@@ -186,6 +190,10 @@ namespace Common.GK
 				}
 			}
 
+			if (Device.Driver.DriverType == XDriverType.RSR2_MVK8)
+			{
+				;
+			}
 			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)
 			{

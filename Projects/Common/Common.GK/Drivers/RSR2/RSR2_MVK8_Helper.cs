@@ -55,13 +55,13 @@ namespace Common.GK
 				No = 3,
 				Name = "Состояние контакта для режима Удержания",
 				Caption = "Состояние контакта для режима Удержания",
-				Default = 1,
+				Default = 4,
 				IsLowByte = true,
 				Mask = 0x0C
 			};
 			GKDriversHelper.AddPropertyParameter(property2, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 1);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 2);
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 4);
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 8);
 			driver.Properties.Add(property2);
 
 			var property3 = new XDriverProperty()
@@ -69,13 +69,13 @@ namespace Common.GK
 				No = 3,
 				Name = "Состояние контакта для режима Включено",
 				Caption = "Состояние контакта для режима Включено",
-				Default = 1,
+				Default = 16,
 				IsLowByte = true,
 				Mask = 0x30
 			};
 			GKDriversHelper.AddPropertyParameter(property3, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property3, "Контакт НЗ", 1);
-			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 2);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт НЗ", 16);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 32);
 			driver.Properties.Add(property3);
 
 			var property4 = new XDriverProperty()
