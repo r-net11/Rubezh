@@ -21,7 +21,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
-				                <Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">
+				                <Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle2}">
 					                <TextBlock Text="{Binding PresentationName}" />
 				                </Hyperlink>
                             </TextBlock>

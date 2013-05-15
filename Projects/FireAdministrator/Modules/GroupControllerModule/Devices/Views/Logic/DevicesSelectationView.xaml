@@ -28,7 +28,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="2, 2, 5, 0" />
-                                    <TextBlock Text="{Binding Driver.ShortName}" Margin="0, 4, 0, 0" />
+                                    <TextBlock Text="{Binding ShortName}" Margin="0, 4, 0, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -61,7 +61,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="2, 2, 5, 0" />
-                                    <TextBlock Text="{Binding Driver.ShortName}" Margin="0, 4, 0, 0" />
+                                    <TextBlock Text="{Binding ShortName}" Margin="0, 4, 0, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

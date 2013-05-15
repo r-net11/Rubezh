@@ -50,12 +50,12 @@
                                             ToolTip="{Binding ToolTip}">
                                         <Grid.ContextMenu>
                                             <ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
-                                                <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
-                                                <Separator />
                                                 <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
                                                 <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
-                                                <Separator />
                                                 <MenuItem Command="{Binding ResetFireCommand}" Header="Сбросить" />
+                                                <Separator />
+                                                <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                                <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
                                             </ContextMenu>
                                         </Grid.ContextMenu>
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />

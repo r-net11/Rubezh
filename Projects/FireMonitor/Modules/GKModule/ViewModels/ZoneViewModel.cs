@@ -21,6 +21,7 @@ namespace GKModule.ViewModels
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 			ZoneState = zoneState;
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
@@ -83,6 +84,12 @@ namespace GKModule.ViewModels
 		bool CanResetIgnore()
 		{
             return ZoneState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
 		}
 	}
 }

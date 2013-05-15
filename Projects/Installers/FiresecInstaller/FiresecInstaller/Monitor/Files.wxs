@@ -92,11 +92,11 @@
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="AppData.DBLocation">
+    <!--<DirectoryRef Id="AppData.DBLocation">
       <Component Id="Monitor.GkJournalDatabase.sdf">
         <File Id="Monitor.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
-    </DirectoryRef>
+    </DirectoryRef>-->
 
 	</Fragment>
 </Wix>

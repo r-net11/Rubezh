@@ -26,6 +26,7 @@ namespace DeviceControls
 		}
 
 		public Guid DriverId { get; set; }
+		List<XStateViewModel> _stateViewModelList;
 
 		XStateClass _stateClass;
 		public XStateClass StateClass
@@ -36,8 +37,6 @@ namespace DeviceControls
 				_stateClass = value;
 			}
 		}
-
-		List<XStateViewModel> _stateViewModelList;
 
 		public void Update()
 		{

@@ -13,17 +13,17 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Внимание")]
 		Attention = 2,
 
-		[DescriptionAttribute("Неисправность")]
-		Failure = 3,
-
 		[DescriptionAttribute("Отключено")]
-		Ignore = 4,
+		Ignore = 3,
 
 		[DescriptionAttribute("Включено")]
-		On = 5,
+		On = 4,
 
 		[DescriptionAttribute("Включается")]
-		TurningOn = 6,
+		TurningOn = 5,
+
+		[DescriptionAttribute("Неисправность")]
+		Failure = 6,
 
 		[DescriptionAttribute("Требуется обслуживание")]
 		Service = 7,

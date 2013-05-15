@@ -114,7 +114,6 @@ namespace Common.GK
 				var delay = new XDelay()
 				{
 					Name = "Задержка пуска ШУН " + pumpDevice.DottedAddress,
-					//DelayTime = (ushort)(pumpIndex * DelayTime),
 					DelayTime = (ushort)DelayTime,
 					SetTime = 2,
 					DelayRegime = DelayRegime.On
@@ -185,7 +184,6 @@ namespace Common.GK
 		void CreateDelaysLogic()
 		{
 			bool firstDelay = true;
-			//foreach (var delay in Delays)
 			for (int i = 0; i < Delays.Count; i++)
 			{
 				var delay = Delays[i];
@@ -208,14 +206,13 @@ namespace Common.GK
 						}
 					}
 					formula.Add(FormulaOperationType.DUP);
-					var pumpsCount = 1;
-					formula.Add(FormulaOperationType.CONST, 0, (ushort)pumpsCount, "Количество основных пожарных насосов");
+					formula.Add(FormulaOperationType.CONST, 0, PumpsCount, "Количество основных пожарных насосов");
 					formula.Add(FormulaOperationType.LT);
 					formula.AddGetBit(XStateType.On, MainDelay);
 					formula.Add(FormulaOperationType.AND);
 					formula.AddPutBit(XStateType.TurnOn_InAutomatic, delay);
 
-					formula.Add(FormulaOperationType.CONST, 0, (ushort)pumpsCount, "Количество основных пожарных насосов");
+					formula.Add(FormulaOperationType.CONST, 0, PumpsCount, "Количество основных пожарных насосов");
 					formula.Add(FormulaOperationType.GE);
 					formula.AddGetBit(XStateType.Off, MainDelay);
 					formula.Add(FormulaOperationType.OR);
@@ -234,21 +231,6 @@ namespace Common.GK
 				formula.Add(FormulaOperationType.END);
 				delayBinaryObject.Formula = formula;
 				delayBinaryObject.FormulaBytes = formula.GetBytes();
-
-				//var delayBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Delay != null && x.Delay.UID == delay.UID);
-				//if (delayBinaryObject != null)
-				//{
-				//    var formula = new FormulaBuilder();
-
-				//    formula.AddGetBit(XStateType.On, MainDelay);
-				//    formula.AddPutBit(XStateType.TurnOn_InAutomatic, delay);
-				//    formula.AddGetBit(XStateType.Off, MainDelay);
-				//    formula.AddPutBit(XStateType.TurnOff_InAutomatic, delay);
-
-				//    formula.Add(FormulaOperationType.END);
-				//    delayBinaryObject.Formula = formula;
-				//    delayBinaryObject.FormulaBytes = formula.GetBytes();
-				//}
 			}
 		}
 
@@ -317,24 +299,7 @@ namespace Common.GK
 						delay.OutputObjects.Add(pumpDevice);
 					}
 				}
-
-				//foreach (var delay in Delays)
-				//{
-				//    if (delay.Name != "Задержка пуска НС")
-				//    {
-				//        delay.InputObjects.Add(pumpDevice);
-				//    }
-				//}
 			}
-
-			//foreach (var delay in Delays)
-			//{
-			//    if (delay.UID != MainDelay.UID)
-			//    {
-			//        delay.InputObjects.Add(MainDelay);
-			//        MainDelay.OutputObjects.Add(delay);
-			//    }
-			//}
 
 			for (int i = 0; i < Delays.Count; i++)
 			{
@@ -360,15 +325,6 @@ namespace Common.GK
 					}
 				}
 			}
-
-			//foreach (var delay in Delays)
-			//{
-			//    if (delay.UID != MainDelay.UID)
-			//    {
-			//        delay.InputObjects.Add(MainDelay);
-			//        MainDelay.OutputObjects.Add(delay);
-			//    }
-			//}
 		}
 	}
 }

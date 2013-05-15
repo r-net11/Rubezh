@@ -13,13 +13,14 @@ using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
 using System.Windows.Controls;
 using Controls.Converters;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.Designer
 {
 	class XZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
-		private XZone _zone;
+		private XZone Zone;
 		private ContextMenu _contextMenu;
 
 		public XZonePainter(PresenterItem presenterItem)
@@ -29,9 +30,9 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
-			if (_zone != null)
-				_zone.ZoneState.StateChanged += OnPropertyChanged;
+			Zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
+			if (Zone != null)
+				Zone.ZoneState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetZoneTooltip();
 		}
 
@@ -43,11 +44,11 @@ namespace GKModule.Plans.Designer
 		}
 		private string GetZoneTooltip()
 		{
-			if (_zone == null)
+			if (Zone == null)
 				return null;
 			var sb = new StringBuilder();
-			sb.AppendLine(_zone.PresentationName);
-			sb.AppendLine("Состояние: " + _zone.ZoneState.GetStateType().ToDescription());
+			sb.AppendLine(Zone.PresentationName);
+			sb.AppendLine("Состояние: " + Zone.ZoneState.GetStateType().ToDescription());
 			return sb.ToString().TrimEnd();
 		}
 
@@ -62,7 +63,7 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			var stateType = _zone.ZoneState.GetStateType();
+			var stateType = Zone.ZoneState.GetStateType();
 			switch (stateType)
 			{
 				case StateType.Fire:
@@ -100,11 +101,17 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(_zone.UID);
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
 		}
 		bool CanShowInTree()
 		{
-			return _zone != null;
+			return Zone != null;
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
 		}
 
 		private ContextMenu CreateContextMenu()
@@ -112,11 +119,17 @@ namespace GKModule.Plans.Designer
 			if (_contextMenu == null)
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
+				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Header = "Показать в списке",
 					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Свойства",
+					Command = ShowPropertiesCommand
 				});
 			}
 			return _contextMenu;

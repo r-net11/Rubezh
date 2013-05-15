@@ -43,7 +43,7 @@ namespace Common.GK
 				Formula.AddGetBitOff(directionZone.StateType, directionZone.Zone);
 				if (inputObjectsCount > 0)
 				{
-					Formula.Add(FormulaOperationType.ADD);
+					Formula.Add(FormulaOperationType.OR);
 				}
 				inputObjectsCount++;
 			}
@@ -52,7 +52,7 @@ namespace Common.GK
 				Formula.AddGetBitOff(directionDevice.StateType, directionDevice.Device);
                 if (inputObjectsCount > 0)
                 {
-                    Formula.Add(FormulaOperationType.ADD);
+                    Formula.Add(FormulaOperationType.OR);
                 }
                 inputObjectsCount++;
             }
