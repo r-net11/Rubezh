@@ -14,6 +14,7 @@ using XFiresecAPI;
 using System.Windows.Controls;
 using Controls.Converters;
 using GKModule.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.Plans.Designer
 {
@@ -112,6 +113,7 @@ namespace GKModule.Plans.Designer
 		void OnShowProperties()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
+			DialogService.ShowWindow(zoneDetailsViewModel);
 		}
 
 		private ContextMenu CreateContextMenu()

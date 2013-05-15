@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0xDD,
 				DriverType = XDriverType.RSR2_SmokeDetector,
 				UID = new Guid("A50FFA41-B53E-4B3B-ADDF-CDBBA631FEB2"),
-				Name = "Пожарный дымовой извещатель ИП 212-64 RSR2",
-				ShortName = "ИП-64 RSR2",
+				Name = "Пожарный дымовой извещатель ИПД RSR2",
+				ShortName = "ИПД RSR2",
 				HasZone = true,
                 IsPlaceable = true
 			};
@@ -23,12 +23,12 @@ namespace Common.GK
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по дыму, 0.01*дБ/м", 0, 18, 5, 20);
+			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по дыму, 0.001*дБ/м", 0, 180, 50, 200);
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог запыленности, 0.001*дБ/м", 0, 200, 50, 500);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Дым 1" });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Дым 2" });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Пыль 1" });
-			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Пыль 2" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Дым, 0.001*дБ/м" });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Пыль, 0.001*дБ/м" });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Обслуживание, м.г." });
 
 			return driver;
 		}

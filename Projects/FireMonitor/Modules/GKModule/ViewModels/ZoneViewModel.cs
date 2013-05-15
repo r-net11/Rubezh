@@ -4,6 +4,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -90,6 +91,7 @@ namespace GKModule.ViewModels
 		void OnShowProperties()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
+			DialogService.ShowWindow(zoneDetailsViewModel);
 		}
 	}
 }
