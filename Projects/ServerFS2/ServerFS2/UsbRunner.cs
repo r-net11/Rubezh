@@ -114,9 +114,9 @@ namespace ServerFS2
 											   Data = _result
 										   };
 						OnNewResponse(response);
-						_responses.Add(response);
+						//_responses.Add(response);
 						//_requests.Clear();
-						_requests.RemoveAll(x => x.Id == responseId);
+						//_requests.RemoveAll(x => x.Id == responseId);
 						_autoResetEvent.Set();
 						return;
 					}
