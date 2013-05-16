@@ -82,8 +82,8 @@ namespace GKModule
 				ushort physicalAddress = device.IntAddress;
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
-				if (device.Driver.HasAddress && device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU
-					&& physicalAddress != binaryObjectState.PhysicalAddress)
+				if (device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU
+					&& device.Driver.HasAddress && physicalAddress != binaryObjectState.PhysicalAddress)
 					isMissmatch = true;
 
 				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOncontroller)

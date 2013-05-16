@@ -279,7 +279,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones);
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones, true);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);

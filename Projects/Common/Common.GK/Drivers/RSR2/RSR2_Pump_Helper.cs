@@ -30,9 +30,12 @@ namespace Common.GK
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 2, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Задержка на выключение, с", 0, 2, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 2, "Питание, 0.1 В", 0, 80, 0, 100);
+			GKDriversHelper.AddIntProprety(driver, 3, "Порог 1", 0, 340, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 4, "Порог 1", 0, 660, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 5, "Порог 1", 0, 2350, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 6, "Порог 1", 0, 3350, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 7, "Порог 1", 0, 4500, 0, 65535);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0, Name = "СС" });
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Неисправность" });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на включение" });
 			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение" });
 			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Тип шкафа" });

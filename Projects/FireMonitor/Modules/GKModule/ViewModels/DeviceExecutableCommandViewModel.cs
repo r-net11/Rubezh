@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Infrastructure.Common;
 
@@ -23,15 +19,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ExecuteControlCommand { get; private set; }
 		void OnExecuteControl()
 		{
-			SendControlCommand(0x80 + (int)StateType);
-		}
-
-		void SendControlCommand(int code)
-		{
-			if (Device.Driver.IsDeviceOnShleif)
-			{
-				ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
-			}
+			var code = 0x80 + (int)StateType;
+			ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
 		}
 	}
 }

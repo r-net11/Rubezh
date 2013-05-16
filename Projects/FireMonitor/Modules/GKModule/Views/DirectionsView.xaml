@@ -131,15 +131,17 @@
                                 <TextBlock Text="{Binding Zone.Name}" Margin="5, 0, 0, 0" />
                                 <StackPanel.ContextMenu>
                                     <ContextMenu TextBlock.FontSize="12">
-                                        <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
-                                        <Separator />
                                         <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
                                         <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
+                                        <MenuItem Command="{Binding ResetFireCommand}" Header="Сбросить" />
                                         <Separator />
-                                        <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
-                                        <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />
+                                        <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                        <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
+                                <StackPanel.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                                </StackPanel.InputBindings>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -55,9 +55,13 @@ namespace GKModule.ViewModels
 			alarms = new List<Alarm>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if ((!device.Driver.IsDeviceOnShleif || device.Driver.IsGroupDevice)
-					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU)
+				if ((device.Driver.IsGroupDevice)
+					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU)
 					continue;
+
+				//if ((!device.Driver.IsDeviceOnShleif || device.Driver.IsGroupDevice)
+				//    && device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU)
+				//    continue;
 
 				foreach (var stateType in device.DeviceState.States)
 				{
@@ -73,7 +77,10 @@ namespace GKModule.ViewModels
 
 						case XStateType.On:
 						case XStateType.TurningOn:
-							alarms.Add(new Alarm(XAlarmType.Turning, device));
+							if (device.Driver.IsDeviceOnShleif)
+							{
+								alarms.Add(new Alarm(XAlarmType.Turning, device));
+							}
 							break;
 					}
 				}

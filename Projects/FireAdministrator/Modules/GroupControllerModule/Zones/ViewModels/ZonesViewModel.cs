@@ -147,6 +147,7 @@ namespace GKModule.ViewModels
             {
                 createZoneEventArg.Cancel = false;
                 createZoneEventArg.ZoneUID = result.XZone.UID;
+				createZoneEventArg.Zone = result.XZone;
             }
         }
         public void EditZone(Guid zoneUID)

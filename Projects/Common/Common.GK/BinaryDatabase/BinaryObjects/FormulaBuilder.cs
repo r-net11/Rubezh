@@ -67,18 +67,13 @@ namespace Common.GK
 		public void AddStandardTurning(XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.DUP);
-			Add(FormulaOperationType.DUP);
 			AddGetBit(XStateType.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddGetBit(XStateType.Save, binaryBase);
-			Add(FormulaOperationType.COM);
-			Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
 			AddPutBit(XStateType.TurnOn_InAutomatic, binaryBase);
 			Add(FormulaOperationType.COM);
 			AddGetBit(XStateType.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 			AddPutBit(XStateType.TurnOff_InAutomatic, binaryBase);
-			AddPutBit(XStateType.Save, binaryBase);
 		}
 
 		string XBinaryBaseToString(XBinaryBase binaryBase)

@@ -5,8 +5,14 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Состояние" Margin="2" />
+                <TextBlock Text="Состояние" Foreground="White" Margin="2" />
                 <TextBlock Text="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel>
+                <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Margin="2" />
+                <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Margin="2" />
+                <Button Content="Сбросить" Command="{Binding ResetFireCommand}" Width="200" Margin="2" />
+                <Button Content="Показать на плане" Command="{Binding ShowOnPlanCommand}" Width="200" Margin="2" />
             </StackPanel>
         </StackPanel>
     </Grid>

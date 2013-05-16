@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 
         public bool IsTriStateControl
         {
-            get { return Device.Driver.IsDeviceOnShleif && Device.Driver.IsControlDevice; }
+			get { return Device.Driver.IsControlDevice; }
         }
 
         public bool IsBiStateControl

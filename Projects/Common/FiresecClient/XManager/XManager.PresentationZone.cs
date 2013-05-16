@@ -110,7 +110,7 @@ namespace FiresecClient
 			{
 				if (deviceCount > 0)
 					stringBuilder.Append(", ");
-				stringBuilder.Append(device.Driver.ShortName + device.DottedAddress);
+				stringBuilder.Append(device.ShortName + device.DottedAddress);
 				deviceCount++;
 			}
 			return stringBuilder.ToString();

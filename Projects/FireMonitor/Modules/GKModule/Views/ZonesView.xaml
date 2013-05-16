@@ -58,6 +58,9 @@
                                                 <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
                                             </ContextMenu>
                                         </Grid.ContextMenu>
+                                        <Grid.InputBindings>
+                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                                        </Grid.InputBindings>
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                     </Grid>
                                 </DataTemplate>

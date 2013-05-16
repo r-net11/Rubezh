@@ -18,6 +18,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -64,8 +65,10 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        
-        <Grid Grid.Row="1" DataContext="{Binding SelectedBinaryObject}" Margin="2">
+
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+
+        <Grid Grid.Row="2" DataContext="{Binding SelectedBinaryObject}" Margin="2">
             <TabControl DataContext="{Binding BinaryObject}">
                 <TabItem Header="Бинарный формат">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">

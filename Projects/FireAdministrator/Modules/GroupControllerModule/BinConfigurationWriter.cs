@@ -45,9 +45,13 @@ namespace GKModule
 							return;
 						}
 						EraseDatabase(kauDatabase.RootDevice);
-						WriteConfigToDevice(kauDatabase);
+						var writeResult = WriteConfigToDevice(kauDatabase);
+						if (!writeResult)
+							return;
 					}
-					WriteConfigToDevice(gkDatabase);
+					var writeResult2 = WriteConfigToDevice(gkDatabase);
+					if (!writeResult2)
+						return;
 
 					foreach (var kauDatabase in gkDatabase.KauDatabases)
 					{
@@ -91,7 +95,7 @@ namespace GKModule
 			return true;
 		}
 
-        static void WriteConfigToDevice(CommonDatabase commonDatabase)
+        static bool WriteConfigToDevice(CommonDatabase commonDatabase)
         {
             foreach (var binaryObject in commonDatabase.BinaryObjects)
             {
@@ -107,13 +111,13 @@ namespace GKModule
                     var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, true);
                     if (sendResult.HasError)
                     {
-                        MessageBoxService.Show(sendResult.Error);
 						LoadingService.Close();
-						return;
+						return MessageBoxService.ShowQuestion(sendResult.Error + "\n\nПперевести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;
                     }
                 }
             }
             WriteEndDescriptor(commonDatabase);
+			return true;
         }
 
         static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)

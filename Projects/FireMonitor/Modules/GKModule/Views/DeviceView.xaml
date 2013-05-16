@@ -20,5 +20,8 @@
                 </StackPanel>
             </TextBlock.ToolTip>
         </TextBlock>
+        <StackPanel.InputBindings>
+            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+        </StackPanel.InputBindings>
     </StackPanel>
 </UserControl>

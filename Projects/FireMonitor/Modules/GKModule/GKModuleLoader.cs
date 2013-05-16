@@ -146,6 +146,7 @@ namespace GKModule
 
 		public override void AfterInitialize()
 		{
+			AlarmsViewModel.SubscribeShortcuts();
 			WatcherManager.Start();
 			JournalsViewModel.GetTopLast();
 		}

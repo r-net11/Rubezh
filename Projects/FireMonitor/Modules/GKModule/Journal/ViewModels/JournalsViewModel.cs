@@ -65,7 +65,8 @@ namespace GKModule.ViewModels
         {
             foreach (var journalItem in journalItems)
             {
-                if (journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention)
+                if ((journalItem.JournalItemType == JournalItemType.Zone || journalItem.JournalItemType == JournalItemType.Direction) &&
+					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
                 {
                     if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
                     {

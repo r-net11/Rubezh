@@ -64,11 +64,6 @@ namespace Common.GK
 					count++;
 				}
 			}
-			Formula.AddGetBit(XStateType.Fire2, Zone);
-			if (count > 0)
-			{
-				Formula.Add(FormulaOperationType.OR);
-			}
 			return count;
 		}
 
@@ -86,23 +81,19 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
-			//Formula.Add(FormulaOperationType.DUP);
+			Formula.AddGetBit(XStateType.Fire2, Zone);
+			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateType.Fire2, Zone);
 
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
-			//Formula.Add(FormulaOperationType.DUP);
 			Formula.AddGetBit(XStateType.Fire1, Zone);
 			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateType.Fire1, Zone);
 
-			//Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
-			//Formula.Add(FormulaOperationType.DUP);
-			//Formula.AddGetBit(XStateType.Attention, Zone);
-			//Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateType.Attention, Zone);
 
 			Formula.Add(FormulaOperationType.END);

@@ -265,7 +265,7 @@ namespace XFiresecAPI
 				return new XBinaryInfo()
 				{
 					Type = "Устройство",
-					Name = Driver.ShortName,
+					Name = ShortName,
 					Address = Address
 				};
 			}

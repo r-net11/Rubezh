@@ -44,6 +44,9 @@ namespace XFiresecAPI
 					case XStateType.TurningOn:
 						stateClasses.Add(XStateClass.TurningOn);
 						break;
+					case XStateType.TurningOff:
+						stateClasses.Add(XStateClass.TurningOff);
+						break;
 					case XStateType.Test:
 						stateClasses.Add(XStateClass.Info);
 						break;

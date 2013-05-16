@@ -14,6 +14,7 @@ namespace Common.GK
 				UID = new Guid("DEAA33C2-0EAA-4D4D-BA31-FCDBE0AD149A"),
 				Name = "Линия ГК",
 				ShortName = "Линия ГК",
+				IsControlDevice = true,
 				HasLogic = true,
 				CanEditAddress = false,
                 HasAddress = false,
@@ -27,6 +28,9 @@ namespace Common.GK
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
+
+			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
 
 			var modeProperty = new XDriverProperty()
 			{
