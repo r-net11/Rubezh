@@ -57,11 +57,13 @@ namespace MonitorClientFS2
 				{
 					if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
 					{
-						SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
+						//SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
 					}
-					LastIndexRequest(deviceResponceRelation);
-					Thread.Sleep(1000);
+					else
+						LastIndexRequest(deviceResponceRelation);
+					Thread.Sleep(100);
 				}
+				Trace.WriteLine("");
 				Thread.Sleep(1000);
 			}
 		}
@@ -119,10 +121,17 @@ namespace MonitorClientFS2
 
 		void NewItemReceived(DeviceResponceRelation deviceResponceRelation, Response response)
 		{
+			if (!ValidReadItemResponse(response))
+				return;
 			var journalItem = JournalParser.FSParce(response.Data);
 			Trace.WriteLine("ReadItem Responce " + deviceResponceRelation.Device.PresentationAddressAndName);
 			DBJournalHelper.AddJournalItem(journalItem);
 			OnNewItems(journalItem);
+		}
+
+		private static bool ValidReadItemResponse(Response response)
+		{
+			return response.Data.Count >= 24;
 		}
 
 		void LastIndexRequest(DeviceResponceRelation deviceResponceRelation)
@@ -135,8 +144,14 @@ namespace MonitorClientFS2
 
 		void LastIndexReceived(DeviceResponceRelation deviceResponceRelation, Response response)
 		{
+			if (!ValidReadIndexResponse(response))
+				return;
 			var lastDeviceRecord = 256 * response.Data[9] + response.Data[10];
-			Trace.WriteLine("ReadIndex Response " + lastDeviceRecord);
+			if (deviceResponceRelation.FirstDisplayedRecord == -1)
+				deviceResponceRelation.FirstDisplayedRecord = lastDeviceRecord;
+			if (deviceResponceRelation.LastDisplayedRecord == -1)
+				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
+			Trace.WriteLine(deviceResponceRelation.Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord-deviceResponceRelation.FirstDisplayedRecord));
 			if (lastDeviceRecord - deviceResponceRelation.LastDisplayedRecord > maxMessages)
 			{
 				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord - maxMessages;
@@ -153,6 +168,11 @@ namespace MonitorClientFS2
 				});
 				thread.Start();
 			}
+		}
+
+		private static bool ValidReadIndexResponse(Response response)
+		{
+			return response.Data.Count() >= 10;
 		}
 
 		void NewItemRequests(DeviceResponceRelation deviceResponceRelation, int lastDeviceRecord, int lastDisplayedRecord)
@@ -244,10 +264,12 @@ namespace MonitorClientFS2
 			Device = device;
 			Requests = new List<Request>();
 			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+			FirstDisplayedRecord = -1;
 		}
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
 		public bool UnAnswered { get { return Requests.Count > 0; } }
+		public int FirstDisplayedRecord { get; set; }
 		int lastDisplayedRecord;
 		public int LastDisplayedRecord
 		{
