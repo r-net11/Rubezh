@@ -11,6 +11,8 @@ namespace MonitorClientFS2
 {
 	public class MonitoringProcessor
 	{
+		static readonly int maxMessages = 1024;
+		static readonly int maxSecMessages = 1024;
 		int UsbRequestNo = 1;
 		static readonly object Locker = new object();
 		List<DeviceResponceRelation> DeviceResponceRelations = new List<DeviceResponceRelation>();
@@ -22,10 +24,10 @@ namespace MonitorClientFS2
 		{
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
-				//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-				//    DeviceResponceRelations.Add(new DeviceSecResponceRelation(device));
-				//else
-				DeviceResponceRelations.Add(new DeviceResponceRelation(device));
+				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+					DeviceResponceRelations.Add(new SecDeviceResponceRelation(device));
+				else
+					DeviceResponceRelations.Add(new DeviceResponceRelation(device));
 			}
 			DoMonitoring = false;
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
@@ -53,6 +55,10 @@ namespace MonitorClientFS2
 			{
 				foreach (var deviceResponceRelation in DeviceResponceRelations.Where(x => !x.UnAnswered))
 				{
+					if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
+					{
+						SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
+					}
 					LastIndexRequest(deviceResponceRelation);
 					Thread.Sleep(1000);
 				}
@@ -78,7 +84,7 @@ namespace MonitorClientFS2
 
 		void UsbRunner_NewResponse(Response response)
 		{
-			var deviceResponceRelation = DeviceResponceRelations.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y.Id == response.Id) != null);
+			var deviceResponceRelation = DeviceResponceRelations.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y != null && y.Id == response.Id) != null);
 			if (deviceResponceRelation != null)
 			{
 				var request = deviceResponceRelation.Requests.FirstOrDefault(y => y.Id == response.Id);
@@ -89,6 +95,14 @@ namespace MonitorClientFS2
 				else if (request.RequestType == RequestTypes.ReadItem)
 				{
 					NewItemReceived(deviceResponceRelation, response);
+				}
+				else if (request.RequestType == RequestTypes.SecReadIndex)
+				{
+					SecLastIndexReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
+				}
+				else if (request.RequestType == RequestTypes.SecReadItem)
+				{
+					SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 				}
 				deviceResponceRelation.Requests.Remove(request);
 			}
@@ -101,13 +115,12 @@ namespace MonitorClientFS2
 			var bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(ItemIndex).Reverse());
 			SendByteCommand(bytes, deviceResponceRelation.Device, UsbRequestNo);
-			Thread.Sleep(2000);
 		}
 
 		void NewItemReceived(DeviceResponceRelation deviceResponceRelation, Response response)
 		{
 			var journalItem = JournalParser.FSParce(response.Data);
-			Trace.WriteLine("ReadItem Responce " + journalItem.Description);
+			Trace.WriteLine("ReadItem Responce " + deviceResponceRelation.Device.PresentationAddressAndName);
 			DBJournalHelper.AddJournalItem(journalItem);
 			OnNewItems(journalItem);
 		}
@@ -124,23 +137,100 @@ namespace MonitorClientFS2
 		{
 			var lastDeviceRecord = 256 * response.Data[9] + response.Data[10];
 			Trace.WriteLine("ReadIndex Response " + lastDeviceRecord);
-			var lastDisplayedRecord = deviceResponceRelation.LastDisplayedRecord;
-			if (lastDisplayedRecord == -1)
+			if (lastDeviceRecord - deviceResponceRelation.LastDisplayedRecord > maxMessages)
 			{
-				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
+				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord - maxMessages;
 			}
-			else if (lastDeviceRecord > lastDisplayedRecord)
+			if (lastDeviceRecord > deviceResponceRelation.LastDisplayedRecord)
 			{
-				Trace.WriteLine("Дочитываю записи с " + (lastDisplayedRecord + 1).ToString() + " до " + lastDeviceRecord.ToString());
-				//Trace.WriteLine("Дочитываю записи с " + (lastDeviceRecord - 10).ToString() + " до " + lastDeviceRecord.ToString());
-				for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
-				//for (int i = lastDeviceRecord - 10; i <= lastDeviceRecord; i++)
+				Trace.WriteLine("Дочитываю записи с " +
+					(deviceResponceRelation.LastDisplayedRecord + 1).ToString() +
+					" до " +
+					lastDeviceRecord.ToString());
+				var thread = new Thread(() =>
 				{
-					NewItemRequest(deviceResponceRelation, i);
-				}
-				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
+					NewItemRequests(deviceResponceRelation, lastDeviceRecord, deviceResponceRelation.LastDisplayedRecord);
+				});
+				thread.Start();
 			}
 		}
+
+		void NewItemRequests(DeviceResponceRelation deviceResponceRelation, int lastDeviceRecord, int lastDisplayedRecord)
+		{
+			for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
+			{
+				NewItemRequest(deviceResponceRelation, i);
+				while (deviceResponceRelation.UnAnswered)
+				{
+					;
+				}
+			}
+			deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
+		}
+
+		#region Дубликаты для охранных записей
+
+		void SecNewItemRequest(SecDeviceResponceRelation deviceResponceRelation, int ItemIndex)
+		{
+			++UsbRequestNo;
+			deviceResponceRelation.Requests.Add(new Request { Id = UsbRequestNo, RequestType = RequestTypes.SecReadItem });
+			var bytes = new List<byte> { 0x20, 0x02 };
+			bytes.AddRange(BitConverter.GetBytes(ItemIndex).Reverse());
+			SendByteCommand(bytes, deviceResponceRelation.Device, UsbRequestNo);
+		}
+
+		void SecNewItemReceived(SecDeviceResponceRelation deviceResponceRelation, Response response)
+		{
+			Trace.WriteLine("SecReadItem Responce " + deviceResponceRelation.Device.PresentationAddressAndName);
+			var journalItem = JournalParser.FSParce(response.Data);
+			DBJournalHelper.AddJournalItem(journalItem);
+			OnNewItems(journalItem);
+		}
+
+		void SecLastIndexRequest(SecDeviceResponceRelation deviceResponceRelation)
+		{
+			++UsbRequestNo;
+			var request = new Request { Id = UsbRequestNo, RequestType = RequestTypes.SecReadIndex };
+			deviceResponceRelation.Requests.Add(request);
+			SendByteCommand(new List<byte> { 0x21, 0x02 }, deviceResponceRelation.Device, UsbRequestNo);
+		}
+
+		void SecLastIndexReceived(SecDeviceResponceRelation deviceResponceRelation, Response response)
+		{
+			var lastDeviceRecord = 256 * response.Data[9] + response.Data[10];
+			Trace.WriteLine("SecReadIndex Response " + lastDeviceRecord);
+			if (lastDeviceRecord - deviceResponceRelation.LastDisplayedSecRecord > maxSecMessages)
+			{
+				deviceResponceRelation.LastDisplayedSecRecord = lastDeviceRecord - maxSecMessages;
+			}
+			if (lastDeviceRecord > deviceResponceRelation.LastDisplayedSecRecord)
+			{
+				Trace.WriteLine("Дочитываю записи с " +
+					(deviceResponceRelation.LastDisplayedSecRecord + 1).ToString() +
+					" до " +
+					lastDeviceRecord.ToString());
+				var thread = new Thread(() =>
+				{
+					SecNewItemRequests(deviceResponceRelation, lastDeviceRecord, deviceResponceRelation.LastDisplayedSecRecord);
+				});
+				thread.Start();
+			}
+		}
+
+		void SecNewItemRequests(SecDeviceResponceRelation deviceResponceRelation, int lastDeviceRecord, int lastDisplayedRecord)
+		{
+			for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
+			{
+				SecNewItemRequest(deviceResponceRelation, i);
+				while (deviceResponceRelation.UnAnswered)
+				{
+					;
+				}
+			}
+			deviceResponceRelation.LastDisplayedSecRecord = lastDeviceRecord;
+		}
+
+		#endregion Дубликаты для охранных записей
 	}
 
 	public class DeviceResponceRelation
@@ -170,16 +260,26 @@ namespace MonitorClientFS2
 		}
 	}
 
-	//public class DeviceSecResponceRelation : DeviceResponceRelation
-	//{
-	//    public DeviceSecResponceRelation(Device device)
-	//    {
-	//        Device = device;
-	//        Requests = new List<Request>();
-	//        LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
-	//    }
-	//    public int LastDisplayedSecRecord { get; set; }
-	//}
+	public class SecDeviceResponceRelation : DeviceResponceRelation
+	{
+		public SecDeviceResponceRelation(Device device)
+		{
+			Device = device;
+			Requests = new List<Request>();
+			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+			LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
+		}
+		int lastDisplayedSecRecord;
+		public int LastDisplayedSecRecord
+		{
+			get { return lastDisplayedSecRecord; }
+			set
+			{
+				lastDisplayedSecRecord = value;
+				XmlJournalHelper.SetLastId(Device, value);
+			}
+		}
+	}
 
 	public class Request
 	{
@@ -191,8 +291,8 @@ namespace MonitorClientFS2
 	{
 		ReadIndex,
 		ReadItem,
-		ReadSecIndex,
-		ReadSecItem,
+		SecReadIndex,
+		SecReadItem,
 		Other
 	}
 }

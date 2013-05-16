@@ -78,5 +78,18 @@ namespace MonitorClientFS2
 			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
 			return Int32.Parse(deviceElement.Attribute("LastId").Value);
 		}
+
+		public static void SetLastSecId(Device device, int lastId)
+		{
+			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
+			deviceElement.Attribute("LastSecId").Value = lastId.ToString();
+			lastRecordsDocument.Save(fileName);
+		}
+
+		public static int GetLastSecId(Device device)
+		{
+			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
+			return Int32.Parse(deviceElement.Attribute("LastSecId").Value);
+		}
 	}
 }
