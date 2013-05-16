@@ -200,8 +200,15 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
-					continue;
+				if (Device.Driver.DriverType == XDriverType.GKLine || Device.Driver.DriverType == XDriverType.GKRele)
+				{
+
+				}
+				else
+				{
+					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
+						continue;
+				}
 				if (device.UID == Device.UID)
 					continue;
 				if (device.Driver.AvailableStates.Contains(SelectedStateType))

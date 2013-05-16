@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -168,7 +169,7 @@ namespace DevicesModule.ViewModels
 			try
 			{
 				LoadingService.ShowProgress("", "Считывание параметров дочерних устройств", SelectedDevice.Children.Count());
-				foreach (var child in SelectedDevice.Children)
+                foreach (var child in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(child.Device.PresentationAddressAndName);
 					var result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(child.Device);
@@ -179,6 +180,19 @@ namespace DevicesModule.ViewModels
 					}
 					child.PropertiesViewModel.IsAuParametersReady = false;
 					ServiceFactory.SaveService.FSChanged = true;
+
+                    foreach (var groupChild in child.Children)
+                    {
+                        LoadingService.DoStep(groupChild.Device.PresentationAddressAndName);
+                        result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(groupChild.Device);
+                        if (result.HasError)
+                        {
+                            MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
+                            return;
+                        }
+                        groupChild.PropertiesViewModel.IsAuParametersReady = false;
+                        ServiceFactory.SaveService.FSChanged = true;
+                    }
 				};
 			}
 			catch (Exception e)
@@ -190,6 +204,10 @@ namespace DevicesModule.ViewModels
 				LoadingService.Close();
 			}
 		}
+        void ReadOneParameter()
+        {
+
+        }
 		bool CanGetAllDeviceConfigurationParameters()
 		{
 			if (SelectedDevice != null)

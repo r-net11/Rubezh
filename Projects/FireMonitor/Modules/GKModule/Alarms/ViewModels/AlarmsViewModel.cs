@@ -7,22 +7,34 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
+using System.Windows.Input;
+using Common;
+using System;
 
 namespace GKModule.ViewModels
 {
 	public class AlarmsViewModel : ViewPartViewModel
 	{
+		public static AlarmsViewModel Current { get; private set; }
 		List<Alarm> alarms;
 		XAlarmType? sortingAlarmType;
 
 		public AlarmsViewModel()
 		{
+			Current = this;
 			alarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
 			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
 			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChanged);
+		}
+
+		public void SubscribeShortcuts()
+		{
+			ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
+			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}
 
 		public ObservableCollection<AlarmViewModel> Alarms { get; private set; }
@@ -241,6 +253,31 @@ namespace GKModule.ViewModels
 					return true;
 			}
 			return false;
+		}
+
+		void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
+		{
+			try
+			{
+				if (e.Key == System.Windows.Input.Key.F1 && GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled)
+				{
+				}
+				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
+				{
+				}
+				if (e.Key == System.Windows.Input.Key.F3 && GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled)
+				{
+				}
+				if (e.Key == System.Windows.Input.Key.F4 && GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled)
+				{
+					if (CanResetAll())
+						OnResetAll();
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "XAlarmsViewModel.ShortcutService_KeyPressed");
+			}
 		}
 	}
 }

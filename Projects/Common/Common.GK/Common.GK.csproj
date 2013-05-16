@@ -80,6 +80,9 @@
     <Compile Include="BinaryDatabase\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="BinaryDatabase\DB\PumpStationCreator.cs" />
     <Compile Include="BinaryDatabase\KauChildrenHelper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Pump_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_HeatDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MAP4_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MVK8_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MAP4_Helper.cs" />
@@ -109,7 +112,7 @@
     <Compile Include="Drivers\RSR2\RSR2_AM_4_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_2_Helper.cs" />
-    <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_SmokeDetector2_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKLine_Helper.cs" />

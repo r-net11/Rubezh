@@ -66,6 +66,8 @@
     <DirectoryRef Id="AppData.DBLocation">
       <Component Id="Server.DB" Guid="040A38D7-2390-43EA-A6EB-F6DBC39DF92E" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
+        <File Id="Server.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
+        <File Id="Server.FSDB.sdf" Name="FSDB.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
     </DirectoryRef>
 

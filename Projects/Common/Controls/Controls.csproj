@@ -883,6 +883,15 @@
   <ItemGroup>
     <Resource Include="Images\SaveAll.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_SmokeDetector2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_HeatDetector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Pump.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

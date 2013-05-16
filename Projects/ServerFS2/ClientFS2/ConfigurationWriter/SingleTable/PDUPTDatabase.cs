@@ -167,7 +167,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12 - 53);
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x404C);
 		}
 
 		PDUItem AddPDUItem(Device pduDirectionDevice, Device device)

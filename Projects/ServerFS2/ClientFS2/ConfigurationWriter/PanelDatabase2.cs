@@ -203,16 +203,6 @@ namespace ClientFS2.ConfigurationWriter
 			Tables.Add(ServiceTable);
 		}
 
-		//void AddToDevicelist2(List<int> addressList, Device device)
-		//{
-		//    var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
-		//    var index = device.ParentChannel.Children.Where(x => x.IntAddress != ParentPanel.IntAddress).OrderBy(x => x.IntAddress).ToList().IndexOf(device);
-		//    if (index != -1)
-		//    {
-		//        addressList[index] = deviceCode;
-		//    }
-		//}
-
 		void CreateDevices()
 		{
 			var startDateTime = DateTime.Now;

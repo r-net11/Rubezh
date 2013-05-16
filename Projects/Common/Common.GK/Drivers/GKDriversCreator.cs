@@ -49,6 +49,7 @@ namespace Common.GK
 			XManager.DriversConfiguration.XDrivers.Add(RSR2_AM_1_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_HandDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_SmokeDetector_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_SmokeDetector2_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_RM_2_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_AM_4_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MDU_Helper.Create());
@@ -56,6 +57,8 @@ namespace Common.GK
 			XManager.DriversConfiguration.XDrivers.Add(RSR2_MVK8_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MAP4_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVK8_Group_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_HeatDetector_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_Pump_Helper.Create());
 		}
 
 		static void AddDriverToKau(XDriver driver)

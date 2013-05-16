@@ -316,6 +316,7 @@ namespace FiresecClient
 				SetDeviceZoneLogic(device, new ZoneLogic());
 			}
 			device.Properties = new List<Property>();
+			device.OnChanged();
 		}
 	}
 }

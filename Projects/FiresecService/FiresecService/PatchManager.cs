@@ -32,7 +32,7 @@ namespace FiresecService
 		static void Patch2()
 		{
 			var patchNo = PatchHelper.GetPatchNo("Server");
-			if (patchNo > 2)
+			if (patchNo >= 4)
 				return;
 
 			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
@@ -49,7 +49,7 @@ namespace FiresecService
 			AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
 			zipFile.Save(fileName);
 
-			//PatchHelper.SetPatchNo("Server", 2);
+			PatchHelper.SetPatchNo("Server", 4);
 		}
 
 		static void Patch1()

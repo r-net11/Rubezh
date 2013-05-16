@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common;
 
 namespace GKModule.ViewModels
 {
@@ -13,6 +14,7 @@ namespace GKModule.ViewModels
 		public AlarmGroupsViewModel()
 		{
 			Current = this;
+			ResetCommand = new RelayCommand(OnReset);
 			AlarmGroups = new List<AlarmGroupViewModel>();
 			foreach (XAlarmType alarmType in Enum.GetValues(typeof(XAlarmType)))
 			{
@@ -29,6 +31,12 @@ namespace GKModule.ViewModels
 				alarmGroup.Alarms = alarms.Where(x => x.AlarmType == alarmGroup.AlarmType).ToList<Alarm>();
 				alarmGroup.Update();
 			}
+		}
+
+		public RelayCommand ResetCommand { get; private set; }
+		void OnReset()
+		{
+			AlarmsViewModel.Current.ResetAllCommand.Execute();
 		}
 	}
 }

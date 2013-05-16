@@ -22,6 +22,7 @@ namespace Common.GK
 			GKDriversHelper.AddControlAvailableStates(driver);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 
 			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
@@ -56,8 +57,8 @@ namespace Common.GK
 				Mask = 0x0C
 			};
 			GKDriversHelper.AddPropertyParameter(property2, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 1);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 2);
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 4);
+			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 8);
 			driver.Properties.Add(property2);
 
 			var property3 = new XDriverProperty()
@@ -70,8 +71,8 @@ namespace Common.GK
 				Mask = 0x30
 			};
 			GKDriversHelper.AddPropertyParameter(property3, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property3, "Контакт НЗ", 1);
-			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 2);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт НЗ", 16);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 32);
 			driver.Properties.Add(property3);
 
 			return driver;

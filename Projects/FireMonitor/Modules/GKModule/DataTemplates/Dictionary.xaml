@@ -11,6 +11,10 @@
         <Views:ZonesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ZoneDetailsViewModel}">
+        <Views:ZoneDetailsView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
         <Views:DeviceDetailsView />
     </DataTemplate>

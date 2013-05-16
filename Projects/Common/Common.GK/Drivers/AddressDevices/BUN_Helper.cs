@@ -26,7 +26,7 @@ namespace Common.GK
 
 			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
-			driver.AvailableCommands.Add(XStateType.Stop_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
 			driver.AvailableCommands.Add(XStateType.ForbidStart_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0x8c, "Время разновременного пуска, с", 0, 1, 1, 255);
