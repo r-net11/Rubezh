@@ -109,7 +109,7 @@
     <Compile Include="Drivers\AddressDevices\RM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MDU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />
-    <Compile Include="Drivers\RSR2\RSR2_AM_4_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_AM_4_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_2_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector2_Helper.cs" />

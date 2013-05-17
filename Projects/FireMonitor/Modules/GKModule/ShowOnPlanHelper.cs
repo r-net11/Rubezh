@@ -40,5 +40,13 @@ namespace GKModule
 			}
 			return false;
 		}
+
+		public static void ShowDirection(XDirection direction)
+		{
+		}
+		public static bool CanShowDirection(XDirection direction)
+		{
+			return false;
+		}
 	}
 }

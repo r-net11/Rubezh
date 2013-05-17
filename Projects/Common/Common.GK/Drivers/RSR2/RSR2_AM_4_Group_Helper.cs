@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public static class RSR2_AM_4_Helper
+	public static class RSR2_AM_4_Group_Helper
 	{
 		public static XDriver Create()
 		{

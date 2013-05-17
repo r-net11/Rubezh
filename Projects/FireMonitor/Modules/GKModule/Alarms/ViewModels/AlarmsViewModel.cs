@@ -79,12 +79,16 @@ namespace GKModule.ViewModels
 						case XStateType.TurningOn:
 							if (device.Driver.IsDeviceOnShleif)
 							{
-								alarms.Add(new Alarm(XAlarmType.Turning, device));
+								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.UID == device.UID))
+								{
+									alarms.Add(new Alarm(XAlarmType.Turning, device));
+								}
 							}
 							break;
 					}
 				}
-				if (!device.DeviceState.States.Contains(XStateType.Norm) && !device.DeviceState.IsConnectionLost)
+				if (!device.DeviceState.States.Contains(XStateType.Norm) && !device.DeviceState.States.Contains(XStateType.Ignore)
+					&& !device.DeviceState.IsConnectionLost && device.Driver.IsControlDevice)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}

@@ -28,7 +28,7 @@ namespace Common.GK
 
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Дым, 0.001*дБ/м" });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Пыль, 0.001*дБ/м" });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Обслуживание, м.г." });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Дата последнего обслуживания" });
 
 			return driver;
 		}

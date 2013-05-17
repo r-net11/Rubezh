@@ -75,7 +75,7 @@
                                             <ColumnDefinition SharedSizeGroup="group2" Width="100" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" HorizontalAlignment="Right" />
-                                        <TextBlock Grid.Column="1" Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
+                                        <TextBlock Grid.Column="1" Text="{Binding StringValue}" Foreground="White" Margin="5, 0, 0, 0" />
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

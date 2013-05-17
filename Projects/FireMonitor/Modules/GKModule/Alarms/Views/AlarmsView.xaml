@@ -16,10 +16,51 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" Width="*" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding Alarm.Device.ShortPresentationAddressAndDriver}" Width="*" />
-                <DataGridTextColumn Header="Зона" Binding="{Binding Alarm.Zone.PresentationName}" Width="*" />
-                <DataGridTextColumn Header="Направление" Binding="{Binding Alarm.Direction.PresentationName}" Width="*" />
+                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" Width="Auto" />
+
+                <DataGridTemplateColumn Header="Объект" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                    <TextBlock Text="{Binding ObjectName}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Команды" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="2 0" Visibility="{Binding CanResetCommand, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Hyperlink Command="{Binding ResetCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <TextBlock Text="Сбросить" />
+                                    </Hyperlink>
+                                </TextBlock>
+
+                                <TextBlock Margin="2 0" Visibility="{Binding CanResetIgnoreCommand, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Hyperlink Command="{Binding ResetIgnoreCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <TextBlock Text="Снять отключение" />
+                                    </Hyperlink>
+                                </TextBlock>
+
+                                <TextBlock Margin="2 0" Visibility="{Binding CanTurnOnAutomaticCommand, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Hyperlink Command="{Binding TurnOnAutomaticCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <TextBlock Text="Включить автоматику" />
+                                    </Hyperlink>
+                                </TextBlock>
+
+                                <TextBlock Margin="2 0" Visibility="{Binding CanTurnOffCommand, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Hyperlink Command="{Binding TurnOffCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <TextBlock Text="Выключить" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -27,10 +68,12 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu>
-                                    <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                    <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
                                     <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" />
                                     <MenuItem Header="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
+                                    <MenuItem Header="Включить автоматику" Command="{Binding TurnOnAutomaticCommand}" />
+                                    <MenuItem Header="Выключить" Command="{Binding TurnOffCommand}" />
+                                    <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                    <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                     <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" />
                                 </ContextMenu>

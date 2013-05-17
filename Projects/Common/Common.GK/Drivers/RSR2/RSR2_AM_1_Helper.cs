@@ -62,6 +62,8 @@ namespace Common.GK
 			property1.Parameters.Add(property1Parameter5);
 			driver.Properties.Add(property1);
 
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Сопротивление, Ом" });
+
 			return driver;
 		}
 	}

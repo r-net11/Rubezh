@@ -59,6 +59,9 @@ namespace Common.GK
 			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1В", 0, 4500, 1, 10000);
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1В", 0, 6000, 1, 10000);
 
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Сопротивление, Ом" });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Питание, В" });
+
 			return driver;
 		}
 	}
