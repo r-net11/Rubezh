@@ -34,7 +34,7 @@ namespace ServerFS2
             }
             else
             {
-                IsExtendedMode = false;
+                //IsExtendedMode = false;
                 GetDeviceRamFirstAndRomLastIndex(device, false);
                 DeviceRam = GetDeviceRam(device);
                 DeviceRom = GetDeviceRom(device);
