@@ -239,23 +239,23 @@ namespace FiresecClient
 		private static void UpdateZoneType(IElementZone elementZone, Zone zone)
 		{
 			elementZone.BackgroundColor = System.Windows.Media.Colors.Black;
-			elementZone.SetZLayer(2);
+			elementZone.SetZLayer(20);
 			if (zone != null)
 				switch (zone.ZoneType)
 				{
 					case ZoneType.Fire:
 						elementZone.BackgroundColor = System.Windows.Media.Colors.Green;
-						elementZone.SetZLayer(3);
+						elementZone.SetZLayer(30);
 						break;
 					case ZoneType.Guard:
 						elementZone.BackgroundColor = System.Windows.Media.Colors.Brown;
-						elementZone.SetZLayer(4);
+						elementZone.SetZLayer(40);
 						break;
 				}
 		}
 		private static void UpdateZoneType(IElementZone elementZone, XZone zone)
 		{
-			elementZone.SetZLayer(zone == null ? 5 : 6);
+			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)

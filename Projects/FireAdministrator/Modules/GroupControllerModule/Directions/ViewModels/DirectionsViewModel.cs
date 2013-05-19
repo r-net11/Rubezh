@@ -25,7 +25,9 @@ namespace GKModule.ViewModels
             ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
 			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
             RegisterShortcuts();
-        }
+			IsRightPanelEnabled = true;
+			IsRightPanelVisible = true;
+		}
 
         public void Initialize()
         {

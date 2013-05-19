@@ -13,12 +13,15 @@ namespace GKModule.Plans.Designer
 	{
 		private static Dictionary<Guid, XZone> _xzoneMap;
 		private static Dictionary<Guid, XDevice> _xdeviceMap;
+		private static Dictionary<Guid, XDirection> _xdirectionMap;
 		public static void BuildMap()
 		{
 			_xzoneMap = new Dictionary<Guid, XZone>();
 			XManager.DeviceConfiguration.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
 			XManager.DeviceConfiguration.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+			_xdirectionMap = new Dictionary<Guid, XDirection>();
+			XManager.DeviceConfiguration.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
 		}
 		
 		public static string GetXZoneTitle(IElementZone element)
@@ -41,7 +44,7 @@ namespace GKModule.Plans.Designer
 		}
 		public static void SetXZone(IElementZone element, XZone xzone)
 		{
-            element.ZoneUID = xzone == null ? Guid.Empty : xzone.UID;
+			element.ZoneUID = xzone == null ? Guid.Empty : xzone.UID;
 			element.BackgroundColor = GetXZoneColor(xzone);
 		}
 		public static Color GetXZoneColor(XZone zone)
@@ -49,6 +52,37 @@ namespace GKModule.Plans.Designer
 			Color color = Colors.Black;
 			if (zone != null)
 				color = Colors.Green;
+			return color;
+		}
+
+		public static string GetXDirectionTitle(ElementXDirection element)
+		{
+			var xdirection = GetXDirection(element);
+			return xdirection == null ? "Несвязанная зона" : xdirection.PresentationName;
+		}
+		public static XDirection GetXDirection(ElementXDirection element)
+		{
+			return GetXDirection(element.DirectionUID);
+		}
+		public static XDirection GetXDirection(Guid xdirectionUID)
+		{
+			return xdirectionUID != Guid.Empty && _xdirectionMap.ContainsKey(xdirectionUID) ? _xdirectionMap[xdirectionUID] : null;
+		}
+		public static void SetXDirection(ElementXDirection element)
+		{
+			var xdirection = GetXDirection(element);
+			element.BackgroundColor = GetXDirectionColor(xdirection);
+		}
+		public static void SetXDirection(ElementXDirection element, XDirection xdirection)
+		{
+			element.DirectionUID = xdirection == null ? Guid.Empty : xdirection.UID;
+			element.BackgroundColor = GetXDirectionColor(xdirection);
+		}
+		public static Color GetXDirectionColor(XDirection xdirection)
+		{
+			Color color = Colors.Black;
+			if (xdirection != null)
+				color = Colors.LightBlue;
 			return color;
 		}
 

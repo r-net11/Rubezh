@@ -31,7 +31,7 @@ namespace FiresecAPI.Models
 		}
 		public override void UpdateZLayer()
 		{
-			ZLayer = 7;
+			ZLayer = 70;
 		}
 	}
 }

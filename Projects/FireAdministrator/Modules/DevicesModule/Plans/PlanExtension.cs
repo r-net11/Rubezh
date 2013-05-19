@@ -198,15 +198,15 @@ namespace DevicesModule.Plans
 			designerItem.Title = Designer.Helper.GetZoneTitle(zone);
 			elementZone.BackgroundColor = Designer.Helper.GetZoneColor(zone);
 			if (zone == null)
-				elementZone.SetZLayer(2);
+				elementZone.SetZLayer(20);
 			else
 				switch (zone.ZoneType)
 				{
 					case ZoneType.Fire:
-						elementZone.SetZLayer(3);
+						elementZone.SetZLayer(30);
 						break;
 					case ZoneType.Guard:
-						elementZone.SetZLayer(4);
+						elementZone.SetZLayer(40);
 						break;
 				}
 		}

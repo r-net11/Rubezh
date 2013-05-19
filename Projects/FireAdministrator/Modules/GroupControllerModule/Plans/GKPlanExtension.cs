@@ -83,6 +83,14 @@ namespace GKModule.Plans
 							Index = 201,
 							Autostart = true
 						},
+						new InstrumentViewModel()
+						{
+							ImageSource="/Controls;component/Images/Direction.png",
+							ToolTip="ГК Направление",
+							Adorner = new XDirectionAdorner(_designerCanvas),
+							Index = 201,
+							Autostart = true
+						},
 					};
 				return _instruments;
 			}
@@ -104,10 +112,16 @@ namespace GKModule.Plans
 			}
 			else if (element is ElementXDevice)
 			{
-				ElementXDevice elementXDevice = element as ElementXDevice;
+				var elementXDevice = element as ElementXDevice;
 				Helper.SetXDevice(elementXDevice);
 				plan.ElementXDevices.Add(elementXDevice);
 				return true;
+			}
+			else if (element is ElementXDirection)
+			{
+				var elementXDirection = element as ElementXDirection;
+				Helper.SetXDirection(elementXDirection);
+				plan.ElementXDirections.Add(elementXDirection);
 			}
 			return false;
 		}
@@ -124,17 +138,19 @@ namespace GKModule.Plans
 					return false;
 				return true;
 			}
-			else
+			else if (element is ElementXDevice)
 			{
-				ElementXDevice elementXDevice = element as ElementXDevice;
-				if (elementXDevice == null)
-					return false;
-				else
-				{
+				var elementXDevice = element as ElementXDevice;
 					plan.ElementXDevices.Remove(elementXDevice);
 					return true;
-				}
 			}
+			else if (element is ElementXDirection)
+			{
+				var elementXDirection = element as ElementXDirection;
+				plan.ElementXDirections.Remove(elementXDirection);
+				return true;
+			}
+			return false;
 		}
 
 		public void RegisterDesignerItem(DesignerItem designerItem)
@@ -151,6 +167,12 @@ namespace GKModule.Plans
 				designerItem.UpdateProperties += UpdateDesignerItemXDevice;
 				UpdateDesignerItemXDevice(designerItem);
 			}
+			else if (designerItem.Element is ElementXDirection)
+			{
+				designerItem.Group = "XDirection";
+				designerItem.UpdateProperties += UpdateDesignerItemXDirection;
+				UpdateDesignerItemXDirection(designerItem);
+			}
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -159,11 +181,15 @@ namespace GKModule.Plans
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 			if (plan.ElementRectangleXZones == null)
 				plan.ElementRectangleXZones = new List<ElementRectangleXZone>();
+			if (plan.ElementXDirections== null)
+				plan.ElementXDirections = new List<ElementXDirection>();
 			foreach (var element in plan.ElementXDevices)
 				yield return element;
 			foreach (var element in plan.ElementRectangleXZones)
 				yield return element;
 			foreach (var element in plan.ElementPolygonXZones)
+				yield return element;
+			foreach (var element in plan.ElementXDirections)
 				yield return element;
 		}
 
@@ -172,6 +198,7 @@ namespace GKModule.Plans
 			_designerCanvas = designerCanvas;
 			LayerGroupService.Instance.RegisterGroup("GK", "ГК", 1);
 			LayerGroupService.Instance.RegisterGroup("XZone", "ГК Зоны", 2);
+			LayerGroupService.Instance.RegisterGroup("XDirection", "ГК Направления", 3);
 		}
 		public void ExtensionAttached()
 		{
@@ -196,7 +223,17 @@ namespace GKModule.Plans
 			designerItem.Title = Designer.Helper.GetXZoneTitle(elementZone);
 			XZone zone = Designer.Helper.GetXZone(elementZone);
 			elementZone.BackgroundColor = Designer.Helper.GetXZoneColor(zone);
-			elementZone.SetZLayer(zone == null ? 5 : 6);
+			elementZone.SetZLayer(zone == null ? 50 : 60);
+			designerItem.Painter.Invalidate();
+			_designerCanvas.Refresh();
+		}
+		private void UpdateDesignerItemXDirection(CommonDesignerItem designerItem)
+		{
+			var elementXDirection = designerItem.Element as ElementXDirection;
+			designerItem.Title = Designer.Helper.GetXDirectionTitle(elementXDirection);
+			var xdirection = Designer.Helper.GetXDirection(elementXDirection);
+			elementXDirection.BackgroundColor = Designer.Helper.GetXDirectionColor(xdirection);
+			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
 			designerItem.Painter.Invalidate();
 			_designerCanvas.Refresh();
 		}
@@ -214,6 +251,8 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
+			else if (e.Element is ElementXDirection)
+				e.PropertyViewModel = new XDirectionPropertiesViewModel((ElementXDirection)e.Element);
 		}
 
 		public void UpdateXDeviceInXZones()
