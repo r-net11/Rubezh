@@ -19,38 +19,38 @@ using FiresecAPI.Models;
 
 namespace GKModule.Plans.Designer
 {
-	class XZonePainter : PolygonZonePainter, IPainter
+	class XDirectionPainter : RectangleZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
-		private XZone Zone;
+		private XDirection XDirection;
 		private ContextMenu _contextMenu;
 
-		public XZonePainter(PresenterItem presenterItem)
+		public XDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
 		{
 			_contextMenu = null;
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			Zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
-			if (Zone != null)
-				Zone.ZoneState.StateChanged += OnPropertyChanged;
-			_presenterItem.Title = GetZoneTooltip();
+			XDirection = Helper.GetXDirection((ElementXDirection)_presenterItem.Element);
+			if (XDirection != null)
+				XDirection.DirectionState.StateChanged += OnPropertyChanged;
+			_presenterItem.Title = GetDirectionTooltip();
 		}
 
 		private void OnPropertyChanged()
 		{
-			_presenterItem.Title = GetZoneTooltip();
+			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
 		}
-		private string GetZoneTooltip()
+		private string GetDirectionTooltip()
 		{
-			if (Zone == null)
+			if (XDirection == null)
 				return null;
 			var sb = new StringBuilder();
-			sb.AppendLine(Zone.PresentationName);
-			sb.AppendLine("Состояние: " + Zone.ZoneState.GetStateType().ToDescription());
+			sb.AppendLine(XDirection.PresentationName);
+			sb.AppendLine("Состояние: " + XDirection.DirectionState.GetStateType().ToDescription());
 			return sb.ToString().TrimEnd();
 		}
 
@@ -58,14 +58,16 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PainterCache.GetTransparentBrush(GetStateColor());
+			//return PainterCache.GetTransparentBrush(GetStateColor());
+			//return new LinearGradientBrush(GetStateColor(), Colors.Blue, 45);
+			return new RadialGradientBrush(GetStateColor(), Colors.Blue);
 		}
 
 		#endregion
 
 		public Color GetStateColor()
 		{
-			var stateType = Zone.ZoneState.GetStateType();
+			var stateType = XDirection.DirectionState.GetStateType();
 			switch (stateType)
 			{
 				case StateType.Fire:
@@ -103,18 +105,18 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(XDirection.UID);
 		}
 		bool CanShowInTree()
 		{
-			return Zone != null;
+			return XDirection != null;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
-			DialogService.ShowWindow(zoneDetailsViewModel);
+			var directionDetailsViewModel = new DirectionDetailsViewModel(XDirection);
+			DialogService.ShowWindow(directionDetailsViewModel);
 		}
 
 		private ContextMenu CreateContextMenu()

@@ -152,6 +152,7 @@ namespace DevicesModule.ViewModels
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.FSChanged = true;
+				Helper.BuildMap();
 			}
 		}
 
@@ -169,6 +170,7 @@ namespace DevicesModule.ViewModels
 					SelectedZone = Zones[index];
 				ServiceFactory.SaveService.FSChanged = true;
 				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
+				Helper.BuildMap();
 			}
 		}
 

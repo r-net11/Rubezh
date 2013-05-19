@@ -99,6 +99,9 @@ namespace FiresecClient
 			{
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.DeviceConfiguration.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
@@ -107,6 +110,8 @@ namespace FiresecClient
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 				var xzoneMap = new Dictionary<Guid, XZone>();
 				XManager.DeviceConfiguration.Zones.ForEach(xzone => xzoneMap.Add(xzone.UID, xzone));
+				var xdirectionMap = new Dictionary<Guid, XDirection>();
+				XManager.DeviceConfiguration.Directions.ForEach(xdirection => xdirectionMap.Add(xdirection.UID, xdirection));
 				var planMap = new Dictionary<Guid, Plan>();
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
@@ -138,9 +143,23 @@ namespace FiresecClient
 							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
 					}
 					foreach (var xzone in plan.ElementPolygonXZones)
+					{
 						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID) ? xzoneMap[xzone.ZoneUID] : null);
+						if (xzoneMap.ContainsKey(xzone.ZoneUID))
+							xzoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+					}
 					foreach (var xzone in plan.ElementRectangleXZones)
+					{
 						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID) ? xzoneMap[xzone.ZoneUID] : null);
+						if (xzoneMap.ContainsKey(xzone.ZoneUID))
+							xzoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+					}
+					foreach (var xdirection in plan.ElementXDirections)
+					{
+						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xdirectionMap.ContainsKey(xdirection.DirectionUID) ? xdirectionMap[xdirection.DirectionUID] : null);
+						if (xdirectionMap.ContainsKey(xdirection.DirectionUID))
+							xdirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+					}
 					foreach (var subplan in plan.ElementSubPlans)
 						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
 				}
@@ -257,6 +276,11 @@ namespace FiresecClient
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+		}
+		private static void UpdateDirectionType(ElementXDirection elementXDirection, XDirection xdirection)
+		{
+			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
+			elementXDirection.BackgroundColor = xdirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
 		}
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
 		{

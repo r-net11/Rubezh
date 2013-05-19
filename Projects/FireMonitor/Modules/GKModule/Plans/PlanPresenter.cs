@@ -24,6 +24,7 @@ namespace GKModule.Plans
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Subscribe(OnShowXDirectionOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -51,6 +52,8 @@ namespace GKModule.Plans
 				yield return element;
 			foreach (var element in plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
+			foreach (var element in plan.ElementXDirections.Where(x => x.DirectionUID != Guid.Empty))
+				yield return element;
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
@@ -59,6 +62,8 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new XDevicePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonXZone || presenterItem.Element is ElementRectangleXZone)
 				presenterItem.OverridePainter(new XZonePainter(presenterItem));
+			else if (presenterItem.Element is ElementXDirection)
+				presenterItem.OverridePainter(new XDirectionPainter(presenterItem));
 		}
 		public void ExtensionAttached()
 		{
@@ -103,6 +108,16 @@ namespace GKModule.Plans
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementPolygonXZones)
 					if (element.ZoneUID == xzone.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+		}
+		private void OnShowXDirectionOnPlan(XDirection xdirection)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementXDirections)
+					if (element.DirectionUID == xdirection.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;

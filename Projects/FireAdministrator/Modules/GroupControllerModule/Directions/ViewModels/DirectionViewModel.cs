@@ -6,11 +6,13 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrustructure.Plans.Helper;
 
 namespace GKModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
+		private VisualizationState _visualizetionState;
 		public XDirection Direction { get; set; }
 
 		public DirectionViewModel(XDirection direction)
@@ -50,6 +52,10 @@ namespace GKModule.ViewModels
 		{
 			InitializeDependences();
 			OnPropertyChanged("Direction");
+			if (Direction.PlanElementUIDs == null)
+				Direction.PlanElementUIDs = new List<Guid>();
+			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			OnPropertyChanged(() => VisualizationState);
 		}
 
 		public ObservableCollection<DirectionZoneViewModel> Zones { get; private set; }
@@ -66,7 +72,6 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-
 		public void ChangeDevices()
 		{
 			var sourceDevices = new List<XDevice>();
@@ -84,7 +89,6 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-
 		public void ChangeOutputDevices()
 		{
 			var sourceDevices = new List<XDevice>();
@@ -147,6 +151,41 @@ namespace GKModule.ViewModels
 				InitializeDependences();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public string Name
+		{
+			get { return Direction.Name; }
+			set
+			{
+				Direction.Name = value;
+				Direction.OnChanged();
+				OnPropertyChanged("Name");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		public string Description
+		{
+			get { return Direction.Description; }
+			set
+			{
+				Direction.Description = value;
+				Direction.OnChanged();
+				OnPropertyChanged("Description");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		public VisualizationState VisualizationState
+		{
+			get { return _visualizetionState; }
+		}
+		public void Update(XDirection xdirection)
+		{
+			Direction = xdirection;
+			OnPropertyChanged("Direction");
+			OnPropertyChanged("Name");
+			OnPropertyChanged("Description");
+			Update();
 		}
 	}
 }

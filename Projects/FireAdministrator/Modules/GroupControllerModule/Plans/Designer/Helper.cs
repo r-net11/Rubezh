@@ -16,17 +16,33 @@ namespace GKModule.Plans.Designer
 		private static Dictionary<Guid, XDirection> _xdirectionMap;
 		public static void BuildMap()
 		{
-			_xzoneMap = new Dictionary<Guid, XZone>();
-			XManager.DeviceConfiguration.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
+			BuildXDeviceMap();
+			BuildXDirectionMap();
+			BuildXZoneMap();
+		}
+		public static void BuildXDeviceMap()
+		{
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
 			XManager.DeviceConfiguration.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+		}
+		public static void BuildXZoneMap()
+		{
+			_xzoneMap = new Dictionary<Guid, XZone>();
+			XManager.DeviceConfiguration.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
+		}
+		public static void BuildXDirectionMap()
+		{
 			_xdirectionMap = new Dictionary<Guid, XDirection>();
 			XManager.DeviceConfiguration.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
 		}
-		
+	
 		public static string GetXZoneTitle(IElementZone element)
 		{
 			XZone xzone = GetXZone(element);
+			return GetXZoneTitle(xzone);
+		}
+		public static string GetXZoneTitle(XZone xzone)
+		{
 			return xzone == null ? "Несвязанная зона" : xzone.PresentationName;
 		}
 		public static XZone GetXZone(IElementZone element)
@@ -40,12 +56,21 @@ namespace GKModule.Plans.Designer
 		public static void SetXZone(IElementZone element)
 		{
 			XZone zone = GetXZone(element);
-			element.BackgroundColor = GetXZoneColor(zone);
+			SetXZone(element, zone);
 		}
 		public static void SetXZone(IElementZone element, XZone xzone)
 		{
+			ResetXZone(element);
 			element.ZoneUID = xzone == null ? Guid.Empty : xzone.UID;
 			element.BackgroundColor = GetXZoneColor(xzone);
+			if (xzone != null)
+				xzone.PlanElementUIDs.Add(element.UID);
+		}
+		public static void ResetXZone(IElementZone element)
+		{
+			XZone xzone = GetXZone(element);
+			if (xzone != null)
+				xzone.PlanElementUIDs.Remove(element.UID);
 		}
 		public static Color GetXZoneColor(XZone zone)
 		{
@@ -57,7 +82,11 @@ namespace GKModule.Plans.Designer
 
 		public static string GetXDirectionTitle(ElementXDirection element)
 		{
-			var xdirection = GetXDirection(element);
+			XDirection xdirection = GetXDirection(element);
+			return GetXDirectionTitle(xdirection);
+		}
+		public static string GetXDirectionTitle(XDirection xdirection)
+		{
 			return xdirection == null ? "Несвязанная зона" : xdirection.PresentationName;
 		}
 		public static XDirection GetXDirection(ElementXDirection element)
@@ -70,18 +99,27 @@ namespace GKModule.Plans.Designer
 		}
 		public static void SetXDirection(ElementXDirection element)
 		{
-			var xdirection = GetXDirection(element);
-			element.BackgroundColor = GetXDirectionColor(xdirection);
+			XDirection direction = GetXDirection(element);
+			SetXDirection(element, direction);
 		}
 		public static void SetXDirection(ElementXDirection element, XDirection xdirection)
 		{
+			ResetXDirection(element);
 			element.DirectionUID = xdirection == null ? Guid.Empty : xdirection.UID;
 			element.BackgroundColor = GetXDirectionColor(xdirection);
+			if (xdirection != null)
+				xdirection.PlanElementUIDs.Add(element.UID);
 		}
-		public static Color GetXDirectionColor(XDirection xdirection)
+		public static void ResetXDirection(ElementXDirection element)
+		{
+			XDirection xdirection = GetXDirection(element);
+			if (xdirection != null)
+				xdirection.PlanElementUIDs.Remove(element.UID);
+		}
+		public static Color GetXDirectionColor(XDirection direction)
 		{
 			Color color = Colors.Black;
-			if (xdirection != null)
+			if (direction != null)
 				color = Colors.LightBlue;
 			return color;
 		}

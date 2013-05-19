@@ -43,9 +43,13 @@ namespace GKModule
 
 		public static void ShowDirection(XDirection direction)
 		{
+			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
 		}
 		public static bool CanShowDirection(XDirection direction)
 		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				if (plan.ElementXDirections.Any(x => x.DirectionUID == direction.UID))
+					return true;
 			return false;
 		}
 	}

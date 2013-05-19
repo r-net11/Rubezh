@@ -16,6 +16,7 @@ namespace XFiresecAPI
 			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
             OutputDevices = new List<XDevice>();
+			PlanElementUIDs = new List<Guid>();
 		}
 
 		public XDirectionState DirectionState { get; set; }
@@ -80,5 +81,6 @@ namespace XFiresecAPI
 				Changed();
 		}
 		public event Action Changed;
+		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

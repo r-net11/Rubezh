@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\ShowXDirectionOnPlanEvent.cs" />
     <Compile Include="Events\MulticlientStateChangedEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowXAlarmsEvent.cs" />

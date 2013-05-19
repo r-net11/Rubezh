@@ -40,11 +40,11 @@
 	</UserControl.Resources>
 
 	<Controls:TreeListView ItemsSource="{Binding Elements}" SelectedObject="{Binding SelectedElement}">
-		<!--<Controls:TreeListView.ItemContainerStyle>
+		<Controls:TreeListView.ItemContainerStyle>
 			<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 				<Setter Property="Visibility" Value="{Binding IsGroupHasChild, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Style>
-		</Controls:TreeListView.ItemContainerStyle>-->
+		</Controls:TreeListView.ItemContainerStyle>
 		<Controls:TreeListView.Columns>
 			<GridViewColumn Header="Слои">
 				<GridViewColumn.CellTemplate>

@@ -7,14 +7,17 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
 	public class XZonePolygonAdorner : BasePolygonAdorner
 	{
-		public XZonePolygonAdorner(CommonDesignerCanvas designerCanvas)
+		private ZonesViewModel _zonesViewModel;
+		public XZonePolygonAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{
+			_zonesViewModel = zonesViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -28,7 +31,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonXZone();
-			var propertiesViewModel = new ZonePropertiesViewModel(element);
+			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			Helper.SetXZone(element);

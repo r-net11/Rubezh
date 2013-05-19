@@ -13,12 +13,15 @@ namespace GKModule.Plans.Designer
 	{
 		private static Dictionary<Guid, XZone> _xzoneMap;
 		private static Dictionary<Guid, XDevice> _xdeviceMap;
+		private static Dictionary<Guid, XDirection> _xdirectionMap;
 		public static void BuildMap()
 		{
 			_xzoneMap = new Dictionary<Guid, XZone>();
 			XManager.DeviceConfiguration.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
 			XManager.DeviceConfiguration.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+			_xdirectionMap = new Dictionary<Guid, XDirection>();
+			XManager.DeviceConfiguration.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
 		}
 
 		public static XZone GetXZone(IElementZone element)
@@ -33,6 +36,10 @@ namespace GKModule.Plans.Designer
 		public static XDevice GetXDevice(ElementXDevice element)
 		{
 			return element.XDeviceUID != Guid.Empty && _xdeviceMap.ContainsKey(element.XDeviceUID) ? _xdeviceMap[element.XDeviceUID] : null;
+		}
+		public static XDirection GetXDirection(ElementXDirection element)
+		{
+			return element.DirectionUID != Guid.Empty && _xdirectionMap.ContainsKey(element.DirectionUID) ? _xdirectionMap[element.DirectionUID] : null;
 		}
 	}
 }

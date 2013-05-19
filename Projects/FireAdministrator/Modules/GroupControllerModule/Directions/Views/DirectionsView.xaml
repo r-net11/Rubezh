@@ -25,17 +25,16 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
-                </DataGrid.Columns>
-            </Controls:XDataGrid>
-        </Grid>
-
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
+					<DataGridTemplateColumn Header="№">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+									<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Direction.No}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>

@@ -10,28 +10,37 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
 using FiresecAPI.Models;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.ViewModels
 {
 	public class XDirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		private ElementXDirection _element;
+		private DirectionsViewModel _directionsViewModel;
 
-		public XDirectionPropertiesViewModel(ElementXDirection element)
+		public XDirectionPropertiesViewModel(ElementXDirection element, DirectionsViewModel directionsViewModel)
 		{
+			_directionsViewModel = directionsViewModel;
 			_element = element;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
-			XDirections = new ObservableCollection<XDirection>(XManager.DeviceConfiguration.Directions);
-			if (element.DirectionUID != Guid.Empty)
-				SelectedXDirection = XDirections.FirstOrDefault(x => x.UID == element.DirectionUID);
+			var directions = XManager.DeviceConfiguration.Directions;
+			XDirections = new ObservableCollection<DirectionViewModel>();
+			foreach (var direction in directions)
+			{
+				var directionViewModel = new DirectionViewModel(direction);
+				XDirections.Add(directionViewModel);
+			}
+			if (_element.DirectionUID != Guid.Empty)
+				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
 		}
 
-		public ObservableCollection<XDirection> XDirections { get; private set; }
+		public ObservableCollection<DirectionViewModel> XDirections { get; private set; }
 
-		private XDirection _selectedXDirection;
-		public XDirection SelectedXDirection
+		private DirectionViewModel _selectedXDirection;
+		public DirectionViewModel SelectedXDirection
 		{
 			get { return _selectedXDirection; }
 			set
@@ -44,20 +53,23 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			var createXDirectionEventArg = new CreateXDirectionEventArg();
-			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createXDirectionEventArg);
-			_element.DirectionUID = createXDirectionEventArg.DirectionUID;
+			Guid xdirectionUID = _element.DirectionUID;
+			var createDirectionEventArg = new CreateXDirectionEventArg();
+			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
+			if (createDirectionEventArg.XDirection != null)
+				_element.DirectionUID = createDirectionEventArg.XDirection.UID;
 			Helper.BuildMap();
 			Helper.SetXDirection(_element);
-			if (!createXDirectionEventArg.Cancel)
+			UpdateDirections(xdirectionUID);
+			if (!createDirectionEventArg.Cancel)
 				Close(true);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.UID);
-			OnPropertyChanged("Directions");
+			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
+			SelectedXDirection.Update(SelectedXDirection.Direction);
 		}
 		private bool CanEdit()
 		{
@@ -66,8 +78,26 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Helper.SetXDirection(_element, SelectedXDirection);
+			Guid directionUID = _element.DirectionUID;
+			Helper.SetXDirection(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
+			UpdateDirections(directionUID);
 			return base.Save();
+		}
+		private void UpdateDirections(Guid directionUID)
+		{
+			if (_directionsViewModel != null)
+			{
+				if (directionUID != _element.DirectionUID)
+					Update(directionUID);
+				Update(_element.DirectionUID);
+				_directionsViewModel.LockedSelect(_element.DirectionUID);
+			}
+		}
+		private void Update(Guid directionUID)
+		{
+			var direction = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
+			if (direction != null)
+				direction.Update();
 		}
 	}
 }

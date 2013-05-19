@@ -1,137 +1,140 @@
-﻿<UserControl x:Class="GKModule.Views.ZonesView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-    xmlns:Views="clr-namespace:GKModule.Views">
+﻿<UserControl x:Class="GKModule.Views.ZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views">
 
-    <Grid Margin="2">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MinWidth="200" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="3*" MinWidth="200" />
-        </Grid.ColumnDefinitions>
+	<Grid Margin="2">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*" MinWidth="200" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="3*" MinWidth="200" />
+		</Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Controls:XDataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding XZone.No}" />
-                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding XZone.Name}" />
-                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding XZone.Description}" />
-                    <DataGridTextColumn Header="П1" Width="1*" Binding="{Binding XZone.Fire1Count}" />
-                    <DataGridTextColumn Header="П2" Width="1*" Binding="{Binding XZone.Fire2Count}" />
-                </DataGrid.Columns>
-            </Controls:XDataGrid>
-        </Grid>
+		<Grid Grid.Column="0">
+			<Controls:XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="№">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+									<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding XZone.No}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Width="2*" Binding="{Binding XZone.Name}" Header="Наименование" />
+					<DataGridTextColumn Width="2*" Binding="{Binding XZone.Description}" Header="Примечание" />
+					<DataGridTextColumn Width="1*" Binding="{Binding XZone.Fire1Count}" Header="П1" />
+					<DataGridTextColumn Width="1*" Binding="{Binding XZone.Fire2Count}" Header="П2" />
+				</DataGrid.Columns>
+			</Controls:XDataGrid>
+		</Grid>
 
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 
-        <Grid Grid.Column="2" DataContext="{Binding ZoneDevices}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="200" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" MinHeight="200" Name="bottomRow" />
-            </Grid.RowDefinitions>
+		<Grid Grid.Column="2" DataContext="{Binding ZoneDevices}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" MinHeight="200" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Name="bottomRow" Height="*" MinHeight="200" />
+			</Grid.RowDefinitions>
 
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+			<Grid Grid.Row="0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
 
-                    <DataGrid.Resources>
-                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                            <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-                        </InputBindingCollection>
-                    </DataGrid.Resources>
-                    <DataGrid.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
+					<DataGrid.Resources>
+						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+							<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+						</InputBindingCollection>
+					</DataGrid.Resources>
+					<DataGrid.ItemContainerStyle>
+						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+						</Style>
+					</DataGrid.ItemContainerStyle>
 
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Устройство в зоне" Width="250">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        <TextBlock Text="{Binding Driver.ShortName}">
-                                        <TextBlock.Style>
-                                            <Style>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsBold}" Value="True">
-                                                        <DataTrigger.Setters>
-                                                            <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                        </DataTrigger.Setters>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding PresentationAddress}" />
-                        <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-                    </DataGrid.Columns>
-                </DataGrid>
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Width="250" Header="Устройство в зоне">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" Orientation="Horizontal">
+										<CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TreeExpanderStyle}" Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+										<TextBlock Text="{Binding Driver.ShortName}">
+											<TextBlock.Style>
+												<Style>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsBold}" Value="True">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.FontWeight" Value="Bold" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+										</TextBlock>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Width="50" Binding="{Binding PresentationAddress}" Header="Адрес" />
+						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
+					</DataGrid.Columns>
+				</DataGrid>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить в зону" ImageSource="/Controls;component/Images/ArrowUp.png" />
-                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить из зоны" ImageSource="/Controls;component/Images/ArrowDown.png" />
-                </StackPanel>
-            </Grid>
+				<StackPanel Grid.Row="1" Orientation="Horizontal">
+					<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/ArrowUp.png" ToolTip="Добавить в зону" />
+					<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/ArrowDown.png" ToolTip="Удалить из зоны" />
+				</StackPanel>
+			</Grid>
 
-            <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-            <Grid Grid.Row="2" SizeChanged="OnSizeChanged">
-                <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+			<Grid Grid.Row="2" SizeChanged="OnSizeChanged">
+				<DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
 
-                    <DataGrid.Resources>
-                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                            <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-                        </InputBindingCollection>
-                    </DataGrid.Resources>
-                    <DataGrid.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
+					<DataGrid.Resources>
+						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+							<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+						</InputBindingCollection>
+					</DataGrid.Resources>
+					<DataGrid.ItemContainerStyle>
+						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+						</Style>
+					</DataGrid.ItemContainerStyle>
 
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Устройство" Width="250">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        <TextBlock Text="{Binding Driver.ShortName}">
-                                        <TextBlock.Style>
-                                            <Style>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsBold}" Value="True">
-                                                        <DataTrigger.Setters>
-                                                            <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                        </DataTrigger.Setters>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding PresentationAddress}" />
-                        <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </Grid>
-    </Grid>
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Width="250" Header="Устройство">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" Orientation="Horizontal">
+										<CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TreeExpanderStyle}" Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+										<TextBlock Text="{Binding Driver.ShortName}">
+											<TextBlock.Style>
+												<Style>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsBold}" Value="True">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.FontWeight" Value="Bold" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+										</TextBlock>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Width="50" Binding="{Binding PresentationAddress}" Header="Адрес" />
+						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</Grid>
+	</Grid>
 </UserControl>

@@ -26,9 +26,9 @@ namespace GKModule
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
-        FiltersViewModel FiltersViewModel;
-        LibraryViewModel DeviceLidraryViewModel;
-        InstructionsViewModel InstructionsViewModel;
+		FiltersViewModel FiltersViewModel;
+		LibraryViewModel DeviceLidraryViewModel;
+		InstructionsViewModel InstructionsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
 
@@ -36,15 +36,17 @@ namespace GKModule
 		{
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateXZone);
 			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditXZone);
-			
+			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Subscribe(OnCreateXDirection);
+			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditXDirection);
+
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
-            FiltersViewModel = new FiltersViewModel();
-            DeviceLidraryViewModel = new LibraryViewModel();
-            InstructionsViewModel = new InstructionsViewModel();
+			FiltersViewModel = new FiltersViewModel();
+			DeviceLidraryViewModel = new LibraryViewModel();
+			InstructionsViewModel = new InstructionsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
 		}
 
 		public override void Initialize()
@@ -52,8 +54,8 @@ namespace GKModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
-            FiltersViewModel.Initialize();
-            InstructionsViewModel.Initialize();
+			FiltersViewModel.Initialize();
+			InstructionsViewModel.Initialize();
 
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
@@ -93,7 +95,7 @@ namespace GKModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
-		
+
 		#region IValidationModule Members
 
 		public IEnumerable<IValidationError> Validate()
@@ -109,7 +111,16 @@ namespace GKModule
 		}
 		private void OnEditXZone(Guid zoneUID)
 		{
-            ZonesViewModel.EditZone(zoneUID);
+			ZonesViewModel.EditZone(zoneUID);
+		}
+
+		private void OnCreateXDirection(CreateXDirectionEventArg createDirectionEventArg)
+		{
+			DirectionsViewModel.CreateDirection(createDirectionEventArg);
+		}
+		private void OnEditXDirection(Guid directionUID)
+		{
+			DirectionsViewModel.EditDirection(directionUID);
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

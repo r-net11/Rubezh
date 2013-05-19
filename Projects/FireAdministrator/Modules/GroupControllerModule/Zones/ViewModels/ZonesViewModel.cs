@@ -12,13 +12,19 @@ using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
+using GKModule.Plans.Designer;
+using Infrustructure.Plans.Events;
+using System.Collections.Generic;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.ViewModels
 {
     public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
     {
-        public static ZonesViewModel Current { get; private set; }
-        public ZoneDevicesViewModel ZoneDevices { get; set; }
+		private bool _lockSelection;
+		public static ZonesViewModel Current { get; private set; }
+		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
         public ZonesViewModel()
         {
@@ -31,6 +37,7 @@ namespace GKModule.ViewModels
             RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
+			SubscribeEvents();
 		}
 
         public void Initialize()
@@ -66,9 +73,10 @@ namespace GKModule.ViewModels
                     ZoneDevices.Initialize(value.XZone);
                 else
                     ZoneDevices.Clear();
-
                 OnPropertyChanged("SelectedZone");
-            }
+				if (!_lockSelection && _selectedZone != null && _selectedZone.XZone.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.XZone.PlanElementUIDs);
+			}
         }
 
         bool CanEditDelete()
@@ -96,6 +104,7 @@ namespace GKModule.ViewModels
 				Zones.Add(zoneViewModel);
                 SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
+				Helper.BuildMap();
 				return zoneDetailsViewModel;
 			}
 			return null;
@@ -115,6 +124,7 @@ namespace GKModule.ViewModels
 					SelectedZone = Zones[index];
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
+				Helper.BuildMap();
 			}
 		}
 
@@ -184,5 +194,77 @@ namespace GKModule.ViewModels
             RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
             RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
         }
+		public void LockedSelect(Guid zoneUID)
+		{
+			_lockSelection = true;
+			Select(zoneUID);
+			_lockSelection = false;
+		}
+
+		private void SubscribeEvents()
+		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
+		private void OnZoneChanged(Guid zoneUID)
+		{
+			var zone = Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
+			if (zone != null)
+			{
+				zone.Update();
+				// TODO: FIX IT
+				if (!_lockSelection)
+					SelectedZone = zone;
+			}
+		}
+		private void OnElementRemoved(List<ElementBase> elements)
+		{
+			elements.OfType<ElementRectangleXZone>().ToList().ForEach(element => Helper.ResetXZone(element));
+			elements.OfType<ElementPolygonXZone>().ToList().ForEach(element => Helper.ResetXZone(element));
+			OnElementChanged(elements);
+		}
+		private void OnElementChanged(List<ElementBase> elements)
+		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
+			elements.ForEach(element =>
+			{
+				var elementZone = GetElementXZone(element);
+				if (elementZone != null)
+				{
+					OnZoneChanged(elementZone.ZoneUID);
+					//if (guid != Guid.Empty)
+					//    OnZoneChanged(guid);
+					//guid = elementZone.ZoneUID;
+				}
+			});
+			_lockSelection = false;
+			//if (guid != Guid.Empty)
+			//    OnZoneChanged(guid);
+		}
+		private void OnElementSelected(ElementBase element)
+		{
+			var elementZone = GetElementXZone(element);
+			if (elementZone != null)
+			{
+				_lockSelection = true;
+				Select(elementZone.ZoneUID);
+				_lockSelection = false;
+			}
+		}
+		private IElementZone GetElementXZone(ElementBase element)
+		{
+			IElementZone elementZone = element as ElementRectangleXZone;
+			if (elementZone == null)
+				elementZone = element as ElementPolygonXZone;
+			return elementZone;
+		}
 	}
 }

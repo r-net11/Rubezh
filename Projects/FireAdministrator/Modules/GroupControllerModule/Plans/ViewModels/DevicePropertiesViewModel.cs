@@ -14,9 +14,9 @@ namespace GKModule.Plans.ViewModels
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
 		private ElementXDevice _elementXDevice;
-		private PlanDevicesViewModel _devicesViewModel;
+		private DevicesViewModel _devicesViewModel;
 
-		public DevicePropertiesViewModel(PlanDevicesViewModel devicesViewModel, ElementXDevice elementDevice)
+		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementXDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
 			_elementXDevice = elementDevice;
