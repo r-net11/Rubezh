@@ -58,7 +58,7 @@ namespace GKModule
 
 				try
 				{
-					CheckNPT();
+					CheckDelays();
 				}
 				catch (Exception e)
 				{

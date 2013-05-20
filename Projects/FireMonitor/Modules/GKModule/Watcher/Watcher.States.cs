@@ -54,6 +54,9 @@ namespace GKModule
 				binaryState.States = binaryObjectState.States;
 				binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
 				binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
+				binaryState.OnDelay = binaryObjectState.OnDelay;
+				binaryState.HoldDelay = binaryObjectState.HoldDelay;
+				binaryState.OffDelay = binaryObjectState.OffDelay;
 			});
 			return true;
 		}

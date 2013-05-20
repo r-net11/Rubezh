@@ -50,6 +50,21 @@
                     <TextBlock Text="Удержание: " Foreground="White" />
                     <TextBlock Text="{Binding HoldTimeLeft}" Foreground="White" />
                 </StackPanel>
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+                        <TextBlock Text="{Binding DirectionState.OnDelay}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Удержание" Foreground="White" Margin="2" />
+                        <TextBlock Text="{Binding DirectionState.HoldDelay}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Задержка на выключение" Foreground="White" Margin="2" />
+                        <TextBlock Text="{Binding DirectionState.OffDelay}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </Grid>
         <TabControl Grid.Row="1">

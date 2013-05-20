@@ -241,7 +241,11 @@ namespace GKModule.ViewModels
 
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.On) || Alarm.Device.DeviceState.States.Contains(XStateType.TurningOn))
 				{
-					var code = 0x80 + (int)XStateType.TurnOff_InManual;
+					var code = 0x80;
+					if (Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
+						code += (int)XStateType.TurnOff_InAutomatic;
+					else
+						code += (int)XStateType.TurnOff_InManual;
 					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, (byte)code);
 				}
 			}
@@ -249,17 +253,22 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Direction.DirectionState.States.Contains(XStateType.On) || Alarm.Direction.DirectionState.States.Contains(XStateType.TurningOn))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, 0x80 + XStateType.TurnOff_InManual);
+					var code = 0x80;
+					if (Alarm.Direction.DirectionState.States.Contains(XStateType.Norm))
+						code += (int)XStateType.TurnOff_InAutomatic;
+					else
+						code += (int)XStateType.TurnOff_InManual;
+					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, (byte)code);
 				}
 			}
 		}
 		bool CanTurnOff()
 		{
-			if (Alarm.AlarmType != XAlarmType.Turning)
-				return false;
-
 			if (Alarm.Device != null)
 			{
+				if (Alarm.AlarmType != XAlarmType.Turning)
+					return false;
+
 				if (!Alarm.Device.Driver.IsDeviceOnShleif)
 					return false;
 				if (!Alarm.Device.Driver.IsControlDevice)
@@ -269,6 +278,9 @@ namespace GKModule.ViewModels
 			}
 			if (Alarm.Direction != null)
 			{
+				if (Alarm.AlarmType != XAlarmType.NPTOn)
+					return false;
+
 				return Alarm.Direction.DirectionState.States.Contains(XStateType.On) || Alarm.Direction.DirectionState.States.Contains(XStateType.TurningOn);
 			}
 			return false;

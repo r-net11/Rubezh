@@ -67,6 +67,11 @@ namespace FiresecAPI.Models
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 				result = false;
 			}
+			if (plan.ElementXDirections == null)
+			{
+				plan.ElementXDirections = new List<ElementXDirection>();
+				result = false;
+			}
 			foreach (var elementSubPlan in plan.ElementSubPlans)
 				result &= elementSubPlan.BackgroundPixels == null;
 			foreach (var elementRectangle in plan.ElementRectangles)

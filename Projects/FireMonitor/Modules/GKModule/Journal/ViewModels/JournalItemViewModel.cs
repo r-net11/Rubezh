@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 					if (device != null)
 					{
 						DeviceState = device.DeviceState;
-						PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
+						PresentationName = device.ShortName + " " + device.DottedAddress;
 					}
 					break;
 

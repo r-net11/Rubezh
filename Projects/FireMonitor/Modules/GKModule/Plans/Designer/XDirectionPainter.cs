@@ -40,6 +40,9 @@ namespace GKModule.Plans.Designer
 
 		private void OnPropertyChanged()
 		{
+			var onDelay = XDirection.DirectionState.OnDelay;
+			var holdDelay = XDirection.DirectionState.HoldDelay;
+
 			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();

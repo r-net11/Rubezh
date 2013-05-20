@@ -88,6 +88,12 @@ namespace Common.GK
 						if (bitArray[6])
 							AdditionalStates.Add("Вскрытие");
 						break;
+
+					case XDriverType.RSR2_MVK8:
+						OnDelay = additionalShortParameters[0];
+						HoldDelay = additionalShortParameters[1];
+						OffDelay = additionalShortParameters[2];
+						break;
 				}
 			}
 			else
@@ -120,5 +126,9 @@ namespace Common.GK
 		public List<XStateType> States { get; private set; }
 		public List<string> AdditionalStates { get; private set; }
 		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
+
+		public int OnDelay { get; private set; }
+		public int HoldDelay { get; private set; }
+		public int OffDelay { get; private set; }
 	}
 }

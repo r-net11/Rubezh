@@ -130,13 +130,25 @@ namespace GKModule
 			}
 		}
 
-		void CheckNPT()
+		void CheckDelays()
 		{
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				if (direction.DirectionState.StateClass == XStateClass.TurningOn || direction.DirectionState.StateClass == XStateClass.On)
+				if ((direction.DirectionState.StateClass == XStateClass.TurningOn && direction.DirectionState.OnDelay >= 0) ||
+					(direction.DirectionState.StateClass == XStateClass.On && direction.DirectionState.HoldDelay >= 0) ||
+					(direction.DirectionState.StateClass == XStateClass.TurningOff && direction.DirectionState.OffDelay >= 0))
 				{
 					GetState(direction);
+				}
+			}
+
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				if ((device.DeviceState.StateClass == XStateClass.TurningOn && device.DeviceState.OnDelay >= 0) ||
+					(device.DeviceState.StateClass == XStateClass.On && device.DeviceState.HoldDelay >= 0) ||
+					(device.DeviceState.StateClass == XStateClass.TurningOff && device.DeviceState.OffDelay >= 0))
+				{
+					GetState(device);
 				}
 			}
 		}

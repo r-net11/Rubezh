@@ -34,6 +34,7 @@
 		RSR2_KAU,
 		RSR2_HandDetector,
 		RSR2_SmokeDetector,
+		RSR2_CombinedDetector,
 		RSR2_SmokeDetector2,
 		RSR2_RM_1,
 		RSR2_RM_2,

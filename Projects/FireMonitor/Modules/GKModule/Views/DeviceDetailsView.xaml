@@ -15,7 +15,21 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
             <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-            <Views:DeviceStateView TextElement.Foreground="White" />
+            <StackPanel>
+                <Views:DeviceStateView TextElement.Foreground="White" />
+                <StackPanel Orientation="Horizontal" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+                    <TextBlock Text="{Binding DeviceState.OnDelay}" Foreground="White" Margin="2" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Удержание" Foreground="White" Margin="2" />
+                    <TextBlock Text="{Binding DeviceState.HoldDelay}" Foreground="White" Margin="2" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Задержка на выключение" Foreground="White" Margin="2" />
+                    <TextBlock Text="{Binding DeviceState.OffDelay}" Foreground="White" Margin="2" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">

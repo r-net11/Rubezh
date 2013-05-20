@@ -83,5 +83,38 @@ namespace XFiresecAPI
 				OnStateChanged();
 			}
 		}
+
+		int _onDelay;
+		public int OnDelay
+		{
+			get { return _onDelay; }
+			set
+			{
+				_onDelay = value;
+				OnStateChanged();
+			}
+		}
+
+		int _holdDelay;
+		public int HoldDelay
+		{
+			get { return _holdDelay; }
+			set
+			{
+				_holdDelay = value;
+				OnStateChanged();
+			}
+		}
+
+		int _offDelay;
+		public int OffDelay
+		{
+			get { return _offDelay; }
+			set
+			{
+				_offDelay = value;
+				OnStateChanged();
+			}
+		}
 	}
 }

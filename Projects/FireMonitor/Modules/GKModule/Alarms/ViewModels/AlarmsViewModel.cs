@@ -59,10 +59,6 @@ namespace GKModule.ViewModels
 					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU)
 					continue;
 
-				//if ((!device.Driver.IsDeviceOnShleif || device.Driver.IsGroupDevice)
-				//    && device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU)
-				//    continue;
-
 				foreach (var stateType in device.DeviceState.States)
 				{
 					switch (stateType)
@@ -139,7 +135,8 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
-				if (!direction.DirectionState.States.Contains(XStateType.Norm) && !direction.DirectionState.IsConnectionLost)
+					if (!direction.DirectionState.States.Contains(XStateType.Norm) && !direction.DirectionState.States.Contains(XStateType.Ignore) &&
+					!direction.DirectionState.IsConnectionLost)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
 				}

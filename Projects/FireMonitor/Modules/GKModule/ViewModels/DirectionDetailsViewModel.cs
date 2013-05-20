@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -32,9 +33,14 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
+			OnPropertyChanged("DirectionState");
+			OnPropertyChanged("HasOnDelay");
+			OnPropertyChanged("HasHoldDelay");
+			OnPropertyChanged("HasOffDelay");
+
+			Trace.WriteLine("DirectionState.OnDelay " + DirectionState.OnDelay);
 		}
 
 		public int InputZonesCount
@@ -103,6 +109,19 @@ namespace GKModule.ViewModels
 		void OnTurnOff()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOff_InManual);
+		}
+
+		public bool HasOnDelay
+		{
+			get { return DirectionState.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return DirectionState.HoldDelay > 0; }
+		}
+		public bool HasOffDelay
+		{
+			get { return DirectionState.OffDelay > 0; }
 		}
 
 		#region IWindowIdentity Members

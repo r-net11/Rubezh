@@ -43,6 +43,15 @@ namespace GKModule.ViewModels
 				_deviceControl.StateClass = DeviceState.StateClass;
 			OnPropertyChanged("DeviceControlContent");
 			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("HasOnDelay");
+			OnPropertyChanged("HasHoldDelay");
+			OnPropertyChanged("HasOffDelay");
+			//OnPropertyChanged("DeviceState.OnDelay");
+			//OnPropertyChanged("DeviceState.HoldDelay");
+
+			Trace.WriteLine("OnDelay " + DeviceState.OnDelay.ToString());
+			//Trace.WriteLine("HoldDelay " + DeviceState.HoldDelay.ToString());
+			//Trace.WriteLine("OnStateChanged");
 		}
 
 		public object DeviceControlContent
@@ -171,6 +180,19 @@ namespace GKModule.ViewModels
 				_auParameterValues = value;
 				OnPropertyChanged("AUParameterValues");
 			}
+		}
+
+		public bool HasOnDelay
+		{
+			get { return DeviceState.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return DeviceState.HoldDelay > 0; }
+		}
+		public bool HasOffDelay
+		{
+			get { return DeviceState.OffDelay > 0; }
 		}
 
 		#region IWindowIdentity Members
