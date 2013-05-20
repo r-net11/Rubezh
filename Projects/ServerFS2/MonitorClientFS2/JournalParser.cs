@@ -81,26 +81,33 @@ namespace MonitorClientFS2
 
 		private static string EventDetalization(List<byte> _bytes, FSJournalItem _fsjournalItem)
 		{
-			int tableType = 99999;
-			var FirstAddress = _bytes[17] + 1;
-			var Address = _bytes[8];
-			string detalization = String.Empty;
-			if (_fsjournalItem.DeviceUID.ToString().ToUpper() != "00000000-0000-0000-0000-000000000000" && _fsjournalItem.DeviceCategory != 0)
+			try
 			{
-				tableType = Convert.ToInt32(MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(_fsjournalItem.DeviceUID.ToString().ToUpper())))).tableType);
+				int tableType = 99999;
+				var FirstAddress = _bytes[17] + 1;
+				var Address = _bytes[8];
+				string detalization = String.Empty;
+				if (_fsjournalItem.DeviceUID.ToString().ToUpper() != "00000000-0000-0000-0000-000000000000" && _fsjournalItem.DeviceCategory != 0)
+				{
+					tableType = Convert.ToInt32(MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(_fsjournalItem.DeviceUID.ToString().ToUpper())))).tableType);
+				}
+				detalization += "Устройство: " + _fsjournalItem.DeviceName + " " + FirstAddress + "." + Address + "\n";
+				var even = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + _bytes[0].ToString("X2"));
+				if (even.detailsFor != null && tableType != 99999)
+				{
+					var dictionaryName = even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString()).dictionary;
+					var dictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == dictionaryName);
+					var bitState = new BitArray(new int[] { _bytes[9] });
+					foreach (var bit in dictionary.bit)
+						if (bitState.Get(Convert.ToInt32(bit.no)))
+							detalization = dictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+				}
+				return detalization;
 			}
-			detalization += "Устройство: " + _fsjournalItem.DeviceName + " " + FirstAddress + "." + Address + "\n";
-			var even = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + _bytes[0].ToString("X2"));
-			if (even.detailsFor != null && tableType != 99999)
+			catch
 			{
-				var dictionaryName = even.detailsFor.FirstOrDefault(x => x.tableType == tableType.ToString()).dictionary;
-				var dictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == dictionaryName);
-				var bitState = new BitArray(new int[] { _bytes[9] });
-				foreach (var bit in dictionary.bit)
-					if (bitState.Get(Convert.ToInt32(bit.no)))
-						detalization = dictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+				return "Детализация не прочитана";
 			}
-			return detalization;
 		}
 
 		private static SubsystemType GetSubsystemType(Device Panel)

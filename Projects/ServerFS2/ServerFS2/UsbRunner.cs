@@ -117,7 +117,7 @@ namespace ServerFS2
 						if (request == null) // если не нашли, то выходим из цикла, иначе
 						    break;
                         _localresult = new List<byte>();
-						//OnNewResponse(response);
+						OnNewResponse(response);
                         _responses.Add(response);
                         if(IsUsbDevice)
                         {
