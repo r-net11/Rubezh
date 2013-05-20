@@ -124,29 +124,14 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateServiceTable()
 		{
-			var remotePanels = new HashSet<Device>();
+			var remotePanels = BinaryConfigurationHelper.Current.RelationPanels.ToList();// new HashSet<Device>();
+			if (!BinaryConfigurationHelper.Current.RelationPanels.Any(x => x.IntAddress == ParentPanel.IntAddress))
+				remotePanels = new List<Device>();
+
 			var addressList = new List<int>();
 			for (int i = 0; i < 32; i++)
 			{
 				addressList.Add(0);
-			}
-			if (ParentPanel.Parent.Driver.DriverType != DriverType.Computer)
-			{
-				foreach (var binaryZones in BinaryPanel.BinaryRemoteZones)
-				{
-					remotePanels.Add(binaryZones.ParentPanel);
-					//AddToDevicelist(addressList, binaryZones.ParentPanel);
-				}
-				foreach (var binaryZones in BinaryPanel.BinaryLocalZones)
-				{
-					foreach (var device in binaryZones.Zone.DevicesInZone)
-					{
-						remotePanels.Add(device.ParentPanel);
-						//AddToDevicelist(addressList, device.ParentPanel);
-					}
-				}
-				//remotePanels.Add(BinaryPanel.ParentPanel);
-				//AddToDevicelist(addressList, BinaryPanel.ParentPanel);
 			}
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
@@ -158,7 +143,6 @@ namespace ClientFS2.ConfigurationWriter
 						if (pduDevice.Device.ParentPanel.UID == ParentPanel.UID)
 						{
 							remotePanels.Add(device.ParentPanel);
-							//AddToDevicelist(addressList, device.ParentPanel);
 						}
 					}
 				}
@@ -173,13 +157,11 @@ namespace ClientFS2.ConfigurationWriter
 								if (zone.DevicesInZone.Any(x => x.ParentPanel.UID == ParentPanel.UID))
 								{
 									remotePanels.Add(indicatorDevice.ParentPanel);
-									//AddToDevicelist(addressList, indicatorDevice.ParentPanel);
 								}
 							}
 							if (indicatorDevice.IndicatorLogic.Device != null && indicatorDevice.IndicatorLogic.Device.ParentPanel.UID == ParentPanel.UID)
 							{
 								remotePanels.Add(device);
-								//AddToDevicelist(addressList, device);
 							}
 						}
 					}
@@ -187,7 +169,7 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			var remotePanelLists = remotePanels.OrderBy(x => x.IntAddress).ToList();
-			remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
+			//remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
 			for (int i = 0; i < remotePanelLists.Count; i++)
 			{
 				var device = remotePanelLists[i];
