@@ -5,8 +5,8 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-            <TextBlock Text="Состояние" Margin="5, 0, 0, 0"  VerticalAlignment="Center" />
-            <TextBlock Text="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+            <TextBlock Text="Состояние" Margin="5, 0, 0, 0" FontWeight="Bold" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding DeviceState.StateClasses}">
             <ItemsControl.ItemTemplate>

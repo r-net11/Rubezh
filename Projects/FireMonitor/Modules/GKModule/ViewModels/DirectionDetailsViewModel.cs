@@ -38,9 +38,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
-			OnPropertyChanged("HasOffDelay");
-
-			Trace.WriteLine("DirectionState.OnDelay " + DirectionState.OnDelay);
 		}
 
 		public int InputZonesCount
@@ -113,15 +110,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.OnDelay > 0; }
+			get { return DirectionState.States.Contains(XStateType.TurningOn) && DirectionState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.HoldDelay > 0; }
-		}
-		public bool HasOffDelay
-		{
-			get { return DirectionState.OffDelay > 0; }
+			get { return DirectionState.States.Contains(XStateType.On) && DirectionState.HoldDelay > 0; }
 		}
 
 		#region IWindowIdentity Members

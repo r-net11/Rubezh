@@ -33,10 +33,8 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("ToolTip");
-			OnPropertyChanged("DelayTimeLeft");
-			OnPropertyChanged("ShowDelayTimeLeft");
-			OnPropertyChanged("HoldTimeLeft");
-			OnPropertyChanged("ShowHoldTimeLeft");
+			OnPropertyChanged("HasOnDelay");
+			OnPropertyChanged("HasHoldDelay");
 		}
 
 		public string ToolTip
@@ -55,40 +53,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public int DelayTimeLeft
-		{
-			get
-			{
-				var additionalStateProperty = DirectionState.AdditionalStateProperties.FirstOrDefault(x => x.Name == "Задержка");
-				if (additionalStateProperty != null)
-				{
-					return additionalStateProperty.Value;
-				}
-				return 0;
-			}
-		}
-		public bool ShowDelayTimeLeft
-		{
-			get { return DelayTimeLeft > 0; }
-		}
-
-		public int HoldTimeLeft
-		{
-			get
-			{
-				var additionalStateProperty = DirectionState.AdditionalStateProperties.FirstOrDefault(x => x.Name == "Удержание");
-				if (additionalStateProperty != null)
-				{
-					return additionalStateProperty.Value;
-				}
-				return 0;
-			}
-		}
-		public bool ShowHoldTimeLeft
-		{
-			get { return HoldTimeLeft > 0; }
-		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
@@ -104,5 +68,14 @@ namespace GKModule.ViewModels
         {
             DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
         }
+
+		public bool HasOnDelay
+		{
+			get { return DirectionState.States.Contains(XStateType.TurningOn) && DirectionState.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return DirectionState.States.Contains(XStateType.On) && DirectionState.HoldDelay > 0; }
+		}
 	}
 }

@@ -43,7 +43,7 @@ namespace Common.GK
 			}
 		}
 
-		public static void AddMessage(string message)
+		public static JournalItem AddMessage(string message)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -53,6 +53,7 @@ namespace Common.GK
 				Name = message
 			};
 			Add(journalItem);
+			return journalItem;
 		}
 
 		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)

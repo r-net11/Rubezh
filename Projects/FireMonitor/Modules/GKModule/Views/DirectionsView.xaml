@@ -38,17 +38,17 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" MinWidth="100" Header="Задержка">
+				<DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Задержка">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding DelayTimeLeft}" Visibility="{Binding ShowDelayTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Text="{Binding DirectionState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" MinWidth="100" Header="Удержание">
+                <DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Удержание">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding HoldTimeLeft}" Visibility="{Binding ShowHoldTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Text="{Binding DirectionState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

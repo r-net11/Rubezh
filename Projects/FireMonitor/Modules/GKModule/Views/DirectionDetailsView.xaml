@@ -15,8 +15,8 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <StackPanel Orientation="Horizontal">
@@ -39,30 +39,19 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-            <StackPanel Grid.Column="1">
-                <!--<StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
-                                Visibility="{Binding ShowDelayTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Задержка: " Foreground="White" />
-                    <TextBlock Text="{Binding DelayTimeLeft}" Foreground="White" />
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DirectionState.OnDelay}" Foreground="Red" FontSize="24" Margin="2" />
+                        <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
-                                Visibility="{Binding ShowHoldTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Удержание: " Foreground="White" />
-                    <TextBlock Text="{Binding HoldTimeLeft}" Foreground="White" />
-                </StackPanel>-->
-
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
-                        <TextBlock Text="{Binding DirectionState.OnDelay}" Foreground="White" Margin="2" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="Удержание" Foreground="White" Margin="2" />
-                        <TextBlock Text="{Binding DirectionState.HoldDelay}" Foreground="White" Margin="2" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="Задержка на выключение" Foreground="White" Margin="2" />
-                        <TextBlock Text="{Binding DirectionState.OffDelay}" Foreground="White" Margin="2" />
+                <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Удержание" Foreground="White" Margin="2" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DirectionState.HoldDelay}" Foreground="Red" FontSize="24" Margin="2" />
+                        <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

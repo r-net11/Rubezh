@@ -2,12 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="300" MinHeight="300">
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" DataContext="{Binding JournalItemViewModel}" TextElement.Foreground="White" Margin="2">
+        <Grid Grid.Row="0" DataContext="{Binding JournalItemViewModel}" TextElement.Foreground="Black" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="*" />
@@ -24,14 +24,12 @@
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояния" />
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Класс состояния" />
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
 
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
             <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PresentationName}" Margin="2" />
         </Grid>
         <Button Grid.Row="1" Content="Подтвердить" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Width="150" Margin="2" />

@@ -54,7 +54,8 @@ namespace GKModule
 							globalStateClass = direction.DirectionState.StateClass;
 					}
 
-					if (journalItem.StateClass <= globalStateClass)
+					if (journalItem.StateClass <= globalStateClass ||
+						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 					{
 						switch (journalItem.JournalItemType)
 						{

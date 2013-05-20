@@ -75,6 +75,8 @@ namespace Common.GK
 			additionalSwitcherProperty.Parameters.Add(parameter3);
 			driver.Properties.Add(additionalSwitcherProperty);
 
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Режим работы" });
+
 			return driver;
 		}
 	}

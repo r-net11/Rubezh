@@ -46,12 +46,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			OnPropertyChanged("HasOffDelay");
-			//OnPropertyChanged("DeviceState.OnDelay");
-			//OnPropertyChanged("DeviceState.HoldDelay");
-
-			Trace.WriteLine("OnDelay " + DeviceState.OnDelay.ToString());
-			//Trace.WriteLine("HoldDelay " + DeviceState.HoldDelay.ToString());
-			//Trace.WriteLine("OnStateChanged");
 		}
 
 		public object DeviceControlContent
@@ -92,7 +86,7 @@ namespace GKModule.ViewModels
 		void UpdateAuParameters(object sender, DoWorkEventArgs e)
 		{
 			AUParameterValues = new ObservableCollection<AUParameterValue>();
-			if (Device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
+			if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
 			{
 				foreach (var auParameter in Device.Driver.AUParameters)
 				{
@@ -127,6 +121,24 @@ namespace GKModule.ViewModels
 									{
 										auParameterValue.StringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 									}
+									if (Device.Driver.DriverType == XDriverType.Valve && auParameter.Name == "Режим работы")
+									{
+										auParameterValue.StringValue = "Неизвестно";
+										switch (parameterValue & 3)
+										{
+											case 0:
+												auParameterValue.StringValue = "Ручной";
+												break;
+
+											case 1:
+												auParameterValue.StringValue = "Отключено";
+												break;
+
+											case 2:
+												auParameterValue.StringValue = "Автоматический";
+												break;
+										}
+									}
 									Dispatcher.BeginInvoke(new Action(() =>
 									{
 										AUParameterValues.Add(auParameterValue);
@@ -140,7 +152,7 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
-			else if (Device.KauDatabaseParent.Driver.DriverType == XDriverType.RSR2_KAU)
+			else if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
 				var no = Device.GetDatabaseNo(DatabaseType.Gk);
 				var result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
@@ -164,7 +176,10 @@ namespace GKModule.ViewModels
 							{
 								auParameterValue.StringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 							}
-							AUParameterValues.Add(auParameterValue);
+							Dispatcher.BeginInvoke(new Action(() =>
+							{
+								AUParameterValues.Add(auParameterValue);
+							}));
 						}
 					}
 				}
@@ -184,15 +199,15 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DeviceState.OnDelay > 0; }
+			get { return DeviceState.States.Contains(XStateType.TurningOn) && DeviceState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DeviceState.HoldDelay > 0; }
+			get { return DeviceState.States.Contains(XStateType.On) && DeviceState.HoldDelay > 0; }
 		}
 		public bool HasOffDelay
 		{
-			get { return DeviceState.OffDelay > 0; }
+			get { return DeviceState.States.Contains(XStateType.TurningOff) && DeviceState.OffDelay > 0; }
 		}
 
 		#region IWindowIdentity Members

@@ -13,24 +13,41 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-            <StackPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
                 <Views:DeviceStateView TextElement.Foreground="White" />
-                <StackPanel Orientation="Horizontal" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
-                    <TextBlock Text="{Binding DeviceState.OnDelay}" Foreground="White" Margin="2" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Удержание" Foreground="White" Margin="2" />
-                    <TextBlock Text="{Binding DeviceState.HoldDelay}" Foreground="White" Margin="2" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Задержка на выключение" Foreground="White" Margin="2" />
-                    <TextBlock Text="{Binding DeviceState.OffDelay}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel>
+                    <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DeviceState.OnDelay}" Foreground="Red" FontSize="24" Margin="2" />
+                            <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Удержание" Foreground="White" Margin="2" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DeviceState.HoldDelay}" Foreground="Red" FontSize="24" Margin="2" />
+                            <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="Задержка на выключение" Foreground="White" Margin="2" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DeviceState.OffDelay}" Foreground="Red" FontSize="24" Margin="2" />
+                            <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Grid>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -71,7 +88,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Параметры" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <Grid>

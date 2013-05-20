@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2A951DA3-6221-43E1-8B88-13A591FAA53B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{7C5CB4A0-7F30-446F-96ED-0E3693176556}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmModule", "Modules\AlarmModule\AlarmModule.csproj", "{5994549E-4D3E-40BB-8630-CF696158E4E4}"
@@ -61,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireMonitor.Multiclient", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revisor", "Revisor\Revisor.csproj", "{73F998DB-9666-44C2-A57F-FEE34BF72A96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2A951DA3-6221-43E1-8B88-13A591FAA53B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,20 +73,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Any CPU.Build.0 = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|x64.ActiveCfg = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|x86.ActiveCfg = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|x86.Build.0 = Debug|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Any CPU.ActiveCfg = Release|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Any CPU.Build.0 = Release|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Mixed Platforms.Build.0 = Release|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|x64.ActiveCfg = Release|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|x86.ActiveCfg = Release|x86
-		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|x86.Build.0 = Release|x86
 		{5994549E-4D3E-40BB-8630-CF696158E4E4}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{5994549E-4D3E-40BB-8630-CF696158E4E4}.Debug|Any CPU.Build.0 = Debug|x86
 		{5994549E-4D3E-40BB-8630-CF696158E4E4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
@@ -437,6 +423,20 @@ Global
 		{73F998DB-9666-44C2-A57F-FEE34BF72A96}.Release|x64.ActiveCfg = Release|x86
 		{73F998DB-9666-44C2-A57F-FEE34BF72A96}.Release|x86.ActiveCfg = Release|x86
 		{73F998DB-9666-44C2-A57F-FEE34BF72A96}.Release|x86.Build.0 = Release|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|x64.ActiveCfg = Debug|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|x86.ActiveCfg = Debug|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Debug|x86.Build.0 = Debug|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|x64.ActiveCfg = Release|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|x86.ActiveCfg = Release|x86
+		{2A951DA3-6221-43E1-8B88-13A591FAA53B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
