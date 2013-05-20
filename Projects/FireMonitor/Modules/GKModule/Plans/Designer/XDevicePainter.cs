@@ -14,6 +14,7 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GKModule.Plans.Designer
 {
@@ -39,6 +40,8 @@ namespace GKModule.Plans.Designer
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			_presenterItem.Title = GetDeviceTooltip();
+			_presenterItem.Cursor = Cursors.Hand;
+			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
 		private void OnPropertyChanged()

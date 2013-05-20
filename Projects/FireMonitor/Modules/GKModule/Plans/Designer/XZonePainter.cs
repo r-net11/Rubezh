@@ -16,6 +16,7 @@ using Controls.Converters;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecAPI.Models;
+using System.Windows.Input;
 
 namespace GKModule.Plans.Designer
 {
@@ -36,6 +37,8 @@ namespace GKModule.Plans.Designer
 			if (Zone != null)
 				Zone.ZoneState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetZoneTooltip();
+			_presenterItem.Cursor = Cursors.Hand;
+			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
 		private void OnPropertyChanged()

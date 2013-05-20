@@ -16,6 +16,8 @@ using Controls.Converters;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecAPI.Models;
+using System.Windows.Input;
+using System.Globalization;
 
 namespace GKModule.Plans.Designer
 {
@@ -24,10 +26,14 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XDirection XDirection;
 		private ContextMenu _contextMenu;
+		private GeometryDrawing _textDrawing;
+		private ScaleTransform _scaleTransform;
 
 		public XDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
 		{
+			_textDrawing = null;
+			_scaleTransform = new ScaleTransform();
 			_contextMenu = null;
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
@@ -36,13 +42,12 @@ namespace GKModule.Plans.Designer
 			if (XDirection != null)
 				XDirection.DirectionState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetDirectionTooltip();
+			_presenterItem.Cursor = Cursors.Hand;
+			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
 		private void OnPropertyChanged()
 		{
-			var onDelay = XDirection.DirectionState.OnDelay;
-			var holdDelay = XDirection.DirectionState.HoldDelay;
-
 			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
@@ -61,9 +66,40 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			//return PainterCache.GetTransparentBrush(GetStateColor());
-			//return new LinearGradientBrush(GetStateColor(), Colors.Blue, 45);
-			return new RadialGradientBrush(GetStateColor(), Colors.Blue);
+			return PainterCache.GetTransparentBrush(GetStateColor());
+		}
+		public override void Transform()
+		{
+			base.Transform();
+			string text = null;
+			if (XDirection.DirectionState.OnDelay > 0)
+				text = string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
+			else if (XDirection.DirectionState.HoldDelay > 0)
+				text = string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
+			if (string.IsNullOrEmpty(text))
+				_textDrawing = null;
+			else
+			{
+				var typeface = new Typeface("Arial");
+				var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
+				Point point = Geometry.Rect.TopLeft;
+				_scaleTransform.CenterX = point.X;
+				_scaleTransform.CenterY = point.Y;
+				_scaleTransform.ScaleX = Geometry.Rect.Width / formattedText.Width;
+				_scaleTransform.ScaleY = Geometry.Rect.Height / formattedText.Height;
+				_textDrawing = new GeometryDrawing(PainterCache.WhiteBrush, null, null);
+				_textDrawing.Geometry = formattedText.BuildGeometry(point);
+			}
+		}
+		protected override void InnerDraw(DrawingContext drawingContext)
+		{
+			base.InnerDraw(drawingContext);
+			if (_textDrawing != null)
+			{
+				drawingContext.PushTransform(_scaleTransform);
+				drawingContext.DrawDrawing(_textDrawing);
+				drawingContext.Pop();
+			}
 		}
 
 		#endregion
