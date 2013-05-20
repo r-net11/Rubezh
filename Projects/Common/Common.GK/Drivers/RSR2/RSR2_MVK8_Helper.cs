@@ -95,9 +95,9 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 0.1В", 0, 80, 1, 1000);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с" });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с" });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение, с" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Питание, 0.1В" });
 			driver.AUParameters.Add(new XAUParameter() { No = 5, Name = "Ед АЦП выхода" });
 

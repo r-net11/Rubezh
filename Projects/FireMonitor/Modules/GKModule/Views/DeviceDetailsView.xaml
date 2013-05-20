@@ -83,7 +83,7 @@
                         <ItemsControl ItemsSource="{Binding AUParameterValues}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid Visibility="{Binding IsDelay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition SharedSizeGroup="group1" Width="300" />
                                             <ColumnDefinition SharedSizeGroup="group2" Width="100" />

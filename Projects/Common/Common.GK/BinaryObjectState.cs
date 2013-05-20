@@ -90,6 +90,7 @@ namespace Common.GK
 						break;
 
 					case XDriverType.RSR2_MVK8:
+					case XDriverType.RSR2_RM_1:
 						OnDelay = additionalShortParameters[0];
 						HoldDelay = additionalShortParameters[1];
 						OffDelay = additionalShortParameters[2];
@@ -112,6 +113,9 @@ namespace Common.GK
 						Value = additionalShortParameters[1]
 					};
 					AdditionalStateProperties.Add(property2);
+
+					OnDelay = additionalShortParameters[0];
+					HoldDelay = additionalShortParameters[1];
 				}
 			}
 		}

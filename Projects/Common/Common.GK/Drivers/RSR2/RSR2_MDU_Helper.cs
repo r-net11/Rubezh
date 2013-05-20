@@ -85,7 +85,7 @@ namespace Common.GK
 			property4.Parameters.Add(property4Parameter2);
 			driver.Properties.Add(property4);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки, с" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки, с", IsDelay = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "АЦП концевик ОТКРЫТО" });
 			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "АЦП концевик ЗАКРЫТО" });
 			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "АЦП внешняя кнопка НОРМА" });

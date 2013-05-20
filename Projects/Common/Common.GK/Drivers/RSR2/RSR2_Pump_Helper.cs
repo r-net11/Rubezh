@@ -16,7 +16,7 @@ namespace Common.GK
 				ShortName = "БУШ RSR2",
 				IsControlDevice = true,
 				HasLogic = false,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 			GKDriversHelper.AddControlAvailableStates(driver);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
@@ -36,8 +36,8 @@ namespace Common.GK
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 1", 0, 3350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 7, "Порог 1", 0, 4500, 0, 65535);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на включение" });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение" });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на включение", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение", IsDelay = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Тип шкафа" });
 			driver.AUParameters.Add(new XAUParameter() { No = 5, Name = "Уточнение неисправности" });
 			driver.AUParameters.Add(new XAUParameter() { No = 6, Name = "Состояние" });

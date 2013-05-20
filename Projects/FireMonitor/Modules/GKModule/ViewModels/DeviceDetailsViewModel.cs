@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 
 		public bool HasAUParameters
 		{
-			get { return Device.Driver.AUParameters.Count > 0; }
+			get { return Device.Driver.AUParameters.Where(x => !x.IsDelay).Count() > 0; }
 		}
 
 		void UpdateAuParameters(object sender, DoWorkEventArgs e)

@@ -111,10 +111,13 @@ namespace Common.GK
 			int pumpIndex = 1;
 			foreach (var pumpDevice in FirePumpDevices)
 			{
+				var delayTime = 0;
+				if(FirePumpDevices.LastIndexOf(pumpDevice) > 0)
+					delayTime = DelayTime;
 				var delay = new XDelay()
 				{
 					Name = "Задержка пуска ШУН " + pumpDevice.DottedAddress,
-					DelayTime = (ushort)DelayTime,
+					DelayTime = (ushort)delayTime,
 					SetTime = 2,
 					DelayRegime = DelayRegime.On
 				};

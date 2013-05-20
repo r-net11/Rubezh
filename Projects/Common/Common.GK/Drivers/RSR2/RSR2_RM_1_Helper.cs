@@ -16,12 +16,12 @@ namespace Common.GK
 				ShortName = "МР RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 
 			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
@@ -75,9 +75,9 @@ namespace Common.GK
 			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 32);
 			driver.Properties.Add(property3);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с" });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с" });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение, с" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 
 			return driver;
 		}

@@ -10,5 +10,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public string Name { get; set; }
+
+		[DataMember]
+		public bool IsDelay { get; set; }
 	}
 }

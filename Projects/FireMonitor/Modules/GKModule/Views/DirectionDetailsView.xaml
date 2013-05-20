@@ -40,7 +40,7 @@
                 </ItemsControl>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
+                <!--<StackPanel Orientation="Horizontal" DataContext="{Binding DirectionViewModel}"
                                 Visibility="{Binding ShowDelayTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Задержка: " Foreground="White" />
                     <TextBlock Text="{Binding DelayTimeLeft}" Foreground="White" />
@@ -49,7 +49,7 @@
                                 Visibility="{Binding ShowHoldTimeLeft, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Удержание: " Foreground="White" />
                     <TextBlock Text="{Binding HoldTimeLeft}" Foreground="White" />
-                </StackPanel>
+                </StackPanel>-->
 
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
