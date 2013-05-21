@@ -54,12 +54,24 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 2 5 2" />
-                            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Orange" />
+                            <WrapPanel>
+                                <TextBlock>
+				                    <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Foreground="Orange" Margin="2" />
+				                    </Hyperlink>
+                                </TextBlock>
+                            </WrapPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Подключено к " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2 2 5 2" />
-                            <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
-                            <StackPanel.Style>
+                        
+                        <WrapPanel>
+                            <TextBlock Text="Подключено к: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2" />
+                            <Image Source="{Binding Device.Parent.Driver.ImageSource}" Width="16" Margin="2 2 5 2" />
+                            <TextBlock>
+				                <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                    <TextBlock Text="{Binding Device.Parent.Driver.ShortName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
+				                </Hyperlink>
+                            </TextBlock>
+                            <WrapPanel.Style>
                                 <Style>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}" >
@@ -67,11 +79,16 @@
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </StackPanel.Style>
-                        </StackPanel>
+                            </WrapPanel.Style>
+                        </WrapPanel>
+
                         <WrapPanel Orientation="Horizontal">
                             <TextBlock Text="Зона или Логика: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2 2 5 2" />
-                            <TextBlock Margin="2" Text="{Binding PresentationZone}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
+                            <TextBlock>
+                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                    <TextBlock Text="{Binding PresentationZone}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
+                                </Hyperlink>
+                            </TextBlock>
                             <WrapPanel.Style>
                                 <Style>
                                     <Style.Triggers>
@@ -79,6 +96,27 @@
                                             <Setter Property="StackPanel.Visibility" Value="Collapsed" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding PresentationZone}" Value="" >
+                                            <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </WrapPanel.Style>
+                        </WrapPanel>
+
+                        <WrapPanel>
+                            <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2" />
+                            <TextBlock>
+				                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                    <TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
+				                </Hyperlink>
+                            </TextBlock>
+                            <WrapPanel.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PlanName}" Value="{x:Null}" >
+                                            <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PlanName}" Value="" >
                                             <Setter Property="StackPanel.Visibility" Value="Collapsed" />
                                         </DataTrigger>
                                     </Style.Triggers>

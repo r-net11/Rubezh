@@ -71,11 +71,15 @@ namespace GKModule.Plans.Designer
 		public override void Transform()
 		{
 			base.Transform();
-			string text = null;
-			if (XDirection.DirectionState.OnDelay > 0)
-				text = string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
-			else if (XDirection.DirectionState.HoldDelay > 0)
-				text = string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
+			var text = XDirection.DirectionState.StateClass.ToDescription();
+			if (XDirection.DirectionState.States.Contains(XStateType.TurningOn) && XDirection.DirectionState.OnDelay > 0)
+			{
+				text += "\n" + string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
+			}
+			else if (XDirection.DirectionState.States.Contains(XStateType.On) && XDirection.DirectionState.HoldDelay > 0)
+			{
+				text += "\n" + string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
+			}
 			if (string.IsNullOrEmpty(text))
 				_textDrawing = null;
 			else
@@ -87,7 +91,7 @@ namespace GKModule.Plans.Designer
 				_scaleTransform.CenterY = point.Y;
 				_scaleTransform.ScaleX = Geometry.Rect.Width / formattedText.Width;
 				_scaleTransform.ScaleY = Geometry.Rect.Height / formattedText.Height;
-				_textDrawing = new GeometryDrawing(PainterCache.WhiteBrush, null, null);
+				_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
 				_textDrawing.Geometry = formattedText.BuildGeometry(point);
 			}
 		}
@@ -106,38 +110,28 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			var stateType = XDirection.DirectionState.GetStateType();
-			switch (stateType)
+			switch(XDirection.DirectionState.StateClass)
 			{
-				case StateType.Fire:
-					return Colors.Red;
+				case XStateClass.Unknown:
+					return Colors.DarkGray;
 
-				case StateType.Attention:
-					return Colors.Yellow;
+				case XStateClass.Norm:
+					return Colors.Green;
 
-				case StateType.Failure:
-					return Colors.Pink;
-
-				case StateType.Service:
-					return Colors.Yellow;
-
-				case StateType.Off:
-					return Colors.Yellow;
-
-				case StateType.Unknown:
+				case XStateClass.AutoOff:
 					return Colors.Gray;
 
-				case StateType.Info:
-					return Colors.LightBlue;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
 
-				case StateType.Norm:
-					return Colors.LightGreen;
+				case XStateClass.TurningOn:
+					return Colors.Pink;
 
-				case StateType.No:
-					return Colors.White;
+				case XStateClass.On:
+					return Colors.Red;
 
 				default:
-					return Colors.Black;
+					return Colors.White;
 			}
 		}
 

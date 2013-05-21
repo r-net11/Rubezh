@@ -17,6 +17,7 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecAPI.Models;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace GKModule.Plans.Designer
 {
@@ -68,38 +69,29 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			var stateType = Zone.ZoneState.GetStateType();
-			switch (stateType)
+			Trace.WriteLine("Zone.ZoneState.StateClass" + Zone.ZoneState.StateClass);
+			switch (Zone.ZoneState.StateClass)
 			{
-				case StateType.Fire:
+				case XStateClass.Unknown:
+					return Colors.DarkGray;
+
+				case XStateClass.Norm:
+					return Colors.Green;
+
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+
+				case XStateClass.Attention:
+					return Colors.Yellow;
+
+				case XStateClass.Fire1:
 					return Colors.Red;
 
-				case StateType.Attention:
-					return Colors.Yellow;
-
-				case StateType.Failure:
-					return Colors.Pink;
-
-				case StateType.Service:
-					return Colors.Yellow;
-
-				case StateType.Off:
-					return Colors.Yellow;
-
-				case StateType.Unknown:
-					return Colors.Gray;
-
-				case StateType.Info:
-					return Colors.LightBlue;
-
-				case StateType.Norm:
-					return Colors.LightGreen;
-
-				case StateType.No:
-					return Colors.White;
+				case XStateClass.Fire2:
+					return Colors.Red;
 
 				default:
-					return Colors.Black;
+					return Colors.White;
 			}
 		}
 

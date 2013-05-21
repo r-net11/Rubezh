@@ -11,6 +11,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -25,6 +27,11 @@ namespace GKModule.ViewModels
 		public DeviceDetailsViewModel(Guid deviceUID)
 		{
 			_guid = deviceUID;
+			ShowCommand = new RelayCommand(OnShow);
+			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+			ShowZoneCommand = new RelayCommand(OnShowZone);
+
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			DeviceState = Device.DeviceState;
 			DeviceState.StateChanged += new Action(OnStateChanged);
@@ -123,6 +130,7 @@ namespace GKModule.ViewModels
 									}
 									if (Device.Driver.DriverType == XDriverType.Valve && auParameter.Name == "Режим работы")
 									{
+										Trace.WriteLine("BUZ ParameterValue " + parameterValue.ToString());
 										auParameterValue.StringValue = "Неизвестно";
 										switch (parameterValue & 3)
 										{
@@ -208,6 +216,53 @@ namespace GKModule.ViewModels
 		public bool HasOffDelay
 		{
 			get { return DeviceState.States.Contains(XStateType.TurningOff) && DeviceState.OffDelay > 0; }
+		}
+
+		public RelayCommand ShowCommand { get; private set; }
+		void OnShow()
+		{
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+		}
+
+		public RelayCommand ShowParentCommand { get; private set; }
+		void OnShowParent()
+		{
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+		}
+		bool CanShowParent()
+		{
+			return Device.Parent != null;
+		}
+
+		public string PlanName
+		{
+			get
+			{
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				{
+					if (plan.ElementXDevices.Any(x => x.XDeviceUID == Device.UID))
+					{
+						return plan.Caption;
+					}
+				}
+				return null;
+			}
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ShowOnPlanHelper.ShowDevice(Device);
+		}
+
+		public RelayCommand ShowZoneCommand { get; private set; }
+		void OnShowZone()
+		{
+			var zone = Device.Zones.FirstOrDefault();
+			if (zone != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+			}
 		}
 
 		#region IWindowIdentity Members

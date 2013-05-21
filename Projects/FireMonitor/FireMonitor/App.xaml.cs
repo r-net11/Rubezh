@@ -114,7 +114,6 @@ namespace FireMonitor
 		{
 			IsClosingOnException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
-
 			Restart();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
@@ -143,7 +142,7 @@ namespace FireMonitor
 		void Restart()
 		{
 #if DEBUG
-			//return;
+			return;
 #endif
 			string commandLineArguments = null;
 			if (Login != null && Password != null)

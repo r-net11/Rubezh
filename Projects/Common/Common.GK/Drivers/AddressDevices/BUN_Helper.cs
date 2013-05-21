@@ -66,15 +66,7 @@ namespace Common.GK
 			};
 			driver.Properties.Add(property5);
 
-			//var property6 = new XDriverProperty()
-			//{
-			//    No = 0x8d,
-			//    Name = "Функция УЗН Вкл",
-			//    Caption = "Функция УЗН Вкл",
-			//    DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
-			//    Mask = 256
-			//};
-			//driver.Properties.Add(property6);
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Режим работы" });
 
 			return driver;
 		}
