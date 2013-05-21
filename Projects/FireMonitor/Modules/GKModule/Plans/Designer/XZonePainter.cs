@@ -69,7 +69,6 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			Trace.WriteLine("Zone.ZoneState.StateClass" + Zone.ZoneState.StateClass);
 			switch (Zone.ZoneState.StateClass)
 			{
 				case XStateClass.Unknown:

@@ -348,10 +348,6 @@ namespace DiagnosticsModule.ViewModels
 				{
 					Thread.Sleep(TimeSpan.FromMilliseconds(10));
 					FiresecManager.FiresecDriver.AddUserMessage("Test Message " + count++.ToString());
-					if (count % 1000 == 0)
-					{
-						Trace.WriteLine("Count = " + count.ToString());
-					}
 				}
 			}));
 			thread.IsBackground = true;

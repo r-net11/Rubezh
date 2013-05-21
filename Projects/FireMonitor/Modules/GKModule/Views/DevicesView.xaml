@@ -36,7 +36,7 @@
         <Border Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" CornerRadius="5" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" Padding="5" Margin="0, 5, 0, 0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" Foreground="Orange" />
+                    <TextBlock Text="{Binding Device.ShortPresentationAddressAndDriver}" FontWeight="Bold" Foreground="Orange" />
                     <Views:DeviceStateView TextElement.Foreground="White" />
                 </StackPanel>
             </ScrollViewer>

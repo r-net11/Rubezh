@@ -43,7 +43,6 @@ namespace Firesec
 				{
 					return new OperationResult<bool>(result.Error);
 				}
-				Trace.WriteLine(requestId.ToString() + " " + device.PlaceInTree);
 				devicePropertyRequest.RequestIds.Add(requestId);
 			}
 			DevicePropertyRequests.Add(devicePropertyRequest);
@@ -65,7 +64,6 @@ namespace Firesec
                 {
                     DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
                     var devicePropertyRequests = DevicePropertyRequests.ToList();
-                    Trace.WriteLine("devicePropertyRequests.Count = " + devicePropertyRequests.Count().ToString());
 
                     int stateConfigQueriesRequestId = 0;
                     var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod("", "StateConfigQueries", null, ref stateConfigQueriesRequestId);

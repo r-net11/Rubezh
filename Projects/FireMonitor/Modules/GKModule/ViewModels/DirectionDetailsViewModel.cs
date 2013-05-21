@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Diagnostics;
+using Infrastructure;
+using Infrastructure.Events;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -20,6 +24,8 @@ namespace GKModule.ViewModels
 			DirectionViewModel = new DirectionViewModel(DirectionState);
 			DirectionState.StateChanged += new Action(OnStateChanged);
 
+			ShowCommand = new RelayCommand(OnShow);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
@@ -115,6 +121,41 @@ namespace GKModule.ViewModels
 		public bool HasHoldDelay
 		{
 			get { return DirectionState.States.Contains(XStateType.On) && DirectionState.HoldDelay > 0; }
+		}
+
+		public RelayCommand ShowCommand { get; private set; }
+		void OnShow()
+		{
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
+		}
+
+		public string PlanName
+		{
+			get
+			{
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				{
+					if (plan.ElementXDirections.Any(x => x.DirectionUID == Direction.UID))
+					{
+						return plan.Caption;
+					}
+					//if (plan.ElementPolygonXDirection.Any(x => x.DirectionUID == Direction.UID))
+					//{
+					//    return plan.Caption;
+					//}
+				}
+				return null;
+			}
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ShowOnPlanHelper.ShowDirection(Direction);
+		}
+		public bool CanShowOnPlan()
+		{
+			return ShowOnPlanHelper.CanShowDirection(Direction);
 		}
 
 		#region IWindowIdentity Members

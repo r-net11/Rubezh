@@ -23,6 +23,8 @@ namespace GKModule.ViewModels
 		public XDeviceState DeviceState { get; private set; }
 		DeviceControls.XDeviceControl _deviceControl;
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+		BackgroundWorker BackgroundWorker;
+		bool CancelBackgroundWorker = false;
 
 		public DeviceDetailsViewModel(Guid deviceUID)
 		{
@@ -39,9 +41,9 @@ namespace GKModule.ViewModels
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
-			var backgroundWorker = new BackgroundWorker();
-			backgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
-			backgroundWorker.RunWorkerAsync();
+			BackgroundWorker = new BackgroundWorker();
+			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
+			BackgroundWorker.RunWorkerAsync();
 		}
 
 		void OnStateChanged()
@@ -92,6 +94,17 @@ namespace GKModule.ViewModels
 
 		void UpdateAuParameters(object sender, DoWorkEventArgs e)
 		{
+			while (true)
+			{
+				if (CancelBackgroundWorker)
+					break;
+				OnUpdateAuParameters();
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+			}
+		}
+
+		void OnUpdateAuParameters()
+		{
 			AUParameterValues = new ObservableCollection<AUParameterValue>();
 			if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
 			{
@@ -116,34 +129,36 @@ namespace GKModule.ViewModels
 								if (resievedParameterNo == auParameter.No)
 								{
 									var parameterValue = BytesHelper.SubstructShort(result.Bytes, 64);
-									Trace.WriteLine("Read parameter try " + i.ToString() + " " + auParameter.No.ToString() + " " + parameterValue.ToString());
+									//Trace.WriteLine("Read parameter try " + i.ToString() + " " + auParameter.No.ToString() + " " + parameterValue.ToString());
 
 									var auParameterValue = new AUParameterValue()
 									{
 										Name = auParameter.Name,
 										Value = parameterValue,
-										StringValue = parameterValue.ToString()
+										StringValue = parameterValue.ToString(),
+										IsDelay = auParameter.IsDelay
 									};
 									if (auParameter.Name == "Дата последнего обслуживания")
 									{
 										auParameterValue.StringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 									}
-									if (Device.Driver.DriverType == XDriverType.Valve && auParameter.Name == "Режим работы")
+									if ((Device.Driver.DriverType == XDriverType.Valve || Device.Driver.DriverType == XDriverType.Pump)
+										&& auParameter.Name == "Режим работы")
 									{
-										Trace.WriteLine("BUZ ParameterValue " + parameterValue.ToString());
+										//Trace.WriteLine("BUZ ParameterValue " + parameterValue.ToString());
 										auParameterValue.StringValue = "Неизвестно";
 										switch (parameterValue & 3)
 										{
 											case 0:
-												auParameterValue.StringValue = "Ручной";
+												auParameterValue.StringValue = "Автоматический";
 												break;
 
 											case 1:
-												auParameterValue.StringValue = "Отключено";
+												auParameterValue.StringValue = "Ручной";
 												break;
 
 											case 2:
-												auParameterValue.StringValue = "Автоматический";
+												auParameterValue.StringValue = "Отключено";
 												break;
 										}
 									}
@@ -168,7 +183,6 @@ namespace GKModule.ViewModels
 				{
 					if (result.Bytes.Count > 0)
 					{
-						Trace.WriteLine(BytesHelper.BytesToString(result.Bytes));
 						for (int i = 0; i < Device.Driver.AUParameters.Count; i++)
 						{
 							var auParameter = Device.Driver.AUParameters[i];
@@ -178,7 +192,8 @@ namespace GKModule.ViewModels
 							{
 								Name = auParameter.Name,
 								Value = parameterValue,
-								StringValue = parameterValue.ToString()
+								StringValue = parameterValue.ToString(),
+								IsDelay = auParameter.IsDelay
 							};
 							if (auParameter.Name == "Дата последнего обслуживания")
 							{
@@ -271,6 +286,11 @@ namespace GKModule.ViewModels
 			get { return _guid.ToString(); }
 		}
 		#endregion
+
+		public override void OnClosed()
+		{
+			CancelBackgroundWorker = true;
+		}
 	}
 
 	public class AUParameterValue
@@ -278,5 +298,6 @@ namespace GKModule.ViewModels
 		public string Name { get; set; }
 		public int Value { get; set; }
 		public string StringValue { get; set; }
+		public bool IsDelay { get; set; }
 	}
 }

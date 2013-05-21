@@ -66,7 +66,7 @@ namespace Common.GK
 			};
 			driver.Properties.Add(property5);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Режим работы" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x80, Name = "Режим работы" });
 
 			return driver;
 		}

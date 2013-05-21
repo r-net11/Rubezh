@@ -23,7 +23,6 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateLocation();
-            //Trace.WriteLine(this.Resources.Source.ToString());
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
