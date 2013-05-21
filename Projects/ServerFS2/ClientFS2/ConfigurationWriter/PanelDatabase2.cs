@@ -124,9 +124,9 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateServiceTable()
 		{
-			var remotePanels = BinaryConfigurationHelper.Current.RelationPanels.ToList();// new HashSet<Device>();
+			var remotePanels = new HashSet<Device>(BinaryConfigurationHelper.Current.RelationPanels.ToList());// new HashSet<Device>();
 			if (!BinaryConfigurationHelper.Current.RelationPanels.Any(x => x.IntAddress == ParentPanel.IntAddress))
-				remotePanels = new List<Device>();
+				remotePanels = new HashSet<Device>();
 
 			var addressList = new List<int>();
 			for (int i = 0; i < 32; i++)
@@ -134,6 +134,7 @@ namespace ClientFS2.ConfigurationWriter
 				addressList.Add(0);
 			}
 
+			var nonPanelremoteDevices = new HashSet<Device>();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
@@ -142,7 +143,7 @@ namespace ClientFS2.ConfigurationWriter
 					{
 						if (pduDevice.Device.ParentPanel.UID == ParentPanel.UID)
 						{
-							remotePanels.Add(device.ParentPanel);
+							nonPanelremoteDevices.Add(device.ParentPanel);
 						}
 					}
 				}
@@ -156,12 +157,12 @@ namespace ClientFS2.ConfigurationWriter
 							{
 								if (zone.DevicesInZone.Any(x => x.ParentPanel.UID == ParentPanel.UID))
 								{
-									remotePanels.Add(indicatorDevice.ParentPanel);
+									nonPanelremoteDevices.Add(indicatorDevice.ParentPanel);
 								}
 							}
 							if (indicatorDevice.IndicatorLogic.Device != null && indicatorDevice.IndicatorLogic.Device.ParentPanel.UID == ParentPanel.UID)
 							{
-								remotePanels.Add(device);
+								nonPanelremoteDevices.Add(device);
 							}
 						}
 					}
@@ -170,10 +171,22 @@ namespace ClientFS2.ConfigurationWriter
 
 			var remotePanelLists = remotePanels.OrderBy(x => x.IntAddress).ToList();
 			//remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
+
+			foreach (var device in remotePanelLists)
+			{
+				Trace.WriteLine(device.PresentationAddressAndName);
+			}
 			for (int i = 0; i < remotePanelLists.Count; i++)
 			{
 				var device = remotePanelLists[i];
 				var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
+				{
+					if (!nonPanelremoteDevices.Any(x => x.IntAddress == device.IntAddress))
+					{
+						continue;
+					}
+				}
 				addressList[i] = deviceCode;
 			}
 

@@ -325,6 +325,13 @@ namespace ClientFS2.ConfigurationWriter
 					}
 				}
 			}
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
+				{
+					relationPanels.Add(device);
+				}
+			}
 			RelationPanels = relationPanels.OrderBy(x=>x.IntAddress).ToList();
 		}
 	}
