@@ -23,6 +23,7 @@ namespace GKModule.ViewModels
 
 		public JournalItemViewModel(JournalItem journalItem)
 		{
+			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			JournalItem = journalItem;
@@ -82,6 +83,15 @@ namespace GKModule.ViewModels
 				stringBuilder.Append(state.ToDescription() + " ");
 			}
 			StringStates = stringBuilder.ToString();
+		}
+
+		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
+		void OnShowObjectOrPlan()
+		{
+			if (CanShowOnPlan())
+				OnShowOnPlan();
+			else
+				OnShowObject();
 		}
 
 		public RelayCommand ShowObjectCommand { get; private set; }

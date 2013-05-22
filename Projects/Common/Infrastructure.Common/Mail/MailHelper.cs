@@ -6,6 +6,7 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
+using Common;
 
 namespace Infrastructure.Common.Mail
 {
@@ -28,9 +29,9 @@ namespace Infrastructure.Common.Mail
 					MessageBoxService.ShowError("Неверно заданы параметры smtp-сервера");
 				}
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Trace.WriteLine("Exception Mail.Send: {0}", ex.ToString());
+				Logger.Error(e, "MailHelper.Send");
 			}
 		}
 

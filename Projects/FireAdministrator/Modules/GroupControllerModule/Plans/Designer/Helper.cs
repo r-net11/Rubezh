@@ -80,16 +80,16 @@ namespace GKModule.Plans.Designer
 			return color;
 		}
 
-		public static string GetXDirectionTitle(ElementXDirection element)
+		public static string GetXDirectionTitle(IElementDirection element)
 		{
 			XDirection xdirection = GetXDirection(element);
 			return GetXDirectionTitle(xdirection);
 		}
 		public static string GetXDirectionTitle(XDirection xdirection)
 		{
-			return xdirection == null ? "Несвязанная зона" : xdirection.PresentationName;
+			return xdirection == null ? "Несвязанное направление" : xdirection.PresentationName;
 		}
-		public static XDirection GetXDirection(ElementXDirection element)
+		public static XDirection GetXDirection(IElementDirection element)
 		{
 			return GetXDirection(element.DirectionUID);
 		}
@@ -97,12 +97,12 @@ namespace GKModule.Plans.Designer
 		{
 			return xdirectionUID != Guid.Empty && _xdirectionMap.ContainsKey(xdirectionUID) ? _xdirectionMap[xdirectionUID] : null;
 		}
-		public static void SetXDirection(ElementXDirection element)
+		public static void SetXDirection(IElementDirection element)
 		{
 			XDirection direction = GetXDirection(element);
 			SetXDirection(element, direction);
 		}
-		public static void SetXDirection(ElementXDirection element, XDirection xdirection)
+		public static void SetXDirection(IElementDirection element, XDirection xdirection)
 		{
 			ResetXDirection(element);
 			element.DirectionUID = xdirection == null ? Guid.Empty : xdirection.UID;
@@ -110,7 +110,7 @@ namespace GKModule.Plans.Designer
 			if (xdirection != null)
 				xdirection.PlanElementUIDs.Add(element.UID);
 		}
-		public static void ResetXDirection(ElementXDirection element)
+		public static void ResetXDirection(IElementDirection element)
 		{
 			XDirection xdirection = GetXDirection(element);
 			if (xdirection != null)

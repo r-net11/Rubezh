@@ -32,6 +32,8 @@ namespace FiresecAPI.Models
 				var realPlan = plan as Plan;
 				if (realPlan != null)
 					AllPlans.Add(realPlan);
+				if (plan.Children == null)
+					plan.Children = new List<Plan>();
 				AddChildren(plan.Children, plan);
 			}
 		}
@@ -39,7 +41,8 @@ namespace FiresecAPI.Models
 		public override bool ValidateVersion()
 		{
 			bool result = true;
-			result &= ValidateVersion(Plans);
+			Update();
+			result &= ValidateVersion(AllPlans);
 			return result;
 		}
 		private bool ValidateVersion(List<Plan> folders)
@@ -67,9 +70,14 @@ namespace FiresecAPI.Models
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 				result = false;
 			}
-			if (plan.ElementXDirections == null)
+			if (plan.ElementRectangleXDirections == null)
 			{
-				plan.ElementXDirections = new List<ElementXDirection>();
+				plan.ElementRectangleXDirections = new List<ElementRectangleXDirection>();
+				result = false;
+			}
+			if (plan.ElementPolygonXDirections == null)
+			{
+				plan.ElementPolygonXDirections = new List<ElementPolygonXDirection>();
 				result = false;
 			}
 			foreach (var elementSubPlan in plan.ElementSubPlans)

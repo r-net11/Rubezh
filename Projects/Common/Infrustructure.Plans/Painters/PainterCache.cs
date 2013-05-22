@@ -24,6 +24,7 @@ namespace Infrustructure.Plans.Painters
 		public static Pen GridLinePen { get; private set; }
 		public static Brush GridLineBrush { get; private set; }
 		public static Brush BlackBrush { get; private set; }
+		public static Brush WhiteBrush { get; private set; }
 		public static RectangleGeometry PointGeometry { get; private set; }
 		public static double Zoom { get; private set; }
 		public static double PointZoom { get; private set; }
@@ -34,6 +35,8 @@ namespace Infrustructure.Plans.Painters
 			{
 				BlackBrush = new SolidColorBrush(Colors.Black);
 				BlackBrush.Freeze();
+				WhiteBrush = new SolidColorBrush(Colors.White);
+				WhiteBrush.Freeze();
 				ZonePen = new Pen(BlackBrush, 1);
 				GridLineBrush = new SolidColorBrush(Colors.Orange);
 				GridLineBrush.Freeze();

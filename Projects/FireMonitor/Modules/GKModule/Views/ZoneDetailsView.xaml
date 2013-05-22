@@ -9,16 +9,55 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Text="Состояние" Foreground="White" Margin="2" />
-            <TextBlock Text="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" Margin="2" />
+            <Rectangle Fill="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <Image Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                <TextBlock Text="Состояние" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5, 0, 0, 0" />
+                <TextBlock Text="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+            </StackPanel>
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock>
+				            <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                <TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Foreground="Orange" Margin="2" />
+				            </Hyperlink>
+                        </TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2" />
+                        <TextBlock>
+				            <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                <TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
+				            </Hyperlink>
+                        </TextBlock>
+                        <WrapPanel.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PlanName}" Value="{x:Null}" >
+                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                    </WrapPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Количество датчиков для перевода в Пожар 1:" Foreground="Orange" Margin="2" />
+                        <TextBlock Text="{Binding Zone.Fire1Count}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Количество датчиков для перевода в Пожар 2:" Foreground="Orange" Margin="2" />
+                        <TextBlock Text="{Binding Zone.Fire2Count}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Управление">
                 <StackPanel Background="White">
-                    <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Margin="2" />
-                    <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Margin="2" />
-                    <Button Content="Сбросить" Command="{Binding ResetFireCommand}" Width="200" Margin="2" />
-                    <Button Content="Показать на плане" Command="{Binding ShowOnPlanCommand}" Width="200" Margin="2" />
+                    <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Height="50" Margin="2" />
+                    <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Height="50" Margin="2" />
+                    <Button Content="Сбросить" Command="{Binding ResetFireCommand}" Width="200" Height="50" Margin="2" />
                 </StackPanel>
             </TabItem>
         </TabControl>

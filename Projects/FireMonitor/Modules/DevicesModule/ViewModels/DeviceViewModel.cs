@@ -406,7 +406,6 @@ namespace DevicesModule.ViewModels
 										MPTTimerViewModel.StartTimer(secondsLeft);
 									else
 										MPTTimerViewModel.RestartTimer(secondsLeft);
-									Trace.WriteLine("secondsLeft=" + secondsLeft.ToString());
 								}
 							}
 						}

@@ -7,6 +7,8 @@ using XFiresecAPI;
 using FiresecClient;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -18,6 +20,7 @@ namespace GKModule.ViewModels
 
 		public ZoneDetailsViewModel(XZone zone)
 		{
+			ShowCommand = new RelayCommand(OnShow);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
@@ -39,6 +42,25 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ResetFireCommand");
 			OnPropertyChanged("SetIgnoreCommand");
 			OnPropertyChanged("ResetIgnoreCommand");
+		}
+
+		public string PlanName
+		{
+			get
+			{
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				{
+					if (plan.ElementRectangleXZones.Any(x => x.ZoneUID == Zone.UID))
+					{
+						return plan.Caption;
+					}
+					if (plan.ElementPolygonXZones.Any(x => x.ZoneUID == Zone.UID))
+					{
+						return plan.Caption;
+					}
+				}
+				return null;
+			}
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -79,6 +101,12 @@ namespace GKModule.ViewModels
 		bool CanResetIgnore()
 		{
 			return ZoneState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+		}
+
+		public RelayCommand ShowCommand { get; private set; }
+		void OnShow()
+		{
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
 		}
 
 		#region IWindowIdentity Members

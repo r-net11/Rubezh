@@ -58,7 +58,6 @@ namespace FireMonitor.ViewModels
 			}
 			if (shouldDeactivate)
 			{
-				Trace.WriteLine("Email Reset");
 				email.IsActivated = false;
 			}
 		}
@@ -70,7 +69,6 @@ namespace FireMonitor.ViewModels
 				" на состояние " +
 				zone.ZoneState.StateType.ToDescription();
 			MailHelper.Send(FiresecManager.SystemConfiguration.EmailData.EmailSettings, email.Address, message, email.MessageTitle);
-			//Trace.WriteLine(message);
 		}
 	}
 }

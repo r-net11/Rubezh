@@ -31,6 +31,33 @@ namespace Common.GK
 			return property;
 		}
 
+		public static XDriverProperty AddPlainEnumProprety2(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int mask)
+		{
+			var property = new XDriverProperty()
+			{
+				No = no,
+				Name = propertyName,
+				Caption = propertyName,
+				Default = 0,
+				Offset = 0,
+				Mask = (byte)mask
+			};
+			var parameter1 = new XDriverPropertyParameter()
+			{
+				Name = parameter1Name,
+				Value = (ushort)0
+			};
+			var parameter2 = new XDriverPropertyParameter()
+			{
+				Name = parameter2Name,
+				Value = (ushort)mask
+			};
+			property.Parameters.Add(parameter1);
+			property.Parameters.Add(parameter2);
+			xDriver.Properties.Add(property);
+			return property;
+		}
+
 		public static void AddBoolProprety(XDriver xDriver, byte no, string propertyName, byte offset)
 		{
 			var property = new XDriverProperty()

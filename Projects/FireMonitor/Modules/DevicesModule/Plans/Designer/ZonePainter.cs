@@ -14,6 +14,8 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.Plans.Designer
 {
@@ -36,6 +38,8 @@ namespace DevicesModule.Plans.Designer
 			if (_zone != null)
 				_zone.ZoneState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetZoneTooltip();
+			//_presenterItem.Cursor = Cursors.Hand;
+			//_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 			InitializeDevices();
 		}
 
@@ -183,6 +187,13 @@ namespace DevicesModule.Plans.Designer
 			return _zone != null && _zone.ZoneType == ZoneType.Guard && _zone.SecPanelUID != null && FiresecManager.IsZoneOnGuard(_zone.ZoneState);
 		}
 
+		//public RelayCommand ShowPropertiesCommand { get; private set; }
+		//void OnShowProperties()
+		//{
+		//    var zoneDetailsViewModel = new ZoneDetailsViewModel(_zone);
+		//    DialogService.ShowWindow(zoneDetailsViewModel);
+		//}
+
 		private ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
@@ -219,6 +230,11 @@ namespace DevicesModule.Plans.Designer
 					Header = "Снять с охраны",
 					Command = UnSetGuardCommand
 				});
+				//_contextMenu.Items.Add(new MenuItem()
+				//{
+				//    Header = "Свойства",
+				//    Command = ShowPropertiesCommand
+				//});
 			}
 			return _contextMenu;
 		}

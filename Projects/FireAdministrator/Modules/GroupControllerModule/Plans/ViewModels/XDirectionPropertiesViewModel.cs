@@ -16,10 +16,10 @@ namespace GKModule.Plans.ViewModels
 {
 	public class XDirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementXDirection _element;
+		private IElementDirection _element;
 		private DirectionsViewModel _directionsViewModel;
 
-		public XDirectionPropertiesViewModel(ElementXDirection element, DirectionsViewModel directionsViewModel)
+		public XDirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel)
 		{
 			_directionsViewModel = directionsViewModel;
 			_element = element;

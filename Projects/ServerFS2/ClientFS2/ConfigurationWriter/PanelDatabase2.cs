@@ -124,31 +124,17 @@ namespace ClientFS2.ConfigurationWriter
 
 		void CreateServiceTable()
 		{
-			var remotePanels = new HashSet<Device>();
+			var remotePanels = new HashSet<Device>(BinaryConfigurationHelper.Current.RelationPanels.ToList());// new HashSet<Device>();
+			if (!BinaryConfigurationHelper.Current.RelationPanels.Any(x => x.IntAddress == ParentPanel.IntAddress))
+				remotePanels = new HashSet<Device>();
+
 			var addressList = new List<int>();
 			for (int i = 0; i < 32; i++)
 			{
 				addressList.Add(0);
 			}
-			if (ParentPanel.Parent.Driver.DriverType != DriverType.Computer)
-			{
-				foreach (var binaryZones in BinaryPanel.BinaryRemoteZones)
-				{
-					remotePanels.Add(binaryZones.ParentPanel);
-					//AddToDevicelist(addressList, binaryZones.ParentPanel);
-				}
-				foreach (var binaryZones in BinaryPanel.BinaryLocalZones)
-				{
-					foreach (var device in binaryZones.Zone.DevicesInZone)
-					{
-						remotePanels.Add(device.ParentPanel);
-						//AddToDevicelist(addressList, device.ParentPanel);
-					}
-				}
-				//remotePanels.Add(BinaryPanel.ParentPanel);
-				//AddToDevicelist(addressList, BinaryPanel.ParentPanel);
-			}
 
+			var nonPanelremoteDevices = new HashSet<Device>();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
@@ -157,8 +143,7 @@ namespace ClientFS2.ConfigurationWriter
 					{
 						if (pduDevice.Device.ParentPanel.UID == ParentPanel.UID)
 						{
-							remotePanels.Add(device.ParentPanel);
-							//AddToDevicelist(addressList, device.ParentPanel);
+							nonPanelremoteDevices.Add(device.ParentPanel);
 						}
 					}
 				}
@@ -172,14 +157,12 @@ namespace ClientFS2.ConfigurationWriter
 							{
 								if (zone.DevicesInZone.Any(x => x.ParentPanel.UID == ParentPanel.UID))
 								{
-									remotePanels.Add(indicatorDevice.ParentPanel);
-									//AddToDevicelist(addressList, indicatorDevice.ParentPanel);
+									nonPanelremoteDevices.Add(indicatorDevice.ParentPanel);
 								}
 							}
 							if (indicatorDevice.IndicatorLogic.Device != null && indicatorDevice.IndicatorLogic.Device.ParentPanel.UID == ParentPanel.UID)
 							{
-								remotePanels.Add(device);
-								//AddToDevicelist(addressList, device);
+								nonPanelremoteDevices.Add(device);
 							}
 						}
 					}
@@ -187,11 +170,23 @@ namespace ClientFS2.ConfigurationWriter
 			}
 
 			var remotePanelLists = remotePanels.OrderBy(x => x.IntAddress).ToList();
-			remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
+			//remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
+
+			foreach (var device in remotePanelLists)
+			{
+				Trace.WriteLine(device.PresentationAddressAndName);
+			}
 			for (int i = 0; i < remotePanelLists.Count; i++)
 			{
 				var device = remotePanelLists[i];
 				var deviceCode = DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
+				{
+					if (!nonPanelremoteDevices.Any(x => x.IntAddress == device.IntAddress))
+					{
+						continue;
+					}
+				}
 				addressList[i] = deviceCode;
 			}
 

@@ -175,11 +175,6 @@ namespace Firesec
 						if (indicatorLogic != null)
 						{
 							device.IndicatorLogic = IndicatorLogicConverter.Convert(deviceConfiguration, indicatorLogic);
-							if (device.IndicatorLogic.DeviceUID != Guid.Empty)
-							{
-								Trace.WriteLine("===================");
-								Trace.WriteLine(indicatorLogicString);
-							}
 						}
 					}
 				}
@@ -390,11 +385,6 @@ namespace Firesec
 				indicatorLogicProperty.name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24";
 				var indicatorLogic = IndicatorLogicConverter.ConvertBack(device.IndicatorLogic);
 				indicatorLogicProperty.value = SerializerHelper.SetIndicatorLogic(indicatorLogic);
-				if (device.IndicatorLogic.DeviceUID != Guid.Empty)
-				{
-					Trace.WriteLine("++++++++++++++++++++");
-					Trace.WriteLine(indicatorLogicProperty.value);
-				}
 			}
 
 			if ((device.Driver.DriverType == DriverType.PDUDirection) || (device.Driver.DriverType == DriverType.PDU_PTDirection))

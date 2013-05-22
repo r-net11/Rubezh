@@ -154,7 +154,13 @@ namespace FiresecClient
 						if (xzoneMap.ContainsKey(xzone.ZoneUID))
 							xzoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
 					}
-					foreach (var xdirection in plan.ElementXDirections)
+					foreach (var xdirection in plan.ElementRectangleXDirections)
+					{
+						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xdirectionMap.ContainsKey(xdirection.DirectionUID) ? xdirectionMap[xdirection.DirectionUID] : null);
+						if (xdirectionMap.ContainsKey(xdirection.DirectionUID))
+							xdirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+					}
+					foreach (var xdirection in plan.ElementPolygonXDirections)
 					{
 						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xdirectionMap.ContainsKey(xdirection.DirectionUID) ? xdirectionMap[xdirection.DirectionUID] : null);
 						if (xdirectionMap.ContainsKey(xdirection.DirectionUID))
@@ -277,7 +283,7 @@ namespace FiresecClient
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
-		private static void UpdateDirectionType(ElementXDirection elementXDirection, XDirection xdirection)
+		private static void UpdateDirectionType(IElementDirection elementXDirection, XDirection xdirection)
 		{
 			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
 			elementXDirection.BackgroundColor = xdirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;

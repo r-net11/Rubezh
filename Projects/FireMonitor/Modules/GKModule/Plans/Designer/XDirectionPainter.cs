@@ -16,33 +16,40 @@ using Controls.Converters;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecAPI.Models;
+using System.Windows.Input;
+using System.Globalization;
 
 namespace GKModule.Plans.Designer
 {
-	class XDirectionPainter : RectangleZonePainter, IPainter
+	class XDirectionPainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
 		private XDirection XDirection;
 		private ContextMenu _contextMenu;
+		private GeometryDrawing _textDrawing;
+		private ScaleTransform _scaleTransform;
+		private bool _showText = false;
 
 		public XDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
 		{
+			_textDrawing = null;
+			_scaleTransform = new ScaleTransform();
 			_contextMenu = null;
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			XDirection = Helper.GetXDirection((ElementXDirection)_presenterItem.Element);
+			XDirection = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
+			_showText = _presenterItem.Element is ElementRectangleXDirection;
 			if (XDirection != null)
 				XDirection.DirectionState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetDirectionTooltip();
+			_presenterItem.Cursor = Cursors.Hand;
+			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
 		private void OnPropertyChanged()
 		{
-			var onDelay = XDirection.DirectionState.OnDelay;
-			var holdDelay = XDirection.DirectionState.HoldDelay;
-
 			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
@@ -61,47 +68,67 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			//return PainterCache.GetTransparentBrush(GetStateColor());
-			//return new LinearGradientBrush(GetStateColor(), Colors.Blue, 45);
-			return new RadialGradientBrush(GetStateColor(), Colors.Blue);
+			return PainterCache.GetTransparentBrush(GetStateColor());
+		}
+		public override void Transform()
+		{
+			base.Transform();
+			if (_showText)
+			{
+				var text = XDirection.DirectionState.StateClass.ToDescription();
+				if (XDirection.DirectionState.States.Contains(XStateType.TurningOn) && XDirection.DirectionState.OnDelay > 0)
+					text += "\n" + string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
+				else if (XDirection.DirectionState.States.Contains(XStateType.On) && XDirection.DirectionState.HoldDelay > 0)
+					text += "\n" + string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
+				if (string.IsNullOrEmpty(text))
+					_textDrawing = null;
+				else
+				{
+					var typeface = new Typeface("Arial");
+					var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
+					Point point = Geometry.Bounds.TopLeft;
+					_scaleTransform.CenterX = point.X;
+					_scaleTransform.CenterY = point.Y;
+					_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
+					_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
+					_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
+					_textDrawing.Geometry = formattedText.BuildGeometry(point);
+				}
+			}
+			else
+				_textDrawing = null;
+		}
+		protected override void InnerDraw(DrawingContext drawingContext)
+		{
+			base.InnerDraw(drawingContext);
+			if (_textDrawing != null)
+			{
+				drawingContext.PushTransform(_scaleTransform);
+				drawingContext.DrawDrawing(_textDrawing);
+				drawingContext.Pop();
+			}
 		}
 
 		#endregion
 
 		public Color GetStateColor()
 		{
-			var stateType = XDirection.DirectionState.GetStateType();
-			switch (stateType)
+			switch(XDirection.DirectionState.StateClass)
 			{
-				case StateType.Fire:
-					return Colors.Red;
-
-				case StateType.Attention:
-					return Colors.Yellow;
-
-				case StateType.Failure:
-					return Colors.Pink;
-
-				case StateType.Service:
-					return Colors.Yellow;
-
-				case StateType.Off:
-					return Colors.Yellow;
-
-				case StateType.Unknown:
+				case XStateClass.Unknown:
+					return Colors.DarkGray;
+				case XStateClass.Norm:
+					return Colors.Green;
+				case XStateClass.AutoOff:
 					return Colors.Gray;
-
-				case StateType.Info:
-					return Colors.LightBlue;
-
-				case StateType.Norm:
-					return Colors.LightGreen;
-
-				case StateType.No:
-					return Colors.White;
-
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+				case XStateClass.TurningOn:
+					return Colors.Pink;
+				case XStateClass.On:
+					return Colors.Red;
 				default:
-					return Colors.Black;
+					return Colors.White;
 			}
 		}
 

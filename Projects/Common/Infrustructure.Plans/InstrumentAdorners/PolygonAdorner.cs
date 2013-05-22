@@ -70,13 +70,14 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
+			var point = e.GetPosition(this);
 			if (e.ButtonState == MouseButtonState.Released && _opened)
 				switch (e.ChangedButton)
 				{
 					case MouseButton.Left:
-						Points.Add(CutPoint(e.GetPosition(this)));
+						Points.Add(CutPoint(point));
 						if (Points.Count == 1)
-							Points.Add(CutPoint(e.GetPosition(this)));
+							Points.Add(CutPoint(point));
 						break;
 					case MouseButton.Right:
 						ElementBaseShape element = CreateElement();
@@ -85,7 +86,7 @@ namespace Infrustructure.Plans.InstrumentAdorners
 							if (Points.Count > 1)
 								element.Points = new PointCollection(Points);
 							else
-								element.Position = CutPoint(e.GetPosition(this));
+								element.Position = CutPoint(point);
 							DesignerCanvas.CreateDesignerItem(element);
 						}
 						Cleanup();

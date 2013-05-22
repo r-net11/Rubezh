@@ -23,7 +23,6 @@ namespace FSAgentClient
 
 		public void Stop()
 		{
-			Trace.WriteLine("FSAgent.Stop");
             IsDisconnecting = true;
 			StopLifetime();
 			StopPollThread();

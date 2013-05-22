@@ -92,8 +92,16 @@ namespace GKModule.Plans
 						{
 							ImageSource="/Controls;component/Images/Direction.png",
 							ToolTip="ГК Направление",
-							Adorner = new XDirectionAdorner(_designerCanvas, _directionsViewModel),
-							Index = 201,
+							Adorner = new XDirectionRectangleAdorner(_designerCanvas, _directionsViewModel),
+							Index = 202,
+							Autostart = true
+						},
+						new InstrumentViewModel()
+						{
+							ImageSource="/Controls;component/Images/Direction.png",
+							ToolTip="ГК Направление",
+							Adorner = new XDirectionPolygonAdorner(_designerCanvas, _directionsViewModel),
+							Index = 203,
 							Autostart = true
 						},
 					};
@@ -103,56 +111,63 @@ namespace GKModule.Plans
 
 		public bool ElementAdded(Plan plan, ElementBase element)
 		{
-			IElementZone elementXZone = element as IElementZone;
-			if (elementXZone != null)
-			{
-				if (elementXZone is ElementRectangleXZone)
-					plan.ElementRectangleXZones.Add((ElementRectangleXZone)elementXZone);
-				else if (elementXZone is ElementPolygonXZone)
-					plan.ElementPolygonXZones.Add((ElementPolygonXZone)elementXZone);
-				else
-					return false;
-				Designer.Helper.SetXZone(elementXZone);
-				return true;
-			}
-			else if (element is ElementXDevice)
+			if (element is ElementXDevice)
 			{
 				var elementXDevice = element as ElementXDevice;
 				Helper.SetXDevice(elementXDevice);
 				plan.ElementXDevices.Add(elementXDevice);
 				return true;
 			}
-			else if (element is ElementXDirection)
+			else if (element is IElementZone)
 			{
-				var elementXDirection = element as ElementXDirection;
-				Helper.SetXDirection(elementXDirection);
-				plan.ElementXDirections.Add(elementXDirection);
+				if (element is ElementRectangleXZone)
+					plan.ElementRectangleXZones.Add((ElementRectangleXZone)element);
+				else if (element is ElementPolygonXZone)
+					plan.ElementPolygonXZones.Add((ElementPolygonXZone)element);
+				else
+					return false;
+				Designer.Helper.SetXZone((IElementZone)element);
+				return true;
+			}
+			else if (element is IElementDirection)
+			{
+				if (element is ElementRectangleXDirection)
+					plan.ElementRectangleXDirections.Add((ElementRectangleXDirection)element);
+				else if (element is ElementPolygonXDirection)
+					plan.ElementPolygonXDirections.Add((ElementPolygonXDirection)element);
+				else
+					return false;
+				Helper.SetXDirection((IElementDirection)element);
+				return true;
 			}
 			return false;
 		}
 		public bool ElementRemoved(Plan plan, ElementBase element)
 		{
-			IElementZone elementXZone = element as IElementZone;
-			if (elementXZone != null)
-			{
-				if (elementXZone is ElementRectangleXZone)
-					plan.ElementRectangleXZones.Remove((ElementRectangleXZone)elementXZone);
-				else if (elementXZone is ElementPolygonXZone)
-					plan.ElementPolygonXZones.Remove((ElementPolygonXZone)elementXZone);
-				else
-					return false;
-				return true;
-			}
-			else if (element is ElementXDevice)
+			if (element is ElementXDevice)
 			{
 				var elementXDevice = element as ElementXDevice;
 				plan.ElementXDevices.Remove(elementXDevice);
 				return true;
 			}
-			else if (element is ElementXDirection)
+			else if (element is IElementZone)
 			{
-				var elementXDirection = element as ElementXDirection;
-				plan.ElementXDirections.Remove(elementXDirection);
+				if (element is ElementRectangleXZone)
+					plan.ElementRectangleXZones.Remove((ElementRectangleXZone)element);
+				else if (element is ElementPolygonXZone)
+					plan.ElementPolygonXZones.Remove((ElementPolygonXZone)element);
+				else
+					return false;
+				return true;
+			}
+			else if (element is IElementDirection)
+			{
+				if (element is ElementRectangleXDirection)
+					plan.ElementRectangleXDirections.Remove((ElementRectangleXDirection)element);
+				else if (element is ElementPolygonXDirection)
+					plan.ElementPolygonXDirections.Remove((ElementPolygonXDirection)element);
+				else
+					return false;
 				return true;
 			}
 			return false;
@@ -176,7 +191,7 @@ namespace GKModule.Plans
 				designerItem.UpdateProperties += UpdateDesignerItemXDevice;
 				UpdateDesignerItemXDevice(designerItem);
 			}
-			else if (designerItem.Element is ElementXDirection)
+			else if (designerItem.Element is IElementDirection)
 			{
 				designerItem.ItemPropertyChanged += XDirectionPropertyChanged;
 				OnXDirectionPropertyChanged(designerItem);
@@ -192,15 +207,19 @@ namespace GKModule.Plans
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 			if (plan.ElementRectangleXZones == null)
 				plan.ElementRectangleXZones = new List<ElementRectangleXZone>();
-			if (plan.ElementXDirections == null)
-				plan.ElementXDirections = new List<ElementXDirection>();
+			if (plan.ElementRectangleXDirections == null)
+				plan.ElementRectangleXDirections = new List<ElementRectangleXDirection>();
+			if (plan.ElementPolygonXDirections == null)
+				plan.ElementPolygonXDirections = new List<ElementPolygonXDirection>();
 			foreach (var element in plan.ElementXDevices)
 				yield return element;
 			foreach (var element in plan.ElementRectangleXZones)
 				yield return element;
 			foreach (var element in plan.ElementPolygonXZones)
 				yield return element;
-			foreach (var element in plan.ElementXDirections)
+			foreach (var element in plan.ElementRectangleXDirections)
+				yield return element;
+			foreach (var element in plan.ElementPolygonXDirections)
 				yield return element;
 		}
 
@@ -237,14 +256,14 @@ namespace GKModule.Plans
 		}
 		private void UpdateDesignerItemXDirection(CommonDesignerItem designerItem)
 		{
-			var elementXDirection = designerItem.Element as ElementXDirection;
+			var elementXDirection = designerItem.Element as IElementDirection;
 			var xdirection = Designer.Helper.GetXDirection(elementXDirection);
 			Designer.Helper.SetXDirection(elementXDirection, xdirection);
 			designerItem.Title = Designer.Helper.GetXDirectionTitle(xdirection);
 			elementXDirection.BackgroundColor = Designer.Helper.GetXDirectionColor(xdirection);
 			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
 		}
-		
+
 		private void XZonePropertyChanged(object sender, EventArgs e)
 		{
 			DesignerItem designerItem = (DesignerItem)sender;
@@ -270,7 +289,7 @@ namespace GKModule.Plans
 		}
 		private void OnXDirectionPropertyChanged(DesignerItem designerItem)
 		{
-			var direction = Designer.Helper.GetXDirection((ElementXDirection)designerItem.Element);
+			var direction = Designer.Helper.GetXDirection((IElementDirection)designerItem.Element);
 			//if (direction != null)
 			//    direction.ColorTypeChanged += () =>
 			//    {
@@ -312,8 +331,8 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
-			else if (e.Element is ElementXDirection)
-				e.PropertyViewModel = new XDirectionPropertiesViewModel((ElementXDirection)e.Element, _directionsViewModel);
+			else if (e.Element is ElementRectangleXDirection || e.Element is ElementPolygonXDirection)
+				e.PropertyViewModel = new XDirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 		}
 
 		public void UpdateXDeviceInXZones()

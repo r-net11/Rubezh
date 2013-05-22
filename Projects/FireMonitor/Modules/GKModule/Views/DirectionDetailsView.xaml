@@ -18,26 +18,29 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                    <TextBlock Text="Состояние" Margin="5, 0, 0, 0" Foreground="White" VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Rectangle Fill="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                        <TextBlock Text="Состояние" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5, 0, 0, 0" />
+                        <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding DirectionState.StateClasses}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding .}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
-                <ItemsControl ItemsSource="{Binding DirectionState.StateClasses}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl ItemsSource="{Binding DirectionState.AdditionalStates}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding .}" VerticalAlignment="Center" Foreground="White" Margin="5, 1, 1, 1" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
             </StackPanel>
             <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                 <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -60,21 +63,40 @@
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
+                        <WrapPanel>
+                            <TextBlock>
+				            <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                <TextBlock Text="{Binding Direction.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Foreground="Orange" Margin="2" />
+				            </Hyperlink>
+                        </TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2" />
+                            <TextBlock>
+				            <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                <TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
+				            </Hyperlink>
+                        </TextBlock>
+                            <WrapPanel.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PlanName}" Value="{x:Null}" >
+                                            <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </WrapPanel.Style>
+                        </WrapPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Состояние: " FontWeight="Bold" Foreground="Orange" Margin="1, 1, 5, 1" />
-                            <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" FontWeight="Bold" Foreground="Orange" />
-                            <Image Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Входных зон: " Foreground="White" />
+                            <TextBlock Text="Входных зон: " Foreground="Orange" />
                             <TextBlock Text="{Binding InputZonesCount}" Foreground="White" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Входных устройств: " Foreground="White" />
+                            <TextBlock Text="Входных устройств: " Foreground="Orange" />
                             <TextBlock Text="{Binding InputDevicesCount}" Foreground="White" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Выходных устройств: " Foreground="White" />
+                            <TextBlock Text="Выходных устройств: " Foreground="Orange" />
                             <TextBlock Text="{Binding OutputDevicesCount}" Foreground="White" />
                         </StackPanel>
                     </StackPanel>
@@ -96,14 +118,14 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Margin="2" />
-                            <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Margin="2" />
-                            <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Margin="2" />
+                            <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-                            <Button Content="Включить" Command="{Binding TurnOnCommand}" Width="200" Margin="2" />
-                            <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Margin="2" />
-                            <Button Content="Выключить" Command="{Binding TurnOffCommand}" Width="200" Margin="2" />
+                            <Button Content="Включить" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Выключить" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
                         </StackPanel>
                     </Grid>
                 </Grid>

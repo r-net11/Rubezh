@@ -8,10 +8,10 @@ using GKModule.ViewModels;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XDirectionAdorner : BaseRectangleAdorner
+	public class XDirectionRectangleAdorner : BaseRectangleAdorner
 	{
 		private DirectionsViewModel _directionsViewModel;
-		public XDirectionAdorner(CommonDesignerCanvas designerCanvas, DirectionsViewModel directionsViewModel)
+		public XDirectionRectangleAdorner(CommonDesignerCanvas designerCanvas, DirectionsViewModel directionsViewModel)
 			: base(designerCanvas)
 		{
 			_directionsViewModel = directionsViewModel;
@@ -19,7 +19,7 @@ namespace GKModule.Plans.InstrumentAdorners
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementXDirection();
+			var element = new ElementRectangleXDirection();
 			var propertiesViewModel = new XDirectionPropertiesViewModel(element, _directionsViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;

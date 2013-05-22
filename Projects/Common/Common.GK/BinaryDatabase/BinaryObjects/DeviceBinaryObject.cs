@@ -139,16 +139,12 @@ namespace Common.GK
 				Parameters = new List<byte>();
 				return;
 			}
-			if (Device.Driver.DriverType == XDriverType.RSR2_MVK8)
-			{
-				;
-			}
 			foreach (var property in Device.Properties)
 			{
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					if (driverProperty.No == 3)
+					if (Device.Driver.DriverType == XDriverType.Valve || driverProperty.No == 0x8D)
 					{
 						;
 					}

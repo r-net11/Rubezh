@@ -126,8 +126,8 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (!Alarm.Device.Driver.IsDeviceOnShleif)
-					return;
+				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
+				//    return;
 
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.Ignore))
 				{
@@ -158,8 +158,8 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				if (!Alarm.Device.Driver.IsDeviceOnShleif)
-					return false;
+				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
+				//    return false;
 
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.Ignore))
 					return true;
@@ -188,8 +188,8 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (!Alarm.Device.Driver.IsDeviceOnShleif)
-					return;
+				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
+				//    return;
 
 				if (!Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
 				{
@@ -211,8 +211,8 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				if (!Alarm.Device.Driver.IsDeviceOnShleif)
-					return false;
+				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
+				//    return false;
 				if (!Alarm.Device.Driver.IsControlDevice)
 					return false;
 
@@ -236,8 +236,8 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (!Alarm.Device.Driver.IsDeviceOnShleif)
-					return;
+				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
+				//    return;
 
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.On) || Alarm.Device.DeviceState.States.Contains(XStateType.TurningOn))
 				{
@@ -269,8 +269,8 @@ namespace GKModule.ViewModels
 				if (Alarm.AlarmType != XAlarmType.Turning)
 					return false;
 
-				if (!Alarm.Device.Driver.IsDeviceOnShleif)
-					return false;
+				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
+				//    return false;
 				if (!Alarm.Device.Driver.IsControlDevice)
 					return false;
 
