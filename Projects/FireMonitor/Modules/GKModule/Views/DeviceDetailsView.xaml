@@ -127,30 +127,12 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition SharedSizeGroup="group1" Width="300" />
-                                <ColumnDefinition SharedSizeGroup="group2" Width="100" />
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-                        <ItemsControl ItemsSource="{Binding AUParameterValues}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Visibility="{Binding IsDelay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="group1" Width="300" />
-                                            <ColumnDefinition SharedSizeGroup="group2" Width="100" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White" HorizontalAlignment="Right" />
-                                        <TextBlock Grid.Column="1" Text="{Binding StringValue}" Foreground="White" Margin="5, 0, 0, 0" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </ScrollViewer>                
+                <DataGrid ItemsSource="{Binding AUParameterValues}" CanUserSortColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
             <TabItem Header="Управление" DataContext="{Binding DeviceCommandsViewModel}" Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid>

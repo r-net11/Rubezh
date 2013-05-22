@@ -41,6 +41,17 @@ namespace GKModule.ViewModels
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
+
+			AUParameterValues = new ObservableCollection<AUParameterValue>();
+			foreach (var auParameter in Device.Driver.AUParameters)
+			{
+				var auParameterValue = new AUParameterValue()
+				{
+					Name = auParameter.Name,
+					IsDelay = auParameter.IsDelay
+				};
+				AUParameterValues.Add(auParameterValue);
+			}
 			BackgroundWorker = new BackgroundWorker();
 			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
 			BackgroundWorker.RunWorkerAsync();
@@ -105,7 +116,6 @@ namespace GKModule.ViewModels
 
 		void OnUpdateAuParameters()
 		{
-			AUParameterValues = new ObservableCollection<AUParameterValue>();
 			if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
 			{
 				foreach (var auParameter in Device.Driver.AUParameters)
@@ -129,42 +139,35 @@ namespace GKModule.ViewModels
 								if (resievedParameterNo == auParameter.No)
 								{
 									var parameterValue = BytesHelper.SubstructShort(result.Bytes, 64);
-									//Trace.WriteLine("Read parameter try " + i.ToString() + " " + auParameter.No.ToString() + " " + parameterValue.ToString());
-
-									var auParameterValue = new AUParameterValue()
-									{
-										Name = auParameter.Name,
-										Value = parameterValue,
-										StringValue = parameterValue.ToString(),
-										IsDelay = auParameter.IsDelay
-									};
+									var stringValue = parameterValue.ToString();
 									if (auParameter.Name == "Дата последнего обслуживания")
 									{
-										auParameterValue.StringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
+										stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 									}
 									if ((Device.Driver.DriverType == XDriverType.Valve || Device.Driver.DriverType == XDriverType.Pump)
 										&& auParameter.Name == "Режим работы")
 									{
-										//Trace.WriteLine("BUZ ParameterValue " + parameterValue.ToString());
-										auParameterValue.StringValue = "Неизвестно";
+										stringValue = "Неизвестно";
 										switch (parameterValue & 3)
 										{
 											case 0:
-												auParameterValue.StringValue = "Автоматический";
+												stringValue = "Автоматический";
 												break;
 
 											case 1:
-												auParameterValue.StringValue = "Ручной";
+												stringValue = "Ручной";
 												break;
 
 											case 2:
-												auParameterValue.StringValue = "Отключено";
+												stringValue = "Отключено";
 												break;
 										}
 									}
 									Dispatcher.BeginInvoke(new Action(() =>
 									{
-										AUParameterValues.Add(auParameterValue);
+										var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == auParameter.Name);
+										auParameterValue.Value = parameterValue;
+										auParameterValue.StringValue = stringValue;
 									}));
 
 									break;
@@ -187,21 +190,16 @@ namespace GKModule.ViewModels
 						{
 							var auParameter = Device.Driver.AUParameters[i];
 							var parameterValue = BytesHelper.SubstructShort(result.Bytes, 48 + i * 2);
-
-							var auParameterValue = new AUParameterValue()
-							{
-								Name = auParameter.Name,
-								Value = parameterValue,
-								StringValue = parameterValue.ToString(),
-								IsDelay = auParameter.IsDelay
-							};
+							var stringValue = parameterValue.ToString();
 							if (auParameter.Name == "Дата последнего обслуживания")
 							{
-								auParameterValue.StringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
+								stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 							}
 							Dispatcher.BeginInvoke(new Action(() =>
 							{
-								AUParameterValues.Add(auParameterValue);
+								var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == auParameter.Name);
+								auParameterValue.Value = parameterValue;
+								auParameterValue.StringValue = stringValue;
 							}));
 						}
 					}
@@ -293,11 +291,31 @@ namespace GKModule.ViewModels
 		}
 	}
 
-	public class AUParameterValue
+	public class AUParameterValue : BaseViewModel
 	{
 		public string Name { get; set; }
-		public int Value { get; set; }
-		public string StringValue { get; set; }
 		public bool IsDelay { get; set; }
+
+		int _value;
+		public int Value
+		{
+			get { return _value; }
+			set
+			{
+				_value = value;
+				OnPropertyChanged("Value");
+			}
+		}
+
+		string _stringValue;
+		public string StringValue
+		{
+			get { return _stringValue; }
+			set
+			{
+				_stringValue = value;
+				OnPropertyChanged("StringValue");
+			}
+		}
 	}
 }

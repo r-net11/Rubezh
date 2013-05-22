@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 
 						case XStateType.On:
 						case XStateType.TurningOn:
-							if (device.Driver.IsDeviceOnShleif)
+							//if (device.Driver.IsDeviceOnShleif)
 							if (device.Driver.IsControlDevice)
 							{
 								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.UID == device.UID))
