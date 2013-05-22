@@ -38,7 +38,8 @@ namespace FiresecAPI.Models
 			ElementXDevices = new List<ElementXDevice>();
 			ElementRectangleXZones = new List<ElementRectangleXZone>();
 			ElementPolygonXZones = new List<ElementPolygonXZone>();
-			ElementXDirections = new List<ElementXDirection>();
+			ElementRectangleXDirections = new List<ElementRectangleXDirection>();
+			ElementPolygonXDirections = new List<ElementPolygonXDirection>();
 		}
 
 
@@ -94,7 +95,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementPolygonXZone> ElementPolygonXZones { get; set; }
 		[DataMember]
-		public List<ElementXDirection> ElementXDirections { get; set; }
+		public List<ElementRectangleXDirection> ElementRectangleXDirections { get; set; }
+		[DataMember]
+		public List<ElementPolygonXDirection> ElementPolygonXDirections { get; set; }
 
 		public List<ElementBase> ElementUnion
 		{

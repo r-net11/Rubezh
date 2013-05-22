@@ -21,13 +21,14 @@ using System.Globalization;
 
 namespace GKModule.Plans.Designer
 {
-	class XDirectionPainter : RectangleZonePainter, IPainter
+	class XDirectionPainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
 		private XDirection XDirection;
 		private ContextMenu _contextMenu;
 		private GeometryDrawing _textDrawing;
 		private ScaleTransform _scaleTransform;
+		private bool _showText = false;
 
 		public XDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -38,7 +39,8 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			XDirection = Helper.GetXDirection((ElementXDirection)_presenterItem.Element);
+			XDirection = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
+			_showText = _presenterItem.Element is ElementRectangleXDirection;
 			if (XDirection != null)
 				XDirection.DirectionState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetDirectionTooltip();
@@ -71,29 +73,30 @@ namespace GKModule.Plans.Designer
 		public override void Transform()
 		{
 			base.Transform();
-			var text = XDirection.DirectionState.StateClass.ToDescription();
-			if (XDirection.DirectionState.States.Contains(XStateType.TurningOn) && XDirection.DirectionState.OnDelay > 0)
+			if (_showText)
 			{
-				text += "\n" + string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
+				var text = XDirection.DirectionState.StateClass.ToDescription();
+				if (XDirection.DirectionState.States.Contains(XStateType.TurningOn) && XDirection.DirectionState.OnDelay > 0)
+					text += "\n" + string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
+				else if (XDirection.DirectionState.States.Contains(XStateType.On) && XDirection.DirectionState.HoldDelay > 0)
+					text += "\n" + string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
+				if (string.IsNullOrEmpty(text))
+					_textDrawing = null;
+				else
+				{
+					var typeface = new Typeface("Arial");
+					var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
+					Point point = Geometry.Bounds.TopLeft;
+					_scaleTransform.CenterX = point.X;
+					_scaleTransform.CenterY = point.Y;
+					_scaleTransform.ScaleX = Geometry.Bounds.Width / formattedText.Width;
+					_scaleTransform.ScaleY = Geometry.Bounds.Height / formattedText.Height;
+					_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
+					_textDrawing.Geometry = formattedText.BuildGeometry(point);
+				}
 			}
-			else if (XDirection.DirectionState.States.Contains(XStateType.On) && XDirection.DirectionState.HoldDelay > 0)
-			{
-				text += "\n" + string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
-			}
-			if (string.IsNullOrEmpty(text))
-				_textDrawing = null;
 			else
-			{
-				var typeface = new Typeface("Arial");
-				var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 10, PainterCache.BlackBrush);
-				Point point = Geometry.Rect.TopLeft;
-				_scaleTransform.CenterX = point.X;
-				_scaleTransform.CenterY = point.Y;
-				_scaleTransform.ScaleX = Geometry.Rect.Width / formattedText.Width;
-				_scaleTransform.ScaleY = Geometry.Rect.Height / formattedText.Height;
-				_textDrawing = new GeometryDrawing(PainterCache.BlackBrush, null, null);
-				_textDrawing.Geometry = formattedText.BuildGeometry(point);
-			}
+				_textDrawing = null;
 		}
 		protected override void InnerDraw(DrawingContext drawingContext)
 		{
@@ -114,22 +117,16 @@ namespace GKModule.Plans.Designer
 			{
 				case XStateClass.Unknown:
 					return Colors.DarkGray;
-
 				case XStateClass.Norm:
 					return Colors.Green;
-
 				case XStateClass.AutoOff:
 					return Colors.Gray;
-
 				case XStateClass.Ignore:
 					return Colors.Yellow;
-
 				case XStateClass.TurningOn:
 					return Colors.Pink;
-
 				case XStateClass.On:
 					return Colors.Red;
-
 				default:
 					return Colors.White;
 			}

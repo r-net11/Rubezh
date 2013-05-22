@@ -248,7 +248,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
-		private void OnZoneChanged(Guid directionUID)
+		private void OnDirectionChanged(Guid directionUID)
 		{
 			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (direction != null)
@@ -261,7 +261,8 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementXDirection>().ToList().ForEach(element => Helper.ResetXDirection(element));
+			elements.OfType<ElementRectangleXDirection>().ToList().ForEach(element => Helper.ResetXDirection(element));
+			elements.OfType<ElementPolygonXDirection>().ToList().ForEach(element => Helper.ResetXDirection(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -270,10 +271,10 @@ namespace GKModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				var elementDirection = element as ElementXDirection;
+				var elementDirection = GetElementXDirection(element);
 				if (elementDirection != null)
 				{
-					OnZoneChanged(elementDirection.DirectionUID);
+					OnDirectionChanged(elementDirection.DirectionUID);
 					//if (guid != Guid.Empty)
 					//    OnZoneChanged(guid);
 					//guid = elementZone.ZoneUID;
@@ -285,13 +286,20 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementDirection = element as ElementXDirection;
+			var elementDirection = GetElementXDirection(element);
 			if (elementDirection != null)
 			{
 				_lockSelection = true;
 				Select(elementDirection.DirectionUID);
 				_lockSelection = false;
 			}
+		}
+		private IElementDirection GetElementXDirection(ElementBase element)
+		{
+			IElementDirection elementDirection = element as ElementRectangleXDirection;
+			if (elementDirection == null)
+				elementDirection = element as ElementPolygonXDirection;
+			return elementDirection;
 		}
 	}
 }

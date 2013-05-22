@@ -37,7 +37,7 @@ namespace GKModule.Plans.Designer
 		{
 			return element.XDeviceUID != Guid.Empty && _xdeviceMap.ContainsKey(element.XDeviceUID) ? _xdeviceMap[element.XDeviceUID] : null;
 		}
-		public static XDirection GetXDirection(ElementXDirection element)
+		public static XDirection GetXDirection(IElementDirection element)
 		{
 			return element.DirectionUID != Guid.Empty && _xdirectionMap.ContainsKey(element.DirectionUID) ? _xdirectionMap[element.DirectionUID] : null;
 		}

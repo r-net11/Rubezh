@@ -135,14 +135,10 @@ namespace GKModule.ViewModels
 			{
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				{
-					if (plan.ElementXDirections.Any(x => x.DirectionUID == Direction.UID))
-					{
+					if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == Direction.UID))
 						return plan.Caption;
-					}
-					//if (plan.ElementPolygonXDirection.Any(x => x.DirectionUID == Direction.UID))
-					//{
-					//    return plan.Caption;
-					//}
+					if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == Direction.UID))
+						return plan.Caption;
 				}
 				return null;
 			}
