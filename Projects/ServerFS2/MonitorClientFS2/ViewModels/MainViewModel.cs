@@ -26,7 +26,7 @@ namespace MonitorClientFS2
 			//JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 			JournalItems = new ObservableCollection<FSJournalItem>();
 			MonitoringProcessor = new MonitoringProcessor();
-			MonitoringProcessor.OnNewItems += new Action<FSJournalItem>(ShowNewItem);
+			RequestManager.OnNewItems += new Action<FSJournalItem>(ShowNewItem);
 
 			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			//{
