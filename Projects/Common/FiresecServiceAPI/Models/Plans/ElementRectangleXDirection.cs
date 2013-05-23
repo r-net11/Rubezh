@@ -5,7 +5,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementRectangleXDirection : ElementBaseRectangle, IPrimitive, IElementDirection
+	public class ElementRectangleXDirection : ElementBaseRectangle, IPrimitive//, IElementDirection
 	{
 		[DataMember]
 		public Guid DirectionUID { get; set; }
@@ -29,7 +29,7 @@ namespace FiresecAPI.Models
 			get { return Infrustructure.Plans.Elements.Primitive.RectangleZone; }
 		}
 
-		#endregion
+		#endregion IPrimitive Members
 
 		public void SetZLayer(int zlayer)
 		{

@@ -9,19 +9,19 @@ namespace MonitorClientFS2
 {
 	public class MonitoringProcessor
 	{
-		List<DeviceResponceRelation> DeviceResponceRelations = new List<DeviceResponceRelation>();
+		List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
 		bool DoMonitoring;
-		RequestManager RequestManager;
+		//RequestManager RequestManager;
 
 		public MonitoringProcessor()
 		{
-			RequestManager = new RequestManager();
+			//RequestManager = new RequestManager();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-					DeviceResponceRelations.Add(new SecDeviceResponceRelation(device));
+					MonitoringDevices.Add(new SecDeviceResponceRelation(device));
 				else
-					DeviceResponceRelations.Add(new DeviceResponceRelation(device));
+					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
@@ -48,33 +48,57 @@ namespace MonitorClientFS2
 			while (DoMonitoring)
 			{
 				//foreach (var deviceResponceRelation in DeviceResponceRelations.Where(x => !x.UnAnswered))
-				//{
-				//    //if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
-				//    //{
-				//    //    //SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
-				//    //}
-				//    //else
-				//    RequestManager.LastIndexRequest(deviceResponceRelation);
-				//}
-				RequestManager.LastIndexRequest(DeviceResponceRelations.FirstOrDefault());
+				foreach (var monitoringDevice in MonitoringDevices)
+				{
+					//if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
+					//{
+					//    //SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
+					//}
+					//else
+					//lock (Locker)
+					//{
+					//    monitoringDevice.LastIndexRequest();
+					//}
+					monitoringDevice.LastIndexRequest();
+				}
+
+				//MonitoringDevices.FirstOrDefault().LastIndexRequest();
+
 				//Trace.WriteLine("");
-				//Thread.Sleep(1000);
+				Thread.Sleep(1000);
 			}
 		}
 
 		void UsbRunner_NewResponse(Response response)
 		{
-			var deviceResponceRelation = DeviceResponceRelations.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y != null && y.Id == response.Id) != null);
-			if (deviceResponceRelation != null)
+			MonitoringDevice monitoringDevice = null;
+			Request request = null;
+			lock (MonitoringDevice.Locker)
 			{
-				var request = deviceResponceRelation.Requests.FirstOrDefault(y => y.Id == response.Id);
+				//var deviceResponceRelation = MonitoringDevices.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y != null && y.Id == response.Id) != null);
+
+				foreach (var monitoringDevicesItem in MonitoringDevices.ToList())
+				{
+					foreach (var requestsItem in monitoringDevicesItem.Requests.ToList())
+					{
+						if (requestsItem.Id == response.Id)
+						{
+							request = requestsItem;
+							monitoringDevice = monitoringDevicesItem;
+						}
+					}
+				}
+			}
+			if (monitoringDevice != null && request != null)
+			{
+				monitoringDevice.Answered++;
 				if (request.RequestType == RequestTypes.ReadIndex)
 				{
-					RequestManager.LastIndexReceived(deviceResponceRelation, response);
+					monitoringDevice.LastIndexReceived(response);
 				}
 				else if (request.RequestType == RequestTypes.ReadItem)
 				{
-					RequestManager.NewItemReceived(deviceResponceRelation, response);
+					monitoringDevice.NewItemReceived(response);
 				}
 				//else if (request.RequestType == RequestTypes.SecReadIndex)
 				//{
@@ -84,7 +108,7 @@ namespace MonitorClientFS2
 				//{
 				//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 				//}
-				//deviceResponceRelation.Requests.Remove(request);
+				monitoringDevice.Requests.Remove(request);
 			}
 		}
 	}

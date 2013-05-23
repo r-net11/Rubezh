@@ -50,18 +50,18 @@ namespace ServerFS2
 			//var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);
 			//var res = SendCode(bytes).Result;
 			//IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
-			IsExtendedMode = true;
+			IsExtendedMode = false;
 		}
-	    public static bool IsUsbDevice
-	    {
-            get { return UsbRunner.IsUsbDevice; }
-            set 
-            { 
-                UsbRunner.IsUsbDevice = value;
-                UsbRunner.Close();
-                UsbRunner.Open();
-            }
-	    }
+		public static bool IsUsbDevice
+		{
+			get { return UsbRunner.IsUsbDevice; }
+			set
+			{
+				UsbRunner.IsUsbDevice = value;
+				UsbRunner.Close();
+				UsbRunner.Open();
+			}
+		}
 		public static List<byte> SendRequest(List<byte> bytes)
 		{
 			return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;

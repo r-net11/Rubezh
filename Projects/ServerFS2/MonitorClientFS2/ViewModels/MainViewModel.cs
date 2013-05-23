@@ -11,7 +11,7 @@ namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
-		List<MonitoringDevice> devicesLastRecord;
+		List<OldMonitoringDevice> devicesLastRecord;
 		MonitoringProcessor MonitoringProcessor;
 
 		public MainViewModel()
@@ -22,11 +22,12 @@ namespace MonitorClientFS2
 
 			DevicesViewModel = new DevicesViewModel();
 
-			devicesLastRecord = new List<MonitoringDevice>();
+			devicesLastRecord = new List<OldMonitoringDevice>();
 			//JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 			JournalItems = new ObservableCollection<FSJournalItem>();
 			MonitoringProcessor = new MonitoringProcessor();
-			RequestManager.OnNewItems += new Action<FSJournalItem>(ShowNewItem);
+
+			MonitoringDevice.OnNewItems += new Action<FSJournalItem>(ShowNewItem);
 
 			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			//{

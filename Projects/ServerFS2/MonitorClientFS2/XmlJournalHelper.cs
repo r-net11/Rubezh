@@ -40,27 +40,27 @@ namespace MonitorClientFS2
 			lastRecordsDocument.Save(fileName);
 		}
 
-		public static void SetLastId(MonitoringDevice monitoringDevice)
+		public static void SetLastId(OldMonitoringDevice monitoringDevice)
 		{
 			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
 			deviceElement.Attribute("LastId").Value = monitoringDevice.LastDisplayedRecord.ToString();
 			lastRecordsDocument.Save(fileName);
 		}
 
-		public static void SetLastSecId(MonitoringDevice monitoringDevice)
+		public static void SetLastSecId(OldMonitoringDevice monitoringDevice)
 		{
 			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
 			deviceElement.Attribute("LastSecId").Value = monitoringDevice.LastDisplayedSecRecord.ToString();
 			lastRecordsDocument.Save(fileName);
 		}
 
-		public static int GetLastSecId(MonitoringDevice monitoringDevice)
+		public static int GetLastSecId(OldMonitoringDevice monitoringDevice)
 		{
 			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
 			return Int32.Parse(deviceElement.Attribute("LastSecId").Value);
 		}
 
-		public static int GetLastId(MonitoringDevice monitoringDevice)
+		public static int GetLastId(OldMonitoringDevice monitoringDevice)
 		{
 			XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
 			return Int32.Parse(deviceElement.Attribute("LastId").Value);
