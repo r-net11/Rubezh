@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using XFiresecAPI;
+using Controls.Converters;
 
 namespace GKModule.ViewModels
 {
@@ -29,6 +30,7 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("StateClassName");
 		}
 
 		public string PresentationZone
@@ -53,5 +55,15 @@ namespace GKModule.ViewModels
 		}
 
         public bool IsBold { get; set; }
+
+		public string StateClassName
+		{
+			get
+			{
+				var converter = new XStateClassToDeviceStringConverter();
+				var result = (string)converter.Convert(DeviceState.StateClass, null, Device, null);
+				return result;
+			}
+		}
 	}
 }

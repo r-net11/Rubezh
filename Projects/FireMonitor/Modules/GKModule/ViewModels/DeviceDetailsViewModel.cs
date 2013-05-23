@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Events;
+using Controls.Converters;
 
 namespace GKModule.ViewModels
 {
@@ -90,6 +91,16 @@ namespace GKModule.ViewModels
 				}
 
 				return _deviceControl;
+			}
+		}
+
+		public string StateClassName
+		{
+			get
+			{
+				var converter = new XStateClassToDeviceStringConverter();
+				var result = (string)converter.Convert(DeviceState.StateClass, null, Device, null);
+				return result;
 			}
 		}
 
