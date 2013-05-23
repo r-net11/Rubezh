@@ -66,7 +66,7 @@ namespace ServerFS2
 		}
 
 		private bool IsMs { get; set; }
-        public static bool IsUsbDevice { get; set; }
+		public static bool IsUsbDevice { get; set; }
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
 			if (_isWrite)
@@ -76,17 +76,17 @@ namespace ServerFS2
 				return;
 			}
 			byte[] buffer;
-            if (e.Buffer[0] == 0)
-            {
-                IsMs = false;
-                ServerHelper.IsExtendedMode = false; // если не МС, то выключаем расширенный режим
-            }
-            else
-            {
-                if (!IsMs) // Если МС, (а до этого был не МС, то посылаем запрос, на проверку расширенного режима)
-                    ServerHelper.IsExtendedModeMethod();
-                IsMs = true;
-            }
+			if (e.Buffer[0] == 0)
+			{
+				IsMs = false;
+				ServerHelper.IsExtendedMode = false; // если не МС, то выключаем расширенный режим
+			}
+			else
+			{
+				if (!IsMs) // Если МС, (а до этого был не МС, то посылаем запрос, на проверку расширенного режима)
+					ServerHelper.IsExtendedModeMethod();
+				IsMs = true;
+			}
 			if (ServerHelper.IsExtendedMode)
 				buffer = e.Buffer.Where((val, idx) => (idx != 0) && (idx != 1)).ToArray();
 			else
@@ -98,32 +98,31 @@ namespace ServerFS2
 					_localresult.Add(b);
 					if (b == 0x3E)
 					{
-
 						_localresult = CreateInputBytes(_localresult); // Преобразуем ответ в правильный вид
-                        var request = _requests.FirstOrDefault();
-                        var response = new Response();
-                        if (!IsUsbDevice)
-                        {
-                            var responseId = (uint) (_localresult.ToList()[3] +
-                                                     _localresult.ToList()[2]*256 +
-                                                     _localresult.ToList()[1]*256*256 +
-                                                     _localresult.ToList()[0]*256*256*256); // id ответа
-                            request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
-                            response.Id = responseId;
-                            _requests.RemoveAll(x => x.Id == responseId);
-                        }
-                        _result = _localresult.ToList();
-                        response.Data = _result;
+						var request = _requests.FirstOrDefault();
+						var response = new Response();
+						if (!IsUsbDevice)
+						{
+							var responseId = (uint)(_localresult.ToList()[3] +
+													 _localresult.ToList()[2] * 256 +
+													 _localresult.ToList()[1] * 256 * 256 +
+													 _localresult.ToList()[0] * 256 * 256 * 256); // id ответа
+							//request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
+							response.Id = responseId;
+							//requests.RemoveAll(x => x.Id == responseId);
+						}
+						_result = _localresult.ToList();
+						response.Data = _result;
 						if (request == null) // если не нашли, то выходим из цикла, иначе
-						    break;
-                        _localresult = new List<byte>();
+							break;
+						_localresult = new List<byte>();
 						OnNewResponse(response);
-                        _responses.Add(response);
-                        if(IsUsbDevice)
-                        {
-                            if(_responses.Count != 0)
-                                _requests.Clear();
-                        }
+						_responses.Add(response);
+						if (IsUsbDevice)
+						{
+							if (_responses.Count != 0)
+								_requests.Clear();
+						}
 						_autoResetEvent.Set();
 						return;
 					}
@@ -200,14 +199,14 @@ namespace ServerFS2
 			{
 				var data = dataOne;
 				_stop = false;
-                if(!IsUsbDevice)
-                    _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
+				if (!IsUsbDevice)
+					_requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
 				data = CreateOutputBytes(data);
 				// Создаем запрос
-                var request = new Request();
-                if(!IsUsbDevice)
-                    request.Id = _requestId;
-                request.Data = data;
+				var request = new Request();
+				if (!IsUsbDevice)
+					request.Id = _requestId;
+				request.Data = data;
 				_requests.Add(request); // добавляем его в коллекцию всех запросов
 				Send(data);
 				_autoResetEvent.WaitOne(delay);

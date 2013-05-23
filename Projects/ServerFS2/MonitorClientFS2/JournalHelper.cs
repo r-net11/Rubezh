@@ -17,7 +17,7 @@ namespace MonitorClientFS2
 		{
 			try
 			{
-				var lastindex = SendByteCommand(new List<byte> { 0x21, 0x02 }, device);
+				var lastindex = SendByteCommandSync(new List<byte> { 0x21, 0x02 }, device);
 				return 256 * lastindex.Data[9] + lastindex.Data[10];
 			}
 			catch (NullReferenceException ex)
@@ -33,7 +33,7 @@ namespace MonitorClientFS2
 				return GetLastJournalItemId(device) + GetLastSecJournalItemId2Op(device);
 			try
 			{
-				var firecount = SendByteCommand(new List<byte> { 0x24, 0x00 }, device);
+				var firecount = SendByteCommandSync(new List<byte> { 0x24, 0x00 }, device);
 				return 256 * firecount.Data[7] + firecount.Data[8];
 			}
 			catch (NullReferenceException ex)
@@ -54,7 +54,7 @@ namespace MonitorClientFS2
 		{
 			try
 			{
-				var lastindex = SendByteCommand(new List<byte> { 0x21, 0x00 }, device);
+				var lastindex = SendByteCommandSync(new List<byte> { 0x21, 0x00 }, device);
 				return 256 * lastindex.Data[9] + lastindex.Data[10];
 			}
 			catch (NullReferenceException ex)
@@ -101,7 +101,7 @@ namespace MonitorClientFS2
 
 		private static FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
 		{
-			var data = SendByteCommand(bytes, device);
+			var data = SendByteCommandSync(bytes, device);
 			//if (data != null && JournalParser.IsValidInput(data.Data))
 			//{
 			lock (Locker)
@@ -116,7 +116,7 @@ namespace MonitorClientFS2
 			//}
 		}
 
-		private static ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)
+		private static ServerFS2.Response SendByteCommandSync(List<byte> commandBytes, Device device)
 		{
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
@@ -125,6 +125,17 @@ namespace MonitorClientFS2
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
 			return ServerHelper.SendCode(bytes).Result.FirstOrDefault();
+		}
+
+		public static void SendByteCommand(List<byte> commandBytes, Device device, int requestId)
+		{
+			var bytes = new List<byte>();
+			bytes.AddRange(BitConverter.GetBytes(requestId).Reverse());
+			bytes.Add(GetSheifByte(device));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
+			bytes.Add(0x01);
+			bytes.AddRange(commandBytes);
+			ServerHelper.SendCodeAsync(bytes);
 		}
 
 		private static byte GetSheifByte(Device device)

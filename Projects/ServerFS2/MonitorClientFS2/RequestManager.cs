@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.Models;
 using ServerFS2;
 using ServerFS2.DataBase;
 
@@ -14,56 +13,38 @@ namespace MonitorClientFS2
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
 		const int newItemRequestTimeout = 1000;
-		const int lastIndexRequestTimeout = 10;
+		const int lastIndexRequestTimeout = 50;
+
 		static readonly object Locker = new object();
 		int UsbRequestNo = 1;
 
-		public static event Action<FSJournalItem> OnNewItems;
-
-		void SendByteCommand(List<byte> commandBytes, Device device, int requestId)
-		{
-			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(requestId).Reverse());
-			bytes.Add(GetSheifByte(device));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.AddRange(commandBytes);
-			ServerHelper.SendCodeAsync(bytes);
-		}
-
-		byte GetSheifByte(Device device)
-		{
-			return 0x03;
-		}
-
-		public void NewItemRequests(DeviceResponceRelation deviceResponceRelation, int lastDeviceRecord, int lastDisplayedRecord)
+		public void NewItemRequests(MonitoringDevice deviceResponceRelation, int lastDeviceRecord, int lastDisplayedRecord)
 		{
 			deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
-			//for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
-			for (int i = lastDeviceRecord - 10; i <= lastDeviceRecord; i++)
+			for (int i = lastDisplayedRecord + 1; i <= lastDeviceRecord; i++)
+			//for (int i = lastDeviceRecord - 10; i <= lastDeviceRecord; i++)
 			{
 				NewItemRequest(deviceResponceRelation, i);
 			}
 		}
 
-		public void NewItemRequest(DeviceResponceRelation deviceResponceRelation, int ItemIndex)
+		public void NewItemRequest(MonitoringDevice deviceResponceRelation, int ItemIndex)
 		{
 			++UsbRequestNo;
-			deviceResponceRelation.Requests.Add(new Request(UsbRequestNo, RequestTypes.ReadItem));
 			var bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(ItemIndex).Reverse());
-			SendByteCommand(bytes, deviceResponceRelation.Device, UsbRequestNo);
-			CheckForUnAnswered(deviceResponceRelation, UsbRequestNo, newItemRequestTimeout);
+			Request request = new Request(UsbRequestNo, RequestTypes.ReadItem, bytes, newItemRequestTimeout);
+			deviceResponceRelation.SendRequest(request);
 		}
 
-		public void NewItemReceived(DeviceResponceRelation deviceResponceRelation, Response response)
+		public void NewItemReceived(MonitoringDevice deviceResponceRelation, Response response)
 		{
 			if (!NewItemValid(response))
 				return;
 			var journalItem = JournalParser.FSParce(response.Data);
 			Trace.WriteLine("ReadItem Responce " + deviceResponceRelation.Device.PresentationAddressAndName + " " + UsbRequestNo);
 			DBJournalHelper.AddJournalItem(journalItem);
-			OnNewItems(journalItem);
+			//OnNewItems(journalItem);
 		}
 
 		bool NewItemValid(Response response)
@@ -71,16 +52,14 @@ namespace MonitorClientFS2
 			return response.Data.Count >= 24;
 		}
 
-		public void LastIndexRequest(DeviceResponceRelation deviceResponceRelation)
+		public void LastIndexRequest(MonitoringDevice deviceResponceRelation)
 		{
 			++UsbRequestNo;
-			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex);
-			deviceResponceRelation.Requests.Add(request);
-			SendByteCommand(new List<byte> { 0x21, 0x00 }, deviceResponceRelation.Device, UsbRequestNo);
-			CheckForUnAnswered(deviceResponceRelation, UsbRequestNo, lastIndexRequestTimeout);
+			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 }, lastIndexRequestTimeout);
+			deviceResponceRelation.SendRequest(request);
 		}
 
-		public void LastIndexReceived(DeviceResponceRelation deviceResponceRelation, Response response)
+		public void LastIndexReceived(MonitoringDevice deviceResponceRelation, Response response)
 		{
 			if (!LastIndexValid(response))
 				return;
@@ -177,15 +156,15 @@ namespace MonitorClientFS2
 
 		//#endregion Дубликаты для охранных записей
 
-		void CheckForUnAnswered(DeviceResponceRelation deviceResponceRelation, int RequestId, int timeOut = 1)
-		{
-			Thread.Sleep(timeOut);
-			Request request = deviceResponceRelation.Requests.FirstOrDefault(x => x.Id == RequestId);
-			if (request != null)
-			{
-				//Trace.WriteLine("Request Expired:" + deviceResponceRelation.Device.PresentationAddressAndName + " " + request.Id + " " + request.RequestType);
-				deviceResponceRelation.Requests.Remove(request);
-			}
-		}
+		//void CheckForUnAnswered(DeviceResponceRelation deviceResponceRelation, int RequestId, int timeOut = 1)
+		//{
+		//    Thread.Sleep(timeOut);
+		//    Request request = deviceResponceRelation.Requests.FirstOrDefault(x => x.Id == RequestId);
+		//    if (request != null)
+		//    {
+		//        Trace.WriteLine("Request Expired:" + deviceResponceRelation.Device.PresentationAddressAndName + " " + request.Id + " " + request.RequestType);
+		//        deviceResponceRelation.Requests.Remove(request);
+		//    }
+		//}
 	}
 }

@@ -60,8 +60,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DeviceJournal.cs" />
-    <Compile Include="DeviceResponceRelation.cs" />
     <Compile Include="MonitoringDevice.cs" />
+    <Compile Include="OldMonitoringDevice.cs" />
     <Compile Include="JournalParser.cs" />
     <Compile Include="MonitoringProcessor.cs" />
     <Compile Include="Request.cs" />
