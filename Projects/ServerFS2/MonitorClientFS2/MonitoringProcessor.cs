@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
+using System.Diagnostics;
 
 namespace MonitorClientFS2
 {
@@ -64,8 +65,8 @@ namespace MonitorClientFS2
 
 				//MonitoringDevices.FirstOrDefault().LastIndexRequest();
 
-				//Trace.WriteLine("");
-				Thread.Sleep(1000);
+				Trace.WriteLine("");
+				Thread.Sleep(2000);
 			}
 		}
 
@@ -109,6 +110,14 @@ namespace MonitorClientFS2
 				//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 				//}
 				monitoringDevice.Requests.Remove(request);
+			}
+		}
+
+		public void WriteStats()
+		{
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + monitoringDevice.Answered + "/" + monitoringDevice.UnAnswered);
 			}
 		}
 	}

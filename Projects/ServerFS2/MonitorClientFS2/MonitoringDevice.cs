@@ -13,8 +13,8 @@ namespace MonitorClientFS2
 	{
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
-		const int newItemRequestTimeout = 1000;
-		const int lastIndexRequestTimeout = 1;
+		const int newItemRequestTimeout = 100;
+		const int lastIndexRequestTimeout = 0;
 
 		static int UsbRequestNo = 1;
 		public static readonly object Locker = new object();
@@ -115,22 +115,22 @@ namespace MonitorClientFS2
 			if (LastDisplayedRecord == -1)
 				LastDisplayedRecord = lastDeviceRecord;
 			Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
-			if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
-			{
-				LastDisplayedRecord = lastDeviceRecord - maxMessages;
-			}
-			if (lastDeviceRecord > LastDisplayedRecord)
-			{
-				Trace.WriteLine("Дочитываю записи с " +
-					(LastDisplayedRecord + 1).ToString() +
-					" до " +
-					lastDeviceRecord.ToString());
-				var thread = new Thread(() =>
-				{
-					NewItemRequests(lastDeviceRecord, LastDisplayedRecord);
-				});
-				thread.Start();
-			}
+			//if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
+			//{
+			//    LastDisplayedRecord = lastDeviceRecord - maxMessages;
+			//}
+			//if (lastDeviceRecord > LastDisplayedRecord)
+			//{
+			//    Trace.WriteLine("Дочитываю записи с " +
+			//        (LastDisplayedRecord + 1).ToString() +
+			//        " до " +
+			//        lastDeviceRecord.ToString());
+			//    var thread = new Thread(() =>
+			//    {
+			//        NewItemRequests(lastDeviceRecord, LastDisplayedRecord);
+			//    });
+			//    thread.Start();
+			//}
 		}
 
 		bool LastIndexValid(Response response)

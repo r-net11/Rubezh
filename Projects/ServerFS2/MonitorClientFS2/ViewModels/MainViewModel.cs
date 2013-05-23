@@ -82,7 +82,7 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			;
+			MonitoringProcessor.WriteStats();
 		}
 	}
 }
