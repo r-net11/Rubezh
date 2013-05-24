@@ -11,139 +11,154 @@ namespace ServerFS2
 {
 	public class UsbRunner
 	{
-		UsbDevice _usbDevice;
-		UsbEndpointReader _reader;
-		UsbEndpointWriter _writer;
+		UsbDevice UsbDevice;
+		UsbEndpointReader Reader;
+		UsbEndpointWriter Writer;
 		private bool _stop = true;
-		List<Request> _requests = new List<Request>();
+		List<Request> Requests = new List<Request>();
 		List<byte> _result = new List<byte>();
-		private readonly AutoResetEvent _autoResetEvent = new AutoResetEvent(false);
-		private readonly AutoResetEvent _autoWaitEvent = new AutoResetEvent(false);
-		private uint _requestId;
-		List<Response> _responses = new List<Response>();
-		List<byte> _localresult = new List<byte>();
+		private readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+		private readonly AutoResetEvent AautoWaitEvent = new AutoResetEvent(false);
+		List<Response> Responses = new List<Response>();
+		List<byte> Localresult = new List<byte>();
+		private bool IsMs { get; set; }
+		public static bool IsUsbDevice { get; set; }
 
-		public void Open()
+		public bool Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
-			_usbDevice = UsbDevice.OpenUsbDevice(usbFinder);
-			if (_usbDevice == null)
+			UsbDevice = UsbDevice.OpenUsbDevice(usbFinder);
+			if (UsbDevice == null)
+			{
 				throw new Exception("Device Not Found.");
-			var wholeUsbDevice = _usbDevice as IUsbDevice;
-			if (!ReferenceEquals(wholeUsbDevice, null))
+				return false;
+			}
+				
+			var wholeUsbDevice = UsbDevice as IUsbDevice;
+			if (wholeUsbDevice != null)
 			{
 				wholeUsbDevice.SetConfiguration(1);
 				wholeUsbDevice.ClaimInterface(0);
 			}
-			_reader = _usbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
-			_reader.DataReceived += (OnDataRecieved);
-			_reader.ReadBufferSize = 64;
-			_reader.DataReceivedEnabled = true;
-			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+			Reader = UsbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+			Reader.DataReceived += (OnDataRecieved);
+			Reader.ReadBufferSize = 64;
+			Reader.DataReceivedEnabled = true;
+			Writer = UsbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+			return true;
 		}
 
 		public void Close()
 		{
-			_reader.DataReceivedEnabled = false;
-			_reader.DataReceived -= (OnDataRecieved);
-
-			if (_usbDevice != null)
+			if (Reader != null)
 			{
-				if (_usbDevice.IsOpen)
+				Reader.DataReceivedEnabled = false;
+				Reader.DataReceived -= (OnDataRecieved);
+			}
+
+			if (UsbDevice != null)
+			{
+				if (UsbDevice.IsOpen)
 				{
-					var wholeUsbDevice = _usbDevice as IUsbDevice;
+					var wholeUsbDevice = UsbDevice as IUsbDevice;
 					if (!ReferenceEquals(wholeUsbDevice, null))
 					{
 						wholeUsbDevice.ReleaseInterface(0);
 					}
-					_usbDevice.Close();
+					UsbDevice.Close();
 				}
-				_usbDevice = null;
+				UsbDevice = null;
 				UsbDevice.Exit();
 			}
 		}
 
-		public void Send(List<byte> data)
+		public bool Send(List<byte> data)
 		{
 			int bytesWrite;
-			_writer.Write(data.ToArray(), 2000, out bytesWrite);
+			Writer.Write(data.ToArray(), 2000, out bytesWrite);
+			return bytesWrite == data.Count;
 		}
 
-		private bool IsMs { get; set; }
-        public static bool IsUsbDevice { get; set; }
 		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
-			if (_isWrite)
-			{
-				_autoResetEvent.Set();
-				_requests.Clear();
+			var buffer = e.Buffer.ToList();
+			if (buffer.Count < 2)
 				return;
+
+			if (buffer[0] == 0)
+			{
+				IsMs = false;
+				ServerHelper.IsExtendedMode = false; // если не МС, то выключаем расширенный режим
 			}
-			byte[] buffer;
-            if (e.Buffer[0] == 0)
-            {
-                IsMs = false;
-                ServerHelper.IsExtendedMode = false; // если не МС, то выключаем расширенный режим
-            }
-            else
-            {
-                if (!IsMs) // Если МС, (а до этого был не МС, то посылаем запрос, на проверку расширенного режима)
-                    ServerHelper.IsExtendedModeMethod();
-                IsMs = true;
-            }
-			if (ServerHelper.IsExtendedMode)
-				buffer = e.Buffer.Where((val, idx) => (idx != 0) && (idx != 1)).ToArray();
 			else
-				buffer = e.Buffer.Where((val, idx) => (idx != 0)).ToArray();
+			{
+				if (!IsMs) // Если МС, (а до этого был не МС, то посылаем запрос, на проверку расширенного режима)
+					ServerHelper.IsExtendedModeMethod();
+				IsMs = true;
+			}
+			if (ServerHelper.IsExtendedMode)
+			{
+				buffer.RemoveRange(0, 2);
+			}
+			else
+			{
+				buffer.RemoveRange(0, 1);
+			}
+
 			foreach (var b in buffer)
 			{
-				if (_localresult.Count > 0)
+				if (Localresult.Count > 0)
 				{
-					_localresult.Add(b);
+					Localresult.Add(b);
 					if (b == 0x3E)
 					{
+						var bytes = CreateInputBytes(Localresult);
+						Localresult = new List<byte>();
 
-						_localresult = CreateInputBytes(_localresult); // Преобразуем ответ в правильный вид
-                        var request = _requests.FirstOrDefault();
-                        var response = new Response();
-                        if (!IsUsbDevice)
-                        {
-                            var responseId = (uint) (_localresult.ToList()[3] +
-                                                     _localresult.ToList()[2]*256 +
-                                                     _localresult.ToList()[1]*256*256 +
-                                                     _localresult.ToList()[0]*256*256*256); // id ответа
-                            request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
-                            response.Id = responseId;
-							_requests.RemoveAll(x => x.Id == responseId);
-                        }
-                        _result = _localresult.ToList();
-                        response.Data = _result;
-						if (request == null) // если не нашли, то выходим из цикла, иначе
-						    break;
-                        _localresult = new List<byte>();
-                        if(!IsUsbDevice)
-                        {
-                            _responses.Add(response);
-                        }
-                        if(IsUsbDevice)
-                        {
-                            _responses.Clear();
-                            _responses.Add(response);
-                            if(_responses.Count != 0)
-                                _requests.Clear();
-                        }
-						_autoResetEvent.Set();
+						var response = new Response()
+						{
+							Data = bytes.ToList()
+						};
+						Request request = null;
+						if (IsUsbDevice)
+						{
+							request = Requests.FirstOrDefault();
+							if (request != null)
+							{
+								Responses.Clear();
+								Responses.Add(response);
+								if (Responses.Count != 0)
+									Requests.Clear();
+							}
+						}
+						else
+						{
+							var responseId = (uint)(bytes.ToList()[3] +
+									bytes.ToList()[2] * 256 +
+									bytes.ToList()[1] * 256 * 256 +
+									bytes.ToList()[0] * 256 * 256 * 256);
+							request = Requests.FirstOrDefault(x => x.Id == responseId);
+							response.Id = responseId;
+							Requests.RemoveAll(x => x.Id == responseId);
+							if (request != null)
+							{
+								Responses.Add(response);
+							}
+						}
+
+						AutoResetEvent.Set();
 						return;
 					}
 				}
 				if (b == 0x7E)
 				{
-					_localresult = new List<byte> { b };
+					Localresult = new List<byte> { b };
 				}
-				if (_requests.Count == 0)
-					_autoWaitEvent.Set();
+				if (Requests.Count == 0)
+					AautoWaitEvent.Set();
 			}
 		}
+
 		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
 		    var bytes = new List<byte>(0) { 0x7e };
@@ -167,6 +182,7 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
+
 		static List<byte> CreateInputBytes(List<byte> messageBytes)
 		{
 			var bytes = new List<byte>();
@@ -197,80 +213,53 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
-		private bool _isWrite;
-		// Если delay = 0, то запрос асинхронный, иначе синхронный с максимальным временем ожидания = delay
-		public OperationResult<List<Response>> AddRequest(List<List<byte>> dataList, int delay, int timeout, bool IsWrite)
+
+		public OperationResult<List<Response>> AddRequest(List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
 		{
-			_isWrite = IsWrite;
-			_responses = new List<Response>();
-			_requests = new List<Request>();
-			foreach (var dataOne in dataList)
+			Responses = new List<Response>();
+			Requests = new List<Request>();
+			foreach (var bytes in bytesList)
 			{
-				var data = dataOne;
 				_stop = false;
-                if(!IsUsbDevice)
-                    _requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
-				data = CreateOutputBytes(data);
-				// Создаем запрос
-                var request = new Request();
-                if(!IsUsbDevice)
-                    request.Id = _requestId;
-                request.Data = data;
-				_requests.Add(request); // добавляем его в коллекцию всех запросов
-                if (data.Count > 64)
-                {
-                    #region Запись пакетов в файл
-                    if (File.Exists("..//base1.txt"))
-                        ServerHelper.BytesToFile("base2.txt", data);
-                    else
-                        ServerHelper.BytesToFile("base1.txt", data);
-                    #endregion
-                    for (int i = 0; i < data.Count / 64; i++)
-                        Send(data.GetRange(i * 64, 64));
-                }
-                else
-                    Send(data);
-				_autoResetEvent.WaitOne(delay);
+				var request = new Request();
+				if (!IsUsbDevice)
+				{
+					request.Id = (uint)(bytes[3] + bytes[2] * 256 + bytes[1] * 256 * 256 + bytes[0] * 256 * 256 * 256); ;
+				}
+				request.Data = CreateOutputBytes(bytes);
+				Requests.Add(request);
+				if (request.Data.Count > 64)
+				{
+					for (int i = 0; i < request.Data.Count / 64; i++)
+						Send(request.Data.GetRange(i * 64, 64));
+				}
+				else
+				{
+					Send(request.Data);
+				}
+				if (isSyncronuos)
+				{
+					AutoResetEvent.WaitOne(delay);
+				}
 			}
 
-			#region Для зашумленного канала (требует доработки, для многоблочных ответов)
-			if (_requests.Count != 0) // Если у нас ещё остались не отвеченные запросы
+			if (isSyncronuos)
 			{
-				var requests = new List<Request>(_requests);
-				foreach (var request in requests)
+				foreach (var request in new List<Request>(Requests))
 				{
 					for (int i = 0; i < 15; i++)
 					{
 						Send(request.Data);
-						_autoWaitEvent.WaitOne(timeout);
-						if (_requests.Count == 0)
+						AautoWaitEvent.WaitOne(timeout);
+						if (Requests.Count == 0)
 							break;
 					}
 				}
+				return new OperationResult<List<Response>> { Result = Responses };
 			}
-			#endregion Для зашумленного канала (требует доработки, для многоблочных ответов)
-			return new OperationResult<List<Response>> { Result = _responses };
-		}
-
-		public void AddAsyncRequest(List<List<byte>> dataList, int delay, int timeout, bool IsWrite)
-		{
-			_isWrite = IsWrite;
-			_responses = new List<Response>();
-			_requests = new List<Request>();
-			foreach (var dataOne in dataList)
+			else
 			{
-				var data = dataOne;
-				_stop = false;
-				_requestId = (uint)(data[3] + data[2] * 256 + data[1] * 256 * 256 + data[0] * 256 * 256 * 256);
-				data = CreateOutputBytes(data);
-				var request = new Request
-				{
-					Id = _requestId,
-					Data = data
-				};
-				_requests.Add(request);
-				Send(data);
-				//_autoResetEvent.WaitOne(delay);
+				return null;
 			}
 		}
 
@@ -281,11 +270,13 @@ namespace ServerFS2
 				NewResponse(response);
 		}
 	}
+
 	public class Request
 	{
 		public uint Id;
 		public List<byte> Data;
 	}
+
 	public class Response
 	{
 		public uint Id;

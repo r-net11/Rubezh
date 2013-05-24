@@ -21,6 +21,10 @@ namespace MonitorClientFS2
 
 		public static event Action<FSJournalItem> OnNewItems;
 
+		public MonitoringDevice()
+		{
+		}
+
 		public MonitoringDevice(Device device)
 		{
 			Device = device;
@@ -145,6 +149,7 @@ namespace MonitorClientFS2
 			LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
 			FirstDisplayedRecord = -1;
 		}
+
 		int lastDisplayedSecRecord;
 		public int LastDisplayedSecRecord
 		{

@@ -16,7 +16,7 @@ namespace ServerFS2
 	{
 		public static List<byte> DeviceRom;
 		public static List<byte> DeviceRam;
-		static int _deviceRamFirstIndex;
+		static int _deviceFlashFirstIndex;
 		static int _deviceRomLastIndex;
 		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
 		{
@@ -65,7 +65,7 @@ namespace ServerFS2
 				int count = DeviceRam[1546] * 256 + DeviceRam[1547];
 				pointer = 0;
 				if (count != 0)
-					pointer = DeviceRam[pPointer - _deviceRamFirstIndex] * 256 * 256 + DeviceRam[pPointer - _deviceRamFirstIndex + 1] * 256 + DeviceRam[pPointer - _deviceRamFirstIndex + 2] - 0x100;
+					pointer = DeviceRam[pPointer - _deviceFlashFirstIndex] * 256 * 256 + DeviceRam[pPointer - _deviceFlashFirstIndex + 1] * 256 + DeviceRam[pPointer - _deviceFlashFirstIndex + 2] - 0x100;
 				for (int i = 0; i < count; i++)
 				{
 					var zone = new Zone();
@@ -1030,7 +1030,7 @@ namespace ServerFS2
 		{
 			// Особенность чтение базы по Usb в том, что мы читаем блок не по 0xFF, а по 0x33
 			var bytes = new List<byte>();
-			var begin = _deviceRamFirstIndex;
+			var begin = _deviceFlashFirstIndex;
 			#region Находим адрес конечного блока Ram и число байт в этом блоке
 			bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(begin).Reverse(), 0x33);
 			var result = SendCode(bytes).Result.FirstOrDefault().Data;
@@ -1056,7 +1056,7 @@ namespace ServerFS2
 		public static List<byte> GetDeviceRam(Device device)
 		{
 			var bytes = new List<byte>();
-			var begin = _deviceRamFirstIndex / 0x100;
+			var begin = _deviceFlashFirstIndex / 0x100;
 			#region Находим адрес конечного блока Ram и число байт в этом блоке
 			bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
 			device.AddressOnShleif, 0x38, BitConverter.GetBytes(begin * 0x100).Reverse(), 0xFF);
@@ -1173,14 +1173,14 @@ namespace ServerFS2
 			if (isUsb)
 				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });
 			var begin = 256 * result[8] + result[9];
-			_deviceRamFirstIndex = begin * 0x100;
+			_deviceFlashFirstIndex = begin * 0x100;
 			#endregion
 			#region Находим адрес конечного блока Rom
 			if (isUsb)
-				bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(_deviceRamFirstIndex).Reverse(), 0x0B);
+				bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(_deviceFlashFirstIndex).Reverse(), 0x0B);
 			else
 				bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
-				device.AddressOnShleif, 0x38, BitConverter.GetBytes(_deviceRamFirstIndex).Reverse(), 0x0B);
+				device.AddressOnShleif, 0x38, BitConverter.GetBytes(_deviceFlashFirstIndex).Reverse(), 0x0B);
 			result = SendCode(bytes).Result.FirstOrDefault().Data;
 			if (isUsb)
 				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });

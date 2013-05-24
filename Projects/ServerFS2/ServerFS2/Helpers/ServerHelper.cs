@@ -16,6 +16,8 @@ namespace ServerFS2
 		static readonly object Locker = new object();
 		public static readonly UsbRunner UsbRunner;
 		static int _usbRequestNo;
+		public static bool IsExtendedMode { get; set; }
+
 		static ServerHelper()
 		{
 			var str = DateConverter.ConvertToBytes(DateTime.Now);
@@ -25,27 +27,26 @@ namespace ServerFS2
 			UsbRunner = new UsbRunner();
 			try
 			{
-				UsbRunner.Open();
+				var result = UsbRunner.Open();
 			}
 			catch { }
 		}
-		public static void Initialize()
+
+		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
 		{
-			;
+			return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout, true);
 		}
-		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
+
+        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
 		{
-			return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout, IsWrite);
+			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
 		}
-        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
+
+		public static void SendCodeAsync(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
 		{
-			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
+			UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
 		}
-		public static bool IsExtendedMode { get; set; }
-		public static void SendCodeAsync(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
-		{
-			UsbRunner.AddAsyncRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
-		}
+
 		public static void IsExtendedModeMethod()
 		{
 			//var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);
@@ -53,6 +54,7 @@ namespace ServerFS2
 			//IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
 			IsExtendedMode = true;
 		}
+
 		public static bool IsUsbDevice
 		{
 			get { return UsbRunner.IsUsbDevice; }
@@ -63,16 +65,19 @@ namespace ServerFS2
 				UsbRunner.Open();
 			}
 		}
+
 		public static List<byte> SendRequest(List<byte> bytes)
 		{
 			return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;
 		}
+
 		public static void SynchronizeTime(Device device)
 		{
 			var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), Convert.ToByte(device.Parent.IntAddress + 2),
 			device.IntAddress, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
 			SendCode(bytes);
 		}
+
 		static List<byte> CreateBytesArray(params object[] values)
 		{
 			var bytes = new List<byte>();
@@ -86,7 +91,6 @@ namespace ServerFS2
 			return bytes;
 		}
 
-        // Запись список байтов в файл
         public static void BytesToFile(string fileName, List<byte> bytes)
         {
             var deviceRamTxt = new StreamWriter("..\\" + fileName);

@@ -146,7 +146,10 @@ namespace ServerFS2
 				if (result != null)
 				{
 					var journalItem = ParseJournal(result.Data);
-					journalItems.Add(journalItem);
+					if (journalItem != null)
+					{
+						journalItems.Add(journalItem);
+					}
 				}
 			}
 			int no = 0;
