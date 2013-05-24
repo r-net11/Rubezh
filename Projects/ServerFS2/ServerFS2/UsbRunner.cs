@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using FiresecAPI;
@@ -117,9 +118,13 @@ namespace ServerFS2
 							break;
 						_localresult = new List<byte>();
 						OnNewResponse(response);
+                        {
 						_responses.Add(response);
+                        }
 						if (IsUsbDevice)
 						{
+                            _responses.Clear();
+                            _responses.Add(response);
 							if (_responses.Count != 0)
 								_requests.Clear();
 						}
@@ -137,7 +142,7 @@ namespace ServerFS2
 		}
 		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
-			var bytes = new List<byte>(0) { 0x7e };
+		    var bytes = new List<byte>(0) { 0x7e };
 			foreach (var b in messageBytes)
 			{
 				if (b == 0x7E)
@@ -150,13 +155,11 @@ namespace ServerFS2
 				{ bytes.Add(0x3D); bytes.Add(0x1D); continue; }
 				bytes.Add(b);
 			}
-			bytes.Add(0x3e);
-			var bytesCount = bytes.Count;
+            bytes.Add(0x3e);
 
-			if (bytesCount < 64)
+            while (bytes.Count % 64 > 0)
 			{
-				for (int i = 0; i < 64 - bytesCount; i++)
-					bytes.Add(0);
+                bytes.Add(0);
 			}
 			return bytes;
 		}
@@ -172,6 +175,7 @@ namespace ServerFS2
 				{ previousByte = b; continue; }
 				if (previousByte == 0x7D)
 				{
+                    previousByte = new byte();
 					if (b == 0x5E)
 					{ bytes.Add(0x7E); continue; }
 					if (b == 0x5D)
@@ -179,6 +183,7 @@ namespace ServerFS2
 				}
 				if (previousByte == 0x3D)
 				{
+                    previousByte = new byte();
 					if (b == 0x1E)
 					{ bytes.Add(0x3E); continue; }
 					if (b == 0x1D)
@@ -208,7 +213,19 @@ namespace ServerFS2
 					request.Id = _requestId;
 				request.Data = data;
 				_requests.Add(request); // добавляем его в коллекцию всех запросов
-				Send(data);
+                if (data.Count > 64)
+                {
+                    #region Запись пакетов в файл
+                    if (File.Exists("..//base1.txt"))
+                        ServerHelper.BytesToFile("base2.txt", data);
+                    else
+                        ServerHelper.BytesToFile("base1.txt", data);
+                    #endregion
+                    for (int i = 0; i < data.Count / 64; i++)
+                        Send(data.GetRange(i * 64, 64));
+                }
+                else
+                    Send(data);
 				_autoResetEvent.WaitOne(delay);
 			}
 

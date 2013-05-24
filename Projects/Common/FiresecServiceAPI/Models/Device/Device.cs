@@ -28,7 +28,30 @@ namespace FiresecAPI.Models
 			DependentDevices = new List<Device>();
 			ZonesConfiguration = new DeviceConfiguration();
 		}
-
+        
+        public bool IsUsb
+	    {
+	        get
+	        {
+	            switch (PresentationName)
+	            {
+                    case "USB Рубеж-2AM":
+	                    return true;
+                    case "USB Рубеж-4A":
+                        return true;
+                    case "USB Рубеж-2ОП":
+                        return true;
+                    case "USB БУНС":
+                        return true;
+                    case "USB БУНС-2":
+                        return true;
+                    case "USB Рубеж-П":
+                        return true;
+                    default:
+                        return false;
+	            }
+	        }
+	    }
 		public DeviceConfiguration ZonesConfiguration { get; set; }
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }

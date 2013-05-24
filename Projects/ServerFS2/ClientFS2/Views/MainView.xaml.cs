@@ -11,7 +11,7 @@ namespace ClientFS2.Views
 
 		void MainView_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
-			(DataContext as MainViewModel).WriteConfigurationCommand.Execute();
+			//(DataContext as MainViewModel).WriteConfigurationCommand.Execute();
 		}
 	}
 }

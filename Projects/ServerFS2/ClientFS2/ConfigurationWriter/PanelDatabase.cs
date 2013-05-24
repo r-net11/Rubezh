@@ -26,7 +26,7 @@ namespace ClientFS2.ConfigurationWriter
 			ParentPanel = parentDevice;
 			PanelDatabase2 = new PanelDatabase2(parentDevice);
 			//PanelDatabase1 = new PanelDatabase1(PanelDatabase2, 12288);
-			PanelDatabase1 = new PanelDatabase1(PanelDatabase2, 0x2000);
+			PanelDatabase1 = new PanelDatabase1(PanelDatabase2, 0x3000);
 			Trace.WriteLine("PanelDatabase Done");
 
 			var deltaMiliseconds = (DateTime.Now - startDateTime).TotalMilliseconds;

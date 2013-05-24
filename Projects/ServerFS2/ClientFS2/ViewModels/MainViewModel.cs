@@ -190,6 +190,14 @@ namespace ClientFS2.ViewModels
 			configurationWriterHelper.Run();
 			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper);
 			DialogService.ShowModalWindow(configurationDatabaseViewModel);
+
+            foreach (var panelDatabase in configurationWriterHelper.PanelDatabases)
+            {
+                var parentPanel = panelDatabase.ParentPanel;
+                var bytes1 = panelDatabase.PanelDatabase1.BytesDatabase.GetBytes();
+                var bytes2 = panelDatabase.PanelDatabase2.BytesDatabase.GetBytes();
+                ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
+            }
 		}
 		bool CanWriteConfiguration()
 		{

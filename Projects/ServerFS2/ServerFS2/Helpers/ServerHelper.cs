@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -36,7 +37,7 @@ namespace ServerFS2
 		{
 			return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout, IsWrite);
 		}
-		public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
+        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000, bool IsWrite = false)
 		{
 			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, IsWrite);
 		}
@@ -84,5 +85,22 @@ namespace ServerFS2
 			}
 			return bytes;
 		}
+
+        // Запись список байтов в файл
+        public static void BytesToFile(string fileName, List<byte> bytes)
+        {
+            var deviceRamTxt = new StreamWriter("..\\" + fileName);
+            int j = 0;
+            foreach (var b in bytes)
+            {
+                deviceRamTxt.Write("{0} ", b.ToString("X2"));
+                j++;
+                if (j % 16 == 0)
+                    deviceRamTxt.Write("\n");
+                if (j % 64 == 0)
+                    deviceRamTxt.Write("\n");
+            }
+            deviceRamTxt.Close();
+        }
 	}
 }
