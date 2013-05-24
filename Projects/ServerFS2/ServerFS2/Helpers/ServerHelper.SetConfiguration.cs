@@ -42,7 +42,7 @@ namespace ServerFS2
 
         public static void SetDeviceConfig(Device device, List<byte> Rom, List<byte> Flash)
         {
-            var str = File.ReadAllText(@"C:\Documents and Settings\KazakovRB\Мои документы\TraceManual\Запись конфигурации\SetConfigTrace(1device BD).txt");
+            var str = File.ReadAllText(@"C:\Documents and Settings\KazakovRB\Мои документы\TraceManual\Запись конфигурации\SetConfigTrace(2device BD).txt");
             str = str.Replace("\r", "");
             str = str.Replace("\n", "");
             var bytes = str.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();

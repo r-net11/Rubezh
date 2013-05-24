@@ -51,7 +51,7 @@ namespace ServerFS2
 			//var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);
 			//var res = SendCode(bytes).Result;
 			//IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
-			IsExtendedMode = false;
+			IsExtendedMode = true;
 		}
 		public static bool IsUsbDevice
 		{
