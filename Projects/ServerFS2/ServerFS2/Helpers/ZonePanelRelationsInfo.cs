@@ -10,7 +10,7 @@ namespace ClientFS2.ConfigurationWriter
 	public class ZonePanelRelationsInfo
 	{
 		public List<ZonePanelItem> ZonePanelItems { get; set; }
-        public ZonePanelRelationsInfo()
+		public ZonePanelRelationsInfo()
 		{
 			ZonePanelItems = new List<ZonePanelItem>();
 			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)

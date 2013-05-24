@@ -21,10 +21,6 @@ namespace MonitorClientFS2
 
 		public static event Action<FSJournalItem> OnNewItems;
 
-		public MonitoringDevice()
-		{
-			;
-		}
 		public MonitoringDevice(Device device)
 		{
 			Device = device;

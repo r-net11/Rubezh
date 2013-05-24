@@ -5,7 +5,7 @@ namespace ServerFS2
 {
 	public class Crc16Helper
 	{
-        private static ushort[] table = {
+		private static ushort[] table = {
 			0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
             0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
             0x1231, 0x0210, 0x3273, 0x2252, 0x52b5, 0x4294, 0x72f7, 0x62d6,
@@ -44,11 +44,11 @@ namespace ServerFS2
 		{
 			if (buffer == null) throw new ArgumentNullException();
 			ushort crc = 0;
-            //ushort crc = 0xFFFF;
+			//ushort crc = 0xFFFF;
 			for (int i = 0; i < buffer.Count; i++)
 			{
 				//crc = (ushort)((crc >> 8) ^ table[(crc ^ buffer[i]) & 0xff]);
-                crc = (ushort)(table[(crc >> 8) ^ buffer[i]] ^ (crc << 8));
+				crc = (ushort)(table[(crc >> 8) ^ buffer[i]] ^ (crc << 8));
 			}
 			return crc;
 		}
@@ -59,9 +59,9 @@ namespace ServerFS2
 		}
 	}
 
-    public class Crc16
-    {
-        private static ushort[] CrcTable = {
+	public class Crc16
+	{
+		private static ushort[] CrcTable = {
                 0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
                 0XC601, 0X06C0, 0X0780, 0XC741, 0X0500, 0XC5C1, 0XC481, 0X0440,
                 0XCC01, 0X0CC0, 0X0D80, 0XCD41, 0X0F00, 0XCFC1, 0XCE81, 0X0E40,
@@ -95,14 +95,14 @@ namespace ServerFS2
                 0X4400, 0X84C1, 0X8581, 0X4540, 0X8701, 0X47C0, 0X4680, 0X8641,
                 0X8201, 0X42C0, 0X4380, 0X8341, 0X4100, 0X81C1, 0X8081, 0X4040 };
 
-        public static UInt16 ComputeCrc(byte[] data)
-        {
-            ushort crc = 0xFFFF;
-            foreach (byte datum in data)
-            {
-                crc = (ushort)((crc >> 8) ^ CrcTable[(crc ^ datum) & 0xFF]);
-            }
-            return crc;
-        }
-    }
+		public static UInt16 ComputeCrc(byte[] data)
+		{
+			ushort crc = 0xFFFF;
+			foreach (byte datum in data)
+			{
+				crc = (ushort)((crc >> 8) ^ CrcTable[(crc ^ datum) & 0xFF]);
+			}
+			return crc;
+		}
+	}
 }

@@ -22,6 +22,7 @@ namespace ServerFS2
 		private uint _requestId;
 		List<Response> _responses = new List<Response>();
 		List<byte> _localresult = new List<byte>();
+
 		public void Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
@@ -40,6 +41,7 @@ namespace ServerFS2
 			_reader.DataReceivedEnabled = true;
 			_writer = _usbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 		}
+
 		public void Close()
 		{
 			_reader.DataReceivedEnabled = false;
@@ -60,6 +62,7 @@ namespace ServerFS2
 				UsbDevice.Exit();
 			}
 		}
+
 		public void Send(List<byte> data)
 		{
 			int bytesWrite;
@@ -111,7 +114,7 @@ namespace ServerFS2
                                                      _localresult.ToList()[0]*256*256*256); // id ответа
                             request = _requests.FirstOrDefault(x => x.Id == responseId); // среди всех запросов ищем запрос c id ответа
                             response.Id = responseId;
-                            _requests.RemoveAll(x => x.Id == responseId);
+							_requests.RemoveAll(x => x.Id == responseId);
                         }
                         _result = _localresult.ToList();
                         response.Data = _result;

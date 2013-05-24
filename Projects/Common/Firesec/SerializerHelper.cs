@@ -85,7 +85,7 @@ namespace Firesec
 			catch (InvalidOperationException e)
 			{
 				var firstCharsInInput = input.Substring(0, Math.Min(input.Length, 100));
-				Logger.Error("Исключение InvalidOperationException при вызове SerializerHelper.Deserialize<" + typeof(T).ToString() + "> " + firstCharsInInput);
+				Logger.Error(e, "Исключение InvalidOperationException при вызове SerializerHelper.Deserialize<" + typeof(T).ToString() + "> " + firstCharsInInput);
 				return default(T);
 			}
 			catch (Exception e)

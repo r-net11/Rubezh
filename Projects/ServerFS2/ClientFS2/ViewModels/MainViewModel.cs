@@ -34,7 +34,7 @@ namespace ClientFS2.ViewModels
             new PropertiesViewModel(DevicesViewModel);
 			try
 			{
-				//ServerHelper.IsExtendedModeMethod();
+				ServerHelper.IsExtendedModeMethod();
 			}
 			catch { }
 		}
