@@ -83,6 +83,9 @@
     <Compile Include="Helpers\DriversHelper.cs" />
     <Compile Include="Models\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="RequestCollection.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="UsbRunner.cs" />
   </ItemGroup>
   <ItemGroup>

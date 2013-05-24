@@ -3,15 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         xmlns:Views="clr-namespace:MonitorClientFS2.Views"
-        Title="Оперативная Задача Firesec-2" Height="600" Width="600" Closing="Window_Closing">
+        Title="Оперативная Задача Firesec-2" Height="800" Width="1000" Closing="Window_Closing">
     <Grid>
         <TabControl>
             <TabItem Header="Журнал">
-                <StackPanel Orientation="Vertical">
-                    <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
-                    <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
-                    <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
-                    <DataGrid ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" Height="300" MinRowHeight="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Vertical">
+                        <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
+                        <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
+                        <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
+                    </StackPanel>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" MinRowHeight="20">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
@@ -28,7 +34,7 @@
                             <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Устройства">
                 <Views:DevicesView DataContext="{Binding DevicesViewModel}" />

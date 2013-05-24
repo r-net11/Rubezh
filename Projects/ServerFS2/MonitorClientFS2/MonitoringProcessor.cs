@@ -65,8 +65,8 @@ namespace MonitorClientFS2
 
 				//MonitoringDevices.FirstOrDefault().LastIndexRequest();
 
-				Trace.WriteLine("");
-				Thread.Sleep(2000);
+				//Trace.WriteLine("");
+				Thread.Sleep(10);
 			}
 		}
 

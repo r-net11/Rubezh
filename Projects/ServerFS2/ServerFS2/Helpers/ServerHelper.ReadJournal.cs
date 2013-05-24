@@ -61,7 +61,7 @@ namespace ServerFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-				int li = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+				int li = 256 * 256 * 256 * lastindex.Result.FirstOrDefault().Data[7] + 256 * 256 * lastindex.Result.FirstOrDefault().Data[8] + 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
 				return li;
 			}
 			catch (NullReferenceException ex)
@@ -112,7 +112,7 @@ namespace ServerFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-				int result = 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+				int result = 256 * 256* 256* lastindex.Result.FirstOrDefault().Data[7] + 256* 256*lastindex.Result.FirstOrDefault().Data[8] + 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
 				return result;
 			}
 			catch (NullReferenceException ex)

@@ -19,6 +19,13 @@ namespace MonitorClientFS2
 		static int UsbRequestNo = 1;
 		public static readonly object Locker = new object();
 
+		public Device Device { get; set; }
+		public List<Request> Requests { get; set; }
+		public int UnAnswered { get { return Requests.Count; } }
+		public int FirstDisplayedRecord { get; set; }
+		int lastDisplayedRecord;
+		public int Answered { get; set; }
+
 		public static event Action<FSJournalItem> OnNewItems;
 
 		public MonitoringDevice()
@@ -32,12 +39,7 @@ namespace MonitorClientFS2
 			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
 			FirstDisplayedRecord = -1;
 		}
-		public Device Device { get; set; }
-		public List<Request> Requests { get; set; }
-		public int UnAnswered { get { return Requests.Count; } }
-		public int FirstDisplayedRecord { get; set; }
-		int lastDisplayedRecord;
-		public int Answered { get; set; }
+
 		public int LastDisplayedRecord
 		{
 			get { return lastDisplayedRecord; }
@@ -58,7 +60,7 @@ namespace MonitorClientFS2
 			//Thread.Sleep(request.Timeout);
 		}
 
-		public void NewItemRequest(int ItemIndex)
+		void NewItemRequest(int ItemIndex)
 		{
 			lock (Locker)
 			{
@@ -109,28 +111,25 @@ namespace MonitorClientFS2
 		{
 			if (!LastIndexValid(response))
 				return;
-			var lastDeviceRecord = 256 * response.Data[9] + response.Data[10];
+			var lastDeviceRecord = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
 			if (FirstDisplayedRecord == -1)
 				FirstDisplayedRecord = lastDeviceRecord;
 			if (LastDisplayedRecord == -1)
 				LastDisplayedRecord = lastDeviceRecord;
-			Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
-			//if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
-			//{
-			//    LastDisplayedRecord = lastDeviceRecord - maxMessages;
-			//}
-			//if (lastDeviceRecord > LastDisplayedRecord)
-			//{
-			//    Trace.WriteLine("Дочитываю записи с " +
-			//        (LastDisplayedRecord + 1).ToString() +
-			//        " до " +
-			//        lastDeviceRecord.ToString());
-			//    var thread = new Thread(() =>
-			//    {
-			//        NewItemRequests(lastDeviceRecord, LastDisplayedRecord);
-			//    });
-			//    thread.Start();
-			//}
+			//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
+			if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
+			{
+				LastDisplayedRecord = lastDeviceRecord - maxMessages;
+			}
+			if (lastDeviceRecord > LastDisplayedRecord)
+			{
+				Trace.WriteLine("Дочитываю записи с " + (LastDisplayedRecord + 1).ToString() + " до " + lastDeviceRecord.ToString());
+				//var thread = new Thread(() =>
+				//{
+				    NewItemRequests(lastDeviceRecord, LastDisplayedRecord);
+				//});
+				//thread.Start();
+			}
 		}
 
 		bool LastIndexValid(Response response)

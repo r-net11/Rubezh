@@ -15,14 +15,15 @@ namespace ServerFS2
 		UsbEndpointReader Reader;
 		UsbEndpointWriter Writer;
 		private bool _stop = true;
-		List<Request> Requests = new List<Request>();
 		List<byte> _result = new List<byte>();
 		private readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		private readonly AutoResetEvent AautoWaitEvent = new AutoResetEvent(false);
 		List<Response> Responses = new List<Response>();
-		List<byte> Localresult = new List<byte>();
+		List<byte> LocalResult = new List<byte>();
 		private bool IsMs { get; set; }
 		public static bool IsUsbDevice { get; set; }
+
+		RequestCollection RequestCollection = new RequestCollection();
 
 		public bool Open()
 		{
@@ -33,7 +34,7 @@ namespace ServerFS2
 				throw new Exception("Device Not Found.");
 				return false;
 			}
-				
+
 			var wholeUsbDevice = UsbDevice as IUsbDevice;
 			if (wholeUsbDevice != null)
 			{
@@ -88,25 +89,25 @@ namespace ServerFS2
 		    buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
 		    foreach (var b in buffer)
 			{
-				if (Localresult.Count > 0)
+				if (LocalResult.Count > 0)
 				{
-					Localresult.Add(b);
+					LocalResult.Add(b);
 					if (b == 0x3E)
 					{
-						var bytes = CreateInputBytes(Localresult);
-						Localresult = new List<byte>();
+						var bytes = CreateInputBytes(LocalResult);
+						LocalResult = new List<byte>();
 
 					    var response = new Response {Data = bytes.ToList()};
 					    Request request;
 						if (IsUsbDevice)
 						{
-							request = Requests.FirstOrDefault();
+							request = RequestCollection.GetFirst();
 							if (request != null)
 							{
 								Responses.Clear();
 								Responses.Add(response);
 								if (Responses.Count != 0)
-									Requests.Clear();
+									RequestCollection.Clear();
 							}
 						}
 						else
@@ -115,9 +116,9 @@ namespace ServerFS2
 									bytes.ToList()[2] * 256 +
 									bytes.ToList()[1] * 256 * 256 +
 									bytes.ToList()[0] * 256 * 256 * 256);
-							request = Requests.FirstOrDefault(x => x.Id == responseId);
+							request = RequestCollection.GetById(responseId);
 							response.Id = responseId;
-							Requests.RemoveAll(x => x.Id == responseId);
+							RequestCollection.RemoveById(responseId);
 							if (request != null)
 							{
 								Responses.Add(response);
@@ -125,6 +126,7 @@ namespace ServerFS2
 						}
 
 						AutoResetEvent.Set();
+						OnNewResponse(response);
 						return;
 					}
 				}
@@ -143,14 +145,14 @@ namespace ServerFS2
                     }
 				    Localresult = new List<byte> { b };
 				}
-			    if (Requests.Count == 0)
+				if (RequestCollection.Count() == 0)
 					AautoWaitEvent.Set();
 			}
 		}
 
 		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
-		    var bytes = new List<byte>(0) { 0x7e };
+			var bytes = new List<byte>(0) { 0x7e };
 			foreach (var b in messageBytes)
 			{
 				if (b == 0x7E)
@@ -163,11 +165,11 @@ namespace ServerFS2
 				{ bytes.Add(0x3D); bytes.Add(0x1D); continue; }
 				bytes.Add(b);
 			}
-            bytes.Add(0x3e);
+			bytes.Add(0x3e);
 
-            while (bytes.Count % 64 > 0)
+			while (bytes.Count % 64 > 0)
 			{
-                bytes.Add(0);
+				bytes.Add(0);
 			}
 			return bytes;
 		}
@@ -184,7 +186,7 @@ namespace ServerFS2
 				{ previousByte = b; continue; }
 				if (previousByte == 0x7D)
 				{
-                    previousByte = new byte();
+					previousByte = new byte();
 					if (b == 0x5E)
 					{ bytes.Add(0x7E); continue; }
 					if (b == 0x5D)
@@ -192,7 +194,7 @@ namespace ServerFS2
 				}
 				if (previousByte == 0x3D)
 				{
-                    previousByte = new byte();
+					previousByte = new byte();
 					if (b == 0x1E)
 					{ bytes.Add(0x3E); continue; }
 					if (b == 0x1D)
@@ -206,7 +208,7 @@ namespace ServerFS2
 		public OperationResult<List<Response>> AddRequest(List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
 		{
 			Responses = new List<Response>();
-			Requests = new List<Request>();
+			RequestCollection.Clear();
 			foreach (var bytes in bytesList)
 			{
 				_stop = false;
@@ -216,7 +218,7 @@ namespace ServerFS2
 					request.Id = (uint)(bytes[3] + bytes[2] * 256 + bytes[1] * 256 * 256 + bytes[0] * 256 * 256 * 256); ;
 				}
 				request.Data = CreateOutputBytes(bytes);
-				Requests.Add(request);
+				RequestCollection.AddRequest(request);
 				if (request.Data.Count > 64)
 				{
 					for (int i = 0; i < request.Data.Count / 64; i++)
@@ -234,13 +236,13 @@ namespace ServerFS2
 
 			if (isSyncronuos)
 			{
-				foreach (var request in new List<Request>(Requests))
+				foreach (var request in new List<Request>(RequestCollection.Requests))
 				{
 					for (int i = 0; i < 15; i++)
 					{
 						Send(request.Data);
 						AautoWaitEvent.WaitOne(timeout);
-						if (Requests.Count == 0)
+						if (RequestCollection.Count() == 0)
 							break;
 					}
 				}
@@ -258,17 +260,5 @@ namespace ServerFS2
 			if (NewResponse != null)
 				NewResponse(response);
 		}
-	}
-
-	public class Request
-	{
-		public uint Id;
-		public List<byte> Data;
-	}
-
-	public class Response
-	{
-		public uint Id;
-		public List<byte> Data;
 	}
 }

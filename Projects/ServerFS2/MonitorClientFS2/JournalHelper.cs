@@ -54,8 +54,9 @@ namespace MonitorClientFS2
 		{
 			try
 			{
-				var lastindex = SendByteCommandSync(new List<byte> { 0x21, 0x00 }, device);
-				return 256 * lastindex.Data[9] + lastindex.Data[10];
+				var response = SendByteCommandSync(new List<byte> { 0x21, 0x00 }, device);
+				var result = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
+				return result;
 			}
 			catch (NullReferenceException ex)
 			{
@@ -120,7 +121,7 @@ namespace MonitorClientFS2
 		{
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
-			bytes.Add(GetSheifByte(device));
+			bytes.Add(GetMSChannelByte(device));
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
@@ -131,16 +132,15 @@ namespace MonitorClientFS2
 		{
 			var bytes = new List<byte>();
 			bytes.AddRange(BitConverter.GetBytes(requestId).Reverse());
-			bytes.Add(GetSheifByte(device));
+			bytes.Add(GetMSChannelByte(device));
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
 			ServerHelper.SendCodeAsync(bytes);
 		}
 
-		private static byte GetSheifByte(Device device)
+		private static byte GetMSChannelByte(Device device)
 		{
-			//Convert.ToByte(device.AddressOnShleif);
 			return 0x03;
 		}
 	}
