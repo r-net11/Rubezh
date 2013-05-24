@@ -143,7 +143,7 @@ namespace ServerFS2
                             throw new Exception();
                         }
                     }
-				    Localresult = new List<byte> { b };
+				    LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
 					AautoWaitEvent.Set();
