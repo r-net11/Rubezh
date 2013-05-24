@@ -47,14 +47,6 @@ namespace ServerFS2
 			UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
 		}
 
-		public static void IsExtendedModeMethod()
-		{
-			//var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), 0x01, 0x01, 0x37);
-			//var res = SendCode(bytes).Result;
-			//IsExtendedMode = res.FirstOrDefault().Data[6] == 1;
-			IsExtendedMode = true;
-		}
-
 		public static bool IsUsbDevice
 		{
 			get { return UsbRunner.IsUsbDevice; }

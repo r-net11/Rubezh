@@ -84,28 +84,9 @@ namespace ServerFS2
 			var buffer = e.Buffer.ToList();
 			if (buffer.Count < 2)
 				return;
-
-			if (buffer[0] == 0)
-			{
-				IsMs = false;
-				ServerHelper.IsExtendedMode = false; // если не МС, то выключаем расширенный режим
-			}
-			else
-			{
-				if (!IsMs) // Если МС, (а до этого был не МС, то посылаем запрос, на проверку расширенного режима)
-					ServerHelper.IsExtendedModeMethod();
-				IsMs = true;
-			}
-			if (ServerHelper.IsExtendedMode)
-			{
-				buffer.RemoveRange(0, 2);
-			}
-			else
-			{
-				buffer.RemoveRange(0, 1);
-			}
-
-			foreach (var b in buffer)
+			IsMs = buffer[0] != 0;
+		    buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
+		    foreach (var b in buffer)
 			{
 				if (Localresult.Count > 0)
 				{
@@ -115,11 +96,8 @@ namespace ServerFS2
 						var bytes = CreateInputBytes(Localresult);
 						Localresult = new List<byte>();
 
-						var response = new Response()
-						{
-							Data = bytes.ToList()
-						};
-						Request request = null;
+					    var response = new Response {Data = bytes.ToList()};
+					    Request request;
 						if (IsUsbDevice)
 						{
 							request = Requests.FirstOrDefault();
@@ -152,9 +130,20 @@ namespace ServerFS2
 				}
 				if (b == 0x7E)
 				{
-					Localresult = new List<byte> { b };
+                    if (!ServerHelper.IsExtendedMode)
+                    {
+                        if (buffer.IndexOf(0x7e) == 0)
+                            ServerHelper.IsExtendedMode = false;
+                        if (buffer.IndexOf(0x7e) == 1)
+                            ServerHelper.IsExtendedMode = true;
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+				    Localresult = new List<byte> { b };
 				}
-				if (Requests.Count == 0)
+			    if (Requests.Count == 0)
 					AautoWaitEvent.Set();
 			}
 		}

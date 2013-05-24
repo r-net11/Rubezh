@@ -32,11 +32,6 @@ namespace ClientFS2.ViewModels
             ZonesViewModel = new ZonesViewModel();
             ZonesViewModel.Initialize();
             new PropertiesViewModel(DevicesViewModel);
-			try
-			{
-				ServerHelper.IsExtendedModeMethod();
-			}
-			catch { }
 		}
         public bool IsUsbDevice
 	    {
