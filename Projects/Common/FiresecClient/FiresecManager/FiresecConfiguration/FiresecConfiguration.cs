@@ -5,7 +5,6 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
-using System.Diagnostics;
 
 namespace FiresecClient
 {

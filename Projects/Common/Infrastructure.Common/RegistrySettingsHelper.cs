@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using Common;
-using System.Windows;
 using System.Windows.Media;
-using System.Threading;
+using Common;
 
 namespace Infrastructure.Common
 {

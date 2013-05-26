@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
-using System.Diagnostics;
 
 namespace MonitorClientFS2
 {

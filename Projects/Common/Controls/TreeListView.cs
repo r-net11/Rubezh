@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Common;
 using Infrastructure.Common;
-using System.Windows.Media;
 
 namespace Controls
 {

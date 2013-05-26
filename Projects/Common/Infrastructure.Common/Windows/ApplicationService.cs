@@ -11,7 +11,6 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using Common;
 
 namespace Infrastructure.Common.Windows
 {

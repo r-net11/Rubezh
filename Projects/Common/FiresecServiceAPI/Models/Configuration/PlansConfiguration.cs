@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
 using System.Linq;
+using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
 	[DataContract]

@@ -1,5 +1,4 @@
-﻿using ClientFS2.ViewModels;
-namespace ClientFS2.Views
+﻿namespace ClientFS2.Views
 {
 	public partial class MainView
 	{

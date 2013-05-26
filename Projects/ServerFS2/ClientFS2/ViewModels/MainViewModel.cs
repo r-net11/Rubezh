@@ -5,7 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
-using ClientFS2.ConfigurationWriter;
+using ServerFS2.ConfigurationWriter;
 
 namespace ClientFS2.ViewModels
 {
@@ -14,6 +14,7 @@ namespace ClientFS2.ViewModels
 		public DevicesViewModel DevicesViewModel { get; private set; }
         public ZonesViewModel ZonesViewModel { get; private set; }
         private readonly ProgressService _progressService = new ProgressService();
+
 		public MainViewModel()
 		{
 			SendRequestCommand = new RelayCommand(OnSendRequest);
@@ -33,6 +34,7 @@ namespace ClientFS2.ViewModels
             ZonesViewModel.Initialize();
             new PropertiesViewModel(DevicesViewModel);
 		}
+
         public bool IsUsbDevice
 	    {
 	        get { return ServerHelper.IsUsbDevice; }
@@ -181,16 +183,14 @@ namespace ClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		private void OnWriteConfiguration()
 		{
-			var configurationWriterHelper = new ConfigurationWriterHelper();
+			var configurationWriterHelper = new SystemDatabaseCreator();
 			configurationWriterHelper.Run();
-			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper);
-			DialogService.ShowModalWindow(configurationDatabaseViewModel);
 
             foreach (var panelDatabase in configurationWriterHelper.PanelDatabases)
             {
                 var parentPanel = panelDatabase.ParentPanel;
-                var bytes1 = panelDatabase.PanelDatabase1.BytesDatabase.GetBytes();
-                var bytes2 = panelDatabase.PanelDatabase2.BytesDatabase.GetBytes();
+                var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
+                var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
                 ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
             }
 		}

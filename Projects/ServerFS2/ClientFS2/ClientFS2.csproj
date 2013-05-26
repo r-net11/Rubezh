@@ -60,45 +60,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\BIDatabase.cs" />
-    <Compile Include="ConfigurationWriter\Classes\DevicesGroup.cs" />
-    <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
-    <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
-    <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
-    <Compile Include="ConfigurationWriter\PanelDatabase.cs" />
-    <Compile Include="ConfigurationWriter\BinaryConfigurationHelper.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\PDUItem.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\PDUPTTable.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\PDUPTDatabase.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\PDUDatabase.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\PDUTable.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\SingleTable.cs" />
-    <Compile Include="ConfigurationWriter\SingleTable\SingleTableUnequalByteViewModel.cs" />
-    <Compile Include="ConfigurationWriter\Tables\DirectionTable.cs" />
-    <Compile Include="ConfigurationWriter\Tables\EffectorDeviceTable.cs" />
-    <Compile Include="ConfigurationWriter\UnequalByteViewModel.cs" />
-    <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Converters\ClauseStateToStringConverter.cs" />
-    <Compile Include="ConfigurationWriter\Tables\SensorDeviceTable.cs" />
-    <Compile Include="ConfigurationWriter\Tables\RemoteZoneTable.cs" />
-    <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
-    <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
-    <Compile Include="ConfigurationWriter\Classes\ByteDescription.cs" />
-    <Compile Include="ConfigurationWriter\Classes\BytesDatabase.cs" />
-    <Compile Include="ConfigurationWriter\Helpers\BytesHelper.cs" />
-    <Compile Include="ConfigurationWriter\ConfigurationWriterHelper.cs" />
-    <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
-    <Compile Include="ConfigurationWriter\PanelDatabase2.cs" />
-    <Compile Include="ConfigurationWriter\Helpers\ZonePanelRelations.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\IsBoldToColorConverter.cs" />
-    <Compile Include="ConfigurationWriter\PanelDatabase1.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="ProgressService.cs" />
-    <Compile Include="ViewModels\ConfigurationDatabaseViewModel.cs" />
     <Compile Include="ViewModels\Actions\DeviceConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Actions\DeviceTreeViewModel.cs" />
     <Compile Include="ViewModels\ClauseViewModel.cs" />
@@ -110,9 +78,6 @@
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
-    <Compile Include="Views\ConfigurationDatabaseView.xaml.cs">
-      <DependentUpon>ConfigurationDatabaseView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
     <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
@@ -144,10 +109,6 @@
     <Compile Include="Views\ZonesSelectionView.xaml.cs">
       <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\ConfigurationDatabaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Compile Include="Views\ZoneLogicView.xaml.cs">
       <DependentUpon>ZoneLogicView.xaml</DependentUpon>
     </Compile>
@@ -261,9 +222,9 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServerFS2\ServerFS22.csproj">
+    <ProjectReference Include="..\ServerFS2\ServerFS2.csproj">
       <Project>{41D4B526-16ED-449D-883C-684C7EA59FD7}</Project>
-      <Name>ServerFS22</Name>
+      <Name>ServerFS2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

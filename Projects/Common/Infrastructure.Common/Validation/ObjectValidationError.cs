@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Services;
+﻿using Infrastructure.Common.Services;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Common.Validation
 {

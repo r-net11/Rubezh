@@ -2,7 +2,6 @@
 using Common;
 using Firesec.Models.IndicatorsLogic;
 using FiresecAPI.Models;
-using System;
 
 namespace Firesec
 {

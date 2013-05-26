@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
-using ServerFS2;
 
-namespace ClientFS2.ConfigurationWriter
+namespace ServerFS2.ConfigurationWriter
 {
 	public class ZonePanelRelationsInfo
 	{
@@ -101,11 +98,11 @@ namespace ClientFS2.ConfigurationWriter
 		}
 	}
 
-	public class ZonePanelItem
-	{
-		public Zone Zone { get; set; }
-		public Device PanelDevice { get; set; }
-		public bool IsRemote { get; set; }
-		public int No { get; set; }
-	}
+	//public class ZonePanelItem
+	//{
+	//    public Zone Zone { get; set; }
+	//    public Device PanelDevice { get; set; }
+	//    public bool IsRemote { get; set; }
+	//    public int No { get; set; }
+	//}
 }

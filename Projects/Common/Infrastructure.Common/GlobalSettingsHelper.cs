@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI;
 using System.IO;
 using System.Runtime.Serialization;
 using Common;
+using FiresecAPI;
 
 namespace Infrastructure.Common
 {

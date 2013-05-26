@@ -2,7 +2,6 @@
 using System.Linq;
 using Firesec.Models.CoreConfiguration;
 using FiresecAPI.Models;
-using System;
 
 namespace Firesec
 {

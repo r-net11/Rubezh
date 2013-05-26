@@ -141,9 +141,9 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServerFS2\ServerFS22.csproj">
+    <ProjectReference Include="..\ServerFS2\ServerFS2.csproj">
       <Project>{41D4B526-16ED-449D-883C-684C7EA59FD7}</Project>
-      <Name>ServerFS22</Name>
+      <Name>ServerFS2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

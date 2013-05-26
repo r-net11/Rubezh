@@ -1,13 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Windows.Media;
-using Common;
 using Firesec.Models.Plans;
 using FiresecAPI.Models;
-using Infrastructure.Common;
-using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
 
 namespace Firesec

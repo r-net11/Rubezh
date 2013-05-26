@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Mail;
 using System.Text;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
-using Common;
 
 namespace Infrastructure.Common.Mail
 {

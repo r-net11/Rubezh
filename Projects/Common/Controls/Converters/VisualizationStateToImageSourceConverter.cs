@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using Infrustructure.Plans.Helper;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Infrustructure.Plans.Helper;
 
 namespace Controls.Converters
 {

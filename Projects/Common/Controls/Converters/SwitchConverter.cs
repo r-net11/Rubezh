@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Markup;
-using System.Windows.Data;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace Controls.Converters
 {

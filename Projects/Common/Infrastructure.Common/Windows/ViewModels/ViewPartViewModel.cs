@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Common;
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class ViewPartViewModel : BaseViewModel, IViewPartViewModel

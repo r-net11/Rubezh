@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Navigation;
 using System.Windows;
-using System.Windows.Input;
+using Infrastructure.Common.Navigation;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

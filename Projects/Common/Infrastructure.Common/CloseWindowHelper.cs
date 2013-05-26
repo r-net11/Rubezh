@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Diagnostics;
 
 namespace Infrastructure.Common
 {

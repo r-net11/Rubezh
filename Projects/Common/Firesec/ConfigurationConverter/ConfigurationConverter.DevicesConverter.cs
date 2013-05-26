@@ -6,7 +6,6 @@ using Firesec.Models.CoreConfiguration;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using System.Diagnostics;
 
 namespace Firesec
 {

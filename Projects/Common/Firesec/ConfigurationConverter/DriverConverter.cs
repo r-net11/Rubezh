@@ -5,7 +5,6 @@ using Common;
 using Firesec.Models.Metadata;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Diagnostics;
 
 namespace Firesec
 {

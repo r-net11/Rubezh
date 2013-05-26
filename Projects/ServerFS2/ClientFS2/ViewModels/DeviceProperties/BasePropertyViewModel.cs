@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace ClientFS2.ViewModels

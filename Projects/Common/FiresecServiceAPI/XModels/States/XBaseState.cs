@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
 using System.Windows;
+using FiresecAPI;
 
 namespace XFiresecAPI
 {

@@ -6,7 +6,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Diagnostics;
 
 namespace Infrastructure.Common.Windows.Views
 {

@@ -1,5 +1,4 @@
-﻿using Common;
-
+﻿
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	class ApplicationHeaderViewModel : BaseViewModel, IHeaderViewModel

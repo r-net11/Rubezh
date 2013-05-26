@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Common;
 
 namespace Firesec
 {

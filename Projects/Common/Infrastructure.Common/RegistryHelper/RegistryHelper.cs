@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Win32;
 using Common;
+using Microsoft.Win32;
 
 namespace Infrastructure.Common.RegistryHelper
 {
