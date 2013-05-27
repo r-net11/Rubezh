@@ -9,48 +9,31 @@ using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
 		public static List<byte> DeviceRom;
-		public static List<byte> DeviceRam;
+		public static List<byte> DeviceFlash;
 		static int _deviceFlashFirstIndex;
 		static int _deviceRomLastIndex;
 		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
 		{
-			var remoteDeviceConfiguration = new DeviceConfiguration();
 			var device = (Device)selectedDevice.Clone();
-			remoteDeviceConfiguration.RootDevice = device;
-			remoteDeviceConfiguration.Devices.Add(device);
 			device.Children = new List<Device>();
 			var zones = new List<Zone>();
-			if (IsUsbDevice)
-			{
-				GetDeviceRamFirstAndRomLastIndex(device, true);
-				DeviceRam = GetDeviceRamUsb(device);
-				DeviceRom = GetDeviceRomUsb(device);
-			}
-			else
-			{
-				//IsExtendedMode = false;
-				GetDeviceRamFirstAndRomLastIndex(device, false);
-				DeviceRam = GetDeviceRam(device);
-				DeviceRom = GetDeviceRom(device);
-			}
 
-			using (var DeviceRomStreamWriter = new BinaryWriter(new FileStream("DeviceRom.bin", FileMode.Create)))
-			{
-				DeviceRomStreamWriter.Write(DeviceRom.ToArray());
-			}
-			using (var DeviceRamStreamWriter = new BinaryWriter(new FileStream("DeviceRam.bin", FileMode.Create)))
-			{
-				DeviceRamStreamWriter.Write(DeviceRam.ToArray());
-			}
+			var remoteDeviceConfiguration = new DeviceConfiguration();
+			remoteDeviceConfiguration.RootDevice = device;
+			remoteDeviceConfiguration.Devices.Add(device);
 
-			//SetDeviceRom(device);
-			//SetDeviceRam(device);
+			InitializeFlashFirstIndex(device, IsUsbDevice);
+			InitializeRomLastIndex(device, IsUsbDevice);
+			DeviceFlash = GetDeviceRam(device);
+			DeviceRom = GetDeviceRom(device);
+
 			int pointer;
 			int pPointer;
 			Device child;
@@ -59,13 +42,13 @@ namespace ServerFS2
 			var groupDevice = new Device();
 
 			#region Хидеры таблицы указателей на указатели на зоны
-			if ((pPointer = DeviceRam[1542] * 256 * 256 + DeviceRam[1543] * 256 + DeviceRam[1544]) != 0)
+			if ((pPointer = DeviceFlash[1542] * 256 * 256 + DeviceFlash[1543] * 256 + DeviceFlash[1544]) != 0)
 			{
 				// [1546] - длина записи
-				int count = DeviceRam[1546] * 256 + DeviceRam[1547];
+				int count = DeviceFlash[1546] * 256 + DeviceFlash[1547];
 				pointer = 0;
 				if (count != 0)
-					pointer = DeviceRam[pPointer - _deviceFlashFirstIndex] * 256 * 256 + DeviceRam[pPointer - _deviceFlashFirstIndex + 1] * 256 + DeviceRam[pPointer - _deviceFlashFirstIndex + 2] - 0x100;
+					pointer = DeviceFlash[pPointer - _deviceFlashFirstIndex] * 256 * 256 + DeviceFlash[pPointer - _deviceFlashFirstIndex + 1] * 256 + DeviceFlash[pPointer - _deviceFlashFirstIndex + 2] - 0x100;
 				for (int i = 0; i < count; i++)
 				{
 					var zone = new Zone();
@@ -144,8 +127,8 @@ namespace ServerFS2
 			}
 			#endregion
 
-			int outzonesbegin = DeviceRam[1548] * 256 * 256 + DeviceRam[1549] * 256 + DeviceRam[1550];
-			int outzonescount = DeviceRam[1552] * 256 + DeviceRam[1553];
+			int outzonesbegin = DeviceFlash[1548] * 256 * 256 + DeviceFlash[1549] * 256 + DeviceFlash[1550];
+			int outzonescount = DeviceFlash[1552] * 256 + DeviceFlash[1553];
 			int outzonesend = outzonesbegin + outzonescount * 9;
 			//#region Хидеры таблицы внешних для прибора зон, в которых не локальные ИП управляют локальными ИУ (в логике "межприборное И" у ИУ)
 			//{
@@ -153,9 +136,9 @@ namespace ServerFS2
 			//}
 			//#endregion
 			#region Хидеры таблиц на исполнительные устройства
-			if ((pointer = DeviceRam[12] * 256 * 256 + DeviceRam[13] * 256 + DeviceRam[14]) != 0) //РМ-1
+			if ((pointer = DeviceFlash[12] * 256 * 256 + DeviceFlash[13] * 256 + DeviceFlash[14]) != 0) //РМ-1
 			{
-				var count = DeviceRam[16] * 256 + DeviceRam[17]; // текущее число записей в таблице
+				var count = DeviceFlash[16] * 256 + DeviceFlash[17]; // текущее число записей в таблице
 				pointer -= 0x100;
 				groupDevice = new Device();
 				for (int i = 0; i < count; i++)
@@ -167,10 +150,14 @@ namespace ServerFS2
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
 					child.IntAddress = DeviceRom[pointer + 1] + 256 * (DeviceRom[pointer + 2] + 1);
-					// внутренние параметры (2) pointer + 3
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 4]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 29]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 30]);
 					// динамические параметры для базы (1) pointer + 5
 					var description =
 						new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					var configAndParamSize = DeviceRom[pointer + 26]; // длина переменной части блока с конфигурацией и сырыми параметрами (1)
 					// общая длина записи (2) pointer + 27
 					var config = new BitArray(new byte[] { DeviceRom[pointer + 31] });
@@ -197,42 +184,42 @@ namespace ServerFS2
 							clause.Operation = ZoneLogicOperation.All;
 						else
 							clause.Operation = ZoneLogicOperation.Any;
-						for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
-						{
-							tableDynamicSize += 3;
-							var localPointer = DeviceRom[pointer + 34 + zoneNo * 3] * 256 * 256 +
-											   DeviceRom[pointer + 35 + zoneNo * 3] * 256 +
-											   DeviceRom[pointer + 36 + zoneNo * 3] - 0x100;
-							// ... здесь инициализируются все зоны учавствующие в логике ... //
-							var zone = new Zone();
-							if ((localPointer >= outzonesbegin - 0x100) && (localPointer < outzonesend - 0x100))// зона внешняя
-							{
-								zone.No = DeviceRom[localPointer + 6] * 256 + DeviceRom[localPointer + 7];
-								continue;
-							}
-							zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
-							zone.Name =
-								new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
-							zone.Name.Replace(" ", "");
-							zone.DevicesInZoneLogic.Add(child);
-							if (zones.FirstOrDefault(x => x.No == zone.No) != null)
-							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-							{
-								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-								continue;
-							}
+						//for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+						//{
+						//    tableDynamicSize += 3;
+						//    var localPointer = DeviceRom[pointer + 34 + zoneNo * 3] * 256 * 256 +
+						//                       DeviceRom[pointer + 35 + zoneNo * 3] * 256 +
+						//                       DeviceRom[pointer + 36 + zoneNo * 3] - 0x100;
+						//    // ... здесь инициализируются все зоны учавствующие в логике ... //
+						//    var zone = new Zone();
+						//    if ((localPointer >= outzonesbegin - 0x100) && (localPointer < outzonesend - 0x100))// зона внешняя
+						//    {
+						//        zone.No = DeviceRom[localPointer + 6] * 256 + DeviceRom[localPointer + 7];
+						//        continue;
+						//    }
+						//    zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
+						//    zone.Name =
+						//        new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
+						//    zone.Name.Replace(" ", "");
+						//    zone.DevicesInZoneLogic.Add(child);
+						//    if (zones.FirstOrDefault(x => x.No == zone.No) != null)
+						//    // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+						//    {
+						//        clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+						//        continue;
+						//    }
 
-							clause.ZoneUIDs.Add(zone.UID);
-							zones.Add(zone);
-							var zonePanelItem = new ZonePanelItem();
-							zonePanelItem.IsRemote = true;
-							zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5];
-							// локальный номер зоны
-							zonePanelItem.PanelDevice = device;
-							zonePanelItem.Zone = zone;
-							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-							remoteDeviceConfiguration.Zones.Add(zone);
-						}
+						//    clause.ZoneUIDs.Add(zone.UID);
+						//    zones.Add(zone);
+						//    var zonePanelItem = new ZonePanelItem();
+						//    zonePanelItem.IsRemote = true;
+						//    zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5];
+						//    // локальный номер зоны
+						//    zonePanelItem.PanelDevice = device;
+						//    zonePanelItem.Zone = zone;
+						//    zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+						//    remoteDeviceConfiguration.Zones.Add(zone);
+						//}
 						if (inAndOr != 0)
 							child.ZoneLogic.Clauses.Add(clause);
 					}
@@ -276,9 +263,9 @@ namespace ServerFS2
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[18] * 256 * 256 + DeviceRam[19] * 256 + DeviceRam[20]) != 0) // МПТ-1
+			if ((pointer = DeviceFlash[18] * 256 * 256 + DeviceFlash[19] * 256 + DeviceFlash[20]) != 0) // МПТ-1
 			{
-				var count = DeviceRam[22] * 256 + DeviceRam[23]; // текущее число записей в таблице
+				var count = DeviceFlash[22] * 256 + DeviceFlash[23]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -289,10 +276,17 @@ namespace ServerFS2
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
 					child.IntAddress = DeviceRom[pointer + 1] + 256 * (DeviceRom[pointer + 2] + 1);
-					// внутренние параметры (2) pointer + 3
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 4]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 29]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 30]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 31]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 32]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 33]);
 					// динамические параметры для базы (1) pointer + 5
 					var description =
 						new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
 					// общая длина записи (2) pointer + 27
 					// сырые параметры устройств МПТ (5) pointer + 29
@@ -309,9 +303,9 @@ namespace ServerFS2
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[120] * 256 * 256 + DeviceRam[121] * 256 + DeviceRam[122]) != 0) // МДУ (в документе это МУК-1Э, а не МДУ)
+			if ((pointer = DeviceFlash[120] * 256 * 256 + DeviceFlash[121] * 256 + DeviceFlash[122]) != 0) // МДУ (в документе это МУК-1Э, а не МДУ)
 			{
-				var count = DeviceRam[124] * 256 + DeviceRam[125]; // текущее число записей в таблице
+				var count = DeviceFlash[124] * 256 + DeviceFlash[125]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -322,10 +316,16 @@ namespace ServerFS2
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
 					child.IntAddress = DeviceRom[pointer + 1] + 256 * (DeviceRom[pointer + 2] + 1);
-					// внутренние параметры (2) pointer + 3
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 4]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 29]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 30]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 31]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 32]);
 					// динамические параметры для базы (1) pointer + 5
 					var description =
 						new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
 					// общая длина записи (2) pointer + 27
 					// сырые параметры устройств МУК-1Э (4) pointer + 29
@@ -412,9 +412,9 @@ namespace ServerFS2
 				}
 			}
 
-			if ((pointer = DeviceRam[84] * 256 * 256 + DeviceRam[85] * 256 + DeviceRam[86]) != 0) // МРО-2
+			if ((pointer = DeviceFlash[84] * 256 * 256 + DeviceFlash[85] * 256 + DeviceFlash[86]) != 0) // МРО-2
 			{
-				var count = DeviceRam[88] * 256 + DeviceRam[89]; // текущее число записей в таблице
+				var count = DeviceFlash[88] * 256 + DeviceFlash[89]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -425,10 +425,14 @@ namespace ServerFS2
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
 					child.IntAddress = DeviceRom[pointer + 1] + 256 * (DeviceRom[pointer + 2] + 1);
-					// внутренние параметры (2) pointer + 3
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 4]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 29]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 30]);
 					// динамические параметры для базы (1) pointer + 5
 					var description =
 						new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
 					// общая длина записи (2) pointer + 27
 					// сырые параметры устройства МРО-2 (2) pointer + 28
@@ -493,9 +497,9 @@ namespace ServerFS2
 				}
 			}
 
-			if ((pointer = DeviceRam[144] * 256 * 256 + DeviceRam[145] * 256 + DeviceRam[146]) != 0) // МРО-2М
+			if ((pointer = DeviceFlash[144] * 256 * 256 + DeviceFlash[145] * 256 + DeviceFlash[146]) != 0) // МРО-2М
 			{
-				var count = DeviceRam[148] * 256 + DeviceRam[149]; // текущее число записей в таблице
+				var count = DeviceFlash[148] * 256 + DeviceFlash[149]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -506,10 +510,14 @@ namespace ServerFS2
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
 					child.IntAddress = DeviceRom[pointer + 1] + 256 * (DeviceRom[pointer + 2] + 1);
-					// внутренние параметры (2) pointer + 3
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 4]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 29]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 30]);
 					// динамические параметры для базы (1) pointer + 5
 					var description =
 						new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					pointer = pointer + DeviceRom[pointer + 26];// длина переменной части блока с конфигурацией и сырыми параметрами (1)
 					// общая длина записи (2) pointer + 27
 
@@ -577,9 +585,9 @@ namespace ServerFS2
 				}
 			}
 
-			if ((pointer = DeviceRam[126] * 256 * 256 + DeviceRam[127] * 256 + DeviceRam[128]) != 0)
+			if ((pointer = DeviceFlash[126] * 256 * 256 + DeviceFlash[127] * 256 + DeviceFlash[128]) != 0)
 			{
-				var count = DeviceRam[130] * 256 + DeviceRam[131]; // текущее число записей в таблице
+				var count = DeviceFlash[130] * 256 + DeviceFlash[131]; // текущее число записей в таблице
 				pointer -= 0x100;
 				groupDevice = new Device();
 				for (int i = 0; i < count; i++)
@@ -591,9 +599,13 @@ namespace ServerFS2
 					child.DriverUID = child.Driver.UID;
 					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
 					child.IntAddress = DeviceRom[pointer + 1];
-					// внутренние параметры (2) pointer + 3
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 4]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 29]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 30]);
 					// динамические параметры для базы (1) pointer + 5
 					var description = new string(Encoding.Default.GetChars(DeviceRom.GetRange(pointer + 6, 20).ToArray()));
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
 					// общая длина записи (2) pointer + 27
 					// сырые параметры (1) pointer + 29
@@ -656,10 +668,9 @@ namespace ServerFS2
 
 			#endregion
 			#region Хидеры таблиц на не исполнительные устройства по типам
-
-			if ((pointer = DeviceRam[24] * 256 * 256 + DeviceRam[25] * 256 + DeviceRam[26]) != 0) // ИП-64
+			if ((pointer = DeviceFlash[24] * 256 * 256 + DeviceFlash[25] * 256 + DeviceFlash[26]) != 0) // ИП-64
 			{
-				var count = DeviceRam[28] * 256 + DeviceRam[29]; // текущее число записей в таблице
+				var count = DeviceFlash[28] * 256 + DeviceFlash[29]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -667,6 +678,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("1e045ad6-66f9-4f0b-901c-68c46c89e8da");
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -679,9 +695,9 @@ namespace ServerFS2
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[30] * 256 * 256 + DeviceRam[31] * 256 + DeviceRam[32]) != 0)  // ИП-29
+			if ((pointer = DeviceFlash[30] * 256 * 256 + DeviceFlash[31] * 256 + DeviceFlash[32]) != 0)  // ИП-29
 			{
-				var count = DeviceRam[34] * 256 + DeviceRam[35]; // текущее число записей в таблице
+				var count = DeviceFlash[34] * 256 + DeviceFlash[35]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -689,6 +705,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("799686b6-9cfa-4848-a0e7-b33149ab940c");
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -701,9 +722,9 @@ namespace ServerFS2
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[36] * 256 * 256 + DeviceRam[37] * 256 + DeviceRam[38]) != 0)  // ИП-64К
+			if ((pointer = DeviceFlash[36] * 256 * 256 + DeviceFlash[37] * 256 + DeviceFlash[38]) != 0)  // ИП-64К
 			{
-				var count = DeviceRam[40] * 256 + DeviceRam[41]; // текущее число записей в таблице
+				var count = DeviceFlash[40] * 256 + DeviceFlash[41]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -711,6 +732,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("37f13667-bc77-4742-829b-1c43fa404c1f");
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -723,14 +749,18 @@ namespace ServerFS2
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[42] * 256 * 256 + DeviceRam[43] * 256 + DeviceRam[44]) != 0)  // АМ-1П, КО, КЗ, КУА, КнВклШУЗ, КнРазблАвт, КнВыклШУЗ 
+			if ((pointer = DeviceFlash[42] * 256 * 256 + DeviceFlash[43] * 256 + DeviceFlash[44]) != 0)  // АМ-1П, КО, КЗ, КУА, КнВклШУЗ, КнРазблАвт, КнВыклШУЗ 
 			{
-				var count = DeviceRam[46] * 256 + DeviceRam[47]; // текущее число записей в таблице
+				var count = DeviceFlash[46] * 256 + DeviceFlash[47]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
 					child = new Device();
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -787,12 +817,13 @@ namespace ServerFS2
 						groupDevice.Children.Add(child);
 						continue;
 					}
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[48] * 256 * 256 + DeviceRam[49] * 256 + DeviceRam[50]) != 0)  // РПИ
+			if ((pointer = DeviceFlash[48] * 256 * 256 + DeviceFlash[49] * 256 + DeviceFlash[50]) != 0)  // РПИ
 			{
-				var count = DeviceRam[52] * 256 + DeviceRam[53]; // текущее число записей в таблице
+				var count = DeviceFlash[52] * 256 + DeviceFlash[53]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -800,6 +831,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("641fa899-faa0-455b-b626-646e5fbe785a");
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -809,13 +845,14 @@ namespace ServerFS2
 						child.ZoneUID = child.Zone.UID;
 					}
 					pointer = pointer + 11; // указатель на следующую запись в таблице
+
 					device.Children.Add(child);
 				}
 			}
 
-			if ((pointer = DeviceRam[78] * 256 * 256 + DeviceRam[79] * 256 + DeviceRam[80]) != 0) // АМП-4
+			if ((pointer = DeviceFlash[78] * 256 * 256 + DeviceFlash[79] * 256 + DeviceFlash[80]) != 0) // АМП-4
 			{
-				var count = DeviceRam[82] * 256 + DeviceRam[83]; // текущее число записей в таблице
+				var count = DeviceFlash[82] * 256 + DeviceFlash[83]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -823,6 +860,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("D8997F3B-64C4-4037-B176-DE15546CE568"); // АМ-1
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -848,9 +890,9 @@ namespace ServerFS2
 				}
 			}
 
-			if ((pointer = DeviceRam[54] * 256 * 256 + DeviceRam[55] * 256 + DeviceRam[56]) != 0) // АМ-1О
+			if ((pointer = DeviceFlash[54] * 256 * 256 + DeviceFlash[55] * 256 + DeviceFlash[56]) != 0) // АМ-1О
 			{
-				var count = DeviceRam[58] * 256 + DeviceRam[59]; // текущее число записей в таблице
+				var count = DeviceFlash[58] * 256 + DeviceFlash[59]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -858,6 +900,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("efca74b2-ad85-4c30-8de8-8115cc6dfdd2");
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -898,9 +945,9 @@ namespace ServerFS2
 				}
 			}
 
-			if ((pointer = DeviceRam[96] * 256 * 256 + DeviceRam[97] * 256 + DeviceRam[98]) != 0) // АМ-1Т
+			if ((pointer = DeviceFlash[96] * 256 * 256 + DeviceFlash[97] * 256 + DeviceFlash[98]) != 0) // АМ-1Т
 			{
-				var count = DeviceRam[100] * 256 + DeviceRam[101]; // текущее число записей в таблице
+				var count = DeviceFlash[100] * 256 + DeviceFlash[101]; // текущее число записей в таблице
 				pointer -= 0x100;
 				for (int i = 0; i < count; i++)
 				{
@@ -908,6 +955,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("f5a34ce2-322e-4ed9-a75f-fc8660ae33d8");
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -938,21 +990,21 @@ namespace ServerFS2
 					device.Children.Add(child);
 				}
 			}
-			if ((pointer = DeviceRam[60] * 256 * 256 + DeviceRam[61] * 256 + DeviceRam[62]) != 0)
+			if ((pointer = DeviceFlash[60] * 256 * 256 + DeviceFlash[61] * 256 + DeviceFlash[62]) != 0)
 				MessageBox.Show("Пока не определено"); // Внешние ИУ
-			if ((pointer = DeviceRam[66] * 256 * 256 + DeviceRam[67] * 256 + DeviceRam[68]) != 0)
+			if ((pointer = DeviceFlash[66] * 256 * 256 + DeviceFlash[67] * 256 + DeviceFlash[68]) != 0)
 				MessageBox.Show("Пока не определено"); // МУК
-			if ((pointer = DeviceRam[72] * 256 * 256 + DeviceRam[73] * 256 + DeviceRam[74]) != 0)
+			if ((pointer = DeviceFlash[72] * 256 * 256 + DeviceFlash[73] * 256 + DeviceFlash[74]) != 0)
 				MessageBox.Show("Пока не определено"); // БУНС
-			if ((pointer = DeviceRam[90] * 256 * 256 + DeviceRam[91] * 256 + DeviceRam[92]) != 0)
+			if ((pointer = DeviceFlash[90] * 256 * 256 + DeviceFlash[91] * 256 + DeviceFlash[92]) != 0)
 				MessageBox.Show("Пока не определено"); // Задвижки
-			if ((pointer = DeviceRam[102] * 256 * 256 + DeviceRam[103] * 256 + DeviceRam[104]) != 0)
+			if ((pointer = DeviceFlash[102] * 256 * 256 + DeviceFlash[103] * 256 + DeviceFlash[104]) != 0)
 				MessageBox.Show("Пока не определено"); // АМТ-4
-			if ((pointer = DeviceRam[114] * 256 * 256 + DeviceRam[115] * 256 + DeviceRam[116]) != 0)
+			if ((pointer = DeviceFlash[114] * 256 * 256 + DeviceFlash[115] * 256 + DeviceFlash[116]) != 0)
 				MessageBox.Show("Пока не определено"); // АСПТ
-			if ((pointer = DeviceRam[132] * 256 * 256 + DeviceRam[133] * 256 + DeviceRam[134]) != 0) // ИПР513-11Р
+			if ((pointer = DeviceFlash[132] * 256 * 256 + DeviceFlash[133] * 256 + DeviceFlash[134]) != 0) // ИПР513-11Р
 			{
-				var count = DeviceRam[136] * 256 + DeviceRam[137]; // текущее число записей в таблице
+				var count = DeviceFlash[136] * 256 + DeviceFlash[137]; // текущее число записей в таблице
 				pointer -= 0x100;
 				groupDevice = new Device();
 				groupDevice.DriverUID = new Guid("AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B"); // МРК-30
@@ -963,6 +1015,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("D57CDEF3-ACBC-4773-955E-22A1F016D025"); // ИПР513-11Р
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -985,9 +1042,9 @@ namespace ServerFS2
 					device.Children.Add(groupDevice);
 				}
 			}
-			if ((pointer = DeviceRam[138] * 256 * 256 + DeviceRam[139] * 256 + DeviceRam[140]) != 0) // ИП 212-64Р
+			if ((pointer = DeviceFlash[138] * 256 * 256 + DeviceFlash[139] * 256 + DeviceFlash[140]) != 0) // ИП 212-64Р
 			{
-				var count = DeviceRam[142] * 256 + DeviceRam[143]; // текущее число записей в таблице
+				var count = DeviceFlash[142] * 256 + DeviceFlash[143]; // текущее число записей в таблице
 				pointer -= 0x100;
 				groupDevice = new Device();
 				groupDevice.DriverUID = new Guid("AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B"); // МРК-30
@@ -998,6 +1055,11 @@ namespace ServerFS2
 					child.DriverUID = new Guid("CFD407D1-5D19-43EC-9650-A86EC4422EC6"); // ИП 212-64Р
 					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
 					child.IntAddress = DeviceRom[pointer] + 256 * (DeviceRom[pointer + 1] + 1);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 2]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 3]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 8]);
+					child.InnerDeviceParameters.Add(DeviceRom[pointer + 9]);
+					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
 					int zoneNo = DeviceRom[pointer + 5] * 256 + DeviceRom[pointer + 6];
 					if (zoneNo != 0)
 					{
@@ -1058,7 +1120,7 @@ namespace ServerFS2
 			var bytes = new List<byte>();
 			var begin = _deviceFlashFirstIndex / 0x100;
 			#region Находим адрес конечного блока Ram и число байт в этом блоке
-			bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+			bytes = CreateBytesArray(device.Parent.IntAddress + 2,
 			device.AddressOnShleif, 0x38, BitConverter.GetBytes(begin * 0x100).Reverse(), 0xFF);
 			var result = SendCode(bytes).Result.FirstOrDefault().Data;
 			result.RemoveRange(0, 7); // удаляем служебные байты (id - 4б, адрес приемника - 1б, адрес получателя - 1б, код функции - 1б)
@@ -1069,7 +1131,7 @@ namespace ServerFS2
 			#region Читаем все кроме последнего блока
 			for (int i = begin + 1; i < end; i++)
 			{
-				bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+				bytes = CreateBytesArray(device.Parent.IntAddress + 2,
 				device.AddressOnShleif, 0x38, BitConverter.GetBytes(i * 0x100).Reverse(), 0xFF);
 				request = SendCode(bytes).Result.FirstOrDefault().Data;
 				request.RemoveRange(0, 7);
@@ -1077,17 +1139,17 @@ namespace ServerFS2
 			}
 			#endregion
 			#region Читаем последний блок
-			bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
+			bytes = CreateBytesArray(device.Parent.IntAddress + 2,
 			device.AddressOnShleif, 0x38, BitConverter.GetBytes(end * 0x100).Reverse(), count);
 			request = SendCode(bytes).Result.FirstOrDefault().Data;
 			request.RemoveRange(0, 7);
 			result.AddRange(request);
 			#endregion
-			DeviceRam = new List<byte>(result);
+			DeviceFlash = new List<byte>(result);
 			#region Записываем БД DeviceRam в deviceRam.txt
 			var deviceRamTxt = new StreamWriter("..\\deviceRam.txt");
 			int j = 0;
-			foreach (var b in DeviceRam)
+			foreach (var b in DeviceFlash)
 			{
 				deviceRamTxt.Write("{0} ", b.ToString("X2"));
 				j++;
@@ -1132,7 +1194,7 @@ namespace ServerFS2
 			#region Читаем все кроме последнего блока
 			for (int i = 1; i < end; i++)
 			{
-				bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), Convert.ToByte(device.Parent.IntAddress + 2),
+				bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
 				Convert.ToByte(device.AddressOnShleif), 0x01, 0x52, BitConverter.GetBytes(i * 0x100).Reverse(), Convert.ToByte(0xFF));
 				request = SendCode(bytes).Result.FirstOrDefault().Data;
 				request.RemoveRange(0, 7);
@@ -1140,7 +1202,7 @@ namespace ServerFS2
 			}
 			#endregion
 			#region Читаем последний блок
-			bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), Convert.ToByte(device.Parent.IntAddress + 2),
+			bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
 			Convert.ToByte(device.AddressOnShleif), 0x01, 0x52, BitConverter.GetBytes(end * 0x100).Reverse(), Convert.ToByte(count));
 			request = SendCode(bytes).Result.FirstOrDefault().Data;
 			request.RemoveRange(0, 7);
@@ -1160,32 +1222,34 @@ namespace ServerFS2
 			#endregion
 			return result;
 		}
-		private static void GetDeviceRamFirstAndRomLastIndex(Device device, bool isUsb)
+
+		static void InitializeFlashFirstIndex(Device device, bool isUsb)
 		{
-			#region Находим адрес начального блока Ram
 			List<byte> bytes;
 			if (isUsb)
 				bytes = CreateBytesArray(0x02, 0x01, 0x57);
 			else
-				bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
-			device.AddressOnShleif, 0x01, 0x57);
+				bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.AddressOnShleif, 0x01, 0x57);
+
 			var result = SendCode(bytes).Result.FirstOrDefault().Data;
 			if (isUsb)
 				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });
 			var begin = 256 * result[8] + result[9];
 			_deviceFlashFirstIndex = begin * 0x100;
-			#endregion
-			#region Находим адрес конечного блока Rom
+		}
+
+		static void InitializeRomLastIndex(Device device, bool isUsb)
+		{
+			List<byte> bytes;
 			if (isUsb)
 				bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(_deviceFlashFirstIndex).Reverse(), 0x0B);
 			else
-				bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), device.Parent.IntAddress + 2,
-				device.AddressOnShleif, 0x38, BitConverter.GetBytes(_deviceFlashFirstIndex).Reverse(), 0x0B);
-			result = SendCode(bytes).Result.FirstOrDefault().Data;
+				bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.AddressOnShleif, 0x38, BitConverter.GetBytes(_deviceFlashFirstIndex).Reverse(), 0x0B);
+
+			var result = SendCode(bytes).Result.FirstOrDefault().Data;
 			if (isUsb)
 				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });
 			_deviceRomLastIndex = result[13] * 256 * 256 + result[14] * 256 + result[15];
-			#endregion
 		}
 	}
 }

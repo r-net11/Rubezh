@@ -24,7 +24,6 @@ namespace ServerFS2
 					Progress(index, max, "");
 				}
 				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
 				bytes.Add((byte)device.Parent.IntAddress);
 				bytes.Add(0x02);
@@ -64,7 +63,6 @@ namespace ServerFS2
 				if ((property == null) || (!property.IsAUParameter))
 					continue;
 				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.Parent.IntAddress + 2));
 				bytes.Add((byte)device.Parent.IntAddress);
 				bytes.Add(0x02);

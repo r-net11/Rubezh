@@ -16,6 +16,7 @@
                         <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
                         <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
                         <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
+                        <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" AutoGenerateColumns="False" MinRowHeight="20">
                         <DataGrid.Columns>

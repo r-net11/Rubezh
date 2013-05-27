@@ -25,7 +25,6 @@ namespace ServerFS2
 			for (int i = 0; i <= lastIndex; i++)
 			{
 				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 				bytes.Add(Convert.ToByte(device.IntAddress % 256));
 				bytes.Add(0x01);
@@ -52,7 +51,6 @@ namespace ServerFS2
 		public static int GetLastSecJournalItemId2Op(Device device)
 		{
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 			bytes.Add(Convert.ToByte(device.IntAddress % 256));
 			bytes.Add(0x01);
@@ -74,7 +72,6 @@ namespace ServerFS2
 		public static int GetJournalCount(Device device)
 		{
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 			bytes.Add(Convert.ToByte(device.IntAddress % 256));
 			bytes.Add(0x01);
@@ -103,7 +100,6 @@ namespace ServerFS2
 		public static int GetLastJournalItemId(Device device)
 		{
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 			bytes.Add(Convert.ToByte(device.IntAddress % 256));
 			bytes.Add(0x01);
@@ -135,7 +131,6 @@ namespace ServerFS2
 			for (int i = firstindex; i <= lastindex; i++)
 			{
 				var bytes = new List<byte>();
-				bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 				bytes.Add(Convert.ToByte(device.IntAddress % 256));
 				bytes.Add(0x01);

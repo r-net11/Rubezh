@@ -120,7 +120,6 @@ namespace MonitorClientFS2
 		private static ServerFS2.Response SendByteCommandSync(List<byte> commandBytes, Device device)
 		{
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(GetMSChannelByte(device));
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
@@ -131,12 +130,11 @@ namespace MonitorClientFS2
 		public static void SendByteCommand(List<byte> commandBytes, Device device, int requestId)
 		{
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(requestId).Reverse());
 			bytes.Add(GetMSChannelByte(device));
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
-			ServerHelper.SendCodeAsync(bytes);
+			ServerHelper.SendCodeAsync(requestId, bytes);
 		}
 
 		private static byte GetMSChannelByte(Device device)

@@ -85,14 +85,13 @@ namespace MonitorClientFS2
         void SendByteCommand2(List<byte> commandBytes, Device device)
         {
             var bytes = new List<byte>();
-            bytes.AddRange(BitConverter.GetBytes(++UsbRequestNo).Reverse());
             bytes.Add(GetSheifByte(device));
             bytes.Add(Convert.ToByte(device.AddressOnShleif));
             bytes.Add(0x01);
             bytes.AddRange(commandBytes);
             //lock (Locker)
             {
-                ServerHelper.SendCodeAsync(bytes);
+				ServerHelper.SendCodeAsync(++UsbRequestNo, bytes);
             }
         }
 
@@ -144,7 +143,6 @@ namespace MonitorClientFS2
 		ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)
 		{
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++UsbRequestNo).Reverse());
 			bytes.Add(GetSheifByte(device));
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);

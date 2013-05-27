@@ -33,7 +33,7 @@ namespace MonitorClientFS2
 			++UsbRequestNo;
 			var bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(ItemIndex).Reverse());
-			Request request = new Request(UsbRequestNo, RequestTypes.ReadItem, bytes, newItemRequestTimeout);
+			Request request = new Request(UsbRequestNo, RequestTypes.ReadItem, bytes);
 			deviceResponceRelation.SendRequest(request);
 		}
 
@@ -55,7 +55,7 @@ namespace MonitorClientFS2
 		public void LastIndexRequest(MonitoringDevice deviceResponceRelation)
 		{
 			++UsbRequestNo;
-			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 }, lastIndexRequestTimeout);
+			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
 			deviceResponceRelation.SendRequest(request);
 		}
 
@@ -68,7 +68,7 @@ namespace MonitorClientFS2
 				deviceResponceRelation.FirstDisplayedRecord = lastDeviceRecord;
 			if (deviceResponceRelation.LastDisplayedRecord == -1)
 				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord;
-			Trace.WriteLine(deviceResponceRelation.Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - deviceResponceRelation.FirstDisplayedRecord));
+			//Trace.WriteLine(deviceResponceRelation.Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - deviceResponceRelation.FirstDisplayedRecord));
 			if (lastDeviceRecord - deviceResponceRelation.LastDisplayedRecord > maxMessages)
 			{
 				deviceResponceRelation.LastDisplayedRecord = lastDeviceRecord - maxMessages;

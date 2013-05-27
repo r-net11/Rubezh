@@ -37,11 +37,12 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			BytesDatabase.AddShort(zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte(0, "Длина блока данных устройства");
-			if (!IsAm())
-			{
-				BytesDatabase.AddByte(0, "Пустой байт");
-			}
-			for (int i = 0; i < Get80ByteCount(); i++)
+			//if (!IsAm())
+			//{
+			//    BytesDatabase.AddByte(0, "Пустой байт");
+			//}
+			//for (int i = 0; i < Get80ByteCount(); i++)
+			for (int i = 0; i < 2; i++)
 			{
 				BytesDatabase.AddByte(0, "Байт 0x80 или 0x81");
 			}
@@ -82,12 +83,12 @@ namespace ServerFS2.ConfigurationWriter
 			lengtByteDescription.Value = BytesDatabase.ByteDescriptions.Count - 8;
 		}
 
-		int Get80ByteCount()
-		{
-			if(IsAm())
-					return 1;
-			return 2;
-		}
+		//int Get80ByteCount()
+		//{
+		//    if(IsAm())
+		//            return 1;
+		//    return 2;
+		//}
 
 		void AddDetectorProperties()
 		{
