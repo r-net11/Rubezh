@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using ServerFS2;
 using ServerFS2.DataBase;
+using System.Threading;
 
 namespace MonitorClientFS2
 {
@@ -12,18 +13,23 @@ namespace MonitorClientFS2
 	{
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
-		const int newItemRequestTimeout = 100;
-		const int lastIndexRequestTimeout = 0;
+		//const int newItemRequestTimeout = 100;
+		public const int betweenDevicesSpan = 0;
+		public const int betweenCyclesSpan = 0;
 
 		static int UsbRequestNo = 1;
 		public static readonly object Locker = new object();
 
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
-		public int UnAnswered { get { return Requests.Count; } }
 		public int FirstDisplayedRecord { get; set; }
 		int lastDisplayedRecord;
-		public int Answered { get; set; }
+		
+		public int AnsweredCount { get; set; }
+		public int UnAnsweredCount
+		{
+			get { return Requests.Count; }
+		}
 
 		public static event Action<FSJournalItem> OnNewItems;
 
@@ -56,7 +62,7 @@ namespace MonitorClientFS2
 				Requests.Add(request);
 			}
 			JournalHelper.SendByteCommand(request.Bytes, Device, request.Id);
-			//Thread.Sleep(request.Timeout);
+			Thread.Sleep(betweenDevicesSpan);
 		}
 
 		void NewItemRequest(int ItemIndex)
@@ -67,7 +73,7 @@ namespace MonitorClientFS2
 			}
 			var bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(ItemIndex).Reverse());
-			Request request = new Request(UsbRequestNo, RequestTypes.ReadItem, bytes, newItemRequestTimeout);
+			Request request = new Request(UsbRequestNo, RequestTypes.ReadItem, bytes);
 			SendRequest(request);
 		}
 
@@ -96,26 +102,26 @@ namespace MonitorClientFS2
 			return response.Data.Count >= 24;
 		}
 
-		public void LastIndexRequest()
+		public void RequestLastIndex()
 		{
 			lock (Locker)
 			{
 				++UsbRequestNo;
 			}
-			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 }, lastIndexRequestTimeout);
+			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
 			SendRequest(request);
 		}
 
 		public void LastIndexReceived(Response response)
 		{
-			if (!LastIndexValid(response))
+			if (!IsLastIndexValid(response))
 				return;
 			var lastDeviceRecord = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
 			if (FirstDisplayedRecord == -1)
 				FirstDisplayedRecord = lastDeviceRecord;
 			if (LastDisplayedRecord == -1)
 				LastDisplayedRecord = lastDeviceRecord;
-			//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
+			Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
 			if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
 			{
 				LastDisplayedRecord = lastDeviceRecord - maxMessages;
@@ -131,7 +137,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		bool LastIndexValid(Response response)
+		bool IsLastIndexValid(Response response)
 		{
 			return response.Data.Count() >= 10;
 		}

@@ -12,6 +12,7 @@ namespace MonitorClientFS2
 	{
 		List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
 		bool DoMonitoring;
+		DateTime StartTime;
 		//RequestManager RequestManager;
 
 		public MonitoringProcessor()
@@ -33,6 +34,7 @@ namespace MonitorClientFS2
 		{
 			if (!DoMonitoring)
 			{
+				StartTime = DateTime.Now;
 				DoMonitoring = true;
 				var thread = new Thread(OnRun);
 				thread.Start();
@@ -60,13 +62,13 @@ namespace MonitorClientFS2
 					//{
 					//    monitoringDevice.LastIndexRequest();
 					//}
-					monitoringDevice.LastIndexRequest();
+					monitoringDevice.RequestLastIndex();
 				}
 
 				//MonitoringDevices.FirstOrDefault().LastIndexRequest();
 
-				//Trace.WriteLine("");
-				Thread.Sleep(10);
+				Trace.WriteLine("");
+				Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
 			}
 		}
 
@@ -86,13 +88,16 @@ namespace MonitorClientFS2
 						{
 							request = requestsItem;
 							monitoringDevice = monitoringDevicesItem;
+
+							var timeSpan = DateTime.Now - request.StartTime;
+							//Trace.WriteLine("Responce timeSpan " + monitoringDevice.Device.PresentationAddress + " - " + timeSpan.TotalMilliseconds.ToString());
 						}
 					}
 				}
 			}
 			if (monitoringDevice != null && request != null)
 			{
-				monitoringDevice.Answered++;
+				monitoringDevice.AnsweredCount++;
 				if (request.RequestType == RequestTypes.ReadIndex)
 				{
 					monitoringDevice.LastIndexReceived(response);
@@ -115,9 +120,14 @@ namespace MonitorClientFS2
 
 		public void WriteStats()
 		{
+			var timeSpan = DateTime.Now - StartTime;
+			Trace.WriteLine("betweenCyclesSpan "+MonitoringDevice.betweenCyclesSpan);
+			Trace.WriteLine("betweenDevicesSpan " + MonitoringDevice.betweenDevicesSpan);
+			Trace.WriteLine("testTime " + timeSpan);
 			foreach (var monitoringDevice in MonitoringDevices)
 			{
-				Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + monitoringDevice.Answered + "/" + monitoringDevice.UnAnswered);
+				//Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
+				Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + (monitoringDevice.AnsweredCount / timeSpan.TotalSeconds).ToString() + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
 			}
 		}
 	}

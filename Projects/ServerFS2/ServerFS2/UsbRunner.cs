@@ -86,7 +86,8 @@ namespace ServerFS2
 				return;
 			IsMs = buffer[0] != 0;
 		    buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
-		    foreach (var b in buffer)
+			buffer.RemoveRange(0, 1);
+			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)
 				{
@@ -97,7 +98,7 @@ namespace ServerFS2
 						LocalResult = new List<byte>();
 
 					    var response = new Response {Data = bytes.ToList()};
-					    Request request;
+						Request request;
 						if (IsUsbDevice)
 						{
 							request = RequestCollection.GetFirst();
@@ -131,17 +132,17 @@ namespace ServerFS2
 				}
 				if (b == 0x7E)
 				{
-                    if (!ServerHelper.IsExtendedMode)
-                    {
-                        if (buffer.IndexOf(0x7e) == 0)
-                            ServerHelper.IsExtendedMode = false;
-                        if (buffer.IndexOf(0x7e) == 1)
-                            ServerHelper.IsExtendedMode = true;
-                        else
-                        {
-                            throw new Exception();
-                        }
-                    }
+					if (!ServerHelper.IsExtendedMode)
+					{
+						if (buffer.IndexOf(0x7e) == 0)
+							ServerHelper.IsExtendedMode = false;
+						if (buffer.IndexOf(0x7e) == 1)
+							ServerHelper.IsExtendedMode = true;
+						else
+						{
+							//throw new Exception();
+						}
+					}
 				    LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
@@ -204,17 +205,25 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		public OperationResult<List<Response>> AddRequest(List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
+		public OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
 			foreach (var bytes in bytesList)
 			{
+				if (bytesList.Count > 1)
+				{
+					usbRequestNo++;
+				}
 				_stop = false;
 				var request = new Request();
 				if (!IsUsbDevice)
 				{
-					request.Id = (uint)(bytes[3] + bytes[2] * 256 + bytes[1] * 256 * 256 + bytes[0] * 256 * 256 * 256); ;
+					request.Id = (uint)usbRequestNo;
+					if (usbRequestNo != -1)
+					{
+						bytes.InsertRange(0, BitConverter.GetBytes(usbRequestNo).Reverse());
+					}
 				}
 				request.Data = CreateOutputBytes(bytes);
 				RequestCollection.AddRequest(request);

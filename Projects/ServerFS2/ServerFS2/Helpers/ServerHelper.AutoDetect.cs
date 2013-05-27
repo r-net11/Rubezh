@@ -12,7 +12,6 @@ namespace ServerFS2
 		{
 			byte deviceCount;
 			var bytes = new List<byte>();
-			bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 			bytes.Add(0x01);
 			bytes.Add(0x01);
 			bytes.Add(0x04);
@@ -61,7 +60,6 @@ namespace ServerFS2
 					if (Progress != null)
 						Progress(Convert.ToInt32(deviceCount), 127, (sleif - 2) + " - Канал. Поиск PNP-устройств Рубеж с адресом: " + deviceCount + ". Всего адресов: 127");
 					bytes = new List<byte>();
-					bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 					bytes.Add(sleif);
 					bytes.Add(deviceCount);
 					bytes.Add(0x3C);
@@ -74,7 +72,6 @@ namespace ServerFS2
 						device.IntAddress = inputBytes[5];
 						device.Driver.HasAddress = true;
 						bytes = new List<byte>();
-						bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 						bytes.Add(sleif);
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
@@ -83,7 +80,6 @@ namespace ServerFS2
 						device.Driver = Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(inputBytes[7]));
 
 						bytes = new List<byte>();
-						bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 						bytes.Add(sleif);
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
@@ -92,7 +88,6 @@ namespace ServerFS2
 						device.Properties.Add(new Property() { Name = "Version", Value = inputBytes[7].ToString("X2") + "." + inputBytes[8].ToString("X2") });
 
 						bytes = new List<byte>();
-						bytes.AddRange(BitConverter.GetBytes(++_usbRequestNo).Reverse());
 						bytes.Add(sleif);
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);

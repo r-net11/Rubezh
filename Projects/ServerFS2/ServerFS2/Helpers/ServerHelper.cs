@@ -15,7 +15,7 @@ namespace ServerFS2
 		public static List<Driver> Drivers;
 		static readonly object Locker = new object();
 		public static readonly UsbRunner UsbRunner;
-		static int _usbRequestNo;
+		static int UsbRequestNo;
 		public static bool IsExtendedMode { get; set; }
 
 		static ServerHelper()
@@ -27,24 +27,34 @@ namespace ServerFS2
 			UsbRunner = new UsbRunner();
 			try
 			{
-				//var result = UsbRunner.Open();
+				var result = UsbRunner.Open();
 			}
 			catch { }
 		}
 
 		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
 		{
-			return UsbRunner.AddRequest(bytesList, maxDelay, maxTimeout, true);
+			return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
 		}
 
-        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+		public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
 		{
-			return UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
+			return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
 		}
 
-		public static void SendCodeAsync(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+		public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
 		{
-			UsbRunner.AddRequest(new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
+			return UsbRunner.AddRequest(-1, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
+		}
+
+		public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			return UsbRunner.AddRequest(-1, bytesList, maxDelay, maxTimeout, true);
+		}
+
+		public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			UsbRunner.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
 		}
 
 		public static bool IsUsbDevice
@@ -65,7 +75,7 @@ namespace ServerFS2
 
 		public static void SynchronizeTime(Device device)
 		{
-			var bytes = CreateBytesArray(BitConverter.GetBytes(++_usbRequestNo).Reverse(), Convert.ToByte(device.Parent.IntAddress + 2),
+			var bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
 			device.IntAddress, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
 			SendCode(bytes);
 		}

@@ -19,6 +19,7 @@ namespace MonitorClientFS2
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
 			TestCommand = new RelayCommand(OnTest);
+			ReadStatesCommand = new RelayCommand(OnReadStates);
 
 			DevicesViewModel = new DevicesViewModel();
 
@@ -83,6 +84,13 @@ namespace MonitorClientFS2
 		void OnTest()
 		{
 			MonitoringProcessor.WriteStats();
+		}
+
+		public RelayCommand ReadStatesCommand { get; private set; }
+		void OnReadStates()
+		{
+			var deviceStatesManager = new DeviceStatesManager();
+			deviceStatesManager.GetStates();
 		}
 	}
 }

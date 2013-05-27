@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 namespace MonitorClientFS2
 {
 	public class Request
@@ -6,18 +7,19 @@ namespace MonitorClientFS2
 		public int Id { get; set; }
 		public RequestTypes RequestType { get; set; }
 		public List<byte> Bytes { get; set; }
-		public int Timeout { get; set; }
+		public DateTime StartTime { get; private set; }
+
 		public Request(int id, RequestTypes requestType)
 		{
+			StartTime = DateTime.Now;
 			Id = id;
 			RequestType = requestType;
 		}
-		public Request(int id, RequestTypes requestType, List<byte> bytes, int timeout)
+
+		public Request(int id, RequestTypes requestType, List<byte> bytes)
+			: this(id, requestType)
 		{
-			Id = id;
-			RequestType = requestType;
 			Bytes = bytes;
-			Timeout = timeout;
 		}
 	}
 }
