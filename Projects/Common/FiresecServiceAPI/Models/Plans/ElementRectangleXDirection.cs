@@ -5,7 +5,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementRectangleXDirection : ElementBaseRectangle, IPrimitive, IElementDirection
+	public class ElementRectangleXDirection : ElementBaseRectangle, IPrimitive//, IElementDirection
 	{
 		[DataMember]
 		public Guid DirectionUID { get; set; }

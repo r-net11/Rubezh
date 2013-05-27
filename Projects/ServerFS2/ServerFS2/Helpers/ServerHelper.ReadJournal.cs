@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Device = FiresecAPI.Models.Device;
+using FS2Api;
 
 namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
-		public static JournalItem ParseJournal(List<byte> bytes)
+		public static FS2JournalItem ParseJournal(List<byte> bytes)
 		{
 			lock (Locker)
 			{
@@ -18,10 +19,10 @@ namespace ServerFS2
 			}
 		}
 
-		public static List<JournalItem> GetSecJournalItems2Op(Device device)
+		public static List<FS2JournalItem> GetSecJournalItems2Op(Device device)
 		{
 			int lastIndex = GetLastSecJournalItemId2Op(device);
-			var journalItems = new List<JournalItem>();
+			var journalItems = new List<FS2JournalItem>();
 			for (int i = 0; i <= lastIndex; i++)
 			{
 				var bytes = new List<byte>();
@@ -118,12 +119,12 @@ namespace ServerFS2
 			}
 		}
 
-		public static List<JournalItem> GetJournalItems(Device device)
+		public static List<FS2JournalItem> GetJournalItems(Device device)
 		{
 			int lastindex = GetLastJournalItemId(device);
 			int firstindex = GetFirstJournalItemId(device);
-			var journalItems = new List<JournalItem>();
-			var secJournalItems = new List<JournalItem>();
+			var journalItems = new List<FS2JournalItem>();
+			var secJournalItems = new List<FS2JournalItem>();
 			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
 			{
 				secJournalItems = GetSecJournalItems2Op(device);

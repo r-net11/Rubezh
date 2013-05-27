@@ -22,7 +22,7 @@ namespace FS2Api
 		OperationResult<string> GetInfo(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<List<FS2Journal>> ReadJournal(Guid deviceUID);
+		OperationResult<List<FS2JournalItem>> ReadJournal(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> ReadConfiguration(Guid deviceUID);
