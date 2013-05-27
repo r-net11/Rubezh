@@ -33,6 +33,9 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
+            GetAUPropertiesCommand = new RelayCommand(OnGetAUProperties);
+            SetAUPropertiesCommand = new RelayCommand(OnSetAUProperties);
+            ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 
@@ -414,5 +417,36 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
+
+        public bool HasAUProperties
+        {
+            get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
+        }
+
+        public RelayCommand GetAUPropertiesCommand { get; private set; }
+        void OnGetAUProperties()
+        {
+            ParametersHelper.GetSingleParameter(Device);
+        }
+
+        public RelayCommand SetAUPropertiesCommand { get; private set; }
+        void OnSetAUProperties()
+        {
+            ParametersHelper.SetSingleParameter(Device);
+        }
+
+        public RelayCommand ResetAUPropertiesCommand { get; private set; }
+        void OnResetAUProperties()
+        {
+            foreach (var property in Device.Properties)
+            {
+                var driverProperty = Device.Driver.Properties.FirstOrDefault(x=>x.Name == property.Name);
+                if(driverProperty != null)
+                {
+                    property.Value = driverProperty.Default;
+                }
+            }
+            PropertiesViewModel = new PropertiesViewModel(Device);
+        }
 	}
 }

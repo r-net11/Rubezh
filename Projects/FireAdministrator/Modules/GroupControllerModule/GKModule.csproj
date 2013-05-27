@@ -68,6 +68,7 @@
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PumpStation\PumpDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />
     <Compile Include="Devices\Views\PumpStation\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>

@@ -9,6 +9,7 @@ namespace XFiresecAPI
 	{
 		public XPumpStationProperty()
 		{
+            PumpStationPumps = new List<XPumpStationPump>();
 			FirePumpUIDs = new List<Guid>();
 			DirectionUIDs = new List<Guid>();
 			PumpsCount = 1;
@@ -17,6 +18,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }
+
+        public List<XPumpStationPump> PumpStationPumps { get; set; }
 
 		[DataMember]
 		public List<Guid> FirePumpUIDs { get; set; }

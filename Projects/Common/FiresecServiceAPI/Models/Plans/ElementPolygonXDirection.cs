@@ -5,7 +5,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolygonXDirection : ElementBasePolygon, IPrimitive//, IElementDirection
+	public class ElementPolygonXDirection : ElementBasePolygon, IPrimitive, IElementDirection
 	{
 		[DataMember]
 		public Guid DirectionUID { get; set; }

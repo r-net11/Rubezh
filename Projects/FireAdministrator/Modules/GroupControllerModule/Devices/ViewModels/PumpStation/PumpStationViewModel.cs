@@ -31,6 +31,13 @@ namespace GKModule.ViewModels
 				device.PumpStationProperty = new XPumpStationProperty();
 			}
 
+            PumpDevices = new ObservableCollection<PumpDeviceViewModel>();
+            foreach (var pumpStationPump in device.PumpStationProperty.PumpStationPumps)
+            {
+                var pumpDeviceViewModel = new PumpDeviceViewModel(pumpStationPump);
+                PumpDevices.Add(pumpDeviceViewModel);
+            }
+
 			PumpsCount = device.PumpStationProperty.PumpsCount;
 			DelayTime = device.PumpStationProperty.DelayTime;
 			JokeyPumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.PumpStationProperty.JokeyPumpUID);
@@ -58,6 +65,17 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
+
+        ObservableCollection<PumpDeviceViewModel> _pumpDevices;
+        public ObservableCollection<PumpDeviceViewModel> PumpDevices
+        {
+            get { return _pumpDevices; }
+            set
+            {
+                _pumpDevices = value;
+                OnPropertyChanged("PumpDevices");
+            }
+        }
 
 		ushort _pumpsCount;
 		public ushort PumpsCount

@@ -31,6 +31,7 @@
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
+    <Converters:XPumpStationPumpTypeToStringConverter x:Key="XPumpStationPumpTypeToStringConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
 	<Converters:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter" />
 	<Converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />

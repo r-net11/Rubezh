@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
+using Common;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common
 {
@@ -48,7 +50,15 @@ namespace Infrastructure.Common
 		}
 		public void ForceExecute()
 		{
-			_execute();
+            try
+            {
+                _execute();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "RelayCommand.ForceExecute");
+                MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+            }
 		}
 
 		#region ICommand Members
@@ -110,7 +120,15 @@ namespace Infrastructure.Common
 		}
 		public void ForceExecute(T parameter)
 		{
-			_execute(parameter);
+            try
+            {
+                _execute(parameter);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "RelayCommand.ForceExecute");
+                MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+            }
 		}
 
 		#region ICommand Members

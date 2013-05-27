@@ -88,19 +88,19 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
-#if DEBUG
-			if (GlobalSettingsHelper.GlobalSettings.FSAgent_UseFS2)
-			{
-				ClientFS2.ConfigurationManager.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
-				ClientFS2.ConfigurationManager.DriversConfiguration = FiresecManager.FiresecConfiguration.DriversConfiguration;
+//#if DEBUG
+//            if (GlobalSettingsHelper.GlobalSettings.FSAgent_UseFS2)
+//            {
+//                ClientFS2.ConfigurationManager.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+//                ClientFS2.ConfigurationManager.DriversConfiguration = FiresecManager.FiresecConfiguration.DriversConfiguration;
 
-				var configurationWriterHelper = new ClientFS2.ConfigurationWriter.ConfigurationWriterHelper();
-				configurationWriterHelper.Run();
-				var configurationDatabaseViewModel = new ClientFS2.ViewModels.ConfigurationDatabaseViewModel(configurationWriterHelper);
-				DialogService.ShowModalWindow(configurationDatabaseViewModel);
-				return;
-			}
-#endif
+//                var configurationWriterHelper = new ClientFS2.ConfigurationWriter.ConfigurationWriterHelper();
+//                configurationWriterHelper.Run();
+//                var configurationDatabaseViewModel = new ClientFS2.ViewModels.ConfigurationDatabaseViewModel(configurationWriterHelper);
+//                DialogService.ShowModalWindow(configurationDatabaseViewModel);
+//                return;
+//            }
+//#endif
 			if (ValidateConfiguration())
             {
                 WriteAllDeviceConfigurationHelper.Run();

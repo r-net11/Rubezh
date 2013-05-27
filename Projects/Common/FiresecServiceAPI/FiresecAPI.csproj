@@ -200,6 +200,8 @@
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Delay\XDelay.cs" />
     <Compile Include="XModels\Device\XPumpStationProperty.cs" />
+    <Compile Include="XModels\Device\XPumpStationPump.cs" />
+    <Compile Include="XModels\Device\XPumpStationPumpType.cs" />
     <Compile Include="XModels\Directions\XDirection.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />

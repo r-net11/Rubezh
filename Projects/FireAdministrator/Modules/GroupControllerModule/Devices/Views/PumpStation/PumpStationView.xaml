@@ -30,8 +30,20 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTextColumn Header="Адрес" Binding="{Binding DottedAddress}" Width="*" />
+                    <DataGridTemplateColumn Header="Тип">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding AvailablePumpStationPumpTypes}" SelectedItem="{Binding SelectedPumpStationPumpType}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ., Converter={StaticResource XPumpStationPumpTypeToStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Directions}" Margin="2">
