@@ -14,18 +14,202 @@ namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
+		static void ParceUIDeviceRom(int romPointer, DriverType driverType)
+		{
+			var pointer = DeviceRom[romPointer + 0] * 256 * 256 + DeviceRom[romPointer + 1] * 256 + DeviceRom[romPointer + 2];
+			if (pointer != 0)
+			{
+				var count = DeviceRom[pointer + 4] * 256 + DeviceRom[pointer + 5]; // текущее число записей в таблице
+				pointer -= 0x100;
+				var groupDevice = new Device();
+				for (int i = 0; i < count; i++)
+				{
+					ParceUIDeviceFlash(pointer, driverType);
+				}
+			}
+		}
+
+		static void ParceUIDeviceFlash(int pointer, DriverType driverType)
+		{
+			var child = new Device();
+			child.Driver = Drivers.FirstOrDefault(x => x.DriverType == driverType);
+			child.DriverUID = child.Driver.UID;
+			child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
+
+			child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			switch (driverType)
+			{
+				case DriverType.MPT:
+				child.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
+				child.InnerDeviceParameters.Add(DeviceFlash[pointer + 32]);
+				child.InnerDeviceParameters.Add(DeviceFlash[pointer + 33]);
+				break;
+
+				case DriverType.MDU:
+				child.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
+				child.InnerDeviceParameters.Add(DeviceFlash[pointer + 32]);
+					break;
+			}
+			Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+
+			var description = new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+
+			var configAndParamSize = DeviceFlash[pointer + 26]; // длина переменной части блока с конфигурацией и сырыми параметрами (1)
+			// общая длина записи (2) pointer + 27
+			var config = new BitArray(new byte[] { DeviceFlash[pointer + 31] });
+			pointer = pointer + configAndParamSize; // конфиг и сырые параметры
+
+			if (driverType != DriverType.MPT)
+			{
+				byte outAndOr = 1;
+				int tableDynamicSize = 0; // размер динамической части таблицы + 1
+				while (outAndOr != 0)
+				{
+					var logic = new BitArray(new byte[] { DeviceFlash[pointer + 29] });
+					int inAndOr = Convert.ToInt32(logic[1]) * 2 + Convert.ToInt32(logic[0]);
+					var messageNo = Convert.ToInt32(logic[7]) * 8 + Convert.ToInt32(logic[6]) * 4 + Convert.ToInt32(logic[5]) * 2 + Convert.ToInt32(logic[4]);
+					var messageType = Convert.ToInt32(logic[3]);
+
+					pointer = pointer + tableDynamicSize;
+					tableDynamicSize = 0;
+					byte eventType = DeviceFlash[pointer + 30]; // Тип события по которому срабатывать в этой группе зон (1)
+					outAndOr = DeviceFlash[pointer + 31];
+					if (outAndOr == 0x01)
+						child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
+					if (outAndOr == 0x02)
+						child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+					int zonesCount = DeviceFlash[pointer + 32] * 256 + DeviceFlash[pointer + 33];
+					tableDynamicSize += 5;
+					var clause = new Clause();
+					clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
+					if (inAndOr == 0x01)
+						clause.Operation = ZoneLogicOperation.All;
+					else
+						clause.Operation = ZoneLogicOperation.Any;
+					if (driverType == DriverType.MRO_2)
+					{
+						clause.ZoneLogicMROMessageNo = (ZoneLogicMROMessageNo)messageNo;
+						clause.ZoneLogicMROMessageType = (ZoneLogicMROMessageType)messageType;
+					}
+					for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+					{
+						tableDynamicSize += 3;
+						var localPointer = DeviceRom[pointer + 34 + zoneNo * 3] * 256 * 256 +
+										   DeviceRom[pointer + 35 + zoneNo * 3] * 256 +
+										   DeviceRom[pointer + 36 + zoneNo * 3] - 0x100;
+						// ... здесь инициализируются все зоны учавствующие в логике ... //
+						var zone = new Zone();
+						if ((localPointer >= outzonesbegin - 0x100) && (localPointer < outzonesend - 0x100))// зона внешняя
+						{
+							zone.No = DeviceRom[localPointer + 6] * 256 + DeviceRom[localPointer + 7];
+							continue;
+						}
+						zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
+						zone.Name =
+							new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
+						zone.Name.Replace(" ", "");
+						zone.DevicesInZoneLogic.Add(child);
+						if (zones.FirstOrDefault(x => x.No == zone.No) != null)
+						// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+						{
+							clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+							continue;
+						}
+
+						clause.ZoneUIDs.Add(zone.UID);
+						zones.Add(zone);
+						var zonePanelItem = new ZonePanelItem();
+						zonePanelItem.IsRemote = true;
+						zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5];
+						// локальный номер зоны
+						zonePanelItem.PanelDevice = device;
+						zonePanelItem.Zone = zone;
+						zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+						remoteDeviceConfiguration.Zones.Add(zone);
+					}
+					if (inAndOr != 0)
+						child.ZoneLogic.Clauses.Add(clause);
+				}
+				pointer = pointer + tableDynamicSize + 29;
+			}
+			else
+			{
+				pointer = pointer + 5;
+			}
+
+			if (driverType == DriverType.RM_1)
+			{
+				if (config[4])
+				{
+					var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
+					var groupDevice = (device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU));
+					if (groupDevice == null) // если такое ГУ ещё не добавлено
+					{
+						groupDevice = new Device();
+						device.Children.Add(groupDevice);
+						groupDevice.IntAddress = child.IntAddress - localNoInPPU;
+					}
+					groupDevice.Children.Add(child);
+					switch (localNoInPPU + 1) // смотрим сколько дочерних устройств у группового устройства
+					{
+						case 2:
+							groupDevice.DriverUID = new Guid("EA5F5372-C76C-4E92-B879-0AFA0EE979C7"); // РМ-2
+							groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+							break;
+						case 3:
+							groupDevice.DriverUID = new Guid("15E38FA6-DC41-454B-83E5-D7789064B2E1"); // РМ-3
+							groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+							break;
+						case 4:
+							groupDevice.DriverUID = new Guid("3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"); // РМ-4
+							groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+							break;
+						case 5:
+							groupDevice.DriverUID = new Guid("A7C09BA8-DD00-484C-8BEA-245F2920DFBB"); // РМ-5
+							groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+							break;
+						default:
+							groupDevice.DriverUID = new Guid("EA5F5372-C76C-4E92-B879-0AFA0EE979C7"); // РМ-2
+							groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+							break;
+					}
+					return;
+				}
+			}
+			if (driverType == DriverType.MPT)
+			{
+				var zoneNo = DeviceFlash[pointer + 39] * 256 + DeviceFlash[pointer + 40];
+				child.Zone = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => x.No == zoneNo).Zone;
+				// номер привязанной зоны (2) pointer + 40
+				child.ZoneUID = child.Zone.UID;
+				pointer = pointer + 49;
+			}
+			device.Children.Add(child);
+		}
+
 		public static List<byte> DeviceFlash;
 		public static List<byte> DeviceRom;
 		static int RomDBFirstIndex;
 		static int FlashDBLastIndex;
 
+		static Device device;
+		static int outzonesbegin;
+		static int outzonescount;
+		static int outzonesend;
+		static List<Zone> zones;
+		static ZonePanelRelationsInfo zonePanelRelationsInfo;
+		static DeviceConfiguration remoteDeviceConfiguration;
+
 		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
 		{
-			var device = (Device)selectedDevice.Clone();
+			device = (Device)selectedDevice.Clone();
 			device.Children = new List<Device>();
-			var zones = new List<Zone>();
+			zones = new List<Zone>();
 
-			var remoteDeviceConfiguration = new DeviceConfiguration();
+			remoteDeviceConfiguration = new DeviceConfiguration();
 			remoteDeviceConfiguration.RootDevice = device;
 			remoteDeviceConfiguration.Devices.Add(device);
 
@@ -38,7 +222,7 @@ namespace ServerFS2
 			int pPointer;
 			Device child;
 			int sleifCount = device.Driver.ShleifCount;
-			var zonePanelRelationsInfo = new ZonePanelRelationsInfo();
+			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
 			var groupDevice = new Device();
 
 			#region Хидеры таблицы указателей на указатели на зоны
@@ -127,544 +311,561 @@ namespace ServerFS2
 			}
 			#endregion
 
-			int outzonesbegin = DeviceRom[1548] * 256 * 256 + DeviceRom[1549] * 256 + DeviceRom[1550];
-			int outzonescount = DeviceRom[1552] * 256 + DeviceRom[1553];
-			int outzonesend = outzonesbegin + outzonescount * 9;
+			outzonesbegin = DeviceRom[1548] * 256 * 256 + DeviceRom[1549] * 256 + DeviceRom[1550];
+			outzonescount = DeviceRom[1552] * 256 + DeviceRom[1553];
+			outzonesend = outzonesbegin + outzonescount * 9;
 			//#region Хидеры таблицы внешних для прибора зон, в которых не локальные ИП управляют локальными ИУ (в логике "межприборное И" у ИУ)
 			//{
 
 			//}
 			//#endregion
 			#region Хидеры таблиц на исполнительные устройства
-			if ((pointer = DeviceRom[12] * 256 * 256 + DeviceRom[13] * 256 + DeviceRom[14]) != 0) //РМ-1
-			{
-				var count = DeviceRom[16] * 256 + DeviceRom[17]; // текущее число записей в таблице
-				pointer -= 0x100;
-				groupDevice = new Device();
-				for (int i = 0; i < count; i++)
-				{
-					child = new Device();
-					child.ZoneLogic = new ZoneLogic();
-					child.ZoneLogic.Clauses = new List<Clause>();
-					child.DriverUID = new Guid("4a60242a-572e-41a8-8b87-2fe6b6dc4ace");
-					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
-					child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
-					// динамические параметры для базы (1) pointer + 5
-					var description =
-						new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
-					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
-					var configAndParamSize = DeviceFlash[pointer + 26]; // длина переменной части блока с конфигурацией и сырыми параметрами (1)
-					// общая длина записи (2) pointer + 27
-					var config = new BitArray(new byte[] { DeviceFlash[pointer + 31] });
-					pointer = pointer + configAndParamSize; // конфиг и сырые параметры
-					/* Настройка логики */
-					byte outAndOr = 1;
-					int tableDynamicSize = 0; // размер динамической части таблицы + 1
-					while (outAndOr != 0)
-					{
-						pointer = pointer + tableDynamicSize;
-						tableDynamicSize = 0;
-						byte inAndOr = DeviceFlash[pointer + 29]; // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
-						byte eventType = DeviceFlash[pointer + 30]; // Тип события по которому срабатывать в этой группе зон (1)
-						outAndOr = DeviceFlash[pointer + 31];
-						if (outAndOr == 0x01)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
-						if (outAndOr == 0x02)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
-						int zonesCount = DeviceFlash[pointer + 32] * 256 + DeviceFlash[pointer + 33];
-						tableDynamicSize += 5;
-						var clause = new Clause();
-						clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
-						if (inAndOr == 0x01)
-							clause.Operation = ZoneLogicOperation.All;
-						else
-							clause.Operation = ZoneLogicOperation.Any;
-						//for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
-						//{
-						//    tableDynamicSize += 3;
-						//    var localPointer = DeviceRom[pointer + 34 + zoneNo * 3] * 256 * 256 +
-						//                       DeviceRom[pointer + 35 + zoneNo * 3] * 256 +
-						//                       DeviceRom[pointer + 36 + zoneNo * 3] - 0x100;
-						//    // ... здесь инициализируются все зоны учавствующие в логике ... //
-						//    var zone = new Zone();
-						//    if ((localPointer >= outzonesbegin - 0x100) && (localPointer < outzonesend - 0x100))// зона внешняя
-						//    {
-						//        zone.No = DeviceRom[localPointer + 6] * 256 + DeviceRom[localPointer + 7];
-						//        continue;
-						//    }
-						//    zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
-						//    zone.Name =
-						//        new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
-						//    zone.Name.Replace(" ", "");
-						//    zone.DevicesInZoneLogic.Add(child);
-						//    if (zones.FirstOrDefault(x => x.No == zone.No) != null)
-						//    // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-						//    {
-						//        clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-						//        continue;
-						//    }
 
-						//    clause.ZoneUIDs.Add(zone.UID);
-						//    zones.Add(zone);
-						//    var zonePanelItem = new ZonePanelItem();
-						//    zonePanelItem.IsRemote = true;
-						//    zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5];
-						//    // локальный номер зоны
-						//    zonePanelItem.PanelDevice = device;
-						//    zonePanelItem.Zone = zone;
-						//    zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-						//    remoteDeviceConfiguration.Zones.Add(zone);
-						//}
-						if (inAndOr != 0)
-							child.ZoneLogic.Clauses.Add(clause);
-					}
-					pointer = pointer + tableDynamicSize + 29;
-					if (config[4])
-					{
-						var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
-						groupDevice = (device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU));
-						if (groupDevice == null) // если такое ГУ ещё не добавлено
-						{
-							groupDevice = new Device();
-							device.Children.Add(groupDevice);
-							groupDevice.IntAddress = child.IntAddress - localNoInPPU;
-						}
-						groupDevice.Children.Add(child);
-						switch (localNoInPPU + 1) // смотрим сколько дочерних устройств у группового устройства
-						{
-							case 2:
-								groupDevice.DriverUID = new Guid("EA5F5372-C76C-4E92-B879-0AFA0EE979C7"); // РМ-2
-								groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-								break;
-							case 3:
-								groupDevice.DriverUID = new Guid("15E38FA6-DC41-454B-83E5-D7789064B2E1"); // РМ-3
-								groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-								break;
-							case 4:
-								groupDevice.DriverUID = new Guid("3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"); // РМ-4
-								groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-								break;
-							case 5:
-								groupDevice.DriverUID = new Guid("A7C09BA8-DD00-484C-8BEA-245F2920DFBB"); // РМ-5
-								groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-								break;
-							default:
-								groupDevice.DriverUID = new Guid("EA5F5372-C76C-4E92-B879-0AFA0EE979C7"); // РМ-2
-								groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
-								break;
-						}
-						continue;
-					}
-					device.Children.Add(child);
-				}
-			}
-			if ((pointer = DeviceRom[18] * 256 * 256 + DeviceRom[19] * 256 + DeviceRom[20]) != 0) // МПТ-1
-			{
-				var count = DeviceRom[22] * 256 + DeviceRom[23]; // текущее число записей в таблице
-				pointer -= 0x100;
-				for (int i = 0; i < count; i++)
-				{
-					child = new Device();
-					child.ZoneLogic = new ZoneLogic();
-					child.ZoneLogic.Clauses = new List<Clause>();
-					child.DriverUID = new Guid("33a85f87-e34c-45d6-b4ce-a4fb71a36c28");
-					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
-					child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 32]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 33]);
-					// динамические параметры для базы (1) pointer + 5
-					var description =
-						new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
-					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
-					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
-					// общая длина записи (2) pointer + 27
-					// сырые параметры устройств МПТ (5) pointer + 29
-					// параметры конфигурации заливаемые с компа мпт-7 байт pointer + 34 следующие:
-					// конфиг (1) pointer + 34
-					// адрес родителя (1) pointer + 35
-					// шлейф родителя (1) pointer + 36
-					// задержка запуска (2) pointer + 37
-					var zoneNo = DeviceFlash[pointer + 39] * 256 + DeviceFlash[pointer + 40];
-					child.Zone = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => x.No == zoneNo).Zone;
-					// номер привязанной зоны (2) pointer + 40
-					child.ZoneUID = child.Zone.UID;
-					pointer = pointer + 49;
-					device.Children.Add(child);
-				}
-			}
-			if ((pointer = DeviceRom[120] * 256 * 256 + DeviceRom[121] * 256 + DeviceRom[122]) != 0) // МДУ (в документе это МУК-1Э, а не МДУ)
-			{
-				var count = DeviceRom[124] * 256 + DeviceRom[125]; // текущее число записей в таблице
-				pointer -= 0x100;
-				for (int i = 0; i < count; i++)
-				{
-					child = new Device();
-					child.ZoneLogic = new ZoneLogic();
-					child.ZoneLogic.Clauses = new List<Clause>();
-					child.DriverUID = new Guid("043fbbe0-8733-4c8d-be0c-e5820dbf7039");
-					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
-					child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 32]);
-					// динамические параметры для базы (1) pointer + 5
-					var description =
-						new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
-					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
-					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
-					// общая длина записи (2) pointer + 27
-					// сырые параметры устройств МУК-1Э (4) pointer + 29
-					// конфиг (1) pointer + 33
+			ParceUIDeviceRom(12, DriverType.RM_1);
+			ParceUIDeviceRom(18, DriverType.MPT);
+			ParceUIDeviceRom(120, DriverType.MDU);
+			ParceUIDeviceRom(84, DriverType.MRO);
+			ParceUIDeviceRom(144, DriverType.MRO_2);
+			ParceUIDeviceRom(126, DriverType.Exit);
 
-					/* Настройка логики */
-					byte outAndOr = 0x01;
-					while (outAndOr != 0)
-					{
-						byte inAndOr = DeviceFlash[pointer + 34];
-						// логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
-						byte eventType = DeviceFlash[pointer + 35];
-						// Тип события по которому срабатывать в этой группе зон (1)
+			#region RM
+			//if ((pointer = DeviceRom[12] * 256 * 256 + DeviceRom[13] * 256 + DeviceRom[14]) != 0) //РМ-1
+			//{
+			//    var count = DeviceRom[16] * 256 + DeviceRom[17]; // текущее число записей в таблице
+			//    pointer -= 0x100;
+			//    groupDevice = new Device();
+			//    for (int i = 0; i < count; i++)
+			//    {
+			//        child = new Device();
+			//        child.ZoneLogic = new ZoneLogic();
+			//        child.ZoneLogic.Clauses = new List<Clause>();
+			//        child.DriverUID = new Guid("4a60242a-572e-41a8-8b87-2fe6b6dc4ace");
+			//        child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
+			//        // адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
+			//        child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			//        // динамические параметры для базы (1) pointer + 5
+			//        var description =
+			//            new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+			//        Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+			//        var configAndParamSize = DeviceFlash[pointer + 26]; // длина переменной части блока с конфигурацией и сырыми параметрами (1)
+			//        // общая длина записи (2) pointer + 27
+			//        var config = new BitArray(new byte[] { DeviceFlash[pointer + 31] });
+			//        pointer = pointer + configAndParamSize; // конфиг и сырые параметры
+			//        /* Настройка логики */
+			//        byte outAndOr = 1;
+			//        int tableDynamicSize = 0; // размер динамической части таблицы + 1
+			//        while (outAndOr != 0)
+			//        {
+			//            pointer = pointer + tableDynamicSize;
+			//            tableDynamicSize = 0;
+			//            byte inAndOr = DeviceFlash[pointer + 29]; // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
+			//            byte eventType = DeviceFlash[pointer + 30]; // Тип события по которому срабатывать в этой группе зон (1)
+			//            outAndOr = DeviceFlash[pointer + 31];
+			//            if (outAndOr == 0x01)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
+			//            if (outAndOr == 0x02)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+			//            int zonesCount = DeviceFlash[pointer + 32] * 256 + DeviceFlash[pointer + 33];
+			//            tableDynamicSize += 5;
+			//            var clause = new Clause();
+			//            clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
+			//            if (inAndOr == 0x01)
+			//                clause.Operation = ZoneLogicOperation.All;
+			//            else
+			//                clause.Operation = ZoneLogicOperation.Any;
+			//            for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+			//            {
+			//                tableDynamicSize += 3;
+			//                var localPointer = DeviceRom[pointer + 34 + zoneNo * 3] * 256 * 256 +
+			//                                   DeviceRom[pointer + 35 + zoneNo * 3] * 256 +
+			//                                   DeviceRom[pointer + 36 + zoneNo * 3] - 0x100;
+			//                // ... здесь инициализируются все зоны учавствующие в логике ... //
+			//                var zone = new Zone();
+			//                if ((localPointer >= outzonesbegin - 0x100) && (localPointer < outzonesend - 0x100))// зона внешняя
+			//                {
+			//                    zone.No = DeviceRom[localPointer + 6] * 256 + DeviceRom[localPointer + 7];
+			//                    continue;
+			//                }
+			//                zone.No = DeviceRom[localPointer + 33] * 256 + DeviceRom[localPointer + 34]; // Глобальный номер зоны
+			//                zone.Name =
+			//                    new string(Encoding.Default.GetChars(DeviceRom.GetRange(localPointer + 6, 20).ToArray()));
+			//                zone.Name.Replace(" ", "");
+			//                zone.DevicesInZoneLogic.Add(child);
+			//                if (zones.FirstOrDefault(x => x.No == zone.No) != null)
+			//                // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+			//                {
+			//                    clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+			//                    continue;
+			//                }
 
-						#region Events Description
+			//                clause.ZoneUIDs.Add(zone.UID);
+			//                zones.Add(zone);
+			//                var zonePanelItem = new ZonePanelItem();
+			//                zonePanelItem.IsRemote = true;
+			//                zonePanelItem.No = DeviceRom[localPointer + 4] * 256 + DeviceRom[localPointer + 5];
+			//                // локальный номер зоны
+			//                zonePanelItem.PanelDevice = device;
+			//                zonePanelItem.Zone = zone;
+			//                zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+			//                remoteDeviceConfiguration.Zones.Add(zone);
+			//            }
+			//            if (inAndOr != 0)
+			//                child.ZoneLogic.Clauses.Add(clause);
+			//        }
+			//        pointer = pointer + tableDynamicSize + 29;
+			//        if (config[4])
+			//        {
+			//            var localNoInPPU = Convert.ToInt32(config[3]) * 4 + Convert.ToInt32(config[2]) * 2 + Convert.ToInt32(config[1]);
+			//            groupDevice = (device.Children.FirstOrDefault(x => x.IntAddress == child.IntAddress - localNoInPPU));
+			//            if (groupDevice == null) // если такое ГУ ещё не добавлено
+			//            {
+			//                groupDevice = new Device();
+			//                device.Children.Add(groupDevice);
+			//                groupDevice.IntAddress = child.IntAddress - localNoInPPU;
+			//            }
+			//            groupDevice.Children.Add(child);
+			//            switch (localNoInPPU + 1) // смотрим сколько дочерних устройств у группового устройства
+			//            {
+			//                case 2:
+			//                    groupDevice.DriverUID = new Guid("EA5F5372-C76C-4E92-B879-0AFA0EE979C7"); // РМ-2
+			//                    groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+			//                    break;
+			//                case 3:
+			//                    groupDevice.DriverUID = new Guid("15E38FA6-DC41-454B-83E5-D7789064B2E1"); // РМ-3
+			//                    groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+			//                    break;
+			//                case 4:
+			//                    groupDevice.DriverUID = new Guid("3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"); // РМ-4
+			//                    groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+			//                    break;
+			//                case 5:
+			//                    groupDevice.DriverUID = new Guid("A7C09BA8-DD00-484C-8BEA-245F2920DFBB"); // РМ-5
+			//                    groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+			//                    break;
+			//                default:
+			//                    groupDevice.DriverUID = new Guid("EA5F5372-C76C-4E92-B879-0AFA0EE979C7"); // РМ-2
+			//                    groupDevice.Driver = Drivers.FirstOrDefault(x => x.UID == groupDevice.DriverUID);
+			//                    break;
+			//            }
+			//            continue;
+			//        }
+			//        device.Children.Add(child);
+			//    }
+			//}
+			#endregion
+			#region MPT
+			//if ((pointer = DeviceRom[18] * 256 * 256 + DeviceRom[19] * 256 + DeviceRom[20]) != 0) // МПТ-1
+			//{
+			//    var count = DeviceRom[22] * 256 + DeviceRom[23]; // текущее число записей в таблице
+			//    pointer -= 0x100;
+			//    for (int i = 0; i < count; i++)
+			//    {
+			//        child = new Device();
+			//        child.ZoneLogic = new ZoneLogic();
+			//        child.ZoneLogic.Clauses = new List<Clause>();
+			//        child.DriverUID = new Guid("33a85f87-e34c-45d6-b4ce-a4fb71a36c28");
+			//        child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
+			//        // адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
+			//        child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 32]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 33]);
+			//        // динамические параметры для базы (1) pointer + 5
+			//        var description =
+			//            new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+			//        Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+			//        // длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
+			//        // общая длина записи (2) pointer + 27
+			//        // сырые параметры устройств МПТ (5) pointer + 29
+			//        // параметры конфигурации заливаемые с компа мпт-7 байт pointer + 34 следующие:
+			//        // конфиг (1) pointer + 34
+			//        // адрес родителя (1) pointer + 35
+			//        // шлейф родителя (1) pointer + 36
+			//        // задержка запуска (2) pointer + 37
+			//        var zoneNo = DeviceFlash[pointer + 39] * 256 + DeviceFlash[pointer + 40];
+			//        child.Zone = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => x.No == zoneNo).Zone;
+			//        // номер привязанной зоны (2) pointer + 40
+			//        child.ZoneUID = child.Zone.UID;
+			//        pointer = pointer + 49;
+			//        device.Children.Add(child);
+			//    }
+			//}
+			#endregion
+			#region MDU
+			//if ((pointer = DeviceRom[120] * 256 * 256 + DeviceRom[121] * 256 + DeviceRom[122]) != 0) // МДУ (в документе это МУК-1Э, а не МДУ)
+			//{
+			//    var count = DeviceRom[124] * 256 + DeviceRom[125]; // текущее число записей в таблице
+			//    pointer -= 0x100;
+			//    for (int i = 0; i < count; i++)
+			//    {
+			//        child = new Device();
+			//        child.ZoneLogic = new ZoneLogic();
+			//        child.ZoneLogic.Clauses = new List<Clause>();
+			//        child.DriverUID = new Guid("043fbbe0-8733-4c8d-be0c-e5820dbf7039");
+			//        child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
+			//        // адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
+			//        child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 32]);
+			//        // динамические параметры для базы (1) pointer + 5
+			//        var description =
+			//            new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+			//        Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+			//        // длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
+			//        // общая длина записи (2) pointer + 27
+			//        // сырые параметры устройств МУК-1Э (4) pointer + 29
+			//        // конфиг (1) pointer + 33
 
-						// $01  -  включение автоматики
-						// $02  -  тревога
-						// $03  -  поставлен на охрану
-						// $05  -  снят с охраны
-						// $06  -  ПЦН
-						// $07  -  меандр
-						// $04  -  пожар
-						// $08  -  неисправность
-						// $09  -  включение НС
-						// $0A  -  выключение автоматики НС
-						// $10  -  выходная задержка
-						// $20  -  внимание
-						// $40  -  срабатывание модуля пожаротушения
-						// $80  -  тушение
-						// $0B  -  активация устройства АМ-1Т или МДУ
+			//        /* Настройка логики */
+			//        byte outAndOr = 0x01;
+			//        while (outAndOr != 0)
+			//        {
+			//            byte inAndOr = DeviceFlash[pointer + 34];
+			//            // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
+			//            byte eventType = DeviceFlash[pointer + 35];
+			//            // Тип события по которому срабатывать в этой группе зон (1)
 
-						#endregion
+			//            #region Events Description
 
-						outAndOr = DeviceFlash[pointer + 36];
-						if (outAndOr == 0x01)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
-						if (outAndOr == 0x02)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
-						int zonesCount = DeviceFlash[pointer + 37] * 256 + DeviceFlash[pointer + 38];
-						pointer += 5;
-						var clause = new Clause();
-						clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
-						if (inAndOr == 0x01)
-							clause.Operation = ZoneLogicOperation.All;
-						else
-							clause.Operation = ZoneLogicOperation.Any;
-						for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
-						{
-							var localPointer = DeviceFlash[pointer + 34] * 256 * 256 +
-											   DeviceFlash[pointer + 35] * 256 +
-											   DeviceFlash[pointer + 36] - 0x100;
-							// ... здесь инициализируются все зоны учавствующие в логике ... //
-							var zone = new Zone();
-							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34];
-							// Глобальный номер зоны
-							zone.Name =
-								new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
-							zone.Name.Replace(" ", "");
-							zone.DevicesInZoneLogic.Add(child);
-							pointer += 3;
-							if (zones.FirstOrDefault(x => x.No == zone.No) != null)
-							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-							{
-								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-								continue;
-							}
+			//            // $01  -  включение автоматики
+			//            // $02  -  тревога
+			//            // $03  -  поставлен на охрану
+			//            // $05  -  снят с охраны
+			//            // $06  -  ПЦН
+			//            // $07  -  меандр
+			//            // $04  -  пожар
+			//            // $08  -  неисправность
+			//            // $09  -  включение НС
+			//            // $0A  -  выключение автоматики НС
+			//            // $10  -  выходная задержка
+			//            // $20  -  внимание
+			//            // $40  -  срабатывание модуля пожаротушения
+			//            // $80  -  тушение
+			//            // $0B  -  активация устройства АМ-1Т или МДУ
 
-							clause.ZoneUIDs.Add(zone.UID);
-							zones.Add(zone);
-							var zonePanelItem = new ZonePanelItem();
-							zonePanelItem.IsRemote = true;
-							zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5];
-							// локальный номер зоны
-							zonePanelItem.PanelDevice = device;
-							zonePanelItem.Zone = zone;
-							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-							remoteDeviceConfiguration.Zones.Add(zone);
-						}
-						child.ZoneLogic.Clauses.Add(clause);
-					}
-					pointer = pointer + 34;
-					device.Children.Add(child);
-				}
-			}
+			//            #endregion
 
-			if ((pointer = DeviceRom[84] * 256 * 256 + DeviceRom[85] * 256 + DeviceRom[86]) != 0) // МРО-2
-			{
-				var count = DeviceRom[88] * 256 + DeviceRom[89]; // текущее число записей в таблице
-				pointer -= 0x100;
-				for (int i = 0; i < count; i++)
-				{
-					child = new Device();
-					child.ZoneLogic = new ZoneLogic();
-					child.ZoneLogic.Clauses = new List<Clause>();
-					child.DriverUID = new Guid("2d078d43-4d3b-497c-9956-990363d9b19b");
-					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
-					child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
-					// динамические параметры для базы (1) pointer + 5
-					var description =
-						new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
-					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
-					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
-					// общая длина записи (2) pointer + 27
-					// сырые параметры устройства МРО-2 (2) pointer + 28
-					// конфиг (1) pointer + 31
+			//            outAndOr = DeviceFlash[pointer + 36];
+			//            if (outAndOr == 0x01)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
+			//            if (outAndOr == 0x02)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+			//            int zonesCount = DeviceFlash[pointer + 37] * 256 + DeviceFlash[pointer + 38];
+			//            pointer += 5;
+			//            var clause = new Clause();
+			//            clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
+			//            if (inAndOr == 0x01)
+			//                clause.Operation = ZoneLogicOperation.All;
+			//            else
+			//                clause.Operation = ZoneLogicOperation.Any;
+			//            for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+			//            {
+			//                var localPointer = DeviceFlash[pointer + 34] * 256 * 256 +
+			//                                   DeviceFlash[pointer + 35] * 256 +
+			//                                   DeviceFlash[pointer + 36] - 0x100;
+			//                // ... здесь инициализируются все зоны учавствующие в логике ... //
+			//                var zone = new Zone();
+			//                zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34];
+			//                // Глобальный номер зоны
+			//                zone.Name =
+			//                    new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
+			//                zone.Name.Replace(" ", "");
+			//                zone.DevicesInZoneLogic.Add(child);
+			//                pointer += 3;
+			//                if (zones.FirstOrDefault(x => x.No == zone.No) != null)
+			//                // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+			//                {
+			//                    clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+			//                    continue;
+			//                }
 
-					/* Настройка логики */
-					byte outAndOr = 0x01;
-					while (outAndOr != 0)
-					{
-						byte inAndOr = DeviceFlash[pointer + 32];
-						// логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
-						byte eventType = DeviceFlash[pointer + 33];
-						// Тип события по которому срабатывать в этой группе зон (1)
-						outAndOr = DeviceFlash[pointer + 34];
-						if (outAndOr == 0x01)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
-						if (outAndOr == 0x02)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
-						int zonesCount = DeviceFlash[pointer + 35] * 256 + DeviceFlash[pointer + 36];
-						pointer += 5;
-						var clause = new Clause();
-						clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
-						if (inAndOr == 0x01)
-							clause.Operation = ZoneLogicOperation.All;
-						else
-							clause.Operation = ZoneLogicOperation.Any;
-						for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
-						{
-							var localPointer = DeviceFlash[pointer + 32] * 256 * 256 +
-											   DeviceFlash[pointer + 33] * 256 +
-											   DeviceFlash[pointer + 34] - 0x100;
-							// ... здесь инициализируются все зоны учавствующие в логике ... //
-							var zone = new Zone();
-							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34];
-							// Глобальный номер зоны
-							zone.Name =
-								new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
-							zone.Name.Replace(" ", "");
-							zone.DevicesInZoneLogic.Add(child);
-							pointer += 3;
-							if (zones.FirstOrDefault(x => x.No == zone.No) != null)
-							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-							{
-								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-								continue;
-							}
-							clause.ZoneUIDs.Add(zone.UID);
-							zones.Add(zone);
-							var zonePanelItem = new ZonePanelItem();
-							zonePanelItem.IsRemote = true;
-							zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5];
-							// локальный номер зоны
-							zonePanelItem.PanelDevice = device;
-							zonePanelItem.Zone = zone;
-							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-							remoteDeviceConfiguration.Zones.Add(zone);
-						}
-						child.ZoneLogic.Clauses.Add(clause);
-					}
-					pointer = pointer + 32;
-					device.Children.Add(child);
-				}
-			}
+			//                clause.ZoneUIDs.Add(zone.UID);
+			//                zones.Add(zone);
+			//                var zonePanelItem = new ZonePanelItem();
+			//                zonePanelItem.IsRemote = true;
+			//                zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5];
+			//                // локальный номер зоны
+			//                zonePanelItem.PanelDevice = device;
+			//                zonePanelItem.Zone = zone;
+			//                zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+			//                remoteDeviceConfiguration.Zones.Add(zone);
+			//            }
+			//            child.ZoneLogic.Clauses.Add(clause);
+			//        }
+			//        pointer = pointer + 34;
+			//        device.Children.Add(child);
+			//    }
+			//}
+			#endregion
+			#region MRO
+			//if ((pointer = DeviceRom[84] * 256 * 256 + DeviceRom[85] * 256 + DeviceRom[86]) != 0) // МРО-2
+			//{
+			//    var count = DeviceRom[88] * 256 + DeviceRom[89]; // текущее число записей в таблице
+			//    pointer -= 0x100;
+			//    for (int i = 0; i < count; i++)
+			//    {
+			//        child = new Device();
+			//        child.ZoneLogic = new ZoneLogic();
+			//        child.ZoneLogic.Clauses = new List<Clause>();
+			//        child.DriverUID = new Guid("2d078d43-4d3b-497c-9956-990363d9b19b");
+			//        child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
+			//        // адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
+			//        child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			//        // динамические параметры для базы (1) pointer + 5
+			//        var description =
+			//            new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+			//        Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+			//        // длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
+			//        // общая длина записи (2) pointer + 27
+			//        // сырые параметры устройства МРО-2 (2) pointer + 28
+			//        // конфиг (1) pointer + 31
 
-			if ((pointer = DeviceRom[144] * 256 * 256 + DeviceRom[145] * 256 + DeviceRom[146]) != 0) // МРО-2М
-			{
-				var count = DeviceRom[148] * 256 + DeviceRom[149]; // текущее число записей в таблице
-				pointer -= 0x100;
-				for (int i = 0; i < count; i++)
-				{
-					child = new Device();
-					child.ZoneLogic = new ZoneLogic();
-					child.ZoneLogic.Clauses = new List<Clause>();
-					child.DriverUID = new Guid("713702A8-E3A1-4328-9A43-DE9CB5167133");
-					child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
-					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
-					child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
-					// динамические параметры для базы (1) pointer + 5
-					var description =
-						new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
-					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
-					pointer = pointer + DeviceFlash[pointer + 26];// длина переменной части блока с конфигурацией и сырыми параметрами (1)
-					// общая длина записи (2) pointer + 27
+			//        /* Настройка логики */
+			//        byte outAndOr = 0x01;
+			//        while (outAndOr != 0)
+			//        {
+			//            byte inAndOr = DeviceFlash[pointer + 32];
+			//            // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
+			//            byte eventType = DeviceFlash[pointer + 33];
+			//            // Тип события по которому срабатывать в этой группе зон (1)
+			//            outAndOr = DeviceFlash[pointer + 34];
+			//            if (outAndOr == 0x01)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
+			//            if (outAndOr == 0x02)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+			//            int zonesCount = DeviceFlash[pointer + 35] * 256 + DeviceFlash[pointer + 36];
+			//            pointer += 5;
+			//            var clause = new Clause();
+			//            clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
+			//            if (inAndOr == 0x01)
+			//                clause.Operation = ZoneLogicOperation.All;
+			//            else
+			//                clause.Operation = ZoneLogicOperation.Any;
+			//            for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+			//            {
+			//                var localPointer = DeviceFlash[pointer + 32] * 256 * 256 +
+			//                                   DeviceFlash[pointer + 33] * 256 +
+			//                                   DeviceFlash[pointer + 34] - 0x100;
+			//                // ... здесь инициализируются все зоны учавствующие в логике ... //
+			//                var zone = new Zone();
+			//                zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34];
+			//                // Глобальный номер зоны
+			//                zone.Name =
+			//                    new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
+			//                zone.Name.Replace(" ", "");
+			//                zone.DevicesInZoneLogic.Add(child);
+			//                pointer += 3;
+			//                if (zones.FirstOrDefault(x => x.No == zone.No) != null)
+			//                // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+			//                {
+			//                    clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+			//                    continue;
+			//                }
+			//                clause.ZoneUIDs.Add(zone.UID);
+			//                zones.Add(zone);
+			//                var zonePanelItem = new ZonePanelItem();
+			//                zonePanelItem.IsRemote = true;
+			//                zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5];
+			//                // локальный номер зоны
+			//                zonePanelItem.PanelDevice = device;
+			//                zonePanelItem.Zone = zone;
+			//                zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+			//                remoteDeviceConfiguration.Zones.Add(zone);
+			//            }
+			//            child.ZoneLogic.Clauses.Add(clause);
+			//        }
+			//        pointer = pointer + 32;
+			//        device.Children.Add(child);
+			//    }
+			//}
+			#endregion
+			#region MRO-2M
+			//if ((pointer = DeviceRom[144] * 256 * 256 + DeviceRom[145] * 256 + DeviceRom[146]) != 0) // МРО-2М
+			//{
+			//    var count = DeviceRom[148] * 256 + DeviceRom[149]; // текущее число записей в таблице
+			//    pointer -= 0x100;
+			//    for (int i = 0; i < count; i++)
+			//    {
+			//        child = new Device();
+			//        child.ZoneLogic = new ZoneLogic();
+			//        child.ZoneLogic.Clauses = new List<Clause>();
+			//        child.DriverUID = new Guid("713702A8-E3A1-4328-9A43-DE9CB5167133");
+			//        child.Driver = Drivers.FirstOrDefault(x => x.UID == child.DriverUID);
+			//        // адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
+			//        child.IntAddress = DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			//        // динамические параметры для базы (1) pointer + 5
+			//        var description =
+			//            new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+			//        Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+			//        pointer = pointer + DeviceFlash[pointer + 26];// длина переменной части блока с конфигурацией и сырыми параметрами (1)
+			//        // общая длина записи (2) pointer + 27
 
-					/* Настройка логики */
-					byte outAndOr = 0x01;
-					while (outAndOr != 0)
-					{
-						var logic = new BitArray(new byte[] { DeviceFlash[pointer + 29] });
-						int inAndOr = Convert.ToInt32(logic[1]) * 2 + Convert.ToInt32(logic[0]);
-						var messageNo = Convert.ToInt32(logic[7]) * 8 + Convert.ToInt32(logic[6]) * 4 + Convert.ToInt32(logic[5]) * 2 + Convert.ToInt32(logic[4]);
-						var messageType = Convert.ToInt32(logic[3]);
-						// логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
-						byte eventType = DeviceFlash[pointer + 30];
-						// Тип события по которому срабатывать в этой группе зон (1)
-						outAndOr = DeviceFlash[pointer + 31];
-						if (outAndOr == 0x01)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
-						if (outAndOr == 0x02)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
-						int zonesCount = DeviceFlash[pointer + 32] * 256 + DeviceFlash[pointer + 33];
-						pointer += 5;
-						var clause = new Clause();
-						clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
-						if (inAndOr == 0x01)
-							clause.Operation = ZoneLogicOperation.All;
-						else
-							clause.Operation = ZoneLogicOperation.Any;
-						clause.ZoneLogicMROMessageNo = (ZoneLogicMROMessageNo)messageNo;
-						clause.ZoneLogicMROMessageType = (ZoneLogicMROMessageType)messageType;
-						for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
-						{
-							var localPointer = DeviceFlash[pointer + 29] * 256 * 256 +
-											   DeviceFlash[pointer + 30] * 256 +
-											   DeviceFlash[pointer + 31] - 0x100;
-							// ... здесь инициализируются все зоны учавствующие в логике ... //
-							var zone = new Zone();
-							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34];
-							// Глобальный номер зоны
-							zone.Name =
-								new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
-							zone.Name.Replace(" ", "");
-							zone.DevicesInZoneLogic.Add(child);
-							pointer += 3;
-							if (zones.FirstOrDefault(x => x.No == zone.No) != null)
-							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-							{
-								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-								continue;
-							}
-							clause.ZoneUIDs.Add(zone.UID);
-							zones.Add(zone);
-							var zonePanelItem = new ZonePanelItem();
-							zonePanelItem.IsRemote = true;
-							zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5];
-							// локальный номер зоны
-							zonePanelItem.PanelDevice = device;
-							zonePanelItem.Zone = zone;
-							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-							remoteDeviceConfiguration.Zones.Add(zone);
-						}
-						child.ZoneLogic.Clauses.Add(clause);
-					}
-					pointer = pointer + 29;
-					device.Children.Add(child);
-				}
-			}
+			//        /* Настройка логики */
+			//        byte outAndOr = 0x01;
+			//        while (outAndOr != 0)
+			//        {
+			//            var logic = new BitArray(new byte[] { DeviceFlash[pointer + 29] });
+			//            int inAndOr = Convert.ToInt32(logic[1]) * 2 + Convert.ToInt32(logic[0]);
+			//            var messageNo = Convert.ToInt32(logic[7]) * 8 + Convert.ToInt32(logic[6]) * 4 + Convert.ToInt32(logic[5]) * 2 + Convert.ToInt32(logic[4]);
+			//            var messageType = Convert.ToInt32(logic[3]);
+			//            // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
+			//            byte eventType = DeviceFlash[pointer + 30];
+			//            // Тип события по которому срабатывать в этой группе зон (1)
+			//            outAndOr = DeviceFlash[pointer + 31];
+			//            if (outAndOr == 0x01)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
+			//            if (outAndOr == 0x02)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+			//            int zonesCount = DeviceFlash[pointer + 32] * 256 + DeviceFlash[pointer + 33];
+			//            pointer += 5;
+			//            var clause = new Clause();
+			//            clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
+			//            if (inAndOr == 0x01)
+			//                clause.Operation = ZoneLogicOperation.All;
+			//            else
+			//                clause.Operation = ZoneLogicOperation.Any;
+			//            clause.ZoneLogicMROMessageNo = (ZoneLogicMROMessageNo)messageNo;
+			//            clause.ZoneLogicMROMessageType = (ZoneLogicMROMessageType)messageType;
+			//            for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+			//            {
+			//                var localPointer = DeviceFlash[pointer + 29] * 256 * 256 +
+			//                                   DeviceFlash[pointer + 30] * 256 +
+			//                                   DeviceFlash[pointer + 31] - 0x100;
+			//                // ... здесь инициализируются все зоны учавствующие в логике ... //
+			//                var zone = new Zone();
+			//                zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34];
+			//                // Глобальный номер зоны
+			//                zone.Name =
+			//                    new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
+			//                zone.Name.Replace(" ", "");
+			//                zone.DevicesInZoneLogic.Add(child);
+			//                pointer += 3;
+			//                if (zones.FirstOrDefault(x => x.No == zone.No) != null)
+			//                // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+			//                {
+			//                    clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+			//                    continue;
+			//                }
+			//                clause.ZoneUIDs.Add(zone.UID);
+			//                zones.Add(zone);
+			//                var zonePanelItem = new ZonePanelItem();
+			//                zonePanelItem.IsRemote = true;
+			//                zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5];
+			//                // локальный номер зоны
+			//                zonePanelItem.PanelDevice = device;
+			//                zonePanelItem.Zone = zone;
+			//                zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+			//                remoteDeviceConfiguration.Zones.Add(zone);
+			//            }
+			//            child.ZoneLogic.Clauses.Add(clause);
+			//        }
+			//        pointer = pointer + 29;
+			//        device.Children.Add(child);
+			//    }
+			//}
+			#endregion
+			#region Exit
+			//if ((pointer = DeviceRom[126] * 256 * 256 + DeviceRom[127] * 256 + DeviceRom[128]) != 0)
+			//{
+			//    var count = DeviceRom[130] * 256 + DeviceRom[131]; // текущее число записей в таблице
+			//    pointer -= 0x100;
+			//    groupDevice = new Device();
+			//    for (int i = 0; i < count; i++)
+			//    {
+			//        child = new Device();
+			//        child.ZoneLogic = new ZoneLogic();
+			//        child.ZoneLogic.Clauses = new List<Clause>();
+			//        child.Driver = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Exit);
+			//        child.DriverUID = child.Driver.UID;
+			//        // адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
+			//        child.IntAddress = DeviceFlash[pointer + 1];
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
+			//        child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
+			//        // динамические параметры для базы (1) pointer + 5
+			//        var description = new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
+			//        Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
+			//        // длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
+			//        // общая длина записи (2) pointer + 27
+			//        // сырые параметры (1) pointer + 29
+			//        // конфиг (1) pointer + 30
 
-			if ((pointer = DeviceRom[126] * 256 * 256 + DeviceRom[127] * 256 + DeviceRom[128]) != 0)
-			{
-				var count = DeviceRom[130] * 256 + DeviceRom[131]; // текущее число записей в таблице
-				pointer -= 0x100;
-				groupDevice = new Device();
-				for (int i = 0; i < count; i++)
-				{
-					child = new Device();
-					child.ZoneLogic = new ZoneLogic();
-					child.ZoneLogic.Clauses = new List<Clause>();
-					child.Driver = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Exit);
-					child.DriverUID = child.Driver.UID;
-					// адрес прибора привязки в сети (0 для локальной) (1) pointer + 0
-					child.IntAddress = DeviceFlash[pointer + 1];
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 3]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 4]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 29]);
-					child.InnerDeviceParameters.Add(DeviceFlash[pointer + 30]);
-					// динамические параметры для базы (1) pointer + 5
-					var description = new string(Encoding.Default.GetChars(DeviceFlash.GetRange(pointer + 6, 20).ToArray()));
-					Trace.WriteLine(child.PresentationAddressAndName + " { " + String.Join(" ", child.InnerDeviceParameters.Select(p => p.ToString("X2")).ToArray()) + " } ");
-					// длина переменной части блока с конфигурацией и сырыми параметрами (1) pointer + 26
-					// общая длина записи (2) pointer + 27
-					// сырые параметры (1) pointer + 29
-					// конфиг (1) pointer + 30
+			//        /* Настройка логики */
+			//        byte outAndOr = 0x01;
+			//        int tableDynamicSize = 0; // размер динамической части таблицы + 1
+			//        while (outAndOr != 0)
+			//        {
+			//            pointer = pointer + tableDynamicSize;
+			//            byte inAndOr = DeviceFlash[pointer + 31]; // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
+			//            byte eventType = DeviceFlash[pointer + 32]; // Тип события по которому срабатывать в этой группе зон (1)
+			//            outAndOr = DeviceFlash[pointer + 33];
+			//            if (outAndOr == 0x01)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
+			//            if (outAndOr == 0x02)
+			//                child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+			//            int zonesCount = DeviceFlash[pointer + 34] * 256 + DeviceFlash[pointer + 35];
+			//            tableDynamicSize += 5;
+			//            var clause = new Clause();
+			//            clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
+			//            if (inAndOr == 0x01)
+			//                clause.Operation = ZoneLogicOperation.All;
+			//            else
+			//                clause.Operation = ZoneLogicOperation.Any;
+			//            for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+			//            {
+			//                var localPointer = DeviceFlash[pointer + 36 + zoneNo * 3] * 256 * 256 +
+			//                                   DeviceFlash[pointer + 37 + zoneNo * 3] * 256 + DeviceFlash[pointer + 38 + zoneNo * 3] - 0x100;
+			//                // ... здесь инициализируются все зоны учавствующие в логике ... //
+			//                var zone = new Zone();
+			//                zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
+			//                zone.Name = new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
+			//                zone.Name.Replace(" ", "");
+			//                zone.DevicesInZoneLogic.Add(child);
+			//                tableDynamicSize += 3;
+			//                if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+			//                {
+			//                    clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+			//                    continue;
+			//                }
 
-					/* Настройка логики */
-					byte outAndOr = 0x01;
-					int tableDynamicSize = 0; // размер динамической части таблицы + 1
-					while (outAndOr != 0)
-					{
-						pointer = pointer + tableDynamicSize;
-						byte inAndOr = DeviceFlash[pointer + 31]; // логика внутри группы зон с одинаковым типом события 0x01 - "и", 0x02 - "или"
-						byte eventType = DeviceFlash[pointer + 32]; // Тип события по которому срабатывать в этой группе зон (1)
-						outAndOr = DeviceFlash[pointer + 33];
-						if (outAndOr == 0x01)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
-						if (outAndOr == 0x02)
-							child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
-						int zonesCount = DeviceFlash[pointer + 34] * 256 + DeviceFlash[pointer + 35];
-						tableDynamicSize += 5;
-						var clause = new Clause();
-						clause.State = GetDeviceConfigHelper.GetEventTypeByCode(eventType);
-						if (inAndOr == 0x01)
-							clause.Operation = ZoneLogicOperation.All;
-						else
-							clause.Operation = ZoneLogicOperation.Any;
-						for (int zoneNo = 0; zoneNo < zonesCount; zoneNo++)
-						{
-							var localPointer = DeviceFlash[pointer + 36 + zoneNo * 3] * 256 * 256 +
-											   DeviceFlash[pointer + 37 + zoneNo * 3] * 256 + DeviceFlash[pointer + 38 + zoneNo * 3] - 0x100;
-							// ... здесь инициализируются все зоны учавствующие в логике ... //
-							var zone = new Zone();
-							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
-							zone.Name = new string(Encoding.Default.GetChars(DeviceFlash.GetRange(localPointer + 6, 20).ToArray()));
-							zone.Name.Replace(" ", "");
-							zone.DevicesInZoneLogic.Add(child);
-							tableDynamicSize += 3;
-							if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-							{
-								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-								continue;
-							}
-
-							clause.ZoneUIDs.Add(zone.UID);
-							zones.Add(zone);
-							var zonePanelItem = new ZonePanelItem();
-							zonePanelItem.IsRemote = true;
-							zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5]; // локальный номер зоны
-							zonePanelItem.PanelDevice = device;
-							zonePanelItem.Zone = zone;
-							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-							remoteDeviceConfiguration.Zones.Add(zone);
-						}
-						pointer = pointer + 36 + zonesCount * 3;
-						child.ZoneLogic.Clauses.Add(clause);
-					}
-					device.Children.Add(child);
-				}
-			}
+			//                clause.ZoneUIDs.Add(zone.UID);
+			//                zones.Add(zone);
+			//                var zonePanelItem = new ZonePanelItem();
+			//                zonePanelItem.IsRemote = true;
+			//                zonePanelItem.No = DeviceFlash[localPointer + 4] * 256 + DeviceFlash[localPointer + 5]; // локальный номер зоны
+			//                zonePanelItem.PanelDevice = device;
+			//                zonePanelItem.Zone = zone;
+			//                zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+			//                remoteDeviceConfiguration.Zones.Add(zone);
+			//            }
+			//            pointer = pointer + 36 + zonesCount * 3;
+			//            child.ZoneLogic.Clauses.Add(clause);
+			//        }
+			//        device.Children.Add(child);
+			//    }
+			//}
+			#endregion
 
 			#endregion
 			#region Хидеры таблиц на не исполнительные устройства по типам
