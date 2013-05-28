@@ -90,7 +90,14 @@ namespace MonitorClientFS2
 		{
 			List<byte> bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-			return SendBytesAndParse(bytes, device);
+			FSJournalItem res;
+			for (int j = 0; j < 15; j++)
+			{
+				res = SendBytesAndParse(bytes, device);
+				if (res!= null)
+					return res; 
+			}
+			return null;
 		}
 
 		private static FSJournalItem ReadSecItem(Device device, int i)
@@ -102,19 +109,26 @@ namespace MonitorClientFS2
 
 		private static FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
 		{
-			var data = SendByteCommandSync(bytes, device);
-			//if (data != null && JournalParser.IsValidInput(data.Data))
-			//{
+			var data = SendByteCommand(bytes, device);
+			if (data == null)
+				return null;
 			lock (Locker)
 			{
 				return JournalParser.FSParce(data.Data);
 			}
-			//}
-			//else
-			//{
-			//    Trace.WriteLine("SendCode(bytes).Result.FirstOrDefault() == null");
-			//    return new FSJournalItem();
-			//}
+		}
+
+		static ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)
+		{
+			var bytes = new List<byte>();
+			bytes.Add(GetMSChannelByte(device));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
+			bytes.Add(0x01);
+			bytes.AddRange(commandBytes);
+			lock (Locker)
+			{
+				return ServerHelper.SendCode(bytes).Result.FirstOrDefault();
+			}
 		}
 
 		private static ServerFS2.Response SendByteCommandSync(List<byte> commandBytes, Device device)

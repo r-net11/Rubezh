@@ -122,6 +122,10 @@ namespace ServerFS2
 							{
 								Responses.Add(response);
 							}
+							else
+							{
+								;
+							}
 						}
 
 						AutoResetEvent.Set();

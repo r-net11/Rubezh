@@ -48,23 +48,12 @@ namespace MonitorClientFS2
 		{
 			while (DoMonitoring)
 			{
-				//foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsMonitoringAllowed))
-				//foreach (var monitoringDevice in MonitoringDevices)
-				//{
-				//    //if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
-				//    //{
-				//    //    //SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
-				//    //}
-				//    //else
-				//    //{
-				//    //    monitoringDevice.LastIndexRequest();
-				//    //}
-				//    monitoringDevice.RequestLastIndex();
-				//}
-				//MonitoringDevices.ForEach(x => x.CheckForBusy());
-
-				MonitoringDevices.FirstOrDefault(x => x.Device.Driver.DriverType == DriverType.Rubezh_2AM).RequestLastIndex();
-
+				foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsMonitoringAllowed))
+				{
+					//if (monitoringDevice.Device.IntAddress == 15 || monitoringDevice.Device.IntAddress == 16) 
+					monitoringDevice.RequestLastIndex();
+				}
+				
 				Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
 			}
 		}
@@ -95,10 +84,6 @@ namespace MonitorClientFS2
 				if (request.RequestType == RequestTypes.ReadIndex)
 				{
 					monitoringDevice.LastIndexReceived(response);
-				}
-				else if (request.RequestType == RequestTypes.ReadItem)
-				{
-					monitoringDevice.NewItemReceived(response);
 				}
 				//else if (request.RequestType == RequestTypes.SecReadIndex)
 				//{

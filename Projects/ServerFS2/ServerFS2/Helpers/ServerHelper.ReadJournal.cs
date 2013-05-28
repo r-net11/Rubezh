@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using Device = FiresecAPI.Models.Device;
 using FS2Api;
+using System.Threading;
+using ServerFS2.DataBase;
 
 namespace ServerFS2
 {
@@ -100,6 +102,7 @@ namespace ServerFS2
 
 		public static int GetLastJournalItemId(Device device)
 		{
+			Thread.Sleep(TimeSpan.FromSeconds(10));
 			var bytes = new List<byte>();
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 			bytes.Add(Convert.ToByte(device.IntAddress % 256));
@@ -129,7 +132,8 @@ namespace ServerFS2
 			{
 				secJournalItems = GetSecJournalItems2Op(device);
 			}
-			for (int i = firstindex; i <= lastindex; i++)
+			//for (int i = firstindex; i <= lastindex; i++)
+			for (int i = lastindex-10; i <= lastindex; i++)
 			{
 				var bytes = new List<byte>();
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
@@ -157,5 +161,7 @@ namespace ServerFS2
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
 		}
+
+		
 	}
 }
