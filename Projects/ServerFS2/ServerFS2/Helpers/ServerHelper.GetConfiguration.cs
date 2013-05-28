@@ -1132,7 +1132,7 @@ namespace ServerFS2
 		{
 			var packetLenght = IsUsbDevice ? 0x33 : 0xFF;
             var result = new List<byte>();
-            for (int i = 0x100; i < FlashDBLastIndex; i += packetLenght)
+            for (int i = 0x100; i < FlashDBLastIndex; i += packetLenght + 1)
 			{
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
                 if (IsUsbDevice)

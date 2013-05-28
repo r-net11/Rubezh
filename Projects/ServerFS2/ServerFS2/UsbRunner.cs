@@ -86,7 +86,6 @@ namespace ServerFS2
 				return;
 			IsMs = buffer[0] != 0;
 		    buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
-			buffer.RemoveRange(0, 1);
 			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)
