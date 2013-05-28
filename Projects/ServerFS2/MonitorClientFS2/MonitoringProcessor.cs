@@ -13,11 +13,9 @@ namespace MonitorClientFS2
 		List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
 		bool DoMonitoring;
 		DateTime StartTime;
-		//RequestManager RequestManager;
-
+		
 		public MonitoringProcessor()
 		{
-			//RequestManager = new RequestManager();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
@@ -50,24 +48,23 @@ namespace MonitorClientFS2
 		{
 			while (DoMonitoring)
 			{
-				//foreach (var deviceResponceRelation in DeviceResponceRelations.Where(x => !x.UnAnswered))
-				foreach (var monitoringDevice in MonitoringDevices)
-				{
-					//if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
-					//{
-					//    //SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
-					//}
-					//else
-					//lock (Locker)
-					//{
-					//    monitoringDevice.LastIndexRequest();
-					//}
-					monitoringDevice.RequestLastIndex();
-				}
+				//foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsMonitoringAllowed))
+				//foreach (var monitoringDevice in MonitoringDevices)
+				//{
+				//    //if (deviceResponceRelation.GetType() == typeof(SecDeviceResponceRelation))
+				//    //{
+				//    //    //SecLastIndexRequest((deviceResponceRelation as SecDeviceResponceRelation));
+				//    //}
+				//    //else
+				//    //{
+				//    //    monitoringDevice.LastIndexRequest();
+				//    //}
+				//    monitoringDevice.RequestLastIndex();
+				//}
+				//MonitoringDevices.ForEach(x => x.CheckForBusy());
 
-				//MonitoringDevices.FirstOrDefault().LastIndexRequest();
+				MonitoringDevices.FirstOrDefault(x => x.Device.Driver.DriverType == DriverType.Rubezh_2AM).RequestLastIndex();
 
-				Trace.WriteLine("");
 				Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
 			}
 		}
@@ -88,9 +85,6 @@ namespace MonitorClientFS2
 						{
 							request = requestsItem;
 							monitoringDevice = monitoringDevicesItem;
-
-							var timeSpan = DateTime.Now - request.StartTime;
-							//Trace.WriteLine("Responce timeSpan " + monitoringDevice.Device.PresentationAddress + " - " + timeSpan.TotalMilliseconds.ToString());
 						}
 					}
 				}
@@ -126,7 +120,6 @@ namespace MonitorClientFS2
 			Trace.WriteLine("testTime " + timeSpan);
 			foreach (var monitoringDevice in MonitoringDevices)
 			{
-				//Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
 				Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + (monitoringDevice.AnsweredCount / timeSpan.TotalSeconds).ToString() + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
 			}
 		}

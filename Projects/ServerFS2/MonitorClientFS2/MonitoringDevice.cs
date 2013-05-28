@@ -23,6 +23,25 @@ namespace MonitorClientFS2
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
 		public int FirstDisplayedRecord { get; set; }
+		public bool IsMonitoringAllowed { get; private set;}
+		
+		public void CheckForBusy()
+		{
+			lock (Locker)
+			{
+				foreach (var request in Requests)
+				{
+					if (request.RequestType == RequestTypes.ReadItem)
+					{
+						IsMonitoringAllowed = false;
+						return;
+					}
+				}
+				IsMonitoringAllowed = true;
+			}
+		}
+
+
 		int lastDisplayedRecord;
 		
 		public int AnsweredCount { get; set; }
@@ -92,7 +111,7 @@ namespace MonitorClientFS2
 			if (!NewItemValid(response))
 				return;
 			var journalItem = JournalParser.FSParce(response.Data);
-			Trace.WriteLine("ReadItem Responce " + Device.PresentationAddressAndName + " " + response.Id);
+			//Trace.WriteLine("ReadItem Responce " + Device.PresentationAddressAndName + " " + response.Id);
 			DBJournalHelper.AddJournalItem(journalItem);
 			OnNewItems(journalItem);
 		}
@@ -129,9 +148,10 @@ namespace MonitorClientFS2
 			if (lastDeviceRecord > LastDisplayedRecord)
 			{
 				Trace.WriteLine("Дочитываю записи с " + (LastDisplayedRecord + 1).ToString() + " до " + lastDeviceRecord.ToString());
+				JournalHelper.GetJournalItems(Device, lastDeviceRecord, lastDisplayedRecord);
 				//var thread = new Thread(() =>
 				//{
-				    NewItemRequests(lastDeviceRecord, LastDisplayedRecord);
+				//    NewItemRequests(lastDeviceRecord, LastDisplayedRecord);
 				//});
 				//thread.Start();
 			}
