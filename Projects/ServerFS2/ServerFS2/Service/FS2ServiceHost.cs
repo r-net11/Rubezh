@@ -14,7 +14,7 @@ namespace ServerFS2.Service
 	public class FS2ServiceHost
 	{
 		static ServiceHost ServiceHost;
-		static FS2Contract FS2Contract;
+		static FS2Contracr FS2Contract;
 
 		public static bool Start()
 		{
@@ -22,7 +22,7 @@ namespace ServerFS2.Service
 			{
 				Stop();
 
-				FS2Contract = new FS2Contract();
+				FS2Contract = new FS2Contracr();
 				ServiceHost = new ServiceHost(FS2Contract);
 
 				if (UACHelper.IsAdministrator)

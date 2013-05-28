@@ -119,6 +119,7 @@
     <Compile Include="Helpers\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
     <Compile Include="PatchManager.cs" />
+    <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="Request.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FS2Contract.cs" />
+    <Compile Include="Service\FS2Contracr.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="UsbRunner.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

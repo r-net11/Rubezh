@@ -146,11 +146,12 @@
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="CloseWindowHelper.cs" />
+    <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
-    <Compile Include="FSAgentLoadHelper.cs" />
+    <Compile Include="LoadHelper\FSAgentLoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigActualizeHelper.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
     <Compile Include="LicenseHelper.cs" />
@@ -160,9 +161,9 @@
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="RegistryHelper\RegistryHelper.cs" />
     <Compile Include="RegistrySettingsHelper.cs" />
-    <Compile Include="RevisorLoadHelper.cs" />
+    <Compile Include="LoadHelper\RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
-    <Compile Include="ServerLoadHelper.cs" />
+    <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="Services\Content\IContentService.cs" />
     <Compile Include="Services\Content\ContentService.cs" />
     <Compile Include="Services\DragDrop\TreeListDragDropDecorator.cs" />

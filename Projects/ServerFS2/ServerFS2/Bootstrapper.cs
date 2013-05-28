@@ -18,13 +18,13 @@ namespace ServerFS2
 		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
 		public static AutoResetEvent BootstrapperLoadEvent = new AutoResetEvent(false);
-		//static WatcherManager WatcherManager;
+		static WatcherManager WatcherManager;
 
 		public static void Run()
 		{
 			try
 			{
-				//DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
+				ConfigurationManager.Load();
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
@@ -43,8 +43,8 @@ namespace ServerFS2
 				UILogger.Log("Открытие хоста");
 				FS2ServiceHost.Start();
 				UILogger.Log("Соединение с драйвером");
-				//WatcherManager = new WatcherManager();
-				//WatcherManager.Start();
+				WatcherManager = new WatcherManager();
+				WatcherManager.Start();
 
 				if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
 				{
@@ -80,10 +80,10 @@ namespace ServerFS2
 		public static void Close()
 		{
 			FSAgentLoadHelper.SetStatus(FSAgentState.Closed);
-			//if (WatcherManager.Current != null)
-			//{
-			//    WatcherManager.Current.Stop();
-			//}
+			if (WatcherManager.Current != null)
+			{
+				WatcherManager.Current.Stop();
+			}
 			if (WindowThread != null)
 			{
 				WindowThread.Interrupt();

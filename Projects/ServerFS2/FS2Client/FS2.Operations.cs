@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FS2Api;
-using System.ServiceModel;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FS2Api;
 
-namespace ServerFS2.Service
+namespace FS2Client
 {
-	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
-	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public class FS2Contract : IFS2Contract
+	public partial class FS2
 	{
+		#region Main
+		public List<FS2Callbac> Poll(Guid clientUID)
+		{
+			return SafeOperationCall(() => { return FS2Contract.Poll(clientUID); }, "Poll");
+		}
+		public void CancelPoll(Guid clientUID)
+		{
+			SafeOperationCall(() => { FS2Contract.CancelPoll(clientUID); }, "CancelPoll");
+		}
+		public void CancelProgress()
+		{
+			SafeOperationCall(() => { FS2Contract.CancelProgress(); }, "CanceProgress");
+		}
+		#endregion
+
 		public OperationResult<bool> SetConfiguration(DeviceConfiguration deviceConfiguration)
 		{
 			throw new NotImplementedException();
@@ -41,6 +53,11 @@ namespace ServerFS2.Service
 		public OperationResult<DeviceConfiguration> ReadConfiguration(Guid deviceUID)
 		{
 			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> SynchronizeTime(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FS2Contract.SynchronizeTime(deviceUID); }, "SynchronizeTime");
 		}
 	}
 }

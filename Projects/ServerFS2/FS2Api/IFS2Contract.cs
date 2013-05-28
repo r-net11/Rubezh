@@ -9,6 +9,17 @@ namespace FS2Api
 	[ServiceContract]
 	public interface IFS2Contract
 	{
+		#region Main
+		[OperationContract]
+		List<FS2Callbac> Poll(Guid clientUID);
+
+		[OperationContract]
+		void CancelPoll(Guid clientUID);
+
+		[OperationContract]
+		void CancelProgress();
+		#endregion
+
 		[OperationContract]
 		OperationResult<bool> SetConfiguration(DeviceConfiguration deviceConfiguration);
 
@@ -26,5 +37,8 @@ namespace FS2Api
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> ReadConfiguration(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SynchronizeTime(Guid deviceUID);
 	}
 }
