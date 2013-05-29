@@ -10,16 +10,16 @@ namespace MonitorClientFS2
 {
 	public class MonitoringProcessor
 	{
-		List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
-		bool DoMonitoring;
-		DateTime StartTime;
+		static List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
+		public static bool DoMonitoring{get; set;}
+		static DateTime StartTime;
 		
-		public MonitoringProcessor()
+		static MonitoringProcessor()
 		{
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-					MonitoringDevices.Add(new SecDeviceResponceRelation(device));
+					MonitoringDevices.Add(new SecMonitoringDevice(device));
 				else
 					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
@@ -28,7 +28,7 @@ namespace MonitorClientFS2
 			StartMonitoring();
 		}
 
-		public void StartMonitoring()
+		public static void StartMonitoring()
 		{
 			if (!DoMonitoring)
 			{
@@ -39,33 +39,31 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public void StopMonitoring()
+		public static void StopMonitoring()
 		{
 			DoMonitoring = false;
 		}
 
-		void OnRun()
+		static void OnRun()
 		{
 			while (DoMonitoring)
 			{
-				foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsMonitoringAllowed))
+				foreach (var monitoringDevice in MonitoringDevices)
 				{
 					//if (monitoringDevice.Device.IntAddress == 15 || monitoringDevice.Device.IntAddress == 16) 
-					monitoringDevice.RequestLastIndex();
+						monitoringDevice.RequestLastIndex();
 				}
 				
 				Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
 			}
 		}
 
-		void UsbRunner_NewResponse(Response response)
+		static void UsbRunner_NewResponse(Response response)
 		{
 			MonitoringDevice monitoringDevice = null;
 			Request request = null;
 			lock (MonitoringDevice.Locker)
 			{
-				//var deviceResponceRelation = MonitoringDevices.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y != null && y.Id == response.Id) != null);
-
 				foreach (var monitoringDevicesItem in MonitoringDevices.ToList())
 				{
 					foreach (var requestsItem in monitoringDevicesItem.Requests.ToList())
@@ -97,7 +95,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public void WriteStats()
+		public static void WriteStats()
 		{
 			var timeSpan = DateTime.Now - StartTime;
 			Trace.WriteLine("betweenCyclesSpan "+MonitoringDevice.betweenCyclesSpan);

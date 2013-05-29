@@ -14,10 +14,9 @@ namespace MonitorClientFS2
 	{
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
-		//const int newItemRequestTimeout = 100;
 		public const int betweenDevicesSpan = 0;
 		public const int betweenCyclesSpan = 0;
-		public const int requestExpiredTime = 10;
+		public const int requestExpiredTime = 10; // in seconds
 		public static readonly object Locker = new object();
 
 		static int UsbRequestNo = 1;
@@ -33,19 +32,15 @@ namespace MonitorClientFS2
 			Device = device;
 			Requests = new List<Request>();
 			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+			//LastDisplayedRecord = -1;
 			FirstDisplayedRecord = -1;
-			IsMonitoringAllowed = true;
 		}		
 
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
 		public int FirstDisplayedRecord { get; set; }
-		public bool IsMonitoringAllowed { get; private set;}
 		public int AnsweredCount { get; set; }
-		public int UnAnsweredCount
-		{
-			get { return Requests.Count; }
-		}
+		public int UnAnsweredCount { get; set; }
 		public int LastDisplayedRecord
 		{
 			get { return lastDisplayedRecord; }
@@ -62,7 +57,8 @@ namespace MonitorClientFS2
 			{
 				if ((DateTime.Now - request.StartTime).TotalSeconds >= requestExpiredTime)
 				{
-					request.Expired = true;
+					Requests.Remove(request);
+					UnAnsweredCount++;
 				}
 			}
 		}
@@ -98,14 +94,14 @@ namespace MonitorClientFS2
 				FirstDisplayedRecord = lastDeviceRecord;
 			if (LastDisplayedRecord == -1)
 				LastDisplayedRecord = lastDeviceRecord;
-			Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
 			if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
 			{
 				LastDisplayedRecord = lastDeviceRecord - maxMessages;
 			}
 			if (lastDeviceRecord > LastDisplayedRecord)
 			{
-				//GetNewItems(lastDeviceRecord, lastDisplayedRecord);
+				Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
+				GetNewItems(lastDeviceRecord, lastDisplayedRecord);
 			}
 		}
 
@@ -118,33 +114,37 @@ namespace MonitorClientFS2
 		void GetNewItems(int lastDeviceRecord, int lastDisplayedRecord)
 		{
 			Trace.WriteLine("Дочитываю записи с " + LastDisplayedRecord.ToString() + " до " + lastDeviceRecord.ToString());
-			IsMonitoringAllowed = false;
+			MonitoringProcessor.StopMonitoring();
 			Thread.Sleep(1000);
 			Requests.RemoveAll(x => x.RequestType == RequestTypes.ReadIndex);
 			var thread = new Thread(()=>
 			{
-				var journalItems = JournalHelper.GetJournalItems(Device, lastDeviceRecord, lastDisplayedRecord);
+				List<FSJournalItem> journalItems;
+				journalItems = JournalHelper.GetJournalItems(Device, lastDeviceRecord, lastDisplayedRecord+1);
+				LastDisplayedRecord = lastDeviceRecord;
+				MonitoringProcessor.StartMonitoring();
 				foreach (var item in journalItems)
 				{
 					if (item == null)
 					{
 						Trace.WriteLine("Запись не считана");
 					}
+					else
+					{
+						DBJournalHelper.AddJournalItem(item);
+						OnNewItem(item);
+					}
 				}
-				DBJournalHelper.AddJournalItems(journalItems);
-				OnNewItems(journalItems);
-
-				IsMonitoringAllowed = true;
-				LastDisplayedRecord = lastDeviceRecord;
+				
 			});
 			thread.Start();
 		}
 
 	}
 
-	public class SecDeviceResponceRelation : MonitoringDevice
+	public class SecMonitoringDevice : MonitoringDevice
 	{
-		public SecDeviceResponceRelation(Device device)
+		public SecMonitoringDevice(Device device)
 		{
 			Device = device;
 			Requests = new List<Request>();
