@@ -8,7 +8,7 @@ using FS2Api;
 
 namespace FS2Client
 {
-	public partial class FS2
+	public partial class FS2ClientContract
 	{
 		public bool SuspendPoll = false;
 		Thread PollThread;

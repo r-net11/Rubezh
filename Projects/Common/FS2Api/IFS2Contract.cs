@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ServiceModel;
+using FiresecAPI;
+using FiresecAPI.Models;
+
+namespace FS2Api
+{
+	[ServiceContract]
+	public interface IFS2Contract
+	{
+		#region Main
+		[OperationContract]
+		List<FS2Callbac> Poll(Guid clientUID);
+
+		[OperationContract]
+		void CancelPoll(Guid clientUID);
+
+		[OperationContract]
+		void CancelProgress();
+		#endregion
+
+		#region Common
+		[OperationContract]
+		OperationResult<string> GetCoreConfig();
+
+		[OperationContract]
+		OperationResult<string> GetMetadata();
+		#endregion
+
+		#region Monitor
+		[OperationContract]
+		OperationResult<string> GetCoreState();
+
+		[OperationContract]
+		OperationResult<string> GetCoreDeviceParams();
+
+		[OperationContract]
+		OperationResult<string> ReadEvents(int fromId, int limit);
+
+		[OperationContract]
+		void AddToIgnoreList(List<Guid> deviceUIDs);
+
+		[OperationContract]
+		void RemoveFromIgnoreList(List<Guid> deviceUIDs);
+
+		[OperationContract]
+		void ResetStates(string states);
+
+		[OperationContract]
+		void SetZoneGuard(Guid deviceUID, string localZoneNo);
+
+		[OperationContract]
+		void UnSetZoneGuard(Guid deviceUID, string localZoneNo);
+
+		[OperationContract]
+		void AddUserMessage(string message);
+
+		[OperationContract]
+		OperationResult<string> ExecuteRuntimeDeviceMethod(Guid deviceUID, string methodName, string parameters);
+
+		[OperationContract]
+		OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
+
+		[OperationContract]
+		OperationResult<bool> CheckHaspPresence();
+		#endregion
+
+		#region Administrator
+		[OperationContract]
+		OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration);
+
+		[OperationContract]
+		OperationResult<bool> DeviceWriteConfig(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> DeviceSetPassword(Guid deviceUID, string password, int deviceUser);
+
+		[OperationContract]
+		OperationResult<bool> DeviceDatetimeSync(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<string> DeviceGetInformation(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<string> DeviceGetSerialList(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, string fileName);
+
+		[OperationContract]
+		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, string fileName);
+
+		[OperationContract]
+		OperationResult<string> DeviceReadConfig(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type);
+
+		[OperationContract]
+		OperationResult<string> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
+
+		[OperationContract]
+		OperationResult<string> DeviceCustomFunctionList(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName);
+
+		[OperationContract]
+		OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users);
+
+		[OperationContract]
+		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);
+		#endregion
+	}
+}

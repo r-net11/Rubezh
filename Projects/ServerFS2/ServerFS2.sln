@@ -27,11 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSAgentAPI", "..\FSAgent\FS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationViewer", "ConfigurationViewer\ConfigurationViewer.csproj", "{DF513081-0235-49C9-8C55-9566B26E2C00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS2API", "FS2Api\FS2API.csproj", "{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS2Client", "FS2Client\FS2Client.csproj", "{2F47B55E-AE00-45EC-8AC8-797159AC07B7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS2API", "..\Common\FS2Api\FS2API.csproj", "{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FS2Client", "..\Common\FS2Client\FS2Client.csproj", "{2F47B55E-AE00-45EC-8AC8-797159AC07B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -209,6 +209,18 @@ Global
 		{DF513081-0235-49C9-8C55-9566B26E2C00}.Release|x64.ActiveCfg = Release|x86
 		{DF513081-0235-49C9-8C55-9566B26E2C00}.Release|x86.ActiveCfg = Release|x86
 		{DF513081-0235-49C9-8C55-9566B26E2C00}.Release|x86.Build.0 = Release|x86
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -233,18 +245,6 @@ Global
 		{2F47B55E-AE00-45EC-8AC8-797159AC07B7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2F47B55E-AE00-45EC-8AC8-797159AC07B7}.Release|x64.ActiveCfg = Release|Any CPU
 		{2F47B55E-AE00-45EC-8AC8-797159AC07B7}.Release|x86.ActiveCfg = Release|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x64.ActiveCfg = Release|Any CPU
-		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -61,9 +61,6 @@ namespace DevicesModule
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-#if DEBUG
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(ClientFS2.ConfigurationManager).Assembly, "DataTemplates/Dictionary.xaml"));
-#endif
 		}
 		public override void Initialize()
 		{
@@ -108,18 +105,28 @@ namespace DevicesModule
 		{
 			try
 			{
-				LoadingService.DoStep("Загрузка драйвера устройств");
-				var connectionResult = FiresecManager.InitializeFiresecDriver(false);
-				if (connectionResult.HasError)
+				if (FiresecManager.IsFS2Enabled)
 				{
-					MessageBoxService.ShowError(connectionResult.Error);
-					return false;
+					LoadingService.DoStep("Инициализация драйвера устройств(FS2)");
+					FiresecManager.InitializeFS2();
+					LoadingService.DoStep("Старт мониторинга");
+					FiresecManager.FS2ClientContract.Start();
 				}
-				LoadingService.DoStep("Синхронизация конфигурации");
-				FiresecManager.FiresecDriver.Synchronyze(false);
-				LoadingService.DoStep("Старт мониторинга");
-				FiresecManager.FiresecDriver.StartWatcher(false, false);
-				FiresecManager.FSAgent.Start();
+				else
+				{
+					LoadingService.DoStep("Загрузка драйвера устройств");
+					var connectionResult = FiresecManager.InitializeFiresecDriver(false);
+					if (connectionResult.HasError)
+					{
+						MessageBoxService.ShowError(connectionResult.Error);
+						return false;
+					}
+					LoadingService.DoStep("Синхронизация конфигурации");
+					FiresecManager.FiresecDriver.Synchronyze(false);
+					LoadingService.DoStep("Старт мониторинга");
+					FiresecManager.FiresecDriver.StartWatcher(false, false);
+					FiresecManager.FSAgent.Start();
+				}
 			}
 			catch (FiresecException e)
 			{

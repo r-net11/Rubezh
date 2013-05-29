@@ -41,12 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FS2.Operations.cs" />
-    <Compile Include="FS2.Poll.cs" />
-    <Compile Include="FS2.SafeCall.cs" />
-    <Compile Include="FS2.cs" />
+    <Compile Include="FS2ClientContract.Operations.cs" />
+    <Compile Include="FS2ClientContract.Poll.cs" />
+    <Compile Include="FS2ClientContract.SafeCall.cs" />
+    <Compile Include="FS2ClientContract.cs" />
     <Compile Include="FS2Factory.cs" />
-    <Compile Include="FS2.Lifetime.cs" />
+    <Compile Include="FS2ClientContract.Lifetime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
