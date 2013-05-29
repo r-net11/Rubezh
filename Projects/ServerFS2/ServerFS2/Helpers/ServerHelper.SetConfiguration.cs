@@ -27,7 +27,7 @@ namespace ServerFS2
 
         private static void SetFlashConfig(Device device, List<byte> deviceFlash)
 		{
-			var begin = _deviceFlashFirstIndex / 0x100;
+			var begin = RomDBFirstIndex / 0x100;
             List<byte> bytes;
             for (int i = 0; i < deviceFlash.Count / 256; i++)
             {

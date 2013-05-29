@@ -28,7 +28,8 @@ namespace MonitorClientFS2
 			JournalItems = new ObservableCollection<FSJournalItem>();
 			MonitoringProcessor = new MonitoringProcessor();
 
-			MonitoringDevice.OnNewItems += new Action<FSJournalItem>(ShowNewItem);
+			MonitoringDevice.OnNewItem += new Action<FSJournalItem>(ShowNewItem);
+			MonitoringDevice.OnNewItems += new Action<List<FSJournalItem>>(ShowNewItems);
 
 			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			//{
@@ -55,6 +56,11 @@ namespace MonitorClientFS2
 			{
 				JournalItems.Add(journalItem);
 			}));
+		}
+
+		void ShowNewItems(List<FSJournalItem> journalItems)
+		{
+			journalItems.ForEach(x => ShowNewItem(x));
 		}
 
 		ObservableCollection<FSJournalItem> _journalItems;

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using FiresecAPI;
 using ServerFS2.DataBase;
+using FS2Api;
 
 namespace ServerFS2
 {
@@ -20,9 +21,9 @@ namespace ServerFS2
 			_bytes.RemoveRange(0, 7);
 		}
 
-		public JournalItem Parce()
+		public FS2JournalItem Parce()
 		{
-			JournalItem _journalItem = new JournalItem();
+			FS2JournalItem _journalItem = new FS2JournalItem();
 			foreach (var b in _allBytes)
 				_journalItem.ByteTracer += b.ToString("X2") + " ";
 			if (_bytes.Count < 32)

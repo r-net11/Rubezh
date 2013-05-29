@@ -74,13 +74,10 @@
     <Compile Include="DBHashHelper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Journal.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SyncronizeJournal.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PatchManager.cs" />
     <Compile Include="Service\CallbacManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FSAgentService.cs" />
+    <Compile Include="Service\FSAgentContract.cs" />
     <Compile Include="JournalConverter.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
@@ -107,10 +104,6 @@
     <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Firesec\NativeFiresecClient.SafeCall.cs" />
     <Compile Include="Firesec\SocketServerHelper.cs" />
-    <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

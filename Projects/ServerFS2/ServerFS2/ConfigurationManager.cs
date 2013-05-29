@@ -10,7 +10,6 @@ namespace ServerFS2
 	public static class ConfigurationManager
 	{
 		public static DeviceConfiguration DeviceConfiguration { get; set; }
-
 		public static DriversConfiguration DriversConfiguration { get; set; }
 
 		public static void Load()
@@ -22,7 +21,6 @@ namespace ServerFS2
 			var fileInfo = new FileInfo(configFileName);
 			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
 			if (!Directory.Exists(folderName))
-			//	Directory.Delete(folderName, true);
 			{
 				Directory.CreateDirectory(folderName);
 				File.Copy(serverConfigName, configFileName);

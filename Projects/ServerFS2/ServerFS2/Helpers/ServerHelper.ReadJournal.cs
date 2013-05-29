@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Device = FiresecAPI.Models.Device;
+using FS2Api;
+using System.Threading;
+using ServerFS2.DataBase;
 
 namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
-		public static JournalItem ParseJournal(List<byte> bytes)
+		public static FS2JournalItem ParseJournal(List<byte> bytes)
 		{
 			lock (Locker)
 			{
@@ -18,10 +21,10 @@ namespace ServerFS2
 			}
 		}
 
-		public static List<JournalItem> GetSecJournalItems2Op(Device device)
+		public static List<FS2JournalItem> GetSecJournalItems2Op(Device device)
 		{
 			int lastIndex = GetLastSecJournalItemId2Op(device);
-			var journalItems = new List<JournalItem>();
+			var journalItems = new List<FS2JournalItem>();
 			for (int i = 0; i <= lastIndex; i++)
 			{
 				var bytes = new List<byte>();
@@ -99,6 +102,7 @@ namespace ServerFS2
 
 		public static int GetLastJournalItemId(Device device)
 		{
+			Thread.Sleep(TimeSpan.FromSeconds(10));
 			var bytes = new List<byte>();
 			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
 			bytes.Add(Convert.ToByte(device.IntAddress % 256));
@@ -118,17 +122,18 @@ namespace ServerFS2
 			}
 		}
 
-		public static List<JournalItem> GetJournalItems(Device device)
+		public static List<FS2JournalItem> GetJournalItems(Device device)
 		{
 			int lastindex = GetLastJournalItemId(device);
 			int firstindex = GetFirstJournalItemId(device);
-			var journalItems = new List<JournalItem>();
-			var secJournalItems = new List<JournalItem>();
+			var journalItems = new List<FS2JournalItem>();
+			var secJournalItems = new List<FS2JournalItem>();
 			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
 			{
 				secJournalItems = GetSecJournalItems2Op(device);
 			}
-			for (int i = firstindex; i <= lastindex; i++)
+			//for (int i = firstindex; i <= lastindex; i++)
+			for (int i = lastindex-10; i <= lastindex; i++)
 			{
 				var bytes = new List<byte>();
 				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
@@ -156,5 +161,7 @@ namespace ServerFS2
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
 		}
+
+		
 	}
 }

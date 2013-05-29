@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Text;
 using System.ServiceModel;
-using Common;
-using FSAgentServer.ViewModels;
 using Infrastructure.Common;
+using Common;
 using Infrastructure.Common.BalloonTrayTip;
+using System.Net;
+using ServerFS2.ViewModels;
 
-namespace FSAgentServer
+namespace ServerFS2.Service
 {
-	public class FSAgentServiceHost
+	public class FS2ServiceHost
 	{
 		static ServiceHost ServiceHost;
-		static FSAgentContract FsAgentContract;
+		static FS2Contracr FS2Contract;
 
 		public static bool Start()
 		{
@@ -20,8 +22,8 @@ namespace FSAgentServer
 			{
 				Stop();
 
-				FsAgentContract = new FSAgentContract();
-				ServiceHost = new ServiceHost(FsAgentContract);
+				FS2Contract = new FS2Contracr();
+				ServiceHost = new ServiceHost(FS2Contract);
 
 				if (UACHelper.IsAdministrator)
 				{
@@ -44,8 +46,8 @@ namespace FSAgentServer
 		{
 			try
 			{
-				var netpipeAddress = "net.pipe://127.0.0.1/FSAgent/";
-				ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
+				var netpipeAddress = "net.pipe://127.0.0.1/FS2/";
+				ServiceHost.AddServiceEndpoint("FS2Api.IFS2Contract", Common.BindingHelper.CreateNetNamedPipeBinding(), new Uri(netpipeAddress));
 				UILogger.Log("Локальный адрес: " + netpipeAddress);
 			}
 			catch (Exception e)
@@ -61,8 +63,8 @@ namespace FSAgentServer
 				var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
-					var remoteAddress = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FSAgent/";
-					ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
+					var remoteAddress = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FS2/";
+					ServiceHost.AddServiceEndpoint("FS2Api.IFS2Contract", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
 					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
 			}

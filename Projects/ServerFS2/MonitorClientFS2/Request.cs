@@ -8,12 +8,14 @@ namespace MonitorClientFS2
 		public RequestTypes RequestType { get; set; }
 		public List<byte> Bytes { get; set; }
 		public DateTime StartTime { get; private set; }
+		public bool Expired { get; set; }
 
 		public Request(int id, RequestTypes requestType)
 		{
 			StartTime = DateTime.Now;
 			Id = id;
 			RequestType = requestType;
+			Expired = false;
 		}
 
 		public Request(int id, RequestTypes requestType, List<byte> bytes)
@@ -21,5 +23,6 @@ namespace MonitorClientFS2
 		{
 			Bytes = bytes;
 		}
+
 	}
 }

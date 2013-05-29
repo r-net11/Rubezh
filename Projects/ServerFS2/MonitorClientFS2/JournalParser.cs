@@ -13,6 +13,9 @@ namespace MonitorClientFS2
 	{
 		public static FSJournalItem FSParce(List<byte> _allBytes)
 		{
+			if (!IsValidInput(_allBytes))
+				return null;
+
 			List<byte> _bytes = new List<byte>(_allBytes);
 			_bytes.RemoveRange(0, 7);
 			FSJournalItem _fsjournalItem = new FSJournalItem();
@@ -69,7 +72,7 @@ namespace MonitorClientFS2
 			else
 				_fsjournalItem.DeviceName = "Неизвестное устройство";
 
-			_fsjournalItem.Detalization += EventDetalization(_bytes, _fsjournalItem);
+			_fsjournalItem.Detalization += GetEventDetalization(_bytes, _fsjournalItem);
 			_fsjournalItem.UserName = "Usr";
 			return _fsjournalItem;
 		}
@@ -79,7 +82,7 @@ namespace MonitorClientFS2
 			return bytes.Count > 20;
 		}
 
-		private static string EventDetalization(List<byte> _bytes, FSJournalItem _fsjournalItem)
+		private static string GetEventDetalization(List<byte> _bytes, FSJournalItem _fsjournalItem)
 		{
 			try
 			{
