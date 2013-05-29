@@ -43,14 +43,15 @@ namespace Common.GK
 			}
 		}
 
-		public static JournalItem AddMessage(string message)
+		public static JournalItem AddMessage(string message, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
 				DateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
-				Name = message
+				Name = message,
+				UserName = userName
 			};
 			Add(journalItem);
 			return journalItem;

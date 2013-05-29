@@ -104,11 +104,11 @@ namespace GKModule.ViewModels
 			switch (Alarm.AlarmType)
 			{
 				case XAlarmType.Fire1:
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Zone, 0x02);
+					ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
 					break;
 
 				case XAlarmType.Fire2:
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Zone, 0x03);
+					ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
 					break;
 			}
 		}
@@ -128,8 +128,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, XStateType.SetRegime_Automatic);
-					JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Alarm.Device);
+					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
 				}
 			}
 
@@ -137,7 +136,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Zone.ZoneState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Zone, XStateType.SetRegime_Automatic);
+					ObjectCommandSendHelper.SetAutomaticRegimeForZone(Alarm.Zone);
 				}
 			}
 
@@ -145,7 +144,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Direction.DirectionState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, XStateType.SetRegime_Automatic);
+					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
 				}
 			}
 		}
@@ -185,16 +184,14 @@ namespace GKModule.ViewModels
 			{
 				if (!Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, XStateType.SetRegime_Automatic);
-					JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Alarm.Device);
+					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
 			{
 				if (!Alarm.Direction.DirectionState.States.Contains(XStateType.Norm))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, XStateType.SetRegime_Automatic);
-					JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Alarm.Direction);
+					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
 				}
 			}
 		}
@@ -230,26 +227,30 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.On) || Alarm.Device.DeviceState.States.Contains(XStateType.TurningOn))
 				{
-					var code = 0x80;
-					if (Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
-						code += (int)XStateType.TurnOff_InAutomatic;
-					else
-						code += (int)XStateType.TurnOff_InManual;
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, (byte)code);
-					JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Alarm.Device);
+					//var code = 0x80;
+					//if (Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
+					//    code += (int)XStateType.TurnOff_InAutomatic;
+					//else
+					//    code += (int)XStateType.TurnOff_InManual;
+					//ObjectCommandSendHelper.SendControlCommand(Alarm.Device, (byte)code);
+					//JournaActionlHelper.Add("Команда оператора", "Выключение", XStateClass.Info, Alarm.Device);
+
+					ObjectCommandSendHelper.TurnOffDeviceAnyway(Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
 			{
 				if (Alarm.Direction.DirectionState.States.Contains(XStateType.On) || Alarm.Direction.DirectionState.States.Contains(XStateType.TurningOn))
 				{
-					var code = 0x80;
-					if (Alarm.Direction.DirectionState.States.Contains(XStateType.Norm))
-						code += (int)XStateType.TurnOff_InAutomatic;
-					else
-						code += (int)XStateType.TurnOff_InManual;
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, (byte)code);
-					JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Alarm.Direction);
+					//var code = 0x80;
+					//if (Alarm.Direction.DirectionState.States.Contains(XStateType.Norm))
+					//    code += (int)XStateType.TurnOff_InAutomatic;
+					//else
+					//    code += (int)XStateType.TurnOff_InManual;
+					//ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, (byte)code);
+					//JournaActionlHelper.Add("Команда оператора", "Выключение", XStateClass.Info, Alarm.Direction);
+
+					ObjectCommandSendHelper.TurnOffDirectionAnyway(Alarm.Direction);
 				}
 			}
 		}

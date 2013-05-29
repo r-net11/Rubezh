@@ -297,6 +297,7 @@ namespace GKModule.ViewModels
 
 	public class AUParameterValue : BaseViewModel
 	{
+		public XDevice Device { get; set; }
 		public string Name { get; set; }
 		public bool IsDelay { get; set; }
 

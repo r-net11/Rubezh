@@ -63,22 +63,19 @@ namespace GKModule.ViewModels
         public RelayCommand SetAutomaticStateCommand { get; private set; }
         void OnSetAutomaticState()
         {
-			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Automatic);
-			JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Device);
+			ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Device);
         }
 
         public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
         {
-			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Manual);
-			JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, Device);
+			ObjectCommandSendHelper.SetManualRegimeForDevice(Device);
         }
 
         public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
         {
-			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Off);
-			JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Device);
+			ObjectCommandSendHelper.SetIgnoreRegimeForDevice(Device);
         }
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
@@ -97,8 +94,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.Reset);
-			JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, Device);
+			ObjectCommandSendHelper.ResetDevice(Device);
 		}
 		bool CanReset()
 		{

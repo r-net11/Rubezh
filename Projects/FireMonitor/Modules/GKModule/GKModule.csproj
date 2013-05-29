@@ -115,6 +115,7 @@
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObjectCommandSendHelper.cs" />
+    <Compile Include="ParameterUpdateHelper.cs" />
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\XDevicePainter.cs" />
@@ -128,6 +129,8 @@
     <Compile Include="ShowOnPlanHelper.cs" />
     <Compile Include="ViewModels\DeviceControlRegime.cs" />
     <Compile Include="ViewModels\DeviceExecutableCommandViewModel.cs" />
+    <Compile Include="ViewModels\DeviceParametersViewModel.cs" />
+    <Compile Include="ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
@@ -136,6 +139,9 @@
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Views\DeviceParametersView.xaml.cs">
+      <DependentUpon>DeviceParametersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeviceStateView.xaml.cs">
       <DependentUpon>DeviceStateView.xaml</DependentUpon>
     </Compile>
@@ -255,6 +261,10 @@
       <SubType>Designer</SubType>
     </Resource>
     <Page Include="Views\DeviceDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

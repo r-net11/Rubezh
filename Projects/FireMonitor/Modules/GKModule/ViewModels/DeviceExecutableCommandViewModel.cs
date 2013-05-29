@@ -20,9 +20,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ExecuteControlCommand { get; private set; }
 		void OnExecuteControl()
 		{
-			var code = 0x80 + (int)StateType;
-			ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
-			JournaActionlHelper.Add("Команда оператора", StateType.ToDescription(), XStateClass.Info, Device);
+			ObjectCommandSendHelper.ExecuteDeviceCommand(Device, StateType);
+			//var code = 0x80 + (int)StateType;
+			//ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
+			//JournaActionlHelper.Add("Команда оператора", StateType.ToDescription(), XStateClass.Info, Device);
 		}
 	}
 }

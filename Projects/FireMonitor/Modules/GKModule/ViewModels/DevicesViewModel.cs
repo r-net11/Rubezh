@@ -104,10 +104,5 @@ namespace GKModule.ViewModels
 			}
             return deviceViewModel;
         }
-
-		public override void OnShow()
-		{
-			base.OnShow();
-		}
 	}
 }

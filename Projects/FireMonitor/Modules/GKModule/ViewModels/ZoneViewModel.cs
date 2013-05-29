@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.Reset);
+			ObjectCommandSendHelper.ResetZone(Zone);
 		}
 		bool CanResetFire()
 		{
@@ -70,7 +70,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.SetRegime_Off);
+			ObjectCommandSendHelper.SetIgnoreRegimeForZone(Zone);
 		}
 		bool CanSetIgnore()
 		{
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.SetRegime_Automatic);
+			ObjectCommandSendHelper.SetAutomaticRegimeForZone(Zone);
 		}
 		bool CanResetIgnore()
 		{

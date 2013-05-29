@@ -130,6 +130,7 @@
     <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\UserChangedEvent.cs" />
+    <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Services\ILayoutService.cs" />
