@@ -24,13 +24,16 @@
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
                             <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                            <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
                             <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
+                            <DataGridTextColumn Header="DeviceAddress" Binding="{Binding DeviceAddress}" />
+                            
                             <DataGridTextColumn Header="DeviceUID" Binding="{Binding DeviceUID}" />
                             <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
                             <DataGridTextColumn Header="PanelUID" Binding="{Binding PanelUID}" />
+                            <DataGridTextColumn Header="PanelAddress" Binding="{Binding PanelAddress}" />
                             <DataGridTextColumn Header="SubsystemType" Binding="{Binding SubsystemType}" />
                             <DataGridTextColumn Header="StateType" Binding="{Binding StateType}" />
-                            <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
                             <DataGridTextColumn Header="DeviceCategory" Binding="{Binding DeviceCategory}" />
                             <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
                         </DataGrid.Columns>

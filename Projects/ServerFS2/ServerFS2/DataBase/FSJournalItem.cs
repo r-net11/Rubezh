@@ -18,9 +18,13 @@ namespace ServerFS2.DataBase
 
 		public Guid DeviceUID { get; set; } //
 
+		public int DeviceAddress { get; set; }
+
 		public string PanelName { get; set; } //
 
 		public Guid PanelUID { get; set; } //
+
+		public int PanelAddress { get; set; }
 
 		public SubsystemType SubsystemType { get; set; } //
 

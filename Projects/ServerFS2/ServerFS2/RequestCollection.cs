@@ -18,7 +18,8 @@ namespace ServerFS2
 		{
 			lock (locker)
 			{
-				Requests.RemoveAll(x => (DateTime.Now - x.StartTime).TotalSeconds > 20);
+				//Requests.RemoveAll(x => (DateTime.Now - x.StartTime).TotalSeconds > 20);
+				Requests.Clear();
 			}
 		}
 

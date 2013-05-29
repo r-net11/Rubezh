@@ -69,7 +69,11 @@ namespace MonitorClientFS2
 		{
 			var journalItems = new List<FSJournalItem>();
 			for (int i = firstindex; i <= lastindex; i++)
-				journalItems.Add(ReadItem(device, i));
+			{
+				var journalItem = ReadItem(device, i);
+				journalItems.Add(journalItem);
+				MonitoringDevice.OnNewJournalItem(journalItem);
+			}
 			return journalItems;
 		}
 
@@ -86,7 +90,7 @@ namespace MonitorClientFS2
 			return GetJournalItems(device, GetLastJournalItemId(device), GetFirstJournalItemId(device));
 		}
 
-		private static FSJournalItem ReadItem(Device device, int i)
+		public static FSJournalItem ReadItem(Device device, int i)
 		{
 			List<byte> bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());

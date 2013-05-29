@@ -20,8 +20,14 @@ namespace MonitorClientFS2
 		public static readonly object Locker = new object();
 
 		static int UsbRequestNo = 1;
-		public static event Action<FSJournalItem> OnNewItem;
-		public static event Action<List<FSJournalItem>> OnNewItems;
+		public static event Action<FSJournalItem> NewJournalItem;
+		public static event Action<List<FSJournalItem>> JournalItems;
+
+		public static void OnNewJournalItem(FSJournalItem fsJournalItem)
+		{
+			if (NewJournalItem != null)
+				NewJournalItem(fsJournalItem);
+		}
 
 		public MonitoringDevice()
 		{
@@ -31,22 +37,25 @@ namespace MonitorClientFS2
 		{
 			Device = device;
 			Requests = new List<Request>();
-			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
-			//LastDisplayedRecord = -1;
-			FirstDisplayedRecord = -1;
-		}		
+			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
+			LastSystemIndex = -1;
+			FirstSystemIndex = -1;
+			IsReadingNeeded = false;
+		}
 
+		public int LastDeviceIndex { get; set; }
+		public bool IsReadingNeeded { get; set; }
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
-		public int FirstDisplayedRecord { get; set; }
+		public int FirstSystemIndex { get; set; }
 		public int AnsweredCount { get; set; }
 		public int UnAnsweredCount { get; set; }
-		public int LastDisplayedRecord
+		public int LastSystemIndex
 		{
-			get { return lastDisplayedRecord; }
+			get { return lastSystemIndex; }
 			set
 			{
-				lastDisplayedRecord = value;
+				lastSystemIndex = value;
 				XmlJournalHelper.SetLastId(Device, value);
 			}
 		}
@@ -63,7 +72,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		int lastDisplayedRecord;
+		int lastSystemIndex;
 		
 		public void SendRequest(Request request)
 		{
@@ -75,6 +84,17 @@ namespace MonitorClientFS2
 			Thread.Sleep(betweenDevicesSpan);
 		}
 
+		public bool CanRequestLastIndex = true;
+		public DateTime LastIndexDateTime;
+		public bool CanLastIndexBeRequested()
+		{
+			if ((DateTime.Now - LastIndexDateTime).TotalMilliseconds > 2000)
+			{
+				CanRequestLastIndex = true;
+			}
+			return CanRequestLastIndex;
+		}
+
 		public void RequestLastIndex()
 		{
 			lock (Locker)
@@ -82,62 +102,83 @@ namespace MonitorClientFS2
 				++UsbRequestNo;
 			}
 			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
+			CanRequestLastIndex = false;
+			LastIndexDateTime = DateTime.Now;
 			SendRequest(request);
 		}
 
 		public void LastIndexReceived(Response response)
 		{
+			CanRequestLastIndex = true;
 			if (!IsLastIndexValid(response))
+			{
 				return;
-			var lastDeviceRecord = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
-			if (FirstDisplayedRecord == -1)
-				FirstDisplayedRecord = lastDeviceRecord;
-			if (LastDisplayedRecord == -1)
-				LastDisplayedRecord = lastDeviceRecord;
-			if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
-			{
-				LastDisplayedRecord = lastDeviceRecord - maxMessages;
 			}
-			if (lastDeviceRecord > LastDisplayedRecord)
+			LastDeviceIndex = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
+			if (FirstSystemIndex == -1)
+				FirstSystemIndex = LastDeviceIndex;
+			if (LastSystemIndex == -1)
 			{
-				Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
-				GetNewItems(lastDeviceRecord, lastDisplayedRecord);
+				Trace.WriteLine(Device.PresentationAddressAndName + " LastDeviceIndex " + LastDeviceIndex);
+				LastSystemIndex = LastDeviceIndex;
+			}
+			if (LastDeviceIndex - LastSystemIndex > maxMessages)
+			{
+				LastSystemIndex = LastDeviceIndex - maxMessages;
+			}
+			//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
+			if (LastDeviceIndex > LastSystemIndex)
+			{
+				foreach (var dataItem in response.Data)
+				{
+					Trace.Write(dataItem + " ");
+				}
+				Trace.WriteLine("");
+				Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
+				IsReadingNeeded = true;
+			}
+			if (LastDeviceIndex < lastSystemIndex)
+			{
+				foreach (var dataItem in response.Data)
+				{
+					Trace.Write(dataItem + " ");
+				}
+				Trace.WriteLine("");
 			}
 		}
 
 		bool IsLastIndexValid(Response response)
 		{
-			return response.Data.Count() >= 10;
+			if (response.Data[6] == 192)
+				throw new Exception("Ошибка считывания индекса");
+			return (response.Data.Count() == 11 &&
+				response.Data[5] == Device.IntAddress &&
+				response.Data[6] == 65);
 		}
 		
 
-		void GetNewItems(int lastDeviceRecord, int lastDisplayedRecord)
+		public void GetNewItems()
 		{
-			Trace.WriteLine("Дочитываю записи с " + LastDisplayedRecord.ToString() + " до " + lastDeviceRecord.ToString());
-			MonitoringProcessor.StopMonitoring();
-			Thread.Sleep(1000);
+			Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
 			Requests.RemoveAll(x => x.RequestType == RequestTypes.ReadIndex);
-			var thread = new Thread(()=>
+			var journalItems = new List<FSJournalItem>();
+			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
 			{
-				List<FSJournalItem> journalItems;
-				journalItems = JournalHelper.GetJournalItems(Device, lastDeviceRecord, lastDisplayedRecord+1);
-				LastDisplayedRecord = lastDeviceRecord;
-				MonitoringProcessor.StartMonitoring();
-				foreach (var item in journalItems)
+				var journalItem = JournalHelper.ReadItem(Device, i);
+				if (journalItem == null)
 				{
-					if (item == null)
-					{
-						Trace.WriteLine("Запись не считана");
-					}
-					else
-					{
-						DBJournalHelper.AddJournalItem(item);
-						OnNewItem(item);
-					}
+					Trace.WriteLine("Запись не считана");
 				}
+				else
+				{
+					MonitoringDevice.OnNewJournalItem(journalItem);
+					DBJournalHelper.AddJournalItem(journalItem);
+				}
+				journalItems.Add(journalItem);
 				
-			});
-			thread.Start();
+			}
+			LastSystemIndex = LastDeviceIndex;
+			IsReadingNeeded = false;
 		}
 
 	}
@@ -148,9 +189,9 @@ namespace MonitorClientFS2
 		{
 			Device = device;
 			Requests = new List<Request>();
-			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+			LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
-			FirstDisplayedRecord = -1;
+			FirstSystemIndex = -1;
 		}
 
 		int lastDisplayedSecRecord;

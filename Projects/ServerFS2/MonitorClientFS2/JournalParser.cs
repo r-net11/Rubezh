@@ -35,13 +35,26 @@ namespace MonitorClientFS2
 			_fsjournalItem.DeviceCategory = _bytes[7];
 
 			var PanelAddress = _allBytes[5];
-			var Panel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.AddressFullPath == PanelAddress.ToString());
+			var Panel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.IntAddress == PanelAddress && x.Driver.IsPanel);
 			_fsjournalItem.PanelName = Panel.Driver.Name;
-			_fsjournalItem.PanelUID = Panel.Driver.UID;
+			_fsjournalItem.PanelUID = Panel.UID;
+			_fsjournalItem.PanelAddress = PanelAddress;
+
+			var DeviceAddress = _allBytes[15];
+			var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.IntAddress == DeviceAddress + 256*ShleifNo && x.ParentPanel == Panel);
+			_fsjournalItem.DeviceName = device.Driver.Name;
+			_fsjournalItem.DeviceUID = device.UID;
+			_fsjournalItem.DeviceAddress = DeviceAddress;
+
 			_fsjournalItem.SubsystemType = GetSubsystemType(Panel);
 
+
+
 			var byteState = _bytes[9];
-			_fsjournalItem.StateType = (StateType)byteState;
+			if (byteState <= 8)
+				_fsjournalItem.StateType = (StateType)byteState;
+			else
+				_fsjournalItem.StateType = StateType.No;
 
 			// Системная неисправность
 			if (_bytes[0] == 0x0D && byteState == 0x20)
@@ -57,20 +70,20 @@ namespace MonitorClientFS2
 			// Потеря связи с мониторинговой станцией (БИ, ПДУ, УОО-ТЛ, МС-1, МС-2)
 			_fsjournalItem.Detalization += LostConnection(_bytes);
 
-			_fsjournalItem.DeviceUID = MetadataHelper.GetUidById((ushort)_fsjournalItem.DeviceCategory);
+			//_fsjournalItem.DeviceUID = MetadataHelper.GetUidById((ushort)_fsjournalItem.DeviceCategory);
 			var deviceUid = _fsjournalItem.DeviceUID.ToString().ToUpper();
 
-			var device = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(deviceUid))));
+			var _device = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => ((x.deviceDriverID != null) && (x.deviceDriverID.Equals(deviceUid))));
 
-			if (device != null)
-			{
-				if (_fsjournalItem.DeviceCategory == 1)
-					_fsjournalItem.DeviceName = "АСПТ " + (ShleifNo - 1) + ".";
-				else
-					_fsjournalItem.DeviceName = device.shortName;
-			}
-			else
-				_fsjournalItem.DeviceName = "Неизвестное устройство";
+			//if (_device != null)
+			//{
+			//    if (_fsjournalItem.DeviceCategory == 1)
+			//        _fsjournalItem.DeviceName = "АСПТ " + (ShleifNo - 1) + ".";
+			//    else
+			//        _fsjournalItem.DeviceName = _device.shortName;
+			//}
+			//else
+			//    _fsjournalItem.DeviceName = "Неизвестное устройство";
 
 			_fsjournalItem.Detalization += GetEventDetalization(_bytes, _fsjournalItem);
 			_fsjournalItem.UserName = "Usr";
