@@ -5,13 +5,16 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Device = FiresecAPI.Models.Device;
+using Infrastructure.Common;
+using Ionic.Zip;
+using System.Text;
 
 namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
-	    private static List<byte> _crc;
-        private static void SetRomConfig(Device device, List<byte> deviceRom)
+	    static List<byte> _crc;
+        static void SetRomConfig(Device device, List<byte> deviceRom)
 		{
             deviceRom.RemoveRange(0, 0x100);
 		    _crc = new List<byte>(){deviceRom[0], deviceRom[1]};
@@ -24,6 +27,24 @@ namespace ServerFS2
             device.AddressOnShleif, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x01, _crc[0], _crc[1]);
 			SendCode(bytes);
         }
+
+		public static List<byte> GetFirmwhareBytes(Device device)
+		{
+			var firmwhareFileName = AppDataFolderHelper.GetServerAppDataPath("frm.zip");
+			var folderName = AppDataFolderHelper.GetFolder("Server");
+			var configFileName = Path.Combine(folderName, "frm.zip");
+			var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+			var fileInfo = new FileInfo(configFileName);
+			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+			if (Directory.Exists(unzipFolderPath))
+				Directory.Delete(unzipFolderPath, true);
+			zipFile.ExtractAll(unzipFolderPath);
+
+			var fileName = device.Driver.ShortName + ".hex";
+			var configurationFileName = Path.Combine(unzipFolderPath, fileName);
+			var bytes = File.ReadAllBytes(configurationFileName);
+			return bytes.ToList();
+		}
 
         private static void SetFlashConfig(Device device, List<byte> deviceFlash)
 		{

@@ -183,6 +183,8 @@ namespace ClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		private void OnWriteConfiguration()
 		{
+			var bytes = ServerHelper.GetFirmwhareBytes(DevicesViewModel.SelectedDevice.Device);
+
 			var configurationWriterHelper = new SystemDatabaseCreator();
 			configurationWriterHelper.Run();
 
@@ -196,7 +198,7 @@ namespace ClientFS2.ViewModels
 		}
 		bool CanWriteConfiguration()
 		{
-			return true;
+			return DevicesViewModel.SelectedDevice != null;
 		}
 	}
 }
