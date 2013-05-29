@@ -18,26 +18,27 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Devices}" Margin="2">
+            <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding PumpDevices}" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Устройство">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" Width="200" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding DottedAddress}" Width="*" />
-                    <DataGridTemplateColumn Header="Тип">
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" Width="Auto" />
+                    <DataGridTemplateColumn Header="Тип" Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding AvailablePumpStationPumpTypes}" SelectedItem="{Binding SelectedPumpStationPumpType}">
+                                <ComboBox ItemsSource="{Binding AvailablePumpStationPumpTypes}" SelectedItem="{Binding SelectedPumpStationPumpType, UpdateSourceTrigger=PropertyChanged}"
+                                          Visibility="{Binding HasPumpType, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource XPumpStationPumpTypeToStringConverter}}" />
+                                            <TextBlock Text="{Binding ., Converter={StaticResource XPumpStationPumpTypeToStringConverter}}" Foreground="Black" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
@@ -62,92 +63,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Жокей насос" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Компрессор" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Дренажный насос" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="НКУ" HorizontalAlignment="Right" Foreground="White" Margin="5, 2" />
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Интервал разновременного пуска, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Количество основных насосов" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Интервал разновременного пуска, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5, 2" />
 
-            <TextBlock Grid.Row="0" Grid.Column="1">
-                <Hyperlink Command="{Binding ChooseJokeyPumpCommand}" Style="{StaticResource HyperlinkStyle}">
-                    <TextBlock Text="{Binding JokeyPumpDevice.ShortPresentationAddressAndDriver}" />
-                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
-                        <TextBlock.Style>
-                            <Style>
-                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                <DataTrigger Binding="{Binding JokeyPumpDevice}" Value="{x:Null}">
-                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Hyperlink>
-            </TextBlock>
-
-            <TextBlock Grid.Row="1" Grid.Column="1">
-                <Hyperlink Command="{Binding ChooseCompressorPumpCommand}" Style="{StaticResource HyperlinkStyle}">
-                    <TextBlock Text="{Binding CompressorPumpDevice.ShortPresentationAddressAndDriver}" />
-                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
-                        <TextBlock.Style>
-                            <Style>
-                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                <DataTrigger Binding="{Binding CompressorPumpDevice}" Value="{x:Null}">
-                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Hyperlink>
-            </TextBlock>
-
-            <TextBlock Grid.Row="2" Grid.Column="1">
-                <Hyperlink Command="{Binding ChooseDrenajPumpCommand}" Style="{StaticResource HyperlinkStyle}">
-                    <TextBlock Text="{Binding DrenajPumpDevice.ShortPresentationAddressAndDriver}" />
-                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
-                        <TextBlock.Style>
-                            <Style>
-                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                <DataTrigger Binding="{Binding DrenajPumpDevice}" Value="{x:Null}">
-                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Hyperlink>
-            </TextBlock>
-
-            <TextBlock Grid.Row="3" Grid.Column="1">
-                <Hyperlink Command="{Binding ChooseCompensationPumpCommand}" Style="{StaticResource HyperlinkStyle}">
-                    <TextBlock Text="{Binding CompensationPumpDevice.ShortPresentationAddressAndDriver}" />
-                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
-                        <TextBlock.Style>
-                            <Style>
-                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                <DataTrigger Binding="{Binding CompensationPumpDevice}" Value="{x:Null}">
-                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Hyperlink>
-            </TextBlock>
-
-            <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding PumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-            <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding DelayTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+            <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+            <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding DelayTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
         </Grid>
     </Grid>
 </UserControl>

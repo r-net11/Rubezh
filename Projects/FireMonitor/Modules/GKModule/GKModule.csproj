@@ -92,6 +92,7 @@
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
+    <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="ShowOnPlanHelper.cs" />
     <Compile Include="ViewModels\DeviceControlRegime.cs" />
     <Compile Include="ViewModels\DeviceExecutableCommandViewModel.cs" />
+    <Compile Include="ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />

@@ -16,18 +16,19 @@ namespace GKModule.ViewModels
     public class ArchiveViewModel : ViewPartViewModel
     {
         public static DateTime ArchiveFirstDate { get; private set; }
-        ArchiveDefaultState _archiveDefaultState;
-        XArchiveFilter _archiveFilter;
-        Thread _updateThread;
+        ArchiveDefaultState ArchiveDefaultState;
+        XArchiveFilter ArchiveFilter;
+        Thread UpdateThread;
+        bool FirstTime = true;
 
         public ArchiveViewModel()
         {
             ShowFilterCommand = new RelayCommand(OnShowFilter);
             ShowSettingsCommand = new RelayCommand(OnShowSettings);
 
-            _archiveDefaultState = ClientSettings.ArchiveDefaultState;
-            if (_archiveDefaultState == null)
-                _archiveDefaultState = new ArchiveDefaultState();
+            ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
+            if (ArchiveDefaultState == null)
+                ArchiveDefaultState = new ArchiveDefaultState();
         }
 
         public void Initialize()
@@ -72,27 +73,27 @@ namespace GKModule.ViewModels
 
         public bool IsFilterExists
         {
-            get { return _archiveFilter != null; }
+            get { return ArchiveFilter != null; }
         }
 
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            if (_archiveFilter == null)
-                _archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+            if (ArchiveFilter == null)
+                ArchiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
             ArchiveFilterViewModel archiveFilterViewModel = null;
 
             var result = WaitHelper.Execute(() =>
             {
-                archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+                archiveFilterViewModel = new ArchiveFilterViewModel(ArchiveFilter);
             });
 
             if (result)
             {
                 if (DialogService.ShowModalWindow(archiveFilterViewModel))
                 {
-                    _archiveFilter = archiveFilterViewModel.GetModel();
+                    ArchiveFilter = archiveFilterViewModel.GetModel();
                     OnPropertyChanged("IsFilterExists");
                     IsFilterOn = true;
                 }
@@ -104,11 +105,11 @@ namespace GKModule.ViewModels
         {
             try
             {
-                var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
+                var archiveSettingsViewModel = new ArchiveSettingsViewModel(ArchiveDefaultState);
                 if (DialogService.ShowModalWindow(archiveSettingsViewModel))
                 {
-                    _archiveDefaultState = archiveSettingsViewModel.GetModel();
-                    ClientSettings.ArchiveDefaultState = _archiveDefaultState;
+                    ArchiveDefaultState = archiveSettingsViewModel.GetModel();
+                    ClientSettings.ArchiveDefaultState = ArchiveDefaultState;
                     if (IsFilterOn == false)
                         Update(true);
                 }
@@ -171,16 +172,16 @@ namespace GKModule.ViewModels
         {
             if (abortRunnig)
             {
-                if (_updateThread != null)
-                    _updateThread.Abort();
-                _updateThread = null;
+                if (UpdateThread != null)
+                    UpdateThread.Abort();
+                UpdateThread = null;
             }
-            if (_updateThread == null)
+            if (UpdateThread == null)
             {
                 Status = "Загрузка данных";
                 JournalItems = new ObservableCollection<JournalItemViewModel>();
-                _updateThread = new Thread(new ThreadStart(OnUpdate));
-                _updateThread.Start();
+                UpdateThread = new Thread(new ThreadStart(OnUpdate));
+                UpdateThread.Start();
             }
         }
 
@@ -190,9 +191,9 @@ namespace GKModule.ViewModels
             {
                 XArchiveFilter archiveFilter = null;
                 if (IsFilterOn)
-                    archiveFilter = _archiveFilter;
+                    archiveFilter = ArchiveFilter;
                 else
-                    archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+                    archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
 				var journalRecords = GKDBHelper.Select(archiveFilter);
 				Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
@@ -201,7 +202,7 @@ namespace GKModule.ViewModels
             {
 				Logger.Error(e, "ArchiveViewModel.OnUpdate");
             }
-            _updateThread = null;
+            UpdateThread = null;
         }
 
         void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
@@ -219,7 +220,11 @@ namespace GKModule.ViewModels
 
         public override void OnShow()
         {
-            Update(false);
+            if (FirstTime)
+            {
+                FirstTime = false;
+                Update(false);
+            }
         }
     }
 }

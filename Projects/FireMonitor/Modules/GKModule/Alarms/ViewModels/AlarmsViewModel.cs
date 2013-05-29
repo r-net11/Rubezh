@@ -192,7 +192,8 @@ namespace GKModule.ViewModels
 
 				if (device.DeviceState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(device, 0x06);
+					ObjectCommandSendHelper.SendControlCommand(device, XStateType.SetRegime_Automatic);
+					JournaActionlHelper.Add("Команда оператора", "Снятие отключения", XStateClass.Info, device);
 				}
 			}
 
@@ -200,7 +201,8 @@ namespace GKModule.ViewModels
 			{
 				if (zone.ZoneState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(zone, 0x06);
+					ObjectCommandSendHelper.SendControlCommand(zone, XStateType.SetRegime_Automatic);
+					JournaActionlHelper.Add("Команда оператора", "Снятие отключения", XStateClass.Info, zone);
 				}
 			}
 
@@ -208,7 +210,8 @@ namespace GKModule.ViewModels
 			{
 				if (direction.DirectionState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(direction, 0x06);
+					ObjectCommandSendHelper.SendControlCommand(direction, XStateType.SetRegime_Automatic);
+					JournaActionlHelper.Add("Команда оператора", "Снятие отключения", XStateClass.Info, direction);
 				}
 			}
 		}
@@ -245,10 +248,12 @@ namespace GKModule.ViewModels
 				if (zone.ZoneState.States.Contains(XStateType.Fire1))
 				{
 					ObjectCommandSendHelper.SendControlCommand(zone, 0x02);
+					JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, zone);
 				}
 				if (zone.ZoneState.States.Contains(XStateType.Fire2))
 				{
-					ObjectCommandSendHelper.SendControlCommand(zone, 0x03);
+					ObjectCommandSendHelper.SendControlCommand(zone, 0x02);
+					JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, zone);
 				}
 			}
 		}

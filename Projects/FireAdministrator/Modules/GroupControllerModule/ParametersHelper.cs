@@ -28,7 +28,7 @@ namespace GKModule
 							var result = GetDeviceParameters(kauDatabase, binaryObject);
 							if (!result)
 							{
-								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + binaryObject.Device.ShortPresentationAddressAndDriver);
+								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + binaryObject.Device.PresentationDriverAndAddress);
 								return;
 							}
 						}
@@ -61,7 +61,7 @@ namespace GKModule
 							var result = SetDeviceParameters(kauDatabase, binaryObject);
 							if (!string.IsNullOrEmpty(result))
 							{
-								MessageBoxService.ShowError("Ошибка при записи параметра устройства " + binaryObject.Device.ShortPresentationAddressAndDriver + "\n" + result);
+								MessageBoxService.ShowError("Ошибка при записи параметра устройства " + binaryObject.Device.PresentationDriverAndAddress + "\n" + result);
 								return;
 							}
 						}
@@ -101,7 +101,7 @@ namespace GKModule
 						var result = SetDeviceParameters(commonDatabase, binaryObject);
 						if (!string.IsNullOrEmpty(result))
 						{
-							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.ShortPresentationAddressAndDriver + "\n" + result);
+							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.PresentationDriverAndAddress + "\n" + result);
 						}
 					}
 				}
@@ -139,7 +139,7 @@ namespace GKModule
 						var result = GetDeviceParameters(commonDatabase, binaryObject);
 						if (!result)
 						{
-							MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.ShortPresentationAddressAndDriver);
+							MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.PresentationDriverAndAddress);
 						}
 					}
 				}

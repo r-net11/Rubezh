@@ -222,7 +222,7 @@
 						</TextBlock>
 					</WrapPanel>
 					<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasAUProperties, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding HasAUProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding GetAUPropertiesCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" />
                         <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding SetAUPropertiesCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры в устройство" />
                         <Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetAUPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />

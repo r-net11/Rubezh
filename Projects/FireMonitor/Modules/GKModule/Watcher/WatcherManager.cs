@@ -79,15 +79,15 @@ namespace GKModule
 			}
 		}
 
-		static void OnUserChanged(bool isReconnect)
+		public static void OnUserChanged(bool isReconnect)
 		{
-			GKDBHelper.AddMessage("Вход пользователя в систему");
 			var journalItem = new JournalItem()
 			{
 				DateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Info,
-				Name = isReconnect ? "Смена пользователя" : "Вход пользователя в систему"
+				Name = isReconnect ? "Смена пользователя" : "Вход пользователя в систему",
+				UserName = FiresecManager.CurrentUser.Name
 			};
 			if (isReconnect)
 			{
@@ -99,6 +99,7 @@ namespace GKModule
 				journalItem.Name = "Вход пользователя в систему";
 				journalItem.Description = "";
 			}
+			GKDBHelper.Add(journalItem);
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem }); });
 		}
 	}

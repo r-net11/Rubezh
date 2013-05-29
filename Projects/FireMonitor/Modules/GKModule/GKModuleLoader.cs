@@ -141,6 +141,8 @@ namespace GKModule
             XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DatabaseManager.Convert();
+			if (firstTime)
+				WatcherManager.OnUserChanged(false);
 			return true;
 		}
 

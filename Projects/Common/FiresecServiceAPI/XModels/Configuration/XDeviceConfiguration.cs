@@ -157,6 +157,8 @@ namespace XFiresecAPI
 						result = false;
 					}
 				}
+				if (device.PumpStationProperty == null)
+					device.PumpStationProperty = new XPumpStationProperty();
 			}
 			foreach (var zone in Zones)
 			{

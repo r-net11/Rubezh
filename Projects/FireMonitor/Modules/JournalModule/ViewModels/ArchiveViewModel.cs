@@ -21,7 +21,7 @@ namespace JournalModule.ViewModels
         ArchiveDefaultState ArchiveDefaultState;
         ArchiveFilter ArchiveFilter;
         Thread UpdateThread;
-		bool firstTime = true;
+		bool FirstTime = true;
 
         public ArchiveViewModel()
         {
@@ -238,37 +238,11 @@ namespace JournalModule.ViewModels
 
         public override void OnShow()
         {
-			if (firstTime)
+			if (FirstTime)
 			{
-				firstTime = false;
+				FirstTime = false;
 				Update(false);
 			}
         }
     }
-
-	public class ObservableRangeCollection<T> : ObservableCollection<T>
-	{
-		private bool _suppressNotification = false;
-
-		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-		{
-			if (!_suppressNotification)
-				base.OnCollectionChanged(e);
-		}
-
-		public void AddRange(IEnumerable<T> list)
-		{
-			if (list == null)
-				throw new ArgumentNullException("list");
-
-			_suppressNotification = true;
-
-			foreach (T item in list)
-			{
-				Add(item);
-			}
-			_suppressNotification = false;
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-		}
-	}
 }

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 using XFiresecAPI;
 using Infrastructure.Common;
 
@@ -21,6 +22,7 @@ namespace GKModule.ViewModels
 		{
 			var code = 0x80 + (int)StateType;
 			ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
+			JournaActionlHelper.Add("Команда оператора", StateType.ToDescription(), XStateClass.Info, Device);
 		}
 	}
 }

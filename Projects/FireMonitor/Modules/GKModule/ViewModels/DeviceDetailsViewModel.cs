@@ -21,7 +21,8 @@ namespace GKModule.ViewModels
 	{
 		Guid _guid;
 		public XDevice Device { get; private set; }
-		public XDeviceState DeviceState { get; private set; }
+        public DeviceStateViewModel DeviceStateViewModel { get; private set; }
+        public XDeviceState DeviceState { get; private set; }
 		DeviceControls.XDeviceControl _deviceControl;
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
@@ -36,9 +37,10 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			DeviceState = Device.DeviceState;
-			DeviceState.StateChanged += new Action(OnStateChanged);
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+            DeviceState = Device.DeviceState;
+            DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
+            DeviceState.StateChanged += new Action(OnStateChanged);
+            DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
@@ -64,6 +66,7 @@ namespace GKModule.ViewModels
 				_deviceControl.StateClass = DeviceState.StateClass;
 			OnPropertyChanged("DeviceControlContent");
 			OnPropertyChanged("DeviceState");
+            OnPropertyChanged("DeviceStateViewModel");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			OnPropertyChanged("HasOffDelay");
@@ -91,16 +94,6 @@ namespace GKModule.ViewModels
 				}
 
 				return _deviceControl;
-			}
-		}
-
-		public string StateClassName
-		{
-			get
-			{
-				var converter = new XStateClassToDeviceStringConverter();
-				var result = (string)converter.Convert(DeviceState.StateClass, null, Device, null);
-				return result;
 			}
 		}
 

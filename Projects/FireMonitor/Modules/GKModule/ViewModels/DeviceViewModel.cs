@@ -12,17 +12,19 @@ namespace GKModule.ViewModels
     public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
-		public XDeviceState DeviceState { get; private set; }
+        public XDeviceState DeviceState { get; private set; }
+        public DeviceStateViewModel DeviceStateViewModel { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
 		public DeviceViewModel(XDevice device)
 		{
 			Device = device;
-			DeviceState = Device.DeviceState;
-			DeviceState.StateChanged += new Action(OnStateChanged);
+            DeviceState = Device.DeviceState;
+            DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
+            DeviceState.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+            DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
@@ -30,7 +32,7 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("DeviceState");
-			OnPropertyChanged("StateClassName");
+            OnPropertyChanged("DeviceStateViewModel");
 		}
 
 		public string PresentationZone
@@ -55,15 +57,5 @@ namespace GKModule.ViewModels
 		}
 
         public bool IsBold { get; set; }
-
-		public string StateClassName
-		{
-			get
-			{
-				var converter = new XStateClassToDeviceStringConverter();
-				var result = (string)converter.Convert(DeviceState.StateClass, null, Device, null);
-				return result;
-			}
-		}
 	}
 }

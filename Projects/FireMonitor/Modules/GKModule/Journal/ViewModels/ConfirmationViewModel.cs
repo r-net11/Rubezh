@@ -5,11 +5,15 @@ using Infrastructure.Common.Windows;
 using Infrastructure;
 using GKModule.Events;
 using System.Collections.Generic;
+using System;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
 	public class ConfirmationViewModel : DialogViewModel
 	{
+		DateTime StartDateTime = DateTime.Now;
+
 		public ConfirmationViewModel(JournalItem journalItem)
 		{
 			Title = "Подтверждение критических событий";
@@ -22,8 +26,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
-			var journalItem = GKDBHelper.AddMessage("Состояние \"" + JournalItemViewModel.JournalItem.Name + " " + JournalItemViewModel.JournalItem.Description + "\" подтверждено оператором");
-			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem });
+			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
+			JournaActionlHelper.Add("Подтверждение тревоги",
+				JournalItemViewModel.JournalItem.Name + " " + JournalItemViewModel.JournalItem.Description +
+				" (время реакции " + deltaSeconds.ToString() + " сек)",
+				XStateClass.Norm);
 			Close();
 		}
 	}

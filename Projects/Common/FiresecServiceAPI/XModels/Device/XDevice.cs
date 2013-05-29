@@ -156,6 +156,23 @@ namespace XFiresecAPI
 			{
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
+				if (Driver.DriverType == XDriverType.Pump)
+				{
+					if (IntAddress <= 8)
+						return "Пожарный насос";
+					switch (IntAddress)
+					{
+						case 12:
+							return "Жокей насос";
+						case 13:
+							return "Компрессор";
+						case 14:
+							return "Дренажный Насос";
+						case 15:
+							return "Насос Компенсации утечек";
+					}
+					return "Насос";
+				}
 				return Driver.ShortName;
 			}
 		}
@@ -172,16 +189,6 @@ namespace XFiresecAPI
 				if (Driver.HasAddress)
 					return Address + " - " + Driver.Name;
 				return Driver.Name;
-			}
-		}
-
-		public string ShortPresentationAddressAndDriver
-		{
-			get
-			{
-				if (Driver.HasAddress)
-					return Address + " - " + ShortName;
-				return ShortName;
 			}
 		}
 

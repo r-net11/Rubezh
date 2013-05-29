@@ -77,6 +77,7 @@ namespace GKModule.ViewModels
 		void OnResetFire()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.Reset);
+			JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, Zone);
 		}
 		bool CanResetFire()
 		{
@@ -87,6 +88,7 @@ namespace GKModule.ViewModels
 		void OnSetIgnore()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.SetRegime_Off);
+			JournaActionlHelper.Add("Команда оператора", "Отключение", XStateClass.Info, Zone);
 		}
 		bool CanSetIgnore()
 		{
@@ -97,6 +99,7 @@ namespace GKModule.ViewModels
 		void OnResetIgnore()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Zone, XStateType.SetRegime_Automatic);
+			JournaActionlHelper.Add("Команда оператора", "Снятие отключения", XStateClass.Info, Zone);
 		}
 		bool CanResetIgnore()
 		{

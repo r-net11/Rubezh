@@ -96,40 +96,52 @@ namespace ServerFS2
 						var bytes = CreateInputBytes(LocalResult);
 						LocalResult = new List<byte>();
 
-					    var response = new Response {Data = bytes.ToList()};
-						Request request;
-						if (IsUsbDevice)
+						var response = new Response
 						{
-							request = RequestCollection.GetFirst();
-							if (request != null)
-							{
-								Responses.Clear();
-								Responses.Add(response);
-								if (Responses.Count != 0)
-									RequestCollection.Clear();
-							}
-						}
-						else
+							Data = bytes.ToList()
+						};
+						if (!IsUsbDevice)
 						{
 							var responseId = (uint)(bytes.ToList()[3] +
 									bytes.ToList()[2] * 256 +
 									bytes.ToList()[1] * 256 * 256 +
 									bytes.ToList()[0] * 256 * 256 * 256);
-							request = RequestCollection.GetById(responseId);
 							response.Id = responseId;
-							RequestCollection.RemoveById(responseId);
-							if (request != null)
-							{
-								Responses.Add(response);
-							}
-							else
-							{
-								;
-							}
 						}
-
+						OnResponseRecieved(response);
 						AutoResetEvent.Set();
 						OnNewResponse(response);
+
+						//var response = new Response {Data = bytes.ToList()};
+						//Request request;
+						//if (IsUsbDevice)
+						//{
+						//    request = RequestCollection.GetFirst();
+						//    if (request != null)
+						//    {
+						//        Responses.Clear();
+						//        Responses.Add(response);
+						//        if (Responses.Count != 0)
+						//            RequestCollection.Clear();
+						//    }
+						//}
+						//else
+						//{
+						//    var responseId = (uint)(bytes.ToList()[3] +
+						//            bytes.ToList()[2] * 256 +
+						//            bytes.ToList()[1] * 256 * 256 +
+						//            bytes.ToList()[0] * 256 * 256 * 256);
+						//    response.Id = responseId;
+						//    request = RequestCollection.GetById(responseId);
+						//    RequestCollection.RemoveById(responseId);
+						//    if (request != null)
+						//    {
+						//        Responses.Add(response);
+						//    }
+						//}
+
+						//AutoResetEvent.Set();
+						//OnNewResponse(response);
 						return;
 					}
 				}
@@ -141,10 +153,6 @@ namespace ServerFS2
 							ServerHelper.IsExtendedMode = false;
 						if (buffer.IndexOf(0x7e) == 1)
 							ServerHelper.IsExtendedMode = true;
-						else
-						{
-							//throw new Exception();
-						}
 					}
 				    LocalResult = new List<byte> { b };
 				}
@@ -206,6 +214,31 @@ namespace ServerFS2
 				bytes.Add(b);
 			}
 			return bytes;
+		}
+
+		void OnResponseRecieved(Response response)
+		{
+			Request request;
+			if (IsUsbDevice)
+			{
+				request = RequestCollection.GetFirst();
+				if (request != null)
+				{
+					Responses.Clear();
+					Responses.Add(response);
+					if (Responses.Count != 0)
+						RequestCollection.Clear();
+				}
+			}
+			else
+			{
+				request = RequestCollection.GetById(response.Id);
+				RequestCollection.RemoveById(response.Id);
+				if (request != null)
+				{
+					Responses.Add(response);
+				}
+			}
 		}
 
 		public OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)

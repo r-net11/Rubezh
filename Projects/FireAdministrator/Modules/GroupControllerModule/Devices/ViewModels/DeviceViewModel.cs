@@ -447,6 +447,7 @@ namespace GKModule.ViewModels
                 }
             }
             PropertiesViewModel = new PropertiesViewModel(Device);
+			OnPropertyChanged("PropertiesViewModel");
         }
 	}
 }

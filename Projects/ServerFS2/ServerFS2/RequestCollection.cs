@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace ServerFS2
 {
@@ -17,7 +18,7 @@ namespace ServerFS2
 		{
 			lock (locker)
 			{
-				Requests.Clear();
+				Requests.RemoveAll(x => (DateTime.Now - x.StartTime).TotalSeconds > 20);
 			}
 		}
 

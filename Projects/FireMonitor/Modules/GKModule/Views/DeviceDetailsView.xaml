@@ -130,7 +130,7 @@
                 <DataGrid ItemsSource="{Binding AUParameterValues}" CanUserSortColumns="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
+                        <DataGridTextColumn Header="Значение" Binding="{Binding StringValue}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
