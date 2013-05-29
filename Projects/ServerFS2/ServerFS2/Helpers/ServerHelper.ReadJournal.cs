@@ -160,8 +160,6 @@ namespace ServerFS2
 			}
 			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
-		}
-
-		
+		}		
 	}
 }
