@@ -5,9 +5,9 @@ namespace XFiresecAPI
     public enum XPumpStationPumpType
     {
         [DescriptionAttribute("Основной")]
-        Main,
+        Main = 0,
 
         [DescriptionAttribute("Резервный")]
-        Reserve
+        Reserve = 1
     }
 }

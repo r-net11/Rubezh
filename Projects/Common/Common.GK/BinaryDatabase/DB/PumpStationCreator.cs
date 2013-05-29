@@ -10,6 +10,7 @@ namespace Common.GK
 	public class PumpStationCreator
 	{
 		GkDatabase GkDatabase;
+		XDevice PumpStationDevice;
 		List<XDirection> Directions;
 		List<XDevice> FirePumpDevices;
 		List<XDevice> FailurePumpDevices;
@@ -18,17 +19,15 @@ namespace Common.GK
 		ushort PumpsCount;
 		XDelay MainDelay;
 
-		public PumpStationCreator(GkDatabase gkDatabase, XDevice pumpStatioDevice)
+		public PumpStationCreator(GkDatabase gkDatabase, XDevice pumpStationDevice)
 		{
-			if (pumpStatioDevice.PumpStationProperty == null)
-				pumpStatioDevice.PumpStationProperty = new XPumpStationProperty();
-
 			GkDatabase = gkDatabase;
-			DelayTime = pumpStatioDevice.PumpStationProperty.DelayTime;
-			PumpsCount = pumpStatioDevice.PumpStationProperty.PumpsCount;
+			PumpStationDevice = pumpStationDevice;
+			DelayTime = pumpStationDevice.PumpStationProperty.DelayTime;
+			PumpsCount = pumpStationDevice.PumpStationProperty.PumpsCount;
 
 			Directions = new List<XDirection>();
-			foreach (var directionUID in pumpStatioDevice.PumpStationProperty.DirectionUIDs)
+			foreach (var directionUID in pumpStationDevice.PumpStationProperty.DirectionUIDs)
 			{
 				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
 				if (direction != null)
@@ -40,39 +39,21 @@ namespace Common.GK
 			Delays = new List<XDelay>();
 
 			FirePumpDevices = new List<XDevice>();
-			foreach (var pumpDeviceUID in pumpStatioDevice.PumpStationProperty.FirePumpUIDs)
+			FailurePumpDevices = new List<XDevice>();
+			foreach (var pumpStationPump in pumpStationDevice.PumpStationProperty.PumpStationPumps.OrderBy(x => x.PumpStationPumpType))
 			{
-				var pumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpDeviceUID);
+				var pumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStationPump.DeviceUID);
 				if (pumpDevice != null)
 				{
-					var addressOnShleif = pumpDevice.IntAddress % 256;
-					if (addressOnShleif <= 8)
+					if (pumpDevice.IntAddress <= 8)
 					{
 						FirePumpDevices.Add(pumpDevice);
 					}
+					else
+					{
+						FailurePumpDevices.Add(pumpDevice);
+					}
 				}
-			}
-
-			FailurePumpDevices = new List<XDevice>();
-			var drenajPump = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStatioDevice.PumpStationProperty.DrenajPumpUID);
-			if (drenajPump != null)
-			{
-				FailurePumpDevices.Add(drenajPump);
-			}
-			var jokeyPump = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStatioDevice.PumpStationProperty.JokeyPumpUID);
-			if (jokeyPump != null)
-			{
-				FailurePumpDevices.Add(jokeyPump);
-			}
-			var compressorPump = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStatioDevice.PumpStationProperty.CompressorPumpUID);
-			if (compressorPump != null)
-			{
-				FailurePumpDevices.Add(compressorPump);
-			}
-			var compensationPump = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStatioDevice.PumpStationProperty.CompensationPumpUID);
-			if (compensationPump != null)
-			{
-				FailurePumpDevices.Add(compensationPump);
 			}
 		}
 
@@ -112,7 +93,7 @@ namespace Common.GK
 			foreach (var pumpDevice in FirePumpDevices)
 			{
 				var delayTime = 0;
-				if(FirePumpDevices.LastIndexOf(pumpDevice) > 0)
+				if (FirePumpDevices.LastIndexOf(pumpDevice) > 0)
 					delayTime = DelayTime;
 				var delay = new XDelay()
 				{
@@ -133,6 +114,12 @@ namespace Common.GK
 			if (mainDelayBinaryObject != null)
 			{
 				var formula = new FormulaBuilder();
+				var deviceBinaryObject = new DeviceBinaryObject(PumpStationDevice, DatabaseType.Gk);
+
+				//deviceBinaryObject.Build();
+				//mainDelayBinaryObject.Formula = deviceBinaryObject.Formula;
+				//mainDelayBinaryObject.FormulaBytes = mainDelayBinaryObject.Formula.GetBytes();
+				//return;
 
 				if (Directions.Count > 0)
 				{

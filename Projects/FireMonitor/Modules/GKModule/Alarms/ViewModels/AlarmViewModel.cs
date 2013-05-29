@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Alarm.Device != null)
-					return "Устройство " + Alarm.Device.ShortPresentationAddressAndDriver;
+                    return "Устройство " + Alarm.Device.PresentationDriverAndAddress;
 				if (Alarm.Zone != null)
 					return "Зона " + Alarm.Zone.PresentationName;
 				if (Alarm.Direction != null)
@@ -126,12 +126,10 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
-				//    return;
-
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.Ignore))
 				{
 					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, XStateType.SetRegime_Automatic);
+					JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Alarm.Device);
 				}
 			}
 
@@ -139,7 +137,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Zone.ZoneState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Zone, 0x06);
+					ObjectCommandSendHelper.SendControlCommand(Alarm.Zone, XStateType.SetRegime_Automatic);
 				}
 			}
 
@@ -147,7 +145,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Direction.DirectionState.States.Contains(XStateType.Ignore))
 				{
-					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, 0x06);
+					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, XStateType.SetRegime_Automatic);
 				}
 			}
 		}
@@ -158,9 +156,6 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
-				//    return false;
-
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.Ignore))
 					return true;
 			}
@@ -188,12 +183,10 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
-				//    return;
-
 				if (!Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
 				{
 					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, XStateType.SetRegime_Automatic);
+					JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
@@ -201,6 +194,7 @@ namespace GKModule.ViewModels
 				if (!Alarm.Direction.DirectionState.States.Contains(XStateType.Norm))
 				{
 					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, XStateType.SetRegime_Automatic);
+					JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Alarm.Direction);
 				}
 			}
 		}
@@ -211,8 +205,6 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
-				//    return false;
 				if (!Alarm.Device.Driver.IsControlDevice)
 					return false;
 
@@ -236,9 +228,6 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
-				//    return;
-
 				if (Alarm.Device.DeviceState.States.Contains(XStateType.On) || Alarm.Device.DeviceState.States.Contains(XStateType.TurningOn))
 				{
 					var code = 0x80;
@@ -247,6 +236,7 @@ namespace GKModule.ViewModels
 					else
 						code += (int)XStateType.TurnOff_InManual;
 					ObjectCommandSendHelper.SendControlCommand(Alarm.Device, (byte)code);
+					JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
@@ -259,6 +249,7 @@ namespace GKModule.ViewModels
 					else
 						code += (int)XStateType.TurnOff_InManual;
 					ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, (byte)code);
+					JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Alarm.Direction);
 				}
 			}
 		}
@@ -268,9 +259,6 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.AlarmType != XAlarmType.Turning)
 					return false;
-
-				//if (!Alarm.Device.Driver.IsDeviceOnShleif)
-				//    return false;
 				if (!Alarm.Device.Driver.IsControlDevice)
 					return false;
 

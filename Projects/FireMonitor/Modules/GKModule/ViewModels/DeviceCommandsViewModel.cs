@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Collections.ObjectModel;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -63,18 +64,21 @@ namespace GKModule.ViewModels
         void OnSetAutomaticState()
         {
 			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Automatic);
+			JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Device);
         }
 
         public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
         {
 			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Manual);
+			JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, Device);
         }
 
         public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
         {
 			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.SetRegime_Off);
+			JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Device);
         }
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
@@ -87,13 +91,14 @@ namespace GKModule.ViewModels
 
 		public bool HasReset
 		{
-			get { return Device.Driver.DriverType == XDriverType.AMP_1; }
+            get { return Device.Driver.DriverType == XDriverType.AMP_1 || Device.Driver.DriverType == XDriverType.RSR2_MAP4; }
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Device, XStateType.Reset);
+			JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, Device);
 		}
 		bool CanReset()
 		{

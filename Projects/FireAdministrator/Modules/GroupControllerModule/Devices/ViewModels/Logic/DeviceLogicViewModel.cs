@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 
 		public DeviceLogicViewModel(XDevice device)
 		{
-			Title = "Настройка логики устройства " + device.ShortPresentationAddressAndDriver;
+			Title = "Настройка логики устройства " + device.PresentationDriverAndAddress;
 			Device = device;
 
 			AddCommand = new RelayCommand(OnAdd);

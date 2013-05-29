@@ -82,36 +82,42 @@ namespace GKModule.ViewModels
 		void OnSetAutomaticState()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.SetRegime_Automatic);
+			JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, Direction);
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.SetRegime_Manual);
+			JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, Direction);
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.SetRegime_Off);
+			JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, Direction);
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOn_InManual);
+			JournaActionlHelper.Add("Команда оператора", "Включить", XStateClass.Info, Direction);
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOnNow_InManual);
+			JournaActionlHelper.Add("Команда оператора", "Включить немедленно", XStateClass.Info, Direction);
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
 			ObjectCommandSendHelper.SendControlCommand(Direction, XStateType.TurnOff_InManual);
+			JournaActionlHelper.Add("Команда оператора", "Выключить", XStateClass.Info, Direction);
 		}
 
 		public bool HasOnDelay

@@ -340,6 +340,8 @@ namespace GKModule.ViewModels
 			eventNames.Add("Отключение");
 			eventNames.Add("Вход пользователя в систему");
 			eventNames.Add("Выход пользователя из системы");
+            eventNames.Add("Команда оператора");
+			eventNames.Add("Подтверждение тревоги");
 			eventNames.Add("Потеря связи с прибором");
 			eventNames.Add("Восстановление связи с прибором");
 			return eventNames;

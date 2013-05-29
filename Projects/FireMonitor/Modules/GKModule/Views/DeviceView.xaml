@@ -15,7 +15,7 @@
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
                 <StackPanel>
-                    <TextBlock Text="{Binding Device.ShortPresentationAddressAndDriver}" />
+                    <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" />
                     <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>

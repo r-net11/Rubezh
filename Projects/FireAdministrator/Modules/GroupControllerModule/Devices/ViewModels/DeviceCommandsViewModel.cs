@@ -124,7 +124,7 @@ namespace GKModule.Models
 			var sendResult = SendManager.Send(device, 0, 1, 1);
 			if (sendResult.HasError)
 			{
-				MessageBoxService.ShowError("Устройство " + device.ShortPresentationAddressAndDriver + " недоступно");
+				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
 				return;
 			}
 

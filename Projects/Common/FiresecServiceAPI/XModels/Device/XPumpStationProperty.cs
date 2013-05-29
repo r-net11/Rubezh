@@ -10,7 +10,6 @@ namespace XFiresecAPI
 		public XPumpStationProperty()
 		{
             PumpStationPumps = new List<XPumpStationPump>();
-			FirePumpUIDs = new List<Guid>();
 			DirectionUIDs = new List<Guid>();
 			PumpsCount = 1;
 			DelayTime = 2;
@@ -19,22 +18,8 @@ namespace XFiresecAPI
 		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }
 
+        [DataMember]
         public List<XPumpStationPump> PumpStationPumps { get; set; }
-
-		[DataMember]
-		public List<Guid> FirePumpUIDs { get; set; }
-
-		[DataMember]
-		public Guid JokeyPumpUID { get; set; }
-
-		[DataMember]
-		public Guid CompressorPumpUID { get; set; }
-
-		[DataMember]
-		public Guid DrenajPumpUID { get; set; }
-
-		[DataMember]
-		public Guid CompensationPumpUID { get; set; }
 
 		[DataMember]
 		public ushort PumpsCount { get; set; }

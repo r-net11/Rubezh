@@ -78,7 +78,7 @@ namespace GKModule
                     var sendResult = SendManager.Send(gkDatabase.RootDevice, 0, 1, 1);
 					if (sendResult.HasError)
 					{
-						MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.ShortPresentationAddressAndDriver + " недоступно");
+						MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
 						return false;
 					}
 
@@ -87,7 +87,7 @@ namespace GKModule
 					sendResult = SendManager.Send(kauDatabase.RootDevice, 0, 1, 1);
 					if (sendResult.HasError)
 					{
-						MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.ShortPresentationAddressAndDriver + " недоступно");
+						MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
 						return false;
 					}
 				}
@@ -209,7 +209,7 @@ namespace GKModule
 
         static void EraseDatabase(XDevice device)
         {
-            LoadingService.DoStep(device.ShortPresentationAddressAndDriver + " Стирание базы данных");
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Стирание базы данных");
 			for (int i = 0; i < 3; i++)
 			{
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
