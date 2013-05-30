@@ -463,21 +463,6 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
-
-		#region ITreeNodeModel Members
-
-
-		public IEnumerable GetChildren()
-		{
-			return Children;
-		}
-
-		public bool HasChild()
-		{
-			return HasChildren;
-		}
-
-		#endregion
 	}
 
 

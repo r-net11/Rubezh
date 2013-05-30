@@ -33,6 +33,7 @@
 							<Controls:TreeGridViewRowPresenter.Resources>
 								<Style TargetType="{x:Type ContentPresenter}">
 									<Setter Property="VerticalAlignment" Value="Center" />
+									<Setter Property="HorizontalAlignment" Value="Stretch" />
 								</Style>
 							</Controls:TreeGridViewRowPresenter.Resources>
 						</Controls:TreeGridViewRowPresenter>
@@ -88,6 +89,8 @@
 		<Setter Property="Border.BorderBrush" Value="#00FFFFFF" />
 		<Setter Property="Border.BorderThickness" Value="2,2,2,2" />
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Auto}" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Visible}" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="True" />
@@ -124,9 +127,20 @@
 		</Setter>
 	</Style>
 
-	<Style TargetType="{x:Type tree:TreeList}" BasedOn="{StaticResource {x:Type ListView}}" />
+	<Style TargetType="{x:Type tree:TreeList}" BasedOn="{StaticResource {x:Type ListView}}">
+		<!--<Setter Property="ItemContainerStyle">
+			<Setter.Value>
+				<Style TargetType="tree:TreeListItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+					<Setter Property="VerticalContentAlignment" Value="Center" />
+				</Style>
+			</Setter.Value>
+		</Setter>-->
+	</Style>
 	<Style TargetType="{x:Type tree:TreeListItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
 		<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>
 
 </ResourceDictionary>

@@ -265,6 +265,8 @@ namespace DevicesModule.ViewModels
 
 		void RegisterShortcuts()
 		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.J, ModifierKeys.Control), ()=> SelectedDevice = RootDevice);
+
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);

@@ -28,6 +28,20 @@ namespace Controls.TreeList
 			treeList.CreateChildrenNodes(treeList.Root);
 		}
 
+		//public static DependencyProperty SelectedNodeProperty = DependencyProperty.Register("SelectedNode", typeof(object), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedNodeChanged)));
+		//public object SelectedNode
+		//{
+		//    get { return (IEnumerable)GetValue(SelectedNodeProperty); }
+		//    set { SetValue(SelectedNodeProperty, value); }
+		//}
+		//private static void OnSelectedNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		//{
+		//    var treeList = (TreeList)d;
+		//    treeList.Root.Children.Clear();
+		//    treeList.Rows.Clear();
+		//    treeList.CreateChildrenNodes(treeList.Root);
+		//}
+
 		internal TreeNode Root { get; private set; }
 		internal ObservableCollectionAdv<TreeNode> Rows { get; private set; }
 		internal TreeNode PendingFocusNode { get; set; }
