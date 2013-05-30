@@ -18,6 +18,8 @@ namespace GKModule.ViewModels
 
 		public DeviceParametersViewModel()
 		{
+			ParameterUpdateHelper.NewAUParameterValue -= new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
+			ParameterUpdateHelper.NewAUParameterValue += new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
 		}
 
 		public void Initialize()
@@ -67,17 +69,47 @@ namespace GKModule.ViewModels
 					break;
 				foreach (var deviceParameterViewModel in Devices)
 				{
-					ParameterUpdateHelper.NewAUParameterValue += new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
+					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Temperature"))
+						deviceParameterViewModel.Temperature = "опрос";
+					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Dustinness"))
+						deviceParameterViewModel.Dustinness = "опрос";
+					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "LastServiceTime"))
+						deviceParameterViewModel.LastServiceTime = "опрос";
+					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Resistance"))
+						deviceParameterViewModel.Resistance = "опрос";
+
+					deviceParameterViewModel.IsCurrent = true;
 					ParameterUpdateHelper.UpdateDevice(deviceParameterViewModel.Device);
-					ParameterUpdateHelper.NewAUParameterValue -= new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
-					Thread.Sleep(TimeSpan.FromSeconds(1));
+					deviceParameterViewModel.IsCurrent = false;
 				}
 			}
 		}
 
 		void ParameterUpdateHelper_NewAUParameterValue(AUParameterValue auParameterValue)
 		{
-			Trace.WriteLine("AUParameterValue " + auParameterValue.Device.ShortNameAndDottedAddress + " - " + auParameterValue.Name + " - " + auParameterValue.Value);
+			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.UID == auParameterValue.Device.UID);
+			if (deviceParameterViewModel != null)
+			{
+				switch (auParameterValue.DriverParameter.InternalName)
+				{
+					case "Temperature":
+						deviceParameterViewModel.Temperature = auParameterValue.StringValue;
+						break;
+
+					case "Dustinness":
+						deviceParameterViewModel.Dustinness = auParameterValue.StringValue;
+						break;
+
+					case "LastServiceTime":
+						deviceParameterViewModel.LastServiceTime = auParameterValue.StringValue;
+						break;
+
+					case "Resistance":
+						deviceParameterViewModel.Resistance = auParameterValue.StringValue;
+						break;
+				}
+			}
+			//Trace.WriteLine("AUParameterValue " + auParameterValue.Device.ShortNameAndDottedAddress + " - " + auParameterValue.Name + " - " + auParameterValue.Value);
 		}
 	}
 }

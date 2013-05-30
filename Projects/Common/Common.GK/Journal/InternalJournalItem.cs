@@ -203,7 +203,7 @@ namespace Common.GK
 				case JournalSourceType.Device:
 					var unknownType = BytesHelper.SubstructShort(bytes, 32 + 14);
 					var unknownAddress = BytesHelper.SubstructShort(bytes, 32 + 16);
-					var presentationAddress = (unknownAddress / 256).ToString() + "." + (unknownAddress % 256).ToString();
+					var presentationAddress = (unknownAddress / 256 + 1).ToString() + "." + (unknownAddress % 256).ToString();
 					var driverName = unknownType.ToString();
 					var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == unknownType);
 					if (driver != null)
@@ -235,7 +235,14 @@ namespace Common.GK
 					{
 						case 0:
 							EventName = "При конфигурации описан другой тип";
-							EventDescription = "Действительный тип: " + BytesHelper.SubstructShort(bytes, 32 + 14).ToString();
+							var realType = BytesHelper.SubstructShort(bytes, 32 + 14);
+							var realDriverString = "Неизвестный тип " + realType.ToString();
+							var realDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == realType);
+							if (realDriver != null)
+							{
+								realDriverString = realDriver.ShortName;
+							}
+							EventDescription = "Действительный тип: " + realDriverString;
 							break;
 						case 1:
 							EventName = "Изменился заводской номер";

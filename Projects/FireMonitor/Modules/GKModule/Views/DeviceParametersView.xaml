@@ -12,12 +12,16 @@
                 <DataGridTemplateColumn Header="Устройство" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Views:DeviceView DataContext="{Binding DeviceViewModel}" />
+                            <UserControl FontWeight="{Binding IsCurrent, Converter={StaticResource BoolToFontWeightConverter}}">
+                                <Views:DeviceView DataContext="{Binding DeviceViewModel}"/>
+                            </UserControl>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Температура" Binding="{Binding Temperature}" Width="Auto" />
                 <DataGridTextColumn Header="Запыленность" Binding="{Binding Dustinness}" Width="Auto" />
+                <DataGridTextColumn Header="Дата последнего обслуживания" Binding="{Binding LastServiceTime}" Width="Auto" />
+                <DataGridTextColumn Header="Сопротивление" Binding="{Binding Resistance}" Width="Auto" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

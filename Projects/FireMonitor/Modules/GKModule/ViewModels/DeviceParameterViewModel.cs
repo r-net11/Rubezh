@@ -19,6 +19,19 @@ namespace GKModule.ViewModels
 
 			Temperature = " - ";
 			Dustinness = " - ";
+			LastServiceTime = " - ";
+			Resistance = " - ";
+		}
+
+		bool _isCurrent;
+		public bool IsCurrent
+		{
+			get { return _isCurrent; }
+			set
+			{
+				_isCurrent = value;
+				OnPropertyChanged("IsCurrent");
+			}
 		}
 
 		string _temperature;
@@ -40,6 +53,28 @@ namespace GKModule.ViewModels
 			{
 				_dustinness = value;
 				OnPropertyChanged("Dustinness");
+			}
+		}
+
+		string _lastServiceTime;
+		public string LastServiceTime
+		{
+			get { return _lastServiceTime; }
+			set
+			{
+				_lastServiceTime = value;
+				OnPropertyChanged("LastServiceTime");
+			}
+		}
+
+		string _resistance;
+		public string Resistance
+		{
+			get { return _resistance; }
+			set
+			{
+				_resistance = value;
+				OnPropertyChanged("Resistance");
 			}
 		}
 	}

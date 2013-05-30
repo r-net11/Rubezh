@@ -210,8 +210,7 @@ namespace GKModule
 						var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property != null)
 						{
-							if (property.Value != paramValue)
-								property.Value = paramValue;
+							property.Value = paramValue;
 						}
 					}
 					else

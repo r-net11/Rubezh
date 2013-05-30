@@ -300,6 +300,7 @@ namespace GKModule.ViewModels
 		public XDevice Device { get; set; }
 		public string Name { get; set; }
 		public bool IsDelay { get; set; }
+		public XAUParameter DriverParameter { get; set; }
 
 		int _value;
 		public int Value

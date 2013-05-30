@@ -70,6 +70,7 @@ namespace GKModule
 									var auParameterValue = new AUParameterValue()
 									{
 										Device = device,
+										DriverParameter = auParameter,
 										Name = auParameter.Name,
 										Value = parameterValue,
 										StringValue = stringValue
@@ -105,6 +106,7 @@ namespace GKModule
 							var auParameterValue = new AUParameterValue()
 							{
 								Device = device,
+								DriverParameter = auParameter,
 								Name = auParameter.Name,
 								Value = parameterValue,
 								StringValue = stringValue
