@@ -119,10 +119,13 @@
     <Compile Include="Devices\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
+    <Compile Include="Devices\FS2Progress\FS2ProgressService.cs" />
     <Compile Include="Devices\MergeConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2DeviceReadConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceReadConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceWriteConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2SynchronizeDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SynchronizeDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\WriteAllDeviceConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\FS2DeviceCommandsViewModel.cs" />
@@ -196,6 +199,10 @@
     </Compile>
     <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
       <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\FS2Progress\ViewModels\FS2ProgressViewModel.cs" />
+    <Compile Include="Devices\FS2Progress\Views\FS2ProgressView.xaml.cs">
+      <DependentUpon>FS2ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Async\DeviceGetGuardUsersListHelper.cs" />
     <Compile Include="Guard\Async\DeviceSetGuardUsersListHelper.cs" />
@@ -546,6 +553,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\FS2Progress\Views\FS2ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

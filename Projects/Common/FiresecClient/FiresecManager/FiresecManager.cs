@@ -102,6 +102,9 @@ namespace FiresecClient
                         if (FSAgent != null)
                             FSAgent.Stop();
 
+						if (FS2ClientContract != null)
+							FS2ClientContract.Stop();
+
                         if (FiresecService != null)
                         {
                             FiresecService.Dispose();

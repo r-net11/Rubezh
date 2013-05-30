@@ -53,7 +53,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ReadDeviceCommand { get; private set; }
         void OnReadDevice(bool isUsb)
         {
-            DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
+            FS2DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanReadDevice(bool isUsb)
         {
@@ -117,8 +117,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
         void OnSynchronizeDevice(bool isUsb)
         {
+			FS2SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
+
+			return;
 			FiresecManager.FS2ClientContract.Progress += new System.Action<FS2Api.FS2ProgressInfo>(FS2ClientContract_Progress);
-			var result = FiresecManager.FS2ClientContract.DeviceDatetimeSync(SelectedDevice.Device.UID);
+			var result = FiresecManager.FS2ClientContract.DeviceDatetimeSync(SelectedDevice.Device.UID, isUsb);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowError(result.Error, "Ошибка при вызове операции");
