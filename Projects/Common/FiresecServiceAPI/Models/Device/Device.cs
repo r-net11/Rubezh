@@ -19,6 +19,7 @@ namespace FiresecAPI.Models
 			IndicatorLogic = new IndicatorLogic();
 			PDUGroupLogic = new PDUGroupLogic();
 			PlanElementUIDs = new List<Guid>();
+			ZoneLogic = new ZoneLogic();
 			IsRmAlarmDevice = false;
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;

@@ -103,7 +103,6 @@
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
     <Compile Include="DataBase\DBJournalHelper.cs" />
     <Compile Include="DataBase\FSJournalItem.cs" />
-    <Compile Include="Helpers\BytesHelper.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
