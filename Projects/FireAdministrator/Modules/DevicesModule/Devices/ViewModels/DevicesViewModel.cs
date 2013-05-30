@@ -24,6 +24,7 @@ namespace DevicesModule.ViewModels
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+		public FS2DeviceCommandsViewModel FS2DeviceCommandsViewModel { get; private set; }
 		public PropertiesViewModel PropMenu { get; private set; }
 		private bool _lockSelection;
 
@@ -36,6 +37,7 @@ namespace DevicesModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
+			FS2DeviceCommandsViewModel = new FS2DeviceCommandsViewModel(this);
 			Menu = new DevicesMenuViewModel(this);
 			PropMenu = new PropertiesViewModel(this);
 			RegisterShortcuts();
@@ -224,7 +226,7 @@ namespace DevicesModule.ViewModels
 			UpdatePlans(device);
 		}
 
-		private void UpdatePlans(Device device)
+		void UpdatePlans(Device device)
 		{
 			Helper.BuildMap();
 			if (_planUpdateRequired)
@@ -236,13 +238,13 @@ namespace DevicesModule.ViewModels
 				_planUpdateRequired = false;
 			}
 		}
-		private void CopyPlanUIDs(Device device, Device originalDevice)
+		void CopyPlanUIDs(Device device, Device originalDevice)
 		{
 			device.PlanElementUIDs = originalDevice.PlanElementUIDs;
 			for (int i = 0; i < device.Children.Count; i++)
 				CopyPlanUIDs(device.Children[i], originalDevice.Children[i]);
 		}
-		private void UpdatePlans(Device device, List<Guid> uids)
+		void UpdatePlans(Device device, List<Guid> uids)
 		{
 			foreach (var uid in device.PlanElementUIDs)
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
@@ -261,7 +263,7 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
 		}
 
-		private void RegisterShortcuts()
+		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
@@ -308,7 +310,7 @@ namespace DevicesModule.ViewModels
 				});
 		}
 
-		private void SubscribeEvents()
+		void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
@@ -320,7 +322,7 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
-		private void OnDeviceChanged(Guid deviceUID)
+		void OnDeviceChanged(Guid deviceUID)
 		{
 			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
@@ -334,12 +336,12 @@ namespace DevicesModule.ViewModels
 				}
 			}
 		}
-		private void OnElementRemoved(List<ElementBase> elements)
+		void OnElementRemoved(List<ElementBase> elements)
 		{
 			elements.OfType<ElementDevice>().ToList().ForEach(element => Helper.ResetDevice(element));
 			OnElementChanged(elements);
 		}
-		private void OnElementChanged(List<ElementBase> elements)
+		void OnElementChanged(List<ElementBase> elements)
 		{
 			Guid guid = Guid.Empty;
 			_lockSelection = true;
@@ -358,7 +360,7 @@ namespace DevicesModule.ViewModels
 			//if (guid != Guid.Empty)
 			//    OnDeviceChanged(guid);
 		}
-		private void OnElementSelected(ElementBase element)
+		void OnElementSelected(ElementBase element)
 		{
 			ElementDevice elementDevice = element as ElementDevice;
 			if (elementDevice != null)
@@ -367,6 +369,15 @@ namespace DevicesModule.ViewModels
 				Select(elementDevice.DeviceUID);
 				_lockSelection = false;
 			}
+		}
+
+		public bool IsFS2Enabled
+		{
+			get { return FiresecManager.IsFS2Enabled; }
+		}
+		public bool IsFSAgentEnabled
+		{
+			get { return !FiresecManager.IsFS2Enabled; }
 		}
 	}
 }

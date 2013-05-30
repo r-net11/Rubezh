@@ -34,7 +34,9 @@
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.MuliclientAPI.dll" Name="MuliclientAPI.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Monitor.TargetDir)" />
-			</Component>
+        <File Id="Monitor.FS2API.dll" Name="FS2API.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Monitor.TargetDir)" />
+      </Component>
 
       <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
         <File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />

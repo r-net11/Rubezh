@@ -9,7 +9,7 @@ using FiresecAPI;
 
 namespace FS2Client
 {
-	public partial class FS2
+	public partial class FS2ClientContract
 	{
 		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName, bool reconnectOnException = true)
 		{

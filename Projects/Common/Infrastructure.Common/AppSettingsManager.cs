@@ -58,6 +58,19 @@ namespace Infrastructure.Common
 			}
 		}
 
+		public static string FS2ServerAddress
+		{
+			get
+			{
+				var serviceAddress = "net.pipe://127.0.0.1/FS2/";
+				if (IsRemote)
+				{
+					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FS2/";
+				}
+				return serviceAddress;
+			}
+		}
+
 		public static bool IsRemote
 		{
 			get
