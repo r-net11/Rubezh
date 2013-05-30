@@ -160,7 +160,7 @@ namespace MonitorClientFS2
 		public void GetNewItems()
 		{
 			Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
-			Requests.RemoveAll(x => x.RequestType == RequestTypes.ReadIndex);
+			Requests.RemoveAll(x => x!= null && x.RequestType == RequestTypes.ReadIndex);
 			var journalItems = new List<FSJournalItem>();
 			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
 			{

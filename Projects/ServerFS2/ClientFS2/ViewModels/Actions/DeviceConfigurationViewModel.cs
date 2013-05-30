@@ -186,8 +186,8 @@ namespace ClientFS2.ViewModels
         {
             if (device.Children != null)
             {
-                device.Children = device.Children.OrderBy(x => x.AddressFullPath).ToList();
-                device.Children = device.Children.OrderBy(x => x.PresentationName).ToList();
+                device.Children = device.Children.OrderByDescending(x => x.PresentationAddressAndName).ToList();
+                device.Children = device.Children.OrderByDescending(x => x.IntAddress).ToList();
             }
             foreach (var child in device.Children)
             {
