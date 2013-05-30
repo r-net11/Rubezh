@@ -140,6 +140,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
+    <Compile Include="ObservableCollectionAdv.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,6 +165,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

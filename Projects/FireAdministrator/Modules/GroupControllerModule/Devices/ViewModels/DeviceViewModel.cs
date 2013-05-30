@@ -13,6 +13,7 @@ using XFiresecAPI;
 using System.Windows.Shapes;
 using DeviceControls;
 using Infrustructure.Plans.Painters;
+using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels
 {

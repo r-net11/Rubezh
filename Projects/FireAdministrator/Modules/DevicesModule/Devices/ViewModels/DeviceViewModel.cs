@@ -16,12 +16,12 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using System.Windows.Controls;
 using Infrustructure.Plans.Helper;
+using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {
 	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
-		private const string VizualizationImageSource = "/Controls;component/Images/map{0}.png";
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 

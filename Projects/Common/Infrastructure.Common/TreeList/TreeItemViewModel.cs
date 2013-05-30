@@ -4,8 +4,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections;
 
-namespace Infrastructure.Common
+namespace Infrastructure.Common.TreeList
 {
 	public class TreeItemViewModel : BaseViewModel
 	{
@@ -33,7 +34,7 @@ namespace Infrastructure.Common
 
 		public TreeItemViewModel TreeParent { get; protected set; }
 	}
-	public class TreeItemViewModel<T> : TreeItemViewModel
+	public class TreeItemViewModel<T> : TreeItemViewModel, ITreeNodeModel
 		where T : TreeItemViewModel<T>
 	{
 		public TreeItemViewModel()
@@ -138,5 +139,14 @@ namespace Infrastructure.Common
 			}
 			OnPropertyChanged(() => HasChildren);
 		}
+
+		#region ITreeNodeModel Members
+
+		public IEnumerable GetChildren()
+		{
+			return Children;
+		}
+
+		#endregion
 	}
 }

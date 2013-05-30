@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using XFiresecAPI;
 using Controls.Converters;
+using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels
 {

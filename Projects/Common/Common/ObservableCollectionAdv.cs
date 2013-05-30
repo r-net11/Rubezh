@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
-namespace TreeListView
+namespace Common
 {
 	public class ObservableCollectionAdv<T> : ObservableCollection<T>
 	{
 		public void RemoveRange(int index, int count)
 		{
-			this.CheckReentrancy();
-			var items = this.Items as List<T>;
+			CheckReentrancy();
+			var items = Items as List<T>;
 			items.RemoveRange(index, count);
 			OnReset();
 		}
 
 		public void InsertRange(int index, IEnumerable<T> collection)
 		{
-			this.CheckReentrancy();
-			var items = this.Items as List<T>;
+			CheckReentrancy();
+			var items = Items as List<T>;
 			items.InsertRange(index, collection);
 			OnReset();
 		}
@@ -30,8 +27,7 @@ namespace TreeListView
 		{
 			OnPropertyChanged("Count");
 			OnPropertyChanged("Item[]");
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(
-				NotifyCollectionChangedAction.Reset));
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		private void OnPropertyChanged(string propertyName)
@@ -39,4 +35,5 @@ namespace TreeListView
 			OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 		}
 	}
+
 }

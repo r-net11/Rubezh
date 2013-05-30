@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 
 namespace OPCModule.ViewModels
 {

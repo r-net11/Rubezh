@@ -1,5 +1,9 @@
 ﻿using System.Windows.Controls;
 using DiagnosticsModule.ViewModels;
+using System.Collections.Generic;
+using FiresecClient;
+using FiresecAPI.Models;
+using DevicesModule.ViewModels;
 
 namespace DiagnosticsModule.Views
 {
@@ -8,7 +12,17 @@ namespace DiagnosticsModule.Views
 		public TreeViewTestView()
 		{
 			InitializeComponent();
-			_tree.Model = new TreeDeviceViewModel();
+			_tree.Source = new DeviceViewModel[] { AddDeviceInternal(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null) };
+		}
+		private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new DeviceViewModel(device);
+			if (parentDeviceViewModel != null)
+				parentDeviceViewModel.Children.Add(deviceViewModel);
+
+			foreach (var childDevice in device.Children)
+				AddDeviceInternal(childDevice, deviceViewModel);
+			return deviceViewModel;
 		}
 	}
 }

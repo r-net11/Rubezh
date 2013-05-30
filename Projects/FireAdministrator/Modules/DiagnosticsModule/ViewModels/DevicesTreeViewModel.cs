@@ -10,6 +10,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections;
+using Infrastructure.Common.TreeList;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -66,7 +68,7 @@ namespace DiagnosticsModule.ViewModels
 	}
 
 
-	public class DeviceViewModel2 : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel2 : TreeItemViewModel<DeviceViewModel2> , ITreeNodeModel
 	{
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
@@ -461,6 +463,21 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
+
+		#region ITreeNodeModel Members
+
+
+		public IEnumerable GetChildren()
+		{
+			return Children;
+		}
+
+		public bool HasChild()
+		{
+			return HasChildren;
+		}
+
+		#endregion
 	}
 
 
