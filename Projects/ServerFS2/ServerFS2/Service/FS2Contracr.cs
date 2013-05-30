@@ -8,6 +8,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using Common;
 using System.Threading;
+using ServerFS2.Processor;
 
 namespace ServerFS2.Service
 {
@@ -140,7 +141,7 @@ namespace ServerFS2.Service
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID)
+		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
 			return SafeCall<bool>(() =>
 			{
@@ -153,9 +154,9 @@ namespace ServerFS2.Service
 					CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
 					Thread.Sleep(1000);
 				}
-
-				//var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				//ServerHelper.SynchronizeTime(device);
+				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				return true;
+				MainManager.DeviceDatetimeSync(device, isUSB);
 				return true;
 			}, "DeviceDatetimeSync");
 		}
@@ -180,9 +181,23 @@ namespace ServerFS2.Service
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<string> DeviceReadConfig(Guid deviceUID)
+		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
 		{
-			throw new NotImplementedException();
+			return SafeCall<DeviceConfiguration>(() =>
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					var fs2ProgressInfo = new FS2ProgressInfo()
+					{
+						Comment = "Test Callbac " + i.ToString()
+					};
+					CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
+					Thread.Sleep(1000);
+				}
+				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				return null;
+				return MainManager.DeviceReadConfig(device, isUSB);
+			}, "DeviceReadConfig");
 		}
 
 		public OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type)

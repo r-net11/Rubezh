@@ -77,7 +77,7 @@ namespace FS2Api
 		OperationResult<bool> DeviceSetPassword(Guid deviceUID, string password, int deviceUser);
 
 		[OperationContract]
-		OperationResult<bool> DeviceDatetimeSync(Guid deviceUID);
+		OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetInformation(Guid deviceUID);
@@ -92,7 +92,7 @@ namespace FS2Api
 		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, string fileName);
 
 		[OperationContract]
-		OperationResult<string> DeviceReadConfig(Guid deviceUID);
+		OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type);

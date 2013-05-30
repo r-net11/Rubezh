@@ -110,9 +110,9 @@ namespace FS2Client
 			throw new NotImplementedException();
 		}
 
-		public FiresecAPI.OperationResult<bool> DeviceDatetimeSync(Guid deviceUID)
+		public FiresecAPI.OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceDatetimeSync(deviceUID); }, "DeviceDatetimeSync");
+			return SafeOperationCall(() => { return FS2Contract.DeviceDatetimeSync(deviceUID, isUSB); }, "DeviceDatetimeSync");
 		}
 
 		public FiresecAPI.OperationResult<string> DeviceGetInformation(Guid deviceUID)
@@ -135,9 +135,9 @@ namespace FS2Client
 			throw new NotImplementedException();
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceReadConfig(Guid deviceUID)
+		public FiresecAPI.OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceReadConfig(deviceUID, isUSB); }, "DeviceReadConfig");
 		}
 
 		public FiresecAPI.OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type)
