@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientFS2", "ClientFS2\ClientFS2.csproj", "{AB98E3F1-9E05-47E9-B037-9755E6F9BCCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministratorTestClientFS2", "ClientFS2\AdministratorTestClientFS2.csproj", "{AB98E3F1-9E05-47E9-B037-9755E6F9BCCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerFS2", "ServerFS2\ServerFS2.csproj", "{41D4B526-16ED-449D-883C-684C7EA59FD7}"
 EndProject
@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Common\FiresecClient\FiresecClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorClientFS2", "MonitorClientFS2\MonitorClientFS2.csproj", "{0BE566D6-C4B2-4977-9F8B-1E1C89EB1E8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorTestClientFS2", "MonitorClientFS2\MonitorTestClientFS2.csproj", "{0BE566D6-C4B2-4977-9F8B-1E1C89EB1E8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSAgentClient", "..\FSAgent\FSAgentClient\FSAgentClient.csproj", "{31F451DF-6C15-4867-A2A3-241D9B1A882C}"
 EndProject

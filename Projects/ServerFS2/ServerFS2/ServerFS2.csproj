@@ -116,24 +116,25 @@
     <Compile Include="Helpers\ServerHelper.SetConfiguration.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="JournalParser.cs" />
-    <Compile Include="Helpers\MetadataHelper.cs" />
-    <Compile Include="Helpers\rubezh2010.cs" />
+    <Compile Include="Metadata\MetadataHelper.cs" />
+    <Compile Include="Metadata\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PatchManager.cs" />
+    <Compile Include="Processor\MainManager.cs" />
     <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="RequestCollection.cs" />
-    <Compile Include="Response.cs" />
+    <Compile Include="USB\Request.cs" />
+    <Compile Include="USB\RequestCollection.cs" />
+    <Compile Include="USB\Response.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FS2Contracr.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
-    <Compile Include="UsbRunner.cs" />
+    <Compile Include="USB\UsbRunner.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
@@ -168,7 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FS2.ico" />
-    <Content Include="Helpers\rubezh2010.xml">
+    <Content Include="Metadata\rubezh2010.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
@@ -195,7 +196,10 @@
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Administrator\" />
+    <Folder Include="Monitoring\" />
+  </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>

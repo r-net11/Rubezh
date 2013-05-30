@@ -155,9 +155,9 @@ namespace MonitorClientFS2
 				response.Data[5] == Device.IntAddress &&
 				response.Data[6] == 65);
 		}
-		
 
-		public void GetNewItems()
+
+		public List<FSJournalItem> GetNewItems()
 		{
 			Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
 			Requests.RemoveAll(x => x!= null && x.RequestType == RequestTypes.ReadIndex);
@@ -179,6 +179,7 @@ namespace MonitorClientFS2
 			}
 			LastSystemIndex = LastDeviceIndex;
 			IsReadingNeeded = false;
+			return journalItems;
 		}
 
 	}

@@ -8,8 +8,8 @@
     <ProjectGuid>{AB98E3F1-9E05-47E9-B037-9755E6F9BCCC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClientFS2</RootNamespace>
-    <AssemblyName>ClientFS2</AssemblyName>
+    <RootNamespace>AdministratorTestClientFS2</RootNamespace>
+    <AssemblyName>AdministratorTestClientFS2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

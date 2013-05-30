@@ -38,5 +38,8 @@ namespace ServerFS2.DataBase
 
 		public Device PanelDevice { get; set; }
 		public Device Device { get; set; }
+		public int StateWord { get; set; }
+		public int EventCode { get; set; }
+		public int EventChoiceNo { get; set; }
 	}
 }

@@ -25,7 +25,7 @@ namespace MonitorClientFS2
 			var timeBytes = bytes.GetRange(1, 4);
 			fsJournalItem.DeviceTime = ParceDateTime(timeBytes);
 			fsJournalItem.SystemTime = DateTime.Now;
-			fsJournalItem.Description = GetEventName(bytes);
+			fsJournalItem.Description = GetEventName(bytes, fsJournalItem);
 
 			var shleifNo = bytes[6] + 1;
 			if (bytes[0] == 0x83)
@@ -61,6 +61,8 @@ namespace MonitorClientFS2
 				fsJournalItem.StateType = (StateType)byteState;
 			else
 				fsJournalItem.StateType = StateType.No;
+
+			fsJournalItem.StateWord = byteState;
 
 			// Системная неисправность
 			if (bytes[0] == 0x0D && byteState == 0x20)
@@ -232,9 +234,10 @@ namespace MonitorClientFS2
 			}
 		}
 
-		private static string GetEventName(List<byte> bytes)
+		private static string GetEventName(List<byte> bytes, FSJournalItem fsJournalItem)
 		{
-			int flag = bytes[5];
+			int eventChoiceNo = bytes[5];
+			fsJournalItem.EventChoiceNo = eventChoiceNo;
 			var eventName = MetadataHelper.GetEventByCode(bytes[0]);
 			var firstIndex = eventName.IndexOf("[");
 			var lastIndex = eventName.IndexOf("]");
@@ -244,9 +247,9 @@ namespace MonitorClientFS2
 				var secondPart = eventName.Substring(firstIndex + 1, lastIndex - firstIndex - 1);
 				var thirdPart = eventName.Substring(lastIndex + 1);
 				var secondParts = secondPart.Split('/');
-				if (flag < secondParts.Count())
+				if (eventChoiceNo < secondParts.Count())
 				{
-					var choise = secondParts[flag];
+					var choise = secondParts[eventChoiceNo];
 					return firstPart + choise + thirdPart;
 				}
 			}
