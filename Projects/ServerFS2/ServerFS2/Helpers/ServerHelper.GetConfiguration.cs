@@ -82,7 +82,7 @@ namespace ServerFS2
 					var messageNo = Convert.ToInt32(logic[7]) * 8 + Convert.ToInt32(logic[6]) * 4 + Convert.ToInt32(logic[5]) * 2 + Convert.ToInt32(logic[4]);
 					var messageType = Convert.ToInt32(logic[3]);
 					byte eventType = DeviceFlash[pointer + 30]; // Тип события по которому срабатывать в этой группе зон (1)
-					outAndOr = DeviceFlash[pointer + 31];
+					outAndOr = Convert.ToByte(DeviceFlash[pointer + 31] & 3);
 					if (outAndOr == 0x01)
 						child.ZoneLogic.JoinOperator = ZoneLogicJoinOperator.And;
 					if (outAndOr == 0x02)
