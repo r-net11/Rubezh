@@ -73,7 +73,7 @@ namespace DevicesModule.Plans.ViewModels
 				// TODO: FIX IT
 				if (!_lockSelection)
 				{
-					device.ExpantToThis();
+					device.ExpandToThis();
 					SelectedDevice = device;
 				}
 			}

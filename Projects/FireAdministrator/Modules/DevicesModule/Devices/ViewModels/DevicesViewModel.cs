@@ -82,7 +82,7 @@ namespace DevicesModule.ViewModels
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 				{
-					deviceViewModel.ExpantToThis();
+					deviceViewModel.ExpandToThis();
 					SelectedDevice = deviceViewModel;
 					//deviceViewModel.IsSelected = true;
 				}
@@ -98,7 +98,7 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDevice = value;
 				if (value != null)
-					value.ExpantToThis();
+					value.ExpandToThis();
 				OnPropertyChanged("SelectedDevice");
 				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
@@ -333,7 +333,7 @@ namespace DevicesModule.ViewModels
 				// TODO: FIX IT
 				if (!_lockSelection)
 				{
-					device.ExpantToThis();
+					device.ExpandToThis();
 					SelectedDevice = device;
 				}
 			}

@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Common;
 using Infrastructure.Common.TreeList;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace Controls.TreeList
 {
@@ -28,19 +30,24 @@ namespace Controls.TreeList
 			treeList.CreateChildrenNodes(treeList.Root);
 		}
 
-		//public static DependencyProperty SelectedNodeProperty = DependencyProperty.Register("SelectedNode", typeof(object), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedNodeChanged)));
-		//public object SelectedNode
-		//{
-		//    get { return (IEnumerable)GetValue(SelectedNodeProperty); }
-		//    set { SetValue(SelectedNodeProperty, value); }
-		//}
-		//private static void OnSelectedNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		//{
-		//    var treeList = (TreeList)d;
-		//    treeList.Root.Children.Clear();
-		//    treeList.Rows.Clear();
-		//    treeList.CreateChildrenNodes(treeList.Root);
-		//}
+		public static DependencyProperty SelectedNodeProperty = DependencyProperty.Register("SelectedNode", typeof(ITreeNodeModel), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedNodeChanged)) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+		public ITreeNodeModel SelectedNode
+		{
+			get { return (ITreeNodeModel)GetValue(SelectedNodeProperty); }
+			set { SetValue(SelectedNodeProperty, value); }
+		}
+		private static void OnSelectedNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var treeList = (TreeList)d;
+			var model = (ITreeNodeModel)e.NewValue;
+			var oldModel = (ITreeNodeModel)e.OldValue;
+			if (oldModel != null)
+				oldModel.IsSelected = false;
+			if (model == null)
+				treeList.SetValue(Selector.SelectedItemProperty, null);
+			else
+				model.IsSelected = true;
+		}
 
 		internal TreeNode Root { get; private set; }
 		internal ObservableCollectionAdv<TreeNode> Rows { get; private set; }
@@ -50,11 +57,11 @@ namespace Controls.TreeList
 		{
 			get { return Root.Nodes; }
 		}
-		public ICollection<TreeNode> SelectedNodes
+		public ICollection<TreeNode> SelectedTreeNodes
 		{
 			get { return SelectedItems.Cast<TreeNode>().ToArray(); }
 		}
-		public TreeNode SelectedNode
+		public TreeNode SelectedTreeNode
 		{
 			get { return SelectedItems.Count > 0 ? SelectedItems[0] as TreeNode : null; }
 		}
@@ -66,6 +73,12 @@ namespace Controls.TreeList
 			SetIsExpanded(Root, true);
 			ItemsSource = Rows;
 			ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
+			var descriptor = DependencyPropertyDescriptor.FromProperty(Selector.SelectedItemProperty, typeof(Selector));
+			descriptor.AddValueChanged(this, (s, e) =>
+			{
+				SelectedNode = SelectedItem == null ? null : ((TreeNode)SelectedItem).Tag;
+				ScrollIntoView(SelectedItem);
+			});
 		}
 
 		protected override DependencyObject GetContainerForItemOverride()
@@ -82,7 +95,7 @@ namespace Controls.TreeList
 			var node = item as TreeNode;
 			if (ti != null && node != null)
 			{
-				ti.Node = item as TreeNode;
+				ti.Node = node;
 				base.PrepareContainerForItemOverride(element, node.Tag);
 			}
 		}

@@ -99,6 +99,7 @@
 		<Setter Property="Controls:ListViewLayoutManager.Enabled" Value="True" />
 		<Setter Property="Controls:ListViewLayoutManager.MinWidth" Value="50" />
 		<Setter Property="Controls:ListViewLayoutManager.Columns" Value="{Binding View.Columns, RelativeSource={RelativeSource Self}}" />
+		<Setter Property="SelectionMode" Value="Single" />
 
 		<Setter Property="Template">
 			<Setter.Value>
@@ -127,18 +128,9 @@
 		</Setter>
 	</Style>
 
-	<Style TargetType="{x:Type tree:TreeList}" BasedOn="{StaticResource {x:Type ListView}}">
-		<!--<Setter Property="ItemContainerStyle">
-			<Setter.Value>
-				<Style TargetType="tree:TreeListItem">
-					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-					<Setter Property="VerticalContentAlignment" Value="Center" />
-				</Style>
-			</Setter.Value>
-		</Setter>-->
-	</Style>
-	<Style TargetType="{x:Type tree:TreeListItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
-		<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+	<Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type tree:TreeList}" />
+	<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type tree:TreeListItem}">
+		<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>

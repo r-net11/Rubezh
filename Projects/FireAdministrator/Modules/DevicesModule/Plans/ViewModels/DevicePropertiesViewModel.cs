@@ -73,7 +73,7 @@ namespace DevicesModule.Plans.ViewModels
 			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceViewModel != null)
 			{
-				deviceViewModel.ExpantToThis();
+				deviceViewModel.ExpandToThis();
 			}
 			SelectedDevice = deviceViewModel;
 		}
