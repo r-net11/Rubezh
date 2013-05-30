@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
+using ServerFS2.DataBase;
 
 namespace MonitorClientFS2
 {
@@ -31,6 +32,8 @@ namespace MonitorClientFS2
 
 		public void StartMonitoring()
 		{
+			DeviceStatesManager.Initialize();
+			DeviceStatesManager.GetAllStates();
 			if (!DoMonitoring)
 			{
 				StartTime = DateTime.Now;
@@ -53,7 +56,8 @@ namespace MonitorClientFS2
 				{
 					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
 					{
-						monitoringDevice.GetNewItems();
+						var journalItems = monitoringDevice.GetNewItems();
+						DeviceStatesManager.UpdateDeviceState(journalItems);
 					}
 					foreach (var monitoringDevice in MonitoringDevices)
 					{

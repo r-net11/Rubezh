@@ -28,6 +28,7 @@
                             <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
                             <DataGridTextColumn Header="Device" Binding="{Binding Device.DottedPresentationNameAndAddress}" />
                             <DataGridTextColumn Header="PanelDevice" Binding="{Binding PanelDevice.DottedPresentationNameAndAddress}" />
+                            <DataGridTextColumn Header="StateWord" Binding="{Binding StateWord}" />
                             
                             
                             <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />

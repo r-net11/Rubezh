@@ -192,20 +192,20 @@ namespace ServerFS2.DataBase
 					try
 					{
 						var fsJournalItem = new FSJournalItem();
-						fsJournalItem.Description = TryGetNullableStr(reader, 0);// reader.GetString(0);
-						fsJournalItem.Detalization = TryGetNullableStr(reader, 1);
+						fsJournalItem.Description = TryGetNullableString(reader, 0);// reader.GetString(0);
+						fsJournalItem.Detalization = TryGetNullableString(reader, 1);
 						fsJournalItem.DeviceCategory = reader.GetInt32(2);
 						fsJournalItem.DeviceUID = reader.GetGuid(3);
 						if (!reader.IsDBNull(4))
-							fsJournalItem.DeviceName = TryGetNullableStr(reader, 4);
+							fsJournalItem.DeviceName = TryGetNullableString(reader, 4);
 						fsJournalItem.DeviceTime = reader.GetDateTime(5);
 						fsJournalItem.PanelUID = reader.GetGuid(6);
-						fsJournalItem.PanelName = TryGetNullableStr(reader, 7);
+						fsJournalItem.PanelName = TryGetNullableString(reader, 7);
 						fsJournalItem.StateType = (StateType)reader.GetInt32(8);
 						fsJournalItem.SubsystemType = (SubsystemType)reader.GetInt32(9);
 						fsJournalItem.SystemTime = reader.GetDateTime(10);
-						fsJournalItem.UserName = TryGetNullableStr(reader, 11);
-						fsJournalItem.ZoneName = TryGetNullableStr(reader, 12);
+						fsJournalItem.UserName = TryGetNullableString(reader, 11);
+						fsJournalItem.ZoneName = TryGetNullableString(reader, 12);
 						result.Add(fsJournalItem);
 					}
 					catch { ;}
@@ -215,7 +215,7 @@ namespace ServerFS2.DataBase
 			return result;
 		}
 
-		private static string TryGetNullableStr(SqlCeDataReader reader, int index)
+		private static string TryGetNullableString(SqlCeDataReader reader, int index)
 		{
 			if (!reader.IsDBNull(index))
 				return reader.GetString(index);

@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MonitorClientFS2.Properties
-{
-
-
-	/// <summary>
+namespace MonitorTestClientFS2.Properties {
+    using System;
+    
+    
+    /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
     // Этот класс создан автоматически классом StronglyTypedResourceBuilder
@@ -39,7 +39,7 @@ namespace MonitorClientFS2.Properties
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MonitorClientFS2.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MonitorTestClientFS2.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

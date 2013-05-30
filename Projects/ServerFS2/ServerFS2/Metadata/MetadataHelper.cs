@@ -11,7 +11,7 @@ namespace ServerFS2
 
 		public static void Initialize()
 		{
-			using (var fileStream = new FileStream(@"Helpers\rubezh2010.xml", FileMode.Open))
+			using (var fileStream = new FileStream(@"Metadata\rubezh2010.xml", FileMode.Open))
 			{
 				var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
 				Metadata = (Rubezh2010.driverConfig)serializer.Deserialize(fileStream);
@@ -52,12 +52,12 @@ namespace ServerFS2
 				case 0x7C: return new Guid("584BC59A-28D5-430B-90BF-592E40E843A6"); // "УОО-ТЛ"
 				case 0x7E: return new Guid("043fbbe0-8733-4c8d-be0c-e5820dbf7039"); // "Модуль дымоудаления-1"
 				case 0x51: return new Guid("dba24d99-b7e1-40f3-a7f7-8a47d4433392"); // "Пожарная адресная метка АМ-1"
-                case 0x52: return new Guid("CD7FCB14-F808-415C-A8B7-11C512C275B4"); // "Кнопка останова СПТ"
-                case 0x54: return new Guid("E8C04507-0C9D-429C-9BBE-166C3ECA4B5C"); // "Кнопка запуска СПТ"
-                case 0x53: return new Guid("1909EBDF-467D-4565-AD5C-CD5D9084E4C3"); // "Кнопка управления автоматикой"
-                case 0x58: return new Guid("2F875F0C-54AA-47CE-B639-FE5E3ED9841B"); // "Кнопка вкл автоматики ШУЗ и насосов в направлении"
-                case 0x5A: return new Guid("935B0020-889B-4A94-9563-EC0E4127E8E3"); // "Кнопка разблокировки автоматики ШУЗ в направлении"
-                case 0x59: return new Guid("032CDF7B-6787-4612-B3D1-03E0D3FD2F53"); // "Кнопка выкл автоматики ШУЗ и насосов в направлении"
+				case 0x52: return new Guid("CD7FCB14-F808-415C-A8B7-11C512C275B4"); // "Кнопка останова СПТ"
+				case 0x54: return new Guid("E8C04507-0C9D-429C-9BBE-166C3ECA4B5C"); // "Кнопка запуска СПТ"
+				case 0x53: return new Guid("1909EBDF-467D-4565-AD5C-CD5D9084E4C3"); // "Кнопка управления автоматикой"
+				case 0x58: return new Guid("2F875F0C-54AA-47CE-B639-FE5E3ED9841B"); // "Кнопка вкл автоматики ШУЗ и насосов в направлении"
+				case 0x5A: return new Guid("935B0020-889B-4A94-9563-EC0E4127E8E3"); // "Кнопка разблокировки автоматики ШУЗ в направлении"
+				case 0x59: return new Guid("032CDF7B-6787-4612-B3D1-03E0D3FD2F53"); // "Кнопка выкл автоматики ШУЗ и насосов в направлении"
 				case 0x34: return new Guid("efca74b2-ad85-4c30-8de8-8115cc6dfdd2"); // "Охранная адресная метка АМ1-О"
 				case 0xD2: return new Guid("f5a34ce2-322e-4ed9-a75f-fc8660ae33d8"); // "Технологическая адресная метка АМ1-Т"
 				case 0x50: return new Guid("d8997f3b-64c4-4037-b176-de15546ce568"); // "Пожарная адресная метка АМП"
@@ -85,12 +85,12 @@ namespace ServerFS2
 				case "584BC59A-28D5-430B-90BF-592E40E843A6": return 0x7C; // "УОО-ТЛ"
 				case "043fbbe0-8733-4c8d-be0c-e5820dbf7039": return 0x7E; // "Модуль дымоудаления-1"
 				case "dba24d99-b7e1-40f3-a7f7-8a47d4433392": return 0x51; // "Пожарная адресная метка АМ-1"
-                case "CD7FCB14-F808-415C-A8B7-11C512C275B4": return 0x52; // "Кнопка останова СПТ"
-                case "E8C04507-0C9D-429C-9BBE-166C3ECA4B5C": return 0x54; // "Кнопка запуска СПТ"
-                case "1909EBDF-467D-4565-AD5C-CD5D9084E4C3": return 0x53; // "Кнопка управления автоматикой"
-                case "2F875F0C-54AA-47CE-B639-FE5E3ED9841B": return 0x58; // "Кнопка вкл автоматики ШУЗ и насосов в направлении"
-                case "935B0020-889B-4A94-9563-EC0E4127E8E3": return 0x5A; // "Кнопка разблокировки автоматики ШУЗ в направлении"
-                case "032CDF7B-6787-4612-B3D1-03E0D3FD2F53": return 0x59; // "Кнопка выкл автоматики ШУЗ и насосов в направлении"
+				case "CD7FCB14-F808-415C-A8B7-11C512C275B4": return 0x52; // "Кнопка останова СПТ"
+				case "E8C04507-0C9D-429C-9BBE-166C3ECA4B5C": return 0x54; // "Кнопка запуска СПТ"
+				case "1909EBDF-467D-4565-AD5C-CD5D9084E4C3": return 0x53; // "Кнопка управления автоматикой"
+				case "2F875F0C-54AA-47CE-B639-FE5E3ED9841B": return 0x58; // "Кнопка вкл автоматики ШУЗ и насосов в направлении"
+				case "935B0020-889B-4A94-9563-EC0E4127E8E3": return 0x5A; // "Кнопка разблокировки автоматики ШУЗ в направлении"
+				case "032CDF7B-6787-4612-B3D1-03E0D3FD2F53": return 0x59; // "Кнопка выкл автоматики ШУЗ и насосов в направлении"
 				case "efca74b2-ad85-4c30-8de8-8115cc6dfdd2": return 0x34; // "Охранная адресная метка АМ1-О"
 				case "f5a34ce2-322e-4ed9-a75f-fc8660ae33d8": return 0xD2; // "Технологическая адресная метка АМ1-Т"
 				case "d8997f3b-64c4-4037-b176-de15546ce568": return 0x50; // "Пожарная адресная метка АМП"
@@ -108,6 +108,89 @@ namespace ServerFS2
 				case "1AC85436-61BC-441B-B6BF-C6A0FA62748B": return 0x105; // "Реле ГК"
 				case "4993E06C-85D1-4F20-9887-4C5F67C450E8": return 0x102; // "Контроллер адресных устройств"
 				default: return 0x00; // "Неизвестное устройство"
+			}
+		}
+
+		public static string GetDeviceStateEventEnter(Rubezh2010.driverConfigDeviceStatesDeviceStateEnter deviceStateEnter, int no)
+		{
+			switch (no)
+			{
+				case 1:
+					return deviceStateEnter.event1;
+				case 2:
+					return deviceStateEnter.event2;
+				case 3:
+					return deviceStateEnter.event3;
+				case 4:
+					return deviceStateEnter.event4;
+				case 6:
+					return deviceStateEnter.event6;
+				case 8:
+					return deviceStateEnter.event8;
+				case 10:
+					return deviceStateEnter.event10;
+				case 12:
+					return deviceStateEnter.event12;
+				case 14:
+					return deviceStateEnter.event14;
+				case 16:
+					return deviceStateEnter.event16;
+				case 20:
+					return deviceStateEnter.event20;
+				case 24:
+					return deviceStateEnter.event24;
+
+
+				default:
+					return null;
+			}
+		}
+
+		public static string GetDeviceStateEventLeave(Rubezh2010.driverConfigDeviceStatesDeviceStateLeave deviceStateLeave, int no)
+		{
+			switch (no)
+			{
+				case 1:
+					return deviceStateLeave.event1;
+				case 2:
+					return deviceStateLeave.event2;
+				case 3:
+					return deviceStateLeave.event3;
+				case 4:
+					return deviceStateLeave.event4;
+				case 5:
+					return deviceStateLeave.event5;
+				case 6:
+					return deviceStateLeave.event6;
+				case 7:
+					return deviceStateLeave.event7;
+				case 8:
+					return deviceStateLeave.event8;
+				case 9:
+					return deviceStateLeave.event9;
+				case 10:
+					return deviceStateLeave.event10;
+				case 12:
+					return deviceStateLeave.event12;
+				case 14:
+					return deviceStateLeave.event14;
+				case 16:
+					return deviceStateLeave.event16;
+				case 18:
+					return deviceStateLeave.event18;
+				case 20:
+					return deviceStateLeave.event20;
+				case 22:
+					return deviceStateLeave.event22;
+				case 24:
+					return deviceStateLeave.event24;
+				case 26:
+					return deviceStateLeave.event26;
+				case 30:
+					return deviceStateLeave.event30;
+
+				default:
+					return null;
 			}
 		}
 	}
