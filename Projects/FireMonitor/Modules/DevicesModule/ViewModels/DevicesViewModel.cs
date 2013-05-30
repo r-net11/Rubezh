@@ -49,7 +49,7 @@ namespace DevicesModule.ViewModels
             {
                 var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
                 if (deviceViewModel != null)
-                    deviceViewModel.ExpantToThis();
+                    deviceViewModel.ExpandToThis();
                 SelectedDevice = deviceViewModel;
             }
         }
@@ -63,7 +63,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedDevice = value;
                 if (value != null)
-                    value.ExpantToThis();
+					value.ExpandToThis();
                 OnPropertyChanged("SelectedDevice");
             }
         }
