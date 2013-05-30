@@ -100,7 +100,7 @@ namespace MonitorClientFS2
 				//{
 				//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 				//}
-				monitoringDevice.Requests.Remove(request);
+				monitoringDevice.Requests.RemoveAll(x => x != null && x.Id == request.Id);
 			}
 		}
 
