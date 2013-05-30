@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using FiresecAPI.Models;
+
+namespace ServerFS2.Helpers
+{
+	public static class FileDBHelper
+	{
+		public static List<byte> GetRomDBFromFS1File(Device parentPanel)
+		{
+			var fileName = @"C:\Program Files\Firesec\TstData\" + parentPanel.Driver.ShortName + " - " + parentPanel.DottedAddress + "_rom.bin";
+			if (File.Exists(fileName))
+			{
+				var byteArray = File.ReadAllBytes(fileName);
+				if (byteArray != null)
+				{
+					var bytes = byteArray.ToList();
+					return bytes;
+				}
+			}
+			return new List<byte>();
+		}
+
+		public static List<byte> GetFlashDBFromFS1File(Device parentPanel)
+		{
+			var fileName = @"C:\Program Files\Firesec\TstData\" + parentPanel.Driver.ShortName + " - " + parentPanel.DottedAddress + "_flash.bin";
+			if (File.Exists(fileName))
+			{
+				var byteArray = File.ReadAllBytes(fileName);
+				if (byteArray != null)
+				{
+					var bytes = byteArray.ToList();
+					return bytes;
+				}
+			}
+			return new List<byte>();
+		}
+	}
+}
