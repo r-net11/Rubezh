@@ -22,6 +22,7 @@ namespace GKModule
 	public class GKModuleLoader : ModuleBase, IReportProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
+		static DeviceParametersViewModel DeviceParametersViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
 		NavigationItem _journalNavigationItem;
@@ -46,6 +47,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
 			DevicesViewModel = new DevicesViewModel();
+			DeviceParametersViewModel = new DeviceParametersViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			JournalsViewModel = new JournalsViewModel();
@@ -93,6 +95,7 @@ namespace GKModule
 			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
 			DevicesViewModel.Initialize();
+			DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
 			JournalsViewModel.Initialize();
@@ -110,6 +113,7 @@ namespace GKModule
 				{
 					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_journalNavigationItem,

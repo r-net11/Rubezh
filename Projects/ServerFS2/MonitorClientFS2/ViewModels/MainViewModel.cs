@@ -74,6 +74,17 @@ namespace MonitorClientFS2
 			}
 		}
 
+		FSJournalItem _selectedJournalItem;
+		public FSJournalItem SelectedJournalItem
+		{
+			get { return _selectedJournalItem; }
+			set
+			{
+				_selectedJournalItem = value;
+				OnPropertyChanged("SelectedJournalItem");
+			}
+		}
+
 		public RelayCommand StartMonitoringCommand { get; private set; }
 		void OnStartMonitoring()
 		{

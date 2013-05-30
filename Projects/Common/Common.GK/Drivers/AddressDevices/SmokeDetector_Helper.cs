@@ -25,9 +25,9 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 0, 18, 5, 20);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Текущий % дыма" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x91, Name = "Текущий % запыленности" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x93, Name = "Дата последнего обслуживания" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Текущий % дыма", InternalName = "Temperature" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x91, Name = "Текущий % запыленности", InternalName = "Dustinness" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x93, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
 
 			return driver;
 		}

@@ -10,6 +10,11 @@ namespace GKModule
 {
 	public static class JournaActionlHelper
 	{
+		public static void Add(string message, string description)
+		{
+			Add(message, description, XStateClass.Info, Guid.Empty, 0, JournalItemType.System);
+		}
+
 		public static void Add(string message, string description, XStateClass stateClass)
 		{
 			Add(message, description, stateClass, Guid.Empty, 0, JournalItemType.System);

@@ -60,7 +60,7 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Скрывать дерево планов в ОЗ" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Monitor_HidePlansTree}" HorizontalAlignment="Left" Margin="2" />
                 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Не показывать подтверждение при сбросе" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Не запрашивать подтверждение паролем" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Monitor_DoNotShowConfirmatinoOnIgnore}" HorizontalAlignment="Left" Margin="2" />
                 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Не показывать вкладку Зоны в ОЗ" HorizontalAlignment="Right" Margin="2" />

@@ -26,8 +26,8 @@ namespace Common.GK
 			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, C", 0, 70, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, C/мин", 0, 5, 1, 50);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Температура, C" });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Градиент температуры" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature" });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Градиент температуры", InternalName = "TemperatureDelta" });
 
 			return driver;
 		}

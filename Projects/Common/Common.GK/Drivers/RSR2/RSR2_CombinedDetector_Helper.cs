@@ -25,14 +25,14 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, C", 0, 70, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, C/мин", 0, 5, 1, 50);
-			GKDriversHelper.AddIntProprety(driver, 3, "Порог срабатывания по дыму, 0.001*дБ/м", 0, 180, 50, 200);
-			GKDriversHelper.AddIntProprety(driver, 4, "Порог запыленности, 0.001*дБ/м", 0, 200, 0, 500);
+			GKDriversHelper.AddIntProprety(driver, 2, "Порог срабатывания по дыму, 0.001*дБ/м", 0, 180, 50, 200);
+			GKDriversHelper.AddIntProprety(driver, 3, "Порог запыленности, 0.001*дБ/м", 0, 200, 0, 500);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Температура, C" });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Градиент температуры" });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Дым, 0.001*дБ/м" });
-			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Пыль, 0.001*дБ/м" });
-			driver.AUParameters.Add(new XAUParameter() { No = 5, Name = "Дата последнего обслуживания" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature" });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Градиент температуры", InternalName = "TemperatureDelta" });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Дым, 0.001*дБ/м", InternalName = "Dustinness" });
+			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Пыль, 0.001*дБ/м", InternalName = "Smokeness" });
+			driver.AUParameters.Add(new XAUParameter() { No = 5, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
 
 			return driver;
 		}

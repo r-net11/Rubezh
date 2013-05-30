@@ -124,7 +124,7 @@ namespace FireMonitor
 			if (e.Cancel)
 				return;
 
-			GKDBHelper.AddMessage("Выход пользователя из системы");
+			GKDBHelper.AddMessage("Выход пользователя из системы", FiresecManager.CurrentUser.Name);
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
 					module.Dispose();

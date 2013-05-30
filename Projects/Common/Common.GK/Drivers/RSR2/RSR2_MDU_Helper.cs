@@ -79,7 +79,7 @@ namespace Common.GK
 			var property4Parameter2 = new XDriverPropertyParameter()
 			{
 				Name = "Пружинный",
-				Value = 2
+				Value = 1
 			};
 			property4.Parameters.Add(property4Parameter1);
 			property4.Parameters.Add(property4Parameter2);

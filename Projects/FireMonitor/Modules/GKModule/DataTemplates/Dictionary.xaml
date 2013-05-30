@@ -7,6 +7,10 @@
         <Views:DevicesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DeviceParametersViewModel}">
+        <Views:DeviceParametersView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
         <Views:ZonesView />
     </DataTemplate>
