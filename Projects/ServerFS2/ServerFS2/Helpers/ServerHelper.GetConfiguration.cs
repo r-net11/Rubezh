@@ -411,7 +411,8 @@ namespace ServerFS2
 		static DeviceConfiguration remoteDeviceConfiguration;
 
 		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
-        {
+		{
+            var bytes = GetBytesFromFlashDB(selectedDevice, 0x115, 14);
             #region LocalVariable
             PanelDevice = (Device)selectedDevice.Clone();
 			PanelDevice.Children = new List<Device>();
@@ -1608,5 +1609,13 @@ namespace ServerFS2
 				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });
 			return result[13] * 256 * 256 + result[14] * 256 + result[15];
 		}
+
+        public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
+        {
+            var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+            var result = SendCode(bytes).Result.FirstOrDefault().Data;
+            result.RemoveRange(0, 7);
+            return result;
+        }
 	}
 }

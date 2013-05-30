@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2;
+using ServerFS2.ConfigurationWriter;
 using ServerFS2.DataBase;
 using ServerFS2.Helpers;
 
