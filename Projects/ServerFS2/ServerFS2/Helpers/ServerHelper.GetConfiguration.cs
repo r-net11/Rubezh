@@ -1087,6 +1087,7 @@ namespace ServerFS2
             ParceNoUIDeviceRom(96, DriverType.AM1_T);
 		    ParceNoUIDeviceRom(132, DriverType.RadioHandDetector);
             ParceNoUIDeviceRom(138, DriverType.RadioSmokeDetector);
+            ParceUIDeviceRom(90, DriverType.Valve);
             #region IP-64
             //if ((pointer = DeviceRom[24] * 256 * 256 + DeviceRom[25] * 256 + DeviceRom[26]) != 0) // ИП-64
             //{
@@ -1426,8 +1427,8 @@ namespace ServerFS2
 				MessageBox.Show("Пока не определено"); // МУК
 			if ((pointer = DeviceRom[72] * 256 * 256 + DeviceRom[73] * 256 + DeviceRom[74]) != 0)
 				MessageBox.Show("Пока не определено"); // БУНС
-			if ((pointer = DeviceRom[90] * 256 * 256 + DeviceRom[91] * 256 + DeviceRom[92]) != 0)
-				MessageBox.Show("Пока не определено"); // Задвижки
+            //if ((pointer = DeviceRom[90] * 256 * 256 + DeviceRom[91] * 256 + DeviceRom[92]) != 0)
+            //    MessageBox.Show("Пока не определено"); // Задвижки
 			if ((pointer = DeviceRom[102] * 256 * 256 + DeviceRom[103] * 256 + DeviceRom[104]) != 0)
 				MessageBox.Show("Пока не определено"); // АМТ-4
 			if ((pointer = DeviceRom[114] * 256 * 256 + DeviceRom[115] * 256 + DeviceRom[116]) != 0)
