@@ -190,6 +190,12 @@
     <Compile Include="TreeGridViewRowPresenter.cs" />
     <Compile Include="TreeListView.cs" />
     <Compile Include="TreeListViewItem.cs" />
+    <Compile Include="TreeList\Converters\CanExpandConverter.cs" />
+    <Compile Include="TreeList\Converters\LevelToIndentConverter.cs" />
+    <Compile Include="TreeList\RowExpander.cs" />
+    <Compile Include="TreeList\TreeList.cs" />
+    <Compile Include="TreeList\TreeListItem.cs" />
+    <Compile Include="TreeList\TreeNode.cs" />
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
@@ -197,6 +203,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -228,6 +235,10 @@
     <Page Include="Themes\Constants.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TreeListStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\GrayTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -903,6 +914,7 @@
   <ItemGroup>
     <Resource Include="StateClassIcons\Off.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

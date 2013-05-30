@@ -7,6 +7,7 @@ using System.ServiceModel;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Common;
+using System.Threading;
 
 namespace ServerFS2.Service
 {
@@ -14,62 +15,209 @@ namespace ServerFS2.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class FS2Contracr : IFS2Contract
 	{
-		[OperationContract]
 		public List<FS2Callbac> Poll(Guid clientUID)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				ClientsManager.Add(clientUID);
+
+				var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
+				if (clientInfo != null)
+				{
+					var result = CallbackManager.Get(clientInfo);
+					if (result.Count == 0)
+					{
+						clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
+						result = CallbackManager.Get(clientInfo);
+					}
+					return result;
+				}
+				return new List<FS2Callbac>();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FS2Contract.Poll");
+				return null;
+			}
 		}
 
-		[OperationContract]
 		public void CancelPoll(Guid clientUID)
 		{
-			throw new NotImplementedException();
+			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
+			if (clientInfo != null)
+			{
+				clientInfo.PollWaitEvent.Set();
+			}
 		}
 
-		[OperationContract]
 		public void CancelProgress()
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<bool> SetConfiguration(DeviceConfiguration deviceConfiguration)
+		public OperationResult<string> GetCoreConfig()
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<DeviceConfiguration> GetConfiguration()
+		public OperationResult<string> GetMetadata()
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<bool> WriteConfiguration(Guid deviceUID)
+		public OperationResult<string> GetCoreState()
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<string> GetInfo(Guid deviceUID)
+		public OperationResult<string> GetCoreDeviceParams()
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<List<FS2JournalItem>> ReadJournal(Guid deviceUID)
+		public OperationResult<string> ReadEvents(int fromId, int limit)
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<DeviceConfiguration> ReadConfiguration(Guid deviceUID)
+		public void AddToIgnoreList(List<Guid> deviceUIDs)
 		{
 			throw new NotImplementedException();
 		}
 
-		public OperationResult<bool> SynchronizeTime(Guid deviceUID)
+		public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ResetStates(string states)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SetZoneGuard(Guid deviceUID, string localZoneNo)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UnSetZoneGuard(Guid deviceUID, string localZoneNo)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AddUserMessage(string message)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> ExecuteRuntimeDeviceMethod(Guid deviceUID, string methodName, string parameters)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> CheckHaspPresence()
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> DeviceWriteConfig(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> DeviceSetPassword(Guid deviceUID, string password, int deviceUser)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID)
 		{
 			return SafeCall<bool>(() =>
 			{
-				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				ServerHelper.SynchronizeTime(device);
+				for (int i = 0; i < 10; i++)
+				{
+					var fs2ProgressInfo = new FS2ProgressInfo()
+					{
+						Comment = "Test Callbac " + i.ToString()
+					};
+					CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
+					Thread.Sleep(1000);
+				}
+
+				//var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				//ServerHelper.SynchronizeTime(device);
 				return true;
 			}, "DeviceDatetimeSync");
+		}
+
+		public OperationResult<string> DeviceGetInformation(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceGetSerialList(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, string fileName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, string fileName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceReadConfig(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceCustomFunctionList(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users)
+		{
+			throw new NotImplementedException();
+		}
+
+		public OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
+		{
+			throw new NotImplementedException();
 		}
 
 		OperationResult<T> SafeCall<T>(Func<T> func, string methodName)

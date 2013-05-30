@@ -7,7 +7,7 @@ using Common;
 
 namespace FS2Client
 {
-	public partial class FS2
+	public partial class FS2ClientContract
 	{
 		bool IsOperationByisy = false;
 		DateTime StartOperationDateTime = DateTime.Now;

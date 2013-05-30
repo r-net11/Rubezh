@@ -16,7 +16,7 @@ namespace ServerFS2
 
 		public void Start()
 		{
-
+			Bootstrapper.BootstrapperLoadEvent.Set();
 		}
 
 		public void Stop()

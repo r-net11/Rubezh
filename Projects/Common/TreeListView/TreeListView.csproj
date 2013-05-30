@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{59A4159D-1038-4770-91DF-154A22CDE411}</ProjectGuid>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RootNamespace>Ricciolo.Controls</RootNamespace>
-    <AssemblyName>Ricciolo.Controls.TreeListView</AssemblyName>
+    <RootNamespace>TreeListView</RootNamespace>
+    <AssemblyName>TreeListView</AssemblyName>
     <WarningLevel>4</WarningLevel>
     <OutputType>library</OutputType>
     <!-- Most people will use Publish dialog in Visual Studio to increment this -->
@@ -74,14 +74,14 @@
     <Reference Include="System.IdentityModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collection.cs" />
+    <Compile Include="ITreeNodeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tree\Converters.cs" />
-    <Compile Include="Tree\ITreeModel.cs" />
-    <Compile Include="Tree\RowExpander.cs" />
-    <Compile Include="Tree\TreeList.cs" />
-    <Compile Include="Tree\TreeListItem.cs" />
-    <Compile Include="Tree\TreeNode.cs" />
+    <Compile Include="Converters\CanExpandConverter.cs" />
+    <Compile Include="Converters\LevelToIndentConverter.cs" />
+    <Compile Include="RowExpander.cs" />
+    <Compile Include="TreeList.cs" />
+    <Compile Include="TreeListItem.cs" />
+    <Compile Include="TreeNode.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -126,6 +126,15 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

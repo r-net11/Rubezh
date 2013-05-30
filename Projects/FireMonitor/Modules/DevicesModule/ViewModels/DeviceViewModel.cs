@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System.Diagnostics;
+using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {

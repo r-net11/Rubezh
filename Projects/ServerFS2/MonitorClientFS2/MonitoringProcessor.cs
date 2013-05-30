@@ -11,15 +11,16 @@ namespace MonitorClientFS2
 	public class MonitoringProcessor
 	{
 		List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
-		bool DoMonitoring;
+		public static bool DoMonitoring{get; set;}
 		DateTime StartTime;
+		static object locker = new object();
 		
 		public MonitoringProcessor()
 		{
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-					MonitoringDevices.Add(new SecDeviceResponceRelation(device));
+					MonitoringDevices.Add(new SecMonitoringDevice(device));
 				else
 					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
@@ -46,14 +47,22 @@ namespace MonitorClientFS2
 
 		void OnRun()
 		{
-			while (DoMonitoring)
+			while (true)
 			{
-				foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsMonitoringAllowed))
+				if (DoMonitoring)
 				{
-					//if (monitoringDevice.Device.IntAddress == 15 || monitoringDevice.Device.IntAddress == 16) 
-					monitoringDevice.RequestLastIndex();
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
+					{
+						monitoringDevice.GetNewItems();
+					}
+					foreach (var monitoringDevice in MonitoringDevices)
+					{
+						if (monitoringDevice.CanLastIndexBeRequested())// && monitoringDevice.Device.IntAddress == 15)
+						{
+							monitoringDevice.RequestLastIndex();
+						}
+					}
 				}
-				
 				Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
 			}
 		}
@@ -64,13 +73,11 @@ namespace MonitorClientFS2
 			Request request = null;
 			lock (MonitoringDevice.Locker)
 			{
-				//var deviceResponceRelation = MonitoringDevices.FirstOrDefault(x => x.Requests.FirstOrDefault(y => y != null && y.Id == response.Id) != null);
-
 				foreach (var monitoringDevicesItem in MonitoringDevices.ToList())
 				{
 					foreach (var requestsItem in monitoringDevicesItem.Requests.ToList())
 					{
-						if (requestsItem.Id == response.Id)
+						if (requestsItem != null && requestsItem.Id == response.Id)
 						{
 							request = requestsItem;
 							monitoringDevice = monitoringDevicesItem;
@@ -78,7 +85,7 @@ namespace MonitorClientFS2
 					}
 				}
 			}
-			if (monitoringDevice != null && request != null)
+			if (request != null)
 			{
 				monitoringDevice.AnsweredCount++;
 				if (request.RequestType == RequestTypes.ReadIndex)
@@ -93,7 +100,7 @@ namespace MonitorClientFS2
 				//{
 				//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 				//}
-				monitoringDevice.Requests.Remove(request);
+				monitoringDevice.Requests.RemoveAll(x => x != null && x.Id == request.Id);
 			}
 		}
 

@@ -11,7 +11,7 @@ namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
-		List<OldMonitoringDevice> devicesLastRecord;
+		//List<OldMonitoringDevice> devicesLastRecord;
 		MonitoringProcessor MonitoringProcessor;
 
 		public MainViewModel()
@@ -23,13 +23,13 @@ namespace MonitorClientFS2
 
 			DevicesViewModel = new DevicesViewModel();
 
-			devicesLastRecord = new List<OldMonitoringDevice>();
+			//devicesLastRecord = new List<OldMonitoringDevice>();
 			//JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
 			JournalItems = new ObservableCollection<FSJournalItem>();
 			MonitoringProcessor = new MonitoringProcessor();
 
-			MonitoringDevice.OnNewItem += new Action<FSJournalItem>(ShowNewItem);
-			MonitoringDevice.OnNewItems += new Action<List<FSJournalItem>>(ShowNewItems);
+			MonitoringDevice.NewJournalItem += new Action<FSJournalItem>(ShowNewItem);
+			MonitoringDevice.JournalItems += new Action<List<FSJournalItem>>(ShowNewItems);
 
 			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			//{
@@ -54,7 +54,7 @@ namespace MonitorClientFS2
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
-				JournalItems.Add(journalItem);
+				JournalItems.Insert(0, journalItem);
 			}));
 		}
 
@@ -71,6 +71,17 @@ namespace MonitorClientFS2
 			{
 				_journalItems = value;
 				OnPropertyChanged("JournalItems");
+			}
+		}
+
+		FSJournalItem _selectedJournalItem;
+		public FSJournalItem SelectedJournalItem
+		{
+			get { return _selectedJournalItem; }
+			set
+			{
+				_selectedJournalItem = value;
+				OnPropertyChanged("SelectedJournalItem");
 			}
 		}
 

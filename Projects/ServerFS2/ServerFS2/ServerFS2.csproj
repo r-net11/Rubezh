@@ -103,9 +103,9 @@
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
     <Compile Include="DataBase\DBJournalHelper.cs" />
     <Compile Include="DataBase\FSJournalItem.cs" />
-    <Compile Include="Helpers\BytesHelper.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
+    <Compile Include="Helpers\FileDBHelper.cs" />
     <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
@@ -119,6 +119,9 @@
     <Compile Include="Helpers\MetadataHelper.cs" />
     <Compile Include="Helpers\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="TimeParceHelper.cs" />
@@ -183,13 +186,13 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\FS2Api\FS2API.csproj">
+      <Project>{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}</Project>
+      <Name>FS2API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FS2Api\FS2API.csproj">
-      <Project>{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}</Project>
-      <Name>FS2API</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
@@ -199,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

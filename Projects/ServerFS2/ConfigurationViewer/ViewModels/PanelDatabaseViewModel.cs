@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.ConfigurationWriter;
+using ServerFS2.Helpers;
 
 namespace ConfigurationViewer.ViewModels
 {
@@ -22,7 +23,7 @@ namespace ConfigurationViewer.ViewModels
 			ParentPanel = panelDatabase.ParentPanel;
 			RomDatabase = panelDatabase.RomDatabase;
 			FlashPanelDatabase = panelDatabase.FlashDatabase;
-			
+
 			RomUnequalBytes = new List<PanelUnequalByteViewModel>();
 			FlashUnequalBytes = new List<PanelUnequalByteViewModel>();
 			MergeRomDatabase();
@@ -58,38 +59,30 @@ namespace ConfigurationViewer.ViewModels
 				byteDescription.IsNotEqualToOriginal = true;
 			}
 
-			var fileName = @"C:\Program Files\Firesec\TstData\" + ParentPanel.Driver.ShortName + " - " + ParentPanel.DottedAddress + "_rom.bin";
-			if (File.Exists(fileName))
-			{
-				var byteArray = File.ReadAllBytes(fileName);
-				if (byteArray != null)
-				{
-					var bytes = byteArray.ToList();
-					//bytes.RemoveRange(0, 0x2000);
-					//var emptyBytes = new List<byte>();
-					////for (int i = 0; i < 12288; i++)
-					//for (int i = 0; i < 0x2000; i++)
-					//{
-					//    emptyBytes.Add(0);
-					//}
-					//bytes.InsertRange(0, emptyBytes);
+			var bytes = FileDBHelper.GetRomDBFromFS1File(ParentPanel);
+			//bytes.RemoveRange(0, 0x2000);
+			//var emptyBytes = new List<byte>();
+			////for (int i = 0; i < 12288; i++)
+			//for (int i = 0; i < 0x2000; i++)
+			//{
+			//    emptyBytes.Add(0);
+			//}
+			//bytes.InsertRange(0, emptyBytes);
 
-					foreach (var byteDescription in RomDatabase.BytesDatabase.ByteDescriptions)
+			foreach (var byteDescription in RomDatabase.BytesDatabase.ByteDescriptions)
+			{
+				if (bytes.Count > byteDescription.Offset)
+				{
+					var originalByte = bytes[byteDescription.Offset];
+					byteDescription.OriginalValue = originalByte;
+					if (byteDescription.Value == originalByte)
 					{
-						if (bytes.Count > byteDescription.Offset)
-						{
-							var originalByte = bytes[byteDescription.Offset];
-							byteDescription.OriginalValue = originalByte;
-							if (byteDescription.Value == originalByte)
-							{
-								byteDescription.IsNotEqualToOriginal = false;
-							}
-							else if (!byteDescription.IsReadOnly)
-							{
-								var unequalByteViewModel = new PanelUnequalByteViewModel(this, true, byteDescription);
-								RomUnequalBytes.Add(unequalByteViewModel);
-							}
-						}
+						byteDescription.IsNotEqualToOriginal = false;
+					}
+					else if (!byteDescription.IsReadOnly)
+					{
+						var unequalByteViewModel = new PanelUnequalByteViewModel(this, true, byteDescription);
+						RomUnequalBytes.Add(unequalByteViewModel);
 					}
 				}
 			}
@@ -101,71 +94,63 @@ namespace ConfigurationViewer.ViewModels
 				byteDescription.IsNotEqualToOriginal = true;
 			}
 
-			var fileName = @"C:\Program Files\Firesec\TstData\" + ParentPanel.Driver.ShortName + " - " + ParentPanel.DottedAddress + "_flash.bin";
-			if (File.Exists(fileName))
+			var bytes = FileDBHelper.GetFlashDBFromFS1File(ParentPanel);
+
+			foreach (var byteDescription in FlashPanelDatabase.BytesDatabase.ByteDescriptions)
 			{
-				var byteArray = File.ReadAllBytes(fileName);
-				if (byteArray != null)
+				if (bytes.Count > byteDescription.Offset)
 				{
-					var bytes = byteArray.ToList();
-
-					foreach (var byteDescription in FlashPanelDatabase.BytesDatabase.ByteDescriptions)
+					var originalByte = bytes[byteDescription.Offset];
+					byteDescription.OriginalValue = originalByte;
+					if (byteDescription.Value == originalByte)
 					{
-						if (bytes.Count > byteDescription.Offset)
+						byteDescription.IsNotEqualToOriginal = false;
+					}
+				}
+			}
+
+			foreach (var byteDescription in FlashPanelDatabase.BytesDatabase.ByteDescriptions)
+			{
+				if (bytes.Count > byteDescription.Offset)
+				{
+					var originalByte = bytes[byteDescription.Offset];
+					if (byteDescription.Value == originalByte)
+					{
+						byteDescription.IsNotEqualToOriginal = false;
+					}
+				}
+
+				if (byteDescription.TableBaseReference != null)
+				{
+					int index = FlashPanelDatabase.BytesDatabase.ByteDescriptions.IndexOf(byteDescription);
+					var originalReference = byteDescription.OriginalValue * 256 * 256 +
+						FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 1].OriginalValue * 256 +
+						FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 2].OriginalValue;
+					var reference = FlashPanelDatabase.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.Offset == originalReference);
+					if (reference != null)
+					{
+						var realReference = FlashPanelDatabase.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.Offset.ToString() == byteDescription.RealValue);
+						EffectorDeviceTable effectorDeviceTable1 = realReference.TableHeader as EffectorDeviceTable;
+						EffectorDeviceTable effectorDeviceTable2 = reference.TableHeader as EffectorDeviceTable;
+						if (effectorDeviceTable1 != null && effectorDeviceTable2 != null)
 						{
-							var originalByte = bytes[byteDescription.Offset];
-							byteDescription.OriginalValue = originalByte;
-							if (byteDescription.Value == originalByte)
+							if (effectorDeviceTable1.Device.PresentationAddress == effectorDeviceTable2.Device.PresentationAddress)
 							{
-								byteDescription.IsNotEqualToOriginal = false;
+								FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 0].IsNotEqualToOriginal = false;
+								FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 1].IsNotEqualToOriginal = false;
+								FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 2].IsNotEqualToOriginal = false;
+
+								var refeenceName = originalReference.ToString() + " - " + effectorDeviceTable2.Device.DottedPresentationAddressAndName;
+								byteDescription.OriginalReference = refeenceName;
 							}
 						}
 					}
+				}
 
-					foreach (var byteDescription in FlashPanelDatabase.BytesDatabase.ByteDescriptions)
-					{
-						if (bytes.Count > byteDescription.Offset)
-						{
-							var originalByte = bytes[byteDescription.Offset];
-							if (byteDescription.Value == originalByte)
-							{
-								byteDescription.IsNotEqualToOriginal = false;
-							}
-						}
-
-						if (byteDescription.TableBaseReference != null)
-						{
-							int index = FlashPanelDatabase.BytesDatabase.ByteDescriptions.IndexOf(byteDescription);
-							var originalReference = byteDescription.OriginalValue * 256 * 256 +
-								FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 1].OriginalValue * 256 +
-								FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 2].OriginalValue;
-							var reference = FlashPanelDatabase.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.Offset == originalReference);
-							if (reference != null)
-							{
-								var realReference = FlashPanelDatabase.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.Offset.ToString() == byteDescription.RealValue);
-								EffectorDeviceTable effectorDeviceTable1 = realReference.TableHeader as EffectorDeviceTable;
-								EffectorDeviceTable effectorDeviceTable2 = reference.TableHeader as EffectorDeviceTable;
-								if (effectorDeviceTable1 != null && effectorDeviceTable2 != null)
-								{
-									if (effectorDeviceTable1.Device.PresentationAddress == effectorDeviceTable2.Device.PresentationAddress)
-									{
-										FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 0].IsNotEqualToOriginal = false;
-										FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 1].IsNotEqualToOriginal = false;
-										FlashPanelDatabase.BytesDatabase.ByteDescriptions[index + 2].IsNotEqualToOriginal = false;
-
-										var refeenceName = originalReference.ToString() + " - " + effectorDeviceTable2.Device.DottedPresentationAddressAndName;
-										byteDescription.OriginalReference = refeenceName;
-									}
-								}
-							}
-						}
-
-						if (byteDescription.IsNotEqualToOriginal && !byteDescription.IgnoreUnequal)
-						{
-							var unequalByteViewModel = new PanelUnequalByteViewModel(this, false, byteDescription);
-							FlashUnequalBytes.Add(unequalByteViewModel);
-						}
-					}
+				if (byteDescription.IsNotEqualToOriginal && !byteDescription.IgnoreUnequal)
+				{
+					var unequalByteViewModel = new PanelUnequalByteViewModel(this, false, byteDescription);
+					FlashUnequalBytes.Add(unequalByteViewModel);
 				}
 			}
 		}

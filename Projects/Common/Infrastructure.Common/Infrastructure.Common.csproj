@@ -179,6 +179,7 @@
     <Compile Include="SeviceRightsHelper.cs" />
     <Compile Include="ShellIntegrationHelper.cs" />
     <Compile Include="StackTraceHelper.cs" />
+    <Compile Include="TreeList\ITreeNodeModel.cs" />
     <Compile Include="TreeList\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />
     <Compile Include="Reports\IReportPrintExtension.cs" />
@@ -379,6 +380,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

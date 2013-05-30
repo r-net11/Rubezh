@@ -103,5 +103,25 @@ namespace ServerFS2.ConfigurationWriter
 			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1];
 			return (ushort)result;
 		}
+
+		public static int ExtractInt(List<byte> bytes, int index)
+		{
+			return bytes[index + 0] * 256 * 256 * 256 + bytes[index + 1] * 256 * 256 + bytes[index + 2] * 256 + bytes[index + 3];
+		}
+
+		public static int ExtractTriple(List<byte> bytes, int index)
+		{
+			return bytes[index + 0] * 256 * 256 + bytes[index + 1] * 256 + bytes[index + 2];
+		}
+
+		public static int ExtractShort(List<byte> bytes, int index)
+		{
+			return bytes[index + 0] * 256 + bytes[index + 1];
+		}
+
+		public static string ExtractString(List<byte> bytes, int index)
+		{
+			return new string(Encoding.Default.GetChars(bytes.GetRange(index, 20).ToArray())).TrimEnd(' ');
+		}
 	}
 }

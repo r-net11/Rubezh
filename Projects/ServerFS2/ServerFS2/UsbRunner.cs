@@ -5,6 +5,7 @@ using System.Threading;
 using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -74,6 +75,7 @@ namespace ServerFS2
 
 		public bool Send(List<byte> data)
 		{
+			//Trace.WriteLine("UsbRunner.Send");
 			int bytesWrite;
 			Writer.Write(data.ToArray(), 2000, out bytesWrite);
 			return bytesWrite == data.Count;
@@ -102,46 +104,15 @@ namespace ServerFS2
 						};
 						if (!IsUsbDevice)
 						{
-							var responseId = (uint)(bytes.ToList()[3] +
+							response.Id = (uint)(bytes.ToList()[3] +
 									bytes.ToList()[2] * 256 +
 									bytes.ToList()[1] * 256 * 256 +
 									bytes.ToList()[0] * 256 * 256 * 256);
-							response.Id = responseId;
 						}
+						//Trace.WriteLine("UsbRunner.OnDataRecieved");
 						OnResponseRecieved(response);
 						AutoResetEvent.Set();
 						OnNewResponse(response);
-
-						//var response = new Response {Data = bytes.ToList()};
-						//Request request;
-						//if (IsUsbDevice)
-						//{
-						//    request = RequestCollection.GetFirst();
-						//    if (request != null)
-						//    {
-						//        Responses.Clear();
-						//        Responses.Add(response);
-						//        if (Responses.Count != 0)
-						//            RequestCollection.Clear();
-						//    }
-						//}
-						//else
-						//{
-						//    var responseId = (uint)(bytes.ToList()[3] +
-						//            bytes.ToList()[2] * 256 +
-						//            bytes.ToList()[1] * 256 * 256 +
-						//            bytes.ToList()[0] * 256 * 256 * 256);
-						//    response.Id = responseId;
-						//    request = RequestCollection.GetById(responseId);
-						//    RequestCollection.RemoveById(responseId);
-						//    if (request != null)
-						//    {
-						//        Responses.Add(response);
-						//    }
-						//}
-
-						//AutoResetEvent.Set();
-						//OnNewResponse(response);
 						return;
 					}
 				}
@@ -232,6 +203,7 @@ namespace ServerFS2
 			}
 			else
 			{
+				//Trace.WriteLine("response.Id = " + response.Id);
 				request = RequestCollection.GetById(response.Id);
 				RequestCollection.RemoveById(response.Id);
 				if (request != null)
@@ -270,6 +242,7 @@ namespace ServerFS2
 				}
 				else
 				{
+					//Trace.WriteLine("request.Id = " + request.Id);
 					Send(request.Data);
 				}
 				if (isSyncronuos)
@@ -284,6 +257,7 @@ namespace ServerFS2
 				{
 					for (int i = 0; i < 15; i++)
 					{
+						//Trace.WriteLine("request.Id = " + request.Id);
 						Send(request.Data);
 						AautoWaitEvent.WaitOne(timeout);
 						if (RequestCollection.Count() == 0)

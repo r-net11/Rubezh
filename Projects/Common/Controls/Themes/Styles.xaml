@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:tree="clr-namespace:Controls.TreeList">
 
 	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="Constants.xaml" />
 		<ResourceDictionary Source="Converters.xaml" />
 		<ResourceDictionary Source="BlueTheme.xaml" />
 		<ResourceDictionary Source="ScrollBarStyle.xaml" />
@@ -33,7 +34,7 @@
 		<ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
 		<ResourceDictionary Source="TreeListViewStyle.xaml" />
 		<ResourceDictionary Source="ListViewStyle.xaml" />
-		<ResourceDictionary Source="Constants.xaml" />
+		<ResourceDictionary Source="TreeListStyle.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>

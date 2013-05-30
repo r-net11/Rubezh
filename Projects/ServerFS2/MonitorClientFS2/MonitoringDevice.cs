@@ -14,15 +14,20 @@ namespace MonitorClientFS2
 	{
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
-		//const int newItemRequestTimeout = 100;
 		public const int betweenDevicesSpan = 0;
 		public const int betweenCyclesSpan = 0;
-		public const int requestExpiredTime = 10;
+		public const int requestExpiredTime = 10; // in seconds
 		public static readonly object Locker = new object();
 
 		static int UsbRequestNo = 1;
-		public static event Action<FSJournalItem> OnNewItem;
-		public static event Action<List<FSJournalItem>> OnNewItems;
+		public static event Action<FSJournalItem> NewJournalItem;
+		public static event Action<List<FSJournalItem>> JournalItems;
+
+		public static void OnNewJournalItem(FSJournalItem fsJournalItem)
+		{
+			if (NewJournalItem != null)
+				NewJournalItem(fsJournalItem);
+		}
 
 		public MonitoringDevice()
 		{
@@ -32,26 +37,25 @@ namespace MonitorClientFS2
 		{
 			Device = device;
 			Requests = new List<Request>();
-			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
-			FirstDisplayedRecord = -1;
-			IsMonitoringAllowed = true;
-		}		
+			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
+			LastSystemIndex = -1;
+			FirstSystemIndex = -1;
+			IsReadingNeeded = false;
+		}
 
+		public int LastDeviceIndex { get; set; }
+		public bool IsReadingNeeded { get; set; }
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
-		public int FirstDisplayedRecord { get; set; }
-		public bool IsMonitoringAllowed { get; private set;}
+		public int FirstSystemIndex { get; set; }
 		public int AnsweredCount { get; set; }
-		public int UnAnsweredCount
+		public int UnAnsweredCount { get; set; }
+		public int LastSystemIndex
 		{
-			get { return Requests.Count; }
-		}
-		public int LastDisplayedRecord
-		{
-			get { return lastDisplayedRecord; }
+			get { return lastSystemIndex; }
 			set
 			{
-				lastDisplayedRecord = value;
+				lastSystemIndex = value;
 				XmlJournalHelper.SetLastId(Device, value);
 			}
 		}
@@ -62,12 +66,13 @@ namespace MonitorClientFS2
 			{
 				if ((DateTime.Now - request.StartTime).TotalSeconds >= requestExpiredTime)
 				{
-					request.Expired = true;
+					Requests.Remove(request);
+					UnAnsweredCount++;
 				}
 			}
 		}
 
-		int lastDisplayedRecord;
+		int lastSystemIndex;
 		
 		public void SendRequest(Request request)
 		{
@@ -79,6 +84,17 @@ namespace MonitorClientFS2
 			Thread.Sleep(betweenDevicesSpan);
 		}
 
+		public bool CanRequestLastIndex = true;
+		public DateTime LastIndexDateTime;
+		public bool CanLastIndexBeRequested()
+		{
+			if ((DateTime.Now - LastIndexDateTime).TotalMilliseconds > 2000)
+			{
+				CanRequestLastIndex = true;
+			}
+			return CanRequestLastIndex;
+		}
+
 		public void RequestLastIndex()
 		{
 			lock (Locker)
@@ -86,71 +102,96 @@ namespace MonitorClientFS2
 				++UsbRequestNo;
 			}
 			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
+			CanRequestLastIndex = false;
+			LastIndexDateTime = DateTime.Now;
 			SendRequest(request);
 		}
 
 		public void LastIndexReceived(Response response)
 		{
+			CanRequestLastIndex = true;
 			if (!IsLastIndexValid(response))
+			{
 				return;
-			var lastDeviceRecord = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
-			if (FirstDisplayedRecord == -1)
-				FirstDisplayedRecord = lastDeviceRecord;
-			if (LastDisplayedRecord == -1)
-				LastDisplayedRecord = lastDeviceRecord;
-			Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (lastDeviceRecord - FirstDisplayedRecord));
-			if (lastDeviceRecord - LastDisplayedRecord > maxMessages)
-			{
-				LastDisplayedRecord = lastDeviceRecord - maxMessages;
 			}
-			if (lastDeviceRecord > LastDisplayedRecord)
+			LastDeviceIndex = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
+			if (FirstSystemIndex == -1)
+				FirstSystemIndex = LastDeviceIndex;
+			if (LastSystemIndex == -1)
 			{
-				//GetNewItems(lastDeviceRecord, lastDisplayedRecord);
+				Trace.WriteLine(Device.PresentationAddressAndName + " LastDeviceIndex " + LastDeviceIndex);
+				LastSystemIndex = LastDeviceIndex;
+			}
+			if (LastDeviceIndex - LastSystemIndex > maxMessages)
+			{
+				LastSystemIndex = LastDeviceIndex - maxMessages;
+			}
+			//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
+			if (LastDeviceIndex > LastSystemIndex)
+			{
+				foreach (var dataItem in response.Data)
+				{
+					Trace.Write(dataItem + " ");
+				}
+				Trace.WriteLine("");
+				Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
+				IsReadingNeeded = true;
+			}
+			if (LastDeviceIndex < lastSystemIndex)
+			{
+				foreach (var dataItem in response.Data)
+				{
+					Trace.Write(dataItem + " ");
+				}
+				Trace.WriteLine("");
 			}
 		}
 
 		bool IsLastIndexValid(Response response)
 		{
-			return response.Data.Count() >= 10;
+			if (response.Data[6] == 192)
+				throw new Exception("Ошибка считывания индекса");
+			return (response.Data.Count() == 11 &&
+				response.Data[5] == Device.IntAddress &&
+				response.Data[6] == 65);
 		}
 		
 
-		void GetNewItems(int lastDeviceRecord, int lastDisplayedRecord)
+		public void GetNewItems()
 		{
-			Trace.WriteLine("Дочитываю записи с " + LastDisplayedRecord.ToString() + " до " + lastDeviceRecord.ToString());
-			IsMonitoringAllowed = false;
-			Thread.Sleep(1000);
-			Requests.RemoveAll(x => x.RequestType == RequestTypes.ReadIndex);
-			var thread = new Thread(()=>
+			Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
+			Requests.RemoveAll(x => x!= null && x.RequestType == RequestTypes.ReadIndex);
+			var journalItems = new List<FSJournalItem>();
+			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
 			{
-				var journalItems = JournalHelper.GetJournalItems(Device, lastDeviceRecord, lastDisplayedRecord);
-				foreach (var item in journalItems)
+				var journalItem = JournalHelper.ReadItem(Device, i);
+				if (journalItem == null)
 				{
-					if (item == null)
-					{
-						Trace.WriteLine("Запись не считана");
-					}
+					Trace.WriteLine("Запись не считана");
 				}
-				DBJournalHelper.AddJournalItems(journalItems);
-				OnNewItems(journalItems);
-
-				IsMonitoringAllowed = true;
-				LastDisplayedRecord = lastDeviceRecord;
-			});
-			thread.Start();
+				else
+				{
+					MonitoringDevice.OnNewJournalItem(journalItem);
+					DBJournalHelper.AddJournalItem(journalItem);
+				}
+				journalItems.Add(journalItem);
+				
+			}
+			LastSystemIndex = LastDeviceIndex;
+			IsReadingNeeded = false;
 		}
 
 	}
 
-	public class SecDeviceResponceRelation : MonitoringDevice
+	public class SecMonitoringDevice : MonitoringDevice
 	{
-		public SecDeviceResponceRelation(Device device)
+		public SecMonitoringDevice(Device device)
 		{
 			Device = device;
 			Requests = new List<Request>();
-			LastDisplayedRecord = XmlJournalHelper.GetLastId(device);
+			LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
-			FirstDisplayedRecord = -1;
+			FirstSystemIndex = -1;
 		}
 
 		int lastDisplayedSecRecord;

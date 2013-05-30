@@ -7,12 +7,10 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows;
 
-namespace TreeListView
+namespace Controls.TreeList
 {
 	public class TreeListItem : ListViewItem, INotifyPropertyChanged
 	{
-		#region Properties
-
 		private TreeNode _node;
 		public TreeNode Node
 		{
@@ -24,8 +22,6 @@ namespace TreeListView
 			}
 		}
 
-		#endregion
-
 		public TreeListItem()
 		{
 		}
@@ -33,7 +29,6 @@ namespace TreeListView
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (Node != null)
-			{
 				switch (e.Key)
 				{
 					case Key.Right:
@@ -46,9 +41,7 @@ namespace TreeListView
 						else if (Node.Children.Count > 0)
 							ChangeFocus(Node.Children[0]);
 						break;
-
 					case Key.Left:
-
 						e.Handled = true;
 						if (Node.IsExpanded && Node.IsExpandable)
 						{
@@ -58,21 +51,17 @@ namespace TreeListView
 						else
 							ChangeFocus(Node.Parent);
 						break;
-
 					case Key.Subtract:
 						e.Handled = true;
 						Node.IsExpanded = false;
 						ChangeFocus(Node);
 						break;
-
 					case Key.Add:
 						e.Handled = true;
 						Node.IsExpanded = true;
 						ChangeFocus(Node);
 						break;
 				}
-			}
-
 			if (!e.Handled)
 				base.OnKeyDown(e);
 		}

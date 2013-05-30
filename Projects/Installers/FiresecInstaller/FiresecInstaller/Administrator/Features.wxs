@@ -9,7 +9,6 @@
       <ComponentRef Id="Administrator.xaml2svg" />
       <ComponentRef Id="Administrator.ProgramsMenuShortcut" />
       <ComponentRef Id="Administrator.DesktopShortcut" />
-
     </Feature>
   </Fragment>
 </Wix>

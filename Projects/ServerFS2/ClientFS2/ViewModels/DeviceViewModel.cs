@@ -2,6 +2,7 @@
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.TreeList;
 
 namespace ClientFS2.ViewModels
 {

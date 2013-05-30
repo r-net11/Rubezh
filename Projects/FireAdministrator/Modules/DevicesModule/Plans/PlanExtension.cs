@@ -335,7 +335,8 @@ namespace DevicesModule.Plans
 						_instance.OnDevicePropertyChanged(designerItem);
 						designerItem.Painter.Invalidate();
 					}
-			_instance._designerCanvas.Refresh();
+			if (_instance._designerCanvas != null)
+				_instance._designerCanvas.Refresh();
 		}
 	}
 }

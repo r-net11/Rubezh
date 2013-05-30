@@ -143,8 +143,8 @@ namespace ServerFS2.DataBase
 			var sqlCeCommand = new SqlCeCommand();
 			sqlCeCommand.Connection = dataContext;
 			sqlCeCommand.CommandText = @"Insert Into Journal" +
-				"(Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName) Values" +
-				"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13)";
+				"(Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName, DeviceAddress, PanelAddress) Values" +
+				"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)";
 			sqlCeCommand.Parameters.AddWithValue("@p1", (object)fsJournalItem.Description ?? DBNull.Value);
 			sqlCeCommand.Parameters.AddWithValue("@p2", (object)fsJournalItem.Detalization ?? DBNull.Value);
 			sqlCeCommand.Parameters.AddWithValue("@p3", (object)fsJournalItem.DeviceCategory ?? DBNull.Value);
@@ -158,6 +158,8 @@ namespace ServerFS2.DataBase
 			sqlCeCommand.Parameters.AddWithValue("@p11", (object)fsJournalItem.SystemTime ?? DBNull.Value);
 			sqlCeCommand.Parameters.AddWithValue("@p12", (object)fsJournalItem.UserName ?? DBNull.Value);
 			sqlCeCommand.Parameters.AddWithValue("@p13", (object)fsJournalItem.ZoneName ?? DBNull.Value);
+			sqlCeCommand.Parameters.AddWithValue("@p14", (object)fsJournalItem.DeviceAddress ?? DBNull.Value);
+			sqlCeCommand.Parameters.AddWithValue("@p15", (object)fsJournalItem.PanelAddress ?? DBNull.Value);
 			sqlCeCommand.ExecuteNonQuery();
 		}
 
