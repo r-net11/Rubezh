@@ -52,7 +52,7 @@ namespace ServerFS2
                 case DriverType.MRO_2:
                     device.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
                     config = DeviceFlash[pointer + 32];
-                    parentAddress = BytesHelper.ExtractShort(DeviceFlash, pointer + 33);
+                    parentAddress = DeviceFlash[pointer + 33] + 256 * (DeviceFlash[pointer + 34] + 1);
                     break;
 			}
             TraceBytes(device.InnerDeviceParameters, device.PresentationAddressAndName);
@@ -429,7 +429,7 @@ namespace ServerFS2
 
             var outerUIDeviceCount = DeviceFlash[pointer + 44 + shleifCount * 4]; // количество связанных внешних ИУ, кроме тех у которых в логике "межприборное И"
             tableDynamicSize += outerUIDeviceCount * 3;
-            pointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 45 + shleifCount * 4); // Указатель на размещение абсолютного адреса первого в списке связанного внешнего ИУ или 0 при отсутсвие ИУ (3)
+            var pPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 45 + shleifCount * 4); // Указатель на размещение абсолютного адреса первого в списке связанного внешнего ИУ или 0 при отсутсвие ИУ (3)
             var outPanelCount = DeviceFlash[pointer + 48 + shleifCount * 4]; // Количество внешних приборов, ИУ которого могут управляться нашими ИП по логике "межприборное И" или 0 (1)
             tableDynamicSize += outPanelCount; // не умнажаем на 3, т.к. адрес прибора записывается в 1 байт
             var zonePanelItem = new ZonePanelItem
@@ -476,6 +476,8 @@ namespace ServerFS2
             DeviceRom = GetRomDBBytes(PanelDevice);
             DeviceFlash = GetFlashDBBytes(PanelDevice);
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
+		    int pPointer;
+		    int pointer;
             #endregion
 		    ParseZonesRom(1542);
             #region Zones
