@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
 using ServerFS2.DataBase;
+using FS2Api;
 
 namespace MonitorClientFS2
 {
@@ -25,11 +26,11 @@ namespace MonitorClientFS2
 
 			//devicesLastRecord = new List<OldMonitoringDevice>();
 			//JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
-			JournalItems = new ObservableCollection<FSJournalItem>();
+			JournalItems = new ObservableCollection<FS2JournalItem>();
 			MonitoringProcessor = new MonitoringProcessor();
 
-			MonitoringDevice.NewJournalItem += new Action<FSJournalItem>(ShowNewItem);
-			MonitoringDevice.JournalItems += new Action<List<FSJournalItem>>(ShowNewItems);
+			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
+			MonitoringDevice.JournalItems += new Action<List<FS2JournalItem>>(ShowNewItems);
 
 			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			//{
@@ -50,7 +51,7 @@ namespace MonitorClientFS2
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
 
-		void ShowNewItem(FSJournalItem journalItem)
+		void ShowNewItem(FS2JournalItem journalItem)
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -58,13 +59,13 @@ namespace MonitorClientFS2
 			}));
 		}
 
-		void ShowNewItems(List<FSJournalItem> journalItems)
+		void ShowNewItems(List<FS2JournalItem> journalItems)
 		{
 			journalItems.ForEach(x => ShowNewItem(x));
 		}
 
-		ObservableCollection<FSJournalItem> _journalItems;
-		public ObservableCollection<FSJournalItem> JournalItems
+		ObservableCollection<FS2JournalItem> _journalItems;
+		public ObservableCollection<FS2JournalItem> JournalItems
 		{
 			get { return _journalItems; }
 			set
@@ -74,8 +75,8 @@ namespace MonitorClientFS2
 			}
 		}
 
-		FSJournalItem _selectedJournalItem;
-		public FSJournalItem SelectedJournalItem
+		FS2JournalItem _selectedJournalItem;
+		public FS2JournalItem SelectedJournalItem
 		{
 			get { return _selectedJournalItem; }
 			set

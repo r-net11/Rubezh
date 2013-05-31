@@ -102,7 +102,6 @@
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
     <Compile Include="DataBase\DBJournalHelper.cs" />
-    <Compile Include="DataBase\FSJournalItem.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
@@ -115,7 +114,9 @@
     <Compile Include="Helpers\ServerHelper.ReadJournal.cs" />
     <Compile Include="Helpers\ServerHelper.SetConfiguration.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
-    <Compile Include="JournalParser.cs" />
+    <Compile Include="Journal\BitsExtracter.cs" />
+    <Compile Include="Journal\FSInternalJournal.cs" />
+    <Compile Include="Journal\JournalParser.cs" />
     <Compile Include="Metadata\MetadataHelper.cs" />
     <Compile Include="Metadata\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />
     <Compile Include="Processor\WatcherManager.cs" />
-    <Compile Include="TimeParceHelper.cs" />
+    <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />

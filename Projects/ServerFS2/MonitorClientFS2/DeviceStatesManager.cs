@@ -6,6 +6,7 @@ using ServerFS2;
 using System.Diagnostics;
 using FiresecAPI.Models;
 using ServerFS2.DataBase;
+using FS2Api;
 
 namespace MonitorClientFS2
 {
@@ -47,7 +48,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public static void UpdateDeviceState(List<FSJournalItem> journalItems)
+		public static void UpdateDeviceState(List<FS2JournalItem> journalItems)
 		{
 			// check panel status
 

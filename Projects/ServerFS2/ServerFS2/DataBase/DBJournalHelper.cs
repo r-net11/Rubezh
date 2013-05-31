@@ -4,6 +4,7 @@ using System.Data.SqlServerCe;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using FS2Api;
 
 namespace ServerFS2.DataBase
 {
@@ -124,7 +125,7 @@ namespace ServerFS2.DataBase
 			catch { }
 		}
 
-		public static void AddJournalItems(List<FSJournalItem> fsJournalItems)
+		public static void AddJournalItems(List<FS2JournalItem> fsJournalItems)
 		{
 			using (var dataContext = new SqlCeConnection(ConnectionString))
 			{
@@ -138,7 +139,7 @@ namespace ServerFS2.DataBase
 			}
 		}
 
-		private static void AddItemSqlCommand(SqlCeConnection dataContext, FSJournalItem fsJournalItem)
+		private static void AddItemSqlCommand(SqlCeConnection dataContext, FS2JournalItem fsJournalItem)
 		{
 			var sqlCeCommand = new SqlCeCommand();
 			sqlCeCommand.Connection = dataContext;
@@ -163,7 +164,7 @@ namespace ServerFS2.DataBase
 			sqlCeCommand.ExecuteNonQuery();
 		}
 
-		public static void AddJournalItem(FSJournalItem fsJournalItem)
+		public static void AddJournalItem(FS2JournalItem fsJournalItem)
 		{
 			using (var dataContext = new SqlCeConnection(ConnectionString))
 			{
@@ -174,9 +175,9 @@ namespace ServerFS2.DataBase
 			}
 		}
 
-		public static List<FSJournalItem> GetJournalItems(Guid deviceUID)
+		public static List<FS2JournalItem> GetJournalItems(Guid deviceUID)
 		{
-			var result = new List<FSJournalItem>();
+			var result = new List<FS2JournalItem>();
 
 			using (var dataContext = new SqlCeConnection(ConnectionString))
 			{
@@ -191,7 +192,7 @@ namespace ServerFS2.DataBase
 				{
 					try
 					{
-						var fsJournalItem = new FSJournalItem();
+						var fsJournalItem = new FS2JournalItem();
 						fsJournalItem.Description = TryGetNullableString(reader, 0);// reader.GetString(0);
 						fsJournalItem.Detalization = TryGetNullableString(reader, 1);
 						fsJournalItem.DeviceCategory = reader.GetInt32(2);

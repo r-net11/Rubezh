@@ -115,6 +115,8 @@ namespace ServerFS2
 		{
 			switch (no)
 			{
+				case 0:
+					return deviceStateEnter.@event;
 				case 1:
 					return deviceStateEnter.event1;
 				case 2:
@@ -150,6 +152,8 @@ namespace ServerFS2
 		{
 			switch (no)
 			{
+				case 0:
+					return deviceStateLeave.@event;
 				case 1:
 					return deviceStateLeave.event1;
 				case 2:
@@ -192,6 +196,52 @@ namespace ServerFS2
 				default:
 					return null;
 			}
+		}
+
+		public static string GetAdditionalEventClass(Rubezh2010.driverConfigEventsEvent metadataEvent, int additionalEventCode)
+		{
+			switch (additionalEventCode)
+			{
+				case 0:
+					return metadataEvent.eventClass;
+				case 1:
+					return metadataEvent.eventClass1;
+				case 2:
+					return metadataEvent.eventClass2;
+				case 3:
+					return metadataEvent.eventClass3;
+				case 4:
+					return metadataEvent.eventClass4;
+				case 5:
+					return metadataEvent.eventClass5;
+				case 6:
+					return metadataEvent.eventClass6;
+				case 7:
+					return metadataEvent.eventClass7;
+				case 8:
+					return metadataEvent.eventClass8;
+				case 9:
+					return metadataEvent.eventClass9;
+				case 10:
+					return metadataEvent.eventClass10;
+				case 12:
+					return metadataEvent.eventClass12;
+				case 14:
+					return metadataEvent.eventClass14;
+				case 15:
+					return metadataEvent.eventClass15;
+				case 16:
+					return metadataEvent.eventClass16;
+				case 17:
+					return metadataEvent.eventClass17;
+				case 18:
+					return metadataEvent.eventClass18;
+				case 20:
+					return metadataEvent.eventClass20;
+				case 22:
+					return metadataEvent.eventClass22;
+			}
+			return null;
 		}
 	}
 }

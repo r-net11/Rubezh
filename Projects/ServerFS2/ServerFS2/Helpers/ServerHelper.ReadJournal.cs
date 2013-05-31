@@ -15,8 +15,8 @@ namespace ServerFS2
 		{
 			lock (Locker)
 			{
-				var journalParser = new JournalParser(bytes);
-				var journalItem = journalParser.Parce();
+				var journalParser = new JournalParser();
+				var journalItem = journalParser.Parce(bytes);
 				return journalItem;
 			}
 		}

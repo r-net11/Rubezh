@@ -5,6 +5,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using ServerFS2;
 using ServerFS2.DataBase;
+using FS2Api;
 
 namespace MonitorClientFS2
 {
@@ -65,9 +66,9 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public static List<FSJournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
+		public static List<FS2JournalItem> GetJournalItems(Device device, int lastindex, int firstindex)
 		{
-			var journalItems = new List<FSJournalItem>();
+			var journalItems = new List<FS2JournalItem>();
 			for (int i = firstindex; i <= lastindex; i++)
 			{
 				var journalItem = ReadItem(device, i);
@@ -77,20 +78,20 @@ namespace MonitorClientFS2
 			return journalItems;
 		}
 
-		public static List<FSJournalItem> GetSecJournalItems2Op(Device device, int lastindex, int firstindex)
+		public static List<FS2JournalItem> GetSecJournalItems2Op(Device device, int lastindex, int firstindex)
 		{
-			var journalItems = new List<FSJournalItem>();
+			var journalItems = new List<FS2JournalItem>();
 			for (int i = firstindex; i <= lastindex; i++)
 				journalItems.Add(ReadSecItem(device, i));
 			return journalItems;
 		}
 
-		public static List<FSJournalItem> GetAllJournalItems(Device device)
+		public static List<FS2JournalItem> GetAllJournalItems(Device device)
 		{
 			return GetJournalItems(device, GetLastJournalItemId(device), GetFirstJournalItemId(device));
 		}
 
-		public static FSJournalItem ReadItem(Device device, int i)
+		public static FS2JournalItem ReadItem(Device device, int i)
 		{
 			List<byte> bytes = new List<byte> { 0x20, 0x00 };
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
@@ -103,21 +104,22 @@ namespace MonitorClientFS2
 			return null;
 		}
 
-		private static FSJournalItem ReadSecItem(Device device, int i)
+		private static FS2JournalItem ReadSecItem(Device device, int i)
 		{
 			List<byte> bytes = new List<byte> { 0x20, 0x02 };
 			bytes.AddRange(BitConverter.GetBytes(i).Reverse());
 			return SendBytesAndParse(bytes, device);
 		}
 
-		private static FSJournalItem SendBytesAndParse(List<byte> bytes, Device device)
+		private static FS2JournalItem SendBytesAndParse(List<byte> bytes, Device device)
 		{
 			var response = SendByteCommand(bytes, device);
 			if (response == null)
 				return null;
 			lock (Locker)
 			{
-				return JournalParser.FSParce(response.Data);
+				var journalParser = new JournalParser();
+				return journalParser.Parce(response.Data);
 			}
 		}
 

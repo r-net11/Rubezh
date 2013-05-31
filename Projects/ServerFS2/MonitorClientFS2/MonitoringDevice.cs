@@ -20,10 +20,10 @@ namespace MonitorClientFS2
 		public static readonly object Locker = new object();
 
 		static int UsbRequestNo = 1;
-		public static event Action<FSJournalItem> NewJournalItem;
-		public static event Action<List<FSJournalItem>> JournalItems;
+		public static event Action<FS2JournalItem> NewJournalItem;
+		public static event Action<List<FS2JournalItem>> JournalItems;
 
-		public static void OnNewJournalItem(FSJournalItem fsJournalItem)
+		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
 			if (NewJournalItem != null)
 				NewJournalItem(fsJournalItem);
@@ -157,11 +157,11 @@ namespace MonitorClientFS2
 		}
 
 
-		public List<FSJournalItem> GetNewItems()
+		public List<FS2JournalItem> GetNewItems()
 		{
 			Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
 			Requests.RemoveAll(x => x!= null && x.RequestType == RequestTypes.ReadIndex);
-			var journalItems = new List<FSJournalItem>();
+			var journalItems = new List<FS2JournalItem>();
 			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
 			{
 				var journalItem = JournalHelper.ReadItem(Device, i);
