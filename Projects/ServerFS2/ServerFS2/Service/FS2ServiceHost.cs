@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ServiceModel;
-using Infrastructure.Common;
-using Common;
-using Infrastructure.Common.BalloonTrayTip;
 using System.Net;
+using System.ServiceModel;
+using Common;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using ServerFS2.ViewModels;
 
 namespace ServerFS2.Service

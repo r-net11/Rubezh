@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.Models;
+using FS2Api;
 using ServerFS2;
 using ServerFS2.DataBase;
-using System.Threading;
-using FS2Api;
 
 namespace MonitorClientFS2
 {

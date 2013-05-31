@@ -5,7 +5,6 @@ using System.Threading;
 using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using System.Diagnostics;
 
 namespace ServerFS2
 {

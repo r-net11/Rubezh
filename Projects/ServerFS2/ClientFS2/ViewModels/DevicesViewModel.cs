@@ -4,9 +4,9 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
-using Infrastructure.Common.TreeList;
 
 namespace ClientFS2.ViewModels
 {

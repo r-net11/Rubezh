@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FS2Client;
-using Common;
-using Infrastructure.Common;
 using System.IO;
+using Common;
+using FS2Client;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {

@@ -1,10 +1,9 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using System.Diagnostics;
-using System.Windows;
 
 namespace Infrustructure.Plans.InstrumentAdorners
 {

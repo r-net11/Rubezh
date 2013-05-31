@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-using System;
-using FiresecAPI.Models;
+﻿using System;
+using System.Runtime.Serialization;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FS2Api
 {

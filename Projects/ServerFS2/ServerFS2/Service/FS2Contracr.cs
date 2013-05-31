@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FS2Api;
 using System.ServiceModel;
+using System.Threading;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Common;
-using System.Threading;
+using FS2Api;
 using ServerFS2.Processor;
 
 namespace ServerFS2.Service

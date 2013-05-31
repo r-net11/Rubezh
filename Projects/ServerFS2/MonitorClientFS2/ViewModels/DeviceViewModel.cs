@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 
 namespace MonitorClientFS2.ViewModels

@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Device = FiresecAPI.Models.Device;
+using System.Text;
 using Infrastructure.Common;
 using Ionic.Zip;
-using System.Text;
+using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
 {

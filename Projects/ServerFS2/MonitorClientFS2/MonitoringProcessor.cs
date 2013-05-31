@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
-using ServerFS2.DataBase;
 
 namespace MonitorClientFS2
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlServerCe;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using FS2Api;
+using Infrastructure.Common;
 
 namespace ServerFS2.DataBase
 {
