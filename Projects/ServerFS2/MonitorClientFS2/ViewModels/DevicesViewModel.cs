@@ -33,7 +33,7 @@ namespace MonitorClientFS2.ViewModels
 			{
 				_selectedDevice = value;
 				if (value != null)
-					value.ExpantToThis();
+					value.ExpandToThis();
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
