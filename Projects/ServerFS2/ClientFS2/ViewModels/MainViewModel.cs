@@ -29,6 +29,7 @@ namespace ClientFS2.ViewModels
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
+            ResetStateCommand = new RelayCommand(OnResetState);
 			DevicesViewModel = new DevicesViewModel();
             ZonesViewModel = new ZonesViewModel();
             ZonesViewModel.Initialize();
@@ -200,5 +201,11 @@ namespace ClientFS2.ViewModels
 		{
 			return DevicesViewModel.SelectedDevice != null;
 		}
+
+	    public RelayCommand ResetStateCommand { get; private set; }
+        private void OnResetState()
+        {
+            ServerHelper.ResetState(DevicesViewModel.SelectedDevice.Device);
+        }
 	}
 }

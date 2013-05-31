@@ -33,6 +33,7 @@
                 <Button Content="Установить режим глухой панели" Command = "{Binding SetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Снять режим глухой панели" Command = "{Binding UnsetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Записать конфигурацию в прибор" Command = "{Binding WriteConfigurationCommand}" Width="300" Margin="2" />
+                <Button Content="Сброс тревоги" Command = "{Binding ResetStateCommand}" Width="300" Margin="2" />
                 <CheckBox Content="Прибор подключен по USB" IsChecked="{Binding IsUsbDevice}" />
             </StackPanel>
         </Grid>

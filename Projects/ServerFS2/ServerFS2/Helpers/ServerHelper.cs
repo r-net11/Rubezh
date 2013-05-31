@@ -108,5 +108,10 @@ namespace ServerFS2
             }
             deviceRamTxt.Close();
         }
+
+        public static void ResetState(Device device) // 02 54 10 00 00 00 00 00 00 00 ?
+        {
+            SendCode(CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00));
+        }
 	}
 }
