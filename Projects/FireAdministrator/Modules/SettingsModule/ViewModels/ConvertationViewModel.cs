@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using Infrastructure;
 using System.IO;
-using FiresecClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
-using Ionic.Zip;
+using System.IO.Compression;
+using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Windows;
-using System.IO.Compression;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Ionic.Zip;
 
 namespace SettingsModule.ViewModels
 {

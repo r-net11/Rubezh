@@ -119,75 +119,75 @@
     <Compile Include="Devices\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
-    <Compile Include="Devices\FS2Progress\FS2ProgressService.cs" />
+    <Compile Include="Devices\FS2\FS2ProgressService.cs" />
     <Compile Include="Devices\MergeConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2FirmwareUpdateHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2DeviceWriteConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2DeviceGetSerialListHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2DeviceGetInformationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2DeviceCustomFunctionExecuteHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2AutoDetectDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2DeviceReadConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2ReadDeviceJournallHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2SetPasswordHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2WriteAllDeviceConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\DeviceReadConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\DeviceWriteConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AsyncFS2\FS2SynchronizeDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\SynchronizeDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\WriteAllDeviceConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\FS2SetPasswordViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\FS2CustomAdminFunctionsCommandViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\FS2DeviceCommandsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\CustomAdminFunctionsCommandViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\FirmwareUpdateHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetSerialListHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AutoSearchDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\AutoSearchViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\AutoDetectDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\DeviceCommandsAuParametersViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\DeviceCommandsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\DeviceConfigurationViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\DeviceDescriptionViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\ReadDeviceJournallHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetInformationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\DeviceTreeViewModel.cs" />
+    <Compile Include="Devices\FS2\Async\FS2FirmwareUpdateHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2DeviceWriteConfigurationHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2DeviceGetSerialListHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2DeviceGetInformationHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2DeviceCustomFunctionExecuteHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2AutoDetectDeviceHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2DeviceReadConfigurationHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2ReadDeviceJournallHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2SetPasswordHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2WriteAllDeviceConfigurationHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\DeviceCustomFunctionExecuteHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\DeviceReadConfigurationHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\DeviceWriteConfigurationHelper.cs" />
+    <Compile Include="Devices\FS2\Async\FS2SynchronizeDeviceHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\SynchronizeDeviceHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\WriteAllDeviceConfigurationHelper.cs" />
+    <Compile Include="Devices\FS2\ViewModels\FS2SetPasswordViewModel.cs" />
+    <Compile Include="Devices\FS2\ViewModels\FS2CustomAdminFunctionsCommandViewModel.cs" />
+    <Compile Include="Devices\FS2\ViewModels\FS2DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />
+    <Compile Include="Devices\FSAgent\Async\FirmwareUpdateHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\DeviceGetSerialListHelper.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\AutoSearchDeviceViewModel.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\AutoSearchViewModel.cs" />
+    <Compile Include="Devices\FSAgent\Async\AutoDetectDeviceHelper.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\DeviceCommandsAuParametersViewModel.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\DeviceConfigurationViewModel.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\FSAgent\Async\ReadDeviceJournallHelper.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\DeviceJournalViewModel.cs" />
+    <Compile Include="Devices\FSAgent\Async\DeviceGetInformationHelper.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorPageDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
+    <Compile Include="Devices\FSAgent\Async\SetPasswordHelper.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\MptDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\UOOTLDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ZoneSelectationViewModel.cs" />
-    <Compile Include="Devices\Views\Actions\FS2SetPasswordView.xaml.cs">
+    <Compile Include="Devices\FS2\Views\FS2SetPasswordView.xaml.cs">
       <DependentUpon>FS2SetPasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\FS2CustomAdminFunctionsCommandView.xaml.cs">
+    <Compile Include="Devices\FS2\Views\FS2CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>FS2CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml.cs">
+    <Compile Include="Devices\FSAgent\Views\CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\AutoSearchView.xaml.cs">
+    <Compile Include="Devices\FSAgent\Views\AutoSearchView.xaml.cs">
       <DependentUpon>AutoSearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\BindMsView.xaml.cs">
+    <Compile Include="Devices\FSAgent\Views\BindMsView.xaml.cs">
       <DependentUpon>BindMsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\Actions\BindMsViewModel.cs" />
-    <Compile Include="Devices\Views\Actions\DeviceConfigurationView.xaml.cs">
+    <Compile Include="Devices\FSAgent\ViewModels\BindMsViewModel.cs" />
+    <Compile Include="Devices\FSAgent\Views\DeviceConfigurationView.xaml.cs">
       <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\DevicesTree.xaml.cs">
+    <Compile Include="Devices\FSAgent\Views\DevicesTree.xaml.cs">
       <DependentUpon>DevicesTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\Actions\SetPasswordViewModel.cs" />
-    <Compile Include="Devices\Views\Actions\DeviceDescriptionView.xaml.cs">
+    <Compile Include="Devices\FSAgent\ViewModels\SetPasswordViewModel.cs" />
+    <Compile Include="Devices\FSAgent\Views\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\DeviceJournalView.xaml.cs">
+    <Compile Include="Devices\FSAgent\Views\DeviceJournalView.xaml.cs">
       <DependentUpon>DeviceJournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
@@ -205,7 +205,7 @@
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorPageDetailsView.xaml.cs">
       <DependentUpon>IndicatorPageDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Actions\SetPasswordView.xaml.cs">
+    <Compile Include="Devices\FSAgent\Views\SetPasswordView.xaml.cs">
       <DependentUpon>SetPasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\MptDetailsView.xaml.cs">
@@ -217,8 +217,8 @@
     <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
       <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\FS2Progress\ViewModels\FS2ProgressViewModel.cs" />
-    <Compile Include="Devices\FS2Progress\Views\FS2ProgressView.xaml.cs">
+    <Compile Include="Devices\FS2\ViewModels\FS2ProgressViewModel.cs" />
+    <Compile Include="Devices\FS2\Views\FS2ProgressView.xaml.cs">
       <DependentUpon>FS2ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Async\DeviceGetGuardUsersListHelper.cs" />
@@ -453,23 +453,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Devices\Views\Actions\FS2SetPasswordView.xaml">
+    <Page Include="Devices\FS2\Views\FS2SetPasswordView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\Actions\FS2CustomAdminFunctionsCommandView.xaml">
+    <Page Include="Devices\FS2\Views\FS2CustomAdminFunctionsCommandView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml">
+    <Page Include="Devices\FSAgent\Views\CustomAdminFunctionsCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Actions\AutoSearchView.xaml">
+    <Page Include="Devices\FSAgent\Views\AutoSearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Actions\BindMsView.xaml">
+    <Page Include="Devices\FSAgent\Views\BindMsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -477,19 +477,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\Actions\DeviceConfigurationView.xaml">
+    <Page Include="Devices\FSAgent\Views\DeviceConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Actions\DeviceDescriptionView.xaml">
+    <Page Include="Devices\FSAgent\Views\DeviceDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Actions\DeviceJournalView.xaml">
+    <Page Include="Devices\FSAgent\Views\DeviceJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Actions\DevicesTree.xaml">
+    <Page Include="Devices\FSAgent\Views\DevicesTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -521,7 +521,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Actions\SetPasswordView.xaml">
+    <Page Include="Devices\FSAgent\Views\SetPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -581,7 +581,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\FS2Progress\Views\FS2ProgressView.xaml">
+    <Page Include="Devices\FS2\Views\FS2ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

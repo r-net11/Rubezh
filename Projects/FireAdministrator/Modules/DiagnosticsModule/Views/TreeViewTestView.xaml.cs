@@ -1,9 +1,7 @@
 ﻿using System.Windows.Controls;
-using DiagnosticsModule.ViewModels;
-using System.Collections.Generic;
-using FiresecClient;
-using FiresecAPI.Models;
 using DevicesModule.ViewModels;
+using FiresecAPI.Models;
+using FiresecClient;
 
 namespace DiagnosticsModule.Views
 {

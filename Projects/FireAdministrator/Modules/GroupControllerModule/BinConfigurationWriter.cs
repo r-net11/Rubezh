@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Common;
 using Common.GK;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
-using Common;
 
 namespace GKModule
 {

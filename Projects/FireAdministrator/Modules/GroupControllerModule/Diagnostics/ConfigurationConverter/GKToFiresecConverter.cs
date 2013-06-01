@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using Infrastructure;
-using Common.GK;
-using GKModule.Converter;
-using Infrastructure.Common.Windows;
-using System.IO;
-using FiresecClient;
-using XFiresecAPI;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.Diagnostics
 {

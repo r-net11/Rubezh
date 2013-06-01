@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Controls.Converters;
 using FiresecAPI.Models;
-using Infrastructure.ViewModels;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;

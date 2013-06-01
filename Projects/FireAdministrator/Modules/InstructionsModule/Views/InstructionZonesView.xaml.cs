@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using InstructionsModule.ViewModels;
 
 namespace InstructionsModule.Views
 {

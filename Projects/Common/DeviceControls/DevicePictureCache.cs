@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrustructure.Plans.Designer;
 using XFiresecAPI;
-using FiresecAPI;
-using System.Windows.Controls;
 
 namespace DeviceControls
 {

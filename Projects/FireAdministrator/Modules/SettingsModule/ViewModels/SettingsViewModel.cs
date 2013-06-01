@@ -1,8 +1,8 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecClient;
-using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SettingsModule.ViewModels
 {

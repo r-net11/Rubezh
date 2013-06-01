@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System;
-using Infrastructure;
-using Infrastructure.Common.Windows;
-using FiresecClient;
-using FiresecAPI.Models;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator.ViewModels
 {

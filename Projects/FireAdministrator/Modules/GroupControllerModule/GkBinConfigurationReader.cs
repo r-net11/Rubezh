@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using XFiresecAPI;
-using Infrastructure.Common.Windows;
-using Common.GK;
-using System.Diagnostics;
-using FiresecClient;
-using System.IO;
 using Common;
+using Common.GK;
+using FiresecClient;
+using Infrastructure.Common.Windows;
+using XFiresecAPI;
 
 namespace GKModule
 {
