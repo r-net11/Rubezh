@@ -9,11 +9,13 @@ namespace DevicesModule.ViewModels
     public static class DeviceCustomFunctionExecuteHelper
     {
         static Device _device;
+		static bool _isUsb;
         static string _functionCode;
         static OperationResult<string> _operationResult;
 
-        public static void Run(Device device, string functionCode)
+		public static void Run(Device device, bool isUsb, string functionCode)
         {
+			_isUsb = isUsb;
             _device = device;
             _functionCode = functionCode;
 
@@ -22,7 +24,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.DeviceCustomFunctionExecute(_device, _functionCode);
+			_operationResult = FiresecManager.DeviceCustomFunctionExecute(_device, _isUsb, _functionCode);
         }
 
         static void OnlCompleted()

@@ -133,7 +133,7 @@
     <Compile Include="USB\Response.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FS2Contracr.cs" />
+    <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="USB\UsbRunner.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -6,22 +6,22 @@ using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public static class FS2SynchronizeDeviceHelper
+    public static class FS2DeviceGetInformationHelper
     {
-		static Device Device;
+        static Device Device;
         static bool IsUsb;
-        static OperationResult<bool> OperationResult;
+        static OperationResult<string> OperationResult;
 
         public static void Run(Device device, bool isUsb)
         {
-			Device = device;
+            Device = device;
             IsUsb = isUsb;
-			ServiceFactory.FS2ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndName + ". Установка времени");
+			ServiceFactory.FS2ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndName + ". Чтение информации об устройстве");
         }
 
         static void OnPropgress()
         {
-			OperationResult = FiresecManager.FS2ClientContract.DeviceDatetimeSync(Device.UID, IsUsb);
+            OperationResult = FiresecManager.FS2ClientContract.DeviceGetInformation(Device.UID, IsUsb);
         }
 
         static void OnCompleted()
@@ -31,7 +31,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.ShowError(OperationResult.Error, "Ошибка при выполнении операции");
                 return;
             }
-            MessageBoxService.Show("Операция завершилась успешно");
+			DialogService.ShowModalWindow(new DeviceDescriptionViewModel(Device, OperationResult.Result));
         }
     }
 }

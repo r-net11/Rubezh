@@ -5,6 +5,16 @@ namespace FS2Api
 	[DataContract]
 	public class FS2ProgressInfo
 	{
+		public FS2ProgressInfo()
+		{
+
+		}
+
+		public FS2ProgressInfo(string comment)
+		{
+			Comment = comment;
+		}
+
 		[DataMember]
 		public int Stage { get; set; }
 

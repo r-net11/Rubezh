@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FS2Callbac.cs" />
+    <Compile Include="FS2Exception.cs" />
     <Compile Include="FS2ProgressInfo.cs" />
     <Compile Include="IFS2Contract.cs" />
     <Compile Include="FS2JournalItem.cs" />

@@ -5,6 +5,7 @@ using System.Threading;
 using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
+using FS2Api;
 
 namespace ServerFS2
 {
@@ -74,8 +75,9 @@ namespace ServerFS2
 
 		public bool Send(List<byte> data)
 		{
-			//Trace.WriteLine("UsbRunner.Send");
 			int bytesWrite;
+			if (Writer == null)
+				throw new FS2Exception("Драйвер USB отсутствует");
 			Writer.Write(data.ToArray(), 2000, out bytesWrite);
 			return bytesWrite == data.Count;
 		}

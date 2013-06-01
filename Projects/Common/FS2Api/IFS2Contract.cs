@@ -71,40 +71,40 @@ namespace FS2Api
 		OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration);
 
 		[OperationContract]
-		OperationResult<bool> DeviceWriteConfig(Guid deviceUID);
+		OperationResult<bool> DeviceWriteConfig(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<bool> DeviceSetPassword(Guid deviceUID, string password, int deviceUser);
+		OperationResult<bool> DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
 
 		[OperationContract]
 		OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetInformation(Guid deviceUID);
+		OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetSerialList(Guid deviceUID);
+		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, string fileName);
+		OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, string fileName);
+		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type);
+		OperationResult<string> DeviceReadEventLog(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
+		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
 
 		[OperationContract]
-		OperationResult<string> DeviceCustomFunctionList(Guid deviceUID);
+		OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(DriverType driverType);
 
 		[OperationContract]
-		OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName);
+		OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID);

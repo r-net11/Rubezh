@@ -180,7 +180,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
         void OnExecuteCustomAdminFunctions(bool isUsb)
         {
-            DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device));
+			DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device, isUsb));
         }
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {

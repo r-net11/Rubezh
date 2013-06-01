@@ -6,22 +6,27 @@ using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public static class FS2SynchronizeDeviceHelper
+    public static class FS2SetPasswordHelper
     {
 		static Device Device;
         static bool IsUsb;
+        static DevicePasswordType DevicePasswordType;
+        static string Password;
         static OperationResult<bool> OperationResult;
 
-        public static void Run(Device device, bool isUsb)
+        public static void Run(Device device, bool isUsb, DevicePasswordType devicePasswordType, string password)
         {
 			Device = device;
             IsUsb = isUsb;
-			ServiceFactory.FS2ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndName + ". Установка времени");
+            DevicePasswordType = devicePasswordType;
+            Password = password;
+
+			ServiceFactory.FS2ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndName + ". Установка пароля");
         }
 
         static void OnPropgress()
         {
-			OperationResult = FiresecManager.FS2ClientContract.DeviceDatetimeSync(Device.UID, IsUsb);
+            OperationResult = FiresecManager.FS2ClientContract.DeviceSetPassword(Device.UID, IsUsb, DevicePasswordType, Password);
         }
 
         static void OnCompleted()

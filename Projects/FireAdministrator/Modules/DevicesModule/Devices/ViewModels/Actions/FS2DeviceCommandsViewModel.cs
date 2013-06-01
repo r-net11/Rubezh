@@ -17,6 +17,7 @@ namespace DevicesModule.ViewModels
 
 		public FS2DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
         {
+			ServiceFactory.FS2ProgressService = new FS2ProgressService();
             AutoDetectCommand = new RelayCommand(OnAutoDetect, CanAutoDetect);
             ReadDeviceCommand = new RelayCommand<bool>(OnReadDevice, CanReadDevice);
             WriteDeviceCommand = new RelayCommand<bool>(OnWriteDevice, CanWriteDevice);
@@ -42,7 +43,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            AutoDetectDeviceHelper.Run(SelectedDevice);
+            FS2AutoDetectDeviceHelper.Run(SelectedDevice.Device);
         }
         bool CanAutoDetect()
         {
@@ -80,7 +81,7 @@ namespace DevicesModule.ViewModels
         void OnWriteDevice(bool isUsb)
         {
             if (ValidateConfiguration())
-                DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
+                FS2DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanWriteDevice(bool isUsb)
         {
@@ -105,7 +106,7 @@ namespace DevicesModule.ViewModels
 //#endif
 			if (ValidateConfiguration())
             {
-                WriteAllDeviceConfigurationHelper.Run();
+                FS2WriteAllDeviceConfigurationHelper.Run();
             }
         }
         bool CanWriteAllDevice()
@@ -145,7 +146,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;
 			}
-            FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
+            FS2FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanUpdateSoft(bool isUsb)
         {
@@ -155,7 +156,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> GetDescriptionCommand { get; private set; }
         void OnGetDescription(bool isUsb)
         {
-            DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
+			FS2DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanGetDescription(bool isUsb)
         {
@@ -165,7 +166,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> GetDeveceJournalCommand { get; private set; }
         void OnGetDeveceJournal(bool isUsb)
         {
-            ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
+			FS2ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanGetDeveceJournal(bool isUsb)
         {
@@ -175,7 +176,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SetPasswordCommand { get; private set; }
         void OnSetPassword(bool isUsb)
         {
-            DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device, isUsb));
+			DialogService.ShowModalWindow(new FS2SetPasswordViewModel(SelectedDevice.Device, isUsb));
         }
         bool CanSetPassword(bool isUsb)
         {
@@ -185,7 +186,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand BindMsCommand { get; private set; }
         void OnBindMs()
         {
-            DeviceGetSerialListHelper.Run(SelectedDevice.Device);
+			FS2DeviceGetSerialListHelper.Run(SelectedDevice.Device);
         }
         bool CanBindMs()
         {
@@ -195,7 +196,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
         void OnExecuteCustomAdminFunctions(bool isUsb)
         {
-            DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device));
+			DialogService.ShowModalWindow(new FS2CustomAdminFunctionsCommandViewModel(SelectedDevice.Device, isUsb));
         }
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {

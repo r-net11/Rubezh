@@ -6,18 +6,18 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class CustomAdminFunctionsCommandViewModel : SaveCancelDialogViewModel
+    public class FS2CustomAdminFunctionsCommandViewModel : SaveCancelDialogViewModel
     {
-        Device _device;
-		bool _isUsb;
+        Device Device;
+		bool IsUsb;
 
-        public CustomAdminFunctionsCommandViewModel(Device device, bool isUsb)
+		public FS2CustomAdminFunctionsCommandViewModel(Device device, bool isUsb)
         {
-            _device = device;
-			_isUsb = isUsb;
+            Device = device;
+			IsUsb = isUsb;
             Title = "Выбор функции";
 
-            var operationResult = FiresecManager.FiresecDriver.DeviceCustomFunctionList(device.Driver.UID);
+            var operationResult = FiresecManager.FS2ClientContract.DeviceCustomFunctionList(device.Driver.DriverType);
             if (operationResult.HasError)
             {
 				MessageBoxService.ShowError(operationResult.Error, "Ошибка при выполнении операции");
@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (SelectedFunction != null)
 			{
-				DeviceCustomFunctionExecuteHelper.Run(_device, _isUsb, SelectedFunction.Code);
+				FS2DeviceCustomFunctionExecuteHelper.Run(Device, IsUsb, SelectedFunction.Code);
 			}
 			return base.Save();
 		}
