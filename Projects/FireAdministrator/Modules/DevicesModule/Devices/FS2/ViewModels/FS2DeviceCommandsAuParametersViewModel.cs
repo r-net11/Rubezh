@@ -11,7 +11,7 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceCommandsAuParametersViewModel
+	public class FS2DeviceCommandsAuParametersViewModel
 	{
 		DevicesViewModel DevicesViewModel;
 		public DeviceViewModel SelectedDevice
@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
 			get { return DevicesViewModel.SelectedDevice; }
 		}
 
-		public DeviceCommandsAuParametersViewModel(DevicesViewModel devicesViewModel)
+		public FS2DeviceCommandsAuParametersViewModel(DevicesViewModel devicesViewModel)
 		{
 			ResetConfigurationParametersCommand = new RelayCommand(OnResetConfigurationParameters, CanGetConfigurationParameters);
 			GetConfigurationParametersCommand = new RelayCommand(OnGetConfigurationParameters, CanGetConfigurationParameters);
@@ -204,7 +204,10 @@ namespace DevicesModule.ViewModels
 				LoadingService.Close();
 			}
 		}
+        void ReadOneParameter()
+        {
 
+        }
 		bool CanGetAllDeviceConfigurationParameters()
 		{
 			if (SelectedDevice != null)

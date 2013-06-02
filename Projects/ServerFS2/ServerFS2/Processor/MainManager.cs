@@ -1,8 +1,10 @@
 ﻿using FiresecAPI.Models;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using FS2Api;
 using ServerFS2.Service;
+using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2.Processor
 {
@@ -40,6 +42,20 @@ namespace ServerFS2.Processor
 
 		public static bool DeviceWriteConfig(Device device, bool isUSB)
 		{
+			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
+			var configurationWriterHelper = new SystemDatabaseCreator();
+			configurationWriterHelper.Run();
+
+			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
+			if (panelDatabase == null)
+				throw new FS2Exception("Не найдена сформированная для устройства база данных");
+
+			var parentPanel = panelDatabase.ParentPanel;
+			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
+			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
+			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
+			ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
+
 			return true;
 		}
 
@@ -78,14 +94,19 @@ namespace ServerFS2.Processor
 			return ServerHelper.GetDeviceConfig(device);
 		}
 
-		public static string DeviceReadEventLog(Device device, bool isUSB)
+		public static List<FS2JournalItem> DeviceReadEventLog(Device device, bool isUSB)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			return ServerHelper.GetJournalItems(device);
 		}
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
 		{
-			return new DeviceConfiguration();
+			var rootDevice = ServerHelper.AutoDetectDevice();
+			var deviceConfiguration = new DeviceConfiguration()
+			{
+				RootDevice = rootDevice
+			};
+			return deviceConfiguration;
 		}
 
 		public static List<DeviceCustomFunction> DeviceCustomFunctionList(DriverType driverType)
@@ -129,6 +150,16 @@ namespace ServerFS2.Processor
 		}
 
 		public static string DeviceGetMDS5Data(Device device)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static bool SetConfigurationParameters(Device device, List<Property> properties)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static List<Property> GetConfigurationParameters(Device device)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}

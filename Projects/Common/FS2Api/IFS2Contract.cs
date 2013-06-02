@@ -95,7 +95,7 @@ namespace FS2Api
 		OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceReadEventLog(Guid deviceUID, bool isUSB);
+		OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
@@ -114,6 +114,12 @@ namespace FS2Api
 
 		[OperationContract]
 		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SetConfigurationParameters(Guid deviceUID, List<Property> properties);
+
+		[OperationContract]
+		OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID);
 		#endregion
 	}
 }

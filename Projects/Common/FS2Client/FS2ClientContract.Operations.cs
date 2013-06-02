@@ -144,7 +144,7 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.DeviceReadConfig(deviceUID, isUSB); }, "DeviceReadConfig");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceReadEventLog(Guid deviceUID, bool isUSB)
+		public FiresecAPI.OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB)
 		{
 			return SafeOperationCall(() => { return FS2Contract.DeviceReadEventLog(deviceUID, isUSB); }, "DeviceReadEventLog");
 		}
@@ -177,6 +177,16 @@ namespace FS2Client
 		public FiresecAPI.OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FS2Contract.DeviceGetMDS5Data(deviceUID); }, "DeviceGetMDS5Data");
+		}
+
+		public FiresecAPI.OperationResult<bool> SetConfigurationParameters(Guid deviceUID, List<Property> properties)
+		{
+			return SafeOperationCall(() => { return FS2Contract.SetConfigurationParameters(deviceUID, properties); }, "SetConfigurationParameters");
+		}
+
+		public FiresecAPI.OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetConfigurationParameters(deviceUID); }, "GetConfigurationParameters");
 		}
 		#endregion
 	}

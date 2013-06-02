@@ -63,20 +63,12 @@
         <Views:SetPasswordView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:FS2SetPasswordViewModel}">
-        <Views:FS2SetPasswordView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:BindMsViewModel}">
         <Views:BindMsView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:CustomAdminFunctionsCommandViewModel}">
         <Views:CustomAdminFunctionsCommandView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:FS2CustomAdminFunctionsCommandViewModel}">
-        <Views:FS2CustomAdminFunctionsCommandView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:AutoSearchViewModel}">
@@ -91,8 +83,20 @@
         <Views:DeviceConfigurationView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:FS2SetPasswordViewModel}">
+        <Views:FS2SetPasswordView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:FS2CustomAdminFunctionsCommandViewModel}">
+        <Views:FS2CustomAdminFunctionsCommandView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:FS2ProgressViewModel}">
         <Views:FS2ProgressView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:FS2DeviceJournalViewModel}">
+        <Views:FS2DeviceJournalView />
     </DataTemplate>
 
 </ResourceDictionary>

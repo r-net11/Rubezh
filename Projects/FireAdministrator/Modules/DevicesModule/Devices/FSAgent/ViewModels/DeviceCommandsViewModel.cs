@@ -29,7 +29,7 @@ namespace DevicesModule.ViewModels
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
-            DeviceCommandsAuParametersViewModel = new ViewModels.DeviceCommandsAuParametersViewModel(DevicesViewModel);
+            DeviceCommandsAuParametersViewModel = new DeviceCommandsAuParametersViewModel(DevicesViewModel);
         }
 
         public DeviceViewModel SelectedDevice

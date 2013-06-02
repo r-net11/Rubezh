@@ -3,6 +3,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using FS2Api;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -10,7 +12,7 @@ namespace DevicesModule.ViewModels
 	{
 		static Device Device;
 		static bool IsUsb;
-		static OperationResult<string> OperationResult;
+		static OperationResult<List<FS2JournalItem>> OperationResult;
 
 		public static void Run(Device device, bool isUsb)
 		{
@@ -32,7 +34,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.ShowError(OperationResult.Error, "Ошибка при выполнении операции");
 				return;
 			}
-			DialogService.ShowModalWindow(new DeviceJournalViewModel(OperationResult.Result));
+			DialogService.ShowModalWindow(new FS2DeviceJournalViewModel(OperationResult.Result));
 		}
 	}
 }

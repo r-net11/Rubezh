@@ -211,24 +211,13 @@ namespace ServerFS2.Service
 		{
 			return SafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
 			{
-				//for (int i = 0; i < 10; i++)
-				//{
-				//    var fs2ProgressInfo = new FS2ProgressInfo()
-				//    {
-				//        Comment = "Test Callbac " + i.ToString()
-				//    };
-				//    CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
-				//    Thread.Sleep(1000);
-				//}
-				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				return null;
-				return MainManager.DeviceReadConfig(device, isUSB);
+				return MainManager.DeviceReadConfig(FindDevice(deviceUID), isUSB);
 			}, "DeviceReadConfig");
 		}
 
-		public OperationResult<string> DeviceReadEventLog(Guid deviceUID, bool isUSB)
+		public OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB)
 		{
-			return SafeCallWithMonitoringSuspending<string>(() =>
+			return SafeCallWithMonitoringSuspending<List<FS2JournalItem>>(() =>
 			{
 				return MainManager.DeviceReadEventLog(FindDevice(deviceUID), isUSB);
 			}, "DeviceReadEventLog");
@@ -280,6 +269,22 @@ namespace ServerFS2.Service
 			{
 				return MainManager.DeviceGetMDS5Data(FindDevice(deviceUID));
 			}, "DeviceGetMDS5Data");
+		}
+
+		public OperationResult<bool> SetConfigurationParameters(Guid deviceUID, List<Property> properties)
+		{
+			return SafeCall<bool>(() =>
+			{
+				return MainManager.SetConfigurationParameters(FindDevice(deviceUID), properties);
+			}, "SetConfigurationParameters");
+		}
+
+		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
+		{
+			return SafeCall<List<Property>>(() =>
+			{
+				return MainManager.GetConfigurationParameters(FindDevice(deviceUID));
+			}, "GetConfigurationParameters");
 		}
 		#endregion
 

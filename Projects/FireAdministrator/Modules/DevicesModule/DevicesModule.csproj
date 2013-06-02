@@ -120,6 +120,11 @@
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="Devices\FS2\FS2ProgressService.cs" />
+    <Compile Include="Devices\FS2\ViewModels\FS2DeviceCommandsAuParametersViewModel.cs" />
+    <Compile Include="Devices\FS2\ViewModels\FS2DeviceJournalViewModel.cs" />
+    <Compile Include="Devices\FS2\Views\FS2DeviceJournalView.xaml.cs">
+      <DependentUpon>FS2DeviceJournalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\MergeConfigurationHelper.cs" />
     <Compile Include="Devices\FS2\Async\FS2FirmwareUpdateHelper.cs" />
     <Compile Include="Devices\FS2\Async\FS2DeviceWriteConfigurationHelper.cs" />
@@ -490,6 +495,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\FSAgent\Views\DevicesTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\FS2\Views\FS2DeviceJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
