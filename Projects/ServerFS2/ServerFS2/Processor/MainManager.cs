@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using FS2Api;
 using ServerFS2.Service;
 using ServerFS2.ConfigurationWriter;
+using System.Threading;
 
 namespace ServerFS2.Processor
 {
@@ -66,6 +67,18 @@ namespace ServerFS2.Processor
 
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
+			for (int i = 0; i < 10; i++)
+			{
+				FS2Contract.CheckCancellationRequested();
+				var fs2ProgressInfo = new FS2ProgressInfo()
+				{
+					Comment = "Test Callbac " + i.ToString()
+				};
+				CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
+				Thread.Sleep(1000);
+			}
+			return;
+
 			ServerHelper.SynchronizeTime(device);
 		}
 

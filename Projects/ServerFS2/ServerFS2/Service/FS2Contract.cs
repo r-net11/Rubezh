@@ -8,13 +8,32 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Processor;
+using System.Threading.Tasks;
 
 namespace ServerFS2.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
-	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
+	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class FS2Contract : IFS2Contract
 	{
+		public static List<CancellationTokenSource> CancellationTokenSources { get; private set; }
+
+		public static void CheckCancellationRequested()
+		{
+			if (CancellationTokenSources != null)
+			{
+				foreach (var cancellationTokenSource in CancellationTokenSources)
+				{
+					cancellationTokenSource.Token.ThrowIfCancellationRequested();
+				}
+			}
+		}
+
+		public FS2Contract()
+		{
+			CancellationTokenSources = new List<CancellationTokenSource>();
+		}
+
 		#region Main
 		public List<FS2Callbac> Poll(Guid clientUID)
 		{
@@ -53,7 +72,18 @@ namespace ServerFS2.Service
 
 		public void CancelProgress()
 		{
-			MainManager.CancelProgress();
+			try
+			{
+				foreach (var cancellationTokenSource in CancellationTokenSources)
+				{
+					cancellationTokenSource.Cancel();
+				}
+				CancellationTokenSources = new List<CancellationTokenSource>();
+			}
+			catch (Exception e)
+			{
+				Logger.Error("FS2Contract.CancelProgress");
+			}
 		}
 		#endregion
 
@@ -158,18 +188,20 @@ namespace ServerFS2.Service
 
 		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
-			return SafeCallWithMonitoringSuspending<bool>(() =>
+			for (int i = 0; i < 10; i++)
 			{
-				//for (int i = 0; i < 10; i++)
-				//{
-				//    var fs2ProgressInfo = new FS2ProgressInfo()
-				//    {
-				//        Comment = "Test Callbac " + i.ToString()
-				//    };
-				//    CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
-				//    Thread.Sleep(1000);
-				//}
-				//return true;
+				FS2Contract.CheckCancellationRequested();
+				var fs2ProgressInfo = new FS2ProgressInfo()
+				{
+					Comment = "Test Callbac " + i.ToString()
+				};
+				CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
+				Thread.Sleep(1000);
+			}
+			return new OperationResult<bool>();
+
+			return TaskSafeCallWithMonitoringSuspending<bool>(() =>
+			{
 				MainManager.DeviceDatetimeSync(FindDevice(deviceUID), isUSB);
 				return true;
 			}, "DeviceDatetimeSync");
@@ -297,6 +329,41 @@ namespace ServerFS2.Service
 			return device;
 		}
 
+		OperationResult<T> TaskSafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName)
+		{
+			try
+			{
+				var cancellationTokenSource = new CancellationTokenSource();
+				var cancellationToken = cancellationTokenSource.Token;
+				var task = Task.Factory.StartNew(
+					() =>
+						{
+						return SafeCallWithMonitoringSuspending<T>(func, methodName);
+						},
+					cancellationToken);
+				try
+				{
+					task.Wait();
+				}
+				catch (AggregateException ae)
+				{
+					return new OperationResult<T>("Операция отменена");
+				}
+				catch (Exception ex)
+				{
+					return new OperationResult<T>(ex.Message);
+				}
+				var result = task.Result;
+				task.Dispose();
+				cancellationTokenSource.Dispose();
+				return result;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<T>(e.Message);
+			}
+		}
+
 		OperationResult<T> SafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName)
 		{
 			try
@@ -304,7 +371,10 @@ namespace ServerFS2.Service
 				MainManager.SuspendMonitoring();
 				return SafeCall<T>(func, methodName);
 			}
-			catch { throw; }
+			catch(Exception e)
+			{
+				return new OperationResult<T>(e.Message);
+			}
 			finally
 			{
 				MainManager.ResumeMonitoring();

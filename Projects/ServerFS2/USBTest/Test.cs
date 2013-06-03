@@ -4,36 +4,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
 
 namespace USBTest
 {
-	class Test
+	public class Test
 	{
-		Test()
+		Task task;
+		CancellationTokenSource cancellationTokenSource;
+		CancellationToken cancellationToken;
+
+		public void Start()
 		{
-			var ts = new CancellationTokenSource();
-			CancellationToken ct = ts.Token;
-			Task.Factory.StartNew(() =>
+			cancellationTokenSource = new CancellationTokenSource();
+			cancellationToken = cancellationTokenSource.Token;
+			task = Task.Factory.StartNew(OnTask, cancellationToken);
+			cancellationToken.Register(OnCancelled);
+		}
+
+		public void Stop()
+		{
+			Trace.WriteLine("task.Status " + task.Status.ToString());
+			cancellationTokenSource.Cancel();
+			Trace.WriteLine("task.Status " + task.Status.ToString());
+			try
 			{
-				while (true)
-				{
-					// do some heavy work here
-					Thread.Sleep(100);
-					if (ct.IsCancellationRequested)
-					{
-						// another thread decided to cancel
-						Console.WriteLine("task canceled");
-						break;
-					}
-				}
-			}, ct);
+				task.Wait(2000);
+			}
+			catch (AggregateException ex)
+			{
+				Trace.WriteLine(ex.Message);
+			}
+			var exception = task.Exception;
+			task.Dispose();
+			cancellationTokenSource.Dispose();
+		}
 
-			// Simulate waiting 3s for the task to complete
-			Thread.Sleep(3000);
+		public void Stop2()
+		{
+			task.Dispose();
+		}
 
-			// Can't wait anymore => cancel this task 
-			ts.Cancel();
-			Console.ReadLine();
+		void OnTask()
+		{
+			int index = 0;
+			while (true)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				//if (cancellationToken.IsCancellationRequested)
+				//{
+				//    //return;
+				//    throw new OperationCanceledException();
+				//}
+				Trace.WriteLine("OnTask " + index++.ToString());
+				cancellationToken.WaitHandle.WaitOne(1000);
+				//Thread.Sleep(1000);
+			}
+		}
+
+		void OnCancelled()
+		{
+			Trace.WriteLine("OnCancelled");
 		}
 	}
 }
