@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
 				}
 				SelectedDevice.UpdataConfigurationProperties();
 			}
-			ServiceFactory.SaveService.FSChanged = true;
+			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }
@@ -64,7 +64,7 @@ namespace DevicesModule.ViewModels
 				}
 				SelectedDevice.PropertiesViewModel.IsAuParametersReady = false;
 			});
-			ServiceFactory.SaveService.FSChanged = true;
+			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 		bool CanGetConfigurationParameters()
 		{
@@ -179,7 +179,7 @@ namespace DevicesModule.ViewModels
 						return;
 					}
 					child.PropertiesViewModel.IsAuParametersReady = false;
-					ServiceFactory.SaveService.FSChanged = true;
+					ServiceFactory.SaveService.FSParametersChanged = true;
 
                     foreach (var groupChild in child.Children)
                     {
@@ -191,7 +191,7 @@ namespace DevicesModule.ViewModels
                             return;
                         }
                         groupChild.PropertiesViewModel.IsAuParametersReady = false;
-                        ServiceFactory.SaveService.FSChanged = true;
+						ServiceFactory.SaveService.FSParametersChanged = true;
                     }
 				};
 			}

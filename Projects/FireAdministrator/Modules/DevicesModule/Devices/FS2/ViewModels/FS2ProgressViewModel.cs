@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using FiresecClient;
 using FS2Api;
 using Infrastructure.Common.Windows;
+using System.Threading.Tasks;
 
 namespace DevicesModule.ViewModels
 {
@@ -88,7 +89,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			FiresecManager.FS2ClientContract.CancelProgress();
+			Task.Factory.StartNew(() =>
+				{
+					FiresecManager.FS2ClientContract.CancelProgress();
+				});
 		}
 	}
 }

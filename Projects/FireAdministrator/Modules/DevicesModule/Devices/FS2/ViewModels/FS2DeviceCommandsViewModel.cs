@@ -43,6 +43,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
             FS2AutoDetectDeviceHelper.Run(SelectedDevice.Device);
         }
         bool CanAutoDetect()
@@ -54,6 +59,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ReadDeviceCommand { get; private set; }
         void OnReadDevice(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
             FS2DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanReadDevice(bool isUsb)
@@ -80,6 +90,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> WriteDeviceCommand { get; private set; }
         void OnWriteDevice(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
             if (ValidateConfiguration())
                 FS2DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
@@ -91,6 +106,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 //#if DEBUG
 //            if (GlobalSettingsHelper.GlobalSettings.FSAgent_UseFS2)
 //            {
@@ -118,15 +138,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
         void OnSynchronizeDevice(bool isUsb)
         {
-			FS2SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
-
-			return;
-			FiresecManager.FS2ClientContract.Progress += new System.Action<FS2Api.FS2ProgressInfo>(FS2ClientContract_Progress);
-			var result = FiresecManager.FS2ClientContract.DeviceDatetimeSync(SelectedDevice.Device.UID, isUsb);
-			if (result.HasError)
+			if (ServiceFactory.SaveService.FSChanged)
 			{
-				MessageBoxService.ShowError(result.Error, "Ошибка при вызове операции");
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
 			}
+			FS2SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
         }
 
 		void FS2ClientContract_Progress(FS2ProgressInfo fs2ProgressInfo)
@@ -141,6 +158,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> UpdateSoftCommand { get; private set; }
         void OnUpdateSoft(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 			if (AppSettingsManager.IsRemote)
 			{
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
@@ -156,6 +178,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> GetDescriptionCommand { get; private set; }
         void OnGetDescription(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 			FS2DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanGetDescription(bool isUsb)
@@ -166,6 +193,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> GetDeveceJournalCommand { get; private set; }
         void OnGetDeveceJournal(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 			FS2ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
         }
         bool CanGetDeveceJournal(bool isUsb)
@@ -176,6 +208,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SetPasswordCommand { get; private set; }
         void OnSetPassword(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 			DialogService.ShowModalWindow(new FS2SetPasswordViewModel(SelectedDevice.Device, isUsb));
         }
         bool CanSetPassword(bool isUsb)
@@ -186,6 +223,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand BindMsCommand { get; private set; }
         void OnBindMs()
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 			FS2DeviceGetSerialListHelper.Run(SelectedDevice.Device);
         }
         bool CanBindMs()
@@ -196,6 +238,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
         void OnExecuteCustomAdminFunctions(bool isUsb)
         {
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return;
+			}
 			DialogService.ShowModalWindow(new FS2CustomAdminFunctionsCommandViewModel(SelectedDevice.Device, isUsb));
         }
         bool CanExecuteCustomAdminFunctions(bool isUsb)

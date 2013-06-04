@@ -12,58 +12,58 @@ using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutoSearchViewModel : SaveCancelDialogViewModel
-    {
+	public class AutoSearchViewModel : SaveCancelDialogViewModel
+	{
 		public List<AutoSearchDeviceViewModel> Devices { get; set; }
-        List<AutoSearchDeviceViewModel> allDevices;
+		List<AutoSearchDeviceViewModel> allDevices;
 
-        public AutoSearchViewModel(DeviceConfiguration autodetectedDeviceConfiguration)
-        {
-            Title = "Добавление устройств";
-            ContinueCommand = new RelayCommand(OnContinue);
+		public AutoSearchViewModel(DeviceConfiguration autodetectedDeviceConfiguration)
+		{
+			Title = "Добавление устройств";
+			ContinueCommand = new RelayCommand(OnContinue);
 
-            allDevices = new List<AutoSearchDeviceViewModel>();
-            Devices = new List<AutoSearchDeviceViewModel>();
-            Devices.Add(AddDevice(autodetectedDeviceConfiguration.RootDevice, null));
-        }
+			allDevices = new List<AutoSearchDeviceViewModel>();
+			Devices = new List<AutoSearchDeviceViewModel>();
+			Devices.Add(AddDevice(autodetectedDeviceConfiguration.RootDevice, null));
+		}
 
-        AutoSearchDeviceViewModel AddDevice(Device device, AutoSearchDeviceViewModel parentDeviceViewModel)
-        {
-            var deviceViewModel = new AutoSearchDeviceViewModel(device);
+		AutoSearchDeviceViewModel AddDevice(Device device, AutoSearchDeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new AutoSearchDeviceViewModel(device);
 
-            foreach (var childDevice in device.Children)
-            {
-                if (childDevice.Driver == null)
-                    continue;
+			foreach (var childDevice in device.Children)
+			{
+				if (childDevice.Driver == null)
+					continue;
 
-                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-                deviceViewModel.Children.Add(childDeviceViewModel);
-            }
+				var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+				deviceViewModel.Children.Add(childDeviceViewModel);
+			}
 
-            allDevices.Add(deviceViewModel);
-            return deviceViewModel;
-        }
+			allDevices.Add(deviceViewModel);
+			return deviceViewModel;
+		}
 
-        public RelayCommand ContinueCommand { get; private set; }
-        void OnContinue()
-        {
-            Close(true);
-        }
+		public RelayCommand ContinueCommand { get; private set; }
+		void OnContinue()
+		{
+			Close(true);
+		}
 
-        void AddFromTree(AutoSearchDeviceViewModel parentAutoDetectedDevice)
-        {
-            foreach (var autodetectedDevice in parentAutoDetectedDevice.Children)
-            {
-                if (autodetectedDevice.IsSelected)
-                {
-                    AddAutoDevice(autodetectedDevice.Device);
-                    AddFromTree(autodetectedDevice);
-                }
-            }
-        }
+		void AddFromTree(AutoSearchDeviceViewModel parentAutoDetectedDevice)
+		{
+			foreach (var autodetectedDevice in parentAutoDetectedDevice.Children)
+			{
+				if (autodetectedDevice.IsSelected)
+				{
+					AddAutoDevice(autodetectedDevice.Device);
+					AddFromTree(autodetectedDevice);
+				}
+			}
+		}
 
-        void AddAutoDevice(Device device)
-        {
+		void AddAutoDevice(Device device)
+		{
 			var parentDevice = FiresecManager.Devices.FirstOrDefault(x => x.PathId == device.Parent.PathId);
 			if (parentDevice != null)
 			{
@@ -82,7 +82,7 @@ namespace DevicesModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
 				parentDeviceViewModel.Update();
 			}
-        }
+		}
 
 		protected override bool Save()
 		{
@@ -100,5 +100,5 @@ namespace DevicesModule.ViewModels
 			Close(false);
 			return false;
 		}
-    }
+	}
 }

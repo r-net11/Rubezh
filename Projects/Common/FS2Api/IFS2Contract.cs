@@ -22,10 +22,10 @@ namespace FS2Api
 
 		#region Common
 		[OperationContract]
-		OperationResult<string> GetCoreConfig();
+		OperationResult<DeviceConfiguration> GetDeviceConfiguration();
 
 		[OperationContract]
-		OperationResult<string> GetMetadata();
+		OperationResult<DriversConfiguration> GetDriversConfiguration();
 		#endregion
 
 		#region Monitor
@@ -34,9 +34,6 @@ namespace FS2Api
 
 		[OperationContract]
 		OperationResult<string> GetCoreDeviceParams();
-
-		[OperationContract]
-		OperationResult<string> ReadEvents(int fromId, int limit);
 
 		[OperationContract]
 		void AddToIgnoreList(List<Guid> deviceUIDs);

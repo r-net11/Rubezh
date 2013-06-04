@@ -25,14 +25,14 @@ namespace FS2Client
 		#endregion
 
 		#region Common
-		public FiresecAPI.OperationResult<string> GetCoreConfig()
+		public FiresecAPI.OperationResult<DeviceConfiguration> GetDeviceConfiguration()
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.GetDeviceConfiguration(); }, "GetDeviceConfiguration");
 		}
 
-		public FiresecAPI.OperationResult<string> GetMetadata()
+		public FiresecAPI.OperationResult<DriversConfiguration> GetDriversConfiguration()
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.GetDriversConfiguration(); }, "GetDriversConfiguration");
 		}
 		#endregion
 
@@ -43,11 +43,6 @@ namespace FS2Client
 		}
 
 		public FiresecAPI.OperationResult<string> GetCoreDeviceParams()
-		{
-			throw new NotImplementedException();
-		}
-
-		public FiresecAPI.OperationResult<string> ReadEvents(int fromId, int limit)
 		{
 			throw new NotImplementedException();
 		}

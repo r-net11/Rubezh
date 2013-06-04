@@ -9,14 +9,22 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Processor;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ServerFS2.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
-	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
+	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class FS2Contract : IFS2Contract
 	{
+		bool IsFirstCall = true;
 		public static List<CancellationTokenSource> CancellationTokenSources { get; private set; }
+
+		public static void CheckCancellationAndNotify(string message)
+		{
+			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo(message) });
+			CheckCancellationRequested();
+		}
 
 		public static void CheckCancellationRequested()
 		{
@@ -24,6 +32,10 @@ namespace ServerFS2.Service
 			{
 				foreach (var cancellationTokenSource in CancellationTokenSources)
 				{
+					if (cancellationTokenSource.Token.IsCancellationRequested)
+					{
+						throw new AggregateException("Операция отменена");
+					}
 					cancellationTokenSource.Token.ThrowIfCancellationRequested();
 				}
 			}
@@ -39,6 +51,7 @@ namespace ServerFS2.Service
 		{
 			try
 			{
+				Trace.WriteLine("Poll");
 				ClientsManager.Add(clientUID);
 
 				var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
@@ -47,7 +60,10 @@ namespace ServerFS2.Service
 					var result = CallbackManager.Get(clientInfo);
 					if (result.Count == 0)
 					{
-						clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
+						if (IsFirstCall)
+							clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromSeconds(1));
+						else
+							clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
 						result = CallbackManager.Get(clientInfo);
 					}
 					return result;
@@ -63,6 +79,7 @@ namespace ServerFS2.Service
 
 		public void CancelPoll(Guid clientUID)
 		{
+			Trace.WriteLine("CancelPoll");
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{
@@ -72,30 +89,36 @@ namespace ServerFS2.Service
 
 		public void CancelProgress()
 		{
+			Trace.WriteLine("CancelProgress");
 			try
 			{
 				foreach (var cancellationTokenSource in CancellationTokenSources)
 				{
 					cancellationTokenSource.Cancel();
 				}
-				CancellationTokenSources = new List<CancellationTokenSource>();
 			}
 			catch (Exception e)
 			{
-				Logger.Error("FS2Contract.CancelProgress");
+				Logger.Error(e, "FS2Contract.CancelProgress");
 			}
 		}
 		#endregion
 
 		#region Common
-		public OperationResult<string> GetCoreConfig()
+		public OperationResult<DeviceConfiguration> GetDeviceConfiguration()
 		{
-			throw new NotImplementedException();
+			return SafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
+			{
+				return ConfigurationCash.DeviceConfiguration;
+			}, "GetDeviceConfiguration");
 		}
 
-		public OperationResult<string> GetMetadata()
+		public OperationResult<DriversConfiguration> GetDriversConfiguration()
 		{
-			throw new NotImplementedException();
+			return SafeCallWithMonitoringSuspending<DriversConfiguration>(() =>
+			{
+				return ConfigurationCash.DriversConfiguration;
+			}, "GetDriversConfiguration");
 		}
 		#endregion
 
@@ -188,17 +211,18 @@ namespace ServerFS2.Service
 
 		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
-			for (int i = 0; i < 10; i++)
-			{
-				FS2Contract.CheckCancellationRequested();
-				var fs2ProgressInfo = new FS2ProgressInfo()
-				{
-					Comment = "Test Callbac " + i.ToString()
-				};
-				CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
-				Thread.Sleep(1000);
-			}
-			return new OperationResult<bool>();
+			Trace.WriteLine("DeviceDatetimeSync");
+			//for (int i = 0; i < 10; i++)
+			//{
+			//    FS2Contract.CheckCancellationRequested();
+			//    var fs2ProgressInfo = new FS2ProgressInfo()
+			//    {
+			//        Comment = "Test Callbac " + i.ToString()
+			//    };
+			//    CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
+			//    Thread.Sleep(1000);
+			//}
+			//return new OperationResult<bool>();
 
 			return TaskSafeCallWithMonitoringSuspending<bool>(() =>
 			{
@@ -333,7 +357,9 @@ namespace ServerFS2.Service
 		{
 			try
 			{
+				Trace.WriteLine("TaskSafeCallWithMonitoringSuspending");
 				var cancellationTokenSource = new CancellationTokenSource();
+				CancellationTokenSources.Add(cancellationTokenSource);
 				var cancellationToken = cancellationTokenSource.Token;
 				var task = Task.Factory.StartNew(
 					() =>
@@ -354,6 +380,7 @@ namespace ServerFS2.Service
 					return new OperationResult<T>(ex.Message);
 				}
 				var result = task.Result;
+				CancellationTokenSources.Remove(cancellationTokenSource);
 				task.Dispose();
 				cancellationTokenSource.Dispose();
 				return result;
@@ -383,6 +410,7 @@ namespace ServerFS2.Service
 
 		OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
 		{
+			IsFirstCall = false;
 			var resultData = new OperationResult<T>();
 			try
 			{

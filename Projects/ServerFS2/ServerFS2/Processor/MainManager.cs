@@ -6,6 +6,7 @@ using FS2Api;
 using ServerFS2.Service;
 using ServerFS2.ConfigurationWriter;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ServerFS2.Processor
 {
@@ -31,13 +32,10 @@ namespace ServerFS2.Processor
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
 		}
 
-		public static void CancelProgress()
-		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Отмена операции") });
-		}
-
 		public static bool SetNewConfig(DeviceConfiguration deviceConfiguration)
 		{
+			ConfigurationManager.DeviceConfiguration = deviceConfiguration;
+			ConfigurationManager.Update();
 			return true;
 		}
 
@@ -67,14 +65,12 @@ namespace ServerFS2.Processor
 
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
+			Trace.WriteLine("DeviceDatetimeSync Start");
 			for (int i = 0; i < 10; i++)
 			{
+				Trace.WriteLine("DeviceDatetimeSync i=" + i.ToString());
 				FS2Contract.CheckCancellationRequested();
-				var fs2ProgressInfo = new FS2ProgressInfo()
-				{
-					Comment = "Test Callbac " + i.ToString()
-				};
-				CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
+				CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Test Callbac " + i.ToString()) });
 				Thread.Sleep(1000);
 			}
 			return;

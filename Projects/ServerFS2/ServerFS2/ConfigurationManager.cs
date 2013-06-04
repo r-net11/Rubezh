@@ -16,6 +16,7 @@ namespace ServerFS2
 		{
 			var serverConfigName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			var folderName = AppDataFolderHelper.GetFolder("Server2");
+			File.Copy(serverConfigName, Path.Combine(folderName, "Config.fscp"), true);
 			var configFileName = Path.Combine(folderName, "Config.fscp");
 			var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(configFileName);
@@ -38,7 +39,7 @@ namespace ServerFS2
 			Update();
 		}
 
-		private static void Update()
+		public static void Update()
 		{
 			DeviceConfiguration.Update();
 			DeviceConfiguration.Reorder();
