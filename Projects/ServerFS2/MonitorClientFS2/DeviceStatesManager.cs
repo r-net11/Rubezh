@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2;
+using Rubezh2010;
 
 namespace MonitorClientFS2
 {
@@ -54,7 +55,20 @@ namespace MonitorClientFS2
 			{
 				if (journalItem.Device != null)
 				{
-					var metadataDeviceTable = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceDriverID) == journalItem.Device.DriverUID);
+					//var metadataDeviceTable = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceDriverID) == journalItem.Device.DriverUID);
+					driverConfigDeviceTablesDeviceTable metadataDeviceTable = null;
+					foreach (var metadataDeviceTableItem in MetadataHelper.Metadata.deviceTables)
+					{
+						if (metadataDeviceTableItem.deviceDriverID == null)
+							continue;
+						var guid = new Guid(metadataDeviceTableItem.deviceDriverID);
+						var journalItemGuid = journalItem.Device.DriverUID;
+						if (guid == journalItemGuid)
+						{
+							metadataDeviceTable = metadataDeviceTableItem;
+							break;
+						}
+					}
 					if (metadataDeviceTable != null)
 					{
 						foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)

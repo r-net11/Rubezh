@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+//using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
@@ -119,7 +119,7 @@ namespace MonitorClientFS2
 				FirstSystemIndex = LastDeviceIndex;
 			if (LastSystemIndex == -1)
 			{
-				Trace.WriteLine(Device.PresentationAddressAndName + " LastDeviceIndex " + LastDeviceIndex);
+				//Trace.WriteLine(Device.PresentationAddressAndName + " LastDeviceIndex " + LastDeviceIndex);
 				LastSystemIndex = LastDeviceIndex;
 			}
 			if (LastDeviceIndex - LastSystemIndex > maxMessages)
@@ -129,21 +129,21 @@ namespace MonitorClientFS2
 			//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
 			if (LastDeviceIndex > LastSystemIndex)
 			{
-				foreach (var dataItem in response.Data)
-				{
-					Trace.Write(dataItem + " ");
-				}
-				Trace.WriteLine("");
-				Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
+				//foreach (var dataItem in response.Data)
+				//{
+				//    Trace.Write(dataItem + " ");
+				//}
+				//Trace.WriteLine("");
+				//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
 				IsReadingNeeded = true;
 			}
 			if (LastDeviceIndex < lastSystemIndex)
 			{
-				foreach (var dataItem in response.Data)
-				{
-					Trace.Write(dataItem + " ");
-				}
-				Trace.WriteLine("");
+				//foreach (var dataItem in response.Data)
+				//{
+				//    Trace.Write(dataItem + " ");
+				//}
+				//Trace.WriteLine("");
 			}
 		}
 
@@ -159,7 +159,7 @@ namespace MonitorClientFS2
 
 		public List<FS2JournalItem> GetNewItems()
 		{
-			Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
+			//Trace.WriteLine("Дочитываю записи с " + LastSystemIndex.ToString() + " до " + LastDeviceIndex.ToString());
 			Requests.RemoveAll(x => x!= null && x.RequestType == RequestTypes.ReadIndex);
 			var journalItems = new List<FS2JournalItem>();
 			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
@@ -167,7 +167,7 @@ namespace MonitorClientFS2
 				var journalItem = JournalHelper.ReadItem(Device, i);
 				if (journalItem == null)
 				{
-					Trace.WriteLine("Запись не считана");
+					//Trace.WriteLine("Запись не считана");
 				}
 				else
 				{
