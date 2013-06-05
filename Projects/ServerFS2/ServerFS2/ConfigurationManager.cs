@@ -16,18 +16,16 @@ namespace ServerFS2
 		{
 			var serverConfigName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			var folderName = AppDataFolderHelper.GetFolder("Server2");
-			File.Copy(serverConfigName, Path.Combine(folderName, "Config.fscp"), true);
 			var configFileName = Path.Combine(folderName, "Config.fscp");
+			if (Directory.Exists(folderName))
+				Directory.Delete(folderName, true);
+			Directory.CreateDirectory(folderName);
+			File.Copy(serverConfigName, configFileName);
+
 			var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(configFileName);
 			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
-			if (!Directory.Exists(folderName))
-			{
-				Directory.CreateDirectory(folderName);
-				File.Copy(serverConfigName, configFileName);
-
-				zipFile.ExtractAll(unzipFolderPath);
-			}
+			zipFile.ExtractAll(unzipFolderPath);
 
 			var configurationFileName = Path.Combine(unzipFolderPath, "DeviceConfiguration.xml");
 			DeviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationFileName);

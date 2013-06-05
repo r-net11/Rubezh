@@ -53,12 +53,14 @@ namespace ServerFS2.Monitor
 					continue;
 
 				Trace.WriteLine(panelDevice.PresentationAddressAndName);
-				var deviceCongiguration = ServerHelper.GetDeviceConfig(panelDevice);
-				foreach (var device in deviceCongiguration.Devices)
+				var remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(panelDevice);
+				foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
 				{
-					device.DeviceState = new DeviceState();
+					var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+					device.Offset = remoteDevice.Offset;
+					device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
 				}
-				foreach (var device in deviceCongiguration.Devices)
+				foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 				{
 					if (device.InnerDeviceParameters != null)
 					{
@@ -81,7 +83,7 @@ namespace ServerFS2.Monitor
 
 		static void ParceDeviceState(Device device, List<byte> stateBytes)
 		{
-			device.DeviceState.States = new List<DeviceDriverState>();
+			var states = new List<DeviceDriverState>();
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			if (tableNo != null)
@@ -146,11 +148,15 @@ namespace ServerFS2.Monitor
 								DriverState = driverState,
 								Time = DateTime.Now
 							};
+							states.Add(deviceDriverState);
 							device.DeviceState.States.Add(deviceDriverState);
 						}
 					}
 				}
 			}
+
+			device.DeviceState.States = states;
+			device.DeviceState.OnStateChanged();
 
 			Trace.WriteLine("Monitoring GetStates " + device.DottedPresentationNameAndAddress);
 			foreach (var deviceDriverState in device.DeviceState.States)
