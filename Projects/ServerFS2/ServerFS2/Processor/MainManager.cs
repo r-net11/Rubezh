@@ -7,21 +7,30 @@ using ServerFS2.Service;
 using ServerFS2.ConfigurationWriter;
 using System.Threading;
 using System.Diagnostics;
+using ServerFS2.Monitor;
 
 namespace ServerFS2.Processor
 {
 	public static class MainManager
 	{
+		public static event Action<FS2JournalItem> NewJournalItem;
+		
 		public static void StartMonitoring()
 		{
+			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
+			MonitoringProcessor.StartMonitoring();
+		}
 
+		static void OnNewItem(FS2JournalItem journalItem)
+		{
+			NewJournalItem(journalItem);
 		}
 
 		public static void StopMonitoring()
 		{
-
+			MonitoringProcessor.StopMonitoring();
 		}
-
+		
 		public static void SuspendMonitoring()
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Приостановка мониторинга") });

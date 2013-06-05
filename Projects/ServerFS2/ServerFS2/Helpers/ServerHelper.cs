@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2.Helpers;
@@ -9,88 +10,89 @@ using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
 {
-	public static partial class ServerHelper
-	{
-		public static event Action<int, int, string> Progress;
-		public static List<Driver> Drivers;
-		static readonly object Locker = new object();
-		public static readonly UsbRunner UsbRunner;
-		static int UsbRequestNo;
-		public static bool IsExtendedMode { get; set; }
+    public static partial class ServerHelper
+    {
+        public static event Action<int, int, string> Progress;
+        public static List<Driver> Drivers;
+        static readonly object Locker = new object();
+        public static readonly UsbRunner UsbRunner;
+        static int UsbRequestNo;
+        public static bool IsExtendedMode { get; set; }
+        public static AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+        static ServerHelper()
+        {
+            MetadataHelper.Initialize();
+            ConfigurationManager.Load();
+            Drivers = ConfigurationManager.DriversConfiguration.Drivers;
+            UsbRunner = new UsbRunner();
+            try
+            {
+                UsbRunner.Open();
+            }
+            catch
+            { }
+        }
 
-		static ServerHelper()
-		{
-			MetadataHelper.Initialize();
-			ConfigurationManager.Load();
-			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-			UsbRunner = new UsbRunner();
-			try
-			{
-				var result = UsbRunner.Open();
-			}
-			catch { }
-		}
+        public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
+        {
+            return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
+        }
+        
+        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+        {
+            return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
+        }
 
-		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
-		}
+        public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+        {
+            return UsbRunner.AddRequest(-1, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
+        }
 
-		public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
-		}
+        public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
+        {
+            return UsbRunner.AddRequest(-1, bytesList, maxDelay, maxTimeout, true);
+        }
 
-		public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(-1, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
-		}
+        public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+        {
+            UsbRunner.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
+        }
 
-		public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(-1, bytesList, maxDelay, maxTimeout, true);
-		}
+        public static bool IsUsbDevice
+        {
+            get { return UsbRunner.IsUsbDevice; }
+            set
+            {
+                UsbRunner.IsUsbDevice = value;
+                UsbRunner.Close();
+                UsbRunner.Open();
+            }
+        }
 
-		public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			UsbRunner.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
-		}
+        public static List<byte> SendRequest(List<byte> bytes)
+        {
+            return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;
+        }
 
-		public static bool IsUsbDevice
-		{
-			get { return UsbRunner.IsUsbDevice; }
-			set
-			{
-				UsbRunner.IsUsbDevice = value;
-				UsbRunner.Close();
-				UsbRunner.Open();
-			}
-		}
+        public static void SynchronizeTime(Device device)
+        {
+            var bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
+            device.IntAddress, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
+            SendCode(bytes);
+        }
 
-		public static List<byte> SendRequest(List<byte> bytes)
-		{
-			return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;
-		}
-
-		public static void SynchronizeTime(Device device)
-		{
-			var bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
-			device.IntAddress, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
-			SendCode(bytes);
-		}
-
-		static List<byte> CreateBytesArray(params object[] values)
-		{
-			var bytes = new List<byte>();
-			foreach (var value in values)
-			{
-				if (value as IEnumerable<Byte> != null)
-					bytes.AddRange((IEnumerable<Byte>)value);
-				else
-					bytes.Add(Convert.ToByte(value));
-			}
-			return bytes;
-		}
+        static List<byte> CreateBytesArray(params object[] values)
+        {
+            var bytes = new List<byte>();
+            foreach (var value in values)
+            {
+                if (value as IEnumerable<Byte> != null)
+                    bytes.AddRange((IEnumerable<Byte>)value);
+                else
+                    bytes.Add(Convert.ToByte(value));
+            }
+            return bytes;
+        }
 
         public static void BytesToFile(string fileName, List<byte> bytes)
         {
@@ -108,9 +110,39 @@ namespace ServerFS2
             deviceRamTxt.Close();
         }
 
-        public static void ResetState(Device device) // 02 54 10 00 00 00 00 00 00 00 ?
+        public static void ResetFire(Device device) // 02 54 10 00 00 00 00 00 00 00
         {
             SendCode(CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00));
         }
-	}
+
+
+        public static List<byte> GetDeviceStatus(Device device)
+        {
+            var isPing = PingDevice(device, autoResetEvent);
+            if (!isPing) // Если устройство не пингуется
+            {
+                return new List<byte>();
+            }
+            var bytes1 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x10);
+            var bytes2 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x0F);
+            List<byte> response1;
+            List<byte> response2;
+            var result = new List<byte>();
+            response1 = SendCode(bytes1).Result.FirstOrDefault().Data;
+            response2 = SendCode(bytes2).Result.FirstOrDefault().Data;
+            response1.RemoveRange(0, 7);
+            response2.RemoveRange(0, 7);
+            result.AddRange(response1);
+            result.AddRange(response2);
+            autoResetEvent.Set();
+            return result;
+        }
+
+        public static bool PingDevice(Device device, AutoResetEvent autoResetEvent)
+        {
+            var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
+            autoResetEvent.Set();
+            return SendCode(bytes).Result.FirstOrDefault().Data[6] == 0x7C;
+        }
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
@@ -8,7 +7,8 @@ using FS2Api;
 using ServerFS2;
 using ServerFS2.DataBase;
 
-namespace MonitorClientFS2
+
+namespace ServerFS2.Monitor
 {
 	public class MonitoringDevice
 	{
@@ -21,8 +21,7 @@ namespace MonitorClientFS2
 
 		static int UsbRequestNo = 1;
 		public static event Action<FS2JournalItem> NewJournalItem;
-		public static event Action<List<FS2JournalItem>> JournalItems;
-
+		
 		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
 			if (NewJournalItem != null)

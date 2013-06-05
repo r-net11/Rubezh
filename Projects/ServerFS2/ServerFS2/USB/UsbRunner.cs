@@ -32,7 +32,6 @@ namespace ServerFS2
 			if (UsbDevice == null)
 			{
 				throw new Exception("Device Not Found.");
-				return false;
 			}
 
 			var wholeUsbDevice = UsbDevice as IUsbDevice;
@@ -267,10 +266,7 @@ namespace ServerFS2
 				}
 				return new OperationResult<List<Response>> { Result = Responses };
 			}
-			else
-			{
-				return null;
-			}
+		    return null;
 		}
 
 		public event Action<Response> NewResponse;

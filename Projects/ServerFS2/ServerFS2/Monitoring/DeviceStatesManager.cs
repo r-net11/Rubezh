@@ -8,7 +8,7 @@ using ServerFS2;
 using Rubezh2010;
 using ServerFS2.ConfigurationWriter;
 
-namespace MonitorClientFS2
+namespace ServerFS2.Monitor
 {
 	public class DeviceStatesManager
 	{

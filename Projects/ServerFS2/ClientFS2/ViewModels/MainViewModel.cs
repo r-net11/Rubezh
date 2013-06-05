@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -29,13 +31,30 @@ namespace ClientFS2.ViewModels
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
-            ResetStateCommand = new RelayCommand(OnResetState);
+            ResetFireCommand = new RelayCommand(OnResetFire);
 			DevicesViewModel = new DevicesViewModel();
             ZonesViewModel = new ZonesViewModel();
             ZonesViewModel.Initialize();
             new PropertiesViewModel(DevicesViewModel);
 		}
 
+	    List<byte> Status
+	    {
+	        set
+	        {
+	            StatusString = ServerHelper.TraceBytes(value);
+	        }
+	    }
+        private string statusString;
+	    public string StatusString
+	    {
+            get { return statusString; }
+            set
+            {
+                statusString = value;
+                OnPropertyChanged("StatusString");
+            }
+	    }
         public bool IsUsbDevice
 	    {
 	        get { return ServerHelper.IsUsbDevice; }
@@ -202,10 +221,18 @@ namespace ClientFS2.ViewModels
 			return DevicesViewModel.SelectedDevice != null;
 		}
 
-	    public RelayCommand ResetStateCommand { get; private set; }
-        private void OnResetState()
+	    public RelayCommand ResetFireCommand { get; private set; }
+        private void OnResetFire()
         {
-            ServerHelper.ResetState(DevicesViewModel.SelectedDevice.Device);
+            ServerHelper.ResetFire(DevicesViewModel.SelectedDevice.Device);
         }
-	}
+
+        void GetDeviceStatus()
+        {
+            if ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel) && (!DevicesViewModel.SelectedDevice.Device.IsUsb))
+            {
+                Status = ServerHelper.GetDeviceStatus(DevicesViewModel.SelectedDevice.Device);
+            }
+        }
+    }
 }
