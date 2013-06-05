@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
 using ServerFS2.Processor;
+using System.Collections;
+using System.Diagnostics;
 
 namespace MonitorClientFS2
 {
@@ -80,6 +82,13 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			var stateBytes = new List<byte>() { 1, 2 };
+			var bitArray = new BitArray(stateBytes.ToArray());
+			for (int i = 0; i < 16; i++)
+			{
+				var isBitSetted = bitArray[i];
+				Trace.WriteLine(i + "-" + isBitSetted);
+			}
 			//MonitoringProcessor.WriteStats();
 		}
 

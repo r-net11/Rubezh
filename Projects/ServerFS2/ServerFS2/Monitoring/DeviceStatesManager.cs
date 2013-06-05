@@ -88,41 +88,103 @@ namespace ServerFS2.Monitor
 				var stateWord = BytesHelper.ExtractShort(stateBytes, 0);
 				Trace.WriteLine("stateWord=" + stateWord);
 				var bitArray = new BitArray(stateBytes.ToArray());
-				for (int i = 0; i < 8; i++)
-				{
-					foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
-					{
-						if ((metadataDeviceState.tableType != null && metadataDeviceState.tableType == tableNo) ||
-							(metadataDeviceState.tableType == null))
-						//(metadataDeviceState.tableType == null && metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType != tableNo))
-						{
-							if (metadataDeviceState.bitno == i.ToString() ||
-								metadataDeviceState.bitNo == i.ToString() ||
-								metadataDeviceState.Bitno == i.ToString())
-							//metadataDeviceState.intBitno == i.ToString() ||
-							//metadataDeviceState.Intbitno == i.ToString())
-							{
-								var isBitSetted = bitArray[i];
-								if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
-									isBitSetted = !isBitSetted;
 
-								if (isBitSetted)
-								{
-									var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-									if (driverState != null)
-									{
-										var deviceDriverState = new DeviceDriverState()
-										{
-											DriverState = driverState,
-											Time = DateTime.Now
-										};
-										device.DeviceState.States.Add(deviceDriverState);
-									}
-								}
-							}
+
+				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+				{
+					if (metadataDeviceState.tableType != null && metadataDeviceState.tableType != tableNo)
+						continue;
+					if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+						continue;
+
+					var found = false;
+					try
+					{
+						if (metadataDeviceState.bits != null)
+						{
+							var bitStrings = metadataDeviceState.bits.Split('-');
+							var minBit = Int32.Parse(bitStrings[0]);
+							var maxBit = Int32.Parse(bitStrings[2]);
+							var bitsValue = (bitArray[minBit] ? 1 : 0) + (bitArray[maxBit] ? 1 : 0) * 2;
+							if (bitsValue.ToString() == metadataDeviceState.value)
+								found = true;
+						}
+					}
+					catch { }
+
+					string bitNoString = null;
+					if(metadataDeviceState.bitno != null)
+						bitNoString = metadataDeviceState.bitno;
+					if (metadataDeviceState.bitNo != null)
+						bitNoString = metadataDeviceState.bitNo;
+					if (metadataDeviceState.Bitno != null)
+						bitNoString = metadataDeviceState.Bitno;
+					if (metadataDeviceState.intBitno != null)
+						bitNoString = metadataDeviceState.intBitno;
+					if (metadataDeviceState.Intbitno != null)
+						bitNoString = metadataDeviceState.Intbitno;
+					if (bitNoString != null)
+					{
+						int bitNo = -1;
+						var result = Int32.TryParse(bitNoString, out bitNo);
+						if (result)
+						{
+							found = bitArray[bitNo];
+							if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
+								found = !found;
+						}
+					}
+
+					if (found)
+					{
+						var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+						if (driverState != null)
+						{
+							var deviceDriverState = new DeviceDriverState()
+							{
+								DriverState = driverState,
+								Time = DateTime.Now
+							};
+							device.DeviceState.States.Add(deviceDriverState);
 						}
 					}
 				}
+
+				//for (int i = 0; i < 16; i++)
+				//{
+				//    foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+				//    {
+				//        if (metadataDeviceState.tableType != null && metadataDeviceState.tableType != tableNo)
+				//            continue;
+				//        if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+				//            continue;
+
+				//        if (metadataDeviceState.bitno == i.ToString() ||
+				//            metadataDeviceState.bitNo == i.ToString() ||
+				//            metadataDeviceState.Bitno == i.ToString() ||
+				//        metadataDeviceState.intBitno == i.ToString() ||
+				//        metadataDeviceState.Intbitno == i.ToString())
+				//        {
+				//            var isBitSetted = bitArray[i];
+				//            if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
+				//                isBitSetted = !isBitSetted;
+
+				//            if (isBitSetted)
+				//            {
+				//                var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+				//                if (driverState != null)
+				//                {
+				//                    var deviceDriverState = new DeviceDriverState()
+				//                    {
+				//                        DriverState = driverState,
+				//                        Time = DateTime.Now
+				//                    };
+				//                    device.DeviceState.States.Add(deviceDriverState);
+				//                }
+				//            }
+				//        }
+				//    }
+				//}
 			}
 
 			Trace.WriteLine("Monitoring GetStates " + device.DottedPresentationNameAndAddress);
@@ -149,88 +211,88 @@ namespace ServerFS2.Monitor
 			//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
 		}
 
-		//public static void UpdateDeviceState(List<FS2JournalItem> journalItems)
-		//{
-		//    // check panel status
+		public static void UpdateDeviceStateJournal(List<FS2JournalItem> journalItems)
+		{
+			// check panel status
 
-		//    foreach (var journalItem in journalItems)
-		//    {
-		//        if (journalItem != null && journalItem.Device != null)
-		//        {
-		//            //var metadataDeviceTable = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceDriverID) == journalItem.Device.DriverUID);
-		//            driverConfigDeviceTablesDeviceTable metadataDeviceTable = null;
-		//            foreach (var metadataDeviceTableItem in MetadataHelper.Metadata.deviceTables)
-		//            {
-		//                if (metadataDeviceTableItem.deviceDriverID == null)
-		//                    continue;
-		//                var guid = new Guid(metadataDeviceTableItem.deviceDriverID);
-		//                var journalItemGuid = journalItem.Device.DriverUID;
-		//                if (guid == journalItemGuid)
-		//                {
-		//                    metadataDeviceTable = metadataDeviceTableItem;
-		//                    break;
-		//                }
-		//            }
-		//            if (metadataDeviceTable != null)
-		//            {
-		//                foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
-		//                {
-		//                    if (metadataDeviceState.tableType == metadataDeviceTable.tableType)
-		//                    {
-		//                        if (metadataDeviceState.enter != null)
-		//                        {
-		//                            foreach (var deviceStateEnter in metadataDeviceState.enter)
-		//                            {
-		//                                var eventValue = MetadataHelper.GetDeviceStateEventEnter(deviceStateEnter, journalItem.EventChoiceNo);
-		//                                if (eventValue != null)
-		//                                {
-		//                                    if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
-		//                                    {
-		//                                        var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
-		//                                        if (driverState != null)
-		//                                        {
-		//                                            if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState.Id == driverState.Id))
-		//                                            {
-		//                                                var deviceDriverState = new DeviceDriverState()
-		//                                                {
-		//                                                    DriverState = driverState,
-		//                                                    Time = DateTime.Now
-		//                                                };
-		//                                                journalItem.Device.DeviceState.States.Add(deviceDriverState);
-		//                                            }
-		//                                        }
-		//                                    }
-		//                                }
-		//                            }
+			foreach (var journalItem in journalItems)
+			{
+				if (journalItem != null && journalItem.Device != null)
+				{
+					//var metadataDeviceTable = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceDriverID) == journalItem.Device.DriverUID);
+					driverConfigDeviceTablesDeviceTable metadataDeviceTable = null;
+					foreach (var metadataDeviceTableItem in MetadataHelper.Metadata.deviceTables)
+					{
+						if (metadataDeviceTableItem.deviceDriverID == null)
+							continue;
+						var guid = new Guid(metadataDeviceTableItem.deviceDriverID);
+						var journalItemGuid = journalItem.Device.DriverUID;
+						if (guid == journalItemGuid)
+						{
+							metadataDeviceTable = metadataDeviceTableItem;
+							break;
+						}
+					}
+					if (metadataDeviceTable != null)
+					{
+						foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+						{
+							if (metadataDeviceState.tableType == metadataDeviceTable.tableType)
+							{
+								if (metadataDeviceState.enter != null)
+								{
+									foreach (var deviceStateEnter in metadataDeviceState.enter)
+									{
+										var eventValue = MetadataHelper.GetDeviceStateEventEnter(deviceStateEnter, journalItem.EventChoiceNo);
+										if (eventValue != null)
+										{
+											if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
+											{
+												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
+												if (driverState != null)
+												{
+													if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState.Id == driverState.Id))
+													{
+														var deviceDriverState = new DeviceDriverState()
+														{
+															DriverState = driverState,
+															Time = DateTime.Now
+														};
+														journalItem.Device.DeviceState.States.Add(deviceDriverState);
+													}
+												}
+											}
+										}
+									}
 
-		//                            foreach (var deviceStateLeave in metadataDeviceState.leave)
-		//                            {
-		//                                var eventValue = MetadataHelper.GetDeviceStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
-		//                                if (eventValue != null)
-		//                                {
-		//                                    if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
-		//                                    {
-		//                                        var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
-		//                                        if (driverState != null)
-		//                                        {
-		//                                            var deviceDriverState = journalItem.Device.DeviceState.States.FirstOrDefault(x => x.DriverState.Id == driverState.Id);
-		//                                            if (deviceDriverState != null)
-		//                                            {
-		//                                                journalItem.Device.DeviceState.States.Remove(deviceDriverState);
-		//                                            }
-		//                                        }
-		//                                    }
-		//                                }
-		//                            }
-		//                        }
-		//                    }
-		//                }
-		//            }
-		//        }
-		//        //journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
-		//        //Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
-		//    }
-		//    // read device 80 byte
-		//}
+									foreach (var deviceStateLeave in metadataDeviceState.leave)
+									{
+										var eventValue = MetadataHelper.GetDeviceStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
+										if (eventValue != null)
+										{
+											if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
+											{
+												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
+												if (driverState != null)
+												{
+													var deviceDriverState = journalItem.Device.DeviceState.States.FirstOrDefault(x => x.DriverState.Id == driverState.Id);
+													if (deviceDriverState != null)
+													{
+														journalItem.Device.DeviceState.States.Remove(deviceDriverState);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
+				//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
+			}
+			// read device 80 byte
+		}
 	}
 }
