@@ -30,7 +30,8 @@ namespace ServerFS2
 			{
 			    Driver = Drivers.FirstOrDefault(x => x.DriverType == driverType),
 			    IntAddress = DeviceFlash[pointer + 1] + 256*(DeviceFlash[pointer + 2] + 1),
-			    InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4], DeviceFlash[pointer + 29], DeviceFlash[pointer + 30])
+			    InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4], DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
+				Offset = pointer + 3
 			};
 		    device.DriverUID = device.Driver.UID;
             Device groupDevice;
@@ -233,7 +234,8 @@ namespace ServerFS2
             {
                 Driver = Drivers.FirstOrDefault(x => x.DriverType == driverType),
                 IntAddress = DeviceFlash[pointer] + 256*(DeviceFlash[pointer + 1] + 1),
-                InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3], DeviceFlash[pointer + 8], DeviceFlash[pointer + 9])
+                InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3], DeviceFlash[pointer + 8], DeviceFlash[pointer + 9]),
+				Offset = pointer + 2
             };
             device.DriverUID = device.Driver.UID;
             Device groupDevice;
@@ -456,7 +458,7 @@ namespace ServerFS2
 		static ZonePanelRelationsInfo zonePanelRelationsInfo;
 		static DeviceConfiguration remoteDeviceConfiguration;
 
-		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
+		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice) 
 		{
             var bytes = GetBytesFromFlashDB(selectedDevice, 0x115, 14);
             #region LocalVariable
@@ -1661,9 +1663,14 @@ namespace ServerFS2
         public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
         {
             var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
-            var result = SendCode(bytes).Result.FirstOrDefault().Data;
-            result.RemoveRange(0, 7);
-            return result;
+			var responce = SendCode(bytes).Result.FirstOrDefault();
+			if (responce != null)
+			{
+				var result = responce.Data;
+				result.RemoveRange(0, 7);
+				return result;
+			}
+			return null;
         }
 
         public static string TraceBytes(IEnumerable<byte> bytes, string description = "")

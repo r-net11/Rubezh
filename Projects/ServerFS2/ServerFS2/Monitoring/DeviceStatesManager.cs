@@ -15,8 +15,8 @@ namespace ServerFS2.Monitor
 	{
 		public static void Initialize()
 		{
-			var systemDatabaseCreator = new SystemDatabaseCreator();
-			systemDatabaseCreator.Run();
+			//var systemDatabaseCreator = new SystemDatabaseCreator();
+			//systemDatabaseCreator.Run();
 
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
@@ -31,13 +31,18 @@ namespace ServerFS2.Monitor
 				if (device.ParentPanel != null && device.ParentPanel.IntAddress == 15)
 				{
 					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					if (stateBytes == null)
+					{
+						Trace.WriteLine("GetAllStates Failed " + device.DottedPresentationNameAndAddress);
+						continue;
+					}
 					var deviceState = BytesHelper.SubstructShort(stateBytes, 0);
-					Trace.WriteLine(device.DottedPresentationNameAndAddress + " - " + deviceState.ToString());
+					Trace.WriteLine("GetAllStates " + device.DottedPresentationNameAndAddress + " - " + deviceState.ToString());
 				}
 			}
 		}
 
-		public void GetStates()
+		public static void GetStates()
 		{
 			foreach (var panelDevice in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
@@ -96,7 +101,7 @@ namespace ServerFS2.Monitor
 						{
 							stringParameters += b.ToString() + " ";
 						}
-						Trace.WriteLine(device.DottedPresentationNameAndAddress + " - " + stringParameters);
+						Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + stringParameters);
 						foreach (var deviceDriverState in device.DeviceState.States)
 						{
 							Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);

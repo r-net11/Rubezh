@@ -24,7 +24,7 @@ namespace MonitorClientFS2
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
-			MainManager.StartMonitoring();
+			//MainManager.StartMonitoring();
 			
 		}
 

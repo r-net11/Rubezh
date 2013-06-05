@@ -26,7 +26,7 @@ namespace ServerFS2.Monitor
 			}
 			DoMonitoring = false;
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
-			StartMonitoring();
+			//StartMonitoring();
 		}
 
 		public static void Initialize()
@@ -37,7 +37,10 @@ namespace ServerFS2.Monitor
 		public static void StartMonitoring()
 		{
 			DeviceStatesManager.Initialize();
-			DeviceStatesManager.GetAllStates();
+			//DeviceStatesManager.GetAllStates();
+			DeviceStatesManager.GetStates();
+			return;
+
 			if (!DoMonitoring)
 			{
 				StartTime = DateTime.Now;

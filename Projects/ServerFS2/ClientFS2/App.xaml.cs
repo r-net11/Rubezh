@@ -10,11 +10,11 @@ namespace ClientFS2
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			ConfigurationManager.Load();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
+			ConfigurationManager.Load();
 			var mainView = new MainView();
 			var mainViewModel = new MainViewModel();
 			mainView.DataContext = mainViewModel;
