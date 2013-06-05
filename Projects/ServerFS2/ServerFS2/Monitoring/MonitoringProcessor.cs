@@ -39,7 +39,7 @@ namespace ServerFS2.Monitor
 			DeviceStatesManager.Initialize();
 			//DeviceStatesManager.GetAllStates();
 			DeviceStatesManager.GetStates();
-			return;
+			//return;
 
 			if (!DoMonitoring)
 			{

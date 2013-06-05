@@ -118,7 +118,14 @@ namespace ServerFS2.Monitor
 			lock (Locker)
 			{
 				var journalParser = new JournalParser();
-				return journalParser.Parce(response.Data);
+				try
+				{
+					return journalParser.Parce(response.Data);
+				}
+				catch
+				{
+					return null;
+				}
 			}
 		}
 

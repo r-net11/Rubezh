@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -22,11 +23,7 @@ namespace ServerFS2
 
 		public static string GetDeviceTableNo(Device device)
 		{
-			if (Metadata.deviceTables.Any(x => string.IsNullOrEmpty(x.deviceClassID)))
-			{
-				MessageBox.Show("Metadata.deviceTables.deviceClassID=null");
-			}
-			var metadataDeviceTable = Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceClassID) == device.Driver.UID);
+			var metadataDeviceTable = Metadata.deviceTables.FirstOrDefault(x => x.deviceDriverID != null && x.deviceDriverID == device.Driver.UID.ToString().ToUpper());
 			if (metadataDeviceTable != null)
 			{
 				return metadataDeviceTable.tableType;
