@@ -46,12 +46,13 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var panelDevice in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
-				//if (panelDevice.IntAddress != 15)
-				//    continue;
+				if (panelDevice.IntAddress != 15 && panelDevice.IntAddress != 16)
+					continue;
 
 				if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
 					continue;
 
+				Trace.WriteLine(panelDevice.PresentationAddressAndName);
 				var deviceCongiguration = ServerHelper.GetDeviceConfig(panelDevice);
 				foreach (var device in deviceCongiguration.Devices)
 				{
@@ -71,7 +72,7 @@ namespace ServerFS2.Monitor
 						Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + stringParameters);
 						foreach (var deviceDriverState in device.DeviceState.States)
 						{
-							Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);
+							Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name + " " + device.PresentationAddressAndName);
 						}
 					}
 				}

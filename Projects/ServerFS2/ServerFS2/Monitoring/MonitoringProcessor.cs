@@ -69,7 +69,7 @@ namespace ServerFS2.Monitor
 					}
 					foreach (var monitoringDevice in MonitoringDevices)
 					{
-						if (monitoringDevice.CanLastIndexBeRequested())// && monitoringDevice.Device.IntAddress == 15)
+						if (monitoringDevice.CanLastIndexBeRequested() && (monitoringDevice.Device.IntAddress == 15 || monitoringDevice.Device.IntAddress == 16))
 						{
 							monitoringDevice.RequestLastIndex();
 						}
