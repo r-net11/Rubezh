@@ -86,7 +86,7 @@ namespace ServerFS2
 
 		bool IsValidInput(List<byte> bytes)
 		{
-			return bytes.Count == 39 &&
+			return //bytes.Count == 39 &&
 				bytes[6] == 0x41 &&
 				bytes[8] == 0xC4;
 		}

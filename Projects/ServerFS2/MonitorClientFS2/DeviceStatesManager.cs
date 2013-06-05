@@ -53,7 +53,7 @@ namespace MonitorClientFS2
 
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.Device != null)
+				if (journalItem != null && journalItem.Device != null)
 				{
 					//var metadataDeviceTable = MetadataHelper.Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceDriverID) == journalItem.Device.DriverUID);
 					driverConfigDeviceTablesDeviceTable metadataDeviceTable = null;
