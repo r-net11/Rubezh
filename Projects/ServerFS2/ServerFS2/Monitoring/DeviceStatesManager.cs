@@ -238,7 +238,7 @@ namespace ServerFS2.Monitor
 					{
 						foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 						{
-							if (metadataDeviceState.tableType == metadataDeviceTable.tableType)
+							if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == metadataDeviceTable.tableType)
 							{
 								if (metadataDeviceState.enter != null)
 								{
@@ -249,10 +249,10 @@ namespace ServerFS2.Monitor
 										{
 											if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
 											{
-												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
+												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
 												if (driverState != null)
 												{
-													if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState.Id == driverState.Id))
+													if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState.Code == driverState.Code))
 													{
 														var deviceDriverState = new DeviceDriverState()
 														{
@@ -273,10 +273,10 @@ namespace ServerFS2.Monitor
 										{
 											if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
 											{
-												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
+												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
 												if (driverState != null)
 												{
-													var deviceDriverState = journalItem.Device.DeviceState.States.FirstOrDefault(x => x.DriverState.Id == driverState.Id);
+													var deviceDriverState = journalItem.Device.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == driverState.Code);
 													if (deviceDriverState != null)
 													{
 														journalItem.Device.DeviceState.States.Remove(deviceDriverState);

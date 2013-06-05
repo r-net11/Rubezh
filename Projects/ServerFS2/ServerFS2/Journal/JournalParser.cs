@@ -51,6 +51,8 @@ namespace ServerFS2
 			var timeBytes = bytes.GetRange(1, 4);
 			FS2JournalItem.DeviceTime = TimeParceHelper.ParceDateTime(timeBytes);
 			FS2JournalItem.SystemTime = DateTime.Now;
+			FS2JournalItem.EventCode = FSInternalJournal.EventCode;
+			FS2JournalItem.EventChoiceNo = FSInternalJournal.AdditionalEventCode;
 			FS2JournalItem.Description = GetEventName();
 
 
