@@ -150,42 +150,6 @@ namespace ServerFS2.Monitor
 						}
 					}
 				}
-
-				//for (int i = 0; i < 16; i++)
-				//{
-				//    foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
-				//    {
-				//        if (metadataDeviceState.tableType != null && metadataDeviceState.tableType != tableNo)
-				//            continue;
-				//        if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
-				//            continue;
-
-				//        if (metadataDeviceState.bitno == i.ToString() ||
-				//            metadataDeviceState.bitNo == i.ToString() ||
-				//            metadataDeviceState.Bitno == i.ToString() ||
-				//        metadataDeviceState.intBitno == i.ToString() ||
-				//        metadataDeviceState.Intbitno == i.ToString())
-				//        {
-				//            var isBitSetted = bitArray[i];
-				//            if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
-				//                isBitSetted = !isBitSetted;
-
-				//            if (isBitSetted)
-				//            {
-				//                var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-				//                if (driverState != null)
-				//                {
-				//                    var deviceDriverState = new DeviceDriverState()
-				//                    {
-				//                        DriverState = driverState,
-				//                        Time = DateTime.Now
-				//                    };
-				//                    device.DeviceState.States.Add(deviceDriverState);
-				//                }
-				//            }
-				//        }
-				//    }
-				//}
 			}
 
 			Trace.WriteLine("Monitoring GetStates " + device.DottedPresentationNameAndAddress);
