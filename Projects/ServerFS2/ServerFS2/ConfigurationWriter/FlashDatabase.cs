@@ -72,7 +72,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			BytesDatabase.Order();
 			BytesDatabase.ResolveTableReferences();
-			BytesDatabase.ResolverReferences();
+			BytesDatabase.ResolveReferences();
 
 			var crcBytes = BytesDatabase.GetBytes();
 			crcBytes.RemoveRange(0, 256);

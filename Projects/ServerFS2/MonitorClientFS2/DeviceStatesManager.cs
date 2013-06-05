@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2;
 using Rubezh2010;
+using ServerFS2.ConfigurationWriter;
 
 namespace MonitorClientFS2
 {
@@ -13,6 +14,9 @@ namespace MonitorClientFS2
 	{
 		public static void Initialize()
 		{
+			var systemDatabaseCreator = new SystemDatabaseCreator();
+			systemDatabaseCreator.Run();
+
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
 				device.DeviceState = new DeviceState();

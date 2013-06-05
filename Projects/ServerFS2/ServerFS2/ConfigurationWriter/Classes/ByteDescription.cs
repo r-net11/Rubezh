@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Infrastructure.Common.TreeList;
+using FiresecAPI.Models;
 
 namespace ServerFS2.ConfigurationWriter
 {
@@ -34,5 +35,7 @@ namespace ServerFS2.ConfigurationWriter
 				return originalChar;
 			}
 		}
+
+		public Device DeviceState { get; set; }
 	}
 }

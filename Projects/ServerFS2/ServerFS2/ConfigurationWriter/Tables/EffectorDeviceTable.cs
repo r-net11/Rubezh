@@ -43,7 +43,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddByte(outerPanelAddress, "Адрес прибора привязки в сети");
 			BytesDatabase.AddByte((Device.AddressOnShleif), "Адрес");
 			BytesDatabase.AddByte(Math.Max(Device.ShleifNo - 1, 0), "Номер шлейфа");
-			BytesDatabase.AddShort(0, "Внутренние параметры", true);
+			BytesDatabase.AddShort(0, "Слово состояния", true).DeviceState = Device;
 			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
 
 			var description = Device.Description;

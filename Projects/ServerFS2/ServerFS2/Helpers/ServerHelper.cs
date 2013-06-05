@@ -20,7 +20,6 @@ namespace ServerFS2
 
 		static ServerHelper()
 		{
-			var str = DateConverter.ConvertToBytes(DateTime.Now);
 			MetadataHelper.Initialize();
 			ConfigurationManager.Load();
 			Drivers = ConfigurationManager.DriversConfiguration.Drivers;

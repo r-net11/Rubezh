@@ -24,7 +24,7 @@ namespace ServerFS2.ConfigurationWriter
 		{
 			BytesDatabase.AddByte(Device.AddressOnShleif, "Адрес");
 			BytesDatabase.AddByte(Math.Max(Device.ShleifNo - 1, 0), "Шлейф");
-			BytesDatabase.AddShort(0, "Внутренние параметры", true);
+			BytesDatabase.AddShort(0, "Слово состояния", true).DeviceState = Device;
 			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
 			var zoneNo = 0;
 			if (Device.Zone != null)

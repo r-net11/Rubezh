@@ -42,10 +42,10 @@ namespace ServerFS2.Processor
 		public static bool DeviceWriteConfig(Device device, bool isUSB)
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
-			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Run();
+			var systemDatabaseCreator = new SystemDatabaseCreator();
+			systemDatabaseCreator.Run();
 
-			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
+			var panelDatabase = systemDatabaseCreator.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
 			if (panelDatabase == null)
 				throw new FS2Exception("Не найдена сформированная для устройства база данных");
 
