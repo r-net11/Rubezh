@@ -23,12 +23,15 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
                             <DataGridTextColumn Header="DeviceAddress" Binding="{Binding DeviceAddress}" />
+                            
                             <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
                             <DataGridTextColumn Header="PanelAddress" Binding="{Binding PanelAddress}" />
                             
                             <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
+                            
                             <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
+                            <DataGridTextColumn Header="ZoneNo" Binding="{Binding ZoneNo}" />
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                             <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
                             <DataGridTextColumn Header="Device" Binding="{Binding Device.DottedPresentationNameAndAddress}" />

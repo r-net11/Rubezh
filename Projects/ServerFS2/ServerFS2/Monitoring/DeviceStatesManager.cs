@@ -7,7 +7,7 @@ using FS2Api;
 using ServerFS2;
 using Rubezh2010;
 
-namespace MonitorClientFS2
+namespace ServerFS2.Monitor
 {
 	public class DeviceStatesManager
 	{

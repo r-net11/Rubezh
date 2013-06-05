@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace MonitorClientFS2
+namespace ServerFS2.Monitor
 {
 	public class Request
 	{

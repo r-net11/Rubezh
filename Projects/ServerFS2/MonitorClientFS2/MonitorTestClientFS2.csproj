@@ -59,12 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DeviceStatesManager.cs" />
-    <Compile Include="MonitoringDevice.cs" />
-    <Compile Include="MonitoringProcessor.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="RequestTypes.cs" />
-    <Compile Include="XmlJournalHelper.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">
@@ -82,7 +76,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="JournalHelper.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>

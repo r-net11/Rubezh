@@ -6,16 +6,16 @@ using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
 
-namespace MonitorClientFS2
+namespace ServerFS2.Monitor
 {
-	public class MonitoringProcessor
+	public static class MonitoringProcessor
 	{
-		List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
+		static List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
 		public static bool DoMonitoring{get; set;}
-		DateTime StartTime;
+		static DateTime StartTime;
 		static object locker = new object();
-		
-		public MonitoringProcessor()
+
+		static MonitoringProcessor()
 		{
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
@@ -29,7 +29,12 @@ namespace MonitorClientFS2
 			StartMonitoring();
 		}
 
-		public void StartMonitoring()
+		public static void Initialize()
+		{
+			;
+		}
+
+		public static void StartMonitoring()
 		{
 			DeviceStatesManager.Initialize();
 			DeviceStatesManager.GetAllStates();
@@ -42,12 +47,12 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public void StopMonitoring()
+		public static void StopMonitoring()
 		{
 			DoMonitoring = false;
 		}
 
-		void OnRun()
+		static void OnRun()
 		{
 			while (true)
 			{
@@ -70,7 +75,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		void UsbRunner_NewResponse(Response response)
+		static void UsbRunner_NewResponse(Response response)
 		{
 			MonitoringDevice monitoringDevice = null;
 			Request request = null;
@@ -107,7 +112,7 @@ namespace MonitorClientFS2
 			}
 		}
 
-		public void WriteStats()
+		public static void WriteStats()
 		{
 			var timeSpan = DateTime.Now - StartTime;
 			Trace.WriteLine("betweenCyclesSpan "+MonitoringDevice.betweenCyclesSpan);

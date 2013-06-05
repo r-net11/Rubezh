@@ -6,7 +6,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using ServerFS2;
 
-namespace MonitorClientFS2
+namespace ServerFS2.Monitor
 {
 	public static class XmlJournalHelper
 	{
