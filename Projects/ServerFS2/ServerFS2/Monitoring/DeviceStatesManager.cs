@@ -25,7 +25,15 @@ namespace ServerFS2.Monitor
 
 		public static void GetAllStates()
 		{
-
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				if (device.ParentPanel != null && device.ParentPanel.IntAddress == 15)
+				{
+					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					var deviceState = BytesHelper.SubstructShort(stateBytes, 0);
+					Trace.WriteLine(device.DottedPresentationNameAndAddress + " - " + deviceState.ToString());
+				}
+			}
 		}
 
 		public void GetStates()
