@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using FiresecAPI.Models;
+using System.Windows.Forms;
 
 namespace ServerFS2
 {
@@ -16,6 +18,20 @@ namespace ServerFS2
 				var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
 				Metadata = (Rubezh2010.driverConfig)serializer.Deserialize(fileStream);
 			}
+		}
+
+		public static string GetDeviceTableNo(Device device)
+		{
+			if (Metadata.deviceTables.Any(x => string.IsNullOrEmpty(x.deviceClassID)))
+			{
+				MessageBox.Show("Metadata.deviceTables.deviceClassID=null");
+			}
+			var metadataDeviceTable = Metadata.deviceTables.FirstOrDefault(x => new Guid(x.deviceClassID) == device.Driver.UID);
+			if (metadataDeviceTable != null)
+			{
+				return metadataDeviceTable.tableType;
+			}
+			return null;
 		}
 
 		public static string GetEventByCode(int eventCode)

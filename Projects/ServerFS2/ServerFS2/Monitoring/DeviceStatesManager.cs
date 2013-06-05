@@ -7,6 +7,7 @@ using FS2Api;
 using ServerFS2;
 using Rubezh2010;
 using ServerFS2.ConfigurationWriter;
+using System.Collections;
 
 namespace ServerFS2.Monitor
 {
@@ -48,12 +49,58 @@ namespace ServerFS2.Monitor
 				{
 					if (device.InnerDeviceParameters != null)
 					{
+						var tableNo = MetadataHelper.GetDeviceTableNo(device);
+						if (tableNo != null)
+						{
+							var stateByte = device.InnerDeviceParameters[0];
+							var stateWord = BytesHelper.ExtractShort(device.InnerDeviceParameters, 0);
+							var bitArray = new BitArray(stateWord);
+							for (int i = 0; i < 16; i++)
+							{
+								foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+								{
+									if ((metadataDeviceState.tableType != null && metadataDeviceState.tableType == tableNo) ||
+										(metadataDeviceState.tableType == null && metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType != tableNo))
+									{
+										if (metadataDeviceState.bitno == i.ToString() ||
+											metadataDeviceState.bitNo == i.ToString() ||
+											metadataDeviceState.Bitno == i.ToString() ||
+											metadataDeviceState.intBitno == i.ToString() ||
+											metadataDeviceState.Intbitno == i.ToString())
+										{
+											var isBitSetted = bitArray[i];
+											if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
+												isBitSetted = !isBitSetted;
+
+											if (isBitSetted)
+											{
+												var driverState = device.Driver.States.FirstOrDefault(x => x.Id == metadataDeviceState.ID);
+												if (driverState != null)
+												{
+													var deviceDriverState = new DeviceDriverState()
+													{
+														DriverState = driverState,
+														Time = DateTime.Now
+													};
+													device.DeviceState.States.Add(deviceDriverState);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
 						var stringParameters = "";
 						foreach (var b in device.InnerDeviceParameters)
 						{
 							stringParameters += b.ToString() + " ";
 						}
 						Trace.WriteLine(device.DottedPresentationNameAndAddress + " - " + stringParameters);
+						foreach (var deviceDriverState in device.DeviceState.States)
+						{
+							Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);
+						}
 					}
 				}
 			}

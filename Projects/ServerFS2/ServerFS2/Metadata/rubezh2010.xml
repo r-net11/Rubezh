@@ -1520,7 +1520,7 @@
       <enter event1="$05"/>
       <leave event="$05"/>
     </deviceState>
-    <deviceState tableType="9" class="7" name="Заслонка открывается" ID="DoorOpening" bits="9-10" type="Fire"/>
+    <deviceState tableType="9" class="7" name="Заслонка открывается" ID="DoorOpening" -9="9-10" type="Fire"/>
     <deviceState tableType="9" class="6" name="Клапан открыт" ID="DoorOpened" bits="9-10" value="1" type="Fire"/>
     <deviceState tableType="9" class="7" name="Клапан закрыт" ID="DoorClosed" bits="9-10" value="2" type="Fire"/>
     <deviceState tableType="9" class="7" name="Заслонка закрывается" ID="DoorClosing" bits="9-10" value="3" type="Fire"/>
