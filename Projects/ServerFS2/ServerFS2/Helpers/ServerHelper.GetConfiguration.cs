@@ -1666,9 +1666,11 @@ namespace ServerFS2
             return result;
         }
 
-        private static void TraceBytes(IEnumerable<byte> bytes, string description = "")
+        public static string TraceBytes(IEnumerable<byte> bytes, string description = "")
         {
-            Trace.WriteLine(description + " { " + String.Join(" ", bytes.Select(p => p.ToString("X2")).ToArray()) + " } ");
+            var message = (description + " " + String.Join(" ", bytes.Select(p => p.ToString("X2")).ToArray()) + " ");
+            Trace.WriteLine(message);
+            return message;
         }
 	}
 }
