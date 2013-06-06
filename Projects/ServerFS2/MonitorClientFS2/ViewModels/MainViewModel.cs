@@ -9,6 +9,8 @@ using MonitorClientFS2.ViewModels;
 using ServerFS2.Processor;
 using System.Collections;
 using System.Diagnostics;
+using ServerFS2;
+using System.Linq;
 
 namespace MonitorClientFS2
 {
@@ -82,14 +84,16 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var stateBytes = new List<byte>() { 1, 2 };
-			var bitArray = new BitArray(stateBytes.ToArray());
-			for (int i = 0; i < 16; i++)
-			{
-				var isBitSetted = bitArray[i];
-				Trace.WriteLine(i + "-" + isBitSetted);
-			}
+			//var stateBytes = new List<byte>() { 1, 2 };
+			//var bitArray = new BitArray(stateBytes.ToArray());
+			//for (int i = 0; i < 16; i++)
+			//{
+			//    var isBitSetted = bitArray[i];
+			//    Trace.WriteLine(i + "-" + isBitSetted);
+			//}
 			//MonitoringProcessor.WriteStats();
+
+			MainManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }

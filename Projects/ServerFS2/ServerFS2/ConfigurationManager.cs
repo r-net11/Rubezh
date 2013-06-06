@@ -57,6 +57,7 @@ namespace ServerFS2
 			{
 				device.UpdateHasExternalDevices();
 				device.DeviceState = new DeviceState();
+				device.DeviceState.Device = device;
 			}
 		}
 	}

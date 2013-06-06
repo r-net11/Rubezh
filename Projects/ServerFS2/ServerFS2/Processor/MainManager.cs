@@ -216,5 +216,10 @@ namespace ServerFS2.Processor
         {
             return ServerHelper.GetDeviceStatus(device);
         }
+
+		public static void UpdatePanelState(Device device)
+		{
+			DeviceStatesManager.UpdatePanelState(device);
+		}
 	}
 }

@@ -118,6 +118,7 @@ namespace ServerFS2
             status[1] = (byte)(status[1] & ~2);
             var bytes = CreateBytesArray(0x02, 0x10, status.GetRange(0, 4));
             SendCodeToPanel(bytes, device);
+			device.DeviceState.OnStateChanged();
         }
 
 		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
@@ -145,7 +146,7 @@ namespace ServerFS2
 			var paneleResetBits = new List<PaneleResetBit>();
 			foreach (var resetItem in resetItems)
 			{
-				var parentPanel = resetItem.DeviceState.Device.ParentPanel;
+				var parentPanel = resetItem.DeviceState.Device;
 				var paneleResetBit = paneleResetBits.FirstOrDefault(x => x.ParentPanel == parentPanel);
 				if (paneleResetBit == null)
 				{
