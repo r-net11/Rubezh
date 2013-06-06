@@ -21,7 +21,6 @@ namespace ServerFS2
         static ServerHelper()
         {
             MetadataHelper.Initialize();
-            ConfigurationManager.Load();
             Drivers = ConfigurationManager.DriversConfiguration.Drivers;
             UsbRunner = new UsbRunner();
             try

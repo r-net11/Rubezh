@@ -6,6 +6,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
             <Controls:TreeListView.Columns>
@@ -16,8 +17,18 @@
                                 <Controls:EditorPresenter.ViewTemplate>
                                     <ControlTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-                                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />
+                                            <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" />
+                                            <StackPanel.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Сбросить пожар" Command="{Binding ResetFireCommand}" />
+                                                    <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" />
+                                                    <MenuItem Header="Поставить в обход" Command="{Binding SetIgnoreCommand}" />
+                                                    <MenuItem Header="Убрать из обхода" Command="{Binding ResetIgnoreCommand}" />
+                                                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                                </ContextMenu>
+                                            </StackPanel.ContextMenu>
                                         </StackPanel>
                                     </ControlTemplate>
                                 </Controls:EditorPresenter.ViewTemplate>
@@ -25,22 +36,34 @@
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
-                <GridViewColumn Width="100" Header="Адрес">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <Controls:EditorPresenter>
-                                <Controls:EditorPresenter.ViewTemplate>
-                                    <ControlTemplate>
-                                        <TextBlock Text="{Binding Address}" />
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.ViewTemplate>
-                            </Controls:EditorPresenter>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
+                <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Address}" />
             </Controls:TreeListView.Columns>
         </Controls:TreeListView>
-        <StackPanel Grid.Row="1" Margin="2">
+
+        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding States}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
+                                           Margin="0, 0, 5, 0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
+                                    <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
+                                        Width="32" Height="32" VerticalAlignment="Center"
+                                        Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
+                                        CommandParameter="{Binding DriverState.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Margin="2">
             <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Margin="2" />
             <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Margin="2" />
             <Button Content="Считать rom/ram" Command="{Binding ReadRomRamCommand}" Width="200" Margin="2" />

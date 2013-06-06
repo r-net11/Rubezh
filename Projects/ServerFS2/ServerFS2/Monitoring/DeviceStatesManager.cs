@@ -18,10 +18,10 @@ namespace ServerFS2.Monitor
 			//var systemDatabaseCreator = new SystemDatabaseCreator();
 			//systemDatabaseCreator.Run();
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				device.DeviceState = new DeviceState();
-			}
+			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			//{
+			//    device.DeviceState = new DeviceState();
+			//}
 		}
 
 		public static void GetAllStates()
@@ -259,6 +259,8 @@ namespace ServerFS2.Monitor
 							}
 						}
 					}
+
+					journalItem.Device.DeviceState.OnStateChanged();
 				}
 				//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
 				//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
