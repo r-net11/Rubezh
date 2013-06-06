@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using FS2Api;
+using ServerFS2.ConfigurationWriter;
 using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
@@ -33,10 +34,10 @@ namespace ServerFS2
 				bytes.Add(0x20);
 				bytes.Add(0x02);
 				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				var result = SendCode(bytes).Result.FirstOrDefault();
+				var result = SendCode(bytes);
 				if (result != null)
 				{
-					var journalItem = ParseJournal(result.Data);
+					var journalItem = ParseJournal(result);
 					journalItems.Add(journalItem);
 				}
 			}
@@ -61,7 +62,7 @@ namespace ServerFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-				int li = 256 * 256 * 256 * lastindex.Result.FirstOrDefault().Data[7] + 256 * 256 * lastindex.Result.FirstOrDefault().Data[8] + 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+				var li = BytesHelper.ExtractInt(lastindex, 7);
 				return li;
 			}
 			catch (NullReferenceException ex)
@@ -82,7 +83,7 @@ namespace ServerFS2
 			try
 			{
 				var firecount = SendCode(bytes);
-				int fc = 256 * firecount.Result.FirstOrDefault().Data[7] + firecount.Result.FirstOrDefault().Data[8];
+				var fc = BytesHelper.ExtractShort(firecount, 7);
 				return fc;
 			}
 			catch (NullReferenceException ex)
@@ -111,7 +112,7 @@ namespace ServerFS2
 			try
 			{
 				var lastindex = SendCode(bytes);
-				int result = 256 * 256* 256* lastindex.Result.FirstOrDefault().Data[7] + 256* 256*lastindex.Result.FirstOrDefault().Data[8] + 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
+				var result = BytesHelper.ExtractInt(lastindex, 7);
 				return result;
 			}
 			catch (NullReferenceException ex)
@@ -141,10 +142,10 @@ namespace ServerFS2
 				bytes.Add(0x20);
 				bytes.Add(0x00);
 				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				var result = SendCode(bytes).Result.FirstOrDefault();
+				var result = SendCode(bytes);
 				if (result != null)
 				{
-					var journalItem = ParseJournal(result.Data);
+					var journalItem = ParseJournal(result);
 					if (journalItem != null)
 					{
 						journalItems.Add(journalItem);

@@ -15,7 +15,7 @@ namespace ServerFS2
 			bytes.Add(0x01);
 			bytes.Add(0x01);
 			bytes.Add(0x04);
-			var res = SendCode(bytes).Result;
+			var res = SendCode(bytes);
 
 			var computerDevice = new Device();
 			var msDevice = new Device();
@@ -37,7 +37,7 @@ namespace ServerFS2
 			usbChannel1Device.IntAddress = 1;
 			msDevice.Children.Add(usbChannel1Device);
 
-			if (res.FirstOrDefault().Data[5] == 0x41) // запрашиваем второй шлейф
+			if (res[5] == 0x41) // запрашиваем второй шлейф
 			{
 				// МС-2
 				ms = 0x04;
@@ -63,7 +63,7 @@ namespace ServerFS2
 					bytes.Add(sleif);
 					bytes.Add(deviceCount);
 					bytes.Add(0x3C);
-					var inputBytes = SendCode(bytes, 5000, 500).Result.FirstOrDefault().Data;
+					var inputBytes = SendCode(bytes, 5000, 500);
 					if (inputBytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
 					{
 						var device = new Device();
@@ -76,7 +76,7 @@ namespace ServerFS2
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
 						bytes.Add(0x03);
-						inputBytes = SendCode(bytes).Result.FirstOrDefault().Data;
+						inputBytes = SendCode(bytes);
 						device.Driver = Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(inputBytes[7]));
 
 						bytes = new List<byte>();
@@ -84,7 +84,7 @@ namespace ServerFS2
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
 						bytes.Add(0x12);
-						inputBytes = SendCode(bytes).Result.FirstOrDefault().Data;
+						inputBytes = SendCode(bytes);
 						device.Properties.Add(new Property() { Name = "Version", Value = inputBytes[7].ToString("X2") + "." + inputBytes[8].ToString("X2") });
 
 						bytes = new List<byte>();
@@ -97,7 +97,7 @@ namespace ServerFS2
 						bytes.Add(0x00);
 						bytes.Add(0xF4);
 						bytes.Add(0x0B);
-						inputBytes = SendCode(bytes).Result.FirstOrDefault().Data;
+						inputBytes = SendCode(bytes);
 						if (inputBytes.Count >= 18)
 						{
 							var serilaNo = "";

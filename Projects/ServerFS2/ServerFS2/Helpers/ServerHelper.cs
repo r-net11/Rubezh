@@ -34,26 +34,24 @@ namespace ServerFS2
             { }
         }
 
+		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			bytes.InsertRange(0,IsUsbDevice? new List<byte> {(byte) (0x02)}: new List<byte> {(byte) (device.Parent.IntAddress + 2), (byte) device.IntAddress});
+			var result = UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
+			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
+			return result;
+		}
+
         public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
         {
             return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
         }
-        
-        public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-        {
-            return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
-        }
 
-        public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+		public static List<byte> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
         {
-            return UsbRunner.AddRequest(-1, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
+            return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
         }
-
-        public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-        {
-            return UsbRunner.AddRequest(-1, bytesList, maxDelay, maxTimeout, true);
-        }
-
+		
         public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
         {
             UsbRunner.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
@@ -72,14 +70,13 @@ namespace ServerFS2
 
         public static List<byte> SendRequest(List<byte> bytes)
         {
-            return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;
+            return SendCode(bytes);
         }
 
         public static void SynchronizeTime(Device device)
         {
-            var bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
-            device.IntAddress, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
-            SendCode(bytes);
+            var bytes = CreateBytesArray(0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
+            SendCodeToPanel(bytes, device);
         }
 
         static List<byte> CreateBytesArray(params object[] values)
@@ -111,16 +108,17 @@ namespace ServerFS2
             deviceRamTxt.Close();
         }
 
-        public static void ResetFire(Device device) // 02 54 10 00 00 00 00 00 00 00
+        public static void ResetFire(Device device)
         {
-            SendCode(CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00));
+        	var bytes = CreateBytesArray(0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+            SendCodeToPanel(bytes, device);
         }
 
         public static void ResetTest(Device device, List<byte> status)
         {
             status[1] = (byte)(status[1] & ~2);
-            var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x10, status.GetRange(0, 4));
-            SendCode(bytes);
+            var bytes = CreateBytesArray(0x02, 0x10, status.GetRange(0, 4));
+            SendCodeToPanel(bytes, device);
         }
 
 		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
@@ -147,15 +145,10 @@ namespace ServerFS2
         {
 			//if (!PingDevice(device))
 			//    return null;
-            var bytes1 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x10);
-            var bytes2 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x0F);
-            List<byte> response1;
-            List<byte> response2;
-            var result = new List<byte>();
-            response1 = SendCode(bytes1).Result.FirstOrDefault().Data;
-            response2 = SendCode(bytes2).Result.FirstOrDefault().Data;
-            response1.RemoveRange(0, 7);
-            response2.RemoveRange(0, 7);
+            var bytes2 = CreateBytesArray(0x01, 0x0F);
+        	var result = new List<byte>();
+            var response1 = SendCodeToPanel(bytes1, device);
+			var response2 = SendCodeToPanel(bytes2, device);
             result.AddRange(response1);
             result.AddRange(response2);
             return result;
@@ -163,20 +156,20 @@ namespace ServerFS2
 
         public static void AddDeviceToCheckList(Device device)
         {
-            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-            SendCode(bytes);
+            var bytes = CreateBytesArray(0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
+            SendCodeToPanel(bytes, device);
         }
 
         public static void RemoveDeviceFromCheckList(Device device)
         {
-            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-            SendCode(bytes);
+            var bytes = CreateBytesArray(0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
+			SendCodeToPanel(bytes, device);
         }
 
         public static bool PingDevice(Device device)
         {
             var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
-            return SendCode(bytes).Result.FirstOrDefault().Data[6] == 0x7C;
+            return SendCode(bytes)[6] == 0x7C;
         }
     }
 }
