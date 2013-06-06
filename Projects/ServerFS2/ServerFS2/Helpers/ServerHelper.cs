@@ -145,6 +145,7 @@ namespace ServerFS2
         {
 			//if (!PingDevice(device))
 			//    return null;
+			var bytes1 = CreateBytesArray(0x01, 0x10);
             var bytes2 = CreateBytesArray(0x01, 0x0F);
         	var result = new List<byte>();
             var response1 = SendCodeToPanel(bytes1, device);
