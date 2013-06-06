@@ -211,5 +211,10 @@ namespace ServerFS2.Processor
         {
             return ServerHelper.GetDeviceStatus(device);
         }
+
+		public static void ResetStates(List<ResetItem> resetItems)
+		{
+
+		}
 	}
 }

@@ -19,7 +19,7 @@ namespace MonitorClientFS2.ViewModels
 		public DeviceViewModel(Device device)
 		{
 			ResetFireCommand = new RelayCommand(OnResetFire);
-			ResetCommand = new RelayCommand(OnReset);
+			ResetCommand = new RelayCommand<string>(OnReset, CanReset);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -144,14 +144,24 @@ namespace MonitorClientFS2.ViewModels
 			MainManager.ResetFire(Device);
 		}
 
-		public RelayCommand ResetCommand { get; private set; }
-		void OnReset()
+		public RelayCommand<string> ResetCommand { get; private set; }
+		void OnReset(string stateName)
+		{
+			var resetItems = new List<ResetItem>();
+			var resetItem = new ResetItem()
+			{
+				DeviceState = DeviceState
+			};
+			var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
+			resetItem.States.Add(deviceDriverState);
+			resetItems.Add(resetItem);
+		}
+		void OnResetOld(string stateName)
 		{
 			var statusBytes = MainManager.GetDeviceStatus(Device);
 			if (statusBytes == null)
 				return;
 
-			//var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0] };
 			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
 
 			Trace.WriteLine("statusBytesArray = " + BytesHelper.BytesToString(statusBytesArray.ToList()));
@@ -165,6 +175,10 @@ namespace MonitorClientFS2.ViewModels
 			}
 
 			MainManager.ResetPanelBit(Device, statusBytes, 17);
+		}
+		bool CanReset(string stateName)
+		{
+			return DeviceState.ThreadSafeStates.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }

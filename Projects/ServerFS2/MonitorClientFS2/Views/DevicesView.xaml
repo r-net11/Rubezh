@@ -49,7 +49,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="0, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Foreground="White" />
                                     <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
                                         Width="32" Height="32" VerticalAlignment="Center"
                                         Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
