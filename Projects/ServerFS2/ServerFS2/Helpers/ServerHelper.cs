@@ -23,7 +23,6 @@ namespace ServerFS2
         public static bool IsExtendedMode { get; set; }
         static ServerHelper()
         {
-            MetadataHelper.Initialize();
             Drivers = ConfigurationManager.DriversConfiguration.Drivers;
             UsbRunner = new UsbRunner();
             try

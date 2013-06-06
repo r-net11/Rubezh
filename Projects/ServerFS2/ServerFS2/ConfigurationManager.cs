@@ -14,6 +14,8 @@ namespace ServerFS2
 
 		public static void Load()
 		{
+			MetadataHelper.Initialize();
+
 			var serverConfigName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			var folderName = AppDataFolderHelper.GetFolder("Server2");
 			var configFileName = Path.Combine(folderName, "Config.fscp");
