@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Common;
+using FS2Api;
 
 namespace FireMonitor.Views
 {
@@ -23,6 +24,8 @@ namespace FireMonitor.Views
 			ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
 			ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
 
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Unsubscribe(OnNewFS2JournalItemsEvent);
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItemsEvent);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecord);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
@@ -114,6 +117,11 @@ namespace FireMonitor.Views
                     }
                 }
 			}
+		}
+
+		void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
+		{
+
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

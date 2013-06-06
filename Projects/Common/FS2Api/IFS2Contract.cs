@@ -30,10 +30,10 @@ namespace FS2Api
 
 		#region Monitor
 		[OperationContract]
-		OperationResult<string> GetCoreState();
+		OperationResult<List<DeviceState>> GetDeviceStates();
 
 		[OperationContract]
-		OperationResult<string> GetCoreDeviceParams();
+		OperationResult<List<DeviceState>> GetDeviceParameters();
 
 		[OperationContract]
 		void AddToIgnoreList(List<Guid> deviceUIDs);

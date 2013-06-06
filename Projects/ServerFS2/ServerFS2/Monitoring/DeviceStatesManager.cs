@@ -9,6 +9,7 @@ using Rubezh2010;
 using ServerFS2.ConfigurationWriter;
 using System.Collections;
 using Infrastructure.Common.Windows;
+using ServerFS2.Service;
 
 namespace ServerFS2.Monitor
 {
@@ -42,6 +43,7 @@ namespace ServerFS2.Monitor
 				}
 			}
 			panel.DeviceState.States = states;
+			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { panel.DeviceState } });
 			panel.DeviceState.OnStateChanged();
 
 			foreach (var state in states)
@@ -221,6 +223,7 @@ namespace ServerFS2.Monitor
 			}
 
 			device.DeviceState.States = states;
+			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
 			device.DeviceState.OnStateChanged();
 
 			foreach (var deviceDriverState in device.DeviceState.States)
@@ -355,6 +358,7 @@ namespace ServerFS2.Monitor
 						}
 					}
 
+					CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { journalItem.Device.DeviceState } });
 					journalItem.Device.DeviceState.OnStateChanged();
 				}
 				//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();

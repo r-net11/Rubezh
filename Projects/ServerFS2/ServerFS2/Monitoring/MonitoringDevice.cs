@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2;
 using ServerFS2.DataBase;
+using ServerFS2.Service;
 
 
 namespace ServerFS2.Monitor
@@ -24,6 +25,7 @@ namespace ServerFS2.Monitor
 		
 		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
+			CallbackManager.Add(new FS2Callbac() { JournalRecords = new List<FS2JournalItem>() { fsJournalItem } });
 			if (NewJournalItem != null)
 				NewJournalItem(fsJournalItem);
 		}
@@ -179,8 +181,7 @@ namespace ServerFS2.Monitor
 					MonitoringDevice.OnNewJournalItem(journalItem);
 					DBJournalHelper.AddJournalItem(journalItem);
 				}
-				journalItems.Add(journalItem);
-				
+				journalItems.Add(journalItem);				
 			}
 			LastSystemIndex = LastDeviceIndex;
 			IsReadingNeeded = false;

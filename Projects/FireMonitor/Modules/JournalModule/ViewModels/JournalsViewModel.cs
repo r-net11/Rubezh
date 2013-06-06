@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using FS2Api;
 
 namespace JournalModule.ViewModels
 {
@@ -27,6 +28,8 @@ namespace JournalModule.ViewModels
 
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecords);
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Unsubscribe(OnNewFS2JournalItemsEvent);
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItemsEvent);
 		}
 
 		ObservableCollection<FilteredJournalViewModel> _journals;
@@ -58,6 +61,21 @@ namespace JournalModule.ViewModels
 				if (journalRecord.StateType == StateType.Fire && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					var confirmationViewModel = new ConfirmationViewModel(journalRecord);
+					ApplicationService.Invoke(() =>
+					{
+						DialogService.ShowWindow(confirmationViewModel);
+					});
+				}
+			}
+		}
+
+		void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (journalItem.StateType == StateType.Fire && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+				{
+					var confirmationViewModel = new ConfirmationViewModel(journalItem);
 					ApplicationService.Invoke(() =>
 					{
 						DialogService.ShowWindow(confirmationViewModel);

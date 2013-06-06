@@ -123,19 +123,20 @@ namespace ServerFS2.Service
 		#endregion
 
 		#region Monitor
-		public OperationResult<string> GetCoreState()
+		public OperationResult<List<DeviceState>> GetDeviceStates()
 		{
-			throw new NotImplementedException();
+			return SafeCall<List<DeviceState>>(() =>
+			{
+				return MainManager.GetDeviceStates();
+			}, "GetDeviceStates");
 		}
 
-		public OperationResult<string> GetCoreDeviceParams()
+		public OperationResult<List<DeviceState>> GetDeviceParameters()
 		{
-			throw new NotImplementedException();
-		}
-
-		public OperationResult<string> ReadEvents(int fromId, int limit)
-		{
-			throw new NotImplementedException();
+			return SafeCall<List<DeviceState>>(() =>
+			{
+				return MainManager.GetDeviceParameters();
+			}, "GetDeviceParameters");
 		}
 
 		public void AddToIgnoreList(List<Guid> deviceUIDs)

@@ -221,5 +221,25 @@ namespace ServerFS2.Processor
 		{
 			DeviceStatesManager.UpdatePanelState(device);
 		}
+
+		public static List<DeviceState> GetDeviceStates()
+		{
+			var deviceStates = new List<DeviceState>();
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				deviceStates.Add(device.DeviceState);
+			}
+			return deviceStates;
+		}
+
+		public static List<DeviceState> GetDeviceParameters()
+		{
+			var deviceStates = new List<DeviceState>();
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				deviceStates.Add(device.DeviceState);
+			}
+			return deviceStates;
+		}
 	}
 }

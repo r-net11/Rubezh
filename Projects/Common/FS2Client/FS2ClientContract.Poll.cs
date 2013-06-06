@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Common;
 using FS2Api;
+using FiresecAPI.Models;
 
 namespace FS2Client
 {
@@ -83,16 +84,19 @@ namespace FS2Client
 					{
 						foreach (var changeResult in changeResults)
 						{
-							if (changeResult.CoreCongig != null)
+							if (changeResult.ChangedDeviceStates != null)
 							{
-								if (CoreConfigChanged != null)
-									CoreConfigChanged(changeResult.CoreCongig);
+								OnDeviceStateChanged(changeResult.ChangedDeviceStates);
 							}
 
-							if (changeResult.CoreDeviceParams != null)
+							if (changeResult.ChangedDeviceParameters != null)
 							{
-								if (CoreDeviceParamsChanged != null)
-									CoreDeviceParamsChanged(changeResult.CoreDeviceParams);
+								OnDeviceParametersChanged(changeResult.ChangedDeviceParameters);
+							}
+
+							if (changeResult.ChangedZoneStates != null)
+							{
+								OnZoneStatesChanged(changeResult.ChangedZoneStates);
 							}
 
 							if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
@@ -105,16 +109,6 @@ namespace FS2Client
 							{
 								if (Progress != null)
 									Progress(changeResult.FS2ProgressInfo);
-							}
-							if (changeResult.IsConnectionLost)
-							{
-								if (ConnectionLost != null)
-									ConnectionLost();
-							}
-							else
-							{
-								if (ConnectionAppeared != null)
-									ConnectionAppeared();
 							}
 						}
 					}
@@ -131,8 +125,36 @@ namespace FS2Client
 			}
 		}
 
-		public event Action<string> CoreConfigChanged;
-		public event Action<string> CoreDeviceParamsChanged;
+		void OnDeviceStateChanged(List<DeviceState> deviceStates)
+		{
+			FillDeviceStates(deviceStates);
+			if (DeviceStateChanged != null)
+				DeviceStateChanged(deviceStates);
+		}
+
+		void OnDeviceParametersChanged(List<DeviceState> deviceStates)
+		{
+			FillDeviceStates(deviceStates);
+			if (DeviceParametersChanged != null)
+				DeviceParametersChanged(deviceStates);
+		}
+
+		void OnZoneStatesChanged(List<ZoneState> zoneStates)
+		{
+			if (ZoneStatesChanged != null)
+				ZoneStatesChanged(zoneStates);
+		}
+
+		void FillDeviceStates(List<DeviceState> deviceStates)
+		{
+			foreach (var deviceState in deviceStates)
+			{
+			}
+		}
+
+		public event Action<List<DeviceState>> DeviceStateChanged;
+		public event Action<List<DeviceState>> DeviceParametersChanged;
+		public event Action<List<ZoneState>> ZoneStatesChanged;
 		public event Action<List<FS2JournalItem>> NewJournalRecords;
 		public event Action<FS2ProgressInfo> Progress;
 	}

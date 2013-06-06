@@ -10,6 +10,8 @@ using Device = FiresecAPI.Models.Device;
 using System.Collections;
 using System.Diagnostics;
 using ServerFS2.ConfigurationWriter;
+using ServerFS2.Service;
+using FS2Api;
 
 namespace ServerFS2
 {
@@ -118,6 +120,7 @@ namespace ServerFS2
             status[1] = (byte)(status[1] & ~2);
             var bytes = CreateBytesArray(0x02, 0x10, status.GetRange(0, 4));
             SendCodeToPanel(bytes, device);
+			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
 			device.DeviceState.OnStateChanged();
         }
 
