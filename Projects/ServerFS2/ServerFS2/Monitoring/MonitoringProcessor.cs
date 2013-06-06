@@ -17,7 +17,7 @@ namespace ServerFS2.Monitor
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel && x.IntAddress == 15))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
 					MonitoringDevices.Add(new SecMonitoringDevice(device));
@@ -39,7 +39,11 @@ namespace ServerFS2.Monitor
 			DeviceStatesManager.Initialize();
 			//DeviceStatesManager.GetAllStates();
 			DeviceStatesManager.GetStates();
-			//return;
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				DeviceStatesManager.UpdateDeviceState(monitoringDevice.Device);
+			}
+			return;
 
 			if (!DoMonitoring)
 			{
@@ -69,7 +73,7 @@ namespace ServerFS2.Monitor
 					}
 					foreach (var monitoringDevice in MonitoringDevices)
 					{
-						if (monitoringDevice.CanLastIndexBeRequested() && (monitoringDevice.Device.IntAddress == 15 || monitoringDevice.Device.IntAddress == 16))
+						if (monitoringDevice.CanLastIndexBeRequested())
 						{
 							monitoringDevice.RequestLastIndex();
 						}

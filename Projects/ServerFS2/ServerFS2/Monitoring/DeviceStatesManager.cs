@@ -46,7 +46,7 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var panelDevice in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
-				if (panelDevice.IntAddress != 15 && panelDevice.IntAddress != 16)
+				if (panelDevice.IntAddress != 15)// && panelDevice.IntAddress != 16)
 					continue;
 
 				if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
@@ -66,16 +66,11 @@ namespace ServerFS2.Monitor
 					{
 						ParceDeviceState(device, device.InnerDeviceParameters);
 
-						var stringParameters = "";
-						foreach (var b in device.InnerDeviceParameters)
-						{
-							stringParameters += b.ToString() + " ";
-						}
-						Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + stringParameters);
-						foreach (var deviceDriverState in device.DeviceState.States)
-						{
-							Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name + " " + device.PresentationAddressAndName);
-						}
+						
+						//foreach (var deviceDriverState in device.DeviceState.States)
+						//{
+						//    Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name + " " + device.PresentationAddressAndName);
+						//}
 					}
 				}
 			}
@@ -158,11 +153,17 @@ namespace ServerFS2.Monitor
 			device.DeviceState.States = states;
 			device.DeviceState.OnStateChanged();
 
-			Trace.WriteLine("Monitoring GetStates " + device.DottedPresentationNameAndAddress);
 			foreach (var deviceDriverState in device.DeviceState.States)
 			{
 				Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);
 			}
+
+			var stringParameters = "";
+			foreach (var b in stateBytes)
+			{
+				stringParameters += b.ToString() + " ";
+			}
+			Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + stringParameters);
 		}
 
 		public static void UpdateDeviceState(List<FS2JournalItem> journalItems)
@@ -180,6 +181,24 @@ namespace ServerFS2.Monitor
 			}
 			//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
 			//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
+		}
+
+		public static void UpdateDeviceState(Device panel)
+		{
+			Trace.WriteLine("");
+			foreach(var device in panel.Children)
+			{
+				try
+				{
+					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					ParceDeviceState(device, stateBytes);
+				}
+				catch
+				{
+					Trace.WriteLine("UpdateDeviceState failed" + device.PresentationAddressAndName);
+				}
+				
+			}
 		}
 
 		public static void UpdateDeviceStateJournal(List<FS2JournalItem> journalItems)
