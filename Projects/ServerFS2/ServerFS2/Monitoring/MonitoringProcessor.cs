@@ -26,7 +26,6 @@ namespace ServerFS2.Monitor
 			}
 			DoMonitoring = false;
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
-			//StartMonitoring();
 		}
 
 		public static void Initialize()
@@ -36,12 +35,9 @@ namespace ServerFS2.Monitor
 
 		public static void StartMonitoring()
 		{
-			DeviceStatesManager.Initialize();
-			//DeviceStatesManager.GetAllStates();
-			DeviceStatesManager.GetStates();
 			foreach (var monitoringDevice in MonitoringDevices)
 			{
-				DeviceStatesManager.UpdateAllDevicesOnPanelState(monitoringDevice.Device);
+				monitoringDevice.Initialize();
 			}
 			//return;
 
@@ -65,12 +61,16 @@ namespace ServerFS2.Monitor
 			{
 				if (DoMonitoring)
 				{
-					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
+					if (MonitoringDevices.Any(x => x.IsReadingNeeded))
 					{
-						var journalItems = monitoringDevice.GetNewItems();
-						DeviceStatesManager.UpdateDeviceState(journalItems);
-						DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
-						DeviceStatesManager.UpdatePanelState(monitoringDevice.Device);
+						Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
+						foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
+						{
+							var journalItems = monitoringDevice.GetNewItems();
+							DeviceStatesManager.UpdateDeviceState(journalItems);
+							DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
+							DeviceStatesManager.UpdatePanelState(monitoringDevice.Device);
+						}
 					}
 					foreach (var monitoringDevice in MonitoringDevices)
 					{
@@ -79,8 +79,9 @@ namespace ServerFS2.Monitor
 							monitoringDevice.RequestLastIndex();
 						}
 					}
+					
 				}
-				Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
+				
 			}
 		}
 
