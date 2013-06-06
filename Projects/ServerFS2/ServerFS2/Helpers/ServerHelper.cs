@@ -115,7 +115,7 @@ namespace ServerFS2
 
         public static void ResetTest(Device device, List<byte> status)
         {
-            status[1] = Convert.ToByte(status[1] & ~2);
+            status[1] = (byte)(status[1] & ~2);
             var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x10, status.GetRange(0, 4));
             SendCode(bytes);
         }
@@ -140,13 +140,13 @@ namespace ServerFS2
 
         public static void AddDeviceToCheckList(Device device)
         {
-            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo);
+            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
             SendCode(bytes);
         }
 
         public static void RemoveDeviceFromCheckList(Device device)
         {
-            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo);
+            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
             SendCode(bytes);
         }
 
