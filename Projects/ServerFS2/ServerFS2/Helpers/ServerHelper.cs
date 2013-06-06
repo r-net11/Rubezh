@@ -18,7 +18,6 @@ namespace ServerFS2
         public static readonly UsbRunner UsbRunner;
         static int UsbRequestNo;
         public static bool IsExtendedMode { get; set; }
-        public static AutoResetEvent autoResetEvent = new AutoResetEvent(false);
         static ServerHelper()
         {
             MetadataHelper.Initialize();
@@ -115,14 +114,17 @@ namespace ServerFS2
             SendCode(CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00));
         }
 
+        public static void ResetTest(Device device, List<byte> status)
+        {
+            status[1] = Convert.ToByte(status[1] & ~2);
+            var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x10, status.GetRange(0, 4));
+            SendCode(bytes);
+        }
 
         public static List<byte> GetDeviceStatus(Device device)
         {
-            var isPing = PingDevice(device, autoResetEvent);
-            if (!isPing) // Если устройство не пингуется
-            {
-                return new List<byte>();
-            }
+            if (!PingDevice(device))
+                return null;
             var bytes1 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x10);
             var bytes2 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x0F);
             List<byte> response1;
@@ -134,14 +136,24 @@ namespace ServerFS2
             response2.RemoveRange(0, 7);
             result.AddRange(response1);
             result.AddRange(response2);
-            autoResetEvent.Set();
             return result;
         }
 
-        public static bool PingDevice(Device device, AutoResetEvent autoResetEvent)
+        public static void AddDeviceToCheckList(Device device)
+        {
+            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo);
+            SendCode(bytes);
+        }
+
+        public static void RemoveDeviceFromCheckList(Device device)
+        {
+            var bytes = CreateBytesArray(device.Parent.Parent.IntAddress + 2, device.Parent.IntAddress, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo);
+            SendCode(bytes);
+        }
+
+        public static bool PingDevice(Device device)
         {
             var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
-            autoResetEvent.Set();
             return SendCode(bytes).Result.FirstOrDefault().Data[6] == 0x7C;
         }
     }

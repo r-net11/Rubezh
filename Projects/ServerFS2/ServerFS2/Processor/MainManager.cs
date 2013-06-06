@@ -181,5 +181,30 @@ namespace ServerFS2.Processor
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
+
+        public static void ResetFire(Device device)
+        {
+            ServerHelper.ResetFire(device);
+        }
+
+        public static void ResetTest(Device device, List<byte> status)
+        {
+            ServerHelper.ResetTest(device, status);
+        }
+
+        public static void AddDeviceToCheckList(Device device)
+        {
+            ServerHelper.AddDeviceToCheckList(device);
+        }
+
+        public static void RemoveDeviceFromCheckList(Device device)
+        {
+            ServerHelper.RemoveDeviceFromCheckList(device);
+        }
+
+        public static List<byte> GetDeviceStatus(Device device)
+        {
+            return ServerHelper.GetDeviceStatus(device);
+        }
 	}
 }
