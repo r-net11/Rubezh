@@ -79,7 +79,7 @@ namespace ServerFS2
             SendCodeToPanel(bytes, device);
         }
 
-        static List<byte> CreateBytesArray(params object[] values)
+        public static List<byte> CreateBytesArray(params object[] values)
         {
             var bytes = new List<byte>();
             foreach (var value in values)

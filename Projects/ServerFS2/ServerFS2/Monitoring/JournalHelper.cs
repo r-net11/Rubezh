@@ -132,25 +132,17 @@ namespace ServerFS2.Monitor
 
 		static List<byte> SendByteCommand(List<byte> commandBytes, Device device)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(GetMSChannelByte(device));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.AddRange(commandBytes);
+			var bytes = ServerHelper.CreateBytesArray(0x01, commandBytes);
 			lock (Locker)
 			{
-				return ServerHelper.SendCode(bytes);
+				return ServerHelper.SendCodeToPanel(bytes, device);
 			}
 		}
 
 		static List<byte> SendByteCommandSync(List<byte> commandBytes, Device device)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(GetMSChannelByte(device));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.AddRange(commandBytes);
-			return ServerHelper.SendCode(bytes);
+			var bytes = ServerHelper.CreateBytesArray(0x01, commandBytes);
+			return ServerHelper.SendCodeToPanel(bytes, device);
 		}
 
 		public static void SendByteCommand(List<byte> commandBytes, Device device, int requestId)
