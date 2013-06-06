@@ -5,6 +5,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2;
+using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2.Monitor
 {
@@ -18,7 +19,7 @@ namespace ServerFS2.Monitor
 			try
 			{
 				var lastindex = SendByteCommandSync(new List<byte> { 0x21, 0x02 }, device);
-				return 256 * lastindex.Data[9] + lastindex.Data[10];
+				return BytesHelper.ExtractShort(lastindex, 9);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -34,7 +35,7 @@ namespace ServerFS2.Monitor
 			try
 			{
 				var firecount = SendByteCommandSync(new List<byte> { 0x24, 0x00 }, device);
-				return 256 * firecount.Data[7] + firecount.Data[8];
+				return BytesHelper.ExtractShort(firecount, 7);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -55,7 +56,7 @@ namespace ServerFS2.Monitor
 			try
 			{
 				var response = SendByteCommandSync(new List<byte> { 0x21, 0x00 }, device);
-				var result = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
+				var result = BytesHelper.ExtractInt(response, 7);
 				return result;
 			}
 			catch (NullReferenceException ex)
@@ -120,7 +121,7 @@ namespace ServerFS2.Monitor
 				var journalParser = new JournalParser();
 				try
 				{
-					return journalParser.Parce(response.Data);
+					return journalParser.Parce(response);
 				}
 				catch
 				{
@@ -129,27 +130,19 @@ namespace ServerFS2.Monitor
 			}
 		}
 
-		static ServerFS2.Response SendByteCommand(List<byte> commandBytes, Device device)
+		static List<byte> SendByteCommand(List<byte> commandBytes, Device device)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(GetMSChannelByte(device));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.AddRange(commandBytes);
+			var bytes = ServerHelper.CreateBytesArray(0x01, commandBytes);
 			lock (Locker)
 			{
-				return ServerHelper.SendCode(bytes).Result.FirstOrDefault();
+				return ServerHelper.SendCodeToPanel(bytes, device);
 			}
 		}
 
-		private static ServerFS2.Response SendByteCommandSync(List<byte> commandBytes, Device device)
+		static List<byte> SendByteCommandSync(List<byte> commandBytes, Device device)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(GetMSChannelByte(device));
-			bytes.Add(Convert.ToByte(device.AddressOnShleif));
-			bytes.Add(0x01);
-			bytes.AddRange(commandBytes);
-			return ServerHelper.SendCode(bytes).Result.FirstOrDefault();
+			var bytes = ServerHelper.CreateBytesArray(0x01, commandBytes);
+			return ServerHelper.SendCodeToPanel(bytes, device);
 		}
 
 		public static void SendByteCommand(List<byte> commandBytes, Device device, int requestId)

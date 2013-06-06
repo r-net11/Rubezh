@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using FS2Api;
+using ServerFS2.ConfigurationWriter;
 using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
@@ -26,22 +27,14 @@ namespace ServerFS2
 			var journalItems = new List<FS2JournalItem>();
 			for (int i = 0; i <= lastIndex; i++)
 			{
-				var bytes = new List<byte>();
-				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x01);
-				bytes.Add(0x20);
-				bytes.Add(0x02);
-				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				var result = SendCode(bytes).Result.FirstOrDefault();
-				if (result != null)
-				{
-					var journalItem = ParseJournal(result.Data);
-					journalItems.Add(journalItem);
-				}
+				var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x20, 0x02, BitConverter.GetBytes(i).Reverse());
+				var result = SendCode(bytes);
+				if (result == null) continue;
+				var journalItem = ParseJournal(result);
+				journalItems.Add(journalItem);
 			}
 			journalItems = journalItems.OrderByDescending(x => x.IntDate).ToList();
-			int no = 0;
+			var no = 0;
 			foreach (var journalItem in journalItems)
 			{
 				no++;
@@ -52,17 +45,11 @@ namespace ServerFS2
 
 		public static int GetLastSecJournalItemId2Op(Device device)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
-			bytes.Add(0x01);
-			bytes.Add(0x21);
-			bytes.Add(0x02);
+			var bytes = CreateBytesArray(0x01, 0x21, 0x02);
 			try
 			{
-				var lastindex = SendCode(bytes);
-				int li = 256 * 256 * 256 * lastindex.Result.FirstOrDefault().Data[7] + 256 * 256 * lastindex.Result.FirstOrDefault().Data[8] + 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
-				return li;
+				var lastindex = SendCodeToPanel(bytes, device);
+				return BytesHelper.ExtractInt(lastindex, 0);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -73,17 +60,11 @@ namespace ServerFS2
 
 		public static int GetJournalCount(Device device)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
-			bytes.Add(0x01);
-			bytes.Add(0x24);
-			bytes.Add(0x01);
+			var bytes = CreateBytesArray(0x01, 0x24, 0x01);
 			try
 			{
-				var firecount = SendCode(bytes);
-				int fc = 256 * firecount.Result.FirstOrDefault().Data[7] + firecount.Result.FirstOrDefault().Data[8];
-				return fc;
+				var firecount = SendCodeToPanel(bytes, device);
+				return BytesHelper.ExtractShort(firecount, 0);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -102,17 +83,11 @@ namespace ServerFS2
 		public static int GetLastJournalItemId(Device device)
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(10));
-			var bytes = new List<byte>();
-			bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-			bytes.Add(Convert.ToByte(device.IntAddress % 256));
-			bytes.Add(0x01);
-			bytes.Add(0x21);
-			bytes.Add(0x00);
+			var bytes = CreateBytesArray(0x01, 0x21, 0x00);
 			try
 			{
-				var lastindex = SendCode(bytes);
-				int result = 256 * 256* 256* lastindex.Result.FirstOrDefault().Data[7] + 256* 256*lastindex.Result.FirstOrDefault().Data[8] + 256 * lastindex.Result.FirstOrDefault().Data[9] + lastindex.Result.FirstOrDefault().Data[10];
-				return result;
+				var lastindex = SendCodeToPanel(bytes, device);
+				return BytesHelper.ExtractInt(lastindex, 0);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -134,21 +109,13 @@ namespace ServerFS2
 			//for (int i = firstindex; i <= lastindex; i++)
 			for (int i = lastindex-10; i <= lastindex; i++)
 			{
-				var bytes = new List<byte>();
-				bytes.Add(Convert.ToByte(device.Parent.IntAddress + 2));
-				bytes.Add(Convert.ToByte(device.IntAddress % 256));
-				bytes.Add(0x01);
-				bytes.Add(0x20);
-				bytes.Add(0x00);
-				bytes.AddRange(BitConverter.GetBytes(i).Reverse());
-				var result = SendCode(bytes).Result.FirstOrDefault();
-				if (result != null)
+				var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
+				var result = SendCode(bytes);
+				if (result == null) continue;
+				var journalItem = ParseJournal(result);
+				if (journalItem != null)
 				{
-					var journalItem = ParseJournal(result.Data);
-					if (journalItem != null)
-					{
-						journalItems.Add(journalItem);
-					}
+					journalItems.Add(journalItem);
 				}
 			}
 			int no = 0;
@@ -157,7 +124,7 @@ namespace ServerFS2
 				no++;
 				item.No = no;
 			}
-			secJournalItems.ForEach(x => journalItems.Add(x)); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
+			secJournalItems.ForEach(journalItems.Add); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
 			return journalItems;
 		}		
 	}
