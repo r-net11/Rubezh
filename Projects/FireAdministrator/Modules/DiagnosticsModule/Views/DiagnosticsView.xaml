@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Views="clr-namespace:DiagnosticsModule.Views">
+﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Views="clr-namespace:DiagnosticsModule.Views" xmlns:viewModel="clr-namespace:DiagnosticsModule.ViewModels">
 
 	<TabControl>
 		<TabItem Header="Отладка">
@@ -13,13 +13,13 @@
 						<Button Width="300" Margin="2" Command="{Binding ShowXDriversCommand}" Content="Драйверы ГК" />
 						<Button Width="300" Margin="2" Command="{Binding ShowTreeCommand}" Content="Дерево" />
 						<Button Width="300" Margin="2" Command="{Binding TreeListViewTestCommand}" Content="TreeListView Test" />
-                        <Button Width="300" Margin="2" Command="{Binding Test1Command}" Content="Test1" />
-                        <Button Width="300" Margin="2" Command="{Binding Test2Command}" Content="Test2" />
-                        <Button Width="300" Margin="2" Command="{Binding Test3Command}" Content="Test3" />
-                        <Button Width="300" Margin="2" Command="{Binding Test6Command}" Content="Test6" />
-                        <Button Width="300" Margin="2" Command="{Binding Test7Command}" Content="Test7" />
-                        <Button Width="300" Margin="2" Command="{Binding Test8Command}" Content="Test8" />
-                        <Button Width="300" Margin="2" Command="{Binding Test9Command}" Content="Test9" />
+						<Button Width="300" Margin="2" Command="{Binding Test1Command}" Content="Test1" />
+						<Button Width="300" Margin="2" Command="{Binding Test2Command}" Content="Test2" />
+						<Button Width="300" Margin="2" Command="{Binding Test3Command}" Content="Test3" />
+						<Button Width="300" Margin="2" Command="{Binding Test6Command}" Content="Test6" />
+						<Button Width="300" Margin="2" Command="{Binding Test7Command}" Content="Test7" />
+						<Button Width="300" Margin="2" Command="{Binding Test8Command}" Content="Test8" />
+						<Button Width="300" Margin="2" Command="{Binding Test9Command}" Content="Test9" />
 						<Button Width="300" Margin="2" Command="{Binding BalloonTestCommand}" Content="Предупреждение из трея" />
 						<Button Width="300" Margin="2" Command="{Binding PlanDuplicateTestCommand}" Content="Удвоение планов" />
 						<Button Width="300" Margin="2" Command="{Binding MailCommand}" Content="Почта" />
@@ -27,6 +27,55 @@
 						<Button Width="300" Margin="2" Command="{Binding Test10Command}" Content="Др" />
 						<Button Width="300" Margin="2" Command="{Binding IntegrateCommand}" Content="IntegrateCommand" />
 						<Button Width="300" Margin="2" Command="{Binding DesintegrateCommand}" Content="DesintegrateCommand" />
+						<viewModel:PopupButton Width="300" Margin="2" Content="Test Popup">
+							<viewModel:PopupButton.PopupContent>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать" />
+									<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет текста" />
+									<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
+									<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
+									<Label Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
+									<Label Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Размер шрифта" />
+									<Label Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Шрифт" />
+									<Label Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Жирный" />
+									<Label Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Курсив" />
+									<Label Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Растянуть" />
+									<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" />
+									<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" Style="{StaticResource ColorPickerComboBox}" />
+									<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" Style="{StaticResource ColorPickerComboBox}" />
+									<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" Style="{StaticResource ColorPickerComboBox}" />
+									<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Minimum="0" />
+									<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Minimum="5" />
+									<ComboBox Grid.Row="7" Grid.Column="1" Margin="2">
+										<ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock />
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+									</ComboBox>
+									<CheckBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" />
+									<CheckBox Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" />
+									<CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" />
+								</Grid>
+							</viewModel:PopupButton.PopupContent>
+						</viewModel:PopupButton>
 					</StackPanel>
 					<ScrollViewer Grid.Row="1">
 						<TextBox Text="{Binding Text}" />
@@ -43,9 +92,9 @@
 				<toolkit:AutoCompleteBox IsTextCompletionEnabled="True" ItemsSource="{Binding AutoCompleteItems}" Text="{Binding AutoText}" />
 
 				<extToolkit:ColorCanvas SelectedColor="{Binding SelectedColor, ElementName=picker, Mode=TwoWay}" />
-				<extToolkit:ColorPicker x:Name="picker"  DisplayColorAndName="True" ShowRecentColors="True"/>
-				<extToolkit:Magnifier /> 
-				<extToolkit:SplitButton Content="test"/>
+				<extToolkit:ColorPicker x:Name="picker" DisplayColorAndName="True" ShowRecentColors="True" />
+				<extToolkit:Magnifier />
+				<extToolkit:SplitButton Content="test" />
 			</StackPanel>
 		</TabItem>
 	</TabControl>
