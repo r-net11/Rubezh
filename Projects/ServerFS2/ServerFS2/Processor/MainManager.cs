@@ -192,6 +192,11 @@ namespace ServerFS2.Processor
             ServerHelper.ResetTest(device, status);
         }
 
+		public static void ResetStates(List<ResetItem> resetItems)
+		{
+			ServerHelper.ResetStates(resetItems);
+		}
+
 		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
 		{
 			ServerHelper.ResetPanelBit(device, statusBytes, bitNo);
@@ -211,10 +216,5 @@ namespace ServerFS2.Processor
         {
             return ServerHelper.GetDeviceStatus(device);
         }
-
-		public static void ResetStates(List<ResetItem> resetItems)
-		{
-
-		}
 	}
 }

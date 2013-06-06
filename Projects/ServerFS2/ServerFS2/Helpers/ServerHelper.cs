@@ -141,6 +141,72 @@ namespace ServerFS2
 			SendCode(bytes);
 		}
 
+		public static void ResetStates(List<ResetItem> resetItems)
+		{
+			var paneleResetBits = new List<PaneleResetBit>();
+			foreach (var resetItem in resetItems)
+			{
+				var parentPanel = resetItem.DeviceState.Device.ParentPanel;
+				var paneleResetBit = paneleResetBits.FirstOrDefault(x => x.ParentPanel == parentPanel);
+				if (paneleResetBit == null)
+				{
+					paneleResetBit = new PaneleResetBit()
+					{
+						ParentPanel = parentPanel
+					};
+					paneleResetBits.Add(paneleResetBit);
+				}
+				foreach (var deviceDriverState in resetItem.States)
+				{
+					paneleResetBit.Ids.Add(deviceDriverState.DriverState.Code);
+				}
+			}
+
+			foreach (var paneleResetBit in paneleResetBits)
+			{
+				var statusBytes = GetDeviceStatus(paneleResetBit.ParentPanel);
+				var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+				var bitArray = new BitArray(statusBytesArray);
+				foreach (var stateId in paneleResetBit.Ids)
+				{
+					var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
+					if (metadataPanelState != null)
+					{
+						if (metadataPanelState.@class == "0")
+						{
+							ResetFire(paneleResetBit.ParentPanel);
+						}
+						else
+						{
+							var bitNo = Int16.Parse(metadataPanelState.no);
+							bitArray[bitNo] = false;
+						}
+					}
+				}
+				var value = 0;
+				for (int i = 0; i < bitArray.Count; i++)
+				{
+					if (bitArray[i])
+						value += 1 << i;
+				}
+
+				var newStatusBytes = BitConverter.GetBytes(value);
+				var bytes = CreateBytesArray(paneleResetBit.ParentPanel.Parent.IntAddress + 2, paneleResetBit.ParentPanel.IntAddress, 0x02, 0x10, newStatusBytes);
+				SendCode(bytes);
+			}
+		}
+
+		public class PaneleResetBit
+		{
+			public PaneleResetBit()
+			{
+				Ids = new HashSet<string>();
+			}
+
+			public Device ParentPanel { get; set; }
+			public HashSet<string> Ids { get; set; }
+		}
+
         public static List<byte> GetDeviceStatus(Device device)
         {
 			//if (!PingDevice(device))

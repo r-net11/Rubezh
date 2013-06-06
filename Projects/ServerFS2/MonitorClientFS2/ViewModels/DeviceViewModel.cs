@@ -155,6 +155,7 @@ namespace MonitorClientFS2.ViewModels
 			var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
+			MainManager.ResetStates(resetItems);
 		}
 		void OnResetOld(string stateName)
 		{
