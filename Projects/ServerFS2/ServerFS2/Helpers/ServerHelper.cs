@@ -147,7 +147,7 @@ namespace ServerFS2
 			var paneleResetBits = new List<PaneleResetBit>();
 			foreach (var resetItem in resetItems)
 			{
-				var parentPanel = resetItem.DeviceState.Device.ParentPanel;
+				var parentPanel = resetItem.DeviceState.Device;
 				var paneleResetBit = paneleResetBits.FirstOrDefault(x => x.ParentPanel == parentPanel);
 				if (paneleResetBit == null)
 				{

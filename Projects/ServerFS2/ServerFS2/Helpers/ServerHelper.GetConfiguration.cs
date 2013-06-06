@@ -1464,8 +1464,8 @@ namespace ServerFS2
             //}
             #endregion
             #region Пока не определено
-            if (BytesHelper.ExtractTriple(DeviceRom, 60) != 0)
-				MessageBox.Show("Пока не определено"); // Внешние ИУ
+			//if (BytesHelper.ExtractTriple(DeviceRom, 60) != 0)
+			//    MessageBox.Show("Пока не определено"); // Внешние ИУ
             if (BytesHelper.ExtractTriple(DeviceRom, 66) != 0)
 				MessageBox.Show("Пока не определено"); // МУК
             if (BytesHelper.ExtractTriple(DeviceRom, 72) != 0)

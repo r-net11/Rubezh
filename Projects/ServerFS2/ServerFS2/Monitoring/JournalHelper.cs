@@ -111,9 +111,14 @@ namespace ServerFS2.Monitor
 			return SendBytesAndParse(bytes, device);
 		}
 
-		private static FS2JournalItem SendBytesAndParse(List<byte> bytes, Device device)
+		private static FS2JournalItem SendBytesAndParse(List<byte> commandBytes, Device device)
 		{
-			var response = SendByteCommand(bytes, device);
+			var bytes = new List<byte>();
+			bytes.Add(GetMSChannelByte(device));
+			bytes.Add(Convert.ToByte(device.AddressOnShleif));
+			bytes.Add(0x01);
+			bytes.AddRange(commandBytes);
+			var response = ServerHelper.SendCode(bytes);
 			if (response == null)
 				return null;
 			lock (Locker)

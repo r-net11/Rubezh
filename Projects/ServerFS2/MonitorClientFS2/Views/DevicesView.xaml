@@ -23,7 +23,7 @@
                                             <StackPanel.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Header="Сбросить пожар" Command="{Binding ResetFireCommand}" />
-                                                    <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" />
+                                                    <MenuItem Header="Сбросить тест" Command="{Binding ResetTestCommand}" />
                                                     <MenuItem Header="Поставить в обход" Command="{Binding SetIgnoreCommand}" />
                                                     <MenuItem Header="Убрать из обхода" Command="{Binding ResetIgnoreCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
