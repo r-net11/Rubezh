@@ -15,7 +15,7 @@ namespace ServerFS2.Monitor
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
 		public const int betweenDevicesSpan = 0;
-		public const int betweenCyclesSpan = 0;
+		public const int betweenCyclesSpan = 1000;
 		public const int requestExpiredTime = 10; // in seconds
 		public static readonly object Locker = new object();
 
@@ -69,6 +69,12 @@ namespace ServerFS2.Monitor
 					UnAnsweredCount++;
 				}
 			}
+		}
+
+		public void Initialize()
+		{
+			DeviceStatesManager.GetStates(Device);
+			DeviceStatesManager.UpdatePanelState(Device);
 		}
 
 		int lastSystemIndex;

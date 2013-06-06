@@ -8,6 +8,7 @@ using ServerFS2;
 using Rubezh2010;
 using ServerFS2.ConfigurationWriter;
 using System.Collections;
+using Infrastructure.Common.Windows;
 
 namespace ServerFS2.Monitor
 {
@@ -38,14 +39,6 @@ namespace ServerFS2.Monitor
 					var metadataDeviceState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.no == i.ToString());
 					var state = panel.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
 					states.Add(new DeviceDriverState{ DriverState = state, Time = DateTime.Now });
-					//foreach (var metadataDeviceState in MetadataHelper.Metadata.panelStates)
-					//{
-					//    if (metadataDeviceState.no == i.ToString())
-					//    {
-					//        var state = panel.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-					//        states.Add(new DeviceDriverState{ DriverState = state, Time = DateTime.Now });
-					//    }
-					//}
 				}
 			}
 			panel.DeviceState.States = states;
@@ -82,9 +75,6 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var panelDevice in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
-				if (panelDevice.IntAddress != 15)// && panelDevice.IntAddress != 16)
-					continue;
-
 				if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
 					continue;
 
@@ -112,6 +102,35 @@ namespace ServerFS2.Monitor
 						//    Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name + " " + device.PresentationAddressAndName);
 						//}
 					}
+				}
+			}
+		}
+
+		public static void GetStates(Device panelDevice)
+		{
+			//if (panelDevice.IntAddress != 15)// && panelDevice.IntAddress != 16)
+			//    continue;
+
+			if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
+				return;
+
+			Trace.WriteLine(panelDevice.PresentationAddressAndName);
+			var remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(panelDevice);
+			remoteDeviceConfiguration.Update();
+			foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
+			{
+				if (remoteDevice.ParentPanel == null)
+					continue;
+
+				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+				device.Offset = remoteDevice.Offset;
+				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
+			}
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				if (device.InnerDeviceParameters != null)
+				{
+					ParceDeviceState(device, device.InnerDeviceParameters);
 				}
 			}
 		}
