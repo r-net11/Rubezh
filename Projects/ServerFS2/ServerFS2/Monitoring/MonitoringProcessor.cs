@@ -70,6 +70,7 @@ namespace ServerFS2.Monitor
 						var journalItems = monitoringDevice.GetNewItems();
 						DeviceStatesManager.UpdateDeviceState(journalItems);
 						DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Device);
 					}
 					foreach (var monitoringDevice in MonitoringDevices)
 					{
