@@ -54,9 +54,13 @@ namespace ServerFS2.Monitor
 
 				Trace.WriteLine(panelDevice.PresentationAddressAndName);
 				var remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(panelDevice);
+				remoteDeviceConfiguration.Update();
 				foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
 				{
-					var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+					if (remoteDevice.ParentPanel == null)
+						continue;
+
+					var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
 					device.Offset = remoteDevice.Offset;
 					device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
 				}
@@ -121,6 +125,17 @@ namespace ServerFS2.Monitor
 						bitNoString = metadataDeviceState.intBitno;
 					if (metadataDeviceState.Intbitno != null)
 						bitNoString = metadataDeviceState.Intbitno;
+
+					if (device.Driver.DriverType == DriverType.RM_1 && metadataDeviceState.intBitno == "8")
+					{
+						if (metadataDeviceState.name == "Включение РМ")
+						{
+							Trace.WriteLine("metadataDeviceState.name == Включение РМ " + stateBytes[0] + " " + stateBytes[1]);
+							;
+						}
+						;
+					}
+
 					if (bitNoString != null)
 					{
 						int bitNo = -1;
@@ -183,9 +198,9 @@ namespace ServerFS2.Monitor
 			//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
 		}
 
-		public static void UpdateDeviceState(Device panel)
+		public static void UpdateAllDevicesOnPanelState(Device panel)
 		{
-			Trace.WriteLine("");
+			Trace.WriteLine("#################################################################################################################");
 			foreach(var device in panel.Children)
 			{
 				try
@@ -243,6 +258,12 @@ namespace ServerFS2.Monitor
 												{
 													if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState.Code == driverState.Code))
 													{
+														if (driverState.Name == "Включение РМ")
+														{
+															Trace.WriteLine("UpdateDeviceStateJournal == Включение РМ");
+															;
+														}
+
 														var deviceDriverState = new DeviceDriverState()
 														{
 															DriverState = driverState,

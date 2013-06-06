@@ -7,6 +7,9 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
+using System.Collections;
+using System.Diagnostics;
+using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2
 {
@@ -120,10 +123,30 @@ namespace ServerFS2
             SendCode(bytes);
         }
 
+		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
+		{
+			Trace.WriteLine("ResetPanelBit statusBytes = " + BytesHelper.BytesToString(statusBytes));
+
+			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+			var bitArray = new BitArray(statusBytesArray);
+			bitArray[bitNo] = false;
+			var value = 0;
+			for (int i = 0; i < bitArray.Count; i++)
+			{
+				if (bitArray[i])
+					value += 1 << i;
+			}
+
+			Trace.WriteLine("ResetPanelBit statusValue = " + value);
+			var newStatusBytes = BitConverter.GetBytes(value);
+			var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x10, newStatusBytes);
+			SendCode(bytes);
+		}
+
         public static List<byte> GetDeviceStatus(Device device)
         {
-            if (!PingDevice(device))
-                return null;
+			//if (!PingDevice(device))
+			//    return null;
             var bytes1 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x10);
             var bytes2 = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x0F);
             List<byte> response1;

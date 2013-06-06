@@ -41,9 +41,9 @@ namespace ServerFS2.Monitor
 			DeviceStatesManager.GetStates();
 			foreach (var monitoringDevice in MonitoringDevices)
 			{
-				DeviceStatesManager.UpdateDeviceState(monitoringDevice.Device);
+				DeviceStatesManager.UpdateAllDevicesOnPanelState(monitoringDevice.Device);
 			}
-			return;
+			//return;
 
 			if (!DoMonitoring)
 			{

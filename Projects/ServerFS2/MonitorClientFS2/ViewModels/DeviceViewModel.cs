@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Text;
 using ServerFS2.Processor;
 using Infrastructure.Common.Windows;
+using System.Collections;
+using ServerFS2.ConfigurationWriter;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -145,10 +147,24 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			var status = MainManager.GetDeviceStatus(Device);
-			if (status == null)
+			var statusBytes = MainManager.GetDeviceStatus(Device);
+			if (statusBytes == null)
 				return;
-			MainManager.ResetTest(Device, status);
+
+			//var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0] };
+			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+
+			Trace.WriteLine("statusBytesArray = " + BytesHelper.BytesToString(statusBytesArray.ToList()));
+			var bitArray = new BitArray(statusBytesArray);
+			var hasTest = bitArray[17];
+			Trace.WriteLine("hasTest = " + hasTest);
+			for (int i = 0; i < bitArray.Count; i++)
+			{
+				var hasBit = bitArray[i] ? "1" : "0";
+				Trace.WriteLine("bitArray[] " + i + "\t" + hasBit);
+			}
+
+			MainManager.ResetPanelBit(Device, statusBytes, 17);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }

@@ -192,6 +192,11 @@ namespace ServerFS2.Processor
             ServerHelper.ResetTest(device, status);
         }
 
+		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
+		{
+			ServerHelper.ResetPanelBit(device, statusBytes, bitNo);
+		}
+
         public static void AddDeviceToCheckList(Device device)
         {
             ServerHelper.AddDeviceToCheckList(device);
