@@ -208,18 +208,13 @@ namespace ClientFS2.ViewModels
         public RelayCommand WriteConfigurationCommand { get; private set; }
         private void OnWriteConfiguration()
         {
-            var bytes = ServerHelper.GetFirmwhareBytes(DevicesViewModel.SelectedDevice.Device);
+			var configurationWriterHelper = new SystemDatabaseCreator();
+			configurationWriterHelper.Run();
+			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.IntAddress == DevicesViewModel.SelectedDevice.Device.IntAddress);
+			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
+			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
+			ServerHelper.SetDeviceConfig(DevicesViewModel.SelectedDevice.Device, bytes2, bytes1);
 
-            var configurationWriterHelper = new SystemDatabaseCreator();
-            configurationWriterHelper.Run();
-
-            foreach (var panelDatabase in configurationWriterHelper.PanelDatabases)
-            {
-                var parentPanel = panelDatabase.ParentPanel;
-                var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
-                var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
-                ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
-            }
         }
         bool CanWriteConfiguration()
         {
