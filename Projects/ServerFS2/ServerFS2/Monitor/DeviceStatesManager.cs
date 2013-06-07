@@ -123,14 +123,12 @@ namespace ServerFS2.Monitor
 					continue;
 
 				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
-				
+
 				if (device == null)
 					continue;
 
-					device.Offset = remoteDevice.Offset;
-					device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
-				
-				}
+				device.Offset = remoteDevice.Offset;
+				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
 			}
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{

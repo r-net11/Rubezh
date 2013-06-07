@@ -49,7 +49,7 @@ namespace ServerFS2
 		{
 			var bytes = CreateBytesArray(value);
 			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
-			var result = UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true).Result[0].Data;
+			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true).Result[0].Data;
 			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
 			return result;
 		}
