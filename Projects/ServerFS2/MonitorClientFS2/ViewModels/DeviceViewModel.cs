@@ -20,7 +20,7 @@ namespace MonitorClientFS2.ViewModels
 		{
 			ResetFireCommand = new RelayCommand(OnResetFire);
 			ResetTestCommand = new RelayCommand(OnResetTest);
-			ResetCommand = new RelayCommand<string>(OnReset, CanReset);
+			ResetCommand = new RelayCommand<DriverState>(OnReset, CanReset);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -146,22 +146,23 @@ namespace MonitorClientFS2.ViewModels
 			MainManager.ResetFire(Device);
 		}
 
-		public RelayCommand<string> ResetCommand { get; private set; }
-		void OnReset(string stateName)
+		public RelayCommand<DriverState> ResetCommand { get; private set; }
+		void OnReset(DriverState state)
 		{
-			var resetItems = new List<ResetItem>();
-			var resetItem = new ResetItem()
-			{
-				DeviceState = DeviceState
-			};
-			var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
-			resetItem.States.Add(deviceDriverState);
-			resetItems.Add(resetItem);
-			MainManager.ResetStates(resetItems);
+			//var resetItems = new List<ResetItem>();
+			//var resetItem = new ResetItem()
+			//{
+			//    DeviceState = DeviceState
+			//};
+			//var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState == state);
+			//resetItem.States.Add(deviceDriverState);
+			//resetItems.Add(resetItem);
+			//MainManager.ResetStates(resetItems);
+			MainManager.AddStateToReset(Device, state);
 		}
-		bool CanReset(string stateName)
+		bool CanReset(DriverState state)
 		{
-			return DeviceState.ThreadSafeStates.Any(x => (x.DriverState != null && x.DriverState.Name == stateName && x.DriverState.IsManualReset));
+			return DeviceState.ThreadSafeStates.Any(x => (x.DriverState != null && x.DriverState == state && x.DriverState.IsManualReset));
 		}
 
 		public RelayCommand ResetTestCommand { get; private set; }

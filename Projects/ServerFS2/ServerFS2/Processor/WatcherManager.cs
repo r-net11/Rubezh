@@ -19,7 +19,7 @@ namespace ServerFS2
 
 		public void Stop()
 		{
-			MainManager.StopMonitoring();
+			//MainManager.StopMonitoring();
 		}
 	}
 }

@@ -366,5 +366,18 @@ namespace ServerFS2.Monitor
 			}
 			// read device 80 byte
 		}
+
+		public static void ResetState(DriverState state, MonitoringDevice monitoringDevice)
+		{
+			var resetItems = new List<ResetItem>();
+			var resetItem = new ResetItem()
+			{
+				DeviceState = monitoringDevice.Device.DeviceState
+			};
+			var deviceDriverState = monitoringDevice.Device.DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState == state);
+			resetItem.States.Add(deviceDriverState);
+			resetItems.Add(resetItem);
+			ServerHelper.ResetStates(resetItems);
+		}
 	}
 }

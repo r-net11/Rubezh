@@ -12,6 +12,7 @@ using System.Diagnostics;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Service;
 using FS2Api;
+using ServerFS2.Monitor;
 
 namespace ServerFS2
 {
@@ -148,7 +149,10 @@ namespace ServerFS2
 			Trace.WriteLine("ResetPanelBit statusValue = " + value);
 			var newStatusBytes = BitConverter.GetBytes(value);
 			var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x10, newStatusBytes);
+			MonitoringProcessor.DoMonitoring = false;
 			SendCode(bytes);
+			device.DeviceState.OnStateChanged();
+			MonitoringProcessor.DoMonitoring = true;
 		}
 
 		public static void ResetStates(List<ResetItem> resetItems)

@@ -38,14 +38,17 @@ namespace ServerFS2.Monitor
 		{
 			Device = device;
 			Requests = new List<Request>();
+			StatesToReset = new List<DriverState>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastSystemIndex = -1;
 			FirstSystemIndex = -1;
 			IsReadingNeeded = false;
 		}
 
+		public List<DriverState> StatesToReset { get; set; }
 		public int LastDeviceIndex { get; set; }
 		public bool IsReadingNeeded { get; set; }
+		public bool IsInitialized { get; private set; }
 		public Device Device { get; set; }
 		public List<Request> Requests { get; set; }
 		public int FirstSystemIndex { get; set; }
@@ -77,6 +80,7 @@ namespace ServerFS2.Monitor
 		{
 			DeviceStatesManager.GetStates(Device);
 			DeviceStatesManager.UpdatePanelState(Device);
+			IsInitialized = true;
 		}
 
 		int lastSystemIndex;
@@ -136,21 +140,7 @@ namespace ServerFS2.Monitor
 			//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
 			if (LastDeviceIndex > LastSystemIndex)
 			{
-				//foreach (var dataItem in response.Data)
-				//{
-				//    Trace.Write(dataItem + " ");
-				//}
-				//Trace.WriteLine("");
-				//Trace.WriteLine(Device.PresentationAddressAndName + " ReadIndex Response " + (LastDeviceIndex - FirstSystemIndex));
 				IsReadingNeeded = true;
-			}
-			if (LastDeviceIndex < lastSystemIndex)
-			{
-				//foreach (var dataItem in response.Data)
-				//{
-				//    Trace.Write(dataItem + " ");
-				//}
-				//Trace.WriteLine("");
 			}
 		}
 

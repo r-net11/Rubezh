@@ -25,6 +25,7 @@ namespace ServerFS2.Monitor
 					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
+			
 			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
 		}
 
@@ -35,14 +36,13 @@ namespace ServerFS2.Monitor
 
 		public static void StartMonitoring()
 		{
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				monitoringDevice.Initialize();
-			}
-			//return;
-
 			if (!DoMonitoring)
 			{
+				foreach (var monitoringDevice in MonitoringDevices.Where(x => !x.IsInitialized))
+				{
+					monitoringDevice.Initialize();
+				}
+				//return;
 				StartTime = DateTime.Now;
 				DoMonitoring = true;
 				var thread = new Thread(OnRun);
@@ -61,16 +61,21 @@ namespace ServerFS2.Monitor
 			{
 				if (DoMonitoring)
 				{
-					if (MonitoringDevices.Any(x => x.IsReadingNeeded))
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
 					{
-						Thread.Sleep(MonitoringDevice.betweenCyclesSpan);
-						foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
+						var journalItems = monitoringDevice.GetNewItems();
+						DeviceStatesManager.UpdateDeviceState(journalItems);
+						DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Device);
+					}
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.StatesToReset.Count > 0))
+					{
+						foreach (var state in monitoringDevice.StatesToReset)
 						{
-							var journalItems = monitoringDevice.GetNewItems();
-							DeviceStatesManager.UpdateDeviceState(journalItems);
-							DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
-							DeviceStatesManager.UpdatePanelState(monitoringDevice.Device);
+							DeviceStatesManager.ResetState(state, monitoringDevice);
 						}
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Device); 
+						monitoringDevice.StatesToReset = new List<DriverState>();
 					}
 					foreach (var monitoringDevice in MonitoringDevices)
 					{
@@ -82,6 +87,15 @@ namespace ServerFS2.Monitor
 					
 				}
 				
+			}
+		}
+
+		public static void AddStateToReset(Device device, DriverState state)
+		{
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				if (monitoringDevice.Device == device)
+					monitoringDevice.StatesToReset.Add(state);
 			}
 		}
 

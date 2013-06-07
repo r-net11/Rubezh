@@ -192,6 +192,11 @@ namespace ServerFS2.Processor
             ServerHelper.ResetTest(device, status);
         }
 
+		public static void AddStateToReset(Device device, DriverState state)
+		{
+			MonitoringProcessor.AddStateToReset(device, state);
+		}
+
 		public static void ResetStates(List<ResetItem> resetItems)
 		{
 			ServerHelper.ResetStates(resetItems);
