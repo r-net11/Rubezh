@@ -92,8 +92,9 @@ namespace MonitorClientFS2
 			//    Trace.WriteLine(i + "-" + isBitSetted);
 			//}
 			//MonitoringProcessor.WriteStats();
-
+			//MainManager.StopMonitoring();
 			MainManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
+			//MainManager.StartMonitoring();
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }

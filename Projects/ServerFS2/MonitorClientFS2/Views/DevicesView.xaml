@@ -54,7 +54,7 @@
                                         Width="32" Height="32" VerticalAlignment="Center"
                                         Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
-                                        CommandParameter="{Binding DriverState.Name}" />
+                                        CommandParameter="{Binding DriverState}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

@@ -12,6 +12,7 @@ using System.Diagnostics;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Service;
 using FS2Api;
+using ServerFS2.Monitor;
 
 namespace ServerFS2
 {
@@ -40,6 +41,15 @@ namespace ServerFS2
 		{
 			bytes.InsertRange(0,IsUsbDevice? new List<byte> {(byte) (0x02)}: new List<byte> {(byte) (device.Parent.IntAddress + 2), (byte) device.IntAddress});
 			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
+			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
+			return result;
+		}
+
+		public static List<byte> SendCodeToPanel(Device device, params object[] value)
+		{
+			var bytes = CreateBytesArray(value);
+			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+			var result = UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true).Result[0].Data;
 			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
 			return result;
 		}
@@ -77,8 +87,7 @@ namespace ServerFS2
 
         public static void SynchronizeTime(Device device)
         {
-            var bytes = CreateBytesArray(0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
-            SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
         }
 
         public static List<byte> CreateBytesArray(params object[] values)
@@ -119,8 +128,7 @@ namespace ServerFS2
         public static void ResetTest(Device device, List<byte> status)
         {
             status[1] = (byte)(status[1] & ~2);
-            var bytes = CreateBytesArray(0x02, 0x10, status.GetRange(0, 4));
-            SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x10, status.GetRange(0, 4));
 			StatesHelper.ChangeDeviceStates(device, device.DeviceState.States);
         }
 
@@ -141,7 +149,10 @@ namespace ServerFS2
 			Trace.WriteLine("ResetPanelBit statusValue = " + value);
 			var newStatusBytes = BitConverter.GetBytes(value);
 			var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x02, 0x10, newStatusBytes);
+			MonitoringProcessor.DoMonitoring = false;
 			SendCode(bytes);
+			device.DeviceState.OnStateChanged();
+			MonitoringProcessor.DoMonitoring = true;
 		}
 
 		public static void ResetStates(List<ResetItem> resetItems)
@@ -214,11 +225,9 @@ namespace ServerFS2
         {
 			//if (!PingDevice(device))
 			//    return null;
-			var bytes1 = CreateBytesArray(0x01, 0x10);
-            var bytes2 = CreateBytesArray(0x01, 0x0F);
         	var result = new List<byte>();
-            var response1 = SendCodeToPanel(bytes1, device);
-			var response2 = SendCodeToPanel(bytes2, device);
+			var response1 = SendCodeToPanel(device, 0x01, 0x10);
+			var response2 = SendCodeToPanel(device, 0x01, 0x0F);
             result.AddRange(response1);
             result.AddRange(response2);
             return result;
@@ -226,14 +235,12 @@ namespace ServerFS2
 
         public static void AddDeviceToCheckList(Device device)
         {
-            var bytes = CreateBytesArray(0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-            SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
         }
 
         public static void RemoveDeviceFromCheckList(Device device)
         {
-            var bytes = CreateBytesArray(0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-			SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
         }
 
         public static bool PingDevice(Device device)
@@ -241,5 +248,13 @@ namespace ServerFS2
             var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
             return SendCode(bytes)[6] == 0x7C;
         }
+
+		public static void ExecuteCommand(Device device, string commandName)
+		{
+			var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
+			var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
+			SendCodeToPanel(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
+		}
     }
 }
