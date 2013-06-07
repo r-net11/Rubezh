@@ -45,10 +45,9 @@ namespace ServerFS2
 
 		public static int GetLastSecJournalItemId2Op(Device device)
 		{
-			var bytes = CreateBytesArray(0x01, 0x21, 0x02);
 			try
 			{
-				var lastindex = SendCodeToPanel(bytes, device);
+				var lastindex = SendCodeToPanel(device, 0x01, 0x21, 0x02);
 				return BytesHelper.ExtractInt(lastindex, 0);
 			}
 			catch (NullReferenceException ex)
@@ -60,10 +59,9 @@ namespace ServerFS2
 
 		public static int GetJournalCount(Device device)
 		{
-			var bytes = CreateBytesArray(0x01, 0x24, 0x01);
 			try
 			{
-				var firecount = SendCodeToPanel(bytes, device);
+				var firecount = SendCodeToPanel(device, 0x01, 0x24, 0x01);
 				return BytesHelper.ExtractShort(firecount, 0);
 			}
 			catch (NullReferenceException ex)
@@ -83,10 +81,9 @@ namespace ServerFS2
 		public static int GetLastJournalItemId(Device device)
 		{
 			Thread.Sleep(TimeSpan.FromSeconds(10));
-			var bytes = CreateBytesArray(0x01, 0x21, 0x00);
 			try
 			{
-				var lastindex = SendCodeToPanel(bytes, device);
+				var lastindex = SendCodeToPanel(device, 0x01, 0x21, 0x00);
 				return BytesHelper.ExtractInt(lastindex, 0);
 			}
 			catch (NullReferenceException ex)

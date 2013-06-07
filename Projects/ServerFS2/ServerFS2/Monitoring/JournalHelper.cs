@@ -137,17 +137,15 @@ namespace ServerFS2.Monitor
 
 		static List<byte> SendByteCommand(List<byte> commandBytes, Device device)
 		{
-			var bytes = ServerHelper.CreateBytesArray(0x01, commandBytes);
 			lock (Locker)
 			{
-				return ServerHelper.SendCodeToPanel(bytes, device);
+				return ServerHelper.SendCodeToPanel(device, 0x01, commandBytes);
 			}
 		}
 
 		static List<byte> SendByteCommandSync(List<byte> commandBytes, Device device)
 		{
-			var bytes = ServerHelper.CreateBytesArray(0x01, commandBytes);
-			return ServerHelper.SendCodeToPanel(bytes, device);
+			return ServerHelper.SendCodeToPanel(device, 0x01, commandBytes);
 		}
 
 		public static void SendByteCommand(List<byte> commandBytes, Device device, int requestId)

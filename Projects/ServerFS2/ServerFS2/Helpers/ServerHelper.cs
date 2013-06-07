@@ -43,6 +43,15 @@ namespace ServerFS2
 			return result;
 		}
 
+		public static List<byte> SendCodeToPanel(Device device, params object[] value)
+		{
+			var bytes = CreateBytesArray(value);
+			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+			var result = UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true).Result[0].Data;
+			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
+			return result;
+		}
+
         public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
         {
             return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
@@ -76,8 +85,7 @@ namespace ServerFS2
 
         public static void SynchronizeTime(Device device)
         {
-            var bytes = CreateBytesArray(0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
-            SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
         }
 
         public static List<byte> CreateBytesArray(params object[] values)
@@ -118,8 +126,7 @@ namespace ServerFS2
         public static void ResetTest(Device device, List<byte> status)
         {
             status[1] = (byte)(status[1] & ~2);
-            var bytes = CreateBytesArray(0x02, 0x10, status.GetRange(0, 4));
-            SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x10, status.GetRange(0, 4));
 			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
 			device.DeviceState.OnStateChanged();
         }
@@ -214,11 +221,9 @@ namespace ServerFS2
         {
 			//if (!PingDevice(device))
 			//    return null;
-			var bytes1 = CreateBytesArray(0x01, 0x10);
-            var bytes2 = CreateBytesArray(0x01, 0x0F);
         	var result = new List<byte>();
-            var response1 = SendCodeToPanel(bytes1, device);
-			var response2 = SendCodeToPanel(bytes2, device);
+			var response1 = SendCodeToPanel(device, 0x01, 0x10);
+			var response2 = SendCodeToPanel(device, 0x01, 0x0F);
             result.AddRange(response1);
             result.AddRange(response2);
             return result;
@@ -226,14 +231,12 @@ namespace ServerFS2
 
         public static void AddDeviceToCheckList(Device device)
         {
-            var bytes = CreateBytesArray(0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-            SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
         }
 
         public static void RemoveDeviceFromCheckList(Device device)
         {
-            var bytes = CreateBytesArray(0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-			SendCodeToPanel(bytes, device);
+			SendCodeToPanel(device, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
         }
 
         public static bool PingDevice(Device device)
