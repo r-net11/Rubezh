@@ -248,5 +248,13 @@ namespace ServerFS2
             var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
             return SendCode(bytes)[6] == 0x7C;
         }
+
+		public static void ExecuteCommand(Device device, string commandName)
+		{
+			var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
+			var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
+			SendCodeToPanel(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
+		}
     }
 }

@@ -63,7 +63,7 @@ namespace MonitorClientFS2.ViewModels
 		{
 			if (SelectedDeviceCommand != null)
 			{
-				// execute command here
+				ServerHelper.ExecuteCommand(Device, SelectedDeviceCommand.Name);
 			}
 		}
 

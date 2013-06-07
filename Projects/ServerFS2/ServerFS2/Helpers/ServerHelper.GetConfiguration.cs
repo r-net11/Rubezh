@@ -43,11 +43,11 @@ namespace ServerFS2
 			var device = new Device
 			{
 			    Driver = Drivers.FirstOrDefault(x => x.DriverType == driverType),
-			    IntAddress = DeviceFlash[pointer + 1] + 256*(DeviceFlash[pointer + 2] + 1),
 			    InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4], DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
 				Offset = pointer + 3
 			};
-		    device.DriverUID = device.Driver.UID;
+			device.IntAddress = driverType == DriverType.Exit ? DeviceFlash[pointer + 1] : DeviceFlash[pointer + 1] + 256*(DeviceFlash[pointer + 2] + 1);
+			device.DriverUID = device.Driver.UID;
             Device groupDevice;
 		    var parentAddress = 0;
 		    var config =  DeviceFlash[pointer + 31];
