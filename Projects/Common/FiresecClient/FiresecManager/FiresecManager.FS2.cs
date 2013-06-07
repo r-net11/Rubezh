@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using Common;
 using FS2Client;
@@ -23,14 +24,33 @@ namespace FiresecClient
 
 		public static void InitializeFS2()
 		{
-            try
-            {
+			try
+			{
 				FS2ClientContract = new FS2ClientContract(AppSettingsManager.FS2ServerAddress);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "FiresecManager.InitializeFiresecDriver");
-            }
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecManager.InitializeFiresecDriver");
+			}
+		}
+
+		public static void FS2UpdateDeviceStates()
+		{
+			var deviceStates = FS2ClientContract.GetDeviceStates();
+			if (!deviceStates.HasError && deviceStates.Result != null)
+			{
+				foreach (var deviceState in deviceStates.Result)
+				{
+					var device = Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
+					if (device != null)
+					{
+						device.DeviceState.States = deviceState.SerializableStates;
+						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
+						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
+						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+					}
+				}
+			}
 		}
 	}
 }

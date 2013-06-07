@@ -61,7 +61,6 @@
                         <StackPanel IsEnabled="{Binding IsAuParametersReady}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.GetParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.SetParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры на устройство" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <Controls:ToolBarButton Width="36" Height="36" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.ResetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

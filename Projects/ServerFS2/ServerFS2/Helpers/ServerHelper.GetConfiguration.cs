@@ -7,6 +7,8 @@ using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.Service;
+using FS2Api;
 
 namespace ServerFS2
 {
@@ -463,8 +465,6 @@ namespace ServerFS2
 
 		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice) 
 		{
-            var bytes = GetBytesFromFlashDB(selectedDevice, 0x115, 14);
-            #region LocalVariable
             PanelDevice = (Device)selectedDevice.Clone();
             shleifCount = PanelDevice.Driver.ShleifCount;
 			PanelDevice.Children = new List<Device>();
@@ -478,10 +478,8 @@ namespace ServerFS2
 			FlashDBLastIndex = GetFlashLastIndex(PanelDevice);
             DeviceRom = GetRomDBBytes(PanelDevice);
             DeviceFlash = GetFlashDBBytes(PanelDevice);
+
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
-		    int pPointer;
-		    int pointer;
-            #endregion
 		    ParseZonesRom(1542);
             #region Zones
             //if ((pPointer = DeviceRom[1542] * 256 * 256 + DeviceRom[1543] * 256 + DeviceRom[1544]) != 0)
@@ -1573,8 +1571,12 @@ namespace ServerFS2
 			var result = SendCodeToPanel(bytes, device);
 			var romDBLastIndex = BytesHelper.ExtractTriple(result, 9);
 
+			var numberOfPackets = romDBLastIndex - RomDBFirstIndex / packetLenght;
+
 			for (var i = RomDBFirstIndex + packetLenght + 1; i < romDBLastIndex; i += packetLenght + 1)
 			{
+				var packetNo = (i - RomDBFirstIndex) / packetLenght;
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, romDBLastIndex - i);
 				bytes = CreateBytesArray(0x38, BitConverter.GetBytes(i).Reverse(), length);
 				var request = SendCodeToPanel(bytes, device);
@@ -1587,8 +1589,13 @@ namespace ServerFS2
 		{
 			var packetLenght = IsUsbDevice ? 0x33 : 0xFF;
             var result = new List<byte>();
+
+			var numberOfPackets = FlashDBLastIndex - 0x100 / packetLenght;
+
             for (var i = 0x100; i < FlashDBLastIndex; i += packetLenght + 1)
 			{
+				var packetNo = (i - FlashDBLastIndex) / packetLenght;
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
 				var bytes = CreateBytesArray(0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
 				var request = SendCodeToPanel(bytes, device);
@@ -1603,6 +1610,7 @@ namespace ServerFS2
 
 		static int GetRomFirstIndex(Device device)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
 			var bytes = CreateBytesArray(0x01, 0x57);
 			var result = SendCodeToPanel(bytes, device);
 			return BytesHelper.ExtractTriple(result, 1);
@@ -1610,6 +1618,7 @@ namespace ServerFS2
 
 		static int GetFlashLastIndex(Device device)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
 			var bytes = CreateBytesArray(0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
 			var result = SendCodeToPanel(bytes, device);
 			return BytesHelper.ExtractTriple(result, 6);

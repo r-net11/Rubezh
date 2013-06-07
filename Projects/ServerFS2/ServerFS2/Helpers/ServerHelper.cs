@@ -20,16 +20,17 @@ namespace ServerFS2
         public static event Action<int, int, string> Progress;
         public static List<Driver> Drivers;
         static readonly object Locker = new object();
-        public static readonly UsbRunner UsbRunner;
+		public static readonly UsbRunnerBase UsbRunnerBase;
         static int UsbRequestNo;
         public static bool IsExtendedMode { get; set; }
         static ServerHelper()
         {
             Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-            UsbRunner = new UsbRunner();
+			UsbRunnerBase = new UsbRunner();
+			//UsbRunnerBase = new UsbRunner2();
             try
             {
-                UsbRunner.Open();
+				UsbRunnerBase.Open();
             }
             catch
             { }
@@ -38,24 +39,24 @@ namespace ServerFS2
 		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)
 		{
 			bytes.InsertRange(0,IsUsbDevice? new List<byte> {(byte) (0x02)}: new List<byte> {(byte) (device.Parent.IntAddress + 2), (byte) device.IntAddress});
-			var result = UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
+			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
 			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
 			return result;
 		}
 
         public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
         {
-            return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
+			return UsbRunnerBase.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
         }
 
 		public static List<byte> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
         {
-            return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
+			return UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
         }
 		
         public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
         {
-            UsbRunner.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
+			UsbRunnerBase.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
         }
 
         public static bool IsUsbDevice
@@ -64,8 +65,8 @@ namespace ServerFS2
             set
             {
                 UsbRunner.IsUsbDevice = value;
-                UsbRunner.Close();
-                UsbRunner.Open();
+				UsbRunnerBase.Close();
+				UsbRunnerBase.Open();
             }
         }
 
@@ -120,8 +121,7 @@ namespace ServerFS2
             status[1] = (byte)(status[1] & ~2);
             var bytes = CreateBytesArray(0x02, 0x10, status.GetRange(0, 4));
             SendCodeToPanel(bytes, device);
-			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
-			device.DeviceState.OnStateChanged();
+			StatesHelper.ChangeDeviceStates(device, device.DeviceState.States);
         }
 
 		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)

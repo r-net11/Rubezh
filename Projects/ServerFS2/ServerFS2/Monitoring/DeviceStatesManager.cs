@@ -42,9 +42,7 @@ namespace ServerFS2.Monitor
 					states.Add(new DeviceDriverState{ DriverState = state, Time = DateTime.Now });
 				}
 			}
-			panel.DeviceState.States = states;
-			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { panel.DeviceState } });
-			panel.DeviceState.OnStateChanged();
+			StatesHelper.ChangeDeviceStates(panel, states);
 
 			foreach (var state in states)
 			{
@@ -125,8 +123,11 @@ namespace ServerFS2.Monitor
 					continue;
 
 				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
-				device.Offset = remoteDevice.Offset;
-				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
+				if (device != null)
+				{
+					device.Offset = remoteDevice.Offset;
+					device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
+				}
 			}
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
@@ -222,9 +223,7 @@ namespace ServerFS2.Monitor
 				}
 			}
 
-			device.DeviceState.States = states;
-			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
-			device.DeviceState.OnStateChanged();
+			StatesHelper.ChangeDeviceStates(device, states);
 
 			foreach (var deviceDriverState in device.DeviceState.States)
 			{
@@ -358,8 +357,7 @@ namespace ServerFS2.Monitor
 						}
 					}
 
-					CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { journalItem.Device.DeviceState } });
-					journalItem.Device.DeviceState.OnStateChanged();
+					StatesHelper.ChangeDeviceStates(journalItem.Device, journalItem.Device.DeviceState.States);
 				}
 				//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
 				//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());

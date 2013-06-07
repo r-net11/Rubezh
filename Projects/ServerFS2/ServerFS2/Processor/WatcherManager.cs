@@ -13,7 +13,7 @@ namespace ServerFS2
 
 		public void Start()
 		{
-			//MainManager.StartMonitoring();
+			MainManager.StartMonitoring();
 			Bootstrapper.BootstrapperLoadEvent.Set();
 		}
 

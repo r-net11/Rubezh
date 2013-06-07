@@ -212,19 +212,6 @@ namespace ServerFS2.Service
 
 		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
-			Trace.WriteLine("DeviceDatetimeSync");
-			//for (int i = 0; i < 10; i++)
-			//{
-			//    FS2Contract.CheckCancellationRequested();
-			//    var fs2ProgressInfo = new FS2ProgressInfo()
-			//    {
-			//        Comment = "Test Callbac " + i.ToString()
-			//    };
-			//    CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = fs2ProgressInfo });
-			//    Thread.Sleep(1000);
-			//}
-			//return new OperationResult<bool>();
-
 			return TaskSafeCallWithMonitoringSuspending<bool>(() =>
 			{
 				MainManager.DeviceDatetimeSync(FindDevice(deviceUID), isUSB);
@@ -266,7 +253,7 @@ namespace ServerFS2.Service
 
 		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
 		{
-			return SafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
+			return TaskSafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
 			{
 				return MainManager.DeviceReadConfig(FindDevice(deviceUID), isUSB);
 			}, "DeviceReadConfig");
@@ -274,7 +261,7 @@ namespace ServerFS2.Service
 
 		public OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB)
 		{
-			return SafeCallWithMonitoringSuspending<List<FS2JournalItem>>(() =>
+			return TaskSafeCallWithMonitoringSuspending<List<FS2JournalItem>>(() =>
 			{
 				return MainManager.DeviceReadEventLog(FindDevice(deviceUID), isUSB);
 			}, "DeviceReadEventLog");

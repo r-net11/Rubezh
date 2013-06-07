@@ -64,6 +64,9 @@ namespace UsbApp
             {
                 this.usb.ProductId = Int32.Parse(this.tb_product.Text, System.Globalization.NumberStyles.HexNumber);
                 this.usb.VendorId = Int32.Parse(this.tb_vendor.Text, System.Globalization.NumberStyles.HexNumber);
+
+				this.usb.VendorId = 0xC251;
+				this.usb.ProductId = 0x1303;
                 this.usb.CheckDevicePresent();
             }
             catch (Exception ex)

@@ -17,7 +17,7 @@ namespace ServerFS2.Monitor
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel && x.IntAddress == 15))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
 					MonitoringDevices.Add(new SecMonitoringDevice(device));
@@ -25,12 +25,7 @@ namespace ServerFS2.Monitor
 					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
-			ServerHelper.UsbRunner.NewResponse += new Action<Response>(UsbRunner_NewResponse);
-		}
-
-		public static void Initialize()
-		{
-			;
+			ServerHelper.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
 		}
 
 		public static void StartMonitoring()

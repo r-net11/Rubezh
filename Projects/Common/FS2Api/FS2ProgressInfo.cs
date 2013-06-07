@@ -10,9 +10,10 @@ namespace FS2Api
 
 		}
 
-		public FS2ProgressInfo(string comment)
+		public FS2ProgressInfo(string comment, int percentComplete = 0)
 		{
 			Comment = comment;
+			PercentComplete = percentComplete;
 		}
 
 		[DataMember]

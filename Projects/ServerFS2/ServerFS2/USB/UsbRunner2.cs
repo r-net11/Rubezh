@@ -1,86 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using FiresecAPI;
-using LibUsbDotNet;
-using LibUsbDotNet.Main;
-using FS2Api;
-using System.Diagnostics;
-using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2
 {
-	public class UsbRunner : UsbRunnerBase
+	public class UsbRunner2 : UsbRunnerBase
 	{
-		UsbDevice UsbDevice;
-		UsbEndpointReader Reader;
-		UsbEndpointWriter Writer;
+		UsbLibrary.UsbHidPort UsbHidPort;
 
 		public override bool Open()
 		{
-			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
-			UsbDevice = UsbDevice.OpenUsbDevice(usbFinder);
-			if (UsbDevice == null)
-			{
-				throw new Exception("Device Not Found.");
-			}
-
-			var wholeUsbDevice = UsbDevice as IUsbDevice;
-			if (wholeUsbDevice != null)
-			{
-				wholeUsbDevice.SetConfiguration(1);
-				wholeUsbDevice.ClaimInterface(0);
-			}
-			Reader = UsbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
-			Reader.DataReceived += (OnDataRecieved);
-			Reader.ReadBufferSize = 64;
-			Reader.DataReceivedEnabled = true;
-			Writer = UsbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
+			UsbHidPort = new UsbLibrary.UsbHidPort();
+			UsbHidPort.VendorId = 0xC251;
+			UsbHidPort.ProductId = 0x1303;
+			UsbHidPort.CheckDevicePresent();
+			UsbHidPort.SpecifiedDevice.DataRecieved += new UsbLibrary.DataRecievedEventHandler(OnDataRecieved);
 			return true;
 		}
 
 		public override void Close()
 		{
-			if (Reader != null)
-			{
-				Reader.DataReceivedEnabled = false;
-				Reader.DataReceived -= (OnDataRecieved);
-			}
-
-			if (UsbDevice != null)
-			{
-				if (UsbDevice.IsOpen)
-				{
-					var wholeUsbDevice = UsbDevice as IUsbDevice;
-					if (!ReferenceEquals(wholeUsbDevice, null))
-					{
-						wholeUsbDevice.ReleaseInterface(0);
-					}
-					UsbDevice.Close();
-				}
-				UsbDevice = null;
-				UsbDevice.Exit();
-			}
+			UsbHidPort.Dispose();
 		}
 
 		public override bool Send(List<byte> data)
 		{
-			Trace.WriteLine(BytesHelper.BytesToString(data));
-			int bytesWrite;
-			if (Writer == null)
-				throw new FS2Exception("Драйвер USB отсутствует");
-			Writer.Write(data.ToArray(), 2000, out bytesWrite);
-			return bytesWrite == data.Count;
+			data.Insert(0, 0);
+			UsbHidPort.SpecifiedDevice.SendData(data.ToArray());
+			return true;
 		}
 
-		void OnDataRecieved(object sender, EndpointDataEventArgs e)
+		void OnDataRecieved(object sender, UsbLibrary.DataRecievedEventArgs args)
 		{
-			var buffer = e.Buffer.ToList();
+			var buffer = args.data.ToList();
 			if (buffer.Count < 2)
 				return;
 			IsMs = buffer[0] != 0;
-		    buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
+			//buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
 			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)
@@ -111,21 +70,21 @@ namespace ServerFS2
 				}
 				if (b == 0x7E)
 				{
-					if (!ServerHelper.IsExtendedMode)
-					{
-						if (buffer.IndexOf(0x7e) == 0)
-							ServerHelper.IsExtendedMode = false;
-						if (buffer.IndexOf(0x7e) == 1)
-							ServerHelper.IsExtendedMode = true;
-					}
-				    LocalResult = new List<byte> { b };
+					//if (!ServerHelper.IsExtendedMode)
+					//{
+					//    if (buffer.IndexOf(0x7e) == 0)
+					//        ServerHelper.IsExtendedMode = false;
+					//    if (buffer.IndexOf(0x7e) == 1)
+					//        ServerHelper.IsExtendedMode = true;
+					//}
+					LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
 					AautoWaitEvent.Set();
 			}
 		}
 
-		List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
+		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
 			var bytes = new List<byte>(0) { 0x7e };
 			foreach (var b in messageBytes)
@@ -149,7 +108,7 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		List<byte> CreateInputBytes(List<byte> messageBytes)
+		static List<byte> CreateInputBytes(List<byte> messageBytes)
 		{
 			var bytes = new List<byte>();
 			var previousByte = new byte();
@@ -259,7 +218,7 @@ namespace ServerFS2
 				}
 				return new OperationResult<List<Response>> { Result = Responses };
 			}
-		    return null;
+			return null;
 		}
 	}
 }

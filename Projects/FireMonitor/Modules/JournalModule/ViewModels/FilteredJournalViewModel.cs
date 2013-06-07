@@ -78,19 +78,22 @@ namespace JournalModule.ViewModels
 
 		void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
 		{
-			foreach (var journalItem in journalItems)
-			{
-				if (FilterFS2JournalItem(journalItem) == false)
-					return;
+			Dispatcher.BeginInvoke(new Action(() =>
+				{
+					foreach (var journalItem in journalItems)
+					{
+						if (FilterFS2JournalItem(journalItem) == false)
+							return;
 
-				if (JournalRecords.Count > 0)
-					JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
-				else
-					JournalRecords.Add(new JournalRecordViewModel(journalItem));
+						if (JournalRecords.Count > 0)
+							JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
+						else
+							JournalRecords.Add(new JournalRecordViewModel(journalItem));
 
-				if (JournalRecords.Count > JournalFilter.LastRecordsCount)
-					JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
-			}
+						if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+							JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+					}
+				}));
 		}
 
 		bool FilterJournalRecord(JournalRecord journalRecord)

@@ -6,6 +6,7 @@ using System.Windows;
 using FS2Api;
 using ServerFS2.ConfigurationWriter;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.Service;
 
 namespace ServerFS2
 {
@@ -82,7 +83,6 @@ namespace ServerFS2
 
 		public static int GetLastJournalItemId(Device device)
 		{
-			Thread.Sleep(TimeSpan.FromSeconds(10));
 			var bytes = CreateBytesArray(0x01, 0x21, 0x00);
 			try
 			{
@@ -98,17 +98,20 @@ namespace ServerFS2
 
 		public static List<FS2JournalItem> GetJournalItems(Device device)
 		{
-			int lastindex = GetLastJournalItemId(device);
-			int firstindex = GetFirstJournalItemId(device);
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи"));
+			int lastIndex = GetLastJournalItemId(device);
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса первой записи"));
+			int firstIndex = GetFirstJournalItemId(device);
 			var journalItems = new List<FS2JournalItem>();
 			var secJournalItems = new List<FS2JournalItem>();
 			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
 			{
 				secJournalItems = GetSecJournalItems2Op(device);
 			}
-			//for (int i = firstindex; i <= lastindex; i++)
-			for (int i = lastindex-10; i <= lastindex; i++)
+			for (int i = firstIndex; i <= lastIndex; i++)
+			//for (int i = lastindex-10; i <= lastindex; i++)
 			{
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала",  (i-firstIndex)*100/(lastIndex - firstIndex)));
 				var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
 				var result = SendCode(bytes);
 				if (result == null) continue;

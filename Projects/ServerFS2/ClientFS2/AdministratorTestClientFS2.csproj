@@ -68,7 +68,6 @@
     <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\Actions\DeviceConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Actions\DeviceTreeViewModel.cs" />
-    <Compile Include="ViewModels\ClauseViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
@@ -78,10 +77,6 @@
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
-    <Compile Include="ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
-    <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
-    <Compile Include="ViewModels\ZoneSelectationViewModel.cs" />
-    <Compile Include="ViewModels\ZonesSelectionViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\Actions\DeviceConfigurationView.xaml.cs">
@@ -101,18 +96,6 @@
     </Compile>
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ZoneLogicDeviceSelectionView.xaml.cs">
-      <DependentUpon>ZoneLogicDeviceSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ZonesSelectionView.xaml.cs">
-      <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ZoneLogicView.xaml.cs">
-      <DependentUpon>ZoneLogicView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ZoneSelectationView.xaml.cs">
-      <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Actions\DeviceConfigurationView.xaml">
       <SubType>Designer</SubType>
@@ -153,22 +136,6 @@
     <Page Include="Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ZoneLogicDeviceSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ZoneLogicView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ZoneSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ZonesSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

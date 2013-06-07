@@ -129,12 +129,14 @@
     <Compile Include="Monitoring\MonitoringProcessor.cs" />
     <Compile Include="Monitoring\Request.cs" />
     <Compile Include="Monitoring\RequestTypes.cs" />
+    <Compile Include="Monitoring\StatesHelper.cs" />
     <Compile Include="Monitoring\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />
     <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
+    <Compile Include="USB\UsbRunnerBase.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
     <Compile Include="USB\Response.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="USB\UsbRunner.cs" />
+    <Compile Include="USB\UsbRunner2.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
@@ -202,6 +205,10 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test\usb hid\UsbLibrary\UsbLibrary.csproj">
+      <Project>{71E42A6D-C432-4C03-BF4F-ABFD2A3173E0}</Project>
+      <Name>UsbLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

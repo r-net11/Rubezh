@@ -23,7 +23,8 @@ namespace ServerFS2.Processor
 
 		static void OnNewItem(FS2JournalItem journalItem)
 		{
-			NewJournalItem(journalItem);
+			if (NewJournalItem != null)
+				NewJournalItem(journalItem);
 		}
 
 		public static void StopMonitoring()
@@ -74,16 +75,6 @@ namespace ServerFS2.Processor
 
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
-			Trace.WriteLine("DeviceDatetimeSync Start");
-			for (int i = 0; i < 10; i++)
-			{
-				Trace.WriteLine("DeviceDatetimeSync i=" + i.ToString());
-				FS2Contract.CheckCancellationRequested();
-				CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Test Callbac " + i.ToString()) });
-				Thread.Sleep(1000);
-			}
-			return;
-
 			ServerHelper.SynchronizeTime(device);
 		}
 
@@ -227,6 +218,7 @@ namespace ServerFS2.Processor
 			var deviceStates = new List<DeviceState>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
 			}
 			return deviceStates;
@@ -237,6 +229,7 @@ namespace ServerFS2.Processor
 			var deviceStates = new List<DeviceState>();
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
 			}
 			return deviceStates;

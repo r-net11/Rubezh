@@ -84,17 +84,17 @@ namespace FS2Client
 					{
 						foreach (var changeResult in changeResults)
 						{
-							if (changeResult.ChangedDeviceStates != null)
+							if (changeResult.ChangedDeviceStates != null && changeResult.ChangedDeviceStates.Count > 0)
 							{
 								OnDeviceStateChanged(changeResult.ChangedDeviceStates);
 							}
 
-							if (changeResult.ChangedDeviceParameters != null)
+							if (changeResult.ChangedDeviceParameters != null && changeResult.ChangedDeviceParameters.Count > 0)
 							{
 								OnDeviceParametersChanged(changeResult.ChangedDeviceParameters);
 							}
 
-							if (changeResult.ChangedZoneStates != null)
+							if (changeResult.ChangedZoneStates != null && changeResult.ChangedZoneStates.Count > 0)
 							{
 								OnZoneStatesChanged(changeResult.ChangedZoneStates);
 							}

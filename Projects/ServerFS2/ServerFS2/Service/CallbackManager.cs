@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FS2Api;
+using System.Diagnostics;
 
 namespace ServerFS2.Service
 {
@@ -11,6 +12,13 @@ namespace ServerFS2.Service
 		static object locker = new object();
 		static List<FSAgentCallbacCash> FSAgentCallbacCashes = new List<FSAgentCallbacCash>();
 		static int LastIndex { get; set; }
+
+		public static void AddProgress(FS2ProgressInfo progressInfo)
+		{
+			FS2Contract.CheckCancellationRequested();
+			Add(new FS2Callbac() { FS2ProgressInfo = progressInfo });
+			Trace.WriteLine("AddProgress: " + progressInfo.Comment);
+		}
 
 		public static void Add(FS2Callbac fsAgentCallbac)
 		{

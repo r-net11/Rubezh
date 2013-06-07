@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
 using Infrastructure.Common;
+using Common;
 
 namespace ServerFS2.DataBase
 {
@@ -141,27 +142,34 @@ namespace ServerFS2.DataBase
 
 		private static void AddItemSqlCommand(SqlCeConnection dataContext, FS2JournalItem fsJournalItem)
 		{
-			var sqlCeCommand = new SqlCeCommand();
-			sqlCeCommand.Connection = dataContext;
-			sqlCeCommand.CommandText = @"Insert Into Journal" +
-				"(Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName, DeviceAddress, PanelAddress) Values" +
-				"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)";
-			sqlCeCommand.Parameters.AddWithValue("@p1", (object)fsJournalItem.Description ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p2", (object)fsJournalItem.Detalization ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p3", (object)fsJournalItem.DeviceCategory ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p4", (object)fsJournalItem.DeviceUID ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p5", (object)fsJournalItem.DeviceName ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p6", (object)fsJournalItem.DeviceTime ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p7", (object)fsJournalItem.PanelUID ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p8", (object)fsJournalItem.PanelName ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p9", (object)fsJournalItem.StateType ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p10", (object)fsJournalItem.SubsystemType ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p11", (object)fsJournalItem.SystemTime ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p12", (object)fsJournalItem.UserName ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p13", (object)fsJournalItem.ZoneName ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p14", (object)fsJournalItem.DeviceAddress ?? DBNull.Value);
-			sqlCeCommand.Parameters.AddWithValue("@p15", (object)fsJournalItem.PanelAddress ?? DBNull.Value);
-			sqlCeCommand.ExecuteNonQuery();
+			try
+			{
+				var sqlCeCommand = new SqlCeCommand();
+				sqlCeCommand.Connection = dataContext;
+				sqlCeCommand.CommandText = @"Insert Into Journal" +
+					"(Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName, DeviceAddress, PanelAddress) Values" +
+					"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)";
+				sqlCeCommand.Parameters.AddWithValue("@p1", (object)fsJournalItem.Description ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p2", (object)fsJournalItem.Detalization ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p3", (object)fsJournalItem.DeviceCategory ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p4", (object)fsJournalItem.DeviceUID ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p5", (object)fsJournalItem.DeviceName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p6", (object)fsJournalItem.DeviceTime ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p7", (object)fsJournalItem.PanelUID ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p8", (object)fsJournalItem.PanelName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p9", (object)fsJournalItem.StateType ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p10", (object)fsJournalItem.SubsystemType ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p11", (object)fsJournalItem.SystemTime ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p12", (object)fsJournalItem.UserName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p13", (object)fsJournalItem.ZoneName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p14", (object)fsJournalItem.DeviceAddress ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p15", (object)fsJournalItem.PanelAddress ?? DBNull.Value);
+				sqlCeCommand.ExecuteNonQuery();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "DBJournalHelper.AddItemSqlCommand");
+			}
 		}
 
 		public static void AddJournalItem(FS2JournalItem fsJournalItem)

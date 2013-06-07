@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FS2Api;
 using Infrastructure;
 using Infrastructure.Events;
+using System.Windows.Threading;
 
 namespace DevicesModule
 {
@@ -23,34 +24,40 @@ namespace DevicesModule
 
 		static void OnDeviceStateChanged(List<DeviceState> deviceStates)
 		{
-			foreach (var deviceState in deviceStates)
+			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
-				if (device != null)
+				foreach (var deviceState in deviceStates)
 				{
-					device.DeviceState.States = deviceState.SerializableStates;
-					device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-					device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-					device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
-					device.DeviceState.OnStateChanged();
+					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
+					if (device != null)
+					{
+						device.DeviceState.States = deviceState.SerializableStates;
+						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
+						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
+						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						device.DeviceState.OnStateChanged();
+					}
 				}
-			}
+			}));
 		}
 
 		static void OnDeviceParametersChanged(List<DeviceState> deviceStates)
 		{
-			foreach (var deviceState in deviceStates)
+			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
 			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
-				if (device != null)
+				foreach (var deviceState in deviceStates)
 				{
-					device.DeviceState.States = deviceState.SerializableStates;
-					device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-					device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-					device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
-					device.DeviceState.OnStateChanged();
+					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
+					if (device != null)
+					{
+						device.DeviceState.States = deviceState.SerializableStates;
+						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
+						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
+						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						device.DeviceState.OnStateChanged();
+					}
 				}
-			}
+			}));
 		}
 
 		static void OnZoneStatesChanged(List<ZoneState> zoneStates)
@@ -59,7 +66,10 @@ namespace DevicesModule
 
 		static void OnNewJournalRecords(List<FS2JournalItem> journalItems)
 		{
-			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);
+			Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+				{
+					ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);
+				}));
 		}
 
 		static void OnProgress(FS2ProgressInfo progressInfo)

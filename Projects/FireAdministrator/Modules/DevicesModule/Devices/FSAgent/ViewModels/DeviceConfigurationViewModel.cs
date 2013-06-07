@@ -24,15 +24,18 @@ namespace DevicesModule.ViewModels
 			ReplaceCommand = new RelayCommand(OnReplace);
 
 			RemoteDeviceConfiguration = remoteDeviceConfiguration;
-			RemoteDeviceConfiguration.Reorder();
 			RemoteDeviceConfiguration.Update();
-			RemoteDeviceConfiguration.InvalidateConfiguration();
-			RemoteDeviceConfiguration.UpdateCrossReferences();
-
 			foreach (var device in RemoteDeviceConfiguration.Devices)
 			{
 				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				if (device.Driver == null)
+				{
+					;
+				}
 			}
+			RemoteDeviceConfiguration.Reorder();
+			RemoteDeviceConfiguration.InvalidateConfiguration();
+			RemoteDeviceConfiguration.UpdateCrossReferences();
 
 			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			RemoteRootDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);

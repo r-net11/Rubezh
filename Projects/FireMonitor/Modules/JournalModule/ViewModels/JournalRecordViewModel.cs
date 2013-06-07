@@ -20,7 +20,6 @@ namespace JournalModule.ViewModels
 {
 	public class JournalRecordViewModel : BaseViewModel
 	{
-		readonly JournalRecord JournalRecord;
 		readonly Device Device;
 		readonly Zone Zone;
 
@@ -30,12 +29,10 @@ namespace JournalModule.ViewModels
 			ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 
-			JournalRecord = journalRecord;
-
 			DeviceTime = journalRecord.DeviceTime;
 			SystemTime = journalRecord.SystemTime;
 			ZoneName = journalRecord.ZoneName;
-			Description = GetDescription();
+			Description = GetDescription(journalRecord.Detalization);
 			DeviceName = journalRecord.DeviceName;
 			PanelName = journalRecord.PanelName;
 			User = journalRecord.User;
@@ -47,7 +44,7 @@ namespace JournalModule.ViewModels
 			else
 				Device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
 
-			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == JournalRecord.ZoneName);
+			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalRecord.ZoneName);
 		}
 
 		public JournalRecordViewModel(FS2JournalItem journalItem)
@@ -71,7 +68,7 @@ namespace JournalModule.ViewModels
 			else
 				Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
 
-			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == JournalRecord.ZoneName);
+			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalItem.ZoneName);
 		}
 
 		public DateTime DeviceTime { get; private set; }
@@ -84,14 +81,14 @@ namespace JournalModule.ViewModels
 		public SubsystemType SubsystemType { get; private set; }
 		public StateType StateType { get; private set; }
 
-		string GetDescription()
+		string GetDescription(string detalization)
 		{
-			if (string.IsNullOrEmpty(JournalRecord.Detalization))
+			if (string.IsNullOrEmpty(detalization))
 				return null;
 
 			try
 			{
-				var memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(JournalRecord.Detalization));
+				var memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(detalization));
 				var richTextBox = new RichTextBox();
 				richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
 				TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
@@ -105,7 +102,7 @@ namespace JournalModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "JournalRecordViewModel.Description JournalRecord.Detalization = " + JournalRecord.Detalization);
+				Logger.Error(e, "JournalRecordViewModel.Description JournalRecord.Detalization = " + detalization);
 				return null;
 			}
 		}

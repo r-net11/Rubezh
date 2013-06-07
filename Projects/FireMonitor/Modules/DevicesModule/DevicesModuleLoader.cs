@@ -91,6 +91,7 @@ namespace DevicesModule
 			{
 				FiresecManager.InitializeFS2();
 				FiresecManager.FS2ClientContract.Start();
+				FiresecManager.FS2UpdateDeviceStates();
 				return true;
 			}
 			else
