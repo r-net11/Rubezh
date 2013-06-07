@@ -17,7 +17,7 @@ namespace ServerFS2.Monitor
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel && x.IntAddress == 15))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x) && x.IntAddress == 15))
 			{
 				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
 					MonitoringDevices.Add(new SecMonitoringDevice(device));
@@ -38,11 +38,6 @@ namespace ServerFS2.Monitor
 		{
 			if (!DoMonitoring)
 			{
-				foreach (var monitoringDevice in MonitoringDevices.Where(x => !x.IsInitialized))
-				{
-					monitoringDevice.Initialize();
-				}
-				//return;
 				StartTime = DateTime.Now;
 				DoMonitoring = true;
 				var thread = new Thread(OnRun);
@@ -57,6 +52,11 @@ namespace ServerFS2.Monitor
 
 		static void OnRun()
 		{
+			foreach (var monitoringDevice in MonitoringDevices.Where(x => !x.IsInitialized))
+			{
+				monitoringDevice.Initialize();
+			}
+			//return;
 			while (true)
 			{
 				if (DoMonitoring)
@@ -64,27 +64,25 @@ namespace ServerFS2.Monitor
 					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.IsReadingNeeded))
 					{
 						var journalItems = monitoringDevice.GetNewItems();
-						DeviceStatesManager.UpdateDeviceState(journalItems);
 						DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
-						DeviceStatesManager.UpdatePanelState(monitoringDevice.Device);
+						DeviceStatesManager.UpdateDeviceState(journalItems);
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
 					}
-					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.StatesToReset.Count > 0))
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.StatesToReset != null && x.StatesToReset.Count > 0))
 					{
 						foreach (var state in monitoringDevice.StatesToReset)
 						{
 							DeviceStatesManager.ResetState(state, monitoringDevice);
 						}
-						DeviceStatesManager.UpdatePanelState(monitoringDevice.Device); 
 						monitoringDevice.StatesToReset = new List<DriverState>();
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
 					}
-					foreach (var monitoringDevice in MonitoringDevices)
-					{
-						if (monitoringDevice.CanLastIndexBeRequested())
+					MonitoringDevices.Where(x => x.IsStateRefreshNeeded).ToList().ForEach(x => 
 						{
-							monitoringDevice.RequestLastIndex();
-						}
-					}
-					
+							x.RefreshStates();
+						});
+					MonitoringDevices.ForEach(x => x.CheckForLostConnection());
+					MonitoringDevices.ForEach(x => x.RequestLastIndex());
 				}
 				
 			}
@@ -94,8 +92,9 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var monitoringDevice in MonitoringDevices)
 			{
-				if (monitoringDevice.Device == device)
+				if (monitoringDevice.Panel == device)
 					monitoringDevice.StatesToReset.Add(state);
+				break;
 			}
 		}
 
@@ -132,7 +131,8 @@ namespace ServerFS2.Monitor
 				//{
 				//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 				//}
-				monitoringDevice.Requests.RemoveAll(x => x != null && x.Id == request.Id);
+				lock(MonitoringDevice.Locker)
+					monitoringDevice.Requests.RemoveAll(x => x != null && x.Id == request.Id);
 			}
 		}
 
@@ -144,7 +144,7 @@ namespace ServerFS2.Monitor
 			Trace.WriteLine("testTime " + timeSpan);
 			foreach (var monitoringDevice in MonitoringDevices)
 			{
-				Trace.WriteLine(monitoringDevice.Device.PresentationAddress + " " + (monitoringDevice.AnsweredCount / timeSpan.TotalSeconds).ToString() + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
+				Trace.WriteLine(monitoringDevice.Panel.PresentationAddress + " " + (monitoringDevice.AnsweredCount / timeSpan.TotalSeconds).ToString() + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
 			}
 		}
 	}

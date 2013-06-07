@@ -113,7 +113,7 @@ namespace ServerFS2.Monitor
 			//if (panelDevice.IntAddress != 15)// && panelDevice.IntAddress != 16)
 			//    continue;
 
-			if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
+			if (!IsMonitoringable(panelDevice))
 				return;
 
 			Trace.WriteLine(panelDevice.PresentationAddressAndName);
@@ -125,8 +125,13 @@ namespace ServerFS2.Monitor
 					continue;
 
 				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+				
+				if (device == null)
+					continue;
+
 				device.Offset = remoteDevice.Offset;
 				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
+				
 			}
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
 			{
@@ -135,6 +140,14 @@ namespace ServerFS2.Monitor
 					ParceDeviceState(device, device.InnerDeviceParameters);
 				}
 			}
+		}
+
+		public static bool IsMonitoringable(Device device)
+		{
+			return device.Driver.IsPanel && 
+				!(device.Driver.DriverType == DriverType.IndicationBlock || 
+					device.Driver.DriverType == DriverType.PDU || 
+					device.Driver.DriverType == DriverType.PDU_PT);
 		}
 
 		static void ParceDeviceState(Device device, List<byte> stateBytes)
@@ -372,12 +385,13 @@ namespace ServerFS2.Monitor
 			var resetItems = new List<ResetItem>();
 			var resetItem = new ResetItem()
 			{
-				DeviceState = monitoringDevice.Device.DeviceState
+				DeviceState = monitoringDevice.Panel.DeviceState
 			};
-			var deviceDriverState = monitoringDevice.Device.DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState == state);
+			var deviceDriverState = monitoringDevice.Panel.DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState == state);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
 			ServerHelper.ResetStates(resetItems);
+			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(monitoringDevice.Panel, deviceDriverState.DriverState.Name));
 		}
 	}
 }

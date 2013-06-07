@@ -88,8 +88,8 @@ namespace ServerFS2
 
 		bool IsValidInput(List<byte> bytes)
 		{
-			return true;
-			return bytes.Count == 39 &&
+			return true; 
+			return //bytes.Count == 39 &&
 			bytes[6] == 0x41 &&
 			bytes[8] == 0xC4;
 		}
@@ -293,6 +293,24 @@ namespace ServerFS2
 				catch { }
 			}
 			return -1;
+		}
+
+		public static FS2JournalItem CustomJournalItem(Device panel, string description)
+		{
+			return new FS2JournalItem
+			{
+				Description = description,
+				PanelAddress = panel.IntAddress,
+				PanelDevice = panel,
+				PanelName = panel.Driver.Name,
+				PanelUID = panel.UID,
+				ShleifNo = panel.ShleifNo,
+				DeviceTime = DateTime.Now,
+				SystemTime = DateTime.Now,
+				SubsystemType = GetSubsystemType(panel),
+				//ZoneName = panel.Zone.Name,
+				//ZoneNo = panel.Zone.No
+			};
 		}
 	}
 }

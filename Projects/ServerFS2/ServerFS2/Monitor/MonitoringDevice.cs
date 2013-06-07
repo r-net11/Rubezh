@@ -7,12 +7,15 @@ using FS2Api;
 using ServerFS2;
 using ServerFS2.DataBase;
 using ServerFS2.Service;
+using FiresecAPI;
 
 
 namespace ServerFS2.Monitor
 {
 	public class MonitoringDevice
 	{
+
+		const int maxSequentUnAnswered = 1000;
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
 		public const int betweenDevicesSpan = 0;
@@ -26,6 +29,7 @@ namespace ServerFS2.Monitor
 		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
 			CallbackManager.Add(new FS2Callbac() { JournalRecords = new List<FS2JournalItem>() { fsJournalItem } });
+			DBJournalHelper.AddJournalItem(fsJournalItem);
 			if (NewJournalItem != null)
 				NewJournalItem(fsJournalItem);
 		}
@@ -36,20 +40,28 @@ namespace ServerFS2.Monitor
 
 		public MonitoringDevice(Device device)
 		{
-			Device = device;
+			Panel = device;
 			Requests = new List<Request>();
 			StatesToReset = new List<DriverState>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastSystemIndex = -1;
 			FirstSystemIndex = -1;
+			SequentUnAnswered = 0;
 			IsReadingNeeded = false;
+			LostConnectionState = new DeviceDriverState
+			{
+				DriverState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором"),
+				Time = DateTime.Now
+			};
+			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
 		}
 
 		public List<DriverState> StatesToReset { get; set; }
 		public int LastDeviceIndex { get; set; }
 		public bool IsReadingNeeded { get; set; }
 		public bool IsInitialized { get; private set; }
-		public Device Device { get; set; }
+		public bool IsStateRefreshNeeded { get; set; }
+		public Device Panel { get; set; }
 		public List<Request> Requests { get; set; }
 		public int FirstSystemIndex { get; set; }
 		public int AnsweredCount { get; set; }
@@ -60,30 +72,86 @@ namespace ServerFS2.Monitor
 			set
 			{
 				lastSystemIndex = value;
-				XmlJournalHelper.SetLastId(Device, value);
+				XmlJournalHelper.SetLastId(Panel, value);
 			}
 		}
 
-		public void CheckForExpired()
+		int SequentUnAnswered;
+		public void CheckForLostConnection()
 		{
-			foreach (var request in Requests)
-			{
-				if ((DateTime.Now - request.StartTime).TotalSeconds >= requestExpiredTime)
+			var requestsToDelete = new List<Request>();
+			lock(Locker)
+				foreach (var request in Requests)
 				{
-					Requests.Remove(request);
-					UnAnsweredCount++;
+					if (request !=null && (DateTime.Now - request.StartTime).TotalSeconds >= requestExpiredTime)
+					{
+						requestsToDelete.Add(request);
+						UnAnsweredCount++;
+						SequentUnAnswered++;
+					}
 				}
+			requestsToDelete.ForEach(x => Requests.Remove(x));
+			if (SequentUnAnswered > maxSequentUnAnswered && !Panel.DeviceState.States.Contains(LostConnectionState))
+			{
+				ToLostConnectionState();
 			}
+		}
+
+		public void RefreshStates()
+		{
+			DeviceStatesManager.UpdatePanelState(Panel);
+			DeviceStatesManager.UpdateAllDevicesOnPanelState(Panel);
+			IsStateRefreshNeeded = false;
+		}
+
+		void ToInitializingState()
+		{
+			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState{ DriverState = InitializingState, Time = DateTime.Now }};
+			Panel.GetRealChildren().ForEach(x =>
+			{
+				x.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState{ DriverState = InitializingState, Time = DateTime.Now }};
+				x.DeviceState.OnStateChanged();
+			});
+			Panel.DeviceState.OnStateChanged();
+			//MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.DriverState.Name));
+		}
+
+		void ToLostConnectionState()
+		{
+			Panel.DeviceState.States = new List<DeviceDriverState> { LostConnectionState };
+			Panel.GetRealChildren().ForEach(x =>
+			{
+				x.DeviceState.States = new List<DeviceDriverState> { LostConnectionState };
+				x.DeviceState.OnStateChanged();
+			});
+			Panel.DeviceState.OnStateChanged();
+			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.DriverState.Name));
+		}
+
+		void FromLostConnectionState()
+		{
+			Panel.DeviceState.States = new List<DeviceDriverState>();
+			Panel.GetRealChildren().ForEach(x =>
+				{
+					x.DeviceState.States = new List<DeviceDriverState>();
+					x.DeviceState.OnStateChanged();
+				});
+			Panel.DeviceState.OnStateChanged();
+			IsStateRefreshNeeded = true;
+			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
 		}
 
 		public void Initialize()
 		{
-			DeviceStatesManager.GetStates(Device);
-			DeviceStatesManager.UpdatePanelState(Device);
+			ToInitializingState();
+			DeviceStatesManager.GetStates(Panel);
+			DeviceStatesManager.UpdatePanelState(Panel);
 			IsInitialized = true;
 		}
 
 		int lastSystemIndex;
+		DeviceDriverState LostConnectionState;
+		DriverState InitializingState;
 		
 		public void SendRequest(Request request)
 		{
@@ -91,7 +159,7 @@ namespace ServerFS2.Monitor
 			{
 				Requests.Add(request);
 			}
-			JournalHelper.SendByteCommand(request.Bytes, Device, request.Id);
+			JournalHelper.SendByteCommand(request.Bytes, Panel, request.Id);
 			Thread.Sleep(betweenDevicesSpan);
 		}
 
@@ -120,11 +188,17 @@ namespace ServerFS2.Monitor
 
 		public void LastIndexReceived(Response response)
 		{
-			CanRequestLastIndex = true;
 			if (!IsLastIndexValid(response))
 			{
 				return;
 			}
+			SequentUnAnswered = 0;
+			if (Panel.DeviceState.States.Contains(LostConnectionState))
+			{
+				FromLostConnectionState();
+			}
+			CanRequestLastIndex = true;
+			
 			LastDeviceIndex = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
 			if (FirstSystemIndex == -1)
 				FirstSystemIndex = LastDeviceIndex;
@@ -144,12 +218,14 @@ namespace ServerFS2.Monitor
 			}
 		}
 
+		
+
 		bool IsLastIndexValid(Response response)
 		{
 			if (response.Data[6] == 192)
 				throw new Exception("Ошибка считывания индекса");
 			return (response.Data.Count() == 11 &&
-				response.Data[5] == Device.IntAddress &&
+				response.Data[5] == Panel.IntAddress &&
 				response.Data[6] == 65);
 		}
 
@@ -161,15 +237,10 @@ namespace ServerFS2.Monitor
 			var journalItems = new List<FS2JournalItem>();
 			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
 			{
-				var journalItem = JournalHelper.ReadItem(Device, i);
-				if (journalItem == null)
-				{
-					//Trace.WriteLine("Запись не считана");
-				}
-				else
+				var journalItem = JournalHelper.ReadItem(Panel, i);
+				if (journalItem != null)
 				{
 					MonitoringDevice.OnNewJournalItem(journalItem);
-					DBJournalHelper.AddJournalItem(journalItem);
 				}
 				journalItems.Add(journalItem);				
 			}
@@ -184,7 +255,7 @@ namespace ServerFS2.Monitor
 	{
 		public SecMonitoringDevice(Device device)
 		{
-			Device = device;
+			Panel = device;
 			Requests = new List<Request>();
 			LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
@@ -198,7 +269,7 @@ namespace ServerFS2.Monitor
 			set
 			{
 				lastDisplayedSecRecord = value;
-				XmlJournalHelper.SetLastId(Device, value);
+				XmlJournalHelper.SetLastId(Panel, value);
 			}
 		}
 	}
