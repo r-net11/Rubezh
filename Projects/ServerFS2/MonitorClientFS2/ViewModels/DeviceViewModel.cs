@@ -9,6 +9,8 @@ using ServerFS2.Processor;
 using Infrastructure.Common.Windows;
 using System.Collections;
 using ServerFS2.ConfigurationWriter;
+using ServerFS2;
+using FS2Api;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -30,7 +32,6 @@ namespace MonitorClientFS2.ViewModels
 
 		void DeviceState_StateChanged()
 		{
-			Trace.WriteLine("DeviceState_StateChanged");
 			OnPropertyChanged("Device");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("States");
@@ -44,42 +45,6 @@ namespace MonitorClientFS2.ViewModels
 		public List<DeviceDriverState> States
 		{
 			get { return Device.DeviceState.States; }
-		}
-
-		public string UsbChannel
-		{
-			get
-			{
-				var property = Device.Properties.FirstOrDefault(x => x.Name == "UsbChannel");
-				if (property != null)
-					return property.Value;
-				else
-					return null;
-			}
-		}
-
-		public string SerialNo
-		{
-			get
-			{
-				var property = Device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-				if (property != null)
-					return property.Value;
-				else
-					return null;
-			}
-		}
-
-		public string Version
-		{
-			get
-			{
-				var property = Device.Properties.FirstOrDefault(x => x.Name == "Version");
-				if (property != null)
-					return property.Value;
-				else
-					return null;
-			}
 		}
 
 		public string Address
@@ -143,22 +108,20 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			MainManager.ResetFire(Device);
+			ServerHelper.ResetFire(Device);
 		}
 
 		public RelayCommand<DriverState> ResetCommand { get; private set; }
-		void OnReset(DriverState state)
+		void OnReset(DriverState driverState)
 		{
-			//var resetItems = new List<ResetItem>();
-			//var resetItem = new ResetItem()
-			//{
-			//    DeviceState = DeviceState
-			//};
-			//var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState == state);
-			//resetItem.States.Add(deviceDriverState);
-			//resetItems.Add(resetItem);
-			//MainManager.ResetStates(resetItems);
-			MainManager.AddStateToReset(Device, state);
+			var panelResetItems = new List<PaneleResetItem>();
+			var paneleResetItem = new PaneleResetItem()
+			{
+				PanelUID = DeviceState.Device.UID
+			};
+			paneleResetItem.Ids.Add(driverState.Code);
+			panelResetItems.Add(paneleResetItem);
+			MainManager.ResetStates(panelResetItems);
 		}
 		bool CanReset(DriverState state)
 		{
@@ -168,7 +131,7 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand ResetTestCommand { get; private set; }
 		void OnResetTest()
 		{
-			var statusBytes = MainManager.GetDeviceStatus(Device);
+			var statusBytes = ServerHelper.GetDeviceStatus(Device);
 			if (statusBytes == null)
 				return;
 
@@ -184,19 +147,19 @@ namespace MonitorClientFS2.ViewModels
 				Trace.WriteLine("bitArray[] " + i + "\t" + hasBit);
 			}
 
-			MainManager.ResetPanelBit(Device, statusBytes, 17);
+			ServerHelper.ResetPanelBit(Device, statusBytes, 17);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			MainManager.AddDeviceToCheckList(Device);
+			MainManager.AddToIgnoreList(new List<Device>() { Device });
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			MainManager.RemoveDeviceFromCheckList(Device);
+			MainManager.RemoveFromIgnoreList(new List<Device>() { Device });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

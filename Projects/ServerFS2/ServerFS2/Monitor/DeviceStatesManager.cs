@@ -10,6 +10,7 @@ using ServerFS2.ConfigurationWriter;
 using System.Collections;
 using Infrastructure.Common.Windows;
 using ServerFS2.Service;
+using ServerFS2.Processor;
 
 namespace ServerFS2.Monitor
 {
@@ -35,11 +36,11 @@ namespace ServerFS2.Monitor
 			var bitArray = new BitArray(statusBytesArray);
 			for (int i = 0; i < bitArray.Count; i++)
 			{
-				if(bitArray[i])
+				if (bitArray[i])
 				{
 					var metadataDeviceState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.no == i.ToString());
 					var state = panel.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-					states.Add(new DeviceDriverState{ DriverState = state, Time = DateTime.Now });
+					states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
 				}
 			}
 			StatesHelper.ChangeDeviceStates(panel, states);
@@ -96,7 +97,7 @@ namespace ServerFS2.Monitor
 					{
 						ParceDeviceState(device, device.InnerDeviceParameters);
 
-						
+
 						//foreach (var deviceDriverState in device.DeviceState.States)
 						//{
 						//    Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name + " " + device.PresentationAddressAndName);
@@ -141,9 +142,9 @@ namespace ServerFS2.Monitor
 
 		public static bool IsMonitoringable(Device device)
 		{
-			return device.Driver.IsPanel && 
-				!(device.Driver.DriverType == DriverType.IndicationBlock || 
-					device.Driver.DriverType == DriverType.PDU || 
+			return device.Driver.IsPanel &&
+				!(device.Driver.DriverType == DriverType.IndicationBlock ||
+					device.Driver.DriverType == DriverType.PDU ||
 					device.Driver.DriverType == DriverType.PDU_PT);
 		}
 
@@ -182,7 +183,7 @@ namespace ServerFS2.Monitor
 					catch { }
 
 					string bitNoString = null;
-					if(metadataDeviceState.bitno != null)
+					if (metadataDeviceState.bitno != null)
 						bitNoString = metadataDeviceState.bitno;
 					if (metadataDeviceState.bitNo != null)
 						bitNoString = metadataDeviceState.bitNo;
@@ -267,7 +268,7 @@ namespace ServerFS2.Monitor
 		public static void UpdateAllDevicesOnPanelState(Device panel)
 		{
 			Trace.WriteLine("#################################################################################################################");
-			foreach(var device in panel.Children)
+			foreach (var device in panel.Children)
 			{
 				try
 				{
@@ -278,7 +279,7 @@ namespace ServerFS2.Monitor
 				{
 					Trace.WriteLine("UpdateDeviceState failed" + device.PresentationAddressAndName);
 				}
-				
+
 			}
 		}
 
@@ -374,18 +375,17 @@ namespace ServerFS2.Monitor
 			// read device 80 byte
 		}
 
-		public static void ResetState(DriverState state, MonitoringDevice monitoringDevice)
+		public static void ResetState(DriverState driverState, MonitoringDevice monitoringDevice)
 		{
-			var resetItems = new List<ResetItem>();
-			var resetItem = new ResetItem()
+			var paneleResetItems = new List<PaneleResetItem>();
+			var paneleResetItem = new PaneleResetItem()
 			{
-				DeviceState = monitoringDevice.Panel.DeviceState
+				PanelUID = monitoringDevice.Panel.UID
 			};
-			var deviceDriverState = monitoringDevice.Panel.DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState == state);
-			resetItem.States.Add(deviceDriverState);
-			resetItems.Add(resetItem);
-			ServerHelper.ResetStates(resetItems);
-			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(monitoringDevice.Panel, deviceDriverState.DriverState.Name));
+			paneleResetItem.Ids.Add(driverState.Code);
+			paneleResetItems.Add(paneleResetItem);
+			MainManager.ResetStates(paneleResetItems);
+			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(monitoringDevice.Panel, driverState.Name));
 		}
 	}
 }

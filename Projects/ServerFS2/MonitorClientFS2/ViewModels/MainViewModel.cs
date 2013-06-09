@@ -11,6 +11,8 @@ using System.Collections;
 using System.Diagnostics;
 using ServerFS2;
 using System.Linq;
+using ServerFS2.Monitor;
+using ServerFS2.Journal;
 
 namespace MonitorClientFS2
 {
@@ -21,6 +23,7 @@ namespace MonitorClientFS2
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
 			TestCommand = new RelayCommand(OnTest);
+			JournalTestCommand = new RelayCommand(OnJournalTest);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
 
 			DevicesViewModel = new DevicesViewModel();
@@ -93,8 +96,18 @@ namespace MonitorClientFS2
 			//}
 			//MonitoringProcessor.WriteStats();
 			//MainManager.StopMonitoring();
-			MainManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
+			DeviceStatesManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
 			//MainManager.StartMonitoring();
+		}
+
+		public RelayCommand JournalTestCommand { get; private set; }
+		void OnJournalTest()
+		{
+			var journalItem = new FS2JournalItem()
+			{
+
+			};
+			DatabaseHelper.AddJournalItem(journalItem);
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }

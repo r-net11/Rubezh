@@ -34,13 +34,28 @@ namespace JournalModule.ViewModels
 		void Initialize()
 		{
 			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-			var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
-			if (operationResult.Result != null)
+			if (FiresecManager.IsFS2Enabled)
 			{
-				foreach (var journalRecord in operationResult.Result)
+				var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
+				if (operationResult.Result != null)
 				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					JournalRecords.Add(journalRecordViewModel);
+					foreach (var journalRecord in operationResult.Result)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						JournalRecords.Add(journalRecordViewModel);
+					}
+				}
+			}
+			else
+			{
+				var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
+				if (operationResult.Result != null)
+				{
+					foreach (var journalRecord in operationResult.Result)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						JournalRecords.Add(journalRecordViewModel);
+					}
 				}
 			}
 			SelectedRecord = JournalRecords.FirstOrDefault();

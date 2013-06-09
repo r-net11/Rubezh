@@ -10,6 +10,7 @@ using FS2Api;
 using ServerFS2.Processor;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using ServerFS2.Journal;
 
 namespace ServerFS2.Service
 {
@@ -17,6 +18,7 @@ namespace ServerFS2.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class FS2Contract : IFS2Contract
 	{
+		#region Cancelisation
 		bool IsFirstCall = true;
 		public static List<CancellationTokenSource> CancellationTokenSources { get; private set; }
 
@@ -45,6 +47,7 @@ namespace ServerFS2.Service
 		{
 			CancellationTokenSources = new List<CancellationTokenSource>();
 		}
+		#endregion
 
 		#region Main
 		public List<FS2Callbac> Poll(Guid clientUID)
@@ -62,8 +65,8 @@ namespace ServerFS2.Service
 					{
 						if (IsFirstCall)
 							clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromSeconds(1));
-						else
-							clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
+						//else
+						//    clientInfo.PollWaitEvent.WaitOne(TimeSpan.FromMinutes(1));
 						result = CallbackManager.Get(clientInfo);
 					}
 					return result;
@@ -139,44 +142,78 @@ namespace ServerFS2.Service
 			}, "GetDeviceParameters");
 		}
 
-		public void AddToIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				var devices = new List<Device>();
+				foreach(var deviceUID in deviceUIDs)
+				{
+					devices.Add(FindDevice(deviceUID));
+				}
+				MainManager.AddToIgnoreList(devices);
+			}, "AddToIgnoreList");
 		}
 
-		public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				var devices = new List<Device>();
+				foreach (var deviceUID in deviceUIDs)
+				{
+					devices.Add(FindDevice(deviceUID));
+				}
+				MainManager.RemoveFromIgnoreList(devices);
+			}, "RemoveFromIgnoreList");
 		}
 
-		public void ResetStates(string states)
+		public OperationResult SetZoneGuard(Guid zoneUID)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				MainManager.SetZoneGuard(zoneUID);
+			}, "SetZoneGuard");
 		}
 
-		public void SetZoneGuard(Guid deviceUID, string localZoneNo)
+		public OperationResult UnSetZoneGuard(Guid zoneUID)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				MainManager.UnSetZoneGuard(zoneUID);
+			}, "UnSetZoneGuard");
 		}
 
-		public void UnSetZoneGuard(Guid deviceUID, string localZoneNo)
+		public OperationResult SetDeviceGuard(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				MainManager.SetDeviceGuard(deviceUID);
+			}, "SetDeviceGuard");
 		}
 
-		public void AddUserMessage(string message)
+		public OperationResult UnSetDeviceGuard(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				MainManager.UnSetDeviceGuard(deviceUID);
+			}, "UnSetDeviceGuard");
 		}
 
-		public OperationResult<string> ExecuteRuntimeDeviceMethod(Guid deviceUID, string methodName, string parameters)
+		public OperationResult ResetStates(List<PaneleResetItem> paneleResetItems)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				MainManager.ResetStates(paneleResetItems);
+			}, "ResetStates");
 		}
 
-		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
+		public OperationResult ExecuteCommand(Guid deviceUID, string methodName)
 		{
-			throw new NotImplementedException();
+			return SafeCall(() =>
+			{
+				MainManager.ExecuteCommand(deviceUID, methodName);
+			}, "ExecuteCommand");
 		}
 
 		public OperationResult<bool> CheckHaspPresence()
@@ -186,36 +223,35 @@ namespace ServerFS2.Service
 		#endregion
 
 		#region Administrator
-		public OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration)
+		public OperationResult SetNewConfig(DeviceConfiguration deviceConfiguration)
 		{
-			return SafeCall<bool>(() =>
+			return SafeCall(() =>
 			{
-				return MainManager.SetNewConfig(deviceConfiguration);
+				MainManager.SetNewConfig(deviceConfiguration);
 			}, "SetNewConfig");
 		}
 
-		public OperationResult<bool> DeviceWriteConfig(Guid deviceUID, bool isUSB)
+		public OperationResult DeviceWriteConfig(Guid deviceUID, bool isUSB)
 		{
-			return SafeCallWithMonitoringSuspending<bool>(() =>
+			return SafeCallWithMonitoringSuspending(() =>
 			{
-				return MainManager.DeviceWriteConfig(FindDevice(deviceUID), isUSB);
+				MainManager.DeviceWriteConfig(FindDevice(deviceUID), isUSB);
 			}, "DeviceWriteConfig");
 		}
 
-		public OperationResult<bool> DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
+		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
-			return SafeCallWithMonitoringSuspending<bool>(() =>
+			return SafeCallWithMonitoringSuspending(() =>
 			{
-				return MainManager.DeviceSetPassword(FindDevice(deviceUID), isUSB, devicePasswordType, password);
+				MainManager.DeviceSetPassword(FindDevice(deviceUID), isUSB, devicePasswordType, password);
 			}, "DeviceSetPassword");
 		}
 
-		public OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
+		public OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
-			return TaskSafeCallWithMonitoringSuspending<bool>(() =>
+			return TaskSafeCallWithMonitoringSuspending(() =>
 			{
 				MainManager.DeviceDatetimeSync(FindDevice(deviceUID), isUSB);
-				return true;
 			}, "DeviceDatetimeSync");
 		}
 
@@ -283,11 +319,11 @@ namespace ServerFS2.Service
 			}, "DeviceCustomFunctionList");
 		}
 
-		public OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName)
+		public OperationResult DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName)
 		{
-			return SafeCallWithMonitoringSuspending<string>(() =>
+			return SafeCallWithMonitoringSuspending(() =>
 			{
-				return MainManager.DeviceCustomFunctionExecute(FindDevice(deviceUID), isUSB, functionName);
+				MainManager.DeviceCustomFunctionExecute(FindDevice(deviceUID), isUSB, functionName);
 			}, "DeviceCustomFunctionExecute");
 		}
 
@@ -299,11 +335,11 @@ namespace ServerFS2.Service
 			}, "DeviceGetGuardUsersList");
 		}
 
-		public OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users)
+		public OperationResult DeviceSetGuardUsersList(Guid deviceUID, string users)
 		{
-			return SafeCallWithMonitoringSuspending<bool>(() =>
+			return SafeCallWithMonitoringSuspending(() =>
 			{
-				return MainManager.DeviceSetGuardUsersList(FindDevice(deviceUID), users);
+				MainManager.DeviceSetGuardUsersList(FindDevice(deviceUID), users);
 			}, "DeviceSetGuardUsersList");
 		}
 
@@ -315,11 +351,11 @@ namespace ServerFS2.Service
 			}, "DeviceGetMDS5Data");
 		}
 
-		public OperationResult<bool> SetConfigurationParameters(Guid deviceUID, List<Property> properties)
+		public OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties)
 		{
-			return SafeCall<bool>(() =>
+			return SafeCall(() =>
 			{
-				return MainManager.SetConfigurationParameters(FindDevice(deviceUID), properties);
+				MainManager.SetConfigurationParameters(FindDevice(deviceUID), properties);
 			}, "SetConfigurationParameters");
 		}
 
@@ -329,6 +365,56 @@ namespace ServerFS2.Service
 			{
 				return MainManager.GetConfigurationParameters(FindDevice(deviceUID));
 			}, "GetConfigurationParameters");
+		}
+		#endregion
+
+		#region Journal
+		public OperationResult<List<FS2JournalItem>> GetFilteredJournal(JournalFilter journalFilter)
+		{
+			return SafeCall<List<FS2JournalItem>>(() =>
+			{
+				return ServerJournalHelper.GetFilteredJournal(journalFilter);
+			}, "GetFilteredJournal");
+		}
+
+		public OperationResult<List<FS2JournalItem>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			return SafeCall<List<FS2JournalItem>>(() =>
+			{
+				return ServerJournalHelper.GetFilteredArchive(archiveFilter);
+			}, "GetFilteredArchive");
+		}
+
+		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			return SafeCall(() =>
+			{
+				ServerJournalHelper.BeginGetFilteredArchive(archiveFilter);
+			}, "BeginGetFilteredArchive");
+		}
+
+		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
+		{
+			return SafeCall<List<JournalDescriptionItem>>(() =>
+			{
+				return ServerJournalHelper.GetDistinctDescriptions();
+			}, "GetDistinctDescriptions");
+		}
+
+		public OperationResult<DateTime> GetArchiveStartDate()
+		{
+			return SafeCall<DateTime>(() =>
+			{
+				return ServerJournalHelper.GetArchiveStartDate();
+			}, "GetArchiveStartDate");
+		}
+
+		public OperationResult AddJournalRecords(List<FS2JournalItem> journalItems)
+		{
+			return SafeCall(() =>
+			{
+				//return ServerJournalHelper.AddJournalRecords(journalItems);
+			}, "AddJournalRecords");
 		}
 		#endregion
 
@@ -379,6 +465,44 @@ namespace ServerFS2.Service
 			}
 		}
 
+		OperationResult TaskSafeCallWithMonitoringSuspending(Action action, string methodName)
+		{
+			try
+			{
+				Trace.WriteLine("TaskSafeCallWithMonitoringSuspending");
+				var cancellationTokenSource = new CancellationTokenSource();
+				CancellationTokenSources.Add(cancellationTokenSource);
+				var cancellationToken = cancellationTokenSource.Token;
+				var task = Task.Factory.StartNew(
+					() =>
+					{
+						return SafeCallWithMonitoringSuspending(action, methodName);
+					},
+					cancellationToken);
+				try
+				{
+					task.Wait();
+				}
+				catch (AggregateException ae)
+				{
+					return new OperationResult("Операция отменена");
+				}
+				catch (Exception ex)
+				{
+					return new OperationResult(ex.Message);
+				}
+				var result = task.Result;
+				CancellationTokenSources.Remove(cancellationTokenSource);
+				task.Dispose();
+				cancellationTokenSource.Dispose();
+				return result;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		OperationResult<T> SafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName)
 		{
 			try
@@ -389,6 +513,23 @@ namespace ServerFS2.Service
 			catch(Exception e)
 			{
 				return new OperationResult<T>(e.Message);
+			}
+			finally
+			{
+				MainManager.ResumeMonitoring();
+			}
+		}
+
+		OperationResult SafeCallWithMonitoringSuspending(Action action, string methodName)
+		{
+			try
+			{
+				MainManager.SuspendMonitoring();
+				return SafeCall(action, methodName);
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
 			}
 			finally
 			{
@@ -413,6 +554,26 @@ namespace ServerFS2.Service
 				string exceptionText = "Exception " + e.Message + " при вызове " + methodName;
 				Logger.Error(e, exceptionText);
 				resultData.Result = default(T);
+				resultData.HasError = true;
+				resultData.Error = e.Message;
+			}
+			return resultData;
+		}
+
+		OperationResult SafeCall(Action action, string methodName)
+		{
+			IsFirstCall = false;
+			var resultData = new OperationResult();
+			try
+			{
+				action();
+				resultData.HasError = false;
+				resultData.Error = null;
+			}
+			catch (Exception e)
+			{
+				string exceptionText = "Exception " + e.Message + " при вызове " + methodName;
+				Logger.Error(e, exceptionText);
 				resultData.HasError = true;
 				resultData.Error = e.Message;
 			}

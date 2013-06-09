@@ -110,7 +110,7 @@ namespace AlarmModule.ViewModels
 				}
 			}
 
-			FiresecManager.FiresecDriver.ResetStates(resetItems);
+			FiresecManager.ResetStates(resetItems);
 			AllAlarmsResetingTimer = new DispatcherTimer();
 			AllAlarmsResetingTimer.Interval = TimeSpan.FromSeconds(2);
 			AllAlarmsResetingTimer.Tick += new EventHandler(AllAlarmsResetingTimer_Tick);
@@ -147,7 +147,7 @@ namespace AlarmModule.ViewModels
 
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+				FiresecManager.RemoveFromIgnoreList(devices);
             }
         }
 		public bool CanRemoveAllFromIgnoreList()

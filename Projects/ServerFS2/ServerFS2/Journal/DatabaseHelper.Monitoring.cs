@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Data.SqlServerCe;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -7,13 +9,13 @@ using FS2Api;
 using Infrastructure.Common;
 using Common;
 
-namespace ServerFS2.DataBase
+namespace ServerFS2.Journal
 {
-	public static class DBJournalHelper
+	public static partial class DatabaseHelper
 	{
 		public static string ConnectionString { get; set; }
 
-		static DBJournalHelper()
+		static DatabaseHelper()
 		{
 			ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("FSDB.sdf") + ";Password=adm;Max Database Size=4000";
 		}
@@ -23,16 +25,16 @@ namespace ServerFS2.DataBase
 			var lastIndex = 0;
 			try
 			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
+				using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
+					sqlCeConnection.ConnectionString = ConnectionString;
+					sqlCeConnection.Open();
 					var sqlCeCommand = new SqlCeCommand();
-					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.Connection = sqlCeConnection;
 					sqlCeCommand.CommandText = @"SELECT LastID FROM LastIndexes WHERE DeviceUID = @p1";
 					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
 					lastIndex = (int)sqlCeCommand.ExecuteScalar();
-					dataContext.Close();
+					sqlCeConnection.Close();
 				}
 			}
 			catch { }
@@ -44,16 +46,16 @@ namespace ServerFS2.DataBase
 			var lastIndex = 0;
 			try
 			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
+				using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
+					sqlCeConnection.ConnectionString = ConnectionString;
+					sqlCeConnection.Open();
 					var sqlCeCommand = new SqlCeCommand();
-					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.Connection = sqlCeConnection;
 					sqlCeCommand.CommandText = @"SELECT LastSecID FROM LastSecIndexes WHERE DeviceUID = @p1";
 					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
 					lastIndex = (int)sqlCeCommand.ExecuteScalar();
-					dataContext.Close();
+					sqlCeConnection.Close();
 				}
 			}
 			catch { }
@@ -64,19 +66,19 @@ namespace ServerFS2.DataBase
 		{
 			try
 			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
+				using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
+					sqlCeConnection.ConnectionString = ConnectionString;
+					sqlCeConnection.Open();
 					var sqlCeCommand = new SqlCeCommand();
-					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.Connection = sqlCeConnection;
 					sqlCeCommand.CommandText = @"Update LastIndexes " +
 						"set LastID = @p2 " +
 						"where DeviceUID = @p1";
 					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
 					sqlCeCommand.Parameters.AddWithValue("@p2", lastIndex);
 					sqlCeCommand.ExecuteNonQuery();
-					dataContext.Close();
+					sqlCeConnection.Close();
 				}
 			}
 			catch { }
@@ -86,19 +88,19 @@ namespace ServerFS2.DataBase
 		{
 			try
 			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
+				using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
+					sqlCeConnection.ConnectionString = ConnectionString;
+					sqlCeConnection.Open();
 					var sqlCeCommand = new SqlCeCommand();
-					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.Connection = sqlCeConnection;
 					sqlCeCommand.CommandText = @"Update LastSecIndexes " +
 						"set LastSecID = @p2 " +
 						"where DeviceUID = @p1";
 					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
 					sqlCeCommand.Parameters.AddWithValue("@p2", lastIndex);
 					sqlCeCommand.ExecuteNonQuery();
-					dataContext.Close();
+					sqlCeConnection.Close();
 				}
 			}
 			catch { }
@@ -108,77 +110,77 @@ namespace ServerFS2.DataBase
 		{
 			try
 			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
+				using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
+					sqlCeConnection.ConnectionString = ConnectionString;
+					sqlCeConnection.Open();
 					var sqlCeCommand = new SqlCeCommand();
-					sqlCeCommand.Connection = dataContext;
+					sqlCeCommand.Connection = sqlCeConnection;
 					sqlCeCommand.CommandText = @"Insert Into LastIndexes" +
 						"(DeviceUID,LastID) Values" +
 						"(@p1,@p2)";
 					sqlCeCommand.Parameters.AddWithValue("@p1", deviceUID);
 					sqlCeCommand.Parameters.AddWithValue("@p2", lastIndex);
 					sqlCeCommand.ExecuteNonQuery();
-					dataContext.Close();
+					sqlCeConnection.Close();
 				}
 			}
 			catch { }
 		}
 
-		public static void AddJournalItems(List<FS2JournalItem> fsJournalItems)
+		public static void AddJournalItems(List<FS2JournalItem> journalItems)
 		{
 			using (var dataContext = new SqlCeConnection(ConnectionString))
 			{
 				dataContext.ConnectionString = ConnectionString;
 				dataContext.Open();
-				foreach (var fsJournalItem in fsJournalItems)
+				foreach (var journalItem in journalItems)
 				{
-					AddItemSqlCommand(dataContext, fsJournalItem);
+					AddItemSqlCommand(dataContext, journalItem);
 				}
 				dataContext.Close();
 			}
 		}
 
-		private static void AddItemSqlCommand(SqlCeConnection dataContext, FS2JournalItem fsJournalItem)
+		private static void AddItemSqlCommand(SqlCeConnection sqlCeConnection, FS2JournalItem journalItem)
 		{
 			try
 			{
 				var sqlCeCommand = new SqlCeCommand();
-				sqlCeCommand.Connection = dataContext;
+				sqlCeCommand.Connection = sqlCeConnection;
 				sqlCeCommand.CommandText = @"Insert Into Journal" +
 					"(Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName, DeviceAddress, PanelAddress) Values" +
 					"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)";
-				sqlCeCommand.Parameters.AddWithValue("@p1", (object)fsJournalItem.Description ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p2", (object)fsJournalItem.Detalization ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p3", (object)fsJournalItem.DeviceCategory ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p4", (object)fsJournalItem.DeviceUID ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p5", (object)fsJournalItem.DeviceName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p6", (object)fsJournalItem.DeviceTime ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p7", (object)fsJournalItem.PanelUID ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p8", (object)fsJournalItem.PanelName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p9", (object)fsJournalItem.StateType ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p10", (object)fsJournalItem.SubsystemType ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p11", (object)fsJournalItem.SystemTime ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p12", (object)fsJournalItem.UserName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p13", (object)fsJournalItem.ZoneName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p14", (object)fsJournalItem.DeviceAddress ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p15", (object)fsJournalItem.PanelAddress ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.Description ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.Detalization ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.DeviceCategory ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.DeviceUID ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.DeviceName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.DeviceTime ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.PanelUID ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.PanelName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.StateType ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.SubsystemType ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.SystemTime ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.ZoneName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.DeviceAddress ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.PanelAddress ?? DBNull.Value);
 				sqlCeCommand.ExecuteNonQuery();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "DBJournalHelper.AddItemSqlCommand");
+				Logger.Error(e, "DatabaseHelper.AddItemSqlCommand");
 			}
 		}
 
-		public static void AddJournalItem(FS2JournalItem fsJournalItem)
+		public static void AddJournalItem(FS2JournalItem journalItem)
 		{
 			using (var dataContext = new SqlCeConnection(ConnectionString))
 			{
 				dataContext.ConnectionString = ConnectionString;
 				dataContext.Open();
-				AddItemSqlCommand(dataContext, fsJournalItem);
+				AddItemSqlCommand(dataContext, journalItem);
 				dataContext.Close();
 			}
 		}
@@ -187,13 +189,12 @@ namespace ServerFS2.DataBase
 		{
 			var result = new List<FS2JournalItem>();
 
-			using (var dataContext = new SqlCeConnection(ConnectionString))
+			using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 			{
-				dataContext.ConnectionString = ConnectionString;
-				dataContext.Open();
+				sqlCeConnection.ConnectionString = ConnectionString;
+				sqlCeConnection.Open();
 				var sqlCeCommand = new SqlCeCommand();
-				sqlCeCommand.Connection = dataContext;
-				//sqlCeCommand.CommandText = @"SELECT Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName FROM Journal ";
+				sqlCeCommand.Connection = sqlCeConnection;
 				sqlCeCommand.CommandText = @"SELECT Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName FROM Journal";
 				var reader = sqlCeCommand.ExecuteReader();
 				while (reader.Read())
@@ -219,12 +220,12 @@ namespace ServerFS2.DataBase
 					}
 					catch { ;}
 				}
-				dataContext.Close();
+				sqlCeConnection.Close();
 			}
 			return result;
 		}
 
-		private static string TryGetNullableString(SqlCeDataReader reader, int index)
+		static string TryGetNullableString(SqlCeDataReader reader, int index)
 		{
 			if (!reader.IsDBNull(index))
 				return reader.GetString(index);

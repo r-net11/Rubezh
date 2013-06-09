@@ -27,4 +27,26 @@ namespace FiresecAPI
 		[DataMember]
 		public string Error { get; set; }
 	}
+
+	[DataContract]
+	[Serializable]
+	public class OperationResult
+	{
+		public OperationResult()
+		{
+			HasError = false;
+		}
+
+		public OperationResult(string error)
+		{
+			HasError = true;
+			Error = error;
+		}
+
+		[DataMember]
+		public bool HasError { get; set; }
+
+		[DataMember]
+		public string Error { get; set; }
+	}
 }

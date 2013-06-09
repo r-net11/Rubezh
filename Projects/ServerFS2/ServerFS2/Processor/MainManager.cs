@@ -13,8 +13,9 @@ namespace ServerFS2.Processor
 {
 	public static class MainManager
 	{
+		#region Common
 		public static event Action<FS2JournalItem> NewJournalItem;
-		
+
 		public static void StartMonitoring()
 		{
 			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
@@ -31,7 +32,7 @@ namespace ServerFS2.Processor
 		{
 			MonitoringProcessor.StopMonitoring();
 		}
-		
+
 		public static void SuspendMonitoring()
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Приостановка мониторинга") });
@@ -41,15 +42,86 @@ namespace ServerFS2.Processor
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
 		}
+		#endregion
 
-		public static bool SetNewConfig(DeviceConfiguration deviceConfiguration)
+		#region Monitoring
+		public static List<DeviceState> GetDeviceStates()
+		{
+			var deviceStates = new List<DeviceState>();
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
+				deviceStates.Add(device.DeviceState);
+			}
+			return deviceStates;
+		}
+
+		public static List<DeviceState> GetDeviceParameters()
+		{
+			var deviceStates = new List<DeviceState>();
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
+				deviceStates.Add(device.DeviceState);
+			}
+			return deviceStates;
+		}
+
+		public static void AddToIgnoreList(List<Device> devices)
+		{
+			foreach (var device in devices)
+			{
+				ServerHelper.AddToIgnoreList(device);
+			}
+		}
+
+		public static void RemoveFromIgnoreList(List<Device> devices)
+		{
+			foreach (var device in devices)
+			{
+				ServerHelper.RemoveFromIgnoreList(device);
+			}
+		}
+
+		public static void SetZoneGuard(Guid zoneUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void UnSetZoneGuard(Guid zoneUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void SetDeviceGuard(Guid deviceUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void UnSetDeviceGuard(Guid deviceUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void ResetStates(List<PaneleResetItem> paneleResetItems)
+		{
+			ServerHelper.ResetStates(paneleResetItems);
+		}
+
+		public static void ExecuteCommand(Guid deviceUID, string methodName)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+		#endregion
+
+		#region Administrator
+		public static void SetNewConfig(DeviceConfiguration deviceConfiguration)
 		{
 			ConfigurationManager.DeviceConfiguration = deviceConfiguration;
 			ConfigurationManager.Update();
-			return true;
 		}
 
-		public static bool DeviceWriteConfig(Device device, bool isUSB)
+		public static void DeviceWriteConfig(Device device, bool isUSB)
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
 			var systemDatabaseCreator = new SystemDatabaseCreator();
@@ -64,11 +136,9 @@ namespace ServerFS2.Processor
 			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
 			ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
-
-			return true;
 		}
 
-		public static bool DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
+		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -120,7 +190,7 @@ namespace ServerFS2.Processor
 
 		public static List<DeviceCustomFunction> DeviceCustomFunctionList(DriverType driverType)
 		{
-			switch(driverType)
+			switch (driverType)
 			{
 				case DriverType.Rubezh_2AM:
 					return new List<DeviceCustomFunction>()
@@ -143,7 +213,7 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static string DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)
+		public static void DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -153,7 +223,7 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static bool DeviceSetGuardUsersList(Device device, string users)
+		public static void DeviceSetGuardUsersList(Device device, string users)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -163,7 +233,7 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static bool SetConfigurationParameters(Device device, List<Property> properties)
+		public static void SetConfigurationParameters(Device device, List<Property> properties)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -172,72 +242,6 @@ namespace ServerFS2.Processor
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
-
-        public static void ResetFire(Device device)
-        {
-            ServerHelper.ResetFire(device);
-        }
-
-        public static void ResetTest(Device device, List<byte> status)
-        {
-            ServerHelper.ResetTest(device, status);
-        }
-
-		public static void AddStateToReset(Device device, DriverState state)
-		{
-			MonitoringProcessor.AddStateToReset(device, state);
-		}
-
-		public static void ResetStates(List<ResetItem> resetItems)
-		{
-			ServerHelper.ResetStates(resetItems);
-		}
-
-		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
-		{
-			ServerHelper.ResetPanelBit(device, statusBytes, bitNo);
-		}
-
-        public static void AddDeviceToCheckList(Device device)
-        {
-            ServerHelper.AddDeviceToCheckList(device);
-        }
-
-        public static void RemoveDeviceFromCheckList(Device device)
-        {
-            ServerHelper.RemoveDeviceFromCheckList(device);
-        }
-
-        public static List<byte> GetDeviceStatus(Device device)
-        {
-            return ServerHelper.GetDeviceStatus(device);
-        }
-
-		public static void UpdatePanelState(Device device)
-		{
-			DeviceStatesManager.UpdatePanelState(device);
-		}
-
-		public static List<DeviceState> GetDeviceStates()
-		{
-			var deviceStates = new List<DeviceState>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				device.DeviceState.SerializableStates = device.DeviceState.States;
-				deviceStates.Add(device.DeviceState);
-			}
-			return deviceStates;
-		}
-
-		public static List<DeviceState> GetDeviceParameters()
-		{
-			var deviceStates = new List<DeviceState>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			{
-				device.DeviceState.SerializableStates = device.DeviceState.States;
-				deviceStates.Add(device.DeviceState);
-			}
-			return deviceStates;
-		}
+		#endregion
 	}
 }
