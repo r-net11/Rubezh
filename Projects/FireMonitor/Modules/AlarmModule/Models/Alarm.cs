@@ -39,7 +39,7 @@ namespace AlarmModule
 			if (Device != null)
 			{
 				if (FiresecManager.CanDisable(Device.DeviceState) && Device.DeviceState.IsDisabled)
-					FiresecManager.FiresecDriver.RemoveFromIgnoreList(new List<Device>() { Device.DeviceState.Device });
+					FiresecManager.RemoveFromIgnoreList(new List<Device>() { Device });
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace AlarmModule
 		{
 			var resetItems = new List<ResetItem>();
 			resetItems.Add(GetResetItem());
-			FiresecManager.FiresecDriver.ResetStates(resetItems);
+			FiresecManager.ResetStates(resetItems);
 		}
 
 		public ResetItem GetResetItem()

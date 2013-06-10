@@ -123,6 +123,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="FiresecManager\FiresecManager.FS2.cs" />
+    <Compile Include="FiresecManager\FiresecManager.FS2OrAgentComands.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
     <Compile Include="Service\FileHelper.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Actions.cs" />

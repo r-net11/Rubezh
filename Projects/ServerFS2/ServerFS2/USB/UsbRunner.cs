@@ -5,34 +5,25 @@ using System.Threading;
 using FiresecAPI;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
+using FS2Api;
 using System.Diagnostics;
+using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2
 {
-	public class UsbRunner
+	public class UsbRunner : UsbRunnerBase
 	{
 		UsbDevice UsbDevice;
 		UsbEndpointReader Reader;
 		UsbEndpointWriter Writer;
-		private bool _stop = true;
-		List<byte> _result = new List<byte>();
-		private readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
-		private readonly AutoResetEvent AautoWaitEvent = new AutoResetEvent(false);
-		List<Response> Responses = new List<Response>();
-		List<byte> LocalResult = new List<byte>();
-		private bool IsMs { get; set; }
-		public static bool IsUsbDevice { get; set; }
 
-		RequestCollection RequestCollection = new RequestCollection();
-
-		public bool Open()
+		public override bool Open()
 		{
 			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
 			UsbDevice = UsbDevice.OpenUsbDevice(usbFinder);
 			if (UsbDevice == null)
 			{
 				throw new Exception("Device Not Found.");
-				return false;
 			}
 
 			var wholeUsbDevice = UsbDevice as IUsbDevice;
@@ -49,7 +40,7 @@ namespace ServerFS2
 			return true;
 		}
 
-		public void Close()
+		public override void Close()
 		{
 			if (Reader != null)
 			{
@@ -73,10 +64,12 @@ namespace ServerFS2
 			}
 		}
 
-		public bool Send(List<byte> data)
+		public override bool Send(List<byte> data)
 		{
-			//Trace.WriteLine("UsbRunner.Send");
+			Trace.WriteLine(BytesHelper.BytesToString(data));
 			int bytesWrite;
+			if (Writer == null)
+				throw new FS2Exception("Драйвер USB отсутствует");
 			Writer.Write(data.ToArray(), 2000, out bytesWrite);
 			return bytesWrite == data.Count;
 		}
@@ -132,7 +125,7 @@ namespace ServerFS2
 			}
 		}
 
-		static List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
+		List<byte> CreateOutputBytes(IEnumerable<byte> messageBytes)
 		{
 			var bytes = new List<byte>(0) { 0x7e };
 			foreach (var b in messageBytes)
@@ -156,7 +149,7 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		static List<byte> CreateInputBytes(List<byte> messageBytes)
+		List<byte> CreateInputBytes(List<byte> messageBytes)
 		{
 			var bytes = new List<byte>();
 			var previousByte = new byte();
@@ -213,7 +206,7 @@ namespace ServerFS2
 			}
 		}
 
-		public OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
+		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
@@ -266,17 +259,7 @@ namespace ServerFS2
 				}
 				return new OperationResult<List<Response>> { Result = Responses };
 			}
-			else
-			{
-				return null;
-			}
-		}
-
-		public event Action<Response> NewResponse;
-		void OnNewResponse(Response response)
-		{
-			if (NewResponse != null)
-				NewResponse(response);
+		    return null;
 		}
 	}
 }

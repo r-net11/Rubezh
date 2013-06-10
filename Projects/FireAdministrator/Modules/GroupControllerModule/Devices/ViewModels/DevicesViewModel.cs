@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Models;
+using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
-using GKModule.Plans.Designer;
 
 namespace GKModule.ViewModels
 {

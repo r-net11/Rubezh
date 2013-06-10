@@ -233,7 +233,7 @@ namespace DiagnosticsModule.ViewModels
 					devices.Add(device);
 				}
 			}
-			FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+			FiresecManager.RemoveFromIgnoreList(devices);
 		}
 
 		private void AddToIgnoreList()
@@ -248,7 +248,7 @@ namespace DiagnosticsModule.ViewModels
 					devices.Add(device);
 				}
 			}
-			FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+			FiresecManager.AddToIgnoreList(devices);
 		}
 
 		private void ControlDevice()
@@ -272,7 +272,7 @@ namespace DiagnosticsModule.ViewModels
 
 			var deviceControlIndex = random.Next(0, deviceControls.Count - 1);
 			var randomDeviceControl = deviceControls[deviceControlIndex];
-			FiresecManager.FiresecDriver.ExecuteCommand(randomDeviceControl.Device, randomDeviceControl.DriverProperty.Name);
+			FiresecManager.ExecuteCommand(randomDeviceControl.Device, randomDeviceControl.DriverProperty.Name);
 		}
 
 		private void ChangeGuardZone()

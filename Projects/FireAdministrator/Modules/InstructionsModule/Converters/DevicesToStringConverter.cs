@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
-using FiresecAPI.Models;
 using FiresecClient;
 
 namespace InstructionsModule.Converters

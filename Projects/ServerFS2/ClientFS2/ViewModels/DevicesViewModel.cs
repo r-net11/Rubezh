@@ -4,9 +4,9 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
-using Infrastructure.Common.TreeList;
 
 namespace ClientFS2.ViewModels
 {
@@ -65,7 +65,7 @@ namespace ClientFS2.ViewModels
 				FillAllDevices();
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
-					deviceViewModel.ExpantToThis();
+					deviceViewModel.ExpandToThis();
 				SelectedDevice = deviceViewModel;
 			}
 		}
@@ -85,7 +85,7 @@ namespace ClientFS2.ViewModels
 			{
 				_selectedDevice = value;
 				if (value != null)
-					value.ExpantToThis();
+					value.ExpandToThis();
 				OnPropertyChanged("SelectedDevice");
 			}
 		}

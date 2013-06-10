@@ -1,8 +1,7 @@
-﻿using Infrastructure.Common;
-using System.Windows;
-using Infrastructure.Common.Services.DragDrop;
-using FiresecClient;
+﻿using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services.DragDrop;
 namespace PlansModule.ViewModels
 {
 	public class PlansTreeViewModel

@@ -8,6 +8,8 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Diagnostics;
+using FS2Api;
+using System;
 
 namespace JournalModule.ViewModels
 {
@@ -19,6 +21,8 @@ namespace JournalModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecords);
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Unsubscribe(OnNewFS2JournalItemsEvent);
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItemsEvent);
 
 			if (journalFilter != null)
 			{
@@ -30,13 +34,28 @@ namespace JournalModule.ViewModels
 		void Initialize()
 		{
 			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-			var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
-			if (operationResult.Result != null)
+			if (FiresecManager.IsFS2Enabled)
 			{
-				foreach (var journalRecord in operationResult.Result)
+				var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
+				if (operationResult.Result != null)
 				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					JournalRecords.Add(journalRecordViewModel);
+					foreach (var journalRecord in operationResult.Result)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						JournalRecords.Add(journalRecordViewModel);
+					}
+				}
+			}
+			else
+			{
+				var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
+				if (operationResult.Result != null)
+				{
+					foreach (var journalRecord in operationResult.Result)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						JournalRecords.Add(journalRecordViewModel);
+					}
 				}
 			}
 			SelectedRecord = JournalRecords.FirstOrDefault();
@@ -59,7 +78,7 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var journalRecord in journalRecords)
 			{
-				if (FilterRecord(journalRecord) == false)
+				if (FilterJournalRecord(journalRecord) == false)
 					return;
 
 				if (JournalRecords.Count > 0)
@@ -72,7 +91,27 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		bool FilterRecord(JournalRecord journalRecord)
+		void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
+		{
+			Dispatcher.BeginInvoke(new Action(() =>
+				{
+					foreach (var journalItem in journalItems)
+					{
+						if (FilterFS2JournalItem(journalItem) == false)
+							return;
+
+						if (JournalRecords.Count > 0)
+							JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
+						else
+							JournalRecords.Add(new JournalRecordViewModel(journalItem));
+
+						if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+							JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+					}
+				}));
+		}
+
+		bool FilterJournalRecord(JournalRecord journalRecord)
 		{
 			if (JournalFilter.Categories.IsNotNullOrEmpty())
 			{
@@ -96,6 +135,36 @@ namespace JournalModule.ViewModels
 			if (JournalFilter.StateTypes.IsNotNullOrEmpty())
 			{
 				if (JournalFilter.StateTypes.Any(x => x == journalRecord.StateType) == false)
+					return false;
+			}
+
+			return true;
+		}
+
+		bool FilterFS2JournalItem(FS2JournalItem journalItem)
+		{
+			if (JournalFilter.Categories.IsNotNullOrEmpty())
+			{
+				Device device = null;
+				if (journalItem.DeviceUID != Guid.Empty)
+				{
+					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+				}
+				else
+				{
+					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
+				}
+
+				if (device != null)
+				{
+					if (JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category) == false)
+						return false;
+				}
+			}
+
+			if (JournalFilter.StateTypes.IsNotNullOrEmpty())
+			{
+				if (JournalFilter.StateTypes.Any(x => x == journalItem.StateType) == false)
 					return false;
 			}
 

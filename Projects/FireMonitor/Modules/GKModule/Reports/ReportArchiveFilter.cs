@@ -25,7 +25,7 @@ namespace GKModule.Reports
             JournalItems = new List<JournalItem>();
         }
 
-        public readonly DateTime ArchiveFirstDate = FiresecManager.FiresecService.GetArchiveStartDate().Result;
+        public readonly DateTime ArchiveFirstDate = FiresecManager.GetArchiveStartDate().Result;
         public List<JournalItem> JournalItems { get; set; }
         public XArchiveFilter ArchiveFilter { get; set; }
         public bool IsFilterOn { get; set; }

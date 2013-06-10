@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.ViewModels;
-using ServerFS2;
 using FS2Api;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ClientFS2.ViewModels
 {

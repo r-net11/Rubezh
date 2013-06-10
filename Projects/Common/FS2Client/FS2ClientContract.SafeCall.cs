@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ServiceModel;
-using Common;
 using System.Threading;
+using Common;
 using FiresecAPI;
 
 namespace FS2Client
@@ -147,7 +144,7 @@ namespace FS2Client
 			{
 				FS2Factory.Dispose();
 				FS2Factory = new FS2Factory();
-				FS2Contract = FS2Factory.Create(_serverAddress);
+				FS2Contract = FS2Factory.Create(ServerAddress);
 				return true;
 			}
 			catch

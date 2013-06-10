@@ -2,55 +2,42 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using FS2Api;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
-using ServerFS2.DataBase;
+using ServerFS2.Processor;
+using System.Collections;
+using System.Diagnostics;
+using ServerFS2;
+using System.Linq;
+using ServerFS2.Monitor;
+using ServerFS2.Journal;
 
 namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
-		//List<OldMonitoringDevice> devicesLastRecord;
-		MonitoringProcessor MonitoringProcessor;
-
 		public MainViewModel()
 		{
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
 			TestCommand = new RelayCommand(OnTest);
+			JournalTestCommand = new RelayCommand(OnJournalTest);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
 
 			DevicesViewModel = new DevicesViewModel();
 
-			//devicesLastRecord = new List<OldMonitoringDevice>();
-			//JournalItems = new ObservableCollection<FSJournalItem>(DBJournalHelper.GetJournalItems(new Guid()));
-			JournalItems = new ObservableCollection<FSJournalItem>();
-			MonitoringProcessor = new MonitoringProcessor();
+			JournalItems = new ObservableCollection<FS2JournalItem>();
 
-			MonitoringDevice.NewJournalItem += new Action<FSJournalItem>(ShowNewItem);
-			MonitoringDevice.JournalItems += new Action<List<FSJournalItem>>(ShowNewItems);
-
-			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			//{
-			//    if (device.Driver.IsPanel)
-			//    {
-			//        try
-			//        {
-			//            devicesLastRecord.Add(new MonitoringDevice(device));
-			//        }
-			//        catch
-			//        {
-			//            Trace.Write("Ошибка при считывании последней записи");
-			//        }
-			//    }
-			//}
-			//OnStartMonitoring();
+			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
+			//MainManager.StartMonitoring();
+			
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
 
-		void ShowNewItem(FSJournalItem journalItem)
+		void ShowNewItem(FS2JournalItem journalItem)
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -58,13 +45,13 @@ namespace MonitorClientFS2
 			}));
 		}
 
-		void ShowNewItems(List<FSJournalItem> journalItems)
+		void ShowNewItems(List<FS2JournalItem> journalItems)
 		{
 			journalItems.ForEach(x => ShowNewItem(x));
 		}
 
-		ObservableCollection<FSJournalItem> _journalItems;
-		public ObservableCollection<FSJournalItem> JournalItems
+		ObservableCollection<FS2JournalItem> _journalItems;
+		public ObservableCollection<FS2JournalItem> JournalItems
 		{
 			get { return _journalItems; }
 			set
@@ -74,8 +61,8 @@ namespace MonitorClientFS2
 			}
 		}
 
-		FSJournalItem _selectedJournalItem;
-		public FSJournalItem SelectedJournalItem
+		FS2JournalItem _selectedJournalItem;
+		public FS2JournalItem SelectedJournalItem
 		{
 			get { return _selectedJournalItem; }
 			set
@@ -88,26 +75,46 @@ namespace MonitorClientFS2
 		public RelayCommand StartMonitoringCommand { get; private set; }
 		void OnStartMonitoring()
 		{
-			MonitoringProcessor.StartMonitoring();
+			MainManager.StartMonitoring();
 		}
 
 		public RelayCommand StopMonitoringCommand { get; private set; }
 		void OnStopMonitoring()
 		{
-			MonitoringProcessor.StopMonitoring();
+			MainManager.StopMonitoring();
 		}
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			MonitoringProcessor.WriteStats();
+			//var stateBytes = new List<byte>() { 1, 2 };
+			//var bitArray = new BitArray(stateBytes.ToArray());
+			//for (int i = 0; i < 16; i++)
+			//{
+			//    var isBitSetted = bitArray[i];
+			//    Trace.WriteLine(i + "-" + isBitSetted);
+			//}
+			//MonitoringProcessor.WriteStats();
+			//MainManager.StopMonitoring();
+			DeviceStatesManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
+			//MainManager.StartMonitoring();
+		}
+
+		public RelayCommand JournalTestCommand { get; private set; }
+		void OnJournalTest()
+		{
+			var journalItem = new FS2JournalItem()
+			{
+
+			};
+			DatabaseHelper.AddJournalItem(journalItem);
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }
 		void OnReadStates()
 		{
-			var deviceStatesManager = new DeviceStatesManager();
-			deviceStatesManager.GetStates();
+			//var deviceStatesManager = new DeviceStatesManager();
+			//deviceStatesManager.GetStates();
 		}
 	}
 }

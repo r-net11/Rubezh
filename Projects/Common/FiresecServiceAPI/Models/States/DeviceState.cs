@@ -1,11 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
+	[DataContract]
 	public class DeviceState
 	{
+		[DataMember]
+		public Guid DeviceUID { get; set; }
+
+		[DataMember]
+		public List<DeviceDriverState> SerializableStates { get; set; }
+
+		[DataMember]
+		public List<ParentDeviceState> SerializableParentStates { get; set; }
+
+		[DataMember]
+		public List<ChildDeviceState> SerializableChildStates { get; set; }
+
+		[DataMember]
+		public List<Parameter> SerializableParameters { get; set; }
+
 		public Device Device { get; set; }
 
 		static object locker = new object();
@@ -83,6 +100,11 @@ namespace FiresecAPI.Models
 
 		public DeviceState()
 		{
+			SerializableStates = new List<DeviceDriverState>();
+			SerializableParentStates = new List<ParentDeviceState>();
+			SerializableChildStates = new List<ChildDeviceState>();
+			SerializableParameters = new List<Parameter>();
+
 			States = new List<DeviceDriverState>();
 			ParentStates = new List<ParentDeviceState>();
 			ChildStates = new List<ChildDeviceState>();

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ServiceModel;
-using FS2Api;
-using Common;
-using System.Threading;
-using Infrastructure.Common.BalloonTrayTip;
 using System.ServiceModel.Description;
+using System.Threading;
+using Common;
+using FS2Api;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FS2Client
 {

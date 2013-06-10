@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using FiresecAPI.XModels;
 using FiresecClient;
 using XFiresecAPI;
-using System.Text;
 
 namespace Common.GK
 {

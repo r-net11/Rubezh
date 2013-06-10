@@ -111,6 +111,8 @@ namespace ServerFS2.ConfigurationWriter
 
 		public static int ExtractTriple(List<byte> bytes, int index)
 		{
+			if (index < 0)
+				return 0;
 			return bytes[index + 0] * 256 * 256 + bytes[index + 1] * 256 + bytes[index + 2];
 		}
 

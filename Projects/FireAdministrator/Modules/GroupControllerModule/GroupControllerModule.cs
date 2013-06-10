@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans;
+using GKModule.Plans.Designer;
 using GKModule.Validation;
 using GKModule.ViewModels;
 using Infrastructure;
@@ -14,10 +16,7 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using GKModule.Plans.ViewModels;
-using GKModule.Plans.Designer;
 using XFiresecAPI;
-using System.Diagnostics;
 
 namespace GKModule
 {

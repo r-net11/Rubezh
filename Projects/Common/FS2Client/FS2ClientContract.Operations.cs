@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
+using FiresecAPI;
 
 namespace FS2Client
 {
 	public partial class FS2ClientContract
 	{
+		#region Main
 		public List<FS2Callbac> Poll(Guid clientUID)
 		{
 			return SafeOperationCall(() => { return FS2Contract.Poll(clientUID); }, "Poll");
@@ -24,155 +23,199 @@ namespace FS2Client
 		{
 			SafeOperationCall(() => { FS2Contract.CancelProgress(); }, "CanceProgress");
 		}
+		#endregion
 
-		public FiresecAPI.OperationResult<string> GetCoreConfig()
+		#region Common
+		public OperationResult<DeviceConfiguration> GetDeviceConfiguration()
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.GetDeviceConfiguration(); }, "GetDeviceConfiguration");
 		}
 
-		public FiresecAPI.OperationResult<string> GetMetadata()
+		public OperationResult<DriversConfiguration> GetDriversConfiguration()
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.GetDriversConfiguration(); }, "GetDriversConfiguration");
+		}
+		#endregion
+
+		#region Monitor
+		public OperationResult<List<DeviceState>> GetDeviceStates()
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetDeviceStates(); }, "GetDeviceStates");
 		}
 
-		public FiresecAPI.OperationResult<string> GetCoreState()
+		public OperationResult<List<DeviceState>> GetDeviceParameters()
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.GetDeviceParameters(); }, "GetDeviceParameters");
 		}
 
-		public FiresecAPI.OperationResult<string> GetCoreDeviceParams()
+		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.AddToIgnoreList(deviceUIDs); }, "AddToIgnoreList");
 		}
 
-		public FiresecAPI.OperationResult<string> ReadEvents(int fromId, int limit)
+		public OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.RemoveFromIgnoreList(deviceUIDs); }, "RemoveFromIgnoreList");
 		}
 
-		public void AddToIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult SetZoneGuard(Guid zoneUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.SetZoneGuard(zoneUID); }, "SetZoneGuard");
 		}
 
-		public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult UnSetZoneGuard(Guid zoneUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.UnSetZoneGuard(zoneUID); }, "UnSetZoneGuard");
 		}
 
-		public void ResetStates(string states)
+		public OperationResult SetDeviceGuard(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.SetDeviceGuard(deviceUID); }, "SetDeviceGuard");
 		}
 
-		public void SetZoneGuard(Guid deviceUID, string localZoneNo)
+		public OperationResult UnSetDeviceGuard(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.UnSetDeviceGuard(deviceUID); }, "UnSetDeviceGuard");
 		}
 
-		public void UnSetZoneGuard(Guid deviceUID, string localZoneNo)
+		public OperationResult ResetStates(List<PaneleResetItem> paneleResetItems)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.ResetStates(paneleResetItems); }, "ResetStates");
 		}
 
-		public void AddUserMessage(string message)
+		public OperationResult ExecuteCommand(Guid deviceUID, string methodName)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.ExecuteCommand(deviceUID, methodName); }, "ExecuteCommand");
 		}
 
-		public FiresecAPI.OperationResult<string> ExecuteRuntimeDeviceMethod(Guid deviceUID, string methodName, string parameters)
+		public OperationResult<bool> CheckHaspPresence()
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall<bool>(() => { return FS2Contract.CheckHaspPresence(); }, "CheckHaspPresence");
+		}
+		#endregion
+
+		#region Administrator
+		public OperationResult SetNewConfig(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
+		{
+			return SafeOperationCall(() => { return FS2Contract.SetNewConfig(deviceConfiguration); }, "SetNewConfig");
 		}
 
-		public FiresecAPI.OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
+		public OperationResult DeviceWriteConfig(Guid deviceUID, bool isUSB)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceWriteConfig(deviceUID, isUSB); }, "DeviceWriteConfig");
 		}
 
-		public FiresecAPI.OperationResult<bool> CheckHaspPresence()
+		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceSetPassword(deviceUID, isUSB, devicePasswordType, password); }, "DeviceSetPassword");
 		}
 
-		public FiresecAPI.OperationResult<bool> SetNewConfig(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
-		{
-			throw new NotImplementedException();
-		}
-
-		public FiresecAPI.OperationResult<bool> DeviceWriteConfig(Guid deviceUID)
-		{
-			throw new NotImplementedException();
-		}
-
-		public FiresecAPI.OperationResult<bool> DeviceSetPassword(Guid deviceUID, string password, int deviceUser)
-		{
-			throw new NotImplementedException();
-		}
-
-		public FiresecAPI.OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB)
+		public OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
 			return SafeOperationCall(() => { return FS2Contract.DeviceDatetimeSync(deviceUID, isUSB); }, "DeviceDatetimeSync");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceGetInformation(Guid deviceUID)
+		public OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceGetInformation(deviceUID, isUSB); }, "DeviceGetInformation");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceGetSerialList(Guid deviceUID)
+		public OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceGetSerialList(deviceUID); }, "DeviceGetSerialList");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, string fileName)
+		public OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceUpdateFirmware(deviceUID, isUSB, fileName); }, "DeviceUpdateFirmware");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, string fileName)
+		public OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceVerifyFirmwareVersion(deviceUID, isUSB, fileName); }, "DeviceVerifyFirmwareVersion");
 		}
 
-		public FiresecAPI.OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
+		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
 		{
 			return SafeOperationCall(() => { return FS2Contract.DeviceReadConfig(deviceUID, isUSB); }, "DeviceReadConfig");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type)
+		public OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceReadEventLog(deviceUID, isUSB); }, "DeviceReadEventLog");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch)
+		public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceAutoDetectChildren(deviceUID, fastSearch); }, "DeviceAutoDetectChildren");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceCustomFunctionList(Guid deviceUID)
+		public OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(DriverType driverType)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceCustomFunctionList(driverType); }, "DeviceCustomFunctionList");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
+		public OperationResult DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceCustomFunctionExecute(deviceUID, isUSB, functionName); }, "DeviceCustomFunctionExecute");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID)
+		public OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceGetGuardUsersList(deviceUID); }, "DeviceGetGuardUsersList");
 		}
 
-		public FiresecAPI.OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users)
+		public OperationResult DeviceSetGuardUsersList(Guid deviceUID, string users)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceSetGuardUsersList(deviceUID, users); }, "DeviceSetGuardUsersList");
 		}
 
-		public FiresecAPI.OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
+		public OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
 		{
-			throw new NotImplementedException();
+			return SafeOperationCall(() => { return FS2Contract.DeviceGetMDS5Data(deviceUID); }, "DeviceGetMDS5Data");
 		}
+
+		public OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties)
+		{
+			return SafeOperationCall(() => { return FS2Contract.SetConfigurationParameters(deviceUID, properties); }, "SetConfigurationParameters");
+		}
+
+		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetConfigurationParameters(deviceUID); }, "GetConfigurationParameters");
+		}
+		#endregion
+
+		#region Journal
+		public OperationResult<List<FS2JournalItem>> GetFilteredJournal(JournalFilter journalFilter)
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
+		}
+
+		public OperationResult<List<FS2JournalItem>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
+		}
+
+		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			return SafeOperationCall(() => { return FS2Contract.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
+		}
+
+		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
+		}
+
+		public OperationResult<DateTime> GetArchiveStartDate()
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetArchiveStartDate(); }, "GetArchiveStartDate");
+		}
+
+		public OperationResult AddJournalRecords(List<FS2JournalItem> journalItems)
+		{
+			return SafeOperationCall(() => { return FS2Contract.AddJournalRecords(journalItems); }, "AddJournalRecords");
+		}
+		#endregion
 	}
 }

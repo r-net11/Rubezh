@@ -8,10 +8,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections;
-using Infrastructure.Common.TreeList;
 
 namespace DiagnosticsModule.ViewModels
 {

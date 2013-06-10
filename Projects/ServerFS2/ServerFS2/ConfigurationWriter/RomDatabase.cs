@@ -79,7 +79,7 @@ namespace ServerFS2.ConfigurationWriter
 					byteDescription.AddressReference = FlashDatabase.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.ReferenceUID == byteDescription.TableBaseReference.ReferenceUID);
 				}
 			}
-			BytesDatabase.ResolverReferences();
+			BytesDatabase.ResolveReferences();
 
 			var allBytes = BytesDatabase.GetBytes();
 			var crc16Value = Crc16Helper.ComputeChecksum(allBytes);

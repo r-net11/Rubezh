@@ -27,6 +27,7 @@ namespace Infrastructure
 		public static SaveService SaveService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static IProgressService ProgressService { get; private set; }
+		public static IProgressService FS2ProgressService { get; set; }
 		public static IValidationService ValidationService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		public static MenuService MenuService { get; set; }

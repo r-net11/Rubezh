@@ -19,59 +19,6 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <StackPanel>
-                <StackPanel HorizontalAlignment="Left" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
-                        <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Подключено к" FontWeight="Bold" />
-                        <Label Content="{Binding ConnectedTo}" />
-                        <StackPanel.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ConnectedTo}" Value="{x:Null}" >
-                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-                    </StackPanel>
-
-                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
-                        <Label Content="Зона: " />
-                        <Label Content="Зона не указана" IsEnabled="False">
-                            <Label.Style>
-                                <Style>
-                                    <Setter Property="Label.Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
-                                            <Setter Property="Label.Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Label.Style>
-                        </Label>
-                        <TextBlock VerticalAlignment="Center">
-                            <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-                                <TextBlock Margin="2" Text="{Binding PresentationZone}" />
-                            </Hyperlink>
-                            <TextBlock.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
-                                            <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
             <Grid DataContext="{Binding PropertiesViewModel}">
                 <StackPanel>

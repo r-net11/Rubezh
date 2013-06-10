@@ -19,14 +19,14 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Время устройства" Binding="{Binding JournalRecord.DeviceTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
-                <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
-                <DataGridTextColumn Header="Зона" Binding="{Binding JournalRecord.ZoneName}" MinWidth="100" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding JournalRecord.Description}" MinWidth="200" Width="*" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding JournalRecord.DeviceName}" MinWidth="100" />
-                <DataGridTextColumn Header="Прибор" Binding="{Binding JournalRecord.PanelName}" MinWidth="100" />
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalRecord.User}" MinWidth="100" />
-                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalRecord.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" MinWidth="100" />
+                <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
+                <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" MinWidth="100" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" MinWidth="200" Width="*" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" MinWidth="100" />
+                <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" MinWidth="100" />
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" MinWidth="100" />
+                <DataGridTextColumn Header="Подсистема" Binding="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" MinWidth="100" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -55,7 +55,7 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Background" Value="{Binding JournalRecord.StateType, Converter={StaticResource StateTypeToColorConverter}}" />
+                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" />
                     </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -71,7 +71,7 @@
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <Grid DataContext="{Binding SelectedRecord.JournalRecord}" TextElement.Foreground="White" Visibility="Collapsed">
+                    <Grid DataContext="{Binding SelectedRecord}" TextElement.Foreground="White" Visibility="Collapsed">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />

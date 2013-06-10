@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using System.IO;
-using SharpVectors.Converters;
-using SharpVectors.Renderers.Wpf;
+using System.Windows.Markup;
 using System.Windows.Media;
 using Infrastructure.Common;
-using Microsoft.Win32;
 using Infrastructure.Common.Windows;
-using System.Windows.Markup;
-using System.Xml;
-using System.Windows.Markup.Primitives;
-using System.Collections;
+using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
+using SharpVectors.Converters;
+using SharpVectors.Renderers.Wpf;
 
 namespace DiagnosticsModule.ViewModels
 {

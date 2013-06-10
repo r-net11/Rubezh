@@ -36,7 +36,7 @@ namespace JournalModule.ViewModels
 
         public void Initialize()
         {
-            var operationResult = FiresecManager.FiresecService.GetArchiveStartDate();
+            var operationResult = FiresecManager.GetArchiveStartDate();
             if (operationResult.HasError == false)
             {
                 ArchiveFirstDate = operationResult.Result;
@@ -211,7 +211,7 @@ namespace JournalModule.ViewModels
                     archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
-                FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
+                FiresecManager.BeginGetFilteredArchive(archiveFilter);
             }
             catch (Exception e)
             {

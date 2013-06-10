@@ -1,6 +1,4 @@
 ﻿using FiresecAPI.Models;
-using Infrastructure.Common;
-using System.Windows;
 using Infrastructure.Common.TreeList;
 
 namespace PlansModule.ViewModels

@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdministratorTestClientFS2.Properties {
-    using System;
-    
-    
-    /// <summary>
+namespace AdministratorTestClientFS2.Properties
+{
+
+
+	/// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
     // Этот класс создан автоматически классом StronglyTypedResourceBuilder

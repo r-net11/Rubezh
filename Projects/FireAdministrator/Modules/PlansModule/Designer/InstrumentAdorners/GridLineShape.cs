@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Infrustructure.Plans.Designer;
-using System.Windows.Shapes;
 
 namespace PlansModule.InstrumentAdorners
 {

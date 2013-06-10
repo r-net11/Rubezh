@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace FS2Api
 {
 	[DataContract]
 	public class FS2ProgressInfo
 	{
+		public FS2ProgressInfo()
+		{
+
+		}
+
+		public FS2ProgressInfo(string comment, int percentComplete = 0)
+		{
+			Comment = comment;
+			PercentComplete = percentComplete;
+		}
+
 		[DataMember]
 		public int Stage { get; set; }
 

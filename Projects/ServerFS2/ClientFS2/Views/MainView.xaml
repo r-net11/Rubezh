@@ -33,7 +33,13 @@
                 <Button Content="Установить режим глухой панели" Command = "{Binding SetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Снять режим глухой панели" Command = "{Binding UnsetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Записать конфигурацию в прибор" Command = "{Binding WriteConfigurationCommand}" Width="300" Margin="2" />
-                <CheckBox Content="Прибор подключен по USB" IsChecked="{Binding IsUsbDevice}" />
+                <Button Content="Сброс тревоги" Command = "{Binding ResetFireCommand}" Width="300" Margin="2" />
+                <Button Content="Сброс теста" Command = "{Binding ResetTestCommand}" Width="300" Margin="2" />
+                <Button Content="Получить статус прибора" Command = "{Binding GetDeviceStatusCommand}" Width="300" Margin="2" />
+                <Button Content="Добавить в список обхода" Command = "{Binding AddDeviceToCheckListCommand}" Width="300" Margin="2" />
+                <Button Content="Удалить из списка обхода" Command = "{Binding RemoveDeviceFromCheckListCommand}" Width="300" Margin="2" />
+                <TextBlock Text="{Binding StatusString}" Width="300" Margin="2" FontSize = "14"/>
+                <CheckBox Content="Прибор подключен по USB" IsChecked="{Binding IsUsbDevice}" Margin="2"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Visibility="{Binding DevicesViewModel.SelectedDevice, Converter={StaticResource NullObjectToVisibiltyConverter}}" >
@@ -55,7 +61,6 @@
                         <StackPanel IsEnabled="{Binding IsAuParametersReady}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.GetParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding Context.SetParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры на устройство" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <Controls:ToolBarButton Width="36" Height="36" Command="{Binding Context.DeviceCommandsViewModel.DeviceCommandsAuParametersViewModel.ResetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

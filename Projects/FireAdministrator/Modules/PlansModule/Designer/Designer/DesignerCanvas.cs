@@ -4,18 +4,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
-using System.Windows.Media;
-using Common;
-using System.Windows.Shapes;
-using Infrastructure.Common;
 
 namespace PlansModule.Designer
 {

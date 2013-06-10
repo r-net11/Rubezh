@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.ComponentModel;
 using Infrustructure.Plans.Services;
-using System.ComponentModel;
 
 namespace PlansModule.ViewModels
 {

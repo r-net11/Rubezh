@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Controls;
 using System.Windows.Threading;
 using Infrastructure.Common;
 

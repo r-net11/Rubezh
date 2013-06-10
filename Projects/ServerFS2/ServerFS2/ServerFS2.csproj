@@ -101,8 +101,6 @@
     <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
-    <Compile Include="DataBase\DBJournalHelper.cs" />
-    <Compile Include="DataBase\FSJournalItem.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
@@ -111,30 +109,46 @@
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\ServerHelper.AutoDetect.cs" />
     <Compile Include="Helpers\ServerHelper.GetConfiguration.cs" />
+    <Compile Include="Helpers\ServerHelper.Monitoring.cs" />
     <Compile Include="Helpers\ServerHelper.Parameters.cs" />
     <Compile Include="Helpers\ServerHelper.ReadJournal.cs" />
     <Compile Include="Helpers\ServerHelper.SetConfiguration.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
-    <Compile Include="JournalParser.cs" />
+    <Compile Include="Journal\BitsExtracter.cs" />
+    <Compile Include="Journal\DatabaseHelper.cs" />
+    <Compile Include="Journal\DatabaseHelper.Monitoring.cs" />
+    <Compile Include="Journal\FSInternalJournal.cs" />
+    <Compile Include="Journal\JournalParser.cs" />
+    <Compile Include="Journal\ServerJournalHelper.cs" />
     <Compile Include="Metadata\MetadataHelper.cs" />
     <Compile Include="Metadata\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Monitor\DeviceStatesManager.cs" />
+    <Compile Include="Monitor\JournalHelper.cs" />
+    <Compile Include="Monitor\MonitoringDevice.cs" />
+    <Compile Include="Monitor\MonitoringProcessor.cs" />
+    <Compile Include="Monitor\Request.cs" />
+    <Compile Include="Monitor\RequestTypes.cs" />
+    <Compile Include="Monitoring\StatesHelper.cs" />
+    <Compile Include="Monitor\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />
     <Compile Include="Processor\WatcherManager.cs" />
-    <Compile Include="TimeParceHelper.cs" />
+    <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
+    <Compile Include="USB\UsbRunnerBase.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
     <Compile Include="USB\Response.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FS2Contracr.cs" />
+    <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="USB\UsbRunner.cs" />
+    <Compile Include="USB\UsbRunner2.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
@@ -195,10 +209,13 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Test\usb hid\UsbLibrary\UsbLibrary.csproj">
+      <Project>{71E42A6D-C432-4C03-BF4F-ABFD2A3173E0}</Project>
+      <Name>UsbLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Administrator\" />
-    <Folder Include="Monitoring\" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

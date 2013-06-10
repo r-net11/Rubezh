@@ -17,9 +17,6 @@ namespace ClientFS2.ViewModels
 
 		public ZoneDevicesViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
 		}
 
 		public void Initialize(Zone zone)
@@ -154,75 +151,6 @@ namespace ClientFS2.ViewModels
 				_selectedAvailableDevice = value;
 				OnPropertyChanged("SelectedAvailableDevice");
 			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var oldIndex = availableDeviceViewModels.IndexOf(SelectedAvailableDevice);
-			var oldDeviceUID = SelectedAvailableDevice.Device.UID;
-
-			FiresecManager.FiresecConfiguration.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
-			Initialize(Zone);
-
-			SelectedDevice = deviceViewModels.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
-			if (availableDeviceViewModels.Count > 0)
-			{
-				var newIndex = System.Math.Min(oldIndex, availableDeviceViewModels.Count - 1);
-				SelectedAvailableDevice = availableDeviceViewModels[newIndex];
-			}
-			else
-			{
-				SelectedAvailableDevice = null;
-			}
-
-			//ServiceFactory.SaveService.FSChanged = true;
-		}
-		public bool CanAdd()
-		{
-			return SelectedAvailableDevice != null && SelectedAvailableDevice.IsZoneDevice;
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var oldIndex = deviceViewModels.IndexOf(SelectedDevice);
-			var oldDeviceUID = SelectedDevice.Device.UID;
-
-			FiresecManager.FiresecConfiguration.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
-			Initialize(Zone);
-
-			SelectedAvailableDevice = availableDeviceViewModels.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
-			if (deviceViewModels.Count > 0)
-			{
-				var newIndex = System.Math.Min(oldIndex, deviceViewModels.Count - 1);
-				SelectedDevice = deviceViewModels[newIndex];
-			}
-			else
-			{
-				SelectedDevice = null;
-			}
-
-			//ServiceFactory.SaveService.FSChanged = true;
-		}
-		public bool CanRemove()
-		{
-			return SelectedDevice != null && SelectedDevice.IsZoneDevice;
-		}
-
-		public RelayCommand ShowZoneLogicCommand { get; private set; }
-		void OnShowZoneLogic()
-		{
-			var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
-			if (DialogService.ShowModalWindow(zoneLogicViewModel))
-			{
-				//ServiceFactory.SaveService.FSChanged = true;
-				Initialize(Zone);
-			}
-		}
-		public bool CanShowZoneLogic()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneLogicDevice;
 		}
 	}
 }

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.XModels;
 using FiresecClient;
 using XFiresecAPI;
-using System.Collections;
 
 namespace Common.GK
 {

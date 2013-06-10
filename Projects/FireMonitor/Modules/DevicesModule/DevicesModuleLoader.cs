@@ -87,33 +87,43 @@ namespace DevicesModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			if (firstTime)
+			if (FiresecManager.IsFS2Enabled)
 			{
-				LoadingService.DoStep("Инициализация драйвера устройств");
-				var connectionResult = FiresecManager.InitializeFiresecDriver(true);
-				if (connectionResult.HasError)
+				FiresecManager.InitializeFS2();
+				FiresecManager.FS2ClientContract.Start();
+				FiresecManager.FS2UpdateDeviceStates();
+				return true;
+			}
+			else
+			{
+				if (firstTime)
 				{
-					MessageBoxService.ShowError(connectionResult.Error);
-					return false;
+					LoadingService.DoStep("Инициализация драйвера устройств");
+					var connectionResult = FiresecManager.InitializeFiresecDriver(true);
+					if (connectionResult.HasError)
+					{
+						MessageBoxService.ShowError(connectionResult.Error);
+						return false;
+					}
 				}
+
+				LoadingService.DoStep("Синхронизация конфигурации");
+				FiresecManager.FiresecDriver.Synchronyze(true);
+				LoadingService.DoStep("Старт мониторинга");
+				FiresecManager.FiresecDriver.StartWatcher(true, true);
+
+				FiresecManager.FSAgent.Start();
+
+				if (LoadingErrorManager.HasError)
+					MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
+
+				if (firstTime)
+				{
+					CheckHasp();
+				}
+
+				return true;
 			}
-
-			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.FiresecDriver.Synchronyze(true);
-			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.FiresecDriver.StartWatcher(true, true);
-
-			FiresecManager.FSAgent.Start();
-
-			if (LoadingErrorManager.HasError)
-				MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
-
-			if (firstTime)
-			{
-				CheckHasp();
-			}
-
-			return true;
 		}
 
 		void CheckHasp()
@@ -129,6 +139,10 @@ namespace DevicesModule
 
 		public override void AfterInitialize()
 		{
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2Helper.Initialize();
+			}
 			ServiceFactory.SubscribeEvents();
 		}
 	}

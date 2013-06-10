@@ -229,11 +229,11 @@ namespace FiresecClient
 				}, "SetPassword");
 		}
 
-		public static OperationResult<string> DeviceCustomFunctionExecute(Device device, string functionName)
+		public static OperationResult<string> DeviceCustomFunctionExecute(Device device, bool isUsb, string functionName)
 		{
 			return SafeOperationCall<string>(() =>
 				{
-					return FiresecDriver.DeviceCustomFunctionExecute(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID, functionName);
+					return FiresecDriver.DeviceCustomFunctionExecute(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, functionName);
 				}, "DeviceCustomFunctionExecute");
 		}
 

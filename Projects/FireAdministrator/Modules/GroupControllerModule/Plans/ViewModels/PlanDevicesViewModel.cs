@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using GKModule.Plans.Designer;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using GKModule.ViewModels;
 
 namespace GKModule.Plans.ViewModels
 {
