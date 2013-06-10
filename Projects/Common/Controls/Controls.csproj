@@ -163,6 +163,7 @@
     <Compile Include="Menu\Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopupButton.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
     <Compile Include="ToggleButton.cs" />

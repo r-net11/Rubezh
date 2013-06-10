@@ -9,13 +9,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Controls.Converters;
 
-namespace DiagnosticsModule.ViewModels
+namespace Controls
 {
 	public class PopupButton : ToggleButton
 	{
 		static PopupButton()
 		{
-			//DefaultStyleKeyProperty.OverrideMetadata(typeof(PopupButton), new FrameworkPropertyMetadata(typeof(PopupButton)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(PopupButton), new FrameworkPropertyMetadata(typeof(PopupButton)));
 		}
 
 		public static readonly DependencyProperty PopupContentProperty = DependencyProperty.Register("PopupContent", typeof(object), typeof(PopupButton), new UIPropertyMetadata(null));

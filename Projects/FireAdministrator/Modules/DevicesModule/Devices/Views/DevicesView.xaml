@@ -1,7 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -50,15 +47,13 @@
 					<GridViewColumn Width="250" Header="Устройство">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
-									<tree:RowExpander />
-									<CheckBox Focusable="False" IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<drag:DragDropDecorator DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
-										<drag:DragDropDecorator.InputBindings>
-											<MouseBinding Command="{Binding BeginDragCommand}" MouseAction="LeftClick" />
-										</drag:DragDropDecorator.InputBindings>
-										<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
-									</drag:DragDropDecorator>
+								<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
+									<StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+										<CheckBox Focusable="False" IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<drag:DragDropDecorator DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
+											<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+										</drag:DragDropDecorator>
+									</StackPanel>
 									<Controls:EditorPresenter>
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
@@ -95,7 +90,7 @@
 											</ControlTemplate>
 										</Controls:EditorPresenter.EditTemplate>
 									</Controls:EditorPresenter>
-								</StackPanel>
+								</DockPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

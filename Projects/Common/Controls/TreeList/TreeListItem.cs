@@ -29,6 +29,11 @@ namespace Controls.TreeList
 		{
 		}
 
+		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+		{
+			if (Node != null && Node.IsExpandable)
+				Node.IsExpanded = !Node.IsExpanded;
+		}
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (Node != null)

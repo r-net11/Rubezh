@@ -43,7 +43,6 @@ namespace DevicesModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
-			BeginDragCommand = new RelayCommand(OnBeginDragCommand);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
@@ -434,12 +433,6 @@ namespace DevicesModule.ViewModels
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			return Device.AllowMultipleVizualization != isAllow;
-		}
-
-		public RelayCommand BeginDragCommand { get; private set; }
-		private void OnBeginDragCommand()
-		{
-			Console.WriteLine("BeginDrag");
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }

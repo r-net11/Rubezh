@@ -47,7 +47,7 @@ namespace Controls
 
 		private bool _canBeEdit = false;
 		private bool _isMouseWithinScope = false;
-		private TreeViewItem _treeViewItem;
+		private TreeViewItem _viewItem;
 
 		public EditorPresenter()
 		{
@@ -105,8 +105,8 @@ namespace Controls
 			base.OnApplyTemplate();
 			if (IsEditing)
 				Focus();
-			if (_treeViewItem == null)
-				_treeViewItem = GetDependencyObjectFromVisualTree(this, typeof(TreeViewItem)) as TreeViewItem;
+			if (_viewItem == null)
+				_viewItem = GetDependencyObjectFromVisualTree(this, typeof(TreeViewItem)) as TreeViewItem;
 		}
 		private void OnEditorLayoutUpdated(object sender, EventArgs e)
 		{
@@ -136,10 +136,10 @@ namespace Controls
 		{
 			get
 			{
-				if (_treeViewItem == null)
+				if (_viewItem == null)
 					return true;
 				else
-					return _treeViewItem.IsSelected;
+					return _viewItem.IsSelected;
 			}
 		}
 
