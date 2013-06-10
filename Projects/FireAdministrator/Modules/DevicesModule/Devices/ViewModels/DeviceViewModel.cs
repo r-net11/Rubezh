@@ -20,7 +20,7 @@ using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
@@ -308,11 +308,11 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddToParentCommand { get; private set; }
 		void OnAddToParent()
 		{
-			Parent.AddCommand.Execute();
+			ParentItem.AddCommand.Execute();
 		}
 		public bool CanAddToParent()
 		{
-			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
+			return ((Parent != null) && (ParentItem.AddCommand.CanExecute(null)));
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -325,7 +325,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			FiresecManager.FiresecConfiguration.RemoveDevice(Device);
-			var parent = Parent;
+			var parent = ParentItem;
 			if (parent != null)
 			{
 				var index = parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
@@ -337,13 +337,13 @@ namespace DevicesModule.ViewModels
 
 				index = Math.Min(index, parent.Children.Count - 1);
 				DevicesViewModel.Current.AllDevices.Remove(this);
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
+				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent[index] : parent;
 			}
 			Helper.BuildMap();
 		}
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
+			return !(Driver.IsAutoCreate || Parent == null || ParentItem.Driver.AutoChild == Driver.UID);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -355,7 +355,7 @@ namespace DevicesModule.ViewModels
 					if (DialogService.ShowModalWindow(new IndicatorPageDetailsViewModel(Device)))
 					{
 						ServiceFactory.SaveService.FSChanged = true;
-						foreach (var deviceViewModel in Children)
+						foreach (DeviceViewModel deviceViewModel in Children)
 						{
 							deviceViewModel.UpdateZoneName();
 						}
@@ -510,13 +510,13 @@ namespace DevicesModule.ViewModels
 						var devicesToRemove = new List<DeviceViewModel>();
 						if (value.ShleifCount < Device.Driver.ShleifCount)
 						{
-							foreach (var child in Children)
+							foreach (DeviceViewModel child in Children)
 							{
 								if (child.Device.IntAddress / 256 > value.ShleifCount)
 									devicesToRemove.Add(child);
 							}
 						}
-						foreach (var child in Children)
+						foreach (DeviceViewModel child in Children)
 						{
 							if (Driver.AutoCreateChildren.Contains(child.Driver.UID) && !value.AutoCreateChildren.Contains(child.Driver.UID))
 								devicesToRemove.Add(child);
@@ -551,7 +551,7 @@ namespace DevicesModule.ViewModels
 						}
 						for (int i = Children.Count - 1; i > 0; i--)
 						{
-							var child = Children[i];
+							var child = this[i];
 							DevicesViewModel.Current.AllDevices.Remove(child);
 						}
 						Children.Clear();

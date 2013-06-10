@@ -60,7 +60,7 @@ namespace DevicesModule.Plans.ViewModels
 		void AddChildPlainDevices(DeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
+			foreach (DeviceViewModel childViewModel in parentViewModel.Children)
 			{
 				AddChildPlainDevices(childViewModel);
 			}
@@ -97,7 +97,7 @@ namespace DevicesModule.Plans.ViewModels
 		{
 			parentDeviceViewModel.IsExpanded = false;
 
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
+			foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
 			{
 				CollapseChild(deviceViewModel);
 			}
@@ -108,7 +108,7 @@ namespace DevicesModule.Plans.ViewModels
 			if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
 			{
 				parentDeviceViewModel.IsExpanded = true;
-				foreach (var deviceViewModel in parentDeviceViewModel.Children)
+				foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
 				{
 					ExpandChild(deviceViewModel);
 				}

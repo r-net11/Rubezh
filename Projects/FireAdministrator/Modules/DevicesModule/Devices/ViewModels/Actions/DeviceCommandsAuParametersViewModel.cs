@@ -110,7 +110,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetAllDeviceConfigurationParametersCommand { get; private set; }
 		void OnSetAllDeviceConfigurationParameters()
 		{
-			foreach (var childDevice in SelectedDevice.Children)
+			foreach (DeviceViewModel childDevice in SelectedDevice.Children)
 			{
 				foreach (var property in childDevice.Device.Properties)
 				{
@@ -130,7 +130,7 @@ namespace DevicesModule.ViewModels
 			try
 			{
 				LoadingService.ShowProgress("", "Запись параметров в дочерние устройства", SelectedDevice.Children.Count());
-				foreach (var childDevice in SelectedDevice.Children)
+				foreach (DeviceViewModel childDevice in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(childDevice.Device.Driver.ShortName + " " + childDevice.Address);
 					FiresecDriverAuParametersHelper.SetConfigurationParameters(childDevice.Device.UID, childDevice.Device.Properties);
@@ -152,7 +152,7 @@ namespace DevicesModule.ViewModels
 				if (SelectedDevice.Device.IsMonitoringDisabled)
 					return false;
 
-				foreach (var childDevice in SelectedDevice.Children)
+				foreach (DeviceViewModel childDevice in SelectedDevice.Children)
 				{
 					if ((childDevice != null) && (childDevice.Device.Driver.HasConfigurationProperties))
 					{
@@ -169,7 +169,7 @@ namespace DevicesModule.ViewModels
 			try
 			{
 				LoadingService.ShowProgress("", "Считывание параметров дочерних устройств", SelectedDevice.Children.Count());
-                foreach (var child in SelectedDevice.Children)
+				foreach (DeviceViewModel child in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(child.Device.PresentationAddressAndName);
 					var result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(child.Device);
@@ -181,7 +181,7 @@ namespace DevicesModule.ViewModels
 					child.PropertiesViewModel.IsAuParametersReady = false;
 					ServiceFactory.SaveService.FSChanged = true;
 
-                    foreach (var groupChild in child.Children)
+					foreach (DeviceViewModel groupChild in child.Children)
                     {
                         LoadingService.DoStep(groupChild.Device.PresentationAddressAndName);
                         result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(groupChild.Device);
@@ -215,7 +215,7 @@ namespace DevicesModule.ViewModels
 				if(SelectedDevice.Device.IsMonitoringDisabled)
 					return false;
 
-				foreach (var childDevice in SelectedDevice.Children)
+				foreach (DeviceViewModel childDevice in SelectedDevice.Children)
 				{
 					if ((childDevice != null) && (childDevice.Device.Driver.HasConfigurationProperties))
 					{

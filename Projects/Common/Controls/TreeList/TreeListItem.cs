@@ -6,13 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows;
+using Infrastructure.Common.TreeList;
 
 namespace Controls.TreeList
 {
 	public class TreeListItem : ListViewItem, INotifyPropertyChanged
 	{
-		private TreeNode _node;
-		public TreeNode Node
+		private TreeNodeViewModel _node;
+		public TreeNodeViewModel Node
 		{
 			get { return _node; }
 			internal set
@@ -21,6 +22,8 @@ namespace Controls.TreeList
 				OnPropertyChanged("Node");
 			}
 		}
+
+		public TreeList Tree { get; internal set; }
 
 		public TreeListItem()
 		{
@@ -66,16 +69,15 @@ namespace Controls.TreeList
 				base.OnKeyDown(e);
 		}
 
-		private void ChangeFocus(TreeNode node)
+		private void ChangeFocus(TreeNodeViewModel node)
 		{
-			var tree = node.Tree;
-			if (tree != null)
+			if (Tree != null)
 			{
-				var item = tree.ItemContainerGenerator.ContainerFromItem(node) as TreeListItem;
+				var item = Tree.ItemContainerGenerator.ContainerFromItem(node) as TreeListItem;
 				if (item != null)
 					item.Focus();
 				else
-					tree.PendingFocusNode = node;
+					Tree.PendingFocusNode = node;
 			}
 		}
 

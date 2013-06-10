@@ -59,7 +59,7 @@ namespace DevicesModule.ViewModels
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = false;
-            foreach (var deviceViewModel in parentDeviceViewModel.Children)
+			foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
             {
                 CollapseChild(deviceViewModel);
             }
@@ -70,7 +70,7 @@ namespace DevicesModule.ViewModels
             if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
             {
                 parentDeviceViewModel.IsExpanded = true;
-                foreach (var deviceViewModel in parentDeviceViewModel.Children)
+				foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
                 {
                     ExpandChild(deviceViewModel);
                 }

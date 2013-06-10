@@ -94,7 +94,7 @@ namespace DevicesModule.ViewModels
 				}
 			}
 
-			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.HasChildren == false);
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Children.Count == 0);
 		}
 
 		ObservableCollection<PDUDeviceViewModel> _devices;

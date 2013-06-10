@@ -14,7 +14,7 @@ using System.Windows.Data;
 
 namespace Controls.TreeList
 {
-	public class TreeList : ListView
+	public class TreeList : ListView, ITreeList
 	{
 		public static DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(IEnumerable), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSourceChanged)));
 		public IEnumerable Source
@@ -25,60 +25,36 @@ namespace Controls.TreeList
 		private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var treeList = (TreeList)d;
-			treeList.Root.Children.Clear();
 			treeList.Rows.Clear();
-			treeList.CreateChildrenNodes(treeList.Root);
+			if (e.NewValue != null)
+			{
+				foreach (TreeNodeViewModel item in (IEnumerable)e.NewValue)
+					item.AssignToTree(treeList);
+			}
 		}
 
-		public static DependencyProperty SelectedNodeProperty = DependencyProperty.Register("SelectedNode", typeof(ITreeNodeModel), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedNodeChanged)) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-		public ITreeNodeModel SelectedNode
+		public static DependencyProperty SelectedTreeNodeProperty = DependencyProperty.Register("SelectedTreeNode", typeof(TreeNodeViewModel), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedTreeItemChanged)) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+		public TreeNodeViewModel SelectedTreeNode
 		{
-			get { return (ITreeNodeModel)GetValue(SelectedNodeProperty); }
-			set { SetValue(SelectedNodeProperty, value); }
+			get { return (TreeNodeViewModel)GetValue(SelectedTreeNodeProperty); }
+			set { SetValue(SelectedTreeNodeProperty, value); }
 		}
-		private static void OnSelectedNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private static void OnSelectedTreeItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var treeList = (TreeList)d;
-			var model = (ITreeNodeModel)e.NewValue;
-			var oldModel = (ITreeNodeModel)e.OldValue;
-			if (oldModel != null)
-				oldModel.IsSelected = false;
-			if (model == null)
-				treeList.SetValue(Selector.SelectedItemProperty, null);
-			else
-				model.IsSelected = true;
+			treeList.SelectedItem = e.NewValue;
+			treeList.ScrollIntoView(treeList.SelectedTreeNode);
 		}
 
-		internal TreeNode Root { get; private set; }
-		internal ObservableCollectionAdv<TreeNode> Rows { get; private set; }
-		internal TreeNode PendingFocusNode { get; set; }
-
-		public ReadOnlyCollection<TreeNode> Nodes
-		{
-			get { return Root.Nodes; }
-		}
-		public ICollection<TreeNode> SelectedTreeNodes
-		{
-			get { return SelectedItems.Cast<TreeNode>().ToArray(); }
-		}
-		public TreeNode SelectedTreeNode
-		{
-			get { return SelectedItems.Count > 0 ? SelectedItems[0] as TreeNode : null; }
-		}
+		internal ObservableCollectionAdv<TreeNodeViewModel> Rows { get; private set; }
+		internal TreeNodeViewModel PendingFocusNode { get; set; }
 
 		public TreeList()
 		{
-			Rows = new ObservableCollectionAdv<TreeNode>();
-			Root = new TreeNode(this, null);
-			SetIsExpanded(Root, true);
+			Rows = new ObservableCollectionAdv<TreeNodeViewModel>();
+			SelectionChanged += OnSelectionChanged;
 			ItemsSource = Rows;
 			ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
-			var descriptor = DependencyPropertyDescriptor.FromProperty(Selector.SelectedItemProperty, typeof(Selector));
-			descriptor.AddValueChanged(this, (s, e) =>
-			{
-				SelectedNode = SelectedItem == null ? null : ((TreeNode)SelectedItem).Tag;
-				ScrollIntoView(SelectedItem);
-			});
 		}
 
 		protected override DependencyObject GetContainerForItemOverride()
@@ -92,14 +68,14 @@ namespace Controls.TreeList
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
 		{
 			var ti = element as TreeListItem;
-			var node = item as TreeNode;
+			var node = item as TreeNodeViewModel;
 			if (ti != null && node != null)
 			{
 				ti.Node = node;
-				base.PrepareContainerForItemOverride(element, node.Tag);
+				ti.Tree = this;
+				base.PrepareContainerForItemOverride(element, node);
 			}
 		}
-
 		private void ItemContainerGeneratorStatusChanged(object sender, EventArgs e)
 		{
 			if (ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated && PendingFocusNode != null)
@@ -111,77 +87,31 @@ namespace Controls.TreeList
 			}
 		}
 
-		internal void InsertNewNode(TreeNode parent, ITreeNodeModel tag, int rowIndex, int index)
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			TreeNode node = new TreeNode(this, tag);
-			if (index >= 0 && index < parent.Children.Count)
-				parent.Children.Insert(index, node);
-			else
+			if (e.AddedItems.Count > 0 || PendingFocusNode == null)
 			{
-				index = parent.Children.Count;
-				parent.Children.Add(node);
-			}
-			Rows.Insert(rowIndex + index + 1, node);
-		}
-		internal void SetIsExpanded(TreeNode node, bool value)
-		{
-			if (value)
-			{
-				if (!node.IsExpandedOnce)
-				{
-					node.IsExpandedOnce = true;
-					node.AssignIsExpanded(value);
-					CreateChildrenNodes(node);
-				}
-				else
-				{
-					node.AssignIsExpanded(value);
-					CreateChildrenRows(node);
-				}
-			}
-			else
-			{
-				DropChildrenRows(node, false);
-				node.AssignIsExpanded(value);
+				SelectedTreeNode = e.AddedItems.Count > 0 ? e.AddedItems[0] as TreeNodeViewModel : null;
+				PendingFocusNode = null;
 			}
 		}
-		private void CreateChildrenRows(TreeNode node)
+
+		#region ITreeList Members
+
+		ObservableCollectionAdv<TreeNodeViewModel> ITreeList.Rows
 		{
-			int index = Rows.IndexOf(node);
-			if (index >= 0 || node == Root)
-			{
-				var nodes = node.AllVisibleChildren.ToArray();
-				Rows.InsertRange(index + 1, nodes);
-			}
+			get { return Rows; }
 		}
-		internal void CreateChildrenNodes(TreeNode node)
+
+		public void SuspendSelection()
 		{
-			var children = node == Root ? Source : node.Tag.GetChildren();
-			if (children != null)
-			{
-				int rowIndex = Rows.IndexOf(node);
-				node.ChildrenSource = children as INotifyCollectionChanged;
-				foreach (ITreeNodeModel obj in children)
-				{
-					TreeNode child = new TreeNode(this, obj);
-					child.HasChildren = obj.HasChildren;
-					node.Children.Add(child);
-				}
-				Rows.InsertRange(rowIndex + 1, node.Children.ToArray());
-			}
+			PendingFocusNode = SelectedTreeNode;
 		}
-		internal void DropChildrenRows(TreeNode node, bool removeParent)
+		public void ResumeSelection()
 		{
-			int start = Rows.IndexOf(node);
-			if (start >= 0 || node == Root)
-			{
-				int count = node.VisibleChildrenCount;
-				if (removeParent)
-					count++;
-				else
-					start++;
-				Rows.RemoveRange(start, count);
-			}
+			SelectedItem = SelectedTreeNode;
 		}
+
+		#endregion
 	}
 }
