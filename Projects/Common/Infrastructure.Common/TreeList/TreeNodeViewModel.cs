@@ -14,9 +14,9 @@ namespace Infrastructure.Common.TreeList
 		public void AssignToTree(ITreeList tree)
 		{
 			Tree = tree;
-			foreach (var child in Children)
+			foreach (var child in Nodes)
 				child.AssignToTree(Tree);
-			if (Parent == null)
+			if (ParentNode == null)
 			{
 				Tree.Rows.Add(this);
 				CreateChildrenRows();
@@ -42,11 +42,11 @@ namespace Infrastructure.Common.TreeList
 				if (item == null)
 					throw new ArgumentNullException("item");
 
-				if (item.Parent != _owner)
+				if (item.ParentNode != _owner)
 				{
-					if (item.Parent != null)
-						item.Parent.Children.Remove(item);
-					item.Parent = _owner;
+					if (item.ParentNode != null)
+						item.ParentNode.Nodes.Remove(item);
+					item.ParentNode = _owner;
 					item.Index = index;
 					item.Tree = _owner.Tree;
 					for (int i = index; i < Count; i++)
@@ -57,7 +57,7 @@ namespace Infrastructure.Common.TreeList
 			protected override void RemoveItem(int index)
 			{
 				TreeNodeViewModel item = this[index];
-				item.Parent = null;
+				item.ParentNode = null;
 				item.Index = -1;
 				for (int i = index + 1; i < Count; i++)
 					this[i].Index--;
@@ -76,38 +76,38 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				if (Parent == null)
+				if (ParentNode == null)
 					return 0;
 				else
-					return Parent.Level + 1;
+					return ParentNode.Level + 1;
 			}
 		}
 		public int Index { get; private set; }
-		public TreeNodeViewModel Parent { get; private set; }
-		public TreeItemCollection Children { get; private set; }
+		public TreeNodeViewModel ParentNode { get; private set; }
+		public TreeItemCollection Nodes { get; private set; }
 		public bool IsExpandable
 		{
-			get { return Children.Count > 0; }
+			get { return Nodes.Count > 0; }
 		}
 
 		internal TreeNodeViewModel()
 		{
 			Tree = null;
 			Index = -1;
-			Children = new TreeItemCollection(this);
-			Children.CollectionChanged += ChildrenChanged;
+			Nodes = new TreeItemCollection(this);
+			Nodes.CollectionChanged += ChildrenChanged;
 		}
 
 		private bool IsVisible
 		{
 			get
 			{
-				TreeNodeViewModel node = Parent;
+				TreeNodeViewModel node = ParentNode;
 				while (node != null)
 				{
 					if (!node.IsExpanded)
 						return false;
-					node = node.Parent;
+					node = node.ParentNode;
 				}
 				return true;
 			}
@@ -116,12 +116,12 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				if (Parent != null)
+				if (ParentNode != null)
 				{
-					if (Parent.NextNode != null)
-						return Parent.NextNode;
+					if (ParentNode.NextNode != null)
+						return ParentNode.NextNode;
 					else
-						return Parent.BottomNode;
+						return ParentNode.BottomNode;
 				}
 				return null;
 			}
@@ -130,8 +130,8 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				if (IsExpanded && Children.Count > 0)
-					return Children[0];
+				if (IsExpanded && Nodes.Count > 0)
+					return Nodes[0];
 				else
 					return NextNode ?? BottomNode;
 			}
@@ -140,10 +140,10 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				if (Parent != null)
+				if (ParentNode != null)
 				{
-					if (Index < Parent.Children.Count - 1)
-						return Parent.Children[Index + 1];
+					if (Index < ParentNode.Nodes.Count - 1)
+						return ParentNode.Nodes[Index + 1];
 				}
 				return null;
 			}
@@ -271,7 +271,7 @@ namespace Infrastructure.Common.TreeList
 		}
 		public bool HasChildren
 		{
-			get { return Children.Count > 0; }
+			get { return Nodes.Count > 0; }
 		}
 
 		public void ExpandToThis()
@@ -280,7 +280,7 @@ namespace Infrastructure.Common.TreeList
 			while (parent != null)
 			{
 				parent.IsExpanded = true;
-				parent = parent.Parent;
+				parent = parent.ParentNode;
 			}
 		}
 		public void CollapseChildren(bool withSelf = true)
@@ -295,7 +295,7 @@ namespace Infrastructure.Common.TreeList
 		{
 			if (withSelf)
 				action(parent);
-			foreach (TreeNodeViewModel t in parent.Children)
+			foreach (TreeNodeViewModel t in parent.Nodes)
 				ProcessAllChildren(t, true, action);
 		}
 	}
@@ -309,37 +309,48 @@ namespace Infrastructure.Common.TreeList
 		public TreeNodeViewModel(IEnumerable<T> children)
 			: this()
 		{
-			Children.InsertRange(0, children);
+			Nodes.InsertRange(0, children);
 		}
 
-		public T ParentItem
+		public T Parent
 		{
-			get { return Parent as T; }
+			get { return ParentNode as T; }
 		}
 		public T this[int index]
 		{
-			get { return Children[index] as T; }
+			get { return Nodes[index] as T; }
 		}
-		public void Add(T item)
+		public void AddChild(T item)
 		{
-			Children.Add(item);
+			Nodes.Add(item);
+		}
+		public void ClearChildren()
+		{
+			Nodes.Clear();
+		}
+		public int ChildrenCount
+		{
+			get { return Nodes.Count; }
+		}
+		public IEnumerable<T> Children
+		{
+			get
+			{
+				foreach (T child in Children)
+					yield return child;
+			}
 		}
 
 		public List<T> GetAllParents()
 		{
-			if (Parent == null)
+			if (ParentNode == null)
 				return new List<T>();
 			else
 			{
-				List<T> allParents = ParentItem.GetAllParents();
-				allParents.Add(ParentItem);
+				List<T> allParents = Parent.GetAllParents();
+				allParents.Add(Parent);
 				return allParents;
 			}
-		}
-		public IEnumerable<T> GetChildren()
-		{
-			foreach(T child in Children)
-				yield return child;
 		}
 	}
 }

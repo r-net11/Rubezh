@@ -74,7 +74,7 @@ namespace DevicesModule.ViewModels
 			foreach (var device in deviceViewModels.Where(x => x.Device.Parent != null))
 			{
 				var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.Children.Add(device);
+				parent.AddChild(device);
 			}
 
 			availableDeviceViewModels = new List<DeviceViewModel>();
@@ -91,7 +91,7 @@ namespace DevicesModule.ViewModels
 			foreach (var device in availableDeviceViewModels.Where(x => x.Device.Parent != null))
 			{
 				var parent = availableDeviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.Children.Add(device);
+				parent.AddChild(device);
 			}
 
 			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);

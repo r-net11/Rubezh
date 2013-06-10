@@ -137,7 +137,7 @@ namespace DevicesModule.ViewModels
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
@@ -167,7 +167,7 @@ namespace DevicesModule.ViewModels
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.ParentItem.Driver.AutoChild == SelectedDevice.Driver.UID
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.UID
 				|| FiresecManager.FiresecConfiguration.IsChildMPT(SelectedDevice.Device));
 		}
 
@@ -177,12 +177,12 @@ namespace DevicesModule.ViewModels
 			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, false);
 			if (CanDoPaste(SelectedDevice))
 				PasteDevice(pasteDevice, SelectedDevice);
-			else if (SelectedDevice != null && CanDoPaste(SelectedDevice.ParentItem))
-				PasteDevice(pasteDevice, SelectedDevice.ParentItem);
+			else if (SelectedDevice != null && CanDoPaste(SelectedDevice.Parent))
+				PasteDevice(pasteDevice, SelectedDevice.Parent);
 		}
 		bool CanPaste()
 		{
-			return CanDoPaste(SelectedDevice) || (SelectedDevice != null && CanDoPaste(SelectedDevice.ParentItem));
+			return CanDoPaste(SelectedDevice) || (SelectedDevice != null && CanDoPaste(SelectedDevice.Parent));
 		}
 		bool CanDoPaste(DeviceViewModel deviceViewModel)
 		{
