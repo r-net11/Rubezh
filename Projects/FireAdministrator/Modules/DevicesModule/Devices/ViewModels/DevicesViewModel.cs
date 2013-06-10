@@ -97,8 +97,6 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				if (value != null)
-					value.ExpandToThis();
 				OnPropertyChanged("SelectedDevice");
 				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);

@@ -276,7 +276,7 @@ namespace Infrastructure.Common.TreeList
 
 		public void ExpandToThis()
 		{
-			var parent = this;
+			var parent = this.ParentNode;
 			while (parent != null)
 			{
 				parent.IsExpanded = true;
@@ -336,7 +336,7 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				foreach (T child in Children)
+				foreach (T child in Nodes)
 					yield return child;
 			}
 		}

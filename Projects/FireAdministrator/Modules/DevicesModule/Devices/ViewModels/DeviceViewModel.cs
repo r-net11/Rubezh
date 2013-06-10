@@ -715,5 +715,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
+
+		public override string ToString()
+		{
+			return Device.FullPresentationName;
+		}
 	}
 }
