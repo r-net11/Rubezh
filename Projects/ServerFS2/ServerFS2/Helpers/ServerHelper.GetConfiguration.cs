@@ -207,9 +207,13 @@ namespace ServerFS2
 			    parentAddress = DeviceFlash[pointer + 35] + (DeviceFlash[pointer + 36] + 1) * 256;
                 var startUpDelay = BytesHelper.ExtractShort(DeviceFlash, pointer + 37);
                 var zoneNo = BytesHelper.ExtractShort(DeviceFlash, pointer + 39);
-				device.Zone = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => x.No == zoneNo).Zone;
+				var zonePanelItem = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => x.No == zoneNo);
+				if (zonePanelItem != null)
+				{
+					device.Zone = zonePanelItem.Zone;
+					device.ZoneUID = device.Zone.UID;
+				}
 				// номер привязанной зоны (2) pointer + 40
-				device.ZoneUID = device.Zone.UID;
                 if (parentAddress > 0x100)
                 {
                     groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == parentAddress));
@@ -261,8 +265,12 @@ namespace ServerFS2
             var tableDynamicSize = DeviceFlash[pointer + 7];
             if (zoneNo != 0)
             {
-                device.Zone = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => (x.No == zoneNo) && x.PanelDevice.IntAddress == PanelDevice.IntAddress).Zone;
-                device.ZoneUID = device.Zone.UID;
+				var zonePanelItem = zonePanelRelationsInfo.ZonePanelItems.FirstOrDefault(x => (x.No == zoneNo) && x.PanelDevice.IntAddress == PanelDevice.IntAddress);
+				if (zonePanelItem != null)
+				{
+					device.Zone = zonePanelItem.Zone;
+					device.ZoneUID = device.Zone.UID;
+				}
             }
             if (driverType == DriverType.AM_1)
             {

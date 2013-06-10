@@ -38,7 +38,7 @@ namespace ServerFS2
 			}
 		}
 
-		public Request GetById(uint id)
+		public Request GetById(int id)
 		{
 			lock (locker)
 			{
@@ -46,7 +46,7 @@ namespace ServerFS2
 			}
 		}
 
-		public void RemoveById(uint id)
+		public void RemoveById(int id)
 		{
 			lock (locker)
 			{

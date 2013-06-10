@@ -97,12 +97,8 @@ namespace ServerFS2
 						};
 						if (!IsUsbDevice)
 						{
-							response.Id = (uint)(bytes.ToList()[3] +
-									bytes.ToList()[2] * 256 +
-									bytes.ToList()[1] * 256 * 256 +
-									bytes.ToList()[0] * 256 * 256 * 256);
+							response.Id = BytesHelper.ExtractInt(bytes.ToList(), 0);
 						}
-						//Trace.WriteLine("UsbRunner.OnDataRecieved");
 						OnResponseRecieved(response);
 						AutoResetEvent.Set();
 						OnNewResponse(response);
@@ -220,7 +216,7 @@ namespace ServerFS2
 				var request = new Request();
 				if (!IsUsbDevice)
 				{
-					request.Id = (uint)usbRequestNo;
+					request.Id = usbRequestNo;
 					if (usbRequestNo != -1)
 					{
 						bytes.InsertRange(0, BitConverter.GetBytes(usbRequestNo).Reverse());

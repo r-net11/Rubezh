@@ -8,13 +8,13 @@ using ServerFS2;
 using ServerFS2.Service;
 using FiresecAPI;
 using ServerFS2.Journal;
+using ServerFS2.ConfigurationWriter;
 
 
 namespace ServerFS2.Monitor
 {
 	public class MonitoringDevice
 	{
-
 		const int maxSequentUnAnswered = 1000;
 		const int maxMessages = 1024;
 		const int maxSecMessages = 1024;
@@ -28,7 +28,7 @@ namespace ServerFS2.Monitor
 		
 		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
-			CallbackManager.Add(new FS2Callbac() { JournalRecords = new List<FS2JournalItem>() { fsJournalItem } });
+			CallbackManager.Add(new FS2Callbac() { JournalItems = new List<FS2JournalItem>() { fsJournalItem } });
 			DatabaseHelper.AddJournalItem(fsJournalItem);
 			if (NewJournalItem != null)
 				NewJournalItem(fsJournalItem);
@@ -43,6 +43,7 @@ namespace ServerFS2.Monitor
 			Panel = device;
 			Requests = new List<Request>();
 			StatesToReset = new List<DriverState>();
+			DevicesToIgnore = new List<Device>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastSystemIndex = -1;
 			FirstSystemIndex = -1;
@@ -57,6 +58,10 @@ namespace ServerFS2.Monitor
 		}
 
 		public List<DriverState> StatesToReset { get; set; }
+		public List<Device> DevicesToIgnore { get; set; }
+		public List<Device> DevicesToResetIgnore { get; set; }
+
+
 		public int LastDeviceIndex { get; set; }
 		public bool IsReadingNeeded { get; set; }
 		public bool IsInitialized { get; private set; }
@@ -106,6 +111,7 @@ namespace ServerFS2.Monitor
 
 		void ToInitializingState()
 		{
+			return;
 			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState{ DriverState = InitializingState, Time = DateTime.Now }};
 			Panel.GetRealChildren().ForEach(x =>
 			{
@@ -118,6 +124,7 @@ namespace ServerFS2.Monitor
 
 		void ToLostConnectionState()
 		{
+			return;
 			Panel.DeviceState.States = new List<DeviceDriverState> { LostConnectionState };
 			Panel.GetRealChildren().ForEach(x =>
 			{
@@ -130,6 +137,7 @@ namespace ServerFS2.Monitor
 
 		void FromLostConnectionState()
 		{
+			return;
 			Panel.DeviceState.States = new List<DeviceDriverState>();
 			Panel.GetRealChildren().ForEach(x =>
 				{
@@ -199,7 +207,7 @@ namespace ServerFS2.Monitor
 			}
 			CanRequestLastIndex = true;
 			
-			LastDeviceIndex = 256 * 256 * 256 * response.Data[7] + 256 * 256 * response.Data[8] + 256 * response.Data[9] + response.Data[10];
+			LastDeviceIndex = BytesHelper.ExtractInt(response.Data, 7);
 			if (FirstSystemIndex == -1)
 				FirstSystemIndex = LastDeviceIndex;
 			if (LastSystemIndex == -1)
@@ -218,8 +226,6 @@ namespace ServerFS2.Monitor
 			}
 		}
 
-		
-
 		bool IsLastIndexValid(Response response)
 		{
 			if (response.Data[6] == 192)
@@ -228,7 +234,6 @@ namespace ServerFS2.Monitor
 				response.Data[5] == Panel.IntAddress &&
 				response.Data[6] == 65);
 		}
-
 
 		public List<FS2JournalItem> GetNewItems()
 		{
@@ -251,26 +256,26 @@ namespace ServerFS2.Monitor
 
 	}
 
-	public class SecMonitoringDevice : MonitoringDevice
-	{
-		public SecMonitoringDevice(Device device)
-		{
-			Panel = device;
-			Requests = new List<Request>();
-			LastSystemIndex = XmlJournalHelper.GetLastId(device);
-			LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
-			FirstSystemIndex = -1;
-		}
+	//public class SecMonitoringDevice : MonitoringDevice
+	//{
+	//    public SecMonitoringDevice(Device device)
+	//    {
+	//        Panel = device;
+	//        Requests = new List<Request>();
+	//        LastSystemIndex = XmlJournalHelper.GetLastId(device);
+	//        LastDisplayedSecRecord = XmlJournalHelper.GetLastSecId(device);
+	//        FirstSystemIndex = -1;
+	//    }
 
-		int lastDisplayedSecRecord;
-		public int LastDisplayedSecRecord
-		{
-			get { return lastDisplayedSecRecord; }
-			set
-			{
-				lastDisplayedSecRecord = value;
-				XmlJournalHelper.SetLastId(Panel, value);
-			}
-		}
-	}
+	//    int lastDisplayedSecRecord;
+	//    public int LastDisplayedSecRecord
+	//    {
+	//        get { return lastDisplayedSecRecord; }
+	//        set
+	//        {
+	//            lastDisplayedSecRecord = value;
+	//            XmlJournalHelper.SetLastId(Panel, value);
+	//        }
+	//    }
+	//}
 }

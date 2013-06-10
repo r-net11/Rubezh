@@ -11,6 +11,7 @@ using System.Collections;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2;
 using FS2Api;
+using ServerFS2.Monitor;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -153,13 +154,15 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			MainManager.AddToIgnoreList(new List<Device>() { Device });
+			MonitoringProcessor.AddTaskIgnore(Device);
+			//MainManager.AddToIgnoreList(new List<Device>() { Device });
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			MainManager.RemoveFromIgnoreList(new List<Device>() { Device });
+			MonitoringProcessor.AddTaskResetIgnore(Device);
+			//MainManager.RemoveFromIgnoreList(new List<Device>() { Device });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

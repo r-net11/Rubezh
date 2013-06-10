@@ -149,23 +149,22 @@ namespace ServerFS2.Journal
 				var sqlCeCommand = new SqlCeCommand();
 				sqlCeCommand.Connection = sqlCeConnection;
 				sqlCeCommand.CommandText = @"Insert Into Journal" +
-					"(Description, Detalization, DeviceCategory, DeviceUID, DeviceName, DeviceTime, PanelUID, PanelName, StateType, SubsystemType, SystemTime, UserName, ZoneName, DeviceAddress, PanelAddress) Values" +
-					"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15)";
-				sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.Description ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.Detalization ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.DeviceCategory ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.DeviceUID ?? DBNull.Value);
+					"(DeviceTime, SystemTime, Description, Detalization, DeviceName, PanelName, DeviceUID, PanelUID, ZoneName, DeviceCategory, StateType, SubsystemType, UserName) Values" +
+					"(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13)";
+
+				sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.DeviceTime ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.SystemTime ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Description ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Detalization ?? DBNull.Value);
 				sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.DeviceName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.DeviceTime ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.PanelUID ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.PanelName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.StateType ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.SubsystemType ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.SystemTime ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.ZoneName ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.DeviceAddress ?? DBNull.Value);
-				sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.PanelAddress ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.PanelName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.DeviceUID ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.PanelUID ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.ZoneName ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.DeviceCategory ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.StateType ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.SubsystemType ?? DBNull.Value);
+				sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.UserName ?? DBNull.Value);
 				sqlCeCommand.ExecuteNonQuery();
 			}
 			catch (Exception e)

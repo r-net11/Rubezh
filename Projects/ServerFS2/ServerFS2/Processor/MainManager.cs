@@ -52,6 +52,14 @@ namespace ServerFS2.Processor
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
+
+				foreach (var state in device.DeviceState.States)
+				{
+					if (state.DriverState == null)
+					{
+						;
+					}
+				}
 			}
 			return deviceStates;
 		}

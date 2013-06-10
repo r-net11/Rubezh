@@ -17,7 +17,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddByte(Device.AddressOnShleif, "Адрес");
 			BytesDatabase.AddByte((Device.ShleifNo - 1), "Шлейф");
 			BytesDatabase.AddByte(Device.Parent.IntAddress, "Адрес прибора");
-			var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(Device.Driver.DriverType);
+			var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(Device.Driver.DriverType);
 			BytesDatabase.AddByte(deviceCode, "Тип ИУ");
 
 			var tableBase = panelDatabase.FlashDatabase.LocalZonesTableGroup.Tables.FirstOrDefault(x => x.UID == Device.Zone.UID);

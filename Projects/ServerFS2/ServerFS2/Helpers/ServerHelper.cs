@@ -27,8 +27,8 @@ namespace ServerFS2
         static ServerHelper()
         {
             Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-			UsbRunnerBase = new UsbRunner();
-			//UsbRunnerBase = new UsbRunner2();
+			//UsbRunnerBase = new UsbRunner();
+			UsbRunnerBase = new UsbRunner2();
             try
             {
 				UsbRunnerBase.Open();
@@ -49,9 +49,18 @@ namespace ServerFS2
 		{
 			var bytes = CreateBytesArray(value);
 			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
-			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true).Result[0].Data;
-			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
-			return result;
+			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
+			if (result != null)
+			{
+				var responce = result.Result.FirstOrDefault();
+				if (responce != null)
+				{
+					var data = responce.Data;
+					data.RemoveRange(0, IsUsbDevice ? 2 : 7);
+					return data;
+				}
+			}
+			return null;
 		}
 
         public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)

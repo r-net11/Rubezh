@@ -194,16 +194,6 @@ namespace ServerFS2.Monitor
 					if (metadataDeviceState.Intbitno != null)
 						bitNoString = metadataDeviceState.Intbitno;
 
-					if (device.Driver.DriverType == DriverType.RM_1 && metadataDeviceState.intBitno == "8")
-					{
-						if (metadataDeviceState.name == "Включение РМ")
-						{
-							Trace.WriteLine("metadataDeviceState.name == Включение РМ " + stateBytes[0] + " " + stateBytes[1]);
-							;
-						}
-						;
-					}
-
 					if (bitNoString != null)
 					{
 						int bitNo = -1;
@@ -240,12 +230,7 @@ namespace ServerFS2.Monitor
 				Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);
 			}
 
-			var stringParameters = "";
-			foreach (var b in stateBytes)
-			{
-				stringParameters += b.ToString() + " ";
-			}
-			Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + stringParameters);
+			Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + BytesHelper.BytesToString(stateBytes));
 		}
 
 		public static void UpdateDeviceState(List<FS2JournalItem> journalItems)
@@ -323,7 +308,7 @@ namespace ServerFS2.Monitor
 												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
 												if (driverState != null)
 												{
-													if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState.Code == driverState.Code))
+													if (!journalItem.Device.DeviceState.States.Any(x => x.DriverState != null && x.DriverState.Code == driverState.Code))
 													{
 														if (driverState.Name == "Включение РМ")
 														{
