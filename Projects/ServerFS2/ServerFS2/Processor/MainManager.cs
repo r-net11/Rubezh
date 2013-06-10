@@ -5,19 +5,32 @@ using System.Collections.Generic;
 using FS2Api;
 using ServerFS2.Service;
 using ServerFS2.ConfigurationWriter;
+using System.Threading;
+using System.Diagnostics;
+using ServerFS2.Monitor;
 
 namespace ServerFS2.Processor
 {
 	public static class MainManager
 	{
+		#region Common
+		public static event Action<FS2JournalItem> NewJournalItem;
+
 		public static void StartMonitoring()
 		{
+			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
+			MonitoringProcessor.StartMonitoring();
+		}
 
+		static void OnNewItem(FS2JournalItem journalItem)
+		{
+			if (NewJournalItem != null)
+				NewJournalItem(journalItem);
 		}
 
 		public static void StopMonitoring()
 		{
-
+			MonitoringProcessor.StopMonitoring();
 		}
 
 		public static void SuspendMonitoring()
@@ -29,24 +42,92 @@ namespace ServerFS2.Processor
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
 		}
+		#endregion
 
-		public static void CancelProgress()
+		#region Monitoring
+		public static List<DeviceState> GetDeviceStates()
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Отмена операции") });
+			var deviceStates = new List<DeviceState>();
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
+				deviceStates.Add(device.DeviceState);
+			}
+			return deviceStates;
 		}
 
-		public static bool SetNewConfig(DeviceConfiguration deviceConfiguration)
+		public static List<DeviceState> GetDeviceParameters()
 		{
-			return true;
+			var deviceStates = new List<DeviceState>();
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
+				deviceStates.Add(device.DeviceState);
+			}
+			return deviceStates;
 		}
 
-		public static bool DeviceWriteConfig(Device device, bool isUSB)
+		public static void AddToIgnoreList(List<Device> devices)
+		{
+			foreach (var device in devices)
+			{
+				ServerHelper.AddToIgnoreList(device);
+			}
+		}
+
+		public static void RemoveFromIgnoreList(List<Device> devices)
+		{
+			foreach (var device in devices)
+			{
+				ServerHelper.RemoveFromIgnoreList(device);
+			}
+		}
+
+		public static void SetZoneGuard(Guid zoneUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void UnSetZoneGuard(Guid zoneUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void SetDeviceGuard(Guid deviceUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void UnSetDeviceGuard(Guid deviceUID)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void ResetStates(List<PaneleResetItem> paneleResetItems)
+		{
+			ServerHelper.ResetStates(paneleResetItems);
+		}
+
+		public static void ExecuteCommand(Guid deviceUID, string methodName)
+		{
+			throw new FS2Exception("Функция пока не реализована");
+		}
+		#endregion
+
+		#region Administrator
+		public static void SetNewConfig(DeviceConfiguration deviceConfiguration)
+		{
+			ConfigurationManager.DeviceConfiguration = deviceConfiguration;
+			ConfigurationManager.Update();
+		}
+
+		public static void DeviceWriteConfig(Device device, bool isUSB)
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
-			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Run();
+			var systemDatabaseCreator = new SystemDatabaseCreator();
+			systemDatabaseCreator.Run();
 
-			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
+			var panelDatabase = systemDatabaseCreator.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
 			if (panelDatabase == null)
 				throw new FS2Exception("Не найдена сформированная для устройства база данных");
 
@@ -55,11 +136,9 @@ namespace ServerFS2.Processor
 			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
 			ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
-
-			return true;
 		}
 
-		public static bool DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
+		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -111,7 +190,7 @@ namespace ServerFS2.Processor
 
 		public static List<DeviceCustomFunction> DeviceCustomFunctionList(DriverType driverType)
 		{
-			switch(driverType)
+			switch (driverType)
 			{
 				case DriverType.Rubezh_2AM:
 					return new List<DeviceCustomFunction>()
@@ -134,7 +213,7 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static string DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)
+		public static void DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -144,7 +223,7 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static bool DeviceSetGuardUsersList(Device device, string users)
+		public static void DeviceSetGuardUsersList(Device device, string users)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -154,7 +233,7 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static bool SetConfigurationParameters(Device device, List<Property> properties)
+		public static void SetConfigurationParameters(Device device, List<Property> properties)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -163,5 +242,6 @@ namespace ServerFS2.Processor
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
+		#endregion
 	}
 }

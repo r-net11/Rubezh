@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FS2Api;
+using System.Diagnostics;
 
 namespace ServerFS2.Service
 {
@@ -11,6 +12,13 @@ namespace ServerFS2.Service
 		static object locker = new object();
 		static List<FSAgentCallbacCash> FSAgentCallbacCashes = new List<FSAgentCallbacCash>();
 		static int LastIndex { get; set; }
+
+		public static void AddProgress(FS2ProgressInfo progressInfo)
+		{
+			FS2Contract.CheckCancellationRequested();
+			Add(new FS2Callbac() { FS2ProgressInfo = progressInfo });
+			Trace.WriteLine("AddProgress: " + progressInfo.Comment);
+		}
 
 		public static void Add(FS2Callbac fsAgentCallbac)
 		{
@@ -32,18 +40,6 @@ namespace ServerFS2.Service
 
 		public static List<FS2Callbac> Get(ClientInfo clientInfo)
 		{
-			if (IsConnectionLost)
-			{
-				Thread.Sleep(TimeSpan.FromSeconds(1));
-				var result = new List<FS2Callbac>();
-				var fsAgentCallbac = new FS2Callbac()
-				{
-					IsConnectionLost = IsConnectionLost
-				};
-				result.Add(fsAgentCallbac);
-				return result;
-			}
-
 			lock (FSAgentCallbacCashes)
 			{
 				var result = new List<FS2Callbac>();
@@ -61,13 +57,6 @@ namespace ServerFS2.Service
 				}
 				return result;
 			}
-		}
-
-		static bool IsConnectionLost = false;
-		public static void SetConnectionLost(bool value)
-		{
-			IsConnectionLost = value;
-			ClientsManager.ClientInfos.ForEach(x => x.PollWaitEvent.Set());
 		}
 	}
 

@@ -3,6 +3,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using ServerFS2;
 
 namespace ClientFS2.ViewModels
 {
@@ -18,8 +19,6 @@ namespace ClientFS2.ViewModels
 			FiresecManager.FiresecConfiguration = new FiresecConfiguration();
 			FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationManager.DeviceConfiguration;
 			FiresecManager.FiresecConfiguration.DriversConfiguration = ConfigurationManager.DriversConfiguration;
-			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
-			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic);
 			UpdateZoneName();
 		}
 		public Device Device { get; private set; }
@@ -39,15 +38,6 @@ namespace ClientFS2.ViewModels
 				}
 				OnPropertyChanged("Address");
 			}
-		}
-		public bool HasDifferences
-		{
-			get { return Device.HasDifferences; }
-			set { }
-		}
-		public string ConnectedTo
-		{
-			get { return Device.ConnectedTo; }
 		}
 		public Driver Driver
 		{
@@ -88,21 +78,7 @@ namespace ClientFS2.ViewModels
 
 		void UpdateZoneName()
 		{
-			if (Device.IsNotUsed)
-				PresentationZone = null;
 			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
-
-			if (Device.IsNotUsed)
-				EditingPresentationZone = null;
-			var presentationZone = PresentationZone;
-			if (string.IsNullOrEmpty(presentationZone))
-			{
-				if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
-					presentationZone = "Нажмите для выбора зон";
-				if (Driver.IsZoneLogicDevice)
-					presentationZone = "Нажмите для настройки логики";
-			}
-			EditingPresentationZone = presentationZone;
 		}
 
 		string _presentationZone;
@@ -132,50 +108,6 @@ namespace ClientFS2.ViewModels
 			get { return Driver.IsZoneDevice || Driver.IsZoneLogicDevice || Driver.DriverType == DriverType.Indicator || Driver.DriverType == DriverType.PDUDirection; }
 		}
 
-		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
-		void OnShowZoneOrLogic()
-		{
-			if (Driver.IsZoneDevice)
-			{
-				if (!FiresecManager.FiresecConfiguration.IsChildMPT(Device))
-				{
-					var zoneSelectationViewModel = new ZoneSelectationViewModel(Device);
-					if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-					{
-						//ServiceFactory.SaveService.FSChanged = true;
-					}
-				}
-			}
-			if (Driver.IsZoneLogicDevice)
-			{
-				OnShowZoneLogic();
-			}
-			if (Driver.DriverType == DriverType.Indicator)
-			{
-				//OnShowIndicatorLogic();
-			}
-			if (Driver.DriverType == DriverType.PDUDirection)
-			{
-				//if (DialogService.ShowModalWindow(new PDUDetailsViewModel(Device)))
-				//ServiceFactory.SaveService.FSChanged = true;
-			}
-			UpdateZoneName();
-		}
-
-		public RelayCommand ShowZoneLogicCommand { get; private set; }
-		void OnShowZoneLogic()
-		{
-			var zoneLogicViewModel = new ZoneLogicViewModel(Device);
-			if (DialogService.ShowModalWindow(zoneLogicViewModel))
-			{
-				//ServiceFactory.SaveService.FSChanged = true;
-			}
-			UpdateZoneName();
-		}
-		bool CanShowZoneLogic()
-		{
-			return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
-		}
 		#endregion
 	}
 }

@@ -14,14 +14,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Diagnostics;
+using FS2Api;
 
 namespace JournalModule.ViewModels
 {
 	public class JournalRecordViewModel : BaseViewModel
 	{
-		public JournalRecord JournalRecord { get; private set; }
-		readonly Device _device;
-		readonly Zone _zone;
+		readonly Device Device;
+		readonly Zone Zone;
 
 		public JournalRecordViewModel(JournalRecord journalRecord)
 		{
@@ -29,54 +29,93 @@ namespace JournalModule.ViewModels
 			ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 
-			JournalRecord = journalRecord;
+			DeviceTime = journalRecord.DeviceTime;
+			SystemTime = journalRecord.SystemTime;
+			ZoneName = journalRecord.ZoneName;
+			Description = GetDescription(journalRecord.Detalization);
+			DeviceName = journalRecord.DeviceName;
+			PanelName = journalRecord.PanelName;
+			User = journalRecord.User;
+			SubsystemType = journalRecord.SubsystemType;
+			StateType = journalRecord.StateType;
 
 			if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
-				_device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+				Device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
 			else
-				_device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
+				Device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
 
-			_zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == JournalRecord.ZoneName);
+			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalRecord.ZoneName);
 		}
 
-		public string Description
+		public JournalRecordViewModel(FS2JournalItem journalItem)
 		{
-			get
-			{
-				if (string.IsNullOrEmpty(JournalRecord.Detalization))
-					return null;
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
+			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 
-				try
-				{
-					var memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(JournalRecord.Detalization));
-					var richTextBox = new RichTextBox();
-					richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
-					TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
-					var result = textrange.Text;
-					result = result.Replace("</li><li>", "\r\n");
-					result = result.Replace("<li>", "");
-					result = result.Replace("</li>", "");
-					if (result == "я")
-						result = "";
-					return result;
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "JournalRecordViewModel.Description JournalRecord.Detalization = " + JournalRecord.Detalization);
-					return null;
-				}
+			DeviceTime = journalItem.DeviceTime;
+			SystemTime = journalItem.SystemTime;
+			ZoneName = journalItem.ZoneName;
+			Description = journalItem.Description;
+			DeviceName = journalItem.DeviceName;
+			PanelName = journalItem.PanelName;
+			User = journalItem.UserName;
+			SubsystemType = journalItem.SubsystemType;
+			StateType = journalItem.StateType;
+
+			if (journalItem.DeviceUID != Guid.Empty)
+				Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+			else
+				Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
+
+			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalItem.ZoneName);
+		}
+
+		public DateTime DeviceTime { get; private set; }
+		public DateTime SystemTime { get; private set; }
+		public string ZoneName { get; private set; }
+		public string Description{ get; private set; }
+		public string DeviceName { get; private set; }
+		public string PanelName { get; private set; }
+		public string User { get; private set; }
+		public SubsystemType SubsystemType { get; private set; }
+		public StateType StateType { get; private set; }
+
+		string GetDescription(string detalization)
+		{
+			if (string.IsNullOrEmpty(detalization))
+				return null;
+
+			try
+			{
+				var memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(detalization));
+				var richTextBox = new RichTextBox();
+				richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
+				TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+				var result = textrange.Text;
+				result = result.Replace("</li><li>", "\r\n");
+				result = result.Replace("<li>", "");
+				result = result.Replace("</li>", "");
+				if (result == "я")
+					result = "";
+				return result;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalRecordViewModel.Description JournalRecord.Detalization = " + detalization);
+				return null;
 			}
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
 		}
 
 		bool CanShowOnPlan()
 		{
-			if (_device != null)
+			if (Device != null)
 				return ExistsOnPlan();
 			return false;
 		}
@@ -86,7 +125,7 @@ namespace JournalModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				if (plan != null && plan.ElementDevices.IsNotNullOrEmpty())
 				{
-					var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.DeviceUID == _device.UID);
+					var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.DeviceUID == Device.UID);
 					if (elementDevice != null)
 						return true;
 				}
@@ -96,22 +135,22 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowTreeCommand { get; private set; }
 		void OnShowTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.UID);
 		}
 		bool CanShowTree()
 		{
-			return _device != null;
+			return Device != null;
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zone.UID);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Zone.UID);
 		}
 
 		bool CanShowZone()
 		{
-			return _zone != null;
+			return Zone != null;
 		}
 	}
 }

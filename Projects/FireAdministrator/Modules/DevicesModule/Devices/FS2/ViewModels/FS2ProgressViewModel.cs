@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using FiresecClient;
 using FS2Api;
 using Infrastructure.Common.Windows;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -37,6 +39,7 @@ namespace DevicesModule.ViewModels
 		void OnProgress(FS2ProgressInfo fs2ProgressInfo)
 		{
 			Description = fs2ProgressInfo.Comment;
+			Trace.WriteLine("fs2ProgressInfo.PercentComplete " + fs2ProgressInfo.Comment + " " + fs2ProgressInfo.PercentComplete);
 			if (fs2ProgressInfo.PercentComplete >= 0)
 			{
 				Percent = fs2ProgressInfo.PercentComplete;
@@ -88,7 +91,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			FiresecManager.FS2ClientContract.CancelProgress();
+			Task.Factory.StartNew(() =>
+				{
+					FiresecManager.FS2ClientContract.CancelProgress();
+				});
 		}
 	}
 }

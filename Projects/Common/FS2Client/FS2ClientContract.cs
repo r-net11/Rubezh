@@ -6,11 +6,11 @@ namespace FS2Client
 	{
 		FS2Factory FS2Factory;
 		public IFS2Contract FS2Contract { get; set; }
-		string _serverAddress;
+		string ServerAddress;
 
 		public FS2ClientContract(string serverAddress)
 		{
-			_serverAddress = serverAddress;
+			ServerAddress = serverAddress;
 			FS2Factory = new FS2Factory();
 			FS2Contract = FS2Factory.Create(serverAddress);
 		}

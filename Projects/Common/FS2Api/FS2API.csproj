@@ -47,6 +47,7 @@
     <Compile Include="FS2ProgressInfo.cs" />
     <Compile Include="IFS2Contract.cs" />
     <Compile Include="FS2JournalItem.cs" />
+    <Compile Include="PaneleResetItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

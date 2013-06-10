@@ -23,19 +23,4 @@
         <Views:DeviceConfigurationView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZoneSelectationViewModel}">
-        <Views:ZoneSelectationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:ZonesSelectionViewModel}">
-        <Views:ZonesSelectionView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:ZoneLogicViewModel}">
-        <Views:ZoneLogicView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:ZoneLogicDeviceSelectionViewModel}">
-        <Views:ZoneLogicDeviceSelectionView />
-    </DataTemplate>
 </ResourceDictionary>

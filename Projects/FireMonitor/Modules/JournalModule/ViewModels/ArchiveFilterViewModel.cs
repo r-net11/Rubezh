@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
 		{
 			JournalEvents = new List<EventViewModel>();
 
-			var operationResult = FiresecClient.FiresecManager.FiresecService.GetDistinctDescriptions();
+			var operationResult = FiresecClient.FiresecManager.GetDistinctDescriptions();
 			if (operationResult.HasError == false)
 			{
 				if (operationResult.Result.Count > 0)

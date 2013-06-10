@@ -319,7 +319,7 @@ namespace DevicesModule.ViewModels
 			var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
-			FiresecManager.FiresecDriver.ResetStates(resetItems);
+			FiresecManager.ResetStates(resetItems);
 
 			OnPropertyChanged("DeviceState");
 		}

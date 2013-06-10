@@ -61,7 +61,7 @@ namespace FiresecAPI.Models
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
 		public BinaryDevice BinaryDevice { get; set; }
-		public List<byte> InnerDeviceParameters{get;set;}
+		public List<byte> InnerDeviceParameters { get; set; }
 
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic
@@ -163,6 +163,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
+
+		[DataMember]
+		public int Offset { get; set; }
 
 		public bool CanBeNotUsed
 		{

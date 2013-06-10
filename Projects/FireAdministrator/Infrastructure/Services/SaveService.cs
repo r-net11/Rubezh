@@ -15,6 +15,17 @@ namespace Infrastructure
 			}
 		}
 
+		bool _fsParametersChanged;
+		public bool FSParametersChanged
+		{
+			get { return _fsParametersChanged; }
+			set
+			{
+				_fsParametersChanged = value;
+				OnChanged();
+			}
+		}
+
 		bool _gkChanged;
 		public bool GKChanged
 		{
@@ -158,7 +169,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged;
 			}
 		}
 
@@ -175,6 +186,7 @@ namespace Infrastructure
 		void SetAllValues(bool value)
 		{
 			FSChanged = value;
+			FSParametersChanged = value;
 			GKChanged = value;
 			PlansChanged = value;
 			LibraryChanged = value;

@@ -21,7 +21,7 @@ namespace ServerFS2.ConfigurationWriter
 			var startOffset = 0;
 			BytesDatabase.Order(startOffset);
 			BytesDatabase.ResolveTableReferences();
-			BytesDatabase.ResolverReferences();
+			BytesDatabase.ResolveReferences();
 		}
 	}
 }

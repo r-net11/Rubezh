@@ -144,7 +144,7 @@ namespace FS2Client
 			{
 				FS2Factory.Dispose();
 				FS2Factory = new FS2Factory();
-				FS2Contract = FS2Factory.Create(_serverAddress);
+				FS2Contract = FS2Factory.Create(ServerAddress);
 				return true;
 			}
 			catch

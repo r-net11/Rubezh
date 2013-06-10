@@ -14,19 +14,20 @@ namespace ServerFS2
 
 		public static void Load()
 		{
+			MetadataHelper.Initialize();
+
 			var serverConfigName = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
 			var folderName = AppDataFolderHelper.GetFolder("Server2");
 			var configFileName = Path.Combine(folderName, "Config.fscp");
+			if (Directory.Exists(folderName))
+				Directory.Delete(folderName, true);
+			Directory.CreateDirectory(folderName);
+			File.Copy(serverConfigName, configFileName);
+
 			var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			var fileInfo = new FileInfo(configFileName);
 			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
-			if (!Directory.Exists(folderName))
-			{
-				Directory.CreateDirectory(folderName);
-				File.Copy(serverConfigName, configFileName);
-
-				zipFile.ExtractAll(unzipFolderPath);
-			}
+			zipFile.ExtractAll(unzipFolderPath);
 
 			var configurationFileName = Path.Combine(unzipFolderPath, "DeviceConfiguration.xml");
 			DeviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationFileName);
@@ -38,7 +39,7 @@ namespace ServerFS2
 			Update();
 		}
 
-		private static void Update()
+		public static void Update()
 		{
 			DeviceConfiguration.Update();
 			DeviceConfiguration.Reorder();
@@ -55,6 +56,11 @@ namespace ServerFS2
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.UpdateHasExternalDevices();
+				device.DeviceState = new DeviceState()
+				{
+					DeviceUID = device.UID,
+					Device = device
+				};
 			}
 		}
 	}

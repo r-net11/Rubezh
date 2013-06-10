@@ -100,5 +100,6 @@ namespace FS2Api
 		public int StateByte { get; set; }
 		public int EventCode { get; set; }
 		public int EventChoiceNo { get; set; }
+		public string BytesString { get; set; }
 	}
 }

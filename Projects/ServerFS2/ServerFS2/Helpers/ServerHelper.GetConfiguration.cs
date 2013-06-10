@@ -7,11 +7,26 @@ using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.Service;
+using FS2Api;
 
 namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
+		public static List<byte> DeviceFlash;
+		public static List<byte> DeviceRom;
+		static int RomDBFirstIndex;
+		static int FlashDBLastIndex;
+		static Device PanelDevice;
+		static int shleifCount;
+		static int outZonesBegin;
+		static int outZonesCount;
+		static int outZonesEnd;
+		static List<Zone> zones;
+		static ZonePanelRelationsInfo zonePanelRelationsInfo;
+		static DeviceConfiguration remoteDeviceConfiguration;
+
 		static void ParseUIDevicesRom(int romPointer, DriverType driverType)
 		{
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
@@ -24,15 +39,17 @@ namespace ServerFS2
 				}
 			}
 		}
+
 		static void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
 			var device = new Device
 			{
 			    Driver = Drivers.FirstOrDefault(x => x.DriverType == driverType),
-			    IntAddress = DeviceFlash[pointer + 1] + 256*(DeviceFlash[pointer + 2] + 1),
-			    InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4], DeviceFlash[pointer + 29], DeviceFlash[pointer + 30])
+			    InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4], DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
+				Offset = pointer + 3
 			};
-		    device.DriverUID = device.Driver.UID;
+			device.IntAddress = driverType == DriverType.Exit ? DeviceFlash[pointer + 1] : DeviceFlash[pointer + 1] + 256*(DeviceFlash[pointer + 2] + 1);
+			device.DriverUID = device.Driver.UID;
             Device groupDevice;
 		    var parentAddress = 0;
 		    var config =  DeviceFlash[pointer + 31];
@@ -227,13 +244,15 @@ namespace ServerFS2
                 }
             }
         }
+
         static void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
         {
             var device = new Device
             {
                 Driver = Drivers.FirstOrDefault(x => x.DriverType == driverType),
                 IntAddress = DeviceFlash[pointer] + 256*(DeviceFlash[pointer + 1] + 1),
-                InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3], DeviceFlash[pointer + 8], DeviceFlash[pointer + 9])
+                InnerDeviceParameters = CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3], DeviceFlash[pointer + 8], DeviceFlash[pointer + 9]),
+				Offset = pointer + 2
             };
             device.DriverUID = device.Driver.UID;
             Device groupDevice;
@@ -404,6 +423,7 @@ namespace ServerFS2
                 }
             }
         }
+
         static void ParseZonesFlash(ref int pointer)
         {
             var zone = new Zone
@@ -442,24 +462,9 @@ namespace ServerFS2
             remoteDeviceConfiguration.Zones.Add(zone);
             pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
         }
-		public static List<byte> DeviceFlash;
-		public static List<byte> DeviceRom;
-		static int RomDBFirstIndex;
-		static int FlashDBLastIndex;
 
-		static Device PanelDevice;
-        static int shleifCount;
-		static int outZonesBegin;
-		static int outZonesCount;
-		static int outZonesEnd;
-		static List<Zone> zones;
-		static ZonePanelRelationsInfo zonePanelRelationsInfo;
-		static DeviceConfiguration remoteDeviceConfiguration;
-
-		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
+		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice) 
 		{
-            var bytes = GetBytesFromFlashDB(selectedDevice, 0x115, 14);
-            #region LocalVariable
             PanelDevice = (Device)selectedDevice.Clone();
             shleifCount = PanelDevice.Driver.ShleifCount;
 			PanelDevice.Children = new List<Device>();
@@ -473,10 +478,8 @@ namespace ServerFS2
 			FlashDBLastIndex = GetFlashLastIndex(PanelDevice);
             DeviceRom = GetRomDBBytes(PanelDevice);
             DeviceFlash = GetFlashDBBytes(PanelDevice);
+
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
-		    int pPointer;
-		    int pointer;
-            #endregion
 		    ParseZonesRom(1542);
             #region Zones
             //if ((pPointer = DeviceRom[1542] * 256 * 256 + DeviceRom[1543] * 256 + DeviceRom[1544]) != 0)
@@ -1459,8 +1462,8 @@ namespace ServerFS2
             //}
             #endregion
             #region Пока не определено
-            if (BytesHelper.ExtractTriple(DeviceRom, 60) != 0)
-				MessageBox.Show("Пока не определено"); // Внешние ИУ
+			//if (BytesHelper.ExtractTriple(DeviceRom, 60) != 0)
+			//    MessageBox.Show("Пока не определено"); // Внешние ИУ
             if (BytesHelper.ExtractTriple(DeviceRom, 66) != 0)
 				MessageBox.Show("Пока не определено"); // МУК
             if (BytesHelper.ExtractTriple(DeviceRom, 72) != 0)
@@ -1564,38 +1567,18 @@ namespace ServerFS2
 		public static List<byte> GetRomDBBytes(Device device)
 		{
 			var packetLenght = IsUsbDevice ? 0x33 : 0xFF;
-		    List<byte> result;
-            if (IsUsbDevice)
-            {
-                var bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
-                result = SendCode(bytes).Result.FirstOrDefault().Data;
-                result.RemoveRange(0, 2);
-            }
-            else
-            {
-                var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
-                result = SendCode(bytes).Result.FirstOrDefault().Data;
-                result.RemoveRange(0, 7);
-            }
-			var romDBLastIndex = 256 * 256 * result[9] + 256 * result[10] + result[11];
+			var result = SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
+			var romDBLastIndex = BytesHelper.ExtractTriple(result, 9);
 
-			for (int i = RomDBFirstIndex + packetLenght + 1; i < romDBLastIndex; i += packetLenght + 1)
+			var numberOfPackets = romDBLastIndex - RomDBFirstIndex / packetLenght;
+
+			for (var i = RomDBFirstIndex + packetLenght + 1; i < romDBLastIndex; i += packetLenght + 1)
 			{
+				var packetNo = (i - RomDBFirstIndex) / packetLenght;
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, romDBLastIndex - i);
-                if (IsUsbDevice)
-                {
-                    var bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(i).Reverse(), length);
-                    var request = SendCode(bytes).Result.FirstOrDefault().Data;
-                    request.RemoveRange(0, 2);
-                    result.AddRange(request);
-                }
-                else
-                {
-                    var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x38, BitConverter.GetBytes(i).Reverse(), length);
-                    var request = SendCode(bytes).Result.FirstOrDefault().Data;
-                    request.RemoveRange(0, 7);
-                    result.AddRange(request);
-                }
+				var request = SendCodeToPanel(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
+				result.AddRange(request);
 			}
 			return result;
 		}
@@ -1604,26 +1587,19 @@ namespace ServerFS2
 		{
 			var packetLenght = IsUsbDevice ? 0x33 : 0xFF;
             var result = new List<byte>();
-            for (int i = 0x100; i < FlashDBLastIndex; i += packetLenght + 1)
+
+			var numberOfPackets = FlashDBLastIndex - 0x100 / packetLenght;
+
+            for (var i = 0x100; i < FlashDBLastIndex; i += packetLenght + 1)
 			{
+				var packetNo = (i - FlashDBLastIndex) / packetLenght;
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
-                if (IsUsbDevice)
-                {
-                    var bytes = CreateBytesArray(0x02, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
-                    var request = SendCode(bytes).Result.FirstOrDefault().Data;
-                    request.RemoveRange(0, 2);
-                    result.AddRange(request);
-                }
-                else
-                {
-                    var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
-                    var request = SendCode(bytes).Result.FirstOrDefault().Data;
-                    request.RemoveRange(0, 7);
-                    result.AddRange(request);
-                }
+				var request = SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
+				result.AddRange(request);
 			}
 		    var nullbytes = new List<byte>();
-            for (int i = 0; i < 0x100; i++)
+            for (var i = 0; i < 0x100; i++)
                 nullbytes.Add(0);
             result.InsertRange(0, nullbytes);
 			return result;
@@ -1631,44 +1607,29 @@ namespace ServerFS2
 
 		static int GetRomFirstIndex(Device device)
 		{
-			List<byte> bytes;
-			if (IsUsbDevice)
-				bytes = CreateBytesArray(0x02, 0x01, 0x57);
-			else
-				bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.AddressOnShleif, 0x01, 0x57);
-
-			var result = SendCode(bytes).Result.FirstOrDefault().Data;
-			if (IsUsbDevice)
-				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });
-			var begin = 256 * result[8] + result[9];
-			return begin * 0x100;
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
+			var result = SendCodeToPanel(device, 0x01, 0x57);
+			return BytesHelper.ExtractTriple(result, 1);
 		}
 
 		static int GetFlashLastIndex(Device device)
 		{
-			List<byte> bytes;
-			if (IsUsbDevice)
-				bytes = CreateBytesArray(0x02, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
-			else
-				bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.AddressOnShleif, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
-
-			var result = SendCode(bytes).Result.FirstOrDefault().Data;
-			if (IsUsbDevice)
-				result.InsertRange(0, new List<byte> { 0, 0, 0, 0, 0 });
-			return result[13] * 256 * 256 + result[14] * 256 + result[15];
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
+			var result = SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
+			return BytesHelper.ExtractTriple(result, 6);
 		}
 
         public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
         {
-            var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
-            var result = SendCode(bytes).Result.FirstOrDefault().Data;
-            result.RemoveRange(0, 7);
-            return result;
+			var result = SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+			return result;
         }
 
-        private static void TraceBytes(IEnumerable<byte> bytes, string description = "")
+        public static string TraceBytes(IEnumerable<byte> bytes, string description = "")
         {
-            Trace.WriteLine(description + " { " + String.Join(" ", bytes.Select(p => p.ToString("X2")).ToArray()) + " } ");
+            var message = (description + " " + String.Join(" ", bytes.Select(p => p.ToString("X2")).ToArray()) + " ");
+            Trace.WriteLine(message);
+            return message;
         }
 	}
 }

@@ -21,7 +21,8 @@ namespace ServerFS2.Service
 				Stop();
 
 				FS2Contract = new FS2Contract();
-				ServiceHost = new ServiceHost(FS2Contract);
+				//ServiceHost = new ServiceHost(FS2Contract);
+				ServiceHost = new ServiceHost(typeof(FS2Contract));
 
 				if (UACHelper.IsAdministrator)
 				{

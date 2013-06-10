@@ -22,45 +22,42 @@ namespace FS2Api
 
 		#region Common
 		[OperationContract]
-		OperationResult<string> GetCoreConfig();
+		OperationResult<DeviceConfiguration> GetDeviceConfiguration();
 
 		[OperationContract]
-		OperationResult<string> GetMetadata();
+		OperationResult<DriversConfiguration> GetDriversConfiguration();
 		#endregion
 
 		#region Monitor
 		[OperationContract]
-		OperationResult<string> GetCoreState();
+		OperationResult<List<DeviceState>> GetDeviceStates();
 
 		[OperationContract]
-		OperationResult<string> GetCoreDeviceParams();
+		OperationResult<List<DeviceState>> GetDeviceParameters();
 
 		[OperationContract]
-		OperationResult<string> ReadEvents(int fromId, int limit);
+		OperationResult AddToIgnoreList(List<Guid> deviceUIDs);
 
 		[OperationContract]
-		void AddToIgnoreList(List<Guid> deviceUIDs);
+		OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
 		[OperationContract]
-		void RemoveFromIgnoreList(List<Guid> deviceUIDs);
+		OperationResult SetZoneGuard(Guid zoneUID);
 
 		[OperationContract]
-		void ResetStates(string states);
+		OperationResult UnSetZoneGuard(Guid zoneUID);
 
 		[OperationContract]
-		void SetZoneGuard(Guid deviceUID, string localZoneNo);
+		OperationResult SetDeviceGuard(Guid deviceUID);
 
 		[OperationContract]
-		void UnSetZoneGuard(Guid deviceUID, string localZoneNo);
+		OperationResult UnSetDeviceGuard(Guid deviceUID);
 
 		[OperationContract]
-		void AddUserMessage(string message);
+		OperationResult ResetStates(List<PaneleResetItem> paneleResetItems);
 
 		[OperationContract]
-		OperationResult<string> ExecuteRuntimeDeviceMethod(Guid deviceUID, string methodName, string parameters);
-
-		[OperationContract]
-		OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
+		OperationResult ExecuteCommand(Guid deviceUID, string methodName);
 
 		[OperationContract]
 		OperationResult<bool> CheckHaspPresence();
@@ -68,16 +65,16 @@ namespace FS2Api
 
 		#region Administrator
 		[OperationContract]
-		OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration);
+		OperationResult SetNewConfig(DeviceConfiguration deviceConfiguration);
 
 		[OperationContract]
-		OperationResult<bool> DeviceWriteConfig(Guid deviceUID, bool isUSB);
+		OperationResult DeviceWriteConfig(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<bool> DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
+		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
 
 		[OperationContract]
-		OperationResult<bool> DeviceDatetimeSync(Guid deviceUID, bool isUSB);
+		OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB);
@@ -104,22 +101,42 @@ namespace FS2Api
 		OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(DriverType driverType);
 
 		[OperationContract]
-		OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName);
+		OperationResult DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users);
+		OperationResult DeviceSetGuardUsersList(Guid deviceUID, string users);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> SetConfigurationParameters(Guid deviceUID, List<Property> properties);
+		OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties);
 
 		[OperationContract]
 		OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID);
+		#endregion
+
+		#region Journal
+		[OperationContract]
+		OperationResult<List<FS2JournalItem>> GetFilteredJournal(JournalFilter journalFilter);
+
+		[OperationContract]
+		OperationResult<List<FS2JournalItem>> GetFilteredArchive(ArchiveFilter archiveFilter);
+
+		[OperationContract]
+		OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter);
+
+		[OperationContract]
+		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
+
+		[OperationContract]
+		OperationResult<DateTime> GetArchiveStartDate();
+
+		[OperationContract()]
+		OperationResult AddJournalRecords(List<FS2JournalItem> journalItems);
 		#endregion
 	}
 }
