@@ -130,7 +130,7 @@
 
 	<Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type tree:TreeList}" />
 	<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type tree:TreeListItem}">
-		<!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+		<!--  <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />  -->
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>

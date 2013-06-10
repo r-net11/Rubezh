@@ -41,8 +41,8 @@ namespace Controls.TreeList
 							Node.IsExpanded = true;
 							ChangeFocus(Node);
 						}
-						else if (Node.Children.Count > 0)
-							ChangeFocus(Node.Children[0]);
+						else if (Node.Nodes.Count > 0)
+							ChangeFocus(Node.Nodes[0]);
 						break;
 					case Key.Left:
 						e.Handled = true;
@@ -52,7 +52,7 @@ namespace Controls.TreeList
 							ChangeFocus(Node);
 						}
 						else
-							ChangeFocus(Node.Parent);
+							ChangeFocus(Node.ParentNode);
 						break;
 					case Key.Subtract:
 						e.Handled = true;

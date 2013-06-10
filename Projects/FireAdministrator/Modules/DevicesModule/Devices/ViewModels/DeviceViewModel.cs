@@ -308,11 +308,11 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddToParentCommand { get; private set; }
 		void OnAddToParent()
 		{
-			ParentItem.AddCommand.Execute();
+			Parent.AddCommand.Execute();
 		}
 		public bool CanAddToParent()
 		{
-			return ((Parent != null) && (ParentItem.AddCommand.CanExecute(null)));
+			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -325,17 +325,17 @@ namespace DevicesModule.ViewModels
 			}
 
 			FiresecManager.FiresecConfiguration.RemoveDevice(Device);
-			var parent = ParentItem;
+			var parent = Parent;
 			if (parent != null)
 			{
-				var index = parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
-				parent.Children.Remove(this);
+				var index = parent.Nodes.IndexOf(DevicesViewModel.Current.SelectedDevice);
+				parent.Nodes.Remove(this);
 				parent.Update();
 
 				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 
-				index = Math.Min(index, parent.Children.Count - 1);
+				index = Math.Min(index, parent.ChildrenCount - 1);
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent[index] : parent;
 			}
@@ -343,7 +343,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || ParentItem.Driver.AutoChild == Driver.UID);
+			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -524,7 +524,7 @@ namespace DevicesModule.ViewModels
 						foreach (var deviceToRemove in devicesToRemove)
 						{
 							FiresecManager.FiresecConfiguration.RemoveDevice(deviceToRemove.Device);
-							Children.Remove(deviceToRemove);
+							Nodes.Remove(deviceToRemove);
 						}
 
 						foreach (var autoCreateDriverId in value.AutoCreateChildren)
@@ -549,12 +549,12 @@ namespace DevicesModule.ViewModels
 							var child = Device.Children[i];
 							FiresecManager.FiresecConfiguration.RemoveDevice(child);
 						}
-						for (int i = Children.Count - 1; i > 0; i--)
+						for (int i = ChildrenCount - 1; i > 0; i--)
 						{
 							var child = this[i];
 							DevicesViewModel.Current.AllDevices.Remove(child);
 						}
-						Children.Clear();
+						Nodes.Clear();
 						Device.Children.Clear();
 						if (Device.Driver.AutoChild != Guid.Empty)
 						{
@@ -588,7 +588,7 @@ namespace DevicesModule.ViewModels
 			};
 			Device.Children.Insert(0, device);
 			var deviceViewModel = new DeviceViewModel(device);
-			Children.Insert(0, deviceViewModel);
+			Nodes.Insert(0, deviceViewModel);
 			DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
 			FiresecManager.Devices.Add(device);
 		}
@@ -715,5 +715,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
+
+		public override string ToString()
+		{
+			return Device.FullPresentationName;
+		}
 	}
 }

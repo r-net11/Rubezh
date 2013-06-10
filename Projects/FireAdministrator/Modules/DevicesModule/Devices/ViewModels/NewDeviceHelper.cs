@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
 		public static DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
-			parentDeviceViewModel.Children.Add(deviceViewModel);
+			parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
