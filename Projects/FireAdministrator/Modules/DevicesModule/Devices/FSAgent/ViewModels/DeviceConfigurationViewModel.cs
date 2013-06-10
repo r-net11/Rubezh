@@ -222,7 +222,7 @@ namespace DevicesModule.ViewModels
 				}
 
 				deviceViewModel.CollapseChildren();
-				deviceViewModel.Children.Clear();
+				deviceViewModel.Nodes.Clear();
 
 				foreach (var device in LocalRootDevice.Children)
 				{

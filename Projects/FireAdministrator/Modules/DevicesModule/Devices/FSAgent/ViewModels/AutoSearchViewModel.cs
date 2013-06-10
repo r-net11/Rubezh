@@ -78,7 +78,7 @@ namespace DevicesModule.ViewModels
 			if (parentDeviceViewModel != null)
 			{
 				var deviceViewModel = new DeviceViewModel(device);
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 				DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
 				parentDeviceViewModel.Update();
 			}

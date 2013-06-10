@@ -50,7 +50,7 @@ namespace DevicesModule.ViewModels
 			foreach (var childDevice in device.Children)
 			{
 				var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-				deviceViewModel.Children.Add(childDeviceViewModel);
+				deviceViewModel.AddChild(childDeviceViewModel);
 			}
 
 			return deviceViewModel;
