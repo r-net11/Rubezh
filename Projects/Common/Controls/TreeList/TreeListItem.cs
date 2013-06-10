@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.ComponentModel;
-using System.Windows;
 using Infrastructure.Common.TreeList;
 
 namespace Controls.TreeList
@@ -31,7 +26,7 @@ namespace Controls.TreeList
 
 		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
 		{
-			if (Node != null && Node.IsExpandable)
+			if (e.ChangedButton == MouseButton.Left && e.Source.GetType() != typeof(RowExpander) && Node != null && Node.IsExpandable)
 				Node.IsExpanded = !Node.IsExpanded;
 		}
 		protected override void OnKeyDown(KeyEventArgs e)
