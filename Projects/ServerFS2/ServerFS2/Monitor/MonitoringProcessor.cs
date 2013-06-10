@@ -17,15 +17,16 @@ namespace ServerFS2.Monitor
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x) && x.IntAddress == 15))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-					MonitoringDevices.Add(new SecMonitoringDevice(device));
-				else
-					MonitoringDevices.Add(new MonitoringDevice(device));
+				MonitoringDevices.Add(new MonitoringDevice(device));
+				//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
+				//    MonitoringDevices.Add(new SecMonitoringDevice(device));
+				//else
+				//    MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
-			
+			ServerHelper.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
 		}
 
 		public static void StartMonitoring()
@@ -71,6 +72,24 @@ namespace ServerFS2.Monitor
 						monitoringDevice.StatesToReset = new List<DriverState>();
 						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
 					}
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.DevicesToIgnore != null && x.DevicesToIgnore.Count > 0))
+					{
+						foreach (var deviceToIgnore in monitoringDevice.DevicesToIgnore)
+						{
+							ServerHelper.SendCodeToPanel(monitoringDevice.Panel, 0x02, 0x54, 0x0B, 0x01, 0x00, monitoringDevice.Panel.IntAddress, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+						}
+						monitoringDevice.DevicesToIgnore = new List<Device>();
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
+					}
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.DevicesToResetIgnore != null && x.DevicesToResetIgnore.Count > 0))
+					{
+						foreach (var deviceToIgnore in monitoringDevice.DevicesToResetIgnore)
+						{
+							ServerHelper.SendCodeToPanel(monitoringDevice.Panel, 0x02, 0x54, 0x0B, 0x00, 0x00, monitoringDevice.Panel.IntAddress, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+						}
+						monitoringDevice.DevicesToResetIgnore = new List<Device>();
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
+					}
 					MonitoringDevices.Where(x => x.IsStateRefreshNeeded).ToList().ForEach(x => 
 						{
 							x.RefreshStates();
@@ -78,7 +97,6 @@ namespace ServerFS2.Monitor
 					MonitoringDevices.ForEach(x => x.CheckForLostConnection());
 					MonitoringDevices.ForEach(x => x.RequestLastIndex());
 				}
-				
 			}
 		}
 
@@ -89,6 +107,28 @@ namespace ServerFS2.Monitor
 				if (monitoringDevice.Panel == device)
 					monitoringDevice.StatesToReset.Add(state);
 				break;
+			}
+		}
+
+		public static void AddTaskIgnore(Device device)
+		{
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				if (monitoringDevice.Panel == device.ParentPanel)
+				{
+					monitoringDevice.DevicesToIgnore = new List<Device>() { device };
+				}
+			}
+		}
+
+		public static void AddTaskResetIgnore(Device device)
+		{
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				if (monitoringDevice.Panel == device.ParentPanel)
+				{
+					monitoringDevice.DevicesToResetIgnore = new List<Device>() { device };
+				}
 			}
 		}
 

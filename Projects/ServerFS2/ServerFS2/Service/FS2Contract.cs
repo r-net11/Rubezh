@@ -54,7 +54,6 @@ namespace ServerFS2.Service
 		{
 			try
 			{
-				Trace.WriteLine("Poll");
 				ClientsManager.Add(clientUID);
 
 				var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
@@ -82,7 +81,6 @@ namespace ServerFS2.Service
 
 		public void CancelPoll(Guid clientUID)
 		{
-			Trace.WriteLine("CancelPoll");
 			var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == clientUID);
 			if (clientInfo != null)
 			{
@@ -92,7 +90,6 @@ namespace ServerFS2.Service
 
 		public void CancelProgress()
 		{
-			Trace.WriteLine("CancelProgress");
 			try
 			{
 				foreach (var cancellationTokenSource in CancellationTokenSources)

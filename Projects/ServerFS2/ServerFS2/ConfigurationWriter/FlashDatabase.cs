@@ -176,7 +176,7 @@ namespace ServerFS2.ConfigurationWriter
 			for (int i = 0; i < remotePanelLists.Count; i++)
 			{
 				var device = remotePanelLists[i];
-				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(device.Driver.DriverType);
 				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{
 					if (!nonPanelremoteDevices.Any(x => x.IntAddress == device.IntAddress))

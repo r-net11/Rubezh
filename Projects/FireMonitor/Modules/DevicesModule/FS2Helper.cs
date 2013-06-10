@@ -18,7 +18,8 @@ namespace DevicesModule
 			FiresecManager.FS2ClientContract.DeviceStateChanged += new Action<List<DeviceState>>(OnDeviceStateChanged);
 			FiresecManager.FS2ClientContract.DeviceParametersChanged += new Action<List<DeviceState>>(OnDeviceParametersChanged);
 			FiresecManager.FS2ClientContract.ZoneStatesChanged += new Action<List<ZoneState>>(OnZoneStatesChanged);
-			FiresecManager.FS2ClientContract.NewJournalRecords += new Action<List<FS2JournalItem>>(OnNewJournalRecords);
+			FiresecManager.FS2ClientContract.NewJournalItems += new Action<List<FS2JournalItem>>(OnNewJournalItems);
+			FiresecManager.FS2ClientContract.NewArchiveJournalItems += new Action<List<FS2JournalItem>>(OnNewArchiveJournalItems);
 			FiresecManager.FS2ClientContract.Progress += new Action<FS2ProgressInfo>(OnProgress);
 		}
 
@@ -64,12 +65,17 @@ namespace DevicesModule
 		{
 		}
 
-		static void OnNewJournalRecords(List<FS2JournalItem> journalItems)
+		static void OnNewJournalItems(List<FS2JournalItem> journalItems)
 		{
 			Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
 				{
 					ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);
 				}));
+		}
+
+		static void OnNewArchiveJournalItems(List<FS2JournalItem> journalItems)
+		{
+			ServiceFactory.Events.GetEvent<GetFS2FilteredArchiveCompletedEvent>().Publish(journalItems);
 		}
 
 		static void OnProgress(FS2ProgressInfo progressInfo)

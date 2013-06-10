@@ -132,7 +132,7 @@
     <Compile Include="Monitor\MonitoringProcessor.cs" />
     <Compile Include="Monitor\Request.cs" />
     <Compile Include="Monitor\RequestTypes.cs" />
-    <Compile Include="Monitoring\StatesHelper.cs" />
+    <Compile Include="Monitor\StatesHelper.cs" />
     <Compile Include="Monitor\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />

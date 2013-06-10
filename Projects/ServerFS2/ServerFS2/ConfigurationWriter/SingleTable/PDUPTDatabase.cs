@@ -102,7 +102,7 @@ namespace ServerFS2.ConfigurationWriter
 					paneBytesDatabase.AddByte(offsetBytes[i], "Смещение MD5");
 				}
 
-				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(pduItem.ParentPanel.Driver.DriverType);
+				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(pduItem.ParentPanel.Driver.DriverType);
 				paneBytesDatabase.AddByte(deviceCode, "Тип прибора");
 
 				BytesDatabase.Add(paneBytesDatabase);

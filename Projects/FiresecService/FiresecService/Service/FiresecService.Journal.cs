@@ -46,9 +46,9 @@ namespace FiresecService.Service
 			thread.Start();
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<JournalRecord> obj)
+		void DatabaseHelper_ArchivePortionReady(List<JournalRecord> journalRecords)
 		{
-			FiresecService.NotifyArchivePortionCompleted(obj);
+			FiresecService.NotifyArchivePortionCompleted(journalRecords);
 		}
 
 		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()

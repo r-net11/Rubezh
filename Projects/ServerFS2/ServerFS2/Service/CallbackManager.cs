@@ -20,7 +20,7 @@ namespace ServerFS2.Service
 			Trace.WriteLine("AddProgress: " + progressInfo.Comment);
 		}
 
-		public static void Add(FS2Callbac fsAgentCallbac)
+		public static void Add(FS2Callbac fs2Callbac)
 		{
 			lock (FSAgentCallbacCashes)
 			{
@@ -29,7 +29,7 @@ namespace ServerFS2.Service
 				LastIndex++;
 				var callbackResultSaver = new FSAgentCallbacCash()
 				{
-					FS2Callbac = fsAgentCallbac,
+					FS2Callbac = fs2Callbac,
 					Index = LastIndex,
 					DateTime = DateTime.Now
 				};

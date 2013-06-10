@@ -195,7 +195,7 @@ namespace ServerFS2.ConfigurationWriter
 						paneBytesDatabase.AddByte(0, "Индикация");
 					}
 
-					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(effectorDeviceTable.Device.Driver.DriverType);
+					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(effectorDeviceTable.Device.Driver.DriverType);
 					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
 					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");
@@ -240,7 +240,7 @@ namespace ServerFS2.ConfigurationWriter
 						paneBytesDatabase.AddByte(0, "Индикация");
 					}
 
-					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(sensorDeviceTable.Device.Driver.DriverType);
+					var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(sensorDeviceTable.Device.Driver.DriverType);
 					paneBytesDatabase.AddByte(deviceCode, "Тип ИУ");
 					var deviceNo = (deviceIndicator.IndicatorDevice.Parent.IntAddress - 1) * 50 + deviceIndicator.IndicatorDevice.IntAddress;
 					paneBytesDatabase.AddByte(deviceNo, "Номер светодиода");

@@ -99,10 +99,16 @@ namespace FS2Client
 								OnZoneStatesChanged(changeResult.ChangedZoneStates);
 							}
 
-							if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
+							if (changeResult.JournalItems != null && changeResult.JournalItems.Count > 0)
 							{
-								if (NewJournalRecords != null)
-									NewJournalRecords(changeResult.JournalRecords);
+								if (NewJournalItems != null)
+									NewJournalItems(changeResult.JournalItems);
+							}
+
+							if (changeResult.ArchiveJournalItems != null && changeResult.ArchiveJournalItems.Count > 0)
+							{
+								if (NewArchiveJournalItems != null)
+									NewArchiveJournalItems(changeResult.ArchiveJournalItems);
 							}
 
 							if (changeResult.FS2ProgressInfo != null)
@@ -155,7 +161,8 @@ namespace FS2Client
 		public event Action<List<DeviceState>> DeviceStateChanged;
 		public event Action<List<DeviceState>> DeviceParametersChanged;
 		public event Action<List<ZoneState>> ZoneStatesChanged;
-		public event Action<List<FS2JournalItem>> NewJournalRecords;
+		public event Action<List<FS2JournalItem>> NewJournalItems;
+		public event Action<List<FS2JournalItem>> NewArchiveJournalItems;
 		public event Action<FS2ProgressInfo> Progress;
 	}
 }

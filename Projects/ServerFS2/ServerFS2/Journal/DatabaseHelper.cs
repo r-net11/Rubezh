@@ -209,30 +209,48 @@ namespace ServerFS2.Journal
 		static FS2JournalItem ReadOneJournalItem(SqlCeDataReader reader)
 		{
 			var journalItem = new FS2JournalItem();
-			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
-				journalItem.Description = reader.GetString(reader.GetOrdinal("Description"));
-			if (!reader.IsDBNull(reader.GetOrdinal("Detalization")))
-				journalItem.Detalization = reader.GetString(reader.GetOrdinal("Detalization"));
-			if (!reader.IsDBNull(reader.GetOrdinal("DeviceCategory")))
-				journalItem.DeviceCategory = reader.GetInt32(reader.GetOrdinal("DeviceCategory"));
-			if (!reader.IsDBNull(reader.GetOrdinal("DeviceName")))
-				journalItem.DeviceName = reader.GetString(reader.GetOrdinal("DeviceName"));
-			if (!reader.IsDBNull(reader.GetOrdinal("DeviceTime")))
-				journalItem.DeviceTime = reader.GetDateTime(reader.GetOrdinal("DeviceTime"));
-			if (!reader.IsDBNull(reader.GetOrdinal("PanelName")))
-				journalItem.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
-			if (!reader.IsDBNull(reader.GetOrdinal("StateType")))
-				journalItem.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
-			if (!reader.IsDBNull(reader.GetOrdinal("SubsystemType")))
-				journalItem.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
-			if (!reader.IsDBNull(reader.GetOrdinal("SystemTime")))
-				journalItem.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
-			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
-				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
-			if (!reader.IsDBNull(reader.GetOrdinal("ZoneName")))
-				journalItem.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
 			if (!reader.IsDBNull(reader.GetOrdinal("Id")))
 				journalItem.No = reader.GetInt32(reader.GetOrdinal("Id"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("SystemTime")))
+				journalItem.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceTime")))
+				journalItem.DeviceTime = reader.GetDateTime(reader.GetOrdinal("DeviceTime"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
+				journalItem.Description = reader.GetString(reader.GetOrdinal("Description"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("Detalization")))
+				journalItem.Detalization = reader.GetString(reader.GetOrdinal("Detalization"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceName")))
+				journalItem.DeviceName = reader.GetString(reader.GetOrdinal("DeviceName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("PanelName")))
+				journalItem.PanelName = reader.GetString(reader.GetOrdinal("PanelName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceUID")))
+				journalItem.DeviceUID = reader.GetGuid(reader.GetOrdinal("DeviceUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("PanelUID")))
+				journalItem.PanelUID = reader.GetGuid(reader.GetOrdinal("PanelUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ZoneName")))
+				journalItem.ZoneName = reader.GetString(reader.GetOrdinal("ZoneName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceCategory")))
+				journalItem.DeviceCategory = reader.GetInt32(reader.GetOrdinal("DeviceCategory"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("StateType")))
+				journalItem.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("SubsystemType")))
+				journalItem.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
+				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
+
 			return journalItem;
 		}
 

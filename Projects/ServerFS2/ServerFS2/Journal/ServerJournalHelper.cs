@@ -7,6 +7,7 @@ using FiresecAPI;
 using FS2Api;
 using FiresecAPI.Models;
 using Common;
+using ServerFS2.Service;
 
 namespace ServerFS2.Journal
 {
@@ -44,7 +45,11 @@ namespace ServerFS2.Journal
 
 		static void DatabaseHelper_ArchivePortionReady(List<FS2JournalItem> journalItems)
 		{
-			//FiresecService.NotifyArchivePortionCompleted(journalItems);
+			var fs2Callbac = new FS2Callbac()
+			{
+				ArchiveJournalItems = journalItems
+			};
+			CallbackManager.Add(fs2Callbac);
 		}
 
 		public static List<JournalDescriptionItem> GetDistinctDescriptions()
@@ -82,11 +87,6 @@ namespace ServerFS2.Journal
 				StateType = StateType.Info,
 				Description = mesage,
 				UserName = userName,
-				//DeviceDatabaseId = "",
-				DeviceName = "",
-				//PanelDatabaseId = "",
-				PanelName = "",
-				ZoneName = ""
 			};
 
 			DatabaseHelper.AddJournalItems(new List<FS2JournalItem>() { journalItem });

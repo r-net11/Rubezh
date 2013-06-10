@@ -32,7 +32,7 @@ namespace ServerFS2.ConfigurationWriter
 		{
 			if (IsRemote)
 			{
-				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(Device.Driver.DriverType);
+				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(Device.Driver.DriverType);
 				BytesDatabase.AddByte(deviceCode, "Тип внешнего ИУ");
 			}
 			var outerPanelAddress = 0;

@@ -166,7 +166,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public static int GetCodeForFriver(DriverType driverType)
+		public static int GetCodeForDriver(DriverType driverType)
 		{
 			switch (driverType)
 			{

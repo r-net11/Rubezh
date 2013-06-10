@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
+using FS2Api;
 
 namespace JournalModule.ViewModels
 {
@@ -28,6 +29,7 @@ namespace JournalModule.ViewModels
             ShowFilterCommand = new RelayCommand(OnShowFilter);
             ShowSettingsCommand = new RelayCommand(OnShowSettings);
             ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
+			ServiceFactory.Events.GetEvent<GetFS2FilteredArchiveCompletedEvent>().Subscribe(OnGetFS2FilteredArchiveCompleted);
 
             ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
             if (ArchiveDefaultState == null)
@@ -234,6 +236,26 @@ namespace JournalModule.ViewModels
 			JournalRecords.AddRange(journalRecordViewModels);
 
 			Status = "Количество записей: " + JournalRecords.Count.ToString();
+		}
+
+		void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
+		{
+			Dispatcher.Invoke(new Action(() =>
+				{
+					if (JournalRecords == null)
+						JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
+
+					var journalRecordViewModels = new List<JournalRecordViewModel>();
+					foreach (var journalItem in journalItems)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalItem);
+						journalRecordViewModels.Add(journalRecordViewModel);
+					}
+					JournalRecords.AddRange(journalRecordViewModels);
+
+					Status = "Количество записей: " + JournalRecords.Count.ToString();
+				}
+				));
 		}
 
         public override void OnShow()
