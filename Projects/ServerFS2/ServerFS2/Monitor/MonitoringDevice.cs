@@ -49,11 +49,7 @@ namespace ServerFS2.Monitor
 			FirstSystemIndex = -1;
 			SequentUnAnswered = 0;
 			IsReadingNeeded = false;
-			LostConnectionState = new DeviceDriverState
-			{
-				DriverState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором"),
-				Time = DateTime.Now
-			};
+			LostConnectionState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором");
 			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
 		}
 
@@ -96,7 +92,7 @@ namespace ServerFS2.Monitor
 					}
 				}
 			requestsToDelete.ForEach(x => Requests.Remove(x));
-			if (SequentUnAnswered > maxSequentUnAnswered && !Panel.DeviceState.States.Contains(LostConnectionState))
+			if (SequentUnAnswered > maxSequentUnAnswered && !Panel.DeviceState.States.Any(x => x.DriverState == LostConnectionState))
 			{
 				ToLostConnectionState();
 			}
@@ -111,7 +107,6 @@ namespace ServerFS2.Monitor
 
 		public void ToInitializingState()
 		{
-			return;
 			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState{ DriverState = InitializingState, Time = DateTime.Now }};
 			Panel.GetRealChildren().ForEach(x =>
 			{
@@ -124,20 +119,18 @@ namespace ServerFS2.Monitor
 
 		void ToLostConnectionState()
 		{
-			return;
-			Panel.DeviceState.States = new List<DeviceDriverState> { LostConnectionState };
+			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState{ DriverState = LostConnectionState, Time = DateTime.Now }}; 
 			Panel.GetRealChildren().ForEach(x =>
 			{
-				x.DeviceState.States = new List<DeviceDriverState> { LostConnectionState };
+				x.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = LostConnectionState, Time = DateTime.Now } };
 				x.DeviceState.OnStateChanged();
 			});
 			Panel.DeviceState.OnStateChanged();
-			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.DriverState.Name));
+			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.Name));
 		}
 
 		void FromLostConnectionState()
 		{
-			return;
 			Panel.DeviceState.States = new List<DeviceDriverState>();
 			Panel.GetRealChildren().ForEach(x =>
 				{
@@ -157,7 +150,7 @@ namespace ServerFS2.Monitor
 		}
 
 		int lastSystemIndex;
-		DeviceDriverState LostConnectionState;
+		DriverState LostConnectionState;
 		DriverState InitializingState;
 		
 		public void SendRequest(Request request)
@@ -200,7 +193,7 @@ namespace ServerFS2.Monitor
 				return;
 			}
 			SequentUnAnswered = 0;
-			if (Panel.DeviceState.States.Contains(LostConnectionState))
+			if (Panel.DeviceState.States.Any(x => x.DriverState == LostConnectionState))
 			{
 				FromLostConnectionState();
 			}
