@@ -25,7 +25,7 @@ namespace ServerFS2.Monitor
 				lastRecordsDocument.Save(fileName);
 			}
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
+			foreach (var device in ConfigurationManager.Devices.Where(x => x.Driver.IsPanel))
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
 				if (deviceElement == null)

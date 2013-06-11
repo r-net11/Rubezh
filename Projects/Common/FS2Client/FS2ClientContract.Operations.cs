@@ -48,6 +48,11 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.GetDeviceParameters(); }, "GetDeviceParameters");
 		}
 
+		public OperationResult<List<ZoneState>> GetZoneStates()
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetZoneStates(); }, "GetZoneStates");
+		}
+
 		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
 		{
 			return SafeOperationCall(() => { return FS2Contract.AddToIgnoreList(deviceUIDs); }, "AddToIgnoreList");
@@ -78,9 +83,9 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.UnSetDeviceGuard(deviceUID); }, "UnSetDeviceGuard");
 		}
 
-		public OperationResult ResetStates(List<PaneleResetItem> paneleResetItems)
+		public OperationResult ResetStates(List<PanelResetItem> panelResetItems)
 		{
-			return SafeOperationCall(() => { return FS2Contract.ResetStates(paneleResetItems); }, "ResetStates");
+			return SafeOperationCall(() => { return FS2Contract.ResetStates(panelResetItems); }, "ResetStates");
 		}
 
 		public OperationResult ExecuteCommand(Guid deviceUID, string methodName)

@@ -4,6 +4,7 @@ using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
+using System.Collections.Generic;
 
 namespace ServerFS2
 {
@@ -39,11 +40,21 @@ namespace ServerFS2
 			Update();
 		}
 
+		public static List<Device> Devices
+		{
+			get { return DeviceConfiguration.Devices; }
+		}
+
+		public static List<Zone> Zones
+		{
+			get { return DeviceConfiguration.Zones; }
+		}
+
 		public static void Update()
 		{
 			DeviceConfiguration.Update();
 			DeviceConfiguration.Reorder();
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in Devices)
 			{
 				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
@@ -53,13 +64,22 @@ namespace ServerFS2
 			}
 			DeviceConfiguration.InvalidateConfiguration();
 			DeviceConfiguration.UpdateCrossReferences();
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in Devices)
 			{
 				device.UpdateHasExternalDevices();
 				device.DeviceState = new DeviceState()
 				{
 					DeviceUID = device.UID,
 					Device = device
+				};
+			}
+
+			foreach (var zone in DeviceConfiguration.Zones)
+			{
+				zone.ZoneState = new ZoneState()
+				{
+					Zone = zone,
+					ZoneUID = zone.UID
 				};
 			}
 		}

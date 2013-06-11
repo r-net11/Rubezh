@@ -7,9 +7,9 @@ using System.Runtime.Serialization;
 namespace FS2Api
 {
 	[DataContract]
-	public class PaneleResetItem
+	public class PanelResetItem
 	{
-		public PaneleResetItem()
+		public PanelResetItem()
 		{
 			Ids = new HashSet<string>();
 		}

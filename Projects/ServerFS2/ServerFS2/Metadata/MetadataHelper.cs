@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using FiresecAPI.Models;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ServerFS2
 {
@@ -31,6 +32,56 @@ namespace ServerFS2
 			return null;
 		}
 
+		public static int GetBitNo(Rubezh2010.driverConfigDeviceStatesDeviceState metadataDeviceState)
+		{
+			string bitNoString = null;
+			if (metadataDeviceState.bitno != null)
+				bitNoString = metadataDeviceState.bitno;
+			if (metadataDeviceState.bitNo != null)
+				bitNoString = metadataDeviceState.bitNo;
+			if (metadataDeviceState.Bitno != null)
+				bitNoString = metadataDeviceState.Bitno;
+			if (metadataDeviceState.intBitno != null)
+				bitNoString = metadataDeviceState.intBitno;
+			if (metadataDeviceState.Intbitno != null)
+				bitNoString = metadataDeviceState.Intbitno;
+
+			if (bitNoString != null)
+			{
+				int bitNo = -1;
+				var result = Int32.TryParse(bitNoString, out bitNo);
+				if (result)
+				{
+					return bitNo;
+				}
+			}
+			return -1;
+		}
+
+		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStaes(Device device)
+		{
+			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
+
+			var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			{
+				if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+				{
+					continue;
+				}
+				if (metadataDeviceState.tableType == null)
+				{
+					result.Add(metadataDeviceState);
+				}
+				if (metadataDeviceState.tableType == tableNo)
+				{
+					result.Add(metadataDeviceState);
+				}
+			}
+
+			return result;
+		}
+
 		public static string GetEventMessage(int eventCode)
 		{
 			string stringCode = "$" + eventCode.ToString("X2");
@@ -48,6 +99,9 @@ namespace ServerFS2
 			var metadataEvent = Metadata.events.FirstOrDefault(x => x.rawEventCode == stringCode);
 			if (metadataEvent != null)
 			{
+				if (metadataEvent.eventClassAll != null)
+					return metadataEvent.eventClassAll;
+
 				switch (additionalEventCode)
 				{
 					case 0:
@@ -107,8 +161,6 @@ namespace ServerFS2
 					case 22:
 						return metadataEvent.eventClass22;
 				}
-
-				return metadataEvent.eventClassAll;
 			}
 			return null;
 		}

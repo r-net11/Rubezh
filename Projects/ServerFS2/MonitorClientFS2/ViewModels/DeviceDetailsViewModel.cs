@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using ServerFS2;
 using Infrastructure.Common;
+using ServerFS2.Processor;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -63,7 +64,8 @@ namespace MonitorClientFS2.ViewModels
 		{
 			if (SelectedDeviceCommand != null)
 			{
-				ServerHelper.ExecuteCommand(Device, SelectedDeviceCommand.Name);
+				MainManager.AddCommand(Device, SelectedDeviceCommand.Name);
+				//ServerHelper.ExecuteCommand(Device, SelectedDeviceCommand.Name);
 			}
 		}
 

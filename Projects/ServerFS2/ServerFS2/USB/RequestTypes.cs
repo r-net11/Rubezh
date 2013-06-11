@@ -1,4 +1,4 @@
-﻿namespace ServerFS2.Monitor
+﻿namespace ServerFS2
 {
 	public enum RequestTypes
 	{

@@ -58,7 +58,7 @@ namespace ServerFS2
 			FS2JournalItem.Description = GetEventName();
 			FS2JournalItem.StateType = GetEventStateType();
 
-			FS2JournalItem.PanelDevice = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.IntAddress == FS2JournalItem.PanelAddress && x.Driver.IsPanel);
+			FS2JournalItem.PanelDevice = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == FS2JournalItem.PanelAddress && x.Driver.IsPanel);
 			if (FS2JournalItem.PanelDevice != null)
 			{
 				FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
@@ -66,7 +66,7 @@ namespace ServerFS2
 
 				var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
 				FS2JournalItem.DeviceAddress = FSInternalJournal.AddressOnShleif;
-				FS2JournalItem.Device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
+				FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
 				if (FS2JournalItem.Device != null)
 				{
 					FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
@@ -232,7 +232,7 @@ namespace ServerFS2
 
 		void InitializeZone()
 		{
-			var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == FSInternalJournal.ZoneNo);
+			var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.No == FSInternalJournal.ZoneNo);
 			if (zone != null)
 			{
 				FS2JournalItem.ZoneName = zone.No + "." + zone.Name;

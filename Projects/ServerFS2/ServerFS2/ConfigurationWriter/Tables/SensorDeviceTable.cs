@@ -185,7 +185,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddString(event2PropertyValue, "Описание состояния норма");
 
 			var rmDevices = new HashSet<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				foreach (var clause in device.ZoneLogic.Clauses)
 				{

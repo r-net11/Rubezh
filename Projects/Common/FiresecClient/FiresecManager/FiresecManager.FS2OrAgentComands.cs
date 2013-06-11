@@ -48,22 +48,22 @@ namespace FiresecClient
 		{
 			if (IsFS2Enabled)
 			{
-				var paneleResetItems = new List<PaneleResetItem>();
+				var paneleResetItems = new List<PanelResetItem>();
 				foreach (var resetItem in resetItems)
 				{
 					var parentPanel = resetItem.DeviceState.Device;
-					var paneleResetItem = paneleResetItems.FirstOrDefault(x => x.PanelUID == parentPanel.UID);
-					if (paneleResetItem == null)
+					var panelResetItem = paneleResetItems.FirstOrDefault(x => x.PanelUID == parentPanel.UID);
+					if (panelResetItem == null)
 					{
-						paneleResetItem = new PaneleResetItem()
+						panelResetItem = new PanelResetItem()
 						{
 							PanelUID = parentPanel.UID
 						};
-						paneleResetItems.Add(paneleResetItem);
+						paneleResetItems.Add(panelResetItem);
 					}
 					foreach (var deviceDriverState in resetItem.States)
 					{
-						paneleResetItem.Ids.Add(deviceDriverState.DriverState.Code);
+						panelResetItem.Ids.Add(deviceDriverState.DriverState.Code);
 					}
 				}
 				FS2ClientContract.ResetStates(paneleResetItems);

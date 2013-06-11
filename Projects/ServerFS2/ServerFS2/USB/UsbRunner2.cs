@@ -42,7 +42,7 @@ namespace ServerFS2
 			if (buffer.Count < 2)
 				return;
 			IsMs = buffer[0] != 0;
-			//buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
+			buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
 			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)
@@ -69,13 +69,13 @@ namespace ServerFS2
 				}
 				if (b == 0x7E)
 				{
-					//if (!ServerHelper.IsExtendedMode)
-					//{
-					//    if (buffer.IndexOf(0x7e) == 0)
-					//        ServerHelper.IsExtendedMode = false;
-					//    if (buffer.IndexOf(0x7e) == 1)
-					//        ServerHelper.IsExtendedMode = true;
-					//}
+					if (!ServerHelper.IsExtendedMode)
+					{
+						if (buffer.IndexOf(0x7e) == 0)
+							ServerHelper.IsExtendedMode = false;
+						if (buffer.IndexOf(0x7e) == 1)
+							ServerHelper.IsExtendedMode = true;
+					}
 					LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
@@ -129,17 +129,17 @@ namespace ServerFS2
 						bytes.InsertRange(0, BitConverter.GetBytes(usbRequestNo).Reverse());
 					}
 				}
-				request.Data = CreateOutputBytes(bytes);
+				request.Bytes = CreateOutputBytes(bytes);
 				RequestCollection.AddRequest(request);
-				if (request.Data.Count > 64)
+				if (request.Bytes.Count > 64)
 				{
-					for (int i = 0; i < request.Data.Count / 64; i++)
-						Send(request.Data.GetRange(i * 64, 64));
+					for (int i = 0; i < request.Bytes.Count / 64; i++)
+						Send(request.Bytes.GetRange(i * 64, 64));
 				}
 				else
 				{
 					//Trace.WriteLine("request.Id = " + request.Id);
-					Send(request.Data);
+					Send(request.Bytes);
 				}
 				if (isSyncronuos)
 				{
@@ -154,7 +154,7 @@ namespace ServerFS2
 					for (int i = 0; i < 15; i++)
 					{
 						//Trace.WriteLine("request.Id = " + request.Id);
-						Send(request.Data);
+						Send(request.Bytes);
 						AautoWaitEvent.WaitOne(timeout);
 						if (RequestCollection.Count() == 0)
 							break;

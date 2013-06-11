@@ -21,7 +21,7 @@ namespace ServerFS2.ConfigurationWriter
 			FS2Contract.CheckCancellationAndNotify("Формирования связей");
 			BinaryConfigurationHelper = new BinaryConfigurationHelper();
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				switch (device.Driver.DriverType)
 				{
@@ -38,7 +38,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			BytesHelper.IsRevese = true;
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				switch (device.Driver.DriverType)
 				{

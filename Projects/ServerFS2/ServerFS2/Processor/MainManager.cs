@@ -48,18 +48,10 @@ namespace ServerFS2.Processor
 		public static List<DeviceState> GetDeviceStates()
 		{
 			var deviceStates = new List<DeviceState>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
-
-				foreach (var state in device.DeviceState.States)
-				{
-					if (state.DriverState == null)
-					{
-						;
-					}
-				}
 			}
 			return deviceStates;
 		}
@@ -67,7 +59,7 @@ namespace ServerFS2.Processor
 		public static List<DeviceState> GetDeviceParameters()
 		{
 			var deviceStates = new List<DeviceState>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
@@ -75,11 +67,21 @@ namespace ServerFS2.Processor
 			return deviceStates;
 		}
 
+		public static List<ZoneState> GetZoneStates()
+		{
+			var zoneStates = new List<ZoneState>();
+			foreach (var zone in ConfigurationManager.Zones)
+			{
+				zoneStates.Add(zone.ZoneState);
+			}
+			return zoneStates;
+		}
+
 		public static void AddToIgnoreList(List<Device> devices)
 		{
 			foreach (var device in devices)
 			{
-				ServerHelper.AddToIgnoreList(device);
+				MonitoringProcessor.AddTaskIgnore(device);
 			}
 		}
 
@@ -87,7 +89,7 @@ namespace ServerFS2.Processor
 		{
 			foreach (var device in devices)
 			{
-				ServerHelper.RemoveFromIgnoreList(device);
+				MonitoringProcessor.AddTaskResetIgnore(device);
 			}
 		}
 
@@ -111,14 +113,19 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void ResetStates(List<PaneleResetItem> paneleResetItems)
+		public static void ResetStates(List<PanelResetItem> panelResetItems)
 		{
-			ServerHelper.ResetStates(paneleResetItems);
+			MonitoringProcessor.AddPanelResetItems(panelResetItems);
 		}
 
 		public static void ExecuteCommand(Guid deviceUID, string methodName)
 		{
 			throw new FS2Exception("Функция пока не реализована");
+		}
+
+		public static void AddCommand(Device device, string commandName)
+		{
+			MonitoringProcessor.AddCommand(device, commandName);
 		}
 		#endregion
 

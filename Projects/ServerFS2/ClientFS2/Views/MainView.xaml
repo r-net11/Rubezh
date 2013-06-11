@@ -33,8 +33,6 @@
                 <Button Content="Установить режим глухой панели" Command = "{Binding SetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Снять режим глухой панели" Command = "{Binding UnsetPanelRegimeCommand}" Width="300" Margin="2" />
                 <Button Content="Записать конфигурацию в прибор" Command = "{Binding WriteConfigurationCommand}" Width="300" Margin="2" />
-                <Button Content="Сброс тревоги" Command = "{Binding ResetFireCommand}" Width="300" Margin="2" />
-                <Button Content="Сброс теста" Command = "{Binding ResetTestCommand}" Width="300" Margin="2" />
                 <Button Content="Получить статус прибора" Command = "{Binding GetDeviceStatusCommand}" Width="300" Margin="2" />
                 <Button Content="Добавить в список обхода" Command = "{Binding AddDeviceToCheckListCommand}" Width="300" Margin="2" />
                 <Button Content="Удалить из списка обхода" Command = "{Binding RemoveDeviceFromCheckListCommand}" Width="300" Margin="2" />

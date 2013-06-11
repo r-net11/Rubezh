@@ -49,13 +49,18 @@ namespace FiresecClient
 						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
 						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
 					}
+				}
+			}
 
-					foreach (var state in device.DeviceState.States)
+			var zoneStates = FS2ClientContract.GetZoneStates();
+			if (!zoneStates.HasError && zoneStates.Result != null)
+			{
+				foreach (var zoneState in zoneStates.Result)
+				{
+					var zone = Zones.FirstOrDefault(x => x.UID == zoneState.ZoneUID);
+					if (zone != null)
 					{
-						if (state.DriverState == null)
-						{
-							;
-						}
+						zone.ZoneState.StateType = zoneState.StateType;
 					}
 				}
 			}

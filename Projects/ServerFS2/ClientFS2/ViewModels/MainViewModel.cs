@@ -32,8 +32,6 @@ namespace ClientFS2.ViewModels
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
-			ResetFireCommand = new RelayCommand(OnResetFire, CanGetResetDeviceStatus);
-			ResetTestCommand = new RelayCommand(OnResetTest, CanGetResetDeviceStatus);
 			GetDeviceStatusCommand = new RelayCommand(OnGetDeviceStatus, CanGetResetDeviceStatus);
 			AddDeviceToCheckListCommand = new RelayCommand(OnAddDeviceToCheckList, CanAddOrRemoveDeviceToCheckList);
 			RemoveDeviceFromCheckListCommand = new RelayCommand(OnRemoveDeviceFromCheckList, CanAddOrRemoveDeviceToCheckList);
@@ -219,21 +217,6 @@ namespace ClientFS2.ViewModels
 		bool CanWriteConfiguration()
 		{
 			return DevicesViewModel.SelectedDevice != null;
-		}
-
-		public RelayCommand ResetFireCommand { get; private set; }
-		private void OnResetFire()
-		{
-			ServerHelper.ResetFire(DevicesViewModel.SelectedDevice.Device);
-		}
-
-		public RelayCommand ResetTestCommand { get; private set; }
-		private void OnResetTest()
-		{
-			OnGetDeviceStatus();
-			if (Status == null)
-				return;
-			ServerHelper.ResetTest(DevicesViewModel.SelectedDevice.Device, Status);
 		}
 
 		public RelayCommand GetDeviceStatusCommand { get; private set; }

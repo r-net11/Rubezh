@@ -12,7 +12,6 @@ namespace ServerFS2.Monitor
 	public static class JournalHelper
 	{
 		static readonly object Locker = new object();
-		static int _usbRequestNo;
 
 		public static int GetLastSecJournalItemId2Op(Device device)
 		{
@@ -99,7 +98,7 @@ namespace ServerFS2.Monitor
 			{
 				var fsJournalItem = SendBytesAndParse(bytes, device);
 				if (fsJournalItem != null)
-					return fsJournalItem; 
+					return fsJournalItem;
 			}
 			return null;
 		}

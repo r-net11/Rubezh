@@ -36,6 +36,9 @@ namespace FS2Api
 		OperationResult<List<DeviceState>> GetDeviceParameters();
 
 		[OperationContract]
+		OperationResult<List<ZoneState>> GetZoneStates();
+
+		[OperationContract]
 		OperationResult AddToIgnoreList(List<Guid> deviceUIDs);
 
 		[OperationContract]
@@ -54,7 +57,7 @@ namespace FS2Api
 		OperationResult UnSetDeviceGuard(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult ResetStates(List<PaneleResetItem> paneleResetItems);
+		OperationResult ResetStates(List<PanelResetItem> panelResetItems);
 
 		[OperationContract]
 		OperationResult ExecuteCommand(Guid deviceUID, string methodName);
