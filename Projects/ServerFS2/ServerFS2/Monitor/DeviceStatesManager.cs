@@ -150,86 +150,103 @@ namespace ServerFS2.Monitor
 
 		static void ParceDeviceState(Device device, List<byte> stateBytes)
 		{
-			var states = new List<DeviceDriverState>();
+			var bitArray = new BitArray(stateBytes.ToArray());
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
-			if (tableNo != null)
+			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
-				var stateWord = BytesHelper.ExtractShort(stateBytes, 0);
-				Trace.WriteLine("stateWord=" + stateWord);
-				var bitArray = new BitArray(stateBytes.ToArray());
-
-
-				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+				if (metadataDeviceState.tableType == tableNo)
 				{
-					if (metadataDeviceState.tableType != null && metadataDeviceState.tableType != tableNo)
-						continue;
-					if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
-						continue;
-
-					var found = false;
-					try
+					var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
+					if (bitNo != -1)
 					{
-						if (metadataDeviceState.bits != null)
+						var hasBit = bitArray[bitNo];
+						if (hasBit)
 						{
-							var bitStrings = metadataDeviceState.bits.Split('-');
-							var minBit = Int32.Parse(bitStrings[0]);
-							var maxBit = Int32.Parse(bitStrings[2]);
-							var bitsValue = (bitArray[minBit] ? 1 : 0) + (bitArray[maxBit] ? 1 : 0) * 2;
-							if (bitsValue.ToString() == metadataDeviceState.value)
-								found = true;
-						}
-					}
-					catch { }
-
-					string bitNoString = null;
-					if (metadataDeviceState.bitno != null)
-						bitNoString = metadataDeviceState.bitno;
-					if (metadataDeviceState.bitNo != null)
-						bitNoString = metadataDeviceState.bitNo;
-					if (metadataDeviceState.Bitno != null)
-						bitNoString = metadataDeviceState.Bitno;
-					if (metadataDeviceState.intBitno != null)
-						bitNoString = metadataDeviceState.intBitno;
-					if (metadataDeviceState.Intbitno != null)
-						bitNoString = metadataDeviceState.Intbitno;
-
-					if (bitNoString != null)
-					{
-						int bitNo = -1;
-						var result = Int32.TryParse(bitNoString, out bitNo);
-						if (result)
-						{
-							found = bitArray[bitNo];
-							if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
-								found = !found;
-						}
-					}
-
-					if (found)
-					{
-						var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-						if (driverState != null)
-						{
-							var deviceDriverState = new DeviceDriverState()
+							if (!device.DeviceState.States.Any(x => x.DriverState.Code == metadataDeviceState.ID))
 							{
-								DriverState = driverState,
-								Time = DateTime.Now
-							};
-							states.Add(deviceDriverState);
-							device.DeviceState.States.Add(deviceDriverState);
+								var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+								if (driverState != null)
+								{
+									var deviceDriverState = new DeviceDriverState()
+									{
+										DriverState = driverState,
+										Time = DateTime.Now
+									};
+									device.DeviceState.States.Add(deviceDriverState);
+								}
+							}
+						}
+						else
+						{
+							device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID);
 						}
 					}
 				}
 			}
 
-			StatesHelper.ChangeDeviceStates(device, states);
+			//var states = new List<DeviceDriverState>();
+			//var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			//if (tableNo != null)
+			//{
+			//    var stateWord = BytesHelper.ExtractShort(stateBytes, 0);
+			//    Trace.WriteLine("stateWord=" + stateWord);
+			//    var bitArray = new BitArray(stateBytes.ToArray());
+
+
+			//    foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			//    {
+			//        if (metadataDeviceState.tableType != null && metadataDeviceState.tableType != tableNo)
+			//            continue;
+			//        if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+			//            continue;
+
+			//        var found = false;
+			//        try
+			//        {
+			//            if (metadataDeviceState.bits != null)
+			//            {
+			//                var bitStrings = metadataDeviceState.bits.Split('-');
+			//                var minBit = Int32.Parse(bitStrings[0]);
+			//                var maxBit = Int32.Parse(bitStrings[2]);
+			//                var bitsValue = (bitArray[minBit] ? 1 : 0) + (bitArray[maxBit] ? 1 : 0) * 2;
+			//                if (bitsValue.ToString() == metadataDeviceState.value)
+			//                    found = true;
+			//            }
+			//        }
+			//        catch { }
+
+			//        var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
+			//        if (bitNo != -1)
+			//        {
+			//            found = bitArray[bitNo];
+			//            if (metadataDeviceState.inverse != null && metadataDeviceState.inverse == "1")
+			//                found = !found;
+			//        }
+
+			//        if (found)
+			//        {
+			//            var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+			//            if (driverState != null)
+			//            {
+			//                var deviceDriverState = new DeviceDriverState()
+			//                {
+			//                    DriverState = driverState,
+			//                    Time = DateTime.Now
+			//                };
+			//                states.Add(deviceDriverState);
+			//                device.DeviceState.States.Add(deviceDriverState);
+			//            }
+			//        }
+			//    }
+			//}
+
+			StatesHelper.ChangeDeviceStates(device, device.DeviceState.States);
 
 			foreach (var deviceDriverState in device.DeviceState.States)
 			{
 				Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);
 			}
-
 			Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + BytesHelper.BytesToString(stateBytes));
 		}
 

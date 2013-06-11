@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.Models;
 using System.Collections;
 using System.Diagnostics;
 using ServerFS2.Monitor;
 using ServerFS2.ConfigurationWriter;
 using FS2Api;
+using FiresecAPI.Models;
 
 namespace ServerFS2
 {
@@ -53,7 +53,7 @@ namespace ServerFS2
 		{
 			foreach (var paneleResetBit in panelResetItems)
 			{
-				var parentPanel = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == paneleResetBit.PanelUID);
+				var parentPanel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == paneleResetBit.PanelUID);
 				if (parentPanel == null)
 				{
 					throw new FS2Exception("Прибор для сброса не найден");
@@ -100,16 +100,6 @@ namespace ServerFS2
 			result.AddRange(response1);
 			result.AddRange(response2);
 			return result;
-		}
-
-		public static void AddToIgnoreList(Device device)
-		{
-			SendCodeToPanel(device, 0x02, 0x54, 0x0B, 0x01, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
-		}
-
-		public static void RemoveFromIgnoreList(Device device)
-		{
-			SendCodeToPanel(device, 0x02, 0x54, 0x0B, 0x00, 0x00, device.AddressOnShleif, 0x00, 0x00, 0x00, device.ShleifNo - 1);
 		}
 
 		public static bool PingDevice(Device device)

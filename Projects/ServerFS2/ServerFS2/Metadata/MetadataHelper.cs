@@ -31,6 +31,32 @@ namespace ServerFS2
 			return null;
 		}
 
+		public static int GetBitNo(Rubezh2010.driverConfigDeviceStatesDeviceState metadataDeviceState)
+		{
+			string bitNoString = null;
+			if (metadataDeviceState.bitno != null)
+				bitNoString = metadataDeviceState.bitno;
+			if (metadataDeviceState.bitNo != null)
+				bitNoString = metadataDeviceState.bitNo;
+			if (metadataDeviceState.Bitno != null)
+				bitNoString = metadataDeviceState.Bitno;
+			if (metadataDeviceState.intBitno != null)
+				bitNoString = metadataDeviceState.intBitno;
+			if (metadataDeviceState.Intbitno != null)
+				bitNoString = metadataDeviceState.Intbitno;
+
+			if (bitNoString != null)
+			{
+				int bitNo = -1;
+				var result = Int32.TryParse(bitNoString, out bitNo);
+				if (result)
+				{
+					return bitNo;
+				}
+			}
+			return -1;
+		}
+
 		public static string GetEventMessage(int eventCode)
 		{
 			string stringCode = "$" + eventCode.ToString("X2");

@@ -51,7 +51,6 @@ namespace ServerFS2.Monitor
 			{
 				monitoringDevice.Initialize();
 			}
-			//return;
 			while (true)
 			{
 				if (DoMonitoring)

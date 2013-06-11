@@ -79,7 +79,7 @@ namespace ServerFS2.Processor
 		{
 			foreach (var device in devices)
 			{
-				ServerHelper.AddToIgnoreList(device);
+				MonitoringProcessor.AddTaskIgnore(device);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace ServerFS2.Processor
 		{
 			foreach (var device in devices)
 			{
-				ServerHelper.RemoveFromIgnoreList(device);
+				MonitoringProcessor.AddTaskResetIgnore(device);
 			}
 		}
 

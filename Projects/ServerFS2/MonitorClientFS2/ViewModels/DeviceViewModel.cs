@@ -36,6 +36,7 @@ namespace MonitorClientFS2.ViewModels
 			OnPropertyChanged("Device");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("States");
+			OnPropertyChanged("ToolTip");
 		}
 
 		public DeviceState DeviceState
@@ -155,14 +156,12 @@ namespace MonitorClientFS2.ViewModels
 		void OnSetIgnore()
 		{
 			MonitoringProcessor.AddTaskIgnore(Device);
-			//MainManager.AddToIgnoreList(new List<Device>() { Device });
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
 			MonitoringProcessor.AddTaskResetIgnore(Device);
-			//MainManager.RemoveFromIgnoreList(new List<Device>() { Device });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
