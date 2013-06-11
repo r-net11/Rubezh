@@ -106,7 +106,7 @@ namespace ServerFS2
 				secJournalItems = GetSecJournalItems2Op(device);
 			}
 			for (int i = firstIndex; i <= lastIndex; i++)
-			//for (int i = lastindex-10; i <= lastindex; i++)
+			//for (int i = lastIndex - 10; i <= lastIndex; i++)
 			{
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала",  (i-firstIndex)*100/(lastIndex - firstIndex)));
 				var bytes = CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());

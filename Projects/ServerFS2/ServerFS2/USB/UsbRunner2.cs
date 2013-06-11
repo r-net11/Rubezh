@@ -42,7 +42,7 @@ namespace ServerFS2
 			if (buffer.Count < 2)
 				return;
 			IsMs = buffer[0] != 0;
-			//buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
+			buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
 			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)
@@ -69,13 +69,13 @@ namespace ServerFS2
 				}
 				if (b == 0x7E)
 				{
-					//if (!ServerHelper.IsExtendedMode)
-					//{
-					//    if (buffer.IndexOf(0x7e) == 0)
-					//        ServerHelper.IsExtendedMode = false;
-					//    if (buffer.IndexOf(0x7e) == 1)
-					//        ServerHelper.IsExtendedMode = true;
-					//}
+					if (!ServerHelper.IsExtendedMode)
+					{
+						if (buffer.IndexOf(0x7e) == 0)
+							ServerHelper.IsExtendedMode = false;
+						if (buffer.IndexOf(0x7e) == 1)
+							ServerHelper.IsExtendedMode = true;
+					}
 					LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)

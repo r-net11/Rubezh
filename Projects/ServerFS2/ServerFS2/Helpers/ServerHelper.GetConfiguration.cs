@@ -1474,8 +1474,8 @@ namespace ServerFS2
 			//    MessageBox.Show("Пока не определено"); // Внешние ИУ
             if (BytesHelper.ExtractTriple(DeviceRom, 66) != 0)
 				MessageBox.Show("Пока не определено"); // МУК
-            if (BytesHelper.ExtractTriple(DeviceRom, 72) != 0)
-				MessageBox.Show("Пока не определено"); // БУНС
+			//if (BytesHelper.ExtractTriple(DeviceRom, 72) != 0)
+			//    MessageBox.Show("Пока не определено"); // БУНС
             if (BytesHelper.ExtractTriple(DeviceRom, 102) != 0)
 				MessageBox.Show("Пока не определено"); // АМТ-4
             if (BytesHelper.ExtractTriple(DeviceRom, 114) != 0)

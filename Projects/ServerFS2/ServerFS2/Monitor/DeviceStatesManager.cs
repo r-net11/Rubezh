@@ -137,7 +137,9 @@ namespace ServerFS2.Monitor
 			return device.Driver.IsPanel &&
 				!(device.Driver.DriverType == DriverType.IndicationBlock ||
 					device.Driver.DriverType == DriverType.PDU ||
-					device.Driver.DriverType == DriverType.PDU_PT);
+					device.Driver.DriverType == DriverType.PDU_PT ||
+					device.Driver.DriverType == DriverType.BUNS || 
+					device.Driver.DriverType == DriverType.BUNS_2);
 		}
 
 		static void ParceDeviceState(Device device, List<byte> stateBytes)
@@ -266,8 +268,9 @@ namespace ServerFS2.Monitor
 			{
 				try
 				{
-					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					var stateBytes = ServerHelper.GetBytesFromFlashDB(panel, device.Offset, 2);
 					ParceDeviceState(device, stateBytes);
+					device.DeviceState.OnStateChanged();
 				}
 				catch
 				{
