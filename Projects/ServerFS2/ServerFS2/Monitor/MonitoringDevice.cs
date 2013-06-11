@@ -146,8 +146,8 @@ namespace ServerFS2.Monitor
 			//{
 			//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 			//}
-			lock (MonitoringDevice.Locker)
-				Requests.RemoveAll(x => x != null && x.Id == request.Id); ;
+			lock (Locker)
+				Requests.RemoveAll(x => x != null && x.Id == request.Id);
 		}
 
 		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
