@@ -132,7 +132,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			var nonPanelremoteDevices = new HashSet<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{

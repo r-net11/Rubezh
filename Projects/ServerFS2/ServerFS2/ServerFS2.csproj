@@ -113,6 +113,7 @@
     <Compile Include="Helpers\ServerHelper.Parameters.cs" />
     <Compile Include="Helpers\ServerHelper.ReadJournal.cs" />
     <Compile Include="Helpers\ServerHelper.SetConfiguration.cs" />
+    <Compile Include="Helpers\TraceHelper.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Journal\BitsExtracter.cs" />
     <Compile Include="Journal\DatabaseHelper.cs" />
@@ -132,8 +133,8 @@
     <Compile Include="Monitor\MonitoringDevice.cs" />
     <Compile Include="Monitor\MonitoringProcessor.cs" />
     <Compile Include="Monitor\Request.cs" />
-    <Compile Include="Monitor\RequestTypes.cs" />
-    <Compile Include="Monitor\StatesHelper.cs" />
+    <Compile Include="Monitor\ZoneStateManager.cs" />
+    <Compile Include="USB\RequestTypes.cs" />
     <Compile Include="Monitor\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />

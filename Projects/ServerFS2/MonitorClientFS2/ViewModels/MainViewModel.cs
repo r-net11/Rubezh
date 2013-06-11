@@ -94,7 +94,7 @@ namespace MonitorClientFS2
 			//}
 			//MonitoringProcessor.WriteStats();
 			//MainManager.StopMonitoring();
-			DeviceStatesManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
+			DeviceStatesManager.UpdatePanelState(ConfigurationManager.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
 			//MainManager.StartMonitoring();
 		}
 

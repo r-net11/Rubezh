@@ -8,7 +8,7 @@ namespace ServerFS2.Monitor
 {
 	public class ManipulationItem
 	{
-		Device Device {get; set;}
+		Device Device { get; set; }
 		List<byte> Bytes { get; set; }
 
 		public ManipulationItem(Device device, List<byte> bytes)
@@ -18,7 +18,7 @@ namespace ServerFS2.Monitor
 		}
 
 		public void Manipulate()
-		{ 
+		{
 			;
 		}
 	}

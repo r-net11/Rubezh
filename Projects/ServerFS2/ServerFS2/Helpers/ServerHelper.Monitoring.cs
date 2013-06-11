@@ -13,17 +13,10 @@ namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
-		public static void ResetFire(Device device)
+		static void ResetFire(Device device)
 		{
 			var bytes = CreateBytesArray(0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 			SendCodeToPanel(bytes, device);
-		}
-
-		public static void ResetTest(Device device, List<byte> status)
-		{
-			status[1] = (byte)(status[1] & ~2);
-			SendCodeToPanel(device, 0x02, 0x10, status.GetRange(0, 4));
-			StatesHelper.ChangeDeviceStates(device, device.DeviceState.States);
 		}
 
 		public static void ResetPanelBit(Device device, List<byte> statusBytes, int bitNo)
@@ -47,19 +40,6 @@ namespace ServerFS2
 			SendCode(bytes);
 			device.DeviceState.OnStateChanged();
 			MonitoringProcessor.DoMonitoring = true;
-		}
-
-		public static void ResetStates(List<PanelResetItem> panelResetItems)
-		{
-			foreach (var panelResetItem in panelResetItems)
-			{
-				var parentPanel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
-				if (parentPanel == null)
-				{
-					throw new FS2Exception("Прибор для сброса не найден");
-				}
-				ResetOnePanelStates(parentPanel, panelResetItem.Ids);
-			}
 		}
 
 		public static void ResetOnePanelStates(Device panelDevice, IEnumerable<string> stateIds)

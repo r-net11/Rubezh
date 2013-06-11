@@ -418,7 +418,7 @@ namespace ServerFS2.Service
 		#region Helpers
 		Device FindDevice(Guid deviceUID)
 		{
-			var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			var device = ConfigurationManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device == null)
 				throw new FS2Exception("Невозможно выполнить операцию с устройством, отсутствующим в конфигурации");
 			return device;

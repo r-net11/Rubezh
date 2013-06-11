@@ -63,6 +63,18 @@ namespace DevicesModule
 
 		static void OnZoneStatesChanged(List<ZoneState> zoneStates)
 		{
+			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			{
+				foreach (var zoneState in zoneStates)
+				{
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneState.ZoneUID);
+					if (zone != null)
+					{
+						zone.ZoneState.StateType = zoneState.StateType;
+						zone.ZoneState.OnStateChanged();
+					}
+				}
+			}));
 		}
 
 		static void OnNewJournalItems(List<FS2JournalItem> journalItems)

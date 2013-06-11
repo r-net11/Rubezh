@@ -21,8 +21,6 @@ namespace MonitorClientFS2.ViewModels
 
 		public DeviceViewModel(Device device)
 		{
-			ResetFireCommand = new RelayCommand(OnResetFire);
-			ResetTestCommand = new RelayCommand(OnResetTest);
 			ResetCommand = new RelayCommand<DriverState>(OnReset, CanReset);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
@@ -49,24 +47,9 @@ namespace MonitorClientFS2.ViewModels
 			get { return Device.DeviceState.States; }
 		}
 
-		public string Address
-		{
-			get { return Device.PresentationAddress; }
-		}
-
 		public Driver Driver
 		{
 			get { return Device.Driver; }
-		}
-
-		public int ShleifNo
-		{
-			get { return Device.IntAddress / 256; }
-		}
-
-		public int AddressOnShleif
-		{
-			get { return Device.IntAddress % 256; }
 		}
 
 		public string ToolTip
@@ -107,12 +90,6 @@ namespace MonitorClientFS2.ViewModels
 			}
 		}
 
-		public RelayCommand ResetFireCommand { get; private set; }
-		void OnResetFire()
-		{
-			ServerHelper.ResetFire(Device);
-		}
-
 		public RelayCommand<DriverState> ResetCommand { get; private set; }
 		void OnReset(DriverState driverState)
 		{
@@ -123,34 +100,11 @@ namespace MonitorClientFS2.ViewModels
 			};
 			panelResetItem.Ids.Add(driverState.Code);
 			panelResetItems.Add(panelResetItem);
-			//MainManager.ResetStates(panelResetItems);
-			MonitoringProcessor.AddPanelResetItems(panelResetItems);
+			MainManager.ResetStates(panelResetItems);
 		}
 		bool CanReset(DriverState state)
 		{
 			return DeviceState.ThreadSafeStates.Any(x => (x.DriverState != null && x.DriverState == state && x.DriverState.IsManualReset));
-		}
-
-		public RelayCommand ResetTestCommand { get; private set; }
-		void OnResetTest()
-		{
-			var statusBytes = ServerHelper.GetDeviceStatus(Device);
-			if (statusBytes == null)
-				return;
-
-			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
-
-			Trace.WriteLine("statusBytesArray = " + BytesHelper.BytesToString(statusBytesArray.ToList()));
-			var bitArray = new BitArray(statusBytesArray);
-			var hasTest = bitArray[17];
-			Trace.WriteLine("hasTest = " + hasTest);
-			for (int i = 0; i < bitArray.Count; i++)
-			{
-				var hasBit = bitArray[i] ? "1" : "0";
-				Trace.WriteLine("bitArray[] " + i + "\t" + hasBit);
-			}
-
-			ServerHelper.ResetPanelBit(Device, statusBytes, 17);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }

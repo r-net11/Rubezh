@@ -23,7 +23,7 @@ namespace ServerFS2.ConfigurationWriter
 		void CreatePanels()
 		{
 			BinaryPanels = new List<BinaryPanel>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.IsPanel)
 				{
@@ -83,7 +83,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		void CreateZones()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
 				if (device.Zone != null)
@@ -92,7 +92,7 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
 
@@ -163,7 +163,7 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
 
@@ -201,7 +201,7 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				var binaryPanels = new HashSet<Device>();
 				foreach (var device in zone.DevicesInZone)
@@ -259,7 +259,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				foreach (var zoneUID in direction.ZoneUIDs)
 				{
-					var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						foreach (var deviceInZone in zone.DevicesInZone)
@@ -320,7 +320,7 @@ namespace ServerFS2.ConfigurationWriter
 					}
 				}
 			}
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{

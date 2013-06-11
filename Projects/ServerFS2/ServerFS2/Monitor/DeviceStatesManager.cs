@@ -42,13 +42,14 @@ namespace ServerFS2.Monitor
 					states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
 				}
 			}
-			StatesHelper.ChangeDeviceStates(panel, states);
+			ChangeDeviceStates(panel, states);
+			UpdateDeviceStateOnPanelState(panel, bitArray);
 		}
 
 
 		public static void GetAllStates()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.ParentPanel != null && device.ParentPanel.IntAddress == 15)
 				{
@@ -66,7 +67,7 @@ namespace ServerFS2.Monitor
 
 		public static void GetStates()
 		{
-			foreach (var panelDevice in ConfigurationManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsPanel))
+			foreach (var panelDevice in ConfigurationManager.Devices.Where(x => x.Driver.IsPanel))
 			{
 				if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
 					continue;
@@ -79,11 +80,11 @@ namespace ServerFS2.Monitor
 					if (remoteDevice.ParentPanel == null)
 						continue;
 
-					var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+					var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
 					device.Offset = remoteDevice.Offset;
 					device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
 				}
-				foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+				foreach (var device in ConfigurationManager.Devices)
 				{
 					if (device.InnerDeviceParameters != null)
 					{
@@ -115,7 +116,7 @@ namespace ServerFS2.Monitor
 				if (remoteDevice.ParentPanel == null)
 					continue;
 
-				var device = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+				var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
 
 				if (device == null)
 					continue;
@@ -123,7 +124,7 @@ namespace ServerFS2.Monitor
 				device.Offset = remoteDevice.Offset;
 				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
 			}
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.InnerDeviceParameters != null)
 				{
@@ -235,7 +236,7 @@ namespace ServerFS2.Monitor
 			//    }
 			//}
 
-			StatesHelper.ChangeDeviceStates(device, device.DeviceState.States);
+			ChangeDeviceStates(device, device.DeviceState.States);
 
 			foreach (var deviceDriverState in device.DeviceState.States)
 			{
@@ -364,7 +365,7 @@ namespace ServerFS2.Monitor
 						}
 					}
 
-					StatesHelper.ChangeDeviceStates(journalItem.Device, journalItem.Device.DeviceState.States);
+					ChangeDeviceStates(journalItem.Device, journalItem.Device.DeviceState.States);
 				}
 				//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
 				//Trace.WriteLine(journalItem.Device.DottedPresentationNameAndAddress + " - " + journalItem.StateWord.ToString());
@@ -372,7 +373,7 @@ namespace ServerFS2.Monitor
 			// read device 80 byte
 		}
 
-		public static void UpdateDeviceStateOnPanelState(Device panelDevice)
+		public static void UpdateDeviceStateOnPanelState(Device panelDevice, BitArray bitArray)
 		{
 			foreach (var device in panelDevice.GetRealChildren())
 			{
@@ -384,7 +385,16 @@ namespace ServerFS2.Monitor
 						{
 							if (leaveDeviceState.panelState != null)
 							{
-
+								var pabelBitNo = Int32.Parse(leaveDeviceState.panelState);
+								var hasBit = bitArray[pabelBitNo];
+								if (!hasBit)
+								{
+									if (device.DeviceState.States.Any(x => x.DriverState.Code == metadataDeviceState.ID))
+									{
+										device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID);
+										ChangeDeviceStates(device, device.DeviceState.States);
+									}
+								}
 							}
 						}
 					}
@@ -392,17 +402,14 @@ namespace ServerFS2.Monitor
 			}
 		}
 
-		public static void ResetState(DriverState driverState, MonitoringDevice monitoringDevice)
+		static void ChangeDeviceStates(Device device, List<DeviceDriverState> states)
 		{
-			var panelResetItems = new List<PanelResetItem>();
-			var panelResetItem = new PanelResetItem()
-			{
-				PanelUID = monitoringDevice.Panel.UID
-			};
-			panelResetItem.Ids.Add(driverState.Code);
-			panelResetItems.Add(panelResetItem);
-			MainManager.ResetStates(panelResetItems);
-			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(monitoringDevice.Panel, driverState.Name));
+			device.DeviceState.States = states;
+			device.DeviceState.SerializableStates = device.DeviceState.States;
+			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
+			device.DeviceState.OnStateChanged();
+
+			ZoneStateManager.ChangeOnDeviceState(device);
 		}
 	}
 }

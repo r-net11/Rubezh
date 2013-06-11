@@ -12,13 +12,13 @@ namespace ServerFS2.Monitor
 	public static class MonitoringProcessor
 	{
 		static List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
-		public static bool DoMonitoring{get; set;}
+		public static bool DoMonitoring { get; set; }
 		static DateTime StartTime;
 		static object locker = new object();
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
+			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
 				//if(device.IntAddress != 15)
 				//    continue;
@@ -94,33 +94,19 @@ namespace ServerFS2.Monitor
 			}
 		}
 
-		public static void AddStateToReset(Device device, DriverState state)
-		{
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				if (monitoringDevice.Panel == device)
-					monitoringDevice.StatesToReset.Add(state);
-			}
-		}
-
 		public static void AddPanelResetItems(List<PanelResetItem> panelResetItems)
 		{
 			foreach (var panelResetItem in panelResetItems)
 			{
-				var parentPanel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
+				var parentPanel = ConfigurationManager.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
 				if (parentPanel != null)
 				{
-					AddStateToReset2(parentPanel, panelResetItem.Ids.ToList());
+					foreach (var monitoringDevice in MonitoringDevices)
+					{
+						if (monitoringDevice.Panel == parentPanel)
+							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
+					}
 				}
-			}
-		}
-
-		public static void AddStateToReset2(Device device, List<string> resetStateIds)
-		{
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				if (monitoringDevice.Panel == device)
-					monitoringDevice.ResetStateIds = resetStateIds;
 			}
 		}
 
@@ -145,7 +131,5 @@ namespace ServerFS2.Monitor
 				}
 			}
 		}
-
-		
 	}
 }

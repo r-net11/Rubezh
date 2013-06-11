@@ -7,10 +7,12 @@ namespace FiresecAPI.Models
 	public class ZoneState
 	{
 		[DataMember]
-		public Zone Zone { get; set; }
+		public Guid ZoneUID { get; set; }
 
 		[DataMember]
 		public StateType StateType { get; set; }
+
+		public Zone Zone { get; set; }
 
 		public ZoneState()
 		{

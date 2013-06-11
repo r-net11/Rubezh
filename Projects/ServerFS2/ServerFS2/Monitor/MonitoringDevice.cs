@@ -23,16 +23,11 @@ namespace ServerFS2.Monitor
 		public const int requestExpiredTime = 10; // in seconds
 		public static readonly object Locker = new object();
 
-		public MonitoringDevice()
-		{
-		}
-
 		public MonitoringDevice(Device device)
 		{
 			Panel = device;
 			Requests = new List<Request>();
 			ResetStateIds = new List<string>();
-			StatesToReset = new List<DriverState>();
 			DevicesToIgnore = new List<Device>();
 			ManipulationItems = new List<ManipulationItem>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
@@ -54,7 +49,6 @@ namespace ServerFS2.Monitor
 		public bool CanRequestLastIndex = true;
 		public DateTime LastIndexDateTime;
 
-		public List<DriverState> StatesToReset { get; set; }
 		public List<Device> DevicesToIgnore { get; set; }
 		public List<Device> DevicesToResetIgnore { get; set; }
 		public List<ManipulationItem> ManipulationItems { get; set; }
@@ -85,16 +79,8 @@ namespace ServerFS2.Monitor
 				var journalItems = GetNewItems();
 				DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
 				DeviceStatesManager.UpdateDeviceState(journalItems);
+				DeviceStatesManager.UpdatePanelState(Panel);
 			}
-			if (StatesToReset != null && StatesToReset.Count > 0)
-			{
-				foreach (var state in StatesToReset)
-				{
-					DeviceStatesManager.ResetState(state, this);
-				}
-				StatesToReset = new List<DriverState>();
-			}
-
 			if (ResetStateIds != null && ResetStateIds.Count > 0)
 			{
 				ServerHelper.ResetOnePanelStates(Panel, ResetStateIds);
@@ -126,7 +112,6 @@ namespace ServerFS2.Monitor
 			{
 				RefreshStates();
 			}
-			DeviceStatesManager.UpdatePanelState(Panel);
 			CheckForLostConnection();
 			RequestLastIndex();
 		}
@@ -240,8 +225,6 @@ namespace ServerFS2.Monitor
 			IsInitialized = true;
 			FromLostConnectionState();
 		}
-
-
 
 		void SendRequest(Request request)
 		{

@@ -48,18 +48,10 @@ namespace ServerFS2.Processor
 		public static List<DeviceState> GetDeviceStates()
 		{
 			var deviceStates = new List<DeviceState>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
-
-				foreach (var state in device.DeviceState.States)
-				{
-					if (state.DriverState == null)
-					{
-						;
-					}
-				}
 			}
 			return deviceStates;
 		}
@@ -67,7 +59,7 @@ namespace ServerFS2.Processor
 		public static List<DeviceState> GetDeviceParameters()
 		{
 			var deviceStates = new List<DeviceState>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
@@ -113,7 +105,7 @@ namespace ServerFS2.Processor
 
 		public static void ResetStates(List<PanelResetItem> panelResetItems)
 		{
-			ServerHelper.ResetStates(panelResetItems);
+			MonitoringProcessor.AddPanelResetItems(panelResetItems);
 		}
 
 		public static void ExecuteCommand(Guid deviceUID, string methodName)

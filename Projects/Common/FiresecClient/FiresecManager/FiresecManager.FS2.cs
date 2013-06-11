@@ -49,14 +49,6 @@ namespace FiresecClient
 						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
 						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
 					}
-
-					foreach (var state in device.DeviceState.States)
-					{
-						if (state.DriverState == null)
-						{
-							;
-						}
-					}
 				}
 			}
 		}
