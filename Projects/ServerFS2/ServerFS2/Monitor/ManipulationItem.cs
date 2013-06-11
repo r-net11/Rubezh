@@ -6,20 +6,20 @@ using FiresecAPI.Models;
 
 namespace ServerFS2.Monitor
 {
-	public class ManipulationItem
+	public class CommandItem
 	{
 		Device Device {get; set;}
-		List<byte> Bytes { get; set; }
+		string CommandName { get; set; }
 
-		public ManipulationItem(Device device, List<byte> bytes)
+		public CommandItem(Device device, string commandName)
 		{
 			Device = device;
-			Bytes = bytes;
+			CommandName = commandName;
 		}
 
-		public void Manipulate()
+		public void Execute()
 		{ 
-			;
+			ServerHelper.ExecuteCommand(Device, CommandName);
 		}
 	}
 }

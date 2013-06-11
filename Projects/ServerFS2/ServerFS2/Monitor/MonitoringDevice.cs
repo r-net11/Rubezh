@@ -34,7 +34,7 @@ namespace ServerFS2.Monitor
 			ResetStateIds = new List<string>();
 			StatesToReset = new List<DriverState>();
 			DevicesToIgnore = new List<Device>();
-			ManipulationItems = new List<ManipulationItem>();
+			CommandItems = new List<CommandItem>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastSystemIndex = -1;
 			FirstSystemIndex = -1;
@@ -57,7 +57,7 @@ namespace ServerFS2.Monitor
 		public List<DriverState> StatesToReset { get; set; }
 		public List<Device> DevicesToIgnore { get; set; }
 		public List<Device> DevicesToResetIgnore { get; set; }
-		public List<ManipulationItem> ManipulationItems { get; set; }
+		public List<CommandItem> CommandItems { get; set; }
 		public int LastDeviceIndex { get; set; }
 		public bool IsReadingNeeded { get; set; }
 		public bool IsInitialized { get; private set; }
@@ -118,9 +118,10 @@ namespace ServerFS2.Monitor
 				}
 				DevicesToResetIgnore = new List<Device>();
 			}
-			if (ManipulationItems != null && ManipulationItems.Count > 0)
+			if (CommandItems != null && CommandItems.Count > 0)
 			{
-				ManipulationItems.ForEach(x => x.Manipulate());
+				CommandItems.ForEach(x => x.Execute());
+				CommandItems = new List<CommandItem>();
 			}
 			if (IsStateRefreshNeeded)
 			{

@@ -20,8 +20,8 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				//if(device.IntAddress != 15)
-				//    continue;
+				if (device.IntAddress != 15)
+					continue;
 
 				MonitoringDevices.Add(new MonitoringDevice(device));
 			}
@@ -142,6 +142,17 @@ namespace ServerFS2.Monitor
 				if (monitoringDevice.Panel == device.ParentPanel)
 				{
 					monitoringDevice.DevicesToResetIgnore = new List<Device>() { device };
+				}
+			}
+		}
+
+		public static void AddCommand(Device device, string commandName)
+		{
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				if (monitoringDevice.Panel == device.ParentPanel)
+				{
+					monitoringDevice.CommandItems.Add(new CommandItem(device, commandName));
 				}
 			}
 		}
