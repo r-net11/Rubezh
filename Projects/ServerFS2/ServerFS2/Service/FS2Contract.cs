@@ -139,6 +139,14 @@ namespace ServerFS2.Service
 			}, "GetDeviceParameters");
 		}
 
+		public OperationResult<List<ZoneState>> GetZoneStates()
+		{
+			return SafeCall<List<ZoneState>>(() =>
+			{
+				return MainManager.GetZoneStates();
+			}, "GetZoneStates");
+		}
+
 		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
 		{
 			return SafeCall(() =>

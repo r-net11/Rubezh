@@ -127,15 +127,15 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Monitor\DeviceStatesManager.cs" />
-    <Compile Include="Monitor\JournalHelper.cs" />
-    <Compile Include="Monitor\ManipulationItem.cs" />
-    <Compile Include="Monitor\MonitoringDevice.cs" />
-    <Compile Include="Monitor\MonitoringProcessor.cs" />
-    <Compile Include="Monitor\Request.cs" />
-    <Compile Include="Monitor\ZoneStateManager.cs" />
+    <Compile Include="Monitoring\DeviceStatesManager.cs" />
+    <Compile Include="Monitoring\JournalHelper.cs" />
+    <Compile Include="Monitoring\ManipulationItem.cs" />
+    <Compile Include="Monitoring\MonitoringDevice.cs" />
+    <Compile Include="Monitoring\MonitoringProcessor.cs" />
+    <Compile Include="Monitoring\Request.cs" />
+    <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="USB\RequestTypes.cs" />
-    <Compile Include="Monitor\XmlJournalHelper.cs" />
+    <Compile Include="Monitoring\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />
     <Compile Include="Processor\WatcherManager.cs" />

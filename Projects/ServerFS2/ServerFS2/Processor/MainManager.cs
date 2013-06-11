@@ -67,6 +67,16 @@ namespace ServerFS2.Processor
 			return deviceStates;
 		}
 
+		public static List<ZoneState> GetZoneStates()
+		{
+			var zoneStates = new List<ZoneState>();
+			foreach (var zone in ConfigurationManager.Zones)
+			{
+				zoneStates.Add(zone.ZoneState);
+			}
+			return zoneStates;
+		}
+
 		public static void AddToIgnoreList(List<Device> devices)
 		{
 			foreach (var device in devices)

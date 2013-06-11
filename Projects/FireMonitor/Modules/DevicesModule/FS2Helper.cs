@@ -8,6 +8,8 @@ using FS2Api;
 using Infrastructure;
 using Infrastructure.Events;
 using System.Windows.Threading;
+using System.Windows;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule
 {
@@ -25,7 +27,7 @@ namespace DevicesModule
 
 		static void OnDeviceStateChanged(List<DeviceState> deviceStates)
 		{
-			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			ApplicationService.ApplicationWindow.Dispatcher.Invoke(new Action(() =>
 			{
 				foreach (var deviceState in deviceStates)
 				{
@@ -37,6 +39,7 @@ namespace DevicesModule
 						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
 						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
 						device.DeviceState.OnStateChanged();
+						ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
 					}
 				}
 			}));
@@ -44,7 +47,7 @@ namespace DevicesModule
 
 		static void OnDeviceParametersChanged(List<DeviceState> deviceStates)
 		{
-			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			ApplicationService.ApplicationWindow.Dispatcher.Invoke(new Action(() =>
 			{
 				foreach (var deviceState in deviceStates)
 				{
@@ -63,7 +66,7 @@ namespace DevicesModule
 
 		static void OnZoneStatesChanged(List<ZoneState> zoneStates)
 		{
-			Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
+			ApplicationService.ApplicationWindow.Dispatcher.Invoke(new Action(() =>
 			{
 				foreach (var zoneState in zoneStates)
 				{
@@ -79,7 +82,7 @@ namespace DevicesModule
 
 		static void OnNewJournalItems(List<FS2JournalItem> journalItems)
 		{
-			Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+			ApplicationService.ApplicationWindow.Dispatcher.BeginInvoke(new Action(() =>
 				{
 					ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);
 				}));

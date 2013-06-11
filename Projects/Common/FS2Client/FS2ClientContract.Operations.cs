@@ -48,6 +48,11 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.GetDeviceParameters(); }, "GetDeviceParameters");
 		}
 
+		public OperationResult<List<ZoneState>> GetZoneStates()
+		{
+			return SafeOperationCall(() => { return FS2Contract.GetZoneStates(); }, "GetZoneStates");
+		}
+
 		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
 		{
 			return SafeOperationCall(() => { return FS2Contract.AddToIgnoreList(deviceUIDs); }, "AddToIgnoreList");

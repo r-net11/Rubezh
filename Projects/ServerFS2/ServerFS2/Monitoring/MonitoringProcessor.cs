@@ -20,8 +20,8 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				if (device.IntAddress != 15)
-					continue;
+				//if (device.IntAddress != 15)
+				//    continue;
 
 				MonitoringDevices.Add(new MonitoringDevice(device));
 			}

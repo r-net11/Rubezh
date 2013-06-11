@@ -36,6 +36,9 @@ namespace FS2Api
 		OperationResult<List<DeviceState>> GetDeviceParameters();
 
 		[OperationContract]
+		OperationResult<List<ZoneState>> GetZoneStates();
+
+		[OperationContract]
 		OperationResult AddToIgnoreList(List<Guid> deviceUIDs);
 
 		[OperationContract]
