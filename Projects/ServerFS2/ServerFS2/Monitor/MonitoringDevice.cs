@@ -94,6 +94,14 @@ namespace ServerFS2.Monitor
 				}
 				StatesToReset = new List<DriverState>();
 			}
+
+			if (ResetStateIds != null && ResetStateIds.Count > 0)
+			{
+				ServerHelper.ResetOnePanelStates(Panel, ResetStateIds);
+				ResetStateIds = new List<string>();
+				DeviceStatesManager.UpdatePanelState(Panel);
+			}
+
 			if (DevicesToIgnore != null && DevicesToIgnore.Count > 0)
 			{
 				foreach (var deviceToIgnore in DevicesToIgnore)

@@ -18,8 +18,11 @@ namespace ServerFS2.Monitor
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x) && x.IntAddress == 15))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
+				//if(device.IntAddress != 15)
+				//    continue;
+
 				MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
@@ -51,18 +54,11 @@ namespace ServerFS2.Monitor
 				if (DoMonitoring)
 				{
 					MonitoringDevices.ForEach(x => x.CheckTasks());
-						DeviceStatesManager.UpdateDeviceStateOnPanelState(monitoringDevice.Panel);
 				}
 			}
 		}
-					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.ResetStateIds != null && x.ResetStateIds.Count > 0))
-					{
 
 		static void UsbRunner_NewResponse(Response response)
-						ServerHelper.ResetOnePanelStates(monitoringDevice.Panel, monitoringDevice.ResetStateIds);
-						monitoringDevice.ResetStateIds = new List<string>();
-						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
-					}
 		{
 			MonitoringDevice monitoringDevice = null;
 			Request request = null;

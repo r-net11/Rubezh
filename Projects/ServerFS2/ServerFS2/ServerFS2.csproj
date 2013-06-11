@@ -128,6 +128,7 @@
     </Compile>
     <Compile Include="Monitor\DeviceStatesManager.cs" />
     <Compile Include="Monitor\JournalHelper.cs" />
+    <Compile Include="Monitor\ManipulationItem.cs" />
     <Compile Include="Monitor\MonitoringDevice.cs" />
     <Compile Include="Monitor\MonitoringProcessor.cs" />
     <Compile Include="Monitor\Request.cs" />
