@@ -29,7 +29,7 @@ namespace ServerFS2.Monitor
 			Requests = new List<Request>();
 			ResetStateIds = new List<string>();
 			DevicesToIgnore = new List<Device>();
-			ManipulationItems = new List<ManipulationItem>();
+			CommandItems = new List<CommandItem>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
 			LastSystemIndex = -1;
 			FirstSystemIndex = -1;
@@ -51,7 +51,7 @@ namespace ServerFS2.Monitor
 
 		public List<Device> DevicesToIgnore { get; set; }
 		public List<Device> DevicesToResetIgnore { get; set; }
-		public List<ManipulationItem> ManipulationItems { get; set; }
+		public List<CommandItem> CommandItems { get; set; }
 		public int LastDeviceIndex { get; set; }
 		public bool IsReadingNeeded { get; set; }
 		public bool IsInitialized { get; private set; }
@@ -104,9 +104,10 @@ namespace ServerFS2.Monitor
 				}
 				DevicesToResetIgnore = new List<Device>();
 			}
-			if (ManipulationItems != null && ManipulationItems.Count > 0)
+			if (CommandItems != null && CommandItems.Count > 0)
 			{
-				ManipulationItems.ForEach(x => x.Manipulate());
+				CommandItems.ForEach(x => x.Execute());
+				CommandItems = new List<CommandItem>();
 			}
 			if (IsStateRefreshNeeded)
 			{
@@ -131,8 +132,8 @@ namespace ServerFS2.Monitor
 			//{
 			//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
 			//}
-			lock (MonitoringDevice.Locker)
-				Requests.RemoveAll(x => x != null && x.Id == request.Id); ;
+			lock (Locker)
+				Requests.RemoveAll(x => x != null && x.Id == request.Id);
 		}
 
 		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)

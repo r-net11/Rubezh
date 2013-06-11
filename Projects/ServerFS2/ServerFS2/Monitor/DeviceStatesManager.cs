@@ -255,7 +255,6 @@ namespace ServerFS2.Monitor
 				{
 					var device = journalItem.Device;
 					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
-					ParceDeviceState(device, stateBytes);
 				}
 			}
 			//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();

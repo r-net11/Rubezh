@@ -112,6 +112,11 @@ namespace ServerFS2.Processor
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
+
+		public static void AddCommand(Device device, string commandName)
+		{
+			MonitoringProcessor.AddCommand(device, commandName);
+		}
 		#endregion
 
 		#region Administrator
