@@ -74,6 +74,9 @@ namespace ServerFS2
 			var metadataEvent = Metadata.events.FirstOrDefault(x => x.rawEventCode == stringCode);
 			if (metadataEvent != null)
 			{
+				if (metadataEvent.eventClassAll != null)
+					return metadataEvent.eventClassAll;
+
 				switch (additionalEventCode)
 				{
 					case 0:
@@ -133,8 +136,6 @@ namespace ServerFS2
 					case 22:
 						return metadataEvent.eventClass22;
 				}
-
-				return metadataEvent.eventClassAll;
 			}
 			return null;
 		}

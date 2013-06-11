@@ -276,8 +276,9 @@ namespace ServerFS2.Monitor
 			{
 				try
 				{
-					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					var stateBytes = ServerHelper.GetBytesFromFlashDB(panel, device.Offset, 2);
 					ParceDeviceState(device, stateBytes);
+					device.DeviceState.OnStateChanged();
 				}
 				catch
 				{
