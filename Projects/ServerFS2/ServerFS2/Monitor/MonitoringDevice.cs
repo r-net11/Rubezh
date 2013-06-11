@@ -42,6 +42,7 @@ namespace ServerFS2.Monitor
 		{
 			Panel = device;
 			Requests = new List<Request>();
+			ResetStateIds = new List<string>();
 			StatesToReset = new List<DriverState>();
 			DevicesToIgnore = new List<Device>();
 			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
@@ -57,6 +58,7 @@ namespace ServerFS2.Monitor
 			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
 		}
 
+		public List<string> ResetStateIds { get; set; }
 		public List<DriverState> StatesToReset { get; set; }
 		public List<Device> DevicesToIgnore { get; set; }
 		public List<Device> DevicesToResetIgnore { get; set; }

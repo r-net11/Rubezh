@@ -197,11 +197,11 @@ namespace ServerFS2.Service
 			}, "UnSetDeviceGuard");
 		}
 
-		public OperationResult ResetStates(List<PaneleResetItem> paneleResetItems)
+		public OperationResult ResetStates(List<PanelResetItem> panelResetItems)
 		{
 			return SafeCall(() =>
 			{
-				MainManager.ResetStates(paneleResetItems);
+				MainManager.ResetStates(panelResetItems);
 			}, "ResetStates");
 		}
 

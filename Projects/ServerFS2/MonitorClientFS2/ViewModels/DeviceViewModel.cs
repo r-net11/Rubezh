@@ -116,14 +116,15 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand<DriverState> ResetCommand { get; private set; }
 		void OnReset(DriverState driverState)
 		{
-			var panelResetItems = new List<PaneleResetItem>();
-			var paneleResetItem = new PaneleResetItem()
+			var panelResetItems = new List<PanelResetItem>();
+			var panelResetItem = new PanelResetItem()
 			{
 				PanelUID = DeviceState.Device.UID
 			};
-			paneleResetItem.Ids.Add(driverState.Code);
-			panelResetItems.Add(paneleResetItem);
-			MainManager.ResetStates(panelResetItems);
+			panelResetItem.Ids.Add(driverState.Code);
+			panelResetItems.Add(panelResetItem);
+			//MainManager.ResetStates(panelResetItems);
+			MonitoringProcessor.AddPanelResetItems(panelResetItems);
 		}
 		bool CanReset(DriverState state)
 		{

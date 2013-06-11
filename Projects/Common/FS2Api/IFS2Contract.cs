@@ -54,7 +54,7 @@ namespace FS2Api
 		OperationResult UnSetDeviceGuard(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult ResetStates(List<PaneleResetItem> paneleResetItems);
+		OperationResult ResetStates(List<PanelResetItem> panelResetItems);
 
 		[OperationContract]
 		OperationResult ExecuteCommand(Guid deviceUID, string methodName);

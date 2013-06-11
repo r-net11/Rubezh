@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using ServerFS2;
+using FS2Api;
 
 namespace ServerFS2.Monitor
 {
@@ -20,10 +21,6 @@ namespace ServerFS2.Monitor
 			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
 				MonitoringDevices.Add(new MonitoringDevice(device));
-				//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
-				//    MonitoringDevices.Add(new SecMonitoringDevice(device));
-				//else
-				//    MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
 			ServerHelper.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
@@ -61,6 +58,7 @@ namespace ServerFS2.Monitor
 						DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
 						DeviceStatesManager.UpdateDeviceState(journalItems);
 						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
+						DeviceStatesManager.UpdateDeviceStateOnPanelState(monitoringDevice.Panel);
 					}
 					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.StatesToReset != null && x.StatesToReset.Count > 0))
 					{
@@ -69,6 +67,12 @@ namespace ServerFS2.Monitor
 							DeviceStatesManager.ResetState(state, monitoringDevice);
 						}
 						monitoringDevice.StatesToReset = new List<DriverState>();
+						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
+					}
+					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.ResetStateIds != null && x.ResetStateIds.Count > 0))
+					{
+						ServerHelper.ResetOnePanelStates(monitoringDevice.Panel, monitoringDevice.ResetStateIds);
+						monitoringDevice.ResetStateIds = new List<string>();
 						DeviceStatesManager.UpdatePanelState(monitoringDevice.Panel);
 					}
 					foreach (var monitoringDevice in MonitoringDevices.Where(x => x.DevicesToIgnore != null && x.DevicesToIgnore.Count > 0))
@@ -105,7 +109,27 @@ namespace ServerFS2.Monitor
 			{
 				if (monitoringDevice.Panel == device)
 					monitoringDevice.StatesToReset.Add(state);
-				break;
+			}
+		}
+
+		public static void AddPanelResetItems(List<PanelResetItem> panelResetItems)
+		{
+			foreach (var panelResetItem in panelResetItems)
+			{
+				var parentPanel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
+				if (parentPanel != null)
+				{
+					AddStateToReset2(parentPanel, panelResetItem.Ids.ToList());
+				}
+			}
+		}
+
+		public static void AddStateToReset2(Device device, List<string> resetStateIds)
+		{
+			foreach (var monitoringDevice in MonitoringDevices)
+			{
+				if (monitoringDevice.Panel == device)
+					monitoringDevice.ResetStateIds = resetStateIds;
 			}
 		}
 

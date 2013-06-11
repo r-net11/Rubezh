@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using FiresecAPI.Models;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ServerFS2
 {
@@ -55,6 +56,30 @@ namespace ServerFS2
 				}
 			}
 			return -1;
+		}
+
+		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStaes(Device device)
+		{
+			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
+
+			var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			{
+				if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+				{
+					continue;
+				}
+				if (metadataDeviceState.tableType == null)
+				{
+					result.Add(metadataDeviceState);
+				}
+				if (metadataDeviceState.tableType == tableNo)
+				{
+					result.Add(metadataDeviceState);
+				}
+			}
+
+			return result;
 		}
 
 		public static string GetEventMessage(int eventCode)

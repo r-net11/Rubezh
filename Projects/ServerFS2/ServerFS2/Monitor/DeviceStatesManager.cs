@@ -32,7 +32,6 @@ namespace ServerFS2.Monitor
 			var states = new List<DeviceDriverState>();
 			var statusBytes = ServerHelper.GetDeviceStatus(panel);
 			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
-			Trace.WriteLine("statusBytesArray = " + BytesHelper.BytesToString(statusBytesArray.ToList()));
 			var bitArray = new BitArray(statusBytesArray);
 			for (int i = 0; i < bitArray.Count; i++)
 			{
@@ -44,13 +43,6 @@ namespace ServerFS2.Monitor
 				}
 			}
 			StatesHelper.ChangeDeviceStates(panel, states);
-
-			foreach (var state in states)
-			{
-				if (state.DriverState == null)
-					continue;
-				Trace.WriteLine(state.DriverState.Name);
-			}
 		}
 
 
@@ -155,7 +147,7 @@ namespace ServerFS2.Monitor
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
-				if (metadataDeviceState.tableType == tableNo)
+				if (metadataDeviceState.tableType != null && metadataDeviceState.tableType == tableNo)
 				{
 					var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
 					if (bitNo != -1)
@@ -377,16 +369,36 @@ namespace ServerFS2.Monitor
 			// read device 80 byte
 		}
 
+		public static void UpdateDeviceStateOnPanelState(Device panelDevice)
+		{
+			foreach (var device in panelDevice.GetRealChildren())
+			{
+				foreach (var metadataDeviceState in MetadataHelper.GetMetadataDeviceStaes(device))
+				{
+					if (metadataDeviceState.leave != null)
+					{
+						foreach (var leaveDeviceState in metadataDeviceState.leave)
+						{
+							if (leaveDeviceState.panelState != null)
+							{
+
+							}
+						}
+					}
+				}
+			}
+		}
+
 		public static void ResetState(DriverState driverState, MonitoringDevice monitoringDevice)
 		{
-			var paneleResetItems = new List<PaneleResetItem>();
-			var paneleResetItem = new PaneleResetItem()
+			var panelResetItems = new List<PanelResetItem>();
+			var panelResetItem = new PanelResetItem()
 			{
 				PanelUID = monitoringDevice.Panel.UID
 			};
-			paneleResetItem.Ids.Add(driverState.Code);
-			paneleResetItems.Add(paneleResetItem);
-			MainManager.ResetStates(paneleResetItems);
+			panelResetItem.Ids.Add(driverState.Code);
+			panelResetItems.Add(panelResetItem);
+			MainManager.ResetStates(panelResetItems);
 			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(monitoringDevice.Panel, driverState.Name));
 		}
 	}

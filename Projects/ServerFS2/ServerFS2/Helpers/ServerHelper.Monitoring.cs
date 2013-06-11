@@ -49,51 +49,54 @@ namespace ServerFS2
 			MonitoringProcessor.DoMonitoring = true;
 		}
 
-		public static void ResetStates(List<PaneleResetItem> panelResetItems)
+		public static void ResetStates(List<PanelResetItem> panelResetItems)
 		{
-			foreach (var paneleResetBit in panelResetItems)
+			foreach (var panelResetItem in panelResetItems)
 			{
-				var parentPanel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == paneleResetBit.PanelUID);
+				var parentPanel = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
 				if (parentPanel == null)
 				{
 					throw new FS2Exception("Прибор для сброса не найден");
 				}
-				var statusBytes = GetDeviceStatus(parentPanel);
-				var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
-				var bitArray = new BitArray(statusBytesArray);
-				foreach (var stateId in paneleResetBit.Ids)
+				ResetOnePanelStates(parentPanel, panelResetItem.Ids);
+			}
+		}
+
+		public static void ResetOnePanelStates(Device panelDevice, IEnumerable<string> stateIds)
+		{
+			var statusBytes = GetDeviceStatus(panelDevice);
+			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+			var bitArray = new BitArray(statusBytesArray);
+			foreach (var stateId in stateIds)
+			{
+				var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
+				if (metadataPanelState != null)
 				{
-					var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
-					if (metadataPanelState != null)
+					if (metadataPanelState.@class == "0")
 					{
-						if (metadataPanelState.@class == "0")
-						{
-							ResetFire(parentPanel);
-						}
-						else
-						{
-							var bitNo = Int16.Parse(metadataPanelState.no);
-							bitArray[bitNo] = false;
-						}
+						ResetFire(panelDevice);
+					}
+					else
+					{
+						var bitNo = Int16.Parse(metadataPanelState.no);
+						bitArray[bitNo] = false;
 					}
 				}
-				var value = 0;
-				for (int i = 0; i < bitArray.Count; i++)
-				{
-					if (bitArray[i])
-						value += 1 << i;
-				}
-
-				var newStatusBytes = BitConverter.GetBytes(value);
-				var bytes = CreateBytesArray(parentPanel.Parent.IntAddress + 2, parentPanel.IntAddress, 0x02, 0x10, newStatusBytes);
-				SendCode(bytes);
 			}
+			var value = 0;
+			for (int i = 0; i < bitArray.Count; i++)
+			{
+				if (bitArray[i])
+					value += 1 << i;
+			}
+
+			var newStatusBytes = BitConverter.GetBytes(value);
+			var bytes = CreateBytesArray(panelDevice.Parent.IntAddress + 2, panelDevice.IntAddress, 0x02, 0x10, newStatusBytes);
+			SendCode(bytes);
 		}
 
 		public static List<byte> GetDeviceStatus(Device device)
 		{
-			//if (!PingDevice(device))
-			//    return null;
 			var result = new List<byte>();
 			var response1 = SendCodeToPanel(device, 0x01, 0x10);
 			var response2 = SendCodeToPanel(device, 0x01, 0x0F);

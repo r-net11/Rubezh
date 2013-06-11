@@ -23,11 +23,9 @@ namespace MonitorClientFS2
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
 			TestCommand = new RelayCommand(OnTest);
-			JournalTestCommand = new RelayCommand(OnJournalTest);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
 
 			DevicesViewModel = new DevicesViewModel();
-
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
@@ -98,16 +96,6 @@ namespace MonitorClientFS2
 			//MainManager.StopMonitoring();
 			DeviceStatesManager.UpdatePanelState(ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
 			//MainManager.StartMonitoring();
-		}
-
-		public RelayCommand JournalTestCommand { get; private set; }
-		void OnJournalTest()
-		{
-			var journalItem = new FS2JournalItem()
-			{
-
-			};
-			DatabaseHelper.AddJournalItem(journalItem);
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }

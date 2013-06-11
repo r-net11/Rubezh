@@ -111,9 +111,9 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void ResetStates(List<PaneleResetItem> paneleResetItems)
+		public static void ResetStates(List<PanelResetItem> panelResetItems)
 		{
-			ServerHelper.ResetStates(paneleResetItems);
+			ServerHelper.ResetStates(panelResetItems);
 		}
 
 		public static void ExecuteCommand(Guid deviceUID, string methodName)
