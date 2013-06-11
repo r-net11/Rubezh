@@ -109,7 +109,7 @@ namespace ServerFS2.Monitor
 			IsStateRefreshNeeded = false;
 		}
 
-		void ToInitializingState()
+		public void ToInitializingState()
 		{
 			return;
 			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState{ DriverState = InitializingState, Time = DateTime.Now }};
@@ -151,7 +151,6 @@ namespace ServerFS2.Monitor
 
 		public void Initialize()
 		{
-			ToInitializingState();
 			DeviceStatesManager.GetStates(Panel);
 			DeviceStatesManager.UpdatePanelState(Panel);
 			IsInitialized = true;

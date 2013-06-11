@@ -17,7 +17,7 @@ namespace ServerFS2.Monitor
 
 		static MonitoringProcessor()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
+			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))// && x.IntAddress == 15))
 			{
 				MonitoringDevices.Add(new MonitoringDevice(device));
 				//if (device.Driver.DriverType == DriverType.Rubezh_2OP)
@@ -47,10 +47,8 @@ namespace ServerFS2.Monitor
 
 		static void OnRun()
 		{
-			foreach (var monitoringDevice in MonitoringDevices.Where(x => !x.IsInitialized))
-			{
-				monitoringDevice.Initialize();
-			}
+			MonitoringDevices.ForEach(x => x.ToInitializingState());
+			MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
 			while (true)
 			{
 				if (DoMonitoring)

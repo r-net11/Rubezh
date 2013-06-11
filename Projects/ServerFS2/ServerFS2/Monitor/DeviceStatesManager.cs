@@ -145,7 +145,9 @@ namespace ServerFS2.Monitor
 			return device.Driver.IsPanel &&
 				!(device.Driver.DriverType == DriverType.IndicationBlock ||
 					device.Driver.DriverType == DriverType.PDU ||
-					device.Driver.DriverType == DriverType.PDU_PT);
+					device.Driver.DriverType == DriverType.PDU_PT ||
+					device.Driver.DriverType == DriverType.BUNS || 
+					device.Driver.DriverType == DriverType.BUNS_2);
 		}
 
 		static void ParceDeviceState(Device device, List<byte> stateBytes)
