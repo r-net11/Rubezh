@@ -73,6 +73,7 @@ namespace Controls.TreeList
 		{
 			if (Tree != null)
 			{
+				Tree.ScrollIntoView(node);
 				var item = Tree.ItemContainerGenerator.ContainerFromItem(node) as TreeListItem;
 				if (item != null)
 					item.Focus();

@@ -10,17 +10,26 @@ namespace Infrastructure.Common.TreeList
 {
 	public class TreeNodeViewModel : BaseViewModel
 	{
-		private ITreeList Tree { get; set; }
-		public void AssignToTree(ITreeList tree)
+		private RootTreeNodeViewModel _root;
+		private RootTreeNodeViewModel Root
 		{
-			Tree = tree;
-			foreach (var child in Nodes)
-				child.AssignToTree(Tree);
-			if (ParentNode == null)
+			get
 			{
-				Tree.Rows.Add(this);
-				CreateChildrenRows();
+				if (_root == null && ParentNode != null)
+					_root = ParentNode.Root;
+				return _root;
 			}
+		}
+		public void AssignToRoot(RootTreeNodeViewModel root)
+		{
+			_root = root;
+			//foreach (var child in Nodes)
+			//    child.AssignToTree(Tree);
+			//if (ParentNode == null)
+			//{
+			//    Tree.Rows.Add(this);
+			//    CreateChildrenRows();
+			//}
 		}
 
 		public class TreeItemCollection : ObservableCollectionAdv<TreeNodeViewModel>
@@ -48,7 +57,7 @@ namespace Infrastructure.Common.TreeList
 						item.ParentNode.Nodes.Remove(item);
 					item.ParentNode = _owner;
 					item.Index = index;
-					item.Tree = _owner.Tree;
+					//item._tree = _owner.Tree;
 					for (int i = index; i < Count; i++)
 						this[i].Index++;
 					base.InsertItem(index, item);
@@ -59,6 +68,7 @@ namespace Infrastructure.Common.TreeList
 				TreeNodeViewModel item = this[index];
 				item.ParentNode = null;
 				item.Index = -1;
+				item._root = null;
 				for (int i = index + 1; i < Count; i++)
 					this[i].Index--;
 				base.RemoveItem(index);
@@ -72,6 +82,7 @@ namespace Infrastructure.Common.TreeList
 			}
 		}
 
+		protected bool IsRoot { get; set; }
 		public int Level
 		{
 			get
@@ -82,8 +93,8 @@ namespace Infrastructure.Common.TreeList
 					return ParentNode.Level + 1;
 			}
 		}
-		public int Index { get; private set; }
-		public TreeNodeViewModel ParentNode { get; private set; }
+		public int Index { get; protected set; }
+		public TreeNodeViewModel ParentNode { get; protected set; }
 		public TreeItemCollection Nodes { get; private set; }
 		public bool IsExpandable
 		{
@@ -92,7 +103,8 @@ namespace Infrastructure.Common.TreeList
 
 		internal TreeNodeViewModel()
 		{
-			Tree = null;
+			IsRoot = false;
+			_root = null;
 			Index = -1;
 			Nodes = new TreeItemCollection(this);
 			Nodes.CollectionChanged += ChildrenChanged;
@@ -171,17 +183,21 @@ namespace Infrastructure.Common.TreeList
 
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (IsExpanded && Tree != null)
+			if (IsExpanded && Root != null)
 				switch (e.Action)
 				{
 					case NotifyCollectionChangedAction.Add:
 						if (e.NewItems != null)
 						{
-							int index = e.NewStartingIndex;
-							int rowIndex = Tree.Rows.IndexOf(this);
+							int index = -1;
+							if (e.NewStartingIndex == 0)
+								index = Root.Rows.IndexOf(this);
+							else
+								index = Root.Rows.IndexOf(Nodes[e.NewStartingIndex - 1]) + Nodes[e.NewStartingIndex - 1].VisibleChildrenCount;
 							foreach (TreeNodeViewModel node in e.NewItems)
 							{
-								Tree.Rows.Insert(rowIndex + index + 1, node);
+								Root.Rows.Insert(index + 1, node);
+								node.CreateChildrenRows();
 								index++;
 							}
 						}
@@ -197,11 +213,11 @@ namespace Infrastructure.Common.TreeList
 						CreateChildrenRows();
 						break;
 				}
-			OnPropertyChanged("IsExpandable");
+			OnPropertyChanged(() => IsExpandable);
 		}
 		private void DropChildrenRows(bool removeParent)
 		{
-			int start = Tree.Rows.IndexOf(this);
+			int start = Root.Rows.IndexOf(this);
 			if (start >= 0)
 			{
 				int count = VisibleChildrenCount;
@@ -209,16 +225,16 @@ namespace Infrastructure.Common.TreeList
 					count++;
 				else
 					start++;
-				Tree.Rows.RemoveRange(start, count);
+				Root.Rows.RemoveRange(start, count);
 			}
 		}
 		private void CreateChildrenRows()
 		{
-			int index = Tree.Rows.IndexOf(this);
-			if (index >= 0)
+			int index = Root.Rows.IndexOf(this);
+			if (index >= 0 || IsRoot)
 			{
 				var nodes = AllVisibleChildren.ToArray();
-				Tree.Rows.InsertRange(index + 1, nodes);
+				Root.Rows.InsertRange(index + 1, nodes);
 				//if (nodes.Contains(Tree.SelectedTreeItem))
 				//    Tree.ResumeSelection();
 			}
@@ -235,17 +251,17 @@ namespace Infrastructure.Common.TreeList
 					if (value)
 					{
 						_isExpanded = true;
-						if (Tree != null)
+						if (Root != null)
 						{
 							CreateChildrenRows();
-							Tree.ResumeSelection();
+							Root.ResumeSelection();
 						}
 					}
 					else
 					{
-						if (Tree != null)
+						if (Root != null)
 						{
-							Tree.SuspendSelection();
+							Root.SuspendSelection();
 							DropChildrenRows(false);
 						}
 						_isExpanded = false;
@@ -258,13 +274,13 @@ namespace Infrastructure.Common.TreeList
 
 		public bool IsSelected
 		{
-			get { return Tree == null ? false : Tree.SelectedTreeNode == this; }
+			get { return Root == null ? false : Root.SelectedTreeNode == this; }
 			set
 			{
-				if (Tree != null)
+				if (Root != null)
 				{
 					ExpandToThis();
-					Tree.SelectedTreeNode = this;
+					Root.SelectedTreeNode = this;
 				}
 				OnPropertyChanged(() => IsSelected);
 			}

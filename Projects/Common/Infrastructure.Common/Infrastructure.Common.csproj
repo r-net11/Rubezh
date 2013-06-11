@@ -181,6 +181,7 @@
     <Compile Include="StackTraceHelper.cs" />
     <Compile Include="TreeList\ITreeList.cs" />
     <Compile Include="TreeList\ITreeNodeModel.cs" />
+    <Compile Include="TreeList\RootTreeNodeViewModel.cs" />
     <Compile Include="TreeList\TreeItemViewModel.cs" />
     <Compile Include="Reports\IFilterableReport.cs" />
     <Compile Include="Reports\IReportPrintExtension.cs" />

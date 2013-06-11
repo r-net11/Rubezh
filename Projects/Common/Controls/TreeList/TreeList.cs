@@ -25,18 +25,27 @@ namespace Controls.TreeList
 		private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			var treeList = (TreeList)d;
-			treeList.Rows.Clear();
-			if (e.NewValue != null)
-			{
-				foreach (TreeNodeViewModel item in (IEnumerable)e.NewValue)
-					item.AssignToTree(treeList);
-			}
+			treeList.Root.SetSource((IEnumerable)e.NewValue);
+		}
+		public static DependencyProperty RootProperty = DependencyProperty.Register("Root", typeof(RootTreeNodeViewModel), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnRootChanged)));
+		public RootTreeNodeViewModel Root
+		{
+			get { return (RootTreeNodeViewModel)GetValue(RootProperty); }
+			set { SetValue(RootProperty, value); }
+		}
+		private static void OnRootChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var treeList = (TreeList)d;
+			if (e.OldValue != null)
+				((RootTreeNodeViewModel)e.OldValue).DisassignFromTree(treeList);
+			((RootTreeNodeViewModel)e.NewValue).AssignToTree(treeList);
+			treeList.ItemsSource = ((RootTreeNodeViewModel)e.NewValue).Rows;
 		}
 
-		public static DependencyProperty SelectedTreeNodeProperty = DependencyProperty.Register("SelectedTreeNode", typeof(TreeNodeViewModel), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedTreeItemChanged)) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-		public TreeNodeViewModel SelectedTreeNode
+		public static DependencyProperty SelectedTreeNodeProperty = DependencyProperty.Register("SelectedTreeNode", typeof(object), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnSelectedTreeItemChanged)) { BindsTwoWayByDefault = true, DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+		public object SelectedTreeNode
 		{
-			get { return (TreeNodeViewModel)GetValue(SelectedTreeNodeProperty); }
+			get { return (object)GetValue(SelectedTreeNodeProperty); }
 			set { SetValue(SelectedTreeNodeProperty, value); }
 		}
 		private static void OnSelectedTreeItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -44,16 +53,16 @@ namespace Controls.TreeList
 			var treeList = (TreeList)d;
 			treeList.SelectedItem = e.NewValue;
 			treeList.ScrollIntoView(treeList.SelectedTreeNode);
+			treeList.Root.SelectedTreeNode = e.NewValue;
 		}
 
-		internal ObservableCollectionAdv<TreeNodeViewModel> Rows { get; private set; }
 		internal TreeNodeViewModel PendingFocusNode { get; set; }
 
 		public TreeList()
 		{
-			Rows = new ObservableCollectionAdv<TreeNodeViewModel>();
+			Root = new RootTreeNodeViewModel();
+			Root.AssignToTree(this);
 			SelectionChanged += OnSelectionChanged;
-			ItemsSource = Rows;
 			ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
 		}
 
@@ -100,12 +109,11 @@ namespace Controls.TreeList
 
 		ObservableCollectionAdv<TreeNodeViewModel> ITreeList.Rows
 		{
-			get { return Rows; }
+			get { return Root == null ? null : Root.Rows; }
 		}
-
 		public void SuspendSelection()
 		{
-			PendingFocusNode = SelectedTreeNode;
+			PendingFocusNode = SelectedTreeNode as TreeNodeViewModel;
 		}
 		public void ResumeSelection()
 		{
