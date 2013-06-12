@@ -13,6 +13,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		public BinaryConfigurationHelper()
 		{
+			CreateAll();
 			Current = this;
 			CreatePanels();
 			CreateZones();
@@ -328,6 +329,66 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 			RelationPanels = relationPanels.OrderBy(x=>x.IntAddress).ToList();
+		}
+
+		public void CreateAll()
+		{
+			var panelDevices = new List<Device>();
+			var nonPanelDevices = new List<Device>();
+
+			foreach (var childDevice in ConfigurationManager.DeviceConfiguration.RootDevice.Children)
+			{
+				switch(childDevice.Driver.DriverType)
+				{
+					case DriverType.USB_BUNS:
+					case DriverType.USB_BUNS_2:
+					case DriverType.USB_Rubezh_2AM:
+					case DriverType.USB_Rubezh_2OP:
+					case DriverType.USB_Rubezh_4A:
+					case DriverType.USB_Rubezh_P:
+						panelDevices.Add(childDevice);
+						break;
+				}
+				foreach (var childDevice1 in childDevice.Children)
+				{
+					foreach (var childDevice2 in childDevice1.Children)
+					{
+						switch (childDevice2.Driver.DriverType)
+						{
+							case DriverType.BUNS:
+							case DriverType.BUNS_2:
+							case DriverType.Rubezh_2AM:
+							case DriverType.Rubezh_2OP:
+							case DriverType.Rubezh_4A:
+								panelDevices.Add(childDevice);
+								break;
+
+							case DriverType.IndicationBlock:
+							case DriverType.PDU:
+							case DriverType.PDU_PTDirection:
+								nonPanelDevices.Add(childDevice2);
+								break;
+						}
+					}
+				}
+			}
+
+			foreach (var panelDevice in panelDevices)
+			{
+				foreach (var device in panelDevice.Children)
+				{
+					ProcessDevice(device, panelDevice);
+					foreach (var childDevice in device.Children)
+					{
+						ProcessDevice(childDevice, panelDevice);
+					}
+				}
+			}
+		}
+
+		void ProcessDevice(Device device, Device parentPanel)
+		{
+
 		}
 	}
 }

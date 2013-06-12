@@ -163,9 +163,8 @@ namespace ServerFS2.ConfigurationWriter
 			}
 		}
 
-		List<Device> GetDevicesInZoneLogic()
+		List<Device> GetDevicesInLogic()
 		{
-			//var parentPanel = Zone.DevicesInZone.FirstOrDefault().ParentPanel;
 			var result = new List<Device>();
 			foreach (var device in Zone.DevicesInZoneLogic)
 			{
@@ -174,12 +173,7 @@ namespace ServerFS2.ConfigurationWriter
 					result.Add(device);
 				}
 			}
-			return result;
-		}
 
-		List<Device> GetDevicesInLogic()
-		{
-			var result = GetDevicesInZoneLogic();
 			foreach (var device in Zone.DevicesInZone)
 			{
 				if (device.Driver.DriverType == DriverType.MPT)

@@ -16,7 +16,7 @@ namespace ServerFS2.ConfigurationWriter
 			NonPanelDatabases = new List<NonPanelDatabase>();
 		}
 
-		public void Run()
+		public void Create()
 		{
 			FS2Contract.CheckCancellationAndNotify("Формирования связей");
 			BinaryConfigurationHelper = new BinaryConfigurationHelper();
