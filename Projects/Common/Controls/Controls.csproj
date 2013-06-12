@@ -195,6 +195,7 @@
     <Compile Include="TreeList\Converters\CanExpandConverter.cs" />
     <Compile Include="TreeList\Converters\LevelToIndentConverter.cs" />
     <Compile Include="TreeList\RowExpander.cs" />
+    <Compile Include="TreeList\SortBehavior.cs" />
     <Compile Include="TreeList\TreeList.cs" />
     <Compile Include="TreeList\TreeListItem.cs" />
     <Compile Include="TreeList\TreeNode.cs" />
