@@ -37,15 +37,11 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			BytesDatabase.AddShort(zoneNo, "Номер зоны");
 			var lengtByteDescription = BytesDatabase.AddByte(0, "Длина блока данных устройства");
-			//if (!IsAm())
-			//{
-			//    BytesDatabase.AddByte(0, "Пустой байт");
-			//}
-			//for (int i = 0; i < Get80ByteCount(); i++)
-			for (int i = 0; i < 2; i++)
-			{
-				BytesDatabase.AddByte(0, "Байт 0x80 или 0x81");
-			}
+
+			BytesDatabase.AddByte(0, "Байт 0x80");
+			if(!IsAm())
+				BytesDatabase.AddByte(0, "Байт 0x81");
+
 			AddDetectorProperties();
 
 			switch (Device.Driver.DriverType)
@@ -83,21 +79,18 @@ namespace ServerFS2.ConfigurationWriter
 			lengtByteDescription.Value = BytesDatabase.ByteDescriptions.Count - 8;
 		}
 
-		//int Get80ByteCount()
-		//{
-		//    if(IsAm())
-		//            return 1;
-		//    return 2;
-		//}
-
 		void AddDetectorProperties()
 		{
 			byte computerConfigurationData = 0;
 
 			switch (Device.Driver.DriverType)
 			{
+				case DriverType.HandDetector:
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					break;
 				case DriverType.SmokeDetector:
 					BytesDatabase.AddByte(0, "Запыленность", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.HeatDetector:
 					BytesDatabase.AddByte(0, "Температура", true);

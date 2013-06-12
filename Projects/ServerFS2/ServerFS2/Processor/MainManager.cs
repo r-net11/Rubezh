@@ -140,7 +140,7 @@ namespace ServerFS2.Processor
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
 			var systemDatabaseCreator = new SystemDatabaseCreator();
-			systemDatabaseCreator.Run();
+			systemDatabaseCreator.Create();
 
 			var panelDatabase = systemDatabaseCreator.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
 			if (panelDatabase == null)

@@ -3,6 +3,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.ConfigurationWriter;
+using System;
+using System.Diagnostics;
 
 namespace ConfigurationViewer.DataTemplates
 {
@@ -16,8 +18,12 @@ namespace ConfigurationViewer.DataTemplates
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		private void OnWriteConfiguration()
 		{
+			var dateTime = DateTime.Now;
 			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Run();
+			configurationWriterHelper.Create();
+			Trace.WriteLine("SystemDatabaseCreator TotalMilliseconds = " + (DateTime.Now - dateTime).TotalMilliseconds.ToString());
+			return;
+
 			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper);
 			DialogService.ShowModalWindow(configurationDatabaseViewModel);
 		}

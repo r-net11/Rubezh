@@ -207,7 +207,7 @@ namespace ClientFS2.ViewModels
 		private void OnWriteConfiguration()
 		{
 			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Run();
+			configurationWriterHelper.Create();
 			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.IntAddress == DevicesViewModel.SelectedDevice.Device.IntAddress);
 			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
 			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
