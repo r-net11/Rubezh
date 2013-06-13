@@ -133,6 +133,7 @@
     <Compile Include="Events\UserChangedEvent.cs" />
     <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
     <Compile Include="Events\GetFS2FilteredArchiveCompletedEvent.cs" />
+    <Compile Include="Events\FS2ProgressInfoEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Services\ILayoutService.cs" />

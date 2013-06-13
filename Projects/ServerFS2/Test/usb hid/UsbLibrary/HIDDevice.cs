@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace UsbLibrary
 {
@@ -226,6 +228,8 @@ namespace UsbLibrary
 		}
 		#endregion
 
+		static List<string> AddedDevices = new List<string>();
+
 		#region Public static
 		/// <summary>
 		/// Finds a device given its PID and VID
@@ -253,9 +257,15 @@ namespace UsbLibrary
                     string strDevicePath = GetDevicePath(hInfoSet, ref oInterface);	// get the device path (see helper method 'GetDevicePath')
                     if (strDevicePath.IndexOf(strSearch) >= 0)	// do a string search, if we find the VID/PID string then we found our device!
                     {
-                        HIDDevice oNewDevice = (HIDDevice)Activator.CreateInstance(oType);	// create an instance of the class for this device
-                        oNewDevice.Initialise(strDevicePath);	// initialise it with the device path
-                        return oNewDevice;	// and return it
+						if (!AddedDevices.Contains(strDevicePath))
+						{
+							AddedDevices.Add(strDevicePath);
+							Trace.WriteLine(strDevicePath);
+
+							HIDDevice oNewDevice = (HIDDevice)Activator.CreateInstance(oType);	// create an instance of the class for this device
+							oNewDevice.Initialise(strDevicePath);	// initialise it with the device path
+							return oNewDevice;	// and return it
+						}
                     }
                     nIndex++;	// if we get here, we didn't find our device. So move on to the next one.
                 }

@@ -95,6 +95,7 @@ namespace DevicesModule
 
 		static void OnProgress(FS2ProgressInfo progressInfo)
 		{
+			ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Publish(progressInfo);
 		}
 	}
 }

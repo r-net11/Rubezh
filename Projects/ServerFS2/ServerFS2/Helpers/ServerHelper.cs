@@ -24,18 +24,21 @@ namespace ServerFS2
 		public static readonly UsbRunnerBase UsbRunnerBase;
         static int UsbRequestNo;
         public static bool IsExtendedMode { get; set; }
-        static ServerHelper()
-        {
-            Drivers = ConfigurationManager.DriversConfiguration.Drivers;
+		static ServerHelper()
+		{
+			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
 			//UsbRunnerBase = new UsbRunner();
 			UsbRunnerBase = new UsbRunner2();
-            try
-            {
+			try
+			{
 				UsbRunnerBase.Open();
-            }
-            catch
-            { }
-        }
+			}
+			catch
+			{ }
+
+			var usbRunnerBase2 = new UsbRunner2();
+			usbRunnerBase2.Open();
+		}
 
 		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)
 		{
