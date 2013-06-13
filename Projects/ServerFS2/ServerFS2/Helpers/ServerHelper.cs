@@ -27,8 +27,8 @@ namespace ServerFS2
         static ServerHelper()
         {
             Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-			//UsbRunnerBase = new UsbRunner();
-			UsbRunnerBase = new UsbRunner2();
+			UsbRunnerBase = new UsbRunner();
+			//UsbRunnerBase = new UsbRunner2();
             try
             {
 				UsbRunnerBase.Open();
