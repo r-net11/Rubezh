@@ -12,7 +12,7 @@ namespace ServerFS2.ConfigurationWriter
 		{
 			ParentPanel = parentDevice;
 			FlashDatabase = new FlashDatabase(parentDevice);
-			RomDatabase = new RomDatabase(FlashDatabase, 0x2000);
+			RomDatabase = new RomDatabase(FlashDatabase, 0x3000);
 		}
 	}
 }

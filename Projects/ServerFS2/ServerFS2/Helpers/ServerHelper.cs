@@ -114,18 +114,18 @@ namespace ServerFS2
 
         public static void BytesToFile(string fileName, List<byte> bytes)
         {
-            var deviceRamTxt = new StreamWriter("..\\" + fileName);
-            int j = 0;
+            var file = new StreamWriter("..\\" + fileName);
             foreach (var b in bytes)
             {
-                deviceRamTxt.Write("{0} ", b.ToString("X2"));
-                j++;
-                if (j % 16 == 0)
-                    deviceRamTxt.Write("\n");
-                if (j % 64 == 0)
-                    deviceRamTxt.Write("\n");
+                file.Write("{0} ", b.ToString("X2"));
             }
-            deviceRamTxt.Close();
+            file.Close();
         }
+
+		public static List<byte> BytesFromFile(string fileName)
+		{
+			var bytes = new List<byte>();
+			return bytes;
+		}
     }
 }
