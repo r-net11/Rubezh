@@ -64,6 +64,8 @@ namespace Controls.TreeList
 			Root.AssignToTree(this);
 			SelectionChanged += OnSelectionChanged;
 			ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
+			//DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ListView.SelectedItemProperty, typeof(TreeList));
+			//dpd.AddValueChanged(this, ValueChanged);
 		}
 
 		protected override DependencyObject GetContainerForItemOverride()
@@ -98,7 +100,7 @@ namespace Controls.TreeList
 
 		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (e.AddedItems.Count > 0 || PendingFocusNode == null)
+			if (e.OriginalSource == this && (e.AddedItems.Count > 0 || PendingFocusNode == null))
 			{
 				SelectedTreeNode = e.AddedItems.Count > 0 ? e.AddedItems[0] as TreeNodeViewModel : null;
 				PendingFocusNode = null;
