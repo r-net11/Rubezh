@@ -30,7 +30,6 @@ namespace MonitorClientFS2
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
 			//MainManager.StartMonitoring();
-			
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
@@ -85,6 +84,8 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			USBManager.Initialize();
+
 			//var stateBytes = new List<byte>() { 1, 2 };
 			//var bitArray = new BitArray(stateBytes.ToArray());
 			//for (int i = 0; i < 16; i++)
@@ -94,7 +95,7 @@ namespace MonitorClientFS2
 			//}
 			//MonitoringProcessor.WriteStats();
 			//MainManager.StopMonitoring();
-			DeviceStatesManager.UpdatePanelState(ConfigurationManager.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
+			//DeviceStatesManager.UpdatePanelState(ConfigurationManager.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
 			//MainManager.StartMonitoring();
 		}
 

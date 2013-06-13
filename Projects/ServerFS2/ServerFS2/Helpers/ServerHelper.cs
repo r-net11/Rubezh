@@ -27,8 +27,8 @@ namespace ServerFS2
 		static ServerHelper()
 		{
 			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-			UsbRunnerBase = new UsbRunner();
-			//UsbRunnerBase = new UsbRunner2();
+			//UsbRunnerBase = new UsbRunner();
+			UsbRunnerBase = new UsbRunner2();
 			try
 			{
 				UsbRunnerBase.Open();
@@ -36,8 +36,8 @@ namespace ServerFS2
 			catch
 			{ }
 
-			var usbRunnerBase2 = new UsbRunner2();
-			usbRunnerBase2.Open();
+			//var usbRunnerBase2 = new UsbRunner2();
+			//usbRunnerBase2.Open();
 		}
 
 		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)

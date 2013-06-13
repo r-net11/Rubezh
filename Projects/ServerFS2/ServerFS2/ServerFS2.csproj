@@ -141,6 +141,7 @@
     <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
+    <Compile Include="USB\USBManager.cs" />
     <Compile Include="USB\UsbRunnerBase.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
