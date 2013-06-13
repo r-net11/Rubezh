@@ -66,12 +66,12 @@ namespace Infrastructure.Common.TreeList
 			protected override void RemoveItem(int index)
 			{
 				TreeNodeViewModel item = this[index];
-				item.ParentNode = null;
 				item.Index = -1;
-				item._root = null;
 				for (int i = index + 1; i < Count; i++)
 					this[i].Index--;
 				base.RemoveItem(index);
+				item.ParentNode = null;
+				item._root = null;
 			}
 			protected override void SetItem(int index, TreeNodeViewModel item)
 			{
