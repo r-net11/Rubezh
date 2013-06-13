@@ -30,7 +30,6 @@ namespace ServerFS2
 
 		public override bool Send(List<byte> data)
 		{
-			//Trace.WriteLine("Send " + BytesHelper.BytesToString(data));
 			data.Insert(0, 0);
 			UsbHidPort.SpecifiedDevice.SendData(data.ToArray());
 			return true;
@@ -42,7 +41,7 @@ namespace ServerFS2
 			if (buffer.Count < 2)
 				return;
 			IsMs = buffer[0] != 0;
-			buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 2 : 1);
+			buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 3 : 2);
 			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)

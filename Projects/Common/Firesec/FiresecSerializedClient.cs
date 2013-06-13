@@ -97,6 +97,8 @@ namespace Firesec
         public OperationResult<Firesec.Models.Metadata.config> GetMetaData()
         {
 			var result = FSAgent.GetMetadata();
+			if (result.HasError)
+				return new OperationResult<Models.Metadata.config>(result.Error);
             return ConvertResultData<Firesec.Models.Metadata.config>(result);
         }
 

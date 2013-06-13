@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
         static bool IsUsb;
         static DevicePasswordType DevicePasswordType;
         static string Password;
-        static OperationResult<bool> OperationResult;
+        static OperationResult OperationResult;
 
         public static void Run(Device device, bool isUsb, DevicePasswordType devicePasswordType, string password)
         {

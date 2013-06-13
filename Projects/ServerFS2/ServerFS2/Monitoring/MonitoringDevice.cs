@@ -106,8 +106,19 @@ namespace ServerFS2.Monitor
 			}
 			if (CommandItems != null && CommandItems.Count > 0)
 			{
-				CommandItems.ForEach(x => x.Execute());
-				CommandItems = new List<CommandItem>();
+				var commandItemsToDelete = new List<CommandItem>();
+				foreach (var commandItem in CommandItems)
+				{
+					if (commandItem.Sended)
+					{
+						commandItem.CheckForExpired();
+						if (commandItem.Expired)
+							commandItemsToDelete.Add(commandItem);
+					}
+					else
+						commandItem.Send();
+				}
+				commandItemsToDelete.ForEach(x => CommandItems.Remove(x));	
 			}
 			if (IsStateRefreshNeeded)
 			{
@@ -224,7 +235,6 @@ namespace ServerFS2.Monitor
 			DeviceStatesManager.GetStates(Panel);
 			DeviceStatesManager.UpdatePanelState(Panel);
 			IsInitialized = true;
-			FromLostConnectionState();
 		}
 
 		void SendRequest(Request request)

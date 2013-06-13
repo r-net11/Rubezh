@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
 	{
 		static Device Device;
 		static bool IsUsb;
-		static OperationResult<bool> OperationResult;
+		static OperationResult OperationResult;
 
 		public static void Run(Device device, bool isUsb)
 		{

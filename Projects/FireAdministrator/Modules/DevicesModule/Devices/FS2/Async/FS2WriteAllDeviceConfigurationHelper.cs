@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
 {
 	public static class FS2WriteAllDeviceConfigurationHelper
 	{
-		static OperationResult<bool> OperationResult;
+		static OperationResult OperationResult;
 		static List<string> Errors;
 
 		public static void Run(bool showMessageBoxOnError = true)

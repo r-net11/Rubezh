@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
 	{
 		static Device Device;
 		static bool IsUsb;
-		static OperationResult<bool> OperationResult;
+		static OperationResult OperationResult;
 
 		public static void Run(Device device, bool isUsb)
 		{
@@ -22,9 +22,6 @@ namespace DevicesModule.ViewModels
 
 		static void OnPropgress()
 		{
-			//FiresecManager.FS2ClientContract.CancelPoll(new Guid());
-			//FiresecManager.FS2ClientContract.CancelProgress();
-			//OperationResult = new OperationResult<bool>();
 			OperationResult = FiresecManager.FS2ClientContract.DeviceDatetimeSync(Device.UID, IsUsb);
 		}
 
