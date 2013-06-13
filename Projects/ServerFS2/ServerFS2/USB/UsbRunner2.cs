@@ -15,10 +15,14 @@ namespace ServerFS2
 
 		public override bool Open()
 		{
-			UsbHidPort = new UsbLibrary.UsbHidPort();
-			UsbHidPort.VendorId = 0xC251;
-			UsbHidPort.ProductId = 0x1303;
+			UsbHidPort = new UsbLibrary.UsbHidPort()
+			{
+				VendorId = 0xC251,
+				ProductId = 0x1303
+			};
 			UsbHidPort.CheckDevicePresent();
+			if (UsbHidPort.SpecifiedDevice == null)
+				return false;
 			UsbHidPort.SpecifiedDevice.DataRecieved += new UsbLibrary.DataRecievedEventHandler(OnDataRecieved);
 			return true;
 		}
