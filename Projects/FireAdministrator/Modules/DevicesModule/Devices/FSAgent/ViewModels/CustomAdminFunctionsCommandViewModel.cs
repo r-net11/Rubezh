@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -24,6 +25,10 @@ namespace DevicesModule.ViewModels
                 return;
             }
             Functions = operationResult.Result;
+			foreach (var function in Functions)
+			{
+				Trace.WriteLine(device.Driver.ShortName + " " + function.Code + " " + function.Description + " " + function.Name);
+			}
         }
 
         public List<DeviceCustomFunction> Functions { get; private set; }

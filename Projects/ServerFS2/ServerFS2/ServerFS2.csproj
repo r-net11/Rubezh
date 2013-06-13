@@ -133,6 +133,7 @@
     <Compile Include="Monitoring\CommandItem.cs" />
     <Compile Include="Monitoring\MonitoringDevice.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.cs" />
+    <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
     <Compile Include="Monitoring\Request.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="USB\RequestTypes.cs" />

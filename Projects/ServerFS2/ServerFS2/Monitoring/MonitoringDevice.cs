@@ -303,6 +303,14 @@ namespace ServerFS2.Monitoring
 			IsReadingNeeded = false;
 			return journalItems;
 		}
+
+		public void SynchronizeTime()
+		{
+			var setDateTimeProperty = Panel.Properties.FirstOrDefault(x => x.Name == "SetDateTime");
+			if (setDateTimeProperty != null && setDateTimeProperty.Value == "1")
+			{
+				ServerHelper.SynchronizeTime(Panel);
+			}
+		}
 	}
 }
-	

@@ -9,10 +9,13 @@ using FS2Api;
 
 namespace ServerFS2.Monitoring
 {
-	public static class MonitoringProcessor
+	public static partial class MonitoringProcessor
 	{
 		static List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
 		public static bool DoMonitoring { get; set; }
+		static bool LoopMonitoring = true;
+		static bool IsInitialized = false;
+		static Thread MonitoringThread;
 		static DateTime StartTime;
 		static object locker = new object();
 
@@ -20,10 +23,10 @@ namespace ServerFS2.Monitoring
 		{
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				//if (device.IntAddress != 15)
-				//    continue;
-
-				MonitoringDevices.Add(new MonitoringDevice(device));
+				if (!device.IsMonitoringDisabled)
+				{
+					MonitoringDevices.Add(new MonitoringDevice(device));
+				}
 			}
 			DoMonitoring = false;
 			ServerHelper.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
@@ -35,27 +38,57 @@ namespace ServerFS2.Monitoring
 			{
 				StartTime = DateTime.Now;
 				DoMonitoring = true;
-				var thread = new Thread(OnRun);
-				thread.Start();
+				MonitoringThread = new Thread(OnRun);
+				MonitoringThread.Start();
 			}
+			StartTimeSynchronization();
 		}
 
 		public static void StopMonitoring()
 		{
 			DoMonitoring = false;
+			LoopMonitoring = false;
+
+			if (MonitoringThread != null)
+			{
+				MonitoringThread.Join(TimeSpan.FromSeconds(2));
+			}
+			MonitoringThread = null;
+
+			StopTimeSynchronization();
+		}
+
+		public static void SuspendMonitoring()
+		{
+			DoMonitoring = false;
+		}
+
+		public static void ResumeMonitoring()
+		{
+			DoMonitoring = true;
 		}
 
 		static void OnRun()
 		{
-			DeviceStatesManager.AllToInitializing();
-			MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
-			DeviceStatesManager.AllFromInitializing();
+			if (!IsInitialized)
+			{
+				DeviceStatesManager.AllToInitializing();
+				MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
+				DeviceStatesManager.AllFromInitializing();
+				IsInitialized = true;
+			}
 			//MonitoringDevices.ForEach(x => x.FromInitializingState());
-			while (true)
+			while (LoopMonitoring)
 			{
 				if (DoMonitoring)
 				{
 					MonitoringDevices.ForEach(x => x.CheckTasks());
+
+					if(IsTimeSynchronizationNeeded)
+					{
+						MonitoringDevices.ForEach(x => x.SynchronizeTime());
+						IsTimeSynchronizationNeeded = false;
+					}
 				}
 			}
 		}

@@ -36,11 +36,13 @@ namespace ServerFS2.Processor
 		public static void SuspendMonitoring()
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Приостановка мониторинга") });
+			MonitoringProcessor.SuspendMonitoring();
 		}
 
 		public static void ResumeMonitoring()
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
+			MonitoringProcessor.ResumeMonitoring();
 		}
 		#endregion
 
@@ -208,6 +210,7 @@ namespace ServerFS2.Processor
 			switch (driverType)
 			{
 				case DriverType.Rubezh_2AM:
+				case DriverType.USB_Rubezh_2AM:
 					return new List<DeviceCustomFunction>()
 					{
 						new DeviceCustomFunction()
@@ -223,9 +226,32 @@ namespace ServerFS2.Processor
 							Description = "Снять режим \"глухой панели\"",
 						}
 					};
-					break;
+				case DriverType.IndicationBlock:
+				case DriverType.PDU:
+				case DriverType.PDU_PT:
+					return new List<DeviceCustomFunction>()
+					{
+						new DeviceCustomFunction()
+						{
+							Code = "Touch_SetMaster",
+							Name = "Записать мастер-ключ",
+							Description = "Записать мастер-ключ TouchMemory",
+						},
+						new DeviceCustomFunction()
+						{
+							Code = "Touch_ClearMaster",
+							Name = "Стереть пользовательские ключи",
+							Description = "Стереть пользовательские ключи TouchMemory",
+						},
+						new DeviceCustomFunction()
+						{
+							Code = "Touch_ClearAll",
+							Name = "Стереть все ключи",
+							Description = "Стереть все ключи TouchMemory",
+						}
+					};
 			}
-			throw new FS2Exception("Функция пока не реализована");
+			return new List<DeviceCustomFunction>();
 		}
 
 		public static void DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)

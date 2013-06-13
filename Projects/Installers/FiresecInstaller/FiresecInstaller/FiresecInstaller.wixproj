@@ -32,6 +32,7 @@
     <Compile Include="Binary.wxs" />
     <Compile Include="Common.wxs" />
     <Compile Include="Firesec\Files5.wxs" />
+    <Compile Include="FS2\Files.wxs" />
     <Compile Include="FSAgent\Files.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
@@ -98,6 +99,7 @@
     <Content Include="Data\RegisterFS.bat" />
     <Content Include="Data\RegisterFS48.bat" />
     <Content Include="Data\RegisterFSx86x64.bat" />
+    <Content Include="FS2\Variables.wxi" />
     <Content Include="FSAgent\Variables.wxi" />
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />
@@ -125,6 +127,7 @@
     <Folder Include="Data" />
     <Folder Include="Multiclient" />
     <Folder Include="ManagementConsole" />
+    <Folder Include="FS2" />
     <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />

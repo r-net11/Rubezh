@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define FS2Name="Сервер FS-2" ?>
+  <?define FS2.TargetDir="..\..\..\..\..\ServerFS2\ServerFS2\bin\Release\"?>
+  <?define FS2.TargetFileName="ServerFS2.exe"?>
+</Include>
