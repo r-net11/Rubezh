@@ -45,81 +45,59 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		static void SetRomConfig(Device device, List<byte> deviceRom)
+		static void SetFlashConfig(Device device, List<byte> deviceFlash)
 		{
-			deviceRom.RemoveRange(0, 0x100);
-			_crc = new List<byte>() { deviceRom[0], deviceRom[1] };
-			deviceRom[0] = 0;
-			deviceRom[1] = 0;
-			SendCodeToPanel(device, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x96, deviceRom);
+			deviceFlash.RemoveRange(0, 0x100);
+			_crc = new List<byte>() { deviceFlash[0], deviceFlash[1] };
+			deviceFlash[0] = 0;
+			deviceFlash[1] = 0;
+			SendCodeToPanel(device, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x96, deviceFlash);
 			SendCodeToPanel(device, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x01, _crc[0], _crc[1]);
 		}
 
-		private static void SetFlashConfig(Device device, List<byte> deviceFlash, int begin)
+		private static void SetRomConfig(Device device, List<byte> deviceRom, int begin)
 		{
 			List<byte> bytes;
-			for (int i = 0; i < deviceFlash.Count ; i = i + 0x100)
+			for (int i = 0; i < deviceRom.Count ; i = i + 0x100)
 			{
-				SendCodeToPanel(device, 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceFlash.GetRange(i, Math.Min(deviceFlash.Count - i, 0x100)));
+				SendCodeToPanel(device, 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
 			}
-			//SendCode(CreateBytesArray(0x1C, 0x82, 0xA9, 0x7A, 0x04, 0x01, 0x3D, 0x1E, 0x00, 0x00, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x74, 0x00, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x77, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-			//, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x3B, 0x01, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00
-			//, 0x00, 0x00, 0x01, 0x02, 0x00, 0x01, 0x5B, 0x00, 0x01, 0x67));
 		}
 
 		public static void SetDeviceConfig(Device device, List<byte> Rom, List<byte> Flash)
 		{
 			RomDBFirstIndex = GetRomFirstIndex(device);
 			FlashDBLastIndex = GetFlashLastIndex(device);
-			
-			SendCode(CreateBytesArray(0x01, 0x02, 0x34, 0x01));
-			SendCode(CreateBytesArray(0x01, 0x02, 0x37));
-			SendCode(CreateBytesArray(0x04, 0x01, 0x02, 0x55, 0x01));
-			
-			SetRomConfig(device, Rom);
-			var delay = Math.Pow(2, SendCodeToPanel(device, 0x39, 0x01)[0]);
-			Thread.Sleep(100);
+			Rom = GetRomDBBytes(device);
+			Flash = GetFlashDBBytes(device);
+			//SendCode(CreateBytesArray(0x01, 0x02, 0x34, 0x01)); // Запись в MDS
+			//SendCode(CreateBytesArray(0x01, 0x02, 0x37)); // Информация о прошивке
+			BlockBD(device);
+			SetFlashConfig(device, Flash);
+			var delay = (int) Math.Pow(2, SendCodeToPanel(device, 0x39, 0x01)[0]);
+			Thread.Sleep(delay);
 			ConfirmationLongTermOperation(device);
 			var firmwhareBytes = GetFirmwhareBytes(device);
-			SetFlashConfig(device, firmwhareBytes, 0x40000000);
-			ClearSector(device);
+			SetRomConfig(device, firmwhareBytes, 0x40000000);
+			delay = (int) Math.Pow(2, SendCodeToPanel(device, 0x39, 0x04)[0]);
 			ConfirmationLongTermOperation(device);
-			delay = Math.Pow(2, SendCodeToPanel(device, 0x39, 0x01)[0]);
-			Thread.Sleep(100);
-			SetFlashConfig(device, Flash, RomDBFirstIndex);
-			SendCode(CreateBytesArray(0x04, 0x01, 0x3A));
-			SendCode(CreateBytesArray(0x04, 0x01, 0x3C));
+			ClearSector(device);
+			Thread.Sleep(delay);
+			SetRomConfig(device, Rom, RomDBFirstIndex);
+			StopUpdating(device);
+			//ConfirmationLongTermOperation(device);
 		}
 
-		static List<byte> CreateInputBytes(List<byte> messageBytes)
+		// Окончание записи памяти - сброс
+		private static void StopUpdating(Device device)
 		{
-			var bytes = new List<byte>();
-			var previousByte = new byte();
-			messageBytes.RemoveRange(0, messageBytes.IndexOf(0x7E) + 1);
-			messageBytes.RemoveRange(messageBytes.IndexOf(0x3E), messageBytes.Count - messageBytes.IndexOf(0x3E));
-			foreach (var b in messageBytes)
-			{
-				if ((b == 0x7D) || (b == 0x3D))
-				{ previousByte = b; continue; }
-				if (previousByte == 0x7D)
-				{
-					previousByte = new byte();
-					if (b == 0x5E)
-					{ bytes.Add(0x7E); continue; }
-					if (b == 0x5D)
-					{ bytes.Add(0x7D); continue; }
-				}
-				if (previousByte == 0x3D)
-				{
-					previousByte = new byte();
-					if (b == 0x1E)
-					{ bytes.Add(0x3E); continue; }
-					if (b == 0x1D)
-					{ bytes.Add(0x3D); continue; }
-				}
-				bytes.Add(b);
-			}
-			return bytes;
+			SendCodeToPanel(device, 0x3A);
+		}
+
+		// Установка блокировки БД
+		private static void BlockBD(Device device)
+		{
+			SendCodeToPanel(device, 0x02, 0x55, 0x01);
 		}
 
 		// Очистка сектора памяти bSectorStart, bSectorEnd
