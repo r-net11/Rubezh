@@ -20,8 +20,8 @@ namespace ServerFS2.Monitor
 		{
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				//if (device.IntAddress != 15)
-				//    continue;
+				if (device.IntAddress != 15)
+					continue;
 
 				MonitoringDevices.Add(new MonitoringDevice(device));
 			}
@@ -47,8 +47,10 @@ namespace ServerFS2.Monitor
 
 		static void OnRun()
 		{
-			MonitoringDevices.ForEach(x => x.ToInitializingState());
+			DeviceStatesManager.AllToInitializing();
 			MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
+			DeviceStatesManager.AllFromInitializing();
+			//MonitoringDevices.ForEach(x => x.FromInitializingState());
 			while (true)
 			{
 				if (DoMonitoring)
@@ -139,6 +141,7 @@ namespace ServerFS2.Monitor
 				if (monitoringDevice.Panel == device.ParentPanel)
 				{
 					monitoringDevice.CommandItems.Add(new CommandItem(device, commandName));
+					break;
 				}
 			}
 		}

@@ -102,9 +102,6 @@ namespace ServerFS2.Monitor
 
 		public static void GetStates(Device panelDevice)
 		{
-			//if (panelDevice.IntAddress != 15)// && panelDevice.IntAddress != 16)
-			//    continue;
-
 			if (!IsMonitoringable(panelDevice))
 				return;
 
@@ -123,13 +120,7 @@ namespace ServerFS2.Monitor
 
 				device.Offset = remoteDevice.Offset;
 				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
-			}
-			foreach (var device in ConfigurationManager.Devices)
-			{
-				if (device.InnerDeviceParameters != null)
-				{
-					ParceDeviceState(device, device.InnerDeviceParameters);
-				}
+				ParceDeviceState(device, device.InnerDeviceParameters);
 			}
 		}
 
@@ -150,7 +141,7 @@ namespace ServerFS2.Monitor
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
-				if (metadataDeviceState.tableType != null && metadataDeviceState.tableType == tableNo)
+				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
 				{
 					var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
 					if (bitNo != -1)
@@ -409,6 +400,26 @@ namespace ServerFS2.Monitor
 			device.DeviceState.OnStateChanged();
 
 			ZoneStateManager.ChangeOnDeviceState(device);
+		}
+
+		public static void AllToInitializing()
+		{
+			ConfigurationManager.DeviceConfiguration.Devices.ForEach(x =>
+			{
+				var state = x.Driver.States.FirstOrDefault(y => y.Name == "Устройство инициализируется");
+				x.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = state, Time = DateTime.Now } };
+				x.DeviceState.OnStateChanged();
+			});
+		}
+
+		public static void AllFromInitializing()
+		{
+			ConfigurationManager.DeviceConfiguration.Devices.ForEach(x =>
+			{
+				var state = x.Driver.States.FirstOrDefault(y => y.Name == "Устройство инициализируется");
+				x.DeviceState.States.RemoveAll(y => y.DriverState == state);
+				x.DeviceState.OnStateChanged();
+			});
 		}
 	}
 }

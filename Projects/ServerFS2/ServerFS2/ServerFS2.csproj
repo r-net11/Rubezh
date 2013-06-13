@@ -129,7 +129,7 @@
     </Compile>
     <Compile Include="Monitoring\DeviceStatesManager.cs" />
     <Compile Include="Monitoring\JournalHelper.cs" />
-    <Compile Include="Monitoring\ManipulationItem.cs" />
+    <Compile Include="Monitoring\CommandItem.cs" />
     <Compile Include="Monitoring\MonitoringDevice.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.cs" />
     <Compile Include="Monitoring\Request.cs" />
