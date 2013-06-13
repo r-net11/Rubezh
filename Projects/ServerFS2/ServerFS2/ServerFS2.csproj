@@ -127,6 +127,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Monitoring\CommandExecutor.cs" />
     <Compile Include="Monitoring\DeviceStatesManager.cs" />
     <Compile Include="Monitoring\JournalHelper.cs" />
     <Compile Include="Monitoring\CommandItem.cs" />

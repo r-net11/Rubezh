@@ -11,7 +11,7 @@ using System.Collections;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2;
 using FS2Api;
-using ServerFS2.Monitor;
+using ServerFS2.Monitoring;
 
 namespace MonitorClientFS2.ViewModels
 {

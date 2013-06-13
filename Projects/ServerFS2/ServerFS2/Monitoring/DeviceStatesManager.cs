@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows;
 using ServerFS2.Service;
 using ServerFS2.Processor;
 
-namespace ServerFS2.Monitor
+namespace ServerFS2.Monitoring
 {
 	public class DeviceStatesManager
 	{
@@ -31,6 +31,8 @@ namespace ServerFS2.Monitor
 		{
 			var states = new List<DeviceDriverState>();
 			var statusBytes = ServerHelper.GetDeviceStatus(panel);
+			if (statusBytes.Count < 8)
+				return;
 			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
 			var bitArray = new BitArray(statusBytesArray);
 			for (int i = 0; i < bitArray.Count; i++)
@@ -144,7 +146,7 @@ namespace ServerFS2.Monitor
 				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
 				{
 					var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
-					if (bitNo != -1)
+					if (bitNo != -1 && bitNo < bitArray.Count)
 					{
 						var hasBit = bitArray[bitNo];
 						if (hasBit)

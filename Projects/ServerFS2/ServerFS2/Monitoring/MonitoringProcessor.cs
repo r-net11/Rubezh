@@ -7,7 +7,7 @@ using FiresecAPI.Models;
 using ServerFS2;
 using FS2Api;
 
-namespace ServerFS2.Monitor
+namespace ServerFS2.Monitoring
 {
 	public static class MonitoringProcessor
 	{
@@ -144,6 +144,12 @@ namespace ServerFS2.Monitor
 					break;
 				}
 			}
+		}
+
+		public static void ExecuteCommand(Device device, string commandName)
+		{
+			CommandExecutor commandExecutor = new CommandExecutor(device, commandName);
+			//commandExecutor.CheckForExpired();
 		}
 	}
 }

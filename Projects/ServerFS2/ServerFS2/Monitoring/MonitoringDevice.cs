@@ -11,7 +11,7 @@ using ServerFS2.Journal;
 using ServerFS2.ConfigurationWriter;
 
 
-namespace ServerFS2.Monitor
+namespace ServerFS2.Monitoring
 {
 	public class MonitoringDevice
 	{
@@ -106,19 +106,8 @@ namespace ServerFS2.Monitor
 			}
 			if (CommandItems != null && CommandItems.Count > 0)
 			{
-				var commandItemsToDelete = new List<CommandItem>();
-				foreach (var commandItem in CommandItems)
-				{
-					if (commandItem.Sended)
-					{
-						commandItem.CheckForExpired();
-						if (commandItem.Expired)
-							commandItemsToDelete.Add(commandItem);
-					}
-					else
-						commandItem.Send();
-				}
-				commandItemsToDelete.ForEach(x => CommandItems.Remove(x));	
+				CommandItems.ForEach(x => x.Send());
+				CommandItems = new List<CommandItem>();
 			}
 			if (IsStateRefreshNeeded)
 			{

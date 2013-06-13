@@ -12,7 +12,7 @@ using System.Diagnostics;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Service;
 using FS2Api;
-using ServerFS2.Monitor;
+using ServerFS2.Monitoring;
 
 namespace ServerFS2
 {

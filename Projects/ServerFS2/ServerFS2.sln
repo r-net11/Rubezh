@@ -44,9 +44,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbLibrary", "Test\usb hid\UsbLibrary\UsbLibrary.csproj", "{71E42A6D-C432-4C03-BF4F-ABFD2A3173E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{42F0F66E-B886-41FD-98D6-02D25B450679}"
-	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

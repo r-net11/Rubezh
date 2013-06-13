@@ -7,7 +7,7 @@ using FiresecAPI;
 using ServerFS2.Service;
 using FS2Api;
 
-namespace ServerFS2.Monitor
+namespace ServerFS2.Monitoring
 {
 	public static class ZoneStateManager
 	{

@@ -7,7 +7,7 @@ using ServerFS2.Service;
 using ServerFS2.ConfigurationWriter;
 using System.Threading;
 using System.Diagnostics;
-using ServerFS2.Monitor;
+using ServerFS2.Monitoring;
 
 namespace ServerFS2.Processor
 {
@@ -125,7 +125,7 @@ namespace ServerFS2.Processor
 
 		public static void AddCommand(Device device, string commandName)
 		{
-			MonitoringProcessor.AddCommand(device, commandName);
+			MonitoringProcessor.ExecuteCommand(device, commandName);
 		}
 		#endregion
 

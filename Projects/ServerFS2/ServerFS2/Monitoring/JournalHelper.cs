@@ -7,7 +7,7 @@ using FS2Api;
 using ServerFS2;
 using ServerFS2.ConfigurationWriter;
 
-namespace ServerFS2.Monitor
+namespace ServerFS2.Monitoring
 {
 	public static class JournalHelper
 	{

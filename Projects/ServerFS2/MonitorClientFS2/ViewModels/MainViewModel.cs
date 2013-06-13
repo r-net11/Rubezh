@@ -11,7 +11,7 @@ using System.Collections;
 using System.Diagnostics;
 using ServerFS2;
 using System.Linq;
-using ServerFS2.Monitor;
+using ServerFS2.Monitoring;
 using ServerFS2.Journal;
 
 namespace MonitorClientFS2
