@@ -202,7 +202,7 @@ namespace ServerFS2
 			}
 		}
 
-		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
+		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();

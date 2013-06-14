@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using FiresecClient.Itv;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace ItvIntegration
 {
@@ -10,16 +12,21 @@ namespace ItvIntegration
     {
         public JournalsViewModel()
         {
-            JournalRecords = new List<JournalRecord>();
-            ItvManager.NewJournalRecord += new Action<JournalRecord>(OnNewJournalRecord);
+			JournalRecords = new ObservableCollection<JournalRecord>();
+			ItvManager.NewJournalRecord += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewJournalRecord(x); }); });
         }
 
-        void OnNewJournalRecord(JournalRecord journalRecord)
-        {
-            Dispatcher.CurrentDispatcher.Invoke(new Action(() => { JournalRecords.Add(journalRecord); }));
-			OnPropertyChanged("JournalRecords");
-        }
+		public void SafeCall(Action action)
+		{
+			if (Application.Current != null && Application.Current.Dispatcher != null)
+				Application.Current.Dispatcher.BeginInvoke(action);
+		}
 
-        public List<JournalRecord> JournalRecords { get; private set; }
+		void OnNewJournalRecord(JournalRecord journalRecord)
+		{
+			JournalRecords.Add(journalRecord);
+		}
+
+        public ObservableCollection<JournalRecord> JournalRecords { get; private set; }
     }
 }

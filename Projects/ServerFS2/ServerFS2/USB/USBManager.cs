@@ -10,7 +10,7 @@ namespace ServerFS2
 {
 	public static class USBManager
 	{
-		static int RequestNo = 0;
+		public static int RequestNo = 0;
 
 		public static void Initialize()
 		{
@@ -26,7 +26,6 @@ namespace ServerFS2
 				}
 			}
 
-			var usbRunners = new List<UsbRunner2>();
 			var usbRunnerDetectors = new List<UsbRunnerDetector>();
 
 			while (true)
@@ -37,7 +36,6 @@ namespace ServerFS2
 					var result = usbRunner.Open();
 					if (!result)
 						break;
-					usbRunners.Add(usbRunner);
 					var usbRunnerDetector = new UsbRunnerDetector()
 					{
 						UsbRunner = usbRunner
@@ -50,9 +48,11 @@ namespace ServerFS2
 				}
 			}
 
-			foreach (var usbRunner in usbRunners)
+			foreach (var usbRunnerDetector in usbRunnerDetectors)
 			{
-				var serialNo = GetSerialNo(usbRunner);
+				usbRunnerDetector.Initialize();
+				Trace.WriteLine(usbRunnerDetector.IsUSBMS + " " + usbRunnerDetector.IsUSBPanel + " " +
+					usbRunnerDetector.USBDriverType + " " + usbRunnerDetector.SerialNo);
 			}
 
 			foreach (var device in usbDevices)
@@ -60,29 +60,60 @@ namespace ServerFS2
 				var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
 				if (serialNoProperty != null)
 				{
-					var serialNo = serialNoProperty.Value;
+					var usbRunnerDetector = usbRunnerDetectors.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
+					if (usbRunnerDetector != null)
+					{
+						usbRunnerDetector.Device = device;
+					}
+				}
+				else
+				{
 				}
 			}
 		}
 
-		static string GetSerialNo(UsbRunner2 usbRunner)
+		public static DriverType GetTypeNo(int driverTypeNo)
 		{
-			var bytes = new List<byte>();
-			bytes.Add(0x01);
-			bytes.Add(0x01);
-			bytes.Add(0x32);
-			var bytesList = new List<List<byte>>();
-			bytesList.Add(bytes);
-			var result = usbRunner.AddRequest(RequestNo++, bytesList, 1000, 1000, true);
-			var responce = result.Result.FirstOrDefault();
-			if (responce != null)
+			switch (driverTypeNo)
 			{
-				responce.Data.RemoveRange(0, 6);
-				var serialNo = BytesHelper.BytesToStringDescription(responce.Data);
-				Trace.WriteLine(serialNo);
-				return serialNo;
+				case 1:
+					return DriverType.USB_Rubezh_2AM;
+					//return DriverType.Rubezh_2AM;
+				case 6:
+					return DriverType.USB_Rubezh_2OP;
+					//return DriverType.Rubezh_2OP;
+				case 5:
+					return DriverType.USB_Rubezh_4A;
+					//return DriverType.Rubezh_4A;
+				case 2:
+					return DriverType.USB_BUNS;
+					//return DriverType.BUNS;
+				case 8:
+					return DriverType.USB_BUNS_2;
+					//return DriverType.BUNS_2;
+				case 3:
+					return DriverType.IndicationBlock;
+				case 7:
+					return DriverType.PDU;
+				case 9:
+					return DriverType.PDU_PT;
+				case 10:
+					return DriverType.USB_Rubezh_P;
+					//return DriverType.BlindPanel;
+				case 4:
+					return DriverType.Rubezh_10AM;
+				case 98:
+					return DriverType.MS_1;
+				case 99:
+					return DriverType.MS_2;
+				case 100:
+					return DriverType.MS_3;
+				case 101:
+					return DriverType.MS_4;
+				case 102:
+					return DriverType.UOO_TL;
 			}
-			return null;
+			return DriverType.Computer;
 		}
 	}
 
@@ -90,7 +121,100 @@ namespace ServerFS2
 	{
 		public UsbRunner2 UsbRunner { get; set; }
 		public string SerialNo { get; set; }
-		public string TypeNo { get; set; }
+		public int TypeNo { get; set; }
+		public bool IsUSBPanel { get; set; }
+		public bool IsUSBMS { get; set; }
+		public DriverType USBDriverType { get; set; }
 		public Device Device { get; set; }
+
+		public void Initialize()
+		{
+			var usbTypeNo = GetUSBTypeNo();
+			USBDriverType = USBManager.GetTypeNo(usbTypeNo);
+			if (usbTypeNo == -1)
+			{
+				IsUSBMS = true;
+				SetIdOn();
+				UsbRunner.IsUsbDevice = false;
+			}
+			else
+			{
+				IsUSBPanel = true;
+				UsbRunner.IsUsbDevice = true;
+			}
+
+			SerialNo = GetUSBSerialNo();
+		}
+
+		int GetUSBTypeNo()
+		{
+			UsbRunner.IsUsbDevice = true;
+			var bytes = new List<byte>() { 0x02, 0x01, 0x03 };
+			var bytesList = new List<List<byte>>();
+			bytesList.Add(bytes);
+			var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			var responce = result.Result.FirstOrDefault();
+			if (responce != null)
+			{
+				if (responce.Data.Count > 2)
+				{
+					return responce.Data[2];
+				}
+			}
+			UsbRunner.IsUsbDevice = false;
+			return -1;
+		}
+
+		bool SetIdOn()
+		{
+			if (HasResponceWithoutID())
+			{
+				UsbRunner.IsUsbDevice = true;
+				var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
+				var bytesList = new List<List<byte>>();
+				bytesList.Add(bytes);
+				var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+				UsbRunner.IsUsbDevice = false;
+				var responce = result.Result.FirstOrDefault();
+			}
+			return HasResponceWithID();
+		}
+
+		bool HasResponceWithoutID()
+		{
+			UsbRunner.IsUsbDevice = true;
+			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
+			var bytesList = new List<List<byte>>();
+			bytesList.Add(bytes);
+			var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			UsbRunner.IsUsbDevice = false;
+			var responce = result.Result.FirstOrDefault();
+			return responce != null;
+		}
+
+		bool HasResponceWithID()
+		{
+			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
+			var bytesList = new List<List<byte>>();
+			bytesList.Add(bytes);
+			var result = UsbRunner.AddRequest(USBManager.RequestNo++, bytesList, 1000, 1000, true, 1);
+			var responce = result.Result.FirstOrDefault();
+			return responce != null;
+		}
+
+		string GetUSBSerialNo()
+		{
+			var bytes = new List<byte>() { 0x01, 0x01, 0x32 };
+			var bytesList = new List<List<byte>>();
+			bytesList.Add(bytes);
+			var result = UsbRunner.AddRequest(USBManager.RequestNo++, bytesList, 1000, 1000, true, 1);
+			var responce = result.Result.FirstOrDefault();
+			if (responce != null)
+			{
+				responce.Data.RemoveRange(0, 6);
+				return BytesHelper.BytesToStringDescription(responce.Data);
+			}
+			return null;
+		}
 	}
 }

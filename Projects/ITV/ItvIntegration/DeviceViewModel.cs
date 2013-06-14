@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient.Itv;
+using System.Windows;
 
 namespace ItvIntegration
 {
@@ -15,7 +16,7 @@ namespace ItvIntegration
             Device = device;
             DeviceState = device.DeviceState;
             _stateType = DeviceState.StateType;
-            ItvManager.DeviceStateChanged += new Action<DeviceState>(OnDeviceStateChanged);
+			ItvManager.DeviceStateChanged += new Action<DeviceState>((x) => { SafeCall(() => { OnDeviceStateChanged(x); }); });
             Name = Device.Driver.ShortName + " - " + Device.DottedAddress;
 
             DeviceCommands = new List<DeviceCommandViewModel>();
@@ -28,6 +29,12 @@ namespace ItvIntegration
                 }
             }
         }
+
+		public void SafeCall(Action action)
+		{
+			if (Application.Current != null && Application.Current.Dispatcher != null)
+				Application.Current.Dispatcher.BeginInvoke(action);
+		}
 
         void OnDeviceStateChanged(DeviceState deviceState)
         {

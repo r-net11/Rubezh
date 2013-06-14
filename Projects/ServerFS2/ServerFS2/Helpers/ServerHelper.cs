@@ -80,10 +80,10 @@ namespace ServerFS2
 
         public static bool IsUsbDevice
         {
-            get { return UsbRunner.IsUsbDevice; }
+			get { return UsbRunnerBase.IsUsbDevice; }
             set
             {
-                UsbRunner.IsUsbDevice = value;
+				UsbRunnerBase.IsUsbDevice = value;
 				UsbRunnerBase.Close();
 				UsbRunnerBase.Open();
             }
