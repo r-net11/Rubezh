@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
-using FiresecAPI;
 
 namespace FS2Client
 {

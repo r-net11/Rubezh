@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
-using ServerFS2;
 using FS2Api;
 
 namespace ServerFS2.Monitoring
@@ -29,7 +28,7 @@ namespace ServerFS2.Monitoring
 				}
 			}
 			DoMonitoring = false;
-			ServerHelper.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
+			USBManager.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
 		}
 
 		public static void StartMonitoring()

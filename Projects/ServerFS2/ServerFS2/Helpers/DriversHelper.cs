@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Models;
 
 namespace ServerFS2
 {
@@ -46,6 +47,50 @@ namespace ServerFS2
 			DriverDataList.Add(new DriverData("B1DF571E-8786-4987-94B2-EC91F7578D20", "Пульт дистанционного управления ПДУ", 7));
 			DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", "БУНС-2", 8));
 			DriverDataList.Add(new DriverData("07BEB3DD-7D14-41F8-B8BC-FE8EDD215762", "Пульт дистанционного управления ПДУ-ПТ", 9));
+		}
+
+		public static DriverType GetUsbDriverTypeByTypeNo(int driverTypeNo)
+		{
+			switch (driverTypeNo)
+			{
+				case 1:
+					return DriverType.USB_Rubezh_2AM;
+				//return DriverType.Rubezh_2AM;
+				case 6:
+					return DriverType.USB_Rubezh_2OP;
+				//return DriverType.Rubezh_2OP;
+				case 5:
+					return DriverType.USB_Rubezh_4A;
+				//return DriverType.Rubezh_4A;
+				case 2:
+					return DriverType.USB_BUNS;
+				//return DriverType.BUNS;
+				case 8:
+					return DriverType.USB_BUNS_2;
+				//return DriverType.BUNS_2;
+				case 3:
+					return DriverType.IndicationBlock;
+				case 7:
+					return DriverType.PDU;
+				case 9:
+					return DriverType.PDU_PT;
+				case 10:
+					return DriverType.USB_Rubezh_P;
+				//return DriverType.BlindPanel;
+				case 4:
+					return DriverType.Rubezh_10AM;
+				case 98:
+					return DriverType.MS_1;
+				case 99:
+					return DriverType.MS_2;
+				case 100:
+					return DriverType.MS_3;
+				case 101:
+					return DriverType.MS_4;
+				case 102:
+					return DriverType.UOO_TL;
+			}
+			return DriverType.Computer;
 		}
 	}
 }

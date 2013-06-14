@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using FiresecAPI;
-using FS2Api;
-using FiresecAPI.Models;
 using Common;
+using FiresecAPI;
+using FiresecAPI.Models;
+using FS2Api;
 using ServerFS2.Service;
 
 namespace ServerFS2.Journal

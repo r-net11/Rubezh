@@ -1,16 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
 using System.Diagnostics;
-using ServerFS2.ConfigurationWriter;
+using System.Linq;
+using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace ServerFS2
 {
 	public static class USBManager
 	{
-		public static int RequestNo = 0;
+		static int RequestNo = 0;
+		public static int NextRequestNo
+		{
+			get { return RequestNo++; }
+		}
+
+		public static readonly UsbRunnerBase UsbRunnerBase;
+
+		static USBManager()
+		{
+			UsbRunnerBase = new UsbRunner2();
+			try
+			{
+				UsbRunnerBase.Open();
+			}
+			catch
+			{ }
+		}
+
+		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+			var result = UsbRunnerBase.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
+			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
+			return result;
+		}
+
+		public static List<byte> SendCodeToPanel(Device device, params object[] value)
+		{
+			var bytes = CreateBytesArray(value);
+			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+			var result = UsbRunnerBase.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
+			if (result != null)
+			{
+				var responce = result.Result.FirstOrDefault();
+				if (responce != null)
+				{
+					var data = responce.Data;
+					data.RemoveRange(0, IsUsbDevice ? 2 : 7);
+					return data;
+				}
+			}
+			return null;
+		}
+
+		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			return UsbRunnerBase.AddRequest(NextRequestNo, bytesList, maxDelay, maxTimeout, true);
+		}
+
+		public static List<byte> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			return UsbRunnerBase.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
+		}
+
+		public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
+		{
+			UsbRunnerBase.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
+		}
+
+		public static List<byte> CreateBytesArray(params object[] values)
+		{
+			var bytes = new List<byte>();
+			foreach (var value in values)
+			{
+				if (value as IEnumerable<Byte> != null)
+					bytes.AddRange((IEnumerable<Byte>)value);
+				else
+					bytes.Add(Convert.ToByte(value));
+			}
+			return bytes;
+		}
+
+		public static bool IsUsbDevice
+		{
+			get { return UsbRunnerBase.IsUsbDevice; }
+			set
+			{
+				UsbRunnerBase.IsUsbDevice = value;
+				UsbRunnerBase.Close();
+				UsbRunnerBase.Open();
+			}
+		}
+
+		public static List<byte> SendRequest(List<byte> bytes)
+		{
+			return SendCode(bytes);
+		}
 
 		public static void Initialize()
 		{
@@ -70,151 +156,6 @@ namespace ServerFS2
 				{
 				}
 			}
-		}
-
-		public static DriverType GetTypeNo(int driverTypeNo)
-		{
-			switch (driverTypeNo)
-			{
-				case 1:
-					return DriverType.USB_Rubezh_2AM;
-					//return DriverType.Rubezh_2AM;
-				case 6:
-					return DriverType.USB_Rubezh_2OP;
-					//return DriverType.Rubezh_2OP;
-				case 5:
-					return DriverType.USB_Rubezh_4A;
-					//return DriverType.Rubezh_4A;
-				case 2:
-					return DriverType.USB_BUNS;
-					//return DriverType.BUNS;
-				case 8:
-					return DriverType.USB_BUNS_2;
-					//return DriverType.BUNS_2;
-				case 3:
-					return DriverType.IndicationBlock;
-				case 7:
-					return DriverType.PDU;
-				case 9:
-					return DriverType.PDU_PT;
-				case 10:
-					return DriverType.USB_Rubezh_P;
-					//return DriverType.BlindPanel;
-				case 4:
-					return DriverType.Rubezh_10AM;
-				case 98:
-					return DriverType.MS_1;
-				case 99:
-					return DriverType.MS_2;
-				case 100:
-					return DriverType.MS_3;
-				case 101:
-					return DriverType.MS_4;
-				case 102:
-					return DriverType.UOO_TL;
-			}
-			return DriverType.Computer;
-		}
-	}
-
-	public class UsbRunnerDetector
-	{
-		public UsbRunner2 UsbRunner { get; set; }
-		public string SerialNo { get; set; }
-		public int TypeNo { get; set; }
-		public bool IsUSBPanel { get; set; }
-		public bool IsUSBMS { get; set; }
-		public DriverType USBDriverType { get; set; }
-		public Device Device { get; set; }
-
-		public void Initialize()
-		{
-			var usbTypeNo = GetUSBTypeNo();
-			USBDriverType = USBManager.GetTypeNo(usbTypeNo);
-			if (usbTypeNo == -1)
-			{
-				IsUSBMS = true;
-				SetIdOn();
-				UsbRunner.IsUsbDevice = false;
-			}
-			else
-			{
-				IsUSBPanel = true;
-				UsbRunner.IsUsbDevice = true;
-			}
-
-			SerialNo = GetUSBSerialNo();
-		}
-
-		int GetUSBTypeNo()
-		{
-			UsbRunner.IsUsbDevice = true;
-			var bytes = new List<byte>() { 0x02, 0x01, 0x03 };
-			var bytesList = new List<List<byte>>();
-			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			var responce = result.Result.FirstOrDefault();
-			if (responce != null)
-			{
-				if (responce.Data.Count > 2)
-				{
-					return responce.Data[2];
-				}
-			}
-			UsbRunner.IsUsbDevice = false;
-			return -1;
-		}
-
-		bool SetIdOn()
-		{
-			if (HasResponceWithoutID())
-			{
-				UsbRunner.IsUsbDevice = true;
-				var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
-				var bytesList = new List<List<byte>>();
-				bytesList.Add(bytes);
-				var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-				UsbRunner.IsUsbDevice = false;
-				var responce = result.Result.FirstOrDefault();
-			}
-			return HasResponceWithID();
-		}
-
-		bool HasResponceWithoutID()
-		{
-			UsbRunner.IsUsbDevice = true;
-			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
-			var bytesList = new List<List<byte>>();
-			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			UsbRunner.IsUsbDevice = false;
-			var responce = result.Result.FirstOrDefault();
-			return responce != null;
-		}
-
-		bool HasResponceWithID()
-		{
-			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
-			var bytesList = new List<List<byte>>();
-			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(USBManager.RequestNo++, bytesList, 1000, 1000, true, 1);
-			var responce = result.Result.FirstOrDefault();
-			return responce != null;
-		}
-
-		string GetUSBSerialNo()
-		{
-			var bytes = new List<byte>() { 0x01, 0x01, 0x32 };
-			var bytesList = new List<List<byte>>();
-			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(USBManager.RequestNo++, bytesList, 1000, 1000, true, 1);
-			var responce = result.Result.FirstOrDefault();
-			if (responce != null)
-			{
-				responce.Data.RemoveRange(0, 6);
-				return BytesHelper.BytesToStringDescription(responce.Data);
-			}
-			return null;
 		}
 	}
 }

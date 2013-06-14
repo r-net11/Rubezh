@@ -80,7 +80,7 @@
     <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
     <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
     <Compile Include="ConfigurationWriter\SystemDatabaseCreator.cs" />
-    <Compile Include="ConfigurationWriter\Helpers\BytesHelper.cs" />
+    <Compile Include="Helpers\BytesHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\ZonePanelRelations.cs" />
@@ -107,12 +107,7 @@
     <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
-    <Compile Include="Helpers\ServerHelper.AutoDetect.cs" />
-    <Compile Include="Helpers\ServerHelper.GetConfiguration.cs" />
     <Compile Include="Helpers\ServerHelper.Monitoring.cs" />
-    <Compile Include="Helpers\ServerHelper.Parameters.cs" />
-    <Compile Include="Helpers\ServerHelper.ReadJournal.cs" />
-    <Compile Include="Helpers\ServerHelper.SetConfiguration.cs" />
     <Compile Include="Helpers\TraceHelper.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Journal\BitsExtracter.cs" />
@@ -136,6 +131,11 @@
     <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
     <Compile Include="Monitoring\Request.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
+    <Compile Include="Operations\AutoDetectOperationHelper.cs" />
+    <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
+    <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
+    <Compile Include="Operations\ReadJournalOperationHelper.cs" />
+    <Compile Include="Operations\SetConfigurationOperationHelper.cs" />
     <Compile Include="USB\RequestTypes.cs" />
     <Compile Include="Monitoring\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
@@ -154,6 +154,7 @@
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="USB\UsbRunner.cs" />
     <Compile Include="USB\UsbRunner2.cs" />
+    <Compile Include="USB\UsbRunnerDetector.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
@@ -214,7 +215,7 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test\usb hid\UsbLibrary\UsbLibrary.csproj">
+    <ProjectReference Include="..\USB\usb hid\UsbLibrary\UsbLibrary.csproj">
       <Project>{71E42A6D-C432-4C03-BF4F-ABFD2A3173E0}</Project>
       <Name>UsbLibrary</Name>
     </ProjectReference>

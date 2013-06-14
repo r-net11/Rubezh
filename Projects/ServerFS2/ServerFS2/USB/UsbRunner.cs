@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI;
+using FS2Api;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using FS2Api;
-using System.Diagnostics;
-using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2
 {

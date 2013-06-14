@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
-using System.Collections.Generic;
 
 namespace ServerFS2
 {
@@ -48,6 +48,11 @@ namespace ServerFS2
 		public static List<Zone> Zones
 		{
 			get { return DeviceConfiguration.Zones; }
+		}
+
+		public static List<Driver> Drivers
+		{
+			get { return DriversConfiguration.Drivers; }
 		}
 
 		public static void Update()
