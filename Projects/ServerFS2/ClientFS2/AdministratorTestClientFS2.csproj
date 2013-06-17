@@ -66,8 +66,8 @@
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="ProgressService.cs" />
-    <Compile Include="ViewModels\DeviceConfigurationViewModel.cs" />
-    <Compile Include="ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="ViewModels\Actions\DeviceConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Actions\DeviceTreeViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Views\DeviceConfigurationView.xaml.cs">
+    <Compile Include="Views\Actions\DeviceConfigurationView.xaml.cs">
       <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
@@ -97,7 +97,7 @@
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\DeviceConfigurationView.xaml">
+    <Page Include="Views\Actions\DeviceConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

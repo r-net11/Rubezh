@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AB98E3F1-9E05-47E9-B037-9755E6F9BCCC}</ProjectGuid>
+    <ProjectGuid>{0BE566D6-C4B2-4977-9F8B-1E1C89EB1E8F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdministratorTestClientFS2</RootNamespace>
-    <AssemblyName>AdministratorTestClientFS2</AssemblyName>
+    <RootNamespace>MonitorTestClientFS2</RootNamespace>
+    <AssemblyName>MonitorTestClientFS2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -59,45 +59,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
-    <Compile Include="Converters\ClauseStateToStringConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
-    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
-    <Compile Include="Converters\ZoneLogicJoinOperatorConverter.cs" />
-    <Compile Include="ProgressService.cs" />
-    <Compile Include="ViewModels\DeviceConfigurationViewModel.cs" />
-    <Compile Include="ViewModels\DeviceTreeViewModel.cs" />
-    <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
-    <Compile Include="ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
-    <Compile Include="ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
-    <Compile Include="ViewModels\DeviceProperties\PropertiesViewModel.cs" />
-    <Compile Include="ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\ProgressViewModel.cs" />
-    <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
-    <Compile Include="ViewModels\ZonesViewModel.cs" />
-    <Compile Include="ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Views\DeviceConfigurationView.xaml.cs">
-      <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
+    <Compile Include="Views\DeviceDetailsView.xaml.cs">
+      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\JournalView.xaml.cs">
-      <DependentUpon>JournalView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ParametersView.xaml.cs">
-      <DependentUpon>ParametersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PropertiesView.xaml.cs">
-      <DependentUpon>PropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Views\DeviceConfigurationView.xaml">
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,33 +82,13 @@
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\DevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\JournalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ParametersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ProgressView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,10 +130,6 @@
     <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
