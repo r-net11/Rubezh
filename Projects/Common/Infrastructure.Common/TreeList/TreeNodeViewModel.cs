@@ -10,6 +10,7 @@ namespace Infrastructure.Common.TreeList
 {
 	public class TreeNodeViewModel : BaseViewModel
 	{
+		private List<int> _sortOrder;
 		private RootTreeNodeViewModel _root;
 		private RootTreeNodeViewModel Root
 		{
@@ -57,6 +58,8 @@ namespace Infrastructure.Common.TreeList
 						item.ParentNode.Nodes.Remove(item);
 					item.ParentNode = _owner;
 					item.Index = index;
+					if (_owner._sortOrder != null)
+						_owner._sortOrder.Add(index);
 					//item._tree = _owner.Tree;
 					for (int i = index; i < Count; i++)
 						this[i].Index++;
@@ -69,6 +72,8 @@ namespace Infrastructure.Common.TreeList
 				item.Index = -1;
 				for (int i = index + 1; i < Count; i++)
 					this[i].Index--;
+				if (_owner._sortOrder != null)
+					_owner._sortOrder.Remove(index);
 				base.RemoveItem(index);
 				item.ParentNode = null;
 				item._root = null;
@@ -93,7 +98,7 @@ namespace Infrastructure.Common.TreeList
 					return ParentNode.Level + 1;
 			}
 		}
-		public int Index { get; protected set; }
+		public int Index { get; private set; }
 		public TreeNodeViewModel ParentNode { get; protected set; }
 		public TreeItemCollection Nodes { get; private set; }
 		public bool IsExpandable
@@ -143,7 +148,7 @@ namespace Infrastructure.Common.TreeList
 			get
 			{
 				if (IsExpanded && Nodes.Count > 0)
-					return Nodes[0];
+					return _sortOrder == null ? Nodes[0] : Nodes[_sortOrder[0]];
 				else
 					return NextNode ?? BottomNode;
 			}
@@ -154,8 +159,9 @@ namespace Infrastructure.Common.TreeList
 			{
 				if (ParentNode != null)
 				{
-					if (Index < ParentNode.Nodes.Count - 1)
-						return ParentNode.Nodes[Index + 1];
+					int index = ParentNode._sortOrder == null ? Index : ParentNode._sortOrder.IndexOf(Index);
+					if (index >= 0 && index < ParentNode.Nodes.Count - 1)
+						return ParentNode._sortOrder == null ? ParentNode.Nodes[index + 1] : ParentNode.Nodes[ParentNode._sortOrder[index + 1]];
 				}
 				return null;
 			}
@@ -218,7 +224,7 @@ namespace Infrastructure.Common.TreeList
 		private void DropChildrenRows(bool removeParent)
 		{
 			int start = Root.Rows.IndexOf(this);
-			if (start >= 0)
+			if (start >= 0 || IsRoot)
 			{
 				int count = VisibleChildrenCount;
 				if (removeParent)
@@ -313,6 +319,30 @@ namespace Infrastructure.Common.TreeList
 				action(parent);
 			foreach (TreeNodeViewModel t in parent.Nodes)
 				ProcessAllChildren(t, true, action);
+		}
+
+		protected void Sort(IItemComparer itemComparer, bool ascending)
+		{
+			if (itemComparer != null)
+			{
+				DropChildrenRows(false);
+				InnerSort(itemComparer.Compare, ascending);
+				CreateChildrenRows();
+			}
+		}
+		protected virtual void InnerSort(ItemComparer<TreeNodeViewModel> comparer, bool ascending)
+		{
+			_sortOrder = new List<int>();
+			if (Nodes.Count > 0)
+			{
+				var list = Nodes.ToList();
+				QSort.Sort(list, comparer, !ascending);
+				for (int i = 0; i < list.Count; i++)
+				{
+					list[i].InnerSort(comparer, ascending);
+					_sortOrder.Add(list[i].Index);
+				}
+			}
 		}
 	}
 

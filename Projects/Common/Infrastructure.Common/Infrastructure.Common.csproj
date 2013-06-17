@@ -179,6 +179,7 @@
     <Compile Include="SeviceRightsHelper.cs" />
     <Compile Include="ShellIntegrationHelper.cs" />
     <Compile Include="StackTraceHelper.cs" />
+    <Compile Include="TreeList\IItemComparer.cs" />
     <Compile Include="TreeList\ITreeList.cs" />
     <Compile Include="TreeList\ITreeNodeModel.cs" />
     <Compile Include="TreeList\RootTreeNodeViewModel.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Services\ServiceFactoryBase.cs" />
     <Compile Include="Theme\ThemeHelper.cs" />
     <Compile Include="Theme\ThemeType.cs" />
+    <Compile Include="TreeList\TreeNodeComparer.cs" />
     <Compile Include="TreeList\TreeNodeViewModel.cs" />
     <Compile Include="UACHelper.cs" />
     <Compile Include="Validation\CommonValidationError.cs" />

@@ -61,7 +61,6 @@ namespace Controls.TreeList
 		public TreeList()
 		{
 			Root = new RootTreeNodeViewModel();
-			Root.AssignToTree(this);
 			SelectionChanged += OnSelectionChanged;
 			ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
 			//DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ListView.SelectedItemProperty, typeof(TreeList));

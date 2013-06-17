@@ -5,6 +5,8 @@ using System.Text;
 using Common;
 using System.Collections.Specialized;
 using System.Collections;
+using System.Windows.Controls;
+using System.ComponentModel;
 
 namespace Infrastructure.Common.TreeList
 {
@@ -110,5 +112,14 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		#endregion
+
+		public GridViewColumn SortColumn { get; private set; }
+		public ListSortDirection? SortDirection { get; private set; }
+		public void RunSort(GridViewColumn column, IItemComparer itemComparer)
+		{
+			SortColumn = column;
+			SortDirection = SortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+			Sort(itemComparer, SortDirection == ListSortDirection.Ascending);
+		}
 	}
 }

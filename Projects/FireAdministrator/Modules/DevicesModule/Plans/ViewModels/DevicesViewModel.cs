@@ -50,7 +50,7 @@ namespace DevicesModule.Plans.ViewModels
 		{
 			get { return _devicesViewModel.RootDevices; }
 		}
-		public Devices.DeviceViewModel SelectedDevice
+		public DeviceViewModel SelectedDevice
 		{
 			get { return _devicesViewModel.SelectedDevice; }
 			set
@@ -59,7 +59,7 @@ namespace DevicesModule.Plans.ViewModels
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
-		public List<Devices.DeviceViewModel> AllDevices
+		public List<DeviceViewModel> AllDevices
 		{
 			get { return _devicesViewModel.AllDevices; }
 		}

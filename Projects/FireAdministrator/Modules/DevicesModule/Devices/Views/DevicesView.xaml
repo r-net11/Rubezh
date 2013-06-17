@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True" xmlns:viewModel="clr-namespace:DevicesModule.ViewModels">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -23,6 +23,11 @@
 			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
+
+		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
+		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
+		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
+		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -31,7 +36,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Column="1" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+		<tree:TreeList Grid.Column="1" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.Resources>
 				<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -44,7 +49,7 @@
 			</tree:TreeList.Resources>
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="250" Header="Устройство">
+					<GridViewColumn Width="250" Header="Устройство" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel ContextMenu="{StaticResource DeviceContextMenu}">
@@ -94,7 +99,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="100" Header="Адрес">
+					<GridViewColumn Width="100" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>
@@ -115,7 +120,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="200" Header="Зона">
+					<GridViewColumn Width="200" Header="Зона" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -138,7 +143,7 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Примечание">
+					<GridViewColumn Header="Примечание" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>

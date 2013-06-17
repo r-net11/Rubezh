@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.ComponentModel;
 using System.Windows;
+using Infrastructure.Common.TreeList;
 
 namespace Controls.TreeList
 {
@@ -14,7 +15,7 @@ namespace Controls.TreeList
 		public static readonly DependencyProperty CanUserSortColumnsProperty = DependencyProperty.RegisterAttached("CanUserSortColumns", typeof(bool), typeof(SortBehavior), new FrameworkPropertyMetadata(OnCanUserSortColumnsChanged));
 		public static readonly DependencyProperty CanUseSortProperty = DependencyProperty.RegisterAttached("CanUseSort", typeof(bool), typeof(SortBehavior), new FrameworkPropertyMetadata(true));
 		public static readonly DependencyProperty SortDirectionProperty = DependencyProperty.RegisterAttached("SortDirection", typeof(ListSortDirection?), typeof(SortBehavior));
-		public static readonly DependencyProperty SortExpressionProperty = DependencyProperty.RegisterAttached("SortExpression", typeof(string), typeof(SortBehavior));
+		public static readonly DependencyProperty SortComparerProperty = DependencyProperty.RegisterAttached("SortComparer", typeof(IItemComparer), typeof(SortBehavior));
 
 		[AttachedPropertyBrowsableForType(typeof(ListView))]
 		public static bool GetCanUserSortColumns(ListView element)
@@ -50,14 +51,14 @@ namespace Controls.TreeList
 		}
 
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
-		public static string GetSortExpression(GridViewColumn element)
+		public static IItemComparer GetSortComparer(GridViewColumn element)
 		{
-			return (string)element.GetValue(SortExpressionProperty);
+			return (IItemComparer)element.GetValue(SortComparerProperty);
 		}
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
-		public static void SetSortExpression(GridViewColumn element, string value)
+		public static void SetSortComparer(GridViewColumn element, string value)
 		{
-			element.SetValue(SortExpressionProperty, value);
+			element.SetValue(SortComparerProperty, value);
 		}
 
 		private static void OnCanUserSortColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -97,56 +98,17 @@ namespace Controls.TreeList
 				DoSort((ListView)e.Source, columnHeader.Column);
 		}
 
-		private static void DoSort(ListView listView, GridViewColumn newColumn)
+		private static void DoSort(ListView listView, GridViewColumn column)
 		{
-			var sortDescriptions = listView.Items.SortDescriptions;
-			var newDirection = ListSortDirection.Ascending;
-			var propertyPath = ResolveSortExpression(newColumn);
-			if (propertyPath != null)
+			var tree = (TreeList)listView;
+			if (tree.Root.SortColumn != null)
+				SetSortDirection(tree.Root.SortColumn, null);
+			var comparer = GetSortComparer(column);
+			if (comparer != null)
 			{
-				if (sortDescriptions.Count > 0)
-				{
-					if (sortDescriptions[0].PropertyName == propertyPath)
-						newDirection = GetSortDirection(newColumn) == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
-					else
-					{
-						var gridView = (GridView)listView.View;
-						foreach (var column in gridView.Columns.Where(c => GetSortDirection(c) != null))
-						{
-							SetSortDirection(column, null);
-							// remove adorners -> AdornerLayer.GetAdornerLayer(columnHEADER[GridViewColumnHeader]).Remove(_CurAdorner);
-						}
-					}
-					sortDescriptions.Clear();
-				}
-				//sortDescriptions.Add(new SortDescription("Level", ListSortDirection.Ascending));
-				sortDescriptions.Add(new SortDescription(propertyPath, newDirection));
-				SetSortDirection(newColumn, newDirection);
-				// add adorner -> AdornerLayer.GetAdornerLayer(columnHEADER[GridViewColumnHeader]).Add(new SortAdorner(columnHEADER[GridViewColumnHeader], newDirection));
+				tree.Root.RunSort(column, comparer);
+				SetSortDirection(column, tree.Root.SortDirection);
 			}
-		}
-
-		private static string ResolveSortExpression(GridViewColumn column)
-		{
-			var propertyPath = GetSortExpression(column);
-			if (propertyPath == null)
-			{
-				var binding = column.DisplayMemberBinding as Binding;
-				return binding != null ? binding.Path.Path : null;
-			}
-			return propertyPath;
 		}
 	}
-	//public class SortByModelNameLength : IComparer
-	//{
-	//    public int Compare(object x, object y)
-	//    {
-	//        ViewModel vmX = (ViewModel)x;
-	//        ViewModel vmY = (ViewModel)y;
-
-	//        return (vmX.Level == vmY.Level) ? vmX.Rand - vmY.Rand : 0;
-	//        //return vmX.Level - vmY.Level;
-	//    }
-	//} 
-
 }
