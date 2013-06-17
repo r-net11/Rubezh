@@ -72,7 +72,7 @@ namespace Infrastructure.Common.TreeList
 				for (int i = index + 1; i < Count; i++)
 					this[i].Index--;
 				if (_owner._sortOrder != null)
-					_owner._sortOrder.Remove(index);
+					_owner._sortOrder.Remove(_owner._sortOrder.Count - 1);
 				base.RemoveItem(index);
 				item.ParentNode = null;
 				item._root = null;
