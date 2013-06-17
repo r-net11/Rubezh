@@ -41,7 +41,7 @@
                     <DataGridTemplateColumn Header="Адрес" Width="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" Style="{StaticResource DiffStyle}"/>
+                                <TextBlock Text="{Binding Device.PresentationAddress}" Style="{StaticResource DiffStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -74,7 +74,7 @@
                     <DataGridTemplateColumn Header="Адрес" Width="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" Style="{StaticResource DiffStyle}"/>
+                                <TextBlock Text="{Binding Device.PresentationAddress}" Style="{StaticResource DiffStyle}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
