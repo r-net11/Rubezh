@@ -327,7 +327,7 @@ namespace DevicesModule.ViewModels
 			var parent = Parent;
 			if (parent != null)
 			{
-				var index = parent.Nodes.IndexOf(DevicesViewModel.Current.SelectedDevice);
+				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
 				parent.Nodes.Remove(this);
 				parent.Update();
 
@@ -336,7 +336,7 @@ namespace DevicesModule.ViewModels
 
 				index = Math.Min(index, parent.ChildrenCount - 1);
 				DevicesViewModel.Current.AllDevices.Remove(this);
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent[index] : parent;
+				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			Helper.BuildMap();
 		}

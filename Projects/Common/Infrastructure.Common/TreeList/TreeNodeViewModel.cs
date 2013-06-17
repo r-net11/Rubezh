@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -68,11 +69,16 @@ namespace Infrastructure.Common.TreeList
 			protected override void RemoveItem(int index)
 			{
 				TreeNodeViewModel item = this[index];
+				if (_owner._sortOrder != null)
+				{
+					_owner._sortOrder.Remove(index);
+					for (int i = 0; i < _owner._sortOrder.Count; i++)
+						if (_owner._sortOrder[i] > index)
+							_owner._sortOrder[i]--;
+				}
 				item.Index = -1;
 				for (int i = index + 1; i < Count; i++)
 					this[i].Index--;
-				if (_owner._sortOrder != null)
-					_owner._sortOrder.Remove(index);
 				base.RemoveItem(index);
 				item.ParentNode = null;
 				item._root = null;
@@ -98,11 +104,23 @@ namespace Infrastructure.Common.TreeList
 			}
 		}
 		public int Index { get; private set; }
+		public bool IsSorted
+		{
+			get { return _sortOrder != null; }
+		}
+		public int VisualIndex
+		{
+			get { return ParentNode._sortOrder == null ? Index : ParentNode._sortOrder.IndexOf(Index); }
+		}
 		public TreeNodeViewModel ParentNode { get; protected set; }
 		public TreeItemCollection Nodes { get; private set; }
 		public bool IsExpandable
 		{
 			get { return Nodes.Count > 0; }
+		}
+		public virtual bool InsertSorted
+		{
+			get { return true; }
 		}
 
 		internal TreeNodeViewModel()
@@ -147,7 +165,7 @@ namespace Infrastructure.Common.TreeList
 			get
 			{
 				if (IsExpanded && Nodes.Count > 0)
-					return _sortOrder == null ? Nodes[0] : Nodes[_sortOrder[0]];
+					return GetNodeByVisualIndex(0);
 				else
 					return NextNode ?? BottomNode;
 			}
@@ -158,9 +176,9 @@ namespace Infrastructure.Common.TreeList
 			{
 				if (ParentNode != null)
 				{
-					int index = ParentNode._sortOrder == null ? Index : ParentNode._sortOrder.IndexOf(Index);
+					int index = VisualIndex;
 					if (index >= 0 && index < ParentNode.Nodes.Count - 1)
-						return ParentNode._sortOrder == null ? ParentNode.Nodes[index + 1] : ParentNode.Nodes[ParentNode._sortOrder[index + 1]];
+						return ParentNode.GetNodeByVisualIndex(index + 1);
 				}
 				return null;
 			}
@@ -194,11 +212,14 @@ namespace Infrastructure.Common.TreeList
 					case NotifyCollectionChangedAction.Add:
 						if (e.NewItems != null)
 						{
+							if (InsertSorted && Root != null && Root.ItemComparer != null)
+								InnerSort();
+							int newIndex = InsertSorted && _sortOrder == null ? e.NewStartingIndex : _sortOrder[e.NewStartingIndex];
 							int index = -1;
-							if (e.NewStartingIndex == 0)
+							if (newIndex == 0)
 								index = Root.Rows.IndexOf(this);
 							else
-								index = Root.Rows.IndexOf(Nodes[e.NewStartingIndex - 1]) + Nodes[e.NewStartingIndex - 1].VisibleChildrenCount;
+								index = Root.Rows.IndexOf(Nodes[newIndex - 1]) + Nodes[newIndex - 1].VisibleChildrenCount;
 							foreach (TreeNodeViewModel node in e.NewItems)
 							{
 								Root.Rows.Insert(index + 1, node);
@@ -320,28 +341,32 @@ namespace Infrastructure.Common.TreeList
 				ProcessAllChildren(t, true, action);
 		}
 
-		protected void Sort(IItemComparer itemComparer, bool ascending)
+		protected void Sort()
 		{
-			if (itemComparer != null)
+			if (Root != null && Root.ItemComparer != null)
 			{
 				DropChildrenRows(false);
-				InnerSort(itemComparer.Compare, ascending);
+				InnerSort();
 				CreateChildrenRows();
 			}
 		}
-		protected virtual void InnerSort(ItemComparer<TreeNodeViewModel> comparer, bool ascending)
+		protected virtual void InnerSort()
 		{
 			_sortOrder = new List<int>();
 			if (Nodes.Count > 0)
 			{
 				var list = Nodes.ToList();
-				QSort.Sort(list, comparer, !ascending);
+				QSort.Sort(list, Root.ItemComparer.Compare, Root.SortDirection != ListSortDirection.Ascending);
 				for (int i = 0; i < list.Count; i++)
 				{
-					list[i].InnerSort(comparer, ascending);
+					list[i].InnerSort();
 					_sortOrder.Add(list[i].Index);
 				}
 			}
+		}
+		public TreeNodeViewModel GetNodeByVisualIndex(int index)
+		{
+			return IsSorted ? Nodes[_sortOrder[index]] : Nodes[index];
 		}
 	}
 
@@ -396,6 +421,10 @@ namespace Infrastructure.Common.TreeList
 				allParents.Add(Parent);
 				return allParents;
 			}
+		}
+		public T GetChildByVisualIndex(int index)
+		{
+			return GetNodeByVisualIndex(index) as T;
 		}
 	}
 }
