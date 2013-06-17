@@ -294,6 +294,23 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public Device ParentUSB
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_BUNS ||
+					x.Driver.DriverType == DriverType.USB_BUNS_2 ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_4A ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_P ||
+					x.Driver.DriverType == DriverType.MS_1 ||
+					x.Driver.DriverType == DriverType.MS_2));
+			}
+		}
+
 		public Device ParentChannel
 		{
 			get

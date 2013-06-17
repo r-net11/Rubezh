@@ -11,7 +11,6 @@ namespace ServerFS2
     public static partial class ServerHelper
     {
         public static event Action<int, int, string> Progress;
-        public static bool IsExtendedMode { get; set; }
 
         public static void SynchronizeTime(Device device)
         {
@@ -23,7 +22,7 @@ namespace ServerFS2
 
 		public static List<byte> GetRomDBBytes(Device device)
 		{
-			var packetLenght = USBManager.IsUsbDevice ? 0x33 : 0xFF;
+			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
 			var result = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
 			var romDBLastIndex = BytesHelper.ExtractTriple(result, 9);
 
@@ -42,7 +41,7 @@ namespace ServerFS2
 
 		public static List<byte> GetFlashDBBytes(Device device)
 		{
-			var packetLenght = USBManager.IsUsbDevice ? 0x33 : 0xFF;
+			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
 			var result = new List<byte>();
 
 			var numberOfPackets = FlashDBLastIndex - 0x100 / packetLenght;
@@ -78,8 +77,7 @@ namespace ServerFS2
 
 		public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
 		{
-			var result = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
-			return result;
+			return USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
 		}
     }
 }

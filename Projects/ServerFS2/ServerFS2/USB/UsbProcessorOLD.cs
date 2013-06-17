@@ -1,48 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI;
+using FS2Api;
+using LibUsbDotNet;
+using LibUsbDotNet.Main;
 
 namespace ServerFS2
 {
-	public class UsbRunner2 : UsbRunnerBase
+	public class UsbProcessorOLD : UsbProcessorBase
 	{
-		UsbLibrary.UsbHidPort UsbHidPort;
+		UsbDevice UsbDevice;
+		UsbEndpointReader Reader;
+		UsbEndpointWriter Writer;
 
 		public override bool Open()
 		{
-			UsbHidPort = new UsbLibrary.UsbHidPort()
+			var usbFinder = new UsbDeviceFinder(0xC251, 0x1303);
+			UsbDevice = UsbDevice.OpenUsbDevice(usbFinder);
+			if (UsbDevice == null)
 			{
-				VendorId = 0xC251,
-				ProductId = 0x1303
-			};
-			UsbHidPort.CheckDevicePresent();
-			if (UsbHidPort.SpecifiedDevice == null)
-				return false;
-			UsbHidPort.SpecifiedDevice.DataRecieved += new UsbLibrary.DataRecievedEventHandler(OnDataRecieved);
+				throw new Exception("Device Not Found.");
+			}
+
+			var wholeUsbDevice = UsbDevice as IUsbDevice;
+			if (wholeUsbDevice != null)
+			{
+				wholeUsbDevice.SetConfiguration(1);
+				wholeUsbDevice.ClaimInterface(0);
+			}
+			Reader = UsbDevice.OpenEndpointReader(ReadEndpointID.Ep01);
+			Reader.DataReceived += (OnDataRecieved);
+			Reader.ReadBufferSize = 64;
+			Reader.DataReceivedEnabled = true;
+			Writer = UsbDevice.OpenEndpointWriter(WriteEndpointID.Ep01);
 			return true;
 		}
 
 		public override void Close()
 		{
-			UsbHidPort.Dispose();
+			if (Reader != null)
+			{
+				Reader.DataReceivedEnabled = false;
+				Reader.DataReceived -= (OnDataRecieved);
+			}
+
+			if (UsbDevice != null)
+			{
+				if (UsbDevice.IsOpen)
+				{
+					var wholeUsbDevice = UsbDevice as IUsbDevice;
+					if (!ReferenceEquals(wholeUsbDevice, null))
+					{
+						wholeUsbDevice.ReleaseInterface(0);
+					}
+					UsbDevice.Close();
+				}
+				UsbDevice = null;
+				UsbDevice.Exit();
+			}
 		}
 
 		public override bool Send(List<byte> data)
 		{
-			data.Insert(0, 0);
-			UsbHidPort.SpecifiedDevice.SendData(data.ToArray());
-			return true;
+			Trace.WriteLine(BytesHelper.BytesToString(data));
+			int bytesWrite;
+			if (Writer == null)
+				throw new FS2Exception("Драйвер USB отсутствует");
+			Writer.Write(data.ToArray(), 2000, out bytesWrite);
+			return bytesWrite == data.Count;
 		}
 
-		void OnDataRecieved(object sender, UsbLibrary.DataRecievedEventArgs args)
+		void OnDataRecieved(object sender, EndpointDataEventArgs e)
 		{
-			var buffer = args.data.ToList();
+			var buffer = e.Buffer.ToList();
 			if (buffer.Count < 2)
 				return;
 			IsMs = buffer[0] != 0;
-			buffer.RemoveRange(0, ServerHelper.IsExtendedMode ? 3 : 2);
+		    buffer.RemoveRange(0, IsExtendedMode ? 2 : 1);
 			foreach (var b in buffer)
 			{
 				if (LocalResult.Count > 0)
@@ -55,7 +92,7 @@ namespace ServerFS2
 
 						var response = new Response
 						{
-							Data = bytes.ToList()
+							Bytes = bytes.ToList()
 						};
 						if (!IsUsbDevice)
 						{
@@ -69,14 +106,14 @@ namespace ServerFS2
 				}
 				if (b == 0x7E)
 				{
-					if (!ServerHelper.IsExtendedMode)
+					if (!IsExtendedMode)
 					{
 						if (buffer.IndexOf(0x7e) == 0)
-							ServerHelper.IsExtendedMode = false;
+							IsExtendedMode = false;
 						if (buffer.IndexOf(0x7e) == 1)
-							ServerHelper.IsExtendedMode = true;
+							IsExtendedMode = true;
 					}
-					LocalResult = new List<byte> { b };
+				    LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
 					AautoWaitEvent.Set();
@@ -109,18 +146,15 @@ namespace ServerFS2
 			}
 		}
 
-		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15)
+		public override Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
 			foreach (var bytes in bytesList)
 			{
-				if (usbRequestNo != -1)
+				if (bytesList.Count > 1)
 				{
-					if (bytesList.Count > 1)
-					{
-						usbRequestNo++;
-					}
+					usbRequestNo++;
 				}
 				_stop = false;
 				var request = new Request();
@@ -153,7 +187,7 @@ namespace ServerFS2
 			{
 				foreach (var request in new List<Request>(RequestCollection.Requests))
 				{
-					for (int i = 0; i < countRacall; i++)
+					for (int i = 0; i < 15; i++)
 					{
 						Send(request.Bytes);
 						AautoWaitEvent.WaitOne(timeout);
@@ -161,9 +195,9 @@ namespace ServerFS2
 							break;
 					}
 				}
-				return new OperationResult<List<Response>> { Result = Responses };
+				return Responses.FirstOrDefault();
 			}
-			return null;
+		    return null;
 		}
 	}
 }

@@ -4,9 +4,9 @@ using FiresecAPI.Models;
 
 namespace ServerFS2
 {
-	public class UsbRunnerDetector
+	public class UsbProcessorInfo
 	{
-		public UsbRunner2 UsbRunner { get; set; }
+		public UsbProcessor UsbProcessor { get; set; }
 		public string SerialNo { get; set; }
 		public int TypeNo { get; set; }
 		public bool IsUSBPanel { get; set; }
@@ -22,12 +22,12 @@ namespace ServerFS2
 			{
 				IsUSBMS = true;
 				SetIdOn();
-				UsbRunner.IsUsbDevice = false;
+				UsbProcessor.IsUsbDevice = false;
 			}
 			else
 			{
 				IsUSBPanel = true;
-				UsbRunner.IsUsbDevice = true;
+				UsbProcessor.IsUsbDevice = true;
 			}
 
 			SerialNo = GetUSBSerialNo();
@@ -35,20 +35,19 @@ namespace ServerFS2
 
 		int GetUSBTypeNo()
 		{
-			UsbRunner.IsUsbDevice = true;
+			UsbProcessor.IsUsbDevice = true;
 			var bytes = new List<byte>() { 0x02, 0x01, 0x03 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			var responce = result.Result.FirstOrDefault();
+			var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
 			if (responce != null)
 			{
-				if (responce.Data.Count > 2)
+				if (responce.Bytes.Count > 2)
 				{
-					return responce.Data[2];
+					return responce.Bytes[2];
 				}
 			}
-			UsbRunner.IsUsbDevice = false;
+			UsbProcessor.IsUsbDevice = false;
 			return -1;
 		}
 
@@ -56,26 +55,24 @@ namespace ServerFS2
 		{
 			if (HasResponceWithoutID())
 			{
-				UsbRunner.IsUsbDevice = true;
+				UsbProcessor.IsUsbDevice = true;
 				var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
-				var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-				UsbRunner.IsUsbDevice = false;
-				var responce = result.Result.FirstOrDefault();
+				var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+				UsbProcessor.IsUsbDevice = false;
 			}
 			return HasResponceWithID();
 		}
 
 		bool HasResponceWithoutID()
 		{
-			UsbRunner.IsUsbDevice = true;
+			UsbProcessor.IsUsbDevice = true;
 			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			UsbRunner.IsUsbDevice = false;
-			var responce = result.Result.FirstOrDefault();
+			var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			UsbProcessor.IsUsbDevice = false;
 			return responce != null;
 		}
 
@@ -84,8 +81,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
-			var responce = result.Result.FirstOrDefault();
+			var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			return responce != null;
 		}
 
@@ -94,12 +90,11 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x01, 0x32 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var result = UsbRunner.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
-			var responce = result.Result.FirstOrDefault();
+			var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			if (responce != null)
 			{
-				responce.Data.RemoveRange(0, 6);
-				return BytesHelper.BytesToStringDescription(responce.Data);
+				responce.Bytes.RemoveRange(0, 6);
+				return BytesHelper.BytesToStringDescription(responce.Bytes);
 			}
 			return null;
 		}

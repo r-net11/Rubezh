@@ -10,8 +10,7 @@ namespace ServerFS2
 	{
 		static void ResetFire(Device device)
 		{
-			var bytes = USBManager.CreateBytesArray(0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-			USBManager.SendCodeToPanel(bytes, device);
+			USBManager.SendCodeToPanel(device, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 		}
 
 		public static void ResetOnePanelStates(Device panelDevice, IEnumerable<string> stateIds)
@@ -43,8 +42,7 @@ namespace ServerFS2
 			}
 
 			var newStatusBytes = BitConverter.GetBytes(value);
-			var bytes = USBManager.CreateBytesArray(panelDevice.Parent.IntAddress + 2, panelDevice.IntAddress, 0x02, 0x10, newStatusBytes);
-			USBManager.SendCode(bytes);
+			USBManager.SendCodeToPanel(panelDevice, panelDevice.Parent.IntAddress + 2, panelDevice.IntAddress, 0x02, 0x10, newStatusBytes);
 		}
 
 		public static List<byte> GetDeviceStatus(Device device)
@@ -59,8 +57,7 @@ namespace ServerFS2
 
 		public static bool PingDevice(Device device)
 		{
-			var bytes = USBManager.CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
-			return USBManager.SendCode(bytes)[6] == 0x7C;
+			return USBManager.SendCodeToPanel(device, 0x3C)[6] == 0x7C;
 		}
 
 		public static void ExecuteCommand(Device device, string commandName)

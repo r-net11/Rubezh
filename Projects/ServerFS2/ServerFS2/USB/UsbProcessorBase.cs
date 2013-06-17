@@ -5,7 +5,7 @@ using FiresecAPI;
 
 namespace ServerFS2
 {
-	public abstract class UsbRunnerBase
+	public abstract class UsbProcessorBase
 	{
 		protected bool _stop = true;
 		protected List<byte> _result = new List<byte>();
@@ -15,12 +15,13 @@ namespace ServerFS2
 		protected List<byte> LocalResult = new List<byte>();
 		protected bool IsMs { get; set; }
 		public bool IsUsbDevice { get; set; }
+		protected bool IsExtendedMode { get; set; }
 		protected RequestCollection RequestCollection = new RequestCollection();
 
 		public abstract bool Open();
 		public abstract void Close();
 		public abstract bool Send(List<byte> data);
-		public abstract OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15);
+		public abstract Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15);
 
 		public event Action<Response> NewResponse;
 		protected void OnNewResponse(Response response)

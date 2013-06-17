@@ -37,7 +37,6 @@ namespace ServerFS2.Monitoring
 		}
 
 		public List<string> ResetStateIds { get; set; }
-		static int UsbRequestNo = 1;
 		public static event Action<FS2JournalItem> NewJournalItem;
 		int SequentUnAnswered;
 		int lastSystemIndex;
@@ -229,17 +228,13 @@ namespace ServerFS2.Monitoring
 			{
 				Requests.Add(request);
 			}
-			JournalHelper.SendByteCommand(request.Bytes, Panel, request.Id);
+			request.Id = USBManager.SendCodeToPanelAsync(Panel, 0x01, request.Bytes);
 			Thread.Sleep(betweenDevicesSpan);
 		}
 
 		public void RequestLastIndex()
 		{
-			lock (Locker)
-			{
-				++UsbRequestNo;
-			}
-			var request = new Request(UsbRequestNo, RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
+			var request = new Request(RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
 			CanRequestLastIndex = false;
 			LastIndexDateTime = DateTime.Now;
 			SendRequest(request);
@@ -257,7 +252,7 @@ namespace ServerFS2.Monitoring
 				FromLostConnectionState();
 			}
 			CanRequestLastIndex = true;
-			LastDeviceIndex = BytesHelper.ExtractInt(response.Data, 7);
+			LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
 			if (FirstSystemIndex == -1)
 				FirstSystemIndex = LastDeviceIndex;
 			if (LastSystemIndex == -1)
@@ -276,11 +271,11 @@ namespace ServerFS2.Monitoring
 
 		bool IsLastIndexValid(Response response)
 		{
-			if (response.Data[6] == 192)
+			if (response.Bytes[6] == 192)
 				throw new Exception("Ошибка считывания индекса");
-			return (response.Data.Count() == 11 &&
-				response.Data[5] == Panel.IntAddress &&
-				response.Data[6] == 65);
+			return (response.Bytes.Count() == 11 &&
+				response.Bytes[5] == Panel.IntAddress &&
+				response.Bytes[6] == 65);
 		}
 
 		public List<FS2JournalItem> GetNewItems()

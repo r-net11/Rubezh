@@ -129,7 +129,6 @@
     <Compile Include="Monitoring\MonitoringDevice.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
-    <Compile Include="Monitoring\Request.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
@@ -144,7 +143,7 @@
     <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="USB\USBManager.cs" />
-    <Compile Include="USB\UsbRunnerBase.cs" />
+    <Compile Include="USB\UsbProcessorBase.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
     <Compile Include="USB\Response.cs" />
@@ -152,9 +151,9 @@
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
-    <Compile Include="USB\UsbRunner.cs" />
-    <Compile Include="USB\UsbRunner2.cs" />
-    <Compile Include="USB\UsbRunnerDetector.cs" />
+    <Compile Include="USB\UsbProcessorOLD.cs" />
+    <Compile Include="USB\UsbProcessor.cs" />
+    <Compile Include="USB\UsbProcessorInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />

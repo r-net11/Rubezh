@@ -28,7 +28,10 @@ namespace ServerFS2.Monitoring
 				}
 			}
 			DoMonitoring = false;
-			USBManager.UsbRunnerBase.NewResponse += new Action<Response>(UsbRunner_NewResponse);
+			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
+			{
+				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>(UsbRunner_NewResponse);
+			}
 		}
 
 		public static void StartMonitoring()
@@ -94,25 +97,18 @@ namespace ServerFS2.Monitoring
 
 		static void UsbRunner_NewResponse(Response response)
 		{
-			MonitoringDevice monitoringDevice = null;
-			Request request = null;
 			lock (MonitoringDevice.Locker)
 			{
-				foreach (var monitoringDevicesItem in MonitoringDevices.ToList())
+				foreach (var monitoringDevice in MonitoringDevices.ToList())
 				{
-					foreach (var requestsItem in monitoringDevicesItem.Requests.ToList())
+					foreach (var request in monitoringDevice.Requests.ToList())
 					{
-						if (requestsItem != null && requestsItem.Id == response.Id)
+						if (request != null && request.Id == response.Id)
 						{
-							request = requestsItem;
-							monitoringDevice = monitoringDevicesItem;
+							monitoringDevice.ReqestResponsed(request, response);
 						}
 					}
 				}
-			}
-			if (request != null)
-			{
-				monitoringDevice.ReqestResponsed(request, response);
 			}
 		}
 

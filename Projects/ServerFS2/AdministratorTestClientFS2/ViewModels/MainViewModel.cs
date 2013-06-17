@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Processor;
+using System.Diagnostics;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -65,10 +66,10 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		public bool IsUsbDevice
 		{
-			get { return USBManager.IsUsbDevice; }
+			get { return USBManager.UsbProcessorInfos.FirstOrDefault().UsbProcessor.IsUsbDevice; }
 			set
 			{
-				USBManager.IsUsbDevice = value;
+				USBManager.UsbProcessorInfos.FirstOrDefault().UsbProcessor.IsUsbDevice = value;
 				OnPropertyChanged("IsUsbDevice");
 			}
 		}
@@ -97,11 +98,9 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SendRequestCommand { get; private set; }
 		private void OnSendRequest()
 		{
-			var bytes = TextBoxRequest.Split()
-				   .Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
-			var inbytes = USBManager.SendRequest(bytes);
-			foreach (var b in inbytes)
-				TextBoxResponse += b.ToString("X2") + " ";
+			var bytes = TextBoxRequest.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
+			var inputBytes = USBManager.SendCodeToPanel(DevicesViewModel.SelectedDevice.Device, bytes);
+			TextBoxResponse += BytesHelper.BytesToString(inputBytes);
 		}
 
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }

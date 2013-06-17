@@ -11,7 +11,6 @@ namespace ServerFS2.Monitoring
 		string CommandName;
 		Thread checkerThread;
 
-
 		public CommandExecutor(Device device, string commandName)
 		{
 			Device = device;
@@ -30,11 +29,10 @@ namespace ServerFS2.Monitoring
 			//var deviceId = MetadataHelper.GetIdByUid(Device.DriverUID);
 			//var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == CommandName));
 			//if (devicePropInfo.off == "0" && Device.DeviceState.States.Any(x => x.DriverState.Id == devicePropInfo.expectedState))
-				autoResetEvent.Set();
-				Device.DeviceState.StateChanged -= DeviceState_StateChanged;
+			autoResetEvent.Set();
+			Device.DeviceState.StateChanged -= DeviceState_StateChanged;
 			//else if (devicePropInfo.off == "1" && Device.DeviceState.States.Any(x => x.DriverState.Id != devicePropInfo.expectedState))
 			//        autoResetEvent.Set();
 		}
-
 	}
 }
