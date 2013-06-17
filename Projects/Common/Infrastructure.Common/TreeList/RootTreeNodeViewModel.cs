@@ -115,11 +115,13 @@ namespace Infrastructure.Common.TreeList
 
 		public GridViewColumn SortColumn { get; private set; }
 		public ListSortDirection? SortDirection { get; private set; }
+		public IItemComparer ItemComparer { get; private set; }
 		public void RunSort(GridViewColumn column, IItemComparer itemComparer)
 		{
+			SortDirection = column == SortColumn ? (SortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending) : ListSortDirection.Ascending;
 			SortColumn = column;
-			SortDirection = SortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
-			Sort(itemComparer, SortDirection == ListSortDirection.Ascending);
+			ItemComparer = itemComparer;
+			Sort();
 		}
 	}
 }
