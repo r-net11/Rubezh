@@ -29,7 +29,7 @@ namespace ServerFS2.Monitoring
 			var statusBytes = ServerHelper.GetDeviceStatus(panel);
 			if (statusBytes.Count < 8)
 				return;
-			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4]  };
 			var bitArray = new BitArray(statusBytesArray);
 			for (int i = 0; i < bitArray.Count; i++)
 			{
@@ -135,6 +135,12 @@ namespace ServerFS2.Monitoring
 		static void ParceDeviceState(Device device, List<byte> stateBytes)
 		{
 			var bitArray = new BitArray(stateBytes.ToArray());
+			int index = 0;
+			foreach (var bit in bitArray)
+			{
+				Trace.WriteLine(index.ToString() + " " + bit.ToString());
+				index++;
+			}
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
@@ -244,6 +250,7 @@ namespace ServerFS2.Monitoring
 				{
 					var device = journalItem.Device;
 					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					ParceDeviceState(device, stateBytes);
 				}
 			}
 			//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
