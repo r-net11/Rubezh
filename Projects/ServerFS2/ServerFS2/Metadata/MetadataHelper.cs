@@ -1,11 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace ServerFS2
 {

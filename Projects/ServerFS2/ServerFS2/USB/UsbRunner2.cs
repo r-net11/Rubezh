@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using FiresecAPI;
-using System.Diagnostics;
-using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2
 {
@@ -112,15 +109,18 @@ namespace ServerFS2
 			}
 		}
 
-		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
+		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
 			foreach (var bytes in bytesList)
 			{
-				if (bytesList.Count > 1)
+				if (usbRequestNo != -1)
 				{
-					usbRequestNo++;
+					if (bytesList.Count > 1)
+					{
+						usbRequestNo++;
+					}
 				}
 				_stop = false;
 				var request = new Request();
@@ -141,7 +141,6 @@ namespace ServerFS2
 				}
 				else
 				{
-					//Trace.WriteLine("request.Id = " + request.Id);
 					Send(request.Bytes);
 				}
 				if (isSyncronuos)
@@ -154,9 +153,8 @@ namespace ServerFS2
 			{
 				foreach (var request in new List<Request>(RequestCollection.Requests))
 				{
-					for (int i = 0; i < 15; i++)
+					for (int i = 0; i < countRacall; i++)
 					{
-						//Trace.WriteLine("request.Id = " + request.Id);
 						Send(request.Bytes);
 						AautoWaitEvent.WaitOne(timeout);
 						if (RequestCollection.Count() == 0)

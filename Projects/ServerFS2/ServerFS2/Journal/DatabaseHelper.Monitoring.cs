@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.SqlServerCe;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
 using Infrastructure.Common;
-using Common;
 
 namespace ServerFS2.Journal
 {

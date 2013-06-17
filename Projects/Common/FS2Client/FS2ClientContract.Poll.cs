@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Common;
-using FS2Api;
 using FiresecAPI.Models;
+using FS2Api;
 
 namespace FS2Client
 {

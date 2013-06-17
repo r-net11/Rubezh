@@ -35,8 +35,8 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                                        <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -73,8 +73,8 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                                        <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

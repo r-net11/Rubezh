@@ -2,6 +2,7 @@
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient.Itv;
+using System.Windows;
 
 namespace ItvIntegration
 {
@@ -11,10 +12,16 @@ namespace ItvIntegration
         {
             ZoneState = zoneState;
             _stateType = zoneState.StateType;
-            ItvManager.ZoneStateChanged += new Action<ZoneState>(OnZoneStateChanged);
+			ItvManager.ZoneStateChanged += new Action<ZoneState>((x) => { SafeCall(() => { OnZoneStateChanged(x); }); });
             No = zoneState.Zone.No;
             Name = zoneState.Zone.Name;
         }
+
+		public void SafeCall(Action action)
+		{
+			if (Application.Current != null && Application.Current.Dispatcher != null)
+				Application.Current.Dispatcher.BeginInvoke(action);
+		}
 
         void OnZoneStateChanged(ZoneState zoneState)
 		{

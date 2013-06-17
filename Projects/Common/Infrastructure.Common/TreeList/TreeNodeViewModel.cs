@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.Specialized;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 using Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.TreeList
 {

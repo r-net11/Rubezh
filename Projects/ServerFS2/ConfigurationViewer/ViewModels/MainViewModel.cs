@@ -1,10 +1,10 @@
-﻿using ConfigurationViewer.ViewModels;
+﻿using System;
+using System.Diagnostics;
+using ConfigurationViewer.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.ConfigurationWriter;
-using System;
-using System.Diagnostics;
 
 namespace ConfigurationViewer.DataTemplates
 {

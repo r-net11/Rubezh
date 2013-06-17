@@ -4,8 +4,6 @@ using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2;
-using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2.Monitoring
 {
@@ -117,7 +115,7 @@ namespace ServerFS2.Monitoring
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
-			var response = ServerHelper.SendCode(bytes);
+			var response = USBManager.SendCode(bytes);
 			if (response == null)
 				return null;
 			lock (Locker)
@@ -138,13 +136,13 @@ namespace ServerFS2.Monitoring
 		{
 			lock (Locker)
 			{
-				return ServerHelper.SendCodeToPanel(device, 0x01, commandBytes);
+				return USBManager.SendCodeToPanel(device, 0x01, commandBytes);
 			}
 		}
 
 		static List<byte> SendByteCommandSync(List<byte> commandBytes, Device device)
 		{
-			return ServerHelper.SendCodeToPanel(device, 0x01, commandBytes);
+			return USBManager.SendCodeToPanel(device, 0x01, commandBytes);
 		}
 
 		public static void SendByteCommand(List<byte> commandBytes, Device device, int requestId)
@@ -154,7 +152,7 @@ namespace ServerFS2.Monitoring
 			bytes.Add(Convert.ToByte(device.AddressOnShleif));
 			bytes.Add(0x01);
 			bytes.AddRange(commandBytes);
-			ServerHelper.SendCodeAsync(requestId, bytes);
+			USBManager.SendCodeAsync(requestId, bytes);
 		}
 
 		private static byte GetMSChannelByte(Device device)

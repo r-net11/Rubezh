@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using FiresecAPI;
 
@@ -16,13 +14,13 @@ namespace ServerFS2
 		protected List<Response> Responses = new List<Response>();
 		protected List<byte> LocalResult = new List<byte>();
 		protected bool IsMs { get; set; }
-		public static bool IsUsbDevice { get; set; }
+		public bool IsUsbDevice { get; set; }
 		protected RequestCollection RequestCollection = new RequestCollection();
 
 		public abstract bool Open();
 		public abstract void Close();
 		public abstract bool Send(List<byte> data);
-		public abstract OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos);
+		public abstract OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15);
 
 		public event Action<Response> NewResponse;
 		protected void OnNewResponse(Response response)

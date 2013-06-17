@@ -68,21 +68,6 @@ namespace ServerFS2.ConfigurationWriter
 			return zones;
 		}
 
-		//public bool IsLocalZone(Zone zone, Device panelDevice)
-		//{
-		//    return ZonePanelItems.Any(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == false);
-		//}
-
-		//public int GetLocalZoneNo(Zone zone, Device panelDevice)
-		//{
-		//    var zonePanelItem = ZonePanelItems.FirstOrDefault(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == false);
-		//    if (zonePanelItem != null)
-		//    {
-		//        return zonePanelItem.No;
-		//    }
-		//    return 0;
-		//}
-
 		void Add(Zone zone, Device panelDevice, bool isRemote)
 		{
 			if (!ZonePanelItems.Any(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == isRemote))
@@ -97,12 +82,4 @@ namespace ServerFS2.ConfigurationWriter
 			}
 		}
 	}
-
-	//public class ZonePanelItem
-	//{
-	//    public Zone Zone { get; set; }
-	//    public Device PanelDevice { get; set; }
-	//    public bool IsRemote { get; set; }
-	//    public int No { get; set; }
-	//}
 }

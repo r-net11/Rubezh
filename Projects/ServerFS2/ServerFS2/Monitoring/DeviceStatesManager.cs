@@ -1,16 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2;
 using Rubezh2010;
-using ServerFS2.ConfigurationWriter;
-using System.Collections;
-using Infrastructure.Common.Windows;
 using ServerFS2.Service;
-using ServerFS2.Processor;
 
 namespace ServerFS2.Monitoring
 {
@@ -75,7 +71,7 @@ namespace ServerFS2.Monitoring
 					continue;
 
 				Trace.WriteLine(panelDevice.PresentationAddressAndName);
-				var remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(panelDevice);
+				var remoteDeviceConfiguration = GetConfigurationOperationHelper.GetDeviceConfig(panelDevice);
 				remoteDeviceConfiguration.Update();
 				foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
 				{
@@ -108,7 +104,7 @@ namespace ServerFS2.Monitoring
 				return;
 
 			Trace.WriteLine(panelDevice.PresentationAddressAndName);
-			var remoteDeviceConfiguration = ServerHelper.GetDeviceConfig(panelDevice);
+			var remoteDeviceConfiguration = GetConfigurationOperationHelper.GetDeviceConfig(panelDevice);
 			remoteDeviceConfiguration.Update();
 			foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
 			{

@@ -1,131 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using FiresecAPI;
-using FiresecAPI.Models;
-using ServerFS2.Helpers;
-using Device = FiresecAPI.Models.Device;
-using System.Collections;
-using System.Diagnostics;
-using ServerFS2.ConfigurationWriter;
-using ServerFS2.Service;
 using FS2Api;
-using ServerFS2.Monitoring;
+using ServerFS2.Helpers;
+using ServerFS2.Service;
+using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
 {
     public static partial class ServerHelper
     {
         public static event Action<int, int, string> Progress;
-        public static List<Driver> Drivers;
-        static readonly object Locker = new object();
-		public static readonly UsbRunnerBase UsbRunnerBase;
-        static int UsbRequestNo;
         public static bool IsExtendedMode { get; set; }
-		static ServerHelper()
-		{
-			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-			//UsbRunnerBase = new UsbRunner();
-			UsbRunnerBase = new UsbRunner2();
-			try
-			{
-				UsbRunnerBase.Open();
-			}
-			catch
-			{ }
-		}
-
-		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			bytes.InsertRange(0,IsUsbDevice? new List<byte> {(byte) (0x02)}: new List<byte> {(byte) (device.Parent.IntAddress + 2), (byte) device.IntAddress});
-			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
-			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
-			return result;
-		}
-
-		public static List<byte> SendCodeToPanel(Device device, params object[] value)
-		{
-			var bytes = CreateBytesArray(value);
-			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
-			var result = UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
-			if (result != null)
-			{
-				var responce = result.Result.FirstOrDefault();
-				if (responce != null)
-				{
-					var data = responce.Data;
-					data.RemoveRange(0, IsUsbDevice ? 2 : 7);
-					return data;
-				}
-			}
-			return null;
-		}
-
-        public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-        {
-			return UsbRunnerBase.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
-        }
-
-		public static List<byte> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-        {
-			return UsbRunnerBase.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
-        }
-		
-        public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-        {
-			UsbRunnerBase.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
-        }
-
-        public static bool IsUsbDevice
-        {
-            get { return UsbRunner.IsUsbDevice; }
-            set
-            {
-                UsbRunner.IsUsbDevice = value;
-				UsbRunnerBase.Close();
-				UsbRunnerBase.Open();
-            }
-        }
-
-        public static List<byte> SendRequest(List<byte> bytes)
-        {
-            return SendCode(bytes);
-        }
 
         public static void SynchronizeTime(Device device)
         {
-			SendCodeToPanel(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
+			USBManager.SendCodeToPanel(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
         }
 
-        public static List<byte> CreateBytesArray(params object[] values)
-        {
-            var bytes = new List<byte>();
-            foreach (var value in values)
-            {
-                if (value as IEnumerable<Byte> != null)
-                    bytes.AddRange((IEnumerable<Byte>)value);
-                else
-                    bytes.Add(Convert.ToByte(value));
-            }
-            return bytes;
-        }
+		public static int RomDBFirstIndex;
+		public static int FlashDBLastIndex;
 
-        public static void BytesToFile(string fileName, List<byte> bytes)
-        {
-            var file = new StreamWriter("..\\" + fileName);
-            foreach (var b in bytes)
-            {
-                file.Write("{0} ", b.ToString("X2"));
-            }
-            file.Close();
-        }
-
-		public static List<byte> BytesFromFile(string fileName)
+		public static List<byte> GetRomDBBytes(Device device)
 		{
-			var bytes = new List<byte>();
-			return bytes;
+			var packetLenght = USBManager.IsUsbDevice ? 0x33 : 0xFF;
+			var result = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
+			var romDBLastIndex = BytesHelper.ExtractTriple(result, 9);
+
+			var numberOfPackets = romDBLastIndex - RomDBFirstIndex / packetLenght;
+
+			for (var i = RomDBFirstIndex + packetLenght + 1; i < romDBLastIndex; i += packetLenght + 1)
+			{
+				var packetNo = (i - RomDBFirstIndex) / packetLenght;
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
+				var length = Math.Min(packetLenght, romDBLastIndex - i);
+				var request = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
+				result.AddRange(request);
+			}
+			return result;
+		}
+
+		public static List<byte> GetFlashDBBytes(Device device)
+		{
+			var packetLenght = USBManager.IsUsbDevice ? 0x33 : 0xFF;
+			var result = new List<byte>();
+
+			var numberOfPackets = FlashDBLastIndex - 0x100 / packetLenght;
+
+			for (var i = 0x100; i < FlashDBLastIndex; i += packetLenght + 1)
+			{
+				var packetNo = (i - FlashDBLastIndex) / packetLenght;
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
+				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
+				var request = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
+				result.AddRange(request);
+			}
+			var nullbytes = new List<byte>();
+			for (var i = 0; i < 0x100; i++)
+				nullbytes.Add(0);
+			result.InsertRange(0, nullbytes);
+			return result;
+		}
+
+		public static int GetRomFirstIndex(Device device)
+		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
+			var result = USBManager.SendCodeToPanel(device, 0x01, 0x57);
+			return BytesHelper.ExtractTriple(result, 1);
+		}
+
+		public static int GetFlashLastIndex(Device device)
+		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
+			var result = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
+			return BytesHelper.ExtractTriple(result, 6);
+		}
+
+		public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
+		{
+			var result = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+			return result;
 		}
     }
 }

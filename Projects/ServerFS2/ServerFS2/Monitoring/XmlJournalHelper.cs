@@ -4,7 +4,6 @@ using System.Linq;
 using System.Xml.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using ServerFS2;
 
 namespace ServerFS2.Monitoring
 {

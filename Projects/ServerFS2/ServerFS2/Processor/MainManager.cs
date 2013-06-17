@@ -1,13 +1,11 @@
-﻿using FiresecAPI.Models;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2.Service;
 using ServerFS2.ConfigurationWriter;
-using System.Threading;
-using System.Diagnostics;
 using ServerFS2.Monitoring;
+using ServerFS2.Service;
 
 namespace ServerFS2.Processor
 {
@@ -36,11 +34,13 @@ namespace ServerFS2.Processor
 		public static void SuspendMonitoring()
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Приостановка мониторинга") });
+			MonitoringProcessor.SuspendMonitoring();
 		}
 
 		public static void ResumeMonitoring()
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
+			MonitoringProcessor.ResumeMonitoring();
 		}
 		#endregion
 
@@ -150,7 +150,7 @@ namespace ServerFS2.Processor
 			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
 			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
-			ServerHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
+			SetConfigurationOperationHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
 		}
 
 		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
@@ -185,17 +185,17 @@ namespace ServerFS2.Processor
 
 		public static DeviceConfiguration DeviceReadConfig(Device device, bool isUSB)
 		{
-			return ServerHelper.GetDeviceConfig(device);
+			return GetConfigurationOperationHelper.GetDeviceConfig(device);
 		}
 
 		public static List<FS2JournalItem> DeviceReadEventLog(Device device, bool isUSB)
 		{
-			return ServerHelper.GetJournalItems(device);
+			return ReadJournalOperationHelper.GetJournalItems(device);
 		}
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
 		{
-			var rootDevice = ServerHelper.AutoDetectDevice();
+			var rootDevice = AutoDetectOperationHelper.AutoDetectDevice();
 			var deviceConfiguration = new DeviceConfiguration()
 			{
 				RootDevice = rootDevice
@@ -208,6 +208,7 @@ namespace ServerFS2.Processor
 			switch (driverType)
 			{
 				case DriverType.Rubezh_2AM:
+				case DriverType.USB_Rubezh_2AM:
 					return new List<DeviceCustomFunction>()
 					{
 						new DeviceCustomFunction()
@@ -223,9 +224,32 @@ namespace ServerFS2.Processor
 							Description = "Снять режим \"глухой панели\"",
 						}
 					};
-					break;
+				case DriverType.IndicationBlock:
+				case DriverType.PDU:
+				case DriverType.PDU_PT:
+					return new List<DeviceCustomFunction>()
+					{
+						new DeviceCustomFunction()
+						{
+							Code = "Touch_SetMaster",
+							Name = "Записать мастер-ключ",
+							Description = "Записать мастер-ключ TouchMemory",
+						},
+						new DeviceCustomFunction()
+						{
+							Code = "Touch_ClearMaster",
+							Name = "Стереть пользовательские ключи",
+							Description = "Стереть пользовательские ключи TouchMemory",
+						},
+						new DeviceCustomFunction()
+						{
+							Code = "Touch_ClearAll",
+							Name = "Стереть все ключи",
+							Description = "Стереть все ключи TouchMemory",
+						}
+					};
 			}
-			throw new FS2Exception("Функция пока не реализована");
+			return new List<DeviceCustomFunction>();
 		}
 
 		public static void DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)

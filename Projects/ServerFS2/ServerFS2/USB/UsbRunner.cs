@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI;
+using FS2Api;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using FS2Api;
-using System.Diagnostics;
-using ServerFS2.ConfigurationWriter;
 
 namespace ServerFS2
 {
@@ -202,7 +201,7 @@ namespace ServerFS2
 			}
 		}
 
-		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos)
+		public override OperationResult<List<Response>> AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
