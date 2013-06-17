@@ -187,5 +187,9 @@ namespace FiresecAPI.Models
 			if (ParametersChanged != null)
 				ParametersChanged();
 		}
+
+		public float Smokiness { get; set; }
+		public float Dustiness { get; set; }
+		public float Temperature { get; set; }
 	}
 }
