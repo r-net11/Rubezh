@@ -8,6 +8,9 @@ using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
 using ServerFS2;
 using ServerFS2.Processor;
+using Ionic.Zip;
+using System.Text;
+using System.IO;
 
 namespace MonitorClientFS2
 {
@@ -79,7 +82,11 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			USBManager.Initialize();
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
+			var orrset = hexInfo.Offset;
+
+			//USBManager.Initialize();
 
 			//var stateBytes = new List<byte>() { 1, 2 };
 			//var bitArray = new BitArray(stateBytes.ToArray());

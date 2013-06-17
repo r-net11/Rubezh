@@ -276,20 +276,20 @@ namespace ServerFS2.Service
 			}, "DeviceGetSerialList");
 		}
 
-		public OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName)
-		{
-			return SafeCallWithMonitoringSuspending<string>(() =>
-			{
-				return MainManager.DeviceUpdateFirmware(FindDevice(deviceUID), isUSB, fileName);
-			}, "DeviceUpdateFirmware");
-		}
-
 		public OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName)
 		{
 			return SafeCallWithMonitoringSuspending<string>(() =>
 			{
 				return MainManager.DeviceVerifyFirmwareVersion(FindDevice(deviceUID), isUSB, fileName);
 			}, "DeviceVerifyFirmwareVersion");
+		}
+
+		public OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName)
+		{
+			return SafeCallWithMonitoringSuspending(() =>
+			{
+				MainManager.DeviceUpdateFirmware(FindDevice(deviceUID), isUSB, fileName);
+			}, "DeviceUpdateFirmware");
 		}
 
 		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)

@@ -86,10 +86,10 @@ namespace FS2Api
 		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
+		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName);
+		OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB);

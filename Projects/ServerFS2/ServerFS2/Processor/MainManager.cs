@@ -173,14 +173,14 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static string DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
-		{
-			throw new FS2Exception("Функция пока не реализована");
-		}
-
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			return FirmwareUpdateOperationHelper.Verify(device, isUSB, fileName);
+		}
+
+		public static void DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
+		{
+			FirmwareUpdateOperationHelper.Update(device, isUSB, fileName);
 		}
 
 		public static DeviceConfiguration DeviceReadConfig(Device device, bool isUSB)
