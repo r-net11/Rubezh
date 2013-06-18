@@ -39,6 +39,22 @@ namespace ServerFS2
 				bitNoString = metadataDeviceState.bitNo;
 			if (metadataDeviceState.Bitno != null)
 				bitNoString = metadataDeviceState.Bitno;
+			
+			if (bitNoString != null)
+			{
+				int bitNo = -1;
+				var result = Int32.TryParse(bitNoString, out bitNo);
+				if (result)
+				{
+					return bitNo;
+				}
+			}
+			return -1;
+		}
+
+		public static int GetIntBitNo(Rubezh2010.driverConfigDeviceStatesDeviceState metadataDeviceState)
+		{
+			string bitNoString = null;
 			if (metadataDeviceState.intBitno != null)
 				bitNoString = metadataDeviceState.intBitno;
 			if (metadataDeviceState.Intbitno != null)

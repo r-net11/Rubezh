@@ -22,10 +22,8 @@ namespace ServerFS2.Monitoring
 		{
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				if (!device.IsMonitoringDisabled)
-				{
-					MonitoringDevices.Add(new MonitoringDevice(device));
-				}
+				if (device.IntAddress == 15)// || device.IntAddress == 19)
+				MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
@@ -113,18 +111,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static void WriteStats()
-		{
-			var timeSpan = DateTime.Now - StartTime;
-			Trace.WriteLine("betweenCyclesSpan " + MonitoringDevice.betweenCyclesSpan);
-			Trace.WriteLine("betweenDevicesSpan " + MonitoringDevice.betweenDevicesSpan);
-			Trace.WriteLine("testTime " + timeSpan);
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				Trace.WriteLine(monitoringDevice.Panel.PresentationAddress + " " + (monitoringDevice.AnsweredCount / timeSpan.TotalSeconds).ToString() + " " + monitoringDevice.AnsweredCount + "/" + monitoringDevice.UnAnsweredCount);
-			}
-		}
-
+		#region Комманды для MainManager
 		public static void AddPanelResetItems(List<PanelResetItem> panelResetItems)
 		{
 			foreach (var panelResetItem in panelResetItems)
@@ -180,5 +167,6 @@ namespace ServerFS2.Monitoring
 			CommandExecutor commandExecutor = new CommandExecutor(device, commandName);
 			//commandExecutor.CheckForExpired();
 		}
+		#endregion
 	}
 }

@@ -89,7 +89,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToIgnore)
 				{
-					USBManager.SendCodeToPanel(Panel, 0x02, 0x54, 0x0B, 0x01, 0x00, Panel.IntAddress, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					USBManager.SendCodeToPanel(Panel, 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToIgnore = new List<Device>();
 			}
@@ -97,7 +97,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToResetIgnore)
 				{
-					USBManager.SendCodeToPanel(Panel, 0x02, 0x54, 0x0B, 0x00, 0x00, Panel.IntAddress, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					USBManager.SendCodeToPanel(Panel, 0x02, 0x54, 0x0B, 0x00, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToResetIgnore = new List<Device>();
 			}
@@ -218,8 +218,8 @@ namespace ServerFS2.Monitoring
 
 		public void Initialize()
 		{
-			DeviceStatesManager.GetStates(Panel);
-			DeviceStatesManager.UpdatePanelState(Panel);
+			DeviceStatesManager.GetStates(Panel, true);
+			DeviceStatesManager.UpdatePanelState(Panel, true);
 			IsInitialized = true;
 		}
 

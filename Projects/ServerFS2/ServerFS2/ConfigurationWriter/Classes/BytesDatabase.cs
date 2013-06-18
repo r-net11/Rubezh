@@ -122,7 +122,7 @@ namespace ServerFS2.ConfigurationWriter
 				ByteDescriptions[i].RelativeOffset = i;
 				if (ByteDescriptions[i].DeviceState != null)
 				{
-					ByteDescriptions[i].DeviceState.Offset = ByteDescriptions[i].Offset;
+					ByteDescriptions[i].DeviceState.StateWordOffset = ByteDescriptions[i].Offset;
 				}
 			}
 		}
