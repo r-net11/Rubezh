@@ -3,7 +3,7 @@ using Common;
 
 namespace Infrastructure.Common
 {
-	public static class AppSettingsManager
+	public static class ConnectionSettingsManager
 	{
 		static string _remoteAddress;
 		public static string RemoteAddress
@@ -19,7 +19,7 @@ namespace Infrastructure.Common
 
 		public static int RemotePort { get; set; }
 
-		static AppSettingsManager()
+		static ConnectionSettingsManager()
 		{
 			try
 			{

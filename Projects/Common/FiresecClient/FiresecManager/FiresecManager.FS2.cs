@@ -26,7 +26,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				FS2ClientContract = new FS2ClientContract(AppSettingsManager.FS2ServerAddress);
+				FS2ClientContract = new FS2ClientContract(ConnectionSettingsManager.FS2ServerAddress);
 			}
 			catch (Exception e)
 			{

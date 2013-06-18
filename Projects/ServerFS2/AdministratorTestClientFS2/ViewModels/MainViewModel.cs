@@ -9,6 +9,7 @@ using ServerFS2;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Processor;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -27,7 +28,6 @@ namespace AdministratorTestClientFS2.ViewModels
 			GetInformationCommand = new RelayCommand(OnGetInformation, CanGetInformation);
 			SynchronizeTimeCommand = new RelayCommand(OnSynchronizeTime, CanSynchronizeTime);
 			SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
-			UpdateFirmwhareCommand = new RelayCommand(OnSynchronizeTime, CanSynchronizeTime);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
@@ -179,7 +179,17 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		private void OnUpdateFirmwhare()
 		{
-
+			var openFileDialog = new OpenFileDialog()
+			{
+				Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
+			};
+			if (openFileDialog.ShowDialog() == true)
+			{
+				var fileName = openFileDialog.FileName;
+				var message = MainManager.DeviceVerifyFirmwareVersion(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+				MessageBoxService.Show(message);
+				MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+			}
 		}
 		bool CanUpdateFirmwhare()
 		{

@@ -174,7 +174,7 @@ namespace ServerFS2.Processor
 
 		public static List<string> DeviceGetSerialList(Device device)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			return USBManager.GetAllSerialNos();
 		}
 
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)

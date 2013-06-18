@@ -131,7 +131,7 @@ namespace Infrastructure.Client.Login.ViewModels
 				case PasswordViewType.Connect:
 					var preLoadWindow = new ConnectionViewModel();
 					DialogService.ShowWindow(preLoadWindow);
-					Message = FiresecManager.Connect(ClientType, AppSettingsManager.ServerAddress, UserName, Password);
+					Message = FiresecManager.Connect(ClientType, ConnectionSettingsManager.ServerAddress, UserName, Password);
 					preLoadWindow.ForceClose();
 					break;
 				case PasswordViewType.Reconnect:

@@ -154,35 +154,7 @@ namespace ServerFS2
 				}
 			}
 
-			UsbProcessorInfos = new List<UsbProcessorInfo>();
-
-			HIDDevice.AddedDevices = new List<string>();
-			while (true)
-			{
-				try
-				{
-					var usbProcessor = new UsbProcessor();
-					var result = usbProcessor.Open();
-					if (!result)
-						break;
-					var usbProcessorInfo = new UsbProcessorInfo()
-					{
-						UsbProcessor = usbProcessor
-					};
-					UsbProcessorInfos.Add(usbProcessorInfo);
-				}
-				catch (Exception)
-				{
-					break;
-				}
-			}
-
-			foreach (var usbProcessorInfo in UsbProcessorInfos)
-			{
-				usbProcessorInfo.Initialize();
-				Trace.WriteLine(usbProcessorInfo.IsUSBMS + " " + usbProcessorInfo.IsUSBPanel + " " +
-					usbProcessorInfo.USBDriverType + " " + usbProcessorInfo.SerialNo);
-			}
+			UsbProcessorInfos = FindAllUsbProcessorInfo();
 
 			foreach (var device in usbDevices)
 			{
@@ -226,6 +198,51 @@ namespace ServerFS2
 			{
 				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
 			}
+		}
+
+		static List<UsbProcessorInfo> FindAllUsbProcessorInfo()
+		{
+			var usbProcessorInfos = new List<UsbProcessorInfo>();
+
+			HIDDevice.AddedDevices = new List<string>();
+			while (true)
+			{
+				try
+				{
+					var usbProcessor = new UsbProcessor();
+					var result = usbProcessor.Open();
+					if (!result)
+						break;
+					var usbProcessorInfo = new UsbProcessorInfo()
+					{
+						UsbProcessor = usbProcessor
+					};
+					usbProcessorInfos.Add(usbProcessorInfo);
+				}
+				catch (Exception)
+				{
+					break;
+				}
+			}
+
+			foreach (var usbProcessorInfo in usbProcessorInfos)
+			{
+				usbProcessorInfo.Initialize();
+				Trace.WriteLine(usbProcessorInfo.IsUSBMS + " " + usbProcessorInfo.IsUSBPanel + " " +
+					usbProcessorInfo.USBDriverType + " " + usbProcessorInfo.SerialNo);
+			}
+			return usbProcessorInfos;
+		}
+
+		public static List<string> GetAllSerialNos()
+		{
+			var result = new List<string>();
+			var usbProcessorInfos = FindAllUsbProcessorInfo();
+			foreach (var usbProcessorInfo in usbProcessorInfos)
+			{
+				result.Add(usbProcessorInfo.SerialNo);
+			}
+			return result;
 		}
 
 		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)

@@ -22,9 +22,10 @@ namespace DevicesModule.ViewModels
 			Device = device;
 			IsUsb = isUsb;
 
-			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*";
-
+			var openFileDialog = new OpenFileDialog()
+			{
+				Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
+			};
 			if (openFileDialog.ShowDialog() == true)
 			{
 				FileName = openFileDialog.FileName;

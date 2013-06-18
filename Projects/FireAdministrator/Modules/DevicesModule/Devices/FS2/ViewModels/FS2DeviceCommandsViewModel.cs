@@ -163,7 +163,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
 				return;
 			}
-			if (AppSettingsManager.IsRemote)
+			if (ConnectionSettingsManager.IsRemote)
 			{
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;

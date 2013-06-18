@@ -273,7 +273,7 @@ namespace ServerFS2.Service
 			return SafeCallWithMonitoringSuspending<List<string>>(() =>
 			{
 				return MainManager.DeviceGetSerialList(FindDevice(deviceUID));
-			}, "DeviceGetSerialList");
+			}, "DeviceGetSerialList", true);
 		}
 
 		public OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName)
@@ -289,7 +289,7 @@ namespace ServerFS2.Service
 			return SafeCallWithMonitoringSuspending(() =>
 			{
 				MainManager.DeviceUpdateFirmware(FindDevice(deviceUID), isUSB, fileName);
-			}, "DeviceUpdateFirmware");
+			}, "DeviceUpdateFirmware", true);
 		}
 
 		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
@@ -508,11 +508,18 @@ namespace ServerFS2.Service
 			}
 		}
 
-		OperationResult<T> SafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName)
+		OperationResult<T> SafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName, bool stopMonitoring = false)
 		{
 			try
 			{
-				MainManager.SuspendMonitoring();
+				if (stopMonitoring)
+				{
+					MainManager.StopMonitoring();
+				}
+				else
+				{
+					MainManager.SuspendMonitoring();
+				}
 				return SafeCall<T>(func, methodName);
 			}
 			catch(Exception e)
@@ -521,15 +528,29 @@ namespace ServerFS2.Service
 			}
 			finally
 			{
-				MainManager.ResumeMonitoring();
+				if (stopMonitoring)
+				{
+					MainManager.StartMonitoring();
+				}
+				else
+				{
+					MainManager.ResumeMonitoring();
+				}
 			}
 		}
 
-		OperationResult SafeCallWithMonitoringSuspending(Action action, string methodName)
+		OperationResult SafeCallWithMonitoringSuspending(Action action, string methodName, bool stopMonitoring = false)
 		{
 			try
 			{
-				MainManager.SuspendMonitoring();
+				if (stopMonitoring)
+				{
+					MainManager.StopMonitoring();
+				}
+				else
+				{
+					MainManager.SuspendMonitoring();
+				}
 				return SafeCall(action, methodName);
 			}
 			catch (Exception e)
@@ -538,7 +559,14 @@ namespace ServerFS2.Service
 			}
 			finally
 			{
-				MainManager.ResumeMonitoring();
+				if (stopMonitoring)
+				{
+					MainManager.StartMonitoring();
+				}
+				else
+				{
+					MainManager.ResumeMonitoring();
+				}
 			}
 		}
 

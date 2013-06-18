@@ -32,8 +32,8 @@ namespace FireMonitor
 			MulticlientId = multiclientData.Id;
 			Login = multiclientData.Login;
 			Password = multiclientData.Password;
-			AppSettingsManager.RemoteAddress = multiclientData.Address;
-			AppSettingsManager.RemotePort = multiclientData.Port;
+			ConnectionSettingsManager.RemoteAddress = multiclientData.Address;
+			ConnectionSettingsManager.RemotePort = multiclientData.Port;
 		}
 
 		public App()

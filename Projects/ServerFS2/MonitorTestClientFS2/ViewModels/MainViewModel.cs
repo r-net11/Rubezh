@@ -27,10 +27,22 @@ namespace MonitorClientFS2
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
-			//MainManager.StartMonitoring();
+
+			if (StartMonitoring)
+				MainManager.StartMonitoring();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
+
+		public bool StartMonitoring
+		{
+			get { return RegistrySettingsHelper.GetBool("MonitorClientFS2.StartMonitoring"); }
+			set
+			{
+				RegistrySettingsHelper.SetBool("MonitorClientFS2.StartMonitoring", value);
+				OnPropertyChanged("StartMonitoring");
+			}
+		}
 
 		void ShowNewItem(FS2JournalItem journalItem)
 		{

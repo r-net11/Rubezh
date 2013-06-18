@@ -37,7 +37,7 @@ namespace FiresecOPCServer
 			UILogger.Log("Соединение с сервером");
 			for (int i = 1; i <= 10; i++)
 			{
-				var message = FiresecManager.Connect(ClientType.OPC, AppSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
+				var message = FiresecManager.Connect(ClientType.OPC, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
 				if (message == null)
 					break;
 				Thread.Sleep(5000);
