@@ -40,8 +40,10 @@ namespace ServerFS2
 			var device = new Device
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),
-				InnerDeviceParameters = USBManager.CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4], DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
-				Offset = pointer + 3
+				StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4]),
+				StateWordOffset = pointer + 3,
+				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
+				RawParametersOffset = pointer + 29
 			};
 			device.IntAddress = driverType == DriverType.Exit ? DeviceFlash[pointer + 1] : DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
 			device.DriverUID = device.Driver.UID;
@@ -51,21 +53,21 @@ namespace ServerFS2
 			switch (driverType)
 			{
 				case DriverType.MPT:
-					device.InnerDeviceParameters = USBManager.CreateBytesArray(DeviceFlash[pointer + 31], DeviceFlash[pointer + 32], DeviceFlash[pointer + 33]);
+					device.StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 31], DeviceFlash[pointer + 32], DeviceFlash[pointer + 33]);
 					break;
 
 				case DriverType.MDU:
-					device.InnerDeviceParameters = USBManager.CreateBytesArray(DeviceFlash[pointer + 31], DeviceFlash[pointer + 32]);
+					device.StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 31], DeviceFlash[pointer + 32]);
 					config = DeviceFlash[pointer + 33];
 					break;
 
 				case DriverType.MRO_2:
-					device.InnerDeviceParameters.Add(DeviceFlash[pointer + 31]);
+					device.StateWordBytes.Add(DeviceFlash[pointer + 31]);
 					config = DeviceFlash[pointer + 32];
 					parentAddress = DeviceFlash[pointer + 33] + 256 * (DeviceFlash[pointer + 34] + 1);
 					break;
 			}
-			TraceHelper.TraceBytes(device.InnerDeviceParameters, device.PresentationAddressAndName);
+			TraceHelper.TraceBytes(device.StateWordBytes, device.PresentationAddressAndName);
 			var description = BytesHelper.ExtractString(DeviceFlash, pointer + 6);
 			if (driverType != DriverType.MPT)
 			{
@@ -250,12 +252,14 @@ namespace ServerFS2
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),
 				IntAddress = DeviceFlash[pointer] + 256 * (DeviceFlash[pointer + 1] + 1),
-				InnerDeviceParameters = USBManager.CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3], DeviceFlash[pointer + 8], DeviceFlash[pointer + 9]),
-				Offset = pointer + 2
+				StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3]),
+				StateWordOffset = pointer + 2,
+				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 8], DeviceFlash[pointer + 9]),
+				RawParametersOffset = pointer + 8
 			};
 			device.DriverUID = device.Driver.UID;
 			Device groupDevice;
-			TraceHelper.TraceBytes(device.InnerDeviceParameters, device.PresentationAddressAndName);
+			TraceHelper.TraceBytes(device.StateWordBytes, device.PresentationAddressAndName);
 			var zoneNo = BytesHelper.ExtractShort(DeviceFlash, pointer + 5);
 			var tableDynamicSize = DeviceFlash[pointer + 7];
 			if (zoneNo != 0)

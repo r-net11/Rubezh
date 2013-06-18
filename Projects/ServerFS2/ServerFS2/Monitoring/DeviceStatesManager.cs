@@ -51,7 +51,7 @@ namespace ServerFS2.Monitoring
 			{
 				if (device.ParentPanel != null && device.ParentPanel.IntAddress == 15)
 				{
-					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 2);
+					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
 					if (stateBytes == null)
 					{
 						Trace.WriteLine("GetAllStates Failed " + device.DottedPresentationNameAndAddress);
@@ -79,14 +79,16 @@ namespace ServerFS2.Monitoring
 						continue;
 
 					var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
-					device.Offset = remoteDevice.Offset;
-					device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
+					device.StateWordOffset = remoteDevice.StateWordOffset;
+					device.StateWordBytes = remoteDevice.StateWordBytes;
+					device.RawParametersOffset = remoteDevice.RawParametersOffset;
+					device.RawParametersBytes = remoteDevice.RawParametersBytes;
 				}
 				foreach (var device in ConfigurationManager.Devices)
 				{
-					if (device.InnerDeviceParameters != null)
+					if (device.StateWordBytes != null)
 					{
-						ParceDeviceState(device, device.InnerDeviceParameters);
+						ParceDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
 
 
 						//foreach (var deviceDriverState in device.DeviceState.States)
@@ -116,9 +118,11 @@ namespace ServerFS2.Monitoring
 				if (device == null)
 					continue;
 
-				device.Offset = remoteDevice.Offset;
-				device.InnerDeviceParameters = remoteDevice.InnerDeviceParameters;
-				ParceDeviceState(device, device.InnerDeviceParameters, isSilent);
+				device.StateWordOffset = remoteDevice.StateWordOffset;
+				device.StateWordBytes = remoteDevice.StateWordBytes;
+				device.RawParametersOffset = remoteDevice.RawParametersOffset;
+				device.RawParametersBytes = remoteDevice.RawParametersBytes;
+				ParceDeviceState(device, device.StateWordBytes, device.RawParametersBytes, isSilent);
 			}
 		}
 
@@ -133,14 +137,16 @@ namespace ServerFS2.Monitoring
 					device.Driver.DriverType == DriverType.BUNS_2);
 		}
 
-		static void ParceDeviceState(Device device, List<byte> stateBytes, bool isSilent = false)
+		static void ParceDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
 		{
-			var bitArray = new BitArray(stateBytes.ToArray());
+			var stateWordBitArray = new BitArray(stateWordBytes.ToArray());
+			var rawParametersBytesArray = new byte[] { rawParametersBytes[1], rawParametersBytes[0] };
+			var rawParametersBitArray = new BitArray(rawParametersBytesArray);
 			//if (device.AddressOnShleif == 200)
 			{
-				Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + BytesHelper.BytesToString(stateBytes));
+				Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + BytesHelper.BytesToString(stateWordBytes) + " " + BytesHelper.BytesToString(rawParametersBytes));
 				//int index = 0;
-				//foreach (var bit in bitArray)
+				//foreach (var bit in rawParametersBitArray)
 				//{
 				//    Trace.WriteLine(index.ToString() + " " + bit.ToString());
 				//    index++;
@@ -153,30 +159,19 @@ namespace ServerFS2.Monitoring
 				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
 				{
 					var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
-					if (bitNo != -1 && bitNo < bitArray.Count)
+					if (bitNo != -1 && bitNo < stateWordBitArray.Count)
 					{
-						var hasBit = bitArray[bitNo];
-						if (hasBit)
-						{
-							if (!device.DeviceState.States.Any(x => x.DriverState.Code == metadataDeviceState.ID))
-							{
-								var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-								if (driverState != null)
-								{
-									var deviceDriverState = new DeviceDriverState()
-									{
-										DriverState = driverState,
-										Time = DateTime.Now
-									};
-									device.DeviceState.States.Add(deviceDriverState);
-								}
-							}
-						}
-						else
-						{
-							device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID);
-						}
+						var hasBit = stateWordBitArray[bitNo];
+						SetStateByMetadata(device, metadataDeviceState, hasBit);
 					}
+
+					var intBitNo = MetadataHelper.GetIntBitNo(metadataDeviceState);
+					if (intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
+					{
+						var hasBit = rawParametersBitArray[intBitNo];
+						SetStateByMetadata(device, metadataDeviceState, hasBit);
+					}
+
 				}
 			}
 
@@ -188,6 +183,30 @@ namespace ServerFS2.Monitoring
 			//}
 		}
 
+		static void SetStateByMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit)
+		{
+			if (hasBit)
+			{
+				if (!device.DeviceState.States.Any(x => x.DriverState.Code == metadataDeviceState.ID))
+				{
+					var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+					if (driverState != null)
+					{
+						var deviceDriverState = new DeviceDriverState()
+						{
+							DriverState = driverState,
+							Time = DateTime.Now
+						};
+						device.DeviceState.States.Add(deviceDriverState);
+					}
+				}
+			}
+			else
+			{
+				device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID);
+			}
+		}
+
 		public static void UpdateDeviceState(List<FS2JournalItem> journalItems)
 		{
 			// check panel status
@@ -197,9 +216,9 @@ namespace ServerFS2.Monitoring
 				if (journalItem != null && journalItem.Device != null)
 				{
 					var device = journalItem.Device;
-					var stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset, 20);
-					//stateBytes.AddRange(ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.Offset+6, 2));
-					ParceDeviceState(device, stateBytes);
+					var StateWordBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+					var RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, 2);
+					ParceDeviceState(device, StateWordBytes, RawParametersBytes);
 				}
 			}
 			//journalItem.Device.DeviceState.States = new List<DeviceDriverState>();
@@ -213,8 +232,9 @@ namespace ServerFS2.Monitoring
 			{
 				try
 				{
-					var stateBytes = ServerHelper.GetBytesFromFlashDB(panel, device.Offset, 2);
-					ParceDeviceState(device, stateBytes);
+					var StateWordBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+					var RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, 2);
+					ParceDeviceState(device, StateWordBytes, RawParametersBytes);
 					device.DeviceState.OnStateChanged();
 				}
 				catch
@@ -358,9 +378,9 @@ namespace ServerFS2.Monitoring
 
 		public static void NotifyStateChanged(Device device)
 		{
-			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
+			//CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
 			device.DeviceState.OnStateChanged();
-			ZoneStateManager.ChangeOnDeviceState(device);
+			//ZoneStateManager.ChangeOnDeviceState(device);
 		}
 
 		public static void AllToInitializing()

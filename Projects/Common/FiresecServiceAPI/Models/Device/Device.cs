@@ -28,7 +28,8 @@ namespace FiresecAPI.Models
 			ZonesInLogic = new List<Zone>();
 			DependentDevices = new List<Device>();
 			ZonesConfiguration = new DeviceConfiguration();
-			InnerDeviceParameters = new List<byte>();
+			StateWordBytes = new List<byte>();
+			RawParametersBytes = new List<byte>();
 		}
         
         public bool IsUsb
@@ -61,7 +62,8 @@ namespace FiresecAPI.Models
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
 		public BinaryDevice BinaryDevice { get; set; }
-		public List<byte> InnerDeviceParameters { get; set; }
+		public List<byte> StateWordBytes { get; set; }
+		public List<byte> RawParametersBytes { get; set; }
 
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic
@@ -165,7 +167,10 @@ namespace FiresecAPI.Models
 		public bool AllowMultipleVizualization { get; set; }
 
 		[DataMember]
-		public int Offset { get; set; }
+		public int StateWordOffset { get; set; }
+
+		[DataMember]
+		public int RawParametersOffset { get; set; }
 
 		public bool CanBeNotUsed
 		{
