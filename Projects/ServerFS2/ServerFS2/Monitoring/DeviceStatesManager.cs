@@ -142,15 +142,15 @@ namespace ServerFS2.Monitoring
 			var stateWordBitArray = new BitArray(stateWordBytes.ToArray());
 			var rawParametersBytesArray = new byte[] { rawParametersBytes[1], rawParametersBytes[0] };
 			var rawParametersBitArray = new BitArray(rawParametersBytesArray);
-			//if (device.AddressOnShleif == 200)
+			if (device.AddressOnShleif == 56)
 			{
 				Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + BytesHelper.BytesToString(stateWordBytes) + " " + BytesHelper.BytesToString(rawParametersBytes));
-				//int index = 0;
-				//foreach (var bit in rawParametersBitArray)
-				//{
-				//    Trace.WriteLine(index.ToString() + " " + bit.ToString());
-				//    index++;
-				//}
+				int index = 0;
+				foreach (var bit in rawParametersBitArray)
+				{
+					Trace.WriteLine(index.ToString() + " " + bit.ToString());
+					index++;
+				}
 			}
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
@@ -370,37 +370,43 @@ namespace ServerFS2.Monitoring
 		{
 			device.DeviceState.States = states;
 			device.DeviceState.SerializableStates = device.DeviceState.States;
+			ZoneStateManager.ChangeOnDeviceState(device, isSilent);
 			if (!isSilent)
 			{
-				NotifyStateChanged(device);
+				CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
+				device.DeviceState.OnStateChanged();
 			}
-		}
-
-		public static void NotifyStateChanged(Device device)
-		{
-			//CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
-			device.DeviceState.OnStateChanged();
-			//ZoneStateManager.ChangeOnDeviceState(device);
 		}
 
 		public static void AllToInitializing()
 		{
+			var changedDeviceStates = new List<DeviceState>();
+			var changedZoneStates = new List<ZoneState>();
 			ConfigurationManager.DeviceConfiguration.Devices.ForEach(x =>
 			{
 				var state = x.Driver.States.FirstOrDefault(y => y.Name == "Устройство инициализируется");
-				x.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = state, Time = DateTime.Now } };
-				NotifyStateChanged(x);
+				var deviceDriverState = new DeviceDriverState { DriverState = state, Time = DateTime.Now };
+				x.DeviceState.States = new List<DeviceDriverState> { deviceDriverState };
+				changedDeviceStates.Add(x.DeviceState);
+				changedZoneStates.AddRange(ZoneStateManager.GetChangedZoneStates(x));
+				x.DeviceState.OnStateChanged();
 			});
+			CallbackManager.Add(new FS2Callbac() {ChangedDeviceStates = changedDeviceStates, ChangedZoneStates = changedZoneStates });
 		}
 
 		public static void AllFromInitializing()
 		{
+			var changedDeviceStates = new List<DeviceState>();
+			var changedZoneStates = new List<ZoneState>();
 			ConfigurationManager.DeviceConfiguration.Devices.ForEach(x =>
 			{
 				var state = x.Driver.States.FirstOrDefault(y => y.Name == "Устройство инициализируется");
 				x.DeviceState.States.RemoveAll(y => y.DriverState == state);
-				NotifyStateChanged(x);
+				changedDeviceStates.Add(x.DeviceState);
+				changedZoneStates.AddRange(ZoneStateManager.GetChangedZoneStates(x));
+				x.DeviceState.OnStateChanged();
 			});
+			CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = changedDeviceStates, ChangedZoneStates = changedZoneStates });
 		}
 	}
 }
