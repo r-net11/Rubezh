@@ -30,7 +30,7 @@ namespace ServerFS2
 			{
 				var response = USBManager.SendCodeToPanel(device, 0x01, 0x20, 0x02, BitConverter.GetBytes(i).Reverse());
 				if (response == null) continue;
-				var journalItem = ParseJournal(device, response);
+				var journalItem = ParseJournal(device, response.Bytes);
 				journalItems.Add(journalItem);
 			}
 			journalItems = journalItems.OrderByDescending(x => x.IntDate).ToList();
@@ -48,7 +48,7 @@ namespace ServerFS2
 			try
 			{
 				var lastindex = USBManager.SendCodeToPanel(device, 0x01, 0x21, 0x02);
-				return BytesHelper.ExtractInt(lastindex, 0);
+				return BytesHelper.ExtractInt(lastindex.Bytes, 0);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -62,7 +62,7 @@ namespace ServerFS2
 			try
 			{
 				var response = USBManager.SendCodeToPanel(device, 0x01, 0x24, 0x01);
-				return BytesHelper.ExtractShort(response, 0);
+				return BytesHelper.ExtractShort(response.Bytes, 0);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -83,7 +83,7 @@ namespace ServerFS2
 			try
 			{
 				var response = USBManager.SendCodeToPanel(device, 0x01, 0x21, 0x00);
-				return BytesHelper.ExtractInt(response, 0);
+				return BytesHelper.ExtractInt(response.Bytes, 0);
 			}
 			catch (NullReferenceException ex)
 			{
@@ -107,9 +107,9 @@ namespace ServerFS2
 			for (int i = firstIndex; i <= lastIndex; i++)
 			{
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала", (i - firstIndex) * 100 / (lastIndex - firstIndex)));
-				var result = USBManager.SendCodeToPanel(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
-				if (result == null) continue;
-				var journalItem = ParseJournal(device, result);
+				var response = USBManager.SendCodeToPanel(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
+				if (response == null) continue;
+				var journalItem = ParseJournal(device, response.Bytes);
 				if (journalItem != null)
 				{
 					journalItems.Add(journalItem);

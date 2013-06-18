@@ -18,30 +18,65 @@ namespace ServerFS2
 
 		public static List<UsbProcessorInfo> UsbProcessorInfos { get; set; }
 
-		static USBManager()
-		{
-			Initialize();
-		}
-
-		public static List<byte> SendCodeToPanel(Device device, params object[] value)
+		public static Response SendCodeToPanel(Device device, params object[] value)
 		{
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
+				var outputFunctionCode = Convert.ToByte(value[0]);
 				var bytes = CreateBytesArray(value);
-				bytes.InsertRange(0, usbProcessor.IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
-				var responce = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
-				if (responce != null)
+				bytes.InsertRange(0, usbProcessor.WithoutId ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
+				if (response != null)
 				{
-					var data = responce.Bytes;
-					data.RemoveRange(0, usbProcessor.IsUsbDevice ? 2 : 7);
-					return data;
+					var inputBytes = response.Bytes.ToList();
+					if (!usbProcessor.WithoutId)
+					{
+						response.Bytes.RemoveRange(0, 4);
+					}
+					if (usbProcessor.WithoutId)
+					{
+						var usbRoot = response.Bytes[0];
+						response.Bytes.RemoveRange(0, 1);
+					}
+					else
+					{
+						var usbRoot = response.Bytes[0];
+						var panelRoot = response.Bytes[1];
+						response.Bytes.RemoveRange(0, 2);
+					}
+
+					if (response.Bytes.Count < 1)
+					{
+						return response.SetError("Недостаточное количество байт в ответе");
+					}
+					var functionCode = response.Bytes[0];
+					if ((functionCode & 128) == 128)
+					{
+						var errorName = "В ответе содержится код ошибки";
+						if (response.Bytes.Count >= 2)
+						{
+							errorName = USBExceptionHelper.GetError(response.Bytes[1]);
+						}
+						return response.SetError(errorName);
+					}
+					if ((functionCode & 64) != 64)
+					{
+						return response.SetError("В пришедшем ответе не содержится маркер ответа");
+					}
+					if ((functionCode & 63) != outputFunctionCode)
+					{
+						return response.SetError("В пришедшем ответе не совпадает код функции");
+					}
+
+					response.Bytes.RemoveRange(0, 1);
+					return response;
 				}
-				return null;
+				return new Response("Не получен ответ в заданное время");
 			}
 			else
 			{
-				return null;
+				return new Response("USB устройство отсутствует");
 			}
 		}
 
@@ -51,9 +86,9 @@ namespace ServerFS2
 			if (usbProcessor != null)
 			{
 				var bytes = CreateBytesArray(value);
-				bytes.InsertRange(0, usbProcessor.IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+				bytes.InsertRange(0, usbProcessor.WithoutId ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
 				var requestNo = NextRequestNo;
-				usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
+				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
 				return requestNo;
 			}
 			else
@@ -67,7 +102,7 @@ namespace ServerFS2
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
-				return usbProcessor.IsUsbDevice;
+				return usbProcessor.WithoutId;
 			}
 			return false;
 		}
@@ -142,39 +177,70 @@ namespace ServerFS2
 				}
 			}
 
-			foreach (var usbRunnerDetector in UsbProcessorInfos)
+			foreach (var usbProcessorInfo in UsbProcessorInfos)
 			{
-				usbRunnerDetector.Initialize();
-				Trace.WriteLine(usbRunnerDetector.IsUSBMS + " " + usbRunnerDetector.IsUSBPanel + " " +
-					usbRunnerDetector.USBDriverType + " " + usbRunnerDetector.SerialNo);
+				usbProcessorInfo.Initialize();
+				Trace.WriteLine(usbProcessorInfo.IsUSBMS + " " + usbProcessorInfo.IsUSBPanel + " " +
+					usbProcessorInfo.USBDriverType + " " + usbProcessorInfo.SerialNo);
 			}
 
 			foreach (var device in usbDevices)
 			{
 				var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
-				var usbRunnerDetector = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
-				if (usbRunnerDetector != null)
+				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
+				if (usbProcessorInfo != null)
 				{
-					usbRunnerDetector.Device = device;
+					usbProcessorInfo.Device = device;
 				}
 
 				var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
 				if (serialNoProperty != null)
 				{
-					usbRunnerDetector = UsbProcessorInfos.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
-					if (usbRunnerDetector != null)
+					usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
+					if (usbProcessorInfo != null)
 					{
-						usbRunnerDetector.Device = device;
+						usbProcessorInfo.Device = device;
 					}
 				}
 			}
 
-			foreach (var usbRunnerDetector in UsbProcessorInfos)
+			foreach (var usbProcessorInfo in UsbProcessorInfos)
 			{
-				if (usbRunnerDetector.Device == null)
-					usbRunnerDetector.UsbProcessor.Close();
+				if (usbProcessorInfo.Device == null)
+					usbProcessorInfo.UsbProcessor.Dispose();
 			}
 			UsbProcessorInfos.RemoveAll(x => x.Device == null);
+
+			foreach (var usbProcessorInfo in UsbProcessorInfos)
+			{
+				switch (usbProcessorInfo.Device.Driver.DriverType)
+				{
+					case DriverType.MS_1:
+					case DriverType.MS_2:
+						usbProcessorInfo.WriteConfigToMS();
+						break;
+				}
+			}
+
+			foreach (var usbProcessorInfo in UsbProcessorInfos)
+			{
+				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
+			}
+		}
+
+		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)
+		{
+			var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.UsbProcessor == usbProcessor);
+			if (usbProcessorInfo != null)
+			{
+				UsbProcessorInfos.Remove(usbProcessorInfo);
+			}
+		}
+
+		public static void Dispose()
+		{
+			UsbProcessorInfos.ForEach(x=>x.UsbProcessor.Dispose());
+			UsbProcessorInfos.Clear();
 		}
 	}
 }

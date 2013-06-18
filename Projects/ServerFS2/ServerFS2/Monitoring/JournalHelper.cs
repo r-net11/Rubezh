@@ -15,30 +15,26 @@ namespace ServerFS2.Monitoring
 		{
 			for (int j = 0; j < 15; j++)
 			{
-				var fsJournalItem = SendBytesAndParse(device, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
-				if (fsJournalItem != null)
-					return fsJournalItem;
+				var response = USBManager.SendCodeToPanel(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
+				if (response != null)
+				{
+					lock (Locker)
+					{
+						var journalParser = new JournalParser();
+						try
+						{
+							var fsJournalItem = journalParser.Parce(device, response.Bytes);
+							if (fsJournalItem != null)
+								return fsJournalItem;
+						}
+						catch
+						{
+							return null;
+						}
+					}
+				}
 			}
 			return null;
-		}
-
-		static FS2JournalItem SendBytesAndParse(Device device, params object[] value)
-		{
-			var response = USBManager.SendCodeToPanel(device, 0x01, value);
-			if (response == null)
-				return null;
-			lock (Locker)
-			{
-				var journalParser = new JournalParser();
-				try
-				{
-					return journalParser.Parce(device, response);
-				}
-				catch
-				{
-					return null;
-				}
-			}
 		}
 	}
 }

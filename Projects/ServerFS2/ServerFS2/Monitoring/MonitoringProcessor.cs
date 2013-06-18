@@ -97,6 +97,7 @@ namespace ServerFS2.Monitoring
 
 		static void UsbRunner_NewResponse(Response response)
 		{
+			Trace.WriteLine("response.Id=" + response.Id);
 			lock (MonitoringDevice.Locker)
 			{
 				foreach (var monitoringDevice in MonitoringDevices.ToList())

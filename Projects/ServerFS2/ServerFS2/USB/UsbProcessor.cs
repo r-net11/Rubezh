@@ -23,10 +23,23 @@ namespace ServerFS2
 			if (UsbHidPort.SpecifiedDevice == null)
 				return false;
 			UsbHidPort.SpecifiedDevice.DataRecieved += new DataRecievedEventHandler(OnDataRecieved);
+			UsbHidPort.SpecifiedDevice.OnDeviceRemoved += new EventHandler(UsbHidPort_OnDeviceRemoved);
 			return true;
 		}
 
-		public override void Close()
+		void UsbHidPort_OnDeviceRemoved(object sender, EventArgs e)
+		{
+			OnDeviceRemoved(this);
+		}
+
+		public event Action<UsbProcessor> DeviceRemoved;
+		protected void OnDeviceRemoved(UsbProcessor usbProcessor)
+		{
+			if (DeviceRemoved != null)
+				DeviceRemoved(usbProcessor);
+		}
+
+		public override void Dispose()
 		{
 			UsbHidPort.SpecifiedDevice.DataRecieved -= new DataRecievedEventHandler(OnDataRecieved);
 			UsbHidPort.SpecifiedDevice.Dispose();
@@ -35,7 +48,7 @@ namespace ServerFS2
 
 		public override bool Send(List<byte> bytes)
 		{
-			bytes.Insert(0, 0);
+			Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());
 			return true;
 		}
@@ -61,7 +74,7 @@ namespace ServerFS2
 						{
 							Bytes = bytes.ToList()
 						};
-						if (!IsUsbDevice)
+						if (!WithoutId)
 						{
 							response.Id = BytesHelper.ExtractInt(bytes.ToList(), 0);
 						}
@@ -89,9 +102,9 @@ namespace ServerFS2
 
 		void OnResponseRecieved(Response response)
 		{
-			Trace.WriteLine(BytesHelper.BytesToString(response.Bytes));
+			Trace.WriteLine("response " + BytesHelper.BytesToString(response.Bytes));
 
-			if (IsUsbDevice)
+			if (WithoutId)
 			{
 				var request = RequestCollection.GetFirst();
 				if (request != null)
@@ -126,9 +139,8 @@ namespace ServerFS2
 						usbRequestNo++;
 					}
 				}
-				_stop = false;
 				var request = new Request();
-				if (!IsUsbDevice)
+				if (!WithoutId)
 				{
 					request.Id = usbRequestNo;
 					if (usbRequestNo != -1)
@@ -141,10 +153,15 @@ namespace ServerFS2
 				if (request.Bytes.Count > 64)
 				{
 					for (int i = 0; i < request.Bytes.Count / 64; i++)
-						Send(request.Bytes.GetRange(i * 64, 64));
+					{
+						var bytesToSend = request.Bytes.GetRange(i * 64, 64);
+						bytesToSend.Insert(0, 0);
+						Send(bytesToSend);
+					}
 				}
 				else
 				{
+					request.Bytes.Insert(0, 0);
 					Send(request.Bytes);
 				}
 				if (isSyncronuos)

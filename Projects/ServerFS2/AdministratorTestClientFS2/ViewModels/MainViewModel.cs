@@ -41,39 +41,43 @@ namespace AdministratorTestClientFS2.ViewModels
 			new PropertiesViewModel(DevicesViewModel);
 		}
 
-		private List<byte> status;
+		List<byte> _status;
 		List<byte> Status
 		{
-			get { return status; }
+			get { return _status; }
 			set
 			{
-				status = value;
-				if (status != null)
+				_status = value;
+				if (_status != null)
 					StatusString = TraceHelper.TraceBytes(value);
 				else
 					StatusString = "Нет сведений о статусе прибора";
 			}
 		}
-		private string statusString;
+
+		string _statusString;
 		public string StatusString
 		{
-			get { return statusString; }
+			get { return _statusString; }
 			set
 			{
-				statusString = value;
+				_statusString = value;
 				OnPropertyChanged("StatusString");
 			}
 		}
+
+		bool _isUsbDevice;
 		public bool IsUsbDevice
 		{
-			get { return USBManager.UsbProcessorInfos.FirstOrDefault().UsbProcessor.IsUsbDevice; }
+			get { return _isUsbDevice; }
 			set
 			{
-				USBManager.UsbProcessorInfos.FirstOrDefault().UsbProcessor.IsUsbDevice = value;
+				_isUsbDevice = value;
 				OnPropertyChanged("IsUsbDevice");
 			}
 		}
-		private string _textBoxRequest;
+
+		string _textBoxRequest;
 		public string TextBoxRequest
 		{
 			get { return _textBoxRequest; }
@@ -84,7 +88,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			}
 		}
 
-		private string _textBoxResponse;
+		string _textBoxResponse;
 		public string TextBoxResponse
 		{
 			get { return _textBoxResponse; }
@@ -99,8 +103,8 @@ namespace AdministratorTestClientFS2.ViewModels
 		private void OnSendRequest()
 		{
 			var bytes = TextBoxRequest.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
-			var inputBytes = USBManager.SendCodeToPanel(DevicesViewModel.SelectedDevice.Device, bytes);
-			TextBoxResponse += BytesHelper.BytesToString(inputBytes);
+			var response = USBManager.SendCodeToPanel(DevicesViewModel.SelectedDevice.Device, bytes);
+			TextBoxResponse += BytesHelper.BytesToString(response.Bytes);
 		}
 
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
@@ -117,7 +121,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand ReadJournalCommand { get; private set; }
 		private void OnReadJournal()
 		{
-			var journalItems = ReadJournalOperationHelper.GetJournalItems(DevicesViewModel.SelectedDevice.Device);
+			var journalItems = MainManager.DeviceReadEventLog(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 			var journalViewModel = new JournalViewModel(journalItems);
 			DialogService.ShowModalWindow(journalViewModel);
 		}
@@ -132,7 +136,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			var remoteDeviceConfiguration = new DeviceConfiguration();
 			_progressService.Run(() =>
 			{
-				remoteDeviceConfiguration = GetConfigurationOperationHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
+				remoteDeviceConfiguration = MainManager.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 			},
 			() => DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration)), "Считывание конфигурации с устройства");
 
@@ -144,7 +148,8 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand GetInformationCommand { get; private set; }
 		private void OnGetInformation()
 		{
-
+			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			MessageBoxService.Show(result);
 		}
 		bool CanGetInformation()
 		{
@@ -154,7 +159,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SynchronizeTimeCommand { get; private set; }
 		private void OnSynchronizeTime()
 		{
-			ServerHelper.SynchronizeTime(DevicesViewModel.SelectedDevice.Device);
+			MainManager.DeviceDatetimeSync(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 		}
 		bool CanSynchronizeTime()
 		{
@@ -164,7 +169,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SetPasswordCommand { get; private set; }
 		private void OnSetPassword()
 		{
-
+			MainManager.DeviceSetPassword(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, DevicePasswordType.Administrator, "123");
 		}
 		bool CanSetPassword()
 		{
@@ -204,12 +209,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		private void OnWriteConfiguration()
 		{
-			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Create();
-			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.IntAddress == DevicesViewModel.SelectedDevice.Device.IntAddress);
-			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
-			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
-			SetConfigurationOperationHelper.SetDeviceConfig(DevicesViewModel.SelectedDevice.Device, bytes1, bytes2);
+			MainManager.DeviceWriteConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 
 		}
 		bool CanWriteConfiguration()

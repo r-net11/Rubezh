@@ -14,11 +14,11 @@ namespace ServerFS2
 			var properties = RemoveDublicateProperties(allAUProperties);
 			foreach (var property in properties)
 			{
-				var result = USBManager.SendCodeToPanel(device.Parent, 0x02, 0x53, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
+				var response = USBManager.SendCodeToPanel(device.Parent, 0x02, 0x53, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
 				device.AddressOnShleif, 0x00, property.No, 0x00, 0x00, device.ShleifNo - 1);
-				foreach (var prop in allAUProperties.FindAll(x => x.No == result[4]))
+				foreach (var driverProperty in allAUProperties.FindAll(x => x.No == response.Bytes[4]))
 				{
-					var value = ParametersHelper.CreateProperty(result[5] * 256 + result[6], prop);
+					var value = ParametersHelper.CreateProperty(response.Bytes[5] * 256 + response.Bytes[6], driverProperty);
 					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == value.Name);
 					deviceProperty.Value = value.Value;
 				}

@@ -50,14 +50,14 @@ namespace ServerFS2
 			var result = new List<byte>();
 			var response1 = USBManager.SendCodeToPanel(device, 0x01, 0x10);
 			var response2 = USBManager.SendCodeToPanel(device, 0x01, 0x0F);
-			result.AddRange(response1);
-			result.AddRange(response2);
+			result.AddRange(response1.Bytes);
+			result.AddRange(response2.Bytes);
 			return result;
 		}
 
 		public static bool PingDevice(Device device)
 		{
-			return USBManager.SendCodeToPanel(device, 0x3C)[6] == 0x7C;
+			return USBManager.SendCodeToPanel(device, 0x3C).Bytes[6] == 0x7C;
 		}
 
 		public static void ExecuteCommand(Device device, string commandName)

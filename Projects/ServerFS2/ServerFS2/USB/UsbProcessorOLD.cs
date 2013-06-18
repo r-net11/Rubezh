@@ -39,7 +39,7 @@ namespace ServerFS2
 			return true;
 		}
 
-		public override void Close()
+		public override void Dispose()
 		{
 			if (Reader != null)
 			{
@@ -94,7 +94,7 @@ namespace ServerFS2
 						{
 							Bytes = bytes.ToList()
 						};
-						if (!IsUsbDevice)
+						if (!WithoutId)
 						{
 							response.Id = BytesHelper.ExtractInt(bytes.ToList(), 0);
 						}
@@ -123,7 +123,7 @@ namespace ServerFS2
 		void OnResponseRecieved(Response response)
 		{
 			Request request;
-			if (IsUsbDevice)
+			if (WithoutId)
 			{
 				request = RequestCollection.GetFirst();
 				if (request != null)
@@ -156,9 +156,8 @@ namespace ServerFS2
 				{
 					usbRequestNo++;
 				}
-				_stop = false;
 				var request = new Request();
-				if (!IsUsbDevice)
+				if (!WithoutId)
 				{
 					request.Id = usbRequestNo;
 					if (usbRequestNo != -1)

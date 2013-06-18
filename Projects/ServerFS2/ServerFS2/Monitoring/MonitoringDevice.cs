@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Journal;
 using ServerFS2.Service;
+using System.Diagnostics;
 
 
 namespace ServerFS2.Monitoring
@@ -222,22 +223,19 @@ namespace ServerFS2.Monitoring
 			IsInitialized = true;
 		}
 
-		void SendRequest(Request request)
-		{
-			lock (Locker)
-			{
-				Requests.Add(request);
-			}
-			request.Id = USBManager.SendCodeToPanelAsync(Panel, 0x01, request.Bytes);
-			Thread.Sleep(betweenDevicesSpan);
-		}
-
 		public void RequestLastIndex()
 		{
 			var request = new Request(RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
 			CanRequestLastIndex = false;
 			LastIndexDateTime = DateTime.Now;
-			SendRequest(request);
+
+			lock (Locker)
+			{
+				Requests.Add(request);
+			}
+			request.Id = USBManager.SendCodeToPanelAsync(Panel, 0x01, request.Bytes);
+			Trace.WriteLine("request.Id=" + request.Id);
+			Thread.Sleep(betweenDevicesSpan);
 		}
 
 		public void LastIndexReceived(Response response)

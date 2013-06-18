@@ -16,6 +16,7 @@ namespace AdministratorTestClientFS2
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
 			ConfigurationManager.Load();
+			USBManager.Initialize();
 			var mainView = new MainView();
 			var mainViewModel = new MainViewModel();
 			mainView.DataContext = mainViewModel;

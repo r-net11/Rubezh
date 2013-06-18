@@ -23,8 +23,9 @@ namespace ServerFS2
 		public static List<byte> GetRomDBBytes(Device device)
 		{
 			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
-			var result = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
-			var romDBLastIndex = BytesHelper.ExtractTriple(result, 9);
+			var response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
+			var result = response.Bytes;
+			var romDBLastIndex = BytesHelper.ExtractTriple(response.Bytes, 9);
 
 			var numberOfPackets = romDBLastIndex - RomDBFirstIndex / packetLenght;
 
@@ -33,8 +34,8 @@ namespace ServerFS2
 				var packetNo = (i - RomDBFirstIndex) / packetLenght;
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, romDBLastIndex - i);
-				var request = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
-				result.AddRange(request);
+				response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
+				result.AddRange(response.Bytes);
 			}
 			return result;
 		}
@@ -51,8 +52,8 @@ namespace ServerFS2
 				var packetNo = (i - FlashDBLastIndex) / packetLenght;
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
-				var request = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
-				result.AddRange(request);
+				var response = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
+				result.AddRange(response.Bytes);
 			}
 			var nullbytes = new List<byte>();
 			for (var i = 0; i < 0x100; i++)
@@ -64,20 +65,20 @@ namespace ServerFS2
 		public static int GetRomFirstIndex(Device device)
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
-			var result = USBManager.SendCodeToPanel(device, 0x01, 0x57);
-			return BytesHelper.ExtractTriple(result, 1);
+			var response = USBManager.SendCodeToPanel(device, 0x01, 0x57);
+			return BytesHelper.ExtractTriple(response.Bytes, 1);
 		}
 
 		public static int GetFlashLastIndex(Device device)
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
-			var result = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
-			return BytesHelper.ExtractTriple(result, 6);
+			var response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
+			return BytesHelper.ExtractTriple(response.Bytes, 6);
 		}
 
 		public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
 		{
-			return USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+			return USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1).Bytes;
 		}
     }
 }

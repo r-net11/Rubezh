@@ -102,6 +102,7 @@
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
+    <Compile Include="Helpers\DeviceCustomFunctionListHelper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
     <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
@@ -109,6 +110,8 @@
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\ServerHelper.Monitoring.cs" />
     <Compile Include="Helpers\TraceHelper.cs" />
+    <Compile Include="Helpers\USBConfigHelper.cs" />
+    <Compile Include="Helpers\USBExceptionHelper.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Journal\BitsExtracter.cs" />
     <Compile Include="Journal\DatabaseHelper.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />
+    <Compile Include="Operations\ConfigurationWriterOperationHelper.cs" />
     <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />

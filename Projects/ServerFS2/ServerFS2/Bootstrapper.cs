@@ -22,6 +22,7 @@ namespace ServerFS2
 			try
 			{
 				ConfigurationManager.Load();
+				USBManager.Initialize();
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

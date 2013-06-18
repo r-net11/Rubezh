@@ -6,6 +6,7 @@ using FS2Api;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Monitoring;
 using ServerFS2.Service;
+using Common;
 
 namespace ServerFS2.Processor
 {
@@ -16,6 +17,8 @@ namespace ServerFS2.Processor
 
 		public static void StartMonitoring()
 		{
+			USBManager.Initialize();
+			MonitoringDevice.NewJournalItem -= new Action<FS2JournalItem>(OnNewItem);
 			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
 			MonitoringProcessor.StartMonitoring();
 		}
@@ -29,6 +32,7 @@ namespace ServerFS2.Processor
 		public static void StopMonitoring()
 		{
 			MonitoringProcessor.StopMonitoring();
+			USBManager.Dispose();
 		}
 
 		public static void SuspendMonitoring()
@@ -138,34 +142,34 @@ namespace ServerFS2.Processor
 
 		public static void DeviceWriteConfig(Device device, bool isUSB)
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
-			var systemDatabaseCreator = new SystemDatabaseCreator();
-			systemDatabaseCreator.Create();
-
-			var panelDatabase = systemDatabaseCreator.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
-			if (panelDatabase == null)
-				throw new FS2Exception("Не найдена сформированная для устройства база данных");
-
-			var parentPanel = panelDatabase.ParentPanel;
-			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
-			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
-			SetConfigurationOperationHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
+			TempConfigSafeCall((x) =>
+			{
+				ConfigurationWriterOperationHelper.Write(x);
+			}, device, isUSB);
 		}
 
 		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			TempConfigSafeCall((x) =>
+			{
+				throw new FS2Exception("Функция пока не реализована");
+			}, device, isUSB);
 		}
 
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
-			ServerHelper.SynchronizeTime(device);
+			TempConfigSafeCall((x) =>
+			{
+				ServerHelper.SynchronizeTime(x);
+			}, device, isUSB);
 		}
 
 		public static string DeviceGetInformation(Device device, bool isUSB)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			return TempConfigSafeCall<string>((x) =>
+			{
+				throw new FS2Exception("Функция пока не реализована");
+			}, device, isUSB);
 		}
 
 		public static List<string> DeviceGetSerialList(Device device)
@@ -175,22 +179,34 @@ namespace ServerFS2.Processor
 
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)
 		{
-			return FirmwareUpdateOperationHelper.Verify(device, isUSB, fileName);
+			return TempConfigSafeCall<string>((x) =>
+			{
+				return FirmwareUpdateOperationHelper.Verify(device, isUSB, fileName);
+			}, device, isUSB);
 		}
 
 		public static void DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
 		{
-			FirmwareUpdateOperationHelper.Update(device, isUSB, fileName);
+			TempConfigSafeCall((x) =>
+			{
+				FirmwareUpdateOperationHelper.Update(device, isUSB, fileName);
+			}, device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceReadConfig(Device device, bool isUSB)
 		{
-			return GetConfigurationOperationHelper.GetDeviceConfig(device);
+			return TempConfigSafeCall<DeviceConfiguration>((x) =>
+			{
+				return GetConfigurationOperationHelper.GetDeviceConfig(x);
+			}, device, isUSB);
 		}
 
 		public static List<FS2JournalItem> DeviceReadEventLog(Device device, bool isUSB)
 		{
-			return ReadJournalOperationHelper.GetJournalItems(device);
+			return TempConfigSafeCall<List<FS2JournalItem>>((x) =>
+			{
+				return ReadJournalOperationHelper.GetJournalItems(x);
+			}, device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
@@ -205,56 +221,15 @@ namespace ServerFS2.Processor
 
 		public static List<DeviceCustomFunction> DeviceCustomFunctionList(DriverType driverType)
 		{
-			switch (driverType)
-			{
-				case DriverType.Rubezh_2AM:
-				case DriverType.USB_Rubezh_2AM:
-					return new List<DeviceCustomFunction>()
-					{
-						new DeviceCustomFunction()
-						{
-							Code = "Set_BlindMode",
-							Name = "Установить режим \"глухой панели\"",
-							Description = "Установить режим \"глухой панели\"",
-						},
-						new DeviceCustomFunction()
-						{
-							Code = "Reset_BlindMode",
-							Name = "Снять режим \"глухой панели\"",
-							Description = "Снять режим \"глухой панели\"",
-						}
-					};
-				case DriverType.IndicationBlock:
-				case DriverType.PDU:
-				case DriverType.PDU_PT:
-					return new List<DeviceCustomFunction>()
-					{
-						new DeviceCustomFunction()
-						{
-							Code = "Touch_SetMaster",
-							Name = "Записать мастер-ключ",
-							Description = "Записать мастер-ключ TouchMemory",
-						},
-						new DeviceCustomFunction()
-						{
-							Code = "Touch_ClearMaster",
-							Name = "Стереть пользовательские ключи",
-							Description = "Стереть пользовательские ключи TouchMemory",
-						},
-						new DeviceCustomFunction()
-						{
-							Code = "Touch_ClearAll",
-							Name = "Стереть все ключи",
-							Description = "Стереть все ключи TouchMemory",
-						}
-					};
-			}
-			return new List<DeviceCustomFunction>();
+			return DeviceCustomFunctionListHelper.GetDeviceCustomFunctionList(driverType);
 		}
 
 		public static void DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			TempConfigSafeCall((x) =>
+			{
+				throw new FS2Exception("Функция пока не реализована");
+			}, device, isUSB);
 		}
 
 		public static string DeviceGetGuardUsersList(Device device)
@@ -280,6 +255,57 @@ namespace ServerFS2.Processor
 		public static List<Property> GetConfigurationParameters(Device device)
 		{
 			throw new FS2Exception("Функция пока не реализована");
+		}
+		#endregion
+
+		#region Helpers
+		static T TempConfigSafeCall<T>(Func<Device, T> func, Device device, bool isUSB)
+		{
+			try
+			{
+				if (isUSB)
+				{
+					device = USBConfigHelper.SetTempDeviceConfiguration(device);
+				}
+				var result = func(device);
+				return result;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.TempConfigSafeCall Func");
+				throw;
+			}
+			finally
+			{
+				if (isUSB)
+				{
+					USBConfigHelper.SetCurrentDeviceConfiguration();
+				}			
+			}
+		}
+
+		static void TempConfigSafeCall(Action<Device> action, Device device, bool isUSB)
+		{
+			try
+			{
+				if (isUSB)
+				{
+					device = USBConfigHelper.SetTempDeviceConfiguration(device);
+				}
+				action(device);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.TempConfigSafeCall Action");
+				throw;
+			}
+			finally
+			{
+				if (isUSB)
+				{
+					USBConfigHelper.SetCurrentDeviceConfiguration();
+				}
+			}
 		}
 		#endregion
 	}

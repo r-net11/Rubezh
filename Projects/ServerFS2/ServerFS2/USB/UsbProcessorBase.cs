@@ -7,19 +7,18 @@ namespace ServerFS2
 {
 	public abstract class UsbProcessorBase
 	{
-		protected bool _stop = true;
 		protected List<byte> _result = new List<byte>();
 		protected readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		protected readonly AutoResetEvent AautoWaitEvent = new AutoResetEvent(false);
 		protected List<Response> Responses = new List<Response>();
 		protected List<byte> LocalResult = new List<byte>();
 		protected bool IsMs { get; set; }
-		public bool IsUsbDevice { get; set; }
+		public bool WithoutId { get; set; }
 		protected bool IsExtendedMode { get; set; }
 		protected RequestCollection RequestCollection = new RequestCollection();
 
 		public abstract bool Open();
-		public abstract void Close();
+		public abstract void Dispose();
 		public abstract bool Send(List<byte> data);
 		public abstract Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15);
 
