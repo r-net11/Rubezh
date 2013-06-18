@@ -130,7 +130,7 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.DeviceGetSerialList(deviceUID); }, "DeviceGetSerialList");
 		}
 
-		public OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName)
+		public OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName)
 		{
 			return SafeOperationCall(() => { return FS2Contract.DeviceUpdateFirmware(deviceUID, isUSB, fileName); }, "DeviceUpdateFirmware");
 		}

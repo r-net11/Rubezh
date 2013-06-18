@@ -14,35 +14,6 @@ namespace ServerFS2
 	{
 		static List<byte> _crc;
 
-		public static List<byte> GetFirmwhareBytes(Device device)
-		{
-			var firmwhareFileName = AppDataFolderHelper.GetServerAppDataPath("frm.zip");
-			var folderName = AppDataFolderHelper.GetFolder("Server");
-			var configFileName = Path.Combine(folderName, "frm.zip");
-			var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-			var fileInfo = new FileInfo(configFileName);
-			var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
-			if (Directory.Exists(unzipFolderPath))
-				Directory.Delete(unzipFolderPath, true);
-			zipFile.ExtractAll(unzipFolderPath);
-
-			var fileName = device.Driver.ShortName + ".hex";
-			var configurationFileName = Path.Combine(unzipFolderPath, fileName);
-			var strings = File.ReadAllLines(configurationFileName).ToList();
-			strings.RemoveAt(0);
-			strings.RemoveAt(strings.Count - 1);
-			var bytes = new List<byte>();
-			foreach (var str in strings)
-			{
-				var count = Convert.ToInt32(str.Substring(1, 2), 16);
-				for (var i = 9; i < count * 2 + 9; i = i + 2)
-				{
-					bytes.Add(Convert.ToByte(str.Substring(i, 2), 16));
-				}
-			}
-			return bytes;
-		}
-
 		static void SetFlashConfig(Device device, List<byte> deviceFlash)
 		{
 			deviceFlash.RemoveRange(0, 0x100);
@@ -55,7 +26,6 @@ namespace ServerFS2
 
 		private static void SetRomConfig(Device device, List<byte> deviceRom, int begin)
 		{
-			List<byte> bytes;
 			for (int i = 0; i < deviceRom.Count; i = i + 0x100)
 			{
 				USBManager.SendCodeToPanel(device, 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
@@ -75,8 +45,11 @@ namespace ServerFS2
 			var delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x01)[0]);
 			Thread.Sleep(delay);
 			ConfirmationLongTermOperation(device);
-			var firmwhareBytes = GetFirmwhareBytes(device);
-			SetRomConfig(device, firmwhareBytes, 0x40000000);
+
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
+			SetRomConfig(device, hexInfo.Bytes, hexInfo.Offset);
+
 			delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x04)[0]);
 			ConfirmationLongTermOperation(device);
 			ClearSector(device);

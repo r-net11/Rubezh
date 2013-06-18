@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
 		static bool IsUsb;
 		static string FileName;
 		static OperationResult<string> OperationResult_1;
-		static OperationResult<string> OperationResult_2;
+		static OperationResult OperationResult_2;
 
 		public static void Run(Device device, bool isUsb)
 		{
@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
 			IsUsb = isUsb;
 
 			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
+			openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*";
 
 			if (openFileDialog.ShowDialog() == true)
 			{
@@ -65,9 +65,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.ShowError(OperationResult_2.Error, "Ошибка при выполнении операции");
 				return;
 			}
-			if (string.IsNullOrEmpty(OperationResult_2.Result))
-				OperationResult_2.Result = "Операция завершилась успешно";
-			MessageBoxService.Show(OperationResult_2.Result);
+			MessageBoxService.Show("Операция завершилась успешно");
 		}
 	}
 }

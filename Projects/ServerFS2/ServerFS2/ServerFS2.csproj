@@ -131,6 +131,7 @@
     <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />
+    <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />
