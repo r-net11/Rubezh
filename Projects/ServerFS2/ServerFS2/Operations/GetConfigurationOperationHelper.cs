@@ -1614,16 +1614,20 @@ namespace ServerFS2
 			List<byte> data;
 			if(device.Driver.Category == DeviceCategoryType.Sensor)
 			{
-				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.StateWordOffset, 9);
+				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.StateWordOffset, 11);
 				device.StateWordBytes = data.GetRange(0, 2);
-				if (device.Driver.DriverType == DriverType.SmokeDetector)
-					device.DeviceState.Dustiness = (float)data[8]/100;
+				if ((device.Driver.DriverType == DriverType.SmokeDetector) || (device.Driver.DriverType == DriverType.RadioSmokeDetector))
+				{
+					device.DeviceState.Dustiness = (float) data[8]/100;
+					device.DeviceState.Smokiness = USBManager.SendCodeToPanel(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+				}
 				if (device.Driver.DriverType == DriverType.HeatDetector)
 					device.DeviceState.Temperature = data[8];
 				if (device.Driver.DriverType == DriverType.CombinedDetector)
 				{
 					device.DeviceState.Dustiness = (float) data[9]/100;
 					device.DeviceState.Temperature = data[10];
+					device.DeviceState.Smokiness = USBManager.SendCodeToPanel(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 				}
 			}
 		}

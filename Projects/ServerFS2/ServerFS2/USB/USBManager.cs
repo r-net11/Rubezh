@@ -23,9 +23,9 @@ namespace ServerFS2
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
-				var outputFunctionCode = Convert.ToByte(value[0]);
 				var bytes = CreateBytesArray(value);
-				bytes.InsertRange(0, usbProcessor.WithoutId ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+				var outputFunctionCode = Convert.ToByte(bytes[0]);
+				bytes.InsertRange(0, usbProcessor.WithoutId ? new List<byte> { (byte)(0x02) } : ((device.Driver.DriverType == DriverType.MS_1) || (device.Driver.DriverType == DriverType.MS_2)) ? new List<byte> { (byte)(0x01) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
 				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
 				if (response != null)
 				{
@@ -161,6 +161,7 @@ namespace ServerFS2
 			{
 				UsbProcessorInfo usbProcessorInfo = null;
 				var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+				//var serialNoProperty = device.Properties.FirstOrDefault();
 				if (serialNoProperty != null && !string.IsNullOrEmpty(serialNoProperty.Value))
 				{
 					usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
