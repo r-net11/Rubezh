@@ -34,15 +34,15 @@ namespace ServerFS2
 
 		public static void SetDeviceConfig(Device device, List<byte> Rom, List<byte> Flash)
 		{
-			var RomDBFirstIndex = ServerHelper.GetRomFirstIndex(device);
-			var FlashDBLastIndex = ServerHelper.GetFlashLastIndex(device);
+			ServerHelper.RomDBFirstIndex = ServerHelper.GetRomFirstIndex(device);
+			ServerHelper.FlashDBLastIndex = ServerHelper.GetFlashLastIndex(device);
 			Rom = ServerHelper.GetRomDBBytes(device);
 			Flash = ServerHelper.GetFlashDBBytes(device);
 			//SendCode(CreateBytesArray(0x01, 0x02, 0x34, 0x01)); // Запись в MDS
 			//SendCode(CreateBytesArray(0x01, 0x02, 0x37)); // Информация о прошивке
 			BlockBD(device);
 			SetFlashConfig(device, Flash);
-			var delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x01).Bytes[0]);
+			var delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x01).Bytes[1]);
 			Thread.Sleep(delay);
 			ConfirmationLongTermOperation(device);
 
@@ -50,11 +50,11 @@ namespace ServerFS2
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
 			SetRomConfig(device, hexInfo.Bytes, hexInfo.Offset);
 
-			delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x04).Bytes[0]);
+			delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x04).Bytes[1]);
 			ConfirmationLongTermOperation(device);
 			ClearSector(device);
 			Thread.Sleep(delay);
-			SetRomConfig(device, Rom, RomDBFirstIndex);
+			SetRomConfig(device, Rom, ServerHelper.RomDBFirstIndex);
 			StopUpdating(device);
 			//ConfirmationLongTermOperation(device);
 		}
