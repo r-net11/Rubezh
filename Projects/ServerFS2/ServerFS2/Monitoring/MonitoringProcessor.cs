@@ -23,7 +23,7 @@ namespace ServerFS2.Monitoring
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
 				//if (device.IntAddress == 15)// || device.IntAddress == 19)
-				MonitoringDevices.Add(new MonitoringDevice(device));
+					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
@@ -72,12 +72,13 @@ namespace ServerFS2.Monitoring
 		{
 			if (!IsInitialized)
 			{
-				DeviceStatesManager.AllToInitializing();
+				DeviceStatesManager.SetInitializingStateToAll();
+				DeviceStatesManager.SetMonitoringDisabled();
 				MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
-				DeviceStatesManager.AllFromInitializing();
+				DeviceStatesManager.RemoveInitializingFromAll();
 				IsInitialized = true;
 			}
-			//MonitoringDevices.ForEach(x => x.FromInitializingState());
+			
 			while (LoopMonitoring)
 			{
 				if (DoMonitoring)
