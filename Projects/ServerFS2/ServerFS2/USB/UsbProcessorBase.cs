@@ -12,7 +12,6 @@ namespace ServerFS2
 		protected readonly AutoResetEvent AautoWaitEvent = new AutoResetEvent(false);
 		protected List<Response> Responses = new List<Response>();
 		protected List<byte> LocalResult = new List<byte>();
-		protected bool IsMs { get; set; }
 		public bool WithoutId { get; set; }
 		protected bool IsExtendedMode { get; set; }
 		protected RequestCollection RequestCollection = new RequestCollection();
