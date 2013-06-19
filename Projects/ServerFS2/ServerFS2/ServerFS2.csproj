@@ -80,6 +80,8 @@
     <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
     <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
     <Compile Include="ConfigurationWriter\SystemDatabaseCreator.cs" />
+    <Compile Include="FS2StopMonitoringException.cs" />
+    <Compile Include="FS2USBException.cs" />
     <Compile Include="Helpers\BytesHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Monitoring\CommandItem.cs" />
     <Compile Include="Monitoring\MonitoringDevice.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.cs" />
+    <Compile Include="Monitoring\MonitoringProcessor.StartStop.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />

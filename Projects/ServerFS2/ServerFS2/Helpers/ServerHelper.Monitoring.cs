@@ -42,7 +42,7 @@ namespace ServerFS2
 			}
 
 			var newStatusBytes = BitConverter.GetBytes(value);
-			USBManager.SendCodeToPanel(panelDevice, panelDevice.Parent.IntAddress + 2, panelDevice.IntAddress, 0x02, 0x10, newStatusBytes);
+			USBManager.SendCodeToPanel(panelDevice, 0x02, 0x10, newStatusBytes);
 		}
 
 		public static List<byte> GetDeviceStatus(Device device)

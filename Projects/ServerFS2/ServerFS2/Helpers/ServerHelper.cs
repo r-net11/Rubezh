@@ -5,17 +5,18 @@ using FS2Api;
 using ServerFS2.Helpers;
 using ServerFS2.Service;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.Monitoring;
 
 namespace ServerFS2
 {
-    public static partial class ServerHelper
-    {
-        public static event Action<int, int, string> Progress;
+	public static partial class ServerHelper
+	{
+		public static event Action<int, int, string> Progress;
 
-        public static void SynchronizeTime(Device device)
-        {
+		public static void SynchronizeTime(Device device)
+		{
 			USBManager.SendCodeToPanel(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
-        }
+		}
 
 		public static int RomDBFirstIndex;
 		public static int FlashDBLastIndex;
@@ -32,6 +33,7 @@ namespace ServerFS2
 			for (var i = RomDBFirstIndex + packetLenght + 1; i < romDBLastIndex; i += packetLenght + 1)
 			{
 				var packetNo = (i - RomDBFirstIndex) / packetLenght;
+				MonitoringProcessor.CheckSuspending();
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, romDBLastIndex - i);
 				response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
@@ -50,6 +52,7 @@ namespace ServerFS2
 			for (var i = 0x100; i < FlashDBLastIndex; i += packetLenght + 1)
 			{
 				var packetNo = (i - FlashDBLastIndex) / packetLenght;
+				MonitoringProcessor.CheckSuspending();
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
 				var response = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
@@ -64,6 +67,7 @@ namespace ServerFS2
 
 		public static int GetRomFirstIndex(Device device)
 		{
+			MonitoringProcessor.CheckSuspending();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
 			var response = USBManager.SendCodeToPanel(device, 0x01, 0x57);
 			return BytesHelper.ExtractTriple(response.Bytes, 1);
@@ -71,6 +75,7 @@ namespace ServerFS2
 
 		public static int GetFlashLastIndex(Device device)
 		{
+			MonitoringProcessor.CheckSuspending();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
 			var response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
 			return BytesHelper.ExtractTriple(response.Bytes, 6);
@@ -80,5 +85,5 @@ namespace ServerFS2
 		{
 			return USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1).Bytes;
 		}
-    }
+	}
 }

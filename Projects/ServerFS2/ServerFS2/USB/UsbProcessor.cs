@@ -48,7 +48,7 @@ namespace ServerFS2
 
 		public override bool Send(List<byte> bytes)
 		{
-			Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
+			//Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());
 			return true;
 		}
@@ -101,8 +101,7 @@ namespace ServerFS2
 
 		void OnResponseRecieved(Response response)
 		{
-			Trace.WriteLine("response " + BytesHelper.BytesToString(response.Bytes));
-
+			//Trace.WriteLine("response " + BytesHelper.BytesToString(response.Bytes));
 			if (WithoutId)
 			{
 				var request = RequestCollection.GetFirst();

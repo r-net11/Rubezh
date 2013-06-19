@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Models;
 using FS2Api;
+using Common;
 
 namespace ServerFS2.Monitoring
 {
@@ -14,7 +15,6 @@ namespace ServerFS2.Monitoring
 		public static bool DoMonitoring { get; set; }
 		static bool LoopMonitoring = true;
 		static bool IsInitialized = false;
-		static Thread MonitoringThread;
 		static DateTime StartTime;
 		static object locker = new object();
 
@@ -22,8 +22,7 @@ namespace ServerFS2.Monitoring
 		{
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				//if (device.IntAddress == 15)// || device.IntAddress == 19)
-					MonitoringDevices.Add(new MonitoringDevice(device));
+				MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
@@ -32,64 +31,47 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static void StartMonitoring()
-		{
-			if (!DoMonitoring)
-			{
-				StartTime = DateTime.Now;
-				DoMonitoring = true;
-				MonitoringThread = new Thread(OnRun);
-				MonitoringThread.Start();
-			}
-			StartTimeSynchronization();
-		}
-
-		public static void StopMonitoring()
-		{
-			DoMonitoring = false;
-			LoopMonitoring = false;
-
-			if (MonitoringThread != null)
-			{
-				MonitoringThread.Join(TimeSpan.FromSeconds(2));
-			}
-			MonitoringThread = null;
-
-			StopTimeSynchronization();
-		}
-
-		public static void SuspendMonitoring()
-		{
-			DoMonitoring = false;
-		}
-
-		public static void ResumeMonitoring()
-		{
-			DoMonitoring = true;
-		}
-
 		static void OnRun()
 		{
-			if (!IsInitialized)
+			try
 			{
-				DeviceStatesManager.SetInitializingStateToAll();
-				DeviceStatesManager.SetMonitoringDisabled();
-				MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
-				DeviceStatesManager.RemoveInitializingFromAll();
-				IsInitialized = true;
+				if (!IsInitialized)
+				{
+					DeviceStatesManager.SetInitializingStateToAll();
+					DeviceStatesManager.SetMonitoringDisabled();
+					MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
+					DeviceStatesManager.RemoveInitializingFromAll();
+					IsInitialized = true;
+				}
 			}
-			
+			catch (FS2StopMonitoringException)
+			{
+				return;
+			}
+
 			while (LoopMonitoring)
 			{
-				if (DoMonitoring)
+				try
 				{
-					MonitoringDevices.ForEach(x => x.CheckTasks());
+					foreach (var monitoringDevice in MonitoringDevices)
+					{
+						CheckSuspending();
+						monitoringDevice.CheckTasks();
+					}
 
-					if(IsTimeSynchronizationNeeded)
+					if (IsTimeSynchronizationNeeded)
 					{
 						MonitoringDevices.ForEach(x => x.SynchronizeTime());
 						IsTimeSynchronizationNeeded = false;
 					}
+				}
+				catch (FS2StopMonitoringException)
+				{
+					return;
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "MonitoringProcessor.LoopMonitoring");
 				}
 			}
 		}
@@ -105,7 +87,7 @@ namespace ServerFS2.Monitoring
 					{
 						if (request != null && request.Id == response.Id)
 						{
-							monitoringDevice.ReqestResponsed(request, response);
+							monitoringDevice.OnResponceRecieved(request, response);
 						}
 					}
 				}

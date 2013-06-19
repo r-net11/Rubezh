@@ -19,9 +19,14 @@
                         </StackPanel>
                         <StackPanel>
                             <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
+                            <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Button Content="Admin Command" Command="{Binding TestAdminCommand}" Width="200" Margin="2" />
                             <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
                             <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
-                            <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
+                            <Button Content="SuspendMonitoring" Command="{Binding SuspendMonitoringCommand}" Width="200" Margin="2" />
+                            <Button Content="ResumeMonitoring" Command="{Binding ResumeMonitoringCommand}" Width="200" Margin="2" />
                         </StackPanel>
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">

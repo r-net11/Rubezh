@@ -12,17 +12,6 @@ namespace ServerFS2.Monitoring
 {
 	public class DeviceStatesManager
 	{
-		public static void Initialize()
-		{
-			//var systemDatabaseCreator = new SystemDatabaseCreator();
-			//systemDatabaseCreator.Run();
-
-			//foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
-			//{
-			//    device.DeviceState = new DeviceState();
-			//}
-		}
-
 		public static void UpdatePanelState(Device panel, bool isSilent = false)
 		{
 			var states = new List<DeviceDriverState>();
@@ -44,7 +33,6 @@ namespace ServerFS2.Monitoring
 			UpdateDeviceStateOnPanelState(panel, bitArray, isSilent);
 		}
 
-
 		public static void GetAllStates()
 		{
 			foreach (var device in ConfigurationManager.Devices)
@@ -59,43 +47,6 @@ namespace ServerFS2.Monitoring
 					}
 					var deviceState = BytesHelper.SubstructShort(stateBytes, 0);
 					Trace.WriteLine("GetAllStates " + device.DottedPresentationNameAndAddress + " - " + deviceState.ToString());
-				}
-			}
-		}
-
-		public static void GetStates()
-		{
-			foreach (var panelDevice in ConfigurationManager.Devices.Where(x => x.Driver.IsPanel))
-			{
-				if (panelDevice.Driver.DriverType == DriverType.IndicationBlock || panelDevice.Driver.DriverType == DriverType.PDU || panelDevice.Driver.DriverType == DriverType.PDU_PT)
-					continue;
-
-				Trace.WriteLine(panelDevice.PresentationAddressAndName);
-				var remoteDeviceConfiguration = GetConfigurationOperationHelper.GetDeviceConfig(panelDevice);
-				remoteDeviceConfiguration.Update();
-				foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
-				{
-					if (remoteDevice.ParentPanel == null)
-						continue;
-
-					var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
-					device.StateWordOffset = remoteDevice.StateWordOffset;
-					device.StateWordBytes = remoteDevice.StateWordBytes;
-					device.RawParametersOffset = remoteDevice.RawParametersOffset;
-					device.RawParametersBytes = remoteDevice.RawParametersBytes;
-				}
-				foreach (var device in ConfigurationManager.Devices)
-				{
-					if (device.StateWordBytes != null)
-					{
-						ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
-
-
-						//foreach (var deviceDriverState in device.DeviceState.States)
-						//{
-						//    Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name + " " + device.PresentationAddressAndName);
-						//}
-					}
 				}
 			}
 		}

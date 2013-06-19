@@ -8,7 +8,6 @@ using ServerFS2.Journal;
 using ServerFS2.Service;
 using System.Diagnostics;
 
-
 namespace ServerFS2.Monitoring
 {
 	public class MonitoringDevice
@@ -114,7 +113,7 @@ namespace ServerFS2.Monitoring
 			RequestLastIndex();
 		}
 
-		public void ReqestResponsed(Request request, Response response)
+		public void OnResponceRecieved(Request request, Response response)
 		{
 			AnsweredCount++;
 			if (request.RequestType == RequestTypes.ReadIndex)
@@ -218,7 +217,11 @@ namespace ServerFS2.Monitoring
 
 		public void Initialize()
 		{
-			DeviceStatesManager.GetStates(Panel, true);
+			for (int i = 0; i < 100; i++)
+			{
+				DeviceStatesManager.GetStates(Panel, true);
+				Trace.WriteLine("DeviceStatesManager.GetStates " + i);
+			}
 			DeviceStatesManager.UpdatePanelState(Panel, true);
 			IsInitialized = true;
 		}
@@ -240,7 +243,7 @@ namespace ServerFS2.Monitoring
 
 		public void LastIndexReceived(Response response)
 		{
-			if (!IsLastIndexValid(response))
+			if (response.HasError)
 			{
 				return;
 			}
@@ -265,15 +268,6 @@ namespace ServerFS2.Monitoring
 			{
 				IsReadingNeeded = true;
 			}
-		}
-
-		bool IsLastIndexValid(Response response)
-		{
-			if (response.Bytes[6] == 192)
-				throw new Exception("Ошибка считывания индекса");
-			return (response.Bytes.Count() == 11 &&
-				response.Bytes[5] == Panel.IntAddress &&
-				response.Bytes[6] == 65);
 		}
 
 		public List<FS2JournalItem> GetNewItems()

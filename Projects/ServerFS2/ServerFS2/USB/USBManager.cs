@@ -76,6 +76,7 @@ namespace ServerFS2
 			}
 			else
 			{
+				throw new FS2USBException("USB устройство отсутствует");
 				return new Response("USB устройство отсутствует");
 			}
 		}

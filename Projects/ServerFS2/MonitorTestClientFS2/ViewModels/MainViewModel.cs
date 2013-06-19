@@ -11,6 +11,8 @@ using ServerFS2.Processor;
 using Ionic.Zip;
 using System.Text;
 using System.IO;
+using ServerFS2.Service;
+using ServerFS2.Monitoring;
 
 namespace MonitorClientFS2
 {
@@ -20,8 +22,11 @@ namespace MonitorClientFS2
 		{
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
-			TestCommand = new RelayCommand(OnTest);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
+			TestCommand = new RelayCommand(OnTest);
+			TestAdminCommand = new RelayCommand(OnTestAdmin);
+			SuspendMonitoringCommand = new RelayCommand(OnSuspendMonitoring);
+			ResumeMonitoringCommand = new RelayCommand(OnResumeMonitoring);
 
 			DevicesViewModel = new DevicesViewModel();
 			JournalItems = new ObservableCollection<FS2JournalItem>();
@@ -91,6 +96,18 @@ namespace MonitorClientFS2
 			MainManager.StopMonitoring();
 		}
 
+		public RelayCommand SuspendMonitoringCommand { get; private set; }
+		void OnSuspendMonitoring()
+		{
+			MonitoringProcessor.SuspendMonitoring();
+		}
+
+		public RelayCommand ResumeMonitoringCommand { get; private set; }
+		void OnResumeMonitoring()
+		{
+			MonitoringProcessor.ResumeMonitoring();
+		}
+
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
@@ -113,11 +130,16 @@ namespace MonitorClientFS2
 			//MainManager.StartMonitoring();
 		}
 
+		public RelayCommand TestAdminCommand { get; private set; }
+		void OnTestAdmin()
+		{
+			var fs2Contract = new FS2Contract();
+			var result = fs2Contract.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device.UID, false);
+		}
+
 		public RelayCommand ReadStatesCommand { get; private set; }
 		void OnReadStates()
 		{
-			//var deviceStatesManager = new DeviceStatesManager();
-			//deviceStatesManager.GetStates();
 		}
 	}
 }
