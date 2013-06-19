@@ -159,7 +159,8 @@ namespace ServerFS2
 			foreach (var device in usbDevices)
 			{
 				var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
-				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
+				//var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
+				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault();
 				if (usbProcessorInfo != null)
 				{
 					usbProcessorInfo.Device = device;

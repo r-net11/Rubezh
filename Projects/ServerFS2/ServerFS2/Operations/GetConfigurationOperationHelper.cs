@@ -1614,8 +1614,8 @@ namespace ServerFS2
 			List<byte> data;
 			if(device.Driver.Category == DeviceCategoryType.Sensor)
 			{
-				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.Offset, 9);
-				device.InnerDeviceParameters = data.GetRange(0, 2);
+				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.StateWordOffset, 9);
+				device.StateWordBytes = data.GetRange(0, 2);
 				if (device.Driver.DriverType == DriverType.SmokeDetector)
 					device.DeviceState.Dustiness = (float)data[8]/100;
 				if (device.Driver.DriverType == DriverType.HeatDetector)
