@@ -22,8 +22,9 @@ namespace ServerFS2
 		static ZonePanelRelationsInfo zonePanelRelationsInfo;
 		static DeviceConfiguration remoteDeviceConfiguration;
 
-		static void ParseUIDevicesRom(int romPointer, DriverType driverType)
+		static void ParseUIDevicesRom(DriverType driverType)
 		{
+			var romPointer = GetDeviceOffset(driverType);
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
 			if (pointer != 0)
 			{
@@ -233,8 +234,9 @@ namespace ServerFS2
 			PanelDevice.Children.Add(device);
 		}
 
-		static void ParseNoUIDevicesRom(int romPointer, DriverType driverType)
+		static void ParseNoUIDevicesRom(DriverType driverType)
 		{
+			var romPointer = GetDeviceOffset(driverType);
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
 			if (pointer != 0)
 			{
@@ -579,12 +581,12 @@ namespace ServerFS2
 			outZonesEnd = outZonesBegin + outZonesCount * 9;
 			#endregion
 			#region Хидеры таблиц на исполнительные устройства
-			ParseUIDevicesRom(12, DriverType.RM_1);
-			ParseUIDevicesRom(18, DriverType.MPT);
-			ParseUIDevicesRom(120, DriverType.MDU);
-			ParseUIDevicesRom(84, DriverType.MRO);
-			ParseUIDevicesRom(144, DriverType.MRO_2);
-			ParseUIDevicesRom(126, DriverType.Exit);
+			ParseUIDevicesRom(DriverType.RM_1);
+			ParseUIDevicesRom(DriverType.MPT);
+			ParseUIDevicesRom(DriverType.MDU);
+			ParseUIDevicesRom(DriverType.MRO);
+			ParseUIDevicesRom(DriverType.MRO_2);
+			ParseUIDevicesRom(DriverType.Exit);
 			#region RM
 			//if ((pointer = DeviceRom[12] * 256 * 256 + DeviceRom[13] * 256 + DeviceRom[14]) != 0) //РМ-1
 			//{
@@ -1125,17 +1127,17 @@ namespace ServerFS2
 			#endregion
 			#endregion
 			#region Хидеры таблиц на не исполнительные устройства по типам
-			ParseNoUIDevicesRom(24, DriverType.SmokeDetector);
-			ParseNoUIDevicesRom(30, DriverType.HeatDetector);
-			ParseNoUIDevicesRom(36, DriverType.CombinedDetector);
-			ParseNoUIDevicesRom(48, DriverType.HandDetector);
-			ParseNoUIDevicesRom(42, DriverType.AM_1);
-			ParseNoUIDevicesRom(78, DriverType.AMP_4);
-			ParseNoUIDevicesRom(54, DriverType.AM1_O);
-			ParseNoUIDevicesRom(96, DriverType.AM1_T);
-			ParseNoUIDevicesRom(132, DriverType.RadioHandDetector);
-			ParseNoUIDevicesRom(138, DriverType.RadioSmokeDetector);
-			ParseUIDevicesRom(90, DriverType.Valve);
+			ParseNoUIDevicesRom(DriverType.SmokeDetector);
+			ParseNoUIDevicesRom(DriverType.HeatDetector);
+			ParseNoUIDevicesRom(DriverType.CombinedDetector);
+			ParseNoUIDevicesRom(DriverType.HandDetector);
+			ParseNoUIDevicesRom(DriverType.AM_1);
+			ParseNoUIDevicesRom(DriverType.AMP_4);
+			ParseNoUIDevicesRom(DriverType.AM1_O);
+			ParseNoUIDevicesRom(DriverType.AM1_T);
+			ParseNoUIDevicesRom(DriverType.RadioHandDetector);
+			ParseNoUIDevicesRom(DriverType.RadioSmokeDetector);
+			ParseUIDevicesRom(DriverType.Valve);
 			#region IP-64
 			//if ((pointer = DeviceRom[24] * 256 * 256 + DeviceRom[25] * 256 + DeviceRom[26]) != 0) // ИП-64
 			//{
@@ -1566,9 +1568,64 @@ namespace ServerFS2
 			#endregion
 			foreach (var childDevice in PanelDevice.Children)
 			{
+				childDevice.Parent = PanelDevice;
 				remoteDeviceConfiguration.Devices.Add(childDevice);
 			}
+			foreach (var device in remoteDeviceConfiguration.Devices)
+			{
+				GetCurrentDeviceState(device);
+			}
 			return remoteDeviceConfiguration;
+		}
+	
+		private static int GetDeviceOffset(DriverType driverType)
+		{
+			switch (driverType)
+			{
+				case DriverType.SmokeDetector: return 24;
+				case DriverType.HeatDetector: return 30;
+				case DriverType.CombinedDetector: return 36;
+				case DriverType.HandDetector: return 48;
+				case DriverType.AM_1: return 42;
+				case DriverType.AMP_4: return 78;
+				case DriverType.AM1_O: return 54;
+				case DriverType.AM1_T: return 96;
+				case DriverType.RadioHandDetector: return 132;
+				case DriverType.RadioSmokeDetector: return 138;
+				case DriverType.Valve: return 90;
+
+				case DriverType.RM_1: return 12;
+				case DriverType.MPT: return 18;
+				case DriverType.MDU: return 120;
+				case DriverType.MRO: return 84;
+				case DriverType.MRO_2: return 144;
+				case DriverType.Exit: return 126;
+				default: return -1;
+			}
+		}
+
+		public static void GetCurrentDeviceState(Device device)
+		{
+			if(device.DeviceState == null)
+				device.DeviceState = new DeviceState();
+			var romPointer = GetDeviceOffset(device.Driver.DriverType);
+			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
+
+			List<byte> data;
+			if(device.Driver.Category == DeviceCategoryType.Sensor)
+			{
+				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.StateWordOffset, 9);
+				device.StateWordBytes = data.GetRange(0, 2);
+				if (device.Driver.DriverType == DriverType.SmokeDetector)
+					device.DeviceState.Dustiness = (float)data[8]/100;
+				if (device.Driver.DriverType == DriverType.HeatDetector)
+					device.DeviceState.Temperature = data[8];
+				if (device.Driver.DriverType == DriverType.CombinedDetector)
+				{
+					device.DeviceState.Dustiness = (float) data[9]/100;
+					device.DeviceState.Temperature = data[10];
+				}
+			}
 		}
 	}
 }
