@@ -48,6 +48,7 @@ namespace ServerFS2
 
 					if (response.Bytes.Count < 1)
 					{
+						throw new FS2USBException("Недостаточное количество байт в ответе");
 						return response.SetError("Недостаточное количество байт в ответе");
 					}
 					var functionCode = response.Bytes[0];
@@ -58,20 +59,24 @@ namespace ServerFS2
 						{
 							errorName = USBExceptionHelper.GetError(response.Bytes[1]);
 						}
+						throw new FS2USBException(errorName);
 						return response.SetError(errorName);
 					}
 					if ((functionCode & 64) != 64)
 					{
+						throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
 						return response.SetError("В пришедшем ответе не содержится маркер ответа");
 					}
 					if ((functionCode & 63) != outputFunctionCode)
 					{
+						throw new FS2USBException("В пришедшем ответе не совпадает код функции");
 						return response.SetError("В пришедшем ответе не совпадает код функции");
 					}
 
 					response.Bytes.RemoveRange(0, 1);
 					return response;
 				}
+				throw new FS2USBException("Не получен ответ в заданное время");
 				return new Response("Не получен ответ в заданное время");
 			}
 			else
@@ -137,128 +142,19 @@ namespace ServerFS2
 
 		public static void Initialize()
 		{
-			var usbDevices = new List<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.RootDevice.Children)
-			{
-				switch (device.Driver.DriverType)
-				{
-					case DriverType.MS_1:
-					case DriverType.MS_2:
-					case DriverType.USB_Rubezh_2AM:
-					case DriverType.USB_Rubezh_2OP:
-					case DriverType.USB_Rubezh_4A:
-					case DriverType.USB_Rubezh_P:
-					case DriverType.USB_BUNS:
-					case DriverType.USB_BUNS_2:
-						usbDevices.Add(device);
-						break;
-				}
-			}
+			Dispose();
 
-			UsbProcessorInfos = FindAllUsbProcessorInfo();
-
-			foreach (var device in usbDevices)
-			{
-				UsbProcessorInfo usbProcessorInfo = null;
-				var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-				//var serialNoProperty = device.Properties.FirstOrDefault();
-				if (serialNoProperty != null && !string.IsNullOrEmpty(serialNoProperty.Value))
-				{
-					usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
-					if (usbProcessorInfo != null)
-					{
-						usbProcessorInfo.Device = device;
-						continue;
-					}
-				}
-
-				var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
-				usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
-				if (usbProcessorInfo != null)
-				{
-					usbProcessorInfo.Device = device;
-					continue;
-				}
-			}
-
-			foreach (var device in usbDevices)
-			{
-				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
-				{
-					var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-					if (serialNoProperty == null || string.IsNullOrEmpty(serialNoProperty.Value))
-					{
-						var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == -1 && x.Device == null);
-						if (usbProcessorInfo != null)
-						{
-							usbProcessorInfo.Device = device;
-						}
-					}
-				}
-			}
-
-			foreach (var usbProcessorInfo in UsbProcessorInfos)
-			{
-				if (usbProcessorInfo.Device == null)
-					usbProcessorInfo.UsbProcessor.Dispose();
-			}
-			UsbProcessorInfos.RemoveAll(x => x.Device == null);
-
-			foreach (var usbProcessorInfo in UsbProcessorInfos)
-			{
-				switch (usbProcessorInfo.Device.Driver.DriverType)
-				{
-					case DriverType.MS_1:
-					case DriverType.MS_2:
-						usbProcessorInfo.WriteConfigToMS();
-						break;
-				}
-			}
-
+			UsbProcessorInfos = USBDetectorHelper.Detect();
 			foreach (var usbProcessorInfo in UsbProcessorInfos)
 			{
 				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
 			}
 		}
 
-		static List<UsbProcessorInfo> FindAllUsbProcessorInfo()
-		{
-			var usbProcessorInfos = new List<UsbProcessorInfo>();
-
-			HIDDevice.AddedDevices = new List<string>();
-			while (true)
-			{
-				try
-				{
-					var usbProcessor = new UsbProcessor();
-					var result = usbProcessor.Open();
-					if (!result)
-						break;
-					var usbProcessorInfo = new UsbProcessorInfo()
-					{
-						UsbProcessor = usbProcessor
-					};
-					usbProcessorInfos.Add(usbProcessorInfo);
-				}
-				catch (Exception)
-				{
-					break;
-				}
-			}
-
-			foreach (var usbProcessorInfo in usbProcessorInfos)
-			{
-				usbProcessorInfo.Initialize();
-				Trace.WriteLine(usbProcessorInfo.IsUSBMS + " " + usbProcessorInfo.IsUSBPanel + " " +
-					usbProcessorInfo.USBDriverType + " " + usbProcessorInfo.SerialNo);
-			}
-			return usbProcessorInfos;
-		}
-
 		public static List<string> GetAllSerialNos()
 		{
 			var result = new List<string>();
-			var usbProcessorInfos = FindAllUsbProcessorInfo();
+			var usbProcessorInfos = USBDetectorHelper.FindAllUsbProcessorInfo();
 			foreach (var usbProcessorInfo in usbProcessorInfos)
 			{
 				result.Add(usbProcessorInfo.SerialNo);
@@ -277,8 +173,11 @@ namespace ServerFS2
 
 		public static void Dispose()
 		{
-			UsbProcessorInfos.ForEach(x=>x.UsbProcessor.Dispose());
-			UsbProcessorInfos.Clear();
+			if (UsbProcessorInfos != null)
+			{
+				UsbProcessorInfos.ForEach(x => x.UsbProcessor.Dispose());
+				UsbProcessorInfos.Clear();
+			}
 		}
 	}
 }

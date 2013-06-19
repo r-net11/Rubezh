@@ -197,7 +197,8 @@ namespace ServerFS2.Processor
 		{
 			return TempConfigSafeCall<DeviceConfiguration>((x) =>
 			{
-				return GetConfigurationOperationHelper.GetDeviceConfig(x);
+				var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
+				return getConfigurationOperationHelper.GetDeviceConfig(x);
 			}, device, isUSB);
 		}
 

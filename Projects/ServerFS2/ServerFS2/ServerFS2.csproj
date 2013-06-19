@@ -142,6 +142,7 @@
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />
+    <Compile Include="Operations\ReadPanelDatabaseOperationHelper.cs" />
     <Compile Include="Operations\SetConfigurationOperationHelper.cs" />
     <Compile Include="USB\RequestTypes.cs" />
     <Compile Include="Monitoring\XmlJournalHelper.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
+    <Compile Include="USB\USBDetectorHelper.cs" />
     <Compile Include="USB\USBManager.cs" />
     <Compile Include="USB\UsbProcessorBase.cs" />
     <Compile Include="USB\Request.cs" />

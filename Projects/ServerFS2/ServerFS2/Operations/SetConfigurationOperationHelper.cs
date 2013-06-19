@@ -34,10 +34,11 @@ namespace ServerFS2
 
 		public static void SetDeviceConfig(Device device, List<byte> Rom, List<byte> Flash)
 		{
-			var RomDBFirstIndex = ServerHelper.GetRomFirstIndex(device);
-			var FlashDBLastIndex = ServerHelper.GetFlashLastIndex(device);
-			Rom = ServerHelper.GetRomDBBytes(device);
-			Flash = ServerHelper.GetFlashDBBytes(device);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(false);
+			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
+			Rom = panelDatabaseReader.GetRomDBBytes(device);
+			Flash = panelDatabaseReader.GetFlashDBBytes(device);
+
 			//SendCode(CreateBytesArray(0x01, 0x02, 0x34, 0x01)); // Запись в MDS
 			//SendCode(CreateBytesArray(0x01, 0x02, 0x37)); // Информация о прошивке
 			BlockBD(device);
@@ -54,7 +55,7 @@ namespace ServerFS2
 			ConfirmationLongTermOperation(device);
 			ClearSector(device);
 			Thread.Sleep(delay);
-			SetRomConfig(device, Rom, RomDBFirstIndex);
+			SetRomConfig(device, Rom, romDBFirstIndex);
 			StopUpdating(device);
 			//ConfirmationLongTermOperation(device);
 		}

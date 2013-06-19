@@ -90,7 +90,8 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand ReadRomRamCommand { get; private set; }
 		private void OnReadRomRam()
 		{
-			var device = GetConfigurationOperationHelper.GetDeviceConfig(SelectedDevice.Device);
+			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
+			var deviceConfiguration = getConfigurationOperationHelper.GetDeviceConfig(SelectedDevice.Device);
 		}
 		private bool CanReadRomRam()
 		{

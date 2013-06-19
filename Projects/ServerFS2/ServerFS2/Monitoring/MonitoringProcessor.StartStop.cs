@@ -16,6 +16,7 @@ namespace ServerFS2.Monitoring
 
 		public static void StartMonitoring()
 		{
+			IsStopping = false;
 			if (!DoMonitoring)
 			{
 				StartTime = DateTime.Now;
@@ -28,10 +29,13 @@ namespace ServerFS2.Monitoring
 
 		public static void StopMonitoring()
 		{
+			if (IsStopping)
+				return;
+
 			IsStopping = true;
+			DoMonitoring = false;
 			SuspendMonitoring();
 			ResumeMonitoring();
-			IsStopping = false;
 			LoopMonitoring = false;
 
 			if (MonitoringThread != null)

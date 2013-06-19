@@ -22,19 +22,19 @@ namespace MonitorClientFS2
 		{
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
+			SuspendMonitoringCommand = new RelayCommand(OnSuspendMonitoring);
+			ResumeMonitoringCommand = new RelayCommand(OnResumeMonitoring);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
 			TestCommand = new RelayCommand(OnTest);
 			TestAdminCommand = new RelayCommand(OnTestAdmin);
-			SuspendMonitoringCommand = new RelayCommand(OnSuspendMonitoring);
-			ResumeMonitoringCommand = new RelayCommand(OnResumeMonitoring);
 
 			DevicesViewModel = new DevicesViewModel();
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
 
-			if (StartMonitoring)
-				MainManager.StartMonitoring();
+			//if (StartMonitoring)
+			//    MainManager.StartMonitoring();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
@@ -111,9 +111,13 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
-			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
-			var orrset = hexInfo.Offset;
+			var fs2Contract = new FS2Contract();
+			var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID);
+			return;
+
+			//var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			//var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
+			//var orrset = hexInfo.Offset;
 
 			//USBManager.Initialize();
 

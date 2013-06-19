@@ -9,20 +9,26 @@ using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
 {
-	public static class GetConfigurationOperationHelper
+	public class GetConfigurationOperationHelper
 	{
-		public static List<byte> DeviceFlash;
-		public static List<byte> DeviceRom;
-		static Device PanelDevice;
-		static int shleifCount;
-		static int outZonesBegin;
-		static int outZonesCount;
-		static int outZonesEnd;
-		static List<Zone> zones;
-		static ZonePanelRelationsInfo zonePanelRelationsInfo;
-		static DeviceConfiguration remoteDeviceConfiguration;
+		public List<byte> DeviceFlash;
+		public List<byte> DeviceRom;
+		Device PanelDevice;
+		int shleifCount;
+		int outZonesBegin;
+		int outZonesCount;
+		int outZonesEnd;
+		List<Zone> zones;
+		ZonePanelRelationsInfo zonePanelRelationsInfo;
+		DeviceConfiguration remoteDeviceConfiguration;
+		bool CheckMonitoringSuspend = false;
 
-		static void ParseUIDevicesRom(DriverType driverType)
+		public GetConfigurationOperationHelper(bool checkMonitoringSuspend)
+		{
+			CheckMonitoringSuspend = checkMonitoringSuspend;
+		}
+
+		void ParseUIDevicesRom(DriverType driverType)
 		{
 			var romPointer = GetDeviceOffset(driverType);
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
@@ -36,7 +42,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
+		void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
 			var device = new Device
 			{
@@ -234,7 +240,7 @@ namespace ServerFS2
 			PanelDevice.Children.Add(device);
 		}
 
-		static void ParseNoUIDevicesRom(DriverType driverType)
+		void ParseNoUIDevicesRom(DriverType driverType)
 		{
 			var romPointer = GetDeviceOffset(driverType);
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
@@ -248,7 +254,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
+		void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
 			var device = new Device
 			{
@@ -419,10 +425,10 @@ namespace ServerFS2
 			PanelDevice.Children.Add(device);
 		}
 
-		static void ParseZonesRom(int romPointer)
+		void ParseZonesRom(int romPointer, int romDBFirstIndex)
 		{
 			var pPointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
-			var pointer = BytesHelper.ExtractTriple(DeviceRom, pPointer - ServerHelper.RomDBFirstIndex);
+			var pointer = BytesHelper.ExtractTriple(DeviceRom, pPointer - romDBFirstIndex);
 			if (pointer != 0)
 			{
 				var count = BytesHelper.ExtractShort(DeviceRom, romPointer + 4);
@@ -433,7 +439,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void ParseZonesFlash(ref int pointer)
+		void ParseZonesFlash(ref int pointer)
 		{
 			var zone = new Zone
 			{
@@ -472,7 +478,7 @@ namespace ServerFS2
 			pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
 		}
 
-		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
+		public DeviceConfiguration GetDeviceConfig(Device selectedDevice)
 		{
 			PanelDevice = (Device)selectedDevice.Clone();
 			shleifCount = PanelDevice.Driver.ShleifCount;
@@ -483,13 +489,14 @@ namespace ServerFS2
 			remoteDeviceConfiguration.RootDevice = PanelDevice;
 			remoteDeviceConfiguration.Devices.Add(PanelDevice);
 
-			ServerHelper.RomDBFirstIndex = ServerHelper.GetRomFirstIndex(PanelDevice);
-			ServerHelper.FlashDBLastIndex = ServerHelper.GetFlashLastIndex(PanelDevice);
-			DeviceRom = ServerHelper.GetRomDBBytes(PanelDevice);
-			DeviceFlash = ServerHelper.GetFlashDBBytes(PanelDevice);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(CheckMonitoringSuspend);
+			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
+			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
+			DeviceRom = panelDatabaseReader.GetRomDBBytes(PanelDevice);
+			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
 
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
-			ParseZonesRom(1542);
+			ParseZonesRom(1542, panelDatabaseReader.RomDBFirstIndex);
 			#region Zones
 			//if ((pPointer = DeviceRom[1542] * 256 * 256 + DeviceRom[1543] * 256 + DeviceRom[1544]) != 0)
 			//{
@@ -1578,7 +1585,7 @@ namespace ServerFS2
 			return remoteDeviceConfiguration;
 		}
 	
-		private static int GetDeviceOffset(DriverType driverType)
+		private int GetDeviceOffset(DriverType driverType)
 		{
 			switch (driverType)
 			{
@@ -1604,7 +1611,7 @@ namespace ServerFS2
 			}
 		}
 
-		public static void GetCurrentDeviceState(Device device)
+		public void GetCurrentDeviceState(Device device)
 		{
 			if(device.DeviceState == null)
 				device.DeviceState = new DeviceState();

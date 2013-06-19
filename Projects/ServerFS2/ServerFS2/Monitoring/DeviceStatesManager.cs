@@ -57,7 +57,8 @@ namespace ServerFS2.Monitoring
 				return;
 
 			Trace.WriteLine(panelDevice.PresentationAddressAndName);
-			var remoteDeviceConfiguration = GetConfigurationOperationHelper.GetDeviceConfig(panelDevice);
+			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(true);
+			var remoteDeviceConfiguration = getConfigurationOperationHelper.GetDeviceConfig(panelDevice);
 			remoteDeviceConfiguration.Update();
 			foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
 			{

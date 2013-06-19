@@ -217,11 +217,7 @@ namespace ServerFS2.Monitoring
 
 		public void Initialize()
 		{
-			for (int i = 0; i < 100; i++)
-			{
-				DeviceStatesManager.GetStates(Panel, true);
-				Trace.WriteLine("DeviceStatesManager.GetStates " + i);
-			}
+			DeviceStatesManager.GetStates(Panel, true);
 			DeviceStatesManager.UpdatePanelState(Panel, true);
 			IsInitialized = true;
 		}
