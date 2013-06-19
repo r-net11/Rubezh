@@ -27,13 +27,14 @@ namespace ServerFS2.Monitoring
 			ResetStateIds = new List<string>();
 			DevicesToIgnore = new List<Device>();
 			CommandItems = new List<CommandItem>();
-			//LastSystemIndex = XmlJournalHelper.GetLastId(device);
-			LastSystemIndex = -1;
+			LastSystemIndex = XmlJournalHelper.GetLastId(device);
+			//LastSystemIndex = -1;
 			FirstSystemIndex = -1;
 			SequentUnAnswered = 0;
 			IsReadingNeeded = false;
 			LostConnectionState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором");
 			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
+			deviceToGetParams = Panel.Children.FirstOrDefault();
 		}
 
 		public List<string> ResetStateIds { get; set; }
@@ -42,6 +43,8 @@ namespace ServerFS2.Monitoring
 		int lastSystemIndex;
 		DriverState LostConnectionState;
 		DriverState InitializingState;
+		Device deviceToGetParams;
+
 		public bool CanRequestLastIndex = true;
 		public DateTime LastIndexDateTime;
 
@@ -109,6 +112,8 @@ namespace ServerFS2.Monitoring
 			{
 				RefreshStates();
 			}
+			DeviceStatesManager.GetDeviceCurrentState(deviceToGetParams);
+			deviceToGetParams = GetNextDevice(deviceToGetParams);
 			CheckForLostConnection();
 			RequestLastIndex();
 		}
@@ -292,5 +297,19 @@ namespace ServerFS2.Monitoring
 				ServerHelper.SynchronizeTime(Panel);
 			}
 		}
+
+		Device GetNextDevice(Device device)
+		{
+			Device nextDevice;
+			for (int i = device.AddressOnShleif + 1; i < 256; i++)
+			{
+				nextDevice = Panel.Children.FirstOrDefault(x => x.AddressOnShleif == i);
+				if (nextDevice != null)
+					return nextDevice;
+			}
+			return Panel.Children.FirstOrDefault();
+		}
+
+		
 	}
 }

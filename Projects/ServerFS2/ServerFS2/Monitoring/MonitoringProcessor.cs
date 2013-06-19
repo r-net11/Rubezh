@@ -42,6 +42,9 @@ namespace ServerFS2.Monitoring
 					MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
 					DeviceStatesManager.RemoveInitializingFromAll();
 					IsInitialized = true;
+
+				//OneDetectorAnalysis();
+				//AllDevicesAnalysis();
 				}
 			}
 			catch (FS2StopMonitoringException)
