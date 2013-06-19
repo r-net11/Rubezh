@@ -42,6 +42,9 @@ namespace ServerFS2.Monitoring
 					MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
 					DeviceStatesManager.RemoveInitializingFromAll();
 					IsInitialized = true;
+
+				//OneDetectorAnalysis();
+				//AllDevicesAnalysis();
 				}
 			}
 			catch (FS2StopMonitoringException)
@@ -49,6 +52,8 @@ namespace ServerFS2.Monitoring
 				return;
 			}
 
+			Device panelToGetParams = MonitoringDevices.FirstOrDefault().Panel; 
+			Device deviceToGetParams = panelToGetParams.Children.FirstOrDefault();
 			while (LoopMonitoring)
 			{
 				try
@@ -74,6 +79,95 @@ namespace ServerFS2.Monitoring
 					Logger.Error(e, "MonitoringProcessor.LoopMonitoring");
 				}
 			}
+		}
+
+		static void AllDevicesAnalysis()
+		{
+			double togetherTime = 0;
+			double separateTime = 0;
+			double paramsTime = 0;
+			double stateWordTime = 0;
+			int count = 0;
+
+			var devices = MonitoringDevices.FirstOrDefault().Panel.Children;
+			foreach (var device in devices)
+			{
+				var startTime = DateTime.Now;
+				if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
+				else if (device.Driver.DriverType == DriverType.CombinedDetector)
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
+				else
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+				togetherTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+
+				startTime = DateTime.Now;
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+				if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset + 8, 1);
+				else if (device.Driver.DriverType == DriverType.CombinedDetector)
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset + 9, 2);
+				separateTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+
+				startTime = DateTime.Now;
+				if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset + 8, 1);
+				else if (device.Driver.DriverType == DriverType.CombinedDetector)
+					ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset + 9, 2);
+				paramsTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+
+				startTime = DateTime.Now;
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+				stateWordTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+				count++;
+			}
+
+			Trace.WriteLine("together " + togetherTime / count);
+			Trace.WriteLine("separate " + separateTime / count);
+			Trace.WriteLine("params only " + paramsTime / count);
+			Trace.WriteLine("stateWord only " + stateWordTime / count);
+		}
+
+		static void OneDetectorAnalysis()
+		{
+			var device = MonitoringDevices.FirstOrDefault().Panel.Children.FirstOrDefault(y => y.IntAddress == 2 * 256 + 6);
+			double togetherTime = 0;
+			double separateTime = 0;
+			double paramsTime = 0;
+			double stateWordTime = 0;
+
+			for (int i = 0; i < 1000; i++)
+			{
+				var startTime = DateTime.Now;
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
+				togetherTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+
+				startTime = DateTime.Now;
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset + 8, 3);
+				separateTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+
+				startTime = DateTime.Now;
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset + 8, 3);
+				paramsTime += (DateTime.Now - startTime).TotalMilliseconds;
+
+
+				startTime = DateTime.Now;
+				ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+				stateWordTime += (DateTime.Now - startTime).TotalMilliseconds;
+			}
+
+
+			Trace.WriteLine("together " + togetherTime / 1000);
+			Trace.WriteLine("separate " + separateTime / 1000);
+			Trace.WriteLine("params only " + paramsTime / 1000);
+			Trace.WriteLine("stateWord only " + stateWordTime / 1000);
 		}
 
 		static void UsbRunner_NewResponse(Response response)
