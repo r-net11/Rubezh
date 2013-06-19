@@ -172,7 +172,6 @@ namespace ServerFS2
 
 				var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
 				usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
-				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault();
 				if (usbProcessorInfo != null)
 				{
 					usbProcessorInfo.Device = device;
