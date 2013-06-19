@@ -112,7 +112,7 @@ namespace ServerFS2.Monitoring
 			{
 				RefreshStates();
 			}
-			GetDeviceCurrentState(deviceToGetParams);
+			DeviceStatesManager.GetDeviceCurrentState(deviceToGetParams);
 			deviceToGetParams = GetNextDevice(deviceToGetParams);
 			CheckForLostConnection();
 			RequestLastIndex();
@@ -314,25 +314,6 @@ namespace ServerFS2.Monitoring
 			return Panel.Children.FirstOrDefault();
 		}
 
-		void GetDeviceCurrentState(Device device)
-		{
-			List<byte> data = new List<byte>();
-			if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
-			{
-				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
-				device.StateWordBytes = data.GetRange(0, 2);
-				if (device.Driver.DriverType == DriverType.SmokeDetector)
-					device.DeviceState.Dustiness = (float)data[8] / 100;
-				if (device.Driver.DriverType == DriverType.HeatDetector)
-					device.DeviceState.Temperature = data[8];
-			}
-			else if (device.Driver.DriverType == DriverType.CombinedDetector)
-			{
-				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
-				device.StateWordBytes = data.GetRange(0, 2);
-				device.DeviceState.Dustiness = (float)data[9] / 100;
-				device.DeviceState.Temperature = data[10];
-			}
-		}
+		
 	}
 }
