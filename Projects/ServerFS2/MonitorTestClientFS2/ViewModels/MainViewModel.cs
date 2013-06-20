@@ -13,6 +13,8 @@ using System.Text;
 using System.IO;
 using ServerFS2.Service;
 using ServerFS2.Monitoring;
+using System.Windows;
+using System.Threading;
 
 namespace MonitorClientFS2
 {
@@ -33,8 +35,8 @@ namespace MonitorClientFS2
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
 
-			//if (StartMonitoring)
-			//    MainManager.StartMonitoring();
+			if (StartMonitoring)
+				MainManager.StartMonitoring();
 		}
 
 		public DevicesViewModel DevicesViewModel { get; private set; }
@@ -111,9 +113,18 @@ namespace MonitorClientFS2
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var fs2Contract = new FS2Contract();
-			var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID);
-			return;
+			MainManager.StopMonitoring();
+			//ConfigurationManager.Update();
+			Thread.Sleep(10000);
+			MainManager.StartMonitoring();
+
+			//var fs2Contract = new FS2Contract();
+			//fs2Contract.SetNewConfig(ConfigurationManager.DeviceConfiguration);
+			//return;
+
+			//var fs2Contract = new FS2Contract();
+			//var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID);
+			//return;
 
 			//var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			//var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
@@ -138,7 +149,10 @@ namespace MonitorClientFS2
 		void OnTestAdmin()
 		{
 			var fs2Contract = new FS2Contract();
-			var result = fs2Contract.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device.UID, false);
+			var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID);
+			MessageBox.Show("DeviceGetSerialList Count " + result.Result.Count);
+			return;
+			//var result = fs2Contract.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device.UID, false);
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }

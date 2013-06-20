@@ -6,27 +6,26 @@ using System.Threading;
 using FiresecAPI.Models;
 using FS2Api;
 using Common;
+using System.Windows.Forms;
 
 namespace ServerFS2.Monitoring
 {
 	public static partial class MonitoringProcessor
 	{
-		static List<MonitoringDevice> MonitoringDevices = new List<MonitoringDevice>();
-		public static bool DoMonitoring { get; set; }
-		static bool LoopMonitoring = true;
-		static bool IsInitialized = false;
+		static List<MonitoringDevice> MonitoringDevices;
 		static DateTime StartTime;
 		static object locker = new object();
 
-		static MonitoringProcessor()
+		public static void Initialize()
 		{
+			MonitoringDevices = new List<MonitoringDevice>();
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
 				MonitoringDevices.Add(new MonitoringDevice(device));
 			}
-			DoMonitoring = false;
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
 			{
+				//usbProcessorInfo.UsbProcessor.NewResponse -= new Action<Response>(UsbRunner_NewResponse);
 				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>(UsbRunner_NewResponse);
 			}
 		}
@@ -35,29 +34,40 @@ namespace ServerFS2.Monitoring
 		{
 			try
 			{
-				if (!IsInitialized)
+				if (USBManager.UsbProcessorInfos.Count == 0)
 				{
-					DeviceStatesManager.SetInitializingStateToAll();
-					DeviceStatesManager.SetMonitoringDisabled();
-					MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
-					DeviceStatesManager.RemoveInitializingFromAll();
-					IsInitialized = true;
+					MessageBox.Show("USBManager.UsbProcessorInfos.Count == 0");
 				}
+				DeviceStatesManager.SetInitializingStateToAll();
+				DeviceStatesManager.SetMonitoringDisabled();
+				MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
+				DeviceStatesManager.RemoveInitializingFromAll();
 			}
 			catch (FS2StopMonitoringException)
 			{
 				return;
 			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MonitoringProcessor.OnRun");
+			}
 
-			while (LoopMonitoring)
+			while (true)
 			{
 				try
 				{
+					if (CheckSuspending(false))
+						return;
+
 					foreach (var monitoringDevice in MonitoringDevices)
 					{
-						CheckSuspending();
+						if (CheckSuspending(false))
+							return;
 						monitoringDevice.CheckTasks();
 					}
+
+					if (CheckSuspending(false))
+						return;
 
 					if (IsTimeSynchronizationNeeded)
 					{

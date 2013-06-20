@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using UsbLibrary;
+using System.Threading;
 
 namespace ServerFS2
 {
@@ -64,7 +65,7 @@ namespace ServerFS2
 					}
 					if ((functionCode & 64) != 64)
 					{
-						throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
+						//throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
 						return response.SetError("В пришедшем ответе не содержится маркер ответа");
 					}
 					if ((functionCode & 63) != outputFunctionCode)
@@ -143,7 +144,6 @@ namespace ServerFS2
 		public static void Initialize()
 		{
 			Dispose();
-
 			UsbProcessorInfos = USBDetectorHelper.Detect();
 			foreach (var usbProcessorInfo in UsbProcessorInfos)
 			{
@@ -153,12 +153,15 @@ namespace ServerFS2
 
 		public static List<string> GetAllSerialNos()
 		{
+			Dispose();
 			var result = new List<string>();
 			var usbProcessorInfos = USBDetectorHelper.FindAllUsbProcessorInfo();
 			foreach (var usbProcessorInfo in usbProcessorInfos)
 			{
 				result.Add(usbProcessorInfo.SerialNo);
+				usbProcessorInfo.UsbProcessor.Dispose();
 			}
+			Thread.Sleep(TimeSpan.FromSeconds(5));
 			return result;
 		}
 

@@ -7,6 +7,7 @@ using ServerFS2.ConfigurationWriter;
 using ServerFS2.Monitoring;
 using ServerFS2.Service;
 using Common;
+using System.Threading;
 
 namespace ServerFS2.Processor
 {
@@ -136,8 +137,11 @@ namespace ServerFS2.Processor
 		#region Administrator
 		public static void SetNewConfig(DeviceConfiguration deviceConfiguration)
 		{
+			StopMonitoring();
 			ConfigurationManager.DeviceConfiguration = deviceConfiguration;
 			ConfigurationManager.Update();
+			Thread.Sleep(TimeSpan.FromSeconds(20));
+			StartMonitoring();
 		}
 
 		public static void DeviceWriteConfig(Device device, bool isUSB)

@@ -361,6 +361,10 @@ namespace ServerFS2.Monitoring
 		//static DateTime startTime;
 		public static void GetDeviceCurrentState(Device device)
 		{
+			if (device == null)
+			{
+				return;
+			}
 			bool paramsChanged = false;
 			List<byte> data = new List<byte>();
 			if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)

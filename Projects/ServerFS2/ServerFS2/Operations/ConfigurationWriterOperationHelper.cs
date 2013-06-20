@@ -6,6 +6,7 @@ using ServerFS2.Service;
 using FS2Api;
 using ServerFS2.ConfigurationWriter;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace ServerFS2
 {

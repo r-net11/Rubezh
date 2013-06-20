@@ -15,10 +15,6 @@
         <Views:PropertiesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
-        <Views:ProgressView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DeviceConfigurationViewModel}">
         <Views:DeviceConfigurationView />
     </DataTemplate>

@@ -83,9 +83,9 @@ namespace ServerFS2.Monitoring
 			if (ResetStateIds != null && ResetStateIds.Count > 0)
 			{
 				ServerHelper.ResetOnePanelStates(Panel, ResetStateIds);
-				ResetStateIds = new List<string>();
+				ResetStateIds.Clear();
 				DeviceStatesManager.UpdatePanelState(Panel);
-				MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Сброс теста"));
+				MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Команда оператора. Сброс"));
 			}
 
 			if (DevicesToIgnore != null && DevicesToIgnore.Count > 0)
@@ -113,8 +113,8 @@ namespace ServerFS2.Monitoring
 			{
 				RefreshStates();
 			}
-			DeviceStatesManager.GetDeviceCurrentState(deviceToGetParams);
-			deviceToGetParams = GetNextDevice(deviceToGetParams);
+			//DeviceStatesManager.GetDeviceCurrentState(deviceToGetParams);
+			//deviceToGetParams = GetNextDevice(deviceToGetParams);
 			CheckForLostConnection();
 			RequestLastIndex();
 		}

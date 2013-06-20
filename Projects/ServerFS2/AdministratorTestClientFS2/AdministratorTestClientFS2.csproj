@@ -65,7 +65,6 @@
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicJoinOperatorConverter.cs" />
-    <Compile Include="ProgressService.cs" />
     <Compile Include="ViewModels\DeviceConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
@@ -90,9 +88,6 @@
     </Compile>
     <Compile Include="Views\ParametersView.xaml.cs">
       <DependentUpon>ParametersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
@@ -126,10 +121,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ParametersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

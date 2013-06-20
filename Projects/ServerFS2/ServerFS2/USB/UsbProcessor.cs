@@ -11,6 +11,7 @@ namespace ServerFS2
 	public class UsbProcessor : UsbProcessorBase
 	{
 		UsbHidPort UsbHidPort;
+		bool IsDisposed = false;
 
 		public override bool Open()
 		{
@@ -41,6 +42,7 @@ namespace ServerFS2
 
 		public override void Dispose()
 		{
+			IsDisposed = true;
 			UsbHidPort.SpecifiedDevice.DataRecieved -= new DataRecievedEventHandler(OnDataRecieved);
 			UsbHidPort.SpecifiedDevice.Dispose();
 			UsbHidPort.Dispose();
@@ -48,6 +50,8 @@ namespace ServerFS2
 
 		public override bool Send(List<byte> bytes)
 		{
+			if (IsDisposed)
+				return false;
 			//Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());
 			return true;
@@ -55,6 +59,9 @@ namespace ServerFS2
 
 		void OnDataRecieved(object sender, DataRecievedEventArgs args)
 		{
+			if (IsDisposed)
+				return;
+
 			var buffer = args.data.ToList();
 			if (buffer.Count < 2)
 				return;

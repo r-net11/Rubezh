@@ -10,6 +10,12 @@ using ServerFS2.ConfigurationWriter;
 using ServerFS2.Processor;
 using System.Diagnostics;
 using Microsoft.Win32;
+using ServerFS2.Service;
+using FS2Api;
+using System;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -17,10 +23,11 @@ namespace AdministratorTestClientFS2.ViewModels
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
-		private readonly ProgressService _progressService = new ProgressService();
+		FS2Contract FS2Contract = new FS2Contract();
 
 		public MainViewModel()
 		{
+			CancelProgressCommand = new RelayCommand(OnCancelProgress);
 			SendRequestCommand = new RelayCommand(OnSendRequest);
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
@@ -38,8 +45,32 @@ namespace AdministratorTestClientFS2.ViewModels
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			ZonesViewModel.Initialize();
-			new PropertiesViewModel(DevicesViewModel);
+			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
+			CallbackManager.ProgressEvent += new System.Action<FS2Api.FS2ProgressInfo>(CallbackManager_ProgressEvent);
 		}
+
+		#region Progress
+		public ObservableRangeCollection<FS2ProgressInfo> ProgressInfos { get; private set; }
+
+		void CallbackManager_ProgressEvent(FS2ProgressInfo fs2ProgressInfos)
+		{
+			Application.Current.Dispatcher.Invoke(new Action(
+				() =>
+				{
+					ProgressInfos.Insert(0, fs2ProgressInfos);
+					if (ProgressInfos.Count > 1000)
+						ProgressInfos.RemoveAt(1000);
+				}
+				));
+			Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+		}
+
+		public RelayCommand CancelProgressCommand { get; private set; }
+		private void OnCancelProgress()
+		{
+			FS2Contract.CancelProgress();
+		}
+		#endregion
 
 		List<byte> _status;
 		List<byte> Status
@@ -100,7 +131,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SendRequestCommand { get; private set; }
-		private void OnSendRequest()
+		void OnSendRequest()
 		{
 			var bytes = TextBoxRequest.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
 			var response = USBManager.SendCodeToPanel(DevicesViewModel.SelectedDevice.Device, bytes);
@@ -108,18 +139,15 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
-		private void OnAutoDetectDevice()
+		void OnAutoDetectDevice()
 		{
-			var autoDetectedDevicesViewModel = new DevicesViewModel(DevicesViewModel.SelectedDevice.Device);
-			_progressService.Run(() =>
-			{
-				var device = AutoDetectOperationHelper.AutoDetectDevice();
-				autoDetectedDevicesViewModel = new DevicesViewModel(device);
-			}, () => DialogService.ShowModalWindow(autoDetectedDevicesViewModel), "Автопоиск устройств");
+			var device = AutoDetectOperationHelper.AutoDetectDevice();
+			var autoDetectedDevicesViewModel = new DevicesViewModel(device);
+			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
-		private void OnReadJournal()
+		void OnReadJournal()
 		{
 			var journalItems = MainManager.DeviceReadEventLog(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 			var journalViewModel = new JournalViewModel(journalItems);
@@ -131,22 +159,17 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
-		private void OnReadConfiguration()
+		void OnReadConfiguration()
 		{
-			var remoteDeviceConfiguration = new DeviceConfiguration();
-			_progressService.Run(() =>
-			{
-				remoteDeviceConfiguration = MainManager.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
-			},
-			() => DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration)), "Считывание конфигурации с устройства");
-
+			var remoteDeviceConfiguration = MainManager.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration));
 		}
 		bool CanReadConfiguration()
 		{
 			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 		public RelayCommand GetInformationCommand { get; private set; }
-		private void OnGetInformation()
+		void OnGetInformation()
 		{
 			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 			MessageBoxService.Show(result);
@@ -157,7 +180,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SynchronizeTimeCommand { get; private set; }
-		private void OnSynchronizeTime()
+		void OnSynchronizeTime()
 		{
 			MainManager.DeviceDatetimeSync(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 		}
@@ -167,7 +190,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }
-		private void OnSetPassword()
+		void OnSetPassword()
 		{
 			MainManager.DeviceSetPassword(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, DevicePasswordType.Administrator, "123");
 		}
@@ -177,7 +200,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
-		private void OnUpdateFirmwhare()
+		void OnUpdateFirmwhare()
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
@@ -197,7 +220,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SetPanelRegimeCommand { get; private set; }
-		private void OnSetPanelRegime()
+		void OnSetPanelRegime()
 		{
 
 		}
@@ -207,7 +230,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand UnsetPanelRegimeCommand { get; private set; }
-		private void OnUnsetPanelRegime()
+		void OnUnsetPanelRegime()
 		{
 
 		}
@@ -217,7 +240,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand WriteConfigurationCommand { get; private set; }
-		private void OnWriteConfiguration()
+		void OnWriteConfiguration()
 		{
 			MainManager.DeviceWriteConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 

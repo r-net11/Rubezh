@@ -15,6 +15,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -82,5 +84,14 @@
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TextBoxResponse}" Style="{x:Null}"/>
             </Grid>
         </Grid>
+        <Button Grid.Row="3" Content="Отмена" Command="{Binding CancelProgressCommand}" Width="100" />
+        <DataGrid Grid.Row="4" ItemsSource="{Binding ProgressInfos}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Stage" Binding="{Binding Stage}" Width="*" />
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*" />
+                <DataGridTextColumn Header="PercentComplete" Binding="{Binding PercentComplete}" Width="Auto" />
+                <DataGridTextColumn Header="BytesRW" Binding="{Binding BytesRW}" Width="Auto" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

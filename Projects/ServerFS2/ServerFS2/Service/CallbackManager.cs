@@ -16,6 +16,7 @@ namespace ServerFS2.Service
 		{
 			FS2Contract.CheckCancellationRequested();
 			Add(new FS2Callbac() { FS2ProgressInfo = progressInfo });
+			OnProgressEvent(progressInfo);
 			Trace.WriteLine("AddProgress: " + progressInfo.Comment);
 		}
 
@@ -56,6 +57,13 @@ namespace ServerFS2.Service
 				}
 				return result;
 			}
+		}
+
+		public static event Action<FS2ProgressInfo> ProgressEvent;
+		static void OnProgressEvent(FS2ProgressInfo fs2ProgressInfo)
+		{
+			if (ProgressEvent != null)
+				ProgressEvent(fs2ProgressInfo);
 		}
 	}
 

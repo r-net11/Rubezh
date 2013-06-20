@@ -436,7 +436,6 @@ namespace ServerFS2.Service
 		{
 			try
 			{
-				Trace.WriteLine("TaskSafeCallWithMonitoringSuspending");
 				var cancellationTokenSource = new CancellationTokenSource();
 				CancellationTokenSources.Add(cancellationTokenSource);
 				var cancellationToken = cancellationTokenSource.Token;

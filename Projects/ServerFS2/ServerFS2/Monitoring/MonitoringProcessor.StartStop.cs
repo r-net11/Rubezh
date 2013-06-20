@@ -10,17 +10,15 @@ namespace ServerFS2.Monitoring
 	{
 		static Thread MonitoringThread;
 		static AutoResetEvent PauseEvent;
-		static AutoResetEvent StopEvent;
 		static AutoResetEvent CheckPauseEvent;
-		static bool IsStopping;
+		static bool IsStopping = false;
 
 		public static void StartMonitoring()
 		{
-			IsStopping = false;
-			if (!DoMonitoring)
+			if (MonitoringThread == null)
 			{
+				Initialize();
 				StartTime = DateTime.Now;
-				DoMonitoring = true;
 				MonitoringThread = new Thread(OnRun);
 				MonitoringThread.Start();
 			}
@@ -29,14 +27,9 @@ namespace ServerFS2.Monitoring
 
 		public static void StopMonitoring()
 		{
-			if (IsStopping)
-				return;
-
 			IsStopping = true;
-			DoMonitoring = false;
 			SuspendMonitoring();
 			ResumeMonitoring();
-			LoopMonitoring = false;
 
 			if (MonitoringThread != null)
 			{
@@ -45,6 +38,7 @@ namespace ServerFS2.Monitoring
 			MonitoringThread = null;
 
 			StopTimeSynchronization();
+			IsStopping = false;
 		}
 
 		public static bool SuspendMonitoring()
@@ -66,7 +60,7 @@ namespace ServerFS2.Monitoring
 			PauseEvent = null;
 		}
 
-		public static void CheckSuspending()
+		public static bool CheckSuspending(bool throwException = true)
 		{
 			if (CheckPauseEvent != null)
 				CheckPauseEvent.Set();
@@ -76,9 +70,14 @@ namespace ServerFS2.Monitoring
 				if (PauseEvent.WaitOne(TimeSpan.FromMinutes(10)))
 				{
 					if (IsStopping)
-						throw new FS2StopMonitoringException();
+					{
+						if (throwException)
+							throw new FS2StopMonitoringException();
+						return true;
+					}
 				}
 			}
+			return false;
 		}
 	}
 }
