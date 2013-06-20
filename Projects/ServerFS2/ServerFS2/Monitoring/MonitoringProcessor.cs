@@ -22,7 +22,8 @@ namespace ServerFS2.Monitoring
 		{
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				MonitoringDevices.Add(new MonitoringDevice(device));
+				//if(device.IntAddress == 15)
+					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 			DoMonitoring = false;
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)

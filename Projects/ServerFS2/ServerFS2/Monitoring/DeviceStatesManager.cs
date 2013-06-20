@@ -358,7 +358,7 @@ namespace ServerFS2.Monitoring
 			ZoneStateManager.ChangeOnDeviceState();
 		}
 
-		//static DateTime startTime;
+		static DateTime startTime;
 		public static void GetDeviceCurrentState(Device device)
 		{
 			bool paramsChanged = false;
@@ -401,13 +401,13 @@ namespace ServerFS2.Monitoring
 				device.DeviceState.OnStateChanged();
 			}
 
-			//if (device.IntAddress == 2*256 + 6)
-			//{
-			//    Trace.WriteLine((DateTime.Now - startTime).TotalSeconds);
-			//    startTime = DateTime.Now;
-			//    Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
-			//    Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
-			//}
+			if (device.IntAddress == 2 * 256 + 6)
+			{
+				Trace.WriteLine((DateTime.Now - startTime).TotalSeconds);
+				startTime = DateTime.Now;
+				Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
+				Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
+			}
 		}
 
 		static void ChangeDustiness(Device device, byte dustinessByte, ref bool paramsChanged)
