@@ -85,6 +85,7 @@ namespace ServerFS2.Monitoring
 				ServerHelper.ResetOnePanelStates(Panel, ResetStateIds);
 				ResetStateIds = new List<string>();
 				DeviceStatesManager.UpdatePanelState(Panel);
+				MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Сброс теста"));
 			}
 
 			if (DevicesToIgnore != null && DevicesToIgnore.Count > 0)
@@ -161,7 +162,7 @@ namespace ServerFS2.Monitoring
 			requestsToDelete.ForEach(x => Requests.Remove(x));
 			if (SequentUnAnswered > maxSequentUnAnswered && !Panel.DeviceState.States.Any(x => x.DriverState == LostConnectionState))
 			{
-				ToLostConnectionState();
+				SetLostConnectionState();
 			}
 		}
 
@@ -195,7 +196,7 @@ namespace ServerFS2.Monitoring
 			IsStateRefreshNeeded = true;
 		}
 
-		void ToLostConnectionState()
+		void SetLostConnectionState()
 		{
 			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = LostConnectionState, Time = DateTime.Now } };
 			Panel.GetRealChildren().ForEach(x =>
@@ -207,7 +208,7 @@ namespace ServerFS2.Monitoring
 			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.Name));
 		}
 
-		void FromLostConnectionState()
+		void RemoveLostConnectionState()
 		{
 			Panel.DeviceState.States = new List<DeviceDriverState>();
 			Panel.GetRealChildren().ForEach(x =>
@@ -238,7 +239,7 @@ namespace ServerFS2.Monitoring
 				Requests.Add(request);
 			}
 			request.Id = USBManager.SendCodeToPanelAsync(Panel, 0x01, request.Bytes);
-			Trace.WriteLine("request.Id=" + request.Id);
+			//Trace.WriteLine("request.Id=" + request.Id);
 			Thread.Sleep(betweenDevicesSpan);
 		}
 
@@ -251,7 +252,7 @@ namespace ServerFS2.Monitoring
 			SequentUnAnswered = 0;
 			if (Panel.DeviceState.States.Any(x => x.DriverState == LostConnectionState))
 			{
-				FromLostConnectionState();
+				RemoveLostConnectionState();
 			}
 			CanRequestLastIndex = true;
 			LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
@@ -303,13 +304,14 @@ namespace ServerFS2.Monitoring
 			Device nextDevice;
 			for (int i = device.AddressOnShleif + 1; i < 256; i++)
 			{
-				nextDevice = Panel.Children.FirstOrDefault(x => x.AddressOnShleif == i);
+				nextDevice = Panel.Children.FirstOrDefault(x => x.AddressOnShleif == i && x.ShleifNo == device.ShleifNo);
 				if (nextDevice != null)
 					return nextDevice;
 			}
-			return Panel.Children.FirstOrDefault();
-		}
-
-		
+			if (device.ShleifNo == 1)
+				return Panel.Children.FirstOrDefault(x => x.ShleifNo == 2);
+			else
+				return Panel.Children.FirstOrDefault();
+		}		
 	}
 }

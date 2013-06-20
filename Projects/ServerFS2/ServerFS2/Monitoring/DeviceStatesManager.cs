@@ -97,18 +97,6 @@ namespace ServerFS2.Monitoring
 				stateWordBitArray = new BitArray(stateWordBytes.ToArray());
 			if(rawParametersBytes.Count > 0)
 				rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
-			
-			//if (device.AddressOnShleif == 56)
-			{
-				Trace.WriteLine("GetStates " + device.DottedPresentationNameAndAddress + " - " + BytesHelper.BytesToString(stateWordBytes) + " " + BytesHelper.BytesToString(rawParametersBytes));
-				//int index = 0;
-				//foreach (var bit in rawParametersBitArray)
-				//{
-				//    Trace.WriteLine(index.ToString() + " " + bit.ToString());
-				//    index++;
-				//}
-			}
-
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
@@ -130,13 +118,7 @@ namespace ServerFS2.Monitoring
 
 				}
 			}
-
 			ChangeDeviceStates(device, device.DeviceState.States, isSilent);
-
-			//foreach (var deviceDriverState in device.DeviceState.States)
-			//{
-			//    Trace.WriteLine("deviceDriverState " + deviceDriverState.DriverState.Name);
-			//}
 		}
 
 		static void SetStateByMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit)
@@ -376,24 +358,32 @@ namespace ServerFS2.Monitoring
 			ZoneStateManager.ChangeOnDeviceState();
 		}
 
+		//static DateTime startTime;
 		public static void GetDeviceCurrentState(Device device)
 		{
+			bool paramsChanged = false;
 			List<byte> data = new List<byte>();
 			if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
 			{
 				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
 				device.StateWordBytes = data.GetRange(0, 2);
 				if (device.Driver.DriverType == DriverType.SmokeDetector)
-					device.DeviceState.Dustiness = (float)data[8] / 100;
+				{
+					ChangeDustiness(device, data[8], ref paramsChanged);
+				}
 				if (device.Driver.DriverType == DriverType.HeatDetector)
-					device.DeviceState.Temperature = data[8];
+				{
+					ChangeTemperature(device, data[8], ref paramsChanged);
+				}
 			}
 			else if (device.Driver.DriverType == DriverType.CombinedDetector)
 			{
 				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
 				device.StateWordBytes = data.GetRange(0, 2);
-				device.DeviceState.Dustiness = (float)data[9] / 100;
-				device.DeviceState.Temperature = data[10];
+				{
+					ChangeDustiness(device, data[9], ref paramsChanged);
+					ChangeTemperature(device, data[10], ref paramsChanged);
+				}
 			}
 			else
 			{
@@ -404,6 +394,39 @@ namespace ServerFS2.Monitoring
 			{
 				device.StateWordBytes = stateWordBytes;
 				ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
+			}
+			else if (paramsChanged)
+			{
+				CallbackManager.Add(new FS2Callbac() { ChangedDeviceStates = new List<DeviceState>() { device.DeviceState } });
+				device.DeviceState.OnStateChanged();
+			}
+
+			//if (device.IntAddress == 2*256 + 6)
+			//{
+			//    Trace.WriteLine((DateTime.Now - startTime).TotalSeconds);
+			//    startTime = DateTime.Now;
+			//    Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
+			//    Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
+			//}
+		}
+
+		static void ChangeDustiness(Device device, byte dustinessByte, ref bool paramsChanged)
+		{
+			var dustiness = (float)dustinessByte / 100;
+			if (device.DeviceState.Dustiness != dustiness)
+			{
+				device.DeviceState.Dustiness = dustiness;
+				paramsChanged = true;
+			}
+		}
+
+		static void ChangeTemperature(Device device, byte temperatureByte, ref bool paramsChanged)
+		{
+			var temperature = temperatureByte;
+			if (device.DeviceState.Temperature != temperature)
+			{
+				device.DeviceState.Temperature = temperature;
+				paramsChanged = true;
 			}
 		}
 	}
