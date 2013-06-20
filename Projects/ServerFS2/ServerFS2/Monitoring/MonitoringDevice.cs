@@ -305,8 +305,6 @@ namespace ServerFS2.Monitoring
 			{
 				ServerHelper.SynchronizeTime(Panel);
 			}
-		}
-
-			
+		}			
 	}
 }

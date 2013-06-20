@@ -22,13 +22,11 @@ namespace ServerFS2.Monitoring
 			MonitoringDevices = new List<MonitoringDevice>();
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				//if(device.IntAddress == 15)
 					MonitoringDevices.Add(new MonitoringDevice(device));
 			}
 
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsPDUMonitoringable(x)))
 			{
-				//if (device.IntAddress == 15)
 					PDUDevices.Add(device);
 			}
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
@@ -80,8 +78,9 @@ namespace ServerFS2.Monitoring
 						monitoringDevice.CheckTasks();
 					}
 
-					if (CheckSuspending(false))
 					PDUDevices.ForEach(x => DeviceStatesManager.UpdatePDUPanelState(x));
+
+					if (CheckSuspending(false))
 						return;
 
 					if (IsTimeSynchronizationNeeded)
