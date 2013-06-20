@@ -33,6 +33,12 @@ namespace ServerFS2.Monitoring
 			UpdateDeviceStateOnPanelState(panel, bitArray, isSilent);
 		}
 
+		public static void UpdatePDUPanelState(Device panel, bool isSilent = false)
+		{
+			var bytes = ServerHelper.GetDeviceStatus(panel);
+			Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
+		}
+
 		public static void GetAllStates()
 		{
 			foreach (var device in ConfigurationManager.Devices)
@@ -87,6 +93,17 @@ namespace ServerFS2.Monitoring
 					device.Driver.DriverType == DriverType.PDU_PT ||
 					device.Driver.DriverType == DriverType.BUNS || 
 					device.Driver.DriverType == DriverType.BUNS_2);
+		}
+
+		public static bool IsPDUMonitoringable(Device device)
+		{
+			return !device.IsMonitoringDisabled &&
+				(device.Driver.DriverType == DriverType.IndicationBlock ||
+					device.Driver.DriverType == DriverType.PDU ||
+					device.Driver.DriverType == DriverType.PDU_PT ||
+					device.Driver.DriverType == DriverType.UOO_TL ||
+					device.Driver.DriverType == DriverType.MS_3 ||
+					device.Driver.DriverType == DriverType.MS_4);
 		}
 
 		static void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
@@ -369,6 +386,7 @@ namespace ServerFS2.Monitoring
 				device.StateWordBytes = data.GetRange(0, 2);
 				if (device.Driver.DriverType == DriverType.SmokeDetector)
 				{
+					ChangeSmokiness(device, ref paramsChanged);
 					ChangeDustiness(device, data[8], ref paramsChanged);
 				}
 				if (device.Driver.DriverType == DriverType.HeatDetector)
@@ -381,6 +399,7 @@ namespace ServerFS2.Monitoring
 				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
 				device.StateWordBytes = data.GetRange(0, 2);
 				{
+					ChangeSmokiness(device, ref paramsChanged);
 					ChangeDustiness(device, data[9], ref paramsChanged);
 					ChangeTemperature(device, data[10], ref paramsChanged);
 				}
@@ -405,11 +424,22 @@ namespace ServerFS2.Monitoring
 			{
 				Trace.WriteLine((DateTime.Now - startTime).TotalSeconds);
 				startTime = DateTime.Now;
+				Trace.WriteLine("Smokiness " + device.DeviceState.Smokiness);
 				Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
 				Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
 			}
 		}
 
+		static void ChangeSmokiness(Device device, ref bool paramsChanged)
+		{
+			var smokiness = USBManager.SendCodeToPanel(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+			if (device.DeviceState.Smokiness != smokiness)
+			{
+				device.DeviceState.Smokiness = smokiness;
+				paramsChanged = true;
+			}
+		}
+		
 		static void ChangeDustiness(Device device, byte dustinessByte, ref bool paramsChanged)
 		{
 			var dustiness = (float)dustinessByte / 100;
