@@ -36,8 +36,6 @@ namespace ServerFS2
 		{
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(false);
 			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
-			Rom = panelDatabaseReader.GetRomDBBytes(device);
-			Flash = panelDatabaseReader.GetFlashDBBytes(device);
 
 			//SendCode(CreateBytesArray(0x01, 0x02, 0x34, 0x01)); // Запись в MDS
 			//SendCode(CreateBytesArray(0x01, 0x02, 0x37)); // Информация о прошивке
