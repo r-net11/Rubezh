@@ -17,10 +17,11 @@ namespace ServerFS2
 		static void SetFlashConfig(Device device, List<byte> deviceFlash)
 		{
 			deviceFlash.RemoveRange(0, 0x100);
-			_crc = new List<byte>() { deviceFlash[0], deviceFlash[1] };
+			_crc = new List<byte> { deviceFlash[0], deviceFlash[1] };
 			deviceFlash[0] = 0;
 			deviceFlash[1] = 0;
-			USBManager.SendCodeToPanel(device, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x96, deviceFlash);
+			for(int i = 0; i < deviceFlash.Count - 1; i = i + 0x96)
+				USBManager.SendCodeToPanel(device, 0x02, 0x52, BitConverter.GetBytes(0x100 + i).Reverse(), Math.Min(deviceFlash.Count - i, 0x96), deviceFlash.GetRange(i, Math.Min(deviceFlash.Count - i, 0x96)));
 			USBManager.SendCodeToPanel(device, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x01, _crc[0], _crc[1]);
 		}
 
@@ -32,13 +33,13 @@ namespace ServerFS2
 			}
 		}
 
-		public static void SetDeviceConfig(Device device, List<byte> Rom, List<byte> Flash)
+		public static void SetDeviceConfig(Device device, List<byte> Flash, List<byte> Rom)
 		{
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(false);
 			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
 
-			//SendCode(CreateBytesArray(0x01, 0x02, 0x34, 0x01)); // Запись в MDS
-			//SendCode(CreateBytesArray(0x01, 0x02, 0x37)); // Информация о прошивке
+			USBManager.SendCodeToPanelAsync(device.ParentUSB, 0x02, 0x34, 0x01); // Запись в MDS
+			USBManager.SendCodeToPanelAsync(device.ParentUSB, 0x02, 0x37); // Информация о прошивке
 			BlockBD(device);
 			SetFlashConfig(device, Flash);
 			var delay = (int)Math.Pow(2, USBManager.SendCodeToPanel(device, 0x39, 0x01).Bytes[1]);
@@ -55,7 +56,7 @@ namespace ServerFS2
 			Thread.Sleep(delay);
 			SetRomConfig(device, Rom, romDBFirstIndex);
 			StopUpdating(device);
-			//ConfirmationLongTermOperation(device);
+			ConfirmationLongTermOperation(device);
 		}
 
 		// Окончание записи памяти - сброс

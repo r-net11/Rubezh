@@ -105,11 +105,6 @@ namespace ServerFS2
 						State = GetDeviceConfigHelper.GetEventTypeByCode(eventType),
 						Operation = zoneLogicOperationByte == 0x01 ? ZoneLogicOperation.All : ZoneLogicOperation.Any
 					};
-					if (driverType == DriverType.MRO_2)
-					{
-						clause.ZoneLogicMROMessageNo = (ZoneLogicMROMessageNo)messageNo;
-						clause.ZoneLogicMROMessageType = (ZoneLogicMROMessageType)messageType;
-					}
 					for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
 					{
 						tableDynamicSize += 3;
