@@ -117,8 +117,18 @@ namespace ServerFS2
 								var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetailsFor.dictionary);
 								var bitState = new BitArray(new int[] { FSInternalJournal.State });
 								foreach (var bit in metadataDictionary.bit)
-									if (bitState.Get(Convert.ToInt32(bit.no)))
+								{
+									string stateVal = "0x" + FSInternalJournal.State.ToString("X2");
+									if (bit.val == stateVal && bit.no == null)
+									{
+										result += bit.value + "\n";
+										break;
+									}
+									if (bit.no != null && bitState.Get(Convert.ToInt32(bit.no)))
+									{
 										result += metadataDictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+									}
+								}
 							}
 						}
 					}

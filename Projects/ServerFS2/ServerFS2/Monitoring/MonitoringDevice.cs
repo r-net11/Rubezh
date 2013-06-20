@@ -34,20 +34,21 @@ namespace ServerFS2.Monitoring
 			IsReadingNeeded = false;
 			LostConnectionState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором");
 			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
-			deviceToGetParams = Panel.Children.FirstOrDefault();
+			RealChildren = Panel.GetRealChildren();
 		}
 
-		public List<string> ResetStateIds { get; set; }
-		public static event Action<FS2JournalItem> NewJournalItem;
 		int SequentUnAnswered;
 		int lastSystemIndex;
 		DriverState LostConnectionState;
 		DriverState InitializingState;
-		Device deviceToGetParams;
+		int IndexToGetParams;
+		List<Device> RealChildren;
 
 		public bool CanRequestLastIndex = true;
 		public DateTime LastIndexDateTime;
 
+		public static event Action<FS2JournalItem> NewJournalItem;
+		public List<string> ResetStateIds { get; set; }
 		public List<Device> DevicesToIgnore { get; set; }
 		public List<Device> DevicesToResetIgnore { get; set; }
 		public List<CommandItem> CommandItems { get; set; }
@@ -113,8 +114,8 @@ namespace ServerFS2.Monitoring
 			{
 				RefreshStates();
 			}
-			//DeviceStatesManager.GetDeviceCurrentState(deviceToGetParams);
-			//deviceToGetParams = GetNextDevice(deviceToGetParams);
+			DeviceStatesManager.GetDeviceCurrentState(RealChildren[IndexToGetParams]);
+			NextIndextoGetParams();
 			CheckForLostConnection();
 			RequestLastIndex();
 		}
@@ -221,6 +222,13 @@ namespace ServerFS2.Monitoring
 			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
 		}
 
+		void NextIndextoGetParams()
+		{
+			IndexToGetParams++;
+			if (IndexToGetParams + 1 >= RealChildren.Count)
+				IndexToGetParams = 0;
+		}	
+
 		public void Initialize()
 		{
 			DeviceStatesManager.GetStates(Panel, true);
@@ -299,19 +307,6 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		Device GetNextDevice(Device device)
-		{
-			Device nextDevice;
-			for (int i = device.AddressOnShleif + 1; i < 256; i++)
-			{
-				nextDevice = Panel.Children.FirstOrDefault(x => x.AddressOnShleif == i && x.ShleifNo == device.ShleifNo);
-				if (nextDevice != null)
-					return nextDevice;
-			}
-			if (device.ShleifNo == 1)
-				return Panel.Children.FirstOrDefault(x => x.ShleifNo == 2);
-			else
-				return Panel.Children.FirstOrDefault();
-		}		
+			
 	}
 }

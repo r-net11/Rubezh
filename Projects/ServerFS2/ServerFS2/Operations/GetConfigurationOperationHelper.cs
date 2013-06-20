@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -105,11 +106,6 @@ namespace ServerFS2
 						State = GetDeviceConfigHelper.GetEventTypeByCode(eventType),
 						Operation = zoneLogicOperationByte == 0x01 ? ZoneLogicOperation.All : ZoneLogicOperation.Any
 					};
-					if (driverType == DriverType.MRO_2)
-					{
-						clause.ZoneLogicMROMessageNo = (ZoneLogicMROMessageNo)messageNo;
-						clause.ZoneLogicMROMessageType = (ZoneLogicMROMessageType)messageType;
-					}
 					for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
 					{
 						tableDynamicSize += 3;
@@ -492,8 +488,20 @@ namespace ServerFS2
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(CheckMonitoringSuspend);
 			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
 			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
+			
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
 			DeviceRom = panelDatabaseReader.GetRomDBBytes(PanelDevice);
+			stopwatch.Stop();
+			Trace.WriteLine("GetRomDBBytes " + stopwatch.Elapsed.TotalSeconds);
+
+
+			stopwatch = new Stopwatch();
+			stopwatch.Start();
 			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
+			stopwatch.Stop();
+			Trace.WriteLine("GetFlashDBBytes " + stopwatch.Elapsed.TotalSeconds);
+			
 
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
 			ParseZonesRom(1542, panelDatabaseReader.RomDBFirstIndex);

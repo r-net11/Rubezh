@@ -47,32 +47,33 @@ namespace ServerFS2
 						response.Bytes.RemoveRange(0, 2);
 					}
 
-					if (response.Bytes.Count < 1)
-					{
-						throw new FS2USBException("Недостаточное количество байт в ответе");
-						return response.SetError("Недостаточное количество байт в ответе");
-					}
-					var functionCode = response.Bytes[0];
-					if ((functionCode & 128) == 128)
-					{
-						var errorName = "В ответе содержится код ошибки";
-						if (response.Bytes.Count >= 2)
-						{
-							errorName = USBExceptionHelper.GetError(response.Bytes[1]);
-						}
-						throw new FS2USBException(errorName);
-						return response.SetError(errorName);
-					}
-					if ((functionCode & 64) != 64)
-					{
-						//throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
-						return response.SetError("В пришедшем ответе не содержится маркер ответа");
-					}
-					if ((functionCode & 63) != outputFunctionCode)
-					{
-						throw new FS2USBException("В пришедшем ответе не совпадает код функции");
-						return response.SetError("В пришедшем ответе не совпадает код функции");
-					}
+					//if (response.Bytes.Count < 1)
+					//{
+					//    throw new FS2USBException("Недостаточное количество байт в ответе");
+					//    return response.SetError("Недостаточное количество байт в ответе");
+					//}
+					//var functionCode = response.Bytes[0];
+					//if ((functionCode & 128) == 128)
+					//{
+					//    var errorName = "В ответе содержится код ошибки";
+					//    if (response.Bytes.Count >= 2)
+					//    {
+					//        errorName = USBExceptionHelper.GetError(response.Bytes[1]);
+					//    }
+					//    throw new FS2USBException(errorName);
+					//    return response.SetError(errorName);
+					//}
+					//if ((functionCode & 64) != 64)
+					//{
+					//    throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
+					//    return response.SetError("В пришедшем ответе не содержится маркер ответа");
+					//}
+
+					//if ((functionCode & 63) != outputFunctionCode)
+					//{
+					//    throw new FS2USBException("В пришедшем ответе не совпадает код функции");
+					//    return response.SetError("В пришедшем ответе не совпадает код функции");
+					//}
 
 					response.Bytes.RemoveRange(0, 1);
 					return response;

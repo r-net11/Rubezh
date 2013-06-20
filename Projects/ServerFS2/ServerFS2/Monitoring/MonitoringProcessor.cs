@@ -13,6 +13,7 @@ namespace ServerFS2.Monitoring
 	public static partial class MonitoringProcessor
 	{
 		static List<MonitoringDevice> MonitoringDevices;
+		static List<Device> PDUDevices = new List<Device>();
 		static DateTime StartTime;
 		static object locker = new object();
 
@@ -21,7 +22,14 @@ namespace ServerFS2.Monitoring
 			MonitoringDevices = new List<MonitoringDevice>();
 			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
 			{
-				MonitoringDevices.Add(new MonitoringDevice(device));
+				//if(device.IntAddress == 15)
+					MonitoringDevices.Add(new MonitoringDevice(device));
+			}
+
+			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsPDUMonitoringable(x)))
+			{
+				//if (device.IntAddress == 15)
+					PDUDevices.Add(device);
 			}
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
 			{
@@ -42,6 +50,12 @@ namespace ServerFS2.Monitoring
 				DeviceStatesManager.SetMonitoringDisabled();
 				MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
 				DeviceStatesManager.RemoveInitializingFromAll();
+
+					//Stopwatch stopwatch = new Stopwatch();
+					//stopwatch.Start();
+					//MonitoringDevices.FirstOrDefault().Panel.GetRealChildren().ForEach(x => DeviceStatesManager.GetDeviceCurrentState(x));
+					//stopwatch.Stop();
+					//Trace.WriteLine("GetDeviceCurrentState " + stopwatch.Elapsed.TotalSeconds);
 			}
 			catch (FS2StopMonitoringException)
 			{
@@ -67,6 +81,7 @@ namespace ServerFS2.Monitoring
 					}
 
 					if (CheckSuspending(false))
+					PDUDevices.ForEach(x => DeviceStatesManager.UpdatePDUPanelState(x));
 						return;
 
 					if (IsTimeSynchronizationNeeded)
