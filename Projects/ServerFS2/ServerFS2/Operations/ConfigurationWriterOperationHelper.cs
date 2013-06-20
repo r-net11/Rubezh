@@ -15,7 +15,7 @@ namespace ServerFS2
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
 			var systemDatabaseCreator = new SystemDatabaseCreator();
-			systemDatabaseCreator.Create();
+			systemDatabaseCreator.Create(0x3000);
 
 			var panelDatabase = systemDatabaseCreator.PanelDatabases.FirstOrDefault(x => x.ParentPanel.UID == device.UID);
 			if (panelDatabase == null)
