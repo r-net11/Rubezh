@@ -26,7 +26,7 @@ namespace ServerFS2
 			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
 			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
-			SetConfigurationOperationHelper.SetDeviceConfig(parentPanel, bytes2, bytes1);
+			SetConfigurationOperationHelper.WriteDeviceConfiguration(parentPanel, bytes2, bytes1);
 		}
 	}
 }

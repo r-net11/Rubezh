@@ -94,6 +94,7 @@ namespace ServerFS2.ConfigurationWriter
 					break;
 				case DriverType.HeatDetector:
 					BytesDatabase.AddByte(0, "Температура", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.CombinedDetector:
 					BytesDatabase.AddByte(computerConfigurationData, "Конфигурация с компа");
