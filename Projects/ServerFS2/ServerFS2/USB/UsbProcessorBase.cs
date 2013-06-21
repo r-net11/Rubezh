@@ -9,7 +9,7 @@ namespace ServerFS2
 	{
 		protected List<byte> _result = new List<byte>();
 		protected readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
-		protected readonly AutoResetEvent AautoWaitEvent = new AutoResetEvent(false);
+		protected readonly AutoResetEvent AutoWaitEvent = new AutoResetEvent(false);
 		protected List<Response> Responses = new List<Response>();
 		protected List<byte> LocalResult = new List<byte>();
 		public bool WithoutId { get; set; }

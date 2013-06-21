@@ -137,11 +137,20 @@ namespace ServerFS2.Processor
 		#region Administrator
 		public static void SetNewConfig(DeviceConfiguration deviceConfiguration)
 		{
-			StopMonitoring();
-			ConfigurationManager.DeviceConfiguration = deviceConfiguration;
-			ConfigurationManager.Update();
-			Thread.Sleep(TimeSpan.FromSeconds(20));
-			StartMonitoring();
+			try
+			{
+				StopMonitoring();
+				ConfigurationManager.DeviceConfiguration = deviceConfiguration;
+				ConfigurationManager.Update();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.SetNewConfig");
+			}
+			finally
+			{
+				StartMonitoring();
+			}
 		}
 
 		public static void DeviceWriteConfig(Device device, bool isUSB)

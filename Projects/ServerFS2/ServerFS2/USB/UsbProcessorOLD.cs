@@ -115,7 +115,7 @@ namespace ServerFS2
 				    LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
-					AautoWaitEvent.Set();
+					AutoWaitEvent.Set();
 			}
 		}
 
@@ -188,7 +188,7 @@ namespace ServerFS2
 					for (int i = 0; i < 15; i++)
 					{
 						Send(request.Bytes);
-						AautoWaitEvent.WaitOne(timeout);
+						AutoWaitEvent.WaitOne(timeout);
 						if (RequestCollection.Count() == 0)
 							break;
 					}

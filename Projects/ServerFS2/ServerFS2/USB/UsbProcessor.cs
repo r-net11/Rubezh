@@ -46,13 +46,14 @@ namespace ServerFS2
 			UsbHidPort.SpecifiedDevice.DataRecieved -= new DataRecievedEventHandler(OnDataRecieved);
 			UsbHidPort.SpecifiedDevice.Dispose();
 			UsbHidPort.Dispose();
+			//AutoWaitEvent.Set();
 		}
 
 		public override bool Send(List<byte> bytes)
 		{
+			//Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
 			if (IsDisposed)
 				return false;
-			//Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());
 			return true;
 		}
@@ -102,13 +103,13 @@ namespace ServerFS2
 					LocalResult = new List<byte> { b };
 				}
 				if (RequestCollection.Count() == 0)
-					AautoWaitEvent.Set();
+					AutoWaitEvent.Set();
 			}
 		}
 
 		void OnResponseRecieved(Response response)
 		{
-			//Trace.WriteLine("response " + BytesHelper.BytesToString(response.Bytes));
+			//Trace.WriteLine("Response " + BytesHelper.BytesToString(response.Bytes));
 			if (WithoutId)
 			{
 				var request = RequestCollection.GetFirst();
@@ -182,7 +183,7 @@ namespace ServerFS2
 					for (int i = 0; i < countRacall; i++)
 					{
 						Send(request.Bytes);
-						AautoWaitEvent.WaitOne(timeout);
+						AutoWaitEvent.WaitOne(timeout);
 						if (RequestCollection.Count() == 0)
 							break;
 					}

@@ -68,7 +68,7 @@ namespace ServerFS2.Monitoring
 			remoteDeviceConfiguration.Update();
 			foreach (var remoteDevice in remoteDeviceConfiguration.Devices)
 			{
-				if (remoteDevice.ParentPanel == null)
+				if (remoteDevice.Driver.IsPanel || remoteDevice.ParentPanel == null)
 					continue;
 
 				var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
@@ -108,6 +108,8 @@ namespace ServerFS2.Monitoring
 
 		static void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
 		{
+			if (stateWordBytes == null || rawParametersBytes == null)
+				return;
 			BitArray stateWordBitArray = null;
 			BitArray rawParametersBitArray = null;
 			if(stateWordBytes.Count > 0)
@@ -383,10 +385,12 @@ namespace ServerFS2.Monitoring
 				return;
 			}
 			bool paramsChanged = false;
-			List<byte> data = new List<byte>();
+			List<byte> data = null;
 			if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
 			{
 				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
+				if (data == null)
+					return;
 				device.StateWordBytes = data.GetRange(0, 2);
 				if (device.Driver.DriverType == DriverType.SmokeDetector)
 				{
@@ -401,6 +405,8 @@ namespace ServerFS2.Monitoring
 			else if (device.Driver.DriverType == DriverType.CombinedDetector)
 			{
 				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
+				if (data == null)
+					return;
 				device.StateWordBytes = data.GetRange(0, 2);
 				{
 					ChangeSmokiness(device, ref paramsChanged);
@@ -411,6 +417,8 @@ namespace ServerFS2.Monitoring
 			else
 			{
 				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+				if (data == null)
+					return;
 			}
 			var stateWordBytes = data.GetRange(0, 2);
 			if (device.StateWordBytes != stateWordBytes)

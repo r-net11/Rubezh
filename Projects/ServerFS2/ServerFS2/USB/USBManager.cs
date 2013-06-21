@@ -158,7 +158,7 @@ namespace ServerFS2
 			return false;
 		}
 
-		public static UsbProcessor GetUsbProcessor(Device panelDevice)
+		static UsbProcessor GetUsbProcessor(Device panelDevice)
 		{
 			var parentUSB = panelDevice.ParentUSB;
 			if (parentUSB != null)

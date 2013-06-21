@@ -8,9 +8,6 @@ using Microsoft.Win32.SafeHandles;
 namespace UsbLibrary
 {
 	#region Custom exception
-	/// <summary>
-	/// Generic HID device exception
-	/// </summary>
 	public class HIDDeviceException : ApplicationException
 	{
 		public HIDDeviceException(string strMessage) : base(strMessage) { }
@@ -26,9 +23,7 @@ namespace UsbLibrary
 		}
 	}
 	#endregion
-	/// <summary>
-	/// Abstract HID device : Derive your new device controller class from this
-	/// </summary>
+
 	public abstract class HIDDevice : Win32Usb, IDisposable
 	{
 		#region Privates variables
@@ -43,23 +38,20 @@ namespace UsbLibrary
 		#endregion
 
 		#region IDisposable Members
-		/// <summary>
-		/// Dispose method
-		/// </summary>
+		bool IsDisposing = false;
+
 		public void Dispose()
 		{
+			IsDisposing = true;
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-		/// <summary>
-		/// Disposer called by both dispose and finalise
-		/// </summary>
-		/// <param name="bDisposing">True if disposing</param>
+
 		protected virtual void Dispose(bool bDisposing)
 		{
 			try
 			{
-				if (bDisposing)	// if we are disposing, need to close the managed resources
+				if (bDisposing)
 				{
 					if (m_oFile != null)
 					{
@@ -67,24 +59,19 @@ namespace UsbLibrary
 						m_oFile = null;
 					}
 				}
-				if (m_hHandle != IntPtr.Zero)	// Dispose and finalize, get rid of unmanaged resources
+				if (m_hHandle != IntPtr.Zero)
 				{
-
 					CloseHandle(m_hHandle);
 				}
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Console.WriteLine(ex.ToString());
+				Console.WriteLine(e.ToString());
 			}
 		}
 		#endregion
 
 		#region Privates/protected
-		/// <summary>
-		/// Initialises the device
-		/// </summary>
-		/// <param name="strPath">Path to the device</param>
 		private void Initialise(string strPath)
 		{
 			// Create the file from the device path
@@ -127,26 +114,24 @@ namespace UsbLibrary
 				throw HIDDeviceException.GenerateWithWinError("Failed to create device file");
 			}
 		}
-		/// <summary>
-		/// Kicks off an asynchronous read which completes when data is read or when the device
-		/// is disconnected. Uses a callback.
-		/// </summary>
+
 		private void BeginAsyncRead()
 		{
-			byte[] arrInputReport = new byte[m_nInputReportLength];
-			// put the buff we used to receive the stuff as the async state then we can get at it when the read completes
+			if (IsDisposing)
+				return;
 
+			byte[] arrInputReport = new byte[m_nInputReportLength];
 			if (m_oFile != null)
 			{
 				m_oFile.BeginRead(arrInputReport, 0, m_nInputReportLength, new AsyncCallback(ReadCompleted), arrInputReport);
 			}
 		}
-		/// <summary>
-		/// Callback for above. Care with this as it will be called on the background thread from the async read
-		/// </summary>
-		/// <param name="iResult">Async result parameter</param>
+
 		protected void ReadCompleted(IAsyncResult iResult)
 		{
+			if (IsDisposing)
+				return;
+
 			byte[] arrBuff = (byte[])iResult.AsyncState;	// retrieve the read buffer
 			try
 			{
@@ -175,10 +160,7 @@ namespace UsbLibrary
 				Dispose();
 			}
 		}
-		/// <summary>
-		/// Write an output report to the device.
-		/// </summary>
-		/// <param name="oOutRep">Output report to write</param>
+
 		protected void Write(OutputReport oOutRep)
 		{
 			try
@@ -196,16 +178,11 @@ namespace UsbLibrary
 				Console.WriteLine(exx.ToString());
 			}
 		}
-		/// <summary>
-		/// virtual handler for any action to be taken when data is received. Override to use.
-		/// </summary>
-		/// <param name="oInRep">The input report that was received</param>
+
 		protected virtual void HandleDataReceived(InputReport oInRep)
 		{
 		}
-		/// <summary>
-		/// Virtual handler for any action to be taken when a device is removed. Override to use.
-		/// </summary>
+
 		protected virtual void HandleDeviceRemoved()
 		{
 		}
@@ -290,34 +267,18 @@ namespace UsbLibrary
 		#endregion
 
 		#region Publics
-		/// <summary>
-		/// Event handler called when device has been removed
-		/// </summary>
 		public event EventHandler OnDeviceRemoved;
-		/// <summary>
-		/// Accessor for output report length
-		/// </summary>
+
 		public int OutputReportLength
 		{
-			get
-			{
-				return m_nOutputReportLength;
-			}
+			get { return m_nOutputReportLength; }
 		}
-		/// <summary>
-		/// Accessor for input report length
-		/// </summary>
+
 		public int InputReportLength
 		{
-			get
-			{
-				return m_nInputReportLength;
-			}
+			get { return m_nInputReportLength; }
 		}
-		/// <summary>
-		/// Virtual method to create an input report for this device. Override to use.
-		/// </summary>
-		/// <returns>A shiny new input report</returns>
+
 		public virtual InputReport CreateInputReport()
 		{
 			return null;

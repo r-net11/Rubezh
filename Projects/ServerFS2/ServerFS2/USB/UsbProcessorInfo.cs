@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 using System;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -10,37 +11,27 @@ namespace ServerFS2
 		public UsbProcessor UsbProcessor { get; set; }
 		public string SerialNo { get; set; }
 		public int TypeNo { get; set; }
-		public bool IsUSBPanel { get; set; }
 		public bool IsUSBMS { get; set; }
 		public DriverType USBDriverType { get; set; }
 		public Device Device { get; set; }
 
 		public void Initialize()
 		{
-			TypeNo = GetUSBTypeNo();
-			USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
-			if (TypeNo == -1)
-			{
-				IsUSBMS = true;
-				SetIdOn();
-				UsbProcessor.WithoutId = false;
-			}
+			SetIdOn();
+			if (UsbProcessor.WithoutId)
+				TypeNo = GetUSBTypeNo();
 			else
-			{
-				IsUSBPanel = true;
-				UsbProcessor.WithoutId = true;
-			}
-
+				TypeNo = -1;
+			USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
 			SerialNo = GetUSBSerialNo();
 		}
 
 		int GetUSBTypeNo()
 		{
-			UsbProcessor.WithoutId = true;
 			var bytes = new List<byte>() { 0x02, 0x01, 0x03 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			if (responce != null)
 			{
 				if (responce.Bytes.Count > 2)
@@ -48,7 +39,6 @@ namespace ServerFS2
 					return responce.Bytes[2];
 				}
 			}
-			UsbProcessor.WithoutId = false;
 			return -1;
 		}
 
@@ -63,7 +53,9 @@ namespace ServerFS2
 				var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
 				UsbProcessor.WithoutId = false;
 			}
-			return HasResponceWithID();
+			var result = HasResponceWithID();
+			UsbProcessor.WithoutId = !result;
+			return result;
 		}
 
 		bool HasResponceWithoutID()
@@ -117,7 +109,7 @@ namespace ServerFS2
 				}
 
 				byte freeChannelAddress = 0;
-				for (int i = 1; i <= 100; i++)
+				for (int i = 1; i <= 256; i++)
 				{
 
 					if (!channelDevice.Children.Any(x => x.IntAddress == i))

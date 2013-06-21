@@ -12,21 +12,22 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="200" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Background="White">
                         <StackPanel>
                             <CheckBox IsChecked="{Binding StartMonitoring}" Content="Start Monitoring" />
                         </StackPanel>
                         <StackPanel>
-                            <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
-                            <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel>
-                            <Button Content="Admin Command" Command="{Binding TestAdminCommand}" Width="200" Margin="2" />
                             <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
                             <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
                             <Button Content="SuspendMonitoring" Command="{Binding SuspendMonitoringCommand}" Width="200" Margin="2" />
                             <Button Content="ResumeMonitoring" Command="{Binding ResumeMonitoringCommand}" Width="200" Margin="2" />
+                        </StackPanel>
+                        <StackPanel>
+                            <Button Content="SetNewConfig" Command="{Binding SetNewConfigCommand}" Width="200" Margin="2" />
+                            <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
+                            <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
                         </StackPanel>
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">
@@ -63,6 +64,14 @@
                             <TextBlock Text="{Binding Detalization}" TextWrapping="WrapWithOverflow" Foreground="White" Margin="2" />
                         </StackPanel>
                     </StackPanel>
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding ProgressInfos}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Stage" Binding="{Binding Stage}" Width="*" />
+                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*" />
+                            <DataGridTextColumn Header="PercentComplete" Binding="{Binding PercentComplete}" Width="Auto" />
+                            <DataGridTextColumn Header="BytesRW" Binding="{Binding BytesRW}" Width="Auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Устройства">
