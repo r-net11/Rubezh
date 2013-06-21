@@ -29,7 +29,7 @@ namespace ServerFS2
 		public List<byte> GetRomDBBytes(Device device)
 		{
 			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
-			var response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
+			var response = USBManager.Send(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
 			var result = response.Bytes;
 			var romDBLastIndex = BytesHelper.ExtractTriple(response.Bytes, 9);
 
@@ -41,7 +41,7 @@ namespace ServerFS2
 				CheckSuspending();
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, romDBLastIndex - i);
-				response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
+				response = USBManager.Send(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
 				result.AddRange(response.Bytes);
 			}
 			return result;
@@ -60,7 +60,7 @@ namespace ServerFS2
 				CheckSuspending();
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
-				var response = USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
+				var response = USBManager.Send(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
 				result.AddRange(response.Bytes);
 			}
 			var nullbytes = new List<byte>();
@@ -74,7 +74,7 @@ namespace ServerFS2
 		{
 			CheckSuspending();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
-			var response = USBManager.SendCodeToPanel(device, 0x01, 0x57);
+			var response = USBManager.Send(device, 0x01, 0x57);
 			return BytesHelper.ExtractTriple(response.Bytes, 1);
 		}
 
@@ -82,7 +82,7 @@ namespace ServerFS2
 		{
 			CheckSuspending();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
-			var response = USBManager.SendCodeToPanel(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
+			var response = USBManager.Send(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
 			return BytesHelper.ExtractTriple(response.Bytes, 6);
 		}
 	}

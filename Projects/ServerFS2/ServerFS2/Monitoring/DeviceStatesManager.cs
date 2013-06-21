@@ -436,7 +436,7 @@ namespace ServerFS2.Monitoring
 
 		static void ChangeSmokiness(Device device, ref bool paramsChanged)
 		{
-			var smokiness = USBManager.SendCodeToPanel(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+			var smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 			if (device.DeviceState.Smokiness != smokiness)
 			{
 				device.DeviceState.Smokiness = smokiness;

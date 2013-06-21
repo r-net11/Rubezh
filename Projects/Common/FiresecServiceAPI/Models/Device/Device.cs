@@ -340,7 +340,12 @@ namespace FiresecAPI.Models
 
 		public Device ParentPanel
 		{
-			get { return AllParents.FirstOrDefault(x => (x.Driver.IsPanel)); }
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => (x.Driver.IsPanel));
+			}
 		}
 
 		public string ConnectedTo

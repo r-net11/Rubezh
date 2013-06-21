@@ -15,12 +15,12 @@ namespace ServerFS2
 
 		public static void SynchronizeTime(Device device)
 		{
-			USBManager.SendCodeToPanel(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
+			USBManager.Send(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
 		}
 
 		public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
 		{
-			return USBManager.SendCodeToPanel(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1).Bytes;
+			return USBManager.Send(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1).Bytes;
 		}
 	}
 }

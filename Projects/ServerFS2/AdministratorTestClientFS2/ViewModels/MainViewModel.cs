@@ -134,7 +134,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnSendRequest()
 		{
 			var bytes = TextBoxRequest.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
-			var response = USBManager.SendCodeToPanel(DevicesViewModel.SelectedDevice.Device, bytes);
+			var response = USBManager.Send(DevicesViewModel.SelectedDevice.Device, bytes);
 			TextBoxResponse += BytesHelper.BytesToString(response.Bytes);
 		}
 

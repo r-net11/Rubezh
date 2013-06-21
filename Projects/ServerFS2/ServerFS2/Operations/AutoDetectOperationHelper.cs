@@ -15,7 +15,7 @@ namespace ServerFS2
 			bytes.Add(0x01);
 			bytes.Add(0x01);
 			bytes.Add(0x04);
-			var response = USBManager.SendCodeToPanel(null, bytes);
+			var response = USBManager.Send(null, bytes);
 
 			var computerDevice = new Device();
 			var msDevice = new Device();
@@ -63,7 +63,7 @@ namespace ServerFS2
 					bytes.Add(sleif);
 					bytes.Add(deviceCount);
 					bytes.Add(0x3C);
-					response = USBManager.SendCodeToPanel(msDevice, bytes);
+					response = USBManager.Send(msDevice, bytes);
 					if (response.Bytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
 					{
 						var device = new Device();
@@ -76,7 +76,7 @@ namespace ServerFS2
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
 						bytes.Add(0x03);
-						response = USBManager.SendCodeToPanel(msDevice, bytes);
+						response = USBManager.Send(msDevice, bytes);
 						device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(response.Bytes[7]));
 
 						bytes = new List<byte>();
@@ -84,7 +84,7 @@ namespace ServerFS2
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
 						bytes.Add(0x12);
-						response = USBManager.SendCodeToPanel(msDevice, bytes);
+						response = USBManager.Send(msDevice, bytes);
 						device.Properties.Add(new Property() { Name = "Version", Value = response.Bytes[7].ToString("X2") + "." + response.Bytes[8].ToString("X2") });
 
 						bytes = new List<byte>();
@@ -97,7 +97,7 @@ namespace ServerFS2
 						bytes.Add(0x00);
 						bytes.Add(0xF4);
 						bytes.Add(0x0B);
-						response = USBManager.SendCodeToPanel(msDevice, bytes);
+						response = USBManager.Send(msDevice, bytes);
 						if (response.Bytes.Count >= 18)
 						{
 							var serilaNo = "";

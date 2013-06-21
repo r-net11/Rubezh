@@ -19,14 +19,24 @@ namespace ServerFS2
 
 		public static List<UsbProcessorInfo> UsbProcessorInfos { get; set; }
 
-		public static Response SendCodeToPanel(Device device, params object[] value)
+		public static Response SendWithoutException(Device device, params object[] value)
+		{
+			return Send(device, true, value);
+		}
+
+		public static Response Send(Device device, params object[] value)
+		{
+			return Send(device, false, value);
+		}
+
+		static Response Send(Device device, bool throwException, params object[] value)
 		{
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
 				var bytes = CreateBytesArray(value);
 				var outputFunctionCode = Convert.ToByte(bytes[0]);
-				bytes.InsertRange(0, usbProcessor.WithoutId ? new List<byte> { (byte)(0x02) } : ((device.Driver.DriverType == DriverType.MS_1) || (device.Driver.DriverType == DriverType.MS_2)) ? new List<byte> { (byte)(0x01) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+				bytes = CreateOutputBytes(device, usbProcessor.WithoutId, bytes);
 				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
 				if (response != null)
 				{
@@ -49,7 +59,8 @@ namespace ServerFS2
 
 					if (response.Bytes.Count < 1)
 					{
-						throw new FS2USBException("Недостаточное количество байт в ответе");
+						if (throwException)
+							throw new FS2USBException("Недостаточное количество байт в ответе");
 						return response.SetError("Недостаточное количество байт в ответе");
 					}
 					var functionCode = response.Bytes[0];
@@ -60,41 +71,46 @@ namespace ServerFS2
 						{
 							errorName = USBExceptionHelper.GetError(response.Bytes[1]);
 						}
-						throw new FS2USBException(errorName);
+						if (throwException)
+							throw new FS2USBException(errorName);
 						return response.SetError(errorName);
 					}
 					if ((functionCode & 64) != 64)
 					{
-						throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
+						if (throwException)
+							throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
 						return response.SetError("В пришедшем ответе не содержится маркер ответа");
 					}
 
 					if ((functionCode & 63) != outputFunctionCode)
 					{
-						throw new FS2USBException("В пришедшем ответе не совпадает код функции");
+						if (throwException)
+							throw new FS2USBException("В пришедшем ответе не совпадает код функции");
 						return response.SetError("В пришедшем ответе не совпадает код функции");
 					}
 
 					response.Bytes.RemoveRange(0, 1);
 					return response;
 				}
-				throw new FS2USBException("Не получен ответ в заданное время");
+				if (throwException)
+					throw new FS2USBException("Не получен ответ в заданное время");
 				return new Response("Не получен ответ в заданное время");
 			}
 			else
 			{
-				throw new FS2USBException("USB устройство отсутствует");
+				if (throwException)
+					throw new FS2USBException("USB устройство отсутствует");
 				return new Response("USB устройство отсутствует");
 			}
 		}
 
-		public static int SendCodeToPanelAsync(Device device, params object[] value)
+		public static int SendAsync(Device device, params object[] value)
 		{
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
 				var bytes = CreateBytesArray(value);
-				bytes.InsertRange(0, usbProcessor.WithoutId ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
+				bytes = CreateOutputBytes(device, usbProcessor.WithoutId, bytes);
 				var requestNo = NextRequestNo;
 				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
 				return requestNo;
@@ -103,6 +119,33 @@ namespace ServerFS2
 			{
 				return -1;
 			}
+		}
+
+		static List<byte> CreateOutputBytes(Device device, bool withoutId, List<byte> bytes)
+		{
+			var parentPanel = device.ParentPanel;
+			var parentUSB = device.ParentUSB;
+
+			var addressBytes = new List<byte>();
+			if (!withoutId)
+			{
+				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+				{
+					addressBytes.Add(0x01);
+				}
+				else
+				{
+					addressBytes.Add((byte)(parentPanel.Parent.IntAddress + 2));
+					addressBytes.Add((byte)parentPanel.IntAddress);
+				}
+			}
+			else
+			{
+				addressBytes.Add(0x02);
+			}
+			bytes.InsertRange(0, addressBytes);
+
+			return bytes;
 		}
 
 		public static bool IsUsbDevice(Device device)

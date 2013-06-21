@@ -15,7 +15,7 @@ namespace ServerFS2.Monitoring
 		{
 			for (int j = 0; j < 15; j++)
 			{
-				var response = USBManager.SendCodeToPanel(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
+				var response = USBManager.Send(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
 				if (response != null)
 				{
 					lock (Locker)

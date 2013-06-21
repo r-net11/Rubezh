@@ -93,7 +93,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToIgnore)
 				{
-					USBManager.SendCodeToPanel(Panel, 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					USBManager.Send(Panel, 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToIgnore = new List<Device>();
 			}
@@ -101,7 +101,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToResetIgnore)
 				{
-					USBManager.SendCodeToPanel(Panel, 0x02, 0x54, 0x0B, 0x00, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					USBManager.Send(Panel, 0x02, 0x54, 0x0B, 0x00, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToResetIgnore = new List<Device>();
 			}
@@ -246,7 +246,7 @@ namespace ServerFS2.Monitoring
 			{
 				Requests.Add(request);
 			}
-			request.Id = USBManager.SendCodeToPanelAsync(Panel, 0x01, request.Bytes);
+			request.Id = USBManager.SendAsync(Panel, 0x01, request.Bytes);
 			//Trace.WriteLine("request.Id=" + request.Id);
 			Thread.Sleep(betweenDevicesSpan);
 		}
