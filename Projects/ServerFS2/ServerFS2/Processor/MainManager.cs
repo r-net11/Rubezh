@@ -15,37 +15,36 @@ namespace ServerFS2.Processor
 	{
 		#region Common
 		public static event Action<FS2JournalItem> NewJournalItem;
-
-		public static void StartMonitoring()
-		{
-			USBManager.Initialize();
-			MonitoringDevice.NewJournalItem -= new Action<FS2JournalItem>(OnNewItem);
-			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
-			MonitoringProcessor.StartMonitoring();
-		}
-
 		static void OnNewItem(FS2JournalItem journalItem)
 		{
 			if (NewJournalItem != null)
 				NewJournalItem(journalItem);
 		}
 
-		public static void StopMonitoring()
+		public static void StartMonitoring(Device device = null)
 		{
-			MonitoringProcessor.StopMonitoring();
+			USBManager.Initialize();
+			MonitoringDevice.NewJournalItem -= new Action<FS2JournalItem>(OnNewItem);
+			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
+			MonitoringManager.StartMonitoring(device);
+		}
+
+		public static void StopMonitoring(Device device = null)
+		{
+			MonitoringManager.StopMonitoring(device);
 			USBManager.Dispose();
 		}
 
-		public static void SuspendMonitoring()
+		public static void SuspendMonitoring(Device device = null)
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Приостановка мониторинга") });
-			MonitoringProcessor.SuspendMonitoring();
+			MonitoringManager.SuspendMonitoring(device);
 		}
 
-		public static void ResumeMonitoring()
+		public static void ResumeMonitoring(Device device = null)
 		{
 			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
-			MonitoringProcessor.ResumeMonitoring();
+			MonitoringManager.ResumeMonitoring(device);
 		}
 		#endregion
 
@@ -84,18 +83,12 @@ namespace ServerFS2.Processor
 
 		public static void AddToIgnoreList(List<Device> devices)
 		{
-			foreach (var device in devices)
-			{
-				MonitoringProcessor.AddTaskIgnore(device);
-			}
+			MonitoringManager.AddTaskIgnore(devices);
 		}
 
 		public static void RemoveFromIgnoreList(List<Device> devices)
 		{
-			foreach (var device in devices)
-			{
-				MonitoringProcessor.AddTaskResetIgnore(device);
-			}
+			MonitoringManager.AddTaskResetIgnore(devices);
 		}
 
 		public static void SetZoneGuard(Guid zoneUID)
@@ -120,7 +113,7 @@ namespace ServerFS2.Processor
 
 		public static void ResetStates(List<PanelResetItem> panelResetItems)
 		{
-			MonitoringProcessor.AddPanelResetItems(panelResetItems);
+			MonitoringManager.AddPanelResetItems(panelResetItems);
 		}
 
 		public static void ExecuteCommand(Guid deviceUID, string methodName)
@@ -130,12 +123,12 @@ namespace ServerFS2.Processor
 
 		public static void AddCommand(Device device, string commandName)
 		{
-			MonitoringProcessor.ExecuteCommand(device, commandName);
+			MonitoringManager.ExecuteCommand(device, commandName);
 		}
 		#endregion
 
 		#region Administrator
-		public static void SetNewConfig(DeviceConfiguration deviceConfiguration)
+		public static void SetNewConfiguration(DeviceConfiguration deviceConfiguration)
 		{
 			try
 			{
@@ -153,7 +146,7 @@ namespace ServerFS2.Processor
 			}
 		}
 
-		public static void DeviceWriteConfig(Device device, bool isUSB)
+		public static void DeviceWriteConfiguration(Device device, bool isUSB)
 		{
 			TempConfigSafeCall((x) =>
 			{
@@ -206,7 +199,7 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
-		public static DeviceConfiguration DeviceReadConfig(Device device, bool isUSB)
+		public static DeviceConfiguration DeviceReadConfiguration(Device device, bool isUSB)
 		{
 			return TempConfigSafeCall<DeviceConfiguration>((x) =>
 			{
@@ -215,7 +208,7 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
-		public static List<FS2JournalItem> DeviceReadEventLog(Device device, bool isUSB)
+		public static List<FS2JournalItem> DeviceReadJournal(Device device, bool isUSB)
 		{
 			return TempConfigSafeCall<List<FS2JournalItem>>((x) =>
 			{
@@ -233,12 +226,12 @@ namespace ServerFS2.Processor
 			return deviceConfiguration;
 		}
 
-		public static List<DeviceCustomFunction> DeviceCustomFunctionList(DriverType driverType)
+		public static List<DeviceCustomFunction> DeviceGetCustomFunctions(DriverType driverType)
 		{
 			return DeviceCustomFunctionListHelper.GetDeviceCustomFunctionList(driverType);
 		}
 
-		public static void DeviceCustomFunctionExecute(Device device, bool isUSB, string functionName)
+		public static void DeviceExecuteCustomFunction(Device device, bool isUSB, string functionName)
 		{
 			TempConfigSafeCall((x) =>
 			{
@@ -246,12 +239,12 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
-		public static string DeviceGetGuardUsersList(Device device)
+		public static string DeviceGetGuardUsers(Device device)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void DeviceSetGuardUsersList(Device device, string users)
+		public static void DeviceSetGuardUsers(Device device, string users)
 		{
 			throw new FS2Exception("Функция пока не реализована");
 		}
@@ -263,12 +256,12 @@ namespace ServerFS2.Processor
 
 		public static void SetConfigurationParameters(Device device, List<Property> properties)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			DeviceParametersOperationHelper.SetDeviceParameters(device, properties);
 		}
 
 		public static List<Property> GetConfigurationParameters(Device device)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			return DeviceParametersOperationHelper.GetDeviceParameters(device);
 		}
 		#endregion
 

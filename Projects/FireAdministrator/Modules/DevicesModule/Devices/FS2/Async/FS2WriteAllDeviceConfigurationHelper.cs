@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 							(
 							() =>
 							{
-								OperationResult = FiresecManager.FS2ClientContract.DeviceWriteConfig(device.UID, false);
+								OperationResult = FiresecManager.FS2ClientContract.DeviceWriteConfiguration(device.UID, false);
 								if (OperationResult.HasError)
 								{
 									Errors.Add(device.PresentationAddressAndName + " " + OperationResult.Error);

@@ -6,18 +6,17 @@ using System.Threading;
 
 namespace ServerFS2.Monitoring
 {
-	public static partial class MonitoringProcessor
+	public partial class MonitoringProcessor
 	{
-		static Thread MonitoringThread;
-		static AutoResetEvent PauseEvent;
-		static AutoResetEvent CheckPauseEvent;
-		static bool IsStopping = false;
+		Thread MonitoringThread;
+		AutoResetEvent PauseEvent;
+		AutoResetEvent CheckPauseEvent;
+		bool IsStopping = false;
 
-		public static void StartMonitoring()
+		public void StartMonitoring()
 		{
 			if (MonitoringThread == null)
 			{
-				Initialize();
 				StartTime = DateTime.Now;
 				MonitoringThread = new Thread(OnRun);
 				MonitoringThread.Start();
@@ -25,7 +24,7 @@ namespace ServerFS2.Monitoring
 			StartTimeSynchronization();
 		}
 
-		public static void StopMonitoring()
+		public void StopMonitoring()
 		{
 			IsStopping = true;
 			SuspendMonitoring();
@@ -41,7 +40,7 @@ namespace ServerFS2.Monitoring
 			IsStopping = false;
 		}
 
-		public static bool SuspendMonitoring()
+		public bool SuspendMonitoring()
 		{
 			if (PauseEvent != null)
 				PauseEvent.Set();
@@ -53,14 +52,14 @@ namespace ServerFS2.Monitoring
 			return result;
 		}
 
-		public static void ResumeMonitoring()
+		public void ResumeMonitoring()
 		{
 			if (PauseEvent != null)
 				PauseEvent.Set();
 			PauseEvent = null;
 		}
 
-		public static bool CheckSuspending(bool throwException = true)
+		public bool CheckSuspending(bool throwException = true)
 		{
 			if (CheckPauseEvent != null)
 				CheckPauseEvent.Set();

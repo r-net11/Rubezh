@@ -8,7 +8,7 @@ namespace ServerFS2
 {
 	public static class DeviceParametersOperationHelper
 	{
-		public static void GetDeviceParameters(Device device)
+		public static List<Property> GetDeviceParameters(Device device)
 		{
 			var allAUProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			var properties = RemoveDublicateProperties(allAUProperties);
@@ -23,12 +23,14 @@ namespace ServerFS2
 					deviceProperty.Value = value.Value;
 				}
 			}
+			return device.Properties;
 		}
 
-		public static void SetDeviceParameters(Device device)
+		public static void SetDeviceParameters(Device device, List<Property> properties)
 		{
-			var properties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
-			foreach (var property in properties)
+			device.Properties = properties;
+			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
+			foreach (var property in driverProperties)
 			{
 				var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));
 				USBManager.Send(device.Parent, 0x02, 0x53, 0x03, MetadataHelper.GetIdByUid(device.Driver.UID), device.AddressOnShleif,

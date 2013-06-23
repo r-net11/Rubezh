@@ -474,9 +474,9 @@ namespace ServerFS2
 			pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
 		}
 
-		public DeviceConfiguration GetDeviceConfig(Device selectedDevice)
+		public DeviceConfiguration GetDeviceConfig(Device pamelDevice)
 		{
-			PanelDevice = (Device)selectedDevice.Clone();
+			PanelDevice = (Device)pamelDevice.Clone();
 			shleifCount = PanelDevice.Driver.ShleifCount;
 			PanelDevice.Children = new List<Device>();
 			zones = new List<Zone>();
@@ -485,7 +485,7 @@ namespace ServerFS2
 			remoteDeviceConfiguration.RootDevice = PanelDevice;
 			remoteDeviceConfiguration.Devices.Add(PanelDevice);
 
-			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(CheckMonitoringSuspend);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(PanelDevice, CheckMonitoringSuspend);
 			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
 			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
 			

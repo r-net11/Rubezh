@@ -81,7 +81,7 @@ namespace ServerFS2
 						{
 							Bytes = bytes.ToList()
 						};
-						if (!WithoutId)
+						if (UseId)
 						{
 							response.Id = BytesHelper.ExtractInt(bytes.ToList(), 0);
 						}
@@ -110,7 +110,16 @@ namespace ServerFS2
 		void OnResponseRecieved(Response response)
 		{
 			//Trace.WriteLine("Response " + BytesHelper.BytesToString(response.Bytes));
-			if (WithoutId)
+			if (UseId)
+			{
+				var request = RequestCollection.GetById(response.Id);
+				RequestCollection.RemoveById(response.Id);
+				if (request != null)
+				{
+					Responses.Add(response);
+				}
+			}
+			else
 			{
 				var request = RequestCollection.GetFirst();
 				if (request != null)
@@ -119,15 +128,6 @@ namespace ServerFS2
 					Responses.Add(response);
 					if (Responses.Count != 0)
 						RequestCollection.Clear();
-				}
-			}
-			else
-			{
-				var request = RequestCollection.GetById(response.Id);
-				RequestCollection.RemoveById(response.Id);
-				if (request != null)
-				{
-					Responses.Add(response);
 				}
 			}
 		}
@@ -146,7 +146,7 @@ namespace ServerFS2
 					}
 				}
 				var request = new Request();
-				if (!WithoutId)
+				if (UseId)
 				{
 					request.Id = usbRequestNo;
 					if (usbRequestNo != -1)

@@ -120,22 +120,20 @@ namespace MonitorClientFS2
 		public RelayCommand SuspendMonitoringCommand { get; private set; }
 		void OnSuspendMonitoring()
 		{
-			MonitoringProcessor.SuspendMonitoring();
+			MonitoringManager.SuspendMonitoring();
 		}
 
 		public RelayCommand ResumeMonitoringCommand { get; private set; }
 		void OnResumeMonitoring()
 		{
-			MonitoringProcessor.ResumeMonitoring();
+			MonitoringManager.ResumeMonitoring();
 		}
 
 		public RelayCommand SetNewConfigCommand { get; private set; }
 		void OnSetNewConfig()
 		{
-			//MainManager.SetNewConfig(ConfigurationManager.DeviceConfiguration);
-
 			var fs2Contract = new FS2Contract();
-			fs2Contract.SetNewConfig(ConfigurationManager.DeviceConfiguration);
+			fs2Contract.SetNewConfiguration(ConfigurationManager.DeviceConfiguration);
 		}
 
 		public RelayCommand GetSerialListCommand { get; private set; }

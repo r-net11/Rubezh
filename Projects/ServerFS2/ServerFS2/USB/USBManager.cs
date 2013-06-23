@@ -36,25 +36,25 @@ namespace ServerFS2
 			{
 				var bytes = CreateBytesArray(value);
 				var outputFunctionCode = Convert.ToByte(bytes[0]);
-				bytes = CreateOutputBytes(device, usbProcessor.WithoutId, bytes);
+				bytes = CreateOutputBytes(device, usbProcessor.UseId, bytes);
 				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
 				if (response != null)
 				{
 					var inputBytes = response.Bytes.ToList();
-					if (!usbProcessor.WithoutId)
+					if (usbProcessor.UseId)
 					{
 						response.Bytes.RemoveRange(0, 4);
 					}
-					if (usbProcessor.WithoutId)
-					{
-						var usbRoot = response.Bytes[0];
-						response.Bytes.RemoveRange(0, 1);
-					}
-					else
+					if (usbProcessor.UseId)
 					{
 						var usbRoot = response.Bytes[0];
 						var panelRoot = response.Bytes[1];
 						response.Bytes.RemoveRange(0, 2);
+					}
+					else
+					{
+						var usbRoot = response.Bytes[0];
+						response.Bytes.RemoveRange(0, 1);
 					}
 
 					if (response.Bytes.Count < 1)
@@ -110,7 +110,7 @@ namespace ServerFS2
 			if (usbProcessor != null)
 			{
 				var bytes = CreateBytesArray(value);
-				bytes = CreateOutputBytes(device, usbProcessor.WithoutId, bytes);
+				bytes = CreateOutputBytes(device, usbProcessor.UseId, bytes);
 				var requestNo = NextRequestNo;
 				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
 				return requestNo;
@@ -121,13 +121,13 @@ namespace ServerFS2
 			}
 		}
 
-		static List<byte> CreateOutputBytes(Device device, bool withoutId, List<byte> bytes)
+		static List<byte> CreateOutputBytes(Device device, bool useId, List<byte> bytes)
 		{
 			var parentPanel = device.ParentPanel;
 			var parentUSB = device.ParentUSB;
 
 			var addressBytes = new List<byte>();
-			if (!withoutId)
+			if (useId)
 			{
 				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
 				{
@@ -153,7 +153,7 @@ namespace ServerFS2
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
-				return usbProcessor.WithoutId;
+				return !usbProcessor.UseId;
 			}
 			return false;
 		}

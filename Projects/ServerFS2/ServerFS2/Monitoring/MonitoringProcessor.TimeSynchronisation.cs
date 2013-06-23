@@ -3,13 +3,13 @@ using System.Threading;
 
 namespace ServerFS2.Monitoring
 {
-	public static partial class MonitoringProcessor
+	public partial class MonitoringProcessor
 	{
-		static Thread TimeSynchronizationThread;
-		static AutoResetEvent TimeSynchronizationEvent;
-		static bool IsTimeSynchronizationNeeded = false;
+		Thread TimeSynchronizationThread;
+		AutoResetEvent TimeSynchronizationEvent;
+		bool IsTimeSynchronizationNeeded = false;
 
-		public static void StartTimeSynchronization()
+		public void StartTimeSynchronization()
 		{
 			TimeSynchronizationEvent = new AutoResetEvent(false);
 			if (TimeSynchronizationThread == null)
@@ -19,7 +19,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static void StopTimeSynchronization()
+		public void StopTimeSynchronization()
 		{
 			if (TimeSynchronizationThread != null)
 			{
@@ -32,7 +32,7 @@ namespace ServerFS2.Monitoring
 			TimeSynchronizationThread = null;
 		}
 
-		static void OnTimeSynchronization()
+		void OnTimeSynchronization()
 		{
 			while (!TimeSynchronizationEvent.WaitOne(TimeSpan.FromDays(1)))
 			{

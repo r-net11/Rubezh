@@ -64,16 +64,6 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		public static DevicesViewModel Context { get; private set; }
 
-		public bool IsMonitoringDisabled
-		{
-			get { return Device.IsMonitoringDisabled; }
-			set
-			{
-				Device.IsMonitoringDisabled = value;
-				OnPropertyChanged("IsMonitoringDisabled");
-			}
-		}
-
 		public bool ParameterVis
 		{
 			get { return parameterVis; }

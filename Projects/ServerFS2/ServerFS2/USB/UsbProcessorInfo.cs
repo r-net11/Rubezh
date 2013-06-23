@@ -11,17 +11,16 @@ namespace ServerFS2
 		public UsbProcessor UsbProcessor { get; set; }
 		public string SerialNo { get; set; }
 		public int TypeNo { get; set; }
-		public bool IsUSBMS { get; set; }
 		public DriverType USBDriverType { get; set; }
 		public Device Device { get; set; }
 
 		public void Initialize()
 		{
 			SetIdOn();
-			if (UsbProcessor.WithoutId)
-				TypeNo = GetUSBTypeNo();
-			else
+			if (UsbProcessor.UseId)
 				TypeNo = -1;
+			else
+				TypeNo = GetUSBTypeNo();
 			USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
 			SerialNo = GetUSBSerialNo();
 		}
@@ -46,26 +45,26 @@ namespace ServerFS2
 		{
 			if (HasResponceWithoutID())
 			{
-				UsbProcessor.WithoutId = true;
+				UsbProcessor.UseId = false;
 				var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
 				var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-				UsbProcessor.WithoutId = false;
+				UsbProcessor.UseId = true;
 			}
 			var result = HasResponceWithID();
-			UsbProcessor.WithoutId = !result;
+			UsbProcessor.UseId = result;
 			return result;
 		}
 
 		bool HasResponceWithoutID()
 		{
-			UsbProcessor.WithoutId = true;
+			UsbProcessor.UseId = false;
 			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
 			var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			UsbProcessor.WithoutId = false;
+			UsbProcessor.UseId = true;
 			return responce != null;
 		}
 

@@ -100,14 +100,14 @@ namespace FS2Client
 		#endregion
 
 		#region Administrator
-		public OperationResult SetNewConfig(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
+		public OperationResult SetNewConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
 		{
-			return SafeOperationCall(() => { return FS2Contract.SetNewConfig(deviceConfiguration); }, "SetNewConfig");
+			return SafeOperationCall(() => { return FS2Contract.SetNewConfiguration(deviceConfiguration); }, "SetNewConfig");
 		}
 
-		public OperationResult DeviceWriteConfig(Guid deviceUID, bool isUSB)
+		public OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceWriteConfig(deviceUID, isUSB); }, "DeviceWriteConfig");
+			return SafeOperationCall(() => { return FS2Contract.DeviceWriteConfiguration(deviceUID, isUSB); }, "DeviceWriteConfig");
 		}
 
 		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
@@ -140,14 +140,14 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.DeviceVerifyFirmwareVersion(deviceUID, isUSB, fileName); }, "DeviceVerifyFirmwareVersion");
 		}
 
-		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
+		public OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceReadConfig(deviceUID, isUSB); }, "DeviceReadConfig");
+			return SafeOperationCall(() => { return FS2Contract.DeviceReadConfiguration(deviceUID, isUSB); }, "DeviceReadConfig");
 		}
 
-		public OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB)
+		public OperationResult<List<FS2JournalItem>> DeviceReadJournal(Guid deviceUID, bool isUSB)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceReadEventLog(deviceUID, isUSB); }, "DeviceReadEventLog");
+			return SafeOperationCall(() => { return FS2Contract.DeviceReadJournal(deviceUID, isUSB); }, "DeviceReadEventLog");
 		}
 
 		public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch)
@@ -155,24 +155,24 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.DeviceAutoDetectChildren(deviceUID, fastSearch); }, "DeviceAutoDetectChildren");
 		}
 
-		public OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(DriverType driverType)
+		public OperationResult<List<DeviceCustomFunction>> DeviceGetCustomFunctions(DriverType driverType)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceCustomFunctionList(driverType); }, "DeviceCustomFunctionList");
+			return SafeOperationCall(() => { return FS2Contract.DeviceGetCustomFunctions(driverType); }, "DeviceCustomFunctionList");
 		}
 
-		public OperationResult DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName)
+		public OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceCustomFunctionExecute(deviceUID, isUSB, functionName); }, "DeviceCustomFunctionExecute");
+			return SafeOperationCall(() => { return FS2Contract.DeviceExecuteCustomFunction(deviceUID, isUSB, functionName); }, "DeviceCustomFunctionExecute");
 		}
 
-		public OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID)
+		public OperationResult<string> DeviceGetGuardUsers(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceGetGuardUsersList(deviceUID); }, "DeviceGetGuardUsersList");
+			return SafeOperationCall(() => { return FS2Contract.DeviceGetGuardUsers(deviceUID); }, "DeviceGetGuardUsersList");
 		}
 
-		public OperationResult DeviceSetGuardUsersList(Guid deviceUID, string users)
+		public OperationResult DeviceSetGuardUsers(Guid deviceUID, string users)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceSetGuardUsersList(deviceUID, users); }, "DeviceSetGuardUsersList");
+			return SafeOperationCall(() => { return FS2Contract.DeviceSetGuardUsers(deviceUID, users); }, "DeviceSetGuardUsersList");
 		}
 
 		public OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)

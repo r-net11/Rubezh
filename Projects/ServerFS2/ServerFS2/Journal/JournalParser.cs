@@ -313,6 +313,7 @@ namespace ServerFS2
 				Description = description,
 				PanelName = panel.DottedPresentationNameAndAddress,
 				PanelUID = panel.UID,
+				StateType = StateType.Info,
 				SubsystemType = GetSubsystemType(panel),
 			};
 		}

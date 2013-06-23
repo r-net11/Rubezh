@@ -24,7 +24,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceCustomFunctionExecute(Device.UID, IsUsb, FunctionCode);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceExecuteCustomFunction(Device.UID, IsUsb, FunctionCode);
 		}
 
 		static void OnlCompleted()

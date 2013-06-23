@@ -149,7 +149,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand ReadJournalCommand { get; private set; }
 		void OnReadJournal()
 		{
-			var journalItems = MainManager.DeviceReadEventLog(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var journalItems = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 			var journalViewModel = new JournalViewModel(journalItems);
 			DialogService.ShowModalWindow(journalViewModel);
 		}
@@ -161,7 +161,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		void OnReadConfiguration()
 		{
-			var remoteDeviceConfiguration = MainManager.DeviceReadConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var remoteDeviceConfiguration = MainManager.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 			DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration));
 		}
 		bool CanReadConfiguration()
@@ -242,7 +242,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		void OnWriteConfiguration()
 		{
-			MainManager.DeviceWriteConfig(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			MainManager.DeviceWriteConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 
 		}
 		bool CanWriteConfiguration()

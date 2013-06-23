@@ -106,13 +106,13 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			MonitoringProcessor.AddTaskIgnore(Device);
+			MonitoringManager.AddTaskIgnore(new List<Device>() { Device });
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			MonitoringProcessor.AddTaskResetIgnore(Device);
+			MonitoringManager.AddTaskResetIgnore(new List<Device>() { Device });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

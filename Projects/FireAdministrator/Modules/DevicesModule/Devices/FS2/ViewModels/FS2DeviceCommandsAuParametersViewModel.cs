@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -56,12 +57,13 @@ namespace DevicesModule.ViewModels
 		{
 			WaitHelper.Execute(() =>
 			{
-				OperationResult<bool> result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(SelectedDevice.Device);
+				var result = FiresecManager.FS2ClientContract.GetConfigurationParameters(SelectedDevice.Device.UID);
 				if (result.HasError)
 				{
 					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
 					return;
 				}
+				SelectedDevice.Device.Properties = result.Result;
 				SelectedDevice.PropertiesViewModel.IsAuParametersReady = false;
 			});
 			ServiceFactory.SaveService.FSParametersChanged = true;
@@ -80,17 +82,17 @@ namespace DevicesModule.ViewModels
 				foreach (var property in SelectedDevice.Device.Properties)
 				{
 					var driverProperty = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-					if (ValidSet(property, driverProperty))
+					if (IsPropertyValid(property, driverProperty))
 					{
 						MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
 						return;
 					}
 				}
-				FiresecDriverAuParametersHelper.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+				FiresecManager.FS2ClientContract.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
 			});
 		}
 
-		bool ValidSet(Property property, DriverProperty driverProperty)
+		bool IsPropertyValid(Property property, DriverProperty driverProperty)
 		{
 			int value;
 			return
@@ -133,7 +135,7 @@ namespace DevicesModule.ViewModels
 				foreach (var childDevice in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(childDevice.Device.Driver.ShortName + " " + childDevice.Address);
-					FiresecDriverAuParametersHelper.SetConfigurationParameters(childDevice.Device.UID, childDevice.Device.Properties);
+					FiresecManager.FS2ClientContract.SetConfigurationParameters(childDevice.Device.UID, childDevice.Device.Properties);
 				}
 			}
 			catch (Exception e)
@@ -172,7 +174,7 @@ namespace DevicesModule.ViewModels
                 foreach (var child in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(child.Device.PresentationAddressAndName);
-					var result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(child.Device);
+					var result = FiresecManager.FS2ClientContract.GetConfigurationParameters(child.Device.UID);
 					if (result.HasError)
 					{
 						MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
@@ -184,10 +186,10 @@ namespace DevicesModule.ViewModels
                     foreach (var groupChild in child.Children)
                     {
                         LoadingService.DoStep(groupChild.Device.PresentationAddressAndName);
-                        result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(groupChild.Device);
-                        if (result.HasError)
+						var result2 = FiresecManager.FS2ClientContract.GetConfigurationParameters(groupChild.Device.UID);
+                        if (result2.HasError)
                         {
-                            MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
+                            MessageBoxService.Show("При вызове метода возникло исключение " + result2.Error);
                             return;
                         }
                         groupChild.PropertiesViewModel.IsAuParametersReady = false;
@@ -204,10 +206,6 @@ namespace DevicesModule.ViewModels
 				LoadingService.Close();
 			}
 		}
-        void ReadOneParameter()
-        {
-
-        }
 		bool CanGetAllDeviceConfigurationParameters()
 		{
 			if (SelectedDevice != null)

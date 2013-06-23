@@ -93,7 +93,7 @@ namespace ServerFS2
 						{
 							Bytes = bytes.ToList()
 						};
-						if (!WithoutId)
+						if (UseId)
 						{
 							response.Id = BytesHelper.ExtractInt(bytes.ToList(), 0);
 						}
@@ -122,7 +122,7 @@ namespace ServerFS2
 		void OnResponseRecieved(Response response)
 		{
 			Request request;
-			if (WithoutId)
+			if (!UseId)
 			{
 				request = RequestCollection.GetFirst();
 				if (request != null)
@@ -156,7 +156,7 @@ namespace ServerFS2
 					usbRequestNo++;
 				}
 				var request = new Request();
-				if (!WithoutId)
+				if (UseId)
 				{
 					request.Id = usbRequestNo;
 					if (usbRequestNo != -1)

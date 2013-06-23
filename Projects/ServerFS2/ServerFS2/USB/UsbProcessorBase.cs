@@ -7,12 +7,11 @@ namespace ServerFS2
 {
 	public abstract class UsbProcessorBase
 	{
-		protected List<byte> _result = new List<byte>();
 		protected readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		protected readonly AutoResetEvent AutoWaitEvent = new AutoResetEvent(false);
 		protected List<Response> Responses = new List<Response>();
 		protected List<byte> LocalResult = new List<byte>();
-		public bool WithoutId { get; set; }
+		public bool UseId { get; set; }
 		protected bool IsExtendedMode { get; set; }
 		protected RequestCollection RequestCollection = new RequestCollection();
 

@@ -338,6 +338,16 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public bool IsParentMonitoringDisabled
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.Any(x => x.IsMonitoringDisabled);
+			}
+		}
+
 		public Device ParentPanel
 		{
 			get

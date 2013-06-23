@@ -10,24 +10,64 @@ using System.Windows.Forms;
 
 namespace ServerFS2.Monitoring
 {
-	public static partial class MonitoringProcessor
+	public partial class MonitoringProcessor
 	{
-		static List<MonitoringDevice> MonitoringDevices;
-		static List<Device> PDUDevices = new List<Device>();
-		static DateTime StartTime;
-		static object locker = new object();
+		public Device USBDevice { get; private set; }
+		public List<MonitoringDevice> MonitoringPanelDevices { get; private set; }
+		public List<Device> MonitoringNonPanelDevices { get; private set; }
+		DateTime StartTime;
+		object locker = new object();
 
-		public static void Initialize()
+		public MonitoringProcessor(Device usbDevice)
 		{
-			MonitoringDevices = new List<MonitoringDevice>();
-			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsMonitoringable(x)))
-			{
-					MonitoringDevices.Add(new MonitoringDevice(device));
-			}
+			USBDevice = usbDevice;
+			MonitoringPanelDevices = new List<MonitoringDevice>();
+			MonitoringNonPanelDevices = new List<Device>();
 
-			foreach (var device in ConfigurationManager.Devices.Where(x => DeviceStatesManager.IsPDUMonitoringable(x)))
+			if (!usbDevice.IsParentMonitoringDisabled)
 			{
-					PDUDevices.Add(device);
+				switch (usbDevice.Driver.DriverType)
+				{
+					case DriverType.MS_1:
+					case DriverType.MS_2:
+						foreach (var channelChild in usbDevice.Children)
+						{
+							foreach (var panelDevice in channelChild.Children)
+							{
+								if (!panelDevice.IsParentMonitoringDisabled)
+								{
+									switch (panelDevice.Driver.DriverType)
+									{
+										case DriverType.Rubezh_2AM:
+										case DriverType.Rubezh_2OP:
+										case DriverType.Rubezh_4A:
+										case DriverType.BUNS:
+										case DriverType.BUNS_2:
+										case DriverType.BlindPanel:
+											MonitoringPanelDevices.Add(new MonitoringDevice(panelDevice));
+											break;
+										case DriverType.IndicationBlock:
+										case DriverType.PDU:
+										case DriverType.PDU_PT:
+										case DriverType.UOO_TL:
+										case DriverType.MS_3:
+										case DriverType.MS_4:
+											MonitoringNonPanelDevices.Add(panelDevice);
+											break;
+									}
+								}
+							}
+						}
+						break;
+					case DriverType.USB_Rubezh_2AM:
+					case DriverType.USB_Rubezh_2OP:
+					case DriverType.USB_Rubezh_4A:
+					case DriverType.USB_Rubezh_P:
+					case DriverType.USB_BUNS:
+					case DriverType.USB_BUNS_2:
+						MonitoringPanelDevices.Add(new MonitoringDevice(usbDevice));
+						break;
+				}
 			}
 			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
 			{
@@ -36,7 +76,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		static void OnRun()
+		void OnRun()
 		{
 			try
 			{
@@ -46,7 +86,7 @@ namespace ServerFS2.Monitoring
 				}
 				DeviceStatesManager.SetInitializingStateToAll();
 				DeviceStatesManager.SetMonitoringDisabled();
-				MonitoringDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
+				MonitoringPanelDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
 				DeviceStatesManager.RemoveInitializingFromAll();
 
 					//Stopwatch stopwatch = new Stopwatch();
@@ -71,21 +111,21 @@ namespace ServerFS2.Monitoring
 					if (CheckSuspending(false))
 						return;
 
-					foreach (var monitoringDevice in MonitoringDevices)
+					foreach (var monitoringDevice in MonitoringPanelDevices)
 					{
 						if (CheckSuspending(false))
 							return;
 						monitoringDevice.CheckTasks();
 					}
 
-					PDUDevices.ForEach(x => DeviceStatesManager.UpdatePDUPanelState(x));
+					MonitoringNonPanelDevices.ForEach(x => DeviceStatesManager.UpdatePDUPanelState(x));
 
 					if (CheckSuspending(false))
 						return;
 
 					if (IsTimeSynchronizationNeeded)
 					{
-						MonitoringDevices.ForEach(x => x.SynchronizeTime());
+						MonitoringPanelDevices.ForEach(x => x.SynchronizeTime());
 						IsTimeSynchronizationNeeded = false;
 					}
 				}
@@ -100,12 +140,12 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		static void UsbRunner_NewResponse(Response response)
+		void UsbRunner_NewResponse(Response response)
 		{
 			//Trace.WriteLine("response.Id=" + response.Id);
 			lock (MonitoringDevice.Locker)
 			{
-				foreach (var monitoringDevice in MonitoringDevices.ToList())
+				foreach (var monitoringDevice in MonitoringPanelDevices.ToList())
 				{
 					foreach (var request in monitoringDevice.Requests.ToList())
 					{
@@ -117,63 +157,5 @@ namespace ServerFS2.Monitoring
 				}
 			}
 		}
-
-		#region Комманды для MainManager
-		public static void AddPanelResetItems(List<PanelResetItem> panelResetItems)
-		{
-			foreach (var panelResetItem in panelResetItems)
-			{
-				var parentPanel = ConfigurationManager.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
-				if (parentPanel != null)
-				{
-					foreach (var monitoringDevice in MonitoringDevices)
-					{
-						if (monitoringDevice.Panel == parentPanel)
-							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
-					}
-				}
-			}
-		}
-
-		public static void AddTaskIgnore(Device device)
-		{
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				if (monitoringDevice.Panel == device.ParentPanel)
-				{
-					monitoringDevice.DevicesToIgnore = new List<Device>() { device };
-				}
-			}
-		}
-
-		public static void AddTaskResetIgnore(Device device)
-		{
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				if (monitoringDevice.Panel == device.ParentPanel)
-				{
-					monitoringDevice.DevicesToResetIgnore = new List<Device>() { device };
-				}
-			}
-		}
-
-		public static void AddCommand(Device device, string commandName)
-		{
-			foreach (var monitoringDevice in MonitoringDevices)
-			{
-				if (monitoringDevice.Panel == device.ParentPanel)
-				{
-					monitoringDevice.CommandItems.Add(new CommandItem(device, commandName));
-					break;
-				}
-			}
-		}
-
-		public static void ExecuteCommand(Device device, string commandName)
-		{
-			CommandExecutor commandExecutor = new CommandExecutor(device, commandName);
-			//commandExecutor.CheckForExpired();
-		}
-		#endregion
 	}
 }

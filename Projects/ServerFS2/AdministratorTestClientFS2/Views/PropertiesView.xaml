@@ -29,14 +29,6 @@
                                 <ColumnDefinition SharedSizeGroup="group2" Width="400" />
                             </Grid.ColumnDefinitions>
                         </Grid>
-                        <Grid Visibility="{Binding Device.Driver.CanMonitoringDisable, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition SharedSizeGroup="group1" />
-                                <ColumnDefinition SharedSizeGroup="group2" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="Отключить мониторинг устройства" ToolTip="Не использовать устройство при периодическом опросе" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <CheckBox Grid.Column="1" IsChecked="{Binding IsMonitoringDisabled}" Margin="2" VerticalAlignment="Center" />
-                        </Grid>
                         <ItemsControl ItemsSource="{Binding StringProperties}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

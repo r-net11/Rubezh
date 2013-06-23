@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
 			IsUsb = isUsb;
             Title = "Выбор функции";
 
-            var operationResult = FiresecManager.FS2ClientContract.DeviceCustomFunctionList(device.Driver.DriverType);
+            var operationResult = FiresecManager.FS2ClientContract.DeviceGetCustomFunctions(device.Driver.DriverType);
             if (operationResult.HasError)
             {
 				MessageBoxService.ShowError(operationResult.Error, "Ошибка при выполнении операции");

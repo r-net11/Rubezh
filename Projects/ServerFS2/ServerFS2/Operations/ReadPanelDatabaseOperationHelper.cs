@@ -11,19 +11,27 @@ namespace ServerFS2
 {
 	public class ReadPanelDatabaseOperationHelper
 	{
+		Device PanelDevice;
 		public int RomDBFirstIndex;
 		public int FlashDBLastIndex;
 		bool CheckMonitoringSuspend = false;
 
-		public ReadPanelDatabaseOperationHelper(bool checkMonitoringSuspend)
+		public ReadPanelDatabaseOperationHelper(Device panelDevice, bool checkMonitoringSuspend)
 		{
+			PanelDevice = panelDevice;
 			CheckMonitoringSuspend = checkMonitoringSuspend;
 		}
 
 		void CheckSuspending()
 		{
 			if (CheckMonitoringSuspend)
-				MonitoringProcessor.CheckSuspending();
+			{
+				var monitoringProcessor = MonitoringManager.Find(PanelDevice);
+				if (monitoringProcessor != null)
+				{
+					monitoringProcessor.CheckSuspending();
+				}
+			}
 		}
 
 		public List<byte> GetRomDBBytes(Device device)

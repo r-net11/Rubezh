@@ -133,7 +133,7 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		private void OnSetParameters()
 		{
-			DeviceParametersOperationHelper.SetDeviceParameters(SelectedDevice.Device);
+			DeviceParametersOperationHelper.SetDeviceParameters(SelectedDevice.Device, SelectedDevice.Device.Properties);
 		}
 
 		private bool CanSetParameters()

@@ -114,7 +114,7 @@ namespace ServerFS2.Monitoring
 			{
 				RefreshStates();
 			}
-			DeviceStatesManager.GetDeviceCurrentState(RealChildren[IndexToGetParams]);
+			DeviceParametersManager.UpdateCurrentState(RealChildren[IndexToGetParams]);
 			NextIndextoGetParams();
 			CheckForLostConnection();
 			RequestLastIndex();
@@ -227,7 +227,7 @@ namespace ServerFS2.Monitoring
 			IndexToGetParams++;
 			if (IndexToGetParams + 1 >= RealChildren.Count)
 				IndexToGetParams = 0;
-		}	
+		}
 
 		public void Initialize()
 		{

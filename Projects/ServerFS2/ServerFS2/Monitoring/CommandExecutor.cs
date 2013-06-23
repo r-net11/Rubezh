@@ -19,7 +19,7 @@ namespace ServerFS2.Monitoring
 			//{
 			//    Device.DeviceState.StateChanged += DeviceState_StateChanged;
 			//});
-			MonitoringProcessor.AddCommand(Device, CommandName);
+			MonitoringManager.AddCommand(Device, CommandName);
 			//autoResetEvent.WaitOne(expiredTime);
 		}
 

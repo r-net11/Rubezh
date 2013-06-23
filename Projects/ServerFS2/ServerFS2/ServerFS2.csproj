@@ -128,10 +128,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Monitoring\CommandExecutor.cs" />
+    <Compile Include="Monitoring\DeviceParametersManager.cs" />
     <Compile Include="Monitoring\DeviceStatesManager.cs" />
     <Compile Include="Monitoring\JournalHelper.cs" />
     <Compile Include="Monitoring\CommandItem.cs" />
     <Compile Include="Monitoring\MonitoringDevice.cs" />
+    <Compile Include="Monitoring\MonitoringManager.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.StartStop.cs" />
     <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
@@ -148,7 +150,6 @@
     <Compile Include="Monitoring\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />
-    <Compile Include="Processor\WatcherManager.cs" />
     <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="USB\USBDetectorHelper.cs" />
