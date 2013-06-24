@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace ServerFS2.Monitoring
 {
-	public partial class MonitoringProcessor
+	public partial class MonitoringUSB
 	{
 		Thread MonitoringThread;
 		AutoResetEvent PauseEvent;
@@ -29,6 +29,9 @@ namespace ServerFS2.Monitoring
 			IsStopping = true;
 			SuspendMonitoring();
 			ResumeMonitoring();
+
+			MonitoringPanels.Clear();
+			MonitoringNonPanels.Clear();
 
 			if (MonitoringThread != null)
 			{

@@ -24,8 +24,8 @@ namespace ServerFS2.Processor
 		public static void StartMonitoring(Device device = null)
 		{
 			USBManager.Initialize();
-			MonitoringDevice.NewJournalItem -= new Action<FS2JournalItem>(OnNewItem);
-			MonitoringDevice.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
+			MonitoringPanel.NewJournalItem -= new Action<FS2JournalItem>(OnNewItem);
+			MonitoringPanel.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
 			MonitoringManager.StartMonitoring(device);
 		}
 
@@ -37,13 +37,13 @@ namespace ServerFS2.Processor
 
 		public static void SuspendMonitoring(Device device = null)
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Приостановка мониторинга") });
+			CallbackManager.AddProgress(new FS2ProgressInfo("Приостановка мониторинга"));
 			MonitoringManager.SuspendMonitoring(device);
 		}
 
 		public static void ResumeMonitoring(Device device = null)
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Возобновление мониторинга") });
+			CallbackManager.AddProgress(new FS2ProgressInfo("Возобновление мониторинга"));
 			MonitoringManager.ResumeMonitoring(device);
 		}
 		#endregion
@@ -204,7 +204,7 @@ namespace ServerFS2.Processor
 			return TempConfigSafeCall<DeviceConfiguration>((x) =>
 			{
 				var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
-				return getConfigurationOperationHelper.GetDeviceConfig(x);
+				return getConfigurationOperationHelper.GetDeviceConfiguration(x);
 			}, device, isUSB);
 		}
 

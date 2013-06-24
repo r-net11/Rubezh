@@ -14,7 +14,7 @@ namespace ServerFS2
 	{
 		public static void Write(Device device)
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Формирование базы данных устройств") });
+			CallbackManager.AddProgress(new FS2ProgressInfo("Формирование базы данных устройств"));
 			var systemDatabaseCreator = new SystemDatabaseCreator();
 			systemDatabaseCreator.Create(0x3000);
 
@@ -25,7 +25,7 @@ namespace ServerFS2
 			var parentPanel = panelDatabase.ParentPanel;
 			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
 			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo("Запись базы данных в прибор") });
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запись базы данных в прибор"));
 			SetConfigurationOperationHelper.WriteDeviceConfiguration(parentPanel, bytes2, bytes1);
 		}
 	}

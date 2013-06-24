@@ -128,15 +128,17 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Monitoring\CommandExecutor.cs" />
-    <Compile Include="Monitoring\DeviceParametersManager.cs" />
     <Compile Include="Monitoring\DeviceStatesManager.cs" />
+    <Compile Include="Monitoring\DeviceStatesManager.Parameters.cs" />
     <Compile Include="Monitoring\JournalHelper.cs" />
     <Compile Include="Monitoring\CommandItem.cs" />
-    <Compile Include="Monitoring\MonitoringDevice.cs" />
+    <Compile Include="Monitoring\MonitoringPanel.cs" />
     <Compile Include="Monitoring\MonitoringManager.cs" />
-    <Compile Include="Monitoring\MonitoringProcessor.cs" />
-    <Compile Include="Monitoring\MonitoringProcessor.StartStop.cs" />
-    <Compile Include="Monitoring\MonitoringProcessor.TimeSynchronisation.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.AllStates.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.StartStop.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.TimeSynchronisation.cs" />
+    <Compile Include="Monitoring\NonPanelStatesManager.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />
     <Compile Include="Operations\ConfigurationWriterOperationHelper.cs" />

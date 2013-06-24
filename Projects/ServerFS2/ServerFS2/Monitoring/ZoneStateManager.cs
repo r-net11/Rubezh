@@ -27,8 +27,7 @@ namespace ServerFS2.Monitoring
 			}
 
 			if(!isSilent)
-				CallbackManager.Add(new FS2Callbac() { ChangedZoneStates = changedZoneStates });
+				CallbackManager.ZoneStateChanged(changedZoneStates);
 		}
-
 	}
 }

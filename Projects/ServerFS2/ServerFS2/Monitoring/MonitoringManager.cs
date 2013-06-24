@@ -9,70 +9,79 @@ namespace ServerFS2.Monitoring
 {
 	public static class MonitoringManager
 	{
-		public static List<MonitoringProcessor> MonitoringProcessors { get; private set; }
+		public static List<MonitoringUSB> MonitoringUSBs { get; private set; }
 
 		static MonitoringManager()
 		{
-			MonitoringProcessors = new List<MonitoringProcessor>();
+			MonitoringUSBs = new List<MonitoringUSB>();
 		}
 
-		public static MonitoringProcessor Find(Device device)
+		public static MonitoringUSB Find(Device device)
 		{
-			return MonitoringProcessors.FirstOrDefault(x => x.USBDevice.UID == device.ParentUSB.UID);
+			return MonitoringUSBs.FirstOrDefault(x => x.USBDevice.UID == device.ParentUSB.UID);
 		}
 
 		public static void StartMonitoring(Device device = null)
 		{
 			if (device == null)
 			{
-				MonitoringProcessors = new List<MonitoringProcessor>();
+				USBManager.UsbRemoved += new Action(USBManager_UsbRemoved);
+
+				MonitoringUSBs = new List<MonitoringUSB>();
 				foreach (var usbDevice in ConfigurationManager.DeviceConfiguration.RootDevice.Children)
 				{
-					var monitoringProcessor = new MonitoringProcessor(usbDevice);
-					if (monitoringProcessor.MonitoringPanelDevices.Count > 0 || monitoringProcessor.MonitoringNonPanelDevices.Count > 0)
+					var monitoringUSB = new MonitoringUSB(usbDevice);
+					if (monitoringUSB.MonitoringPanels.Count > 0 || monitoringUSB.MonitoringNonPanels.Count > 0)
 					{
-						MonitoringProcessors.Add(monitoringProcessor);
+						MonitoringUSBs.Add(monitoringUSB);
 					}
 				}
 			}
-			foreach (var monitoringProcessor in MonitoringProcessors)
+			foreach (var monitoringUSB in MonitoringUSBs)
 			{
-				if (device == null || monitoringProcessor.USBDevice.UID == device.ParentUSB.UID)
+				if (device == null || monitoringUSB.USBDevice.UID == device.ParentUSB.UID)
 				{
-					monitoringProcessor.StartMonitoring();
+					monitoringUSB.StartMonitoring();
 				}
 			}
 		}
 
+		static void USBManager_UsbRemoved()
+		{
+			//StopMonitoring();
+			//USBManager.Initialize();
+			//StartMonitoring();
+		}
+
 		public static void StopMonitoring(Device device = null)
 		{
-			foreach (var monitoringProcessor in MonitoringProcessors)
+			foreach (var monitoringUSB in MonitoringUSBs)
 			{
-				if (device == null || monitoringProcessor.USBDevice.UID == device.ParentUSB.UID)
+				if (device == null || monitoringUSB.USBDevice.UID == device.ParentUSB.UID)
 				{
-					monitoringProcessor.StopMonitoring();
+					monitoringUSB.StopMonitoring();
 				}
 			}
 		}
 
 		public static void SuspendMonitoring(Device device = null)
 		{
-			foreach (var monitoringProcessor in MonitoringProcessors)
+			foreach (var monitoringUSB in MonitoringUSBs)
 			{
-				if (device == null || monitoringProcessor.USBDevice.UID == device.ParentUSB.UID)
+				if (device == null || monitoringUSB.USBDevice.UID == device.ParentUSB.UID)
 				{
-					monitoringProcessor.SuspendMonitoring();
+					monitoringUSB.SuspendMonitoring();
 				}
 			}
 		}
 
 		public static void ResumeMonitoring(Device device = null)
 		{
-			foreach (var monitoringProcessor in MonitoringProcessors)
+			foreach (var monitoringUSB in MonitoringUSBs)
 			{
-				if (device == null || monitoringProcessor.USBDevice.UID == device.ParentUSB.UID)
+				if (device == null || monitoringUSB.USBDevice.UID == device.ParentUSB.UID)
 				{
-					monitoringProcessor.ResumeMonitoring();
+					monitoringUSB.ResumeMonitoring();
 				}
 			}
 		}
@@ -82,10 +91,10 @@ namespace ServerFS2.Monitoring
 			foreach (var panelResetItem in panelResetItems)
 			{
 				var panelDevice = ConfigurationManager.Devices.FirstOrDefault(x => x.UID == panelResetItem.PanelUID);
-				var monitoringProcessor = MonitoringProcessors.FirstOrDefault(x => x.USBDevice.UID == panelResetItem.PanelUID);
-				if (monitoringProcessor != null)
+				var monitoringUSB = MonitoringUSBs.FirstOrDefault(x => x.USBDevice.UID == panelDevice.ParentUSB.UID);
+				if (monitoringUSB != null)
 				{
-					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanelDevices)
+					foreach (var monitoringDevice in monitoringUSB.MonitoringPanels)
 					{
 						if (monitoringDevice.Panel == panelDevice)
 							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
@@ -101,7 +110,7 @@ namespace ServerFS2.Monitoring
 				var monitoringProcessor = Find(device);
 				if (monitoringProcessor != null)
 				{
-					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanelDevices)
+					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
 					{
 						if (monitoringDevice.Panel == device.ParentPanel)
 						{
@@ -119,7 +128,7 @@ namespace ServerFS2.Monitoring
 				var monitoringProcessor = Find(device);
 				if (monitoringProcessor != null)
 				{
-					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanelDevices)
+					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
 					{
 						if (monitoringDevice.Panel == device.ParentPanel)
 						{
@@ -135,7 +144,7 @@ namespace ServerFS2.Monitoring
 			var monitoringProcessor = Find(device);
 			if (monitoringProcessor != null)
 			{
-				foreach (var monitoringDevice in monitoringProcessor.MonitoringPanelDevices)
+				foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
 				{
 					if (monitoringDevice.Panel == device.ParentPanel)
 					{

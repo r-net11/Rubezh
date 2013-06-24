@@ -10,19 +10,19 @@ using System.Windows.Forms;
 
 namespace ServerFS2.Monitoring
 {
-	public partial class MonitoringProcessor
+	public partial class MonitoringUSB
 	{
 		public Device USBDevice { get; private set; }
-		public List<MonitoringDevice> MonitoringPanelDevices { get; private set; }
-		public List<Device> MonitoringNonPanelDevices { get; private set; }
+		UsbProcessor UsbProcessor;
+		public List<MonitoringPanel> MonitoringPanels { get; private set; }
+		public List<Device> MonitoringNonPanels { get; private set; }
 		DateTime StartTime;
-		object locker = new object();
 
-		public MonitoringProcessor(Device usbDevice)
+		public MonitoringUSB(Device usbDevice)
 		{
 			USBDevice = usbDevice;
-			MonitoringPanelDevices = new List<MonitoringDevice>();
-			MonitoringNonPanelDevices = new List<Device>();
+			MonitoringPanels = new List<MonitoringPanel>();
+			MonitoringNonPanels = new List<Device>();
 
 			if (!usbDevice.IsParentMonitoringDisabled)
 			{
@@ -44,7 +44,7 @@ namespace ServerFS2.Monitoring
 										case DriverType.BUNS:
 										case DriverType.BUNS_2:
 										case DriverType.BlindPanel:
-											MonitoringPanelDevices.Add(new MonitoringDevice(panelDevice));
+											MonitoringPanels.Add(new MonitoringPanel(panelDevice));
 											break;
 										case DriverType.IndicationBlock:
 										case DriverType.PDU:
@@ -52,7 +52,7 @@ namespace ServerFS2.Monitoring
 										case DriverType.UOO_TL:
 										case DriverType.MS_3:
 										case DriverType.MS_4:
-											MonitoringNonPanelDevices.Add(panelDevice);
+											MonitoringNonPanels.Add(panelDevice);
 											break;
 									}
 								}
@@ -65,14 +65,15 @@ namespace ServerFS2.Monitoring
 					case DriverType.USB_Rubezh_P:
 					case DriverType.USB_BUNS:
 					case DriverType.USB_BUNS_2:
-						MonitoringPanelDevices.Add(new MonitoringDevice(usbDevice));
+						MonitoringPanels.Add(new MonitoringPanel(usbDevice));
 						break;
 				}
 			}
-			foreach (var usbProcessorInfo in USBManager.UsbProcessorInfos)
+			var usbProcessorInfo = USBManager.UsbProcessorInfos.FirstOrDefault(x => x.Device.UID == usbDevice.UID);
+			if (usbProcessorInfo != null)
 			{
-				//usbProcessorInfo.UsbProcessor.NewResponse -= new Action<Response>(UsbRunner_NewResponse);
-				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>(UsbRunner_NewResponse);
+				UsbProcessor = usbProcessorInfo.UsbProcessor;
+				UsbProcessor.NewResponse += new Action<Response>(UsbRunner_NewResponse);
 			}
 		}
 
@@ -80,20 +81,16 @@ namespace ServerFS2.Monitoring
 		{
 			try
 			{
-				if (USBManager.UsbProcessorInfos.Count == 0)
+				SetAllInitializing();
+				SetAllMonitoringDisabled();
+				foreach (var monitoringPanel in MonitoringPanels)
 				{
-					MessageBox.Show("USBManager.UsbProcessorInfos.Count == 0");
-				}
-				DeviceStatesManager.SetInitializingStateToAll();
-				DeviceStatesManager.SetMonitoringDisabled();
-				MonitoringPanelDevices.Where(x => !x.IsInitialized).ToList().ForEach(x => x.Initialize());
-				DeviceStatesManager.RemoveInitializingFromAll();
+					if (CheckSuspending(false))
+						return;
 
-					//Stopwatch stopwatch = new Stopwatch();
-					//stopwatch.Start();
-					//MonitoringDevices.FirstOrDefault().Panel.GetRealChildren().ForEach(x => DeviceStatesManager.GetDeviceCurrentState(x));
-					//stopwatch.Stop();
-					//Trace.WriteLine("GetDeviceCurrentState " + stopwatch.Elapsed.TotalSeconds);
+					monitoringPanel.Initialize();
+				}
+				RemoveAllInitializing();
 			}
 			catch (FS2StopMonitoringException)
 			{
@@ -111,21 +108,21 @@ namespace ServerFS2.Monitoring
 					if (CheckSuspending(false))
 						return;
 
-					foreach (var monitoringDevice in MonitoringPanelDevices)
+					foreach (var monitoringDevice in MonitoringPanels)
 					{
 						if (CheckSuspending(false))
 							return;
 						monitoringDevice.CheckTasks();
 					}
 
-					MonitoringNonPanelDevices.ForEach(x => DeviceStatesManager.UpdatePDUPanelState(x));
+					MonitoringNonPanels.ForEach(x => NonPanelStatesManager.UpdatePDUPanelState(x));
 
 					if (CheckSuspending(false))
 						return;
 
 					if (IsTimeSynchronizationNeeded)
 					{
-						MonitoringPanelDevices.ForEach(x => x.SynchronizeTime());
+						MonitoringPanels.ForEach(x => x.SynchronizeTime());
 						IsTimeSynchronizationNeeded = false;
 					}
 				}
@@ -143,16 +140,13 @@ namespace ServerFS2.Monitoring
 		void UsbRunner_NewResponse(Response response)
 		{
 			//Trace.WriteLine("response.Id=" + response.Id);
-			lock (MonitoringDevice.Locker)
+			foreach (var monitoringDevice in MonitoringPanels)
 			{
-				foreach (var monitoringDevice in MonitoringPanelDevices.ToList())
+				foreach (var request in monitoringDevice.Requests.ToList())
 				{
-					foreach (var request in monitoringDevice.Requests.ToList())
+					if (request != null && request.Id == response.Id)
 					{
-						if (request != null && request.Id == response.Id)
-						{
-							monitoringDevice.OnResponceRecieved(request, response);
-						}
+						monitoringDevice.OnResponceRecieved(request, response);
 					}
 				}
 			}

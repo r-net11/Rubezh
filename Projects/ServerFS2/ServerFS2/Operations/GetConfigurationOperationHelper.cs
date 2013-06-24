@@ -474,7 +474,7 @@ namespace ServerFS2
 			pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
 		}
 
-		public DeviceConfiguration GetDeviceConfig(Device pamelDevice)
+		public DeviceConfiguration GetDeviceConfiguration(Device pamelDevice)
 		{
 			PanelDevice = (Device)pamelDevice.Clone();
 			shleifCount = PanelDevice.Driver.ShleifCount;

@@ -5,38 +5,39 @@
         xmlns:Views="clr-namespace:MonitorClientFS2.Views"
         Title="Оперативная Задача Firesec-2" Height="800" Width="1000" Closing="Window_Closing">
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="White">
+            <StackPanel>
+                <CheckBox IsChecked="{Binding StartMonitoring}" Content="Start Monitoring" />
+            </StackPanel>
+            <StackPanel>
+                <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
+                <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
+                <Button Content="SuspendMonitoring" Command="{Binding SuspendMonitoringCommand}" Width="200" Margin="2" />
+                <Button Content="ResumeMonitoring" Command="{Binding ResumeMonitoringCommand}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel>
+                <Button Content="SetNewConfigurationCommand" Command="{Binding SetNewConfigurationCommand}" Width="200" Margin="2" />
+                <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
+                <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
+            </StackPanel>
+        </StackPanel>
+        <TabControl Grid.Row="1">
             <TabItem Header="Журнал">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="200" />
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Background="White">
-                        <StackPanel>
-                            <CheckBox IsChecked="{Binding StartMonitoring}" Content="Start Monitoring" />
-                        </StackPanel>
-                        <StackPanel>
-                            <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
-                            <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
-                            <Button Content="SuspendMonitoring" Command="{Binding SuspendMonitoringCommand}" Width="200" Margin="2" />
-                            <Button Content="ResumeMonitoring" Command="{Binding ResumeMonitoringCommand}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel>
-                            <Button Content="SetNewConfig" Command="{Binding SetNewConfigCommand}" Width="200" Margin="2" />
-                            <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
-                            <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
-                        </StackPanel>
-                    </StackPanel>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
                             <DataGridTextColumn Header="DeviceAddress" Binding="{Binding DeviceAddress}" />
-                            
                             <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
-                            <DataGridTextColumn Header="PanelAddress" Binding="{Binding PanelAddress}" />
                             
                             <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
@@ -58,13 +59,13 @@
                             <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Grid.Row="2" DataContext="{Binding SelectedJournalItem}" Margin="2">
+                    <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournalItem}" Margin="2">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Detalisation" Width="200" Foreground="White" Margin="2" />
                             <TextBlock Text="{Binding Detalization}" TextWrapping="WrapWithOverflow" Foreground="White" Margin="2" />
                         </StackPanel>
                     </StackPanel>
-                    <DataGrid Grid.Row="3" ItemsSource="{Binding ProgressInfos}">
+                    <DataGrid Grid.Row="2" ItemsSource="{Binding ProgressInfos}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Stage" Binding="{Binding Stage}" Width="*" />
                             <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*" />

@@ -5,12 +5,14 @@ using System.Threading;
 using FiresecAPI;
 using UsbLibrary;
 using System.Diagnostics;
+using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace ServerFS2
 {
 	public class UsbProcessor : UsbProcessorBase
 	{
-		UsbHidPort UsbHidPort;
+		public UsbHidPort UsbHidPort { get; private set; }
 		bool IsDisposed = false;
 
 		public override bool Open()
@@ -30,19 +32,15 @@ namespace ServerFS2
 
 		void UsbHidPort_OnDeviceRemoved(object sender, EventArgs e)
 		{
-			OnDeviceRemoved(this);
-		}
-
-		public event Action<UsbProcessor> DeviceRemoved;
-		protected void OnDeviceRemoved(UsbProcessor usbProcessor)
-		{
 			if (DeviceRemoved != null)
-				DeviceRemoved(usbProcessor);
+				DeviceRemoved(this);
 		}
+		public event Action<UsbProcessor> DeviceRemoved;
 
 		public override void Dispose()
 		{
 			IsDisposed = true;
+			AutoWaitEvent.Set();
 			UsbHidPort.SpecifiedDevice.DataRecieved -= new DataRecievedEventHandler(OnDataRecieved);
 			UsbHidPort.SpecifiedDevice.Dispose();
 			UsbHidPort.Dispose();
@@ -182,10 +180,14 @@ namespace ServerFS2
 				{
 					for (int i = 0; i < countRacall; i++)
 					{
-						Send(request.Bytes);
+						var result = Send(request.Bytes);
+						if (!result)
+							return null;
 						AutoWaitEvent.WaitOne(timeout);
 						if (RequestCollection.Count() == 0)
 							break;
+						if(IsDisposed)
+							return null;
 					}
 				}
 				return Responses.FirstOrDefault();

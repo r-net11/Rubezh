@@ -165,12 +165,13 @@ namespace UsbLibrary
 		{
 			try
 			{
-				m_oFile.Write(oOutRep.Buffer, 0, oOutRep.BufferLength);
+				if (!IsDisposing)
+				{
+					m_oFile.Write(oOutRep.Buffer, 0, oOutRep.BufferLength);
+				}
 			}
 			catch (IOException ex)
 			{
-				//Console.WriteLine(ex.ToString());
-				// The device was removed!
 				throw new HIDDeviceException("Probbaly the device was removed");
 			}
 			catch (Exception exx)

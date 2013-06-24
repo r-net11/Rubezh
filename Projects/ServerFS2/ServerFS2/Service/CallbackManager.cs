@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using FS2Api;
+using FiresecAPI.Models;
 
 namespace ServerFS2.Service
 {
@@ -63,6 +64,29 @@ namespace ServerFS2.Service
 		{
 			if (ProgressEvent != null)
 				ProgressEvent(fs2ProgressInfo);
+		}
+
+		public static void DeviceStateChanged(List<DeviceState> deviceStates)
+		{
+			Trace.WriteLine("CallbackManager.DeviceStateChanged");
+			Add(new FS2Callbac() { ChangedDeviceStates = deviceStates });
+		}
+
+		public static void DeviceParametersChanged(List<DeviceState> deviceStates)
+		{
+			Trace.WriteLine("CallbackManager.DeviceParametersChanged");
+			Add(new FS2Callbac() { ChangedDeviceParameters = deviceStates });
+		}
+
+		public static void ZoneStateChanged(List<ZoneState> zoneStates)
+		{
+			Trace.WriteLine("CallbackManager.ZoneStateChanged");
+			Add(new FS2Callbac() { ChangedZoneStates = zoneStates });
+		}
+
+		public static void NewJournalItems(List<FS2JournalItem> journalItems)
+		{
+			Add(new FS2Callbac() { JournalItems = journalItems });
 		}
 	}
 

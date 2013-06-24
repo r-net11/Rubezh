@@ -15,6 +15,7 @@ using ServerFS2.Service;
 using ServerFS2.Monitoring;
 using System.Windows;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MonitorClientFS2
 {
@@ -29,7 +30,7 @@ namespace MonitorClientFS2
 			SuspendMonitoringCommand = new RelayCommand(OnSuspendMonitoring);
 			ResumeMonitoringCommand = new RelayCommand(OnResumeMonitoring);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
-			SetNewConfigCommand = new RelayCommand(OnSetNewConfig);
+			SetNewConfigurationCommand = new RelayCommand(OnSetNewConfiguration);
 			GetSerialListCommand = new RelayCommand(OnGetSerialList);
 
 			DevicesViewModel = new DevicesViewModel();
@@ -129,11 +130,18 @@ namespace MonitorClientFS2
 			MonitoringManager.ResumeMonitoring();
 		}
 
-		public RelayCommand SetNewConfigCommand { get; private set; }
-		void OnSetNewConfig()
+		public RelayCommand SetNewConfigurationCommand { get; private set; }
+		void OnSetNewConfiguration()
 		{
-			var fs2Contract = new FS2Contract();
-			fs2Contract.SetNewConfiguration(ConfigurationManager.DeviceConfiguration);
+			Task.Factory.StartNew(() =>
+			{
+				while (true)
+				{
+					var fs2Contract = new FS2Contract();
+					fs2Contract.SetNewConfiguration(ConfigurationManager.DeviceConfiguration);
+					Thread.Sleep(TimeSpan.FromSeconds(5));
+				}
+			});
 		}
 
 		public RelayCommand GetSerialListCommand { get; private set; }

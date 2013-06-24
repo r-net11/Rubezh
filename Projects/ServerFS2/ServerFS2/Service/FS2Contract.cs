@@ -24,7 +24,7 @@ namespace ServerFS2.Service
 
 		public static void CheckCancellationAndNotify(string message)
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo(message) });
+			CallbackManager.AddProgress(new FS2ProgressInfo(message));
 			CheckCancellationRequested();
 		}
 
@@ -230,10 +230,10 @@ namespace ServerFS2.Service
 		#region Administrator
 		public OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration)
 		{
-			return SafeCallWithMonitoringSuspending(() =>
+			return SafeCall(() =>
 			{
 				MainManager.SetNewConfiguration(deviceConfiguration);
-			}, "SetNewConfiguration", null, true);
+			}, "SetNewConfiguration");
 		}
 
 		public OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB)
@@ -527,6 +527,9 @@ namespace ServerFS2.Service
 		{
 			try
 			{
+				if (device.Driver.DriverType == DriverType.Computer)
+					device = null;
+
 				if (stopMonitoring)
 				{
 					MainManager.StopMonitoring(device);
@@ -558,6 +561,9 @@ namespace ServerFS2.Service
 		{
 			try
 			{
+				if (device.Driver.DriverType == DriverType.Computer)
+					device = null;
+
 				if (stopMonitoring)
 				{
 					MainManager.StopMonitoring(device);

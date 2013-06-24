@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace ServerFS2.Monitoring
 {
-	public partial class MonitoringProcessor
+	public partial class MonitoringUSB
 	{
 		Thread TimeSynchronizationThread;
 		AutoResetEvent TimeSynchronizationEvent;

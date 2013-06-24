@@ -14,7 +14,6 @@ namespace ServerFS2
 		{
 			CurrentDeviceConfiguration = ConfigurationManager.DeviceConfiguration;
 			ConfigurationManager.DeviceConfiguration = CreateTempDeviceConfiguration(device);
-			USBManager.Dispose();
 			USBManager.Initialize();
 			return ConfigurationManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault();
 		}
@@ -22,7 +21,6 @@ namespace ServerFS2
 		public static void SetCurrentDeviceConfiguration()
 		{
 			ConfigurationManager.DeviceConfiguration = CurrentDeviceConfiguration;
-			USBManager.Dispose();
 			USBManager.Initialize();
 		}
 

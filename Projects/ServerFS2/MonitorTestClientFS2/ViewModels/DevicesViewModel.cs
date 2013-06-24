@@ -91,7 +91,7 @@ namespace MonitorClientFS2.ViewModels
 		private void OnReadRomRam()
 		{
 			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
-			var deviceConfiguration = getConfigurationOperationHelper.GetDeviceConfig(SelectedDevice.Device);
+			var deviceConfiguration = getConfigurationOperationHelper.GetDeviceConfiguration(SelectedDevice.Device);
 		}
 		private bool CanReadRomRam()
 		{

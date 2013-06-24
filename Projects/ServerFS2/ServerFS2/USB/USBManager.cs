@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using UsbLibrary;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ServerFS2
 {
@@ -98,6 +99,8 @@ namespace ServerFS2
 			}
 			else
 			{
+				Trace.WriteLine("UsbManager.Send");
+				Initialize();
 				if (throwException)
 					throw new FS2USBException("USB устройство отсутствует");
 				return new Response("USB устройство отсутствует");
@@ -195,6 +198,27 @@ namespace ServerFS2
 			}
 		}
 
+		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)
+		{
+			var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.UsbProcessor == usbProcessor);
+			if (usbProcessorInfo != null)
+			{
+				UsbProcessorInfos.Remove(usbProcessorInfo);
+			}
+			if (UsbRemoved != null)
+				UsbRemoved();
+		}
+		public static event Action UsbRemoved;
+
+		public static void Dispose()
+		{
+			if (UsbProcessorInfos != null)
+			{
+				UsbProcessorInfos.ForEach(x => x.UsbProcessor.Dispose());
+				UsbProcessorInfos.Clear();
+			}
+		}
+
 		public static List<string> GetAllSerialNos()
 		{
 			Dispose();
@@ -207,24 +231,6 @@ namespace ServerFS2
 			}
 			Thread.Sleep(TimeSpan.FromSeconds(5));
 			return result;
-		}
-
-		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)
-		{
-			var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.UsbProcessor == usbProcessor);
-			if (usbProcessorInfo != null)
-			{
-				UsbProcessorInfos.Remove(usbProcessorInfo);
-			}
-		}
-
-		public static void Dispose()
-		{
-			if (UsbProcessorInfos != null)
-			{
-				UsbProcessorInfos.ForEach(x => x.UsbProcessor.Dispose());
-				UsbProcessorInfos.Clear();
-			}
 		}
 	}
 }

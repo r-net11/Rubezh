@@ -8,6 +8,7 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using ServerFS2.Monitoring;
 using ServerFS2.Processor;
+using System.Diagnostics;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -27,6 +28,7 @@ namespace MonitorClientFS2.ViewModels
 
 		void DeviceState_StateChanged()
 		{
+			Trace.WriteLine("##################DeviceViewModel.DeviceState_StateChanged " + Device.PresentationAddressAndName);
 			OnPropertyChanged("Device");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("States");

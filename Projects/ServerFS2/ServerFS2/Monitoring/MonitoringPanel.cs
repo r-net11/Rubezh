@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace ServerFS2.Monitoring
 {
-	public class MonitoringDevice
+	public class MonitoringPanel
 	{
 		const int maxSequentUnAnswered = 1000;
 		const int maxMessages = 1024;
@@ -20,32 +20,14 @@ namespace ServerFS2.Monitoring
 		public const int requestExpiredTime = 10; // in seconds
 		public static readonly object Locker = new object();
 
-		public MonitoringDevice(Device device)
-		{
-			Panel = device;
-			Requests = new List<Request>();
-			ResetStateIds = new List<string>();
-			DevicesToIgnore = new List<Device>();
-			CommandItems = new List<CommandItem>();
-			LastSystemIndex = XmlJournalHelper.GetLastId(device);
-			//LastSystemIndex = -1;
-			FirstSystemIndex = -1;
-			SequentUnAnswered = 0;
-			IsReadingNeeded = false;
-			LostConnectionState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором");
-			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
-			RealChildren = Panel.GetRealChildren();
-		}
-
 		int SequentUnAnswered;
-		int lastSystemIndex;
 		DriverState LostConnectionState;
 		DriverState InitializingState;
-		int IndexToGetParams;
-		List<Device> RealChildren;
+		int RealChildIndex;
 
-		public bool CanRequestLastIndex = true;
-		public DateTime LastIndexDateTime;
+		public Device Panel { get; private set; }
+		List<Device> RealChildren;
+		DeviceStatesManager DeviceStatesManager;
 
 		public static event Action<FS2JournalItem> NewJournalItem;
 		public List<string> ResetStateIds { get; set; }
@@ -54,22 +36,45 @@ namespace ServerFS2.Monitoring
 		public List<CommandItem> CommandItems { get; set; }
 		public int LastDeviceIndex { get; set; }
 		public bool IsReadingNeeded { get; set; }
-		public bool IsInitialized { get; private set; }
 		public bool IsStateRefreshNeeded { get; set; }
 		public bool IsManipulationNeeded { get; set; }
-		public Device Panel { get; set; }
 		public List<Request> Requests { get; set; }
 		public int FirstSystemIndex { get; set; }
 		public int AnsweredCount { get; set; }
 		public int UnAnsweredCount { get; set; }
+
+		int _lastSystemIndex;
 		public int LastSystemIndex
 		{
-			get { return lastSystemIndex; }
+			get { return _lastSystemIndex; }
 			set
 			{
-				lastSystemIndex = value;
+				_lastSystemIndex = value;
 				XmlJournalHelper.SetLastId(Panel, value);
 			}
+		}
+
+		public MonitoringPanel(Device device)
+		{
+			Panel = device;
+			Requests = new List<Request>();
+			ResetStateIds = new List<string>();
+			DevicesToIgnore = new List<Device>();
+			CommandItems = new List<CommandItem>();
+			LastSystemIndex = XmlJournalHelper.GetLastId(device);
+			FirstSystemIndex = -1;
+			SequentUnAnswered = 0;
+			IsReadingNeeded = false;
+			LostConnectionState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Потеря связи с прибором");
+			InitializingState = Panel.Driver.States.FirstOrDefault(x => x.Name == "Устройство инициализируется");
+			RealChildren = Panel.GetRealChildren();
+			DeviceStatesManager = new DeviceStatesManager();
+		}
+
+		public void Initialize()
+		{
+			DeviceStatesManager.UpdatePanelChildrenStates(Panel, true);
+			DeviceStatesManager.UpdatePanelState(Panel, true);
 		}
 
 		public void CheckTasks()
@@ -77,8 +82,7 @@ namespace ServerFS2.Monitoring
 			if (IsReadingNeeded)
 			{
 				var journalItems = GetNewItems();
-				DeviceStatesManager.UpdateDeviceStateJournal(journalItems);
-				DeviceStatesManager.UpdateDeviceState(journalItems);
+				DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
 				DeviceStatesManager.UpdatePanelState(Panel);
 			}
 			if (ResetStateIds != null && ResetStateIds.Count > 0)
@@ -86,7 +90,7 @@ namespace ServerFS2.Monitoring
 				ServerHelper.ResetOnePanelStates(Panel, ResetStateIds);
 				ResetStateIds.Clear();
 				DeviceStatesManager.UpdatePanelState(Panel);
-				MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Команда оператора. Сброс"));
+				OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Команда оператора. Сброс"));
 			}
 
 			if (DevicesToIgnore != null && DevicesToIgnore.Count > 0)
@@ -112,11 +116,16 @@ namespace ServerFS2.Monitoring
 			}
 			if (IsStateRefreshNeeded)
 			{
-				RefreshStates();
+				DeviceStatesManager.UpdatePanelState(Panel);
+				foreach (var device in RealChildren)
+				{
+					DeviceStatesManager.UpdateDeviceStateAndParameters(device);
+				}
+				IsStateRefreshNeeded = false;
 			}
-			DeviceParametersManager.UpdateCurrentState(RealChildren[IndexToGetParams]);
+			DeviceStatesManager.UpdateDeviceStateAndParameters(RealChildren[RealChildIndex]);
 			NextIndextoGetParams();
-			CheckForLostConnection();
+			CheckConnectionLost();
 			RequestLastIndex();
 		}
 
@@ -127,27 +136,19 @@ namespace ServerFS2.Monitoring
 			{
 				LastIndexReceived(response);
 			}
-			//else if (request.RequestType == RequestTypes.SecReadIndex)
-			//{
-			//    SecLastIndexReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
-			//}
-			//else if (request.RequestType == RequestTypes.SecReadItem)
-			//{
-			//    SecNewItemReceived((deviceResponceRelation as SecDeviceResponceRelation), response);
-			//}
 			lock (Locker)
 				Requests.RemoveAll(x => x != null && x.Id == request.Id);
 		}
 
-		public static void OnNewJournalItem(FS2JournalItem fsJournalItem)
+		void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
-			CallbackManager.Add(new FS2Callbac() { JournalItems = new List<FS2JournalItem>() { fsJournalItem } });
+			CallbackManager.NewJournalItems(new List<FS2JournalItem>() { fsJournalItem } );
 			DatabaseHelper.AddJournalItem(fsJournalItem);
 			if (NewJournalItem != null)
 				NewJournalItem(fsJournalItem);
 		}
 
-		public void CheckForLostConnection()
+		void CheckConnectionLost()
 		{
 			var requestsToDelete = new List<Request>();
 			lock (Locker)
@@ -167,36 +168,6 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public void RefreshStates()
-		{
-			DeviceStatesManager.UpdatePanelState(Panel);
-			DeviceStatesManager.UpdateAllDevicesOnPanelState(Panel);
-			IsStateRefreshNeeded = false;
-		}
-
-		public void ToInitializingState()
-		{
-			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = InitializingState, Time = DateTime.Now } };
-			Panel.GetRealChildren().ForEach(x =>
-			{
-				x.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = InitializingState, Time = DateTime.Now } };
-				x.DeviceState.OnStateChanged();
-			});
-			Panel.DeviceState.OnStateChanged();
-		}
-
-		public void FromInitializingState()
-		{
-			Panel.DeviceState.States = new List<DeviceDriverState>();
-			Panel.GetRealChildren().ForEach(x =>
-			{
-				x.DeviceState.States = new List<DeviceDriverState>();
-				x.DeviceState.OnStateChanged();
-			});
-			Panel.DeviceState.OnStateChanged();
-			IsStateRefreshNeeded = true;
-		}
-
 		void SetLostConnectionState()
 		{
 			Panel.DeviceState.States = new List<DeviceDriverState> { new DeviceDriverState { DriverState = LostConnectionState, Time = DateTime.Now } };
@@ -206,7 +177,7 @@ namespace ServerFS2.Monitoring
 				x.DeviceState.OnStateChanged();
 			});
 			Panel.DeviceState.OnStateChanged();
-			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.Name));
+			OnNewJournalItem(JournalParser.CustomJournalItem(Panel, LostConnectionState.Name));
 		}
 
 		void RemoveLostConnectionState()
@@ -219,36 +190,26 @@ namespace ServerFS2.Monitoring
 			});
 			Panel.DeviceState.OnStateChanged();
 			IsStateRefreshNeeded = true;
-			MonitoringDevice.OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
+			OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
 		}
 
 		void NextIndextoGetParams()
 		{
-			IndexToGetParams++;
-			if (IndexToGetParams + 1 >= RealChildren.Count)
-				IndexToGetParams = 0;
-		}
-
-		public void Initialize()
-		{
-			DeviceStatesManager.GetStates(Panel, true);
-			DeviceStatesManager.UpdatePanelState(Panel, true);
-			IsInitialized = true;
+			RealChildIndex++;
+			if (RealChildIndex + 1 >= RealChildren.Count)
+				RealChildIndex = 0;
 		}
 
 		public void RequestLastIndex()
 		{
 			var request = new Request(RequestTypes.ReadIndex, new List<byte> { 0x21, 0x00 });
-			CanRequestLastIndex = false;
-			LastIndexDateTime = DateTime.Now;
-
 			lock (Locker)
 			{
 				Requests.Add(request);
 			}
 			request.Id = USBManager.SendAsync(Panel, 0x01, request.Bytes);
-			//Trace.WriteLine("request.Id=" + request.Id);
-			Thread.Sleep(betweenDevicesSpan);
+			if (betweenDevicesSpan > 0)
+				Thread.Sleep(betweenDevicesSpan);
 		}
 
 		public void LastIndexReceived(Response response)
@@ -262,7 +223,6 @@ namespace ServerFS2.Monitoring
 			{
 				RemoveLostConnectionState();
 			}
-			CanRequestLastIndex = true;
 			LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
 			if (FirstSystemIndex == -1)
 				FirstSystemIndex = LastDeviceIndex;
@@ -289,9 +249,9 @@ namespace ServerFS2.Monitoring
 				var journalItem = JournalHelper.ReadItem(Panel, i);
 				if (journalItem != null)
 				{
-					MonitoringDevice.OnNewJournalItem(journalItem);
+					OnNewJournalItem(journalItem);
+					journalItems.Add(journalItem);
 				}
-				journalItems.Add(journalItem);
 			}
 			LastSystemIndex = LastDeviceIndex;
 			IsReadingNeeded = false;
