@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -13,10 +15,18 @@ namespace ServerFS2
 
 		public static void Initialize()
 		{
-			using (var fileStream = new FileStream(@"Metadata\rubezh2010.xml", FileMode.Open))
+			try
 			{
-				var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
-				Metadata = (Rubezh2010.driverConfig)serializer.Deserialize(fileStream);
+				using (var fileStream = new FileStream(@"Metadata\rubezh2010.xml", FileMode.Open))
+				{
+					var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
+					var deserializesObject = serializer.Deserialize(fileStream);
+					Metadata = (Rubezh2010.driverConfig)deserializesObject;
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
 			}
 		}
 
