@@ -10,51 +10,47 @@ namespace ServerFS2.Monitoring
 {
 	public partial class DeviceStatesManager
 	{
+		bool hasChanges = false;
+		List<byte> data;
+		
 		public void UpdateDeviceStateAndParameters(Device device)
 		{
-			bool hasChanges = false;
-			List<byte> data = null;
-			if (device.Driver.DriverType == DriverType.SmokeDetector || device.Driver.DriverType == DriverType.HandDetector)
+			hasChanges = false;
+			switch(device.Driver.DriverType)
 			{
-				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
-				if (data == null)
-					return;
-				device.StateWordBytes = data.GetRange(0, 2);
-				if (device.Driver.DriverType == DriverType.SmokeDetector)
-				{
-					ChangeSmokiness(device, ref hasChanges);
-					ChangeDustiness(device, data[8], ref hasChanges);
-				}
-				if (device.Driver.DriverType == DriverType.HeatDetector)
-				{
-					ChangeTemperature(device, data[8], ref hasChanges);
-				}
+				case DriverType.RadioSmokeDetector:
+				case DriverType.SmokeDetector:
+					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
+					if (data == null)
+						return;
+					ChangeStateWord(device, data);
+					ChangeSmokiness(device);
+					ChangeDustiness(device, data[8]);
+					break;
+				case DriverType.HeatDetector:
+					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
+					if (data == null)
+						return;
+					ChangeStateWord(device, data);
+					ChangeTemperature(device, data[8]);
+					break;
+				case DriverType.CombinedDetector:
+					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
+					if (data == null)
+						return;
+					ChangeStateWord(device, data);
+					ChangeSmokiness(device);
+					ChangeDustiness(device, data[9]);
+					ChangeTemperature(device, data[10]);
+					break;
+				default:
+					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+					if (data == null)
+						return;
+					ChangeStateWord(device, data);
+					break;
 			}
-			else if (device.Driver.DriverType == DriverType.CombinedDetector)
-			{
-				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
-				if (data == null)
-					return;
-				device.StateWordBytes = data.GetRange(0, 2);
-				{
-					ChangeSmokiness(device, ref hasChanges);
-					ChangeDustiness(device, data[9], ref hasChanges);
-					ChangeTemperature(device, data[10], ref hasChanges);
-				}
-			}
-			else
-			{
-				data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
-				if (data == null)
-					return;
-			}
-			var stateWordBytes = data.GetRange(0, 2);
-			if (device.StateWordBytes != stateWordBytes)
-			{
-				device.StateWordBytes = stateWordBytes;
-				ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
-			}
-			else if (hasChanges)
+			if (hasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				CallbackManager.DeviceParametersChanged(new List<DeviceState>() { device.DeviceState });
@@ -69,34 +65,54 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void ChangeSmokiness(Device device, ref bool hasChanges)
+		void ChangeSmokiness(Device device)
 		{
 			var smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 			if (device.DeviceState.Smokiness != smokiness)
 			{
 				device.DeviceState.Smokiness = smokiness;
+				ChangeParameter(device, smokiness, "Smokiness");
 				hasChanges = true;
 			}
 		}
 
-		void ChangeDustiness(Device device, byte dustinessByte, ref bool hasChanges)
+		void ChangeDustiness(Device device, byte dustinessByte)
 		{
 			var dustiness = (float)dustinessByte / 100;
 			if (device.DeviceState.Dustiness != dustiness)
 			{
 				device.DeviceState.Dustiness = dustiness;
+				ChangeParameter(device, dustiness, "Dustiness");
 				hasChanges = true;
 			}
 		}
 
-		void ChangeTemperature(Device device, byte temperatureByte, ref bool hasChanges)
+		void ChangeTemperature(Device device, byte temperatureByte)
 		{
 			var temperature = temperatureByte;
 			if (device.DeviceState.Temperature != temperature)
 			{
 				device.DeviceState.Temperature = temperature;
+				ChangeParameter(device, temperature, "Temperature");
 				hasChanges = true;
 			}
+		}
+
+		void ChangeStateWord(Device device, List<byte> data)
+		{
+			var stateWordBytes = data.GetRange(0, 2);
+			if (device.StateWordBytes != stateWordBytes)
+			{
+				device.StateWordBytes = stateWordBytes;
+				hasChanges = true;
+			}
+		}
+
+		void ChangeParameter(Device device, float byteValue, string name)
+		{
+			var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Name == name);
+			if (parameter != null)
+				parameter.Value = byteValue.ToString();
 		}
 	}
 }
