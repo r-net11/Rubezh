@@ -12,7 +12,7 @@ namespace ServerFS2
 		public string SerialNo { get; set; }
 		public int TypeNo { get; set; }
 		public DriverType USBDriverType { get; set; }
-		public Device Device { get; set; }
+		public Device USBDevice { get; set; }
 
 		public void Initialize()
 		{
@@ -93,7 +93,7 @@ namespace ServerFS2
 
 		public void WriteConfigToMS()
 		{
-			foreach (var channelDevice in Device.Children)
+			foreach (var channelDevice in USBDevice.Children)
 			{
 				byte paramNo = 0;
 				switch (channelDevice.IntAddress)
@@ -119,7 +119,7 @@ namespace ServerFS2
 				}
 
 				byte baudRateValue = 0;
-				var baudRateProperty = Device.Properties.FirstOrDefault(x => x.Name == "BaudRate");
+				var baudRateProperty = USBDevice.Properties.FirstOrDefault(x => x.Name == "BaudRate");
 				if (baudRateProperty != null)
 				{
 					baudRateValue = Byte.Parse(baudRateProperty.Value);

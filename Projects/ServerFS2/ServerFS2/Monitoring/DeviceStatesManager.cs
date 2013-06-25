@@ -12,6 +12,8 @@ namespace ServerFS2.Monitoring
 {
 	public partial class DeviceStatesManager
 	{
+		public bool CanNotifyClients = false;
+
 		public void UpdatePanelState(Device panel, bool isSilent = false)
 		{
 			var states = new List<DeviceDriverState>();
@@ -29,11 +31,14 @@ namespace ServerFS2.Monitoring
 					states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
 				}
 			}
-			ChangeDeviceStates(panel, states, isSilent);
+			if (SetNewDeviceStates(panel, states))
+			{
+				ChangeDeviceStates(panel, isSilent);
+			}
 			UpdateRealChildrenStateOnPanelState(panel, bitArray, isSilent);
 		}
 
-		public void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray, bool isSilent = false)
+		void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray, bool isSilent = false)
 		{
 			foreach (var device in panelDevice.GetRealChildren())
 			{
@@ -51,7 +56,7 @@ namespace ServerFS2.Monitoring
 								{
 									if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
 									{
-										ChangeDeviceStates(device, null, isSilent);
+										ChangeDeviceStates(device, isSilent);
 									}
 								}
 							}
@@ -80,7 +85,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
+		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
 		{
 			if (stateWordBytes == null || rawParametersBytes == null)
 				return;
@@ -128,14 +133,14 @@ namespace ServerFS2.Monitoring
 							Time = DateTime.Now
 						};
 						device.DeviceState.States.Add(deviceDriverState);
-						ChangeDeviceStates(device, null, isSilent);
+						ChangeDeviceStates(device, isSilent);
 					}
 				}
 			}
 			else
 			{
 				if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
-					ChangeDeviceStates(device, null, isSilent);
+					ChangeDeviceStates(device, isSilent);
 			}
 		}
 
@@ -184,7 +189,7 @@ namespace ServerFS2.Monitoring
 															Time = DateTime.Now
 														};
 														journalItem.Device.DeviceState.States.Add(deviceDriverState);
-														ChangeDeviceStates(journalItem.Device, null, false);
+														ChangeDeviceStates(journalItem.Device, false);
 													}
 												}
 											}
@@ -205,7 +210,7 @@ namespace ServerFS2.Monitoring
 													if (deviceDriverState != null)
 													{
 														journalItem.Device.DeviceState.States.Remove(deviceDriverState);
-														ChangeDeviceStates(journalItem.Device, null, false);
+														ChangeDeviceStates(journalItem.Device, false);
 													}
 												}
 											}
@@ -220,45 +225,97 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void ChangeDeviceStates(Device device, List<DeviceDriverState> newStates, bool isSilent)
+		public bool SetNewDeviceStates(Device device, List<DeviceDriverState> newStates)
 		{
-			if (newStates != null)
+			var hasChanges = false;
+			foreach (var state in newStates)
 			{
-				foreach (var state in newStates)
+				if (!device.DeviceState.States.Any(x => x.DriverState.Code == state.DriverState.Code))
 				{
-					if (!device.DeviceState.States.Any(x => x.DriverState.Code == state.DriverState.Code))
+					var driverState = device.Driver.States.FirstOrDefault(x => x.Code == state.DriverState.Code);
+					if (driverState != null)
 					{
-						var driverState = device.Driver.States.FirstOrDefault(x => x.Code == state.DriverState.Code);
-						if (driverState != null)
+						var deviceDriverState = new DeviceDriverState()
 						{
-							var deviceDriverState = new DeviceDriverState()
-							{
-								DriverState = driverState,
-								Time = DateTime.Now
-							};
-							device.DeviceState.States.Add(deviceDriverState);
-						}
+							DriverState = driverState,
+							Time = DateTime.Now
+						};
+						device.DeviceState.States.Add(deviceDriverState);
+						hasChanges = true;
 					}
 				}
-
-				var satesToRemove = new List<DeviceDriverState>();
-				foreach (var state in device.DeviceState.States)
-				{
-					if (!newStates.Any(x => x.DriverState.Id == state.DriverState.Id))
-					{
-						satesToRemove.Add(state);
-					}
-				}
-				device.DeviceState.States.RemoveAll(x => satesToRemove.Any(y => x.DriverState.Id == y.DriverState.Id));
 			}
 
-			device.DeviceState.SerializableStates = device.DeviceState.States;
+			var satesToRemove = new List<DeviceDriverState>();
+			foreach (var state in device.DeviceState.States)
+			{
+				if (!newStates.Any(x => x.DriverState.Id == state.DriverState.Id))
+				{
+					satesToRemove.Add(state);
+				}
+			}
+			var removedCount = device.DeviceState.States.RemoveAll(x => satesToRemove.Any(y => x.DriverState.Id == y.DriverState.Id));
+			if (removedCount > 0)
+				hasChanges = true;
+
+			return hasChanges;
+		}
+
+		public void ChangeDeviceStates(Device device, bool isSilent = false)
+		{
+			SetSerializableStates(device);
+			PropogateStatesDown(device);
+
 			ZoneStateManager.ChangeOnDeviceState(isSilent);
 			if (!isSilent)
 			{
 				CallbackManager.DeviceStateChanged(new List<DeviceState>() { device.DeviceState });
-				device.DeviceState.OnStateChanged();
 			}
+			device.DeviceState.OnStateChanged();
+		}
+
+		void SetSerializableStates(Device device)
+		{
+			if (device.IsParentMonitoringDisabled)
+			{
+				device.DeviceState.SerializableStates = AddDeviceState(device, "Мониторинг устройства отключен");
+				return;
+			}
+
+			if (device.DeviceState.IsConnectionLost)
+			{
+				device.DeviceState.SerializableStates = AddDeviceState(device, "Потеря связи с прибором");
+				return;
+			}
+
+			if (device.DeviceState.IsInitializing)
+			{
+				device.DeviceState.SerializableStates = AddDeviceState(device, "Устройство инициализируется");
+				return;
+			}
+
+			device.DeviceState.SerializableStates = device.DeviceState.States;
+		}
+
+		List<DeviceDriverState> AddDeviceState(Device device, string stateName)
+		{
+			var result = new List<DeviceDriverState>();
+			var state = device.Driver.States.FirstOrDefault(y => y.Name == stateName);
+			if (state != null)
+			{
+				var deviceDriverState = new DeviceDriverState
+				{
+					DriverState = state,
+					Time = DateTime.Now
+				};
+				result.Add(deviceDriverState);
+			}
+			return result;
+		}
+
+		void PropogateStatesDown(Device device)
+		{
+
 		}
 	}
 }

@@ -45,9 +45,6 @@ namespace ServerFS2
 					if (usbProcessor.UseId)
 					{
 						response.Bytes.RemoveRange(0, 4);
-					}
-					if (usbProcessor.UseId)
-					{
 						var usbRoot = response.Bytes[0];
 						var panelRoot = response.Bytes[1];
 						response.Bytes.RemoveRange(0, 2);
@@ -166,7 +163,7 @@ namespace ServerFS2
 			var parentUSB = panelDevice.ParentUSB;
 			if (parentUSB != null)
 			{
-				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.Device.UID == parentUSB.UID);
+				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.USBDevice.UID == parentUSB.UID);
 				if (usbProcessorInfo != null)
 				{
 					return usbProcessorInfo.UsbProcessor;
@@ -195,8 +192,15 @@ namespace ServerFS2
 			foreach (var usbProcessorInfo in UsbProcessorInfos)
 			{
 				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
+				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>((response) =>
+				{
+					if (NewResponse != null)
+						NewResponse(usbProcessorInfo.USBDevice, response);
+				});
 			}
 		}
+
+		public static event Action<Device, Response> NewResponse;
 
 		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)
 		{

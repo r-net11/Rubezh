@@ -56,6 +56,7 @@ namespace ServerFS2.Monitoring
 			}
 			else if (hasChanges)
 			{
+				device.DeviceState.SerializableStates = device.DeviceState.States;
 				CallbackManager.DeviceParametersChanged(new List<DeviceState>() { device.DeviceState });
 				device.DeviceState.OnStateChanged();
 			}

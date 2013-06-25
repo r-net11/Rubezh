@@ -23,6 +23,8 @@
                 <Button Content="SetNewConfigurationCommand" Command="{Binding SetNewConfigurationCommand}" Width="200" Margin="2" />
                 <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
                 <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
+                <Button Content="SetInitializingTest" Command="{Binding SetInitializingTestCommand}" Width="200" Margin="2" />
+                <Button Content="ReadConfiguration" Command="{Binding ReadConfigurationCommand}" Width="200" Margin="2" />
             </StackPanel>
         </StackPanel>
         <TabControl Grid.Row="1">

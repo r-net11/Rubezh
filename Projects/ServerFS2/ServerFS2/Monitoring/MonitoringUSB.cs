@@ -7,13 +7,13 @@ using FiresecAPI.Models;
 using FS2Api;
 using Common;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace ServerFS2.Monitoring
 {
 	public partial class MonitoringUSB
 	{
 		public Device USBDevice { get; private set; }
-		UsbProcessor UsbProcessor;
 		public List<MonitoringPanel> MonitoringPanels { get; private set; }
 		public List<Device> MonitoringNonPanels { get; private set; }
 		DateTime StartTime;
@@ -69,12 +69,7 @@ namespace ServerFS2.Monitoring
 						break;
 				}
 			}
-			var usbProcessorInfo = USBManager.UsbProcessorInfos.FirstOrDefault(x => x.Device.UID == usbDevice.UID);
-			if (usbProcessorInfo != null)
-			{
-				UsbProcessor = usbProcessorInfo.UsbProcessor;
-				UsbProcessor.NewResponse += new Action<Response>(UsbRunner_NewResponse);
-			}
+			USBManager.NewResponse += new Action<Device, Response>(UsbRunner_NewResponse);
 		}
 
 		void OnRun()
@@ -82,7 +77,6 @@ namespace ServerFS2.Monitoring
 			try
 			{
 				SetAllInitializing();
-				SetAllMonitoringDisabled();
 				foreach (var monitoringPanel in MonitoringPanels)
 				{
 					if (CheckSuspending(false))
@@ -137,18 +131,29 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void UsbRunner_NewResponse(Response response)
+		void UsbRunner_NewResponse(Device usbDevice, Response response)
 		{
-			//Trace.WriteLine("response.Id=" + response.Id);
-			foreach (var monitoringDevice in MonitoringPanels)
+			try
 			{
-				foreach (var request in monitoringDevice.Requests.ToList())
+				if (USBDevice.UID == usbDevice.UID)
 				{
-					if (request != null && request.Id == response.Id)
+					//Trace.WriteLine("response.Id=" + response.Id);
+					foreach (var monitoringDevice in MonitoringPanels)
 					{
-						monitoringDevice.OnResponceRecieved(request, response);
+						for (int i = 0; i < monitoringDevice.Requests.Count; i++)
+						{
+							var request = monitoringDevice.Requests[i];
+							if (request != null && request.Id == response.Id)
+							{
+								monitoringDevice.OnResponceRecieved(request, response);
+							}
+						}
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MonitoringUSB.UsbRunner_NewResponse");
 			}
 		}
 	}

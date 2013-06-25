@@ -133,14 +133,12 @@ namespace FS2Client
 
 		void OnDeviceStateChanged(List<DeviceState> deviceStates)
 		{
-			FillDeviceStates(deviceStates);
 			if (DeviceStateChanged != null)
 				DeviceStateChanged(deviceStates);
 		}
 
 		void OnDeviceParametersChanged(List<DeviceState> deviceStates)
 		{
-			FillDeviceStates(deviceStates);
 			if (DeviceParametersChanged != null)
 				DeviceParametersChanged(deviceStates);
 		}
@@ -149,13 +147,6 @@ namespace FS2Client
 		{
 			if (ZoneStatesChanged != null)
 				ZoneStatesChanged(zoneStates);
-		}
-
-		void FillDeviceStates(List<DeviceState> deviceStates)
-		{
-			foreach (var deviceState in deviceStates)
-			{
-			}
 		}
 
 		public event Action<List<DeviceState>> DeviceStateChanged;

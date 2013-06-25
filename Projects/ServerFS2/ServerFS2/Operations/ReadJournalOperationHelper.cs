@@ -106,7 +106,7 @@ namespace ServerFS2
 			}
 			for (int i = firstIndex; i <= lastIndex; i++)
 			{
-				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала " + (i - firstIndex).ToString() + " из " + (lastIndex - firstIndex).ToString(),
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала " + (i - firstIndex).ToString() + " из " + (lastIndex - firstIndex + 1).ToString(),
 					(i - firstIndex) * 100 / (lastIndex - firstIndex)));
 				var response = USBManager.Send(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
 				if (response == null) continue;

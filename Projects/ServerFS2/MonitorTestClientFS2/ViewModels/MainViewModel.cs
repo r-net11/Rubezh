@@ -10,12 +10,15 @@ using ServerFS2;
 using ServerFS2.Processor;
 using Ionic.Zip;
 using System.Text;
+using System.Linq;
 using System.IO;
 using ServerFS2.Service;
 using ServerFS2.Monitoring;
 using System.Windows;
 using System.Threading;
 using System.Threading.Tasks;
+using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace MonitorClientFS2
 {
@@ -32,16 +35,18 @@ namespace MonitorClientFS2
 			ReadStatesCommand = new RelayCommand(OnReadStates);
 			SetNewConfigurationCommand = new RelayCommand(OnSetNewConfiguration);
 			GetSerialListCommand = new RelayCommand(OnGetSerialList);
+			SetInitializingTestCommand = new RelayCommand(OnSetInitializingTest);
+			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration);
 
 			DevicesViewModel = new DevicesViewModel();
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
 			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
-			CallbackManager.ProgressEvent += new System.Action<FS2Api.FS2ProgressInfo>(CallbackManager_ProgressEvent);
+			CallbackManager.ProgressEvent += new System.Action<FS2ProgressInfo>(CallbackManager_ProgressEvent);
 
-			if (StartMonitoring)
-				MainManager.StartMonitoring();
+			//if (StartMonitoring)
+			//    MainManager.StartMonitoring();
 		}
 
 		#region Progress
@@ -152,9 +157,32 @@ namespace MonitorClientFS2
 			MessageBox.Show("DeviceGetSerialList Count " + result.Result.Count);
 		}
 
+		public RelayCommand SetInitializingTestCommand { get; private set; }
+		void OnSetInitializingTest()
+		{
+			MonitoringManager.MonitoringUSBs[0].SetAllInitializing();
+		}
+
+		public RelayCommand ReadConfigurationCommand { get; private set; }
+		void OnReadConfiguration()
+		{
+			var fs2Contract = new FS2Contract();
+			var result = fs2Contract.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device.UID, false);
+		}
+
 		public RelayCommand ReadStatesCommand { get; private set; }
 		void OnReadStates()
 		{
+			foreach (var driver in ConfigurationManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.AffectChildren)
+					{
+						Trace.WriteLine("AffectChildren " + driver.ShortName + " " + state.Name);
+					}
+				}
+			}
 		}
 	}
 }
