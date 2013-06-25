@@ -62,6 +62,7 @@ namespace ServerFS2
 						return response.SetError("Недостаточное количество байт в ответе");
 					}
 					var functionCode = response.Bytes[0];
+					response.FunctionCode = functionCode;
 					if ((functionCode & 128) == 128)
 					{
 						var errorName = "В ответе содержится код ошибки";
