@@ -7,145 +7,153 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
+using DevicesModule.Guard;
 
 namespace DevicesModule.ViewModels
 {
-    class GuardConfigurationViewModel : SaveCancelDialogViewModel
-    {
-        void SaveConfiguration()
-        {
-            deviceUsers.Clear();
-            availableUsers.Clear();
-            userZones.Clear();
-            FiresecManager.GuardUsers.Clear();
-            foreach (var user in Users)
-            {
-                FiresecManager.GuardUsers.Add(user.GuardUser);
-                var zoneUIDs = new List<Guid>();
-                foreach (var ZoneUID in user.GuardUser.ZoneUIDs)
-                {
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
-                    if (zone != null)
-                    {
-                        zoneUIDs.Add(zone.UID);
-                        userZones.Add(zone);
-                        deviceZones.Remove(zone);
-                    }
-                }
-                user.GuardUser.ZoneUIDs = zoneUIDs;
-                deviceUsers.Add(user);
-            }
-        }
-        public ObservableCollection<GuardUser> DeviceUsers { get; private set; }
+	class GuardConfigurationViewModel : SaveCancelDialogViewModel
+	{
+		ObservableCollection<UserViewModel> deviceUsersViewModel = new ObservableCollection<UserViewModel>();
+		ObservableCollection<UserViewModel> availableUsersViewModel = new ObservableCollection<UserViewModel>();
+		ObservableCollection<Zone> userZonesViewModel = new ObservableCollection<Zone>();
+		ObservableCollection<Zone> deviceZonesViewModel = new ObservableCollection<Zone>();
+		Device SelectedDevice;
 
-        ObservableCollection<UserViewModel> _users;
-        public ObservableCollection<UserViewModel> Users
-        {
-            get { return _users; }
-            set
-            {
-                _users = value;
-                OnPropertyChanged("Users");
-            }
-        }
+		public GuardConfigurationViewModel(Device selectedDevice,
+			ObservableCollection<UserViewModel> deviceUsers,
+			ObservableCollection<UserViewModel> availableUsers,
+			ObservableCollection<Zone> userZones,
+			ObservableCollection<Zone> deviceZones)
+		{
+			Title = "Список охранных пользователей прибора: " + selectedDevice.Driver.ShortName;
+			SaveCaption = "Применить";
+			deviceUsersViewModel = deviceUsers;
+			availableUsersViewModel = availableUsers;
+			userZonesViewModel = userZones;
+			deviceZonesViewModel = deviceZones;
+			SelectedDevice = selectedDevice;
 
-        UserViewModel _selectedUser;
-        public UserViewModel SelectedUser
-        {
-            get { return _selectedUser; }
-            set
-            {
-                _selectedUser = value;
-                GetUserZones(_selectedUser.GuardUser);
-                OnPropertyChanged("SelectedUser");
-            }
-        }
+			string result = null;
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2DeviceGetGuardUserListHelper.Run(SelectedDevice);
+				result = FS2DeviceGetGuardUserListHelper.Result;
+			}
+			else
+			{
+				DeviceGetGuardUserListHelper.Run(SelectedDevice);
+				result = DeviceGetGuardUserListHelper.Result;
+			}
+			if (result == null)
+				return;
 
-        ObservableCollection<Zone> _userZones;
-        public ObservableCollection<Zone> UserZones
-        {
-            get { return _userZones; }
-            set
-            {
-                _userZones = value;
-                OnPropertyChanged("UserZones");
-            }
-        }
-        public void GetUserZones(GuardUser guardUser)
-        {
-            UserZones = new ObservableCollection<Zone>();
-            foreach (var ZoneUID in guardUser.ZoneUIDs)
-            {
-                var zone = FiresecManager.Zones.FirstOrDefault(x=>x.UID == ZoneUID);
-                if(zone != null)
-                {
-                    UserZones.Add(zone);
-                }
-            }
-        }
-        ObservableCollection<UserViewModel> deviceUsers = new ObservableCollection<UserViewModel>();
-        ObservableCollection<UserViewModel> availableUsers = new ObservableCollection<UserViewModel>();
-        ObservableCollection<Zone> userZones = new ObservableCollection<Zone>();
-        ObservableCollection<Zone> deviceZones = new ObservableCollection<Zone>();
-        FiresecAPI.OperationResult<string> result;
-        private Device SelectedDevice;
-        public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<UserViewModel> DeviceUsers, ObservableCollection<UserViewModel> AvailableUsers, ObservableCollection<Zone> UserZones, ObservableCollection<Zone> DeviceZones)
-        {
-            Title = "Список охранных пользователей прибора: " + selectedDevice.Driver.ShortName;
-            SaveCaption = "Применить";
-            deviceUsers = DeviceUsers;
-            availableUsers = AvailableUsers;
-            userZones = UserZones;
-            deviceZones = DeviceZones;
-            SelectedDevice = selectedDevice;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Чтение охранной конфигурации");
-            if (result.Result == null)
-                return;
-            string res = result.Result; //3,104,8,20,12,6,64,64
-            Users = new ObservableCollection<UserViewModel>();
-            int CountUsers = byte.Parse(res.ToString().Substring(0,3));
-            for (int i = 0; i < CountUsers; i++)
-            {
-                User user = new User();
-                var userViewModel = new UserViewModel(new GuardUser());
-                var guardUser = userViewModel.GuardUser;
-                guardUser.Id = i + 1;
-                guardUser.Name = res.Substring(174*i + 115, 20);
-                guardUser.Password = res.Substring(174*i + 147, 6);
-                guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
-                guardUser.CanUnSetZone = (res[174 * i + 107] == '1');
-                guardUser.CanSetZone = (res[174 * i + 108] == '1');
-                guardUser.KeyTM = res.Substring(174 * i + 135, 12);
-                for (int j = 0; j < 64; j++)
-                {
-                    if (res.Substring(174*i + 153, 64)[j] == '1')
-                    {
-                        Zone zone = FiresecManager.Zones.FirstOrDefault(x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j+1);
-                        if (zone != null)
-                            guardUser.ZoneUIDs.Add(zone.UID);
-                    }
-                }
-                Users.Add(userViewModel);
-            }
-            if (Users.Count > 0)
-                SelectedUser = Users.FirstOrDefault();
-        }
-        void OnPropgress()
-        {
-            result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice);
-        }
-        void OnCompleted()
-        {
-            if (result.HasError)
-            {
-                MessageBoxService.ShowError(result.Error, "Ошибка при выполнении операции");
-                return;
-            }
-        }
-        protected override bool Save()
-        {
-            SaveConfiguration();
-            return base.Save();
-        }
-    }
+			Users = new ObservableCollection<UserViewModel>();
+			int CountUsers = byte.Parse(result.ToString().Substring(0, 3));
+			for (int i = 0; i < CountUsers; i++)
+			{
+				User user = new User();
+				var userViewModel = new UserViewModel(new GuardUser());
+				var guardUser = userViewModel.GuardUser;
+				guardUser.Id = i + 1;
+				guardUser.Name = result.Substring(174 * i + 115, 20);
+				guardUser.Password = result.Substring(174 * i + 147, 6);
+				guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
+				guardUser.CanUnSetZone = (result[174 * i + 107] == '1');
+				guardUser.CanSetZone = (result[174 * i + 108] == '1');
+				guardUser.KeyTM = result.Substring(174 * i + 135, 12);
+				for (int j = 0; j < 64; j++)
+				{
+					if (result.Substring(174 * i + 153, 64)[j] == '1')
+					{
+						Zone zone = FiresecManager.Zones.FirstOrDefault(x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j + 1);
+						if (zone != null)
+							guardUser.ZoneUIDs.Add(zone.UID);
+					}
+				}
+				Users.Add(userViewModel);
+			}
+			if (Users.Count > 0)
+				SelectedUser = Users.FirstOrDefault();
+		}
+
+		public ObservableCollection<GuardUser> DeviceUsers { get; private set; }
+
+		ObservableCollection<UserViewModel> _users;
+		public ObservableCollection<UserViewModel> Users
+		{
+			get { return _users; }
+			set
+			{
+				_users = value;
+				OnPropertyChanged("Users");
+			}
+		}
+
+		UserViewModel _selectedUser;
+		public UserViewModel SelectedUser
+		{
+			get { return _selectedUser; }
+			set
+			{
+				_selectedUser = value;
+				GetUserZones(_selectedUser.GuardUser);
+				OnPropertyChanged("SelectedUser");
+			}
+		}
+
+		ObservableCollection<Zone> _userZones;
+		public ObservableCollection<Zone> UserZones
+		{
+			get { return _userZones; }
+			set
+			{
+				_userZones = value;
+				OnPropertyChanged("UserZones");
+			}
+		}
+		public void GetUserZones(GuardUser guardUser)
+		{
+			UserZones = new ObservableCollection<Zone>();
+			foreach (var ZoneUID in guardUser.ZoneUIDs)
+			{
+				var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
+				if (zone != null)
+				{
+					UserZones.Add(zone);
+				}
+			}
+		}
+
+		void SaveConfiguration()
+		{
+			deviceUsersViewModel.Clear();
+			availableUsersViewModel.Clear();
+			userZonesViewModel.Clear();
+			FiresecManager.GuardUsers.Clear();
+			foreach (var user in Users)
+			{
+				FiresecManager.GuardUsers.Add(user.GuardUser);
+				var zoneUIDs = new List<Guid>();
+				foreach (var ZoneUID in user.GuardUser.ZoneUIDs)
+				{
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
+					if (zone != null)
+					{
+						zoneUIDs.Add(zone.UID);
+						userZonesViewModel.Add(zone);
+						deviceZonesViewModel.Remove(zone);
+					}
+				}
+				user.GuardUser.ZoneUIDs = zoneUIDs;
+				deviceUsersViewModel.Add(user);
+			}
+		}
+
+		protected override bool Save()
+		{
+			SaveConfiguration();
+			return base.Save();
+		}
+	}
 }

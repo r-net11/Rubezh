@@ -13,10 +13,7 @@ namespace FiresecClient
 		{
 			get
 			{
-#if DEBUG
 				return File.Exists("C:/FS2.txt");
-#endif
-				return false;
 			}
 		}
 

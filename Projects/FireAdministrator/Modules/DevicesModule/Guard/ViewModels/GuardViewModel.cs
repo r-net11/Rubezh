@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
+using DevicesModule.Guard;
 
 namespace DevicesModule.ViewModels
 {
@@ -49,11 +50,12 @@ namespace DevicesModule.ViewModels
 		}
 
 		bool[] UsersMask = new bool[104];
+		User user = new User();
 
 		public RelayCommand ReadGuardUserCommand { get; private set; }
 		void OnReadGuardUser()
 		{
-			GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceUsers, AvailableUsers, UserZones, DeviceZones);
+			var guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceUsers, AvailableUsers, UserZones, DeviceZones);
 			DialogService.ShowModalWindow(guardConfigurationViewModel);
 			UpdateZonesSelectation();
 			UpdateUsersSelectation();
@@ -67,8 +69,6 @@ namespace DevicesModule.ViewModels
 					result = result + ch;
 			return result;
 		}
-
-		User user = new User();
 
 		string CodeDateToTranslate()
 		{
@@ -133,23 +133,17 @@ namespace DevicesModule.ViewModels
 					if (result == MessageBoxResult.No)
 						return;
 				}
-				ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Запись охранной конфигурации");
+				if (FiresecManager.IsFS2Enabled)
+				{
+					var userlist = CodeDateToTranslate();
+					FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, userlist);
+				}
+				else
+				{
+					var userlist = CodeDateToTranslate();
+					DeviceSetGuardUsersListHelper.Run(SelectedDevice, userlist);
+				}
 			}
-		}
-		OperationResult<bool> _operationResult;
-		void OnPropgress()
-		{
-			var userlist = CodeDateToTranslate();
-			_operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice, userlist);
-		}
-		void OnCompleted()
-		{
-			if (_operationResult.HasError)
-			{
-				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
-				return;
-			}
-			MessageBoxService.Show("Операция завершилась успешно", "Firesec");
 		}
 
 		public static string Userlist { get; set; }

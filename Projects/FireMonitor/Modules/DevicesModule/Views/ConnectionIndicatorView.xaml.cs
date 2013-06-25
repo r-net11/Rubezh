@@ -7,6 +7,7 @@ using System.Windows.Media.Animation;
 using FiresecClient;
 using FSAgentClient;
 using Infrastructure.Common.BalloonTrayTip;
+using FS2Client;
 
 namespace DevicesModule.Views
 {
@@ -21,15 +22,22 @@ namespace DevicesModule.Views
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
-			SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
-			SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
+			SafeFiresecService.ConnectionLost += new Action(OnService_ConnectionLost);
+			SafeFiresecService.ConnectionAppeared += new Action(OnService_ConnectionAppeared);
 
-			FSAgent.ConnectionLost += new Action(FSAgent_ConnectionLost);
-			FSAgent.ConnectionAppeared += new Action(FSAgent_ConnectionAppeared);
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2ClientContract.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
+				FS2ClientContract.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);
+			}
+			else
+			{
+				FSAgent.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
+				FSAgent.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);
+			}
 		}
 
 		bool _isServiceConnected = true;
-
 		public bool IsServiceConnected
 		{
 			get { return _isServiceConnected; }
@@ -55,7 +63,6 @@ namespace DevicesModule.Views
 		}
 
 		bool _isDeviceConnected = true;
-
 		public bool IsDeviceConnected
 		{
 			get { return _isDeviceConnected; }
@@ -79,7 +86,7 @@ namespace DevicesModule.Views
 			}
 		}
 
-		private ObjectAnimationUsingKeyFrames GetAnimation(bool start)
+		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
 		{
 			var animation = new ObjectAnimationUsingKeyFrames();
 			if (!start)
@@ -99,7 +106,7 @@ namespace DevicesModule.Views
 			return animation;
 		}
 
-		private void OnConnectionLost()
+		void OnService_ConnectionLost()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -108,7 +115,7 @@ namespace DevicesModule.Views
 			}));
 		}
 
-		private void OnConnectionAppeared()
+		void OnService_ConnectionAppeared()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -117,7 +124,7 @@ namespace DevicesModule.Views
 			}));
 		}
 
-		private void FSAgent_ConnectionLost()
+		void FS2OrAgent_ConnectionLost()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -126,7 +133,7 @@ namespace DevicesModule.Views
 			}));
 		}
 
-		private void FSAgent_ConnectionAppeared()
+		void FS2OrAgent_ConnectionAppeared()
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -136,8 +143,7 @@ namespace DevicesModule.Views
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string propertyName)
+		void OnPropertyChanged(string propertyName)
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

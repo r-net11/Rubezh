@@ -63,8 +63,7 @@ namespace DevicesModule.ViewModels
 					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
 					return;
 				}
-				SelectedDevice.Device.Properties = result.Result;
-				SelectedDevice.PropertiesViewModel.IsAuParametersReady = false;
+				CopyPropertiesToDevice(SelectedDevice, result.Result);
 			});
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
@@ -180,7 +179,7 @@ namespace DevicesModule.ViewModels
 						MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
 						return;
 					}
-					child.PropertiesViewModel.IsAuParametersReady = false;
+					CopyPropertiesToDevice(child, result.Result);
 					ServiceFactory.SaveService.FSParametersChanged = true;
 
                     foreach (var groupChild in child.Children)
@@ -192,7 +191,7 @@ namespace DevicesModule.ViewModels
                             MessageBoxService.Show("При вызове метода возникло исключение " + result2.Error);
                             return;
                         }
-                        groupChild.PropertiesViewModel.IsAuParametersReady = false;
+						CopyPropertiesToDevice(groupChild, result.Result);
 						ServiceFactory.SaveService.FSParametersChanged = true;
                     }
 				};
@@ -222,6 +221,23 @@ namespace DevicesModule.ViewModels
 				}
 			}
 			return false;
+		}
+
+		void CopyPropertiesToDevice(DeviceViewModel deviceViewModel, List<Property> properties)
+		{
+			foreach (var deviceProperty in properties)
+			{
+				var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
+				if (property != null)
+				{
+					property.Value = deviceProperty.Value;
+				}
+				else
+				{
+					deviceViewModel.Device.Properties.Add(deviceProperty);
+				}
+			}
+			deviceViewModel.PropertiesViewModel.IsAuParametersReady = false;
 		}
 	}
 }

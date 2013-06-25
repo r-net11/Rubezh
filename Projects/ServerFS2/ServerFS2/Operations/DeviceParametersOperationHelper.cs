@@ -28,7 +28,7 @@ namespace ServerFS2
 
 		public static void SetDeviceParameters(Device device, List<Property> properties)
 		{
-			device.Properties = properties;
+			CopyPropertiesToDevice(device, properties);
 			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
 			foreach (var property in driverProperties)
 			{
@@ -44,6 +44,22 @@ namespace ServerFS2
 			var properties2 = properties;
 			properties.RemoveAll(x => properties1.FirstOrDefault(z => (properties2.IndexOf(x) > properties1.IndexOf(z)) && (z.No == x.No)) != null);
 			return properties;
+		}
+
+		static void CopyPropertiesToDevice(Device device, List<Property> properties)
+		{
+			foreach (var deviceProperty in properties)
+			{
+				var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
+				if (property != null)
+				{
+					property.Value = deviceProperty.Value;
+				}
+				else
+				{
+					device.Properties.Add(deviceProperty);
+				}
+			}
 		}
 	}
 }

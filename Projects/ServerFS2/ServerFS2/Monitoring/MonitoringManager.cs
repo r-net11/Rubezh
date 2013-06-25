@@ -48,9 +48,6 @@ namespace ServerFS2.Monitoring
 
 		static void USBManager_UsbRemoved()
 		{
-			//StopMonitoring();
-			//USBManager.Initialize();
-			//StartMonitoring();
 		}
 
 		public static void StopMonitoring(Device device = null)
