@@ -8,6 +8,7 @@ namespace ServerFS2
 		public int Id { get; set; }
 		public List<byte> Bytes { get; set; }
 		public TimeSpan TimeSpan { get; set; }
+		public byte FunctionCode { get; set; }
 
 		public Response()
 		{

@@ -18,59 +18,21 @@ namespace ServerFS2
 		{
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
 			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
-			USBManager.Send(device, 0x01, 0x04);
-			USBManager.Send(device.ParentUSB, 0x02, 0x34, 0x01); // Запись в MDS
-			USBManager.Send(device.ParentUSB, 0x02, 0x37); // Информация о прошивке
-			USBManager.Send(device, 0x01, 0x04);
-			ConfirmLongTermOperation(device);
-			USBManager.Send(device.ParentUSB, 0x01, 0x36);
-			ConfirmLongTermOperation(device);
-			USBManager.Send(device, 0x01, 0x01);
-			USBManager.Send(device, 0x01, 0x03);
-			USBManager.Send(device, 0x01, 0x24);
-			USBManager.Send(device, 0x01, 0x51);
-			USBManager.Send(device, 0x01, 0x57);
-			USBManager.Send(device, 0x01, 0x01);
 			BlockBD(device);
-			USBManager.Send(device, 0x01, 0x14); // Интервал тишины?
-			USBManager.Send(device, 0x01, 0x14);
-			USBManager.Send(device, 0x01, 0x57);
 			WriteFlashConfiguration(device, Flash);
-			USBManager.Send(device, 0x01, 0x01);
-			//USBManager.SendCodeToPanel(device, 0x01, 0x01);
-			var delayBytes = USBManager.Send(device, 0x39, 0x01);
-			int delay = 0;
-			if(delayBytes.Bytes.Count > 1)
-				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
-			Thread.Sleep(delay);
+			Thread.Sleep(BeginUpdateFirmWare(device));
 			ConfirmLongTermOperation(device);
-			USBManager.Send(device, 0x3D);
-			USBManager.Send(device, 0x01, 0x01);
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
 			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
-			delayBytes = USBManager.Send(device, 0x39, 0x04);
-			if (delayBytes.Bytes.Count > 1)
-				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
-			Thread.Sleep(delay);
+			Thread.Sleep(BeginUpdateRom(device));
 			ConfirmLongTermOperation(device);
-			USBManager.Send(device, 0x3D);
-			USBManager.Send(device, 0x01, 0x01);
 			ClearSector(device);
 			ConfirmLongTermOperation(device);
-			USBManager.Send(device, 0x3D);
 			WriteRomConfiguration(device, Rom, romDBFirstIndex);
 			StopUpdating(device);
 			ConfirmLongTermOperation(device);
-			USBManager.Send(device, 0x01, 0x01);
-			//USBManager.SendCodeToPanel(device, 0x01, 0x01);
-			//USBManager.SendCodeToPanel(device, 0x01, 0x01);
-			//USBManager.SendCodeToPanel(device, 0x01, 0x01);
-			//USBManager.SendCodeToPanel(device, 0x01, 0x01);
-			//USBManager.SendCodeToPanel(device, 0x01, 0x01);
 			ServerHelper.SynchronizeTime(device);
-			USBManager.Send(device.ParentUSB, 0x02, 0x34, 0x01); // Запись в MDS
-			USBManager.Send(device.ParentUSB, 0x02, 0x37); // Информация о прошивке
 		}
 
 		static int BeginUpdateRom(Device device)
@@ -127,6 +89,15 @@ namespace ServerFS2
 		private static void BlockBD(Device device)
 		{
 			USBManager.Send(device, 0x02, 0x55, 0x01);
+			var status = GetAddressList(device)[1];
+			while (status != 0x00)
+				status = GetAddressList(device)[1];
+		}
+
+		private static List<byte> GetAddressList(Device device)
+		{
+			var result = USBManager.Send(device, 0x01, 0x14).Bytes;
+			return result;
 		}
 
 		// Очистка сектора памяти bSectorStart, bSectorEnd
@@ -138,7 +109,9 @@ namespace ServerFS2
 		// Подтверждение / завершение долговременной операции
 		private static void ConfirmLongTermOperation(Device device)
 		{
-			USBManager.Send(device, 0x3C);
+			var functionCode = USBManager.Send(device, 0x3C).FunctionCode;
+			if (functionCode != 0x7c)
+				ConfirmLongTermOperation(device);
 		}
 	}
 }
