@@ -73,6 +73,31 @@ namespace ServerFS2
 			USBManager.Send(device.ParentUSB, 0x02, 0x37); // Информация о прошивке
 		}
 
+		static int BeginUpdateRom(Device device)
+		{
+			var delayBytes = USBManager.Send(device, 0x39, 0x04);
+			int delay = 0;
+			if (delayBytes.Bytes.Count > 1)
+				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
+			return delay;
+		}
+
+		static int BeginUpdateFirmWare(Device device)
+		{
+			var delayBytes = USBManager.Send(device, 0x39, 0x01);
+			int delay = 0;
+			if (delayBytes.Bytes.Count > 1)
+				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
+			return delay;
+		}
+
+		static bool GetStatusOS(Device device)
+		{
+			if (USBManager.Send(device, 0x01, 0x01).Bytes[1] == 0) // Если младший байт = 0, то режим пользовательский
+				return true;
+			return false;
+		}
+
 		static void WriteFlashConfiguration(Device device, List<byte> deviceFlash)
 		{
 			deviceFlash.RemoveRange(0, 0x100);

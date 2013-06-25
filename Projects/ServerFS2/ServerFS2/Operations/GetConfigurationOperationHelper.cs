@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
@@ -474,9 +475,9 @@ namespace ServerFS2
 			pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
 		}
 
-		public DeviceConfiguration GetDeviceConfiguration(Device pamelDevice)
+		public DeviceConfiguration GetDeviceConfiguration(Device panelDevice)
 		{
-			PanelDevice = (Device)pamelDevice.Clone();
+			PanelDevice = (Device)panelDevice.Clone();
 			shleifCount = PanelDevice.Driver.ShleifCount;
 			PanelDevice.Children = new List<Device>();
 			zones = new List<Zone>();
@@ -1645,6 +1646,23 @@ namespace ServerFS2
 					device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 				}
 			}
+		}
+
+		public string GetDeviceInformation(Device device)
+		{
+			string serialNo = "";
+			List<byte> serialNoBytes;
+			if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			else
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			return serialNo;
 		}
 	}
 }

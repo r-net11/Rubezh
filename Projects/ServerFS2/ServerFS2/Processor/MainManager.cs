@@ -174,7 +174,8 @@ namespace ServerFS2.Processor
 		{
 			return TempConfigSafeCall<string>((x) =>
 			{
-				throw new FS2Exception("Функция пока не реализована");
+				var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
+				return getConfigurationOperationHelper.GetDeviceInformation(device);
 			}, device, isUSB);
 		}
 

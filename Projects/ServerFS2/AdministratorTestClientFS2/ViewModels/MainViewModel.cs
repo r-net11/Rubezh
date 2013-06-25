@@ -172,11 +172,13 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnGetInformation()
 		{
 			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
-			MessageBoxService.Show(result);
+			MessageBox.Show(result);
+			//MessageBoxService.Show("Серийный номер: " + result);
 		}
 		bool CanGetInformation()
 		{
-			return false;
+			var selectedDevice = DevicesViewModel.SelectedDevice;
+			return ((selectedDevice != null) && ((selectedDevice.Device.Driver.IsPanel) || (selectedDevice.Device.Driver.DriverType == DriverType.MS_1 || selectedDevice.Device.Driver.DriverType == DriverType.MS_2)));
 		}
 
 		public RelayCommand SynchronizeTimeCommand { get; private set; }

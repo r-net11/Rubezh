@@ -26,6 +26,7 @@ namespace ServerFS2
 					if (metadataPanelState.@class == "0")
 					{
 						ResetFire(panelDevice);
+
 					}
 					else
 					{
