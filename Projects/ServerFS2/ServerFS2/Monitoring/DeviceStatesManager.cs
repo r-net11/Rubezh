@@ -93,7 +93,7 @@ namespace ServerFS2.Monitoring
 			BitArray rawParametersBitArray = null;
 			if (stateWordBytes.Count > 0)
 				stateWordBitArray = new BitArray(stateWordBytes.ToArray());
-			if (rawParametersBytes.Count > 0)
+			if (rawParametersBytes != null && rawParametersBytes.Count > 0)
 				rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
