@@ -81,6 +81,7 @@ namespace ServerFS2.Monitoring
 				var journalItems = GetNewItems();
 				DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
 				DeviceStatesManager.UpdatePanelState(Panel);
+				UpdatePanelParameters();
 			}
 			if (ResetStateIds != null && ResetStateIds.Count > 0)
 			{
@@ -120,8 +121,11 @@ namespace ServerFS2.Monitoring
 				}
 				IsStateRefreshNeeded = false;
 			}
+			DeviceStatesManager.UpdatePanelInnerParameters(Panel);
+			
 			DeviceStatesManager.UpdateDeviceStateAndParameters(RealChildren[RealChildIndex]);
 			NextIndextoGetParams();
+			
 			CheckConnectionLost();
 			RequestLastIndex();
 		}
@@ -137,6 +141,31 @@ namespace ServerFS2.Monitoring
 				Requests.RemoveAll(x => x != null && x.Id == request.Id);
 		}
 
+		void UpdatePanelParameters()
+		{
+			var faultyCount = Panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Неисправность")).Count();
+			DeviceStatesManager.ChangeParameter(Panel, faultyCount, "Heиcпpaвныx локальных уcтpoйcтв");
+			Trace.WriteLine("faultyCount " + faultyCount);
+			
+			var externalCount = 0;
+			DeviceStatesManager.ChangeParameter(Panel, externalCount, "Внешних устройств");
+			Trace.WriteLine("externalCount " + externalCount);
+			
+			var totalCount = Panel.GetRealChildren().Count;
+			DeviceStatesManager.ChangeParameter(Panel, totalCount, "Всего устройств");
+			Trace.WriteLine("totalCount " + totalCount);
+			
+			var bypassCount = Panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Аппаратный обход устройства")).Count();
+			DeviceStatesManager.ChangeParameter(Panel, bypassCount, "Обойденных устройств");
+			Trace.WriteLine("bypassCount " + bypassCount);
+
+			var lostCount = Panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Потеря связи")).Count();
+			DeviceStatesManager.ChangeParameter(Panel, lostCount, "Потерянных устройств" );
+			Trace.WriteLine("lostCount " + lostCount);
+
+			DeviceStatesManager.NotifyStateChanged(Panel);
+		}
+		
 		void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
 			CallbackManager.NewJournalItems(new List<FS2JournalItem>() { fsJournalItem } );

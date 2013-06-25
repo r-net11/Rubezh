@@ -71,7 +71,7 @@ namespace ServerFS2.Monitoring
 			if (device.DeviceState.Smokiness != smokiness)
 			{
 				device.DeviceState.Smokiness = smokiness;
-				ChangeParameter(device, smokiness, "Smokiness");
+				ChangeParameter(device, smokiness, "Дым, дБ/м");
 				hasChanges = true;
 			}
 		}
@@ -82,7 +82,7 @@ namespace ServerFS2.Monitoring
 			if (device.DeviceState.Dustiness != dustiness)
 			{
 				device.DeviceState.Dustiness = dustiness;
-				ChangeParameter(device, dustiness, "Dustiness");
+				ChangeParameter(device, dustiness, "Пыль, дБ/м");
 				hasChanges = true;
 			}
 		}
@@ -93,7 +93,7 @@ namespace ServerFS2.Monitoring
 			if (device.DeviceState.Temperature != temperature)
 			{
 				device.DeviceState.Temperature = temperature;
-				ChangeParameter(device, temperature, "Temperature");
+				ChangeParameter(device, temperature, "Температура, °C");
 				hasChanges = true;
 			}
 		}
@@ -108,11 +108,20 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void ChangeParameter(Device device, float byteValue, string name)
+		public void ChangeParameter(Device device, float byteValue, string name)
 		{
-			var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Name == name);
+			var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Caption == name);
+			if (parameter == null)
+			{
+				var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Caption == name);
+				device.DeviceState.Parameters.Add(driverParameter);
+				parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Caption == name);
+			}
+				
 			if (parameter != null)
 				parameter.Value = byteValue.ToString();
+			else
+				throw (new Exception("DeviceStatesManager.ChangeParameters"));
 		}
-	}
+	}  
 }

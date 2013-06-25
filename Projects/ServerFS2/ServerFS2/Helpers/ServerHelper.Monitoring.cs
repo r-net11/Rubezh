@@ -56,6 +56,17 @@ namespace ServerFS2
 			return result;
 		}
 
+		public static List<byte> GetExcessDevicesCount(Device device)
+		{
+			return USBManager.Send(device, 0x01, 0x13).Bytes;
+		}
+
+		public static List<byte> GetDustfilledDevicesCount(Device device)
+		{
+			return USBManager.Send(device, 0x01, 0x56).Bytes;
+		}
+		
+
 		public static bool PingDevice(Device device)
 		{
 			return USBManager.Send(device, 0x3C).Bytes[6] == 0x7C;

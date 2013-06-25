@@ -12,7 +12,7 @@ namespace ServerFS2.Monitoring
 		public static void UpdatePDUPanelState(Device panel, bool isSilent = false)
 		{
 			var bytes = ServerHelper.GetDeviceStatus(panel);
-			Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
+			//Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
 		}
 	}
 }

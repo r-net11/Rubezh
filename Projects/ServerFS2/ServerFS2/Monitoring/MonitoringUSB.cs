@@ -39,11 +39,11 @@ namespace ServerFS2.Monitoring
 									switch (panelDevice.Driver.DriverType)
 									{
 										case DriverType.Rubezh_2AM:
-										//case DriverType.Rubezh_2OP:
-										//case DriverType.Rubezh_4A:
-										//case DriverType.BUNS:
-										//case DriverType.BUNS_2:
-										//case DriverType.BlindPanel:
+										case DriverType.Rubezh_2OP:
+										case DriverType.Rubezh_4A:
+										case DriverType.BUNS:
+										case DriverType.BUNS_2:
+										case DriverType.BlindPanel:
 											MonitoringPanels.Add(new MonitoringPanel(panelDevice));
 											break;
 										case DriverType.IndicationBlock:
