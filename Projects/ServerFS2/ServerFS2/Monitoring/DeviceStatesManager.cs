@@ -32,7 +32,7 @@ namespace ServerFS2.Monitoring
 				}
 			}
 			if (SetNewDeviceStates(panel, states))
-                        {
+			{
 				ChangeDeviceStates(panel, isSilent);
 			}
 			UpdateRealChildrenStateOnPanelState(panel, bitArray);
@@ -45,7 +45,7 @@ namespace ServerFS2.Monitoring
 			ChangeParameter(panel, excessVal, "Лишних устройств");
 
 			var dustfilledBytes = ServerHelper.GetDustfilledDevicesCount(panel);
-			var dustfilledVal = dustfilledBytes[0] *256 + dustfilledBytes[1];
+			var dustfilledVal = dustfilledBytes[0] * 256 + dustfilledBytes[1];
 			ChangeParameter(panel, dustfilledVal, "Запыленных устройств");
 
 			NotifyStateChanged(panel);
@@ -288,7 +288,6 @@ namespace ServerFS2.Monitoring
 		public void NotifyStateChanged(Device device)
 		{
 			CallbackManager.DeviceStateChanged(new List<DeviceState>() { device.DeviceState });
-			}
 			device.DeviceState.OnStateChanged();
 		}
 
@@ -333,6 +332,8 @@ namespace ServerFS2.Monitoring
 
 		void PropogateStatesDown(Device device)
 		{
+
+		}
 
 	}
 }
