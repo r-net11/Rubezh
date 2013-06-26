@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using Common;
+using System.Text;
 
 namespace ServerFS2
 {
@@ -55,6 +56,23 @@ namespace ServerFS2
 			result.AddRange(response1.Bytes);
 			result.AddRange(response2.Bytes);
 			return result;
+		}
+
+		public static string GetDeviceInformation(Device device)
+		{
+			string serialNo = "";
+			List<byte> serialNoBytes;
+			if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			else
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			return serialNo;
 		}
 
 		public static bool PingDevice(Device device)

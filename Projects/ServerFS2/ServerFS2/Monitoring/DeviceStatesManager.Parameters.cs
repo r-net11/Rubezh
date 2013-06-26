@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using ServerFS2.Service;
 using System.Diagnostics;
 using Common;
+using System.Collections;
 
 namespace ServerFS2.Monitoring
 {
@@ -153,12 +154,23 @@ namespace ServerFS2.Monitoring
 
 		void GetStateWord(Device device, List<byte> data)
 		{
-			var stateWordBytes = data.GetRange(0, 2);
+			var states = new List<DeviceDriverState>();
+			var stateWordBytesArray = data.GetRange(0, 2).ToArray();
 
-			if (device.StateWordBytes[0] != stateWordBytes[0] || device.StateWordBytes[1] != stateWordBytes[1])
+			var bitArray = new BitArray(stateWordBytesArray);
+			for (int i = 0; i < bitArray.Count; i++)
 			{
-				device.StateWordBytes = stateWordBytes;
-				hasChanges = true;
+				if (bitArray[i])
+				{
+					var metadataDeviceState = MetadataHelper.Metadata.deviceStates.FirstOrDefault(x => x.bitno == i.ToString() || x.bitNo == i.ToString() || x.Bitno == i.ToString());
+					var state = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+					if(state != null)
+						states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
+				}
+			}
+			if (SetNewDeviceStates(device, states))
+			{
+				ChangeDeviceStates(device, true);
 			}
 		}
 

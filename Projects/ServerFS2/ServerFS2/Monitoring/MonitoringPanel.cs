@@ -201,6 +201,13 @@ namespace ServerFS2.Monitoring
 
 		void OnConnectionAppeared()
 		{
+			var remoteSerialNo = ServerHelper.GetDeviceInformation(Panel);
+			if (Panel.Properties.FirstOrDefault(x => x.Name == "serialNo").Value == remoteSerialNo)
+			{
+				OnWrongPanel();
+				return;
+			}
+
 			var deviceStatesManager = new DeviceStatesManager();
 			var deviceStates = new List<DeviceState>();
 			var parentState = Panel.Driver.States.FirstOrDefault(y => y.Name == "Потеря связи с прибором");
@@ -218,6 +225,32 @@ namespace ServerFS2.Monitoring
 			IsStateRefreshNeeded = true;
 			CallbackManager.DeviceStateChanged(deviceStates);
 			OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
+		}
+
+		void OnWrongPanel()
+		{
+			var deviceStatesManager = new DeviceStatesManager();
+			var deviceStates = new List<DeviceState>();
+			var panelState = Panel.Driver.States.FirstOrDefault(y => y.Name == "Несоответствие версий БД с панелью");
+			Panel.DeviceState.IsWrongPanel = true;
+			deviceStatesManager.ChangeDeviceStates(Panel, true);
+			foreach (var device in Panel.GetRealChildren())
+			{
+				if (!device.DeviceState.SerializableParentStates.Any(x => x.DriverState.Id == panelState.Id))
+				{
+					var parentDeviceState = new ParentDeviceState()
+					{
+						ParentDeviceUID = device.ParentPanel.UID,
+						DriverState = panelState
+					};
+					device.DeviceState.SerializableParentStates.Add(parentDeviceState);
+				}
+
+				device.DeviceState.IsWrongPanel = true;
+				deviceStates.Add(device.DeviceState);
+			}
+			CallbackManager.DeviceStateChanged(deviceStates);
+			OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Несоответствие версий БД с панелью"));
 		}
 
 		void NextIndextoGetParams()

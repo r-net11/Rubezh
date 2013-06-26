@@ -87,15 +87,18 @@ namespace ServerFS2.Monitoring
 
 		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
 		{
-			if (stateWordBytes == null || rawParametersBytes == null)
+			ParseStateWordBytes(device, stateWordBytes, isSilent);
+
+			ParseRawParametersBytes(device, rawParametersBytes, isSilent);
+		}
+
+		void ParseStateWordBytes(Device device, List<byte> stateWordBytes, bool isSilent)
+		{
+			if (stateWordBytes == null)
 				return;
 			BitArray stateWordBitArray = null;
-			BitArray rawParametersBitArray = null;
 			if (stateWordBytes.Count > 0)
 				stateWordBitArray = new BitArray(stateWordBytes.ToArray());
-			if (rawParametersBytes != null && rawParametersBytes.Count > 0)
-				rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
-
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
@@ -107,7 +110,22 @@ namespace ServerFS2.Monitoring
 						var hasBit = stateWordBitArray[bitNo];
 						SetStateFromMetadata(device, metadataDeviceState, hasBit, isSilent);
 					}
+				}
+			}
+		}
 
+		void ParseRawParametersBytes(Device device, List<byte> rawParametersBytes, bool isSilent)
+		{
+			if (rawParametersBytes == null)
+				return;
+			BitArray rawParametersBitArray = null;
+			if (rawParametersBytes.Count > 0)
+				rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
+			var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			{
+				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
+				{
 					var intBitNo = MetadataHelper.GetIntBitNo(metadataDeviceState);
 					if (rawParametersBitArray != null && intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
 					{
