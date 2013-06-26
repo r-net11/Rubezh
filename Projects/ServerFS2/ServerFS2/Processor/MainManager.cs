@@ -8,6 +8,7 @@ using ServerFS2.Monitoring;
 using ServerFS2.Service;
 using Common;
 using System.Threading;
+using ServerFS2.Operations;
 
 namespace ServerFS2.Processor
 {
@@ -154,6 +155,12 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
+		public static void DeviceWriteAllConfiguration()
+		{
+			throw new FS2Exception("Функция пока не реализована");
+			ConfigurationWriterOperationHelper.WriteAll();
+		}
+
 		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
 			TempConfigSafeCall((x) =>
@@ -209,9 +216,9 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
-		public static List<FS2JournalItem> DeviceReadJournal(Device device, bool isUSB)
+		public static FS2JournalItemsCollection DeviceReadJournal(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<List<FS2JournalItem>>((x) =>
+			return TempConfigSafeCall<FS2JournalItemsCollection>((x) =>
 			{
 				return ReadJournalOperationHelper.GetJournalItems(x);
 			}, device, isUSB);
@@ -240,14 +247,14 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
-		public static string DeviceGetGuardUsers(Device device)
+		public static List<GuardUser> DeviceGetGuardUsers(Device device)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			return GuardUsersOperationHelper.DeviceGetGuardUsers(device);
 		}
 
-		public static void DeviceSetGuardUsers(Device device, string users)
+		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			DeviceSetGuardUsers(device, guardUsers);
 		}
 
 		public static string DeviceGetMDS5Data(Device device)

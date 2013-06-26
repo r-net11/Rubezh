@@ -74,6 +74,9 @@ namespace FS2Api
 		OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
+		OperationResult DeviceWriteAllConfiguration();
+
+		[OperationContract]
 		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
 
 		[OperationContract]
@@ -95,7 +98,7 @@ namespace FS2Api
 		OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<List<FS2JournalItem>> DeviceReadJournal(Guid deviceUID, bool isUSB);
+		OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
@@ -107,10 +110,10 @@ namespace FS2Api
 		OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetGuardUsers(Guid deviceUID);
+		OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult DeviceSetGuardUsers(Guid deviceUID, string users);
+		OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUser);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);

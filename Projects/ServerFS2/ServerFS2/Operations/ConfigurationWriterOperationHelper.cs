@@ -28,5 +28,21 @@ namespace ServerFS2
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запись базы данных в прибор"));
 			SetConfigurationOperationHelper.WriteDeviceConfiguration(parentPanel, bytes2, bytes1);
 		}
+
+		public static void WriteAll()
+		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Формирование базы данных устройств"));
+			var systemDatabaseCreator = new SystemDatabaseCreator();
+			systemDatabaseCreator.Create(0x3000);
+
+			foreach(var panelDatabase in systemDatabaseCreator.PanelDatabases)
+			{
+				var parentPanel = panelDatabase.ParentPanel;
+				var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
+				var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
+				CallbackManager.AddProgress(new FS2ProgressInfo("Запись базы данных в прибор " + panelDatabase.ParentPanel.PresentationAddressAndName));
+				SetConfigurationOperationHelper.WriteDeviceConfiguration(parentPanel, bytes2, bytes1);			
+			}
+		}
 	}
 }

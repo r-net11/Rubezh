@@ -30,7 +30,6 @@ namespace DevicesModule.ViewModels
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
-			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
@@ -208,28 +207,6 @@ namespace DevicesModule.ViewModels
 			return true;
 #endif
 			return false;
-		}
-
-		public RelayCommand ReadJournalFromFileCommand { get; private set; }
-		void OnReadJournalFromFile()
-		{
-			var openDialog = new OpenFileDialog()
-			{
-				Filter = "firesec2 journal files|*.fscf",
-				DefaultExt = "firesec2 journal files|*.fscf"
-			};
-			if (openDialog.ShowDialog().Value)
-			{
-				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
-				{
-					var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
-					var fs2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
-					if (fs2JournalItemsCollection != null)
-					{
-						DialogService.ShowModalWindow(new FS2DeviceJournalViewModel(fs2JournalItemsCollection.FireJournalItems));
-					}
-				}
-			}
 		}
 
 		public bool IsFS2Enabled
