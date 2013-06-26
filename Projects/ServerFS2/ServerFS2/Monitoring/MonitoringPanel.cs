@@ -17,7 +17,7 @@ namespace ServerFS2.Monitoring
 		const int maxSecMessages = 1024;
 		public const int betweenDevicesSpan = 0;
 		public const int betweenCyclesSpan = 1000;
-		public const int requestExpiredTime = 10; // in seconds
+		public const int requestExpiredTime = 5;
 		public static readonly object Locker = new object();
 
 		int SequentUnAnswered;
@@ -70,8 +70,10 @@ namespace ServerFS2.Monitoring
 
 		public void Initialize()
 		{
-			DeviceStatesManager.UpdatePanelChildrenStates(Panel, true);
-			DeviceStatesManager.UpdatePanelState(Panel, true);
+			DeviceStatesManager.CanNotifyClients = false;
+			DeviceStatesManager.UpdatePanelChildrenStates(Panel);
+			DeviceStatesManager.UpdatePanelState(Panel);
+			DeviceStatesManager.CanNotifyClients = true;
 		}
 
 		public void CheckTasks()
@@ -188,61 +190,41 @@ namespace ServerFS2.Monitoring
 					}
 				}
 			requestsToDelete.ForEach(x => Requests.Remove(x));
-			if (SequentUnAnswered > maxSequentUnAnswered && !IsConnectionLost)
+			if (SequentUnAnswered > maxSequentUnAnswered)
 			{
-				IsConnectionLost = true;
 				OnConnectionLost();
 			}
 		}
 
-		void OnConnectionLost()
+		public void OnConnectionLost()
 		{
-			var deviceStatesManager = new DeviceStatesManager();
-			var deviceStates = new List<DeviceState>();
-			var parentState = Panel.Driver.States.FirstOrDefault(y => y.Name == "Потеря связи с прибором");
-
-			Panel.DeviceState.IsConnectionLost = true;
-			deviceStatesManager.ChangeDeviceStates(Panel, true);
-			deviceStates.Add(Panel.DeviceState);
-			foreach (var device in Panel.GetRealChildren())
+			if (!IsConnectionLost)
 			{
-				if (!device.DeviceState.SerializableParentStates.Any(x => x.DriverState.Id == parentState.Id))
-				{
-					var parentDeviceState = new ParentDeviceState()
-					{
-						ParentDeviceUID = device.ParentPanel.UID,
-						DriverState = parentState
-					};
-					device.DeviceState.SerializableParentStates.Add(parentDeviceState);
-				}
-
-				device.DeviceState.IsConnectionLost = true;
-				deviceStates.Add(device.DeviceState);
+				IsConnectionLost = true;
+				Panel.DeviceState.IsPanelConnectionLost = true;
+				DeviceStatesManager.ChangeDeviceStates(Panel);
+				OnConnectionChanged();
+				OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Потеря связи с прибором"));
 			}
-
-			CallbackManager.DeviceStateChanged(deviceStates);
-			OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Потеря связи с прибором"));
 		}
 
-		void OnConnectionAppeared()
+		public void OnConnectionAppeared()
 		{
-			var deviceStatesManager = new DeviceStatesManager();
-			var deviceStates = new List<DeviceState>();
-			var parentState = Panel.Driver.States.FirstOrDefault(y => y.Name == "Потеря связи с прибором");
-
-			Panel.DeviceState.IsConnectionLost = false;
-			deviceStatesManager.ChangeDeviceStates(Panel, true);
-			deviceStates.Add(Panel.DeviceState);
-			foreach (var device in Panel.GetRealChildren())
+			if (IsConnectionLost)
 			{
-				device.DeviceState.SerializableParentStates.RemoveAll(x=>x.DriverState.Id == parentState.Id);
-				device.DeviceState.IsConnectionLost = false;
-				deviceStates.Add(device.DeviceState);
+				IsConnectionLost = false;
+				Panel.DeviceState.IsPanelConnectionLost = false;
+				DeviceStatesManager.ChangeDeviceStates(Panel);
+				OnConnectionChanged();
+				OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
 			}
+		}
 
-			IsStateRefreshNeeded = true;
-			CallbackManager.DeviceStateChanged(deviceStates);
-			OnNewJournalItem(JournalParser.CustomJournalItem(Panel, "Связь с прибором восстановлена"));
+		public event Action ConnectionChanged;
+		void OnConnectionChanged()
+		{
+			if (ConnectionChanged != null)
+				ConnectionChanged();
 		}
 
 		void NextIndextoGetParams()
@@ -271,11 +253,7 @@ namespace ServerFS2.Monitoring
 				return;
 			}
 			SequentUnAnswered = 0;
-			if (IsConnectionLost)
-			{
-				IsConnectionLost = false;
-				OnConnectionAppeared();
-			}
+			OnConnectionAppeared();
 			LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
 			if (FirstSystemIndex == -1)
 				FirstSystemIndex = LastDeviceIndex;

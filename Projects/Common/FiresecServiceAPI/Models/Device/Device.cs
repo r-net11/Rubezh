@@ -513,12 +513,22 @@ namespace FiresecAPI.Models
 
 		public string DottedPresentationAddressAndName
 		{
-			get { return DottedAddress + " - " + PresentationName; }
+			get
+			{
+				if (Driver.HasAddress)
+					return DottedAddress + " - " + PresentationName;
+				return PresentationName;
+			}
 		}
 
 		public string DottedPresentationNameAndAddress
 		{
-			get { return PresentationName + " - " + DottedAddress; }
+			get
+			{
+				if (Driver.HasAddress)
+					return PresentationName + " - " + DottedAddress;
+				return PresentationName;
+			}
 		}
 
 		public int ShleifNo
@@ -548,6 +558,17 @@ namespace FiresecAPI.Models
 				}
 			}
 			return devices;
+		}
+
+		public List<Device> GetAllChildren()
+		{
+			var result = new List<Device>();
+			foreach (var device in Children)
+			{
+				result.Add(device);
+				result.AddRange(device.GetAllChildren());
+			}
+			return result;
 		}
 
 		bool IsGroupDevice(DriverType driverType)

@@ -68,23 +68,6 @@ namespace ServerFS2.Service
 
 		public static void DeviceStateChanged(List<DeviceState> deviceStates)
 		{
-			foreach (var deviceState in deviceStates)
-			{
-				foreach (var state in deviceState.States)
-				{
-					if (state.DriverState == null)
-					{
-						;
-					}
-				}
-				foreach (var state in deviceState.SerializableStates)
-				{
-					if (state.DriverState == null)
-					{
-						;
-					}
-				}
-			}
 			Trace.WriteLine("CallbackManager.DeviceStateChanged");
 			Add(new FS2Callbac() { ChangedDeviceStates = deviceStates });
 		}

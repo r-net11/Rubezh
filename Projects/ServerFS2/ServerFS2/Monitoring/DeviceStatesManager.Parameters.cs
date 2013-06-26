@@ -11,11 +11,12 @@ namespace ServerFS2.Monitoring
 	public partial class DeviceStatesManager
 	{
 		bool hasChanges = false;
-		List<byte> data;
 		
 		public void UpdateDeviceStateAndParameters(Device device)
 		{
 			hasChanges = false;
+			List<byte> data;
+
 			switch(device.Driver.DriverType)
 			{
 				case DriverType.RadioSmokeDetector:
@@ -23,7 +24,6 @@ namespace ServerFS2.Monitoring
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
 					if (data == null)
 						return;
-					ChangeStateWord(device, data);
 					ChangeSmokiness(device);
 					ChangeDustiness(device, data[8]);
 					break;
@@ -31,14 +31,12 @@ namespace ServerFS2.Monitoring
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
 					if (data == null)
 						return;
-					ChangeStateWord(device, data);
 					ChangeTemperature(device, data[8]);
 					break;
 				case DriverType.CombinedDetector:
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
 					if (data == null)
 						return;
-					ChangeStateWord(device, data);
 					ChangeSmokiness(device);
 					ChangeDustiness(device, data[9]);
 					ChangeTemperature(device, data[10]);
@@ -47,9 +45,9 @@ namespace ServerFS2.Monitoring
 					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
 					if (data == null)
 						return;
-					ChangeStateWord(device, data);
 					break;
 			}
+			ChangeStateWord(device, data);
 			if (hasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
@@ -104,7 +102,7 @@ namespace ServerFS2.Monitoring
 			if (device.StateWordBytes != stateWordBytes)
 			{
 				device.StateWordBytes = stateWordBytes;
-				hasChanges = true;
+				//hasChanges = true;
 			}
 		}
 

@@ -1659,7 +1659,12 @@ namespace ServerFS2
 			}
 			else
 			{
-				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				var response = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
+				if (response.HasError)
+				{
+					;
+				}
+				serialNoBytes = response.Bytes;
 				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
 			}
 			return serialNo;

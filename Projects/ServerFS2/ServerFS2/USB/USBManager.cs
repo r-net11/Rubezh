@@ -45,9 +45,17 @@ namespace ServerFS2
 					if (usbProcessor.UseId)
 					{
 						response.Bytes.RemoveRange(0, 4);
-						var usbRoot = response.Bytes[0];
-						var panelRoot = response.Bytes[1];
-						response.Bytes.RemoveRange(0, 2);
+						if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+						{
+							var usbRoot = response.Bytes[0];
+							response.Bytes.RemoveRange(0, 1);
+						}
+						else
+						{
+							var usbRoot = response.Bytes[0];
+							var panelRoot = response.Bytes[1];
+							response.Bytes.RemoveRange(0, 2);
+						}
 					}
 					else
 					{
@@ -97,7 +105,6 @@ namespace ServerFS2
 			}
 			else
 			{
-				Trace.WriteLine("UsbManager.Send");
 				Initialize();
 				if (throwException)
 					throw new FS2USBException("USB устройство отсутствует");

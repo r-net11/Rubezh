@@ -7,14 +7,15 @@ using FiresecAPI.Models;
 using FS2Api;
 using Rubezh2010;
 using ServerFS2.Service;
+using FiresecAPI;
 
 namespace ServerFS2.Monitoring
 {
 	public partial class DeviceStatesManager
 	{
-		public bool CanNotifyClients = false;
+		public bool CanNotifyClients = true;
 
-		public void UpdatePanelState(Device panel, bool isSilent = false)
+		public void UpdatePanelState(Device panel)
 		{
 			var states = new List<DeviceDriverState>();
 			var statusBytes = ServerHelper.GetDeviceStatus(panel);
@@ -33,7 +34,7 @@ namespace ServerFS2.Monitoring
 			}
 			if (SetNewDeviceStates(panel, states))
 			{
-				ChangeDeviceStates(panel, isSilent);
+				ChangeDeviceStates(panel);
 			}
 			UpdateRealChildrenStateOnPanelState(panel, bitArray);
 		}
@@ -41,18 +42,21 @@ namespace ServerFS2.Monitoring
 		public void UpdatePanelInnerParameters(Device panel)
 		{
 			var excessBytes = ServerHelper.GetExcessDevicesCount(panel);
-			var excessVal = excessBytes[0] * 256 + excessBytes[1];
-			ChangeParameter(panel, excessVal, "Лишних устройств");
+			if (excessBytes != null)
+			{
+				var excessVal = excessBytes[0] * 256 + excessBytes[1];
+				ChangeParameter(panel, excessVal, "Лишних устройств");
 
-			var dustfilledBytes = ServerHelper.GetDustfilledDevicesCount(panel);
-			var dustfilledVal = dustfilledBytes[0] * 256 + dustfilledBytes[1];
-			ChangeParameter(panel, dustfilledVal, "Запыленных устройств");
+				var dustfilledBytes = ServerHelper.GetDustfilledDevicesCount(panel);
+				var dustfilledVal = dustfilledBytes[0] * 256 + dustfilledBytes[1];
+				ChangeParameter(panel, dustfilledVal, "Запыленных устройств");
 
-			NotifyStateChanged(panel);
-			Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(excessBytes) + BytesHelper.BytesToString(dustfilledBytes));
+				//NotifyStateChanged(panel);
+				Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(excessBytes) + BytesHelper.BytesToString(dustfilledBytes));
+			}
 		}
 
-		void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray, bool isSilent = false)
+		void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray)
 		{
 			foreach (var device in panelDevice.GetRealChildren())
 			{
@@ -70,7 +74,7 @@ namespace ServerFS2.Monitoring
 								{
 									if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
 									{
-										ChangeDeviceStates(device, isSilent);
+										ChangeDeviceStates(device);
 									}
 								}
 							}
@@ -80,7 +84,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public void UpdatePanelChildrenStates(Device panelDevice, bool isSilent = false)
+		public void UpdatePanelChildrenStates(Device panelDevice)
 		{
 			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(true);
 			var remoteDeviceConfiguration = getConfigurationOperationHelper.GetDeviceConfiguration(panelDevice);
@@ -94,12 +98,12 @@ namespace ServerFS2.Monitoring
 					device.StateWordBytes = remoteDevice.StateWordBytes;
 					device.RawParametersOffset = remoteDevice.RawParametersOffset;
 					device.RawParametersBytes = remoteDevice.RawParametersBytes;
-					ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes, isSilent);
+					ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
 				}
 			}
 		}
 
-		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes, bool isSilent = false)
+		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes)
 		{
 			if (stateWordBytes == null || rawParametersBytes == null)
 				return;
@@ -119,20 +123,20 @@ namespace ServerFS2.Monitoring
 					if (stateWordBitArray != null && bitNo != -1 && bitNo < stateWordBitArray.Count)
 					{
 						var hasBit = stateWordBitArray[bitNo];
-						SetStateFromMetadata(device, metadataDeviceState, hasBit, isSilent);
+						SetStateFromMetadata(device, metadataDeviceState, hasBit);
 					}
 
 					var intBitNo = MetadataHelper.GetIntBitNo(metadataDeviceState);
 					if (rawParametersBitArray != null && intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
 					{
 						var hasBit = rawParametersBitArray[intBitNo];
-						SetStateFromMetadata(device, metadataDeviceState, hasBit, isSilent);
+						SetStateFromMetadata(device, metadataDeviceState, hasBit);
 					}
 				}
 			}
 		}
 
-		void SetStateFromMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit, bool isSilent)
+		void SetStateFromMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit)
 		{
 			if (hasBit)
 			{
@@ -147,14 +151,14 @@ namespace ServerFS2.Monitoring
 							Time = DateTime.Now
 						};
 						device.DeviceState.States.Add(deviceDriverState);
-						ChangeDeviceStates(device, isSilent);
+						ChangeDeviceStates(device);
 					}
 				}
 			}
 			else
 			{
 				if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
-					ChangeDeviceStates(device, isSilent);
+					ChangeDeviceStates(device);
 			}
 		}
 
@@ -203,7 +207,7 @@ namespace ServerFS2.Monitoring
 															Time = DateTime.Now
 														};
 														journalItem.Device.DeviceState.States.Add(deviceDriverState);
-														ChangeDeviceStates(journalItem.Device, false);
+														ChangeDeviceStates(journalItem.Device);
 													}
 												}
 											}
@@ -224,7 +228,7 @@ namespace ServerFS2.Monitoring
 													if (deviceDriverState != null)
 													{
 														journalItem.Device.DeviceState.States.Remove(deviceDriverState);
-														ChangeDeviceStates(journalItem.Device, false);
+														ChangeDeviceStates(journalItem.Device);
 													}
 												}
 											}
@@ -275,14 +279,24 @@ namespace ServerFS2.Monitoring
 			return hasChanges;
 		}
 
-		public void ChangeDeviceStates(Device device, bool isSilent = false)
+		public void ChangeDeviceStates(Device device)
 		{
 			SetSerializableStates(device);
-			PropogateStatesDown(device);
+			ChangedDeviceStates = new HashSet<DeviceState>();
+			PropogateStatesDown();
+			PropogateStatesUp();
+			device.DeviceState.SerializableStates = device.DeviceState.States;
 
-			ZoneStateManager.ChangeOnDeviceState(isSilent);
-			if (!isSilent)
+			ZoneStateManager.ChangeOnDeviceState(!CanNotifyClients);
+			if (CanNotifyClients)
+			{
 				NotifyStateChanged(device);
+				CallbackManager.DeviceStateChanged(ChangedDeviceStates.ToList());
+				foreach (var deviceState in ChangedDeviceStates)
+				{
+					deviceState.OnStateChanged();
+				}
+			}
 		}
 
 		public void NotifyStateChanged(Device device)
@@ -293,30 +307,45 @@ namespace ServerFS2.Monitoring
 
 		void SetSerializableStates(Device device)
 		{
-			if (device.IsParentMonitoringDisabled)
+			if (device.IsMonitoringDisabled)
 			{
-				device.DeviceState.SerializableStates = AddDeviceState(device, "Мониторинг устройства отключен");
-				return;
+				AddDeviceState(device, "Мониторинг устройства отключен");
+			}
+			else
+			{
+				RemoveDeviceState(device, "Мониторинг устройства отключен");
 			}
 
-			if (device.DeviceState.IsConnectionLost)
+			if (device.DeviceState.IsUsbConnectionLost)
 			{
-				device.DeviceState.SerializableStates = AddDeviceState(device, "Потеря связи с прибором");
-				return;
+				AddDeviceState(device, "USB устройство отсутствует");
+			}
+			else
+			{
+				RemoveDeviceState(device, "USB устройство отсутствует");
+			}
+
+			if (device.DeviceState.IsPanelConnectionLost)
+			{
+				AddDeviceState(device, "Потеря связи с прибором");
+			}
+			else
+			{
+				RemoveDeviceState(device, "Потеря связи с прибором");
 			}
 
 			if (device.DeviceState.IsInitializing)
 			{
-				device.DeviceState.SerializableStates = AddDeviceState(device, "Устройство инициализируется");
-				return;
+				AddDeviceState(device, "Устройство инициализируется");
 			}
-
-			device.DeviceState.SerializableStates = device.DeviceState.States;
+			else
+			{
+				RemoveDeviceState(device, "Устройство инициализируется");
+			}
 		}
 
-		List<DeviceDriverState> AddDeviceState(Device device, string stateName)
+		void AddDeviceState(Device device, string stateName)
 		{
-			var result = new List<DeviceDriverState>();
 			var state = device.Driver.States.FirstOrDefault(y => y.Name == stateName);
 			if (state != null)
 			{
@@ -325,15 +354,115 @@ namespace ServerFS2.Monitoring
 					DriverState = state,
 					Time = DateTime.Now
 				};
-				result.Add(deviceDriverState);
+				device.DeviceState.States.Add(deviceDriverState);
 			}
-			return result;
 		}
 
-		void PropogateStatesDown(Device device)
+		void RemoveDeviceState(Device device, string stateName)
 		{
-
+			device.DeviceState.States.RemoveAll(x => x.DriverState.Name == stateName);
 		}
 
+		HashSet<DeviceState> ChangedDeviceStates;
+
+		void PropogateStatesDown()
+		{
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				device.DeviceState.ParentStates.ForEach(x => x.IsDeleting = true);
+			}
+
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				foreach (var state in device.DeviceState.States.Where(x => x.DriverState.AffectChildren))
+				{
+					foreach (var childDevice in device.GetAllChildren())
+					{
+						var parentDeviceState = new ParentDeviceState()
+						{
+							ParentDeviceUID = device.UID,
+							ParentDevice = device,
+							DriverState = state.DriverState,
+							IsDeleting = false
+						};
+
+						var existingParentDeviceState = childDevice.DeviceState.ParentStates.FirstOrDefault(x => x.ParentDevice.UID == parentDeviceState.ParentDevice.UID && x.DriverState.Code == parentDeviceState.DriverState.Code && x.DriverState == parentDeviceState.DriverState);
+						if (existingParentDeviceState == null)
+						{
+							childDevice.DeviceState.ParentStates.Add(parentDeviceState);
+							ChangedDeviceStates.Add(childDevice.DeviceState);
+						}
+						else
+						{
+							existingParentDeviceState.IsDeleting = false;
+						}
+
+					}
+				}
+			}
+
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				var removedCount = device.DeviceState.ParentStates.RemoveAll(x => x.IsDeleting);
+				if (removedCount > 0)
+				{
+					ChangedDeviceStates.Add(device.DeviceState);
+				}
+			}
+		}
+
+		void PropogateStatesUp()
+		{
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				device.DeviceState.ChildStates.ForEach(x => x.IsDeleting = true);
+			}
+
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				if (device.Driver.ChildAddressReserveRangeCount == 0)
+					continue;
+
+				ChildDeviceState childDeviceState = null;
+				var minChildStateType = StateType.Norm;
+				foreach (var child in device.Children)
+				{
+					if (child.DeviceState.StateType < minChildStateType)
+					{
+						minChildStateType = child.DeviceState.StateType;
+						childDeviceState = new ChildDeviceState()
+						{
+							ChildDeviceUID = device.UID,
+							ChildDevice = device,
+							StateType = minChildStateType,
+							IsDeleting = false
+						};
+					}
+				}
+
+				if (childDeviceState != null)
+				{
+					var existingDeviceState = device.DeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.StateType == childDeviceState.StateType);
+					if (existingDeviceState == null)
+					{
+						device.DeviceState.ChildStates.Add(childDeviceState);
+						ChangedDeviceStates.Add(device.DeviceState);
+					}
+					else
+					{
+						existingDeviceState.IsDeleting = false;
+					}
+				}
+			}
+
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				var removedCount = device.DeviceState.ChildStates.RemoveAll(x => x.IsDeleting);
+				if (removedCount > 0)
+				{
+					ChangedDeviceStates.Add(device.DeviceState);
+				}
+			}
+		}
 	}
 }

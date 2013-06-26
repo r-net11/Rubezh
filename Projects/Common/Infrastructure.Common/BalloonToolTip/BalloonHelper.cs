@@ -11,6 +11,11 @@ namespace Infrastructure.Common.BalloonTrayTip
 		static BalloonToolTipViewModel balloonToolTipViewModel = new BalloonToolTipViewModel();
 		static Brush ForegroundColor = Brushes.Black;
 
+		public static void ShowFromFiresec(string text)
+		{
+			Show("Firesec-2", text);
+		}
+
 		public static void ShowFromAdm(string text)
 		{
 			Show("Администратор", text);

@@ -70,12 +70,18 @@ namespace ServerFS2.Monitoring
 				}
 			}
 			USBManager.NewResponse += new Action<Device, Response>(UsbRunner_NewResponse);
+			USBManager.UsbRemoved += new Action(monitoringPanel_ConnectionChanged);
+			//foreach (var monitoringPanel in MonitoringPanels)
+			//{
+			//    monitoringPanel.ConnectionChanged += new Action(monitoringPanel_ConnectionChanged);
+			//}
 		}
 
 		void OnRun()
 		{
 			try
 			{
+				CheckConnection();
 				SetAllInitializing();
 				foreach (var monitoringPanel in MonitoringPanels)
 				{
@@ -119,6 +125,8 @@ namespace ServerFS2.Monitoring
 						MonitoringPanels.ForEach(x => x.SynchronizeTime());
 						IsTimeSynchronizationNeeded = false;
 					}
+
+					CheckConnection();
 				}
 				catch (FS2StopMonitoringException)
 				{
@@ -138,14 +146,14 @@ namespace ServerFS2.Monitoring
 				if (USBDevice.UID == usbDevice.UID)
 				{
 					//Trace.WriteLine("response.Id=" + response.Id);
-					foreach (var monitoringDevice in MonitoringPanels)
+					foreach (var monitoringPanel in MonitoringPanels)
 					{
-						for (int i = 0; i < monitoringDevice.Requests.Count; i++)
+						for (int i = 0; i < monitoringPanel.Requests.Count; i++)
 						{
-							var request = monitoringDevice.Requests[i];
+							var request = monitoringPanel.Requests[i];
 							if (request != null && request.Id == response.Id)
 							{
-								monitoringDevice.OnResponceRecieved(request, response);
+								monitoringPanel.OnResponceRecieved(request, response);
 							}
 						}
 					}
@@ -154,6 +162,42 @@ namespace ServerFS2.Monitoring
 			catch (Exception e)
 			{
 				Logger.Error(e, "MonitoringUSB.UsbRunner_NewResponse");
+			}
+		}
+
+		void monitoringPanel_ConnectionChanged()
+		{
+			CheckConnection();
+		}
+
+		void CheckConnection()
+		{
+			var response = USBManager.Send(USBDevice, 0x01, 0x32);
+			if (response.HasError)
+			{
+				if (USBDevice.DeviceState.IsUsbConnectionLost == false)
+				{
+					USBDevice.DeviceState.IsUsbConnectionLost = true;
+					var deviceStatesManager = new DeviceStatesManager();
+					deviceStatesManager.ChangeDeviceStates(USBDevice);
+					foreach (var monitoringPanel in MonitoringPanels)
+					{
+						monitoringPanel.OnConnectionLost();
+					}
+				}
+			}
+			else
+			{
+				if (USBDevice.DeviceState.IsUsbConnectionLost == true)
+				{
+					USBDevice.DeviceState.IsUsbConnectionLost = false;
+					var deviceStatesManager = new DeviceStatesManager();
+					deviceStatesManager.ChangeDeviceStates(USBDevice);
+					foreach (var monitoringPanel in MonitoringPanels)
+					{
+						monitoringPanel.OnConnectionAppeared();
+					}
+				}
 			}
 		}
 	}

@@ -32,13 +32,18 @@ namespace ServerFS2.Service
 		{
 			if (CancellationTokenSources != null)
 			{
+				var hasCancelled = false;
 				foreach (var cancellationTokenSource in CancellationTokenSources)
 				{
 					if (cancellationTokenSource.Token.IsCancellationRequested)
 					{
-						throw new AggregateException("Операция отменена");
+						hasCancelled = true;	
 					}
-					cancellationTokenSource.Token.ThrowIfCancellationRequested();
+				}
+				if (hasCancelled)
+				{
+					CancellationTokenSources.Clear();
+					throw new AggregateException("Операция отменена");
 				}
 			}
 		}
@@ -275,10 +280,10 @@ namespace ServerFS2.Service
 		public OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID)
 		{
 			var device = FindDevice(deviceUID);
-			return SafeCallWithMonitoringSuspending<List<string>>(() =>
+			return SafeCall<List<string>>(() =>
 			{
 				return MainManager.DeviceGetSerialList(device);
-			}, "DeviceGetSerialList", device, true);
+			}, "DeviceGetSerialList");
 		}
 
 		public OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName)

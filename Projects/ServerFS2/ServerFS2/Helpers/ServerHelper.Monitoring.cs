@@ -58,12 +58,14 @@ namespace ServerFS2
 
 		public static List<byte> GetExcessDevicesCount(Device device)
 		{
-			return USBManager.Send(device, 0x01, 0x13).Bytes;
+			var response = USBManager.Send(device, 0x01, 0x13);
+			return response.Bytes;
 		}
 
 		public static List<byte> GetDustfilledDevicesCount(Device device)
 		{
-			return USBManager.Send(device, 0x01, 0x56).Bytes;
+			var response = USBManager.Send(device, 0x01, 0x60);
+			return response.Bytes;
 		}
 		
 

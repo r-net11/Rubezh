@@ -181,7 +181,20 @@ namespace ServerFS2.Processor
 
 		public static List<string> DeviceGetSerialList(Device device)
 		{
-			return USBManager.GetAllSerialNos();
+			try
+			{
+				StopMonitoring();
+				return USBManager.GetAllSerialNos();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.SetNewConfig");
+				throw;
+			}
+			finally
+			{
+				StartMonitoring();
+			}
 		}
 
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)
