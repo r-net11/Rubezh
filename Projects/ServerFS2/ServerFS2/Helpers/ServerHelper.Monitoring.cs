@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Common;
+using System.Text;
 
 namespace ServerFS2
 {
@@ -56,18 +58,26 @@ namespace ServerFS2
 			return result;
 		}
 
-		public static List<byte> GetExcessDevicesCount(Device device)
+		public static string GetDeviceInformation(Device device)
 		{
 			var response = USBManager.Send(device, 0x01, 0x13);
 			return response.Bytes;
-		}
-
-		public static List<byte> GetDustfilledDevicesCount(Device device)
-		{
+			string serialNo = "";
+			List<byte> serialNoBytes;
+			if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			else
+			{
 			var response = USBManager.Send(device, 0x01, 0x60);
 			return response.Bytes;
+				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			return serialNo;
 		}
-		
 
 		public static bool PingDevice(Device device)
 		{

@@ -41,6 +41,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool IsUsbConnectionLost { get; set; }
 
+		[DataMember]
+		public bool IsWrongPanel { get; set; }
+
 		public Device Device { get; set; }
 
 		static object locker = new object();

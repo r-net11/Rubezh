@@ -158,7 +158,7 @@ namespace ServerFS2.Processor
 		{
 			TempConfigSafeCall((x) =>
 			{
-				throw new FS2Exception("Функция пока не реализована");
+				SetConfigurationOperationHelper.SetPassword(device, devicePasswordType, password);
 			}, device, isUSB);
 		}
 
