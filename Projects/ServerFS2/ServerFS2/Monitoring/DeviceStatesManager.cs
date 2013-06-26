@@ -38,20 +38,6 @@ namespace ServerFS2.Monitoring
 			UpdateRealChildrenStateOnPanelState(panel, bitArray);
 		}
 
-		public void UpdatePanelInnerParameters(Device panel)
-		{
-			var excessBytes = ServerHelper.GetExcessDevicesCount(panel);
-			var excessVal = excessBytes[0] * 256 + excessBytes[1];
-			ChangeParameter(panel, excessVal, "Лишних устройств");
-
-			var dustfilledBytes = ServerHelper.GetDustfilledDevicesCount(panel);
-			var dustfilledVal = dustfilledBytes[0] * 256 + dustfilledBytes[1];
-			ChangeParameter(panel, dustfilledVal, "Запыленных устройств");
-
-			NotifyStateChanged(panel);
-			Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(excessBytes) + BytesHelper.BytesToString(dustfilledBytes));
-		}
-
 		void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray, bool isSilent = false)
 		{
 			foreach (var device in panelDevice.GetRealChildren())
