@@ -194,11 +194,12 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SetPasswordCommand { get; private set; }
 		void OnSetPassword()
 		{
-			MainManager.DeviceSetPassword(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, DevicePasswordType.Administrator, "123");
+			DialogService.ShowModalWindow(new PasswordViewModel(DevicesViewModel.SelectedDevice.Device));
+			//MainManager.DeviceSetPassword(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, DevicePasswordType.Administrator, "123");
 		}
 		bool CanSetPassword()
 		{
-			return false;
+			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
