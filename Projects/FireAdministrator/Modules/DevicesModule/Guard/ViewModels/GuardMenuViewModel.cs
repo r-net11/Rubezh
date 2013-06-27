@@ -2,13 +2,13 @@
 
 namespace DevicesModule.ViewModels
 {
-    class GuardMenuViewModel : BaseViewModel
-    {
-        public GuardMenuViewModel(GuardViewModel context)
-        {
-            Context = context;
-        }
+	class GuardMenuViewModel : BaseViewModel
+	{
+		public GuardMenuViewModel(GuardViewModel context)
+		{
+			Context = context;
+		}
 
-        public GuardViewModel Context { get; private set; }
-    }
+		public GuardViewModel Context { get; private set; }
+	}
 }

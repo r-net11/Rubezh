@@ -16,7 +16,7 @@ namespace ServerFS2.ConfigurationWriter
 			NonPanelDatabases = new List<NonPanelDatabase>();
 		}
 
-		public void Create()
+		public void Create(int offset)
 		{
 			FS2Contract.CheckCancellationAndNotify("Формирования связей");
 			BinaryConfigurationHelper = new BinaryConfigurationHelper();
@@ -31,7 +31,7 @@ namespace ServerFS2.ConfigurationWriter
 					case DriverType.BUNS:
 					case DriverType.BUNS_2:
 						FS2Contract.CheckCancellationAndNotify("Формирования базы прибора " + device.DottedPresentationNameAndAddress);
-						var panelDatabase = new PanelDatabase(device);
+						var panelDatabase = new PanelDatabase(device, offset);
 						PanelDatabases.Add(panelDatabase);
 						break;
 				}

@@ -16,11 +16,12 @@ namespace ServerFS2.Views
 			CreateNotificationIcon();
 		}
 
-		private void CreateNotificationIcon()
+		void CreateNotificationIcon()
 		{
 			NotifyIconService.Start(OnShow, OnClose);
 		}
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+
+		void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			_window = Window.GetWindow(this);
 			_window.StateChanged += new EventHandler(Window_StateChanged);
@@ -29,7 +30,7 @@ namespace ServerFS2.Views
 			_window.Top = SystemParameters.WorkArea.Bottom;
 		}
 
-		private void OnShow(object sender, EventArgs e)
+		void OnShow(object sender, EventArgs e)
 		{
 			_window.Left = SystemParameters.WorkArea.Right - _window.ActualWidth;
 			_window.Top = SystemParameters.WorkArea.Bottom - _window.ActualHeight;
@@ -37,7 +38,8 @@ namespace ServerFS2.Views
 			_window.WindowState = WindowState.Normal;
 			_window.Activate();
 		}
-		private void OnClose(object sender, EventArgs e)
+
+		void OnClose(object sender, EventArgs e)
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить драйвер ОПС Firesec-2?") == MessageBoxResult.Yes)
 			{
@@ -47,7 +49,7 @@ namespace ServerFS2.Views
 			}
 		}
 
-		private void Window_StateChanged(object sender, EventArgs e)
+		void Window_StateChanged(object sender, EventArgs e)
 		{
 			Window window = (Window)sender;
 			switch (window.WindowState)

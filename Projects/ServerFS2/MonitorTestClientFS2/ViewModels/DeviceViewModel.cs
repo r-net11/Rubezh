@@ -8,6 +8,7 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using ServerFS2.Monitoring;
 using ServerFS2.Processor;
+using System.Diagnostics;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -27,6 +28,7 @@ namespace MonitorClientFS2.ViewModels
 
 		void DeviceState_StateChanged()
 		{
+			Trace.WriteLine("##################DeviceViewModel.DeviceState_StateChanged " + Device.PresentationAddressAndName);
 			OnPropertyChanged("Device");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("States");
@@ -106,13 +108,13 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			MonitoringProcessor.AddTaskIgnore(Device);
+			MonitoringManager.AddTaskIgnore(new List<Device>() { Device });
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			MonitoringProcessor.AddTaskResetIgnore(Device);
+			MonitoringManager.AddTaskResetIgnore(new List<Device>() { Device });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

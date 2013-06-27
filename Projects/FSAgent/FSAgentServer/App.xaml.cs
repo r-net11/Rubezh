@@ -42,7 +42,7 @@ namespace FSAgentServer
 			base.OnExit(e);
 		}
 
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 			Restart();
@@ -66,7 +66,7 @@ namespace FSAgentServer
 			Application.Current.Shutdown();
 		}
 
-		private static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
+		static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
 		{
 			CloseOnComputerShutdown(true);
 		}
@@ -83,7 +83,7 @@ namespace FSAgentServer
 			Application.Current.Shutdown();
 		}
 
-		private static void ShutDownComputer()
+		static void ShutDownComputer()
 		{
 			if (GlobalSettingsHelper.GlobalSettings.ForceShutdown)
 			{
@@ -98,7 +98,7 @@ namespace FSAgentServer
 			}
 		}
 
-		private static void ShutDownComServer()
+		static void ShutDownComServer()
 		{
 			SocketServerHelper.Stop();
 			var processes = Process.GetProcessesByName("FS_SER~1.EXE");

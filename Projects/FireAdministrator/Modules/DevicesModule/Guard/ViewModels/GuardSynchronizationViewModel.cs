@@ -54,38 +54,35 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanCancelSystem()
-        {
-            return true;
-        }
-
         public RelayCommand CancelSystemCommand { get; private set; }
         void OnCancelSystem()
         {
 
         }
-
-        bool CanReadDevice()
-        {
-            return true;
-        }
+		bool CanCancelSystem()
+		{
+			return true;
+		}
 
         public RelayCommand ReadDeviceCommand { get; private set; }
         void OnReadDevice()
         {
             DeviceGetGuardUserListHelper.Run(Device);
         }
-
-        bool CanWriteDevice()
-        {
-            return true;
-        }
+		bool CanReadDevice()
+		{
+			return true;
+		}
 
         public RelayCommand WriteDeviceCommand { get; private set; }
         void OnWriteDevice()
         {
             DeviceSetGuardUsersListHelper.Run(Device, "");
         }
+		bool CanWriteDevice()
+		{
+			return true;
+		}
 
 		protected override bool Save()
 		{

@@ -55,19 +55,14 @@ namespace ServerFS2
 			{
 				case 1:
 					return DriverType.USB_Rubezh_2AM;
-				//return DriverType.Rubezh_2AM;
 				case 6:
 					return DriverType.USB_Rubezh_2OP;
-				//return DriverType.Rubezh_2OP;
 				case 5:
 					return DriverType.USB_Rubezh_4A;
-				//return DriverType.Rubezh_4A;
 				case 2:
 					return DriverType.USB_BUNS;
-				//return DriverType.BUNS;
 				case 8:
 					return DriverType.USB_BUNS_2;
-				//return DriverType.BUNS_2;
 				case 3:
 					return DriverType.IndicationBlock;
 				case 7:
@@ -76,7 +71,6 @@ namespace ServerFS2
 					return DriverType.PDU_PT;
 				case 10:
 					return DriverType.USB_Rubezh_P;
-				//return DriverType.BlindPanel;
 				case 4:
 					return DriverType.Rubezh_10AM;
 				case 98:
@@ -91,6 +85,44 @@ namespace ServerFS2
 					return DriverType.UOO_TL;
 			}
 			return DriverType.Computer;
+		}
+
+		public static int GetTypeNoByDriverType(DriverType driverType)
+		{
+			switch (driverType)
+			{
+				case DriverType.USB_Rubezh_2AM:
+					return 1;
+				case DriverType.USB_Rubezh_2OP:
+					return 6;
+				case DriverType.USB_Rubezh_4A:
+					return 5;
+				case DriverType.USB_BUNS:
+					return 2;
+				case DriverType.USB_BUNS_2:
+					return 8;
+				case DriverType.IndicationBlock:
+					return 3;
+				case DriverType.PDU:
+					return 7;
+				case DriverType.PDU_PT:
+					return 9;
+				case DriverType.USB_Rubezh_P:
+					return 10;
+				case DriverType.Rubezh_10AM:
+					return 4;
+				case DriverType.MS_1:
+					return 98;
+				case DriverType.MS_2:
+					return 99;
+				case DriverType.MS_3:
+					return 100;
+				case DriverType.MS_4:
+					return 101;
+				case DriverType.UOO_TL:
+					return 102;
+			}
+			return -1;
 		}
 	}
 }

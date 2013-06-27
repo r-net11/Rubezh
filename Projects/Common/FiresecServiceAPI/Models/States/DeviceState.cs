@@ -23,6 +23,24 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<Parameter> SerializableParameters { get; set; }
 
+		[DataMember]
+		public float Smokiness { get; set; }
+
+		[DataMember]
+		public float Dustiness { get; set; }
+
+		[DataMember]
+		public float Temperature { get; set; }
+
+		[DataMember]
+		public bool IsInitializing { get; set; }
+
+		[DataMember]
+		public bool IsConnectionLost { get; set; }
+
+		[DataMember]
+		public bool IsWrongPanel { get; set; }
+
 		public Device Device { get; set; }
 
 		static object locker = new object();

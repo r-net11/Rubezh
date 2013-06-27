@@ -56,7 +56,6 @@ namespace ServerFS2.Helpers
 			return property;
 		}
 
-
 		public static string SetConfigurationParameters(DriverProperty property, Device device)
 		{
 			var binProperties = new List<BinProperty>();

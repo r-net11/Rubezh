@@ -9,7 +9,6 @@ namespace FSAgentServer
 	public partial class WatcherManager
 	{
 		public static WatcherManager Current { get; private set; }
-
 		AutoResetEvent StopEvent = new AutoResetEvent(false);
 		Thread RunThread;
 
@@ -72,7 +71,7 @@ namespace FSAgentServer
 			PoolSleepEvent.Set();
 		}
 
-		private void OnRun()
+		void OnRun()
 		{
 			try
 			{

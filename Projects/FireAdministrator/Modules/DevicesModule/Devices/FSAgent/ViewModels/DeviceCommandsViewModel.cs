@@ -5,6 +5,10 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.IO;
+using System.Runtime.Serialization;
+using Microsoft.Win32;
+using FS2Api;
 
 namespace DevicesModule.ViewModels
 {
@@ -125,7 +129,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> UpdateSoftCommand { get; private set; }
         void OnUpdateSoft(bool isUsb)
         {
-			if (AppSettingsManager.IsRemote)
+			if (ConnectionSettingsManager.IsRemote)
 			{
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;
@@ -203,6 +207,11 @@ namespace DevicesModule.ViewModels
 			return true;
 #endif
 			return false;
+		}
+
+		public bool IsFS2Enabled
+		{
+			get { return FiresecManager.IsFS2Enabled; }
 		}
     }
 }

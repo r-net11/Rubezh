@@ -14,11 +14,18 @@ namespace AdministratorTestClientFS2.ViewModels
 				return;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			device.AUParametersChanged += device_AUParametersChanged;
-			FiresecManager.FiresecConfiguration = new FiresecConfiguration();
+		 	FiresecManager.FiresecConfiguration = new FiresecConfiguration();
 			FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationManager.DeviceConfiguration;
 			FiresecManager.FiresecConfiguration.DriversConfiguration = ConfigurationManager.DriversConfiguration;
 			UpdateZoneName();
 		}
+
+		public bool HasDifferences
+		{
+			get { return Device.HasDifferences; }
+			set { }
+		}
+
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 

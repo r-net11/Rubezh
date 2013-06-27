@@ -20,9 +20,8 @@ namespace ConfigurationViewer.DataTemplates
 		{
 			var dateTime = DateTime.Now;
 			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Create();
+			configurationWriterHelper.Create(0x2000);
 			Trace.WriteLine("SystemDatabaseCreator TotalMilliseconds = " + (DateTime.Now - dateTime).TotalMilliseconds.ToString());
-			return;
 
 			var configurationDatabaseViewModel = new ConfigurationDatabaseViewModel(configurationWriterHelper);
 			DialogService.ShowModalWindow(configurationDatabaseViewModel);

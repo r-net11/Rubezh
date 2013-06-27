@@ -5,8 +5,8 @@
 		public ConnectionViewModel(bool restrictClose = true)
 		{
 			Title = "Соединение с сервером";
-			if (AppSettingsManager.IsRemote && !string.IsNullOrEmpty(AppSettingsManager.RemoteAddress))
-				Title += "\n" + AppSettingsManager.RemoteAddress;
+			if (ConnectionSettingsManager.IsRemote && !string.IsNullOrEmpty(ConnectionSettingsManager.RemoteAddress))
+				Title += "\n" + ConnectionSettingsManager.RemoteAddress;
 
 			Sizable = false;
 			TopMost = true;

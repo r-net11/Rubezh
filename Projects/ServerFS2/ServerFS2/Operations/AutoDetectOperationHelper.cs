@@ -15,7 +15,7 @@ namespace ServerFS2
 			bytes.Add(0x01);
 			bytes.Add(0x01);
 			bytes.Add(0x04);
-			var res = USBManager.SendCode(bytes);
+			var response = USBManager.Send(null, bytes);
 
 			var computerDevice = new Device();
 			var msDevice = new Device();
@@ -37,7 +37,7 @@ namespace ServerFS2
 			usbChannel1Device.IntAddress = 1;
 			msDevice.Children.Add(usbChannel1Device);
 
-			if (res[5] == 0x41) // запрашиваем второй шлейф
+			if (response.Bytes[5] == 0x41) // запрашиваем второй шлейф
 			{
 				// МС-2
 				ms = 0x04;
@@ -63,29 +63,29 @@ namespace ServerFS2
 					bytes.Add(sleif);
 					bytes.Add(deviceCount);
 					bytes.Add(0x3C);
-					var inputBytes = USBManager.SendCode(bytes, 5000, 500);
-					if (inputBytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
+					response = USBManager.Send(msDevice, bytes);
+					if (response.Bytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
 					{
 						var device = new Device();
 						device.Properties = new List<Property>();
 						device.Driver = new Driver();
-						device.IntAddress = inputBytes[5];
+						device.IntAddress = response.Bytes[5];
 						device.Driver.HasAddress = true;
 						bytes = new List<byte>();
 						bytes.Add(sleif);
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
 						bytes.Add(0x03);
-						inputBytes = USBManager.SendCode(bytes);
-						device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(inputBytes[7]));
+						response = USBManager.Send(msDevice, bytes);
+						device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(response.Bytes[7]));
 
 						bytes = new List<byte>();
 						bytes.Add(sleif);
 						bytes.Add(deviceCount);
 						bytes.Add(0x01);
 						bytes.Add(0x12);
-						inputBytes = USBManager.SendCode(bytes);
-						device.Properties.Add(new Property() { Name = "Version", Value = inputBytes[7].ToString("X2") + "." + inputBytes[8].ToString("X2") });
+						response = USBManager.Send(msDevice, bytes);
+						device.Properties.Add(new Property() { Name = "Version", Value = response.Bytes[7].ToString("X2") + "." + response.Bytes[8].ToString("X2") });
 
 						bytes = new List<byte>();
 						bytes.Add(sleif);
@@ -97,12 +97,12 @@ namespace ServerFS2
 						bytes.Add(0x00);
 						bytes.Add(0xF4);
 						bytes.Add(0x0B);
-						inputBytes = USBManager.SendCode(bytes);
-						if (inputBytes.Count >= 18)
+						response = USBManager.Send(msDevice, bytes);
+						if (response.Bytes.Count >= 18)
 						{
 							var serilaNo = "";
 							for (int i = 7; i <= 18; i++)
-								serilaNo += inputBytes[i] - 0x30 + ".";
+								serilaNo += response.Bytes[i] - 0x30 + ".";
 							serilaNo = serilaNo.Remove(serilaNo.Length - 1);
 							device.Properties.Add(new Property() { Name = "SerialNo", Value = serilaNo });
 						}

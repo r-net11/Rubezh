@@ -1,29 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
-	public static class GetConfigurationOperationHelper
+	public class GetConfigurationOperationHelper
 	{
-		public static List<byte> DeviceFlash;
-		public static List<byte> DeviceRom;
-		static Device PanelDevice;
-		static int shleifCount;
-		static int outZonesBegin;
-		static int outZonesCount;
-		static int outZonesEnd;
-		static List<Zone> zones;
-		static ZonePanelRelationsInfo zonePanelRelationsInfo;
-		static DeviceConfiguration remoteDeviceConfiguration;
+		public List<byte> DeviceFlash;
+		public List<byte> DeviceRom;
+		Device PanelDevice;
+		int shleifCount;
+		int outZonesBegin;
+		int outZonesCount;
+		int outZonesEnd;
+		List<Zone> zones;
+		ZonePanelRelationsInfo zonePanelRelationsInfo;
+		DeviceConfiguration remoteDeviceConfiguration;
+		bool CheckMonitoringSuspend = false;
 
-		static void ParseUIDevicesRom(int romPointer, DriverType driverType)
+		public GetConfigurationOperationHelper(bool checkMonitoringSuspend)
 		{
+			CheckMonitoringSuspend = checkMonitoringSuspend;
+		}
+
+		void ParseUIDevicesRom(DriverType driverType)
+		{
+			var romPointer = GetDeviceOffset(driverType);
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
 			if (pointer != 0)
 			{
@@ -35,7 +44,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
+		void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
 			var device = new Device
 			{
@@ -98,11 +107,6 @@ namespace ServerFS2
 						State = GetDeviceConfigHelper.GetEventTypeByCode(eventType),
 						Operation = zoneLogicOperationByte == 0x01 ? ZoneLogicOperation.All : ZoneLogicOperation.Any
 					};
-					if (driverType == DriverType.MRO_2)
-					{
-						clause.ZoneLogicMROMessageNo = (ZoneLogicMROMessageNo)messageNo;
-						clause.ZoneLogicMROMessageType = (ZoneLogicMROMessageType)messageType;
-					}
 					for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
 					{
 						tableDynamicSize += 3;
@@ -233,8 +237,9 @@ namespace ServerFS2
 			PanelDevice.Children.Add(device);
 		}
 
-		static void ParseNoUIDevicesRom(int romPointer, DriverType driverType)
+		void ParseNoUIDevicesRom(DriverType driverType)
 		{
+			var romPointer = GetDeviceOffset(driverType);
 			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
 			if (pointer != 0)
 			{
@@ -246,7 +251,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
+		void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
 			var device = new Device
 			{
@@ -417,10 +422,10 @@ namespace ServerFS2
 			PanelDevice.Children.Add(device);
 		}
 
-		static void ParseZonesRom(int romPointer)
+		void ParseZonesRom(int romPointer, int romDBFirstIndex)
 		{
 			var pPointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
-			var pointer = BytesHelper.ExtractTriple(DeviceRom, pPointer - ServerHelper.RomDBFirstIndex);
+			var pointer = BytesHelper.ExtractTriple(DeviceRom, pPointer - romDBFirstIndex);
 			if (pointer != 0)
 			{
 				var count = BytesHelper.ExtractShort(DeviceRom, romPointer + 4);
@@ -431,7 +436,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void ParseZonesFlash(ref int pointer)
+		void ParseZonesFlash(ref int pointer)
 		{
 			var zone = new Zone
 			{
@@ -470,9 +475,9 @@ namespace ServerFS2
 			pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
 		}
 
-		public static DeviceConfiguration GetDeviceConfig(Device selectedDevice)
+		public DeviceConfiguration GetDeviceConfiguration(Device panelDevice)
 		{
-			PanelDevice = (Device)selectedDevice.Clone();
+			PanelDevice = (Device)panelDevice.Clone();
 			shleifCount = PanelDevice.Driver.ShleifCount;
 			PanelDevice.Children = new List<Device>();
 			zones = new List<Zone>();
@@ -481,13 +486,26 @@ namespace ServerFS2
 			remoteDeviceConfiguration.RootDevice = PanelDevice;
 			remoteDeviceConfiguration.Devices.Add(PanelDevice);
 
-			ServerHelper.RomDBFirstIndex = ServerHelper.GetRomFirstIndex(PanelDevice);
-			ServerHelper.FlashDBLastIndex = ServerHelper.GetFlashLastIndex(PanelDevice);
-			DeviceRom = ServerHelper.GetRomDBBytes(PanelDevice);
-			DeviceFlash = ServerHelper.GetFlashDBBytes(PanelDevice);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(PanelDevice, CheckMonitoringSuspend);
+			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
+			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
+			
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+			DeviceRom = panelDatabaseReader.GetRomDBBytes(PanelDevice);
+			stopwatch.Stop();
+			Trace.WriteLine("GetRomDBBytes " + stopwatch.Elapsed.TotalSeconds);
+
+
+			stopwatch = new Stopwatch();
+			stopwatch.Start();
+			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
+			stopwatch.Stop();
+			Trace.WriteLine("GetFlashDBBytes " + stopwatch.Elapsed.TotalSeconds);
+			
 
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
-			ParseZonesRom(1542);
+			ParseZonesRom(1542, panelDatabaseReader.RomDBFirstIndex);
 			#region Zones
 			//if ((pPointer = DeviceRom[1542] * 256 * 256 + DeviceRom[1543] * 256 + DeviceRom[1544]) != 0)
 			//{
@@ -579,12 +597,12 @@ namespace ServerFS2
 			outZonesEnd = outZonesBegin + outZonesCount * 9;
 			#endregion
 			#region Хидеры таблиц на исполнительные устройства
-			ParseUIDevicesRom(12, DriverType.RM_1);
-			ParseUIDevicesRom(18, DriverType.MPT);
-			ParseUIDevicesRom(120, DriverType.MDU);
-			ParseUIDevicesRom(84, DriverType.MRO);
-			ParseUIDevicesRom(144, DriverType.MRO_2);
-			ParseUIDevicesRom(126, DriverType.Exit);
+			ParseUIDevicesRom(DriverType.RM_1);
+			ParseUIDevicesRom(DriverType.MPT);
+			ParseUIDevicesRom(DriverType.MDU);
+			ParseUIDevicesRom(DriverType.MRO);
+			ParseUIDevicesRom(DriverType.MRO_2);
+			ParseUIDevicesRom(DriverType.Exit);
 			#region RM
 			//if ((pointer = DeviceRom[12] * 256 * 256 + DeviceRom[13] * 256 + DeviceRom[14]) != 0) //РМ-1
 			//{
@@ -1125,17 +1143,17 @@ namespace ServerFS2
 			#endregion
 			#endregion
 			#region Хидеры таблиц на не исполнительные устройства по типам
-			ParseNoUIDevicesRom(24, DriverType.SmokeDetector);
-			ParseNoUIDevicesRom(30, DriverType.HeatDetector);
-			ParseNoUIDevicesRom(36, DriverType.CombinedDetector);
-			ParseNoUIDevicesRom(48, DriverType.HandDetector);
-			ParseNoUIDevicesRom(42, DriverType.AM_1);
-			ParseNoUIDevicesRom(78, DriverType.AMP_4);
-			ParseNoUIDevicesRom(54, DriverType.AM1_O);
-			ParseNoUIDevicesRom(96, DriverType.AM1_T);
-			ParseNoUIDevicesRom(132, DriverType.RadioHandDetector);
-			ParseNoUIDevicesRom(138, DriverType.RadioSmokeDetector);
-			ParseUIDevicesRom(90, DriverType.Valve);
+			ParseNoUIDevicesRom(DriverType.SmokeDetector);
+			ParseNoUIDevicesRom(DriverType.HeatDetector);
+			ParseNoUIDevicesRom(DriverType.CombinedDetector);
+			ParseNoUIDevicesRom(DriverType.HandDetector);
+			ParseNoUIDevicesRom(DriverType.AM_1);
+			ParseNoUIDevicesRom(DriverType.AMP_4);
+			ParseNoUIDevicesRom(DriverType.AM1_O);
+			ParseNoUIDevicesRom(DriverType.AM1_T);
+			ParseNoUIDevicesRom(DriverType.RadioHandDetector);
+			ParseNoUIDevicesRom(DriverType.RadioSmokeDetector);
+			ParseUIDevicesRom(DriverType.Valve);
 			#region IP-64
 			//if ((pointer = DeviceRom[24] * 256 * 256 + DeviceRom[25] * 256 + DeviceRom[26]) != 0) // ИП-64
 			//{
@@ -1566,9 +1584,85 @@ namespace ServerFS2
 			#endregion
 			foreach (var childDevice in PanelDevice.Children)
 			{
+				childDevice.Parent = PanelDevice;
 				remoteDeviceConfiguration.Devices.Add(childDevice);
 			}
+			foreach (var device in remoteDeviceConfiguration.Devices)
+			{
+				GetCurrentDeviceState(device);
+			}
 			return remoteDeviceConfiguration;
+		}
+	
+		private int GetDeviceOffset(DriverType driverType)
+		{
+			switch (driverType)
+			{
+				case DriverType.SmokeDetector: return 24;
+				case DriverType.HeatDetector: return 30;
+				case DriverType.CombinedDetector: return 36;
+				case DriverType.HandDetector: return 48;
+				case DriverType.AM_1: return 42;
+				case DriverType.AMP_4: return 78;
+				case DriverType.AM1_O: return 54;
+				case DriverType.AM1_T: return 96;
+				case DriverType.RadioHandDetector: return 132;
+				case DriverType.RadioSmokeDetector: return 138;
+				case DriverType.Valve: return 90;
+
+				case DriverType.RM_1: return 12;
+				case DriverType.MPT: return 18;
+				case DriverType.MDU: return 120;
+				case DriverType.MRO: return 84;
+				case DriverType.MRO_2: return 144;
+				case DriverType.Exit: return 126;
+				default: return -1;
+			}
+		}
+
+		public void GetCurrentDeviceState(Device device)
+		{
+			if(device.DeviceState == null)
+				device.DeviceState = new DeviceState();
+			var romPointer = GetDeviceOffset(device.Driver.DriverType);
+			var pointer = BytesHelper.ExtractTriple(DeviceRom, romPointer);
+
+			List<byte> data;
+			if(device.Driver.Category == DeviceCategoryType.Sensor)
+			{
+				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.StateWordOffset, 11);
+				device.StateWordBytes = data.GetRange(0, 2);
+				if ((device.Driver.DriverType == DriverType.SmokeDetector) || (device.Driver.DriverType == DriverType.RadioSmokeDetector))
+				{
+					device.DeviceState.Dustiness = (float) data[8]/100;
+					device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+				}
+				if (device.Driver.DriverType == DriverType.HeatDetector)
+					device.DeviceState.Temperature = data[8];
+				if (device.Driver.DriverType == DriverType.CombinedDetector)
+				{
+					device.DeviceState.Dustiness = (float) data[9]/100;
+					device.DeviceState.Temperature = data[10];
+					device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+				}
+			}
+		}
+
+		public string GetDeviceInformation(Device device)
+		{
+			string serialNo = "";
+			List<byte> serialNoBytes;
+			if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			else
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			return serialNo;
 		}
 	}
 }

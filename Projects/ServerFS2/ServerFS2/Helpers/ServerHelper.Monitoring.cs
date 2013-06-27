@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Common;
+using System.Text;
 
 namespace ServerFS2
 {
@@ -10,8 +12,7 @@ namespace ServerFS2
 	{
 		static void ResetFire(Device device)
 		{
-			var bytes = USBManager.CreateBytesArray(0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-			USBManager.SendCodeToPanel(bytes, device);
+			USBManager.Send(device, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 		}
 
 		public static void ResetOnePanelStates(Device panelDevice, IEnumerable<string> stateIds)
@@ -27,6 +28,7 @@ namespace ServerFS2
 					if (metadataPanelState.@class == "0")
 					{
 						ResetFire(panelDevice);
+
 					}
 					else
 					{
@@ -43,24 +45,39 @@ namespace ServerFS2
 			}
 
 			var newStatusBytes = BitConverter.GetBytes(value);
-			var bytes = USBManager.CreateBytesArray(panelDevice.Parent.IntAddress + 2, panelDevice.IntAddress, 0x02, 0x10, newStatusBytes);
-			USBManager.SendCode(bytes);
+			USBManager.Send(panelDevice, 0x02, 0x10, newStatusBytes);
 		}
 
 		public static List<byte> GetDeviceStatus(Device device)
 		{
 			var result = new List<byte>();
-			var response1 = USBManager.SendCodeToPanel(device, 0x01, 0x10);
-			var response2 = USBManager.SendCodeToPanel(device, 0x01, 0x0F);
-			result.AddRange(response1);
-			result.AddRange(response2);
+			var response1 = USBManager.Send(device, 0x01, 0x10);
+			var response2 = USBManager.Send(device, 0x01, 0x0F);
+			result.AddRange(response1.Bytes);
+			result.AddRange(response2.Bytes);
 			return result;
+		}
+
+		public static string GetDeviceInformation(Device device)
+		{
+			string serialNo = "";
+			List<byte> serialNoBytes;
+			if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			else
+			{
+				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+			}
+			return serialNo;
 		}
 
 		public static bool PingDevice(Device device)
 		{
-			var bytes = USBManager.CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x3C);
-			return USBManager.SendCode(bytes)[6] == 0x7C;
+			return USBManager.Send(device, 0x3C).Bytes[6] == 0x7C;
 		}
 
 		public static void ExecuteCommand(Device device, string commandName)
@@ -68,7 +85,7 @@ namespace ServerFS2
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
 			var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
-			USBManager.SendCodeToPanel(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
+			USBManager.Send(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
 		}
 	}
 }

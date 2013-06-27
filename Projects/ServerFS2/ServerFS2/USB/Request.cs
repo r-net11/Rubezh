@@ -14,15 +14,14 @@ namespace ServerFS2
 		{
 		}
 
-		public Request(int id, RequestTypes requestType)
+		public Request(RequestTypes requestType)
 		{
 			StartTime = DateTime.Now;
-			Id = id;
 			RequestType = requestType;
 		}
 
-		public Request(int id, RequestTypes requestType, List<byte> bytes)
-			: this(id, requestType)
+		public Request(RequestTypes requestType, List<byte> bytes)
+			: this(requestType)
 		{
 			Bytes = bytes;
 		}

@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
+using UsbLibrary;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace ServerFS2
 {
@@ -15,58 +18,159 @@ namespace ServerFS2
 			get { return RequestNo++; }
 		}
 
-		public static readonly UsbRunnerBase UsbRunnerBase;
+		public static List<UsbProcessorInfo> UsbProcessorInfos { get; set; }
 
-		static USBManager()
+		public static Response SendWithoutException(Device device, params object[] value)
 		{
-			UsbRunnerBase = new UsbRunner2();
-			try
-			{
-				UsbRunnerBase.Open();
-			}
-			catch
-			{ }
+			return Send(device, true, value);
 		}
 
-		public static List<byte> SendCodeToPanel(List<byte> bytes, Device device, int maxDelay = 1000, int maxTimeout = 1000)
+		public static Response Send(Device device, params object[] value)
 		{
-			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
-			var result = UsbRunnerBase.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
-			result.RemoveRange(0, IsUsbDevice ? 2 : 7);
-			return result;
+			return Send(device, false, value);
 		}
 
-		public static List<byte> SendCodeToPanel(Device device, params object[] value)
+		static Response Send(Device device, bool throwException, params object[] value)
 		{
-			var bytes = CreateBytesArray(value);
-			bytes.InsertRange(0, IsUsbDevice ? new List<byte> { (byte)(0x02) } : new List<byte> { (byte)(device.Parent.IntAddress + 2), (byte)device.IntAddress });
-			var result = UsbRunnerBase.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
-			if (result != null)
+			var usbProcessor = GetUsbProcessor(device);
+			if (usbProcessor != null)
 			{
-				var responce = result.Result.FirstOrDefault();
-				if (responce != null)
+				var bytes = CreateBytesArray(value);
+				var outputFunctionCode = Convert.ToByte(bytes[0]);
+				bytes = CreateOutputBytes(device, usbProcessor.UseId, bytes);
+				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
+				if (response != null)
 				{
-					var data = responce.Data;
-					data.RemoveRange(0, IsUsbDevice ? 2 : 7);
-					return data;
+					var inputBytes = response.Bytes.ToList();
+					if (usbProcessor.UseId)
+					{
+						response.Bytes.RemoveRange(0, 4);
+						var usbRoot = response.Bytes[0];
+						var panelRoot = response.Bytes[1];
+						response.Bytes.RemoveRange(0, 2);
+					}
+					else
+					{
+						var usbRoot = response.Bytes[0];
+						response.Bytes.RemoveRange(0, 1);
+					}
+
+					if (response.Bytes.Count < 1)
+					{
+						if (throwException)
+							throw new FS2USBException("Недостаточное количество байт в ответе");
+						return response.SetError("Недостаточное количество байт в ответе");
+					}
+					var functionCode = response.Bytes[0];
+					response.FunctionCode = functionCode;
+					if ((functionCode & 128) == 128)
+					{
+						var errorName = "В ответе содержится код ошибки";
+						if (response.Bytes.Count >= 2)
+						{
+							errorName = USBExceptionHelper.GetError(response.Bytes[1]);
+						}
+						if (throwException)
+							throw new FS2USBException(errorName);
+						return response.SetError(errorName);
+					}
+					if ((functionCode & 64) != 64)
+					{
+						if (throwException)
+							throw new FS2USBException("В пришедшем ответе не содержится маркер ответа");
+						return response.SetError("В пришедшем ответе не содержится маркер ответа");
+					}
+
+					if ((functionCode & 63) != outputFunctionCode)
+					{
+						if (throwException)
+							throw new FS2USBException("В пришедшем ответе не совпадает код функции");
+						return response.SetError("В пришедшем ответе не совпадает код функции");
+					}
+
+					response.Bytes.RemoveRange(0, 1);
+					return response;
+				}
+				if (throwException)
+					throw new FS2USBException("Не получен ответ в заданное время");
+				return new Response("Не получен ответ в заданное время");
+			}
+			else
+			{
+				Trace.WriteLine("UsbManager.Send");
+				Initialize();
+				if (throwException)
+					throw new FS2USBException("USB устройство отсутствует");
+				return new Response("USB устройство отсутствует");
+			}
+		}
+
+		public static int SendAsync(Device device, params object[] value)
+		{
+			var usbProcessor = GetUsbProcessor(device);
+			if (usbProcessor != null)
+			{
+				var bytes = CreateBytesArray(value);
+				bytes = CreateOutputBytes(device, usbProcessor.UseId, bytes);
+				var requestNo = NextRequestNo;
+				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
+				return requestNo;
+			}
+			else
+			{
+				return -1;
+			}
+		}
+
+		static List<byte> CreateOutputBytes(Device device, bool useId, List<byte> bytes)
+		{
+			var parentPanel = device.ParentPanel;
+			var parentUSB = device.ParentUSB;
+
+			var addressBytes = new List<byte>();
+			if (useId)
+			{
+				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+				{
+					addressBytes.Add(0x01);
+				}
+				else
+				{
+					addressBytes.Add((byte)(parentPanel.Parent.IntAddress + 2));
+					addressBytes.Add((byte)parentPanel.IntAddress);
+				}
+			}
+			else
+			{
+				addressBytes.Add(0x02);
+			}
+			bytes.InsertRange(0, addressBytes);
+
+			return bytes;
+		}
+
+		public static bool IsUsbDevice(Device device)
+		{
+			var usbProcessor = GetUsbProcessor(device);
+			if (usbProcessor != null)
+			{
+				return !usbProcessor.UseId;
+			}
+			return false;
+		}
+
+		static UsbProcessor GetUsbProcessor(Device panelDevice)
+		{
+			var parentUSB = panelDevice.ParentUSB;
+			if (parentUSB != null)
+			{
+				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.USBDevice.UID == parentUSB.UID);
+				if (usbProcessorInfo != null)
+				{
+					return usbProcessorInfo.UsbProcessor;
 				}
 			}
 			return null;
-		}
-
-		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunnerBase.AddRequest(NextRequestNo, bytesList, maxDelay, maxTimeout, true);
-		}
-
-		public static List<byte> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunnerBase.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true).Result[0].Data;
-		}
-
-		public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			UsbRunnerBase.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
 		}
 
 		public static List<byte> CreateBytesArray(params object[] values)
@@ -82,80 +186,56 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		public static bool IsUsbDevice
-		{
-			get { return UsbRunnerBase.IsUsbDevice; }
-			set
-			{
-				UsbRunnerBase.IsUsbDevice = value;
-				UsbRunnerBase.Close();
-				UsbRunnerBase.Open();
-			}
-		}
-
-		public static List<byte> SendRequest(List<byte> bytes)
-		{
-			return SendCode(bytes);
-		}
-
 		public static void Initialize()
 		{
-			var usbDevices = new List<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.RootDevice.Children)
+			Dispose();
+			UsbProcessorInfos = USBDetectorHelper.Detect();
+			foreach (var usbProcessorInfo in UsbProcessorInfos)
 			{
-				switch (device.Driver.DriverType)
+				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
+				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>((response) =>
 				{
-					case FiresecAPI.Models.DriverType.MS_1:
-					case FiresecAPI.Models.DriverType.MS_2:
-						usbDevices.Add(device);
-						break;
-				}
+					if (NewResponse != null)
+						NewResponse(usbProcessorInfo.USBDevice, response);
+				});
 			}
+		}
 
-			var usbRunnerDetectors = new List<UsbRunnerDetector>();
+		public static event Action<Device, Response> NewResponse;
 
-			while (true)
+		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)
+		{
+			var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.UsbProcessor == usbProcessor);
+			if (usbProcessorInfo != null)
 			{
-				try
-				{
-					var usbRunner = new UsbRunner2();
-					var result = usbRunner.Open();
-					if (!result)
-						break;
-					var usbRunnerDetector = new UsbRunnerDetector()
-					{
-						UsbRunner = usbRunner
-					};
-					usbRunnerDetectors.Add(usbRunnerDetector);
-				}
-				catch (Exception)
-				{
-					break;
-				}
+				UsbProcessorInfos.Remove(usbProcessorInfo);
 			}
+			if (UsbRemoved != null)
+				UsbRemoved();
+		}
+		public static event Action UsbRemoved;
 
-			foreach (var usbRunnerDetector in usbRunnerDetectors)
+		public static void Dispose()
+		{
+			if (UsbProcessorInfos != null)
 			{
-				usbRunnerDetector.Initialize();
-				Trace.WriteLine(usbRunnerDetector.IsUSBMS + " " + usbRunnerDetector.IsUSBPanel + " " +
-					usbRunnerDetector.USBDriverType + " " + usbRunnerDetector.SerialNo);
+				UsbProcessorInfos.ForEach(x => x.UsbProcessor.Dispose());
+				UsbProcessorInfos.Clear();
 			}
+		}
 
-			foreach (var device in usbDevices)
+		public static List<string> GetAllSerialNos()
+		{
+			Dispose();
+			var result = new List<string>();
+			var usbProcessorInfos = USBDetectorHelper.FindAllUsbProcessorInfo();
+			foreach (var usbProcessorInfo in usbProcessorInfos)
 			{
-				var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-				if (serialNoProperty != null)
-				{
-					var usbRunnerDetector = usbRunnerDetectors.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
-					if (usbRunnerDetector != null)
-					{
-						usbRunnerDetector.Device = device;
-					}
-				}
-				else
-				{
-				}
+				result.Add(usbProcessorInfo.SerialNo);
+				usbProcessorInfo.UsbProcessor.Dispose();
 			}
+			Thread.Sleep(TimeSpan.FromSeconds(5));
+			return result;
 		}
 	}
 }

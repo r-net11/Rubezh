@@ -1,9 +1,7 @@
-﻿
-namespace ServerFS2
+﻿namespace ServerFS2
 {
 	public class FSInternalJournal
 	{
-		public int PanelAddress { get; set; }
 		public int EventCode { get; set; }
 		public int TimeBytes { get; set; }
 		public int AdditionalEventCode { get; set; }

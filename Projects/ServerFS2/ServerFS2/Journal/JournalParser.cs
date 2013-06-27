@@ -15,27 +15,18 @@ namespace ServerFS2
 		public FS2JournalItem FS2JournalItem { get; private set; }
 		public List<byte> Bytes { get; private set; }
 
-		public FS2JournalItem Parce(List<byte> bytes)
+		public FS2JournalItem Parce(Device panelDevice, List<byte> bytes)
 		{
 			FSInternalJournal = new FSInternalJournal();
 			FS2JournalItem = new FS2JournalItem();
-
-			string bytesString = "";
-			foreach (var byteItem in bytes)
-			{
-				bytesString += byteItem.ToString("X2") + " ";
-			}
-			FS2JournalItem.BytesString = bytesString;
-
+			FS2JournalItem.BytesString = BytesHelper.BytesToString(bytes);
+			FS2JournalItem.PanelDevice = panelDevice;
 
 			if (!IsValidInput(bytes))
 				return null;
 
-			FSInternalJournal.PanelAddress = bytes[5];
-			FS2JournalItem.PanelAddress = bytes[5];
-			FSInternalJournal.ShleifNo = bytes[24] + 1;
+			FSInternalJournal.ShleifNo = bytes[24 - 7] + 1;
 
-			bytes.RemoveRange(0, 7);
 			Bytes = bytes;
 
 			FSInternalJournal.EventCode = bytes[0];
@@ -56,23 +47,20 @@ namespace ServerFS2
 			FS2JournalItem.Description = GetEventName();
 			FS2JournalItem.StateType = GetEventStateType();
 
-			FS2JournalItem.PanelDevice = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == FS2JournalItem.PanelAddress && x.Driver.IsPanel);
-			if (FS2JournalItem.PanelDevice != null)
+			FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
+			FS2JournalItem.PanelName = FS2JournalItem.PanelDevice.DottedPresentationNameAndAddress;
+
+			var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
+			FS2JournalItem.DeviceAddress = FSInternalJournal.AddressOnShleif;
+			FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
+			if (FS2JournalItem.Device != null)
 			{
-				FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
-				FS2JournalItem.PanelName = FS2JournalItem.PanelDevice.DottedPresentationNameAndAddress;
-
-				var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
-				FS2JournalItem.DeviceAddress = FSInternalJournal.AddressOnShleif;
-				FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
-				if (FS2JournalItem.Device != null)
-				{
-					FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
-					FS2JournalItem.DeviceName = FS2JournalItem.Device.DottedPresentationNameAndAddress;
-				}
-
-				FS2JournalItem.SubsystemType = GetSubsystemType(FS2JournalItem.PanelDevice);
+				FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
+				FS2JournalItem.DeviceName = FS2JournalItem.Device.DottedPresentationNameAndAddress;
 			}
+
+			FS2JournalItem.SubsystemType = GetSubsystemType(FS2JournalItem.PanelDevice);
+
 			if (FSInternalJournal.DeviceType == 1)
 				FS2JournalItem.DeviceName = "АСПТ " + (FSInternalJournal.ShleifNo - 1) + ".";
 
@@ -129,8 +117,18 @@ namespace ServerFS2
 								var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetailsFor.dictionary);
 								var bitState = new BitArray(new int[] { FSInternalJournal.State });
 								foreach (var bit in metadataDictionary.bit)
-									if (bitState.Get(Convert.ToInt32(bit.no)))
+								{
+									string stateVal = "0x" + FSInternalJournal.State.ToString("X2");
+									if (bit.val == stateVal && bit.no == null)
+									{
+										result += bit.value + "\n";
+										break;
+									}
+									if (bit.no != null && bitState.Get(Convert.ToInt32(bit.no)))
+									{
 										result += metadataDictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+									}
+								}
 							}
 						}
 					}
@@ -315,6 +313,7 @@ namespace ServerFS2
 				Description = description,
 				PanelName = panel.DottedPresentationNameAndAddress,
 				PanelUID = panel.UID,
+				StateType = StateType.Info,
 				SubsystemType = GetSubsystemType(panel),
 			};
 		}

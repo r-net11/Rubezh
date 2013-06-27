@@ -8,7 +8,7 @@ namespace ServerFS2.Monitoring
 {
 	public static class ZoneStateManager
 	{
-		public static void ChangeOnDeviceState(Device device)
+		public static void ChangeOnDeviceState(bool isSilent = false)
 		{
 			var changedZoneStates = new List<ZoneState>();
 			foreach (var zone in ConfigurationManager.Zones)
@@ -26,7 +26,8 @@ namespace ServerFS2.Monitoring
 				}
 			}
 
-			CallbackManager.Add(new FS2Callbac() { ChangedZoneStates = changedZoneStates });
+			if(!isSilent)
+				CallbackManager.ZoneStateChanged(changedZoneStates);
 		}
 	}
 }

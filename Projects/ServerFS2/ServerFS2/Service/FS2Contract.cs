@@ -24,7 +24,7 @@ namespace ServerFS2.Service
 
 		public static void CheckCancellationAndNotify(string message)
 		{
-			CallbackManager.Add(new FS2Callbac() { FS2ProgressInfo = new FS2ProgressInfo(message) });
+			CallbackManager.AddProgress(new FS2ProgressInfo(message));
 			CheckCancellationRequested();
 		}
 
@@ -107,7 +107,7 @@ namespace ServerFS2.Service
 		#region Common
 		public OperationResult<DeviceConfiguration> GetDeviceConfiguration()
 		{
-			return SafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
+			return SafeCall<DeviceConfiguration>(() =>
 			{
 				return ConfigurationCash.DeviceConfiguration;
 			}, "GetDeviceConfiguration");
@@ -115,7 +115,7 @@ namespace ServerFS2.Service
 
 		public OperationResult<DriversConfiguration> GetDriversConfiguration()
 		{
-			return SafeCallWithMonitoringSuspending<DriversConfiguration>(() =>
+			return SafeCall<DriversConfiguration>(() =>
 			{
 				return ConfigurationCash.DriversConfiguration;
 			}, "GetDriversConfiguration");
@@ -228,148 +228,172 @@ namespace ServerFS2.Service
 		#endregion
 
 		#region Administrator
-		public OperationResult SetNewConfig(DeviceConfiguration deviceConfiguration)
+		public OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration)
 		{
 			return SafeCall(() =>
 			{
-				MainManager.SetNewConfig(deviceConfiguration);
-			}, "SetNewConfig");
+				MainManager.SetNewConfiguration(deviceConfiguration);
+			}, "SetNewConfiguration");
 		}
 
-		public OperationResult DeviceWriteConfig(Guid deviceUID, bool isUSB)
+		public OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceWriteConfig(FindDevice(deviceUID), isUSB);
-			}, "DeviceWriteConfig");
+				MainManager.DeviceWriteConfiguration(device, isUSB);
+			}, "DeviceWriteConfiguration", device, true);
+		}
+
+		public OperationResult DeviceWriteAllConfiguration()
+		{
+			return SafeCall(() =>
+			{
+				MainManager.DeviceWriteAllConfiguration();
+			}, "DeviceWriteAllConfiguration");
 		}
 
 		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceSetPassword(FindDevice(deviceUID), isUSB, devicePasswordType, password);
-			}, "DeviceSetPassword");
+				MainManager.DeviceSetPassword(device, isUSB, devicePasswordType, password);
+			}, "DeviceSetPassword", device, false);
 		}
 
 		public OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB)
 		{
+			var device = FindDevice(deviceUID);
 			return TaskSafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceDatetimeSync(FindDevice(deviceUID), isUSB);
-			}, "DeviceDatetimeSync");
+				MainManager.DeviceDatetimeSync(device, isUSB);
+			}, "DeviceDatetimeSync", device, false);
 		}
 
 		public OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending<string>(() =>
 			{
-				return MainManager.DeviceGetInformation(FindDevice(deviceUID), isUSB);
-			}, "DeviceGetInformation");
+				return MainManager.DeviceGetInformation(device, isUSB);
+			}, "DeviceGetInformation", device, false);
 		}
 
 		public OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending<List<string>>(() =>
 			{
-				return MainManager.DeviceGetSerialList(FindDevice(deviceUID));
-			}, "DeviceGetSerialList");
+				return MainManager.DeviceGetSerialList(device);
+			}, "DeviceGetSerialList", device, true);
 		}
 
 		public OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending<string>(() =>
 			{
-				return MainManager.DeviceVerifyFirmwareVersion(FindDevice(deviceUID), isUSB, fileName);
-			}, "DeviceVerifyFirmwareVersion");
+				return MainManager.DeviceVerifyFirmwareVersion(device, isUSB, fileName);
+			}, "DeviceVerifyFirmwareVersion", device, false);
 		}
 
 		public OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceUpdateFirmware(FindDevice(deviceUID), isUSB, fileName);
-			}, "DeviceUpdateFirmware");
+				MainManager.DeviceUpdateFirmware(device, isUSB, fileName);
+			}, "DeviceUpdateFirmware", device, true);
 		}
 
-		public OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB)
+		public OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB)
 		{
+			var device = FindDevice(deviceUID);
 			return TaskSafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
 			{
-				return MainManager.DeviceReadConfig(FindDevice(deviceUID), isUSB);
-			}, "DeviceReadConfig");
+				return MainManager.DeviceReadConfiguration(device, isUSB);
+			}, "DeviceReadConfiguration", device, false);
 		}
 
-		public OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB)
+		public OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB)
 		{
-			return TaskSafeCallWithMonitoringSuspending<List<FS2JournalItem>>(() =>
+			var device = FindDevice(deviceUID);
+			return TaskSafeCallWithMonitoringSuspending<FS2JournalItemsCollection>(() =>
 			{
-				return MainManager.DeviceReadEventLog(FindDevice(deviceUID), isUSB);
-			}, "DeviceReadEventLog");
+				return MainManager.DeviceReadJournal(device, isUSB);
+			}, "DeviceReadJournal", device, false);
 		}
 
 		public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
 			{
-				return MainManager.DeviceAutoDetectChildren(FindDevice(deviceUID), fastSearch);
-			}, "DeviceAutoDetectChildren");
+				return MainManager.DeviceAutoDetectChildren(device, fastSearch);
+			}, "DeviceAutoDetectChildren", device, false);
 		}
 
-		public OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(DriverType driverType)
+		public OperationResult<List<DeviceCustomFunction>> DeviceGetCustomFunctions(DriverType driverType)
 		{
-			return SafeCallWithMonitoringSuspending<List<DeviceCustomFunction>>(() =>
+			return SafeCall<List<DeviceCustomFunction>>(() =>
 			{
-				return MainManager.DeviceCustomFunctionList(driverType);
-			}, "DeviceCustomFunctionList");
+				return MainManager.DeviceGetCustomFunctions(driverType);
+			}, "DeviceGetCustomFunctions");
 		}
 
-		public OperationResult DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName)
+		public OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceCustomFunctionExecute(FindDevice(deviceUID), isUSB, functionName);
-			}, "DeviceCustomFunctionExecute");
+				MainManager.DeviceExecuteCustomFunction(device, isUSB, functionName);
+			}, "DeviceExecuteCustomFunction", device, false);
 		}
 
-		public OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID)
+		public OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID)
 		{
-			return SafeCallWithMonitoringSuspending<string>(() =>
+			var device = FindDevice(deviceUID);
+			return SafeCallWithMonitoringSuspending<List<GuardUser>>(() =>
 			{
-				return MainManager.DeviceGetGuardUsersList(FindDevice(deviceUID));
-			}, "DeviceGetGuardUsersList");
+				return MainManager.DeviceGetGuardUsers(device);
+			}, "DeviceGetGuardUsers", device, false);
 		}
 
-		public OperationResult DeviceSetGuardUsersList(Guid deviceUID, string users)
+		public OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUsers)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceSetGuardUsersList(FindDevice(deviceUID), users);
-			}, "DeviceSetGuardUsersList");
+				MainManager.DeviceSetGuardUsers(device, guardUsers);
+			}, "DeviceSetGuardUsers", device, false);
 		}
 
 		public OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending<string>(() =>
 			{
-				return MainManager.DeviceGetMDS5Data(FindDevice(deviceUID));
-			}, "DeviceGetMDS5Data");
+				return MainManager.DeviceGetMDS5Data(device);
+			}, "DeviceGetMDS5Data", device, false);
 		}
 
 		public OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties)
 		{
-			return SafeCall(() =>
+			var device = FindDevice(deviceUID);
+			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.SetConfigurationParameters(FindDevice(deviceUID), properties);
-			}, "SetConfigurationParameters");
+				MainManager.SetConfigurationParameters(device, properties);
+			}, "SetConfigurationParameters", device, false);
 		}
 
 		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
-			return SafeCall<List<Property>>(() =>
+			var device = FindDevice(deviceUID);
+			return SafeCallWithMonitoringSuspending<List<Property>>(() =>
 			{
-				return MainManager.GetConfigurationParameters(FindDevice(deviceUID));
-			}, "GetConfigurationParameters");
+				return MainManager.GetConfigurationParameters(device);
+			}, "GetConfigurationParameters", device, false);
 		}
 		#endregion
 
@@ -432,18 +456,17 @@ namespace ServerFS2.Service
 			return device;
 		}
 
-		OperationResult<T> TaskSafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName)
+		OperationResult<T> TaskSafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName, Device device, bool stopMonitoring)
 		{
 			try
 			{
-				Trace.WriteLine("TaskSafeCallWithMonitoringSuspending");
 				var cancellationTokenSource = new CancellationTokenSource();
 				CancellationTokenSources.Add(cancellationTokenSource);
 				var cancellationToken = cancellationTokenSource.Token;
 				var task = Task.Factory.StartNew(
 					() =>
 						{
-						return SafeCallWithMonitoringSuspending<T>(func, methodName);
+						return SafeCallWithMonitoringSuspending<T>(func, methodName, device, stopMonitoring);
 						},
 					cancellationToken);
 				try
@@ -470,7 +493,7 @@ namespace ServerFS2.Service
 			}
 		}
 
-		OperationResult TaskSafeCallWithMonitoringSuspending(Action action, string methodName)
+		OperationResult TaskSafeCallWithMonitoringSuspending(Action action, string methodName, Device device, bool stopMonitoring)
 		{
 			try
 			{
@@ -481,7 +504,7 @@ namespace ServerFS2.Service
 				var task = Task.Factory.StartNew(
 					() =>
 					{
-						return SafeCallWithMonitoringSuspending(action, methodName);
+						return SafeCallWithMonitoringSuspending(action, methodName, device, stopMonitoring);
 					},
 					cancellationToken);
 				try
@@ -508,11 +531,21 @@ namespace ServerFS2.Service
 			}
 		}
 
-		OperationResult<T> SafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName)
+		OperationResult<T> SafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName, Device device, bool stopMonitoring)
 		{
 			try
 			{
-				MainManager.SuspendMonitoring();
+				if (device.Driver.DriverType == DriverType.Computer)
+					device = null;
+
+				if (stopMonitoring)
+				{
+					MainManager.StopMonitoring(device);
+				}
+				else
+				{
+					MainManager.SuspendMonitoring(device);
+				}
 				return SafeCall<T>(func, methodName);
 			}
 			catch(Exception e)
@@ -521,15 +554,32 @@ namespace ServerFS2.Service
 			}
 			finally
 			{
-				MainManager.ResumeMonitoring();
+				if (stopMonitoring)
+				{
+					MainManager.StartMonitoring(device);
+				}
+				else
+				{
+					MainManager.ResumeMonitoring(device);
+				}
 			}
 		}
 
-		OperationResult SafeCallWithMonitoringSuspending(Action action, string methodName)
+		OperationResult SafeCallWithMonitoringSuspending(Action action, string methodName, Device device, bool stopMonitoring)
 		{
 			try
 			{
-				MainManager.SuspendMonitoring();
+				if (device.Driver.DriverType == DriverType.Computer)
+					device = null;
+
+				if (stopMonitoring)
+				{
+					MainManager.StopMonitoring(device);
+				}
+				else
+				{
+					MainManager.SuspendMonitoring(device);
+				}
 				return SafeCall(action, methodName);
 			}
 			catch (Exception e)
@@ -538,7 +588,14 @@ namespace ServerFS2.Service
 			}
 			finally
 			{
-				MainManager.ResumeMonitoring();
+				if (stopMonitoring)
+				{
+					MainManager.StartMonitoring(device);
+				}
+				else
+				{
+					MainManager.ResumeMonitoring(device);
+				}
 			}
 		}
 

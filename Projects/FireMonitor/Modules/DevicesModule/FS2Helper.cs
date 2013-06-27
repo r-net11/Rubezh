@@ -35,9 +35,18 @@ namespace DevicesModule
 					if (device != null)
 					{
 						device.DeviceState.States = deviceState.SerializableStates;
-						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						device.DeviceState.ParentStates = deviceState.SerializableParentStates;
+						device.DeviceState.ChildStates = deviceState.SerializableChildStates;
+						device.DeviceState.Parameters = deviceState.SerializableParameters;
+
+						if (device.DeviceState.ParentStates != null)
+						{
+							foreach (var parentDeviceState in device.DeviceState.ParentStates)
+							{
+								parentDeviceState.ParentDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == parentDeviceState.ParentDeviceUID);
+							}
+						}
+
 						device.DeviceState.OnStateChanged();
 						ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
 					}

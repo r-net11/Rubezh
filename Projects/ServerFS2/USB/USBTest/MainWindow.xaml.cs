@@ -51,18 +51,18 @@ namespace USBTest
 			}
 		}
 
-		UsbRunner2 UsbRunner2;
+		UsbProcessor UsbProcessor;
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
 		{
-			UsbRunner2 = new UsbRunner2();
-			UsbRunner2.Open();
-			UsbRunner2.NewResponse += new Action<ServerFS2.Response>(UsbRunner2_NewResponse);
+			UsbProcessor = new UsbProcessor();
+			UsbProcessor.Open();
+			UsbProcessor.NewResponse += new Action<ServerFS2.Response>(UsbRunner2_NewResponse);
 		}
 
 		void UsbRunner2_NewResponse(Response response)
 		{
-			Trace.WriteLine("UsbRunner2_NewResponse " + BytesHelper.BytesToString(response.Data));
+			Trace.WriteLine("UsbRunner2_NewResponse " + BytesHelper.BytesToString(response.Bytes));
 		}
 
 		private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -75,7 +75,7 @@ namespace USBTest
 				var bytes = new List<byte>() { 0x03, 0x02, 0x01, 0x21, 0x00 };
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
-				UsbRunner2.AddRequest(i, bytesList, 1000, 1000, true);
+				UsbProcessor.AddRequest(i, bytesList, 1000, 1000, true);
 			}
 		}
 	}

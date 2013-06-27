@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceReadConfig(Device.UID, IsUsb);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceReadConfiguration(Device.UID, IsUsb);
 		}
 
 		static void OnCompleted()

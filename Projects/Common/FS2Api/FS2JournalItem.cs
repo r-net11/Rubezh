@@ -54,7 +54,6 @@ namespace FS2Api
 
 		public int DeviceAddress { get; set; }
 		public int ZoneNo { get; set; }
-		public int PanelAddress { get; set; }
 		public int EventClass { get; set; }
 		public uint IntDate { get; set; }
 		public Device PanelDevice { get; set; }
