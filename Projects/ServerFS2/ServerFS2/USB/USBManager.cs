@@ -47,6 +47,7 @@ namespace ServerFS2
 						response.Bytes.RemoveRange(0, 4);
 						var usbRoot = response.Bytes[0];
 						var panelRoot = response.Bytes[1];
+						response.MsFlag = panelRoot;
 						response.Bytes.RemoveRange(0, 2);
 					}
 					else

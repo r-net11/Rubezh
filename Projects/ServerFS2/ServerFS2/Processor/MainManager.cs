@@ -149,10 +149,7 @@ namespace ServerFS2.Processor
 
 		public static void DeviceWriteConfiguration(Device device, bool isUSB)
 		{
-			TempConfigSafeCall((x) =>
-			{
-				ConfigurationWriterOperationHelper.Write(x);
-			}, device, isUSB);
+			TempConfigSafeCall(ConfigurationWriterOperationHelper.Write, device, isUSB);
 		}
 
 		public static void DeviceWriteAllConfiguration()
@@ -163,27 +160,17 @@ namespace ServerFS2.Processor
 
 		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
-			TempConfigSafeCall((x) =>
-			{
-				SetConfigurationOperationHelper.SetPassword(device, devicePasswordType, password);
-			}, device, isUSB);
+			TempConfigSafeCall((x) => SetPasswordOperationHelper.SetPassword(device, devicePasswordType, password), device, isUSB);
 		}
 
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
-			TempConfigSafeCall((x) =>
-			{
-				ServerHelper.SynchronizeTime(x);
-			}, device, isUSB);
+			TempConfigSafeCall(ServerHelper.SynchronizeTime, device, isUSB);
 		}
 
-		public static string DeviceGetInformation(Device device, bool isUSB)
+		public static void DeviceGetInformation(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<string>((x) =>
-			{
-				var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
-				return getConfigurationOperationHelper.GetDeviceInformation(device);
-			}, device, isUSB);
+			TempConfigSafeCall(GetInformationOperationHelper.GetDeviceInformation, device, isUSB);
 		}
 
 		public static List<string> DeviceGetSerialList(Device device)
@@ -193,23 +180,17 @@ namespace ServerFS2.Processor
 
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)
 		{
-			return TempConfigSafeCall<string>((x) =>
-			{
-				return FirmwareUpdateOperationHelper.Verify(device, isUSB, fileName);
-			}, device, isUSB);
+			return TempConfigSafeCall(x => FirmwareUpdateOperationHelper.Verify(device, isUSB, fileName), device, isUSB);
 		}
 
 		public static void DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
 		{
-			TempConfigSafeCall((x) =>
-			{
-				FirmwareUpdateOperationHelper.Update(device, isUSB, fileName);
-			}, device, isUSB);
+			TempConfigSafeCall(x => FirmwareUpdateOperationHelper.Update(device, isUSB, fileName), device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceReadConfiguration(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<DeviceConfiguration>((x) =>
+			return TempConfigSafeCall(x =>
 			{
 				var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
 				return getConfigurationOperationHelper.GetDeviceConfiguration(x);
@@ -218,10 +199,7 @@ namespace ServerFS2.Processor
 
 		public static FS2JournalItemsCollection DeviceReadJournal(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<FS2JournalItemsCollection>((x) =>
-			{
-				return ReadJournalOperationHelper.GetJournalItems(x);
-			}, device, isUSB);
+			return TempConfigSafeCall<FS2JournalItemsCollection>(ReadJournalOperationHelper.GetJournalItems, device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)

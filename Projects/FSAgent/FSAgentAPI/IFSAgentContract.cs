@@ -79,7 +79,7 @@ namespace FSAgentAPI
         OperationResult<bool> DeviceDatetimeSync(string coreConfig, string devicePath);
 
         [OperationContract]
-        OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath);
+        OperationResult<bool> DeviceGetInformation(string coreConfig, string devicePath);
 
         [OperationContract]
         OperationResult<string> DeviceGetSerialList(string coreConfig, string devicePath);

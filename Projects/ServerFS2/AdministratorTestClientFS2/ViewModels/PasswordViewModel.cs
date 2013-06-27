@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
+using ServerFS2.Processor;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -40,7 +41,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SetPasswordCommand { get; private set; }
 		private void OnSetPasswordCommand()
 		{
-			SetConfigurationOperationHelper.SetPassword(selectedDeivce, DevicePasswordType, PasswordString);
+			MainManager.DeviceSetPassword(selectedDeivce, false, DevicePasswordType, PasswordString);
 			Close(true);
 		}
 	}
