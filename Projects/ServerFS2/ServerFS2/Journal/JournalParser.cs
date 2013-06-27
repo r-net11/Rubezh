@@ -44,7 +44,7 @@ namespace ServerFS2
 			FS2JournalItem.SystemTime = DateTime.Now;
 			FS2JournalItem.EventCode = FSInternalJournal.EventCode;
 			FS2JournalItem.EventChoiceNo = FSInternalJournal.AdditionalEventCode;
-			FS2JournalItem.Description = GetEventName();
+			
 			FS2JournalItem.StateType = GetEventStateType();
 
 			FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
@@ -58,6 +58,8 @@ namespace ServerFS2
 				FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
 				FS2JournalItem.DeviceName = FS2JournalItem.Device.DottedPresentationNameAndAddress;
 			}
+
+			FS2JournalItem.Description = GetEventName();
 
 			FS2JournalItem.SubsystemType = GetSubsystemType(FS2JournalItem.PanelDevice);
 
@@ -238,6 +240,9 @@ namespace ServerFS2
 
 		string GetEventName()
 		{
+			if (FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
+				return GetEventNameAMT();
+			
 			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode);
 			var firstIndex = eventName.IndexOf("[");
 			var lastIndex = eventName.IndexOf("]");
@@ -254,6 +259,16 @@ namespace ServerFS2
 				}
 			}
 			return eventName;
+		}
+
+		string GetEventNameAMT()
+		{
+			if (FSInternalJournal.AdditionalEventCode == 0)
+				return FS2JournalItem.Device.Properties.FirstOrDefault(x => x.Name == "Event1").Value;
+			else if (FSInternalJournal.AdditionalEventCode == 1)
+				return FS2JournalItem.Device.Properties.FirstOrDefault(x => x.Name == "Event2").Value;
+			else
+				return "";
 		}
 
 		StateType GetEventStateType()

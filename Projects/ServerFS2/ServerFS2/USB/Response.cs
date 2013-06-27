@@ -9,7 +9,7 @@ namespace ServerFS2
 		public List<byte> Bytes { get; set; }
 		public TimeSpan TimeSpan { get; set; }
 		public byte FunctionCode { get; set; }
-
+		public byte MsFlag { get; set; }
 		public Response()
 		{
 		}

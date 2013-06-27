@@ -163,6 +163,8 @@ namespace ServerFS2.Monitoring
 				if (bitArray[i])
 				{
 					var metadataDeviceState = MetadataHelper.Metadata.deviceStates.FirstOrDefault(x => x.bitno == i.ToString() || x.bitNo == i.ToString() || x.Bitno == i.ToString());
+					if (metadataDeviceState == null)
+						continue;
 					var state = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
 					if(state != null)
 						states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });

@@ -39,6 +39,9 @@ namespace FiresecAPI.Models
 		public bool IsConnectionLost { get; set; }
 
 		[DataMember]
+		public bool IsDBMissmatch { get; set; }
+
+		[DataMember]
 		public bool IsWrongPanel { get; set; }
 
 		public Device Device { get; set; }

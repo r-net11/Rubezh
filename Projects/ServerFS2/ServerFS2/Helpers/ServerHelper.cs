@@ -27,5 +27,15 @@ namespace ServerFS2
 			}
 			return response.Bytes;
 		}
+
+		public static List<byte> GetBytesFromRomDB(Device device, int pointer, int count)
+		{
+			var response = USBManager.Send(device, 0x38, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+			if (response.Bytes == null)
+			{
+				;
+			}
+			return response.Bytes;
+		}
 	}
 }

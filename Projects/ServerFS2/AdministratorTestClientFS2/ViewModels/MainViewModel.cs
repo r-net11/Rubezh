@@ -176,9 +176,8 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand GetInformationCommand { get; private set; }
 		void OnGetInformation()
 		{
-			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
-			MessageBox.Show(result);
-			//MessageBoxService.Show("Серийный номер: " + result);
+			MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			DialogService.ShowModalWindow(new InformationViewModel(DevicesViewModel.SelectedDevice.Device));
 		}
 		bool CanGetInformation()
 		{
@@ -200,7 +199,6 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnSetPassword()
 		{
 			DialogService.ShowModalWindow(new PasswordViewModel(DevicesViewModel.SelectedDevice.Device));
-			//MainManager.DeviceSetPassword(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, DevicePasswordType.Administrator, "123");
 		}
 		bool CanSetPassword()
 		{

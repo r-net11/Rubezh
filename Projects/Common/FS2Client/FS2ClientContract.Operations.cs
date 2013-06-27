@@ -125,7 +125,7 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.DeviceDatetimeSync(deviceUID, isUSB); }, "DeviceDatetimeSync");
 		}
 
-		public OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB)
+		public OperationResult DeviceGetInformation(Guid deviceUID, bool isUSB)
 		{
 			return SafeOperationCall(() => { return FS2Contract.DeviceGetInformation(deviceUID, isUSB); }, "DeviceGetInformation");
 		}

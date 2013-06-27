@@ -140,14 +140,15 @@ namespace ServerFS2.Monitoring
 					//Trace.WriteLine("response.Id=" + response.Id);
 					foreach (var monitoringDevice in MonitoringPanels)
 					{
-						for (int i = 0; i < monitoringDevice.Requests.Count; i++)
-						{
-							var request = monitoringDevice.Requests[i];
-							if (request != null && request.Id == response.Id)
+						if(monitoringDevice.Requests.Count > 0)
+							for (int i = 0; i < monitoringDevice.Requests.Count; i++)
 							{
-								monitoringDevice.OnResponceRecieved(request, response);
+								var request = monitoringDevice.Requests[i];
+								if (request != null && request.Id == response.Id)
+								{
+									monitoringDevice.OnResponceRecieved(request, response);
+								}
 							}
-						}
 					}
 				}
 			}

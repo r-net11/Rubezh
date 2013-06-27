@@ -123,6 +123,7 @@
     <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
+    <Compile Include="Helpers\ConfigurationCompareHelper.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DeviceCustomFunctionListHelper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
@@ -165,10 +166,12 @@
     <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
+    <Compile Include="Operations\GetInformationOperationHelper.cs" />
     <Compile Include="Operations\GuardUsersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />
     <Compile Include="Operations\ReadPanelDatabaseOperationHelper.cs" />
     <Compile Include="Operations\SetConfigurationOperationHelper.cs" />
+    <Compile Include="Operations\SetPasswordOperationHelper.cs" />
     <Compile Include="USB\RequestTypes.cs" />
     <Compile Include="Monitoring\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
@@ -185,7 +188,6 @@
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
-    <Compile Include="USB\UsbProcessorOLD.cs" />
     <Compile Include="USB\UsbProcessor.cs" />
     <Compile Include="USB\UsbProcessorInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

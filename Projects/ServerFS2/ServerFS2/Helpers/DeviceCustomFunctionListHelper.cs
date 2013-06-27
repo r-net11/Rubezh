@@ -12,23 +12,6 @@ namespace ServerFS2
 		{
 			switch (driverType)
 			{
-				case DriverType.Rubezh_2AM:
-				case DriverType.USB_Rubezh_2AM:
-					return new List<DeviceCustomFunction>()
-					{
-						new DeviceCustomFunction()
-						{
-							Code = "Set_BlindMode",
-							Name = "Установить режим \"глухой панели\"",
-							Description = "Установить режим \"глухой панели\"",
-						},
-						new DeviceCustomFunction()
-						{
-							Code = "Reset_BlindMode",
-							Name = "Снять режим \"глухой панели\"",
-							Description = "Снять режим \"глухой панели\"",
-						}
-					};
 				case DriverType.IndicationBlock:
 				case DriverType.PDU:
 				case DriverType.PDU_PT:
