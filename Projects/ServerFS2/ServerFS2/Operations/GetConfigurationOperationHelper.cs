@@ -602,10 +602,5 @@ namespace ServerFS2
 				}
 			}
 		}
-				if (response.HasError)
-				{
-					return "";
-				}
-				serialNoBytes = response.Bytes;
 	}
 }

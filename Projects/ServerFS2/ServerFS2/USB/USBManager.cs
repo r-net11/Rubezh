@@ -144,7 +144,14 @@ namespace ServerFS2
 				var rootBytes = CreateRootBytes(device, usbProcessor.UseId);
 				bytes.InsertRange(0, rootBytes);
 				var requestNo = NextRequestNo;
-				request.Id = requestNo;
+				if (usbProcessor.UseId)
+				{
+					request.Id = requestNo;
+				}
+				else
+				{
+					request.Id = 0;
+				}
 				request.RootBytes = rootBytes;
 				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
 			}

@@ -80,9 +80,12 @@ namespace ServerFS2.Monitoring
 				return;
 			}
 			var extraDevicesBytes = responce.Bytes;
-			
-			var extraDevicesVal = extraDevicesBytes[0] * 256 + extraDevicesBytes[1];
-			SetParameter(panel, extraDevicesVal, "Лишних устройств");
+
+			if (extraDevicesBytes.Count > 1)
+			{
+				var extraDevicesVal = BytesHelper.ExtractShort(extraDevicesBytes, 0);
+				SetParameter(panel, extraDevicesVal, "Лишних устройств");
+			}
 
 			if(hasChanges)
 				NotifyStateChanged(panel);

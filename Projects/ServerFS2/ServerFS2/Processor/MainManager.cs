@@ -163,7 +163,6 @@ namespace ServerFS2.Processor
 
 		public static void DeviceWriteAllConfiguration()
 		{
-			throw new FS2Exception("Функция пока не реализована");
 			ConfigurationWriterOperationHelper.WriteAll();
 		}
 
@@ -177,9 +176,12 @@ namespace ServerFS2.Processor
 			TempConfigSafeCall(ServerHelper.SynchronizeTime, device, isUSB);
 		}
 
-		public static void DeviceGetInformation(Device device, bool isUSB)
+		public static string DeviceGetInformation(Device device, bool isUSB)
 		{
-			TempConfigSafeCall(GetInformationOperationHelper.GetDeviceInformation, device, isUSB);
+			return TempConfigSafeCall<string>((x) =>
+			{
+				return GetInformationOperationHelper.GetDeviceInformation(device);
+			}, device, isUSB);
 		}
 
 		public static List<string> DeviceGetSerialList(Device device)

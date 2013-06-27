@@ -156,25 +156,25 @@ namespace ServerFS2.Monitoring
 					//Trace.WriteLine("response.Id=" + response.Id);
 					foreach (var monitoringPanel in MonitoringPanels)
 					{
-						if(monitoringDevice.Requests.Count > 0)
-							for (int i = 0; i < monitoringDevice.Requests.Count; i++)
+						if (monitoringPanel.Requests.Count > 0)
+							for (int i = 0; i < monitoringPanel.Requests.Count; i++)
 							{
-							var request = monitoringPanel.Requests[i];
+								var request = monitoringPanel.Requests[i];
 								if (request != null && request.Id == response.Id)
 								{
-								var idOffset = 0;
-									monitoringDevice.OnResponceRecieved(request, response);
-								if (response.Id > 0)
-									idOffset = 4;
-								for (int j = 0; j < request.RootBytes.Count; j++)
-								{
-									if (request.RootBytes[j] != response.Bytes[idOffset + j])
+									var idOffset = 0;
+									monitoringPanel.OnResponceRecieved(request, response);
+									if (response.Id > 0)
+										idOffset = 4;
+									for (int j = 0; j < request.RootBytes.Count; j++)
 									{
-										Trace.WriteLine("В пришедшем ответе совпадают ID, но не совпадают маршруты");
-										return;
+										if (request.RootBytes[j] != response.Bytes[idOffset + j])
+										{
+											Trace.WriteLine("В пришедшем ответе совпадают ID, но не совпадают маршруты");
+											return;
+										}
 									}
-								}
-								monitoringPanel.OnResponceRecieved(request, response);
+									monitoringPanel.OnResponceRecieved(request, response);
 								}
 							}
 					}

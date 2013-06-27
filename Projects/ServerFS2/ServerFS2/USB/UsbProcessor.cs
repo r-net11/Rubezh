@@ -178,16 +178,19 @@ namespace ServerFS2
 			{
 				foreach (var request in new List<Request>(RequestCollection.Requests))
 				{
-					for (int i = 0; i < countRacall; i++)
+					if (request != null)
 					{
-						var result = Send(request.Bytes);
-						if (!result)
-							return null;
-						AutoWaitEvent.WaitOne(timeout);
-						if (RequestCollection.Count() == 0)
-							break;
-						if(IsDisposed)
-							return null;
+						for (int i = 0; i < countRacall; i++)
+						{
+							var result = Send(request.Bytes);
+							if (!result)
+								return null;
+							AutoWaitEvent.WaitOne(timeout);
+							if (RequestCollection.Count() == 0)
+								break;
+							if (IsDisposed)
+								return null;
+						}
 					}
 				}
 				return Responses.FirstOrDefault();

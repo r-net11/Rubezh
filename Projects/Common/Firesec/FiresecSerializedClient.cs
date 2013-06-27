@@ -190,7 +190,7 @@ namespace Firesec
 			return FSAgent.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public OperationResult<bool> DeviceGetInformation(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath)
+        public OperationResult<string> DeviceGetInformation(Firesec.Models.CoreConfiguration.config coreConfig, string devicePath)
         {
 			return FSAgent.DeviceGetInformation(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath);
         }

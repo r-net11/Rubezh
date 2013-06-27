@@ -204,14 +204,14 @@ namespace ServerFS2.Monitoring
 		{
 			if (IsConnectionLost)
 			{
-				var remoteSerialNo = ServerHelper.GetDeviceInformation(PanelDevice);
-				if (remoteSerialNo == null)
-					return;
-				if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "serialNo").Value == remoteSerialNo)
-				{
-					OnWrongPanel();
-					return;
-				}
+				//var remoteSerialNo = ServerHelper.GetDeviceInformation(PanelDevice);
+				//if (remoteSerialNo == null)
+				//    return;
+				//if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "serialNo").Value == remoteSerialNo)
+				//{
+				//    OnWrongPanel();
+				//    return;
+				//}
 
 				if (!IsInitialized)
 				{

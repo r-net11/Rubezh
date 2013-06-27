@@ -276,12 +276,12 @@ namespace ServerFS2.Service
 			}, "DeviceDatetimeSync", device, false);
 		}
 
-		public OperationResult DeviceGetInformation(Guid deviceUID, bool isUSB)
+		public OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB)
 		{
 			var device = FindDevice(deviceUID);
-			return SafeCallWithMonitoringSuspending(() =>
+			return SafeCallWithMonitoringSuspending<string>(() =>
 			{
-				MainManager.DeviceGetInformation(device, isUSB);
+				return MainManager.DeviceGetInformation(device, isUSB);
 			}, "DeviceGetInformation", device, false);
 		}
 
