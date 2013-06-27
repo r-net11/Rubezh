@@ -156,12 +156,14 @@ namespace ServerFS2.Monitoring
 					//Trace.WriteLine("response.Id=" + response.Id);
 					foreach (var monitoringPanel in MonitoringPanels)
 					{
-						for (int i = 0; i < monitoringPanel.Requests.Count; i++)
-						{
-							var request = monitoringPanel.Requests[i];
-							if (request != null && request.Id == response.Id)
+						if(monitoringDevice.Requests.Count > 0)
+							for (int i = 0; i < monitoringDevice.Requests.Count; i++)
 							{
+							var request = monitoringPanel.Requests[i];
+								if (request != null && request.Id == response.Id)
+								{
 								var idOffset = 0;
+									monitoringDevice.OnResponceRecieved(request, response);
 								if (response.Id > 0)
 									idOffset = 4;
 								for (int j = 0; j < request.RootBytes.Count; j++)
@@ -173,8 +175,8 @@ namespace ServerFS2.Monitoring
 									}
 								}
 								monitoringPanel.OnResponceRecieved(request, response);
+								}
 							}
-						}
 					}
 				}
 			}
