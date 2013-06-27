@@ -123,6 +123,7 @@
     <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
+    <Compile Include="Helpers\ConfigurationCompareHelper.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DeviceCustomFunctionListHelper.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
@@ -187,7 +188,6 @@
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
-    <Compile Include="USB\UsbProcessorOLD.cs" />
     <Compile Include="USB\UsbProcessor.cs" />
     <Compile Include="USB\UsbProcessorInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

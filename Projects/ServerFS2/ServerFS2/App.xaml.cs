@@ -24,8 +24,8 @@ namespace ServerFS2
 				{
 					AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 					ThemeHelper.LoadThemeFromRegister();
-					FSAgentLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
-					FSAgentLoadHelper.SetStatus(FSAgentState.Opening);
+					FS2LoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
+					FS2LoadHelper.SetStatus(FS2State.Opening);
 					Bootstrapper.Run();
 				}
 				catch (Exception ex)

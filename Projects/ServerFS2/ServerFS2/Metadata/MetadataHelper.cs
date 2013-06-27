@@ -6,6 +6,8 @@ using System.Xml.Serialization;
 using FiresecAPI.Models;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Common;
+using Infrastructure.Common;
 
 namespace ServerFS2
 {
@@ -17,7 +19,10 @@ namespace ServerFS2
 		{
 			try
 			{
-				using (var fileStream = new FileStream(@"Metadata\rubezh2010.xml", FileMode.Open))
+				var fileName = AppDataFolderHelper.GetServerAppDataPath("rubezh2010.xml");
+				if (!File.Exists(fileName))
+					fileName = @"Metadata\rubezh2010.xml";
+				using (var fileStream = new FileStream(fileName, FileMode.Open))
 				{
 					var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
 					var deserializesObject = serializer.Deserialize(fileStream);
@@ -26,7 +31,8 @@ namespace ServerFS2
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show("MetadataHelper");
+				Logger.Error(e, "MetadataHelper.Initialize");
 			}
 		}
 

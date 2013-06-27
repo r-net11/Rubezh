@@ -7,7 +7,8 @@ namespace ServerFS2.ViewModels
 {
 	public static class NotifyIconService
 	{
-		private static System.Windows.Forms.NotifyIcon _notifyIcon = null;
+		static System.Windows.Forms.NotifyIcon _notifyIcon = null;
+
 		public static void Start(EventHandler onShow, EventHandler onClose)
 		{
 			RefreshTaskbarNotificationArea();
@@ -30,6 +31,7 @@ namespace ServerFS2.ViewModels
 
 			_notifyIcon.Text = "Сервер FS2";
 		}
+
 		public static void Stop()
 		{
 			if (_notifyIcon != null)
@@ -39,7 +41,8 @@ namespace ServerFS2.ViewModels
 				_notifyIcon = null;
 			}
 		}
-		private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+
+		static void CurrentDomain_ProcessExit(object sender, EventArgs e)
 		{
 			Stop();
 		}
@@ -76,7 +79,8 @@ namespace ServerFS2.ViewModels
 			}
 			RefreshTaskbarNotificationArea(notificationAreaHandle);
 		}
-		private static void RefreshTaskbarNotificationArea(IntPtr windowHandle)
+
+		static void RefreshTaskbarNotificationArea(IntPtr windowHandle)
 		{
 			const uint wmMousemove = 0x0200;
 			RECT rect;
