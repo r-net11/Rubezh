@@ -167,6 +167,7 @@
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="Services\Content\IContentService.cs" />
     <Compile Include="Services\Content\ContentService.cs" />
+    <Compile Include="Services\DragDrop\DragServiceEventArgs.cs" />
     <Compile Include="Services\DragDrop\TreeListDragDropDecorator.cs" />
     <Compile Include="Services\DragDrop\DragAdorner.cs" />
     <Compile Include="Services\DragDrop\DragDropDecorator.cs" />

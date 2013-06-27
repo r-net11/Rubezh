@@ -14,6 +14,8 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
+using Infrastructure.Common.Services.DragDrop;
+using System.Windows.Media;
 
 namespace PlansModule.Designer
 {
@@ -29,6 +31,8 @@ namespace PlansModule.Designer
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
 		{
+			ServiceFactory.DragDropService.DragOver += OnDragServiceDragOver;
+			ServiceFactory.DragDropService.Drop += OnDragServiceDrop;
 			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
 			Width = 100;
 			Height = 100;
@@ -80,34 +84,6 @@ namespace PlansModule.Designer
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
-		public override void BackgroundMouseDown(MouseButtonEventArgs e)
-		{
-			base.BackgroundMouseDown(e);
-			if (Toolbox.ActiveInstrument != null & Toolbox.ActiveInstrument.Adorner != null && Toolbox.ActiveInstrument.Adorner.AllowBackgroundStart)
-			{
-				var ee = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton);
-				ee.RoutedEvent = MouseDownEvent;
-				DesignerSurface.RaiseEvent(ee);
-				e.Handled = true;
-			}
-		}
-		protected override void OnMouseDown(MouseButtonEventArgs e)
-		{
-			base.OnMouseDown(e);
-			if (e.Source == DesignerSurface && e.ChangedButton == MouseButton.Left)
-			{
-				_startPoint = new Point?(e.GetPosition(this));
-				Toolbox.Apply(_startPoint);
-				e.Handled = true;
-			}
-		}
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-			if (e.LeftButton != MouseButtonState.Pressed)
-				_startPoint = null;
-		}
-
 		protected override void OnDragOver(DragEventArgs e)
 		{
 			base.OnDragOver(e);
@@ -133,12 +109,73 @@ namespace PlansModule.Designer
 				e.Handled = true;
 			}
 		}
-		//protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
-		//{
-		//    base.OnGiveFeedback(e);
-		//    e.UseDefaultCursors = false;
-		//    e.Handled = true;
-		//}
+		private void OnDragServiceDragOver(object sender, DragServiceEventArgs e)
+		{
+			if (IsMouseInside)
+			{
+				e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
+				if (e.Effects == DragDropEffects.Move)
+				{
+					Toolbox.SetDefault();
+					DeselectAll();
+					e.Handled = true;
+				}
+			}
+		}
+		private void OnDragServiceDrop(object sender, DragServiceEventArgs e)
+		{
+			if (IsMouseInside)
+			{
+				var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
+				if (elementBase != null)
+				{
+					Toolbox.SetDefault();
+					//elementBase.SetDefault();
+					Point position = Mouse.GetPosition(this);
+					elementBase.Position = position;
+					CreateDesignerItem(elementBase);
+					e.Handled = true;
+				}
+				_startPoint = null;
+			}
+		}
+		private bool IsMouseInside
+		{
+			get
+			{
+				Point point = Mouse.GetPosition(this);
+				return point.X > 0 && point.Y > 0 && point.X < ActualWidth && point.Y < ActualHeight;
+			}
+		}
+
+		public override void BackgroundMouseDown(MouseButtonEventArgs e)
+		{
+			base.BackgroundMouseDown(e);
+			if (Toolbox.ActiveInstrument != null & Toolbox.ActiveInstrument.Adorner != null && Toolbox.ActiveInstrument.Adorner.AllowBackgroundStart)
+			{
+				var ee = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton);
+				ee.RoutedEvent = MouseDownEvent;
+				DesignerSurface.RaiseEvent(ee);
+				e.Handled = true;
+			}
+		}
+		protected override void OnMouseDown(MouseButtonEventArgs e)
+		{
+			base.OnMouseDown(e);
+			if (e.Source == DesignerSurface && e.ChangedButton == MouseButton.Left && !ServiceFactory.DragDropService.IsDragging)
+			{
+				_startPoint = new Point?(e.GetPosition(this));
+				Toolbox.Apply(_startPoint);
+				e.Handled = true;
+			}
+		}
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+			if (e.LeftButton != MouseButtonState.Pressed)
+				_startPoint = null;
+		}
+
 		public override void CreateDesignerItem(ElementBase elementBase)
 		{
 			var designerItem = AddElement(elementBase);

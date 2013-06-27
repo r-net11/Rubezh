@@ -31,8 +31,13 @@ namespace Infrastructure.Common.Services.DragDrop
 				_child = adornerElement;
 		}
 
-		public void UpdatePosition(Point position)
+		public void UpdatePosition(Point position, bool recalculateShift = false)
 		{
+			if (recalculateShift)
+			{
+				Measure(AdornedElement.DesiredSize);
+				_vector = new Vector(_child.DesiredSize.Width / 2, _child.DesiredSize.Height / 2);
+			}
 			if (_adornerOffset != position)
 			{
 				_adornerOffset = position - _vector;
