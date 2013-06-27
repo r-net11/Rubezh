@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 	{
 		static Device Device;
 		static bool IsUsb;
-		static OperationResult<List<FS2JournalItem>> OperationResult;
+		static OperationResult<FS2JournalItemsCollection> OperationResult;
 
 		public static void Run(Device device, bool isUsb)
 		{

@@ -5,6 +5,7 @@ using System.Windows;
 using FS2Api;
 using ServerFS2.Service;
 using Device = FiresecAPI.Models.Device;
+using FiresecAPI.Models;
 
 namespace ServerFS2
 {
@@ -92,17 +93,16 @@ namespace ServerFS2
 			}
 		}
 
-		public static List<FS2JournalItem> GetJournalItems(Device device)
+		public static FS2JournalItemsCollection GetJournalItems(Device device)
 		{
+			var result = new FS2JournalItemsCollection();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи"));
 			int lastIndex = GetLastJournalItemId(device);
 			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса первой записи"));
 			int firstIndex = GetFirstJournalItemId(device);
-			var journalItems = new List<FS2JournalItem>();
-			var secJournalItems = new List<FS2JournalItem>();
-			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
+			if (device.Driver.DriverType == DriverType.Rubezh_2OP || device.Driver.DriverType == DriverType.USB_Rubezh_2OP)
 			{
-				secJournalItems = GetSecJournalItems2Op(device);
+				result.SecurityJournalItems = GetSecJournalItems2Op(device);
 			}
 			for (int i = firstIndex; i <= lastIndex; i++)
 			{
@@ -113,17 +113,18 @@ namespace ServerFS2
 				var journalItem = ParseJournal(device, response.Bytes);
 				if (journalItem != null)
 				{
-					journalItems.Add(journalItem);
+					result.FireJournalItems.Add(journalItem);
 				}
 			}
-			int no = 0;
-			foreach (var item in journalItems)
+			for(int i = 0; i < result.FireJournalItems.Count; i++)
 			{
-				no++;
-				item.No = no;
+				result.FireJournalItems[i].No = i + 1;
 			}
-			secJournalItems.ForEach(journalItems.Add); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
-			return journalItems;
+			for (int i = 0; i < result.SecurityJournalItems.Count; i++)
+			{
+				result.FireJournalItems[i].No = i + 1;
+			}
+			return result;
 		}
 	}
 }

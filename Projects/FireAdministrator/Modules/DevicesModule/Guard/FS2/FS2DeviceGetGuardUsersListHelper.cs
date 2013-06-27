@@ -3,14 +3,15 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 
 namespace DevicesModule.Guard
 {
 	public class FS2DeviceGetGuardUserListHelper
 	{
 		static Device Device;
-		static OperationResult<string> OperationResult;
-		public static string Result { get; private set; }
+		static OperationResult<List<GuardUser>> OperationResult;
+		public static List<GuardUser> Result { get; private set; }
 
 		public static void Run(Device device)
 		{
@@ -30,7 +31,6 @@ namespace DevicesModule.Guard
 				MessageBoxService.ShowError(OperationResult.Error, "Ошибка при выполнении операции");
 				return;
 			}
-			MessageBoxService.Show(OperationResult.Result);
 			Result = OperationResult.Result;
 		}
 	}

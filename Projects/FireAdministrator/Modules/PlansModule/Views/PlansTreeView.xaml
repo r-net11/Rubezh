@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
-	<drag:TreeListDragDropDecorator TreeItemDropCommand="{Binding TreeItemDropCommand}" IsSource="True" IsTarget="True">
+	<drag:TreeListDragDropDecorator IsSource="True" IsTarget="True" TreeItemDropCommand="{Binding TreeItemDropCommand}">
 		<Controls:TreeListView ItemsSource="{Binding PlansViewModel.Plans}" SelectedObject="{Binding PlansViewModel.SelectedPlan}">
 			<Controls:TreeListView.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">

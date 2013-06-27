@@ -1,15 +1,25 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System;
 
 namespace Infrastructure.Common.Services.DragDrop
 {
 	public class DragDropService : IDragDropService
 	{
+		public event DragServiceEventHandler DragOver;
+		public event DragServiceEventHandler Drop;
+
 		public bool IsDragging { get; private set; }
 		private bool _dragHasLeftScope;
 		private bool _useDefaultCursor;
 		private DragAdorner _dragAdorner;
 		private FrameworkElement _dragScope;
+		private bool _previousDrop;
+		private AdornerLayer _layer;
+		private UIElement _dragSource;
+		private Action _callback;
+		private IDataObject _dataObject;
 
 		public DragDropService()
 		{
@@ -74,6 +84,71 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 		}
 
+		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, Action callback)
+		{
+			DoDragDropSimulate(dataObject, dragSource, DragDropEffects.None | DragDropEffects.Move | DragDropEffects.Copy, callback);
+		}
+		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, DragDropEffects effects, Action callback)
+		{
+			DoDragDropSimulate(dataObject, dragSource, false, true, effects, callback);
+		}
+		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, bool showDragVisual, bool useVisualBrush, Action callback)
+		{
+			DoDragDropSimulate(dataObject, dragSource, showDragVisual, useVisualBrush, DragDropEffects.None | DragDropEffects.Move, callback);
+		}
+		public void DoDragDropSimulate(IDataObject dataObject, UIElement dragSource, bool showDragVisual, bool useVisualBrush, DragDropEffects effects, Action callback)
+		{
+			if (!IsDragging)
+			{
+				_dataObject = dataObject;
+				_callback = callback;
+				_useDefaultCursor = true;
+				_dragScope = Application.Current.MainWindow.Content as FrameworkElement;
+				_previousDrop = _dragScope.AllowDrop;
+				_dragScope.AllowDrop = true;
+
+				_dragScope.PreviewMouseLeftButtonUp += DragScope_PreviewMouseLeftButtonUp;
+				_dragScope.MouseMove += DragScope_MouseMove;
+				_dragScope.PreviewKeyDown += DragScope_PreviewKeyDown;
+
+				_layer = AdornerLayer.GetAdornerLayer(_dragScope);
+				if (showDragVisual)
+				{
+					_dragAdorner = new DragAdorner(_dragScope, dragSource, useVisualBrush);
+					_layer.Add(_dragAdorner);
+					_dragAdorner.UpdatePosition(Mouse.GetPosition(_dragScope), true);
+				}
+
+				_dragSource = dragSource;
+				IsDragging = true;
+				_dragHasLeftScope = false;
+				Mouse.OverrideCursor = Cursors.No;
+				dragSource.CaptureMouse();
+			}
+		}
+		public void StopDragSimulate(bool cancel)
+		{
+			if (IsDragging)
+			{
+				if (_callback != null)
+					_callback();
+				_dragSource.ReleaseMouseCapture();
+				if (_dragAdorner != null)
+				{
+					_layer.Remove(_dragAdorner);
+					_dragAdorner = null;
+				}
+
+				_dragScope.PreviewMouseLeftButtonUp -= DragScope_PreviewMouseLeftButtonUp;
+				_dragScope.MouseMove -= DragScope_MouseMove;
+				_dragScope.PreviewKeyDown -= DragScope_PreviewKeyDown;
+
+				_dragScope.AllowDrop = _previousDrop;
+				Mouse.OverrideCursor = null;
+				IsDragging = false;
+			}
+		}
+
 		private void DragScope_DragLeave(object sender, DragEventArgs e)
 		{
 			//if (e.Source == DragScope)
@@ -121,6 +196,50 @@ namespace Infrastructure.Common.Services.DragDrop
 			if (!e.Handled)
 			{
 				e.Effects = DragDropEffects.None;
+				e.Handled = true;
+			}
+		}
+
+		private void DragScope_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			if (IsDragging && Drop != null)
+			{
+				var ee = new DragServiceEventArgs(_dataObject);
+				Drop(this, ee);
+				if (ee.Handled)
+				{
+					Mouse.OverrideCursor = null ;
+					StopDragSimulate(false);
+					e.Handled = true;
+				}
+			}
+		}
+		private void DragScope_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (IsDragging)
+			{
+				if (_dragAdorner != null)
+					_dragAdorner.UpdatePosition(e.GetPosition(_dragScope));
+				Mouse.OverrideCursor = Cursors.No;
+				if (DragOver != null)
+				{
+					var ee = new DragServiceEventArgs(_dataObject);
+					DragOver(this, ee);
+					if (ee.Handled)
+					{
+						Mouse.OverrideCursor = ee.Effects == DragDropEffects.Move ? null : Cursors.No;
+						e.Handled = true;
+					}
+				}
+				if (!_useDefaultCursor && !e.Handled)
+					e.Handled = true;
+			}
+		}
+		private void DragScope_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				StopDragSimulate(true);
 				e.Handled = true;
 			}
 		}

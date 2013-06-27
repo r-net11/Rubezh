@@ -34,45 +34,51 @@ namespace DevicesModule.ViewModels
 			deviceZonesViewModel = deviceZones;
 			SelectedDevice = selectedDevice;
 
-			string result = null;
+			Users = new ObservableCollection<UserViewModel>();
+
 			if (FiresecManager.IsFS2Enabled)
 			{
 				FS2DeviceGetGuardUserListHelper.Run(SelectedDevice);
-				result = FS2DeviceGetGuardUserListHelper.Result;
+				var guardUsers = FS2DeviceGetGuardUserListHelper.Result;
+				foreach (var guardUser in guardUsers)
+				{
+					var user = new User();
+					var userViewModel = new UserViewModel(guardUser);
+					Users.Add(userViewModel);
+				}
 			}
 			else
 			{
 				DeviceGetGuardUserListHelper.Run(SelectedDevice);
-				result = DeviceGetGuardUserListHelper.Result;
-			}
-			if (result == null)
-				return;
-
-			Users = new ObservableCollection<UserViewModel>();
-			int CountUsers = byte.Parse(result.ToString().Substring(0, 3));
-			for (int i = 0; i < CountUsers; i++)
-			{
-				User user = new User();
-				var userViewModel = new UserViewModel(new GuardUser());
-				var guardUser = userViewModel.GuardUser;
-				guardUser.Id = i + 1;
-				guardUser.Name = result.Substring(174 * i + 115, 20);
-				guardUser.Password = result.Substring(174 * i + 147, 6);
-				guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
-				guardUser.CanUnSetZone = (result[174 * i + 107] == '1');
-				guardUser.CanSetZone = (result[174 * i + 108] == '1');
-				guardUser.KeyTM = result.Substring(174 * i + 135, 12);
-				for (int j = 0; j < 64; j++)
+				var result = DeviceGetGuardUserListHelper.Result;
+				if (result != null)
 				{
-					if (result.Substring(174 * i + 153, 64)[j] == '1')
+					int CountUsers = byte.Parse(result.ToString().Substring(0, 3));
+					for (int i = 0; i < CountUsers; i++)
 					{
-						Zone zone = FiresecManager.Zones.FirstOrDefault(x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j + 1);
-						if (zone != null)
-							guardUser.ZoneUIDs.Add(zone.UID);
+						var guardUser = new GuardUser();
+						guardUser.Id = i + 1;
+						guardUser.Name = result.Substring(174 * i + 115, 20);
+						guardUser.Password = result.Substring(174 * i + 147, 6);
+						guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
+						guardUser.CanUnSetZone = (result[174 * i + 107] == '1');
+						guardUser.CanSetZone = (result[174 * i + 108] == '1');
+						guardUser.KeyTM = result.Substring(174 * i + 135, 12);
+						for (int j = 0; j < 64; j++)
+						{
+							if (result.Substring(174 * i + 153, 64)[j] == '1')
+							{
+								Zone zone = FiresecManager.Zones.FirstOrDefault(x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j + 1);
+								if (zone != null)
+									guardUser.ZoneUIDs.Add(zone.UID);
+							}
+						}
+						var userViewModel = new UserViewModel(guardUser);
+						Users.Add(userViewModel);
 					}
 				}
-				Users.Add(userViewModel);
 			}
+
 			if (Users.Count > 0)
 				SelectedUser = Users.FirstOrDefault();
 		}

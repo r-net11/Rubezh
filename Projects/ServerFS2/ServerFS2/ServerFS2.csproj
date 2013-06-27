@@ -165,6 +165,7 @@
     <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
+    <Compile Include="Operations\GuardUsersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />
     <Compile Include="Operations\ReadPanelDatabaseOperationHelper.cs" />
     <Compile Include="Operations\SetConfigurationOperationHelper.cs" />

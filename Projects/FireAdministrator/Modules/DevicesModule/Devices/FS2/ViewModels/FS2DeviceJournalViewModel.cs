@@ -16,23 +16,32 @@ namespace DevicesModule.ViewModels
 	{
 		FS2JournalItemsCollection FS2JournalItemsCollection;
 
-		public FS2DeviceJournalViewModel(List<FS2JournalItem> journalItems)
+		public FS2DeviceJournalViewModel(FS2JournalItemsCollection fs2JournalItemsCollection)
 		{
 			Title = "Журнал событий";
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
+			FS2JournalItemsCollection = fs2JournalItemsCollection;
+			
+			FireJournalItems = new ObservableCollection<FS2JournalItem>();
+			foreach (var journalItem in fs2JournalItemsCollection.FireJournalItems)
+			{
+				FireJournalItems.Add(journalItem);
+			}
 
-			FS2JournalItemsCollection = new FS2JournalItemsCollection()
+			SecurityJournalItems = new ObservableCollection<FS2JournalItem>();
+			foreach (var journalItem in fs2JournalItemsCollection.SecurityJournalItems)
 			{
-				FireJournalItems = journalItems
-			};
-			JournalItems = new ObservableCollection<FS2JournalItem>();
-			foreach (var journalItem in journalItems)
-			{
-				JournalItems.Add(journalItem);
+				SecurityJournalItems.Add(journalItem);
 			}
 		}
 
-		public ObservableCollection<FS2JournalItem> JournalItems { get; set; }
+		public ObservableCollection<FS2JournalItem> FireJournalItems { get; set; }
+		public ObservableCollection<FS2JournalItem> SecurityJournalItems { get; set; }
+
+		public bool HasSecurityJournalItems
+		{
+			get { return SecurityJournalItems.Count > 0; }
+		}
 
 		public RelayCommand SaveToFileCommand { get; private set; }
 		void OnSaveToFile()

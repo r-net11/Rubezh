@@ -149,9 +149,14 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand ReadJournalCommand { get; private set; }
 		void OnReadJournal()
 		{
-			var journalItems = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
-			var journalViewModel = new JournalViewModel(journalItems);
+			var fs2JournalItemsCollection = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var journalViewModel = new JournalViewModel(fs2JournalItemsCollection.FireJournalItems);
 			DialogService.ShowModalWindow(journalViewModel);
+			if (fs2JournalItemsCollection.SecurityJournalItems.Count > 0)
+			{
+				journalViewModel = new JournalViewModel(fs2JournalItemsCollection.SecurityJournalItems);
+				DialogService.ShowModalWindow(journalViewModel);
+			}
 		}
 		bool CanReadJournal()
 		{

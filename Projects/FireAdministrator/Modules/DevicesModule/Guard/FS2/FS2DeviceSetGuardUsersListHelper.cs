@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 
 namespace DevicesModule.Guard
 {
@@ -10,18 +11,18 @@ namespace DevicesModule.Guard
 	{
 		static Device Device;
 		static OperationResult OperationResult;
-		static string Users;
+		static List<GuardUser> GuardUsers;
 
-		public static void Run(Device device, string users)
+		public static void Run(Device device, List<GuardUser> guardUser)
 		{
 			Device = device;
-			Users = users;
+			GuardUsers = guardUser;
 			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndName + ". Запись списка пользователей");
 		}
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceSetGuardUsers(Device.UID, Users);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceSetGuardUsers(Device.UID, GuardUsers);
 		}
 
 		static void OnCompleted()

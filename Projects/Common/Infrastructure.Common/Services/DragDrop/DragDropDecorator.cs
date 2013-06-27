@@ -17,6 +17,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		public static readonly DependencyProperty DragVisualProperty = DependencyProperty.Register("DragVisual", typeof(UIElement), typeof(DragDropDecorator), new UIPropertyMetadata(null));
 		public static readonly DependencyProperty DragVisualProviderProperty = DependencyProperty.Register("DragVisualProvider", typeof(Converter<IDataObject, UIElement>), typeof(DragDropDecorator), new UIPropertyMetadata(null));
 		public static readonly DependencyProperty DynamicCursorProperty = DependencyProperty.Register("DynamicCursor", typeof(bool), typeof(DragDropDecorator), new UIPropertyMetadata(false));
+		public static readonly DependencyProperty AllowSimulateDragProperty = DependencyProperty.Register("AllowSimulateDrag", typeof(bool), typeof(DragDropDecorator), new UIPropertyMetadata(false));
 
 		private static void IsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -81,6 +82,11 @@ namespace Infrastructure.Common.Services.DragDrop
 			get { return (bool)GetValue(DynamicCursorProperty); }
 			set { SetValue(DynamicCursorProperty, value); }
 		}
+		public bool AllowSimulateDrag
+		{
+			get { return (bool)GetValue(AllowSimulateDragProperty); }
+			set { SetValue(AllowSimulateDragProperty, value); }
+		}
 
 		protected Point DragStartPoint { get; private set; }
 		public bool IsDragging { get; private set; }
@@ -102,11 +108,13 @@ namespace Infrastructure.Common.Services.DragDrop
 			if (IsSource)
 			{
 				Child.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(OnPreviewMouseLeftButtonDown);
+				Child.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(OnPreviewMouseLeftButtonUp);
 				Child.PreviewMouseMove += new MouseEventHandler(OnPreviewMouseMove);
 			}
 			else
 			{
 				Child.PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(OnPreviewMouseLeftButtonDown);
+				Child.PreviewMouseLeftButtonUp -= new MouseButtonEventHandler(OnPreviewMouseLeftButtonUp);
 				Child.PreviewMouseMove -= new MouseEventHandler(OnPreviewMouseMove);
 			}
 		}
@@ -154,6 +162,20 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			DragStartPoint = e.GetPosition(Child);
 		}
+		private void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			if (AllowSimulateDrag && !IsDragging && e.LeftButton == MouseButtonState.Released)
+			{
+				if (ServiceFactoryBase.DragDropService.IsDragging)
+					ServiceFactoryBase.DragDropService.StopDragSimulate();
+				var position = e.GetPosition(Child);
+				if (Math.Abs(position.X - DragStartPoint.X) < SystemParameters.MinimumHorizontalDragDistance || Math.Abs(position.Y - DragStartPoint.Y) < SystemParameters.MinimumVerticalDragDistance)
+				{
+					IsDragging = true;
+					StartSimulateDrag();
+				}
+			}
+		}
 
 		protected virtual void OnDrop(object sender, DragEventArgs e)
 		{
@@ -176,12 +198,25 @@ namespace Infrastructure.Common.Services.DragDrop
 
 		protected virtual void StartDrag()
 		{
+			StartDragInternal(true);
+		}
+		protected virtual void StartSimulateDrag()
+		{
+			StartDragInternal(false);
+		}
+		private void StartDragInternal(bool isRealDrag)
+		{
 			var cancel = false;
 			IDataObject data = GetDataObject(out cancel, true);
 			if (!cancel)
 			{
 				var visual = DragVisualProvider == null ? null : DragVisualProvider(data);
-				ServiceFactoryBase.DragDropService.DoDragDrop(data ?? new DataObject(Child), visual ?? DragVisual ?? Child, ShowDragVisual, visual == null, DragEffect);
+				var dataObject = data ?? new DataObject(Child);
+				var dragSource = visual ?? DragVisual ?? Child;
+				if (isRealDrag)
+					ServiceFactoryBase.DragDropService.DoDragDrop(dataObject, dragSource, ShowDragVisual, visual == null, DragEffect);
+				else
+					ServiceFactoryBase.DragDropService.DoDragDropSimulate(dataObject, dragSource, ShowDragVisual, visual == null, DragEffect, () => IsDragging = false);
 			}
 		}
 		private IDataObject GetDataObject(out bool cancel, bool drag)

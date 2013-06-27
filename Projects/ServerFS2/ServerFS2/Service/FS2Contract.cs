@@ -250,6 +250,14 @@ namespace ServerFS2.Service
 			}, "DeviceWriteConfiguration", device, true);
 		}
 
+		public OperationResult DeviceWriteAllConfiguration()
+		{
+			return SafeCall(() =>
+			{
+				MainManager.DeviceWriteAllConfiguration();
+			}, "DeviceWriteAllConfiguration");
+		}
+
 		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
 			var device = FindDevice(deviceUID);
@@ -313,10 +321,10 @@ namespace ServerFS2.Service
 			}, "DeviceReadConfiguration", device, false);
 		}
 
-		public OperationResult<List<FS2JournalItem>> DeviceReadJournal(Guid deviceUID, bool isUSB)
+		public OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB)
 		{
 			var device = FindDevice(deviceUID);
-			return TaskSafeCallWithMonitoringSuspending<List<FS2JournalItem>>(() =>
+			return TaskSafeCallWithMonitoringSuspending<FS2JournalItemsCollection>(() =>
 			{
 				return MainManager.DeviceReadJournal(device, isUSB);
 			}, "DeviceReadJournal", device, false);
@@ -348,21 +356,21 @@ namespace ServerFS2.Service
 			}, "DeviceExecuteCustomFunction", device, false);
 		}
 
-		public OperationResult<string> DeviceGetGuardUsers(Guid deviceUID)
+		public OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID)
 		{
 			var device = FindDevice(deviceUID);
-			return SafeCallWithMonitoringSuspending<string>(() =>
+			return SafeCallWithMonitoringSuspending<List<GuardUser>>(() =>
 			{
 				return MainManager.DeviceGetGuardUsers(device);
 			}, "DeviceGetGuardUsers", device, false);
 		}
 
-		public OperationResult DeviceSetGuardUsers(Guid deviceUID, string users)
+		public OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUsers)
 		{
 			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceSetGuardUsers(device, users);
+				MainManager.DeviceSetGuardUsers(device, guardUsers);
 			}, "DeviceSetGuardUsers", device, false);
 		}
 
