@@ -13,14 +13,14 @@ namespace ServerFS2.Monitoring
 		{
 			ConfigurationManager.DeviceConfiguration.RootDevice.DeviceState.IsInitializing = true;
 			var deviceStatesManager = new DeviceStatesManager();
-			deviceStatesManager.ChangeDeviceStates(ConfigurationManager.DeviceConfiguration.RootDevice);
+			deviceStatesManager.ForseUpdateDeviceStates(ConfigurationManager.DeviceConfiguration.RootDevice);
 		}
 
 		public void RemoveAllInitializing()
 		{
 			ConfigurationManager.DeviceConfiguration.RootDevice.DeviceState.IsInitializing = false;
 			var deviceStatesManager = new DeviceStatesManager();
-			deviceStatesManager.ChangeDeviceStates(ConfigurationManager.DeviceConfiguration.RootDevice);
+			deviceStatesManager.ForseUpdateDeviceStates(ConfigurationManager.DeviceConfiguration.RootDevice);
 		}
 	}
 }

@@ -108,14 +108,22 @@ namespace ServerFS2.Monitoring
 					if (CheckSuspending(false))
 						return;
 
-					foreach (var monitoringDevice in MonitoringPanels)
+					foreach (var monitoringPanel in MonitoringPanels)
 					{
 						if (CheckSuspending(false))
 							return;
-						monitoringDevice.CheckTasks();
+						if (monitoringPanel.IsInitialized)
+						{
+							monitoringPanel.CheckTasks();
+						}
 					}
 
-					MonitoringNonPanels.ForEach(x => NonPanelStatesManager.UpdatePDUPanelState(x));
+					foreach (var monitoringNonPanel in MonitoringNonPanels)
+					{
+						if (CheckSuspending(false))
+							return;
+						NonPanelStatesManager.UpdatePDUPanelState(monitoringNonPanel);
+					}
 
 					if (CheckSuspending(false))
 						return;
@@ -153,6 +161,17 @@ namespace ServerFS2.Monitoring
 							var request = monitoringPanel.Requests[i];
 							if (request != null && request.Id == response.Id)
 							{
+								var idOffset = 0;
+								if (response.Id > 0)
+									idOffset = 4;
+								for (int j = 0; j < request.RootBytes.Count; j++)
+								{
+									if (request.RootBytes[j] != response.Bytes[idOffset + j])
+									{
+										Trace.WriteLine("В пришедшем ответе совпадают ID, но не совпадают маршруты");
+										return;
+									}
+								}
 								monitoringPanel.OnResponceRecieved(request, response);
 							}
 						}
@@ -179,7 +198,7 @@ namespace ServerFS2.Monitoring
 				{
 					USBDevice.DeviceState.IsUsbConnectionLost = true;
 					var deviceStatesManager = new DeviceStatesManager();
-					deviceStatesManager.ChangeDeviceStates(USBDevice);
+					deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
 					foreach (var monitoringPanel in MonitoringPanels)
 					{
 						monitoringPanel.OnConnectionLost();
@@ -192,7 +211,7 @@ namespace ServerFS2.Monitoring
 				{
 					USBDevice.DeviceState.IsUsbConnectionLost = false;
 					var deviceStatesManager = new DeviceStatesManager();
-					deviceStatesManager.ChangeDeviceStates(USBDevice);
+					deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
 					foreach (var monitoringPanel in MonitoringPanels)
 					{
 						monitoringPanel.OnConnectionAppeared();

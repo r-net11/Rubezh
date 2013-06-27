@@ -9,6 +9,7 @@ using ServerFS2.Service;
 using Common;
 using System.Threading;
 using ServerFS2.Operations;
+using System.Threading.Tasks;
 
 namespace ServerFS2.Processor
 {
@@ -55,6 +56,11 @@ namespace ServerFS2.Processor
 			var deviceStates = new List<DeviceState>();
 			foreach (var device in ConfigurationManager.Devices)
 			{
+				if (device.IsMonitoringDisabled)
+				{
+					var deviceStatesManager = new DeviceStatesManager();
+					deviceStatesManager.ForseUpdateDeviceStates(device);
+				}
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
 			}
@@ -143,7 +149,10 @@ namespace ServerFS2.Processor
 			}
 			finally
 			{
-				StartMonitoring();
+				Task.Factory.StartNew(() =>
+				{
+					StartMonitoring();
+				});
 			}
 		}
 
@@ -329,10 +338,13 @@ namespace ServerFS2.Processor
 			}
 			finally
 			{
-				if (isUSB)
+				Task.Factory.StartNew(() =>
 				{
-					USBConfigHelper.SetCurrentDeviceConfiguration();
-				}
+					if (isUSB)
+					{
+						USBConfigHelper.SetCurrentDeviceConfiguration();
+					}
+				});
 			}
 		}
 		#endregion

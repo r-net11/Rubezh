@@ -21,10 +21,6 @@ namespace ServerFS2
 		public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
 		{
 			var response = USBManager.Send(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
-			if (response.Bytes == null)
-			{
-				;
-			}
 			return response.Bytes;
 		}
 	}

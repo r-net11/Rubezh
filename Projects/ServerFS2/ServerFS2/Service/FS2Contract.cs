@@ -317,7 +317,12 @@ namespace ServerFS2.Service
 			var device = FindDevice(deviceUID);
 			return TaskSafeCallWithMonitoringSuspending<DeviceConfiguration>(() =>
 			{
-				return MainManager.DeviceReadConfiguration(device, isUSB);
+				var deviceConfiguration = MainManager.DeviceReadConfiguration(device, isUSB);
+				if (deviceConfiguration == null)
+				{
+					throw new FS2Exception("Ошибка при получении конфигурации");
+				}
+				return deviceConfiguration;
 			}, "DeviceReadConfiguration", device, false);
 		}
 
@@ -559,14 +564,17 @@ namespace ServerFS2.Service
 			}
 			finally
 			{
-				if (stopMonitoring)
+				Task.Factory.StartNew(() =>
 				{
-					MainManager.StartMonitoring(device);
-				}
-				else
-				{
-					MainManager.ResumeMonitoring(device);
-				}
+					if (stopMonitoring)
+					{
+						MainManager.StartMonitoring(device);
+					}
+					else
+					{
+						MainManager.ResumeMonitoring(device);
+					}
+				});
 			}
 		}
 
@@ -593,14 +601,17 @@ namespace ServerFS2.Service
 			}
 			finally
 			{
-				if (stopMonitoring)
+				Task.Factory.StartNew(() =>
 				{
-					MainManager.StartMonitoring(device);
-				}
-				else
-				{
-					MainManager.ResumeMonitoring(device);
-				}
+					if (stopMonitoring)
+					{
+						MainManager.StartMonitoring(device);
+					}
+					else
+					{
+						MainManager.ResumeMonitoring(device);
+					}
+				});
 			}
 		}
 

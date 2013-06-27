@@ -61,7 +61,6 @@ namespace ServerFS2
 		public static string GetDeviceInformation(Device device)
 		{
 			var response = USBManager.Send(device, 0x01, 0x13);
-			return response.Bytes;
 			string serialNo = "";
 			List<byte> serialNoBytes;
 			if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
@@ -71,8 +70,7 @@ namespace ServerFS2
 			}
 			else
 			{
-			var response = USBManager.Send(device, 0x01, 0x60);
-			return response.Bytes;
+				response = USBManager.Send(device, 0x01, 0x60);
 				serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
 				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
 			}

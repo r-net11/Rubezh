@@ -26,7 +26,8 @@ namespace Infrastructure.Common.Windows
 
 		public void Show(ViewPartViewModel viewModel)
 		{
-			ServiceFactoryBase.DragDropService.StopDragSimulate();
+			if (ServiceFactoryBase.DragDropService != null)
+				ServiceFactoryBase.DragDropService.StopDragSimulate();
 			ViewPartViewModel exist = null;
 			foreach (ViewPartViewModel item in ShellViewModel.ContentItems)
 				if (item.Key == viewModel.Key)

@@ -7,6 +7,7 @@ namespace ServerFS2
 	{
 		public DateTime StartTime = DateTime.Now;
 		public int Id { get; set; }
+		public List<byte> RootBytes { get; set; }
 		public List<byte> Bytes { get; set; }
 		public RequestTypes RequestType { get; set; }
 

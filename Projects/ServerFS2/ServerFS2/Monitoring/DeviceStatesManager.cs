@@ -34,14 +34,11 @@ namespace ServerFS2.Monitoring
 			}
 			if (SetNewDeviceStates(panel, states))
 			{
-				ChangeDeviceStates(panel);
+				ForseUpdateDeviceStates(panel);
 			}
 			UpdateRealChildrenStateOnPanelState(panel, bitArray);
 		}
 
-			if (excessBytes != null)
-			{
-		}
 		void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray)
 		{
 			foreach (var device in panelDevice.GetRealChildren())
@@ -60,7 +57,7 @@ namespace ServerFS2.Monitoring
 								{
 									if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
 									{
-										ChangeDeviceStates(device);
+										ForseUpdateDeviceStates(device);
 									}
 								}
 							}
@@ -70,10 +67,12 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public void UpdatePanelChildrenStates(Device panelDevice)
+		public bool ReadConfigurationAndUpdateStates(Device panelDevice)
 		{
 			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(true);
 			var remoteDeviceConfiguration = getConfigurationOperationHelper.GetDeviceConfiguration(panelDevice);
+			if (remoteDeviceConfiguration == null)
+				return false;
 			remoteDeviceConfiguration.Update();
 			foreach (var remoteDevice in remoteDeviceConfiguration.RootDevice.GetRealChildren())
 			{
@@ -87,16 +86,16 @@ namespace ServerFS2.Monitoring
 					ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
 				}
 			}
+			return true;
 		}
 
 		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes)
 		{
-			ParseStateWordBytes(device, stateWordBytes, isSilent);
-
-			ParseRawParametersBytes(device, rawParametersBytes, isSilent);
+			ParseStateWordBytes(device, stateWordBytes);
+			ParseRawParametersBytes(device, rawParametersBytes);
 		}
 
-		void ParseStateWordBytes(Device device, List<byte> stateWordBytes, bool isSilent)
+		void ParseStateWordBytes(Device device, List<byte> stateWordBytes)
 		{
 			if (stateWordBytes == null)
 				return;
@@ -118,7 +117,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void ParseRawParametersBytes(Device device, List<byte> rawParametersBytes, bool isSilent)
+		void ParseRawParametersBytes(Device device, List<byte> rawParametersBytes)
 		{
 			if (rawParametersBytes == null)
 				return;
@@ -155,14 +154,14 @@ namespace ServerFS2.Monitoring
 							Time = DateTime.Now
 						};
 						device.DeviceState.States.Add(deviceDriverState);
-						ChangeDeviceStates(device);
+						ForseUpdateDeviceStates(device);
 					}
 				}
 			}
 			else
 			{
 				if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
-					ChangeDeviceStates(device);
+					ForseUpdateDeviceStates(device);
 			}
 		}
 
@@ -211,7 +210,7 @@ namespace ServerFS2.Monitoring
 															Time = DateTime.Now
 														};
 														journalItem.Device.DeviceState.States.Add(deviceDriverState);
-														ChangeDeviceStates(journalItem.Device);
+														ForseUpdateDeviceStates(journalItem.Device);
 													}
 												}
 											}
@@ -232,7 +231,7 @@ namespace ServerFS2.Monitoring
 													if (deviceDriverState != null)
 													{
 														journalItem.Device.DeviceState.States.Remove(deviceDriverState);
-														ChangeDeviceStates(journalItem.Device);
+														ForseUpdateDeviceStates(journalItem.Device);
 													}
 												}
 											}
@@ -283,7 +282,7 @@ namespace ServerFS2.Monitoring
 			return hasChanges;
 		}
 
-		public void ChangeDeviceStates(Device device)
+		public void ForseUpdateDeviceStates(Device device)
 		{
 			SetSerializableStates(device);
 			ChangedDeviceStates = new HashSet<DeviceState>();
