@@ -253,13 +253,38 @@ namespace ServerFS2
 
 		void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
+			int rawParametersLength;
+			switch (driverType)
+			{
+				case DriverType.Valve:
+					rawParametersLength = 6;
+					break;
+				case DriverType.MPT:
+					rawParametersLength = 5;
+					break;
+				case DriverType.BUNS:
+				case DriverType.BUNS_2:
+					rawParametersLength = 0;
+					break;
+				case DriverType.MDU:
+					rawParametersLength = 4;
+					break;
+				case DriverType.MRO_2:
+				case DriverType.MRO:
+					rawParametersLength = 3;
+					break;
+				default:
+					rawParametersLength = 2;
+					break;
+			}
+				
 			var device = new Device
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),
 				IntAddress = DeviceFlash[pointer] + 256 * (DeviceFlash[pointer + 1] + 1),
 				StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3]),
 				StateWordOffset = pointer + 2,
-				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 8], DeviceFlash[pointer + 9]),
+				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(8, rawParametersLength)),//[pointer + 8], DeviceFlash[pointer + 9]),
 				RawParametersOffset = pointer + 8
 			};
 			device.DriverUID = device.Driver.UID;
