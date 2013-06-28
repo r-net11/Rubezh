@@ -39,25 +39,7 @@
 
         <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <!--<StackPanel>
-                    <ItemsControl ItemsSource="{Binding States}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
-                                           Margin="0, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Foreground="White" />
-                                    <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
-                                        Width="32" Height="32" VerticalAlignment="Center"
-                                        Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
-                                        CommandParameter="{Binding DriverState}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>-->
-                <StackPanel>
+                <StackPanel TextBlock.Foreground="White">
                     <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
                         <TextBlock Text="{Binding Device.PresentationAddressAndName}" />
                         <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
@@ -74,7 +56,7 @@
                                         Width="32" Height="32" VerticalAlignment="Center"
                                         Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
-                                        CommandParameter="{Binding DriverState.Name}" />
+                                        CommandParameter="{Binding DriverState}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

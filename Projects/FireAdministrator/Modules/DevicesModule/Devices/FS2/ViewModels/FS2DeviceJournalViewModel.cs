@@ -48,15 +48,18 @@ namespace DevicesModule.ViewModels
 		{
 			var saveDialog = new SaveFileDialog()
 			{
-				Filter = "firesec2 journal files|*.fscj",
-				DefaultExt = "firesec2 journal files|*.fscj"
+				Filter = "Журнал событий Firesec-2|*.fscj",
+				DefaultExt = "Журнал событий Firesec-2|*.fscj"
 			};
 			if (saveDialog.ShowDialog().Value)
 			{
 				WaitHelper.Execute(() =>
 				{
+					if (File.Exists(saveDialog.FileName))
+						File.Delete(saveDialog.FileName);
+
 					var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
-					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew, FileAccess.Write))
+					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 					{
 						dataContractSerializer.WriteObject(fileStream, FS2JournalItemsCollection);
 					}

@@ -160,10 +160,9 @@ namespace ServerFS2.Monitoring
 							for (int i = 0; i < monitoringPanel.Requests.Count; i++)
 							{
 								var request = monitoringPanel.Requests[i];
-								if (request != null && request.Id == response.Id)
+								if (request != null && response.Id != 0 && request.Id == response.Id)
 								{
 									var idOffset = 0;
-									monitoringPanel.OnResponceRecieved(request, response);
 									if (response.Id > 0)
 										idOffset = 4;
 									for (int j = 0; j < request.RootBytes.Count; j++)

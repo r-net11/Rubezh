@@ -267,8 +267,8 @@ namespace DevicesModule.ViewModels
 		{
 			var openDialog = new OpenFileDialog()
 			{
-				Filter = "firesec2 journal files|*.fscf",
-				DefaultExt = "firesec2 journal files|*.fscf"
+				Filter = "Журнал событий Firesec-2|*.fscj",
+				DefaultExt = "Журнал событий Firesec-2|*.fscj"
 			};
 			if (openDialog.ShowDialog().Value)
 			{

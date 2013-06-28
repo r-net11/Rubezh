@@ -172,6 +172,7 @@ namespace ServerFS2.Monitoring
 		{
 			var requestsToDelete = new List<Request>();
 			lock (Locker)
+			{
 				foreach (var request in Requests)
 				{
 					if (request != null && (DateTime.Now - request.StartTime).TotalSeconds >= requestExpiredTime)
@@ -181,7 +182,8 @@ namespace ServerFS2.Monitoring
 						SequentUnAnswered++;
 					}
 				}
-			requestsToDelete.ForEach(x => Requests.Remove(x));
+				requestsToDelete.ForEach(x => Requests.Remove(x));
+			}
 			if (SequentUnAnswered > maxSequentUnAnswered)
 			{
 				OnConnectionLost();
@@ -274,20 +276,44 @@ namespace ServerFS2.Monitoring
 			{
 				Requests.Add(request);
 			}
-			USBManager.SendAsync(PanelDevice, request);
+			if (PanelDevice.ParentUSB.UID == PanelDevice.UID)
+			{
+				var response = USBManager.Send(PanelDevice, request.Bytes);
+				if (!response.HasError)
+				{
+					OnResponceRecieved(request, response);
+				}
+			}
+			else
+			{
+				USBManager.SendAsync(PanelDevice, request);
+			}
+
+
 			if (betweenDevicesSpan > 0)
 				Thread.Sleep(betweenDevicesSpan);
 		}
 
 		public void LastIndexReceived(Response response)
 		{
-			if (response.HasError || response.Bytes.Count < 10)
+			if (response.HasError)
 			{
 				return;
 			}
 			SequentUnAnswered = 0;
 			OnConnectionAppeared();
-			LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
+			if (response.Id > 0)
+			{
+				if (response.Bytes.Count < 10)
+					return;
+				LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
+			}
+			else
+			{
+				if (response.Bytes.Count < 4)
+					return;
+				LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 0);
+			}
 			if (FirstSystemIndex == -1)
 				FirstSystemIndex = LastDeviceIndex;
 			if (LastSystemIndex == -1)

@@ -160,7 +160,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanReadJournal()
 		{
-			return DeviceValidation(DevicesViewModel.SelectedDevice, false);
+			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
@@ -264,7 +264,7 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		bool CanGetResetDeviceStatus()
 		{
-			return DeviceValidation(DevicesViewModel.SelectedDevice, false);
+			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
 		public RelayCommand AddDeviceToCheckListCommand { get; private set; }
@@ -284,9 +284,9 @@ namespace AdministratorTestClientFS2.ViewModels
 			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device });
 		}
 
-		bool DeviceValidation(DeviceViewModel selectedDeivice, bool isUsb)
+		bool DeviceValidation(DeviceViewModel selectedDeivice)
 		{
-			return (selectedDeivice != null) && (selectedDeivice.Device.Driver.IsPanel) && (selectedDeivice.Device.IsUsb == isUsb);
+			return (selectedDeivice != null) && (selectedDeivice.Device.Driver.IsPanel);
 		}
 	}
 }

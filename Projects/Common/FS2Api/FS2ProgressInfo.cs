@@ -16,8 +16,19 @@ namespace FS2Api
 			PercentComplete = percentComplete;
 		}
 
+		public FS2ProgressInfo(string comment, int percentComplete, int currentStage, int stageCount)
+		{
+			Comment = comment;
+			PercentComplete = percentComplete;
+			CurrentStage = currentStage;
+			StageCount = stageCount;
+		}
+
 		[DataMember]
-		public int Stage { get; set; }
+		public int CurrentStage { get; set; }
+
+		[DataMember]
+		public int StageCount { get; set; }
 
 		[DataMember]
 		public string Comment { get; set; }

@@ -17,18 +17,15 @@ namespace ServerFS2
 
 		public FS2JournalItem Parce(Device panelDevice, List<byte> bytes)
 		{
+			if (bytes.Count != 32)
+				return null;
+			Bytes = bytes;
 			FSInternalJournal = new FSInternalJournal();
 			FS2JournalItem = new FS2JournalItem();
 			FS2JournalItem.BytesString = BytesHelper.BytesToString(bytes);
 			FS2JournalItem.PanelDevice = panelDevice;
 
-			if (!IsValidInput(bytes))
-				return null;
-
-			FSInternalJournal.ShleifNo = bytes[24 - 7] + 1;
-
-			Bytes = bytes;
-
+			FSInternalJournal.ShleifNo = bytes[17] + 1;
 			FSInternalJournal.EventCode = bytes[0];
 			FSInternalJournal.AdditionalEventCode = bytes[5];
 
@@ -44,7 +41,7 @@ namespace ServerFS2
 			FS2JournalItem.SystemTime = DateTime.Now;
 			FS2JournalItem.EventCode = FSInternalJournal.EventCode;
 			FS2JournalItem.EventChoiceNo = FSInternalJournal.AdditionalEventCode;
-			
+
 			FS2JournalItem.StateType = GetEventStateType();
 
 			FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
@@ -74,14 +71,6 @@ namespace ServerFS2
 
 			FS2JournalItem.UserName = "Usr";
 			return FS2JournalItem;
-		}
-
-		bool IsValidInput(List<byte> bytes)
-		{
-			return true;
-			return //bytes.Count == 39 &&
-			bytes[6] == 0x41 &&
-			bytes[8] == 0xC4;
 		}
 
 		void InitializeDetalization()
@@ -242,7 +231,7 @@ namespace ServerFS2
 		{
 			if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
 				return GetEventNameAMT();
-			
+
 			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode);
 			var firstIndex = eventName.IndexOf("[");
 			var lastIndex = eventName.IndexOf("]");
