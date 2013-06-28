@@ -8,6 +8,14 @@ using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Processor;
+using System.Diagnostics;
+using Microsoft.Win32;
+using ServerFS2.Service;
+using FS2Api;
+using System;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -15,10 +23,11 @@ namespace AdministratorTestClientFS2.ViewModels
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
-		private readonly ProgressService _progressService = new ProgressService();
+		FS2Contract FS2Contract = new FS2Contract();
 
 		public MainViewModel()
 		{
+			CancelProgressCommand = new RelayCommand(OnCancelProgress);
 			SendRequestCommand = new RelayCommand(OnSendRequest);
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
@@ -26,7 +35,6 @@ namespace AdministratorTestClientFS2.ViewModels
 			GetInformationCommand = new RelayCommand(OnGetInformation, CanGetInformation);
 			SynchronizeTimeCommand = new RelayCommand(OnSynchronizeTime, CanSynchronizeTime);
 			SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
-			UpdateFirmwhareCommand = new RelayCommand(OnSynchronizeTime, CanSynchronizeTime);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
@@ -37,42 +45,70 @@ namespace AdministratorTestClientFS2.ViewModels
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			ZonesViewModel.Initialize();
-			new PropertiesViewModel(DevicesViewModel);
+			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
+			CallbackManager.ProgressEvent += new System.Action<FS2Api.FS2ProgressInfo>(CallbackManager_ProgressEvent);
 		}
 
-		private List<byte> status;
+		#region Progress
+		public ObservableRangeCollection<FS2ProgressInfo> ProgressInfos { get; private set; }
+
+		void CallbackManager_ProgressEvent(FS2ProgressInfo fs2ProgressInfos)
+		{
+			Application.Current.Dispatcher.Invoke(new Action(
+				() =>
+				{
+					ProgressInfos.Insert(0, fs2ProgressInfos);
+					if (ProgressInfos.Count > 1000)
+						ProgressInfos.RemoveAt(1000);
+				}
+				));
+			Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+		}
+
+		public RelayCommand CancelProgressCommand { get; private set; }
+		private void OnCancelProgress()
+		{
+			FS2Contract.CancelProgress();
+		}
+		#endregion
+
+		List<byte> _status;
 		List<byte> Status
 		{
-			get { return status; }
+			get { return _status; }
 			set
 			{
-				status = value;
-				if (status != null)
+				_status = value;
+				if (_status != null)
 					StatusString = TraceHelper.TraceBytes(value);
 				else
 					StatusString = "Нет сведений о статусе прибора";
 			}
 		}
-		private string statusString;
+
+		string _statusString;
 		public string StatusString
 		{
-			get { return statusString; }
+			get { return _statusString; }
 			set
 			{
-				statusString = value;
+				_statusString = value;
 				OnPropertyChanged("StatusString");
 			}
 		}
+
+		bool _isUsbDevice;
 		public bool IsUsbDevice
 		{
-			get { return USBManager.IsUsbDevice; }
+			get { return _isUsbDevice; }
 			set
 			{
-				USBManager.IsUsbDevice = value;
+				_isUsbDevice = value;
 				OnPropertyChanged("IsUsbDevice");
 			}
 		}
-		private string _textBoxRequest;
+
+		string _textBoxRequest;
 		public string TextBoxRequest
 		{
 			get { return _textBoxRequest; }
@@ -83,7 +119,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			}
 		}
 
-		private string _textBoxResponse;
+		string _textBoxResponse;
 		public string TextBoxResponse
 		{
 			get { return _textBoxResponse; }
@@ -95,67 +131,64 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SendRequestCommand { get; private set; }
-		private void OnSendRequest()
+		void OnSendRequest()
 		{
-			var bytes = TextBoxRequest.Split()
-				   .Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
-			var inbytes = USBManager.SendRequest(bytes);
-			foreach (var b in inbytes)
-				TextBoxResponse += b.ToString("X2") + " ";
+			var bytes = TextBoxRequest.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
+			var response = USBManager.Send(DevicesViewModel.SelectedDevice.Device, bytes);
+			TextBoxResponse += BytesHelper.BytesToString(response.Bytes);
 		}
 
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
-		private void OnAutoDetectDevice()
+		void OnAutoDetectDevice()
 		{
-			var autoDetectedDevicesViewModel = new DevicesViewModel(DevicesViewModel.SelectedDevice.Device);
-			_progressService.Run(() =>
-			{
-				var device = AutoDetectOperationHelper.AutoDetectDevice();
-				autoDetectedDevicesViewModel = new DevicesViewModel(device);
-			}, () => DialogService.ShowModalWindow(autoDetectedDevicesViewModel), "Автопоиск устройств");
+			var device = AutoDetectOperationHelper.AutoDetectDevice();
+			var autoDetectedDevicesViewModel = new DevicesViewModel(device);
+			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
-		private void OnReadJournal()
+		void OnReadJournal()
 		{
-			var journalItems = ReadJournalOperationHelper.GetJournalItems(DevicesViewModel.SelectedDevice.Device);
-			var journalViewModel = new JournalViewModel(journalItems);
+			var fs2JournalItemsCollection = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var journalViewModel = new JournalViewModel(fs2JournalItemsCollection.FireJournalItems);
 			DialogService.ShowModalWindow(journalViewModel);
+			if (fs2JournalItemsCollection.SecurityJournalItems.Count > 0)
+			{
+				journalViewModel = new JournalViewModel(fs2JournalItemsCollection.SecurityJournalItems);
+				DialogService.ShowModalWindow(journalViewModel);
+			}
 		}
 		bool CanReadJournal()
 		{
-			return DeviceValidation(DevicesViewModel.SelectedDevice, false);
+			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
-		private void OnReadConfiguration()
+		void OnReadConfiguration()
 		{
-			var remoteDeviceConfiguration = new DeviceConfiguration();
-			_progressService.Run(() =>
-			{
-				remoteDeviceConfiguration = GetConfigurationOperationHelper.GetDeviceConfig(DevicesViewModel.SelectedDevice.Device);
-			},
-			() => DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration)), "Считывание конфигурации с устройства");
-
+			var remoteDeviceConfiguration = MainManager.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration));
 		}
 		bool CanReadConfiguration()
 		{
 			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 		public RelayCommand GetInformationCommand { get; private set; }
-		private void OnGetInformation()
+		void OnGetInformation()
 		{
-
+			MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			DialogService.ShowModalWindow(new InformationViewModel(DevicesViewModel.SelectedDevice.Device));
 		}
 		bool CanGetInformation()
 		{
-			return false;
+			var selectedDevice = DevicesViewModel.SelectedDevice;
+			return ((selectedDevice != null) && ((selectedDevice.Device.Driver.IsPanel) || (selectedDevice.Device.Driver.DriverType == DriverType.MS_1 || selectedDevice.Device.Driver.DriverType == DriverType.MS_2)));
 		}
 
 		public RelayCommand SynchronizeTimeCommand { get; private set; }
-		private void OnSynchronizeTime()
+		void OnSynchronizeTime()
 		{
-			ServerHelper.SynchronizeTime(DevicesViewModel.SelectedDevice.Device);
+			MainManager.DeviceDatetimeSync(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 		}
 		bool CanSynchronizeTime()
 		{
@@ -163,19 +196,29 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }
-		private void OnSetPassword()
+		void OnSetPassword()
 		{
-
+			DialogService.ShowModalWindow(new PasswordViewModel(DevicesViewModel.SelectedDevice.Device));
 		}
 		bool CanSetPassword()
 		{
-			return false;
+			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
-		private void OnUpdateFirmwhare()
+		void OnUpdateFirmwhare()
 		{
-
+			var openFileDialog = new OpenFileDialog()
+			{
+				Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
+			};
+			if (openFileDialog.ShowDialog() == true)
+			{
+				var fileName = openFileDialog.FileName;
+				var message = MainManager.DeviceVerifyFirmwareVersion(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+				MessageBoxService.Show(message);
+				MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+			}
 		}
 		bool CanUpdateFirmwhare()
 		{
@@ -183,7 +226,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand SetPanelRegimeCommand { get; private set; }
-		private void OnSetPanelRegime()
+		void OnSetPanelRegime()
 		{
 
 		}
@@ -193,7 +236,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand UnsetPanelRegimeCommand { get; private set; }
-		private void OnUnsetPanelRegime()
+		void OnUnsetPanelRegime()
 		{
 
 		}
@@ -203,14 +246,9 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 
 		public RelayCommand WriteConfigurationCommand { get; private set; }
-		private void OnWriteConfiguration()
+		void OnWriteConfiguration()
 		{
-			var configurationWriterHelper = new SystemDatabaseCreator();
-			configurationWriterHelper.Create();
-			var panelDatabase = configurationWriterHelper.PanelDatabases.FirstOrDefault(x => x.ParentPanel.IntAddress == DevicesViewModel.SelectedDevice.Device.IntAddress);
-			var bytes1 = panelDatabase.RomDatabase.BytesDatabase.GetBytes();
-			var bytes2 = panelDatabase.FlashDatabase.BytesDatabase.GetBytes();
-			SetConfigurationOperationHelper.SetDeviceConfig(DevicesViewModel.SelectedDevice.Device, bytes1, bytes2);
+			MainManager.DeviceWriteConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 
 		}
 		bool CanWriteConfiguration()
@@ -226,7 +264,7 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		bool CanGetResetDeviceStatus()
 		{
-			return DeviceValidation(DevicesViewModel.SelectedDevice, false);
+			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
 		public RelayCommand AddDeviceToCheckListCommand { get; private set; }
@@ -246,9 +284,9 @@ namespace AdministratorTestClientFS2.ViewModels
 			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device });
 		}
 
-		bool DeviceValidation(DeviceViewModel selectedDeivice, bool isUsb)
+		bool DeviceValidation(DeviceViewModel selectedDeivice)
 		{
-			return (selectedDeivice != null) && (selectedDeivice.Device.Driver.IsPanel) && (selectedDeivice.Device.IsUsb == isUsb);
+			return (selectedDeivice != null) && (selectedDeivice.Device.Driver.IsPanel);
 		}
 	}
 }

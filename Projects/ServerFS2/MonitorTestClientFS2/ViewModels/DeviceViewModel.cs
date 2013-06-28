@@ -8,6 +8,9 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using ServerFS2.Monitoring;
 using ServerFS2.Processor;
+using System.Diagnostics;
+using System;
+using FiresecAPI;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -22,15 +25,55 @@ namespace MonitorClientFS2.ViewModels
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			Device = device;
-			device.DeviceState.StateChanged += new System.Action(DeviceState_StateChanged);
+			device.DeviceState.StateChanged += new Action(OnStateChanged);
+			device.DeviceState.ParametersChanged += new Action(OnParametersChanged);
 		}
 
-		void DeviceState_StateChanged()
+		void OnStateChanged()
 		{
-			OnPropertyChanged("Device");
-			OnPropertyChanged("DeviceState");
-			OnPropertyChanged("States");
+			States = new List<StateViewModel>();
+			foreach (var state in DeviceState.ThreadSafeStates)
+			{
+				var stateViewModel = new StateViewModel()
+				{
+					DriverState = state.DriverState
+				};
+				States.Add(stateViewModel);
+			}
+
+			ParentStates = new List<StateViewModel>();
+			foreach (var state in DeviceState.ThreadSafeParentStates)
+			{
+				var stateViewModel = new StateViewModel()
+				{
+					DriverState = state.DriverState,
+					DeviceName = state.ParentDevice.DottedPresentationAddressAndName
+				};
+				ParentStates.Add(stateViewModel);
+			}
+
+			ChildState = StateType.Norm;
+			HasChildStates = false;
+			foreach (var state in DeviceState.ThreadSafeChildStates)
+			{
+				if (state.StateType < ChildState)
+				{
+					ChildState = state.StateType;
+					HasChildStates = true;
+				}
+			}
+
+			OnPropertyChanged("StateType");
 			OnPropertyChanged("ToolTip");
+			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("DeviceState.States");
+			OnPropertyChanged("DeviceState.StringStates");
+			OnPropertyChanged("DeviceState.ParentStringStates");
+			OnPropertyChanged("States");
+			OnPropertyChanged("ParentStates");
+			OnPropertyChanged("ChildState");
+			OnPropertyChanged("HasChildStates");
+
 		}
 
 		public DeviceState DeviceState
@@ -38,15 +81,15 @@ namespace MonitorClientFS2.ViewModels
 			get { return Device.DeviceState; }
 		}
 
-		public List<DeviceDriverState> States
-		{
-			get { return Device.DeviceState.States; }
-		}
-
 		public Driver Driver
 		{
 			get { return Device.Driver; }
 		}
+
+		public List<StateViewModel> States { get; private set; }
+		public List<StateViewModel> ParentStates { get; private set; }
+		public StateType ChildState { get; private set; }
+		public bool HasChildStates { get; private set; }
 
 		public string ToolTip
 		{
@@ -86,6 +129,28 @@ namespace MonitorClientFS2.ViewModels
 			}
 		}
 
+		void OnParametersChanged()
+		{
+			OnPropertyChanged("Parameters");
+		}
+
+		public List<string> Parameters
+		{
+			get
+			{
+				var parameters = new List<string>();
+				if (DeviceState != null)
+					foreach (var parameter in DeviceState.ThreadSafeParameters)
+					{
+						if (!parameter.IsIgnore && parameter.Visible)
+						{
+							parameters.Add(parameter.Caption + ": " + parameter.Value);
+						}
+					}
+				return parameters;
+			}
+		}
+
 		public RelayCommand<DriverState> ResetCommand { get; private set; }
 		void OnReset(DriverState driverState)
 		{
@@ -106,13 +171,13 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			MonitoringProcessor.AddTaskIgnore(Device);
+			MonitoringManager.AddTaskIgnore(new List<Device>() { Device });
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			MonitoringProcessor.AddTaskResetIgnore(Device);
+			MonitoringManager.AddTaskResetIgnore(new List<Device>() { Device });
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

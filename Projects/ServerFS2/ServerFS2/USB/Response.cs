@@ -6,7 +6,26 @@ namespace ServerFS2
 	public class Response
 	{
 		public int Id { get; set; }
-		public List<byte> Data { get; set; }
+		public List<byte> Bytes { get; set; }
 		public TimeSpan TimeSpan { get; set; }
+		public byte FunctionCode { get; set; }
+		public byte MsFlag { get; set; }
+		public Response()
+		{
+		}
+
+		public Response (string error)
+		{
+			SetError(error);
+		}
+
+		public bool HasError { get; set; }
+		public string Error { get; set; }
+		public Response SetError(string error)
+		{
+			HasError = true;
+			Error = error;
+			return this;
+		}
 	}
 }

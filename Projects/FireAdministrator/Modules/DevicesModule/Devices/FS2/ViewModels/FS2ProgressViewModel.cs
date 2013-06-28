@@ -39,19 +39,15 @@ namespace DevicesModule.ViewModels
 		void OnProgress(FS2ProgressInfo fs2ProgressInfo)
 		{
 			Description = fs2ProgressInfo.Comment;
-			Trace.WriteLine("fs2ProgressInfo.PercentComplete " + fs2ProgressInfo.Comment + " " + fs2ProgressInfo.PercentComplete);
 			if (fs2ProgressInfo.PercentComplete >= 0)
 			{
 				Percent = fs2ProgressInfo.PercentComplete;
 			}
 
-			if (fs2ProgressInfo.Stage == -100)
-				CancelText = "Остановить";
-
-			if (fs2ProgressInfo.Stage > 0)
+			if (fs2ProgressInfo.StageCount > 1)
 			{
-				int stageNo = fs2ProgressInfo.Stage / (256 * 256);
-				int stageCount = fs2ProgressInfo.Stage - stageNo * 256 * 256;
+				var stageText = fs2ProgressInfo.CurrentStage + " из " + fs2ProgressInfo.StageCount;
+				Description = stageText + "\n" + fs2ProgressInfo.Comment;
 			}
 		}
 

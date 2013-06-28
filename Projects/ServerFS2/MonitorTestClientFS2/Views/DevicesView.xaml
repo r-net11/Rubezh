@@ -6,7 +6,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
             <Controls:TreeListView.Columns>
@@ -40,14 +39,19 @@
 
         <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+                <StackPanel TextBlock.Foreground="White">
+                    <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
+                        <TextBlock Text="{Binding Device.PresentationAddressAndName}" />
+                        <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
+                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                    </StackPanel>
                     <ItemsControl ItemsSource="{Binding States}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="0, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Foreground="White" />
+                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
                                     <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
                                         Width="32" Height="32" VerticalAlignment="Center"
                                         Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -57,15 +61,31 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding ParentStates}" Margin="0, 5, 0, 0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
+                                           Margin="-2, -2, 0, 0" Width="16" Height="16" />
+                                    <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasChildStates, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Image Source="{Binding ChildState, Converter={StaticResource StateTypeToIconConverter}}" Margin="-2, -2, 0, 0" Width="16" Height="16" />
+                        <TextBlock Text="Причина в дочернем устройстве" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding Parameters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding .}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-
-        <StackPanel Grid.Row="2" Margin="2">
-            <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Margin="2" />
-            <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Margin="2" />
-            <Button Content="Считать rom/ram" Command="{Binding ReadRomRamCommand}" Width="200" Margin="2" />
-            <Button Content="GetParametersCommand" Command="{Binding GetParametersCommand}" Width="200" Margin="2" />
-        </StackPanel>
     </Grid>
 </UserControl>

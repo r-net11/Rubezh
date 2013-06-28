@@ -31,12 +31,12 @@ namespace FS2Client
 			return null;
 		}
 
-		private IFS2Contract DoCreate(string serverAddress)
+		IFS2Contract DoCreate(string serverAddress)
 		{
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!FS2LoadHelper.Load())
-					BalloonHelper.ShowFromAdm("Не удается соединиться с агентом 2");
+					BalloonHelper.ShowFromFiresec("Не удается соединиться с агентом 2");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);

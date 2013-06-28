@@ -31,12 +31,12 @@ namespace FSAgentClient
 			return null;
 		}
 
-		private IFSAgentContract DoCreate(string serverAddress)
+		IFSAgentContract DoCreate(string serverAddress)
 		{
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!FSAgentLoadHelper.Load())
-					BalloonHelper.ShowFromAdm("Не удается соединиться с агентом");
+					BalloonHelper.ShowFromFiresec("Не удается соединиться с агентом");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);

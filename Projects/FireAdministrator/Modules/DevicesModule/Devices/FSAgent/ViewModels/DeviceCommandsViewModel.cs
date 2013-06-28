@@ -5,6 +5,10 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.IO;
+using System.Runtime.Serialization;
+using Microsoft.Win32;
+using FS2Api;
 
 namespace DevicesModule.ViewModels
 {
@@ -125,7 +129,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> UpdateSoftCommand { get; private set; }
         void OnUpdateSoft(bool isUsb)
         {
-			if (AppSettingsManager.IsRemote)
+			if (ConnectionSettingsManager.IsRemote)
 			{
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;
@@ -184,7 +188,10 @@ namespace DevicesModule.ViewModels
         }
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+            //return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.IndicationBlock ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
         }
 
         public bool IsAlternativeUSB
@@ -203,6 +210,11 @@ namespace DevicesModule.ViewModels
 			return true;
 #endif
 			return false;
+		}
+
+		public bool IsFS2Enabled
+		{
+			get { return FiresecManager.IsFS2Enabled; }
 		}
     }
 }

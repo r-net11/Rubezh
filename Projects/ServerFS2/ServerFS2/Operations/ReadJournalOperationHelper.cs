@@ -5,6 +5,8 @@ using System.Windows;
 using FS2Api;
 using ServerFS2.Service;
 using Device = FiresecAPI.Models.Device;
+using FiresecAPI.Models;
+using Common;
 
 namespace ServerFS2
 {
@@ -12,120 +14,64 @@ namespace ServerFS2
 	{
 		static readonly object Locker = new object();
 
-		public static FS2JournalItem ParseJournal(List<byte> bytes)
+		public static FS2JournalItemsCollection GetJournalItemsCollection(Device device)
 		{
-			lock (Locker)
+			var hasGuardJournal = device.Driver.DriverType == DriverType.Rubezh_2OP || device.Driver.DriverType == DriverType.USB_Rubezh_2OP;
+			var stageCount = hasGuardJournal ? 2 : 1;
+			var result = new FS2JournalItemsCollection();
+			result.FireJournalItems = GetJournalItems(device, 0, 1, stageCount);
+			if (hasGuardJournal)
 			{
-				var journalParser = new JournalParser();
-				var journalItem = journalParser.Parce(bytes);
-				return journalItem;
+				result.SecurityJournalItems = GetJournalItems(device, 2, 2, stageCount);
 			}
+			return result;
 		}
 
-		public static List<FS2JournalItem> GetSecJournalItems2Op(Device device)
+		static List<FS2JournalItem> GetJournalItems(Device device, int journalType, int currentStage, int stageCount)
 		{
-			int lastIndex = GetLastSecJournalItemId2Op(device);
-			var journalItems = new List<FS2JournalItem>();
-			for (int i = 0; i <= lastIndex; i++)
-			{
-				var bytes = USBManager.CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x20, 0x02, BitConverter.GetBytes(i).Reverse());
-				var result = USBManager.SendCode(bytes);
-				if (result == null) continue;
-				var journalItem = ParseJournal(result);
-				journalItems.Add(journalItem);
-			}
-			journalItems = journalItems.OrderByDescending(x => x.IntDate).ToList();
-			var no = 0;
-			foreach (var journalItem in journalItems)
-			{
-				no++;
-				journalItem.No = no;
-			}
-			return journalItems;
-		}
+			var result = new List<FS2JournalItem>();
 
-		public static int GetLastSecJournalItemId2Op(Device device)
-		{
-			try
-			{
-				var lastindex = USBManager.SendCodeToPanel(device, 0x01, 0x21, 0x02);
-				return BytesHelper.ExtractInt(lastindex, 0);
-			}
-			catch (NullReferenceException ex)
-			{
-				MessageBox.Show(ex.Message);
-				throw;
-			}
-		}
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи", 50, currentStage, stageCount));
+			var response = USBManager.Send(device, 0x01, 0x21, journalType);
+			if (response.HasError)
+				return null;
+			int lastIndex = BytesHelper.ExtractInt(response.Bytes, 0);
 
-		public static int GetJournalCount(Device device)
-		{
-			try
-			{
-				var firecount = USBManager.SendCodeToPanel(device, 0x01, 0x24, 0x01);
-				return BytesHelper.ExtractShort(firecount, 0);
-			}
-			catch (NullReferenceException ex)
-			{
-				MessageBox.Show(ex.Message);
-				throw;
-			}
-		}
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса первой записи", 50, currentStage, stageCount));
+			response = USBManager.Send(device, 0x01, 0x24, journalType);
+			if (response.HasError)
+				return null;
+			var count = BytesHelper.ExtractShort(response.Bytes, 0);
 
-		public static int GetFirstJournalItemId(Device device)
-		{
-			var li = GetLastJournalItemId(device);
-			var count = GetJournalCount(device);
-			return li - count + 1;
-		}
+			int firstIndex = Math.Max(lastIndex - count + 1, 0);
 
-		public static int GetLastJournalItemId(Device device)
-		{
-			try
-			{
-				var lastindex = USBManager.SendCodeToPanel(device, 0x01, 0x21, 0x00);
-				return BytesHelper.ExtractInt(lastindex, 0);
-			}
-			catch (NullReferenceException ex)
-			{
-				MessageBox.Show(ex.Message);
-				throw;
-			}
-		}
-
-		public static List<FS2JournalItem> GetJournalItems(Device device)
-		{
-			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи"));
-			int lastIndex = GetLastJournalItemId(device);
-			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса первой записи"));
-			int firstIndex = GetFirstJournalItemId(device);
-			var journalItems = new List<FS2JournalItem>();
-			var secJournalItems = new List<FS2JournalItem>();
-			if (device.PresentationName == "Прибор РУБЕЖ-2ОП")
-			{
-				secJournalItems = GetSecJournalItems2Op(device);
-			}
 			for (int i = firstIndex; i <= lastIndex; i++)
-			//for (int i = lastIndex - 10; i <= lastIndex; i++)
 			{
-				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала", (i - firstIndex) * 100 / (lastIndex - firstIndex)));
-				var bytes = USBManager.CreateBytesArray(device.Parent.IntAddress + 2, device.IntAddress, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
-				var result = USBManager.SendCode(bytes);
-				if (result == null) continue;
-				var journalItem = ParseJournal(result);
-				if (journalItem != null)
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала " + (i - firstIndex).ToString() + " из " + (lastIndex - firstIndex + 1).ToString(),
+					(i - firstIndex) * 100 / (lastIndex - firstIndex), currentStage, stageCount));
+				response = USBManager.Send(device, 0x01, 0x20, journalType, BitConverter.GetBytes(i).Reverse());
+				if (!response.HasError)
 				{
-					journalItems.Add(journalItem);
+					try
+					{
+						var journalParser = new JournalParser();
+						var journalItem = journalParser.Parce(device, response.Bytes);
+						if (journalItem != null)
+						{
+							result.Add(journalItem);
+						}
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "ReadJournalOperationHelper.Parse");
+					}
 				}
 			}
-			int no = 0;
-			foreach (var item in journalItems)
+			for (int i = 0; i < result.Count; i++)
 			{
-				no++;
-				item.No = no;
+				result[i].No = i + 1;
 			}
-			secJournalItems.ForEach(journalItems.Add); // в случае, если устройство не Рубеж-2ОП, коллекция охранных событий будет пустая
-			return journalItems;
-		}		
+			return result;
+		}
 	}
 }

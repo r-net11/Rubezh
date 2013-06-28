@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FS2Client;
 using Infrastructure.Common;
+using FiresecAPI.Models;
 
 namespace FiresecClient
 {
@@ -13,10 +14,7 @@ namespace FiresecClient
 		{
 			get
 			{
-#if DEBUG
 				return File.Exists("C:/FS2.txt");
-#endif
-				return false;
 			}
 		}
 
@@ -26,7 +24,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				FS2ClientContract = new FS2ClientContract(AppSettingsManager.FS2ServerAddress);
+				FS2ClientContract = new FS2ClientContract(ConnectionSettingsManager.FS2ServerAddress);
 			}
 			catch (Exception e)
 			{
@@ -44,10 +42,7 @@ namespace FiresecClient
 					var device = Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
 					if (device != null)
 					{
-						device.DeviceState.States = deviceState.SerializableStates;
-						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						CopyDeviceStatesFromFS2Server(device, deviceState);
 					}
 				}
 			}
@@ -63,6 +58,32 @@ namespace FiresecClient
 						zone.ZoneState.StateType = zoneState.StateType;
 					}
 				}
+			}
+		}
+
+		public static void CopyDeviceStatesFromFS2Server(Device device, DeviceState deviceState)
+		{
+			device.DeviceState.States = deviceState.SerializableStates;
+			device.DeviceState.ParentStates = deviceState.ParentStates;
+			device.DeviceState.ChildStates = deviceState.ChildStates;
+			device.DeviceState.Parameters = deviceState.Parameters;
+
+			if (device.DeviceState.ParentStates != null)
+			{
+				foreach (var parentDeviceState in device.DeviceState.ParentStates)
+				{
+					parentDeviceState.ParentDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == parentDeviceState.ParentDeviceUID);
+				}
+				device.DeviceState.ParentStates.RemoveAll(x => x.ParentDevice == null);
+			}
+
+			if (device.DeviceState.ChildStates != null)
+			{
+				foreach (var childDeviceState in device.DeviceState.ChildStates)
+				{
+					childDeviceState.ChildDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == childDeviceState.ChildDeviceUID);
+				}
+				device.DeviceState.ChildStates.RemoveAll(x => x.ChildDevice == null);
 			}
 		}
 	}

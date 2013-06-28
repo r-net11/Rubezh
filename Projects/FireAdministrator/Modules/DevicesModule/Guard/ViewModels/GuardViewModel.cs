@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
+using DevicesModule.Guard;
 
 namespace DevicesModule.ViewModels
 {
@@ -49,11 +50,12 @@ namespace DevicesModule.ViewModels
 		}
 
 		bool[] UsersMask = new bool[104];
+		User user = new User();
 
 		public RelayCommand ReadGuardUserCommand { get; private set; }
 		void OnReadGuardUser()
 		{
-			GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceUsers, AvailableUsers, UserZones, DeviceZones);
+			var guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceUsers, AvailableUsers, UserZones, DeviceZones);
 			DialogService.ShowModalWindow(guardConfigurationViewModel);
 			UpdateZonesSelectation();
 			UpdateUsersSelectation();
@@ -68,15 +70,13 @@ namespace DevicesModule.ViewModels
 			return result;
 		}
 
-		User user = new User();
-
 		string CodeDateToTranslate()
 		{
-			Byte CountUsers = 0;
-			List<User> Users = new List<User>(80);
-			foreach (var deviceUsers in DeviceUsers)
+			Byte usersCount = 0;
+			var users = new List<User>(80);
+			foreach (var deviceUser in DeviceUsers)
 			{
-				var guardUser = deviceUsers.GuardUser;
+				var guardUser = deviceUser.GuardUser;
 				User user1 = new User();
 				user1.Attr[0] = guardUser.CanUnSetZone;
 				user1.Attr[1] = guardUser.CanSetZone;
@@ -89,37 +89,37 @@ namespace DevicesModule.ViewModels
 					user1.Zones[localNo] = true;
 				}
 
-				UsersMask[Users.Count] = true;
-				Users.Add(user1);
-				CountUsers++;
+				UsersMask[users.Count] = true;
+				users.Add(user1);
+				usersCount++;
 			}
 
 			string s;
-			CountUsers.ToString();
-			var DeviceGuardData = string.Format("{0,3}", CountUsers.ToString()).Replace(' ', '0'); //3
+			usersCount.ToString();
+			var deviceGuardData = string.Format("{0,3}", usersCount.ToString()).Replace(' ', '0'); //3
 			foreach (bool b in UsersMask)
-				DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0"; //104
-			for (int i = 0; i < Users.Capacity; i++) //x80
+				deviceGuardData = b == true ? deviceGuardData + "1" : deviceGuardData + "0"; //104
+			for (int i = 0; i < users.Capacity; i++) //x80
 			{
-				if (i >= CountUsers)
-					Users.Add(user);
-				foreach (bool b in Users[i].Attr)
-					DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0"; //8
-				s = new string(Users[i].Name);
+				if (i >= usersCount)
+					users.Add(user);
+				foreach (bool b in users[i].Attr)
+					deviceGuardData = b == true ? deviceGuardData + "1" : deviceGuardData + "0"; //8
+				s = new string(users[i].Name);
 				s = AddCharsToLen(s, 20, ' '); //20
-				DeviceGuardData = DeviceGuardData + s;
-				s = new string(Users[i].KeyTM);
+				deviceGuardData = deviceGuardData + s;
+				s = new string(users[i].KeyTM);
 				s = AddCharsToLen(s, 12, '0'); //12
-				DeviceGuardData = DeviceGuardData + s;
-				s = new string(Users[i].Pass);
+				deviceGuardData = deviceGuardData + s;
+				s = new string(users[i].Pass);
 				s = AddCharsToLen(s, 6, 'F'); //6
-				DeviceGuardData = DeviceGuardData + s;
-				foreach (bool b in Users[i].Zones)
-					DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0"; //64
-				foreach (bool b in Users[i].ReservedZones)
-					DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0"; //64
+				deviceGuardData = deviceGuardData + s;
+				foreach (bool b in users[i].Zones)
+					deviceGuardData = b == true ? deviceGuardData + "1" : deviceGuardData + "0"; //64
+				foreach (bool b in users[i].ReservedZones)
+					deviceGuardData = b == true ? deviceGuardData + "1" : deviceGuardData + "0"; //64
 			}
-			return DeviceGuardData;
+			return deviceGuardData;
 		}
 
 		public RelayCommand WriteGuardUserCommand { get; private set; }
@@ -133,26 +133,24 @@ namespace DevicesModule.ViewModels
 					if (result == MessageBoxResult.No)
 						return;
 				}
-				ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Запись охранной конфигурации");
+				if (FiresecManager.IsFS2Enabled)
+				{
+					var guardUsers = new List<GuardUser>();
+					foreach (var deviceUser in DeviceUsers)
+					{
+						guardUsers.Add(deviceUser.GuardUser);
+					}
+					var userlist = CodeDateToTranslate();
+					FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
+				}
+				else
+				{
+					var userlist = CodeDateToTranslate();
+					DeviceSetGuardUsersListHelper.Run(SelectedDevice, userlist);
+				}
 			}
-		}
-		OperationResult<bool> _operationResult;
-		void OnPropgress()
-		{
-			var userlist = CodeDateToTranslate();
-			_operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice, userlist);
-		}
-		void OnCompleted()
-		{
-			if (_operationResult.HasError)
-			{
-				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
-				return;
-			}
-			MessageBoxService.Show("Операция завершилась успешно", "Firesec");
 		}
 
-		public static string Userlist { get; set; }
 		bool CanWriteGuardUser()
 		{
 			foreach (var deviceUser in DeviceUsers)

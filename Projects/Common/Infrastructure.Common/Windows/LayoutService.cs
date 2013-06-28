@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Services.DragDrop;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Common.Windows
 {
@@ -24,6 +26,8 @@ namespace Infrastructure.Common.Windows
 
 		public void Show(ViewPartViewModel viewModel)
 		{
+			if (ServiceFactoryBase.DragDropService != null)
+				ServiceFactoryBase.DragDropService.StopDragSimulate();
 			ViewPartViewModel exist = null;
 			foreach (ViewPartViewModel item in ShellViewModel.ContentItems)
 				if (item.Key == viewModel.Key)

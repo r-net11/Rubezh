@@ -16,7 +16,7 @@ namespace FiresecClient
         {
             try
             {
-				FSAgent = new FSAgent(AppSettingsManager.FSAgentServerAddress);
+				FSAgent = new FSAgent(ConnectionSettingsManager.FSAgentServerAddress);
                 FiresecDriver = new FiresecDriver();
                 var result = FiresecDriver.Connect(FSAgent, isPing);
                 return result;

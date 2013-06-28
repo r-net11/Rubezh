@@ -7,23 +7,47 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" MinRowHeight="20" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
-                <DataGridTextColumn Header="Время системы" Binding="{Binding SystemTime}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding EventName}" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" />
-                <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" />
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" />
-            </DataGrid.Columns>
-            <DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Style.Setters>
-                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" />
-                    </Style.Setters>
-                </Style>
-            </DataGrid.CellStyle>
-        </DataGrid>
+
+        <TabControl Grid.Row="0">
+            <TabItem Header="Пожарные события">
+                <DataGrid ItemsSource="{Binding FireJournalItems}" MinRowHeight="20" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
+                        <DataGridTextColumn Header="Событие" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" />
+                        <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" />
+                        <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" />
+                    </DataGrid.Columns>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Setters>
+                                <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" />
+                            </Style.Setters>
+                        </Style>
+                    </DataGrid.CellStyle>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Охранные события" Visibility="{Binding HasSecurityJournalItems, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <DataGrid ItemsSource="{Binding SecurityJournalItems}" MinRowHeight="20" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
+                        <DataGridTextColumn Header="Событие" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" />
+                        <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" />
+                        <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" />
+                    </DataGrid.Columns>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Setters>
+                                <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" />
+                            </Style.Setters>
+                        </Style>
+                    </DataGrid.CellStyle>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        <Button Grid.Row="1" Content="Сохранить в файл" Command="{Binding SaveToFileCommand}" HorizontalAlignment="Right" Width="150" />
     </Grid>
 </UserControl>

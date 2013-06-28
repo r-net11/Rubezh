@@ -34,10 +34,7 @@ namespace DevicesModule
 					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
 					if (device != null)
 					{
-						device.DeviceState.States = deviceState.SerializableStates;
-						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						FiresecManager.CopyDeviceStatesFromFS2Server(device, deviceState);
 						device.DeviceState.OnStateChanged();
 						ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
 					}
@@ -54,11 +51,9 @@ namespace DevicesModule
 					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
 					if (device != null)
 					{
-						device.DeviceState.States = deviceState.SerializableStates;
-						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						FiresecManager.CopyDeviceStatesFromFS2Server(device, deviceState);
 						device.DeviceState.OnStateChanged();
+						ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(device.UID);
 					}
 				}
 			}));

@@ -10,8 +10,8 @@ namespace FSAgentServer
 {
 	public partial class App : Application
 	{
-		private const string SignalId = "7D46A5A4-AC89-4F36-A834-1070CFCFF609";
-		private const string WaitId = "A64BC0A9-319C-4028-B666-5CE56BFD1B1B";
+		const string SignalId = "7D46A5A4-AC89-4F36-A834-1070CFCFF609";
+		const string WaitId = "A64BC0A9-319C-4028-B666-5CE56BFD1B1B";
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -42,7 +42,7 @@ namespace FSAgentServer
 			base.OnExit(e);
 		}
 
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 			Restart();
@@ -66,7 +66,7 @@ namespace FSAgentServer
 			Application.Current.Shutdown();
 		}
 
-		private static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
+		static void SystemEvents_SessionEnding(object sender, Microsoft.Win32.SessionEndingEventArgs e)
 		{
 			CloseOnComputerShutdown(true);
 		}
@@ -83,7 +83,7 @@ namespace FSAgentServer
 			Application.Current.Shutdown();
 		}
 
-		private static void ShutDownComputer()
+		static void ShutDownComputer()
 		{
 			if (GlobalSettingsHelper.GlobalSettings.ForceShutdown)
 			{
@@ -98,7 +98,7 @@ namespace FSAgentServer
 			}
 		}
 
-		private static void ShutDownComServer()
+		static void ShutDownComServer()
 		{
 			SocketServerHelper.Stop();
 			var processes = Process.GetProcessesByName("FS_SER~1.EXE");

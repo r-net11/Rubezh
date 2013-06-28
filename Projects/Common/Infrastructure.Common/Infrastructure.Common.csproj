@@ -138,7 +138,7 @@
     </Compile>
     <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="AppDataFolderHelper.cs" />
-    <Compile Include="AppSettingsManager.cs" />
+    <Compile Include="ConnectionSettingsManager.cs" />
     <Compile Include="BalloonToolTip\BalloonHelper.cs" />
     <Compile Include="BalloonToolTip\ViewModels\BalloonToolTipViewModel.cs" />
     <Compile Include="BalloonToolTip\Views\BalloonToolTipView.xaml.cs">
@@ -167,6 +167,7 @@
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="Services\Content\IContentService.cs" />
     <Compile Include="Services\Content\ContentService.cs" />
+    <Compile Include="Services\DragDrop\DragServiceEventArgs.cs" />
     <Compile Include="Services\DragDrop\TreeListDragDropDecorator.cs" />
     <Compile Include="Services\DragDrop\DragAdorner.cs" />
     <Compile Include="Services\DragDrop\DragDropDecorator.cs" />

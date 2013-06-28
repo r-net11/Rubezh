@@ -7,6 +7,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Diagnostics;
 using FS2Api;
+using System.IO;
+using Microsoft.Win32;
+using System.Runtime.Serialization;
 
 namespace DevicesModule.ViewModels
 {
@@ -29,6 +32,7 @@ namespace DevicesModule.ViewModels
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
+			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
@@ -111,19 +115,6 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
 				return;
 			}
-//#if DEBUG
-//            if (GlobalSettingsHelper.GlobalSettings.FSAgent_UseFS2)
-//            {
-//                ClientFS2.ConfigurationManager.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
-//                ClientFS2.ConfigurationManager.DriversConfiguration = FiresecManager.FiresecConfiguration.DriversConfiguration;
-
-//                var configurationWriterHelper = new ClientFS2.ConfigurationWriter.ConfigurationWriterHelper();
-//                configurationWriterHelper.Run();
-//                var configurationDatabaseViewModel = new ClientFS2.ViewModels.ConfigurationDatabaseViewModel(configurationWriterHelper);
-//                DialogService.ShowModalWindow(configurationDatabaseViewModel);
-//                return;
-//            }
-//#endif
 			if (ValidateConfiguration())
             {
                 FS2WriteAllDeviceConfigurationHelper.Run();
@@ -163,7 +154,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
 				return;
 			}
-			if (AppSettingsManager.IsRemote)
+			if (ConnectionSettingsManager.IsRemote)
 			{
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;
@@ -247,7 +238,10 @@ namespace DevicesModule.ViewModels
         }
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+			//return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.IndicationBlock ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
         }
 
         public bool IsAlternativeUSB
@@ -266,6 +260,33 @@ namespace DevicesModule.ViewModels
 			return true;
 #endif
 			return false;
+		}
+
+		public RelayCommand ReadJournalFromFileCommand { get; private set; }
+		void OnReadJournalFromFile()
+		{
+			var openDialog = new OpenFileDialog()
+			{
+				Filter = "Журнал событий Firesec-2|*.fscj",
+				DefaultExt = "Журнал событий Firesec-2|*.fscj"
+			};
+			if (openDialog.ShowDialog().Value)
+			{
+				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
+					var fs2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+					if (fs2JournalItemsCollection != null)
+					{
+						DialogService.ShowModalWindow(new FS2DeviceJournalViewModel(fs2JournalItemsCollection));
+					}
+				}
+			}
+		}
+
+		public bool IsFS2Enabled
+		{
+			get { return FiresecManager.IsFS2Enabled; }
 		}
     }
 }

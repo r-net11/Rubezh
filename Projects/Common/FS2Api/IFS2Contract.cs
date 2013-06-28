@@ -68,10 +68,13 @@ namespace FS2Api
 
 		#region Administrator
 		[OperationContract]
-		OperationResult SetNewConfig(DeviceConfiguration deviceConfiguration);
+		OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration);
 
 		[OperationContract]
-		OperationResult DeviceWriteConfig(Guid deviceUID, bool isUSB);
+		OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB);
+
+		[OperationContract]
+		OperationResult DeviceWriteAllConfiguration();
 
 		[OperationContract]
 		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
@@ -86,31 +89,31 @@ namespace FS2Api
 		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
-
-		[OperationContract]
 		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult<DeviceConfiguration> DeviceReadConfig(Guid deviceUID, bool isUSB);
+		OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult<List<FS2JournalItem>> DeviceReadEventLog(Guid deviceUID, bool isUSB);
+		OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB);
+
+		[OperationContract]
+		OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
 
 		[OperationContract]
-		OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(DriverType driverType);
+		OperationResult<List<DeviceCustomFunction>> DeviceGetCustomFunctions(DriverType driverType);
 
 		[OperationContract]
-		OperationResult DeviceCustomFunctionExecute(Guid deviceUID, bool isUSB, string functionName);
+		OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID);
+		OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult DeviceSetGuardUsersList(Guid deviceUID, string users);
+		OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUser);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);

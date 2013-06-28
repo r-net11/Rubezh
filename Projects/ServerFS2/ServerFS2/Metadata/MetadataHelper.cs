@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
+using System.Windows.Forms;
+using System.Diagnostics;
+using Common;
+using Infrastructure.Common;
 
 namespace ServerFS2
 {
@@ -13,10 +17,22 @@ namespace ServerFS2
 
 		public static void Initialize()
 		{
-			using (var fileStream = new FileStream(@"Metadata\rubezh2010.xml", FileMode.Open))
+			try
 			{
-				var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
-				Metadata = (Rubezh2010.driverConfig)serializer.Deserialize(fileStream);
+				var fileName = AppDataFolderHelper.GetServerAppDataPath("rubezh2010.xml");
+				if (!File.Exists(fileName))
+					fileName = @"Metadata\rubezh2010.xml";
+				using (var fileStream = new FileStream(fileName, FileMode.Open))
+				{
+					var serializer = new XmlSerializer(typeof(Rubezh2010.driverConfig));
+					var deserializesObject = serializer.Deserialize(fileStream);
+					Metadata = (Rubezh2010.driverConfig)deserializesObject;
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("MetadataHelper");
+				Logger.Error(e, "MetadataHelper.Initialize");
 			}
 		}
 
@@ -39,6 +55,22 @@ namespace ServerFS2
 				bitNoString = metadataDeviceState.bitNo;
 			if (metadataDeviceState.Bitno != null)
 				bitNoString = metadataDeviceState.Bitno;
+			
+			if (bitNoString != null)
+			{
+				int bitNo = -1;
+				var result = Int32.TryParse(bitNoString, out bitNo);
+				if (result)
+				{
+					return bitNo;
+				}
+			}
+			return -1;
+		}
+
+		public static int GetIntBitNo(Rubezh2010.driverConfigDeviceStatesDeviceState metadataDeviceState)
+		{
+			string bitNoString = null;
 			if (metadataDeviceState.intBitno != null)
 				bitNoString = metadataDeviceState.intBitno;
 			if (metadataDeviceState.Intbitno != null)

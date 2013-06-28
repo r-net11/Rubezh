@@ -13,7 +13,8 @@ namespace MonitorClientFS2
 			resourceService.AddResource(new ResourceDescription(typeof(App).Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-			ConfigurationManager.Load();
+			ServerFS2.Bootstrapper.Run();
+			//ConfigurationManager.Load();
 			var mainView = new MainView();
 			var mainViewModel = new MainViewModel();
 			mainView.DataContext = mainViewModel;

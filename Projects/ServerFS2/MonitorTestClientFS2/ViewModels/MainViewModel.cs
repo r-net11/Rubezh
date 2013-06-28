@@ -8,26 +8,73 @@ using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
 using ServerFS2;
 using ServerFS2.Processor;
+using Ionic.Zip;
+using System.Text;
+using System.Linq;
+using System.IO;
+using ServerFS2.Service;
+using ServerFS2.Monitoring;
+using System.Windows;
+using System.Threading;
+using System.Threading.Tasks;
+using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
+		public DevicesViewModel DevicesViewModel { get; private set; }
+
 		public MainViewModel()
 		{
 			StartMonitoringCommand = new RelayCommand(OnStartMonitoring);
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
-			TestCommand = new RelayCommand(OnTest);
+			SuspendMonitoringCommand = new RelayCommand(OnSuspendMonitoring);
+			ResumeMonitoringCommand = new RelayCommand(OnResumeMonitoring);
 			ReadStatesCommand = new RelayCommand(OnReadStates);
+			SetNewConfigurationCommand = new RelayCommand(OnSetNewConfiguration);
+			GetSerialListCommand = new RelayCommand(OnGetSerialList);
+			SetInitializingTestCommand = new RelayCommand(OnSetInitializingTest);
+			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration);
 
 			DevicesViewModel = new DevicesViewModel();
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
-			//MainManager.StartMonitoring();
+			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
+			CallbackManager.ProgressEvent += new System.Action<FS2ProgressInfo>(CallbackManager_ProgressEvent);
+
+			//if (StartMonitoring)
+			//    MainManager.StartMonitoring();
 		}
 
-		public DevicesViewModel DevicesViewModel { get; private set; }
+		#region Progress
+		public ObservableRangeCollection<FS2ProgressInfo> ProgressInfos { get; private set; }
+
+		void CallbackManager_ProgressEvent(FS2ProgressInfo fs2ProgressInfos)
+		{
+			Application.Current.Dispatcher.Invoke(new Action(
+				() =>
+				{
+					ProgressInfos.Insert(0, fs2ProgressInfos);
+					if (ProgressInfos.Count > 1000)
+						ProgressInfos.RemoveAt(1000);
+				}
+				));
+			Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+		}
+		#endregion
+
+		public bool StartMonitoring
+		{
+			get { return RegistrySettingsHelper.GetBool("MonitorClientFS2.StartMonitoring"); }
+			set
+			{
+				RegistrySettingsHelper.SetBool("MonitorClientFS2.StartMonitoring", value);
+				OnPropertyChanged("StartMonitoring");
+			}
+		}
 
 		void ShowNewItem(FS2JournalItem journalItem)
 		{
@@ -76,29 +123,68 @@ namespace MonitorClientFS2
 			MainManager.StopMonitoring();
 		}
 
-		public RelayCommand TestCommand { get; private set; }
-		void OnTest()
+		public RelayCommand SuspendMonitoringCommand { get; private set; }
+		void OnSuspendMonitoring()
 		{
-			USBManager.Initialize();
+			MonitoringManager.SuspendMonitoring();
+		}
 
-			//var stateBytes = new List<byte>() { 1, 2 };
-			//var bitArray = new BitArray(stateBytes.ToArray());
-			//for (int i = 0; i < 16; i++)
-			//{
-			//    var isBitSetted = bitArray[i];
-			//    Trace.WriteLine(i + "-" + isBitSetted);
-			//}
-			//MonitoringProcessor.WriteStats();
-			//MainManager.StopMonitoring();
-			//DeviceStatesManager.UpdatePanelState(ConfigurationManager.Devices.FirstOrDefault(x => x.Driver.IsPanel && x.IntAddress == 15));
-			//MainManager.StartMonitoring();
+		public RelayCommand ResumeMonitoringCommand { get; private set; }
+		void OnResumeMonitoring()
+		{
+			MonitoringManager.ResumeMonitoring();
+		}
+
+		public RelayCommand SetNewConfigurationCommand { get; private set; }
+		void OnSetNewConfiguration()
+		{
+			Task.Factory.StartNew(() =>
+			{
+				while (true)
+				{
+					var fs2Contract = new FS2Contract();
+					fs2Contract.SetNewConfiguration(ConfigurationManager.DeviceConfiguration);
+					Thread.Sleep(TimeSpan.FromSeconds(5));
+				}
+			});
+		}
+
+		public RelayCommand GetSerialListCommand { get; private set; }
+		void OnGetSerialList()
+		{
+			var fs2Contract = new FS2Contract();
+			var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID);
+			MessageBox.Show("DeviceGetSerialList Count " + result.Result.Count);
+		}
+
+		public RelayCommand SetInitializingTestCommand { get; private set; }
+		void OnSetInitializingTest()
+		{
+			MonitoringManager.MonitoringUSBs[0].SetAllInitializing();
+		}
+
+		public RelayCommand ReadConfigurationCommand { get; private set; }
+		void OnReadConfiguration()
+		{
+			var fs2Contract = new FS2Contract();
+			var result = fs2Contract.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device.UID, false);
 		}
 
 		public RelayCommand ReadStatesCommand { get; private set; }
 		void OnReadStates()
 		{
-			//var deviceStatesManager = new DeviceStatesManager();
-			//deviceStatesManager.GetStates();
+			var result = new HashSet<string>();
+			foreach (var driver in ConfigurationManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.AffectChildren)
+					{
+						if (result.Add(state.Name))
+							Trace.WriteLine(state.Name);
+					}
+				}
+			}
 		}
 	}
 }
