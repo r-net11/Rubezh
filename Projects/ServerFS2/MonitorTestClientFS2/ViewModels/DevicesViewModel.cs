@@ -10,11 +10,6 @@ namespace MonitorClientFS2.ViewModels
 	{
 		public DevicesViewModel()
 		{
-			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
-			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
-			ReadRomRamCommand = new RelayCommand(OnReadRomRam, CanReadRomRam);
-			GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
-
 			BuildTree();
 			if (RootDevice != null)
 			{
@@ -67,46 +62,6 @@ namespace MonitorClientFS2.ViewModels
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
-		}
-
-		public RelayCommand SetIgnoreCommand { get; private set; }
-		private void OnSetIgnore()
-		{
-		}
-		private bool CanSetIgnore()
-		{
-			return SelectedDevice != null;
-		}
-
-		public RelayCommand ResetIgnoreCommand { get; private set; }
-		private void OnResetIgnore()
-		{
-		}
-		private bool CanResetIgnore()
-		{
-			return SelectedDevice != null;
-		}
-
-		public RelayCommand ReadRomRamCommand { get; private set; }
-		private void OnReadRomRam()
-		{
-			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
-			var deviceConfiguration = getConfigurationOperationHelper.GetDeviceConfiguration(SelectedDevice.Device);
-		}
-		private bool CanReadRomRam()
-		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsPanel));
-		}
-
-		public RelayCommand GetParametersCommand { get; private set; }
-		private void OnGetParameters()
-		{
-			DeviceParametersOperationHelper.GetDeviceParameters(SelectedDevice.Device);
-			SelectedDevice.Device.OnAUParametersChanged();
-		}
-		private bool CanGetParameters()
-		{
-			return SelectedDevice != null;
 		}
 	}
 }

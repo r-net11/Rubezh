@@ -31,7 +31,7 @@ namespace FS2Client
 			return null;
 		}
 
-		private IFS2Contract DoCreate(string serverAddress)
+		IFS2Contract DoCreate(string serverAddress)
 		{
 			if (serverAddress.StartsWith("net.pipe:"))
 			{

@@ -238,7 +238,10 @@ namespace DevicesModule.ViewModels
         }
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+			//return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.IndicationBlock ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
         }
 
         public bool IsAlternativeUSB

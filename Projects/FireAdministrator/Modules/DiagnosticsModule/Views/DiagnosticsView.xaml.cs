@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using FiresecClient;
+using System.Windows.Media;
+using Xceed.Wpf.Toolkit;
 
 namespace DiagnosticsModule.Views
 {
@@ -20,6 +22,11 @@ namespace DiagnosticsModule.Views
 			}
 			AutoCompleteBox autoCompleteBox = sender as AutoCompleteBox;
 			autoCompleteBox.ItemsSource = zones;
+		}
+
+		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			//ColorPicker
 		}
     }
 }

@@ -60,6 +60,8 @@
 
       <Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.Config.fscp" Name="config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" KeyPath="yes" />
+        <File Id="Server.rubezh2010.xml" Name="rubezh2010.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\rubezh2010.xml" />
+        <File Id="Server.frm.fscf" Name="frm.fscf" Source="..\..\..\..\..\Deploy\ConfigurationService\frm.fscf" />
       </Component>
     </DirectoryRef>
 

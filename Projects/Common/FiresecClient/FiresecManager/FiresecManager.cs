@@ -205,9 +205,9 @@ namespace FiresecClient
 				}, "DeviceVerifyFirmwareVersion");
 		}
 
-		public static OperationResult<string> DeviceGetInformation(Device device, bool isUsb)
+		public static OperationResult<bool> DeviceGetInformation(Device device, bool isUsb)
 		{
-			return SafeOperationCall<string>(() =>
+			return SafeOperationCall(() =>
 				{
 					return FiresecDriver.DeviceGetInformation(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
 				}, "DeviceGetInformation");
