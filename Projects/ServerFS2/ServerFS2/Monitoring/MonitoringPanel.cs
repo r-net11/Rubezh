@@ -7,6 +7,7 @@ using FS2Api;
 using ServerFS2.Journal;
 using ServerFS2.Service;
 using System.Diagnostics;
+using ServerFS2.Operations;
 
 namespace ServerFS2.Monitoring
 {
@@ -86,6 +87,7 @@ namespace ServerFS2.Monitoring
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 			}
 			DeviceStatesManager.UpdatePanelState(PanelDevice);
+			GetInformationOperationHelper.GetDeviceInformation(PanelDevice);
 			DeviceStatesManager.CanNotifyClients = true;
 			return true;
 		}
@@ -206,10 +208,11 @@ namespace ServerFS2.Monitoring
 		{
 			if (IsConnectionLost)
 			{
-				//var remoteSerialNo = ServerHelper.GetDeviceInformation(PanelDevice);
-				//if (remoteSerialNo == null)
+				//var serialNo = PanelDevice.Properties.FirstOrDefault(x => x.Name == "SerialNo").Value;
+				//GetInformationOperationHelper.GetDeviceInformation(PanelDevice);
+				//if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "SerialNo").Value == null)
 				//    return;
-				//if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "serialNo").Value == remoteSerialNo)
+				//if (PanelDevice.Properties.FirstOrDefault(x => x.Name == "serialNo").Value != serialNo)
 				//{
 				//    OnWrongPanel();
 				//    return;
