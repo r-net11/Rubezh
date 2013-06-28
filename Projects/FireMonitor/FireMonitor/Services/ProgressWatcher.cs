@@ -41,7 +41,7 @@ namespace FireMonitor
 
 		static void OnFS2Progress(FS2ProgressInfo progressInfo)
 		{
-			Watcher_Progress(progressInfo.Stage, progressInfo.Comment, progressInfo.PercentComplete, progressInfo.BytesRW);
+			Watcher_Progress(progressInfo.CurrentStage, progressInfo.Comment, progressInfo.PercentComplete, progressInfo.BytesRW);
 		}
 
 		static void Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
