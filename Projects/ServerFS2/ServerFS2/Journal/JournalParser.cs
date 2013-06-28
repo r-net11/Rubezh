@@ -240,7 +240,7 @@ namespace ServerFS2
 
 		string GetEventName()
 		{
-			if (FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
+			if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
 				return GetEventNameAMT();
 			
 			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode);
