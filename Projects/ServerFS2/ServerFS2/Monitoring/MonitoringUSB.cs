@@ -192,6 +192,14 @@ namespace ServerFS2.Monitoring
 
 		void CheckConnection()
 		{
+			if (USBDevice.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
+				USBDevice.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
+				USBDevice.Driver.DriverType == DriverType.USB_Rubezh_4A ||
+				USBDevice.Driver.DriverType == DriverType.USB_BUNS ||
+				USBDevice.Driver.DriverType == DriverType.USB_BUNS_2 ||
+				USBDevice.Driver.DriverType == DriverType.USB_Rubezh_P)
+				return;
+
 			var response = USBManager.Send(USBDevice, 0x01, 0x32);
 			if (response.HasError)
 			{

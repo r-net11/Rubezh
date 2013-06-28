@@ -75,11 +75,12 @@ namespace ServerFS2.Monitoring
 			if (remoteDeviceConfiguration == null)
 				return false;
 			remoteDeviceConfiguration.Update();
-			var realChildren = remoteDeviceConfiguration.RootDevice.GetRealChildren();
-			panelDevice.DeviceState.IsDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, realChildren);
-			foreach (var remoteDevice in realChildren)
+			var remoteRealChildren = remoteDeviceConfiguration.RootDevice.GetRealChildren();
+			var localRealChildren = panelDevice.GetRealChildren();
+			panelDevice.DeviceState.IsDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, remoteRealChildren);
+			foreach (var remoteDevice in remoteRealChildren)
 			{
-				var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
+				var device = localRealChildren.FirstOrDefault(x => x.IntAddress == remoteDevice.IntAddress);
 				if (device != null)
 				{
 					device.StateWordOffset = remoteDevice.StateWordOffset;
@@ -89,6 +90,7 @@ namespace ServerFS2.Monitoring
 					ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
 				}
 			}
+
 			return true;
 		}
 
