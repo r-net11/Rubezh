@@ -223,7 +223,7 @@ namespace ServerFS2.Processor
 
 		public static FS2JournalItemsCollection DeviceReadJournal(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<FS2JournalItemsCollection>(ReadJournalOperationHelper.GetJournalItems, device, isUSB);
+			return TempConfigSafeCall<FS2JournalItemsCollection>(ReadJournalOperationHelper.GetJournalItemsCollection, device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)

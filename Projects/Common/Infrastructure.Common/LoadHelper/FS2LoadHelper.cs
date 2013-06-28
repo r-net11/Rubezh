@@ -86,7 +86,7 @@ namespace Infrastructure.Common
 
 		static bool Start()
 		{
-			var fileName = @"..\ServerFS2\ServerFS2.exe";
+			var fileName = @"..\FS2\ServerFS2.exe";
 			if (!File.Exists(fileName))
 			{
 				fileName = GetLocation();

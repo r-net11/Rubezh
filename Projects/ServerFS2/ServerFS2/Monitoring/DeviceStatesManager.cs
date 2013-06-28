@@ -8,6 +8,7 @@ using FS2Api;
 using Rubezh2010;
 using ServerFS2.Service;
 using FiresecAPI;
+using ServerFS2.Helpers;
 
 namespace ServerFS2.Monitoring
 {
@@ -74,7 +75,9 @@ namespace ServerFS2.Monitoring
 			if (remoteDeviceConfiguration == null)
 				return false;
 			remoteDeviceConfiguration.Update();
-			foreach (var remoteDevice in remoteDeviceConfiguration.RootDevice.GetRealChildren())
+			var realChildren = remoteDeviceConfiguration.RootDevice.GetRealChildren();
+			panelDevice.DeviceState.IsDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, realChildren);
+			foreach (var remoteDevice in realChildren)
 			{
 				var device = ConfigurationManager.Devices.FirstOrDefault(x => x.ParentPanel != null && x.ParentPanel == panelDevice && x.IntAddress == remoteDevice.IntAddress);
 				if (device != null)

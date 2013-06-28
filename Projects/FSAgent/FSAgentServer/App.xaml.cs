@@ -10,8 +10,8 @@ namespace FSAgentServer
 {
 	public partial class App : Application
 	{
-		private const string SignalId = "7D46A5A4-AC89-4F36-A834-1070CFCFF609";
-		private const string WaitId = "A64BC0A9-319C-4028-B666-5CE56BFD1B1B";
+		const string SignalId = "7D46A5A4-AC89-4F36-A834-1070CFCFF609";
+		const string WaitId = "A64BC0A9-319C-4028-B666-5CE56BFD1B1B";
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
