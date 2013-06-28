@@ -202,22 +202,21 @@ namespace PlansModule.ViewModels
 					Plans.Remove(selectedPlan);
 					FiresecManager.PlansConfiguration.Plans.Remove(plan);
 					if (!withChild)
-						foreach (var childPlanViewModel in selectedPlan.Children)
+						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
 							Plans.Add(childPlanViewModel);
 							FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = null;
-							childPlanViewModel.ResetParent();
 						}
 				}
 				else
 				{
-					parent.Children.Remove(selectedPlan);
+					parent.RemoveChild(selectedPlan);
 					parent.Plan.Children.Remove(plan);
 					if (!withChild)
-						foreach (var childPlanViewModel in selectedPlan.Children)
+						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
-							parent.Children.Add(childPlanViewModel);
+							parent.AddChild(childPlanViewModel);
 							parent.Plan.Children.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = parent.Plan;
 						}

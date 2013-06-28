@@ -4,7 +4,7 @@ using Infrastructure.Common.TreeList;
 
 namespace PlansModule.ViewModels
 {
-	public class ElementBaseViewModel : TreeItemViewModel<ElementBaseViewModel>
+	public class ElementBaseViewModel : TreeNodeViewModel<ElementBaseViewModel>
 	{
 		public RelayCommand ShowOnPlanCommand { get; protected set; }
 

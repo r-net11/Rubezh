@@ -114,10 +114,6 @@ namespace Infrastructure.Common.TreeList
 		}
 		public TreeNodeViewModel ParentNode { get; protected set; }
 		public TreeItemCollection Nodes { get; private set; }
-		public bool IsExpandable
-		{
-			get { return Nodes.Count > 0; }
-		}
 		public virtual bool InsertSorted
 		{
 			get { return true; }
@@ -239,7 +235,7 @@ namespace Infrastructure.Common.TreeList
 						CreateChildrenRows();
 						break;
 				}
-			OnPropertyChanged(() => IsExpandable);
+			OnPropertyChanged(() => HasChildren);
 		}
 		private void DropChildrenRows(bool removeParent)
 		{
@@ -292,7 +288,7 @@ namespace Infrastructure.Common.TreeList
 						}
 						_isExpanded = false;
 					}
-					OnPropertyChanged(() => IsExpandable);
+					OnPropertyChanged(() => HasChildren);
 					OnPropertyChanged(() => IsExpanded);
 				}
 			}
@@ -394,6 +390,10 @@ namespace Infrastructure.Common.TreeList
 		{
 			Nodes.Add(item);
 		}
+		public void RemoveChild(T item)
+		{
+			Nodes.Remove(item);
+		}
 		public void ClearChildren()
 		{
 			Nodes.Clear();
@@ -413,7 +413,7 @@ namespace Infrastructure.Common.TreeList
 
 		public List<T> GetAllParents()
 		{
-			if (ParentNode == null)
+			if (Parent == null)
 				return new List<T>();
 			else
 			{

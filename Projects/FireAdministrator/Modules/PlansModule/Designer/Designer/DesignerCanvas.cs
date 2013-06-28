@@ -14,6 +14,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
+using System;
 
 namespace PlansModule.Designer
 {
@@ -32,6 +33,7 @@ namespace PlansModule.Designer
 			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
 			Width = 100;
 			Height = 100;
+			Focusable = true;
 
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
@@ -294,6 +296,76 @@ namespace PlansModule.Designer
 		private void OnRemoveGridLinesCommand()
 		{
 			GridLineController.GridLines.Clear();
+		}
+
+		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+		{
+			Keyboard.Focus(this);
+			base.OnPreviewMouseDown(e);
+		}
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			Vector? vector = null;
+			switch (e.Key)
+			{
+				case Key.Up:
+					vector = new Vector(0, -GetShift());
+					break;
+				case Key.Down:
+					vector = new Vector(0, GetShift());
+					break;
+				case Key.Left:
+					vector = new Vector(-GetShift(), 0);
+					break;
+				case Key.Right:
+					vector = new Vector(GetShift(), 0);
+					break;
+			}
+			if (vector.HasValue)
+			{
+				var designerItem = SelectedItems.FirstOrDefault();
+				if (designerItem != null)
+				{
+					if (vector.HasValue)
+					{
+						var point = designerItem.Element.Position;
+						if (!e.IsRepeat)
+							designerItem.DragStarted(designerItem.Element.Position);
+						designerItem.DragDelta(point, vector.Value);
+						e.Handled = true;
+					}
+				}
+			}
+			base.OnKeyDown(e);
+		}
+		protected override void OnKeyUp(KeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.Up:
+				case Key.Down:
+				case Key.Left:
+				case Key.Right:
+					var designerItem = SelectedItems.FirstOrDefault();
+					if (designerItem != null)
+					{
+						designerItem.DragCompleted(designerItem.Element.Position);
+						e.Handled = true;
+					}
+					break;
+			}
+			base.OnKeyUp(e);
+		}
+		private double GetShift()
+		{
+			if (Keyboard.Modifiers == ModifierKeys.None)
+				return 10;
+			if ((Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.None)
+				return Math.Max(CanvasHeight, CanvasWidth);
+			else if ((Keyboard.Modifiers & ModifierKeys.Shift) != ModifierKeys.None)
+				return 50;
+			else
+				return 0;
 		}
 	}
 }

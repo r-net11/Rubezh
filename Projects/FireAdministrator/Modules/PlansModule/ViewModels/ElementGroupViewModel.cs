@@ -16,13 +16,11 @@ namespace PlansModule.ViewModels
 			_isVisible = true;
 			_isSelectable = true;
 			IsGroupHasChild = HasChildren;
-			PropertyChanged += ElementGroupViewModel_PropertyChanged;
-		}
-
-		private void ElementGroupViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "HasChildren")
+			Nodes.CollectionChanged += (s, e) =>
+			{
 				IsGroupHasChild = HasChildren;
+				OnPropertyChanged(() => IsGroupHasChild);
+			};
 		}
 
 		public string Name { get; private set; }

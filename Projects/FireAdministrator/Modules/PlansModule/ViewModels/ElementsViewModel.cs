@@ -110,7 +110,7 @@ namespace PlansModule.ViewModels
 			if (parentElementViewModel == null)
 				Elements.Add(elementViewModel);
 			else
-				parentElementViewModel.Children.Add(elementViewModel);
+				parentElementViewModel.AddChild(elementViewModel);
 			AllElements.Add(elementViewModel);
 		}
 
@@ -134,7 +134,7 @@ namespace PlansModule.ViewModels
 				if (element != null)
 				{
 					if ((element.Parent != null) && (element.Parent.Children != null))
-						element.Parent.Children.Remove(element);
+						element.Parent.RemoveChild(element);
 					//element.Parent = null;
 					Elements.Remove(element);
 					AllElements.Remove(element);
