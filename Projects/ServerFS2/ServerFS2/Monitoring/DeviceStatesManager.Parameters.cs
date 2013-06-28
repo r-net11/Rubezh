@@ -18,6 +18,7 @@ namespace ServerFS2.Monitoring
 		{
 			List<byte> data;
 			hasChanges = false;
+
 			switch(device.Driver.DriverType)
 			{
 				case DriverType.RadioSmokeDetector:
@@ -52,6 +53,7 @@ namespace ServerFS2.Monitoring
 					GetStateWord(device, data);
 					break;
 			}
+			GetStateWord(device, data);
 			if (hasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
@@ -78,13 +80,16 @@ namespace ServerFS2.Monitoring
 				return;
 			}
 			var extraDevicesBytes = responce.Bytes;
-			
-			var extraDevicesVal = extraDevicesBytes[0] * 256 + extraDevicesBytes[1];
-			SetParameter(panel, extraDevicesVal, "Лишних устройств");
+
+			if (extraDevicesBytes.Count > 1)
+			{
+				var extraDevicesVal = BytesHelper.ExtractShort(extraDevicesBytes, 0);
+				SetParameter(panel, extraDevicesVal, "Лишних устройств");
+			}
 
 			if(hasChanges)
 				NotifyStateChanged(panel);
-			Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(extraDevicesBytes));
+			//Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(extraDevicesBytes));
 		}
 
 		public void UpdatePanelParameters(Device panel)
@@ -163,16 +168,17 @@ namespace ServerFS2.Monitoring
 				if (bitArray[i])
 				{
 					var metadataDeviceState = MetadataHelper.Metadata.deviceStates.FirstOrDefault(x => x.bitno == i.ToString() || x.bitNo == i.ToString() || x.Bitno == i.ToString());
-					if (metadataDeviceState == null)
-						continue;
-					var state = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-					if(state != null)
-						states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
+					if (metadataDeviceState != null)
+					{
+						var state = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+						if (state != null)
+							states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
+					}
 				}
 			}
 			if (SetNewDeviceStates(device, states))
 			{
-				ChangeDeviceStates(device, true);
+				ForseUpdateDeviceStates(device);
 			}
 		}
 

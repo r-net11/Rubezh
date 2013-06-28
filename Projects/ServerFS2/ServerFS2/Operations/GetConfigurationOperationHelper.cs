@@ -511,17 +511,26 @@ namespace ServerFS2
 			remoteDeviceConfiguration.Devices.Add(PanelDevice);
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(PanelDevice, CheckMonitoringSuspend);
 			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
+			if (panelDatabaseReader.RomDBFirstIndex == -1)
+				return null;
 			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
-			Stopwatch stopwatch = new Stopwatch();
+			if (panelDatabaseReader.FlashDBLastIndex == -1)
+				return null;
+			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 			DeviceRom = panelDatabaseReader.GetRomDBBytes(PanelDevice);
+			if (DeviceRom == null)
+				return null;
 			stopwatch.Stop();
 			Trace.WriteLine("GetRomDBBytes " + stopwatch.Elapsed.TotalSeconds);
 			stopwatch = new Stopwatch();
 			stopwatch.Start();
 			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
+			if (DeviceRom == null)
+				return null;
 			stopwatch.Stop();
 			Trace.WriteLine("GetFlashDBBytes " + stopwatch.Elapsed.TotalSeconds);
+
 			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
 			ParseZonesRom(1542, panelDatabaseReader.RomDBFirstIndex);
 			#region OutZones
@@ -599,19 +608,22 @@ namespace ServerFS2
 			if(device.Driver.Category == DeviceCategoryType.Sensor)
 			{
 				data = ServerHelper.GetBytesFromFlashDB(device.Parent, device.StateWordOffset, 11);
-				device.StateWordBytes = data.GetRange(0, 2);
-				if ((device.Driver.DriverType == DriverType.SmokeDetector) || (device.Driver.DriverType == DriverType.RadioSmokeDetector))
+				if (data != null)
 				{
-					device.DeviceState.Dustiness = (float) data[8]/100;
-					device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
-				}
-				if (device.Driver.DriverType == DriverType.HeatDetector)
-					device.DeviceState.Temperature = data[8];
-				if (device.Driver.DriverType == DriverType.CombinedDetector)
-				{
-					device.DeviceState.Dustiness = (float) data[9]/100;
-					device.DeviceState.Temperature = data[10];
-					device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+					device.StateWordBytes = data.GetRange(0, 2);
+					if ((device.Driver.DriverType == DriverType.SmokeDetector) || (device.Driver.DriverType == DriverType.RadioSmokeDetector))
+					{
+						device.DeviceState.Dustiness = (float)data[8] / 100;
+						device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+					}
+					if (device.Driver.DriverType == DriverType.HeatDetector)
+						device.DeviceState.Temperature = data[8];
+					if (device.Driver.DriverType == DriverType.CombinedDetector)
+					{
+						device.DeviceState.Dustiness = (float)data[9] / 100;
+						device.DeviceState.Temperature = data[10];
+						device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+					}
 				}
 			}
 		}

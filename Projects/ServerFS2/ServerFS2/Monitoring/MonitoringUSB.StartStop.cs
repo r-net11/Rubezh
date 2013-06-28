@@ -28,7 +28,7 @@ namespace ServerFS2.Monitoring
 		{
 			IsStopping = true;
 			SuspendMonitoring();
-			ResumeMonitoring();
+			PauseEvent = null;
 
 			MonitoringPanels.Clear();
 			MonitoringNonPanels.Clear();

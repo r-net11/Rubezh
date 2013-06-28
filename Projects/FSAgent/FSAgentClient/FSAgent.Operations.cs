@@ -105,7 +105,7 @@ namespace FSAgentClient
 		{
 			return SafeOperationCall(() => { return FSAgentContract.DeviceDatetimeSync(coreConfig, devicePath); }, "DeviceDatetimeSync");
 		}
-		public OperationResult<bool> DeviceGetInformation(string coreConfig, string devicePath)
+		public OperationResult<string> DeviceGetInformation(string coreConfig, string devicePath)
 		{
 			return SafeOperationCall(() => { return FSAgentContract.DeviceGetInformation(coreConfig, devicePath); }, "DeviceGetInformation");
 		}

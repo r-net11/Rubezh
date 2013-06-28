@@ -83,7 +83,7 @@ namespace FS2Api
 		OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult DeviceGetInformation(Guid deviceUID, bool isUSB);
+		OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
 		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID);

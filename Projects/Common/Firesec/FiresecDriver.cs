@@ -134,7 +134,7 @@ namespace Firesec
 			return FiresecSerializedClient.DeviceDatetimeSync(firesecConfiguration, device.GetPlaceInTree());
 		}
 
-        public OperationResult<bool> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             var firesecConfiguration = ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);

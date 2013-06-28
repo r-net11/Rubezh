@@ -25,6 +25,16 @@ namespace ServerFS2.Monitoring
 		{
 			if (device == null)
 			{
+				var deviceStatesManager = new DeviceStatesManager();
+				deviceStatesManager.CanNotifyClients = false;
+				foreach (var childDevice in ConfigurationManager.Devices)
+				{
+					if (childDevice.IsMonitoringDisabled)
+					{
+						deviceStatesManager.ForseUpdateDeviceStates(childDevice);
+					}
+				}
+
 				USBManager.UsbRemoved += new Action(USBManager_UsbRemoved);
 
 				MonitoringUSBs = new List<MonitoringUSB>();
@@ -93,7 +103,7 @@ namespace ServerFS2.Monitoring
 				{
 					foreach (var monitoringDevice in monitoringUSB.MonitoringPanels)
 					{
-						if (monitoringDevice.Panel == panelDevice)
+						if (monitoringDevice.PanelDevice == panelDevice)
 							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
 					}
 				}
@@ -109,7 +119,7 @@ namespace ServerFS2.Monitoring
 				{
 					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
 					{
-						if (monitoringDevice.Panel == device.ParentPanel)
+						if (monitoringDevice.PanelDevice == device.ParentPanel)
 						{
 							monitoringDevice.DevicesToIgnore = new List<Device>() { device };
 						}
@@ -127,7 +137,7 @@ namespace ServerFS2.Monitoring
 				{
 					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
 					{
-						if (monitoringDevice.Panel == device.ParentPanel)
+						if (monitoringDevice.PanelDevice == device.ParentPanel)
 						{
 							monitoringDevice.DevicesToResetIgnore = new List<Device>() { device };
 						}
@@ -143,7 +153,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
 				{
-					if (monitoringDevice.Panel == device.ParentPanel)
+					if (monitoringDevice.PanelDevice == device.ParentPanel)
 					{
 						monitoringDevice.CommandItems.Add(new CommandItem(device, commandName));
 						break;

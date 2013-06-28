@@ -15,13 +15,13 @@ namespace FiresecAPI.Models
 		public List<DeviceDriverState> SerializableStates { get; set; }
 
 		[DataMember]
-		public List<ParentDeviceState> SerializableParentStates { get; set; }
+		public List<ParentDeviceState> ParentStates { get; set; }
 
 		[DataMember]
-		public List<ChildDeviceState> SerializableChildStates { get; set; }
+		public List<ChildDeviceState> ChildStates { get; set; }
 
 		[DataMember]
-		public List<Parameter> SerializableParameters { get; set; }
+		public List<Parameter> Parameters { get; set; }
 
 		[DataMember]
 		public float Smokiness { get; set; }
@@ -36,7 +36,10 @@ namespace FiresecAPI.Models
 		public bool IsInitializing { get; set; }
 
 		[DataMember]
-		public bool IsConnectionLost { get; set; }
+		public bool IsPanelConnectionLost { get; set; }
+
+		[DataMember]
+		public bool IsUsbConnectionLost { get; set; }
 
 		[DataMember]
 		public bool IsDBMissmatch { get; set; }
@@ -81,10 +84,6 @@ namespace FiresecAPI.Models
             }
         }
 
-		public List<ParentDeviceState> ParentStates { get; set; }
-		public List<ChildDeviceState> ChildStates { get; set; }
-		public List<Parameter> Parameters { get; set; }
-
 		public List<ParentDeviceState> ThreadSafeParentStates
 		{
 			get
@@ -122,10 +121,6 @@ namespace FiresecAPI.Models
 		public DeviceState()
 		{
 			SerializableStates = new List<DeviceDriverState>();
-			SerializableParentStates = new List<ParentDeviceState>();
-			SerializableChildStates = new List<ChildDeviceState>();
-			SerializableParameters = new List<Parameter>();
-
 			States = new List<DeviceDriverState>();
 			ParentStates = new List<ParentDeviceState>();
 			ChildStates = new List<ChildDeviceState>();

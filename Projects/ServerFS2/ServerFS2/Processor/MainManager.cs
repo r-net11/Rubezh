@@ -9,6 +9,7 @@ using ServerFS2.Service;
 using Common;
 using System.Threading;
 using ServerFS2.Operations;
+using System.Threading.Tasks;
 
 namespace ServerFS2.Processor
 {
@@ -55,6 +56,11 @@ namespace ServerFS2.Processor
 			var deviceStates = new List<DeviceState>();
 			foreach (var device in ConfigurationManager.Devices)
 			{
+				if (device.IsMonitoringDisabled)
+				{
+					var deviceStatesManager = new DeviceStatesManager();
+					deviceStatesManager.ForseUpdateDeviceStates(device);
+				}
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				deviceStates.Add(device.DeviceState);
 			}
@@ -143,7 +149,10 @@ namespace ServerFS2.Processor
 			}
 			finally
 			{
-				StartMonitoring();
+				Task.Factory.StartNew(() =>
+				{
+					StartMonitoring();
+				});
 			}
 		}
 
@@ -154,7 +163,6 @@ namespace ServerFS2.Processor
 
 		public static void DeviceWriteAllConfiguration()
 		{
-			throw new FS2Exception("Функция пока не реализована");
 			ConfigurationWriterOperationHelper.WriteAll();
 		}
 
@@ -168,14 +176,30 @@ namespace ServerFS2.Processor
 			TempConfigSafeCall(ServerHelper.SynchronizeTime, device, isUSB);
 		}
 
-		public static void DeviceGetInformation(Device device, bool isUSB)
+		public static string DeviceGetInformation(Device device, bool isUSB)
 		{
-			TempConfigSafeCall(GetInformationOperationHelper.GetDeviceInformation, device, isUSB);
+			return TempConfigSafeCall<string>((x) =>
+			{
+				return GetInformationOperationHelper.GetDeviceInformation(device);
+			}, device, isUSB);
 		}
 
 		public static List<string> DeviceGetSerialList(Device device)
 		{
-			return USBManager.GetAllSerialNos();
+			try
+			{
+				StopMonitoring();
+				return USBManager.GetAllSerialNos();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.SetNewConfig");
+				throw;
+			}
+			finally
+			{
+				StartMonitoring();
+			}
 		}
 
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)
@@ -294,10 +318,13 @@ namespace ServerFS2.Processor
 			}
 			finally
 			{
-				if (isUSB)
+				Task.Factory.StartNew(() =>
 				{
-					USBConfigHelper.SetCurrentDeviceConfiguration();
-				}
+					if (isUSB)
+					{
+						USBConfigHelper.SetCurrentDeviceConfiguration();
+					}
+				});
 			}
 		}
 		#endregion

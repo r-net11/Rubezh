@@ -40,38 +40,15 @@ namespace ServerFS2.Monitoring
 			lastRecordsDocument.Save(fileName);
 		}
 
-		//public static void SetLastId(OldMonitoringDevice monitoringDevice)
-		//{
-		//    XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
-		//    deviceElement.Attribute("LastId").Value = monitoringDevice.LastDisplayedRecord.ToString();
-		//    lastRecordsDocument.Save(fileName);
-		//}
-
-		//public static void SetLastSecId(OldMonitoringDevice monitoringDevice)
-		//{
-		//    XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
-		//    deviceElement.Attribute("LastSecId").Value = monitoringDevice.LastDisplayedSecRecord.ToString();
-		//    lastRecordsDocument.Save(fileName);
-		//}
-
-		//public static int GetLastSecId(OldMonitoringDevice monitoringDevice)
-		//{
-		//    XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
-		//    return Int32.Parse(deviceElement.Attribute("LastSecId").Value);
-		//}
-
-		//public static int GetLastId(OldMonitoringDevice monitoringDevice)
-		//{
-		//    XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == monitoringDevice.Device.UID.ToString());
-		//    return Int32.Parse(deviceElement.Attribute("LastId").Value);
-		//}
-
 		public static void SetLastId(Device device, int lastId)
 		{
 			lock (locker)
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
-				deviceElement.Attribute("LastId").Value = lastId.ToString();
+				if (deviceElement != null)
+				{
+					deviceElement.Attribute("LastId").Value = lastId.ToString();
+				}
 				lastRecordsDocument.Save(fileName);
 			}
 		}
@@ -81,7 +58,11 @@ namespace ServerFS2.Monitoring
 			lock (locker)
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
-				return Int32.Parse(deviceElement.Attribute("LastId").Value);
+				if (deviceElement != null)
+				{
+					return Int32.Parse(deviceElement.Attribute("LastId").Value);
+				}
+				return 0;
 			}
 		}
 
@@ -90,7 +71,10 @@ namespace ServerFS2.Monitoring
 			lock (locker)
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
-				deviceElement.Attribute("LastSecId").Value = lastId.ToString();
+				if (deviceElement != null)
+				{
+					deviceElement.Attribute("LastSecId").Value = lastId.ToString();
+				}
 				lastRecordsDocument.Save(fileName);
 			}
 		}
@@ -100,7 +84,11 @@ namespace ServerFS2.Monitoring
 			lock (locker)
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
-				return Int32.Parse(deviceElement.Attribute("LastSecId").Value);
+				if (deviceElement != null)
+				{
+					return Int32.Parse(deviceElement.Attribute("LastSecId").Value);
+				}
+				return 0;
 			}
 		}
 	}

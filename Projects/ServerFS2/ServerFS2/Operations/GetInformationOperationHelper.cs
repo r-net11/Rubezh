@@ -8,7 +8,7 @@ namespace ServerFS2.Operations
 {
 	public static class GetInformationOperationHelper
 	{
-		public static void GetDeviceInformation(Device device)
+		public static string GetDeviceInformation(Device device)
 		{
 			string serialNo;
 			string softVersion;
@@ -54,6 +54,8 @@ namespace ServerFS2.Operations
 			if (device.Properties.FirstOrDefault(x => x.Name == "SoftVersion") == null)
 				device.Properties.Add(new Property() { Name = "SoftVersion", Value = "не определена" });
 			device.Properties.FirstOrDefault(x => x.Name == "SoftVersion").Value = softVersion;
+
+			return "";
 		}
 	}
 }

@@ -34,19 +34,7 @@ namespace DevicesModule
 					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
 					if (device != null)
 					{
-						device.DeviceState.States = deviceState.SerializableStates;
-						device.DeviceState.ParentStates = deviceState.SerializableParentStates;
-						device.DeviceState.ChildStates = deviceState.SerializableChildStates;
-						device.DeviceState.Parameters = deviceState.SerializableParameters;
-
-						if (device.DeviceState.ParentStates != null)
-						{
-							foreach (var parentDeviceState in device.DeviceState.ParentStates)
-							{
-								parentDeviceState.ParentDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == parentDeviceState.ParentDeviceUID);
-							}
-						}
-
+						FiresecManager.CopyDeviceStatesFromFS2Server(device, deviceState);
 						device.DeviceState.OnStateChanged();
 						ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
 					}
@@ -63,11 +51,9 @@ namespace DevicesModule
 					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceState.DeviceUID);
 					if (device != null)
 					{
-						device.DeviceState.States = deviceState.SerializableStates;
-						device.DeviceState.SerializableParentStates = deviceState.SerializableParentStates;
-						device.DeviceState.SerializableChildStates = deviceState.SerializableChildStates;
-						device.DeviceState.SerializableParameters = deviceState.SerializableParameters;
+						FiresecManager.CopyDeviceStatesFromFS2Server(device, deviceState);
 						device.DeviceState.OnStateChanged();
+						ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(device.UID);
 					}
 				}
 			}));

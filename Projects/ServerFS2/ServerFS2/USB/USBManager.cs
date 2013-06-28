@@ -37,7 +37,9 @@ namespace ServerFS2
 			{
 				var bytes = CreateBytesArray(value);
 				var outputFunctionCode = Convert.ToByte(bytes[0]);
-				bytes = CreateOutputBytes(device, usbProcessor.UseId, bytes);
+				var rootBytes = CreateRootBytes(device, usbProcessor.UseId);
+				bytes.InsertRange(0, rootBytes);
+
 				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
 				if (response != null)
 				{
@@ -45,10 +47,38 @@ namespace ServerFS2
 					if (usbProcessor.UseId)
 					{
 						response.Bytes.RemoveRange(0, 4);
-						var usbRoot = response.Bytes[0];
-						var panelRoot = response.Bytes[1];
+						if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+						{
+							var usbRoot = response.Bytes[0];
+							response.Bytes.RemoveRange(0, 1);
+							if (usbRoot != rootBytes[0])
+							{
+								if (throwException)
+									throw new FS2USBException("В ответе не совпадает первый байт маршрута");
+								return response.SetError("В ответе не совпадает первый байт маршрута");
+							}
+						}
+						else
+						{
+							var usbRoot = response.Bytes[0];
+							var panelRoot = response.Bytes[1];
 						response.MsFlag = panelRoot;
-						response.Bytes.RemoveRange(0, 2);
+							response.Bytes.RemoveRange(0, 2);
+
+							if (usbRoot != rootBytes[0])
+							{
+								if (throwException)
+									throw new FS2USBException("В ответе не совпадает первый байт маршрута");
+								return response.SetError("В ответе не совпадает первый байт маршрута");
+							}
+
+							if (panelRoot != rootBytes[1])
+							{
+								if (throwException)
+									throw new FS2USBException("В ответе не совпадает второй байт маршрута");
+								return response.SetError("В ответе не совпадает второй байт маршрута");
+							}
+						}
 					}
 					else
 					{
@@ -98,7 +128,6 @@ namespace ServerFS2
 			}
 			else
 			{
-				Trace.WriteLine("UsbManager.Send");
 				Initialize();
 				if (throwException)
 					throw new FS2USBException("USB устройство отсутствует");
@@ -106,48 +135,55 @@ namespace ServerFS2
 			}
 		}
 
-		public static int SendAsync(Device device, params object[] value)
+		public static void SendAsync(Device device, Request request)
 		{
 			var usbProcessor = GetUsbProcessor(device);
 			if (usbProcessor != null)
 			{
-				var bytes = CreateBytesArray(value);
-				bytes = CreateOutputBytes(device, usbProcessor.UseId, bytes);
+				var bytes = request.Bytes.ToList();
+				var rootBytes = CreateRootBytes(device, usbProcessor.UseId);
+				bytes.InsertRange(0, rootBytes);
 				var requestNo = NextRequestNo;
+				if (usbProcessor.UseId)
+				{
+					request.Id = requestNo;
+				}
+				else
+				{
+					request.Id = 0;
+				}
+				request.RootBytes = rootBytes;
 				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
-				return requestNo;
 			}
 			else
 			{
-				return -1;
+				request.Id = -1;
 			}
 		}
 
-		static List<byte> CreateOutputBytes(Device device, bool useId, List<byte> bytes)
+		static List<byte> CreateRootBytes(Device device, bool useId)
 		{
 			var parentPanel = device.ParentPanel;
 			var parentUSB = device.ParentUSB;
 
-			var addressBytes = new List<byte>();
+			var result = new List<byte>();
 			if (useId)
 			{
 				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
 				{
-					addressBytes.Add(0x01);
+					result.Add(0x01);
 				}
 				else
 				{
-					addressBytes.Add((byte)(parentPanel.Parent.IntAddress + 2));
-					addressBytes.Add((byte)parentPanel.IntAddress);
+					result.Add((byte)(parentPanel.Parent.IntAddress + 2));
+					result.Add((byte)parentPanel.IntAddress);
 				}
 			}
 			else
 			{
-				addressBytes.Add(0x02);
+				result.Add(0x02);
 			}
-			bytes.InsertRange(0, addressBytes);
-
-			return bytes;
+			return result;
 		}
 
 		public static bool IsUsbDevice(Device device)

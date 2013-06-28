@@ -70,12 +70,18 @@ namespace ServerFS2.Monitoring
 				}
 			}
 			USBManager.NewResponse += new Action<Device, Response>(UsbRunner_NewResponse);
+			USBManager.UsbRemoved += new Action(monitoringPanel_ConnectionChanged);
+			//foreach (var monitoringPanel in MonitoringPanels)
+			//{
+			//    monitoringPanel.ConnectionChanged += new Action(monitoringPanel_ConnectionChanged);
+			//}
 		}
 
 		void OnRun()
 		{
 			try
 			{
+				CheckConnection();
 				SetAllInitializing();
 				foreach (var monitoringPanel in MonitoringPanels)
 				{
@@ -102,14 +108,22 @@ namespace ServerFS2.Monitoring
 					if (CheckSuspending(false))
 						return;
 
-					foreach (var monitoringDevice in MonitoringPanels)
+					foreach (var monitoringPanel in MonitoringPanels)
 					{
 						if (CheckSuspending(false))
 							return;
-						monitoringDevice.CheckTasks();
+						if (monitoringPanel.IsInitialized)
+						{
+							monitoringPanel.CheckTasks();
+						}
 					}
 
-					MonitoringNonPanels.ForEach(x => NonPanelStatesManager.UpdatePDUPanelState(x));
+					foreach (var monitoringNonPanel in MonitoringNonPanels)
+					{
+						if (CheckSuspending(false))
+							return;
+						NonPanelStatesManager.UpdatePDUPanelState(monitoringNonPanel);
+					}
 
 					if (CheckSuspending(false))
 						return;
@@ -119,6 +133,8 @@ namespace ServerFS2.Monitoring
 						MonitoringPanels.ForEach(x => x.SynchronizeTime());
 						IsTimeSynchronizationNeeded = false;
 					}
+
+					CheckConnection();
 				}
 				catch (FS2StopMonitoringException)
 				{
@@ -138,15 +154,27 @@ namespace ServerFS2.Monitoring
 				if (USBDevice.UID == usbDevice.UID)
 				{
 					//Trace.WriteLine("response.Id=" + response.Id);
-					foreach (var monitoringDevice in MonitoringPanels)
+					foreach (var monitoringPanel in MonitoringPanels)
 					{
-						if(monitoringDevice.Requests.Count > 0)
-							for (int i = 0; i < monitoringDevice.Requests.Count; i++)
+						if (monitoringPanel.Requests.Count > 0)
+							for (int i = 0; i < monitoringPanel.Requests.Count; i++)
 							{
-								var request = monitoringDevice.Requests[i];
+								var request = monitoringPanel.Requests[i];
 								if (request != null && request.Id == response.Id)
 								{
-									monitoringDevice.OnResponceRecieved(request, response);
+									var idOffset = 0;
+									monitoringPanel.OnResponceRecieved(request, response);
+									if (response.Id > 0)
+										idOffset = 4;
+									for (int j = 0; j < request.RootBytes.Count; j++)
+									{
+										if (request.RootBytes[j] != response.Bytes[idOffset + j])
+										{
+											Trace.WriteLine("В пришедшем ответе совпадают ID, но не совпадают маршруты");
+											return;
+										}
+									}
+									monitoringPanel.OnResponceRecieved(request, response);
 								}
 							}
 					}
@@ -155,6 +183,42 @@ namespace ServerFS2.Monitoring
 			catch (Exception e)
 			{
 				Logger.Error(e, "MonitoringUSB.UsbRunner_NewResponse");
+			}
+		}
+
+		void monitoringPanel_ConnectionChanged()
+		{
+			CheckConnection();
+		}
+
+		void CheckConnection()
+		{
+			var response = USBManager.Send(USBDevice, 0x01, 0x32);
+			if (response.HasError)
+			{
+				if (USBDevice.DeviceState.IsUsbConnectionLost == false)
+				{
+					USBDevice.DeviceState.IsUsbConnectionLost = true;
+					var deviceStatesManager = new DeviceStatesManager();
+					deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
+					foreach (var monitoringPanel in MonitoringPanels)
+					{
+						monitoringPanel.OnConnectionLost();
+					}
+				}
+			}
+			else
+			{
+				if (USBDevice.DeviceState.IsUsbConnectionLost == true)
+				{
+					USBDevice.DeviceState.IsUsbConnectionLost = false;
+					var deviceStatesManager = new DeviceStatesManager();
+					deviceStatesManager.ForseUpdateDeviceStates(USBDevice);
+					foreach (var monitoringPanel in MonitoringPanels)
+					{
+						monitoringPanel.OnConnectionAppeared();
+					}
+				}
 			}
 		}
 	}

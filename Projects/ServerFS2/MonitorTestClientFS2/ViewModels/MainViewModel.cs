@@ -173,13 +173,15 @@ namespace MonitorClientFS2
 		public RelayCommand ReadStatesCommand { get; private set; }
 		void OnReadStates()
 		{
+			var result = new HashSet<string>();
 			foreach (var driver in ConfigurationManager.Drivers)
 			{
 				foreach (var state in driver.States)
 				{
 					if (state.AffectChildren)
 					{
-						Trace.WriteLine("AffectChildren " + driver.ShortName + " " + state.Name);
+						if (result.Add(state.Name))
+							Trace.WriteLine(state.Name);
 					}
 				}
 			}
