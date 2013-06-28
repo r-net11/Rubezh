@@ -26,6 +26,7 @@ namespace Controls
 			content.SetBinding(ContentPresenter.ContentProperty, new Binding("PopupContent") { Source = this });
 			var border = new Border()
 			{
+				CornerRadius = new CornerRadius(5),
 				BorderThickness = new Thickness(1),
 				Child = content
 			};
@@ -33,6 +34,7 @@ namespace Controls
 			border.SetResourceReference(Border.BorderBrushProperty, "WindowBorderBrush");
 			_popup = new Popup()
 			{
+				AllowsTransparency = true,
 				StaysOpen = false,
 				Placement = PlacementMode.Bottom,
 				PlacementTarget = this,
