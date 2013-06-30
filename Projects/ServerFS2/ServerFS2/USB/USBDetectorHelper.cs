@@ -10,30 +10,30 @@ namespace ServerFS2
 {
 	public static class USBDetectorHelper
 	{
-		public static List<UsbProcessorInfo> Detect()
+		public static List<UsbHidInfo> Detect()
 		{
 			var usbDevices = GetAllUSBDevices();
-			var usbProcessorInfos = FindAllUsbProcessorInfo();
+			var usbHidInfos = FindAllUsbHidInfo();
 
 			foreach (var device in usbDevices)
 			{
-				UsbProcessorInfo usbProcessorInfo = null;
+				UsbHidInfo usbHidInfo = null;
 				var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
 				if (serialNoProperty != null && !string.IsNullOrEmpty(serialNoProperty.Value))
 				{
-					usbProcessorInfo = usbProcessorInfos.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
-					if (usbProcessorInfo != null)
+					usbHidInfo = usbHidInfos.FirstOrDefault(x => x.SerialNo == serialNoProperty.Value);
+					if (usbHidInfo != null)
 					{
-						usbProcessorInfo.USBDevice = device;
+						usbHidInfo.USBDevice = device;
 						continue;
 					}
 				}
 
 				var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
-				usbProcessorInfo = usbProcessorInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
-				if (usbProcessorInfo != null)
+				usbHidInfo = usbHidInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
+				if (usbHidInfo != null)
 				{
-					usbProcessorInfo.USBDevice = device;
+					usbHidInfo.USBDevice = device;
 					continue;
 				}
 			}
@@ -45,54 +45,54 @@ namespace ServerFS2
 					var serialNoProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
 					if (serialNoProperty == null || string.IsNullOrEmpty(serialNoProperty.Value))
 					{
-						var usbProcessorInfo = usbProcessorInfos.FirstOrDefault(x => x.TypeNo == -1 && x.USBDevice == null);
-						if (usbProcessorInfo != null)
+						var usbHidInfo = usbHidInfos.FirstOrDefault(x => x.TypeNo == -1 && x.USBDevice == null);
+						if (usbHidInfo != null)
 						{
-							usbProcessorInfo.USBDevice = device;
+							usbHidInfo.USBDevice = device;
 						}
 					}
 				}
 			}
 
-			foreach (var usbProcessorInfo in usbProcessorInfos)
+			foreach (var usbHidInfo in usbHidInfos)
 			{
-				if (usbProcessorInfo.USBDevice == null)
-					usbProcessorInfo.UsbProcessor.Dispose();
+				if (usbHidInfo.USBDevice == null)
+					usbHidInfo.UsbHid.Dispose();
 			}
-			usbProcessorInfos.RemoveAll(x => x.USBDevice == null);
+			usbHidInfos.RemoveAll(x => x.USBDevice == null);
 
-			foreach (var usbProcessorInfo in usbProcessorInfos)
+			foreach (var usbHidInfo in usbHidInfos)
 			{
-				switch (usbProcessorInfo.USBDevice.Driver.DriverType)
+				switch (usbHidInfo.USBDevice.Driver.DriverType)
 				{
 					case DriverType.MS_1:
 					case DriverType.MS_2:
-						usbProcessorInfo.WriteConfigToMS();
+						usbHidInfo.WriteConfigToMS();
 						break;
 				}
 			}
 
-			return usbProcessorInfos;
+			return usbHidInfos;
 		}
 
-		public static List<UsbProcessorInfo> FindAllUsbProcessorInfo()
+		public static List<UsbHidInfo> FindAllUsbHidInfo()
 		{
-			var usbProcessorInfos = new List<UsbProcessorInfo>();
+			var usbHidInfos = new List<UsbHidInfo>();
 
 			HIDDevice.AddedDevices = new List<string>();
 			while (true)
 			{
 				try
 				{
-					var usbProcessor = new UsbProcessor();
-					var result = usbProcessor.Open();
+					var usbHid = new UsbHid();
+					var result = usbHid.Open();
 					if (!result)
 						break;
-					var usbProcessorInfo = new UsbProcessorInfo()
+					var usbHidInfo = new UsbHidInfo()
 					{
-						UsbProcessor = usbProcessor
+						UsbHid = usbHid
 					};
-					usbProcessorInfos.Add(usbProcessorInfo);
+					usbHidInfos.Add(usbHidInfo);
 				}
 				catch (Exception)
 				{
@@ -100,11 +100,11 @@ namespace ServerFS2
 				}
 			}
 
-			foreach (var usbProcessorInfo in usbProcessorInfos)
+			foreach (var usbHidInfo in usbHidInfos)
 			{
-				usbProcessorInfo.Initialize();
+				usbHidInfo.Initialize();
 			}
-			return usbProcessorInfos;
+			return usbHidInfos;
 		}
 
 		static List<Device> GetAllUSBDevices()

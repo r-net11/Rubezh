@@ -12,13 +12,13 @@ namespace ServerFS2
 {
 	public static class USBManager
 	{
-		static int RequestNo = 0;
+		static int RequestNo = 1;
 		public static int NextRequestNo
 		{
 			get { return RequestNo++; }
 		}
 
-		public static List<UsbProcessorInfo> UsbProcessorInfos { get; set; }
+		public static List<UsbHidInfo> UsbHidInfos { get; set; }
 
 		public static Response SendWithoutException(Device device, params object[] value)
 		{
@@ -32,19 +32,19 @@ namespace ServerFS2
 
 		static Response Send(Device device, bool throwException, params object[] value)
 		{
-			var usbProcessor = GetUsbProcessor(device);
-			if (usbProcessor != null)
+			var usbHid = GetUsbUsbHid(device);
+			if (usbHid != null)
 			{
 				var bytes = CreateBytesArray(value);
 				var outputFunctionCode = Convert.ToByte(bytes[0]);
-				var rootBytes = CreateRootBytes(device, usbProcessor.UseId);
+				var rootBytes = CreateRootBytes(device, usbHid.UseId);
 				bytes.InsertRange(0, rootBytes);
 
-				var response = usbProcessor.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
+				var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true);
 				if (response != null)
 				{
 					var inputBytes = response.Bytes.ToList();
-					if (usbProcessor.UseId)
+					if (usbHid.UseId)
 					{
 						response.Bytes.RemoveRange(0, 4);
 						if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
@@ -137,14 +137,14 @@ namespace ServerFS2
 
 		public static void SendAsync(Device device, Request request)
 		{
-			var usbProcessor = GetUsbProcessor(device);
-			if (usbProcessor != null)
+			var usbHid = GetUsbUsbHid(device);
+			if (usbHid != null)
 			{
 				var bytes = request.Bytes.ToList();
-				var rootBytes = CreateRootBytes(device, usbProcessor.UseId);
+				var rootBytes = CreateRootBytes(device, usbHid.UseId);
 				bytes.InsertRange(0, rootBytes);
 				var requestNo = NextRequestNo;
-				if (usbProcessor.UseId)
+				if (usbHid.UseId)
 				{
 					request.Id = requestNo;
 				}
@@ -153,7 +153,7 @@ namespace ServerFS2
 					request.Id = 0;
 				}
 				request.RootBytes = rootBytes;
-				usbProcessor.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
+				usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
 			}
 			else
 			{
@@ -188,23 +188,23 @@ namespace ServerFS2
 
 		public static bool IsUsbDevice(Device device)
 		{
-			var usbProcessor = GetUsbProcessor(device);
-			if (usbProcessor != null)
+			var usbHid = GetUsbUsbHid(device);
+			if (usbHid != null)
 			{
-				return !usbProcessor.UseId;
+				return !usbHid.UseId;
 			}
 			return false;
 		}
 
-		static UsbProcessor GetUsbProcessor(Device panelDevice)
+		static UsbHid GetUsbUsbHid(Device panelDevice)
 		{
 			var parentUSB = panelDevice.ParentUSB;
 			if (parentUSB != null)
 			{
-				var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.USBDevice.UID == parentUSB.UID);
-				if (usbProcessorInfo != null)
+				var usbHidInfo = UsbHidInfos.FirstOrDefault(x => x.USBDevice.UID == parentUSB.UID);
+				if (usbHidInfo != null)
 				{
-					return usbProcessorInfo.UsbProcessor;
+					return usbHidInfo.UsbHid;
 				}
 			}
 			return null;
@@ -226,26 +226,26 @@ namespace ServerFS2
 		public static void Initialize()
 		{
 			Dispose();
-			UsbProcessorInfos = USBDetectorHelper.Detect();
-			foreach (var usbProcessorInfo in UsbProcessorInfos)
+			UsbHidInfos = USBDetectorHelper.Detect();
+			foreach (var usbHidInfo in UsbHidInfos)
 			{
-				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
-				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>((response) =>
+				usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
+				usbHidInfo.UsbHid.NewResponse += new Action<Response>((response) =>
 				{
 					if (NewResponse != null)
-						NewResponse(usbProcessorInfo.USBDevice, response);
+						NewResponse(usbHidInfo.USBDevice, response);
 				});
 			}
 		}
 
 		public static event Action<Device, Response> NewResponse;
 
-		static void UsbProcessor_DeviceRemoved(UsbProcessor usbProcessor)
+		static void UsbUsbHid_DeviceRemoved(UsbHid usbUsbHid)
 		{
-			var usbProcessorInfo = UsbProcessorInfos.FirstOrDefault(x => x.UsbProcessor == usbProcessor);
-			if (usbProcessorInfo != null)
+			var usbHidInfo = UsbHidInfos.FirstOrDefault(x => x.UsbHid == usbUsbHid);
+			if (usbHidInfo != null)
 			{
-				UsbProcessorInfos.Remove(usbProcessorInfo);
+				UsbHidInfos.Remove(usbHidInfo);
 			}
 			if (UsbRemoved != null)
 				UsbRemoved();
@@ -254,10 +254,10 @@ namespace ServerFS2
 
 		public static void Dispose()
 		{
-			if (UsbProcessorInfos != null)
+			if (UsbHidInfos != null)
 			{
-				UsbProcessorInfos.ForEach(x => x.UsbProcessor.Dispose());
-				UsbProcessorInfos.Clear();
+				UsbHidInfos.ForEach(x => x.UsbHid.Dispose());
+				UsbHidInfos.Clear();
 			}
 		}
 
@@ -265,11 +265,11 @@ namespace ServerFS2
 		{
 			Dispose();
 			var result = new List<string>();
-			var usbProcessorInfos = USBDetectorHelper.FindAllUsbProcessorInfo();
-			foreach (var usbProcessorInfo in usbProcessorInfos)
+			var usbHidInfos = USBDetectorHelper.FindAllUsbHidInfo();
+			foreach (var usbHidInfo in usbHidInfos)
 			{
-				result.Add(usbProcessorInfo.SerialNo);
-				usbProcessorInfo.UsbProcessor.Dispose();
+				result.Add(usbHidInfo.SerialNo);
+				usbHidInfo.UsbHid.Dispose();
 			}
 			Thread.Sleep(TimeSpan.FromSeconds(5));
 			return result;

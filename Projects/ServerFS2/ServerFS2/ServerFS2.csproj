@@ -153,8 +153,10 @@
     <Compile Include="Monitoring\DeviceStatesManager.Parameters.cs" />
     <Compile Include="Monitoring\JournalHelper.cs" />
     <Compile Include="Monitoring\CommandItem.cs" />
+    <Compile Include="Monitoring\MonitoringPanel.Connection.cs" />
     <Compile Include="Monitoring\MonitoringPanel.cs" />
     <Compile Include="Monitoring\MonitoringManager.cs" />
+    <Compile Include="Monitoring\MonitoringPanel.Tasks.cs" />
     <Compile Include="Monitoring\MonitoringUSB.AllStates.cs" />
     <Compile Include="Monitoring\MonitoringUSB.cs" />
     <Compile Include="Monitoring\MonitoringUSB.StartStop.cs" />
@@ -180,7 +182,7 @@
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="USB\USBDetectorHelper.cs" />
     <Compile Include="USB\USBManager.cs" />
-    <Compile Include="USB\UsbProcessorBase.cs" />
+    <Compile Include="USB\UsbHidBase.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
     <Compile Include="USB\Response.cs" />
@@ -188,8 +190,8 @@
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
-    <Compile Include="USB\UsbProcessor.cs" />
-    <Compile Include="USB\UsbProcessorInfo.cs" />
+    <Compile Include="USB\UsbHid.cs" />
+    <Compile Include="USB\UsbHidInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
