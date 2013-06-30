@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using ServerFS2;
+using UsbLibrary;
 
 namespace USBTest
 {
@@ -15,9 +16,10 @@ namespace USBTest
 			InitializeComponent();
 		}
 
-		UsbLibrary.UsbHidPort UsbDevice;
+		UsbHidPort UsbDevice;
+		UsbHid UsbHid;
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
+		void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			UsbDevice = new UsbLibrary.UsbHidPort();
 			UsbDevice.VendorId = 0xC251;
@@ -37,7 +39,7 @@ namespace USBTest
 			Trace.WriteLine("SpecifiedDevice_DataRecieved " + bytesString);
 		}
 
-		private void Button_Click_2(object sender, RoutedEventArgs e)
+		void Button_Click_2(object sender, RoutedEventArgs e)
 		{
 			for (int i = 0; i < 1000; i++)
 			{
@@ -51,13 +53,11 @@ namespace USBTest
 			}
 		}
 
-		UsbProcessor UsbProcessor;
-
-		private void Button_Click_3(object sender, RoutedEventArgs e)
+		void Button_Click_3(object sender, RoutedEventArgs e)
 		{
-			UsbProcessor = new UsbProcessor();
-			UsbProcessor.Open();
-			UsbProcessor.NewResponse += new Action<ServerFS2.Response>(UsbRunner2_NewResponse);
+			UsbHid = new UsbHid();
+			UsbHid.Open();
+			UsbHid.NewResponse += new Action<ServerFS2.Response>(UsbRunner2_NewResponse);
 		}
 
 		void UsbRunner2_NewResponse(Response response)
@@ -65,7 +65,7 @@ namespace USBTest
 			Trace.WriteLine("UsbRunner2_NewResponse " + BytesHelper.BytesToString(response.Bytes));
 		}
 
-		private void Button_Click_4(object sender, RoutedEventArgs e)
+		void Button_Click_4(object sender, RoutedEventArgs e)
 		{
 			for (int i = 0; i < 1000; i++)
 			{
@@ -75,7 +75,7 @@ namespace USBTest
 				var bytes = new List<byte>() { 0x03, 0x02, 0x01, 0x21, 0x00 };
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
-				UsbProcessor.AddRequest(i, bytesList, 1000, 1000, true);
+				UsbHid.AddRequest(i, bytesList, 1000, 1000, true);
 			}
 		}
 	}

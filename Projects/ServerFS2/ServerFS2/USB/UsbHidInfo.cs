@@ -6,9 +6,9 @@ using System.Diagnostics;
 
 namespace ServerFS2
 {
-	public class UsbProcessorInfo
+	public class UsbHidInfo
 	{
-		public UsbProcessor UsbProcessor { get; set; }
+		public UsbHid UsbHid { get; set; }
 		public string SerialNo { get; set; }
 		public int TypeNo { get; set; }
 		public DriverType USBDriverType { get; set; }
@@ -17,7 +17,7 @@ namespace ServerFS2
 		public void Initialize()
 		{
 			SetIdOn();
-			if (UsbProcessor.UseId)
+			if (UsbHid.UseId)
 				TypeNo = -1;
 			else
 				TypeNo = GetUSBTypeNo();
@@ -30,7 +30,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x02, 0x01, 0x03 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			if (responce != null)
 			{
 				if (responce.Bytes.Count > 2)
@@ -45,26 +45,26 @@ namespace ServerFS2
 		{
 			if (HasResponceWithoutID())
 			{
-				UsbProcessor.UseId = false;
+				UsbHid.UseId = false;
 				var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
-				var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-				UsbProcessor.UseId = true;
+				var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+				UsbHid.UseId = true;
 			}
 			var result = HasResponceWithID();
-			UsbProcessor.UseId = result;
+			UsbHid.UseId = result;
 			return result;
 		}
 
 		bool HasResponceWithoutID()
 		{
-			UsbProcessor.UseId = false;
+			UsbHid.UseId = false;
 			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbProcessor.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			UsbProcessor.UseId = true;
+			var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			UsbHid.UseId = true;
 			return responce != null;
 		}
 
@@ -73,7 +73,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			return responce != null;
 		}
 
@@ -82,7 +82,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x01, 0x32 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			if (responce != null)
 			{
 				responce.Bytes.RemoveRange(0, 6);
@@ -137,7 +137,7 @@ namespace ServerFS2
 				bytes.AddRange(addressListBytes);
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
-				var responce = UsbProcessor.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			}
 		}
 	}
