@@ -232,8 +232,8 @@ namespace ServerFS2
 				usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
 				usbHidInfo.UsbHid.NewResponse += new Action<Response>((response) =>
 				{
-					Trace.WriteLine("usbProcessorInfo.UsbProcessor.NewResponse " + usbProcessorInfo.UsbProcessor.No);
-					if (usbProcessorInfo.USBDevice.Driver.DriverType == DriverType.MS_1)
+					Trace.WriteLine("usbProcessorInfo.UsbProcessor.NewResponse " + usbHidInfo.UsbHid.No);
+					if (usbHidInfo.USBDevice.Driver.DriverType == DriverType.MS_1)
 					{
 						Trace.WriteLine("DriverType.MS_1");
 					}
