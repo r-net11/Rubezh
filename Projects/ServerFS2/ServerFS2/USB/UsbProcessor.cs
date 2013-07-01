@@ -12,11 +12,14 @@ namespace ServerFS2
 {
 	public class UsbProcessor : UsbProcessorBase
 	{
+		static int NextNo = 0;
+		public int No { get; private set; }
 		public UsbHidPort UsbHidPort { get; private set; }
 		bool IsDisposed = false;
 
 		public override bool Open()
 		{
+			No = NextNo++;
 			UsbHidPort = new UsbHidPort()
 			{
 				VendorId = 0xC251,
@@ -49,7 +52,7 @@ namespace ServerFS2
 
 		public override bool Send(List<byte> bytes)
 		{
-			//Trace.WriteLine("Send " + BytesHelper.BytesToString(bytes));
+			//Trace.WriteLine("Send " + No + " " + BytesHelper.BytesToString(bytes));
 			if (IsDisposed)
 				return false;
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());
@@ -107,7 +110,7 @@ namespace ServerFS2
 
 		void OnResponseRecieved(Response response)
 		{
-			//Trace.WriteLine("Response " + BytesHelper.BytesToString(response.Bytes));
+			Trace.WriteLine("Response " + No + " " + BytesHelper.BytesToString(response.Bytes));
 			if (UseId)
 			{
 				var request = RequestCollection.GetById(response.Id);

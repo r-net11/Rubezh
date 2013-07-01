@@ -232,6 +232,11 @@ namespace ServerFS2
 				usbProcessorInfo.UsbProcessor.DeviceRemoved += new Action<UsbProcessor>(UsbProcessor_DeviceRemoved);
 				usbProcessorInfo.UsbProcessor.NewResponse += new Action<Response>((response) =>
 				{
+					Trace.WriteLine("usbProcessorInfo.UsbProcessor.NewResponse " + usbProcessorInfo.UsbProcessor.No);
+					if (usbProcessorInfo.USBDevice.Driver.DriverType == DriverType.MS_1)
+					{
+						Trace.WriteLine("DriverType.MS_1");
+					}
 					if (NewResponse != null)
 						NewResponse(usbProcessorInfo.USBDevice, response);
 				});
