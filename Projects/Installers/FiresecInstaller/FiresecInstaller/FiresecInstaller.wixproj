@@ -33,6 +33,7 @@
     <Compile Include="Common.wxs" />
     <Compile Include="Firesec\Files5.wxs" />
     <Compile Include="FS2\Files.wxs" />
+    <Compile Include="FS2\Shortcuts.wxs" />
     <Compile Include="FSAgent\Files.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />

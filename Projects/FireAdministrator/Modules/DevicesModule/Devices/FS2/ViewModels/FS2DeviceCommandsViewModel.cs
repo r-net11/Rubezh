@@ -117,7 +117,8 @@ namespace DevicesModule.ViewModels
 			}
 			if (ValidateConfiguration())
             {
-                FS2WriteAllDeviceConfigurationHelper.Run();
+				var fs2WriteAllDeviceConfigurationHelper = new FS2WriteAllDeviceConfigurationHelper();
+				fs2WriteAllDeviceConfigurationHelper.Run(null);
             }
         }
         bool CanWriteAllDevice()

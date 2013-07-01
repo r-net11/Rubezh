@@ -307,19 +307,5 @@ namespace ServerFS2
 			}
 			return -1;
 		}
-
-		public static FS2JournalItem CustomJournalItem(Device panel, string description)
-		{
-			return new FS2JournalItem
-			{
-				DeviceTime = DateTime.Now,
-				SystemTime = DateTime.Now,
-				Description = description,
-				PanelName = panel.DottedPresentationNameAndAddress,
-				PanelUID = panel.UID,
-				StateType = StateType.Info,
-				SubsystemType = GetSubsystemType(panel),
-			};
-		}
 	}
 }

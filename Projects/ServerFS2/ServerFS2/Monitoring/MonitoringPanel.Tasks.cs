@@ -27,7 +27,6 @@ namespace ServerFS2.Monitoring
 				ServerHelper.ResetOnePanelStates(PanelDevice, ResetStateIds);
 				ResetStateIds.Clear();
 				DeviceStatesManager.UpdatePanelState(PanelDevice);
-				OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Команда оператора. Сброс"));
 			}
 
 			if (DevicesToIgnore != null && DevicesToIgnore.Count > 0)

@@ -18,7 +18,7 @@ namespace FiresecClient
 				{
 					deviceUIDs.Add(device.UID);
 				}
-				FS2ClientContract.AddToIgnoreList(deviceUIDs);
+				FS2ClientContract.AddToIgnoreList(deviceUIDs, FiresecManager.CurrentUser.Name);
 			}
 			else
 			{
@@ -35,7 +35,7 @@ namespace FiresecClient
 				{
 					deviceUIDs.Add(device.UID);
 				}
-				FS2ClientContract.RemoveFromIgnoreList(deviceUIDs);
+				FS2ClientContract.RemoveFromIgnoreList(deviceUIDs, FiresecManager.CurrentUser.Name);
 			}
 			else
 			{
@@ -65,7 +65,7 @@ namespace FiresecClient
 						panelResetItem.Ids.Add(deviceDriverState.DriverState.Code);
 					}
 				}
-				FS2ClientContract.ResetStates(paneleResetItems);
+				FS2ClientContract.ResetStates(paneleResetItems, FiresecManager.CurrentUser.Name);
 			}
 			else
 			{
@@ -77,7 +77,7 @@ namespace FiresecClient
 		{
 			if (IsFS2Enabled)
 			{
-				FS2ClientContract.ExecuteCommand(device.UID, methodName);
+				FS2ClientContract.ExecuteCommand(device.UID, methodName, FiresecManager.CurrentUser.Name);
 			}
 			else
 			{

@@ -18,8 +18,6 @@ namespace ServerFS2.Monitoring
 		public const int RequestExpiredTime = 5;
 		public static readonly object Locker = new object();
 
-		public static event Action<FS2JournalItem> NewJournalItem;
-
 		public Device PanelDevice { get; private set; }
 		List<Device> RealChildren;
 		DeviceStatesManager DeviceStatesManager;
@@ -184,8 +182,6 @@ namespace ServerFS2.Monitoring
 		{
 			CallbackManager.NewJournalItems(new List<FS2JournalItem>() { fsJournalItem });
 			DatabaseHelper.AddJournalItem(fsJournalItem);
-			if (NewJournalItem != null)
-				NewJournalItem(fsJournalItem);
 		}
 	}
 }

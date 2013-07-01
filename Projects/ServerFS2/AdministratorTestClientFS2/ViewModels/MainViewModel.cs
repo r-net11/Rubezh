@@ -248,7 +248,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		void OnWriteConfiguration()
 		{
-			MainManager.DeviceWriteConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			MainManager.DeviceWriteConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, null);
 
 		}
 		bool CanWriteConfiguration()
@@ -270,7 +270,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand AddDeviceToCheckListCommand { get; private set; }
 		void OnAddDeviceToCheckList()
 		{
-			MainManager.AddToIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device });
+			MainManager.AddToIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
 		}
 
 		bool CanAddOrRemoveDeviceToCheckList()
@@ -281,7 +281,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand RemoveDeviceFromCheckListCommand { get; private set; }
 		void OnRemoveDeviceFromCheckList()
 		{
-			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device });
+			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
 		}
 
 		bool DeviceValidation(DeviceViewModel selectedDeivice)

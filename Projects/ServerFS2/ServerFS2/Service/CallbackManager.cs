@@ -87,7 +87,14 @@ namespace ServerFS2.Service
 		public static void NewJournalItems(List<FS2JournalItem> journalItems)
 		{
 			Add(new FS2Callbac() { JournalItems = journalItems });
+			foreach (var journalItem in journalItems)
+			{
+				if (NewJournalItem != null)
+					NewJournalItem(journalItem);
+			}
 		}
+
+		public static event Action<FS2JournalItem> NewJournalItem;
 	}
 
 	public class FSAgentCallbacCash

@@ -161,7 +161,7 @@ namespace MonitorClientFS2.ViewModels
 			};
 			panelResetItem.Ids.Add(driverState.Code);
 			panelResetItems.Add(panelResetItem);
-			MainManager.ResetStates(panelResetItems);
+			MainManager.ResetStates(panelResetItems, null);
 		}
 		bool CanReset(DriverState state)
 		{

@@ -11,6 +11,7 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Journal;
 using ServerFS2.Processor;
+using System.ServiceModel.Channels;
 
 namespace ServerFS2.Service
 {
@@ -152,7 +153,7 @@ namespace ServerFS2.Service
 			}, "GetZoneStates");
 		}
 
-		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs, string userName)
 		{
 			return SafeCall(() =>
 			{
@@ -161,11 +162,11 @@ namespace ServerFS2.Service
 				{
 					devices.Add(FindDevice(deviceUID));
 				}
-				MainManager.AddToIgnoreList(devices);
+				MainManager.AddToIgnoreList(devices, GetUserName(userName));
 			}, "AddToIgnoreList");
 		}
 
-		public OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs, string userName)
 		{
 			return SafeCall(() =>
 			{
@@ -174,55 +175,60 @@ namespace ServerFS2.Service
 				{
 					devices.Add(FindDevice(deviceUID));
 				}
-				MainManager.RemoveFromIgnoreList(devices);
+				MainManager.RemoveFromIgnoreList(devices, GetUserName(userName));
 			}, "RemoveFromIgnoreList");
 		}
 
-		public OperationResult SetZoneGuard(Guid zoneUID)
+		public OperationResult SetZoneGuard(Guid zoneUID, string userName)
 		{
+			var zone = FindZone(zoneUID);
 			return SafeCall(() =>
 			{
-				MainManager.SetZoneGuard(zoneUID);
+				MainManager.SetZoneGuard(zone, GetUserName(userName));
 			}, "SetZoneGuard");
 		}
 
-		public OperationResult UnSetZoneGuard(Guid zoneUID)
+		public OperationResult UnSetZoneGuard(Guid zoneUID, string userName)
 		{
+			var zone = FindZone(zoneUID);
 			return SafeCall(() =>
 			{
-				MainManager.UnSetZoneGuard(zoneUID);
+				MainManager.UnSetZoneGuard(zone, GetUserName(userName));
 			}, "UnSetZoneGuard");
 		}
 
-		public OperationResult SetDeviceGuard(Guid deviceUID)
+		public OperationResult SetDeviceGuard(Guid deviceUID, string userName)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCall(() =>
 			{
-				MainManager.SetDeviceGuard(deviceUID);
+				MainManager.SetDeviceGuard(device, GetUserName(userName));
 			}, "SetDeviceGuard");
 		}
 
-		public OperationResult UnSetDeviceGuard(Guid deviceUID)
+		public OperationResult UnSetDeviceGuard(Guid deviceUID, string userName)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCall(() =>
 			{
-				MainManager.UnSetDeviceGuard(deviceUID);
+				MainManager.UnSetDeviceGuard(device, GetUserName(userName));
 			}, "UnSetDeviceGuard");
 		}
 
-		public OperationResult ResetStates(List<PanelResetItem> panelResetItems)
+		public OperationResult ResetStates(List<PanelResetItem> panelResetItems, string userName)
 		{
 			return SafeCall(() =>
 			{
-				MainManager.ResetStates(panelResetItems);
+				MainManager.ResetStates(panelResetItems, GetUserName(userName));
 			}, "ResetStates");
 		}
 
-		public OperationResult ExecuteCommand(Guid deviceUID, string methodName)
+		public OperationResult ExecuteCommand(Guid deviceUID, string methodName, string userName)
 		{
+			var device = FindDevice(deviceUID);
 			return SafeCall(() =>
 			{
-				MainManager.ExecuteCommand(deviceUID, methodName);
+				MainManager.ExecuteCommand(device, methodName, GetUserName(userName));
 			}, "ExecuteCommand");
 		}
 
@@ -233,29 +239,29 @@ namespace ServerFS2.Service
 		#endregion
 
 		#region Administrator
-		public OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration)
+		public OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration, string userName)
 		{
 			return SafeCall(() =>
 			{
-				MainManager.SetNewConfiguration(deviceConfiguration);
+				MainManager.SetNewConfiguration(deviceConfiguration, GetUserName(userName));
 			}, "SetNewConfiguration");
 		}
 
-		public OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB)
+		public OperationResult<bool> DeviceWriteConfiguration(Guid deviceUID, bool isUSB, string userName)
 		{
 			var device = FindDevice(deviceUID);
-			return SafeCallWithMonitoringSuspending(() =>
+			return SafeCallWithMonitoringSuspending<bool>(() =>
 			{
-				MainManager.DeviceWriteConfiguration(device, isUSB);
+				return MainManager.DeviceWriteConfiguration(device, isUSB, GetUserName(userName));
 			}, "DeviceWriteConfiguration", device, true);
 		}
 
-		public OperationResult DeviceWriteAllConfiguration()
+		public OperationResult<List<Guid>> DeviceWriteAllConfiguration(List<Guid> deviceUIDs, string userName)
 		{
-			return SafeCall(() =>
+			return SafeCallWithMonitoringSuspending<List<Guid>>(() =>
 			{
-				MainManager.DeviceWriteAllConfiguration();
-			}, "DeviceWriteAllConfiguration");
+				return MainManager.DeviceWriteAllConfiguration(deviceUIDs, GetUserName(userName));
+			}, "DeviceWriteAllConfiguration", null, true);
 		}
 
 		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)
@@ -466,6 +472,14 @@ namespace ServerFS2.Service
 			return device;
 		}
 
+		Zone FindZone(Guid zoneUID)
+		{
+			var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone == null)
+				throw new FS2Exception("Невозможно выполнить операцию с зоной, отсутствующей в конфигурации");
+			return zone;
+		}
+
 		OperationResult<T> TaskSafeCallWithMonitoringSuspending<T>(Func<T> func, string methodName, Device device, bool stopMonitoring)
 		{
 			try
@@ -655,6 +669,28 @@ namespace ServerFS2.Service
 				resultData.Error = e.Message;
 			}
 			return resultData;
+		}
+
+		public string GetUserName(string userName)
+		{
+			try
+			{
+				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+				{
+					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+					var clientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+					if (endpoint.Address == "127.0.0.1" || endpoint.Address == "localhost")
+					{
+						clientIpAddressAndPort = "localhost";
+					}
+					return userName + "(" + clientIpAddressAndPort + ")";
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FSContract.GetUserName");
+			}
+			return null;
 		}
 		#endregion
 	}

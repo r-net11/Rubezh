@@ -39,28 +39,28 @@ namespace FS2Api
 		OperationResult<List<ZoneState>> GetZoneStates();
 
 		[OperationContract]
-		OperationResult AddToIgnoreList(List<Guid> deviceUIDs);
+		OperationResult AddToIgnoreList(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
-		OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs);
+		OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
-		OperationResult SetZoneGuard(Guid zoneUID);
+		OperationResult SetZoneGuard(Guid zoneUID, string userName);
 
 		[OperationContract]
-		OperationResult UnSetZoneGuard(Guid zoneUID);
+		OperationResult UnSetZoneGuard(Guid zoneUID, string userName);
 
 		[OperationContract]
-		OperationResult SetDeviceGuard(Guid deviceUID);
+		OperationResult SetDeviceGuard(Guid deviceUID, string userName);
 
 		[OperationContract]
-		OperationResult UnSetDeviceGuard(Guid deviceUID);
+		OperationResult UnSetDeviceGuard(Guid deviceUID, string userName);
 
 		[OperationContract]
-		OperationResult ResetStates(List<PanelResetItem> panelResetItems);
+		OperationResult ResetStates(List<PanelResetItem> panelResetItems, string userName);
 
 		[OperationContract]
-		OperationResult ExecuteCommand(Guid deviceUID, string methodName);
+		OperationResult ExecuteCommand(Guid deviceUID, string methodName, string userName);
 
 		[OperationContract]
 		OperationResult<bool> CheckHaspPresence();
@@ -68,13 +68,13 @@ namespace FS2Api
 
 		#region Administrator
 		[OperationContract]
-		OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration);
+		OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration, string userName);
 
 		[OperationContract]
-		OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB);
+		OperationResult<bool> DeviceWriteConfiguration(Guid deviceUID, bool isUSB, string userName);
 
 		[OperationContract]
-		OperationResult DeviceWriteAllConfiguration();
+		OperationResult<List<Guid>> DeviceWriteAllConfiguration(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
 		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);

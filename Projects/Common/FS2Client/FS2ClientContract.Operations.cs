@@ -53,44 +53,44 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.GetZoneStates(); }, "GetZoneStates");
 		}
 
-		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult AddToIgnoreList(List<Guid> deviceUIDs, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.AddToIgnoreList(deviceUIDs); }, "AddToIgnoreList");
+			return SafeOperationCall(() => { return FS2Contract.AddToIgnoreList(deviceUIDs, userName); }, "AddToIgnoreList");
 		}
 
-		public OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		public OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.RemoveFromIgnoreList(deviceUIDs); }, "RemoveFromIgnoreList");
+			return SafeOperationCall(() => { return FS2Contract.RemoveFromIgnoreList(deviceUIDs, userName); }, "RemoveFromIgnoreList");
 		}
 
-		public OperationResult SetZoneGuard(Guid zoneUID)
+		public OperationResult SetZoneGuard(Guid zoneUID, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.SetZoneGuard(zoneUID); }, "SetZoneGuard");
+			return SafeOperationCall(() => { return FS2Contract.SetZoneGuard(zoneUID, userName); }, "SetZoneGuard");
 		}
 
-		public OperationResult UnSetZoneGuard(Guid zoneUID)
+		public OperationResult UnSetZoneGuard(Guid zoneUID, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.UnSetZoneGuard(zoneUID); }, "UnSetZoneGuard");
+			return SafeOperationCall(() => { return FS2Contract.UnSetZoneGuard(zoneUID, userName); }, "UnSetZoneGuard");
 		}
 
-		public OperationResult SetDeviceGuard(Guid deviceUID)
+		public OperationResult SetDeviceGuard(Guid deviceUID, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.SetDeviceGuard(deviceUID); }, "SetDeviceGuard");
+			return SafeOperationCall(() => { return FS2Contract.SetDeviceGuard(deviceUID, userName); }, "SetDeviceGuard");
 		}
 
-		public OperationResult UnSetDeviceGuard(Guid deviceUID)
+		public OperationResult UnSetDeviceGuard(Guid deviceUID, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.UnSetDeviceGuard(deviceUID); }, "UnSetDeviceGuard");
+			return SafeOperationCall(() => { return FS2Contract.UnSetDeviceGuard(deviceUID, userName); }, "UnSetDeviceGuard");
 		}
 
-		public OperationResult ResetStates(List<PanelResetItem> panelResetItems)
+		public OperationResult ResetStates(List<PanelResetItem> panelResetItems, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.ResetStates(panelResetItems); }, "ResetStates");
+			return SafeOperationCall(() => { return FS2Contract.ResetStates(panelResetItems, userName); }, "ResetStates");
 		}
 
-		public OperationResult ExecuteCommand(Guid deviceUID, string methodName)
+		public OperationResult ExecuteCommand(Guid deviceUID, string methodName, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.ExecuteCommand(deviceUID, methodName); }, "ExecuteCommand");
+			return SafeOperationCall(() => { return FS2Contract.ExecuteCommand(deviceUID, methodName, userName); }, "ExecuteCommand");
 		}
 
 		public OperationResult<bool> CheckHaspPresence()
@@ -100,19 +100,19 @@ namespace FS2Client
 		#endregion
 
 		#region Administrator
-		public OperationResult SetNewConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
+		public OperationResult SetNewConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.SetNewConfiguration(deviceConfiguration); }, "SetNewConfiguration");
+			return SafeOperationCall(() => { return FS2Contract.SetNewConfiguration(deviceConfiguration, userName); }, "SetNewConfiguration");
 		}
 
-		public OperationResult DeviceWriteConfiguration(Guid deviceUID, bool isUSB)
+		public OperationResult<bool> DeviceWriteConfiguration(Guid deviceUID, bool isUSB, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceWriteConfiguration(deviceUID, isUSB); }, "DeviceWriteConfiguration");
+			return SafeOperationCall(() => { return FS2Contract.DeviceWriteConfiguration(deviceUID, isUSB, userName); }, "DeviceWriteConfiguration");
 		}
 
-		public OperationResult DeviceWriteAllConfiguration()
+		public OperationResult<List<Guid>> DeviceWriteAllConfiguration(List<Guid> deviceUIDs, string userName)
 		{
-			return SafeOperationCall(() => { return FS2Contract.DeviceWriteAllConfiguration(); }, "DeviceWriteAllConfiguration");
+			return SafeOperationCall(() => { return FS2Contract.DeviceWriteAllConfiguration(deviceUIDs, userName); }, "DeviceWriteAllConfiguration");
 		}
 
 		public OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password)

@@ -49,7 +49,7 @@ namespace ServerFS2.Monitoring
 				PanelDevice.DeviceState.IsPanelConnectionLost = true;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 				OnConnectionChanged();
-				OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Потеря связи с прибором"));
+				CustomMessageJournalHelper.Add("Потеря связи с прибором", null, PanelDevice);
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace ServerFS2.Monitoring
 				PanelDevice.DeviceState.IsPanelConnectionLost = false;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 				OnConnectionChanged();
-				OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Связь с прибором восстановлена"));
+				CustomMessageJournalHelper.Add("Связь с прибором восстановлена", null, PanelDevice);
 			}
 		}
 
@@ -95,7 +95,7 @@ namespace ServerFS2.Monitoring
 					{
 						PanelDevice.DeviceState.IsDBMissmatch = true;
 						DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-						OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью"));
+						CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью", null, PanelDevice);
 						return;
 					}
 				}
@@ -105,7 +105,7 @@ namespace ServerFS2.Monitoring
 					{
 						PanelDevice.DeviceState.IsDBMissmatch = false;
 						DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-						OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью устранено"));
+						CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью устранено", null, PanelDevice);
 						return;
 					}
 				}
