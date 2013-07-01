@@ -7,25 +7,25 @@ namespace Infrastructure.Common.Services.DragDrop
 {
 	public class TreeListDragDropDecorator : DragDropDecorator
 	{
-		public static readonly DependencyProperty TreeItemDropCommandProperty = DependencyProperty.Register("TreeItemDropCommand", typeof(RelayCommand<TreeItemDropObject>), typeof(TreeListDragDropDecorator), new UIPropertyMetadata(null));
-		public RelayCommand<TreeItemDropObject> TreeItemDropCommand
+		public static readonly DependencyProperty TreeNodeDropCommandProperty = DependencyProperty.Register("TreeNodeDropCommand", typeof(RelayCommand<TreeNodeDropObject>), typeof(TreeListDragDropDecorator), new UIPropertyMetadata(null));
+		public RelayCommand<TreeNodeDropObject> TreeNodeDropCommand
 		{
-			get { return (RelayCommand<TreeItemDropObject>)GetValue(TreeItemDropCommandProperty); }
-			set { SetValue(TreeItemDropCommandProperty, value); }
+			get { return (RelayCommand<TreeNodeDropObject>)GetValue(TreeNodeDropCommandProperty); }
+			set { SetValue(TreeNodeDropCommandProperty, value); }
 		}
 
 		private const int DRAG_WAIT_COUNTER_LIMIT = 10;
-		private const int DRAG_SCROLL_AREA_WIDTH = 25;
+		private const double DRAG_SCROLL_AREA_WIDTH = 1.2;
 		private int _dragScrollWaitCounter;
 		private int _dragExpandWaitCounter;
 		private ScrollViewer _scrollViewer;
-		private TreeItemViewModel _targetElement;
-		private TreeViewItem _target;
-		private TreeItemDropObject _dropObject;
+		private TreeNodeViewModel _targetElement;
+		private ListViewItem _target;
+		private TreeNodeDropObject _dropObject;
 
-		private TreeView TreeView
+		private ListView TreeList
 		{
-			get { return Child as TreeView; }
+			get { return Child as ListView; }
 		}
 
 		public TreeListDragDropDecorator()
@@ -54,22 +54,22 @@ namespace Infrastructure.Common.Services.DragDrop
 
 		protected override void StartDrag()
 		{
-			var data = TreeView.SelectedItem as TreeItemViewModel;
+			var data = TreeList.SelectedItem as TreeNodeViewModel;
 			if (data != null && ValidateStartPoint())
 			{
-				_dropObject = new TreeItemDropObject();
-				TreeViewItem draggedItemContainer = GetItemContainer(data);
+				_dropObject = new TreeNodeDropObject();
+				ListViewItem draggedItemContainer = GetItemContainer(data);
 				var dataObject = new DataObject(data);
 				_dragScrollWaitCounter = 0;
 				_dragExpandWaitCounter = 0;
-				_scrollViewer = FindScrollViewer(TreeView);
+				_scrollViewer = FindScrollViewer(TreeList);
 				ServiceFactoryBase.DragDropService.DoDragDrop(dataObject, draggedItemContainer, ShowDragVisual, true, DragEffect);
 			}
 		}
 		protected override void OnDrop(DragEventArgs e)
 		{
-			if (TreeItemDropCommand != null)
-				TreeItemDropCommand.Execute(_dropObject);
+			if (TreeNodeDropCommand != null)
+				TreeNodeDropCommand.Execute(_dropObject);
 		}
 
 		private void OnPreviewDragOver(object sender, DragEventArgs e)
@@ -81,7 +81,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				HandleDragExpanding(e);
 				UpdateInsertAdorner(e);
 				bool _shiftPressed = (e.KeyStates & DragDropKeyStates.ShiftKey) != 0;
-				e.Effects = TreeItemDropCommand != null && TreeItemDropCommand.CanExecute(_dropObject) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
+				e.Effects = TreeNodeDropCommand != null && TreeNodeDropCommand.CanExecute(_dropObject) ? (_shiftPressed ? DragDropEffects.Copy : DragDropEffects.Move) : DragDropEffects.None;
 				_targetElement = null;
 				e.Handled = true;
 			}
@@ -89,12 +89,12 @@ namespace Infrastructure.Common.Services.DragDrop
 
 		private void FindTarget(DragEventArgs e)
 		{
-			var point = e.GetPosition(TreeView);
-			var obj = TreeView.InputHitTest(point) as DependencyObject;
-			while (obj != null && !(obj is TreeViewItem) && !(obj is TreeView))
+			var point = e.GetPosition(TreeList);
+			var obj = TreeList.InputHitTest(point) as DependencyObject;
+			while (obj != null && !(obj is ListViewItem) && !(obj is ListView))
 				obj = VisualTreeHelper.GetParent(obj);
-			var container = obj as TreeViewItem;
-			_targetElement = container == null ? null : ((ItemsControl)ItemsControl.ItemsControlFromItemContainer(container)).ItemContainerGenerator.ItemFromContainer(container) as TreeItemViewModel;
+			var container = obj as ListViewItem;
+			_targetElement = container == null ? null : ((ItemsControl)ItemsControl.ItemsControlFromItemContainer(container)).ItemContainerGenerator.ItemFromContainer(container) as TreeNodeViewModel;
 			if (container != _target)
 			{
 				_dragExpandWaitCounter = 0;
@@ -105,7 +105,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		}
 		private void HandleDragScrolling(DragEventArgs e)
 		{
-			if (_scrollViewer != null && _scrollViewer.CanContentScroll && _scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible && _scrollViewer.ExtentHeight > _scrollViewer.ViewportHeight)
+			if (_scrollViewer != null && _scrollViewer.CanContentScroll && _scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible && _scrollViewer.ExtentHeight > _scrollViewer.ViewportHeight && _target != null)
 			{
 				bool? isMouseAtTop = IsMousePointerAtTop(e);
 				if (isMouseAtTop.HasValue)
@@ -129,10 +129,10 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			if (_target != null)
 			{
-				if (_dragExpandWaitCounter == 3 * DRAG_WAIT_COUNTER_LIMIT)
+				if (_dragExpandWaitCounter == DRAG_WAIT_COUNTER_LIMIT)
 				{
 					_dragExpandWaitCounter = 0;
-					_target.IsExpanded = true;
+					_targetElement.IsExpanded = true;
 				}
 				else
 					_dragExpandWaitCounter++;
@@ -143,21 +143,20 @@ namespace Infrastructure.Common.Services.DragDrop
 			//TODO:
 		}
 
-		private TreeViewItem GetItemContainer(TreeItemViewModel item)
+		private ListViewItem GetItemContainer(TreeNodeViewModel item)
 		{
 			if (item == null)
 				return null;
-			ItemsControl parentContainer = (ItemsControl)GetItemContainer(item.TreeParent) ?? TreeView;
-			return parentContainer.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+			return TreeList.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
 		}
 		private bool ValidateStartPoint()
 		{
-			UIElement element = TreeView.InputHitTest(DragStartPoint) as UIElement;
+			UIElement element = TreeList.InputHitTest(DragStartPoint) as UIElement;
 			while (element != null)
 			{
-				if (element == TreeView)
+				if (element == TreeList)
 					return false;
-				object data = TreeView.ItemContainerGenerator.ItemFromContainer(element);
+				object data = TreeList.ItemContainerGenerator.ItemFromContainer(element);
 				if (data != DependencyProperty.UnsetValue)
 					return true;
 				else
@@ -167,13 +166,14 @@ namespace Infrastructure.Common.Services.DragDrop
 		}
 		private bool? IsMousePointerAtTop(DragEventArgs e)
 		{
-			var content = _scrollViewer.Content as IInputElement ?? TreeView;
+			var content = _scrollViewer.Content as IInputElement ?? TreeList;
 			if (content != null)
 			{
 				var point = e.GetPosition(content);
-				if (point.Y > 0.0 && point.Y < DRAG_SCROLL_AREA_WIDTH)
+				var coordingate = point.Y / _target.ActualHeight;
+				if (coordingate > 0.0 && coordingate < DRAG_SCROLL_AREA_WIDTH)
 					return true;
-				else if (point.Y > _scrollViewer.ViewportHeight - DRAG_SCROLL_AREA_WIDTH && point.Y < _scrollViewer.ViewportHeight)
+				else if (coordingate > _scrollViewer.ViewportHeight - DRAG_SCROLL_AREA_WIDTH && coordingate < _scrollViewer.ViewportHeight)
 					return false;
 			}
 			return null;

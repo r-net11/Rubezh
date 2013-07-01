@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PlansModule.Views.ElementsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="PlansModule.Views.ElementsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<UserControl.Resources>
 		<Style x:Key="IsSelectableCheckBoxStyle" TargetType="CheckBox">
 			<Setter Property="Focusable" Value="False" />
@@ -38,39 +38,38 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Controls:TreeListView ItemsSource="{Binding Elements}" SelectedObject="{Binding SelectedElement}">
-		<Controls:TreeListView.ItemContainerStyle>
-			<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
+	<tree:TreeList SelectedTreeNode="{Binding SelectedElement}" Source="{Binding Elements}">
+		<tree:TreeList.ItemContainerStyle>
+			<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
 				<Setter Property="Visibility" Value="{Binding IsGroupHasChild, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Style>
-		</Controls:TreeListView.ItemContainerStyle>
-		<Controls:TreeListView.Columns>
-			<GridViewColumn Header="Слои">
-				<GridViewColumn.CellTemplate>
-					<DataTemplate>
-						<StackPanel Grid.Column="1" ContextMenu="{Binding ContextMenu}" Orientation="Horizontal">
-							<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
-							<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />
-							<TextBlock Margin="1" Text="{Binding Name}">
-								<TextBlock.Style>
-									<Style>
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding IsBold}" Value="True">
-												<DataTrigger.Setters>
-													<Setter Property="TextBlock.FontWeight" Value="Bold" />
-												</DataTrigger.Setters>
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</TextBlock.Style>
-							</TextBlock>
-							<StackPanel.InputBindings>
-								<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
-							</StackPanel.InputBindings>
-						</StackPanel>
-					</DataTemplate>
-				</GridViewColumn.CellTemplate>
-			</GridViewColumn>
-		</Controls:TreeListView.Columns>
-	</Controls:TreeListView>
+		</tree:TreeList.ItemContainerStyle>
+		<tree:TreeList.View>
+			<GridView>
+				<GridViewColumn Header="Слои">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Grid.Column="1" ContextMenu="{Binding ContextMenu}" Orientation="Horizontal">
+								<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
+								<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />
+								<TextBlock Margin="1" Text="{Binding Name}">
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding IsBold}" Value="True">
+													<DataTrigger.Setters>
+														<Setter Property="TextBlock.FontWeight" Value="Bold" />
+													</DataTrigger.Setters>
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</tree:TreeList.View>
+	</tree:TreeList>
 </UserControl>

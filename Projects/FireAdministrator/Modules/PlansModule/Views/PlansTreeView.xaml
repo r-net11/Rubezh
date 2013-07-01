@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
-	<drag:TreeListDragDropDecorator IsSource="True" IsTarget="True" TreeItemDropCommand="{Binding TreeItemDropCommand}">
-		<Controls:TreeListView ItemsSource="{Binding PlansViewModel.Plans}" SelectedObject="{Binding PlansViewModel.SelectedPlan}">
-			<Controls:TreeListView.Resources>
+﻿<UserControl x:Class="PlansModule.Views.PlansTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	<drag:TreeListDragDropDecorator IsSource="True" IsTarget="True" TreeNodeDropCommand="{Binding TreeNodeDropCommand}">
+		<tree:TreeList SelectedTreeNode="{Binding PlansViewModel.SelectedPlan}" Source="{Binding PlansViewModel.Plans}">
+			<tree:TreeList.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" MouseAction="LeftDoubleClick" />
+					<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
 				</InputBindingCollection>
-				<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}">
+				<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}">
 					<MenuItem Command="{Binding AddSubPlanCommand}" Header="Добавить дочерний план" />
 					<MenuItem Command="{Binding AddSubFolderCommand}" Header="Добавить дочернюю папку" />
 					<MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
@@ -15,26 +15,39 @@
 					<MenuItem Command="{Binding PlanCutCommand}" Header="Вырезать" />
 					<MenuItem Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" Header="Вставить" />
 				</ContextMenu>
-			</Controls:TreeListView.Resources>
-			<Controls:TreeListView.ItemContainerStyle>
-				<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
+			</tree:TreeList.Resources>
+			<tree:TreeList.ItemContainerStyle>
+				<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
 					<Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />
 					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
 					<Setter Property="Focusable" Value="True" />
 				</Style>
-			</Controls:TreeListView.ItemContainerStyle>
-			<Controls:TreeListView.ContextMenu>
+			</tree:TreeList.ItemContainerStyle>
+			<tree:TreeList.ContextMenu>
 				<ContextMenu>
 					<MenuItem Command="{Binding PlansViewModel.AddCommand}" Header="Добавить план" />
 					<MenuItem Command="{Binding PlansViewModel.AddFolderCommand}" Header="Добавить папку" />
 					<Separator />
 					<MenuItem Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить" />
 				</ContextMenu>
-			</Controls:TreeListView.ContextMenu>
-			<Controls:TreeListView.Columns>
-				<GridViewColumn Width="250" DisplayMemberBinding="{Binding Caption}" Header="Название" />
-				<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание" />
-			</Controls:TreeListView.Columns>
-		</Controls:TreeListView>
+			</tree:TreeList.ContextMenu>
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Width="250" Header="Название">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<Border Background="Transparent">
+									<StackPanel Orientation="Horizontal">
+										<Image Source="/Controls;component/Images/Folder.png" Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<TextBlock Text="{Binding Caption}" VerticalAlignment="Center" />
+									</StackPanel>
+								</Border>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание" />
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
 	</drag:TreeListDragDropDecorator>
 </UserControl>

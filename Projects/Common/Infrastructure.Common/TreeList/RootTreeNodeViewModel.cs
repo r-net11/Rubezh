@@ -82,10 +82,9 @@ namespace Infrastructure.Common.TreeList
 				case NotifyCollectionChangedAction.Move:
 				case NotifyCollectionChangedAction.Replace:
 				case NotifyCollectionChangedAction.Reset:
-					var items = Nodes.ToArray();
-					Nodes.Clear();
-					foreach (var item in items)
-						Nodes.InsertRange(0, items);
+					SetSource((IEnumerable<TreeNodeViewModel>)NotifyCollection);
+					//Nodes.Clear();
+					//Nodes.InsertRange(0, (IEnumerable<TreeNodeViewModel>)NotifyCollection);
 					break;
 			}
 		}

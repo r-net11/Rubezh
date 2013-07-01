@@ -5,7 +5,7 @@ using FiresecAPI;
 
 namespace ServerFS2
 {
-	public abstract class UsbProcessorBase
+	public abstract class UsbHidBase
 	{
 		protected readonly AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		protected readonly AutoResetEvent AutoWaitEvent = new AutoResetEvent(false);

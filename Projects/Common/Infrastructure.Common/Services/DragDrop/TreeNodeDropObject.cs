@@ -3,12 +3,12 @@ using Infrastructure.Common.TreeList;
 
 namespace Infrastructure.Common.Services.DragDrop
 {
-	public class TreeItemDropObject
+	public class TreeNodeDropObject
 	{
 		public IDataObject DataObject { get; internal set; }
-		public TreeItemViewModel Target { get; internal set; }
+		public TreeNodeViewModel Target { get; internal set; }
 
-		public TreeItemDropObject()
+		public TreeNodeDropObject()
 		{
 		}
 	}

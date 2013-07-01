@@ -10,7 +10,7 @@ using System.Windows.Interop;
 
 namespace ServerFS2
 {
-	public class UsbProcessor : UsbProcessorBase
+	public class UsbHid : UsbHidBase
 	{
 		static int NextNo = 0;
 		public int No { get; private set; }
@@ -38,7 +38,7 @@ namespace ServerFS2
 			if (DeviceRemoved != null)
 				DeviceRemoved(this);
 		}
-		public event Action<UsbProcessor> DeviceRemoved;
+		public event Action<UsbHid> DeviceRemoved;
 
 		public override void Dispose()
 		{

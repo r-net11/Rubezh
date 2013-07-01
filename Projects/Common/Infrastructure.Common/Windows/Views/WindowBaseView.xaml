@@ -3,9 +3,7 @@
         Width="1000" Height="1000" AllowsTransparency="False" Closed="Window_Closed" Closing="Window_Closing"
         FontFamily="Arial" FontSize="12"
         Icon="{Binding Icon,
-                       Converter={StaticResource NullToImageConverter}}"
-        KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="NoResize"
-        Topmost="{Binding TopMost}"
+                       Converter={StaticResource NullToImageConverter}}" KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="{Binding ResizeMode}" Topmost="{Binding TopMost}"
         Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -22,7 +20,8 @@
 			<ColumnDefinition Width="5" />
 			<ColumnDefinition Width="5" />
 		</Grid.ColumnDefinitions>
-		<Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+		<Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="5" Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+			<!--  <Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="5" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">  -->
 			<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}" />
 		</Border>
 		<Thumb Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Background="Green" Cursor="SizeNWSE" DragDelta="Thumb_DragDelta" Style="{StaticResource ResizeThumbStyle}" Tag="{x:Static loc:WindowBaseView+ResizeDirection.TopLeft}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" />

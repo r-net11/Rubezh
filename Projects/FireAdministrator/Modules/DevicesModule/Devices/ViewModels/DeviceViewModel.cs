@@ -73,8 +73,8 @@ namespace DevicesModule.ViewModels
 
 		public void Update()
 		{
-			IsExpanded = false;
-			IsExpanded = true;
+			//IsExpanded = false;
+			//IsExpanded = true;
 			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);

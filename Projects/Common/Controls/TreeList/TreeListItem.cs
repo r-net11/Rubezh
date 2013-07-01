@@ -26,7 +26,7 @@ namespace Controls.TreeList
 
 		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
 		{
-			if (e.ChangedButton == MouseButton.Left && e.Source.GetType() != typeof(RowExpander) && Node != null && Node.IsExpandable)
+			if (e.ChangedButton == MouseButton.Left && e.Source.GetType() != typeof(RowExpander) && Node != null && Node.HasChildren)
 				Node.IsExpanded = !Node.IsExpanded;
 		}
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -46,7 +46,7 @@ namespace Controls.TreeList
 						break;
 					case Key.Left:
 						e.Handled = true;
-						if (Node.IsExpanded && Node.IsExpandable)
+						if (Node.IsExpanded && Node.HasChildren)
 						{
 							Node.IsExpanded = false;
 							ChangeFocus(Node);
