@@ -19,7 +19,7 @@ namespace Infrastructure.Common.Navigation
 			PermissionPredicate = null;
 			IsVisible = true;
 			IsSelectionAllowed = false;
-			SupportMultipleSelect = false;
+			SupportMultipleSelect = true;
 		}
 
 		public virtual void Execute()
