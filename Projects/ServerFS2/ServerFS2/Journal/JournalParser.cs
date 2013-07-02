@@ -42,22 +42,23 @@ namespace ServerFS2
 			FS2JournalItem.EventCode = FSInternalJournal.EventCode;
 			FS2JournalItem.EventChoiceNo = FSInternalJournal.AdditionalEventCode;
 
-			FS2JournalItem.StateType = GetEventStateType();
-
 			FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
 			FS2JournalItem.PanelName = FS2JournalItem.PanelDevice.DottedPresentationNameAndAddress;
 
-			var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
-			FS2JournalItem.DeviceAddress = FSInternalJournal.AddressOnShleif;
-			FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
-			if (FS2JournalItem.Device != null)
+			if (MetadataHelper.HasDevise(FSInternalJournal.EventCode))
 			{
-				FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
-				FS2JournalItem.DeviceName = FS2JournalItem.Device.DottedPresentationNameAndAddress;
+				var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
+				FS2JournalItem.DeviceAddress = FSInternalJournal.AddressOnShleif;
+				FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
+				if (FS2JournalItem.Device != null)
+				{
+					FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
+					FS2JournalItem.DeviceName = FS2JournalItem.Device.DottedPresentationNameAndAddress;
+				}
 			}
 
+			FS2JournalItem.StateType = GetEventStateType();
 			FS2JournalItem.Description = GetEventName();
-
 			FS2JournalItem.SubsystemType = GetSubsystemType(FS2JournalItem.PanelDevice);
 
 			if (FSInternalJournal.DeviceType == 1)
@@ -232,7 +233,8 @@ namespace ServerFS2
 			if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
 				return GetEventNameAMT();
 
-			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode);
+								var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
+								var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode, stringTableType);
 			var firstIndex = eventName.IndexOf("[");
 			var lastIndex = eventName.IndexOf("]");
 			if (firstIndex != -1 && lastIndex != -1)

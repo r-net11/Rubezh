@@ -77,7 +77,7 @@ namespace ServerFS2.Monitoring
 			remoteDeviceConfiguration.Update();
 			var remoteRealChildren = remoteDeviceConfiguration.RootDevice.GetRealChildren();
 			var localRealChildren = panelDevice.GetRealChildren();
-			panelDevice.DeviceState.IsDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, remoteRealChildren);
+			panelDevice.DeviceState.IsDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, remoteDeviceConfiguration);
 			foreach (var remoteDevice in remoteRealChildren)
 			{
 				var device = localRealChildren.FirstOrDefault(x => x.IntAddress == remoteDevice.IntAddress);
@@ -353,6 +353,15 @@ namespace ServerFS2.Monitoring
 			}
 
 			if (device.DeviceState.IsDBMissmatch)
+			{
+				AddDeviceState(device, "База данных прибора не соответствует базе данных ПК");
+			}
+			else
+			{
+				RemoveDeviceState(device, "База данных прибора не соответствует базе данных ПК");
+			}
+
+			if (device.DeviceState.IsWrongPanel)
 			{
 				AddDeviceState(device, "База данных прибора не соответствует базе данных ПК");
 			}

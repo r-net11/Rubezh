@@ -31,7 +31,7 @@ namespace ServerFS2
 			return InternalSend(device, false, 15, value);
 		}
 
-		public static Response SendForUSBPanel(Device device, params object[] value)
+		public static Response SendShortAttempt(Device device, params object[] value)
 		{
 			return InternalSend(device, false, 1, value);
 		}
@@ -241,7 +241,7 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		public static void Initialize()
+		public static void	Initialize()
 		{
 			lock (Locker)
 			{

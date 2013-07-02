@@ -93,9 +93,9 @@ namespace ServerFS2.Monitoring
 				{
 					if (serialNo != SerialNo)
 					{
-						if (!PanelDevice.DeviceState.IsDBMissmatch)
+						if (!PanelDevice.DeviceState.IsWrongPanel)
 						{
-							PanelDevice.DeviceState.IsDBMissmatch = true;
+							PanelDevice.DeviceState.IsWrongPanel = true;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 						CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью", null, PanelDevice);
 							return;
@@ -103,9 +103,9 @@ namespace ServerFS2.Monitoring
 					}
 					else
 					{
-						if (PanelDevice.DeviceState.IsDBMissmatch)
+						if (PanelDevice.DeviceState.IsWrongPanel)
 						{
-							PanelDevice.DeviceState.IsDBMissmatch = false;
+							PanelDevice.DeviceState.IsWrongPanel = false;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 						CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью устранено", null, PanelDevice);
 							return;
