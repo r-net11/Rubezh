@@ -41,12 +41,12 @@ namespace MonitorClientFS2
 			DevicesViewModel = new DevicesViewModel();
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
-			MainManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
+			CallbackManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
 			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
 			CallbackManager.ProgressEvent += new System.Action<FS2ProgressInfo>(CallbackManager_ProgressEvent);
 
-			//if (StartMonitoring)
-			//    MainManager.StartMonitoring();
+			if (StartMonitoring)
+				ServerFS2.Bootstrapper.Run();
 		}
 
 		#region Progress
@@ -155,7 +155,7 @@ namespace MonitorClientFS2
 				while (true)
 				{
 					var fs2Contract = new FS2Contract();
-					fs2Contract.SetNewConfiguration(ConfigurationManager.DeviceConfiguration);
+					fs2Contract.SetNewConfiguration(ConfigurationManager.DeviceConfiguration, null);
 					Thread.Sleep(TimeSpan.FromSeconds(5));
 				}
 			});

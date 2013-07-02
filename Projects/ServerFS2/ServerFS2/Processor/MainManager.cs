@@ -10,24 +10,16 @@ using Common;
 using System.Threading;
 using ServerFS2.Operations;
 using System.Threading.Tasks;
+using ServerFS2.Journal;
 
 namespace ServerFS2.Processor
 {
 	public static class MainManager
 	{
 		#region Common
-		public static event Action<FS2JournalItem> NewJournalItem;
-		static void OnNewItem(FS2JournalItem journalItem)
-		{
-			if (NewJournalItem != null)
-				NewJournalItem(journalItem);
-		}
-
 		public static void StartMonitoring(Device device = null)
 		{
 			USBManager.Initialize();
-			MonitoringPanel.NewJournalItem -= new Action<FS2JournalItem>(OnNewItem);
-			MonitoringPanel.NewJournalItem += new Action<FS2JournalItem>(OnNewItem);
 			MonitoringManager.StartMonitoring(device);
 		}
 
@@ -88,60 +80,70 @@ namespace ServerFS2.Processor
 			return zoneStates;
 		}
 
-		public static void AddToIgnoreList(List<Device> devices)
+		public static void AddToIgnoreList(List<Device> devices, string userName)
 		{
+			foreach (var device in devices)
+			{
+				CustomMessageJournalHelper.Add("Команда оператора. Отключение", userName, device.ParentPanel, device);
+			}
 			MonitoringManager.AddTaskIgnore(devices);
 		}
 
-		public static void RemoveFromIgnoreList(List<Device> devices)
+		public static void RemoveFromIgnoreList(List<Device> devices, string userName)
 		{
+			foreach (var device in devices)
+			{
+				CustomMessageJournalHelper.Add("Команда оператора. Снятие тключения", userName, device.ParentPanel, device);
+			}
 			MonitoringManager.AddTaskResetIgnore(devices);
 		}
 
-		public static void SetZoneGuard(Guid zoneUID)
+		public static void SetZoneGuard(Zone zone, string userName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			CustomMessageJournalHelper.Add("Команда оператора. Постановка на охрану", userName, null, null, zone);
+			GuardOperationHelper.SetZoneGuard(zone);
 		}
 
-		public static void UnSetZoneGuard(Guid zoneUID)
+		public static void UnSetZoneGuard(Zone zone, string userName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			CustomMessageJournalHelper.Add("Команда оператора. Снятие с охраны", userName, null, null, zone);
+			GuardOperationHelper.UnSetZoneGuard(zone);
 		}
 
-		public static void SetDeviceGuard(Guid deviceUID)
+		public static void SetDeviceGuard(Device device, string userName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			CustomMessageJournalHelper.Add("Команда оператора. Постановка на охрану", userName, device);
+			GuardOperationHelper.SetDeviceGuard(device);
 		}
 
-		public static void UnSetDeviceGuard(Guid deviceUID)
+		public static void UnSetDeviceGuard(Device device, string userName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
+			CustomMessageJournalHelper.Add("Команда оператора. Снятие с охраны", userName, device);
+			GuardOperationHelper.UnSetDeviceGuard(device);
 		}
 
-		public static void ResetStates(List<PanelResetItem> panelResetItems)
+		public static void ResetStates(List<PanelResetItem> panelResetItems, string userName)
 		{
-			MonitoringManager.AddPanelResetItems(panelResetItems);
+			MonitoringManager.AddPanelResetItems(panelResetItems, userName);
 		}
 
-		public static void ExecuteCommand(Guid deviceUID, string methodName)
+		public static void ExecuteCommand(Device device, string commandName, string userName)
 		{
-			throw new FS2Exception("Функция пока не реализована");
-		}
-
-		public static void AddCommand(Device device, string commandName)
-		{
+			CustomMessageJournalHelper.Add("Команда оператора. Управление устройством", userName, device.ParentPanel, device);
 			MonitoringManager.ExecuteCommand(device, commandName);
 		}
+
 		#endregion
 
 		#region Administrator
-		public static void SetNewConfiguration(DeviceConfiguration deviceConfiguration)
+		public static void SetNewConfiguration(DeviceConfiguration deviceConfiguration, string userName)
 		{
 			try
 			{
 				StopMonitoring();
 				ConfigurationManager.DeviceConfiguration = deviceConfiguration;
 				ConfigurationManager.Update();
+				CustomMessageJournalHelper.Add("Команда оператора. Установка новой конфигурации", userName);
 			}
 			catch (Exception e)
 			{
@@ -156,31 +158,42 @@ namespace ServerFS2.Processor
 			}
 		}
 
-		public static void DeviceWriteConfiguration(Device device, bool isUSB)
+		public static bool DeviceWriteConfiguration(Device device, bool isUSB, string userName)
 		{
-			TempConfigSafeCall(ConfigurationWriterOperationHelper.Write, device, isUSB);
+			CustomMessageJournalHelper.Add("Команда оператора. Запись новой конфигурации", userName);
+			return TempConfigSafeCall<bool>(x =>
+			{
+				return ConfigurationWriterOperationHelper.Write(x);
+			}, device, isUSB);
 		}
 
-		public static void DeviceWriteAllConfiguration()
+		public static List<Guid> DeviceWriteAllConfiguration(List<Guid> deviceUIDs, string userName)
 		{
-			ConfigurationWriterOperationHelper.WriteAll();
+			CustomMessageJournalHelper.Add("Команда оператора. Запись новой конфигурации", userName);
+			return ConfigurationWriterOperationHelper.WriteAll(deviceUIDs);
 		}
 
 		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
 		{
-			TempConfigSafeCall((x) => SetPasswordOperationHelper.SetPassword(device, devicePasswordType, password), device, isUSB);
+			TempConfigSafeCall(x =>
+				SetPasswordOperationHelper.SetPassword(x, devicePasswordType, password),
+				device, isUSB);
 		}
 
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
-			TempConfigSafeCall(ServerHelper.SynchronizeTime, device, isUSB);
+			TempConfigSafeCall<bool>(x =>
+			{
+				ServerHelper.SynchronizeTime(x);
+				return true;
+			}, device, isUSB);
 		}
 
 		public static string DeviceGetInformation(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<string>((x) =>
+			return TempConfigSafeCall<string>(x =>
 			{
-				return GetInformationOperationHelper.GetDeviceInformation(device);
+				return GetInformationOperationHelper.GetDeviceInformation(x);
 			}, device, isUSB);
 		}
 
@@ -204,12 +217,16 @@ namespace ServerFS2.Processor
 
 		public static string DeviceVerifyFirmwareVersion(Device device, bool isUSB, string fileName)
 		{
-			return TempConfigSafeCall(x => FirmwareUpdateOperationHelper.Verify(device, isUSB, fileName), device, isUSB);
+			return TempConfigSafeCall(x =>
+				FirmwareUpdateOperationHelper.Verify(x, isUSB, fileName),
+				device, isUSB);
 		}
 
 		public static void DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
 		{
-			TempConfigSafeCall(x => FirmwareUpdateOperationHelper.Update(device, isUSB, fileName), device, isUSB);
+			TempConfigSafeCall(x =>
+				FirmwareUpdateOperationHelper.Update(x, isUSB, fileName),
+				device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceReadConfiguration(Device device, bool isUSB)
@@ -223,7 +240,10 @@ namespace ServerFS2.Processor
 
 		public static FS2JournalItemsCollection DeviceReadJournal(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<FS2JournalItemsCollection>(ReadJournalOperationHelper.GetJournalItemsCollection, device, isUSB);
+			return TempConfigSafeCall<FS2JournalItemsCollection>(x =>
+				{
+					return ReadJournalOperationHelper.GetJournalItemsCollection(x);
+				}, device, isUSB);
 		}
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
@@ -243,9 +263,9 @@ namespace ServerFS2.Processor
 
 		public static void DeviceExecuteCustomFunction(Device device, bool isUSB, string functionName)
 		{
-			TempConfigSafeCall((x) =>
+			TempConfigSafeCall(x =>
 			{
-				throw new FS2Exception("Функция пока не реализована");
+				CustomFunctionOperationHelper.Execute(device, functionName);
 			}, device, isUSB);
 		}
 

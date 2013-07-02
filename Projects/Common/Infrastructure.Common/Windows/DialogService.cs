@@ -64,56 +64,12 @@ namespace Infrastructure.Common.Windows
 		static void PrepareWindow(WindowBaseViewModel model)
 		{
 			SetWindowProperty(model);
-			UpdateWindowSize(model);
 		}
 		static void SetWindowProperty(WindowBaseViewModel windowBaseViewModel)
 		{
 			windowBaseViewModel.Surface.Owner = GetActiveWindow();
 			windowBaseViewModel.Surface.ShowInTaskbar = windowBaseViewModel.Surface.Owner == null;
 			windowBaseViewModel.Surface.WindowStartupLocation = windowBaseViewModel.Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
-		}
-		static void UpdateWindowSize(WindowBaseViewModel windowBaseViewModel)
-		{
-			try
-			{
-				var isSaveSize = windowBaseViewModel.GetType().GetCustomAttributes(typeof(SaveSizeAttribute), true).Length > 0;
-				if (isSaveSize)
-				{
-					string key = "WindowRect." + windowBaseViewModel.GetType().AssemblyQualifiedName;
-					var windowRect = RegistrySettingsHelper.GetWindowRect(key);
-					if (windowRect != null)
-					{
-						windowBaseViewModel.Surface.Top = windowRect.Top;
-						windowBaseViewModel.Surface.Left = windowRect.Left;
-						windowBaseViewModel.Surface.Width = windowRect.Width;
-						windowBaseViewModel.Surface.Height = windowRect.Height;
-						windowBaseViewModel.Surface.WindowStartupLocation = WindowStartupLocation.Manual;
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "DialogService.UpdateWindowSize");
-			}
-			windowBaseViewModel.Closed -= SaveWindowSize;
-			windowBaseViewModel.Closed += SaveWindowSize;
-		}
-		static void SaveWindowSize(object sender, EventArgs e)
-		{
-			WindowBaseViewModel windowBaseViewModel = (WindowBaseViewModel)sender;
-			var isSaveSize = windowBaseViewModel.GetType().GetCustomAttributes(typeof(SaveSizeAttribute), true).Length > 0;
-			if (isSaveSize)
-			{
-				string key = "WindowRect." + windowBaseViewModel.GetType().AssemblyQualifiedName;
-				var windowRect = new WindowRect()
-				{
-					Left = windowBaseViewModel.Surface.Left,
-					Top = windowBaseViewModel.Surface.Top,
-					Width = windowBaseViewModel.Surface.Width,
-					Height = windowBaseViewModel.Surface.Height
-				};
-				RegistrySettingsHelper.SetWindowRect(key, windowRect);
-			}
 		}
 
 		public static bool IsModal(this Window window)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FS2Api;
+using ServerFS2.Journal;
 
 namespace ServerFS2.Monitoring
 {
@@ -93,7 +94,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static void AddPanelResetItems(List<PanelResetItem> panelResetItems)
+		public static void AddPanelResetItems(List<PanelResetItem> panelResetItems, string userName)
 		{
 			foreach (var panelResetItem in panelResetItems)
 			{
@@ -104,7 +105,9 @@ namespace ServerFS2.Monitoring
 					foreach (var monitoringDevice in monitoringUSB.MonitoringPanels)
 					{
 						if (monitoringDevice.PanelDevice == panelDevice)
-							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
+						{
+							CustomMessageJournalHelper.Add("Команда оператора. Сброс", userName, panelDevice);
+						}
 					}
 				}
 			}
@@ -117,11 +120,11 @@ namespace ServerFS2.Monitoring
 				var monitoringProcessor = Find(device);
 				if (monitoringProcessor != null)
 				{
-					foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
+					foreach (var monitoringPanel in monitoringProcessor.MonitoringPanels)
 					{
-						if (monitoringDevice.PanelDevice == device.ParentPanel)
+						if (monitoringPanel.PanelDevice == device.ParentPanel)
 						{
-							monitoringDevice.DevicesToIgnore = new List<Device>() { device };
+							monitoringPanel.DevicesToIgnore = new List<Device>() { device };
 						}
 					}
 				}

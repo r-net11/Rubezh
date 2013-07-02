@@ -13,6 +13,7 @@
       <ComponentRef Id="FS2.Files" />
       <ComponentRef Id="FS2.Metadata" />
       <ComponentRef Id="FS2.DB" />
+      <ComponentRef Id="FS2.ProgramsMenuShortcut" />
 
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-4а, Рубеж-2ОП, БУНС">
         <ComponentRef Id="Administrator.FS_MODULE" />

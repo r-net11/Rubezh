@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
 	{
 		static Device Device;
 		static bool IsUsb;
-		static OperationResult OperationResult;
+		static OperationResult<bool> OperationResult;
 
 		public static void Run(Device device, bool isUsb)
 		{
@@ -21,12 +21,12 @@ namespace DevicesModule.ViewModels
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceWriteConfiguration(Device.UID, IsUsb);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceWriteConfiguration(Device.UID, IsUsb, FiresecManager.CurrentUser.Name);
 		}
 
 		static void OnCompleted()
 		{
-			if (OperationResult.HasError)
+			if (OperationResult.HasError || !OperationResult.Result)
 			{
 				MessageBoxService.ShowError(OperationResult.Error, "Ошибка при выполнении операции");
 				return;

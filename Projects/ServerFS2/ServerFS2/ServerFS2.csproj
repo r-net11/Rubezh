@@ -137,6 +137,7 @@
     <Compile Include="Helpers\USBExceptionHelper.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Journal\BitsExtracter.cs" />
+    <Compile Include="Journal\CustomMessageJournalHelper.cs" />
     <Compile Include="Journal\DatabaseHelper.cs" />
     <Compile Include="Journal\DatabaseHelper.Monitoring.cs" />
     <Compile Include="Journal\FSInternalJournal.cs" />
@@ -165,10 +166,12 @@
     <Compile Include="Monitoring\ZoneStateManager.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />
     <Compile Include="Operations\ConfigurationWriterOperationHelper.cs" />
+    <Compile Include="Operations\CustomFunctionOperationHelper.cs" />
     <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
     <Compile Include="Operations\GetInformationOperationHelper.cs" />
+    <Compile Include="Operations\GuardOperationHelper.cs" />
     <Compile Include="Operations\GuardUsersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />
     <Compile Include="Operations\ReadPanelDatabaseOperationHelper.cs" />

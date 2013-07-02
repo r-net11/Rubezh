@@ -16,7 +16,7 @@ namespace ServerFS2
 	{
 		static List<byte> _crc;
 
-		public static void WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
+		public static bool WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
 		{
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
 			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
@@ -35,6 +35,7 @@ namespace ServerFS2
 			StopUpdating(device);
 			ConfirmLongTermOperation(device);
 			ServerHelper.SynchronizeTime(device);
+			return true;
 		}
 
 		static int BeginUpdateRom(Device device)
