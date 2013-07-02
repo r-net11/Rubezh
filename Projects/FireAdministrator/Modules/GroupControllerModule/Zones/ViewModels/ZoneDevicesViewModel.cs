@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 			foreach (var device in Devices.Where(x => x.Device.Parent != null))
 			{
 				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.Children.Add(device);
+				parent.AddChild(device);
 			}
 
 			AvailableDevices.Clear();
@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 			foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
 			{
 				var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.Children.Add(device);
+				parent.AddChild(device);
 			}
 
 			OnPropertyChanged("Devices");

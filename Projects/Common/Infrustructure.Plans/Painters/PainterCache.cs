@@ -83,14 +83,14 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static Brush GetBrush(IElementBackground element)
 		{
-			if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
-				return _transparentBackgroundBrush;
-			else if (element.BackgroundImageSource.HasValue)
+			if (element.BackgroundImageSource.HasValue)
 			{
 				CacheBrush(element);
 				return _pictureBrushes[element.BackgroundImageSource.Value];
 				//return GetBrush(element.BackgroundImageSource.Value);
 			}
+			else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
+				return _transparentBackgroundBrush;
 			else
 				return GetBrush(element.BackgroundColor);
 		}

@@ -121,7 +121,7 @@ namespace GKModule.Models
 				{
 					XManager.UpdateConfiguration();
 					SelectedDevice.CollapseChildren();
-					SelectedDevice.Children.Clear();
+					SelectedDevice.ClearChildren();
 					foreach (var remoteDevice in remoteDevices)
 					{
 						DevicesViewModel.Current.AddDevice(remoteDevice, SelectedDevice);

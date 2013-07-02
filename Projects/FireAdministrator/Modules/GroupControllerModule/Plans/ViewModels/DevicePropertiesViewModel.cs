@@ -34,7 +34,7 @@ namespace GKModule.Plans.ViewModels
 				if (device.Device.Parent != null)
 				{
 					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.Children.Add(device);
+					parent.AddChild(device);
 				}
 			}
 			//BuildTree();
@@ -70,7 +70,7 @@ namespace GKModule.Plans.ViewModels
 		public DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
-			parentDeviceViewModel.Children.Add(deviceViewModel);
+			parentDeviceViewModel.AddChild(deviceViewModel);
 
 			var indexOf = Devices.IndexOf(parentDeviceViewModel);
 			Devices.Insert(indexOf + 1, deviceViewModel);
@@ -79,7 +79,7 @@ namespace GKModule.Plans.ViewModels
 				foreach (var childDevice in device.Children)
 				{
 					var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-					deviceViewModel.Children.Add(childDeviceViewModel);
+					deviceViewModel.AddChild(childDeviceViewModel);
 				}
 
 			return deviceViewModel;

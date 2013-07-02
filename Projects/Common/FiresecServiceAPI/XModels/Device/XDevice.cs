@@ -18,6 +18,7 @@ namespace XFiresecAPI
 			DeviceLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
+			AllowMultipleVizualization = false;
 
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
@@ -71,6 +72,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
+
+		[DataMember]
+		public bool AllowMultipleVizualization { get; set; }
 
 		public string Address
 		{

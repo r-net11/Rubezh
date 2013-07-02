@@ -87,7 +87,7 @@ namespace OPCModule.ViewModels
 		{
 			var deviceViewModel = new OPCDeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
