@@ -19,18 +19,21 @@ namespace ServerFS2
 					{
 						new DeviceCustomFunction()
 						{
+							No = 0,
 							Code = "Touch_SetMaster",
 							Name = "Записать мастер-ключ",
 							Description = "Записать мастер-ключ TouchMemory",
 						},
 						new DeviceCustomFunction()
 						{
+							No = 1,
 							Code = "Touch_ClearMaster",
 							Name = "Стереть пользовательские ключи",
 							Description = "Стереть пользовательские ключи TouchMemory",
 						},
 						new DeviceCustomFunction()
 						{
+							No = 2,
 							Code = "Touch_ClearAll",
 							Name = "Стереть все ключи",
 							Description = "Стереть все ключи TouchMemory",

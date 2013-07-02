@@ -6,6 +6,9 @@ namespace FiresecAPI.Models
 	public class DeviceCustomFunction
 	{
 		[DataMember]
+		public int No { get; set; }
+
+		[DataMember]
 		public string Code { get; set; }
 
 		[DataMember]
