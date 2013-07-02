@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using ServerFS2.USB;
 
 namespace MonitorClientFS2
 {
@@ -32,7 +33,7 @@ namespace MonitorClientFS2
 			StopMonitoringCommand = new RelayCommand(OnStopMonitoring);
 			SuspendMonitoringCommand = new RelayCommand(OnSuspendMonitoring);
 			ResumeMonitoringCommand = new RelayCommand(OnResumeMonitoring);
-			ReadStatesCommand = new RelayCommand(OnReadStates);
+			TestComPortCommand = new RelayCommand(OnTestComPort);
 			SetNewConfigurationCommand = new RelayCommand(OnSetNewConfiguration);
 			GetSerialListCommand = new RelayCommand(OnGetSerialList);
 			SetInitializingTestCommand = new RelayCommand(OnSetInitializingTest);
@@ -182,21 +183,10 @@ namespace MonitorClientFS2
 			var result = fs2Contract.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device.UID, false);
 		}
 
-		public RelayCommand ReadStatesCommand { get; private set; }
-		void OnReadStates()
+		public RelayCommand TestComPortCommand { get; private set; }
+		void OnTestComPort()
 		{
-			//var result = new HashSet<string>();
-			//foreach (var driver in ConfigurationManager.Drivers)
-			//{
-			//    foreach (var state in driver.States)
-			//    {
-			//        if (state.AffectChildren)
-			//        {
-			//            if (result.Add(state.Name))
-			//                Trace.WriteLine(state.Name);
-			//        }
-			//    }
-			//}
+			ComPortHelper.Run();
 		}
 	}
 }

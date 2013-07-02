@@ -4,10 +4,8 @@ namespace ServerFS2.Monitoring
 {
 	public class CommandItem
 	{
-		
 		Device Device;
 		string CommandName;
-		
 
 		public CommandItem(Device device, string commandName)
 		{

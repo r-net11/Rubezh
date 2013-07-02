@@ -212,7 +212,7 @@ namespace ServerFS2.Monitoring
 				//        return;
 				//}
 
-				var response = USBManager.Send(USBDevice, 0x01, 0x12);
+				var response = USBManager.SendShortAttempt(USBDevice, 0x01, 0x12);
 				if (response.HasError)
 				{
 					if (USBDevice.DeviceState.IsUsbConnectionLost == false)
@@ -225,8 +225,8 @@ namespace ServerFS2.Monitoring
 							monitoringPanel.OnConnectionLost();
 						}
 					}
-					//USBManager.ReInitialize(USBDevice);
-					USBManager.Initialize();
+					USBManager.ReInitialize(USBDevice);
+					//USBManager.Initialize();
 				}
 				else
 				{

@@ -22,9 +22,9 @@
             <StackPanel>
                 <Button Content="SetNewConfigurationCommand" Command="{Binding SetNewConfigurationCommand}" Width="200" Margin="2" />
                 <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
-                <Button Content="Считать состояния" Command="{Binding ReadStatesCommand}" Width="200" Margin="2" />
                 <Button Content="SetInitializingTest" Command="{Binding SetInitializingTestCommand}" Width="200" Margin="2" />
                 <Button Content="ReadConfiguration" Command="{Binding ReadConfigurationCommand}" Width="200" Margin="2" />
+                <Button Content="TestComPort" Command="{Binding TestComPortCommand}" Width="200" Margin="2" />
             </StackPanel>
         </StackPanel>
         <TabControl Grid.Row="1">
@@ -43,28 +43,18 @@
                     </Grid.RowDefinitions>
                     <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
-                            <DataGridTextColumn Header="DeviceAddress" Binding="{Binding DeviceAddress}" />
-                            <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
-                            
                             <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
-                            
-                            <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
-                            <DataGridTextColumn Header="ZoneNo" Binding="{Binding ZoneNo}" />
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                             <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
-                            <DataGridTextColumn Header="Device" Binding="{Binding Device.DottedPresentationNameAndAddress}" />
-                            <DataGridTextColumn Header="PanelDevice" Binding="{Binding PanelDevice.DottedPresentationNameAndAddress}" />
-
-                            <DataGridTextColumn Header="BytesString" Binding="{Binding BytesString}" />
-                            <DataGridTextColumn Header="DeviceUID" Binding="{Binding DeviceUID}" />
-                            <DataGridTextColumn Header="PanelUID" Binding="{Binding PanelUID}" />
-                            
-                            <DataGridTextColumn Header="SubsystemType" Binding="{Binding SubsystemType}" />
+                            <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
+                            <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
+                            <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
                             <DataGridTextColumn Header="StateType" Binding="{Binding StateType}" />
-                            <DataGridTextColumn Header="DeviceCategory" Binding="{Binding DeviceCategory}" />
+                            <DataGridTextColumn Header="SubsystemType" Binding="{Binding SubsystemType}" />
                             <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
+                            <DataGridTextColumn Header="BytesString" Binding="{Binding BytesString}" />
+                            
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournalItem}" Margin="2">

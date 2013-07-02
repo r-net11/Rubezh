@@ -151,21 +151,21 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static void AddTaskSetGuard(Zone zone)
+		public static void AddTaskSetGuard(Zone zone, string userName)
 		{
 			var deviceInZone = zone.DevicesInZone.FirstOrDefault();
 			if (deviceInZone != null)
 			{
-				AddTaskSetGuard(deviceInZone.ParentPanel, "", zone);
+				AddTaskSetGuard(deviceInZone.ParentPanel, userName, zone);
 			}
 		}
 
-		public static void AddTaskResetGuard(Zone zone)
+		public static void AddTaskResetGuard(Zone zone, string userName)
 		{
 			var deviceInZone = zone.DevicesInZone.FirstOrDefault();
 			if (deviceInZone != null)
 			{
-				AddTaskResetGuard(deviceInZone.ParentPanel, "", zone);
+				AddTaskResetGuard(deviceInZone.ParentPanel, userName, zone);
 			}
 		}
 
@@ -222,7 +222,6 @@ namespace ServerFS2.Monitoring
 		public static void ExecuteCommand(Device device, string commandName)
 		{
 			CommandExecutor commandExecutor = new CommandExecutor(device, commandName);
-			//commandExecutor.CheckForExpired();
 		}
 	}
 }

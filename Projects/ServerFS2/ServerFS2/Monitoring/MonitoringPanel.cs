@@ -8,6 +8,7 @@ using ServerFS2.Journal;
 using ServerFS2.Service;
 using System.Diagnostics;
 using ServerFS2.Operations;
+using ServerFS2.Helpers;
 
 namespace ServerFS2.Monitoring
 {
@@ -38,7 +39,7 @@ namespace ServerFS2.Monitoring
 			set
 			{
 				_lastSystemFireIndex = value;
-				XmlJournalHelper.SetLastFireId(PanelDevice, value);
+				LastJournalIndexHelper.SetLastFireJournalIndex(PanelDevice, value);
 			}
 		}
 
@@ -49,7 +50,7 @@ namespace ServerFS2.Monitoring
 			set
 			{
 				_lastSystemSecurityIndex = value;
-				XmlJournalHelper.SetLastSecurityId(PanelDevice, value);
+				LastJournalIndexHelper.SetLastSecurityJournalIndex(PanelDevice, value);
 			}
 		}
 
@@ -62,8 +63,8 @@ namespace ServerFS2.Monitoring
 			ZonesToSetGuard = new List<Zone>();
 			ZonesToResetGuard = new List<Zone>();
 			CommandItems = new List<CommandItem>();
-			LastSystemFireIndex = XmlJournalHelper.GetLastFireId(device);
-			//LastSystemSecurityIndex = XmlJournalHelper.GetLastSecurityId(device);
+			LastSystemFireIndex = LastJournalIndexHelper.GetLastFireJournalIndex(device);
+			LastSystemSecurityIndex = LastJournalIndexHelper.GetLastSecurityJournalIndex(device);
 			RealChildren = PanelDevice.GetRealChildren();
 			DeviceStatesManager = new DeviceStatesManager();
 		}
@@ -93,7 +94,7 @@ namespace ServerFS2.Monitoring
 
 		public void ProcessMonitoring()
 		{
-			if (IsInitialized && !PanelDevice.DeviceState.IsDBMissmatch)
+			if (IsInitialized && !PanelDevice.DeviceState.IsWrongPanel && !PanelDevice.DeviceState.IsDBMissmatch)
 			{
 				if (IsFireReadingNeeded || IsSecurityReadingNeeded)
 				{
@@ -125,7 +126,7 @@ namespace ServerFS2.Monitoring
 			}
 			if (PanelDevice.ParentUSB.UID == PanelDevice.UID)
 			{
-				var response = USBManager.SendForUSBPanel(PanelDevice, request.Bytes);
+				var response = USBManager.SendShortAttempt(PanelDevice, request.Bytes);
 				if (!response.HasError)
 				{
 					OnResponceRecieved(request, response);

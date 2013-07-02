@@ -112,15 +112,34 @@ namespace ServerFS2
 			return result;
 		}
 
-		public static string GetEventMessage(int eventCode)
+		public static string GetEventMessage(int eventCode, string deviceTableType)
 		{
 			string stringCode = "$" + eventCode.ToString("X2");
 			var metadataEvent = Metadata.events.FirstOrDefault(x => x.rawEventCode == stringCode);
 			if (metadataEvent != null)
 			{
+				if (metadataEvent.alterFor != null && deviceTableType != null)
+				{
+					var metadataAlterFor = metadataEvent.alterFor.FirstOrDefault(x => x.tableType == deviceTableType);
+					if (metadataAlterFor != null)
+					{
+						return metadataAlterFor.eventMessage;
+					}
+				}
 				return metadataEvent.eventMessage;
 			}
 			return "Неизвестный код события " + eventCode.ToString("x2");
+		}
+
+		public static bool HasDevise(int eventCode)
+		{
+			string stringCode = "$" + eventCode.ToString("X2");
+			var metadataEvent = Metadata.events.FirstOrDefault(x => x.rawEventCode == stringCode);
+			if (metadataEvent != null)
+			{
+				return metadataEvent.hasDevice != null && metadataEvent.hasDevice == "1";
+			}
+			return false;
 		}
 
 		public static string GetEventStateClassString(int eventCode, int additionalEventCode)
