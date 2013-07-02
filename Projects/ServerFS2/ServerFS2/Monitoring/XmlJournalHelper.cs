@@ -40,7 +40,7 @@ namespace ServerFS2.Monitoring
 			lastRecordsDocument.Save(fileName);
 		}
 
-		public static void SetLastId(Device device, int lastId)
+		public static void SetLastFireId(Device device, int lastId)
 		{
 			lock (locker)
 			{
@@ -53,7 +53,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static int GetLastId(Device device)
+		public static int GetLastFireId(Device device)
 		{
 			lock (locker)
 			{
@@ -66,27 +66,35 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public static void SetLastSecId(Device device, int lastId)
+		public static void SetLastSecurityId(Device device, int lastId)
 		{
 			lock (locker)
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
 				if (deviceElement != null)
 				{
-					deviceElement.Attribute("LastSecId").Value = lastId.ToString();
+					var attribute = deviceElement.Attribute("LastSecId");
+					if (attribute != null)
+					{
+						attribute.Value = lastId.ToString();
+					}
 				}
 				lastRecordsDocument.Save(fileName);
 			}
 		}
 
-		public static int GetLastSecId(Device device)
+		public static int GetLastSecurityId(Device device)
 		{
 			lock (locker)
 			{
 				XElement deviceElement = lastRecordsDocument.Root.Elements("Device").FirstOrDefault(x => x.Attribute("UID").Value == device.UID.ToString());
 				if (deviceElement != null)
 				{
-					return Int32.Parse(deviceElement.Attribute("LastSecId").Value);
+					var attribute = deviceElement.Attribute("LastSecId");
+					if (attribute != null)
+					{
+						return Int32.Parse(attribute.Value);
+					}
 				}
 				return 0;
 			}

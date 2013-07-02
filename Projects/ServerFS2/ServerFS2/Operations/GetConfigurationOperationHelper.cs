@@ -277,14 +277,14 @@ namespace ServerFS2
 					rawParametersLength = 2;
 					break;
 			}
-				
+
 			var device = new Device
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),
 				IntAddress = DeviceFlash[pointer] + 256 * (DeviceFlash[pointer + 1] + 1),
 				StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 2], DeviceFlash[pointer + 3]),
 				StateWordOffset = pointer + 2,
-				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(8, rawParametersLength)),//[pointer + 8], DeviceFlash[pointer + 9]),
+				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(pointer + 8, rawParametersLength)),
 				RawParametersOffset = pointer + 8
 			};
 			device.DriverUID = device.Driver.UID;
@@ -526,7 +526,7 @@ namespace ServerFS2
 			stopwatch = new Stopwatch();
 			stopwatch.Start();
 			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
-			if (DeviceRom == null)
+			if (DeviceFlash == null)
 				return null;
 			stopwatch.Stop();
 			Trace.WriteLine("GetFlashDBBytes " + stopwatch.Elapsed.TotalSeconds);

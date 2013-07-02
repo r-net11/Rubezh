@@ -11,11 +11,11 @@ namespace ServerFS2.Monitoring
 	{
 		static readonly object Locker = new object();
 
-		public static FS2JournalItem ReadItem(Device device, int i)
+		public static FS2JournalItem ReadItem(Device device, int i, byte journalType)
 		{
 			for (int j = 0; j < 15; j++)
 			{
-				var response = USBManager.Send(device, 0x01, 0x20, 0x00, BitConverter.GetBytes(i).Reverse());
+				var response = USBManager.Send(device, 0x01, 0x20, journalType, BitConverter.GetBytes(i).Reverse());
 				if (response != null)
 				{
 					lock (Locker)

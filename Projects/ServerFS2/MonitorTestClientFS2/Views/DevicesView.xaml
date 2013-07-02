@@ -23,6 +23,8 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Поставить в обход" Command="{Binding SetIgnoreCommand}" />
                                                     <MenuItem Header="Убрать из обхода" Command="{Binding ResetIgnoreCommand}" />
+                                                    <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" />
+                                                    <MenuItem Header="Снять с охраны" Command="{Binding ResetGuardCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                                 </ContextMenu>
                                             </StackPanel.ContextMenu>

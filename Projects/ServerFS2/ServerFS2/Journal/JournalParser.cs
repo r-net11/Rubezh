@@ -265,15 +265,20 @@ namespace ServerFS2
 			try
 			{
 				var stringStateType = MetadataHelper.GetEventStateClassString(FSInternalJournal.EventCode, FSInternalJournal.AdditionalEventCode);
-				var intStateType = Int32.Parse(stringStateType);
-				return (StateType)intStateType;
+				if (stringStateType != null)
+				{
+					var intStateType = Int32.Parse(stringStateType);
+					return (StateType)intStateType;
+				}
+				else
+				{
+				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "JournalParser.GetEventStateType");
-				return StateType.Norm;
-
 			}
+			return StateType.Norm;
 		}
 
 		int GetIntEventClass()

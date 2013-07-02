@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -21,6 +22,11 @@ namespace AdministratorTestClientFS2.ViewModels
         {
             Title = "Сравнение конфигураций";
             ReplaceCommand = new RelayCommand(OnReplace);
+			if (remoteDeviceConfiguration == null)
+			{
+				MessageBoxService.ShowError("Ошибка при считывании конфигурации");
+				return;
+			}
 
             RemoteDeviceConfiguration = remoteDeviceConfiguration;
             RemoteDeviceConfiguration.Reorder();

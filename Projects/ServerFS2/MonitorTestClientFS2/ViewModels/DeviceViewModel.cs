@@ -23,6 +23,8 @@ namespace MonitorClientFS2.ViewModels
 			ResetCommand = new RelayCommand<DriverState>(OnReset, CanReset);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
+			SetGuardCommand = new RelayCommand(OnSetGuard);
+			ResetGuardCommand = new RelayCommand(OnResetGuard);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			Device = device;
 			device.DeviceState.StateChanged += new Action(OnStateChanged);
@@ -178,6 +180,18 @@ namespace MonitorClientFS2.ViewModels
 		void OnResetIgnore()
 		{
 			MonitoringManager.AddTaskResetIgnore(new List<Device>() { Device });
+		}
+
+		public RelayCommand SetGuardCommand { get; private set; }
+		void OnSetGuard()
+		{
+			MonitoringManager.AddTaskSetGuard(Device, "Пользователь", null);
+		}
+
+		public RelayCommand ResetGuardCommand { get; private set; }
+		void OnResetGuard()
+		{
+			MonitoringManager.AddTaskResetGuard(Device, "Пользователь", null);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

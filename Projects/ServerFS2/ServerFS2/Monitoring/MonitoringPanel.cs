@@ -14,7 +14,8 @@ namespace ServerFS2.Monitoring
 	public partial class MonitoringPanel
 	{
 		const int MaxSequentUnAnswered = 10;
-		const int MaxMessages = 1024;
+		const int MaxFireMessages = 1024;
+		const int MaxSecurityMessages = 500;
 		public const int RequestExpiredTime = 5;
 		public static readonly object Locker = new object();
 
@@ -25,17 +26,30 @@ namespace ServerFS2.Monitoring
 		public bool IsInitialized { get; private set; }
 
 		public List<Request> Requests { get; private set; }
-		bool IsReadingNeeded = false;
-		int LastDeviceIndex { get; set; }
+		bool IsFireReadingNeeded = false;
+		bool IsSecurityReadingNeeded = false;
+		int LastDeviceFireIndex { get; set; }
+		int LastDeviceSecurityIndex { get; set; }
 
-		int _lastSystemIndex;
-		public int LastSystemIndex
+		int _lastSystemFireIndex;
+		public int LastSystemFireIndex
 		{
-			get { return _lastSystemIndex; }
+			get { return _lastSystemFireIndex; }
 			set
 			{
-				_lastSystemIndex = value;
-				XmlJournalHelper.SetLastId(PanelDevice, value);
+				_lastSystemFireIndex = value;
+				XmlJournalHelper.SetLastFireId(PanelDevice, value);
+			}
+		}
+
+		int _lastSystemSecurityIndex;
+		public int LastSystemSecurityIndex
+		{
+			get { return _lastSystemSecurityIndex; }
+			set
+			{
+				_lastSystemSecurityIndex = value;
+				XmlJournalHelper.SetLastSecurityId(PanelDevice, value);
 			}
 		}
 
@@ -45,8 +59,11 @@ namespace ServerFS2.Monitoring
 			Requests = new List<Request>();
 			ResetStateIds = new List<string>();
 			DevicesToIgnore = new List<Device>();
+			ZonesToSetGuard = new List<Zone>();
+			ZonesToResetGuard = new List<Zone>();
 			CommandItems = new List<CommandItem>();
-			LastSystemIndex = XmlJournalHelper.GetLastId(device);
+			LastSystemFireIndex = XmlJournalHelper.GetLastFireId(device);
+			//LastSystemSecurityIndex = XmlJournalHelper.GetLastSecurityId(device);
 			RealChildren = PanelDevice.GetRealChildren();
 			DeviceStatesManager = new DeviceStatesManager();
 		}
@@ -78,7 +95,7 @@ namespace ServerFS2.Monitoring
 		{
 			if (IsInitialized && !PanelDevice.DeviceState.IsDBMissmatch)
 			{
-				if (IsReadingNeeded)
+				if (IsFireReadingNeeded || IsSecurityReadingNeeded)
 				{
 					var journalItems = GetNewItems();
 					DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
@@ -89,12 +106,19 @@ namespace ServerFS2.Monitoring
 			}
 
 			CheckConnectionLost();
-			RequestLastIndex();
+			RequestLastIndex(0x00);
+			if (PanelDevice.Driver.DriverType == DriverType.Rubezh_2OP || PanelDevice.Driver.DriverType == DriverType.USB_Rubezh_2OP)
+			{
+				RequestLastIndex(0x02);
+			}
 		}
 
-		public void RequestLastIndex()
+		public void RequestLastIndex(byte journalType)
 		{
-			var request = new Request(RequestTypes.ReadIndex, new List<byte> { 0x01, 0x21, 0x00 });
+			var requestType = RequestType.ReadFireIndex;
+			if (journalType == 0x02)
+				requestType = RequestType.ReadSecurityIndex;
+			var request = new Request(requestType, new List<byte> { 0x01, 0x21, journalType });
 			lock (Locker)
 			{
 				Requests.Add(request);
@@ -116,9 +140,9 @@ namespace ServerFS2.Monitoring
 		public void OnResponceRecieved(Request request, Response response)
 		{
 			AnsweredCount++;
-			if (request.RequestType == RequestTypes.ReadIndex)
+			if (request.RequestType == RequestType.ReadFireIndex || request.RequestType == RequestType.ReadSecurityIndex)
 			{
-				LastIndexReceived(response);
+				LastIndexReceived(response, request.RequestType);
 			}
 			lock (Locker)
 			{
@@ -126,7 +150,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public void LastIndexReceived(Response response)
+		public void LastIndexReceived(Response response, RequestType requestType)
 		{
 			if (response.HasError)
 			{
@@ -134,47 +158,79 @@ namespace ServerFS2.Monitoring
 			}
 			SequentUnAnswered = 0;
 			OnConnectionAppeared();
+			var lastDeviceIndex = -1;
 			if (response.Id > 0)
 			{
 				if (response.Bytes.Count < 10)
 					return;
-				LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
+				lastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 7);
 			}
 			else
 			{
 				if (response.Bytes.Count < 4)
 					return;
-				LastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 0);
+				lastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 0);
 			}
-			if (LastSystemIndex == -1)
+			if (requestType == RequestType.ReadFireIndex)
 			{
-				LastSystemIndex = LastDeviceIndex;
+				LastDeviceFireIndex = lastDeviceIndex;
+				if (LastSystemFireIndex == -1)
+				{
+					LastSystemFireIndex = LastDeviceFireIndex;
+				}
+				if (LastDeviceFireIndex - LastSystemFireIndex > MaxFireMessages)
+				{
+					LastSystemFireIndex = LastDeviceFireIndex - MaxFireMessages;
+				}
+				if (LastDeviceFireIndex > LastSystemFireIndex)
+				{
+					IsFireReadingNeeded = true;
+				}
 			}
-			if (LastDeviceIndex - LastSystemIndex > MaxMessages)
+			else
 			{
-				LastSystemIndex = LastDeviceIndex - MaxMessages;
-			}
-			if (LastDeviceIndex > LastSystemIndex)
-			{
-				IsReadingNeeded = true;
+				LastDeviceSecurityIndex = lastDeviceIndex;
+				if (LastSystemSecurityIndex == -1)
+				{
+					LastSystemSecurityIndex = LastDeviceSecurityIndex;
+				}
+				if (LastDeviceSecurityIndex - LastSystemSecurityIndex > MaxSecurityMessages)
+				{
+					LastSystemSecurityIndex = LastDeviceSecurityIndex - MaxSecurityMessages;
+				}
+				if (LastDeviceSecurityIndex > LastSystemSecurityIndex)
+				{
+					IsSecurityReadingNeeded = true;
+				}
 			}
 		}
 
 		public List<FS2JournalItem> GetNewItems()
 		{
-			Requests.RemoveAll(x => x != null && x.RequestType == RequestTypes.ReadIndex);
+			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex || x.RequestType == RequestType.ReadSecurityIndex);
 			var journalItems = new List<FS2JournalItem>();
-			for (int i = LastSystemIndex + 1; i <= LastDeviceIndex; i++)
+			for (int i = LastSystemFireIndex + 1; i <= LastDeviceFireIndex; i++)
 			{
-				var journalItem = JournalHelper.ReadItem(PanelDevice, i);
+				var journalItem = JournalHelper.ReadItem(PanelDevice, i, 0x00);
 				if (journalItem != null)
 				{
 					OnNewJournalItem(journalItem);
 					journalItems.Add(journalItem);
 				}
 			}
-			LastSystemIndex = LastDeviceIndex;
-			IsReadingNeeded = false;
+			for (int i = LastSystemSecurityIndex + 1; i <= LastDeviceSecurityIndex; i++)
+			{
+				var journalItem = JournalHelper.ReadItem(PanelDevice, i, 0x02);
+				if (journalItem != null)
+				{
+					OnNewJournalItem(journalItem);
+					journalItems.Add(journalItem);
+				}
+			}
+			LastSystemFireIndex = LastDeviceFireIndex;
+			LastSystemSecurityIndex = LastDeviceSecurityIndex;
+			IsFireReadingNeeded = false;
+			IsSecurityReadingNeeded = false;
 			return journalItems;
 		}
 

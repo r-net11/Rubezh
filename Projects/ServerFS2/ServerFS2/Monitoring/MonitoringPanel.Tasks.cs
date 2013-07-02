@@ -17,6 +17,8 @@ namespace ServerFS2.Monitoring
 		public List<Device> DevicesToIgnore { get; set; }
 		public List<Device> DevicesToResetIgnore { get; set; }
 		public List<CommandItem> CommandItems { get; set; }
+		public List<Zone> ZonesToSetGuard { get; set; }
+		public List<Zone> ZonesToResetGuard { get; set; }
 		int RealChildIndex;
 		bool IsStateRefreshNeeded;
 
@@ -33,7 +35,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToIgnore)
 				{
-					USBManager.Send(PanelDevice, 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToIgnore = new List<Device>();
 			}
@@ -44,6 +46,32 @@ namespace ServerFS2.Monitoring
 					USBManager.Send(PanelDevice, 0x02, 0x54, 0x0B, 0x00, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToResetIgnore = new List<Device>();
+			}
+			if (ZonesToSetGuard != null && ZonesToSetGuard.Count > 0)
+			{
+				foreach (var zone in ZonesToSetGuard)
+				{
+					var deviceZoneNo = 0;
+					if (zone != null)
+					{
+						deviceZoneNo = 0;
+					}
+					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+				}
+				ZonesToSetGuard = new List<Zone>();
+			}
+			if (ZonesToResetGuard != null && ZonesToResetGuard.Count > 0)
+			{
+				foreach (var zone in ZonesToResetGuard)
+				{
+					var deviceZoneNo = 0;
+					if (zone != null)
+					{
+						deviceZoneNo = 0;
+					}
+					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x00, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+				}
+				ZonesToResetGuard = new List<Zone>();
 			}
 			if (CommandItems != null && CommandItems.Count > 0)
 			{

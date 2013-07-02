@@ -108,6 +108,8 @@ namespace ServerFS2.Monitoring
 						{
 							CustomMessageJournalHelper.Add("Команда оператора. Сброс", userName, panelDevice);
 						}
+						if (monitoringDevice.PanelDevice == panelDevice)
+							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
 					}
 				}
 			}
@@ -144,6 +146,58 @@ namespace ServerFS2.Monitoring
 						{
 							monitoringDevice.DevicesToResetIgnore = new List<Device>() { device };
 						}
+					}
+				}
+			}
+		}
+
+		public static void AddTaskSetGuard(Zone zone)
+		{
+			var deviceInZone = zone.DevicesInZone.FirstOrDefault();
+			if (deviceInZone != null)
+			{
+				AddTaskSetGuard(deviceInZone.ParentPanel, "", zone);
+			}
+		}
+
+		public static void AddTaskResetGuard(Zone zone)
+		{
+			var deviceInZone = zone.DevicesInZone.FirstOrDefault();
+			if (deviceInZone != null)
+			{
+				AddTaskResetGuard(deviceInZone.ParentPanel, "", zone);
+			}
+		}
+
+		public static void AddTaskSetGuard(Device panelDevice, string userName, Zone zone = null)
+		{
+			var monitoringProcessor = Find(panelDevice);
+			if (monitoringProcessor != null)
+			{
+				foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
+				{
+					if (monitoringDevice.PanelDevice == panelDevice)
+					{
+						CustomMessageJournalHelper.Add("Команда оператора. Постановка на охрану", userName, panelDevice);
+						monitoringDevice.ZonesToSetGuard.Add(zone);
+						break;
+					}
+				}
+			}
+		}
+
+		public static void AddTaskResetGuard(Device panelDevice, string userName, Zone zone = null)
+		{
+			var monitoringProcessor = Find(panelDevice);
+			if (monitoringProcessor != null)
+			{
+				foreach (var monitoringDevice in monitoringProcessor.MonitoringPanels)
+				{
+					if (monitoringDevice.PanelDevice == panelDevice)
+					{
+						CustomMessageJournalHelper.Add("Команда оператора. Снятие с охраны", userName, panelDevice);
+						monitoringDevice.ZonesToResetGuard.Add(zone);
+						break;
 					}
 				}
 			}

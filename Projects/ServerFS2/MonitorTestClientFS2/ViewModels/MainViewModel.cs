@@ -45,8 +45,8 @@ namespace MonitorClientFS2
 			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
 			CallbackManager.ProgressEvent += new System.Action<FS2ProgressInfo>(CallbackManager_ProgressEvent);
 
-			if (StartMonitoring)
-				ServerFS2.Bootstrapper.Run();
+			//if (StartMonitoring)
+			//    ServerFS2.Bootstrapper.Run();
 		}
 
 		#region Progress
