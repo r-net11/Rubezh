@@ -25,6 +25,10 @@
 
     <DataTemplate DataType="{x:Type ViewModels:InformationViewModel}">
         <Views:InformationView />
-    </DataTemplate>    
-    
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:OtherFunctionViewModel}">
+        <Views:OtherFunctionView />
+    </DataTemplate>
+
 </ResourceDictionary>

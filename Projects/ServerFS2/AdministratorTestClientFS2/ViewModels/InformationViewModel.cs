@@ -9,28 +9,20 @@ namespace AdministratorTestClientFS2.ViewModels
 {
 	public class InformationViewModel : DialogViewModel
 	{
-		public InformationViewModel(Device device)
+		public InformationViewModel(string info)
 		{
 			Title = "Информация об устройстве";
-			selectedDeivce = device;
-			
-			var tempProperties = new List<Property>();
-			tempProperties.Add(device.Properties.FirstOrDefault(x => x.Name == "DriverType"));
-			tempProperties.Add(device.Properties.FirstOrDefault(x => x.Name == "SerialNo"));
-			tempProperties.Add(device.Properties.FirstOrDefault(x => x.Name == "SoftVersion"));
-			if ((device.Driver.DriverType != DriverType.MS_1) && (device.Driver.DriverType != DriverType.MS_2))
-				tempProperties.Add(device.Properties.FirstOrDefault(x => x.Name == "BDVersion"));
-			Properties = tempProperties;
+			information = info;
 		}
-		private Device selectedDeivce;
-		private List<Property> properties;
-		public List<Property> Properties
+
+		string information = "";
+		public string Information
 		{
-			get { return properties; }
+			get { return information; }
 			set
 			{
-				properties = value;
-				OnPropertyChanged("Properties");
+				information = value;
+				OnPropertyChanged("Information");
 			}
 		}
 	}

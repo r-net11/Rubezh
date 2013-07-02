@@ -191,10 +191,7 @@ namespace ServerFS2.Processor
 
 		public static string DeviceGetInformation(Device device, bool isUSB)
 		{
-			return TempConfigSafeCall<string>(x =>
-			{
-				return GetInformationOperationHelper.GetDeviceInformation(x);
-			}, device, isUSB);
+			return TempConfigSafeCall<string>(GetInformationOperationHelper.GetDeviceInformation, device, isUSB);
 		}
 
 		public static List<string> DeviceGetSerialList(Device device)

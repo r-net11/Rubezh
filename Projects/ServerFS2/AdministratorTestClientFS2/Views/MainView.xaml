@@ -26,6 +26,7 @@
             <Views:DevicesView Grid.Column="0" DataContext="{Binding DevicesViewModel}" Margin="2"/>
             <StackPanel Grid.Column="1">
                 <Button Content="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}" Width="300" Margin="2" />
+                <Button Content="Другие функции" Command = "{Binding RunOtherFunctionsCommand}" Width="300" Margin="2" />
                 <Button Content="Считать конфигурацию из прибора" Command = "{Binding ReadConfigurationCommand}" Width="300" Margin="2" />
                 <Button Content="Считать журнал событий" Command = "{Binding ReadJournalCommand}" Width="300" Margin="2" />
                 <Button Content="Информация об устройстве" Command = "{Binding GetInformationCommand}" Width="300" Margin="2" />

@@ -35,6 +35,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			GetInformationCommand = new RelayCommand(OnGetInformation, CanGetInformation);
 			SynchronizeTimeCommand = new RelayCommand(OnSynchronizeTime, CanSynchronizeTime);
 			SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
+			RunOtherFunctionsCommand = new RelayCommand(OnRunOtherFunctions, CanRunOtherFunctions);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
 			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
@@ -176,8 +177,8 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand GetInformationCommand { get; private set; }
 		void OnGetInformation()
 		{
-			MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
-			DialogService.ShowModalWindow(new InformationViewModel(DevicesViewModel.SelectedDevice.Device));
+			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			DialogService.ShowModalWindow(new InformationViewModel(result));
 		}
 		bool CanGetInformation()
 		{
@@ -193,6 +194,20 @@ namespace AdministratorTestClientFS2.ViewModels
 		bool CanSynchronizeTime()
 		{
 			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+		}
+
+		public RelayCommand RunOtherFunctionsCommand { get; private set; }
+		void OnRunOtherFunctions()
+		{
+			DialogService.ShowModalWindow(new OtherFunctionViewModel(DevicesViewModel.SelectedDevice.Device));
+		}
+		bool CanRunOtherFunctions()
+		{
+			if (DevicesViewModel.SelectedDevice == null)
+				return false;
+			var driverType = DevicesViewModel.SelectedDevice.Device.Driver.DriverType;
+			return ((driverType == DriverType.IndicationBlock) || (driverType == DriverType.PDU) ||
+			        (driverType == DriverType.PDU_PT));
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }

@@ -178,6 +178,7 @@
     <Compile Include="Operations\SetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\SetPasswordOperationHelper.cs" />
     <Compile Include="USB\RequestType.cs" />
+    <Compile Include="Operations\TouchMemoryOperationHelper.cs" />
     <Compile Include="Monitoring\XmlJournalHelper.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\MainManager.cs" />
