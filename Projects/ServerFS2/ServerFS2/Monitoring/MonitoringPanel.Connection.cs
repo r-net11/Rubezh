@@ -83,30 +83,33 @@ namespace ServerFS2.Monitoring
 		void CheckWrongPanel()
 		{
 			var serialNo = GetSerialNo();
-			if (SerialNo == null)
+			if (serialNo != null)
 			{
-				SerialNo = serialNo;
-			}
-			else
-			{
-				if (serialNo != SerialNo)
+				if (SerialNo == null)
 				{
-					if (!PanelDevice.DeviceState.IsDBMissmatch)
-					{
-						PanelDevice.DeviceState.IsDBMissmatch = true;
-						DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-						OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью"));
-						return;
-					}
+					SerialNo = serialNo;
 				}
 				else
 				{
-					if (PanelDevice.DeviceState.IsDBMissmatch)
+					if (serialNo != SerialNo)
 					{
-						PanelDevice.DeviceState.IsDBMissmatch = false;
-						DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-						OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью устранено"));
-						return;
+						if (!PanelDevice.DeviceState.IsDBMissmatch)
+						{
+							PanelDevice.DeviceState.IsDBMissmatch = true;
+							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
+							OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью"));
+							return;
+						}
+					}
+					else
+					{
+						if (PanelDevice.DeviceState.IsDBMissmatch)
+						{
+							PanelDevice.DeviceState.IsDBMissmatch = false;
+							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
+							OnNewJournalItem(JournalParser.CustomJournalItem(PanelDevice, "Несоответствие версий БД с панелью устранено"));
+							return;
+						}
 					}
 				}
 			}

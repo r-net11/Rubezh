@@ -112,6 +112,14 @@ namespace ServerFS2.Monitoring
 					{
 						if (CheckSuspending(false))
 							return;
+
+
+						if (!monitoringPanel.IsInitialized)
+							monitoringPanel.Initialize();
+
+						if (CheckSuspending(false))
+							return;
+
 						if (monitoringPanel.IsInitialized)
 						{
 							monitoringPanel.ProcessMonitoring();
