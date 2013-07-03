@@ -11,6 +11,7 @@ using ServerFS2.Processor;
 using System.Diagnostics;
 using System;
 using FiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace MonitorClientFS2.ViewModels
 {
