@@ -465,8 +465,11 @@ namespace ServerFS2
 		{
 			var zone = new Zone
 			{
-				No = BytesHelper.ExtractShort(DeviceFlash, pointer + 33)
+				LocalDeviceNo = BytesHelper.ExtractShort(DeviceFlash, pointer + 4),
+				Name = BytesHelper.ExtractString(DeviceFlash, pointer + 6),
+				No = BytesHelper.ExtractShort(DeviceFlash, pointer + 33),
 			};
+			Trace.WriteLine("ParseZonesFlash " + zone.PresentationName + " - " + zone.LocalDeviceNo);
 			// 0,1,2,3 - Внутренние параметры (снят с охраны/ на охране, неисправность, пожар, ...)
 			if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то пропускаем её
 			{
@@ -474,7 +477,6 @@ namespace ServerFS2
 				pointer = pointer + entrySize;
 				return;
 			}
-			zone.Name = BytesHelper.ExtractString(DeviceFlash, pointer + 6);
 			int tableDynamicSize = 0; // размер динамической части таблицы
 			for (var sleifNo = 0; sleifNo < shleifCount; sleifNo++)
 			{

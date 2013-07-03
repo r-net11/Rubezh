@@ -6,20 +6,23 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
+using ServerFS2.Monitoring;
 
 namespace ServerFS2
 {
 	public class JournalParser
 	{
+		DeviceConfiguration DeviceConfiguration;
 		public FSInternalJournal FSInternalJournal { get; private set; }
 		public FS2JournalItem FS2JournalItem { get; private set; }
 		public List<byte> Bytes { get; private set; }
 
-		public FS2JournalItem Parce(Device panelDevice, List<byte> bytes)
+		public FS2JournalItem Parce(DeviceConfiguration deviceConfiguration, Device panelDevice, List<byte> bytes)
 		{
 			if (bytes.Count != 32)
 				return null;
 			Bytes = bytes;
+			DeviceConfiguration = deviceConfiguration;
 			FSInternalJournal = new FSInternalJournal();
 			FS2JournalItem = new FS2JournalItem();
 			FS2JournalItem.BytesString = BytesHelper.BytesToString(bytes);
@@ -220,11 +223,20 @@ namespace ServerFS2
 
 		void InitializeZone()
 		{
-			var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.No == FSInternalJournal.ZoneNo);
-			if (zone != null)
+			if (DeviceConfiguration != null)
 			{
-				FS2JournalItem.ZoneName = zone.No + "." + zone.Name;
-				FS2JournalItem.ZoneNo = zone.No;
+				var localzone = DeviceConfiguration.Zones.FirstOrDefault(x => x.LocalDeviceNo == FSInternalJournal.ZoneNo);
+				if (localzone != null)
+				{
+					var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.No == localzone.No);
+					if (zone != null)
+					{
+						FS2JournalItem.Zone = zone;
+						FS2JournalItem.ZoneUID = zone.UID;
+						FS2JournalItem.ZoneNo = zone.No;
+						FS2JournalItem.ZoneName = zone.No + "." + zone.Name;
+					}
+				}
 			}
 		}
 

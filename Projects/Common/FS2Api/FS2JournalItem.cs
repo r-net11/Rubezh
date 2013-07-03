@@ -36,6 +36,9 @@ namespace FS2Api
 		public Guid PanelUID { get; set; }
 
 		[DataMember]
+		public Guid ZoneUID { get; set; }
+
+		[DataMember]
 		public string ZoneName { get; set; }
 
 		[DataMember]
@@ -53,6 +56,7 @@ namespace FS2Api
 
 
 		public int DeviceAddress { get; set; }
+		public Zone Zone { get; set; }
 		public int ZoneNo { get; set; }
 		public int EventClass { get; set; }
 		public uint IntDate { get; set; }

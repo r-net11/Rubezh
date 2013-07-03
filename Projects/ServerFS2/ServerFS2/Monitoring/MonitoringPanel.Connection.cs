@@ -97,7 +97,7 @@ namespace ServerFS2.Monitoring
 						{
 							PanelDevice.DeviceState.IsWrongPanel = true;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-						CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью", null, PanelDevice);
+							CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью", null, PanelDevice);
 							return;
 						}
 					}
@@ -107,7 +107,7 @@ namespace ServerFS2.Monitoring
 						{
 							PanelDevice.DeviceState.IsWrongPanel = false;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-						CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью устранено", null, PanelDevice);
+							CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью устранено", null, PanelDevice);
 							return;
 						}
 					}
@@ -124,11 +124,6 @@ namespace ServerFS2.Monitoring
 				return result;
 			}
 			return null;
-		}
-
-		void CheckDBMissmatch()
-		{
-
 		}
 	}
 }

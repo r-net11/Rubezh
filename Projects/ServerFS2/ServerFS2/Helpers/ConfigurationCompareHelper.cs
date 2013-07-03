@@ -17,7 +17,7 @@ namespace ServerFS2.Helpers
 
 			foreach (var localDevice in localDevices)
 			{
-				var remoteDevice = remoteDevices.FirstOrDefault(x => x.IntAddress == x.IntAddress);
+				var remoteDevice = remoteDevices.FirstOrDefault(x => x.IntAddress == localDevice.IntAddress);
 				if (remoteDevice == null)
 					return false;
 				if (localDevice.Zone != null)

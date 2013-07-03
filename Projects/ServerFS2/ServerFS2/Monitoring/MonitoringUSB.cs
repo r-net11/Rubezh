@@ -212,7 +212,7 @@ namespace ServerFS2.Monitoring
 				//        return;
 				//}
 
-				var response = USBManager.SendShortAttempt(USBDevice, 0x01, 0x12);
+				var response = USBManager.Send(USBDevice, 0x01, 0x12);
 				if (response.HasError)
 				{
 					if (USBDevice.DeviceState.IsUsbConnectionLost == false)

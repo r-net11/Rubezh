@@ -68,16 +68,25 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
+		public DeviceConfiguration RemoteDeviceConfiguration { get; private set; }
+
 		public bool ReadConfigurationAndUpdateStates(Device panelDevice)
 		{
 			var getConfigurationOperationHelper = new GetConfigurationOperationHelper(true);
-			var remoteDeviceConfiguration = getConfigurationOperationHelper.GetDeviceConfiguration(panelDevice);
-			if (remoteDeviceConfiguration == null)
+			RemoteDeviceConfiguration = getConfigurationOperationHelper.GetDeviceConfiguration(panelDevice);
+			if (RemoteDeviceConfiguration == null)
 				return false;
-			remoteDeviceConfiguration.Update();
-			var remoteRealChildren = remoteDeviceConfiguration.RootDevice.GetRealChildren();
+			RemoteDeviceConfiguration.Update();
+			var remoteRealChildren = RemoteDeviceConfiguration.RootDevice.GetRealChildren();
 			var localRealChildren = panelDevice.GetRealChildren();
-			panelDevice.DeviceState.IsDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, remoteDeviceConfiguration);
+
+			var areEqual = ConfigurationCompareHelper.Compare(panelDevice, RemoteDeviceConfiguration);
+			if (!areEqual)
+			{
+				panelDevice.DeviceState.IsDBMissmatch = true;
+				ForseUpdateDeviceStates(panelDevice);
+			}
+
 			foreach (var remoteDevice in remoteRealChildren)
 			{
 				var device = localRealChildren.FirstOrDefault(x => x.IntAddress == remoteDevice.IntAddress);
@@ -177,19 +186,7 @@ namespace ServerFS2.Monitoring
 			{
 				if (journalItem.Device != null)
 				{
-					driverConfigDeviceTablesDeviceTable metadataDeviceTable = null;
-					foreach (var metadataDeviceTableItem in MetadataHelper.Metadata.deviceTables)
-					{
-						if (metadataDeviceTableItem.deviceDriverID == null)
-							continue;
-						var guid = new Guid(metadataDeviceTableItem.deviceDriverID);
-						var journalItemGuid = journalItem.Device.DriverUID;
-						if (guid == journalItemGuid)
-						{
-							metadataDeviceTable = metadataDeviceTableItem;
-							break;
-						}
-					}
+					var metadataDeviceTable = MetadataHelper.GetMetadataDeviceTable(journalItem.Device);
 					if (metadataDeviceTable != null)
 					{
 						foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
@@ -222,24 +219,55 @@ namespace ServerFS2.Monitoring
 											}
 										}
 									}
+								}
 
-									foreach (var deviceStateLeave in metadataDeviceState.leave)
+								ParceDeviceOrZoneLeave(journalItem, journalItem.Device);
+							}
+						}
+					}
+					UpdateDeviceStateAndParameters(journalItem.Device);
+				}
+				if (journalItem.Zone != null)
+				{
+					foreach (var device in journalItem.Zone.DevicesInZone)
+					{
+						ParceDeviceOrZoneLeave(journalItem, device);
+						UpdateDeviceStateAndParameters(device);
+					}
+				}
+			}
+		}
+
+		void ParceDeviceOrZoneLeave(FS2JournalItem journalItem, Device device)
+		{
+			var metadataDeviceTable = MetadataHelper.GetMetadataDeviceTable(device);
+			if (metadataDeviceTable != null)
+			{
+				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+				{
+					if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == metadataDeviceTable.tableType)
+					{
+						if (metadataDeviceState.leave != null)
+						{
+							foreach (var deviceStateLeave in metadataDeviceState.leave)
+							{
+								var eventValue = MetadataHelper.GetDeviceStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
+								if (eventValue == null)
+								{
+									eventValue = MetadataHelper.GetZoneStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
+								}
+								if (eventValue != null)
+								{
+									if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
 									{
-										var eventValue = MetadataHelper.GetDeviceStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
-										if (eventValue != null)
+										var driverState = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+										if (driverState != null)
 										{
-											if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
+											var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == driverState.Code);
+											if (deviceDriverState != null)
 											{
-												var driverState = journalItem.Device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-												if (driverState != null)
-												{
-													var deviceDriverState = journalItem.Device.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == driverState.Code);
-													if (deviceDriverState != null)
-													{
-														journalItem.Device.DeviceState.States.Remove(deviceDriverState);
-														ForseUpdateDeviceStates(journalItem.Device);
-													}
-												}
+												device.DeviceState.States.Remove(deviceDriverState);
+												ForseUpdateDeviceStates(device);
 											}
 										}
 									}
@@ -247,9 +275,9 @@ namespace ServerFS2.Monitoring
 							}
 						}
 					}
-					UpdateDeviceStateAndParameters(journalItem.Device);
 				}
 			}
+			UpdateDeviceStateAndParameters(device);
 		}
 
 		public bool SetNewDeviceStates(Device device, List<DeviceDriverState> newStates)
@@ -352,16 +380,7 @@ namespace ServerFS2.Monitoring
 				RemoveDeviceState(device, "Устройство инициализируется");
 			}
 
-			if (device.DeviceState.IsDBMissmatch)
-			{
-				AddDeviceState(device, "База данных прибора не соответствует базе данных ПК");
-			}
-			else
-			{
-				RemoveDeviceState(device, "База данных прибора не соответствует базе данных ПК");
-			}
-
-			if (device.DeviceState.IsWrongPanel)
+			if (device.DeviceState.IsDBMissmatch || device.DeviceState.IsWrongPanel)
 			{
 				AddDeviceState(device, "База данных прибора не соответствует базе данных ПК");
 			}

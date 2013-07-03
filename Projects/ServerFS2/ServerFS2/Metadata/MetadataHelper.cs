@@ -36,12 +36,31 @@ namespace ServerFS2
 			}
 		}
 
+		public static Rubezh2010.driverConfigDeviceTablesDeviceTable GetMetadataDeviceTable(Device device)
+		{
+			foreach (var metadataDeviceTableItem in MetadataHelper.Metadata.deviceTables)
+			{
+				if (metadataDeviceTableItem.deviceDriverID != null)
+				{
+					var guid = new Guid(metadataDeviceTableItem.deviceDriverID);
+					if (guid == device.DriverUID)
+					{
+						return metadataDeviceTableItem;
+					}
+				}
+			}
+			return null;
+		}
+
 		public static string GetDeviceTableNo(Device device)
 		{
-			var metadataDeviceTable = Metadata.deviceTables.FirstOrDefault(x => x.deviceDriverID != null && x.deviceDriverID == device.Driver.UID.ToString().ToUpper());
-			if (metadataDeviceTable != null)
+			if (device != null)
 			{
-				return metadataDeviceTable.tableType;
+				var metadataDeviceTable = Metadata.deviceTables.FirstOrDefault(x => x.deviceDriverID != null && x.deviceDriverID == device.Driver.UID.ToString().ToUpper());
+				if (metadataDeviceTable != null)
+				{
+					return metadataDeviceTable.tableType;
+				}
 			}
 			return null;
 		}
@@ -380,6 +399,21 @@ namespace ServerFS2
 				case 30:
 					return deviceStateLeave.event30;
 
+				default:
+					return null;
+			}
+		}
+
+		public static string GetZoneStateEventLeave(Rubezh2010.driverConfigDeviceStatesDeviceStateLeave deviceStateLeave, int no)
+		{
+			switch (no)
+			{
+				case 0:
+					return deviceStateLeave.zoneEvent;
+				case 1:
+					return deviceStateLeave.zoneEvent1;
+				case 2:
+					return deviceStateLeave.zoneEvent2;
 				default:
 					return null;
 			}

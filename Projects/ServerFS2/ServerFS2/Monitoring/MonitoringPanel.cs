@@ -25,6 +25,7 @@ namespace ServerFS2.Monitoring
 		DeviceStatesManager DeviceStatesManager;
 		bool IsConnectionLost;
 		public bool IsInitialized { get; private set; }
+		public DeviceConfiguration RemoteDeviceConfiguration { get; private set; }
 
 		public List<Request> Requests { get; private set; }
 		bool IsFireReadingNeeded = false;
@@ -73,11 +74,11 @@ namespace ServerFS2.Monitoring
 		{
 			DeviceStatesManager.CanNotifyClients = false;
 			IsInitialized = DeviceStatesManager.ReadConfigurationAndUpdateStates(PanelDevice);
+			RemoteDeviceConfiguration = DeviceStatesManager.RemoteDeviceConfiguration;
 			if (!IsInitialized)
 			{
 				PanelDevice.DeviceState.IsPanelConnectionLost = true;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-				CheckDBMissmatch();
 				return false;
 			}
 			else
@@ -212,7 +213,7 @@ namespace ServerFS2.Monitoring
 			var journalItems = new List<FS2JournalItem>();
 			for (int i = LastSystemFireIndex + 1; i <= LastDeviceFireIndex; i++)
 			{
-				var journalItem = JournalHelper.ReadItem(PanelDevice, i, 0x00);
+				var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x00);
 				if (journalItem != null)
 				{
 					OnNewJournalItem(journalItem);
@@ -221,7 +222,7 @@ namespace ServerFS2.Monitoring
 			}
 			for (int i = LastSystemSecurityIndex + 1; i <= LastDeviceSecurityIndex; i++)
 			{
-				var journalItem = JournalHelper.ReadItem(PanelDevice, i, 0x02);
+				var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x02);
 				if (journalItem != null)
 				{
 					OnNewJournalItem(journalItem);

@@ -11,7 +11,7 @@ namespace ServerFS2.Monitoring
 	{
 		static readonly object Locker = new object();
 
-		public static FS2JournalItem ReadItem(Device device, int i, byte journalType)
+		public static FS2JournalItem ReadItem(DeviceConfiguration deviceConfiguration, Device device, int i, byte journalType)
 		{
 			for (int j = 0; j < 15; j++)
 			{
@@ -23,7 +23,7 @@ namespace ServerFS2.Monitoring
 						var journalParser = new JournalParser();
 						try
 						{
-							var fsJournalItem = journalParser.Parce(device, response.Bytes);
+							var fsJournalItem = journalParser.Parce(deviceConfiguration, device, response.Bytes);
 							if (fsJournalItem != null)
 								return fsJournalItem;
 						}

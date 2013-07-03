@@ -24,11 +24,16 @@ namespace ServerFS2.Helpers
 		public static void SetLastFireJournalIndex(Device device, int value)
 		{
 			var deviceLastJournalIndex = DeviceLastIndexCollection.DeviceLastJournalIndexes.FirstOrDefault(x => x.DeviceUID == device.UID);
-			if (deviceLastJournalIndex != null)
+			if (deviceLastJournalIndex == null)
 			{
-				deviceLastJournalIndex.LastFireJournalIndex = value;
-				Save();
+				deviceLastJournalIndex = new DeviceLastJournalIndex()
+				{
+					DeviceUID = device.UID
+				};
+				DeviceLastIndexCollection.DeviceLastJournalIndexes.Add(deviceLastJournalIndex);
 			}
+			deviceLastJournalIndex.LastFireJournalIndex = value;
+			Save();
 		}
 
 		public static int GetLastFireJournalIndex(Device device)
@@ -44,11 +49,16 @@ namespace ServerFS2.Helpers
 		public static void SetLastSecurityJournalIndex(Device device, int value)
 		{
 			var deviceLastJournalIndex = DeviceLastIndexCollection.DeviceLastJournalIndexes.FirstOrDefault(x => x.DeviceUID == device.UID);
-			if (deviceLastJournalIndex != null)
+			if (deviceLastJournalIndex == null)
 			{
-				deviceLastJournalIndex.LastSecurityJournalIndex = value;
-				Save();
+				deviceLastJournalIndex = new DeviceLastJournalIndex()
+				{
+					DeviceUID = device.UID
+				};
+				DeviceLastIndexCollection.DeviceLastJournalIndexes.Add(deviceLastJournalIndex);
 			}
+			deviceLastJournalIndex.LastSecurityJournalIndex = value;
+			Save();
 		}
 
 		public static int GetLastSecurityJournalIndex(Device device)

@@ -55,7 +55,7 @@ namespace ServerFS2
 					try
 					{
 						var journalParser = new JournalParser();
-						var journalItem = journalParser.Parce(device, response.Bytes);
+						var journalItem = journalParser.Parce(null, device, response.Bytes);
 						if (journalItem != null)
 						{
 							result.Add(journalItem);

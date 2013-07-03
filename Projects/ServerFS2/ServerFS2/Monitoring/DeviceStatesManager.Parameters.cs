@@ -16,44 +16,44 @@ namespace ServerFS2.Monitoring
 		
 		public void UpdateDeviceStateAndParameters(Device device)
 		{
-			List<byte> data;
+			List<byte> stateBytes;
+			List<byte> rawParametersBytes;
 			hasChanges = false;
 
 			switch(device.Driver.DriverType)
 			{
 				case DriverType.RadioSmokeDetector:
 				case DriverType.SmokeDetector:
-					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
-					if (data == null || data.Count < 9)
+					stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
+					if (stateBytes == null || stateBytes.Count < 9)
 						return;
-					UpdateStateWord(device, data);
-					GetSmokiness(device);
-					GetDustiness(device, data[8]);
+					UpdateSmokiness(device);
+					UpdateDustiness(device, stateBytes[8]);
 					break;
 				case DriverType.HeatDetector:
-					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
-					if (data == null || data.Count < 9)
+					stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 9);
+					if (stateBytes == null || stateBytes.Count < 9)
 						return;
-					UpdateStateWord(device, data);
-					GetTemperature(device, data[8]);
+					UpdateTemperature(device, stateBytes[8]);
 					break;
 				case DriverType.CombinedDetector:
-					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
-					if (data == null || data.Count < 11)
+					stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 11);
+					if (stateBytes == null || stateBytes.Count < 11)
 						return;
-					UpdateStateWord(device, data);
-					GetSmokiness(device);
-					GetDustiness(device, data[9]);
-					GetTemperature(device, data[10]);
+					UpdateSmokiness(device);
+					UpdateDustiness(device, stateBytes[9]);
+					UpdateTemperature(device, stateBytes[10]);
 					break;
 				default:
-					data = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
-					if (data == null || data.Count < 2)
+					stateBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.StateWordOffset, 2);
+					if (stateBytes == null || stateBytes.Count < 2)
 						return;
-					UpdateStateWord(device, data);
 					break;
 			}
-			UpdateStateWord(device, data);
+			device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
+
+			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
+			//UpdateStateWord(device, stateBytes);
 			if (hasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
@@ -124,7 +124,7 @@ namespace ServerFS2.Monitoring
 				NotifyStateChanged(panel);
 		}
 		
-		void GetSmokiness(Device device)
+		void UpdateSmokiness(Device device)
 		{
 			var smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 			if (device.DeviceState.Smokiness != smokiness)
@@ -135,7 +135,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void GetDustiness(Device device, byte dustinessByte)
+		void UpdateDustiness(Device device, byte dustinessByte)
 		{
 			var dustiness = (float)dustinessByte / 100;
 			if (device.DeviceState.Dustiness != dustiness)
@@ -146,7 +146,7 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		void GetTemperature(Device device, byte temperatureByte)
+		void UpdateTemperature(Device device, byte temperatureByte)
 		{
 			var temperature = temperatureByte;
 			if (device.DeviceState.Temperature != temperature)
@@ -181,7 +181,7 @@ namespace ServerFS2.Monitoring
 
 		void UpdateStateWord(Device device, List<byte> data)
 		{
-			return;
+			//return;
 			var states = new List<DeviceDriverState>();
 			var stateWordBytesArray = data.GetRange(0, 2).ToArray();
 
