@@ -16,12 +16,9 @@ namespace ServerFS2
 	{
 		static List<byte> _crc;
 
-		public static bool WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
+		public static bool UpdateFoolFlash(Device device)
 		{
-			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
-			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
 			BlockBD(device);
-			WriteFlashConfiguration(device, Flash);
 			Thread.Sleep(BeginUpdateFirmWare(device));
 			ConfirmLongTermOperation(device);
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
@@ -31,10 +28,35 @@ namespace ServerFS2
 			ConfirmLongTermOperation(device);
 			ClearSector(device);
 			ConfirmLongTermOperation(device);
-			WriteRomConfiguration(device, Rom, romDBFirstIndex);
+			var foolFlashFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "fullflash2am.zip");
+			var foolFlashHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(foolFlashFileName, "fullflash2am.hex");
+			WriteRomConfiguration(device, foolFlashHexInfo.Bytes, foolFlashHexInfo.Offset);
 			StopUpdating(device);
 			ConfirmLongTermOperation(device);
 			ServerHelper.SynchronizeTime(device);
+			return true;
+		}
+
+		public static bool WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
+		{
+			UpdateFoolFlash(device);
+			//var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
+			//var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
+			//BlockBD(device);
+			//WriteFlashConfiguration(device, Flash);
+			//Thread.Sleep(BeginUpdateFirmWare(device));
+			//ConfirmLongTermOperation(device);
+			//var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			//var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
+			//WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
+			//Thread.Sleep(BeginUpdateRom(device));
+			//ConfirmLongTermOperation(device);
+			//ClearSector(device);
+			//ConfirmLongTermOperation(device);
+			//WriteRomConfiguration(device, Rom, romDBFirstIndex);
+			//StopUpdating(device);
+			//ConfirmLongTermOperation(device);
+			//ServerHelper.SynchronizeTime(device);
 			return true;
 		}
 
