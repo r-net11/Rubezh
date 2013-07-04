@@ -16,6 +16,7 @@ using System;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
+using System.IO;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -43,6 +44,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			GetDeviceStatusCommand = new RelayCommand(OnGetDeviceStatus, CanGetResetDeviceStatus);
 			AddDeviceToCheckListCommand = new RelayCommand(OnAddDeviceToCheckList, CanAddOrRemoveDeviceToCheckList);
 			RemoveDeviceFromCheckListCommand = new RelayCommand(OnRemoveDeviceFromCheckList, CanAddOrRemoveDeviceToCheckList);
+			TestCommand = new RelayCommand(OnTest);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			ZonesViewModel.Initialize();
@@ -297,6 +299,14 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnRemoveDeviceFromCheckList()
 		{
 			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
+		}
+
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
+		{
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
+			return;
 		}
 
 		bool DeviceValidation(DeviceViewModel selectedDeivice)

@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="CloseWindowHelper.cs" />
+    <Compile Include="EncryptHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
