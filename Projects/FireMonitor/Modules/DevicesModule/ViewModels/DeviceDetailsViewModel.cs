@@ -10,6 +10,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Windows;
+using System.Windows.Media;
+using DeviceControls;
 
 namespace DevicesModule.ViewModels
 {
@@ -140,33 +142,37 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("Parameters");
 		}
 
-		public object DeviceControlContent
+		public Brush DevicePicture
 		{
-			get
-			{
-				var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
-				if (libraryDevice == null)
-				{
-					return null;
-				}
-				if (DeviceState != null)
-				{
-					_deviceControl = new DeviceControls.DeviceControl()
-					{
-						DriverId = Device.Driver.UID,
-						Width = 50,
-						Height = 50,
-						StateType = DeviceState.StateType,
-						AdditionalStateCodes = new List<string>(
-							from state in DeviceState.ThreadSafeStates
-							select state.DriverState.Code)
-					};
-					_deviceControl.Update();
-				}
-
-				return _deviceControl;
-			}
+			get { return DevicePictureCache.GetDynamicBrush(Device, System.Guid.Empty); }
 		}
+		//public object DeviceControlContent
+		//{
+		//    get
+		//    {
+		//        var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
+		//        if (libraryDevice == null)
+		//        {
+		//            return null;
+		//        }
+		//        if (DeviceState != null)
+		//        {
+		//            _deviceControl = new DeviceControls.DeviceControl()
+		//            {
+		//                DriverId = Device.Driver.UID,
+		//                Width = 50,
+		//                Height = 50,
+		//                StateType = DeviceState.StateType,
+		//                AdditionalStateCodes = new List<string>(
+		//                    from state in DeviceState.ThreadSafeStates
+		//                    select state.DriverState.Code)
+		//            };
+		//            _deviceControl.Update();
+		//        }
+
+		//        return _deviceControl;
+		//    }
+		//}
 
 		public StateType StateType
 		{

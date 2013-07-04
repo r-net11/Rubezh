@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
             var deviceViewModel = new DeviceViewModel(device);
             deviceViewModel.IsExpanded = true;
             if (parentDeviceViewModel != null)
-                parentDeviceViewModel.Children.Add(deviceViewModel);
+                parentDeviceViewModel.AddChild(deviceViewModel);
 
             foreach (var childDevice in device.Children)
             {

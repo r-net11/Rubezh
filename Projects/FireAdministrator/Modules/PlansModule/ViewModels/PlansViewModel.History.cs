@@ -154,6 +154,16 @@ namespace PlansModule.ViewModels
 		{
 			return HistoryItems.Count > Offset;
 		}
+
+		public void RevertLastAction()
+		{
+			if (UndoCommand.CanExecute(null))
+			{
+				UndoCommand.Execute();
+				if (HistoryItems.Count > Offset)
+					HistoryItems.RemoveAt(Offset);
+			}
+		}
 	}
 
 	class HistoryItem

@@ -180,5 +180,9 @@ namespace Infrustructure.Plans.Designer
 		public virtual void BackgroundMouseDown(MouseButtonEventArgs e)
 		{
 		}
+
+		public virtual void RevertLastAction()
+		{
+		}
 	}
 }

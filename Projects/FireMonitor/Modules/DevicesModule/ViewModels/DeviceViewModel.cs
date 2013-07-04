@@ -15,7 +15,7 @@ using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public DeviceState DeviceState { get; private set; }

@@ -39,7 +39,7 @@ namespace PlansModule.ViewModels
 			if (parentPlanViewModel == null)
 				Plans.Add(planViewModel);
 			else
-				parentPlanViewModel.Children.Add(planViewModel);
+				parentPlanViewModel.AddChild(planViewModel);
 
 			foreach (var childPlan in plan.Children)
 				AddPlan(childPlan, planViewModel);

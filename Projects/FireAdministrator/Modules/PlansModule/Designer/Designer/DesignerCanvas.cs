@@ -403,5 +403,10 @@ namespace PlansModule.Designer
 			else
 				return 0;
 		}
+
+		public override void RevertLastAction()
+		{
+			Toolbox.PlansViewModel.RevertLastAction();
+		}
 	}
 }

@@ -8,7 +8,7 @@ using Infrastructure.Common.TreeList;
 
 namespace PlansModule.ViewModels
 {
-	public class PlanViewModel : TreeItemViewModel<PlanViewModel>
+	public class PlanViewModel : TreeNodeViewModel<PlanViewModel>
 	{
 		private PlansViewModel _plansViewModel;
 		public Plan Plan { get; private set; }

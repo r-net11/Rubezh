@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
                 if (device.Device.Parent != null)
                 {
                     var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    parent.Children.Add(device);
+                    parent.AddChild(device);
                 }
             }
 

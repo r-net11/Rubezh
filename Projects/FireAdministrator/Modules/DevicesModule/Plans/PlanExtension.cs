@@ -321,6 +321,8 @@ namespace DevicesModule.Plans
 				{
 					var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
 					var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
+					if (!result)
+						_designerCanvas.RevertLastAction();
 				}
 			}
 		}
