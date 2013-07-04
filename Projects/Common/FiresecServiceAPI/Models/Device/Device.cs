@@ -306,7 +306,6 @@ namespace FiresecAPI.Models
 				var allParents = AllParents;
 				allParents.Add(this);
 				return allParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_BUNS ||
-					x.Driver.DriverType == DriverType.USB_BUNS_2 ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_4A ||
@@ -321,7 +320,6 @@ namespace FiresecAPI.Models
 			get
 			{
 				var usbDevice = AllParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_BUNS ||
-					x.Driver.DriverType == DriverType.USB_BUNS_2 ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_4A ||

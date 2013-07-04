@@ -186,7 +186,7 @@ namespace FiresecAPI.Models
                     }
                     clause.ZoneUIDs = zoneUIDs;
 
-                    if ((clause.DeviceUID != Guid.Empty) || (clause.ZoneUIDs.Count > 0) || clause.State == ZoneLogicState.Failure)
+                    if (clause.DeviceUID != Guid.Empty || clause.ZoneUIDs.Count > 0 || clause.State == ZoneLogicState.Failure || clause.State == ZoneLogicState.DoubleFire)
                         clauses.Add(clause);
                 }
                 device.ZoneLogic.Clauses = clauses;
@@ -416,6 +416,12 @@ namespace FiresecAPI.Models
                     result += "состояние неисправность прибора";
                     continue;
                 }
+
+				if (clause.State == ZoneLogicState.DoubleFire)
+				{
+					result += "состояние Включение без задержки по пожару в двух зонах";
+					continue;
+				}
 
                 result += "состояние " + clause.State.ToDescription();
                 result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.Zones);

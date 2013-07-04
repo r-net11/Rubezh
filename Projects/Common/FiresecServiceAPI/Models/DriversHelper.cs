@@ -125,7 +125,6 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A", DriverType.USB_Rubezh_4A));
 			DriverDataList.Add(new DriverData("39DBC715-C4B5-4AE6-A809-4F214BBBD6C1", 1, "USB Рубеж-2ОП", DriverType.USB_Rubezh_2OP));
 			DriverDataList.Add(new DriverData("4A3D1FA3-4F13-44D8-B9AD-825B53416A71", 1, "USB БУНС", DriverType.USB_BUNS));
-			DriverDataList.Add(new DriverData("64CB0AB4-D9BE-4C71-94A1-CF24406DAF92", 1, "USB БУНС-2", DriverType.USB_BUNS_2));
 			DriverDataList.Add(new DriverData("E05EE5B7-8D89-4BF2-933B-9D6E6B0AAB2D", 0, "Глухая панель П", DriverType.BlindPanel));
 			DriverDataList.Add(new DriverData("3268E93C-A532-4CB1-A60A-FA95713EE1BD", 0, "Шкаф управления", DriverType.ControlCabinet));
 			DriverDataList.Add(new DriverData("80141D2F-0863-49A4-A49E-EF7A5C2B798D", 0, "Источник питания ИВЭПР-А", DriverType.PowerSupply));
@@ -157,7 +156,6 @@ namespace FiresecAPI.Models
 			{
 				var usbPanelDrivers = new List<DriverType>();
 				usbPanelDrivers.Add(DriverType.USB_BUNS);
-				usbPanelDrivers.Add(DriverType.USB_BUNS_2);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_2AM);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_2OP);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_4A);
