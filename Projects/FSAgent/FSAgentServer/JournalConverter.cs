@@ -37,27 +37,30 @@ namespace FSAgentServer
 		{
 			try
 			{
-				var index = originalName.LastIndexOf(' ');
-				if (index != -1)
+				if (originalName != null)
 				{
-					var address = originalName.Substring(index);
-					var dotsCount = address.Count(x => x == '.');
-					if (dotsCount == 5)
+					var index = originalName.LastIndexOf(' ');
+					if (index != -1)
 					{
-						var name = originalName;
-						var tempIndex = name.LastIndexOf('.');
-						name = name.Remove(tempIndex);
-						tempIndex = name.LastIndexOf('.');
-						var endIndex = tempIndex;
-						name = name.Remove(tempIndex);
-						tempIndex = name.LastIndexOf('.');
-						name = name.Remove(tempIndex);
-						tempIndex = name.LastIndexOf('.');
-						var startIndex = tempIndex;
-						name = name.Remove(tempIndex);
+						var address = originalName.Substring(index);
+						var dotsCount = address.Count(x => x == '.');
+						if (dotsCount == 5)
+						{
+							var name = originalName;
+							var tempIndex = name.LastIndexOf('.');
+							name = name.Remove(tempIndex);
+							tempIndex = name.LastIndexOf('.');
+							var endIndex = tempIndex;
+							name = name.Remove(tempIndex);
+							tempIndex = name.LastIndexOf('.');
+							name = name.Remove(tempIndex);
+							tempIndex = name.LastIndexOf('.');
+							var startIndex = tempIndex;
+							name = name.Remove(tempIndex);
 
-						var result = originalName.Remove(startIndex, endIndex - startIndex);
-						return result;
+							var result = originalName.Remove(startIndex, endIndex - startIndex);
+							return result;
+						}
 					}
 				}
 			}

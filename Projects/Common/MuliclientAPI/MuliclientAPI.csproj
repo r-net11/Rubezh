@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EncryptHelper.cs" />
     <Compile Include="MulticlientConfiguration.cs" />
     <Compile Include="MulticlientConfigurationHelper.cs" />
     <Compile Include="MulticlientData.cs" />

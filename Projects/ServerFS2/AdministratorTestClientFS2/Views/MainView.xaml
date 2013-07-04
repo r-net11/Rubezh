@@ -7,7 +7,7 @@
         Height="800" Width="1000">
 
     <Window.Resources>
-        <Converters:NullToVisibilityConverter x:Key="NullObjectToVisibiltyConverter"/>
+        <Converters:NullToVisibilityConverter x:Key="NullObjectToVisibiltyConverter" />
         <Converters1:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </Window.Resources>
     <Grid>
@@ -23,8 +23,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Views:DevicesView Grid.Column="0" DataContext="{Binding DevicesViewModel}" Margin="2"/>
+            <Views:DevicesView Grid.Column="0" DataContext="{Binding DevicesViewModel}" Margin="2" />
             <StackPanel Grid.Column="1">
+                <Button Content="Test Command" Command = "{Binding TestCommand}" Width="300" Margin="2" />
                 <Button Content="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}" Width="300" Margin="2" />
                 <Button Content="Другие функции" Command = "{Binding RunOtherFunctionsCommand}" Width="300" Margin="2" />
                 <Button Content="Считать конфигурацию из прибора" Command = "{Binding ReadConfigurationCommand}" Width="300" Margin="2" />

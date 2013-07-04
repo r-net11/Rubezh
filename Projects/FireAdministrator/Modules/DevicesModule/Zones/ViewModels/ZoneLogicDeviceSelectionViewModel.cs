@@ -8,11 +8,37 @@ namespace DevicesModule.ViewModels
 {
 	public class ZoneLogicDeviceSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public ZoneLogicDeviceSelectionViewModel(Device parentDevice)
+		public ZoneLogicDeviceSelectionViewModel(Device parentDevice, ZoneLogicState zoneLogicState)
 		{
 			Title = "Выбор устройства";
-			//Devices = new ObservableCollection<Device>(parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T || x.Driver.DriverType == DriverType.MDU));
-			Devices = new ObservableCollection<Device>(parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T));
+			Devices = new ObservableCollection<Device>();
+			foreach (var device in parentDevice.Children)
+			{
+				switch (zoneLogicState)
+				{
+					case ZoneLogicState.ShuzOn:
+						switch (device.Driver.DriverType)
+						{
+							case DriverType.Valve:
+								Devices.Add(device);
+								break;
+						}
+						break;
+
+					case ZoneLogicState.AM1TOn:
+						switch (device.Driver.DriverType)
+						{
+							case DriverType.AM1_T:
+							case DriverType.ShuzOnButton:
+							case DriverType.AutomaticButton:
+							case DriverType.ShuzOffButton:
+							case DriverType.MDU:
+								Devices.Add(device);
+								break;
+						}
+						break;
+				}
+			}
 			SelectedDevice = Devices.FirstOrDefault();
 		}
 

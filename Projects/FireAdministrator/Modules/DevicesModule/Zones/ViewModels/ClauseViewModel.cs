@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 	public class ClauseViewModel : BaseViewModel
 	{
 		public List<Guid> Zones { get; set; }
-		Device _device;
+		Device Device;
 		ZoneLogicViewModel _zoneLogicViewModel;
 
 		public ClauseViewModel(ZoneLogicViewModel zoneLogicViewModel, Device device, Clause clause)
@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 
 			_zoneLogicViewModel = zoneLogicViewModel;
-			_device = device;
+			Device = device;
 			Zones = new List<Guid>(
 				from zoneUID in clause.ZoneUIDs
 				select zoneUID);
@@ -40,66 +40,85 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				switch (_device.Driver.DriverType)
+				switch (Device.Driver.DriverType)
 				{
 					case DriverType.Valve:
-					case DriverType.PumpStation:
 					case DriverType.MDU:
 					case DriverType.MRO:
 					case DriverType.ASPT:
-					case DriverType.Fan:
 						return new List<ZoneLogicState>() {
 							ZoneLogicState.Fire,
 							ZoneLogicState.Attention,
 							ZoneLogicState.MPTAutomaticOn,
 							ZoneLogicState.MPTOn};
 
+					case DriverType.PumpStation:
+					case DriverType.ControlCabinet:
+					case DriverType.FanCabinet:
+						return new List<ZoneLogicState>() {
+							ZoneLogicState.Fire,
+							ZoneLogicState.Attention,
+							ZoneLogicState.MPTAutomaticOn,
+							ZoneLogicState.MPTOn,
+							ZoneLogicState.AM1TOn};
+
+					case DriverType.RM_1:
+						return new List<ZoneLogicState>() {
+									ZoneLogicState.Fire,
+									ZoneLogicState.Attention,
+									ZoneLogicState.MPTAutomaticOn,
+									ZoneLogicState.MPTOn,
+									ZoneLogicState.Firefighting,
+									ZoneLogicState.Alarm,
+									ZoneLogicState.GuardSet,
+									ZoneLogicState.GuardUnSet,
+									ZoneLogicState.Lamp,
+									ZoneLogicState.AM1TOn,
+									ZoneLogicState.ShuzOn};
+
+					case DriverType.SonarDirection:
+						return new List<ZoneLogicState>() {
+									ZoneLogicState.Fire,
+									ZoneLogicState.Attention,
+									ZoneLogicState.MPTAutomaticOn,
+									ZoneLogicState.MPTOn};
+
 					case DriverType.Exit:
 						var states = new List<ZoneLogicState>();
-						switch (_device.Parent.Driver.DriverType)
+						switch (Device.Parent.Driver.DriverType)
 						{
 							case DriverType.Rubezh_4A:
 							case DriverType.USB_Rubezh_4A:
+							case DriverType.BlindPanel:
+							case DriverType.USB_Rubezh_P:
 								states = new List<ZoneLogicState>() {
 									ZoneLogicState.Fire,
 									ZoneLogicState.Attention,
 									ZoneLogicState.MPTAutomaticOn,
 									ZoneLogicState.MPTOn,
-									ZoneLogicState.Failure};
-								break;
-
-							case DriverType.BUNS_2:
-							case DriverType.USB_BUNS_2:
-								states = new List<ZoneLogicState>() {
-									ZoneLogicState.Fire,
-									ZoneLogicState.Attention,
-									ZoneLogicState.MPTAutomaticOn,
-									ZoneLogicState.MPTOn,
-									ZoneLogicState.PumpStationOn,
-									ZoneLogicState.PumpStationAutomaticOff,
-									ZoneLogicState.Failure};
+									ZoneLogicState.Failure,
+									ZoneLogicState.DoubleFire};
 								break;
 
 							case DriverType.Rubezh_2OP:
 							case DriverType.USB_Rubezh_2OP:
-								states = GetAllZoneLogicStates();
-								states.Remove(ZoneLogicState.PumpStationOn);
-								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
-								states.Remove(ZoneLogicState.AM1TOn);
-								states.Remove(ZoneLogicState.Firefighting);
+								states.Add(ZoneLogicState.Fire);
+								states.Add(ZoneLogicState.Attention);
+								states.Add(ZoneLogicState.MPTAutomaticOn);
+								states.Add(ZoneLogicState.MPTOn);
+								states.Add(ZoneLogicState.Alarm);
+								states.Add(ZoneLogicState.GuardSet);
+								states.Add(ZoneLogicState.GuardUnSet);
 								states.Add(ZoneLogicState.PCN);
+								states.Add(ZoneLogicState.Lamp);
+								states.Add(ZoneLogicState.Failure);
+								states.Add(ZoneLogicState.DoubleFire);
 								break;
 						}
-						if ((_device.IntAddress == 3) || (_device.IntAddress == 4))
+						if ((Device.IntAddress == 3) || (Device.IntAddress == 4))
 							states.Remove(ZoneLogicState.Failure);
-						return states;
 
-					case DriverType.RM_1:
-						var rmStates = GetAllZoneLogicStates();
-						rmStates.Remove(ZoneLogicState.PumpStationOn);
-						rmStates.Remove(ZoneLogicState.PumpStationAutomaticOff);
-						rmStates.Remove(ZoneLogicState.Failure);
-						return rmStates;
+						return states;
 				}
 				return GetAllZoneLogicStates();
 			}
@@ -119,6 +138,7 @@ namespace DevicesModule.ViewModels
 			states.Add(ZoneLogicState.Lamp);
 			states.Add(ZoneLogicState.Failure);
 			states.Add(ZoneLogicState.AM1TOn);
+			states.Add(ZoneLogicState.ShuzOn);
 			states.Add(ZoneLogicState.Firefighting);
 			states.Add(ZoneLogicState.PumpStationOn);
 			states.Add(ZoneLogicState.PumpStationAutomaticOff);
@@ -155,14 +175,16 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				return (SelectedState != ZoneLogicState.Failure) &&
-					(SelectedState != ZoneLogicState.AM1TOn);
+				return (SelectedState != ZoneLogicState.Failure && SelectedState != ZoneLogicState.DoubleFire && !CanSelectDevice);
 			}
 		}
 
 		public bool CanSelectDevice
 		{
-			get { return (SelectedState == ZoneLogicState.AM1TOn); }
+			get
+			{
+				return (SelectedState == ZoneLogicState.AM1TOn || SelectedState == ZoneLogicState.ShuzOn);
+			}
 		}
 
 		void Update()
@@ -212,7 +234,7 @@ namespace DevicesModule.ViewModels
 		#region IsMRO_2M
 		public bool IsSonar
 		{
-			get { return _device.Driver.DriverType == DriverType.SonarDirection || _device.Driver.DriverType == DriverType.MRO_2; }
+			get { return Device.Driver.DriverType == DriverType.SonarDirection || Device.Driver.DriverType == DriverType.MRO_2; }
 		}
 
 		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
@@ -273,7 +295,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			var zonesSelectionViewModel = new ZonesSelectionViewModel(_device, Zones, SelectedState);
+			var zonesSelectionViewModel = new ZonesSelectionViewModel(Device, Zones, SelectedState);
 			if (DialogService.ShowModalWindow(zonesSelectionViewModel))
 			{
                 var zones = new List<Zone>();
@@ -296,7 +318,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDevice()
 		{
-			var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(_device.ParentPanel);
+			var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(Device.ParentPanel, SelectedState);
 			if (DialogService.ShowModalWindow(zoneLogicDeviceSelectionViewModel))
 				SelectedDevice = zoneLogicDeviceSelectionViewModel.SelectedDevice;
 		}

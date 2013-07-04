@@ -145,6 +145,7 @@ namespace DevicesModule.ViewModels
 				switch (clauseViewModel.SelectedState)
 				{
 					case ZoneLogicState.AM1TOn:
+					case ZoneLogicState.ShuzOn:
 						if (clauseViewModel.SelectedDevice != null)
 						{
 							var clause = new Clause()
@@ -159,6 +160,7 @@ namespace DevicesModule.ViewModels
 						break;
 
 					case ZoneLogicState.Failure:
+					case ZoneLogicState.DoubleFire:
 						{
 							var clause = new Clause()
 							{
