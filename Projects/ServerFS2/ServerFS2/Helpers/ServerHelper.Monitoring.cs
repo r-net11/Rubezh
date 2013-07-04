@@ -15,8 +15,14 @@ namespace ServerFS2
 			USBManager.Send(device, 0x02, 0x54, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 		}
 
+		static void ResetAlarm(Device device)
+		{
+			USBManager.Send(device, 0x02, 0x54, 0x09, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+		}
+
 		public static void ResetOnePanelStates(Device panelDevice, IEnumerable<string> stateIds)
 		{
+			var hasBytesToReset = false;
 			var statusBytes = GetDeviceStatus(panelDevice);
 			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
 			var bitArray = new BitArray(statusBytesArray);
@@ -27,25 +33,32 @@ namespace ServerFS2
 				{
 					if (metadataPanelState.@class == "0")
 					{
-						ResetFire(panelDevice);
-
+						if (metadataPanelState.ID == "Alarm")
+						{
+							ResetAlarm(panelDevice);
+						}
+						else
+						{
+							ResetFire(panelDevice);
+						}
 					}
 					else
 					{
 						var bitNo = Int16.Parse(metadataPanelState.no);
-						bitArray[bitNo] = false;
+						if (bitArray[bitNo] == true)
+						{
+							bitArray[bitNo] = false;
+							hasBytesToReset = true;
+						}
 					}
 				}
 			}
-			var value = 0;
-			for (int i = 0; i < bitArray.Count; i++)
-			{
-				if (bitArray[i])
-					value += 1 << i;
-			}
 
-			var newStatusBytes = BitConverter.GetBytes(value);
-			USBManager.Send(panelDevice, 0x02, 0x10, newStatusBytes);
+			var newStatusBytes = BytesHelper.BytesFromBitArray(bitArray);
+			if (hasBytesToReset)
+			{
+				USBManager.Send(panelDevice, 0x02, 0x10, newStatusBytes);
+			}
 		}
 
 		public static List<byte> GetDeviceStatus(Device device)
@@ -85,9 +98,12 @@ namespace ServerFS2
 		public static void ExecuteCommand(Device device, string commandName)
 		{
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
-			var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
-			var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
-			USBManager.Send(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
+			if (tableNo != null)
+			{
+				var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
+				var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
+				USBManager.Send(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
+			}
 		}
 	}
 }

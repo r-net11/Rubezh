@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using ServerFS2;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -27,6 +28,8 @@ namespace MonitorClientFS2.ViewModels
 			SetGuardCommand = new RelayCommand(OnSetGuard);
 			ResetGuardCommand = new RelayCommand(OnResetGuard);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			TurnOnRMTestCommand = new RelayCommand(OnTurnOnRMTest);
+			TurnOffRMTestCommand = new RelayCommand(OnTurnOffRMTest);
 			Device = device;
 			device.DeviceState.StateChanged += new Action(OnStateChanged);
 			device.DeviceState.ParametersChanged += new Action(OnParametersChanged);
@@ -76,7 +79,7 @@ namespace MonitorClientFS2.ViewModels
 			OnPropertyChanged("ParentStates");
 			OnPropertyChanged("ChildState");
 			OnPropertyChanged("HasChildStates");
-
+			OnPropertyChanged("Parameters");
 		}
 
 		public DeviceState DeviceState
@@ -199,6 +202,18 @@ namespace MonitorClientFS2.ViewModels
 		void OnShowProperties()
 		{
 			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
+		}
+
+		public RelayCommand TurnOnRMTestCommand { get; private set; }
+		void OnTurnOnRMTest()
+		{
+			MainManager.ExecuteCommand(Device, "RunWODelay", "Пользователь");
+		}
+
+		public RelayCommand TurnOffRMTestCommand { get; private set; }
+		void OnTurnOffRMTest()
+		{
+			MainManager.ExecuteCommand(Device, "Stop", "Пользователь");
 		}
 	}
 }

@@ -136,7 +136,6 @@ namespace ServerFS2.Monitoring
 			if (rawParametersBytes == null)
 				return;
 			BitArray rawParametersBitArray = null;
-			Trace.WriteLine(device.PresentationAddressAndName + " " + BytesHelper.BytesToString(rawParametersBytes));
 			if (rawParametersBytes.Count > 0)
 				rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);

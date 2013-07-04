@@ -400,7 +400,7 @@ namespace DevicesModule.Validation
 		{
 			if (device.Driver.IsPanel && device.Driver.DriverType != DriverType.IndicationBlock && device.Driver.DriverType != DriverType.PDU && device.Driver.DriverType != DriverType.PDU_PT)
 			{
-				foreach (var child in device.Children)
+				foreach (var child in device.GetAllChildren())
 				{
 					if (child.Driver.IsZoneDevice && child.ZoneUID != Guid.Empty)
 						return;

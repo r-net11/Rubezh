@@ -218,10 +218,5 @@ namespace ServerFS2.Monitoring
 				}
 			}
 		}
-
-		public static void ExecuteCommand(Device device, string commandName)
-		{
-			CommandExecutor commandExecutor = new CommandExecutor(device, commandName);
-		}
 	}
 }

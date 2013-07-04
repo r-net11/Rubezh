@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace ServerFS2
 {
@@ -141,6 +142,17 @@ namespace ServerFS2
 		{
 			var bytes = new List<byte>();
 			return bytes;
+		}
+
+		public static List<byte> BytesFromBitArray(BitArray bitArray)
+		{
+			var value = 0;
+			for (int i = 0; i < bitArray.Count; i++)
+			{
+				if (bitArray[i])
+					value += 1 << i;
+			}
+			return BitConverter.GetBytes(value).ToList();
 		}
 	}
 }

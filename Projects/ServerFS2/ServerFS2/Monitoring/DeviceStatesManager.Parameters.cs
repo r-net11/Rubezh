@@ -12,15 +12,15 @@ namespace ServerFS2.Monitoring
 {
 	public partial class DeviceStatesManager
 	{
-		bool hasChanges = false;
-		
+		bool HasChanges = false;
+
 		public void UpdateDeviceStateAndParameters(Device device)
 		{
 			List<byte> stateBytes;
 			List<byte> rawParametersBytes;
-			hasChanges = false;
+			HasChanges = false;
 
-			switch(device.Driver.DriverType)
+			switch (device.Driver.DriverType)
 			{
 				case DriverType.RadioSmokeDetector:
 				case DriverType.SmokeDetector:
@@ -50,11 +50,10 @@ namespace ServerFS2.Monitoring
 						return;
 					break;
 			}
+			device.StateWordBytes = stateBytes;
 			device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
-
 			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
-			//UpdateStateWord(device, stateBytes);
-			if (hasChanges)
+			if (HasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				CallbackManager.DeviceParametersChanged(new List<DeviceState>() { device.DeviceState });
@@ -63,15 +62,15 @@ namespace ServerFS2.Monitoring
 
 			if (device.IntAddress == 2 * 256 + 6)
 			{
-				Trace.WriteLine("Smokiness " + device.DeviceState.Smokiness);
-				Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
-				Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
+				//Trace.WriteLine("Smokiness " + device.DeviceState.Smokiness);
+				//Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
+				//Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
 			}
 		}
 
 		public void UpdatePanelExtraDevices(Device panel)
 		{
-			hasChanges = false;
+			HasChanges = false;
 
 			var responce = USBManager.Send(panel, 0x01, 0x13);
 			if (responce.HasError)
@@ -87,50 +86,49 @@ namespace ServerFS2.Monitoring
 				SetParameter(panel, extraDevicesVal, "Лишних устройств");
 			}
 
-			if(hasChanges)
+			if (HasChanges)
 				NotifyStateChanged(panel);
-			//Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(extraDevicesBytes));
 		}
 
 		public void UpdatePanelParameters(Device panel)
 		{
-			hasChanges = false;
-			
+			HasChanges = false;
+
 			var faultyCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Неисправность")).Count();
 			SetParameter(panel, faultyCount, "Heиcпpaвныx локальных уcтpoйcтв");
-			Trace.WriteLine("faultyCount " + faultyCount);
+			//Trace.WriteLine("faultyCount " + faultyCount);
 
 			var externalCount = 0;
 			SetParameter(panel, externalCount, "Внешних устройств");
-			Trace.WriteLine("externalCount " + externalCount);
+			//Trace.WriteLine("externalCount " + externalCount);
 
 			var totalCount = panel.GetRealChildren().Count;
 			SetParameter(panel, totalCount, "Всего устройств");
-			Trace.WriteLine("totalCount " + totalCount);
+			//Trace.WriteLine("totalCount " + totalCount);
 
 			var bypassCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Аппаратный обход устройства")).Count();
 			SetParameter(panel, bypassCount, "Обойденных устройств");
-			Trace.WriteLine("bypassCount " + bypassCount);
+			//Trace.WriteLine("bypassCount " + bypassCount);
 
 			var lostCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Потеря связи")).Count();
 			SetParameter(panel, lostCount, "Потерянных устройств");
-			Trace.WriteLine("lostCount " + lostCount);
+			//Trace.WriteLine("lostCount " + lostCount);
 
 			var dustfilledCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Code == "HighDustiness")).Count();
 			SetParameter(panel, dustfilledCount, "Запыленных устройств");
-			Trace.WriteLine("dustfilledCount " + dustfilledCount);
+			//Trace.WriteLine("dustfilledCount " + dustfilledCount);
 
-			if(hasChanges)
+			if (HasChanges)
 				NotifyStateChanged(panel);
 		}
-		
+
 		void UpdateSmokiness(Device device)
 		{
 			var smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 			if (device.DeviceState.Smokiness != smokiness)
 			{
 				device.DeviceState.Smokiness = smokiness;
-				hasChanges = true;
+				HasChanges = true;
 				SetParameter(device, smokiness, "Дым, дБ/м");
 			}
 		}
@@ -141,7 +139,7 @@ namespace ServerFS2.Monitoring
 			if (device.DeviceState.Dustiness != dustiness)
 			{
 				device.DeviceState.Dustiness = dustiness;
-				hasChanges = true;
+				HasChanges = true;
 				SetParameter(device, dustiness, "Пыль, дБ/м");
 			}
 		}
@@ -152,7 +150,7 @@ namespace ServerFS2.Monitoring
 			if (device.DeviceState.Temperature != temperature)
 			{
 				device.DeviceState.Temperature = temperature;
-				hasChanges = true;
+				HasChanges = true;
 				SetParameter(device, temperature, "Температура, °C");
 			}
 		}
@@ -169,40 +167,14 @@ namespace ServerFS2.Monitoring
 
 			if (parameter == null)
 			{
-				throw(new Exception("DeviceStatesManager.ChangeParameter parameter == null"));
+				throw (new Exception("DeviceStatesManager.ChangeParameter parameter == null"));
 			}
 
 			if (parameter.Value != byteValue.ToString())
 			{
 				parameter.Value = byteValue.ToString();
-				hasChanges = true;
+				HasChanges = true;
 			}
 		}
-
-		void UpdateStateWord(Device device, List<byte> data)
-		{
-			//return;
-			var states = new List<DeviceDriverState>();
-			var stateWordBytesArray = data.GetRange(0, 2).ToArray();
-
-			var bitArray = new BitArray(stateWordBytesArray);
-			for (int i = 0; i < bitArray.Count; i++)
-			{
-				if (bitArray[i])
-				{
-					var metadataDeviceState = MetadataHelper.Metadata.deviceStates.FirstOrDefault(x => x.bitno == i.ToString() || x.bitNo == i.ToString() || x.Bitno == i.ToString());
-					if (metadataDeviceState != null)
-					{
-						var state = device.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-						if (state != null)
-							states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
-					}
-				}
-			}
-			if (SetNewDeviceStates(device, states))
-			{
-				ForseUpdateDeviceStates(device);
-			}
-		}
-	}  
+	}
 }

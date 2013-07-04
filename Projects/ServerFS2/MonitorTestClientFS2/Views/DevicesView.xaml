@@ -26,6 +26,8 @@
                                                     <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" />
                                                     <MenuItem Header="Снять с охраны" Command="{Binding ResetGuardCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                                    <MenuItem Header="Включить РМ" Command="{Binding TurnOnRMTestCommand}" />
+                                                    <MenuItem Header="Выключить РМ" Command="{Binding TurnOffRMTestCommand}" />
                                                 </ContextMenu>
                                             </StackPanel.ContextMenu>
                                         </StackPanel>

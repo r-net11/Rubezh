@@ -52,7 +52,7 @@ namespace ServerFS2
 			{
 				var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
 				FS2JournalItem.DeviceAddress = FSInternalJournal.AddressOnShleif;
-				FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice);
+				FS2JournalItem.Device = ConfigurationManager.Devices.FirstOrDefault(x => x.IntAddress == intAddress && x.ParentPanel == FS2JournalItem.PanelDevice && !x.Driver.IsGroupDevice);
 				if (FS2JournalItem.Device != null)
 				{
 					FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
