@@ -1,9 +1,11 @@
-﻿<Window x:Class="Infrastructure.Common.Windows.Views.WindowBaseView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="clr-namespace:Infrastructure.Common.Windows.Views"
+﻿<Window x:Class="Infrastructure.Common.Windows.Views.WindowBaseView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="clr-namespace:Infrastructure.Common.Windows.Views"
         Title="{Binding Title}"
-        Width="1000" Height="1000" AllowsTransparency="False" Closed="Window_Closed" Closing="Window_Closing"
-        FontFamily="Arial" FontSize="12"
+        Width="1000" Height="1000" AllowsTransparency="False" Closed="Window_Closed" Closing="Window_Closing" FontFamily="Arial" FontSize="12"
         Icon="{Binding Icon,
-                       Converter={StaticResource NullToImageConverter}}" KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="{Binding ResizeMode}" Topmost="{Binding TopMost}"
+                       Converter={StaticResource NullToImageConverter}}"
+        KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="NoResize"
+        Topmost="{Binding TopMost}"
         Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal">
 	<Grid>
 		<Grid.RowDefinitions>
