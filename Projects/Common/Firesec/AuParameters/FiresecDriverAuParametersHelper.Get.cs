@@ -6,8 +6,9 @@ using System.Windows.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Firesec;
 
-namespace Firesec
+namespace Firesec_48
 {
 	public static partial class FiresecDriverAuParametersHelper
 	{

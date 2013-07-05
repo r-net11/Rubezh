@@ -32,12 +32,13 @@ namespace JournalModule.ViewModels
 			DeviceTime = journalRecord.DeviceTime;
 			SystemTime = journalRecord.SystemTime;
 			ZoneName = journalRecord.ZoneName;
-			Description = GetDescription(journalRecord.Detalization);
+			Description = journalRecord.Description;
 			DeviceName = journalRecord.DeviceName;
 			PanelName = journalRecord.PanelName;
 			User = journalRecord.User;
 			SubsystemType = journalRecord.SubsystemType;
 			StateType = journalRecord.StateType;
+			Detalization = GetDetalization(journalRecord.Detalization);
 
 			if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
 				Device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
@@ -74,14 +75,15 @@ namespace JournalModule.ViewModels
 		public DateTime DeviceTime { get; private set; }
 		public DateTime SystemTime { get; private set; }
 		public string ZoneName { get; private set; }
-		public string Description{ get; private set; }
+		public string Description { get; private set; }
 		public string DeviceName { get; private set; }
 		public string PanelName { get; private set; }
 		public string User { get; private set; }
 		public SubsystemType SubsystemType { get; private set; }
 		public StateType StateType { get; private set; }
+		public string Detalization { get; private set; }
 
-		string GetDescription(string detalization)
+		string GetDetalization(string detalization)
 		{
 			if (string.IsNullOrEmpty(detalization))
 				return null;
@@ -93,11 +95,14 @@ namespace JournalModule.ViewModels
 				richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
 				TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
 				var result = textrange.Text;
-				result = result.Replace("</li><li>", "\r\n");
-				result = result.Replace("<li>", "");
-				result = result.Replace("</li>", "");
-				if (result == "я")
-					result = "";
+
+				result = result.Replace("- ", "\r\n");
+
+				//result = result.Replace("</li><li>", "\r\n");
+				//result = result.Replace("<li>", "");
+				//result = result.Replace("</li>", "");
+				//if (result == "я")
+				//    result = "";
 				return result;
 			}
 			catch (Exception e)

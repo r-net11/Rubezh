@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient;
+using Firesec_50;
 
 namespace DevicesModule.ViewModels
 {
@@ -56,7 +57,7 @@ namespace DevicesModule.ViewModels
 		{
 			WaitHelper.Execute(() =>
 			{
-				OperationResult<bool> result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(SelectedDevice.Device);
+				OperationResult<bool> result = Firesec_50.FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(SelectedDevice.Device);
 				if (result.HasError)
 				{
 					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
@@ -86,7 +87,7 @@ namespace DevicesModule.ViewModels
 						return;
 					}
 				}
-				FiresecDriverAuParametersHelper.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+				Firesec_50.FiresecDriverAuParametersHelper.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
 			});
 		}
 
@@ -133,7 +134,7 @@ namespace DevicesModule.ViewModels
 				foreach (DeviceViewModel childDevice in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(childDevice.Device.Driver.ShortName + " " + childDevice.Address);
-					FiresecDriverAuParametersHelper.SetConfigurationParameters(childDevice.Device.UID, childDevice.Device.Properties);
+					Firesec_50.FiresecDriverAuParametersHelper.SetConfigurationParameters(childDevice.Device.UID, childDevice.Device.Properties);
 				}
 			}
 			catch (Exception e)
@@ -172,7 +173,7 @@ namespace DevicesModule.ViewModels
 				foreach (DeviceViewModel child in SelectedDevice.Children)
 				{
 					LoadingService.DoStep(child.Device.PresentationAddressAndName);
-					var result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(child.Device);
+					var result = Firesec_50.FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(child.Device);
 					if (result.HasError)
 					{
 						MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);
@@ -184,7 +185,7 @@ namespace DevicesModule.ViewModels
 					foreach (DeviceViewModel groupChild in child.Children)
                     {
                         LoadingService.DoStep(groupChild.Device.PresentationAddressAndName);
-                        result = FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(groupChild.Device);
+						result = Firesec_50.FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(groupChild.Device);
                         if (result.HasError)
                         {
                             MessageBoxService.Show("При вызове метода возникло исключение " + result.Error);

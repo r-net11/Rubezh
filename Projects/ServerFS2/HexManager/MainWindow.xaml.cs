@@ -39,7 +39,7 @@ namespace HexManager
 			{
 				Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
 			};
-			if (openFileDialog.ShowDialog() == true)
+			if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				var fileName = openFileDialog.FileName;
 			}

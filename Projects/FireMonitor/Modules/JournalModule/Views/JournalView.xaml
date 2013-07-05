@@ -101,7 +101,7 @@
                         <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PanelName}" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" />
                         <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding ZoneName}" Visibility="{Binding ZoneName, Converter={StaticResource StringToVisibilityConverter}}" />
                     </Grid>
-                    <TextBlock Text="{Binding SelectedRecord.Description, Mode=OneWay}" Visibility="{Binding SelectedRecord.Description, Converter={StaticResource StringToVisibilityConverter}}" Foreground="White" Margin="200, 2, 2, 2" />
+                    <TextBlock Text="{Binding SelectedRecord.Detalization, Mode=OneWay}" Visibility="{Binding SelectedRecord.Description, Converter={StaticResource StringToVisibilityConverter}}" Foreground="White" Margin="200, 2, 2, 2" />
                 </StackPanel>
             </ScrollViewer>
         </Border>

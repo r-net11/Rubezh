@@ -14,7 +14,7 @@ namespace Firesec
 
         public FiresecSerializedClient()
         {
-			FiresecDriverAuParametersHelper.FiresecSerializedClient = this;
+			Firesec_50.FiresecDriverAuParametersHelper.FiresecSerializedClient = this;
         }
 
 		public event Action<List<JournalRecord>> NewJournalRecords;

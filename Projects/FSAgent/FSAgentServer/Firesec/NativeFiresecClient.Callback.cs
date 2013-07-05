@@ -85,8 +85,8 @@ namespace FSAgentServer
 
 						if (journalRecords != null)
 						{
-							DatabaseHelper.AddJournalRecords(journalRecords);
-							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = journalRecords });
+							var addedJournalRecords = DatabaseHelper.AddJournalRecords(journalRecords);
+							CallbackManager.Add(new FSAgentCallbac() { JournalRecords = addedJournalRecords });
 						}
 						else
 						{

@@ -12,14 +12,16 @@ namespace FiresecDB
 	public static class DatabaseHelper
 	{
 		public static string ConnectionString { get; set; }
-		public static void AddJournalRecords(List<JournalRecord> journalRecords)
+		public static List<JournalRecord> AddJournalRecords(List<JournalRecord> journalRecords)
 		{
+			var sortedJournalRecords = new List<JournalRecord>();
 			try
 			{
-				var sortedJournalRecords = new List<JournalRecord>();
 				foreach (var journalRecord in journalRecords)
 				{
-					if (journalRecord.Description == "Потеря связи с пользователем." || journalRecord.Description == "Вход пользователя в систему")
+					if (journalRecord.Description == "Потеря связи с пользователем." ||
+						journalRecord.Description == "Вход пользователя в систему" ||
+						journalRecord.Description == "Неизвестный запрос")
 						continue;
 					sortedJournalRecords.Add(journalRecord);
 				}
@@ -30,6 +32,7 @@ namespace FiresecDB
 			{
 				Logger.Error(e, "Исключение при вызове DatabaseHelper.AddJournalRecords");
 			}
+			return sortedJournalRecords;
 		}
 
 		public static int GetLastOldId()
