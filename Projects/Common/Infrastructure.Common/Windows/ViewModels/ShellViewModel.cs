@@ -27,6 +27,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
 			TextVisibility = !RegistrySettingsHelper.GetBool(Name + ".Shell.TextVisibility");
+			RibbonVisible = false;
 		}
 
 		public RelayCommand<MinimizeTarget> MinimizeCommand { get; private set; }
@@ -207,6 +208,27 @@ namespace Infrastructure.Common.Windows.ViewModels
 					else
 						RightContent.Content.Hide();
 				}
+			}
+		}
+
+		private bool _ribbonVisible;
+		public bool RibbonVisible
+		{
+			get { return _ribbonVisible; }
+			set
+			{
+				_ribbonVisible = value;
+				OnPropertyChanged(() => RibbonVisible);
+			}
+		}
+		private BaseViewModel _ribbonContent;
+		public BaseViewModel RibbonContent
+		{
+			get { return _ribbonContent; }
+			set
+			{
+				_ribbonContent = value;
+				OnPropertyChanged(() => RibbonContent);
 			}
 		}
 

@@ -373,5 +373,18 @@ namespace DiagnosticsModule.ViewModels
 				OnPropertyChanged("AutoText");
 			}
 		}
+
+		public List<string> MenuItems
+		{
+			get
+			{
+				return new List<string>()
+				{
+					"xxxxx",
+					"yyyyy",
+					"zzzzz"
+				};
+			}
+		}
 	}
 }
