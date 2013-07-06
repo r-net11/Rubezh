@@ -76,15 +76,15 @@
 			<GradientStop Offset="0.45" Color="#FFFFFFFF" />
 		</RadialGradientBrush>
 
-		<Style TargetType="{x:Type Popup}" x:Key="RibbonPopup">
+		<Style x:Key="RibbonPopup" TargetType="{x:Type Popup}">
 			<Setter Property="AllowsTransparency" Value="True" />
-			<Setter Property="PopupAnimation" Value="Slide" />
+			<Setter Property="PopupAnimation" Value="Fade" />
 			<Setter Property="Placement" Value="Relative" />
 			<Setter Property="VerticalOffset" Value="25" />
 			<Setter Property="HorizontalOffset" Value="-5" />
 			<Setter Property="StaysOpen" Value="False" />
 		</Style>
-		<Style TargetType="{x:Type ToggleButton}" x:Key="RibbonButton">
+		<Style x:Key="RibbonButton" TargetType="{x:Type ToggleButton}">
 			<Setter Property="Width" Value="50" />
 			<Setter Property="Height" Value="50" />
 			<Setter Property="SnapsToDevicePixels" Value="True" />
@@ -101,7 +101,7 @@
 									<ScaleTransform ScaleY="0.5" />
 								</Path.RenderTransform>
 							</Path>
-							<Image Source="/Controls;component/Images/Logo.png" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+							<Image Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Controls;component/Images/Logo.png" />
 						</Grid>
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsMouseOver" Value="True">
@@ -119,17 +119,31 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		<Style TargetType="{x:Type ContentControl}" x:Key="Ribbon">
+		<Style x:Key="Ribbon" TargetType="{x:Type ContentControl}">
 			<Setter Property="Width" Value="50" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type ContentControl}">
 						<Grid>
-							<ToggleButton x:Name="button" Style="{StaticResource RibbonButton}" Content="{TemplateBinding Content}" />
-							<Popup x:Name="popup" DataContext="{TemplateBinding DataContext}" IsOpen="{Binding IsChecked, ElementName=button}" Style="{StaticResource RibbonPopup}" PlacementTarget="{Binding ElementName=button}">
+							<ToggleButton x:Name="button" Content="{TemplateBinding Content}" Style="{StaticResource RibbonButton}" />
+							<Popup x:Name="popup" DataContext="{TemplateBinding DataContext}" IsOpen="{Binding IsChecked, ElementName=button}" PlacementTarget="{Binding ElementName=button}" Style="{StaticResource RibbonPopup}">
 								<Grid>
-									<Border Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" CornerRadius="5" BorderThickness="1" Padding="5,30,5,5">
-										<ContentPresenter />
+									<!--<Path Fill="{DynamicResource BaseWindowBackgroundBrush}" Stroke="{DynamicResource WindowBorderBrush}" StrokeThickness="1">
+										<Path.Data>
+											<CombinedGeometry GeometryCombineMode="Exclude">
+												<CombinedGeometry.Geometry1>
+													<RectangleGeometry RadiusX="5" RadiusY="5" Rect="0,0,200,400" />
+												</CombinedGeometry.Geometry1>
+												<CombinedGeometry.Geometry2>
+													<EllipseGeometry Center="30,0" RadiusX="25" RadiusY="25" />
+												</CombinedGeometry.Geometry2>
+											</CombinedGeometry>
+										</Path.Data>
+									</Path>-->
+									<Border Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" CornerRadius="5" BorderThickness="1">
+										<Border Background="{DynamicResource AlternativeBackgroundBrush}" Margin="5,30,5,5">
+											<ContentPresenter />
+										</Border>
 									</Border>
 									<ToggleButton IsChecked="{Binding IsChecked, ElementName=button}" Style="{x:Null}">
 										<ToggleButton.Template>
@@ -148,7 +162,7 @@
 						</Grid>
 						<ControlTemplate.Triggers>
 							<Trigger SourceName="popup" Property="IsOpen" Value="True">
-								<Setter Property="IsHitTestVisible" Value="False" TargetName="button" />
+								<Setter TargetName="button" Property="IsHitTestVisible" Value="False" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
