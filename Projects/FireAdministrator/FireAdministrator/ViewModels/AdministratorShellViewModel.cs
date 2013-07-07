@@ -17,7 +17,9 @@ namespace FireAdministrator.ViewModels
 			Width = 1000;
 			MinWidth = 1000;
 			MinHeight = 550;
-			Toolbar = new MenuViewModel();
+			var menu = new MenuViewModel();
+			Toolbar = menu;
+			RibbonContent = new RibbonViewModel(menu);
 			AllowLogoIcon = false;
 			RibbonVisible = true;
 		}

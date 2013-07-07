@@ -29,6 +29,9 @@ namespace Controls
 				//if (container != null)
 				//    container.Focus();
 				//FocusManager.SetFocusedElement(Window.GetWindow(this), container);
+				var dgrow = (DataGridRow)ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItem);
+				if (dgrow != null)
+					dgrow.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 			}
 		}
 

@@ -11,4 +11,8 @@
 	<DataTemplate DataType="{x:Type ViewModels:MenuViewModel}">
 		<Views:MenuView />
 	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:RibbonViewModel}">
+		<Views:RibbonView />
+	</DataTemplate>
 </ResourceDictionary>

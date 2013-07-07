@@ -119,10 +119,11 @@
 											</CombinedGeometry>
 										</Path.Data>
 									</Path>-->
-								<Border Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" CornerRadius="5" BorderThickness="1">
-									<Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" Margin="5,25,5,5" CornerRadius="5">
+								<Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" CornerRadius="5" BorderThickness="1">
+									<ContentPresenter Margin="5,25,5,5" />
+									<!--<Border Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" Margin="5,25,5,5" CornerRadius="5">
 										<ContentPresenter Margin="5"/>
-									</Border>
+									</Border>-->
 								</Border>
 								<ToggleButton IsChecked="{Binding IsChecked, ElementName=button}" Style="{x:Null}">
 									<ToggleButton.Template>

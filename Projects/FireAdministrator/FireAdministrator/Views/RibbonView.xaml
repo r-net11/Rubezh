@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="FireAdministrator.Views.RibbonView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Controls;assembly=Controls">
+	<ItemsControl>
+		<ItemsControl.Items>
+			<controls:ToolBarButton2 Command="{Binding Menu.CreateNewCommand}" HasText="True" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+			<controls:ToolBarButton2 Command="{Binding Menu.LoadFromFileCommand}" HasText="True" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+			<controls:ToolBarButton2 Command="{Binding Menu.SaveAsCommand}" HasText="True" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+			<controls:ToolBarButton2 Command="{Binding Menu.SaveAllCommand}" HasText="True" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+			<controls:ToolBarButton2 Command="{Binding Menu.ValidateCommand}" HasText="True" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+			<controls:ToolBarButton2 Command="{Binding Menu.SetNewConfigCommand}" HasText="True" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+		</ItemsControl.Items>
+	</ItemsControl>
+</UserControl>
