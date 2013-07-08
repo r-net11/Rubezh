@@ -216,5 +216,7 @@ namespace DevicesModule.ViewModels
 		{
 			get { return FiresecManager.IsFS2Enabled; }
 		}
+
+		public RelayCommand ReadJournalFromFileCommand { get; private set; }
     }
 }

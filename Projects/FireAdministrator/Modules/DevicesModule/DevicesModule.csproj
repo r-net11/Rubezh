@@ -160,7 +160,11 @@
     <Compile Include="Devices\FSAgent\ViewModels\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\OneDeviceParameterViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorPageDetailsViewModel.cs" />
@@ -199,6 +203,15 @@
     </Compile>
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DeviceParametersMenuView.xaml.cs">
+      <DependentUpon>DeviceParametersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\DeviceParametersMenuView.xaml.cs">
+      <DependentUpon>DeviceParametersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\DeviceParametersView.xaml.cs">
+      <DependentUpon>DeviceParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ParametersView.xaml.cs">
       <DependentUpon>ParametersView.xaml</DependentUpon>
@@ -255,7 +268,7 @@
     <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
-    <Compile Include="Plans\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\PlanDevicesViewModel.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
@@ -264,8 +277,8 @@
     <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
       <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plans\Views\DevicesView.xaml.cs">
-      <DependentUpon>DevicesView.xaml</DependentUpon>
+    <Compile Include="Plans\Views\PlanDevicesView.xaml.cs">
+      <DependentUpon>PlanDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
@@ -510,6 +523,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\Views\DeviceParametersMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\DeviceParametersMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\DeviceParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\ParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -622,6 +647,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Parameters\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -634,7 +663,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Plans\Views\DevicesView.xaml">
+    <Page Include="Plans\Views\PlanDevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -675,7 +704,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Devices\NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

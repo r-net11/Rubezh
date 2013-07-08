@@ -27,11 +27,11 @@ namespace DevicesModule.Plans
 	public class PlanExtension : IPlanExtension<Plan>
 	{
 		private static PlanExtension _instance;
-		private Devices.DevicesViewModel _devicesViewModel;
+		private DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		private ZonesViewModel _zonesViewModel;
 		private IEnumerable<IInstrument> _instruments;
-		public PlanExtension(Devices.DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel)
+		public PlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel)
 		{
 			_instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);

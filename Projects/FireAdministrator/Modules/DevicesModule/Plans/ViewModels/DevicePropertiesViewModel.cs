@@ -13,10 +13,10 @@ namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private Devices.DevicesViewModel _devicesViewModel;
+		private DevicesViewModel _devicesViewModel;
 		private ElementDevice _elementDevice;
 
-		public DevicePropertiesViewModel(Devices.DevicesViewModel devicesViewModel, ElementDevice elementDevice)
+		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство";
 			_elementDevice = elementDevice;

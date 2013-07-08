@@ -14,12 +14,12 @@ using Infrastructure.Common;
 
 namespace DevicesModule.Plans.ViewModels
 {
-	public class DevicesViewModel : BaseViewModel
+	public class PlanDevicesViewModel : BaseViewModel
 	{
-		private bool _lockSelection;
-		private Devices.DevicesViewModel _devicesViewModel;
+		bool _lockSelection;
+		DevicesViewModel _devicesViewModel;
 
-		public DevicesViewModel(Devices.DevicesViewModel devicesViewModel)
+		public PlanDevicesViewModel(DevicesViewModel devicesViewModel)
 		{
 			_lockSelection = false;
 			_devicesViewModel = devicesViewModel;

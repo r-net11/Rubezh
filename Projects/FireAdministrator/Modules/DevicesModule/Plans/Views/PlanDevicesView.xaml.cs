@@ -7,9 +7,9 @@ using Devices = DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.Views
 {
-	public partial class DevicesView : UserControl
+	public partial class PlanDevicesView : UserControl
 	{
-		public DevicesView()
+		public PlanDevicesView()
 		{
 			InitializeComponent();
 		}

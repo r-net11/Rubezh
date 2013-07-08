@@ -15,9 +15,19 @@ namespace DevicesModule.DeviceProperties
 		{
 			DriverProperty = driverProperty;
 			Device = device;
-			if (Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
 			{
 				Save(driverProperty.Default, false);
+			}
+			if (Device.DeviceParameters != null)
+			{
+				var deviceParameter = Device.DeviceParameters.FirstOrDefault(x => x.Name == driverProperty.Name);
+				if (deviceParameter != null)
+				{
+					DeviceValue = deviceParameter.Value;
+				}
+				else
+					DeviceValue = "None";
 			}
 		}
 
@@ -39,6 +49,17 @@ namespace DevicesModule.DeviceProperties
         {
             get { return DriverProperty.IsControl; }
         }
+
+		string _deviceValue;
+		public string DeviceValue
+		{
+			get { return _deviceValue; }
+			set
+			{
+				_deviceValue = value;
+				OnPropertyChanged("DeviceValue");
+			}
+		}
 
 		protected void Save(string value, bool useSaveService = true)
 		{

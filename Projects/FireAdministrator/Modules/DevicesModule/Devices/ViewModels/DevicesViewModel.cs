@@ -142,8 +142,8 @@ namespace DevicesModule.ViewModels
 			return deviceViewModel;
 		}
 
-		private Device _deviceToCopy;
-		private bool _planUpdateRequired;
+		Device _deviceToCopy;
+		bool _planUpdateRequired;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{

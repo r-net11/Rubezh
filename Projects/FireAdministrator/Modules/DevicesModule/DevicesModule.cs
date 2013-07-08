@@ -16,6 +16,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using DevicesModule.Plans;
 using DevicesModule.Plans.Designer;
+using DevicesModule.Plans.ViewModels;
 
 namespace DevicesModule
 {
@@ -23,6 +24,7 @@ namespace DevicesModule
 	{
 		private NavigationItem _guardNavigationItem;
 		private DevicesViewModel DevicesViewModel;
+		private DeviceParametersViewModel DeviceParametersViewModel;
 		private ZonesViewModel ZonesViewModel;
 		private DirectionsViewModel DirectionsViewModel;
 		private GuardViewModel GuardViewModel;
@@ -35,6 +37,7 @@ namespace DevicesModule
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
 
 			DevicesViewModel = new DevicesViewModel();
+			DeviceParametersViewModel = new DeviceParametersViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			GuardViewModel = new GuardViewModel();
@@ -57,6 +60,7 @@ namespace DevicesModule
 		public override void RegisterResource()
 		{
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
@@ -81,6 +85,7 @@ namespace DevicesModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
+				new NavigationItem<ShowDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/tree.png", null, null, Guid.Empty),
 				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
 				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty),
 				_guardNavigationItem

@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="DevicesModule.Views.DeviceParametersMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+
+    <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
+        <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="/Controls;component/Images/writeconfig.png" />
+        <Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать" ImageSource="/Controls;component/Images/readconfig.png" />
+    </StackPanel>
+</UserControl>
