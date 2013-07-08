@@ -36,6 +36,7 @@
         <File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FS2API.dll" Name="FS2API.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
       <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
