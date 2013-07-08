@@ -10,7 +10,7 @@
 				<DockPanel>
 					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Orientation="Horizontal">
-						<ContentControl Style="{StaticResource Ribbon}" Margin="5,0,0,0" Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" Content="{Binding RibbonContent}"/>
+						<ContentControl Style="{StaticResource Ribbon}" Margin="10,0,0,0" Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" Content="{Binding RibbonContent}"/>
 						<ContentPresenter Content="{Binding Toolbar}" />
 					</StackPanel>
 				</DockPanel>

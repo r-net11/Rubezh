@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using FiresecClient;
-using System.Windows.Media;
-using Xceed.Wpf.Toolkit;
 
 namespace DiagnosticsModule.Views
 {
-    public partial class DiagnosticsView : UserControl
-    {
-        public DiagnosticsView()
-        {
-            InitializeComponent();
-        }
+	public partial class DiagnosticsView : UserControl
+	{
+		public DiagnosticsView()
+		{
+			InitializeComponent();
+		}
 
 		private void AutoCompleteBox_Populating(object sender, PopulatingEventArgs e)
 		{
@@ -28,5 +26,5 @@ namespace DiagnosticsModule.Views
 		{
 			//ColorPicker
 		}
-    }
+	}
 }

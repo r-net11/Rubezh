@@ -37,11 +37,6 @@ namespace DevicesModule.ViewModels
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
 			SubscribeEvents();
-			EventManager.RegisterClassHandler(typeof(Window), Keyboard.GotKeyboardFocusEvent, new KeyboardFocusChangedEventHandler(OnGorKeyboardFocus), true);
-		}
-		private void OnGorKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-		{
-			Console.WriteLine("{0}\t\t->\t\t{1}", e.OldFocus, e.NewFocus);
 		}
 
 		public void Initialize()

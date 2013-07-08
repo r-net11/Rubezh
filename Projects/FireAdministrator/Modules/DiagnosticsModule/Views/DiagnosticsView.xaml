@@ -84,6 +84,11 @@
 									</Menu>
 								</ContentControl.Content>
 							</ContentControl>
+							<ContentControl Style="{StaticResource Ribbon}">
+								<ContentControl.Content>
+									<Views:RibbonMenu />
+								</ContentControl.Content>
+							</ContentControl>
 						</StackPanel>
 						<Button Width="300" Margin="2" Command="{Binding ShowDriversCommand}" Content="Драйверы" />
 						<Button Width="300" Margin="2" Command="{Binding ShowXDriversCommand}" Content="Драйверы ГК" />
@@ -176,6 +181,8 @@
 				<TextBlock Text="XXX YYY ZZZ" />
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Test" />
+		<TabItem Header="Test" IsSelected="True">
+			<Views:RibbonMenu />
+		</TabItem>
 	</TabControl>
 </UserControl>
