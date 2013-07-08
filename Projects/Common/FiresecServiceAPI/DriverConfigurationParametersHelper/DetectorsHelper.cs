@@ -25,6 +25,10 @@ namespace FiresecAPI.Models
 						ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01 дб/м", "AU_Smoke", 0, 18, 5, 20);
 						ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 65, 54, 85);
 						break;
+					case DriverType.RadioSmokeDetector:
+						driver.HasConfigurationProperties = true;
+						ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01 дб/м", "AU_Smoke", 0, 18, 5, 20);
+						break;
 				}
 			}
 		}
