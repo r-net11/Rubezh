@@ -260,6 +260,18 @@ namespace FiresecClient
 			}
 		}
 
+		public static List<ParameterTemplate> ParameterTemplates
+		{
+			get
+			{
+				if (FiresecConfiguration.DeviceConfiguration.ParameterTemplates == null)
+				{
+					FiresecConfiguration.DeviceConfiguration.ParameterTemplates = new List<ParameterTemplate>();
+				}
+				return FiresecConfiguration.DeviceConfiguration.ParameterTemplates;
+			}
+		}
+
 		private static void UpdateZoneType(IElementZone elementZone, Zone zone)
 		{
 			elementZone.BackgroundColor = System.Windows.Media.Colors.Black;

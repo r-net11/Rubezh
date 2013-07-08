@@ -11,4 +11,12 @@
         <Views:DeviceParametersMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ParameterTemplatesViewModel}">
+        <Views:ParameterTemplatesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ParameterTemplatesMenuViewModel}">
+        <Views:ParameterTemplatesMenuView />
+    </DataTemplate>
+
 </ResourceDictionary>

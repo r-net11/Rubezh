@@ -93,7 +93,7 @@ namespace FiltersModule.ViewModels
 			ServiceFactory.SaveService.FilterChanged = true;
 		}
 
-        private void RegisterShortcuts()
+        void RegisterShortcuts()
         {
             RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
             RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);

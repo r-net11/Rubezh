@@ -14,6 +14,7 @@ namespace FiresecAPI.Models
 			Zones = new List<Zone>();
 			Directions = new List<Direction>();
 			GuardUsers = new List<GuardUser>();
+			ParameterTemplates = new List<ParameterTemplate>();
 		}
 
 		public List<Device> Devices { get; set; }
@@ -29,6 +30,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<GuardUser> GuardUsers { get; set; }
+
+		[DataMember]
+		public List<ParameterTemplate> ParameterTemplates { get; set; }
 
 		public void Update()
 		{
@@ -166,6 +170,11 @@ namespace FiresecAPI.Models
 					zone.UID = Guid.NewGuid();
 					result = false;
 				}
+			}
+			if (ParameterTemplates == null)
+			{
+				ParameterTemplates = new List<ParameterTemplate>();
+				result = false;
 			}
 			return result;
         }
