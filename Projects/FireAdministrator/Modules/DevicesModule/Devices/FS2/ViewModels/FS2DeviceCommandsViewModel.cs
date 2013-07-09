@@ -16,7 +16,6 @@ namespace DevicesModule.ViewModels
     public class FS2DeviceCommandsViewModel : BaseViewModel
     {
         DevicesViewModel DevicesViewModel;
-        public FS2DeviceCommandsAuParametersViewModel DeviceCommandsAuParametersViewModel { get; private set; }
 
 		public FS2DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
         {
@@ -36,7 +35,6 @@ namespace DevicesModule.ViewModels
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
-            DeviceCommandsAuParametersViewModel = new FS2DeviceCommandsAuParametersViewModel(DevicesViewModel);
         }
 
         public DeviceViewModel SelectedDevice

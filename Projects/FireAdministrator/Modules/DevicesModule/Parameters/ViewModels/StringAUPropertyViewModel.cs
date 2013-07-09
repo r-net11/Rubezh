@@ -3,12 +3,12 @@ using FiresecAPI.Models;
 
 namespace DevicesModule.DeviceProperties
 {
-	public class StringPropertyViewModel : BasePropertyViewModel
+	public class StringAUPropertyViewModel : BaseAUPropertyViewModel
 	{
-		public StringPropertyViewModel(DriverProperty driverProperty, Device device)
+		public StringAUPropertyViewModel(DriverProperty driverProperty, Device device)
 			: base(driverProperty, device)
 		{
-			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+			var property = device.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 				_text = property.Value;
 			else

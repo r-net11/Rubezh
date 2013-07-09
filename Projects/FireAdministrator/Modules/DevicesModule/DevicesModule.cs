@@ -29,6 +29,7 @@ namespace DevicesModule
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
 		GuardViewModel GuardViewModel;
+		SimulationViewModel SimulationViewModel;
 		PlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -43,6 +44,7 @@ namespace DevicesModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			GuardViewModel = new GuardViewModel();
+			SimulationViewModel = new SimulationViewModel();
 			_planExtension = new PlanExtension(DevicesViewModel, ZonesViewModel);
 		}
 
@@ -67,6 +69,7 @@ namespace DevicesModule
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Simulation/DataTemplates/Dictionary.xaml"));
 		}
 		public override void Initialize()
 		{
@@ -93,6 +96,7 @@ namespace DevicesModule
 				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/tree.png", null, null, Guid.Empty),
 				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
 				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty),
+				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/tree.png", null, null, Guid.Empty) { IsVisible = false },
 				_guardNavigationItem
 			};
 		}

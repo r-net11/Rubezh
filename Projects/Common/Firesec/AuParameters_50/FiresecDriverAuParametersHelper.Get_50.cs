@@ -123,14 +123,14 @@ namespace Firesec_50
 								{
 									foreach (var resultProperty in devicePropertyRequest.Properties)
 									{
-										var property = devicePropertyRequest.Device.DeviceParameters.FirstOrDefault(x => x.Name == resultProperty.Name);
+										var property = devicePropertyRequest.Device.DeviceAUProperties.FirstOrDefault(x => x.Name == resultProperty.Name);
 										if (property == null)
 										{
 											property = new Property()
 											{
 												Name = resultProperty.Name
 											};
-											devicePropertyRequest.Device.DeviceParameters.Add(property);
+											devicePropertyRequest.Device.DeviceAUProperties.Add(property);
 										}
 										property.Value = resultProperty.Value;
 									}

@@ -16,8 +16,8 @@ namespace FiresecAPI.Models
 			UID = Guid.NewGuid();
 			Children = new List<Device>();
 			Properties = new List<Property>();
-			DeviceParameters = new List<Property>();
-			SystemParameters = new List<Property>();
+			SystemAUProperties = new List<Property>();
+			DeviceAUProperties = new List<Property>();
 			IndicatorLogic = new IndicatorLogic();
 			PDUGroupLogic = new PDUGroupLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -136,10 +136,10 @@ namespace FiresecAPI.Models
 		public List<Property> Properties { get; set; }
 
 		[DataMember]
-		public List<Property> DeviceParameters { get; set; }
+		public List<Property> DeviceAUProperties { get; set; }
 
 		[DataMember]
-		public List<Property> SystemParameters { get; set; }
+		public List<Property> SystemAUProperties { get; set; }
 
 		[DataMember]
 		public string Description { get; set; }

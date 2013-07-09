@@ -108,7 +108,7 @@ namespace DiagnosticsModule.ViewModels
 
 		public void UpdataConfigurationProperties()
 		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
 
@@ -513,7 +513,7 @@ namespace DiagnosticsModule.ViewModels
 
 		public void UpdataConfigurationProperties()
 		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
 

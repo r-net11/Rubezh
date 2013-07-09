@@ -19,6 +19,9 @@ namespace FiresecAPI.Models
 		public Guid UID { get; set; }
 
 		[DataMember]
+		public int No { get; set; }
+
+		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]

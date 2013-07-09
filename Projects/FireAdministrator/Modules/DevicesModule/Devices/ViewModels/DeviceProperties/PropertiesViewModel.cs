@@ -23,8 +23,6 @@ namespace DevicesModule.DeviceProperties
 
 		public PropertiesViewModel(Device device)
 		{
-			ParamVisCommand = new RelayCommand(OnParamVis);
-			PropVisCommand = new RelayCommand(OnPropVis);
 			Device = device;
 			StringProperties = new List<StringPropertyViewModel>();
 			BoolProperties = new List<BoolPropertyViewModel>();
@@ -71,49 +69,6 @@ namespace DevicesModule.DeviceProperties
 				OnPropertyChanged("IsMonitoringDisabled");
 				ServiceFactory.SaveService.FSChanged = true;
 			}
-		}
-
-		private bool parameterVis;
-        public bool ParameterVis
-        {
-            get { return parameterVis; }
-            set
-            {
-                parameterVis = value;
-                OnPropertyChanged("ParameterVis");
-            }
-        }
-		private bool choise = true;
-		public bool Choise
-		{
-			get
-			{
-				bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-							   (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-							   (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
-				if (choise1)
-				{
-					choise = false;
-					ParameterVis = false;
-				}
-				return choise;
-			}
-			set
-			{
-				choise = value;
-				OnPropertyChanged("Choise");
-			}
-		}
-
-		public RelayCommand ParamVisCommand { get; private set; }
-		private void OnParamVis()
-		{
-			ParameterVis = true;
-		}
-		public RelayCommand PropVisCommand { get; private set; }
-		private void OnPropVis()
-		{
-			ParameterVis = false;
 		}
 
 		bool IsFakeTimeoutProperty(DriverProperty driverProperty)

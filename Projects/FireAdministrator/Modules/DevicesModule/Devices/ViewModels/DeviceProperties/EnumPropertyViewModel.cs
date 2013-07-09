@@ -80,16 +80,5 @@ namespace DevicesModule.DeviceProperties
 				Save(value.Value);
 			}
 		}
-
-		public string SelectedDeviceParameter
-		{
-			get
-			{
-				var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Value == DeviceValue);
-				if (driverPropertyParameter != null)
-					return driverPropertyParameter.Name;
-				return "Неизвестно";
-			}
-		}
 	}
 }

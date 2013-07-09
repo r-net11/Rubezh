@@ -121,7 +121,6 @@
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="Devices\FS2\FS2ProgressService.cs" />
-    <Compile Include="Devices\FS2\ViewModels\FS2DeviceCommandsAuParametersViewModel.cs" />
     <Compile Include="Devices\FS2\ViewModels\FS2DeviceJournalViewModel.cs" />
     <Compile Include="Devices\FS2\Views\FS2DeviceJournalView.xaml.cs">
       <DependentUpon>FS2DeviceJournalView.xaml</DependentUpon>
@@ -152,7 +151,6 @@
     <Compile Include="Devices\FSAgent\ViewModels\AutoSearchDeviceViewModel.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\AutoSearchViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\AutoDetectDeviceHelper.cs" />
-    <Compile Include="Devices\FSAgent\ViewModels\DeviceCommandsAuParametersViewModel.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceConfigurationViewModel.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceDescriptionViewModel.cs" />
@@ -160,11 +158,13 @@
     <Compile Include="Devices\FSAgent\ViewModels\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterTemplateViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\EnumAUPropertyViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplateSelectationViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesMenuViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesViewModel.cs" />
@@ -208,17 +208,12 @@
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\DeviceParametersMenuView.xaml.cs">
-      <DependentUpon>DeviceParametersMenuView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Parameters\ViewModels\StringAUPropertyViewModel.cs" />
     <Compile Include="Parameters\Views\DeviceParametersMenuView.xaml.cs">
       <DependentUpon>DeviceParametersMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\Views\DeviceParametersView.xaml.cs">
       <DependentUpon>DeviceParametersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\ParametersView.xaml.cs">
-      <DependentUpon>ParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PasteAsView.xaml.cs">
       <DependentUpon>PasteAsView.xaml</DependentUpon>
@@ -295,6 +290,10 @@
     </Compile>
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Simulation\ViewModels\SimulationViewModel.cs" />
+    <Compile Include="Simulation\Views\SimulationView.xaml.cs">
+      <DependentUpon>SimulationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
@@ -536,19 +535,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\DeviceParametersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Parameters\Views\DeviceParametersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Parameters\Views\DeviceParametersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\ParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -693,6 +684,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\ZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Simulation\Views\SimulationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Simulation\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

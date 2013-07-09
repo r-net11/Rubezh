@@ -67,14 +67,12 @@ namespace DevicesModule.ViewModels
 
 		public void UpdateConfigurationProperties()
 		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
 
 		public void Update()
 		{
-			//IsExpanded = false;
-			//IsExpanded = true;
 			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
