@@ -143,7 +143,7 @@
 											<ContentPresenter />
 										</ControlTemplate>
 									</ToggleButton.Template>
-									<Ellipse Width="{Binding Width, ElementName=button}" Height="{Binding Height, ElementName=button}" Margin="5,-20" HorizontalAlignment="Left" VerticalAlignment="Top">
+									<Ellipse x:Name="ellipse" Width="{Binding Width, ElementName=button}" Height="{Binding Height, ElementName=button}" Margin="5,-20" HorizontalAlignment="Left" VerticalAlignment="Top">
 										<Ellipse.Fill>
 											<VisualBrush x:Name="roundBrush" Visual="{Binding ElementName=button}" />
 										</Ellipse.Fill>

@@ -3,16 +3,17 @@
 		<Style TargetType="{x:Type loc:RibbonItem}">
 			<Setter Property="Height" Value="40" />
 			<Setter Property="MinWidth" Value="40" />
+			<Setter Property="IsSelected" Value="False" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type loc:RibbonItem}">
-						<Border Name="border" BorderThickness="1" Background="Gray" BorderBrush="Transparent" Padding="2" Margin="2" CornerRadius="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True" Visibility="{TemplateBinding Visibility}">
-							<Button Style="{x:Null}" Command="{TemplateBinding Command}" IsEnabled="{Binding Command, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource NullToBoolConverter}}">
-								<Button.Template>
-									<ControlTemplate TargetType="{x:Type Button}" >
-										<ContentPresenter />
-									</ControlTemplate>
-								</Button.Template>
+						<ToggleButton x:Name="button" Style="{x:Null}" Command="{TemplateBinding Command}" IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+							<ToggleButton.Template>
+								<ControlTemplate TargetType="{x:Type ToggleButton}">
+									<ContentPresenter />
+								</ControlTemplate>
+							</ToggleButton.Template>
+							<Border Name="border" BorderThickness="1" Background="Gray" BorderBrush="Transparent" Padding="2" Margin="2" CornerRadius="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True" Visibility="{TemplateBinding Visibility}">
 								<Grid>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="40" />
@@ -21,10 +22,10 @@
 									</Grid.ColumnDefinitions>
 									<Image Grid.Column="0" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" />
 									<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="2" />
-									<Image Grid.Column="2" Source="/Controls;component/Images/Arrow-left-right.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Visibility="{Binding Content, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource NullToVisibilityConverter}}" />
+									<Image Grid.Column="2" Source="/Controls;component/Images/Arrow-left-right.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Visibility="{Binding HasContent, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource BoolToVisibilityConverter}}" />
 								</Grid>
-							</Button>
-						</Border>
+							</Border>
+						</ToggleButton>
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsMouseOver" Value="True">
 								<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
@@ -44,6 +45,7 @@
 		<Style TargetType="{x:Type  loc:RibbonMenu}">
 			<Setter Property="OverridesDefaultStyle" Value="True" />
 			<Setter Property="SnapsToDevicePixels" Value="True" />
+			<Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type loc:RibbonMenu}">
@@ -57,85 +59,89 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-
 	</UserControl.Resources>
-	<ContentControl Style="{StaticResource Ribbon}" HorizontalAlignment="Left" VerticalAlignment="Top">
+	<ContentControl Style="{StaticResource Ribbon}" HorizontalAlignment="Left" VerticalAlignment="Top" FocusManager.FocusedElement="{Binding ElementName=ribbon}" x:Name="ribbon">
 		<ContentControl.Content>
 			<loc:RibbonMenu SelectedIndex="-1">
-				<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-				<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-				<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-				<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-				<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-				<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-				<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-				<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
-				<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+				<loc:RibbonItem Text="Сохранить" ToolTip="Сохранить конфигурацию в файл">
+					<StackPanel Orientation="Vertical">
+						<CheckBox Content="Tessst" />
+						<TextBox />
+					</StackPanel>
+				</loc:RibbonItem>
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+				<loc:RibbonItem ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
 					<loc:RibbonMenu>
-						<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
+						<loc:RibbonItem ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
 							<loc:RibbonMenu>
-								<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-								<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-								<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-								<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-								<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-								<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 							</loc:RibbonMenu>
 						</loc:RibbonItem>
-						<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-						<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-						<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-						<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-						<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-						<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 					</loc:RibbonMenu>
 				</loc:RibbonItem>
-				<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
+				<loc:RibbonItem ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
 					<loc:RibbonMenu>
-						<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
+						<loc:RibbonItem ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
 							<loc:RibbonMenu>
-								<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-								<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-								<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-								<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-								<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-								<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 							</loc:RibbonMenu>
 						</loc:RibbonItem>
-						<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
+						<loc:RibbonItem ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
 							<loc:RibbonMenu>
-								<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
+								<loc:RibbonItem ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию">
 									<loc:RibbonMenu>
-										<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-										<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-										<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-										<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-										<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-										<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+										<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+										<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+										<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+										<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+										<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+										<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 									</loc:RibbonMenu>
 								</loc:RibbonItem>
-								<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-								<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-								<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-								<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-								<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-								<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+								<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 							</loc:RibbonMenu>
 						</loc:RibbonItem>
-						<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-						<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-						<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-						<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-						<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-						<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+						<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 					</loc:RibbonMenu>
 				</loc:RibbonItem>
-				<loc:RibbonItem Command="{Binding Menu.CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
-				<loc:RibbonItem Command="{Binding Menu.LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
-				<loc:RibbonItem Command="{Binding Menu.SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
-				<loc:RibbonItem Command="{Binding Menu.SaveAllCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
-				<loc:RibbonItem Command="{Binding Menu.ValidateCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
-				<loc:RibbonItem Command="{Binding Menu.SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/new.png" Text="Новый" ToolTip="Создать новую конфигурацию" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/load.png" Text="Считать" ToolTip="Считать конфигурацию из файла" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/save.png" Text="Сохранить" ToolTip="Сохранить конфигурацию в файл" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/SaveAll.png" Text="Сохранить всё" ToolTip="Сохранить всё" Visibility="Collapsed" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/check.png" Text="Проверить" ToolTip="Проверить конфигурацию" />
+				<loc:RibbonItem Command="{Binding BalloonTestCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию" />
 			</loc:RibbonMenu>
 		</ContentControl.Content>
 	</ContentControl>

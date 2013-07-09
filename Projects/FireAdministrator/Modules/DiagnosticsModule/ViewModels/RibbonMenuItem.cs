@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.ComponentModel;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -17,15 +18,21 @@ namespace DiagnosticsModule.ViewModels
 		public RibbonMenu()
 		{
 			TabStripPlacement = Dock.Left;
-			ItemContainerGenerator.StatusChanged += ItemContainerGeneratorStatusChanged;
-			Loaded += new RoutedEventHandler(RibbonMenu_Loaded);
-		}
 
-		private void RibbonMenu_Loaded(object sender, RoutedEventArgs e)
+		}
+		protected override void OnInitialized(EventArgs e)
 		{
-			var collection = CollectionViewSource.GetDefaultView(Items);
-
+			base.OnInitialized(e);
+			ItemContainerGenerator.StatusChanged += new EventHandler(ItemContainerGenerator_StatusChanged);
+			//var collection = CollectionViewSource.GetDefaultView(Items);
 		}
+
+		private void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)
+		{
+			if (ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
+				SelectedIndex = -1;
+		}
+
 		protected override DependencyObject GetContainerForItemOverride()
 		{
 			return new RibbonItem();
@@ -38,17 +45,38 @@ namespace DiagnosticsModule.ViewModels
 		{
 			base.PrepareContainerForItemOverride(element, item);
 		}
-		private void ItemContainerGeneratorStatusChanged(object sender, EventArgs e)
-		{
-			//if (((ItemContainerGenerator)sender).Status == GeneratorStatus.ContainersGenerated && SelectedIndex != -1)
-			//    SelectedIndex = -1;
-		}
+
 	}
 	public class RibbonItem : TabItem
 	{
 		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(RibbonItem));
 		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(RibbonItem));
 		public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(RibbonItem));
+
+		private CoerceValueCallback _callback;
+		public RibbonItem()
+		{
+			DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(RibbonItem.IsSelectedProperty, typeof(RibbonItem));
+			if (dpd != null)
+			{
+				_callback = dpd.DesignerCoerceValueCallback;
+				dpd.DesignerCoerceValueCallback = new CoerceValueCallback(CoerceValueCallback);
+				dpd.AddValueChanged(this, (s, e) =>
+				{
+					var item = s as RibbonItem;
+					if (item != null && item.IsSelected && !item.HasContent)
+						item.IsSelected = false;
+				});
+			}
+		}
+		private object CoerceValueCallback(DependencyObject obj, object val)
+		{
+			var item = obj as RibbonItem;
+			var result = _callback == null ? val : _callback(obj, val);
+			if (item == null)
+				return result;
+			return (bool)result && item.HasContent;
+		}
 
 		public string ImageSource
 		{
