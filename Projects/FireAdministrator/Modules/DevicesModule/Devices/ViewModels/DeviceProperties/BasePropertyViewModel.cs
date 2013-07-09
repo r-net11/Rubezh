@@ -19,16 +19,6 @@ namespace DevicesModule.DeviceProperties
 			{
 				Save(driverProperty.Default, false);
 			}
-			if (Device.DeviceParameters != null)
-			{
-				var deviceParameter = Device.DeviceParameters.FirstOrDefault(x => x.Name == driverProperty.Name);
-				if (deviceParameter != null)
-				{
-					DeviceValue = deviceParameter.Value;
-				}
-				else
-					DeviceValue = "Неизвестно";
-			}
 		}
 
 		public string Caption
@@ -45,33 +35,22 @@ namespace DevicesModule.DeviceProperties
 		{
 			get { return DriverProperty.IsAUParameter; }
 		}
-        public bool IsControl
-        {
-            get { return DriverProperty.IsControl; }
-        }
-
-		string _deviceValue;
-		public string DeviceValue
+		public bool IsControl
 		{
-			get { return _deviceValue; }
-			set
-			{
-				_deviceValue = value;
-				OnPropertyChanged("DeviceValue");
-			}
+			get { return DriverProperty.IsControl; }
 		}
 
 		protected void Save(string value, bool useSaveService = true)
 		{
-            if (useSaveService)
-            {
-                ServiceFactory.SaveService.FSChanged = true;
-            }
+			if (useSaveService)
+			{
+				ServiceFactory.SaveService.FSChanged = true;
+			}
 
 			if (Device.Properties == null)
 				Device.Properties = new List<Property>();
-			var property = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 
+			var property = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			if (property != null)
 			{
 				property.Name = DriverProperty.Name;

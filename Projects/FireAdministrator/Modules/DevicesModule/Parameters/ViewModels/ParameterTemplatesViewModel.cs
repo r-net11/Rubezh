@@ -61,9 +61,11 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			var maxNo = FiresecManager.ParameterTemplates.Max(x => x.No);
 			var parameterTemplate = new ParameterTemplate()
 			{
-				Name = "Шаблон " + ParameterTemplates.Count
+				Name = "Шаблон " + (maxNo + 1).ToString(),
+				No = maxNo + 1
 			};
 			FiresecManager.ParameterTemplates.Add(parameterTemplate);
 			Invalidate();
@@ -132,7 +134,7 @@ namespace DevicesModule.ViewModels
 						{
 							if (driverProperty.IsAUParameter)
 							{
-								var property = deviceParameterTemplate.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+								var property = deviceParameterTemplate.Device.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 								if (property == null)
 								{
 									property = new Property()
@@ -140,14 +142,14 @@ namespace DevicesModule.ViewModels
 										Name = driverProperty.Name,
 										Value = driverProperty.Default
 									};
-									deviceParameterTemplate.Device.Properties.Add(property);
+									deviceParameterTemplate.Device.SystemAUProperties.Add(property);
 								}
 								property.DriverProperty = driverProperty;
 								properties.Add(property);
 							}
 						}
 
-						deviceParameterTemplate.Device.Properties = properties;
+						deviceParameterTemplate.Device.SystemAUProperties = properties;
 					}
 				}
 			}

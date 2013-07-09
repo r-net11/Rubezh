@@ -46,5 +46,10 @@ namespace DevicesModule.ViewModels
 				OnPropertyChanged("Name");
 			}
 		}
+
+		public bool IsEnabled
+		{
+			get { return Name != "По умолчанию"; }
+		}
 	}
 }

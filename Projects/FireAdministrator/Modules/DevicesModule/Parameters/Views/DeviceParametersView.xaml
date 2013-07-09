@@ -22,6 +22,13 @@
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsMissmatch}" Value="True">
+                    <DataTrigger.Setters>
+                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                    </DataTrigger.Setters>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <ContextMenu x:Key="DeviceContextMenu">
@@ -66,7 +73,19 @@
                                             <ControlTemplate>
                                                 <Grid>
                                                     <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
-                                                    <TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.Driver.ShortName}" />
+                                                    <TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.Driver.ShortName}">
+														<TextBlock.Style>
+															<Style>
+																<Style.Triggers>
+																	<DataTrigger Binding="{Binding IsMissmatch}" Value="True">
+																		<DataTrigger.Setters>
+																			<Setter Property="TextBlock.FontWeight" Value="Bold" />
+																		</DataTrigger.Setters>
+																	</DataTrigger>
+																</Style.Triggers>
+															</Style>
+														</TextBlock.Style>
+                                                    </TextBlock>
                                                 </Grid>
                                             </ControlTemplate>
                                         </Controls:EditorPresenter.ViewTemplate>
@@ -125,7 +144,7 @@
                         <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
                     </Grid>
 
-                    <ItemsControl ItemsSource="{Binding StringProperties}">
+                    <ItemsControl ItemsSource="{Binding StringAUProperties}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -136,28 +155,12 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
                                     <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-                                    <TextBox Grid.Column="2" Text="{Binding DeviceValue}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                    <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding BoolProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-                                    <CheckBox Grid.Column="2" IsChecked="{Binding IsDeviceChecked, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding EnumProperties}">
+                    <ItemsControl ItemsSource="{Binding EnumAUProperties}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -174,7 +177,7 @@
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
-                                    <TextBox Grid.Column="2" Text="{Binding SelectedDeviceParameter, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                    <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

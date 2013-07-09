@@ -94,7 +94,9 @@ namespace FiresecAPI.Models
 					IntAddress = currentDevice.IntAddress,
 					Description = currentDevice.Description,
                     ZoneUID = currentDevice.ZoneUID,
-					Properties = new List<Property>(currentDevice.Properties)
+					Properties = new List<Property>(currentDevice.Properties),
+					SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties),
+					DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties)
 				};
 				if ((currentDevice.UID == device.UID))
 				{

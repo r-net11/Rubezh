@@ -83,6 +83,7 @@
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
+    <Compile Include="Events\ShowSimulationEvent.cs" />
     <Compile Include="Events\ShowParameterTemplatesEvent.cs" />
     <Compile Include="Events\CreateXDirectionEvent.cs" />
     <Compile Include="Events\EditXDirectionEvent.cs" />

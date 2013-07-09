@@ -15,7 +15,6 @@ namespace DevicesModule.ViewModels
     public class DeviceCommandsViewModel : BaseViewModel
     {
         DevicesViewModel DevicesViewModel;
-        public DeviceCommandsAuParametersViewModel DeviceCommandsAuParametersViewModel { get; private set; }
 
         public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
         {
@@ -33,7 +32,6 @@ namespace DevicesModule.ViewModels
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
-            DeviceCommandsAuParametersViewModel = new DeviceCommandsAuParametersViewModel(DevicesViewModel);
         }
 
         public DeviceViewModel SelectedDevice

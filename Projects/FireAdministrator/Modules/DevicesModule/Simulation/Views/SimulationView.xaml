@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Devices.Views.DeviceParametersMenuView"
+﻿<UserControl x:Class="DevicesModule.Views.SimulationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
