@@ -164,11 +164,11 @@
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterTemplateViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\OneDeviceParameterViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\ParameterTemplateSelectationViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesMenuViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplateViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\ParameterViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorPageDetailsViewModel.cs" />
@@ -264,6 +264,9 @@
     </Compile>
     <Compile Include="Guard\Views\GuardSynchronizationView.xaml.cs">
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\ParameterTemplateSelectationView.xaml.cs">
+      <DependentUpon>ParameterTemplateSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\Views\ParameterTemplatesMenuView.xaml.cs">
       <DependentUpon>ParameterTemplatesMenuView.xaml</DependentUpon>
@@ -661,6 +664,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Parameters\Views\ParameterTemplateSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Parameters\Views\ParameterTemplatesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -722,9 +729,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Devices\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

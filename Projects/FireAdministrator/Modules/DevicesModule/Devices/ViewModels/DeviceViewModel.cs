@@ -61,11 +61,11 @@ namespace DevicesModule.ViewModels
 
 		void device_AUParametersChanged()
 		{
-			UpdataConfigurationProperties();
+			UpdateConfigurationProperties();
 			PropertiesViewModel.IsAuParametersReady = true;
 		}
 
-		public void UpdataConfigurationProperties()
+		public void UpdateConfigurationProperties()
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
 			OnPropertyChanged("PropertiesViewModel");

@@ -4,6 +4,7 @@ namespace Infrastructure
 {
 	public class SaveService
 	{
+		public int FSChangesCount { get; private set; }
 		bool _fsChanged;
 		public bool FSChanged
 		{
@@ -12,6 +13,7 @@ namespace Infrastructure
 			{
 				_fsChanged = value;
 				OnChanged();
+				FSChangesCount++;
 			}
 		}
 

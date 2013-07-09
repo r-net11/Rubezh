@@ -15,6 +15,7 @@
         <viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
         <viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
         <viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
+
         <Style TargetType="Label" x:Key="PropertyCaptionStyle">
             <Setter Property="Content" Value="{Binding Caption}" />
             <Setter Property="ToolTip" Value="{Binding Caption}" />
@@ -22,15 +23,28 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="White" />
         </Style>
+
+        <ContextMenu x:Key="DeviceContextMenu">
+            <MenuItem Command="{Binding ReadCommand}" Header="Считать параметры" />
+            <MenuItem Command="{Binding ReadAllCommand}" Header="Считать параметры дочерних устройств" />
+            <MenuItem Command="{Binding WriteCommand}" Header="Записать параметры" />
+            <MenuItem Command="{Binding WriteAllCommand}" Header="Записать параметры дочерних устройств" />
+            <MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
+            <MenuItem Command="{Binding CopyCommand}" Header="Копировать" />
+            <MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
+            <MenuItem Command="{Binding PasteAllCommand}" Header="Вставить во все дочерние устройства" />
+            <MenuItem Command="{Binding PasteTemplateCommand}" Header="Применить шаблон" />
+            <MenuItem Command="{Binding PasteAllTemplateCommand}" Header="Применить шаблон ко всем дочерним устройствам" />
+        </ContextMenu>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition MinWidth="200" Width="*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition MinWidth="200" Width="*" />
         </Grid.ColumnDefinitions>
-        <tree:TreeList Grid.Column="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
+        <tree:TreeList Grid.Column="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True" ContextMenu="{StaticResource DeviceContextMenu}">
             <tree:TreeList.Resources>
                 <Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
                     <Setter Property="MinWidth" Value="0" />
@@ -46,16 +60,18 @@
                     <GridViewColumn Width="250" Header="Устройство" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Controls:EditorPresenter>
-                                    <Controls:EditorPresenter.ViewTemplate>
-                                        <ControlTemplate>
-                                            <Grid>
-                                                <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
-                                                <TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Controls:EditorPresenter.ViewTemplate>
-                                </Controls:EditorPresenter>
+                                <DockPanel>
+                                    <Controls:EditorPresenter>
+                                        <Controls:EditorPresenter.ViewTemplate>
+                                            <ControlTemplate>
+                                                <Grid>
+                                                    <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
+                                                    <TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.Driver.ShortName}" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Controls:EditorPresenter.ViewTemplate>
+                                    </Controls:EditorPresenter>
+                                </DockPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -65,7 +81,7 @@
                                 <Controls:EditorPresenter>
                                     <Controls:EditorPresenter.ViewTemplate>
                                         <ControlTemplate>
-                                            <TextBlock Text="{Binding Address}" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <TextBlock Text="{Binding Device.PresentationAddress}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
                                         </ControlTemplate>
                                     </Controls:EditorPresenter.ViewTemplate>
                                 </Controls:EditorPresenter>
@@ -75,20 +91,7 @@
                     <GridViewColumn Width="200" Header="Зона" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Name="ZoneTextBlock" MinWidth="100" Cursor="Hand" Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-										<TextBlock.Style>
-											<Style TargetType="TextBlock">
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding IsZoneGrayed}" Value="True">
-														<Setter Property="TextBlock.Foreground" Value="Gray" />
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Style>
-                                    </TextBlock>
-                                </StackPanel>
+                                <TextBlock Text="{Binding PresentationZone}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -98,7 +101,7 @@
                                 <Controls:EditorPresenter>
                                     <Controls:EditorPresenter.ViewTemplate>
                                         <ControlTemplate>
-                                            <TextBlock Text="{Binding Description}" />
+                                            <TextBlock Text="{Binding Device.Description}" />
                                         </ControlTemplate>
                                     </Controls:EditorPresenter.ViewTemplate>
                                 </Controls:EditorPresenter>
@@ -109,77 +112,75 @@
             </tree:TreeList.View>
         </tree:TreeList>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-            <Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5"
-                    DataContext="{Binding OneDeviceParameterViewModel}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Название" Foreground="White" FontWeight="Bold" Margin="2" />
-                            <TextBlock Grid.Column="1" Text="В системе" Foreground="White" FontWeight="Bold" Margin="2" />
-                            <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
-                        </Grid>
+        <Border Grid.Column="2" DataContext="{Binding SelectedDevice}" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+            <ScrollViewer Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="В системе" Foreground="White" FontWeight="Bold" Margin="2" />
+                        <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
+                    </Grid>
 
-                        <ItemsControl ItemsSource="{Binding StringProperties}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="2" Text="{Binding DeviceValue}" Foreground="White" Margin="2" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl ItemsSource="{Binding BoolProperties}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                        <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
-                                        <TextBlock Grid.Column="2" Text="{Binding DeviceValue}" Foreground="White" Margin="2" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl ItemsSource="{Binding EnumProperties}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Name}" />
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <TextBlock Grid.Column="2" Text="{Binding DeviceValue}" Foreground="White" Margin="2" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </ScrollViewer>
-            </Border>
+                    <ItemsControl ItemsSource="{Binding StringProperties}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                    <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+                                    <TextBox Grid.Column="2" Text="{Binding DeviceValue}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding BoolProperties}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                    <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+                                    <CheckBox Grid.Column="2" IsChecked="{Binding IsDeviceChecked, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding EnumProperties}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox Grid.Column="2" Text="{Binding SelectedDeviceParameter, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </UserControl>

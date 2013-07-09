@@ -27,7 +27,7 @@ namespace DevicesModule.DeviceProperties
 					DeviceValue = deviceParameter.Value;
 				}
 				else
-					DeviceValue = "None";
+					DeviceValue = "Неизвестно";
 			}
 		}
 

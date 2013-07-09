@@ -12,14 +12,15 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="100" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="100" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="200" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="200" MinHeight="200" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" MinHeight="200" />
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding ParameterTemplates}" SelectedItem="{Binding SelectedParameterTemplate}" CanUserSortColumns="True" Margin="2">
                 <DataGrid.Columns>
@@ -32,7 +33,8 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Grid.Row="1" DataContext="{Binding SelectedParameterTemplate}" ItemsSource="{Binding DeviceParameterTemplates}" SelectedItem="{Binding SelectedDeviceParameterTemplate}" CanUserSortColumns="True" Margin="2">
+            <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+            <DataGrid Grid.Row="2" DataContext="{Binding SelectedParameterTemplate}" ItemsSource="{Binding DeviceParameterTemplates}" SelectedItem="{Binding SelectedDeviceParameterTemplate}" CanUserSortColumns="True" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Обозначение" Width="150" SortMemberPath="Driver.ShortName">
                         <DataGridTemplateColumn.CellTemplate>
@@ -54,10 +56,9 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <GridSplitter Grid.Column="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-        
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
         <Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" DataContext="{Binding SelectedParameterTemplate}" Margin="2">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" DataContext="{Binding SelectedDeviceParameterTemplate.OneDeviceParameterViewModel}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" DataContext="{Binding SelectedDeviceParameterTemplate.DeviceParameterViewModel}">
                 <StackPanel Margin="5">
                     <ItemsControl ItemsSource="{Binding StringProperties}">
                         <ItemsControl.ItemTemplate>

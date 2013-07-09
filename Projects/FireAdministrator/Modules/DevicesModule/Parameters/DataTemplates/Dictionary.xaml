@@ -19,4 +19,8 @@
         <Views:ParameterTemplatesMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ParameterTemplateSelectationViewModel}">
+        <Views:ParameterTemplateSelectationView />
+    </DataTemplate> 
+
 </ResourceDictionary>

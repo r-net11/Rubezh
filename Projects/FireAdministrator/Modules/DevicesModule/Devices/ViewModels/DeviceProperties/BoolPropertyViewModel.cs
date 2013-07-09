@@ -26,5 +26,10 @@ namespace DevicesModule.DeviceProperties
 				Save(value ? "1" : "0");
 			}
 		}
+
+		public bool IsDeviceChecked
+		{
+			get { return DeviceValue != null && DeviceValue == "1"; }
+		}
 	}
 }
