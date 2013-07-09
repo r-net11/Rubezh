@@ -17,18 +17,30 @@ using DevicesModule.Plans.Designer;
 using Infrustructure.Plans.Events;
 using Common;
 using DevicesModule.Plans;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
 	public class DeviceParametersViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection;
-
 		public DeviceParametersViewModel()
 		{
 			Menu = new DeviceParametersMenuViewModel(this);
-			WriteCommand = new RelayCommand(OnWrite);
-			ReadCommand = new RelayCommand(OnRead);
+			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
+			WriteCommand = new RelayCommand(OnWrite, CanReadWrite);
+			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
+			WriteAllCommand = new RelayCommand(OnWriteAll, CanReadWriteAll);
+			
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			PasteAllCommand = new RelayCommand(OnPasteAll, CanPasteAll);
+			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
+			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
+
+			SyncFromSystemToDeviceCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
+			SyncFromAllSystemToDeviceCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
+			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
+			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 		}
 
 		public void Initialize()
@@ -54,18 +66,18 @@ namespace DevicesModule.ViewModels
 		}
 
 		#region Tree
-		public List<DeviceViewModel> AllDevices;
+		public List<DeviceParameterViewModel> AllDevices;
 
 		public void FillAllDevices()
 		{
-			AllDevices = new List<DeviceViewModel>();
+			AllDevices = new List<DeviceParameterViewModel>();
 			AddChildPlainDevices(RootDevice);
 		}
 
-		void AddChildPlainDevices(DeviceViewModel parentViewModel)
+		void AddChildPlainDevices(DeviceParameterViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
-			foreach (DeviceViewModel childViewModel in parentViewModel.Children)
+			foreach (DeviceParameterViewModel childViewModel in parentViewModel.Children)
 				AddChildPlainDevices(childViewModel);
 		}
 
@@ -83,30 +95,8 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
-		{
-			get { return _selectedDevice; }
-			set
-			{
-				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
-				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
-
-				if (value != null)
-				{
-					OneDeviceParameterViewModel = new OneDeviceParameterViewModel(value.Device);
-				}
-				else
-				{
-					OneDeviceParameterViewModel = new OneDeviceParameterViewModel(null);
-				}
-			}
-		}
-
-		DeviceViewModel _rootDevice;
-		public DeviceViewModel RootDevice
+		DeviceParameterViewModel _rootDevice;
+		public DeviceParameterViewModel RootDevice
 		{
 			get { return _rootDevice; }
 			private set
@@ -116,9 +106,9 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public DeviceViewModel[] RootDevices
+		public DeviceParameterViewModel[] RootDevices
 		{
-			get { return new DeviceViewModel[] { RootDevice }; }
+			get { return new DeviceParameterViewModel[] { RootDevice }; }
 		}
 
 		void BuildTree()
@@ -127,15 +117,15 @@ namespace DevicesModule.ViewModels
 			FillAllDevices();
 		}
 
-		public DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+		public DeviceParameterViewModel AddDevice(Device device, DeviceParameterViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
 			FillAllDevices();
 			return deviceViewModel;
 		}
-		DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+		DeviceParameterViewModel AddDeviceInternal(Device device, DeviceParameterViewModel parentDeviceViewModel)
 		{
-			var deviceViewModel = new DeviceViewModel(device);
+			var deviceViewModel = new DeviceParameterViewModel(device);
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
 
@@ -145,33 +135,332 @@ namespace DevicesModule.ViewModels
 		}
 		#endregion
 
-		OneDeviceParameterViewModel _oneDeviceParameterViewModel;
-		public OneDeviceParameterViewModel OneDeviceParameterViewModel
+		DeviceParameterViewModel _selectedDevice;
+		public DeviceParameterViewModel SelectedDevice
 		{
-			get { return _oneDeviceParameterViewModel; }
+			get { return _selectedDevice; }
 			set
 			{
-				_oneDeviceParameterViewModel = value;
-				OnPropertyChanged("OneDeviceParameterViewModel");
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+
+				if (value != null)
+				{
+					value.Update();
+				}
 			}
-		}
-
-		public RelayCommand WriteCommand { get; private set; }
-		void OnWrite()
-		{
-
 		}
 
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			
+			WaitHelper.Execute(() =>
+			{
+				SelectedDevice.Device.DeviceParameters.Clear();
+				SelectedDevice.Update();
+				ReadOneDevice(SelectedDevice.Device);
+			});
+			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 
+		public RelayCommand WriteCommand { get; private set; }
+		void OnWrite()
+		{
+			WaitHelper.Execute(() =>
+			{
+				WriteOneDevice(SelectedDevice.Device);
+			});
+		}
+
+		bool CanReadWrite()
+		{
+			return SelectedDevice != null && SelectedDevice.HasAUParameters;
+		}
+
+		public RelayCommand ReadAllCommand { get; private set; }
+		void OnReadAll()
+		{
+			WaitHelper.Execute(() =>
+			{
+				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				{
+					device.DeviceParameters.Clear();
+					var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+					{
+						deviceViewModel.Update();
+					}
+					ReadOneDevice(device);
+				}
+			});
+		}
+
+		public RelayCommand WriteAllCommand { get; private set; }
+		void OnWriteAll()
+		{
+			WaitHelper.Execute(() =>
+			{
+				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				{
+					WriteOneDevice(device);
+				}
+			});
+		}
+
+		bool CanReadWriteAll()
+		{
+			return SelectedDevice != null && SelectedDevice.Children.Count() > 0;
+		}
+
+		bool IsValidSet(Property property, DriverProperty driverProperty)
+		{
+			int value;
+			return
+					driverProperty != null &&
+					driverProperty.IsAUParameter &&
+					driverProperty.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
+					(!int.TryParse(property.Value, out value) ||
+					(value < driverProperty.Min || value > driverProperty.Max));
+		}
+
+		Driver DriverCopy;
+		List<Property> PropertiesCopy;
+
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			DriverCopy = SelectedDevice.Device.Driver;
+			PropertiesCopy = new List<Property>();
+			foreach (var property in SelectedDevice.Device.Properties)
+			{
+				var driverProperty = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null && driverProperty.IsAUParameter)
+				{
+					var propertyCopy = new Property()
+					{
+						DriverProperty = property.DriverProperty,
+						Name = property.Name,
+						Value = property.Value
+					};
+					PropertiesCopy.Add(propertyCopy);
+				}
+			}
+		}
+		bool CanCopy()
+		{
+			return SelectedDevice != null && SelectedDevice.HasAUParameters;
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			CopyParametersFromBuffer(SelectedDevice.Device);
+			SelectedDevice.Update();
+		}
+		bool CanPaste()
+		{
+			return SelectedDevice != null && DriverCopy != null && SelectedDevice.Device.Driver.DriverType == DriverCopy.DriverType && SelectedDevice.Children.Count() == 0;
+		}
+
+		public RelayCommand PasteAllCommand { get; private set; }
+		void OnPasteAll()
+		{
+			foreach (var device in SelectedDevice.Device.GetAllChildren())
+			{
+				CopyParametersFromBuffer(device);
+			}
+			SelectedDevice.Update();
+		}
+		bool CanPasteAll()
+		{
+			return SelectedDevice != null && SelectedDevice.Children.Count() > 0 && DriverCopy != null;
+		}
+
+		public RelayCommand PasteTemplateCommand { get; private set; }
+		void OnPasteTemplate()
+		{
+			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
+			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
+			{
+				CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, SelectedDevice.Device);
+				SelectedDevice.Update();
+			}
+		}
+		bool CanPasteTemplate()
+		{
+			return SelectedDevice != null && SelectedDevice.Children.Count() == 0 && SelectedDevice.HasAUParameters;
+		}
+
+		public RelayCommand PasteAllTemplateCommand { get; private set; }
+		void OnPasteAllTemplate()
+		{
+			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
+			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
+			{
+				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				{
+					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
+				}
+				SelectedDevice.Update();
+			}
+		}
+		bool CanPasteAllTemplate()
+		{
+			return SelectedDevice != null && SelectedDevice.Children.Count() > 0;
+		}
+
+		public RelayCommand SyncFromSystemToDeviceCommand { get; private set; }
+		void OnSyncFromSystemToDevice()
+		{
+			CopyFromSystemToDevice(SelectedDevice.Device);
+			SelectedDevice.Update();
+		}
+
+		public RelayCommand SyncFromAllSystemToDeviceCommand { get; private set; }
+		void SyncFromAllSystemToDevice()
+		{
+			foreach (var device in SelectedDevice.Device.GetAllChildren())
+			{
+				CopyFromSystemToDevice(device);
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
+				if (deviceViewModel != null)
+					deviceViewModel.Update();
+			}
+		}
+
+		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
+		void OnSyncFromDeviceToSystem()
+		{
+			CopyFromDeviceToSystem(SelectedDevice.Device);
+			SelectedDevice.Update();
+		}
+
+		public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
+		void OnSyncFromAllDeviceToSystem()
+		{
+			foreach (var device in SelectedDevice.Device.GetAllChildren())
+			{
+				CopyFromDeviceToSystem(device);
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
+				if (deviceViewModel != null)
+					deviceViewModel.Update();
+			}
+		}
+
+		bool CanSync()
+		{
+			return SelectedDevice != null && SelectedDevice.HasAUParameters;
+		}
+
+		bool CanSyncAll()
+		{
+			return SelectedDevice != null && SelectedDevice.Children.Count() > 0;
+		}
+
+		void CopyFromDeviceToSystem(Device device)
+		{
+			foreach (var deviceParameter in device.DeviceParameters)
+			{
+				var deviceDriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == deviceParameter.Name);
+				if (deviceDriverProperty != null && deviceDriverProperty.IsAUParameter)
+				{
+					var driverProperty = device.Properties.FirstOrDefault(x => x.Name == deviceParameter.Name);
+					if (driverProperty == null)
+					{
+						driverProperty = new Property()
+						{
+							Name = deviceParameter.Name
+						};
+						device.Properties.Add(driverProperty);
+					}
+					driverProperty.Value = deviceParameter.Value;
+				}
+			}
+		}
+
+		void CopyFromSystemToDevice(Device device)
+		{
+			foreach (var property in device.Properties)
+			{
+				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null)
+				{
+					var deviceProperty = device.DeviceParameters.FirstOrDefault(x => x.Name == property.Name);
+					if (deviceProperty == null)
+					{
+						deviceProperty = new Property()
+						{
+							Name = property.Name
+						};
+						device.DeviceParameters.Add(deviceProperty);
+					}
+					deviceProperty.Value = property.Value;
+				}
+			}
+		}
+
+		void WriteOneDevice(Device device)
+		{
+			foreach (var property in device.Properties)
+			{
+				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (IsValidSet(property, driverProperty))
+				{
+					MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+					return;
+				}
+			}
+			Firesec_50.FiresecDriverAuParametersHelper.SetConfigurationParameters(device.UID, device.Properties);
+		}
+
+		void ReadOneDevice(Device device)
+		{
+			OperationResult<bool> result = Firesec_50.FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(device);
+			if (result.HasError)
+			{
+				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
+				return;
+			}
+			SelectedDevice.IsAuParametersReady = false;
+		}
+
+		void CopyParametersFromBuffer(Device device)
+		{
+			foreach (var property in PropertiesCopy)
+			{
+				var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (deviceProperty != null)
+				{
+					deviceProperty.Value = property.Value;
+				}
+			}
+		}
+
+		void CopyParametersFromTemplate(ParameterTemplate parameterTemplate, Device device)
+		{
+			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.Device.DriverUID == device.Driver.UID);
+			if (deviceParameterTemplate != null)
+			{
+				foreach (var property in deviceParameterTemplate.Device.Properties)
+				{
+					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (deviceProperty != null)
+					{
+						deviceProperty.Value = property.Value;
+					}
+				}
+			}
+		}
+
+		int FSChangesCount;
 		public override void OnShow()
 		{
 			base.OnShow();
-			Initialize();
+			if (ServiceFactory.SaveService.FSChangesCount > FSChangesCount)
+			{
+				FSChangesCount = ServiceFactory.SaveService.FSChangesCount;
+				Initialize();
+			}
 		}
 
 		public override void OnHide()

@@ -93,13 +93,13 @@ namespace Firesec_50
 									if (resultString == null)
 										continue;
 
-									//continue;
+
 									var requestInfo = devicePropertyRequest.RequestIds.FirstOrDefault(x => x.RequestId == request.ID);
 									if (requestInfo == null)
 										continue;
 									devicePropertyRequest.RequestIds.RemoveAll(x => x.RequestId == request.ID);
-									int propertyNo = requestInfo.ParamNo;// devicePropertyRequest.RequestIds.devicePropertyRequest.RequestIds.FirstOrDefault();//request.param.FirstOrDefault(x => x.name == "ParamNo").value;
-									int propertyValue = 0;// request.param.FirstOrDefault(x => x.name == "ParamValue").value;
+									int propertyNo = requestInfo.ParamNo;
+									int propertyValue = 0;
 									try
 									{
 										if (!string.IsNullOrEmpty(resultString))
@@ -123,14 +123,14 @@ namespace Firesec_50
 								{
 									foreach (var resultProperty in devicePropertyRequest.Properties)
 									{
-										var property = devicePropertyRequest.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+										var property = devicePropertyRequest.Device.DeviceParameters.FirstOrDefault(x => x.Name == resultProperty.Name);
 										if (property == null)
 										{
 											property = new Property()
 											{
 												Name = resultProperty.Name
 											};
-											devicePropertyRequest.Device.Properties.Add(property);
+											devicePropertyRequest.Device.DeviceParameters.Add(property);
 										}
 										property.Value = resultProperty.Value;
 									}

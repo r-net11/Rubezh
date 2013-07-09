@@ -27,6 +27,11 @@ namespace DevicesModule.DeviceProperties
 			}
 		}
 
+		public string DeviceText
+		{
+			get { return DeviceValue; }
+		}
+
 		public bool IsEnabled
 		{
 			get { return !DriverProperty.IsReadOnly; }

@@ -10,12 +10,12 @@ namespace DevicesModule.ViewModels
 	public class DeviceParameterTemplateViewModel : BaseViewModel
 	{
 		public DeviceParameterTemplate DeviceParameterTemplate { get; private set; }
-		public OneDeviceParameterViewModel OneDeviceParameterViewModel { get; private set; }
+		public DeviceParameterViewModel DeviceParameterViewModel { get; private set; }
 
 		public DeviceParameterTemplateViewModel(DeviceParameterTemplate deviceParameterTemplate)
 		{
 			DeviceParameterTemplate = deviceParameterTemplate;
-			OneDeviceParameterViewModel = new OneDeviceParameterViewModel(deviceParameterTemplate.Device);
+			DeviceParameterViewModel = new DeviceParameterViewModel(deviceParameterTemplate.Device);
 		}
 
 		public Driver Driver

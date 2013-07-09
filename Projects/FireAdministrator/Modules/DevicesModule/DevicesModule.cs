@@ -71,6 +71,7 @@ namespace DevicesModule
 		public override void Initialize()
 		{
 			DevicesViewModel.Initialize();
+			DeviceParametersViewModel.Initialize();
 			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();

@@ -6,5 +6,19 @@
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
         <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="/Controls;component/Images/writeconfig.png" />
         <Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать" ImageSource="/Controls;component/Images/readconfig.png" />
+
+        <Menu Background="Transparent" VerticalAlignment="Center">
+            <MenuItem >
+                <MenuItem.Header>
+                    <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Синхронизация" />
+                </MenuItem.Header>
+
+                <MenuItem Command="{Binding SyncFromSystemToDeviceCommand}" Header="Из системы в устройство" />
+                <MenuItem Command="{Binding SyncFromAllSystemToDeviceCommand}" Header="Из всех дочерних устройств системы в устройства" />
+                <Separator />
+                <MenuItem Command="{Binding SyncFromDeviceToSystemCommand}" Header="Из устройства в систему" />
+                <MenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" Header="Из всех дочерних устройств прибора в систему" />
+            </MenuItem>
+        </Menu>
     </StackPanel>
 </UserControl>

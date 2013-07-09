@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
 				{
 					Logger.Error(e, "DeviceCommandsAuParametersViewModel.OnResetConfigurationParameters");
 				}
-				SelectedDevice.UpdataConfigurationProperties();
+				SelectedDevice.UpdateConfigurationProperties();
 			}
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
