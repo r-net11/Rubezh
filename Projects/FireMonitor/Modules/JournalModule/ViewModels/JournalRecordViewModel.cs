@@ -40,10 +40,14 @@ namespace JournalModule.ViewModels
 			StateType = journalRecord.StateType;
 			Detalization = GetDetalization(journalRecord.Detalization);
 
-			if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
-				Device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+			if (journalRecord.DeviceDatabaseUID != Guid.Empty)
+			{
+				Device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
+			}
 			else
-				Device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
+			{
+				Device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalRecord.PanelDatabaseUID);
+			}
 
 			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalRecord.ZoneName);
 		}

@@ -93,7 +93,7 @@ namespace FireMonitor.Views
 			{
                 foreach (var journalRecord in journalRecords)
                 {
-                    if (!string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId))
+					if (journalRecord.DeviceDatabaseUID != Guid.Empty)
                     {
                         var globalStateType = StateType.No;
                         foreach (var device in FiresecManager.Devices)
@@ -102,7 +102,7 @@ namespace FireMonitor.Views
                                 globalStateType = device.DeviceState.StateType;
                         }
 
-                        var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+						var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
                         if (journalDevice != null)
                         {
 							if (journalDevice.DeviceState.StateType <= globalStateType || (globalStateType != StateType.Fire && globalStateType != StateType.Attention) || journalDevice.Driver.DriverType == DriverType.AM1_O)

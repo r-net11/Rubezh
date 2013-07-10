@@ -4,6 +4,7 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Firesec;
 
 namespace FiresecClient
 {
@@ -18,56 +19,56 @@ namespace FiresecClient
 		Thread PollThread;
 		bool MustReactOnCallback;
 
-        public void StartPoll(bool mustReactOnCallback)
-        {
-            MustReactOnCallback = mustReactOnCallback;
-            PollThread = new Thread(OnPoll);
-            PollThread.IsBackground = true;
-            PollThread.Start();
-        }
+		public void StartPoll(bool mustReactOnCallback)
+		{
+			MustReactOnCallback = mustReactOnCallback;
+			PollThread = new Thread(OnPoll);
+			PollThread.IsBackground = true;
+			PollThread.Start();
+		}
 
 		public void StopPoll()
 		{
-            if (PollThread != null)
-            {
-                try
-                {
-                    if (!PollThread.Join(TimeSpan.FromSeconds(2)))
-                    {
-                        PollThread.Abort();
-                    }
-                }
-                catch { }
-            }
+			if (PollThread != null)
+			{
+				try
+				{
+					if (!PollThread.Join(TimeSpan.FromSeconds(2)))
+					{
+						PollThread.Abort();
+					}
+				}
+				catch { }
+			}
 		}
 
-        void OnPoll()
-        {
-            while (true)
-            {
-                try
-                {
-                    if (IsDisconnecting)
-                        return;
+		void OnPoll()
+		{
+			while (true)
+			{
+				try
+				{
+					if (IsDisconnecting)
+						return;
 
-                    if (SuspendPoll)
-                    {
-                        Thread.Sleep(TimeSpan.FromSeconds(5));
-                        continue;
-                    }
+					if (SuspendPoll)
+					{
+						Thread.Sleep(TimeSpan.FromSeconds(5));
+						continue;
+					}
 
-                    var callbackResults = Poll(FiresecServiceFactory.UID);
-                    if (!MustReactOnCallback)
-                    {
-                        ProcessCallbackResult(callbackResults);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e, "SafeFiresecService.OnPoll");
-                }
-            }
-        }
+					var callbackResults = Poll(FiresecServiceFactory.UID);
+					if (!MustReactOnCallback)
+					{
+						ProcessCallbackResult(callbackResults);
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "SafeFiresecService.OnPoll");
+				}
+			}
+		}
 
 		void ProcessCallbackResult(List<CallbackResult> callbackResults)
 		{
@@ -92,6 +93,7 @@ namespace FiresecClient
 					case CallbackResultType.ArchiveCompleted:
 						SafeOperationCall(() =>
 						{
+							callbackResult.JournalRecords.ForEach((x) => { JournalConverter.SetDeviceCatogoryAndDevieUID(x); });
 							if (GetFilteredArchiveCompletedEvent != null)
 								GetFilteredArchiveCompletedEvent(callbackResult.JournalRecords);
 						});
@@ -100,8 +102,8 @@ namespace FiresecClient
 					case CallbackResultType.ConfigurationChanged:
 						SafeOperationCall(() =>
 						{
-                            if (ConfigurationChangedEvent != null)
-                                ConfigurationChangedEvent();
+							if (ConfigurationChangedEvent != null)
+								ConfigurationChangedEvent();
 						});
 						break;
 				}

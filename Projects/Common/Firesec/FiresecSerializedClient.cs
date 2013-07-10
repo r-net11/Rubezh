@@ -34,7 +34,7 @@ namespace Firesec
 		{
 			foreach (var journalRecord in journalRecords)
 			{
-				JournalConverter.SetDeviceCatogory(journalRecord);
+				JournalConverter.SetDeviceCatogoryAndDevieUID(journalRecord);
 			}
 			if (NewJournalRecords != null)
 				NewJournalRecords(journalRecords);
