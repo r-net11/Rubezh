@@ -47,7 +47,6 @@ namespace DevicesModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
 			device.Changed += new Action(device_Changed);
-			device.AUParametersChanged += new Action(device_AUParametersChanged);
 
 			UpdateZoneName();
 		}
@@ -57,18 +56,6 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("Address");
 			OnPropertyChanged("HasExternalDevices");
 			UpdateZoneName();
-		}
-
-		void device_AUParametersChanged()
-		{
-			UpdateConfigurationProperties();
-			PropertiesViewModel.IsAuParametersReady = true;
-		}
-
-		public void UpdateConfigurationProperties()
-		{
-			PropertiesViewModel = new PropertiesViewModel(Device);
-			OnPropertyChanged("PropertiesViewModel");
 		}
 
 		public void Update()

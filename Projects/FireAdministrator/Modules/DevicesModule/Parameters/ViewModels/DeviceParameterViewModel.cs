@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			OnPropertyChanged("StringAUProperties");
-			OnPropertyChanged("BoolAUProperties");
+			OnPropertyChanged("EnumAUProperties");
 			UpdateIsMissmatch();
 		}
 

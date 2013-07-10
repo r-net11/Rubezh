@@ -537,6 +537,16 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public string DatabaseName
+		{
+			get
+			{
+				if (Driver.HasAddress)
+					return PresentationName + " " + DottedAddress;
+				return PresentationName;
+			}
+		}
+
 		public int ShleifNo
 		{
 			get { return IntAddress / 256; }

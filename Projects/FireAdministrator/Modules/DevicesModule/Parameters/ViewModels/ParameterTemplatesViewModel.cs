@@ -129,7 +129,6 @@ namespace DevicesModule.ViewModels
 						}
 
 						var properties = new List<Property>();
-
 						foreach (var driverProperty in driver.Properties)
 						{
 							if (driverProperty.IsAUParameter)
@@ -148,7 +147,6 @@ namespace DevicesModule.ViewModels
 								properties.Add(property);
 							}
 						}
-
 						deviceParameterTemplate.Device.SystemAUProperties = properties;
 					}
 				}

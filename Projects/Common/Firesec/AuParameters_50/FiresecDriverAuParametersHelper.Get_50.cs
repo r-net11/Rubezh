@@ -93,7 +93,6 @@ namespace Firesec_50
 									if (resultString == null)
 										continue;
 
-
 									var requestInfo = devicePropertyRequest.RequestIds.FirstOrDefault(x => x.RequestId == request.ID);
 									if (requestInfo == null)
 										continue;

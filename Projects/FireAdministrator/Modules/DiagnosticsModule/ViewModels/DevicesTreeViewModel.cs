@@ -66,7 +66,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 	}
 
-
 	public class DeviceViewModel2 : TreeItemViewModel<DeviceViewModel2> , ITreeNodeModel
 	{
 		public Device Device { get; private set; }
@@ -89,7 +88,6 @@ namespace DiagnosticsModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
 			device.Changed += new Action(device_Changed);
-			device.AUParametersChanged += new Action(device_AUParametersChanged);
 		}
 
 		void device_Changed()
@@ -98,18 +96,6 @@ namespace DiagnosticsModule.ViewModels
 			OnPropertyChanged("PresentationZone");
 			OnPropertyChanged("EditingPresentationZone");
 			OnPropertyChanged("HasExternalDevices");
-		}
-
-		void device_AUParametersChanged()
-		{
-			UpdataConfigurationProperties();
-			PropertiesViewModel.IsAuParametersReady = true;
-		}
-
-		public void UpdataConfigurationProperties()
-		{
-			PropertiesViewModel = new PropertiesViewModel(Device);
-			OnPropertyChanged("PropertiesViewModel");
 		}
 
 		public void Update()

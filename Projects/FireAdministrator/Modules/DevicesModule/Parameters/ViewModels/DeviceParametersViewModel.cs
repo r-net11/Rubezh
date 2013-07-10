@@ -38,24 +38,17 @@ namespace DevicesModule.ViewModels
 			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
 
 			SyncFromSystemToDeviceCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
-			SyncFromAllSystemToDeviceCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
 			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
+			SyncFromAllSystemToDeviceCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
 			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
+			SyncAnywayFromSystemToDeviceCommand = new RelayCommand(SyncFromAllSystemToDevice);
+			SyncAnywayFromDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem);
+
+			Invalidate();
 		}
 
 		public void Initialize()
 		{
-			foreach (var device in FiresecManager.Devices)
-			{
-				if (device.SystemAUProperties == null)
-				{
-					device.SystemAUProperties = new List<Property>();
-				}
-				if (device.DeviceAUProperties == null)
-				{
-					device.DeviceAUProperties = new List<Property>();
-				}
-			}
 			BuildTree();
 			if (RootDevice != null)
 			{
@@ -63,6 +56,12 @@ namespace DevicesModule.ViewModels
 				SelectedDevice = RootDevice;
 			}
 			OnPropertyChanged("RootDevices");
+
+			foreach (var deviceViewModel in AllDevices)
+			{
+				deviceViewModel.Device.AUParametersChanged += new Action(() => { UpdateIsMissmatch(); });
+			}
+			UpdateIsMissmatch();
 		}
 
 		#region Tree
@@ -162,7 +161,6 @@ namespace DevicesModule.ViewModels
 				ReadOneDevice(SelectedDevice.Device);
 			});
 			ServiceFactory.SaveService.FSParametersChanged = true;
-			UpdateIsMissmatch();
 		}
 
 		public RelayCommand WriteCommand { get; private set; }
@@ -172,7 +170,6 @@ namespace DevicesModule.ViewModels
 			{
 				WriteOneDevice(SelectedDevice.Device);
 			});
-			UpdateIsMissmatch();
 		}
 
 		bool CanReadWrite()
@@ -196,7 +193,6 @@ namespace DevicesModule.ViewModels
 					ReadOneDevice(device);
 				}
 			});
-			UpdateIsMissmatch();
 		}
 
 		public RelayCommand WriteAllCommand { get; private set; }
@@ -209,7 +205,6 @@ namespace DevicesModule.ViewModels
 					WriteOneDevice(device);
 				}
 			});
-			UpdateIsMissmatch();
 		}
 
 		bool CanReadWriteAll()
@@ -419,6 +414,9 @@ namespace DevicesModule.ViewModels
 			UpdateIsMissmatch();
 		}
 
+		public RelayCommand SyncAnywayFromDeviceToSystemCommand { get; private set; }
+		public RelayCommand SyncAnywayFromSystemToDeviceCommand { get; private set; }
+
 		bool CanSync()
 		{
 			return SelectedDevice != null && SelectedDevice.HasAUParameters;
@@ -431,57 +429,69 @@ namespace DevicesModule.ViewModels
 
 		void CopyFromDeviceToSystem(Device device)
 		{
-			foreach (var deviceParameter in device.DeviceAUProperties)
+			device.SystemAUProperties.Clear();
+			foreach (var property in device.DeviceAUProperties)
 			{
-				var deviceDriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == deviceParameter.Name);
-				if (deviceDriverProperty != null && deviceDriverProperty.IsAUParameter)
+				var clonedProperty = new Property()
 				{
-					var driverProperty = device.SystemAUProperties.FirstOrDefault(x => x.Name == deviceParameter.Name);
-					if (driverProperty == null)
-					{
-						driverProperty = new Property()
-						{
-							Name = deviceParameter.Name
-						};
-						device.SystemAUProperties.Add(driverProperty);
-					}
-					driverProperty.Value = deviceParameter.Value;
-				}
+					Name = property.Name,
+					Value = property.Value
+				};
+				device.SystemAUProperties.Add(clonedProperty);
 			}
 		}
 
 		void CopyFromSystemToDevice(Device device)
 		{
+			device.DeviceAUProperties.Clear();
 			foreach (var property in device.SystemAUProperties)
 			{
-				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (driverProperty != null)
+				var clonedProperty = new Property()
 				{
-					var deviceProperty = device.DeviceAUProperties.FirstOrDefault(x => x.Name == property.Name);
-					if (deviceProperty == null)
-					{
-						deviceProperty = new Property()
-						{
-							Name = property.Name
-						};
-						device.DeviceAUProperties.Add(deviceProperty);
-					}
-					deviceProperty.Value = property.Value;
-				}
+					Name = property.Name,
+					Value = property.Value
+				};
+				device.DeviceAUProperties.Add(clonedProperty);
 			}
+			WriteOneDevice(device);
 		}
 		#endregion
 
 		void UpdateIsMissmatch()
 		{
 			AllDevices.ForEach(x=>x.IsMissmatch = false);
-			foreach (var device in AllDevices)
+			foreach (var deviceViewModel in AllDevices)
 			{
-				device.UpdateIsMissmatch();
-				if (device.IsMissmatch)
+				deviceViewModel.UpdateIsMissmatch();
+				if (deviceViewModel.IsMissmatch)
 				{
-					device.GetAllParents().ForEach(x => x.IsMissmatch = true);
+					deviceViewModel.GetAllParents().ForEach(x => x.IsMissmatch = true);
 				}
+			}
+		}
+
+		void Invalidate()
+		{
+			foreach (var device in FiresecManager.Devices)
+			{
+				foreach (var driverProperty in device.Driver.Properties)
+				{
+					if (driverProperty.IsAUParameter)
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						if (property == null)
+						{
+							property = new Property()
+							{
+								Name = driverProperty.Name,
+								Value = driverProperty.Default
+							};
+							device.SystemAUProperties.Add(property);
+						}
+						property.DriverProperty = driverProperty;
+					}
+				}
+				device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
 			}
 		}
 
@@ -494,11 +504,13 @@ namespace DevicesModule.ViewModels
 				FSChangesCount = ServiceFactory.SaveService.FSChangesCount;
 				Initialize();
 			}
+			AllDevices.ForEach(x => x.Device.Changed += UpdateIsMissmatch);
 		}
 
 		public override void OnHide()
 		{
 			base.OnHide();
+			AllDevices.ForEach(x => x.Device.Changed -= UpdateIsMissmatch);
 		}
 	}
 }

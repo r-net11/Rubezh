@@ -178,6 +178,38 @@ namespace FiresecAPI.Models
 				ParameterTemplates = new List<ParameterTemplate>();
 				result = false;
 			}
+
+			foreach (var parameterTemplate in ParameterTemplates)
+			{
+				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
+				{
+					if (deviceParameterTemplate.Device.SystemAUProperties == null)
+					{
+						deviceParameterTemplate.Device.SystemAUProperties = new List<Property>();
+						result = false;
+					}
+					if (deviceParameterTemplate.Device.DeviceAUProperties == null)
+					{
+						deviceParameterTemplate.Device.DeviceAUProperties = new List<Property>();
+						result = false;
+					}
+				}
+			}
+
+			foreach (var device in RootDevice.GetAllChildren())
+			{
+				if (device.SystemAUProperties == null)
+				{
+					device.SystemAUProperties = new List<Property>();
+					result = false;
+				}
+				if (device.DeviceAUProperties == null)
+				{
+					device.DeviceAUProperties = new List<Property>();
+					result = false;
+				}
+			}
+
 			return result;
         }
 	}

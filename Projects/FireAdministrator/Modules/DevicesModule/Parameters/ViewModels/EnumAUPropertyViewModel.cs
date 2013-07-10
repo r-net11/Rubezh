@@ -48,7 +48,6 @@ namespace DevicesModule.DeviceProperties
 		{
 			get
 			{
-				return "Неизвестно";
 				var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Value == base.DeviceAUParameterValue);
 				if (driverPropertyParameter != null)
 					return driverPropertyParameter.Name;

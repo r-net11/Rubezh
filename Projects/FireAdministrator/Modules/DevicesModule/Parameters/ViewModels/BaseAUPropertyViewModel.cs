@@ -15,8 +15,6 @@ namespace DevicesModule.DeviceProperties
 		{
 			DriverProperty = driverProperty;
 			Device = device;
-			if (Device.DeviceAUProperties != null)
-				Device.DeviceAUProperties = new List<Property>();
 
 			if (!Device.SystemAUProperties.Any(x => x.Name == driverProperty.Name))
 			{
@@ -31,10 +29,7 @@ namespace DevicesModule.DeviceProperties
 				DeviceAUParameterValue = "Неизвестно";
 
 			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			if (systemProperty != null && deviceProperty != null)
-			{
-				IsMissmatch = systemProperty.Value != deviceProperty.Value;
-			}
+			IsMissmatch = (deviceProperty != null && systemProperty != null && deviceProperty.Value != systemProperty.Value);
 		}
 
 		public string Caption
@@ -47,7 +42,17 @@ namespace DevicesModule.DeviceProperties
 			get { return DriverProperty.ToolTip; }
 		}
 
-		public bool IsMissmatch { get; set; }
+		bool _isMissmatch;
+		public bool IsMissmatch
+		{
+			get { return _isMissmatch; }
+			set
+			{
+				_isMissmatch = value;
+				OnPropertyChanged("IsMissmatch");
+			}
+		}
+
 		public virtual string DeviceAUParameterValue { get; protected set; }
 
 		protected void Save(string value, bool useSaveService = true)
@@ -57,11 +62,11 @@ namespace DevicesModule.DeviceProperties
                 ServiceFactory.SaveService.FSChanged = true;
             }
 
-			var property = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			if (property != null)
+			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			if (systemProperty != null)
 			{
-				property.Name = DriverProperty.Name;
-				property.Value = value;
+				systemProperty.Name = DriverProperty.Name;
+				systemProperty.Value = value;
 			}
 			else
 			{
@@ -72,6 +77,8 @@ namespace DevicesModule.DeviceProperties
 				};
 				Device.SystemAUProperties.Add(newProperty);
 			}
+			var deviceProperty = Device.DeviceAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			IsMissmatch = (deviceProperty != null && systemProperty != null && deviceProperty.Value != systemProperty.Value);
 			Device.OnChanged();
 		}
 	}

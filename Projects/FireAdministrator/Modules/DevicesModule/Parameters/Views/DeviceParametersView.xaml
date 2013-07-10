@@ -26,6 +26,7 @@
                 <DataTrigger Binding="{Binding IsMissmatch}" Value="True">
                     <DataTrigger.Setters>
                         <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                        <Setter Property="TextBlock.Foreground" Value="Red" />
                     </DataTrigger.Setters>
                 </DataTrigger>
             </Style.Triggers>
@@ -36,12 +37,19 @@
             <MenuItem Command="{Binding ReadAllCommand}" Header="Считать параметры дочерних устройств" />
             <MenuItem Command="{Binding WriteCommand}" Header="Записать параметры" />
             <MenuItem Command="{Binding WriteAllCommand}" Header="Записать параметры дочерних устройств" />
+            <Separator />
             <MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
             <MenuItem Command="{Binding CopyCommand}" Header="Копировать" />
             <MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
             <MenuItem Command="{Binding PasteAllCommand}" Header="Вставить во все дочерние устройства" />
+            <Separator />
             <MenuItem Command="{Binding PasteTemplateCommand}" Header="Применить шаблон" />
             <MenuItem Command="{Binding PasteAllTemplateCommand}" Header="Применить шаблон ко всем дочерним устройствам" />
+            <Separator />
+            <MenuItem Command="{Binding SyncFromSystemToDeviceCommand}" Header="Из системы в устройство" />
+            <MenuItem Command="{Binding SyncFromAllSystemToDeviceCommand}" Header="Из всех дочерних устройств системы в устройства" />
+            <MenuItem Command="{Binding SyncFromDeviceToSystemCommand}" Header="Из устройства в систему" />
+            <MenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" Header="Из всех дочерних устройств прибора в систему" />
         </ContextMenu>
     </UserControl.Resources>
 
@@ -80,6 +88,7 @@
 																	<DataTrigger Binding="{Binding IsMissmatch}" Value="True">
 																		<DataTrigger.Setters>
 																			<Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                                            <Setter Property="TextBlock.Foreground" Value="Red" />
 																		</DataTrigger.Setters>
 																	</DataTrigger>
 																</Style.Triggers>
@@ -131,57 +140,69 @@
             </tree:TreeList.View>
         </tree:TreeList>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-        <Border Grid.Column="2" DataContext="{Binding SelectedDevice}" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-            <ScrollViewer Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}" VerticalScrollBarVisibility="Auto">
+        <Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="10">
+                    <StackPanel DataContext="{Binding SelectedDevice}"
+                            Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                                <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="В системе" Foreground="White" FontWeight="Bold" Margin="2" />
+                            <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
+                        </Grid>
+
+                        <ItemsControl ItemsSource="{Binding StringAUProperties}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+                                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding EnumAUProperties}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group2" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="1" Text="В системе" Foreground="White" FontWeight="Bold" Margin="2" />
-                        <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
+                        <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncAnywayFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" />
+                        <Controls:ToolBarButton Grid.Column="2" Command="{Binding SyncAnywayFromSystemToDeviceCommand}" ToolTip="Заменить значения параметров устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/RightRight.png" />
                     </Grid>
-
-                    <ItemsControl ItemsSource="{Binding StringAUProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-                                    <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding EnumAUProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                    <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
                 </StackPanel>
             </ScrollViewer>
         </Border>
