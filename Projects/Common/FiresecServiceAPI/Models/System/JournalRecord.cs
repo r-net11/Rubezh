@@ -70,6 +70,12 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int DeviceCategory { get; set; }
 
+		[DataMember]
+		public Guid DeviceDatabaseUID { get; set; }
+
+		[DataMember]
+		public Guid PanelDatabaseUID { get; set; }
+
 		public bool Equals(JournalRecord x, JournalRecord y)
 		{
 			if (object.ReferenceEquals(x, y)) return true;

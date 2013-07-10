@@ -28,9 +28,20 @@ namespace ServerFS2
 			ConfirmLongTermOperation(device);
 			ClearSector(device);
 			ConfirmLongTermOperation(device);
-			var foolFlashFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "fullflash2am.zip");
-			var foolFlashHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(foolFlashFileName, "fullflash2am.hex");
-			WriteRomConfiguration(device, foolFlashHexInfo.Bytes, foolFlashHexInfo.Offset);
+
+			//var foolFlashFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "fullflash2am.zip");
+			//var foolFlashHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(foolFlashFileName, "fullflash2am.hex");
+			//foolFlashHexInfo.Offset = 0;
+
+			WriteFoolFlashConfiguration(device, @"C:\test\soft.txt");
+
+			ConfirmLongTermOperation(device);
+			ClearSector(device);
+			ConfirmLongTermOperation(device);
+
+			var avrHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(@"C:\test\", "Rubezh_OPS.hex");
+			WriteRomConfiguration(device, avrHexInfo.Bytes, avrHexInfo.Offset);
+
 			StopUpdating(device);
 			ConfirmLongTermOperation(device);
 			ServerHelper.SynchronizeTime(device);
@@ -104,6 +115,25 @@ namespace ServerFS2
 			}
 		}
 
+		static void WriteFoolFlashConfiguration(Device device, string fileName)
+		{
+			var bytesArray = new List<byte>();
+			var strings = File.ReadAllLines(fileName).ToList();
+			foreach (var str in strings)
+			{
+				for (var i = 0; i < str.Length ; i += 3)
+				{
+					bytesArray.Add(Convert.ToByte(str.Substring(i, 2), 16));
+				}
+			}
+
+			for (int i = 0; i < bytesArray.Count; i = i + 0x104)
+			{
+				var offset = BytesHelper.ExtractInt(bytesArray, i);
+				USBManager.Send(device, 0x3E, BitConverter.GetBytes(offset).Reverse(), bytesArray.GetRange(i, Math.Min(bytesArray.Count - i, 0x100)));
+			}
+		}
+
 		// Окончание записи памяти - сброс
 		private static void StopUpdating(Device device)
 		{
@@ -129,6 +159,11 @@ namespace ServerFS2
 		private static void ClearSector(Device device)
 		{
 			USBManager.Send(device, 0x3B, 0x03, 0x04);
+		}
+
+		private static void ClearAvrSector(Device device)
+		{
+			USBManager.Send(device, 0x3B, 0x05, 0x1A);
 		}
 
 		// Подтверждение / завершение долговременной операции

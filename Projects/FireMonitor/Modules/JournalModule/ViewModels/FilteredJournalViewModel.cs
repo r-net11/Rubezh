@@ -10,6 +10,7 @@ using Infrastructure.Events;
 using System.Diagnostics;
 using FS2Api;
 using System;
+using Firesec;
 
 namespace JournalModule.ViewModels
 {
@@ -39,9 +40,9 @@ namespace JournalModule.ViewModels
 				var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
 				if (operationResult.Result != null)
 				{
-					foreach (var journalRecord in operationResult.Result)
+					foreach (var journalItem in operationResult.Result)
 					{
-						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						var journalRecordViewModel = new JournalRecordViewModel(journalItem);
 						JournalRecords.Add(journalRecordViewModel);
 					}
 				}
@@ -53,6 +54,7 @@ namespace JournalModule.ViewModels
 				{
 					foreach (var journalRecord in operationResult.Result)
 					{
+						JournalConverter.SetDeviceCatogoryAndDevieUID(journalRecord);
 						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
 						JournalRecords.Add(journalRecordViewModel);
 					}
@@ -116,13 +118,13 @@ namespace JournalModule.ViewModels
 			if (JournalFilter.Categories.IsNotNullOrEmpty())
 			{
 				Device device = null;
-				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+				if (journalRecord.DeviceDatabaseUID != Guid.Empty)
 				{
-					device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
 				}
 				else
 				{
-					device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
+					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.PanelDatabaseUID);
 				}
 
 				if (device != null)

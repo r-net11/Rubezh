@@ -27,25 +27,32 @@ namespace Firesec
 				SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
 				StateType = (StateType)int.Parse(innerJournalRecord.IDTypeEvents),
 			};
-			SetDeviceCatogory(journalRecord);
+
+			SetDeviceCatogoryAndDevieUID(journalRecord);
 
 			return journalRecord;
 		}
 
-		public static void SetDeviceCatogory(JournalRecord journalRecord)
+		public static void SetDeviceCatogoryAndDevieUID(JournalRecord journalRecord)
 		{
+			Guid deviceDatabaseUID = Guid.Empty;
+			Guid.TryParse(journalRecord.DeviceDatabaseId, out deviceDatabaseUID);
+			journalRecord.DeviceDatabaseUID = deviceDatabaseUID;
+
+			Guid panelDatabaseUID = Guid.Empty;
+			Guid.TryParse(journalRecord.PanelDatabaseId, out panelDatabaseUID);
+			journalRecord.PanelDatabaseUID = panelDatabaseUID;
+
 			Device device = null;
 			if (ConfigurationCash.DeviceConfiguration.Devices != null)
 			{
-				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+				if (journalRecord.DeviceDatabaseUID != Guid.Empty)
 				{
-					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(
-						 x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
 				}
 				else
 				{
-					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(
-						   x => x.DatabaseId == journalRecord.PanelDatabaseId);
+					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalRecord.PanelDatabaseUID);
 				}
 			}
 			if (device != null)
