@@ -87,17 +87,28 @@ namespace FiresecAPI.Models
 
 			while (true)
 			{
-				var copyDevice = new Device()
-				{
-					UID = currentDevice.UID,
-					DriverUID = currentDevice.DriverUID,
-					IntAddress = currentDevice.IntAddress,
-					Description = currentDevice.Description,
-                    ZoneUID = currentDevice.ZoneUID,
-					Properties = new List<Property>(currentDevice.Properties),
-					SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties),
-					DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties)
-				};
+				var copyDevice = new Device();
+				//{
+				//    UID = currentDevice.UID,
+				//    DriverUID = currentDevice.DriverUID,
+				//    IntAddress = currentDevice.IntAddress,
+				//    Description = currentDevice.Description,
+				//    ZoneUID = currentDevice.ZoneUID,
+				//    Properties = new List<Property>(currentDevice.Properties),
+				//    SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties),
+				//    DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties)
+				//};
+				copyDevice.UID = currentDevice.UID;
+				copyDevice.DriverUID = currentDevice.DriverUID;
+				copyDevice.IntAddress = currentDevice.IntAddress;
+				copyDevice.Description = currentDevice.Description;
+                copyDevice.ZoneUID = currentDevice.ZoneUID;
+				copyDevice.Properties = new List<Property>(currentDevice.Properties);
+				if (currentDevice.SystemAUProperties != null)
+					copyDevice.SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties);
+				if (currentDevice.DeviceAUProperties != null)
+					copyDevice.DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties);
+
 				if ((currentDevice.UID == device.UID))
 				{
 					copyDevice.IsAltInterface = isUsb;
