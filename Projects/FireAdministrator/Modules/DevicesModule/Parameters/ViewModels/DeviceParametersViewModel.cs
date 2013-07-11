@@ -491,7 +491,8 @@ namespace DevicesModule.ViewModels
 						property.DriverProperty = driverProperty;
 					}
 				}
-				device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
+				if(device.SystemAUProperties != null)
+					device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
 			}
 		}
 

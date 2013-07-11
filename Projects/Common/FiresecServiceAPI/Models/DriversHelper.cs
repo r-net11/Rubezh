@@ -60,7 +60,6 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("145B6D5B-FD19-4E1F-8ED3-70923A11232B", 0, "Направление", DriverType.PDUDirection));
 			DriverDataList.Add(new DriverData("B476541B-5298-4B3E-A9BA-605B839B1011", 0, "Прибор Рубеж-2AM", DriverType.Rubezh_2AM));
 			DriverDataList.Add(new DriverData("02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C", 0, "БУНС", DriverType.BUNS));
-			DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", 0, "БУНС-2", DriverType.BUNS_2));
 			DriverDataList.Add(new DriverData("F966D47B-468D-40A5-ACA7-9BE30D0A3847", 0, "Модуль сопряжения МС-3", DriverType.MS_3));
 			DriverDataList.Add(new DriverData("{868ED643-0ED6-48CD-A0E0-4AD46104C419}", 0, "Модуль сопряжения МС-4", DriverType.MS_4));
 			DriverDataList.Add(new DriverData("{584BC59A-28D5-430B-90BF-592E40E843A6}", 0, "Устройство оконечное объектовое", DriverType.UOO_TL));
@@ -141,7 +140,6 @@ namespace FiresecAPI.Models
 			{
 				var panelDrivers = new List<DriverType>();
 				panelDrivers.Add(DriverType.BUNS);
-				panelDrivers.Add(DriverType.BUNS_2);
 				panelDrivers.Add(DriverType.Rubezh_2AM);
 				panelDrivers.Add(DriverType.Rubezh_2OP);
 				panelDrivers.Add(DriverType.Rubezh_4A);
@@ -179,9 +177,6 @@ namespace FiresecAPI.Models
 
 				case DriverType.BUNS:
 					return 2;
-
-				case DriverType.BUNS_2:
-					return 8;
 
 				case DriverType.IndicationBlock:
 					return 3;

@@ -125,6 +125,7 @@
     <Compile Include="Devices\FS2\Views\FS2DeviceJournalView.xaml.cs">
       <DependentUpon>FS2DeviceJournalView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\FSAgent\Async\FirmwareAllUpdateHelper.cs" />
     <Compile Include="Devices\MergeConfigurationHelper.cs" />
     <Compile Include="Devices\FS2\Async\FS2FirmwareUpdateHelper.cs" />
     <Compile Include="Devices\FS2\Async\FS2DeviceWriteConfigurationHelper.cs" />

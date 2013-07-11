@@ -42,8 +42,7 @@ namespace ServerFS2.Monitoring
 										case DriverType.Rubezh_2OP:
 										case DriverType.Rubezh_4A:
 										case DriverType.BUNS:
-										case DriverType.BUNS_2:
-										case DriverType.BlindPanel:
+										case DriverType.Rubezh_P:
 											MonitoringPanels.Add(new MonitoringPanel(panelDevice));
 											break;
 										case DriverType.IndicationBlock:
@@ -64,7 +63,6 @@ namespace ServerFS2.Monitoring
 					case DriverType.USB_Rubezh_4A:
 					case DriverType.USB_Rubezh_P:
 					case DriverType.USB_BUNS:
-					case DriverType.USB_BUNS_2:
 						MonitoringPanels.Add(new MonitoringPanel(usbDevice));
 						break;
 				}

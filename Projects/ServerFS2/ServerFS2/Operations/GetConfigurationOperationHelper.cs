@@ -263,7 +263,6 @@ namespace ServerFS2
 					rawParametersLength = 5;
 					break;
 				case DriverType.BUNS:
-				case DriverType.BUNS_2:
 					rawParametersLength = 0;
 					break;
 				case DriverType.MDU:
