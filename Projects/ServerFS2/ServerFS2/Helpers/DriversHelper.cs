@@ -47,7 +47,6 @@ namespace ServerFS2
 			DriverDataList.Add(new DriverData("F3485243-2F60-493B-8A4E-338C61EF6581", "Рубеж-4А", 5, DriverType.Rubezh_4A));
 			DriverDataList.Add(new DriverData("96CDBD7E-29F6-45D4-9028-CF10332FAB1A", "Прибор РУБЕЖ-2ОП", 6, DriverType.Rubezh_2OP));
 			DriverDataList.Add(new DriverData("B1DF571E-8786-4987-94B2-EC91F7578D20", "Пульт дистанционного управления ПДУ", 7, DriverType.PDU));
-			DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", "БУНС-2", 8, DriverType.BUNS_2));
 			DriverDataList.Add(new DriverData("07BEB3DD-7D14-41F8-B8BC-FE8EDD215762", "Пульт дистанционного управления ПДУ-ПТ", 9, DriverType.PDU_PT));
 		}
 
@@ -63,8 +62,6 @@ namespace ServerFS2
 					return DriverType.USB_Rubezh_4A;
 				case 2:
 					return DriverType.USB_BUNS;
-				case 8:
-					return DriverType.USB_BUNS_2;
 				case 3:
 					return DriverType.IndicationBlock;
 				case 7:
@@ -101,8 +98,6 @@ namespace ServerFS2
 					return 5;
 				case DriverType.USB_BUNS:
 					return 2;
-				case DriverType.USB_BUNS_2:
-					return 8;
 				case DriverType.IndicationBlock:
 					return 3;
 				case DriverType.PDU:

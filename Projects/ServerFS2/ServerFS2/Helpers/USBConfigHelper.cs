@@ -58,10 +58,7 @@ namespace ServerFS2
 				case DriverType.BUNS:
 					return DriverType.USB_BUNS;
 
-				case DriverType.BUNS_2:
-					return DriverType.USB_BUNS_2;
-
-				case DriverType.BlindPanel:
+				case DriverType.Rubezh_P:
 					return DriverType.USB_Rubezh_P;
 			}
 			return DriverType.Computer;

@@ -95,7 +95,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.SetShort(lengtByteDescription, length);
 
 			if (Device.Driver.DriverType == DriverType.PumpStation &&
-				(ParentPanel.Driver.DriverType == DriverType.BUNS || ParentPanel.Driver.DriverType == DriverType.BUNS_2 || ParentPanel.Driver.DriverType == DriverType.USB_BUNS))
+				(ParentPanel.Driver.DriverType == DriverType.BUNS || ParentPanel.Driver.DriverType == DriverType.USB_BUNS))
 			{
 				AddPumpStation();
 			}

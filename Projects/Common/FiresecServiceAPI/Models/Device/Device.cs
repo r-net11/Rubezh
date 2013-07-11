@@ -247,7 +247,7 @@ namespace FiresecAPI.Models
 				}
 			}
 			OnChanged();
-			return false;
+			return true;
 		}
 
 		public string AddressFullPath
