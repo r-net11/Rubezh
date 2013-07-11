@@ -341,7 +341,6 @@ namespace ServerFS2.ConfigurationWriter
 				switch(childDevice.Driver.DriverType)
 				{
 					case DriverType.USB_BUNS:
-					case DriverType.USB_BUNS_2:
 					case DriverType.USB_Rubezh_2AM:
 					case DriverType.USB_Rubezh_2OP:
 					case DriverType.USB_Rubezh_4A:
@@ -356,7 +355,6 @@ namespace ServerFS2.ConfigurationWriter
 						switch (childDevice2.Driver.DriverType)
 						{
 							case DriverType.BUNS:
-							case DriverType.BUNS_2:
 							case DriverType.Rubezh_2AM:
 							case DriverType.Rubezh_2OP:
 							case DriverType.Rubezh_4A:

@@ -140,7 +140,6 @@ namespace ServerFS2
 					case DriverType.USB_Rubezh_4A:
 					case DriverType.USB_Rubezh_P:
 					case DriverType.USB_BUNS:
-					case DriverType.USB_BUNS_2:
 						usbDevices.Add(device);
 						break;
 				}

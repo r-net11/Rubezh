@@ -22,7 +22,7 @@
 		PDUDirection,
 		Rubezh_2AM,
 		BUNS,
-		BUNS_2,
+		BUNS_2, // Delete
 		MS_3,
 		MS_4,
 		UOO_TL,
@@ -86,7 +86,7 @@
 		USB_Rubezh_4A,
 		USB_Rubezh_2OP,
 		USB_BUNS,
-		//USB_BUNS_2,
+		USB_BUNS_2, // Delete
 		PDU_PT,
 		PDU_PTDirection,
 		Rubezh_P,

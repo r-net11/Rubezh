@@ -20,7 +20,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase = new BytesDatabase();
 
 			var headBytesDatabase = new BytesDatabase("Заголовок");
-			if (FlashDatabase.ParentPanel.Driver.DriverType == DriverType.BUNS || FlashDatabase.ParentPanel.Driver.DriverType == DriverType.USB_BUNS || FlashDatabase.ParentPanel.Driver.DriverType == DriverType.BUNS_2)
+			if (FlashDatabase.ParentPanel.Driver.DriverType == DriverType.BUNS || FlashDatabase.ParentPanel.Driver.DriverType == DriverType.USB_BUNS)
 			{
 				headBytesDatabase.AddString("BUNS", "Сигнатура базы", 4);
 			}
