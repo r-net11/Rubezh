@@ -34,7 +34,7 @@
 				    <DataGridTextColumn Width="*" Binding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" IsReadOnly="True" SortMemberPath="DetectorCount" />
 			    </DataGrid.Columns>
 		    </Controls:XDataGrid>
-            <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+            <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
                 <Grid DataContext="{Binding SelectedZone}" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -47,8 +47,8 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
                     <Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
-                    <toolkit:AutoCompleteBox Grid.Row="0" Grid.Column="1" IsTextCompletionEnabled="True" Populating="Name_Populating" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                    <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="1" Name="descriptionTextBox" IsTextCompletionEnabled="True" Populating="Description_Populating" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <toolkit:AutoCompleteBox Grid.Row="0" Grid.Column="1" IsTextCompletionEnabled="True" Populating="Name_Populating" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" />
+                    <toolkit:AutoCompleteBox Grid.Row="1" Grid.Column="1" Name="descriptionTextBox" IsTextCompletionEnabled="True" Populating="Description_Populating" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" />
                 </Grid>
             </Border>
         </Grid>

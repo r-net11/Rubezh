@@ -11,51 +11,7 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
-            <DataGrid.Resources>
-                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-                </InputBindingCollection>
-            </DataGrid.Resources>
-            <DataGrid.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                </Style>
-            </DataGrid.ItemContainerStyle>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Устройство" Width="250">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                <TextBlock Text="{Binding Driver.ShortName}">
-                                    <TextBlock.Style>
-                                        <Style>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding HasChildren}" Value="False">
-                                                    <DataTrigger.Setters>
-                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                    </DataTrigger.Setters>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="50" />
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить в группу" ImageSource="/Controls;component/Images/Right.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить из группы" ImageSource="/Controls;component/Images/Left.png" />
-        </StackPanel>
-
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -97,5 +53,49 @@
                 </Grid>
             </Border>
         </Grid>
+        
+        <StackPanel Grid.Column="1" Margin="2">
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить в группу" ImageSource="/Controls;component/Images/Left.png" />
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить из группы" ImageSource="/Controls;component/Images/Right.png" />
+        </StackPanel>
+
+        <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Устройство" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                <TextBlock Text="{Binding Driver.ShortName}">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasChildren}" Value="False">
+                                                    <DataTrigger.Setters>
+                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                    </DataTrigger.Setters>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="50" />
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

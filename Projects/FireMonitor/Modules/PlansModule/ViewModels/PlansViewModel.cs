@@ -20,7 +20,7 @@ namespace PlansModule.ViewModels
 {
 	public class PlansViewModel : ViewPartViewModel
 	{
-		private bool _initialized;
+		bool _initialized;
 		public List<IPlanPresenter<Plan>> PlanPresenters { get; private set; }
 		public PlanTreeViewModel PlanTreeViewModel { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
@@ -38,10 +38,10 @@ namespace PlansModule.ViewModels
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
 			var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
-			if (planNavigationWidth == 0)
-				planNavigationWidth = 100;
-			if (!IsPlanTreeVisible)
-				planNavigationWidth = 0;
+			//if (planNavigationWidth == 0)
+			//    planNavigationWidth = 100;
+			//if (!IsPlanTreeVisible)
+			//    planNavigationWidth = 0;
 			PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
 			ApplicationService.ShuttingDown += () =>
 			{
@@ -67,7 +67,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private void OnSelectPlan(Guid planUID)
+		void OnSelectPlan(Guid planUID)
 		{
 			var newPlan = PlanTreeViewModel.FindPlan(planUID);
 			if (PlanTreeViewModel.SelectedPlan == newPlan)
@@ -75,17 +75,17 @@ namespace PlansModule.ViewModels
 			else
 				PlanTreeViewModel.SelectedPlan = newPlan;
 		}
-		private void SelectedPlanChanged(object sender, EventArgs e)
+		void SelectedPlanChanged(object sender, EventArgs e)
 		{
 			OnSelectedPlanChanged();
 		}
-		private void OnSelectedPlanChanged()
+		void OnSelectedPlanChanged()
 		{
 			if (_initialized)
 				PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
 		}
 
-		private void OnRegisterPlanPresenter(IPlanPresenter<Plan> planPresenter)
+		void OnRegisterPlanPresenter(IPlanPresenter<Plan> planPresenter)
 		{
 			if (!PlanPresenters.Contains(planPresenter))
 			{
@@ -96,7 +96,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private void OnShowElement(Guid elementUID)
+		void OnShowElement(Guid elementUID)
 		{
 			foreach (var presenterItem in PlanDesignerViewModel.PresenterItems)
 				if (presenterItem.Element.UID == elementUID)
@@ -105,7 +105,7 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.Navigate(presenterItem);
 				}
 		}
-		private void OnFindElementEvent(List<Guid> deviceUIDs)
+		void OnFindElementEvent(List<Guid> deviceUIDs)
 		{
 			foreach (var plan in PlanTreeViewModel.AllPlans)
 				if (plan.PlanFolder == null)
@@ -117,7 +117,7 @@ namespace PlansModule.ViewModels
 							return;
 						}
 		}
-		private void OnNavigate(NavigateToPlanElementEventArgs args)
+		void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
 			Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
@@ -138,7 +138,7 @@ namespace PlansModule.ViewModels
 			PlanTreeViewModel.Select();
 		}
 
-		private GridLength _planNavigationWidth;
+		GridLength _planNavigationWidth;
 		public GridLength PlanNavigationWidth
 		{
 			get { return _planNavigationWidth; }
@@ -148,6 +148,5 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged(() => PlanNavigationWidth);
 			}
 		}
-
 	}
 }

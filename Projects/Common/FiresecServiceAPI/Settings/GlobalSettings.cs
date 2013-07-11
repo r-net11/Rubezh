@@ -45,6 +45,7 @@ namespace FiresecAPI
 			Monitor_F2_Enabled = true;
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
+			Monitor_HaspInfo_Enabled = false;
 
 			Administrator_HideMainMenuIcons = false;
 			Administrator_IsExpertMode = false;
@@ -112,6 +113,8 @@ namespace FiresecAPI
 		public bool Monitor_F3_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_F4_Enabled { get; set; }
+		[DataMember]
+		public bool Monitor_HaspInfo_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_DoNotShowConfirmatinoOnIgnore { get; set; }
 		[DataMember]

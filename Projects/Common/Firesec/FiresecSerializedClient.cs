@@ -43,6 +43,14 @@ namespace Firesec
 		void FSAgent_CoreConfigChanged(string result)
 		{
 			var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
+			if (coreState != null && coreState.Result != null)
+			{
+				foreach (var device in coreState.Result.dev)
+				{
+					if (device.name == null)
+						device.name = "";
+				}
+			}
 			if (coreState.Result != null)
 			{
 				if (StateChanged != null)

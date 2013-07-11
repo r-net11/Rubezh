@@ -42,7 +42,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            AutoDetectDeviceHelper.Run(SelectedDevice);
+			if (CheckNeedSave())
+			{
+				AutoDetectDeviceHelper.Run(SelectedDevice);
+			}
         }
         bool CanAutoDetect()
         {
@@ -51,10 +54,13 @@ namespace DevicesModule.ViewModels
 
         #region ReadWriteDevice
         public RelayCommand<bool> ReadDeviceCommand { get; private set; }
-        void OnReadDevice(bool isUsb)
-        {
-            DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
-        }
+		void OnReadDevice(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
+			}
+		}
         bool CanReadDevice(bool isUsb)
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
@@ -77,37 +83,30 @@ namespace DevicesModule.ViewModels
         }
 
         public RelayCommand<bool> WriteDeviceCommand { get; private set; }
-        void OnWriteDevice(bool isUsb)
-        {
-            if (ValidateConfiguration())
-                DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
-        }
+		void OnWriteDevice(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				if (ValidateConfiguration())
+					DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
+			}
+		}
         bool CanWriteDevice(bool isUsb)
         {
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanWriteDatabase && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig));
         }
 
         public RelayCommand WriteAllDeviceCommand { get; private set; }
-        void OnWriteAllDevice()
-        {
-//#if DEBUG
-//            if (GlobalSettingsHelper.GlobalSettings.FSAgent_UseFS2)
-//            {
-//                ClientFS2.ConfigurationManager.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
-//                ClientFS2.ConfigurationManager.DriversConfiguration = FiresecManager.FiresecConfiguration.DriversConfiguration;
-
-//                var configurationWriterHelper = new ClientFS2.ConfigurationWriter.ConfigurationWriterHelper();
-//                configurationWriterHelper.Run();
-//                var configurationDatabaseViewModel = new ClientFS2.ViewModels.ConfigurationDatabaseViewModel(configurationWriterHelper);
-//                DialogService.ShowModalWindow(configurationDatabaseViewModel);
-//                return;
-//            }
-//#endif
-			if (ValidateConfiguration())
-            {
-                WriteAllDeviceConfigurationHelper.Run();
-            }
-        }
+		void OnWriteAllDevice()
+		{
+			if (CheckNeedSave())
+			{
+				if (ValidateConfiguration())
+				{
+					WriteAllDeviceConfigurationHelper.Run();
+				}
+			}
+		}
         bool CanWriteAllDevice()
         {
             return (FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig));
@@ -115,78 +114,98 @@ namespace DevicesModule.ViewModels
         #endregion
 
         public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
-        void OnSynchronizeDevice(bool isUsb)
-        {
-            SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
-        }
+		void OnSynchronizeDevice(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
+			}
+		}
         bool CanSynchronizeDevice(bool isUsb)
         {
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSynchonize);
         }
 
         public RelayCommand<bool> UpdateSoftCommand { get; private set; }
-        void OnUpdateSoft(bool isUsb)
-        {
+		void OnUpdateSoft(bool isUsb)
+		{
 			if (ConnectionSettingsManager.IsRemote)
 			{
 				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;
 			}
-            FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
-        }
+			if (CheckNeedSave())
+			{
+				FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
+			}
+		}
         bool CanUpdateSoft(bool isUsb)
         {
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanUpdateSoft && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
         }
 
         public RelayCommand<bool> GetDescriptionCommand { get; private set; }
-        void OnGetDescription(bool isUsb)
-        {
-            DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
-        }
+		void OnGetDescription(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
+			}
+		}
         bool CanGetDescription(bool isUsb)
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
         }
 
         public RelayCommand<bool> GetDeveceJournalCommand { get; private set; }
-        void OnGetDeveceJournal(bool isUsb)
-        {
-            ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
-        }
+		void OnGetDeveceJournal(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
+			}
+		}
         bool CanGetDeveceJournal(bool isUsb)
         {
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanReadJournal);
         }
 
         public RelayCommand<bool> SetPasswordCommand { get; private set; }
-        void OnSetPassword(bool isUsb)
-        {
-            DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device, isUsb));
-        }
+		void OnSetPassword(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device, isUsb));
+			}
+		}
         bool CanSetPassword(bool isUsb)
         {
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSetPassword);
         }
 
         public RelayCommand BindMsCommand { get; private set; }
-        void OnBindMs()
-        {
-            DeviceGetSerialListHelper.Run(SelectedDevice.Device);
-        }
+		void OnBindMs()
+		{
+			if (CheckNeedSave())
+			{
+				DeviceGetSerialListHelper.Run(SelectedDevice.Device);
+			}
+		}
         bool CanBindMs()
         {
             return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == DriverType.MS_1 || SelectedDevice.Device.Driver.DriverType == DriverType.MS_2));
         }
 
         public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
-        void OnExecuteCustomAdminFunctions(bool isUsb)
-        {
-			DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device, isUsb));
-        }
+		void OnExecuteCustomAdminFunctions(bool isUsb)
+		{
+			if (CheckNeedSave())
+			{
+				DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device, isUsb));
+			}
+		}
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {
-            //return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.IndicationBlock ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
@@ -208,6 +227,16 @@ namespace DevicesModule.ViewModels
 			return true;
 #endif
 			return false;
+		}
+
+		bool CheckNeedSave()
+		{
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return false;
+			}
+			return true;
 		}
 
 		public bool IsFS2Enabled

@@ -76,12 +76,16 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("ParentStringStates");
 			OnPropertyChanged("IsAutomaticOff");
 
-			StartTimer(DriverType.RM_1, "RMOn");
-			StartTimer(DriverType.MRO, "MRO_On");
-            StartTimer(DriverType.MRO_2, "MRO_On");
-			StartTimer(DriverType.MDU, "ClapanOn1e");
-			StartTimer(DriverType.Valve, "Bolt_On");
-			StartTimer(DriverType.MPT, "MPT_On");
+			var property = Device.Properties.FirstOrDefault(x => x.Name == "EnableCountDownTimer");
+			if (property != null && property.Value == "1")
+			{
+				StartTimer(DriverType.RM_1, "RMOn");
+				StartTimer(DriverType.MRO, "MRO_On");
+				StartTimer(DriverType.MRO_2, "MRO_On");
+				StartTimer(DriverType.MDU, "ClapanOn1e");
+				StartTimer(DriverType.Valve, "Bolt_On");
+				StartTimer(DriverType.MPT, "MPT_On");
+			}
 		}
 
 		public bool IsAutomaticOff
