@@ -940,6 +940,31 @@
   <ItemGroup>
     <Resource Include="FSIcons\ComPort_V2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\add.png" />
+    <Resource Include="Images\Icons\apply.png" />
+    <Resource Include="Images\Icons\check.png" />
+    <Resource Include="Images\Icons\edit.png" />
+    <Resource Include="Images\Icons\new.png" />
+    <Resource Include="Images\Icons\parameters.png" />
+    <Resource Include="Images\Icons\ParametersRead.png" />
+    <Resource Include="Images\Icons\ParametersReadWrite.png" />
+    <Resource Include="Images\Icons\ParametersSync.png" />
+    <Resource Include="Images\Icons\ParametersWrite.png" />
+    <Resource Include="Images\Icons\parameters_white.png" />
+    <Resource Include="Images\Icons\params.png" />
+    <Resource Include="Images\Icons\Patterns.png" />
+    <Resource Include="Images\Icons\Patterns_white.png" />
+    <Resource Include="Images\Icons\read.png" />
+    <Resource Include="Images\Icons\read_params.png" />
+    <Resource Include="Images\Icons\read_params_white.png" />
+    <Resource Include="Images\Icons\remove.png" />
+    <Resource Include="Images\Icons\save.png" />
+    <Resource Include="Images\Icons\sync.png" />
+    <Resource Include="Images\Icons\sync_white.png" />
+    <Resource Include="Images\Icons\write_params.png" />
+    <Resource Include="Images\Icons\write_params_white.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
