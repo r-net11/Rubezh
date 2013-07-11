@@ -43,15 +43,48 @@ namespace DevicesModule.ViewModels
 
         static void OnUpdateProgress()
         {
-            GetDriverTypesToUpdate();
+			bool? isRewriteSame = null;
+			bool? isRewriteOld = null;
+			bool isUpdateable = true;
+			GetDriverTypesToUpdate();
             foreach (var device in FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.Where(x => DriverTypesToUpdate.Contains(x.Driver.DriverType)))
             {
                 OperationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(device, device.IsUsb, new FileInfo(FileName).FullName);
                 if (OperationResult_1.HasError)
                 {
                     ReportString += "Ошибка при проверке версии " + device.PresentationAddressAndName + " " +OperationResult_1.Error + "\n";
+					isUpdateable = false;
                 }
-                else
+				else if (OperationResult_1.Result == "В приборе уже установлена данная версия программного обеспечения. Продолжить ?")
+ 				{
+					switch (isRewriteSame)
+					{
+						case (true):
+							break;
+						case (false):
+							isUpdateable = false;
+							break;
+						default:
+							isRewriteSame = MessageBoxService.ShowQuestion(OperationResult_1.Result) == MessageBoxResult.Yes;
+							break;
+					}
+				}
+				else if (OperationResult_1.Result == "В приборе содержится более новая версия программного обеспечения. Вы уверены что хотите вернуться к старой версии ПО ?")
+ 				{
+					switch (isRewriteOld)
+					{
+						case (true):
+							break;
+						case (false):
+							isUpdateable = false;
+							break;
+						default:
+							isRewriteSame = MessageBoxService.ShowQuestion(OperationResult_1.Result) == MessageBoxResult.Yes;
+							break;
+					}
+				}
+				
+				if(isUpdateable)
                 {
                     OperationResult_2 = FiresecManager.DeviceUpdateFirmware(device, device.IsUsb, new FileInfo(FileName).FullName);
                     if (OperationResult_2.HasError)

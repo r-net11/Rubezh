@@ -133,17 +133,17 @@ namespace DevicesModule.ViewModels
 				return;
 			}
 
-            if (FirmwareAllUpdateHelper.IsManyDevicesToUpdate(SelectedDevice.Device))
-            {
-                var messageBoxResult = MessageBoxService.ShowQuestion("Обновить ПО во всех устройствах этого типа");
-                if (messageBoxResult == MessageBoxResult.OK || messageBoxResult == MessageBoxResult.Yes)
-                {
-                    FirmwareAllUpdateHelper.Run(SelectedDevice.Device);
-                    return;
-                }
-                else if(messageBoxResult == MessageBoxResult.Cancel)
-                    return;
-            }
+			if (FirmwareAllUpdateHelper.IsManyDevicesToUpdate(SelectedDevice.Device))
+			{
+				var messageBoxResult = MessageBoxService.ShowQuestion("Обновить ПО во всех устройствах этого типа?");
+				if (messageBoxResult == MessageBoxResult.OK || messageBoxResult == MessageBoxResult.Yes)
+				{
+					FirmwareAllUpdateHelper.Run(SelectedDevice.Device);
+					return;
+				}
+				else if (messageBoxResult == MessageBoxResult.Cancel)
+					return;
+			}
             
             FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
         }
