@@ -78,6 +78,7 @@ namespace DevicesModule
 			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
+			SimulationViewModel.Initialize();
 			GuardViewModel.Initialize();
 			_planExtension.Initialize();
 
@@ -92,11 +93,11 @@ namespace DevicesModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/tree.png", null, null, Guid.Empty),
+				new NavigationItem<ShowDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
+				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
-				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty),
-				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/tree.png", null, null, Guid.Empty) { IsVisible = false },
+				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty){IsVisible=GlobalSettingsHelper.GlobalSettings.Administrator_ShowDirectories},
+				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/Bug.png", null, null, Guid.Empty) { IsVisible = GlobalSettingsHelper.GlobalSettings.Administrator_ShowSimulation },
 				_guardNavigationItem
 			};
 		}

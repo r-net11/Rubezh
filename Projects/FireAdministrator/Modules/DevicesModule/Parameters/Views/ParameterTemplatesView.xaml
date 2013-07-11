@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="200" MinHeight="200" />
+                <RowDefinition MinHeight="200" Height="100" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" MinHeight="200" />
             </Grid.RowDefinitions>
@@ -27,7 +27,7 @@
                     <DataGridTemplateColumn Header="Наименование" Width="*" SortMemberPath="Driver.Name">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding Name}" Margin="5 0 0 0" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -49,7 +49,7 @@
                     <DataGridTemplateColumn Header="Наименование" Width="450" SortMemberPath="Driver.Name">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Driver.Name}" ToolTip="{Binding Driver.Name}" />
+                                <TextBlock Text="{Binding Driver.Name}" ToolTip="{Binding Driver.Name}" Margin="5 0 0 0" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

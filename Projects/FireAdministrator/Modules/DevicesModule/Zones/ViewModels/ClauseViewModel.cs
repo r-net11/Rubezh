@@ -89,7 +89,7 @@ namespace DevicesModule.ViewModels
 						{
 							case DriverType.Rubezh_4A:
 							case DriverType.USB_Rubezh_4A:
-							case DriverType.BlindPanel:
+							case DriverType.Rubezh_P:
 							case DriverType.USB_Rubezh_P:
 								states = new List<ZoneLogicState>() {
 									ZoneLogicState.Fire,

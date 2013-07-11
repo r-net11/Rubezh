@@ -291,7 +291,13 @@
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Simulation\ViewModels\SimulationDeviceViewModel.cs" />
+    <Compile Include="Simulation\ViewModels\SimulationMenuViewModel.cs" />
+    <Compile Include="Simulation\ViewModels\SimulationZoneViewModel.cs" />
     <Compile Include="Simulation\ViewModels\SimulationViewModel.cs" />
+    <Compile Include="Simulation\Views\SimulationMenuView.xaml.cs">
+      <DependentUpon>SimulationMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Simulation\Views\SimulationView.xaml.cs">
       <DependentUpon>SimulationView.xaml</DependentUpon>
     </Compile>
@@ -686,6 +692,10 @@
     <Page Include="Plans\Views\ZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Simulation\Views\SimulationMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Simulation\Views\SimulationView.xaml">
       <SubType>Designer</SubType>

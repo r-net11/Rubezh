@@ -833,7 +833,7 @@
     <Resource Include="FSIcons\USB_Rubezh_P.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FSIcons\BlindPanel.png" />
+    <Resource Include="FSIcons\Rubezh_P.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FSIcons\Sonar.png" />
@@ -928,7 +928,18 @@
   <ItemGroup>
     <Resource Include="StateClassIcons\Off.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\AllParameters.png" />
+    <Resource Include="Images\briefcase.png" />
+    <Resource Include="Images\ParametersRead.png" />
+    <Resource Include="Images\ParametersReadWrite.png" />
+    <Resource Include="Images\ParametersSync.png" />
+    <Resource Include="Images\ParametersWrite.png" />
+    <Resource Include="Images\Star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\ComPort_V2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

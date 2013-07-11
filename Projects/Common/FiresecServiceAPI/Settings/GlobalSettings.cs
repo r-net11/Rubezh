@@ -50,6 +50,8 @@ namespace FiresecAPI
 			Administrator_IsExpertMode = false;
 			Administrator_ShowMainMenu = false;
 			Administrator_ShowGridLineInstruments = false;
+			Administrator_ShowDirectories = false;
+			Administrator_ShowSimulation = false;
 		}
 
 		[DataMember]
@@ -129,6 +131,10 @@ namespace FiresecAPI
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
 		[DataMember]
 		public bool Administrator_ShowGridLineInstruments { get; set; }
+		[DataMember]
+		public bool Administrator_ShowDirectories { get; set; }
+		[DataMember]
+		public bool Administrator_ShowSimulation { get; set; }
 
 		public List<string> GetModules()
 		{

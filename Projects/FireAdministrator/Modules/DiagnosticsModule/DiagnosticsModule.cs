@@ -25,7 +25,7 @@ namespace DiagnosticsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Star.png"),
 			};
 		}
 

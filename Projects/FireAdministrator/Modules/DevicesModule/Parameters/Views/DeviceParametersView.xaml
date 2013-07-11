@@ -38,9 +38,8 @@
             <MenuItem Command="{Binding WriteCommand}" Header="Записать параметры" />
             <MenuItem Command="{Binding WriteAllCommand}" Header="Записать параметры дочерних устройств" />
             <Separator />
-            <MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
-            <MenuItem Command="{Binding CopyCommand}" Header="Копировать" />
-            <MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
+            <MenuItem Command="{Binding CopyCommand}" Header="Копировать параметры" />
+            <MenuItem Command="{Binding PasteCommand}" Header="Вставить параметры" />
             <MenuItem Command="{Binding PasteAllCommand}" Header="Вставить во все дочерние устройства" />
             <Separator />
             <MenuItem Command="{Binding PasteTemplateCommand}" Header="Применить шаблон" />

@@ -33,7 +33,7 @@ namespace FireAdministrator.ViewModels
 				switch (result)
 				{
 					case MessageBoxResult.Yes:
-						return ((MenuViewModel)Toolbar).SetNewConfig();
+						return !((MenuViewModel)Toolbar).SetNewConfig();
 					case MessageBoxResult.No:
 						return false;
 					case MessageBoxResult.Cancel:

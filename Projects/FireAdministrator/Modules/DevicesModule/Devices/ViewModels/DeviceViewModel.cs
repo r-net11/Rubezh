@@ -70,15 +70,17 @@ namespace DevicesModule.ViewModels
 			get { return Device.PresentationAddress; }
 			set
 			{
-				Device.SetAddress(value);
-				if (Driver.IsChildAddressReservedRange)
+				if (Device.SetAddress(value))
 				{
-					foreach (var deviceViewModel in Children)
+					if (Driver.IsChildAddressReservedRange)
 					{
-						deviceViewModel.OnPropertyChanged("Address");
+						foreach (var deviceViewModel in Children)
+						{
+							deviceViewModel.OnPropertyChanged("Address");
+						}
 					}
+					ServiceFactory.SaveService.FSChanged = true;
 				}
-				ServiceFactory.SaveService.FSChanged = true;
 				OnPropertyChanged("Address");
 			}
 		}

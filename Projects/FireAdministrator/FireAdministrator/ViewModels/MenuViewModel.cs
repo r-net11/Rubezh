@@ -44,13 +44,14 @@ namespace FireAdministrator.ViewModels
 			get { return GlobalSettingsHelper.GlobalSettings.Administrator_IsMenuIconText; }
 		}
 
-		public event CancelEventHandler SetNewConfigEvent;
 		public bool SetNewConfig()
 		{
-			CancelEventArgs e = new CancelEventArgs(false);
-			if (SetNewConfigEvent != null)
-				SetNewConfigEvent(this, e);
-			return e.Cancel;
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				return false;
+			}
+			return ConfigManager.SetNewConfig();
 		}
 
 		public bool CanShowMainMenu

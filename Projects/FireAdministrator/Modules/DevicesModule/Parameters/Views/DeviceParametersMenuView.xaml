@@ -4,13 +4,17 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="/Controls;component/Images/writeconfig.png" />
-        <Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать" ImageSource="/Controls;component/Images/readconfig.png" />
+        <Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать параметры" ImageSource="/Controls;component/Images/ParametersRead.png" />
+        <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" ImageSource="/Controls;component/Images/ParametersWrite.png" />
+        <Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadWrite.png" />
+        <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadWrite.png" />
+        <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать параметры" ImageSource="/Controls;component/Images/Copy.png" />
+        <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить параметры" ImageSource="/Controls;component/Images/Paste.png" />
 
         <Menu Background="Transparent" VerticalAlignment="Center">
             <MenuItem >
                 <MenuItem.Header>
-                    <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Синхронизация" />
+                    <Image Source="/Controls;component/Images/ParametersSync.png" Height="24" ToolTip="Синхронизация" />
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding SyncFromSystemToDeviceCommand}" Header="Из системы в устройство" />

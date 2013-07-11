@@ -214,15 +214,19 @@ namespace FiresecAPI.Models
 			return reservedCount - 1;
 		}
 
-		public void SetAddress(string address)
+		public bool SetAddress(string address)
 		{
 			var intAddress = AddressConverter.StringToIntAddress(Driver, address);
 			if (Driver.IsChildAddressReservedRange)
 			{
 				if ((intAddress & 0xff) + GetReservedCount() > 255)
-					return;
+					return false;
 			}
 
+			if (IntAddress == intAddress)
+			{
+				return false;
+			}
 			var oldIntAddress = IntAddress;
 			IntAddress = intAddress;
 			if (Driver.IsChildAddressReservedRange)
@@ -243,6 +247,7 @@ namespace FiresecAPI.Models
 				}
 			}
 			OnChanged();
+			return false;
 		}
 
 		public string AddressFullPath
@@ -338,7 +343,8 @@ namespace FiresecAPI.Models
 
 				var channelDevice = AllParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_Channel ||
 					x.Driver.DriverType == DriverType.USB_Channel_1 ||
-					x.Driver.DriverType == DriverType.USB_Channel_2));
+					x.Driver.DriverType == DriverType.USB_Channel_2 ||
+					x.Driver.DriverType == DriverType.ComPort_V2));
 
 				return channelDevice;
 			}
