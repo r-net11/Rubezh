@@ -146,9 +146,8 @@ namespace DevicesModule.ViewModels
 				else if (messageBoxResult == MessageBoxResult.Cancel)
 					return;
 			}
-            
-				FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
-			}
+
+			FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
 		}
         bool CanUpdateSoft(bool isUsb)
         {
