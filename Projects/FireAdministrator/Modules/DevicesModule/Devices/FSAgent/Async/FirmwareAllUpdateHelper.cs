@@ -34,7 +34,8 @@ namespace DevicesModule.ViewModels
 		public static void Run(Device device)
 		{
 			Device = device;
-			var openFileDialog = new OpenFileDialog();
+            ReportString = "";
+            var openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
 
 			if (openFileDialog.ShowDialog() == true)
