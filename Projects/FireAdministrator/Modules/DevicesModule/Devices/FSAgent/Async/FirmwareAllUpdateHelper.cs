@@ -19,8 +19,6 @@ namespace DevicesModule.ViewModels
 		static Device Device;
 		static string FileName;
 		static string ReportString;
-		static OperationResult<string> OperationResult_1;
-		static OperationResult<string> OperationResult_2;
 		static List<DriverType> DriverTypesToUpdate;
 		static List<UpdatingDevice> UpdatingDevices;
 		static bool IsRewriteSame;
@@ -60,17 +58,17 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var updatingDevice in UpdatingDevices)
 			{
-				OperationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(updatingDevice.Device, updatingDevice.Device.IsUsb, new FileInfo(FileName).FullName);
-				if (OperationResult_1.HasError)
+				var operationResult = FiresecManager.DeviceVerifyFirmwareVersion(updatingDevice.Device, updatingDevice.Device.IsUsb, new FileInfo(FileName).FullName);
+				if (operationResult.HasError)
 				{
-					ReportString += "Ошибка при проверке версии " + updatingDevice.Device.PresentationAddressAndName + " " + OperationResult_1.Error + "\n";
+					ReportString += "Ошибка при проверке версии " + updatingDevice.Device.PresentationAddressAndName + " " + operationResult.Error + "\n";
 					updatingDevice.IsError = true;
 				}
-				else if (OperationResult_1.Result == "В приборе уже установлена данная версия программного обеспечения. Продолжить ?")
+				else if (operationResult.Result == "В приборе уже установлена данная версия программного обеспечения. Продолжить ?")
 				{
 					updatingDevice.IsSameVersion = true;
 				}
-				else if (OperationResult_1.Result == "В приборе содержится более новая версия программного обеспечения. Вы уверены что хотите вернуться к старой версии ПО ?")
+				else if (operationResult.Result == "В приборе содержится более новая версия программного обеспечения. Вы уверены что хотите вернуться к старой версии ПО ?")
 				{
 					updatingDevice.IsOldVersion = true;
 				}
@@ -87,9 +85,9 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var updatingDevice in UpdatingDevices.Where(x => ShouldBeUpdated(x)))
 			{
-				OperationResult_2 = FiresecManager.DeviceUpdateFirmware(updatingDevice.Device, updatingDevice.Device.IsUsb, new FileInfo(FileName).FullName);
-				if (OperationResult_2.HasError)
-					ReportString += "Ошибка при выполнении операции " + updatingDevice.Device.PresentationAddressAndName + " " + OperationResult_2.Error + "\n";
+				var operationResult = FiresecManager.DeviceUpdateFirmware(updatingDevice.Device, updatingDevice.Device.IsUsb, new FileInfo(FileName).FullName);
+				if (operationResult.HasError)
+					ReportString += "Ошибка при выполнении операции " + updatingDevice.Device.PresentationAddressAndName + " " + operationResult.Error + "\n";
 				else
 					ReportString += "Операция завершилась успешно " + updatingDevice.Device.PresentationAddressAndName + "\n";
 			}
