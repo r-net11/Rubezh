@@ -41,8 +41,6 @@ namespace DevicesModule.ViewModels
 			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
 			SyncFromAllSystemToDeviceCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
 			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
-			SyncAnywayFromSystemToDeviceCommand = new RelayCommand(SyncFromAllSystemToDevice);
-			SyncAnywayFromDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem);
 
 			Invalidate();
 		}
@@ -154,22 +152,28 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			WaitHelper.Execute(() =>
+			if (CheckNeedSave())
 			{
-				SelectedDevice.Device.DeviceAUProperties.Clear();
-				SelectedDevice.Update();
-				ReadOneDevice(SelectedDevice.Device);
-			});
-			ServiceFactory.SaveService.FSParametersChanged = true;
+				WaitHelper.Execute(() =>
+				{
+					SelectedDevice.Device.DeviceAUProperties.Clear();
+					SelectedDevice.Update();
+					ReadOneDevice(SelectedDevice.Device);
+				});
+				ServiceFactory.SaveService.FSParametersChanged = true;
+			}
 		}
 
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			WaitHelper.Execute(() =>
+			if (CheckNeedSave())
 			{
-				WriteOneDevice(SelectedDevice.Device);
-			});
+				WaitHelper.Execute(() =>
+				{
+					WriteOneDevice(SelectedDevice.Device);
+				});
+			}
 		}
 
 		bool CanReadWrite()
@@ -180,31 +184,37 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ReadAllCommand { get; private set; }
 		void OnReadAll()
 		{
-			WaitHelper.Execute(() =>
+			if (CheckNeedSave())
 			{
-				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				WaitHelper.Execute(() =>
 				{
-					device.DeviceAUProperties.Clear();
-					var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
-					if (deviceViewModel != null)
+					foreach (var device in SelectedDevice.Device.GetAllChildren())
 					{
-						deviceViewModel.Update();
+						device.DeviceAUProperties.Clear();
+						var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
+						if (deviceViewModel != null)
+						{
+							deviceViewModel.Update();
+						}
+						ReadOneDevice(device);
 					}
-					ReadOneDevice(device);
-				}
-			});
+				});
+			}
 		}
 
 		public RelayCommand WriteAllCommand { get; private set; }
 		void OnWriteAll()
 		{
-			WaitHelper.Execute(() =>
+			if (CheckNeedSave())
 			{
-				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				WaitHelper.Execute(() =>
 				{
-					WriteOneDevice(device);
-				}
-			});
+					foreach (var device in SelectedDevice.Device.GetAllChildren())
+					{
+						WriteOneDevice(device);
+					}
+				});
+			}
 		}
 
 		bool CanReadWriteAll()
@@ -375,47 +385,56 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SyncFromSystemToDeviceCommand { get; private set; }
 		void OnSyncFromSystemToDevice()
 		{
-			CopyFromSystemToDevice(SelectedDevice.Device);
-			SelectedDevice.Update();
-			UpdateIsMissmatch();
+			if (CheckNeedSave())
+			{
+				CopyFromSystemToDevice(SelectedDevice.Device);
+				SelectedDevice.Update();
+				UpdateIsMissmatch();
+			}
 		}
 
 		public RelayCommand SyncFromAllSystemToDeviceCommand { get; private set; }
 		void SyncFromAllSystemToDevice()
 		{
-			foreach (var device in SelectedDevice.Device.GetAllChildren())
+			if (CheckNeedSave())
 			{
-				CopyFromSystemToDevice(device);
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
-				if (deviceViewModel != null)
-					deviceViewModel.Update();
+				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				{
+					CopyFromSystemToDevice(device);
+					var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.Update();
+				}
+				UpdateIsMissmatch();
 			}
-			UpdateIsMissmatch();
 		}
 
 		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
 		void OnSyncFromDeviceToSystem()
 		{
-			CopyFromDeviceToSystem(SelectedDevice.Device);
-			SelectedDevice.Update();
-			UpdateIsMissmatch();
+			if (CheckNeedSave())
+			{
+				CopyFromDeviceToSystem(SelectedDevice.Device);
+				SelectedDevice.Update();
+				UpdateIsMissmatch();
+			}
 		}
 
 		public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
 		void OnSyncFromAllDeviceToSystem()
 		{
-			foreach (var device in SelectedDevice.Device.GetAllChildren())
+			if (CheckNeedSave())
 			{
-				CopyFromDeviceToSystem(device);
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
-				if (deviceViewModel != null)
-					deviceViewModel.Update();
+				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				{
+					CopyFromDeviceToSystem(device);
+					var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.Update();
+				}
+				UpdateIsMissmatch();
 			}
-			UpdateIsMissmatch();
 		}
-
-		public RelayCommand SyncAnywayFromDeviceToSystemCommand { get; private set; }
-		public RelayCommand SyncAnywayFromSystemToDeviceCommand { get; private set; }
 
 		bool CanSync()
 		{
@@ -494,6 +513,16 @@ namespace DevicesModule.ViewModels
 				if(device.SystemAUProperties != null)
 					device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
 			}
+		}
+
+		bool CheckNeedSave()
+		{
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
+				return false;
+			}
+			return true;
 		}
 
 		int FSChangesCount;

@@ -29,7 +29,10 @@ namespace DevicesModule.DeviceProperties
 				DeviceAUParameterValue = "Неизвестно";
 
 			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			IsMissmatch = (deviceProperty != null && systemProperty != null && deviceProperty.Value != systemProperty.Value);
+			if (!DriverProperty.IsReadOnly)
+			{
+				IsMissmatch = (deviceProperty != null && systemProperty != null && deviceProperty.Value != systemProperty.Value);
+			}
 		}
 
 		public string Caption
@@ -54,6 +57,11 @@ namespace DevicesModule.DeviceProperties
 		}
 
 		public virtual string DeviceAUParameterValue { get; protected set; }
+
+		public bool IsEnabled
+		{
+			get { return !DriverProperty.IsReadOnly; }
+		}
 
 		protected void Save(string value, bool useSaveService = true)
 		{

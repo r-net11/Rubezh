@@ -164,7 +164,7 @@
                                             <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+                                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
                                         <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" />
                                     </Grid>
                                 </DataTemplate>
@@ -180,7 +180,7 @@
                                             <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2">
+                                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Name}" />
@@ -199,8 +199,14 @@
                             <ColumnDefinition SharedSizeGroup="group2" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncAnywayFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" />
-                        <Controls:ToolBarButton Grid.Column="2" Command="{Binding SyncAnywayFromSystemToDeviceCommand}" ToolTip="Заменить значения параметров устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/RightRight.png" />
+                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" Margin="5 0" />
+                            <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" Margin="5 0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Column="2">
+                            <Controls:ToolBarButton Command="{Binding SyncFromSystemToDeviceCommand}" ToolTip="Заменить значения параметров в устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/Right.png" />
+                            <Controls:ToolBarButton Command="{Binding SyncFromAllSystemToDeviceCommand}" ToolTip="Заменить все значения параметров в устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/RightRight.png" />
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
