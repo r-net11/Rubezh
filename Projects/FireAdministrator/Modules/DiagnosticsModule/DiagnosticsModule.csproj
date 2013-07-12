@@ -137,9 +137,6 @@
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RibbonMenu.xaml.cs">
-      <DependentUpon>RibbonMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SVGTestView.xaml.cs">
       <DependentUpon>SVGTestView.xaml</DependentUpon>
     </Compile>
@@ -182,10 +179,6 @@
     <Page Include="Views\DiagnosticsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RibbonMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SVGTestView.xaml">
       <SubType>Designer</SubType>

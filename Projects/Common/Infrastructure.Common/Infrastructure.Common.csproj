@@ -166,6 +166,9 @@
     <Compile Include="LoadHelper\RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
+    <Compile Include="Ribbon\RibbonButton.cs" />
+    <Compile Include="Ribbon\RibbonMenuItemViewModel.cs" />
+    <Compile Include="Ribbon\RibbonMenuViewModel.cs" />
     <Compile Include="Services\Content\IContentService.cs" />
     <Compile Include="Services\Content\ContentService.cs" />
     <Compile Include="Services\DragDrop\DragServiceEventArgs.cs" />

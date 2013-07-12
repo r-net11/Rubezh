@@ -21,6 +21,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using Infrastructure.Common.Ribbon;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -383,6 +384,66 @@ namespace DiagnosticsModule.ViewModels
 					"xxxxx",
 					"yyyyy",
 					"zzzzz"
+				};
+			}
+		}
+
+		public RibbonMenuViewModel Menu
+		{
+			get
+			{
+				return new RibbonMenuViewModel()
+				{
+					Items = new ObservableCollection<RibbonMenuItemViewModel>()
+					{
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/new.png", Text = "Новый", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/new.png", Text = "Сохранить", ToolTip = "Сохранить конфигурацию в файл" },
+						new RibbonMenuItemViewModel() { Content = new SVGTestViewModel(), Text = "Сохранить", ToolTip = "Сохранить конфигурацию в файл" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Сохранить", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Сохранить всё", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Проверить", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Content = new RibbonMenuViewModel()
+						{
+							Items = new ObservableCollection<RibbonMenuItemViewModel>()
+							{
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/load.png", Text = "Считать", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/save.png", Text = "Сохранить", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/SaveAll.png", Text = "Сохранить всё", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/check.png", Text = "Проверить", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/download.png", Text = "Применить", ToolTip = "Создать новую конфигурацию" },
+							}
+						}, Text = "Сохранить", ImageSource = "/Controls;component/Images/save.png", ToolTip = "Сохранить конфигурацию в файл" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/load.png", Text = "Считать", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/check.png", Text = "Проверить", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/download.png", Text = "Применить", ToolTip = "Создать новую конфигурацию" },
+						new RibbonMenuItemViewModel() { Content = new RibbonMenuViewModel()
+						{
+							Items = new ObservableCollection<RibbonMenuItemViewModel>()
+							{
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/load.png", Text = "Считать", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Content = new RibbonMenuViewModel()
+								{
+									Items = new ObservableCollection<RibbonMenuItemViewModel>()
+									{
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/load.png", Text = "Считать", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/save.png", Text = "Сохранить", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/SaveAll.png", Text = "Сохранить всё", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Проверить", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Применить", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Считать", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/save.png", Text = "Сохранить", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/SaveAll.png", Text = "Сохранить всё", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, Text = "Проверить", ToolTip = "Создать новую конфигурацию" },
+										new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/download.png", Text = "Применить", ToolTip = "Создать новую конфигурацию" },
+									}
+								}, ImageSource = "/Controls;component/save/new.png", Text = "Сохранить", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/SaveAll.png", Text = "Сохранить всё", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/check.png", Text = "Проверить", ToolTip = "Создать новую конфигурацию" },
+								new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/download.png", Text = "Применить", ToolTip = "Создать новую конфигурацию" },
+							}
+						}, Text = "Сохранить", ToolTip = "Сохранить конфигурацию в файл" },
+						new RibbonMenuItemViewModel() { Command = BalloonTestCommand, ImageSource = "/Controls;component/Images/load.png", Text = "Считать", ToolTip = "Создать новую конфигурацию" },
+					}
 				};
 			}
 		}

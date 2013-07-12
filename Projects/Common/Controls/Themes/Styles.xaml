@@ -36,8 +36,8 @@
 		<ResourceDictionary Source="ListViewStyle.xaml" />
 		<ResourceDictionary Source="TreeListStyle.xaml" />
 		<ResourceDictionary Source="ColorPicker.xaml" />
-		<ResourceDictionary Source="Ribbon.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
+		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

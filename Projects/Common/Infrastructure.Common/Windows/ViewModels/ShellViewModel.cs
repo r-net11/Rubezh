@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Ribbon;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -221,8 +222,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => RibbonVisible);
 			}
 		}
-		private BaseViewModel _ribbonContent;
-		public BaseViewModel RibbonContent
+		private RibbonMenuViewModel _ribbonContent;
+		public RibbonMenuViewModel RibbonContent
 		{
 			get { return _ribbonContent; }
 			set
