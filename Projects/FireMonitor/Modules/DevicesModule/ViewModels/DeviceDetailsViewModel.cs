@@ -49,7 +49,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (DeviceState != null && _deviceControl != null)
 				_deviceControl.StateType = DeviceState.StateType;
-			OnPropertyChanged("DeviceControlContent");
+			OnPropertyChanged("DevicePicture");
 
 			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeStates)
@@ -112,9 +112,9 @@ namespace DevicesModule.ViewModels
 					{
 						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
-						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
+						var timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "AU_Delay");
                         if(timeoutProperty == null)
-                            timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Задержка включения, с");
+							timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "Задержка включения, с");
 						if (timeoutProperty != null)
 						{
 							int timeout = 0;
@@ -150,33 +150,6 @@ namespace DevicesModule.ViewModels
 		{
 			get { return DevicePictureCache.GetDynamicBrush(Device, System.Guid.Empty); }
 		}
-		//public object DeviceControlContent
-		//{
-		//    get
-		//    {
-		//        var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
-		//        if (libraryDevice == null)
-		//        {
-		//            return null;
-		//        }
-		//        if (DeviceState != null)
-		//        {
-		//            _deviceControl = new DeviceControls.DeviceControl()
-		//            {
-		//                DriverId = Device.Driver.UID,
-		//                Width = 50,
-		//                Height = 50,
-		//                StateType = DeviceState.StateType,
-		//                AdditionalStateCodes = new List<string>(
-		//                    from state in DeviceState.ThreadSafeStates
-		//                    select state.DriverState.Code)
-		//            };
-		//            _deviceControl.Update();
-		//        }
-
-		//        return _deviceControl;
-		//    }
-		//}
 
 		public StateType StateType
 		{

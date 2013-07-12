@@ -1,4 +1,6 @@
-﻿namespace FiresecAPI.Models
+﻿using System.Linq;
+
+namespace FiresecAPI.Models
 {
 	public static class ConfigurationCash
 	{
