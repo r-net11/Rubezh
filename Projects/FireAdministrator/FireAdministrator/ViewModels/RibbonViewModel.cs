@@ -28,7 +28,7 @@ namespace FireAdministrator.ViewModels
 					new RibbonMenuItemViewModel("Сохранить", _menu.SaveAsCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
 					new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "/Controls;component/Images/BCheck.png", "Проверить конфигурацию"),
 					new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "/Controls;component/Images/BDownload.png", "Применить конфигурацию"),
-				}, "/Controls;component/Images/BSync.png", "Операции с конфигурацией"),
+				}, "/Controls;component/Images/BConfig.png", "Операции с конфигурацией"),
 			};
 		}
 
