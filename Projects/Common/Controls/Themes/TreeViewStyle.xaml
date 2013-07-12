@@ -21,7 +21,7 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Border> 
+					<Border>
 						<Rectangle Margin="0" Opacity="0" Stroke="Black" StrokeDashArray="1 2" StrokeThickness="5" />
 					</Border>
 				</ControlTemplate>
