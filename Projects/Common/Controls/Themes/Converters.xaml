@@ -39,4 +39,5 @@
 	<Converters:BoolToMinimizeTextConverter x:Key="BoolToMinimizeTextConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:BoolInverterConverter x:Key="BoolInverterConverter" />
+    <Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
 </ResourceDictionary>

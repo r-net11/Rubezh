@@ -6,6 +6,7 @@ using Infrastructure.ViewModels;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -14,7 +15,11 @@ namespace DevicesModule.ViewModels
 		public SimulationViewModel()
 		{
 			Menu = new SimulationMenuViewModel(this);
+			xxx = "Hello";//ZoneLogicState.Fire;
 		}
+
+		//public ZoneLogicState ZoneState { get; set; }
+		public string xxx { get; set; }
 
 		public void Initialize()
 		{

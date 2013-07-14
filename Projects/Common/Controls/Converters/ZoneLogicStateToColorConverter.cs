@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using FiresecAPI.Models;
 using System.Windows.Media;
+using FiresecAPI.Models;
 
-namespace DevicesModule.Converters
+namespace Controls.Converters
 {
-	public class xxxConverter : IValueConverter
+	public class ZoneLogicStateToColorConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return Brushes.Red;
+			return Colors.Green;
 
 			ZoneLogicState? zoneLogicState = (ZoneLogicState?)value;
 			if (zoneLogicState == null)
 				return Colors.Green;
 
-			switch(zoneLogicState.Value)
+			switch (zoneLogicState.Value)
 			{
 				case ZoneLogicState.Fire:
 					return Colors.Red;
