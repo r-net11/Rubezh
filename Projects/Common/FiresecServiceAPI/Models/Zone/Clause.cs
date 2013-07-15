@@ -13,6 +13,7 @@ namespace FiresecAPI.Models
             State = ZoneLogicState.Fire;
             Operation = ZoneLogicOperation.Any;
             Zones = new List<Zone>();
+			DeviceUIDs = new List<Guid>();
         }
 
         public Device Device { get; set; }
@@ -29,6 +30,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public Guid DeviceUID { get; set; }
+
+		[DataMember]
+		public List<Guid> DeviceUIDs { get; set; }
 
         [DataMember]
         public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }

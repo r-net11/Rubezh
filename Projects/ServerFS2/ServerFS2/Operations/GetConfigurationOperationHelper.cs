@@ -107,38 +107,66 @@ namespace ServerFS2
 						State = GetDeviceConfigHelper.GetEventTypeByCode(eventType),
 						Operation = zoneLogicOperationByte == 0x01 ? ZoneLogicOperation.All : ZoneLogicOperation.Any
 					};
-					for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+					if (eventType == 0x0b) // Активация устройства АМ-1Т или МДУ (начиная с 10 версиии базы)
 					{
-						tableDynamicSize += 3;
-						var localPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 34 + zoneNo * 3);
-						// ... здесь инициализируются все зоны учавствующие в логике ... //
-						var zone = new Zone();
-						if ((localPointer >= outZonesBegin) && (localPointer < outZonesEnd))// зона внешняя
+						var deviceCount = zonesCount;
+						for (var deviceNo = 0; deviceNo < deviceCount; deviceNo++)
 						{
-							zone.No = DeviceFlash[localPointer + 6] * 256 + DeviceFlash[localPointer + 7];
-							continue;
-						}
-						zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
-						zone.Name = BytesHelper.ExtractString(DeviceFlash, localPointer + 6);
-						zone.DevicesInZoneLogic.Add(device);
-						if (zones.Any(x => x.No == zone.No))
-						// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-						{
-							clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-							continue;
-						}
+							tableDynamicSize += 3;
+							var logicDevice = new Device();
+							var localPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 34 + deviceNo*3);
+							var am1tPointer = BytesHelper.ExtractTriple(DeviceRom, 96);
+							var mduPointer = BytesHelper.ExtractTriple(DeviceRom, 120);
+							if (localPointer == am1tPointer)
+							{
+								logicDevice.IntAddress = DeviceFlash[am1tPointer] + 256 * (DeviceFlash[am1tPointer + 1] + 1);
+								logicDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == logicDevice.IntAddress);
+							}
 
-						clause.ZoneUIDs.Add(zone.UID);
-						zones.Add(zone);
-						var zonePanelItem = new ZonePanelItem()
+							if (localPointer == mduPointer)
+							{
+								logicDevice.IntAddress = DeviceFlash[mduPointer + 1] + 256 * (DeviceFlash[mduPointer + 2] + 1);
+								logicDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == logicDevice.IntAddress);
+							}
+							clause.DeviceUIDs.Add(logicDevice.UID);
+						}
+					}
+					else
+					{
+
+						for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
 						{
-							IsRemote = true,
-							No = BytesHelper.ExtractShort(DeviceFlash, localPointer + 4),
-							PanelDevice = PanelDevice,
-							Zone = zone
-						};
-						zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-						remoteDeviceConfiguration.Zones.Add(zone);
+							tableDynamicSize += 3;
+							var localPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 34 + zoneNo * 3);
+							// ... здесь инициализируются все зоны учавствующие в логике ... //
+							var zone = new Zone();
+							if ((localPointer >= outZonesBegin) && (localPointer < outZonesEnd))// зона внешняя
+							{
+								zone.No = DeviceFlash[localPointer + 6] * 256 + DeviceFlash[localPointer + 7];
+								continue;
+							}
+							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
+							zone.Name = BytesHelper.ExtractString(DeviceFlash, localPointer + 6);
+							zone.DevicesInZoneLogic.Add(device);
+							if (zones.Any(x => x.No == zone.No))
+							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+							{
+								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+								continue;
+							}
+
+							clause.ZoneUIDs.Add(zone.UID);
+							zones.Add(zone);
+							var zonePanelItem = new ZonePanelItem()
+							{
+								IsRemote = true,
+								No = BytesHelper.ExtractShort(DeviceFlash, localPointer + 4),
+								PanelDevice = PanelDevice,
+								Zone = zone
+							};
+							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+							remoteDeviceConfiguration.Zones.Add(zone);
+						}
 					}
 					if (zoneLogicOperationByte != 0)
 						device.ZoneLogic.Clauses.Add(clause);
@@ -539,10 +567,13 @@ namespace ServerFS2
 			outZonesCount = DeviceRom[1552] * 256 + DeviceRom[1553];
 			outZonesEnd = outZonesBegin + outZonesCount * 9;
 			#endregion
+			#region Хидеры таблиц на устройства из логики
+			ParseUIDevicesRom(DriverType.MDU);
+			ParseNoUIDevicesRom(DriverType.AM1_T);
+			#endregion
 			#region Хидеры таблиц на исполнительные устройства
 			ParseUIDevicesRom(DriverType.RM_1);
 			ParseUIDevicesRom(DriverType.MPT);
-			ParseUIDevicesRom(DriverType.MDU);
 			ParseUIDevicesRom(DriverType.MRO);
 			ParseUIDevicesRom(DriverType.MRO_2);
 			ParseUIDevicesRom(DriverType.Exit);
@@ -555,7 +586,6 @@ namespace ServerFS2
 			ParseNoUIDevicesRom(DriverType.AM_1);
 			ParseNoUIDevicesRom(DriverType.AMP_4);
 			ParseNoUIDevicesRom(DriverType.AM1_O);
-			ParseNoUIDevicesRom(DriverType.AM1_T);
 			ParseNoUIDevicesRom(DriverType.RadioHandDetector);
 			ParseNoUIDevicesRom(DriverType.RadioSmokeDetector);
 			ParseUIDevicesRom(DriverType.Valve);
