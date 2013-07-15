@@ -28,7 +28,11 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
+					if (libraryXDevice.XDriverId.ToString() != "a7bb2fd0-0088-49ae-8c04-7d6fa22c79d6" &&
+						libraryXDevice.XDriverId.ToString() != "64cb0ab4-d9be-4c71-94a1-cf24406daf92")
+					{
+						Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
+					}
 				}
 			}
 			var devices = from LibraryXDevice libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;

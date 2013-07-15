@@ -219,6 +219,14 @@ namespace FiresecAPI.Models
 					device.DeviceAUProperties = new List<Property>();
 					result = false;
 				}
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					if (clause.DeviceUIDs == null)
+					{
+						clause.DeviceUIDs = new List<Guid>();
+						result = false;
+					}
+				}
 			}
 
 			return result;

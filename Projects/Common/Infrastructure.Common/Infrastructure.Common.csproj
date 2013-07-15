@@ -158,6 +158,7 @@
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Mail\MailHelper.cs" />
+    <Compile Include="ManualPdfHelper.cs" />
     <Compile Include="ObservableRangeCollection.cs" />
     <Compile Include="PatchHelper.cs" />
     <Compile Include="ProcessHelper.cs" />

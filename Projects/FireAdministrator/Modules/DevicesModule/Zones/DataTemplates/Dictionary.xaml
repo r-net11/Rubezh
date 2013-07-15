@@ -19,8 +19,8 @@
         <Views:ZonesSelectionView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZoneLogicDeviceSelectionViewModel}">
-        <Views:ZoneLogicDeviceSelectionView />
+    <DataTemplate DataType="{x:Type ViewModels:ZoneLogicDevicesSelectionViewModel}">
+        <Views:ZoneLogicDevicesSelectionView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:ZonesMenuViewModel}">

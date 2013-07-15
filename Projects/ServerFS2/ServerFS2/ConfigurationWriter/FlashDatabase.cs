@@ -101,7 +101,16 @@ namespace ServerFS2.ConfigurationWriter
 
 		void CreateLocalZones()
 		{
-			foreach (var zone in BinaryPanel.BinaryLocalZones.OrderBy(x=>x.Zone.No))
+			var guardZones = BinaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Guard).OrderBy(x => x.Zone.No);
+			var fireZones = BinaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Fire).OrderBy(x => x.Zone.No);
+			var sortedZones = guardZones.ToList();
+			sortedZones.AddRange(fireZones);
+			if (BinaryPanel.ParentPanel.Driver.DriverType == DriverType.Rubezh_2OP)
+			{
+				var xxx = sortedZones.ToList();
+				;
+			}
+			foreach (var zone in sortedZones)
 			{
 				var zoneTable = new ZoneTable(this, zone);
 				Tables.Add(zoneTable);
@@ -262,7 +271,7 @@ namespace ServerFS2.ConfigurationWriter
 		void CreateLastTable()
 		{
 			LastTable = new TableBase(this, "Последняя таблица");
-			LastTable.BytesDatabase.AddByte(8, "Версия MD5");
+			LastTable.BytesDatabase.AddByte(9, "Версия MD5");
 			for (int i = 0; i < 16; i++)
 			{
 				LastTable.BytesDatabase.AddByte(0, "MD5", true, true);

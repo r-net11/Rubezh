@@ -36,12 +36,14 @@ namespace Firesec
 					}
 					if (innerClause.device != null)
 					{
-						var innerDevice = innerClause.device.FirstOrDefault();
-						if (innerDevice != null)
+						foreach (var innerDevice in innerClause.device)
 						{
-							if (!string.IsNullOrEmpty(innerDevice.UID))
+							if (innerDevice != null)
 							{
-								clause.DeviceUID = GuidHelper.ToGuid(innerDevice.UID);
+								if (!string.IsNullOrEmpty(innerDevice.UID))
+								{
+									clause.DeviceUIDs.Add(GuidHelper.ToGuid(innerDevice.UID));
+								}
 							}
 						}
 					}
@@ -217,10 +219,15 @@ namespace Firesec
 					}
 				}
 
-				if (clause.DeviceUID != Guid.Empty)
+				if (clause.DeviceUIDs != null && clause.DeviceUIDs.Count > 0)
 				{
-					innerClause.device = new deviceType[1];
-					innerClause.device[0] = new deviceType() { UID = clause.DeviceUID.ToString() };
+					var deviceTypes = new List<deviceType>();
+					foreach (var deviceUID in clause.DeviceUIDs)
+					{
+						var deviceType = new deviceType() { UID = deviceUID.ToString() };
+						deviceTypes.Add(deviceType);
+					}
+					innerClause.device = deviceTypes.ToArray();
 				}
 
                 innerClause.zone = clause.Zones.Select(x => x.No.ToString()).ToArray();

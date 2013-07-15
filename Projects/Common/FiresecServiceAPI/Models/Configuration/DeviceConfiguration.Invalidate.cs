@@ -38,37 +38,43 @@ namespace FiresecAPI.Models
                 }
             }
 
-            if (device.Driver.IsZoneLogicDevice)
-            {
-                if (device.ZoneLogic == null)
-                    device.ZoneLogic = new ZoneLogic();
-                foreach (var clause in device.ZoneLogic.Clauses)
-                {
+			if (device.Driver.IsZoneLogicDevice)
+			{
+				if (device.ZoneLogic == null)
+					device.ZoneLogic = new ZoneLogic();
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
 					var zones = new List<Zone>();
-                    foreach (var zoneUID in clause.ZoneUIDs)
-                    {
-                        var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
-                        if (zone != null)
-                        {
+					foreach (var zoneUID in clause.ZoneUIDs)
+					{
+						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+						if (zone != null)
+						{
 							zones.Add(zone);
-                            device.ZonesInLogic.Add(zone);
+							device.ZonesInLogic.Add(zone);
 							if (!zone.DevicesInZoneLogic.Any(x => x.UID == device.UID))
 							{
 								zone.DevicesInZoneLogic.Add(device);
 							}
-                        }
-                    }
+						}
+					}
 					clause.Zones = zones;
 
-                    clause.Device = null;
-                    if (clause.DeviceUID != Guid.Empty)
-                    {
-                        var clauseDevice = Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-                        clause.Device = clauseDevice;
-                        clauseDevice.DependentDevices.Add(device);
-                    }
-                }
-            }
+					clause.Devices = new List<Device>();
+					if (clause.DeviceUIDs != null)
+					{
+						foreach (var deviceUID in clause.DeviceUIDs)
+						{
+							var clauseDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
+							if (clauseDevice != null)
+							{
+								clause.Devices.Add(clauseDevice);
+								clauseDevice.DependentDevices.Add(device);
+							}
+						}
+					}
+				}
+			}
 
             if (device.Driver.DriverType == DriverType.Indicator)
             {
@@ -167,11 +173,18 @@ namespace FiresecAPI.Models
                 var clauses = new List<Clause>();
                 foreach (var clause in device.ZoneLogic.Clauses)
                 {
-                    if (Devices.Any(x => x.UID == clause.DeviceUID) == false)
-                    {
-                        clause.DeviceUID = Guid.Empty;
-                        clause.Device = null;
-                    }
+					if(clause.DeviceUIDs == null)
+						clause.DeviceUIDs = new List<Guid>();
+					var deviceUIDs = new List<Guid>();
+					foreach (var deviceUID in clause.DeviceUIDs)
+					{
+						var deviceInClause = Devices.FirstOrDefault(x => x.UID == deviceUID);
+						if (deviceInClause != null)
+						{
+							deviceUIDs.Add(deviceUID);
+						}
+					}
+					clause.DeviceUIDs = deviceUIDs;
 
                     var zoneUIDs = new List<Guid>();
                     if (clause.ZoneUIDs == null)
@@ -186,7 +199,7 @@ namespace FiresecAPI.Models
                     }
                     clause.ZoneUIDs = zoneUIDs;
 
-                    if (clause.DeviceUID != Guid.Empty || clause.ZoneUIDs.Count > 0 || clause.State == ZoneLogicState.Failure || clause.State == ZoneLogicState.DoubleFire)
+                    if (clause.DeviceUIDs.Count > 0 || clause.ZoneUIDs.Count > 0 || clause.State == ZoneLogicState.Failure || clause.State == ZoneLogicState.DoubleFire)
                         clauses.Add(clause);
                 }
                 device.ZoneLogic.Clauses = clauses;
@@ -405,9 +418,9 @@ namespace FiresecAPI.Models
                     }
                 }
 
-                if (clause.DeviceUID != Guid.Empty)
+				if (clause.DeviceUIDs != null && clause.DeviceUIDs.Count > 0)
                 {
-                    result += "Сработка устройства " + clause.Device.PresentationAddressAndName;
+					result += "Количество устройств для сработки " + clause.DeviceUIDs.Count;
                     continue;
                 }
 

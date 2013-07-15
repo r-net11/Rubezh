@@ -72,13 +72,13 @@
 
 										<TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 											<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
-											    <TextBlock Text="{Binding SelectedDevice.DottedPresentationAddressAndName}" />
+											    <TextBlock Text="{Binding PresenrationSelectedDevice}" />
 												<TextBlock Text="Нажмите для выбора устройства" Margin="2">
 													<TextBlock.Style>
 														<Style>
 															<Setter Property="TextBlock.Visibility" Value="Collapsed" />
 															<Style.Triggers>
-																<DataTrigger Binding="{Binding SelectedDevice}" Value="{x:Null}">
+																<DataTrigger Binding="{Binding SelectedDevices.Count}" Value="0">
 																	<Setter Property="TextBlock.Visibility" Value="Visible" />
 																</DataTrigger>
 															</Style.Triggers>

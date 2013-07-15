@@ -362,7 +362,7 @@
     <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDetailsViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneLogicDevicesSelectionViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
@@ -412,8 +412,8 @@
     <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
       <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml.cs">
-      <DependentUpon>ZoneLogicDeviceSelectionView.xaml</DependentUpon>
+    <Compile Include="Zones\Views\ZoneLogicDevicesSelectionView.xaml.cs">
+      <DependentUpon>ZoneLogicDevicesSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
       <DependentUpon>ZonesMenuView.xaml</DependentUpon>
@@ -720,7 +720,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml">
+    <Page Include="Zones\Views\ZoneLogicDevicesSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

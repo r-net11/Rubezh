@@ -91,6 +91,8 @@ namespace ServerFS2.ConfigurationWriter
 				case DriverType.SmokeDetector:
 					BytesDatabase.AddByte(0, "Запыленность", true);
 					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.HeatDetector:
 					BytesDatabase.AddByte(0, "Температура", true);
@@ -128,14 +130,13 @@ namespace ServerFS2.ConfigurationWriter
 			var amVitualType = GetAMVitualType();
 			BytesDatabase.AddByte(amVitualType, "ID виртуального типа");
 
-			BytesDatabase.AddShort(0, "Общее оличество привязаннфх к сработке ИУ");
-
-			//BytesDatabase.AddShort(0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
-			//{
-			//    BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i+1).ToString());
-			//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
-			//}
+			//BytesDatabase.AddShort(0, "Общее оличество привязаннфх к сработке ИУ");
+			BytesDatabase.AddShort(0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+			{
+				BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+			}
 		}
 
 		void AddAMT4Config()
@@ -198,11 +199,11 @@ namespace ServerFS2.ConfigurationWriter
 					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == rmDevice.UID);
 					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ " + rmDevice.DottedPresentationAddressAndName);
 				}
-				//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
-				//{
-				//    BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-				//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
-				//}
+				for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+				{
+					BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+					BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				}
 			}
 		}
 

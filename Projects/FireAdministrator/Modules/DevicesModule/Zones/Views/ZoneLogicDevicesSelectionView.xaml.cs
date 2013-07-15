@@ -2,9 +2,9 @@
 
 namespace DevicesModule.Views
 {
-	public partial class ZoneLogicDeviceSelectionView : UserControl
+	public partial class ZoneLogicDevicesSelectionView : UserControl
 	{
-		public ZoneLogicDeviceSelectionView()
+		public ZoneLogicDevicesSelectionView()
 		{
 			InitializeComponent();
 		}
