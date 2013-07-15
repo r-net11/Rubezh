@@ -1,39 +1,37 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace Infrastructure.Common.Ribbon
 {
 	public class RibbonMenuItemViewModel : BaseViewModel
 	{
-		public RibbonMenuItemViewModel()
+		public RibbonMenuItemViewModel(string text = null, string imageSource = null, string toolTip = null)
+		{
+			Text = text;
+			ImageSource = imageSource;
+			ToolTip = toolTip;
+			IsEnabled = true;
+			IsVisible = true;
+		}
+		public RibbonMenuItemViewModel(string text, ObservableCollection<RibbonMenuItemViewModel> items, string imageSource = null, string toolTip = null)
+			: this(text, new RibbonMenuViewModel(items), imageSource, toolTip)
 		{
 		}
 		public RibbonMenuItemViewModel(string text, BaseViewModel content, string imageSource = null, string toolTip = null)
+			: this(text, imageSource, toolTip)
 		{
-			Text = text;
-			ImageSource = imageSource;
 			Content = content;
-			ToolTip = toolTip;
-		}
-		public RibbonMenuItemViewModel(string text, ObservableCollection<RibbonMenuItemViewModel> items, string imageSource = null, string toolTip = null)
-		{
-			Text = text;
-			ImageSource = imageSource;
-			Content = new RibbonMenuViewModel(items);
-			ToolTip = toolTip;
 		}
 		public RibbonMenuItemViewModel(string text, ICommand command, string imageSource = null, string toolTip = null)
 			: this(text, command, null, imageSource, toolTip)
 		{
 		}
 		public RibbonMenuItemViewModel(string text, ICommand command, object commandParameter, string imageSource = null, string toolTip = null)
+			: this(text, imageSource, toolTip)
 		{
-			Text = text;
-			Command = command;
+			Command = command ?? DisabledRelayCommand.Instance;
 			CommandParameter = commandParameter;
-			ImageSource = imageSource;
-			ToolTip = toolTip;
 		}
 
 		private string _text;
@@ -101,6 +99,58 @@ namespace Infrastructure.Common.Ribbon
 				OnPropertyChanged(() => Content);
 			}
 		}
-	}
 
+		private bool _isEnabled;
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged(() => IsEnabled);
+			}
+		}
+
+		private bool _isVisible;
+		public bool IsVisible
+		{
+			get { return _isVisible; }
+			set
+			{
+				_isVisible = value;
+				OnPropertyChanged(() => IsVisible);
+			}
+		}
+
+		private int _order;
+		public int Order
+		{
+			get { return _order; }
+			set
+			{
+				_order = value;
+				OnPropertyChanged(() => Order);
+			}
+		}
+
+		private bool _isNewGroup;
+		public bool IsNewGroup
+		{
+			get { return _isNewGroup; }
+			set
+			{
+				_isNewGroup = value;
+				OnPropertyChanged(() => IsNewGroup);
+			}
+		}
+
+		public RibbonMenuItemViewModel this[int index]
+		{
+			get
+			{
+				var menuViewModel = Content as RibbonMenuViewModel;
+				return menuViewModel == null ? null : menuViewModel.Items[index];
+			}
+		}
+	}
 }

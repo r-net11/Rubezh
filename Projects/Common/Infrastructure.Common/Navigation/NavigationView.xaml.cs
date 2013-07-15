@@ -53,9 +53,10 @@ namespace Infrastructure.Common.Navigation
 			{
 				tvi.BringIntoView();
 				//tvi.IsExpanded = !tvi.IsExpanded;
-				NavigationItem item = tvi.Header as NavigationItem;
-				if (item != null)
-					item.Execute();
+				NavigationItem navigation = tvi.Header as NavigationItem;
+				if (navigation != null)
+					navigation.Execute();
+				e.Handled = true;
 			}
 		}
 		private void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)

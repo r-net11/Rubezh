@@ -169,6 +169,7 @@
     <Compile Include="PopupButton.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
+    <Compile Include="Ribbon\Views\RibbonPopup.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
     <Compile Include="ToggleButton.cs" />
@@ -964,6 +965,36 @@
     <Resource Include="Images\ParametersReadAll.png" />
     <Resource Include="Images\ParametersWriteAll.png" />
     <Resource Include="Images\BConfig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BArrowRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAdd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BCut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BCopy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDelete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BEdit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPaste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BArrowUpDown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

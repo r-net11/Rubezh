@@ -24,6 +24,7 @@ namespace Infrastructure.Common.Windows
 		public static Action<FrameworkElement> ApplicationController { get; set; }
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
+		public static ShellViewModel Shell { get; private set; }
 
 		static ApplicationService()
 		{
@@ -91,6 +92,7 @@ namespace Infrastructure.Common.Windows
 		}
 		public static void Run(ShellViewModel model)
 		{
+			Shell = model;
 			Layout = new LayoutService(model);
 			if (Starting != null)
 				Starting(Layout, EventArgs.Empty);
@@ -150,6 +152,10 @@ namespace Infrastructure.Common.Windows
 		public static void RegisterModules(List<IModule> modules)
 		{
 			Modules = new ReadOnlyCollection<IModule>(modules);
+		}
+		public static void RegisterShell(ShellViewModel shell)
+		{
+			Shell = shell;
 		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)

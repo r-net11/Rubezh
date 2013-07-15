@@ -50,15 +50,15 @@ namespace Infrastructure.Common
 		}
 		public void ForceExecute()
 		{
-            try
-            {
-                _execute();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "RelayCommand.ForceExecute");
-                MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
-            }
+			try
+			{
+				_execute();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "RelayCommand.ForceExecute");
+				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+			}
 		}
 
 		#region ICommand Members
@@ -71,9 +71,7 @@ namespace Infrastructure.Common
 		public bool CanExecute(object parameter)
 		{
 			if (_canExecute != null)
-			{
 				return _canExecute(parameter);
-			}
 			return true;
 		}
 
@@ -120,15 +118,15 @@ namespace Infrastructure.Common
 		}
 		public void ForceExecute(T parameter)
 		{
-            try
-            {
-                _execute(parameter);
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "RelayCommand.ForceExecute");
-                MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
-            }
+			try
+			{
+				_execute(parameter);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "RelayCommand.ForceExecute");
+				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
+			}
 		}
 
 		#region ICommand Members
@@ -141,7 +139,7 @@ namespace Infrastructure.Common
 		public bool CanExecute(object parameter)
 		{
 			if (_canExecute != null)
-				return _canExecute((T)parameter);
+				return _canExecute((T)(parameter ?? default(T)));
 			return true;
 		}
 
