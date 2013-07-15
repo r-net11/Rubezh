@@ -26,10 +26,10 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Padding" Value="0" />
-                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Margin" Value="0" />
                                     <Setter Property="VerticalContentAlignment" Value="Center" />
                                     <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource ZoneStateToColorConverter}}"/>
+                                    <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource ZoneStateToColorConverter}}" />
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="Foreground" Value="Black" />

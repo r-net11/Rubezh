@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:DevicesModule.Converters">
     <UserControl.Resources>
-        <Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
+        <Converters:xxxConverter x:Key="xxxConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="200" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
@@ -16,7 +17,13 @@
                 <DataGridTemplateColumn Header="Зона" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Zone.PresentationName}" Margin="5 0 0 0" Background="{Binding ZoneState, Converter={StaticResource ZoneLogicStateToColorConverter}}">
+                            <TextBlock Text="{Binding Zone.PresentationName}" Margin="5 0 0 0" Background="{Binding ZoneState, Converter={StaticResource ZoneLogicStateToColorConverter}}"
+                                       Foreground="{Binding ZoneState, Converter={StaticResource ZoneLogicStateToColorConverter}}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{Binding ZoneState, Converter={StaticResource ZoneLogicStateToColorConverter}}" />
+                                    </Style>
+                                </TextBlock.Style>
                                 <TextBlock.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Пожар" Command="{Binding SetFireCommand}" />
@@ -27,10 +34,17 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Зона" Binding="{Binding Zone.PresentationName}" />
             </DataGrid.Columns>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" />
+                </Style>
+            </DataGrid.CellStyle>
         </DataGrid>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-        <DataGrid Grid.Column="2" DataContext="{Binding SelectedZone}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+        <TextBlock Grid.Column="2" Text="{Binding xxx}" Background="{Binding xxx, Converter={StaticResource xxxConverter}}" />
+        <DataGrid Grid.Column="3" DataContext="{Binding SelectedZone}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Устройство" Width="*">
                     <DataGridTemplateColumn.CellTemplate>

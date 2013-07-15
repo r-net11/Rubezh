@@ -292,6 +292,7 @@
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Simulation\Converters\YYYConverter.cs" />
     <Compile Include="Simulation\Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="Simulation\ViewModels\SimulationDeviceViewModel.cs" />
     <Compile Include="Simulation\ViewModels\SimulationMenuViewModel.cs" />

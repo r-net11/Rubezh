@@ -154,6 +154,7 @@
     <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
+    <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />

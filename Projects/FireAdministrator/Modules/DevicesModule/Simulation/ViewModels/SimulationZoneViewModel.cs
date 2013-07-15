@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -18,6 +19,7 @@ namespace DevicesModule.ViewModels
 			SetNormCommand = new RelayCommand(OnSetNorm, CanSetNorm);
 
 			ZoneState = ZoneLogicState.Fire;
+			StateType = StateType.Fire;
 		}
 
 		public void Initialize()
@@ -65,6 +67,8 @@ namespace DevicesModule.ViewModels
 				OnPropertyChanged("ZoneState");
 			}
 		}
+
+		public StateType StateType { get; set; }
 
 		public RelayCommand SetFireCommand { get; private set; }
 		void OnSetFire()
