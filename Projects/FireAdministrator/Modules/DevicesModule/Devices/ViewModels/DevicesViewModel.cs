@@ -411,7 +411,7 @@ namespace DevicesModule.ViewModels
 					new RibbonMenuItemViewModel("Автопоиск", DeviceCommandsViewModel.AutoDetectCommand),
 					new RibbonMenuItemViewModel("Считать конфигурацию из прибора", DeviceCommandsViewModel.ReadDeviceCommand, false),
 					new RibbonMenuItemViewModel("Информация о приборе", DeviceCommandsViewModel.GetDescriptionCommand, false),
-					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.GetDeveceJournalCommand, false),
+					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.GetDeviceJournalCommand, false),
 					new RibbonMenuItemViewModel("Записать конфигурацию в прибор", DeviceCommandsViewModel.WriteDeviceCommand, false) { IsNewGroup = true },
 					new RibbonMenuItemViewModel("Записать конфигурацию во все приборы", DeviceCommandsViewModel.WriteAllDeviceCommand),
 					new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", DeviceCommandsViewModel.SynchronizeDeviceCommand, false)  { IsNewGroup = true },
@@ -423,7 +423,7 @@ namespace DevicesModule.ViewModels
 					{
 						new RibbonMenuItemViewModel("Считать конфигурацию из прибора", DeviceCommandsViewModel.ReadDeviceCommand, true),
 						new RibbonMenuItemViewModel("Информация о приборе", DeviceCommandsViewModel.GetDescriptionCommand, true),
-						new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.GetDeveceJournalCommand, true),
+						new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.GetDeviceJournalCommand, true),
 						new RibbonMenuItemViewModel("Записать конфигурацию в прибор", DeviceCommandsViewModel.WriteDeviceCommand, true) { IsNewGroup = true },
 						new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", DeviceCommandsViewModel.SynchronizeDeviceCommand, true) { IsNewGroup = true },
 						new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateSoftCommand, true),

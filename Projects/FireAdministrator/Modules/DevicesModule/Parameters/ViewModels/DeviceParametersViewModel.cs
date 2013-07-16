@@ -18,6 +18,7 @@ using Infrustructure.Plans.Events;
 using Common;
 using DevicesModule.Plans;
 using FiresecAPI;
+using System.ComponentModel;
 
 namespace DevicesModule.ViewModels
 {
@@ -519,8 +520,16 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.FSChanged)
 			{
-				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
-				return false;
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Примнить сейчас?") == System.Windows.MessageBoxResult.Yes)
+				{
+					var cancelEventArgs = new CancelEventArgs();
+					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					return !cancelEventArgs.Cancel;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			return true;
 		}

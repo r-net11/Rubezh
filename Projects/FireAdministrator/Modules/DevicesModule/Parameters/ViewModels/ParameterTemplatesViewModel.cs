@@ -72,7 +72,7 @@ namespace DevicesModule.ViewModels
 			var parameterTemplateViewModel = new ParameterTemplateViewModel(parameterTemplate);
 			ParameterTemplates.Add(parameterTemplateViewModel);
 			SelectedParameterTemplate = parameterTemplateViewModel;
-			ServiceFactory.SaveService.FSChanged = true;
+			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 
 		bool CanRemove()
@@ -86,7 +86,7 @@ namespace DevicesModule.ViewModels
 			FiresecManager.ParameterTemplates.RemoveAll(x => x.UID == SelectedParameterTemplate.ParameterTemplate.UID);
 			ParameterTemplates.Remove(SelectedParameterTemplate);
 			SelectedParameterTemplate = ParameterTemplates.FirstOrDefault();
-			ServiceFactory.SaveService.FSChanged = true;
+			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

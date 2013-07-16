@@ -20,7 +20,7 @@
                 <MenuItem Name="autoDetectButton" Command="{Binding AutoDetectCommand}" Header="_Автопоиск" />
                 <MenuItem Name="readDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Считать конфигурацию из прибора" />
                 <MenuItem Name="getDescriptionButton" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource False}" Header="_Информация о приборе" />
-                <MenuItem Name="getDeviceJournalButton" Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource False}" Header="_Журнал событий" />
+                <MenuItem Name="getDeviceJournalButton" Command="{Binding GetDeviceJournalCommand}" CommandParameter="{StaticResource False}" Header="_Журнал событий" />
                 <Separator />
                 <MenuItem Name="writeDeviceButton" Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Записать конфигурацию в прибор" />
                 <MenuItem Name="writeAllDeviceButton" Command="{Binding WriteAllDeviceCommand}" Header="_Записать конфигурацию во все приборы" />
@@ -34,7 +34,7 @@
                 <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из прибора" />
                     <MenuItem Name="usbGetDescription" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="_Информация о приборе" />
-                    <MenuItem Name="usbGetDeviceJournalButton" Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource True}" Header="_Журнал событий" />
+                    <MenuItem Name="usbGetDeviceJournalButton" Command="{Binding GetDeviceJournalCommand}" CommandParameter="{StaticResource True}" Header="_Журнал событий" />
                     <Separator />
                     <MenuItem Name="usbWriteDeviceButton" Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Записать конфигурацию в прибор" />
                     <Separator />

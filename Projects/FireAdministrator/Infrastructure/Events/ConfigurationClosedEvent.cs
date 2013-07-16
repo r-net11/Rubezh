@@ -3,6 +3,6 @@
 namespace Infrastructure.Events
 {
 	public class ConfigurationClosedEvent : CompositePresentationEvent<object>
-    {
-    }
+	{
+	}
 }

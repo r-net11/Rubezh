@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireAdministrator.ViewModels
 {
@@ -26,9 +27,21 @@ namespace FireAdministrator.ViewModels
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
 			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
 		}
 
-		private BaseViewModel _extendedMenu;
+		void OnSetNewConfiguration(CancelEventArgs e)
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				e.Cancel = true;
+				return;
+			}
+			e.Cancel = !ConfigManager.SetNewConfig();
+		}
+
+		BaseViewModel _extendedMenu;
 		public BaseViewModel ExtendedMenu
 		{
 			get { return _extendedMenu; }

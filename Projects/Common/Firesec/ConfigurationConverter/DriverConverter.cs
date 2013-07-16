@@ -49,6 +49,8 @@ namespace Firesec
 				driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
 				driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
 				driver.CanReadJournal = innerDriver.options.Contains("EventSource")
+					&& driver.DriverType != DriverType.MS_1
+					&& driver.DriverType != DriverType.MS_2
 					&& driver.DriverType != DriverType.IndicationBlock
 					&& driver.DriverType != DriverType.PDU
 					&& driver.DriverType != DriverType.PDU_PT

@@ -9,6 +9,8 @@ using System.IO;
 using System.Runtime.Serialization;
 using Microsoft.Win32;
 using FS2Api;
+using System.ComponentModel;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -25,7 +27,7 @@ namespace DevicesModule.ViewModels
             SynchronizeDeviceCommand = new RelayCommand<bool>(OnSynchronizeDevice, CanSynchronizeDevice);
             UpdateSoftCommand = new RelayCommand<bool>(OnUpdateSoft, CanUpdateSoft);
             GetDescriptionCommand = new RelayCommand<bool>(OnGetDescription, CanGetDescription);
-            GetDeveceJournalCommand = new RelayCommand<bool>(OnGetDeveceJournal, CanGetDeveceJournal);
+            GetDeviceJournalCommand = new RelayCommand<bool>(OnGetDeviceJournal, CanGetDeviceJournal);
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
@@ -64,22 +66,6 @@ namespace DevicesModule.ViewModels
         bool CanReadDevice(bool isUsb)
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
-        }
-
-        bool ValidateConfiguration()
-        {
-            var validationResult = ServiceFactory.ValidationService.Validate();
-            if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
-            {
-                MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
-                return false;
-            }
-            if (validationResult.HasErrors("FS"))
-            {
-                if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить") != MessageBoxResult.Yes)
-                    return false;
-            }
-            return true;
         }
 
         public RelayCommand<bool> WriteDeviceCommand { get; private set; }
@@ -135,6 +121,7 @@ namespace DevicesModule.ViewModels
 				return;
 			}
 
+#if DEBUG
 			if (FirmwareAllUpdateHelper.IsManyDevicesToUpdate(SelectedDevice.Device))
 			{
 				var messageBoxResult = MessageBoxService.ShowQuestion("Обновить ПО во всех устройствах этого типа?");
@@ -146,6 +133,7 @@ namespace DevicesModule.ViewModels
 				else if (messageBoxResult == MessageBoxResult.Cancel)
 					return;
 			}
+#endif
 
 			FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
 		}
@@ -167,15 +155,15 @@ namespace DevicesModule.ViewModels
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
         }
 
-        public RelayCommand<bool> GetDeveceJournalCommand { get; private set; }
-		void OnGetDeveceJournal(bool isUsb)
+        public RelayCommand<bool> GetDeviceJournalCommand { get; private set; }
+		void OnGetDeviceJournal(bool isUsb)
 		{
 			if (CheckNeedSave())
 			{
 				ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
 			}
 		}
-        bool CanGetDeveceJournal(bool isUsb)
+        bool CanGetDeviceJournal(bool isUsb)
         {
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanReadJournal);
         }
@@ -221,6 +209,22 @@ namespace DevicesModule.ViewModels
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
         }
 
+		bool ValidateConfiguration()
+		{
+			var validationResult = ServiceFactory.ValidationService.Validate();
+			if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
+			{
+				MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+				return false;
+			}
+			if (validationResult.HasErrors("FS"))
+			{
+				if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить") != MessageBoxResult.Yes)
+					return false;
+			}
+			return true;
+		}
+
         public bool IsAlternativeUSB
         {
             get { return (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB); }
@@ -243,8 +247,16 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.FSChanged)
 			{
-				MessageBoxService.Show("Для выполнения этой операции необходимо применить конфигурацию");
-				return false;
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Примнить сейчас?") == System.Windows.MessageBoxResult.Yes)
+				{
+					var cancelEventArgs = new CancelEventArgs();
+					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					return !cancelEventArgs.Cancel;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			return true;
 		}

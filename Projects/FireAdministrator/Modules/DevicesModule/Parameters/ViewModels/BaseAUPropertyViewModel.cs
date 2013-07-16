@@ -67,7 +67,7 @@ namespace DevicesModule.DeviceProperties
 		{
             if (useSaveService)
             {
-                ServiceFactory.SaveService.FSChanged = true;
+				ServiceFactory.SaveService.FSParametersChanged = true;
             }
 
 			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
