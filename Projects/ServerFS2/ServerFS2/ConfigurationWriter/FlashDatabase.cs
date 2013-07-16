@@ -101,16 +101,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		void CreateLocalZones()
 		{
-			var guardZones = BinaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Guard).OrderBy(x => x.Zone.No);
-			var fireZones = BinaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Fire).OrderBy(x => x.Zone.No);
-			var sortedZones = guardZones.ToList();
-			sortedZones.AddRange(fireZones);
-			if (BinaryPanel.ParentPanel.Driver.DriverType == DriverType.Rubezh_2OP)
-			{
-				var xxx = sortedZones.ToList();
-				;
-			}
-			foreach (var zone in sortedZones)
+			foreach (var zone in BinaryPanel.BinaryLocalZones)
 			{
 				var zoneTable = new ZoneTable(this, zone);
 				Tables.Add(zoneTable);

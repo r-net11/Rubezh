@@ -87,16 +87,21 @@ namespace ServerFS2.Monitoring
 				}
 				IsStateRefreshNeeded = false;
 			}
-			DeviceStatesManager.UpdatePanelExtraDevices(PanelDevice);
 
 			DeviceStatesManager.UpdateDeviceStateAndParameters(RealChildren[RealChildIndex]);
 			NextIndextoGetParams();
+			if (RealChildIndex == 0)
+			{
+				DeviceStatesManager.UpdatePanelExtraDevices(PanelDevice);
+				DeviceStatesManager.UpdatePanelState(PanelDevice);
+				DeviceStatesManager.UpdatePanelParameters(PanelDevice);
+			}
 		}
 
 		void NextIndextoGetParams()
 		{
 			RealChildIndex++;
-			if (RealChildIndex + 1 >= RealChildren.Count)
+			if (RealChildIndex >= RealChildren.Count)
 				RealChildIndex = 0;
 		}
 

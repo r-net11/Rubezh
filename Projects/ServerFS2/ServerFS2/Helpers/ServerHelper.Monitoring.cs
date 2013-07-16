@@ -31,24 +31,31 @@ namespace ServerFS2
 				var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
 				if (metadataPanelState != null)
 				{
-					if (metadataPanelState.@class == "0")
+					if (metadataPanelState.ID == "Warning")
 					{
-						if (metadataPanelState.ID == "Alarm")
-						{
-							ResetAlarm(panelDevice);
-						}
-						else
-						{
-							ResetFire(panelDevice);
-						}
+						ResetFire(panelDevice);
 					}
 					else
 					{
-						var bitNo = Int16.Parse(metadataPanelState.no);
-						if (bitArray[bitNo] == true)
+						if (metadataPanelState.@class == "0")
 						{
-							bitArray[bitNo] = false;
-							hasBytesToReset = true;
+							if (metadataPanelState.ID == "Alarm")
+							{
+								ResetAlarm(panelDevice);
+							}
+							else
+							{
+								ResetFire(panelDevice);
+							}
+						}
+						else
+						{
+							var bitNo = Int16.Parse(metadataPanelState.no);
+							if (bitArray[bitNo] == true)
+							{
+								bitArray[bitNo] = false;
+								hasBytesToReset = true;
+							}
 						}
 					}
 				}

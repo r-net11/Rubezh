@@ -7,6 +7,7 @@ using ServerFS2.Service;
 using System.Diagnostics;
 using Common;
 using System.Collections;
+using FiresecAPI;
 
 namespace ServerFS2.Monitoring
 {
@@ -17,7 +18,6 @@ namespace ServerFS2.Monitoring
 		public void UpdateDeviceStateAndParameters(Device device)
 		{
 			List<byte> stateBytes;
-			List<byte> rawParametersBytes;
 			HasChanges = false;
 
 			switch (device.Driver.DriverType)
@@ -53,18 +53,82 @@ namespace ServerFS2.Monitoring
 			device.StateWordBytes = stateBytes;
 			device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
 			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
+
+			UpdateExtraDeviceState(device);
+			
 			if (HasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				CallbackManager.DeviceParametersChanged(new List<DeviceState>() { device.DeviceState });
 				device.DeviceState.OnStateChanged();
 			}
+		}
 
-			if (device.IntAddress == 2 * 256 + 6)
+		void UpdateExtraDeviceState(Device device)
+		{
+			if (device.Driver.DriverType == DriverType.MDU)
 			{
-				//Trace.WriteLine("Smokiness " + device.DeviceState.Smokiness);
-				//Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
-				//Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
+				;
+			}
+			var deviceTable = MetadataHelper.GetMetadataDeviceTable(device);
+			if (deviceTable != null && deviceTable.detalization != null)
+			{
+				foreach (var metadataDetalization in deviceTable.detalization)
+				{
+					var intStateType = Int32.Parse(metadataDetalization.@class);
+					if (device.DeviceState.StateType == (StateType)intStateType)
+					{
+						var rawParameterIndex = -1;
+						if (metadataDetalization.source == null)
+							rawParameterIndex = 0;
+						switch (metadataDetalization.source)
+						{
+							case "Data_MDU_0x81L":
+								rawParameterIndex = 0;
+								break;
+
+							case "Data_MDU_0x81H":
+								rawParameterIndex = 1;
+								break;
+						}
+						if (rawParameterIndex != -1)
+						{
+							if (device.RawParametersBytes.Count > rawParameterIndex)
+							{
+								var rawParameterValue = device.RawParametersBytes[rawParameterIndex];
+								var statusBytesArray = new byte[] { (byte)rawParameterValue };
+								var bitArray = new BitArray(statusBytesArray);
+
+								var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetalization.dictionary);
+								if (metadataDictionary != null)
+								{
+									foreach (var matadataBit in metadataDictionary.bit)
+									{
+										var bitNo = Int32.Parse(matadataBit.no);
+										if (bitArray[bitNo])
+										{
+											var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Name == "FailureType");
+											if (parameter == null)
+											{
+												parameter = new Parameter()
+												{
+													Name = "FailureType",
+													Visible = true
+												};
+												device.DeviceState.Parameters.Add(parameter);
+											}
+											if (parameter.Value != matadataBit.value)
+											{
+												HasChanges = true;
+												parameter.Value = matadataBit.value;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 

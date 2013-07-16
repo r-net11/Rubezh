@@ -15,14 +15,12 @@ namespace ServerFS2
 	{
 		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
-		//public static AutoResetEvent BootstrapperLoadEvent = new AutoResetEvent(false);
 
 		public static void Run()
 		{
 			try
 			{
 				ConfigurationManager.Load();
-				USBManager.Initialize();
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
@@ -32,22 +30,12 @@ namespace ServerFS2
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
 				WindowThread.Start();
-				//if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
-				//{
-				//    BalloonHelper.ShowFromAgent("Ошибка во время загрузки. Истекло время ожидания загрузки окна");
-				//}
-				//BootstrapperLoadEvent = new AutoResetEvent(false);
 
 				UILogger.Log("Открытие хоста");
 				FS2ServiceHost.Start();
 				UILogger.Log("Запуск мониторинга");
 				MainManager.StartMonitoring();
 
-				//if (!BootstrapperLoadEvent.WaitOne(TimeSpan.FromMinutes(5)))
-				//{
-				//    BalloonHelper.ShowFromAgent("Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
-				//    UILogger.Log("Ошибка во время загрузки. Истекло время ожидания загрузки драйверов");
-				//}
 				UILogger.Log("Готово");
 				FSAgentLoadHelper.SetStatus(FSAgentState.Opened);
 			}
@@ -70,7 +58,6 @@ namespace ServerFS2
 			{
 				Logger.Error(e, "Bootstrapper.OnWorkThread");
 			}
-			//BootstrapperLoadEvent.Set();
 			System.Windows.Threading.Dispatcher.Run();
 		}
 

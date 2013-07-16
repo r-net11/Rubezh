@@ -328,7 +328,8 @@ namespace ServerFS2
 					device.ZoneUID = device.Zone.UID;
 				}
 			}
-			if (driverType == DriverType.AM_1)
+			//if (driverType == DriverType.AM_1)
+			if (false)
 			{
 				var driverCode = DeviceFlash[pointer + 10];
 				var rmCount = BytesHelper.ExtractShort(DeviceFlash, pointer + 11); // количество РМ привязанных к сработке виртуальных кнопок

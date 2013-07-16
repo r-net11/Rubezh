@@ -49,7 +49,6 @@ namespace ServerFS2.ConfigurationWriter
 					zoneAttributes += 8;
 				if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
 					zoneAttributes += 16;
-				zoneAttributes += 1;
 				if (Zone.Skipped)
 					zoneAttributes += 2;
 			}
