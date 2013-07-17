@@ -245,8 +245,8 @@ namespace ServerFS2
 			if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
 				return GetEventNameAMT();
 
-								var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
-								var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode, stringTableType);
+			var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
+			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode, stringTableType);
 			var firstIndex = eventName.IndexOf("[");
 			var lastIndex = eventName.IndexOf("]");
 			if (firstIndex != -1 && lastIndex != -1)

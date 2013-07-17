@@ -66,10 +66,6 @@ namespace ServerFS2.Monitoring
 
 		void UpdateExtraDeviceState(Device device)
 		{
-			if (device.Driver.DriverType == DriverType.MDU)
-			{
-				;
-			}
 			var deviceTable = MetadataHelper.GetMetadataDeviceTable(device);
 			if (deviceTable != null && deviceTable.detalization != null)
 			{
@@ -160,28 +156,22 @@ namespace ServerFS2.Monitoring
 
 			var faultyCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Неисправность")).Count();
 			SetParameter(panel, faultyCount, "Heиcпpaвныx локальных уcтpoйcтв");
-			//Trace.WriteLine("faultyCount " + faultyCount);
-
+			
 			var externalCount = 0;
 			SetParameter(panel, externalCount, "Внешних устройств");
-			//Trace.WriteLine("externalCount " + externalCount);
-
+			
 			var totalCount = panel.GetRealChildren().Count;
 			SetParameter(panel, totalCount, "Всего устройств");
-			//Trace.WriteLine("totalCount " + totalCount);
-
+			
 			var bypassCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Аппаратный обход устройства")).Count();
 			SetParameter(panel, bypassCount, "Обойденных устройств");
-			//Trace.WriteLine("bypassCount " + bypassCount);
-
+			
 			var lostCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Потеря связи")).Count();
 			SetParameter(panel, lostCount, "Потерянных устройств");
-			//Trace.WriteLine("lostCount " + lostCount);
-
+			
 			var dustfilledCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Code == "HighDustiness")).Count();
 			SetParameter(panel, dustfilledCount, "Запыленных устройств");
-			//Trace.WriteLine("dustfilledCount " + dustfilledCount);
-
+			
 			if (HasChanges)
 				NotifyStateChanged(panel);
 		}

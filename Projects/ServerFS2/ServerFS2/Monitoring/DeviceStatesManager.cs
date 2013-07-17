@@ -111,18 +111,16 @@ namespace ServerFS2.Monitoring
 
 		void ParseStateWordBytes(Device device, List<byte> stateWordBytes)
 		{
-			if (stateWordBytes == null)
+            if (stateWordBytes == null || stateWordBytes.Count <= 0)
 				return;
-			BitArray stateWordBitArray = null;
-			if (stateWordBytes.Count > 0)
-				stateWordBitArray = new BitArray(stateWordBytes.ToArray());
+			BitArray stateWordBitArray = new BitArray(stateWordBytes.ToArray());
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
 				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
 				{
 					var bitNo = MetadataHelper.GetBitNo(metadataDeviceState);
-					if (stateWordBitArray != null && bitNo != -1 && bitNo < stateWordBitArray.Count)
+					if (bitNo != -1 && bitNo < stateWordBitArray.Count)
 					{
 						var hasBit = stateWordBitArray[bitNo];
 						SetStateFromMetadata(device, metadataDeviceState, hasBit);
@@ -133,18 +131,16 @@ namespace ServerFS2.Monitoring
 
 		void ParseRawParametersBytes(Device device, List<byte> rawParametersBytes)
 		{
-			if (rawParametersBytes == null)
+            if (rawParametersBytes == null || rawParametersBytes.Count <= 1)
 				return;
-			BitArray rawParametersBitArray = null;
-			if (rawParametersBytes.Count > 1)
-				rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
+			BitArray rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
 			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 			{
 				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
 				{
 					var intBitNo = MetadataHelper.GetIntBitNo(metadataDeviceState);
-					if (rawParametersBitArray != null && intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
+					if (intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
 					{
 						var hasBit = rawParametersBitArray[intBitNo];
 						SetStateFromMetadata(device, metadataDeviceState, hasBit);
