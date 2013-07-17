@@ -35,7 +35,7 @@ namespace Infrastructure.Common.Windows
 			};
 		}
 
-		public static void Run(ApplicationViewModel model, bool noBorder, bool isMaximized)
+		public static void Run(ApplicationViewModel model, bool noBorder, bool? isMaximized)
 		{
 			var windowBaseView = new WindowBaseView(model);
 			if (noBorder)
@@ -46,10 +46,8 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
 				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
 			}
-			if (isMaximized)
-			{
-				windowBaseView.SetValue(Window.WindowStateProperty, WindowState.Maximized);
-			}
+			if (isMaximized.HasValue)
+				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
