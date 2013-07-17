@@ -997,6 +997,60 @@
   <ItemGroup>
     <Resource Include="Images\BArrowUpDown.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersWriteAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersReadAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersReadWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersSync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAllParameters.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BBriefcase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BZones.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDirection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDeleteEmpty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUsers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPlay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BStop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDeleteAll.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

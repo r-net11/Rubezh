@@ -120,7 +120,6 @@
     <Compile Include="ViewModels\DeviceIconTestViewModel.cs" />
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="ViewModels\RibbonMenuItem.cs" />
     <Compile Include="ViewModels\SVGTestViewModel.cs" />
     <Compile Include="ViewModels\TreeDeviceViewModel.cs" />
     <Compile Include="ViewModels\TreeViewTestViewModel.cs" />

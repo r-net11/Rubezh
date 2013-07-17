@@ -16,6 +16,7 @@ using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
 using DevicesModule.Plans.Designer;
+using Infrastructure.Common.Ribbon;
 
 namespace DevicesModule.ViewModels
 {
@@ -37,6 +38,7 @@ namespace DevicesModule.ViewModels
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
 			SubscribeEvents();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -297,6 +299,20 @@ namespace DevicesModule.ViewModels
 			if (elementZone == null)
 				elementZone = element as ElementPolygonZone;
 			return elementZone;
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "/Controls;component/Images/BDeleteEmpty.png"),
+				}, "/Controls;component/Images/BZones.png") { Order = 2 }
+			};
 		}
 	}
 }

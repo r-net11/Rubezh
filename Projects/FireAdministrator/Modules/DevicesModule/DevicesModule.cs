@@ -154,5 +154,6 @@ namespace DevicesModule
 #endif
 			return true;
 		}
+
 	}
 }
