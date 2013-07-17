@@ -85,7 +85,7 @@ namespace ServerFS2.Monitoring
 
         static void AddStateByName(string stateName)
         {
-            var driverState = new DriverState { Name = stateName, StateType = FiresecAPI.StateType. };
+            var driverState = new DriverState { Name = stateName };
             var deviceDriverState = new DeviceDriverState()
 			{
 				DriverState = driverState,
