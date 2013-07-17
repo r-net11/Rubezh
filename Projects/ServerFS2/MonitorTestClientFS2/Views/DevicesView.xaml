@@ -7,39 +7,62 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Controls:TreeListView Grid.Row="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
-            <Controls:TreeListView.Columns>
-                <GridViewColumn Width="250" Header="Устройство">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <Controls:EditorPresenter>
-                                <Controls:EditorPresenter.ViewTemplate>
-                                    <ControlTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" />
-                                            <StackPanel.ContextMenu>
-                                                <ContextMenu>
-                                                    <MenuItem Header="Поставить в обход" Command="{Binding SetIgnoreCommand}" />
-                                                    <MenuItem Header="Убрать из обхода" Command="{Binding ResetIgnoreCommand}" />
-                                                    <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" />
-                                                    <MenuItem Header="Снять с охраны" Command="{Binding ResetGuardCommand}" />
-                                                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                                    <MenuItem Header="Включить РМ" Command="{Binding TurnOnRMTestCommand}" />
-                                                    <MenuItem Header="Выключить РМ" Command="{Binding TurnOffRMTestCommand}" />
-                                                </ContextMenu>
-                                            </StackPanel.ContextMenu>
-                                        </StackPanel>
-                                    </ControlTemplate>
-                                </Controls:EditorPresenter.ViewTemplate>
-                            </Controls:EditorPresenter>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" />
-            </Controls:TreeListView.Columns>
-        </Controls:TreeListView>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Controls:TreeListView Grid.Column="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
+                <Controls:TreeListView.Columns>
+                    <GridViewColumn Width="250" Header="Устройство">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Controls:EditorPresenter>
+                                    <Controls:EditorPresenter.ViewTemplate>
+                                        <ControlTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
+                                                <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" />
+                                                <StackPanel.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Поставить в обход" Command="{Binding SetIgnoreCommand}" />
+                                                        <MenuItem Header="Убрать из обхода" Command="{Binding ResetIgnoreCommand}" />
+                                                        <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" />
+                                                        <MenuItem Header="Снять с охраны" Command="{Binding ResetGuardCommand}" />
+                                                        <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                                        <MenuItem Header="Включить РМ" Command="{Binding TurnOnRMTestCommand}" />
+                                                        <MenuItem Header="Выключить РМ" Command="{Binding TurnOffRMTestCommand}" />
+                                                    </ContextMenu>
+                                                </StackPanel.ContextMenu>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Controls:EditorPresenter.ViewTemplate>
+                                </Controls:EditorPresenter>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" />
+                </Controls:TreeListView.Columns>
+            </Controls:TreeListView>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceCommands}" SelectedItem="{Binding SelectedDeviceCommand}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Caption" Binding="{Binding Caption}" />
+                        <DataGridTextColumn Header="Command1" Binding="{Binding Command1}" />
+                        <DataGridTextColumn Header="ShiftInMemory" Binding="{Binding ShiftInMemory}" />
+                        <DataGridTextColumn Header="CommandDev" Binding="{Binding CommandDev}" />
+                        <DataGridTextColumn Header="MaskCmdDev" Binding="{Binding MaskCmdDev}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Row="1" Content="Выполнить команду" Command="{Binding ExecuteCommand}" Width="150" HorizontalAlignment="Right" Margin="2" />
+            </Grid>
+        </Grid>
 
         <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">

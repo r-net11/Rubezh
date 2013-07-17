@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using ServerFS2.Processor;
+using MonitorTestClientFS2.ViewModels;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -73,16 +74,6 @@ namespace MonitorClientFS2.ViewModels
 
 		void OnParametersChanged()
 		{
-		}
-
-		public class DeviceCommandViewModel
-		{
-			public string Name { get; set; }
-			public string Caption { get; set; }
-			public string Command1 { get; set; }
-			public string ShiftInMemory { get; set; }
-			public string CommandDev { get; set; }
-			public string MaskCmdDev { get; set; }
 		}
 	}
 }
