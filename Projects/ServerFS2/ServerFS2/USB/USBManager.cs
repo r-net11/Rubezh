@@ -181,9 +181,6 @@ namespace ServerFS2
 
 		static List<byte> CreateRootBytes(Device device, bool useId)
 		{
-			var parentPanel = device.ParentPanel;
-			var parentUSB = device.ParentUSB;
-
 			var result = new List<byte>();
 			if (useId)
 			{
@@ -193,6 +190,7 @@ namespace ServerFS2
 				}
 				else
 				{
+					var parentPanel = device.ParentPanel;
 					result.Add((byte)(parentPanel.Parent.IntAddress + 2));
 					result.Add((byte)parentPanel.IntAddress);
 				}
