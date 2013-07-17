@@ -314,6 +314,10 @@ namespace ServerFS2
 				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(pointer + 8, rawParametersLength)),
 				RawParametersOffset = pointer + 8
 			};
+			if (device.Driver.DriverType == DriverType.MDU)
+			{
+				;
+			}
 			device.DriverUID = device.Driver.UID;
 			Device groupDevice;
 			TraceHelper.TraceBytes(device.StateWordBytes, device.PresentationAddressAndName);

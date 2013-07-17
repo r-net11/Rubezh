@@ -51,7 +51,7 @@ namespace ServerFS2
 					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall);
 					if (response != null)
 					{
-						var inputBytes = response.Bytes.ToList();
+						response.InputBytes = response.Bytes.ToList();
 						if (usbHid.UseId)
 						{
 							if (response.Bytes.Count < 4)

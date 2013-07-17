@@ -85,14 +85,14 @@ namespace ServerFS2.Monitoring
 
         static void AddStateByName(string stateName)
         {
-            var driverState = new DriverState { Name = stateName, StateType = FiresecAPI.StateType. };
-            var deviceDriverState = new DeviceDriverState()
-			{
-				DriverState = driverState,
-				Time = DateTime.Now
-			};
-			Panel.DeviceState.States.Add(deviceDriverState);
-			DeviceStatesManager.ForseUpdateDeviceStates(Panel);
+			//var driverState = new DriverState { Name = stateName, StateType = FiresecAPI.StateType. };
+			//var deviceDriverState = new DeviceDriverState()
+			//{
+			//    DriverState = driverState,
+			//    Time = DateTime.Now
+			//};
+			//Panel.DeviceState.States.Add(deviceDriverState);
+			//DeviceStatesManager.ForseUpdateDeviceStates(Panel);
         }
 	}
 }

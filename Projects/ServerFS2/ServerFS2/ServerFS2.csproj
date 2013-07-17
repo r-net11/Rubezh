@@ -169,6 +169,7 @@
     <Compile Include="Monitoring\MonitoringUSB.TimeSynchronisation.cs" />
     <Compile Include="Monitoring\NonPanelStatesManager.cs" />
     <Compile Include="Monitoring\ZoneStateManager.cs" />
+    <Compile Include="Monitoring\DeviceStatesManager.AdditionalParameters.cs" />
     <Compile Include="Operations\AutoDetectOperationHelper.cs" />
     <Compile Include="Operations\ConfigurationWriterOperationHelper.cs" />
     <Compile Include="Operations\CustomFunctionOperationHelper.cs" />

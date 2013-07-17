@@ -568,7 +568,7 @@ namespace FiresecAPI.Models
 			var devices = new List<Device>();
 			foreach (var device in Children)
 			{
-				if (!IsGroupDevice(device.Driver.DriverType))
+				if (!device.Driver.IsGroupDevice)
 				{
 					devices.Add(device);
 				}
@@ -591,21 +591,6 @@ namespace FiresecAPI.Models
 				result.AddRange(device.GetAllChildren());
 			}
 			return result;
-		}
-
-		bool IsGroupDevice(DriverType driverType)
-		{
-			switch (driverType)
-			{
-				case DriverType.AM4:
-				case DriverType.AMP_4:
-				case DriverType.RM_2:
-				case DriverType.RM_3:
-				case DriverType.RM_4:
-				case DriverType.RM_5:
-					return true;
-			}
-			return false;
 		}
 
 		public void OnChanged()
