@@ -62,7 +62,7 @@ namespace ServerFS2.Monitoring
 
 			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
 
-			UpdateExtraDeviceState(device);
+			UpdateDeviceStateDetalisation(device);
 			
 			if (HasChanges)
 			{

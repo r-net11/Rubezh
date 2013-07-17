@@ -227,7 +227,11 @@ namespace DevicesModule.ViewModels
 
         public bool IsAlternativeUSB
         {
-            get { return (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB); }
+			get
+			{
+				var result = (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.DriverType != DriverType.Computer);
+				return result;
+			}
         }
 
 		public RelayCommand MergeConfigurationCommand { get; private set; }

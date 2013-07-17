@@ -13,7 +13,7 @@ namespace ServerFS2.Monitoring
 {
 	public partial class DeviceStatesManager
 	{
-		void UpdateExtraDeviceState(Device device)
+		void UpdateDeviceStateDetalisation(Device device)
 		{
 			//foreach (var deviceTable in MetadataHelper.Metadata.deviceTables)
 			//{
@@ -59,116 +59,84 @@ namespace ServerFS2.Monitoring
 
 						if (device.DeviceState.StateType == stateType)
 						{
+							var rawParameterValue = 0;
 							var rawParameterIndex = -1;
 							if (metadataDetalization.source == null)
-								rawParameterIndex = 1;
+							{
+								if (metadataDetalization.stateByte != null)
+								{
+									switch (metadataDetalization.stateByte)
+									{
+										case "high":
+											if (device.StateWordBytes.Count > 0)
+												rawParameterValue = device.StateWordBytes[0];
+											break;
+									}
+								}
+								else
+								{
+									rawParameterIndex = 1;
+								}
+							}
 							else
 							{
 								var splittedSources = metadataDetalization.source.Split('_');
 								var source = splittedSources.Last();
-								switch (source)
-								{
-									case "0x80H":
-										rawParameterIndex = 0;
-										break;
-
-									case "0x80L":
-										rawParameterIndex = 1;
-										break;
-
-									case "0x81H":
-										rawParameterIndex = 2;
-										break;
-
-									case "0x81L":
-										rawParameterIndex = 3;
-										break;
-
-									case "0x82":
-										rawParameterIndex = 2;
-										break;
-
-									case "0x83":
-										rawParameterIndex = 3;
-										break;
-
-									case "0x84":
-										rawParameterIndex = 4;
-										break;
-
-									case "0x85":
-										rawParameterIndex = 5;
-										break;
-
-									case "0x83H":
-										rawParameterIndex = -1;
-										break;
-
-									case "0x83L":
-										rawParameterIndex = -1;
-										break;
-
-									case "0x88H":
-										rawParameterIndex = -1;
-										break;
-
-									case "0x88L":
-										rawParameterIndex = -1;
-										break;
-								}
+								rawParameterIndex = GetRawParameterIndex(source);
 							}
 							if (rawParameterIndex != -1)
 							{
 								if (device.RawParametersBytes != null && device.RawParametersBytes.Count > rawParameterIndex)
 								{
-									var rawParameterValue = device.RawParametersBytes[rawParameterIndex];
-									var statusBytesArray = new byte[] { (byte)rawParameterValue };
-									var bitArray = new BitArray(statusBytesArray);
+									rawParameterValue = device.RawParametersBytes[rawParameterIndex];
+								}
+							}
 
-									var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetalization.dictionary);
-									if (metadataDictionary != null)
+							var statusBytesArray = new byte[] { (byte)rawParameterValue };
+							var bitArray = new BitArray(statusBytesArray);
+
+							var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetalization.dictionary);
+							if (metadataDictionary != null)
+							{
+								foreach (var matadataBit in metadataDictionary.bit)
+								{
+									var isMatch = false;
+									if (matadataBit.no.Contains("-"))
 									{
-										foreach (var matadataBit in metadataDictionary.bit)
+										var stringBits = matadataBit.no.Split('-');
+										if (stringBits.Count() == 2)
 										{
-											var isMatch = false;
-											if (matadataBit.no.Contains("-"))
+											var startBit = Int32.Parse(stringBits[0]);
+											var endBit = Int32.Parse(stringBits[1]);
+											var maskedParameterValue = rawParameterValue & ((1 << startBit) + (1 << endBit));
+											if (maskedParameterValue == Int32.Parse(matadataBit.val))
 											{
-												var stringBits = matadataBit.no.Split('-');
-												if (stringBits.Count() == 2)
-												{
-													var startBit = Int32.Parse(stringBits[0]);
-													var endBit = Int32.Parse(stringBits[1]);
-													var maskedParameterValue = rawParameterValue & ((1 << startBit) + (1 << endBit));
-													if(maskedParameterValue == Int32.Parse(matadataBit.val))
-													{
-														isMatch = true;
-													}
-												}
-											}
-											else
-											{
-												var bitNo = Int32.Parse(matadataBit.no);
-												if (bitArray[bitNo])
-												{
-													isMatch = true;
-												}
-											}
-											if (isMatch)
-											{
-												var additionalparameter = new Parameter()
-												{
-													Name = parameterName,
-													Value = matadataBit.value,
-													Visible = true
-												};
-												var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == parameterName);
-												if (driverParameter != null)
-												{
-													additionalparameter.Caption = driverParameter.Caption;
-												}
-												additionalparameters.Add(additionalparameter);
+												isMatch = true;
 											}
 										}
+									}
+									else
+									{
+										var bitNo = Int32.Parse(matadataBit.no);
+										if (bitArray[bitNo])
+										{
+											isMatch = true;
+										}
+									}
+									if (isMatch)
+									{
+										var additionalparameter = new Parameter()
+										{
+											Name = parameterName,
+											Value = matadataBit.value,
+											Visible = true,
+										};
+										var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == parameterName);
+										if (driverParameter != null)
+										{
+											additionalparameter.Caption = driverParameter.Caption;
+										}
+										additionalparameters.Add(additionalparameter);
 									}
 								}
 							}
@@ -211,6 +179,49 @@ namespace ServerFS2.Monitoring
 			{
 				Logger.Error(e, "DeviceStatesManager.UpdateExtraDeviceState");
 			}
+		}
+
+		public int GetRawParameterIndex(string value)
+		{
+			switch (value)
+			{
+				case "0x80H":
+					return 0;
+
+				case "0x80L":
+					return 1;
+
+				case "0x81H":
+					return 2;
+
+				case "0x81L":
+					return 3;
+
+				case "0x82":
+					return 2;
+
+				case "0x83":
+					return 3;
+
+				case "0x84":
+					return 4;
+
+				case "0x85":
+					return 5;
+
+				case "0x83H":
+					return -1;
+
+				case "0x83L":
+					return -1;
+
+				case "0x88H":
+					return -1;
+
+				case "0x88L":
+					return -1;
+			}
+			return -1;
 		}
 	}
 }
