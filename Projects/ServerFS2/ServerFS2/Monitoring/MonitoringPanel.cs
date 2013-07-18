@@ -109,12 +109,16 @@ namespace ServerFS2.Monitoring
 			{
 				if (IsFireReadingNeeded || IsSecurityReadingNeeded)
 				{
-					var journalItems = GetNewJournalItems();
+					var journalItems = new List<FS2JournalItem>();
+                    if (IsFireReadingNeeded)
+                        journalItems.AddRange(GetNewFireJournalItems());
+                    if (IsSecurityReadingNeeded)
+                        journalItems.AddRange(GetNewSecurityJournalItems());
 					DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
 					DeviceStatesManager.UpdatePanelState(PanelDevice);
 					DeviceStatesManager.UpdatePanelParameters(PanelDevice);
 				}
-				DoTasks();
+                DoTasks();
 			}
 
 			CheckConnectionLost();
@@ -217,9 +221,9 @@ namespace ServerFS2.Monitoring
 			}
 		}
 
-		public List<FS2JournalItem> GetNewJournalItems(bool doProgress = false)
+		public List<FS2JournalItem> GetNewFireJournalItems(bool doProgress = false)
 		{
-			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex || x.RequestType == RequestType.ReadSecurityIndex);
+			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex);
 			var journalItems = new List<FS2JournalItem>();
 			for (int i = Math.Max(LastDeviceFireIndex - MaxFireMessages,  LastSystemFireIndex + 1); i <= LastDeviceFireIndex; i++)
 			{
@@ -236,26 +240,34 @@ namespace ServerFS2.Monitoring
 				}
 			}
 
-            for (int i = Math.Max(LastDeviceSecurityIndex - MaxSecurityMessages, LastSystemSecurityIndex + 1); i <= LastDeviceSecurityIndex; i++)
-			{
-				if (doProgress)
-				{
-					CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала " + (i - LastSystemFireIndex).ToString() + " из " + (LastDeviceFireIndex - LastSystemFireIndex).ToString(),
-						(i - LastSystemFireIndex) * 100 / (LastDeviceFireIndex - LastSystemFireIndex)));
-				}
-				var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x02);
-				if (journalItem != null)
-				{
-					OnNewJournalItem(journalItem);
-					journalItems.Add(journalItem);
-				}
-			}
-			LastSystemFireIndex = LastDeviceFireIndex;
-			LastSystemSecurityIndex = LastDeviceSecurityIndex;
+            LastSystemFireIndex = LastDeviceFireIndex;
 			IsFireReadingNeeded = false;
-			IsSecurityReadingNeeded = false;
 			return journalItems;
 		}
+
+        public List<FS2JournalItem> GetNewSecurityJournalItems(bool doProgress = false)
+        {
+            Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadSecurityIndex);
+            var journalItems = new List<FS2JournalItem>();
+            
+            for (int i = Math.Max(LastDeviceSecurityIndex - MaxSecurityMessages, LastSystemSecurityIndex + 1); i <= LastDeviceSecurityIndex; i++)
+            {
+                if (doProgress)
+                {
+                    CallbackManager.AddProgress(new FS2ProgressInfo("Чтение охранных записей журнала " + (i - LastSystemSecurityIndex).ToString() + " из " + (LastDeviceSecurityIndex - LastSystemSecurityIndex).ToString(),
+                            (i - LastSystemSecurityIndex) * 100 / (LastDeviceSecurityIndex - LastSystemSecurityIndex)));
+                }
+                var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x02);
+                if (journalItem != null)
+                {
+                    OnNewJournalItem(journalItem);
+                    journalItems.Add(journalItem);
+                }
+            }
+            LastSystemSecurityIndex = LastDeviceSecurityIndex;
+            IsSecurityReadingNeeded = false;
+            return journalItems;
+        }
 
 		void SynchronyzeJournal(int journalType)
 		{
@@ -263,12 +275,18 @@ namespace ServerFS2.Monitoring
 			var response = USBManager.Send(PanelDevice, 0x01, 0x21, journalType);
 			if (response.HasError)
 				return;
-			if (journalType == 0x00)
-				LastDeviceFireIndex = BytesHelper.ExtractInt(response.Bytes, 0);
-			if (journalType == 0x02)
-				LastDeviceSecurityIndex = BytesHelper.ExtractInt(response.Bytes, 0);
-			GetNewJournalItems(true);
-		}
+            if (journalType == 0x00)
+            {
+                LastDeviceFireIndex = BytesHelper.ExtractInt(response.Bytes, 0);
+                GetNewFireJournalItems(true);
+            }
+            if (journalType == 0x02)
+            {
+                LastDeviceSecurityIndex = BytesHelper.ExtractInt(response.Bytes, 0);
+                GetNewSecurityJournalItems(true);
+            }
+			
+        }
 
 		void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
