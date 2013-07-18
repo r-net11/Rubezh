@@ -52,9 +52,9 @@ namespace ServerFS2.Monitoring
             else if (BitArray[2])
                 AddStateByName("Клавиатура заблокирована");
             else if (BitArray[3])
-                AddStateByName("Авария питания 1");
-            else if (BitArray[4])
                 AddStateByName("Авария питания 2");
+            else if (BitArray[4])
+                AddStateByName("Авария питания 1");
             else if (BitArray[5])
                 AddStateByName("Вскрытие");
 		}
