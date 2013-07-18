@@ -1051,6 +1051,20 @@
   <ItemGroup>
     <Resource Include="Images\BDeleteAll.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDevice.png" />
+    <Resource Include="Images\BJournal.png" />
+    <Resource Include="Images\BLink.png" />
+    <Resource Include="Images\BPassword.png" />
+    <Resource Include="Images\BSearch.png" />
+    <Resource Include="Images\BUsb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MessageBox\BWatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWatch.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

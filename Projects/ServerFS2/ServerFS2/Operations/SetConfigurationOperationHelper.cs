@@ -22,10 +22,10 @@ namespace ServerFS2
 			BeginUpdateFirmWare(device);
 			ConfirmLongTermOperation(device);
 			// 3D
-			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "2OP\\frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
-			var r2amInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_loader_v3.10_CRP.hex");
-			var rubezhOPSInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_OPS.hex");
+			var r2amInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2OP_loader_v1.03_CRP.hex");
+			var rubezhOPSInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_2OP.hex");
 			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
 			BeginUpdateRom(device);
 			ConfirmLongTermOperation(device);
