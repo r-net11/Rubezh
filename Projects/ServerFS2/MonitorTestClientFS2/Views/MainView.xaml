@@ -54,8 +54,29 @@
                             <DataGridTextColumn Header="SubsystemType" Binding="{Binding SubsystemType}" />
                             <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
                             <DataGridTextColumn Header="BytesString" Binding="{Binding BytesString}" />
-                            
                         </DataGrid.Columns>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Setters>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                    <ContentPresenter VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateTypeToColorConverter}}" />
+                                </Style.Setters>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
                     </DataGrid>
                     <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournalItem}" Margin="2">
                         <StackPanel Orientation="Horizontal">
@@ -63,19 +84,33 @@
                             <TextBlock Text="{Binding Detalization}" TextWrapping="WrapWithOverflow" Foreground="White" Margin="2" />
                         </StackPanel>
                     </StackPanel>
-                    <DataGrid Grid.Row="2" ItemsSource="{Binding ProgressInfos}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="CurrentStage" Binding="{Binding CurrentStage}" Width="Auto" />
-                            <DataGridTextColumn Header="StageCount" Binding="{Binding StageCount}" Width="Auto" />
-                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*" />
-                            <DataGridTextColumn Header="PercentComplete" Binding="{Binding PercentComplete}" Width="Auto" />
-                            <DataGridTextColumn Header="BytesRW" Binding="{Binding BytesRW}" Width="Auto" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <TabControl Grid.Row="2">
+                        <TabItem Header="Прогресс">
+                            <DataGrid ItemsSource="{Binding ProgressInfos}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="CurrentStage" Binding="{Binding CurrentStage}" Width="Auto" />
+                                    <DataGridTextColumn Header="StageCount" Binding="{Binding StageCount}" Width="Auto" />
+                                    <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="*" />
+                                    <DataGridTextColumn Header="PercentComplete" Binding="{Binding PercentComplete}" Width="Auto" />
+                                    <DataGridTextColumn Header="BytesRW" Binding="{Binding BytesRW}" Width="Auto" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="Лог">
+                            <DataGrid ItemsSource="{Binding Logs}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название" Binding="{Binding .}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
             <TabItem Header="Устройства">
                 <Views:DevicesView DataContext="{Binding DevicesViewModel}" />
+            </TabItem>
+            <TabItem Header="Зоны">
+                <Views:ZonesView DataContext="{Binding ZonesViewModel}" />
             </TabItem>
         </TabControl>
     </Grid>

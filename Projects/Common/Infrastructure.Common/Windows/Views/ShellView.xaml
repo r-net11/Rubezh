@@ -11,7 +11,9 @@
 					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Orientation="Horizontal">
 						<ribbon:RibbonButton Margin="10,0,0,0" Content="{Binding RibbonContent}" Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<ContentPresenter Content="{Binding Toolbar}" />
+						<Border Visibility="{Binding ToolbarVisible, Converter={StaticResource BoolToVisibilityConverter}}" BorderThickness="0">
+							<ContentPresenter Content="{Binding Toolbar}" />
+						</Border>
 					</StackPanel>
 				</DockPanel>
 			</Border>

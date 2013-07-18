@@ -17,24 +17,28 @@ namespace ServerFS2.Monitoring
 		public static void UpdatePDUPanelState(Device panel, bool isSilent = false)
 		{
 			Panel = panel;
+            Panel.DeviceState.States = new List<DeviceDriverState>();
 			var bytes = ServerHelper.GetDeviceStatus(Panel);
-            BitArray = new BitArray(bytes.ToArray());
+            BitArray = new BitArray(new byte[] {bytes[3]});
             DeviceStatesManager = new DeviceStatesManager();
 			switch(Panel.Driver.DriverType)
 			{
 				case DriverType.IndicationBlock:
 				case DriverType.PDU_PT:
-					break;
+                    UpdatePDU_PT();	
+                    break;
 
 				case DriverType.PDU:
-					break;
+                    UpdatePDU();
+                    break;
 
 				case DriverType.UOO_TL:
 				case DriverType.MS_3:
 				case DriverType.MS_4:
-					break;
+                    UpdateUOOTL();
+                    break;
 			}
-			//Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
+			Trace.WriteLine(panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
 		}
 
 		static void UpdatePDU_PT()
@@ -42,17 +46,17 @@ namespace ServerFS2.Monitoring
             if (BitArray.Count < 6)
                 return;
             if (BitArray[0])
-                AddStateByName("потеря связи с прибором");
+                AddStateByName("Потеря связи с устройством");
             else if (BitArray[1])
-                AddStateByName("БД устарела");
+                AddStateByName("Несоответствие версий БД с панелью");
             else if (BitArray[2])
-                AddStateByName("клавиатура заблокирована");
+                AddStateByName("Клавиатура заблокирована");
             else if (BitArray[3])
-                AddStateByName("питание 1 в порядке");
+                AddStateByName("Авария питания 2");
             else if (BitArray[4])
-                AddStateByName("питание 2 в порядке");
+                AddStateByName("Авария питания 1");
             else if (BitArray[5])
-                AddStateByName("вскрытие корпуса");
+                AddStateByName("Вскрытие");
 		}
 
         static void UpdatePDU()
@@ -60,9 +64,9 @@ namespace ServerFS2.Monitoring
             if (BitArray.Count < 2)
                 return;
             if (BitArray[0])
-                AddStateByName("потеря связи с прибором");
+                AddStateByName("Потеря связи с устройством");
             else if (BitArray[1])
-                AddStateByName("БД устарела");
+                AddStateByName("Несоответствие версий БД с панелью");
         }
 
         static void UpdateUOOTL()
@@ -70,29 +74,31 @@ namespace ServerFS2.Monitoring
             if (BitArray.Count < 6)
                 return;
             if (BitArray[0])
-                AddStateByName("неисправность линии");
+                AddStateByName("Неисправность телефонной линии");
             else if (BitArray[1])
-                AddStateByName("невозможность доставить сообщение");
+                AddStateByName("Невозможно доставить сообщение");
             else if (BitArray[2])
-                AddStateByName("переполнение журнала сообщений");
+                AddStateByName("Переполнение журнала событий");
             else if (BitArray[3])
                 AddStateByName("неисправность линии устранена");
             else if (BitArray[4])
                 AddStateByName("доставка сообщений восстановлена");
             else if (BitArray[5])
-                AddStateByName("потеря связи с прибором");
+                AddStateByName("Потеря связи с прибором");
         }
 
         static void AddStateByName(string stateName)
         {
-            var driverState = new DriverState { Name = stateName };
-			//var deviceDriverState = new DeviceDriverState()
-			//{
-			//    DriverState = driverState,
-			//    Time = DateTime.Now
-			//};
-			//Panel.DeviceState.States.Add(deviceDriverState);
-			//DeviceStatesManager.ForseUpdateDeviceStates(Panel);
+            var driverState = ConfigurationManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == Panel.Driver.DriverType).States.FirstOrDefault(x => x != null && x.Name == stateName);
+            if (driverState == null)
+                return;
+            var deviceDriverState = new DeviceDriverState()
+			{
+				DriverState = driverState,
+				Time = DateTime.Now
+			};
+			Panel.DeviceState.States.Add(deviceDriverState);
+			DeviceStatesManager.ForseUpdateDeviceStates(Panel);
         }
 	}
 }

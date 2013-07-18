@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using System.Windows.Input;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using Infrastructure;
-using System.Windows.Input;
-using FiresecClient;
-using FiresecAPI.Models;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace DevicesModule.ViewModels
@@ -22,6 +21,7 @@ namespace DevicesModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanRemove);
 			RegisterShortcuts();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -74,12 +74,10 @@ namespace DevicesModule.ViewModels
 			SelectedParameterTemplate = parameterTemplateViewModel;
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
-
 		bool CanRemove()
 		{
 			return SelectedParameterTemplate != null && SelectedParameterTemplate.ParameterTemplate.Name != "По умолчанию";
 		}
-
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
@@ -88,7 +86,6 @@ namespace DevicesModule.ViewModels
 			SelectedParameterTemplate = ParameterTemplates.FirstOrDefault();
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
-
 		public RelayCommand EditCommand { get; private set; }
 
 		void Invalidate()
@@ -152,21 +149,22 @@ namespace DevicesModule.ViewModels
 				}
 			}
 		}
-
 		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
-		public override void OnShow()
+		private void SetRibbonItems()
 		{
-			base.OnShow();
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+				}, "/Controls;component/Images/BBriefcase.png") { Order = 2 }
+			};
 		}
 	}
 }

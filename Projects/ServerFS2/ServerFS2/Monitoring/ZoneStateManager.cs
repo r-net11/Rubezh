@@ -22,6 +22,7 @@ namespace ServerFS2.Monitoring
 				if (zone.ZoneState.StateType != minStateType)
 				{
 					zone.ZoneState.StateType = minStateType;
+					zone.ZoneState.OnStateChanged();
 					changedZoneStates.Add(zone.ZoneState);
 				}
 			}
