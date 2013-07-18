@@ -13,6 +13,7 @@ using System;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
+using MonitorTestClientFS2.ViewModels;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -30,6 +31,8 @@ namespace MonitorClientFS2.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			TurnOnRMTestCommand = new RelayCommand(OnTurnOnRMTest);
 			TurnOffRMTestCommand = new RelayCommand(OnTurnOffRMTest);
+			ExecuteCommand = new RelayCommand(OnExecute);
+			DeviceCommands = new List<DeviceCommandViewModel>();
 			Device = device;
 			device.DeviceState.StateChanged += new Action(OnStateChanged);
 			device.DeviceState.ParametersChanged += new Action(OnParametersChanged);
@@ -214,6 +217,29 @@ namespace MonitorClientFS2.ViewModels
 		void OnTurnOffRMTest()
 		{
 			MainManager.ExecuteCommand(Device, "Stop", "Пользователь");
+		}
+
+
+		public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
+
+		DeviceCommandViewModel _selectedDeviceCommand;
+		public DeviceCommandViewModel SelectedDeviceCommand
+		{
+			get { return _selectedDeviceCommand; }
+			set
+			{
+				_selectedDeviceCommand = value;
+				OnPropertyChanged("SelectedDeviceCommand");
+			}
+		}
+
+		public RelayCommand ExecuteCommand { get; private set; }
+		void OnExecute()
+		{
+			if (SelectedDeviceCommand != null)
+			{
+				ServerHelper.ExecuteCommand(Device, SelectedDeviceCommand.Name);
+			}
 		}
 	}
 }

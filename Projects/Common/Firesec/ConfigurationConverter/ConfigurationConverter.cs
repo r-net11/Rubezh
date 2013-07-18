@@ -84,8 +84,11 @@ namespace Firesec
 				var driver = DriverConverter.Convert(coreDriversConfig, innerDriver);
 				if (driver == null)
 				{
-					Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
-					LoadingErrorManager.Add("Не удается найти данные для драйвера " + innerDriver.name);
+					if (innerDriver.name != "БУНС-2" && innerDriver.name != "USB БУНС-2")
+					{
+						Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
+						LoadingErrorManager.Add("Не удается найти данные для драйвера " + innerDriver.name);
+					}
 				}
 				else
 				{

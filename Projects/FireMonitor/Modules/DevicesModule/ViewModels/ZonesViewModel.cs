@@ -83,7 +83,7 @@ namespace DevicesModule.ViewModels
 
         public DeviceViewModel[] RootDevices
         {
-            get { return new DeviceViewModel[] { RootDevice }; }
+			get { return RootDevice == null ? null : new DeviceViewModel[] { RootDevice }; }
         }
 
         void BuildTree()

@@ -18,20 +18,35 @@ namespace ServerFS2
 
 		public static bool UpdateFoolFlash(Device device)
 		{
-			BlockBD(device);
-			Thread.Sleep(BeginUpdateFirmWare(device));
+			// 01 01, 01 03, 37 02, 37 03, 37 01
+			BeginUpdateFirmWare(device);
 			ConfirmLongTermOperation(device);
+			// 3D
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
+			var r2amInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_loader_v3.10_CRP.hex");
+			var rubezhOPSInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_OPS.hex");
 			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
-			Thread.Sleep(BeginUpdateRom(device));
+			BeginUpdateRom(device);
 			ConfirmLongTermOperation(device);
-			ClearSector(device);
-			ConfirmLongTermOperation(device);
+			// 3D, 01 01
 
-			//var foolFlashFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "fullflash2am.zip");
-			//var foolFlashHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(foolFlashFileName, "fullflash2am.hex");
-			//foolFlashHexInfo.Offset = 0;
+			WriteRomConfiguration(device, r2amInfo.Bytes, r2amInfo.Offset); // Запись прошивки с 00 00 по 00 2F
+			ConfirmLongTermOperation(device);
+			// 3D
+			ClearAvrSector(device);
+			ConfirmLongTermOperation(device);
+			// 3D
+			WriteRomConfiguration(device, rubezhOPSInfo.Bytes, 0x5000); // Запись прошивки с 50 00 по 07 CF
+			USBManager.Send(device, 0x02, 0x12, 0x02, 0x30);// 02 12 version(For Example 02 30)
+			// 01 12
+			StopUpdating(device);
+			USBManager.Send(device.ParentUSB, 0x01, 0x36);
+			ConfirmLongTermOperation(device);
+			/*
+			var foolFlashFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "fullflash2am.zip");
+			var foolFlashHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(foolFlashFileName, "fullflash2am.hex");
+			foolFlashHexInfo.Offset = 0;
 
 			WriteFoolFlashConfiguration(device, @"C:\test\soft.txt");
 
@@ -45,6 +60,8 @@ namespace ServerFS2
 			StopUpdating(device);
 			ConfirmLongTermOperation(device);
 			ServerHelper.SynchronizeTime(device);
+			*/
+
 			return true;
 		}
 
@@ -71,22 +88,22 @@ namespace ServerFS2
 			return true;
 		}
 
-		static int BeginUpdateRom(Device device)
+		static void BeginUpdateRom(Device device)
 		{
 			var delayBytes = USBManager.Send(device, 0x39, 0x04);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
 				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
-			return delay;
+			Thread.Sleep(delay);
 		}
 
-		static int BeginUpdateFirmWare(Device device)
+		static void BeginUpdateFirmWare(Device device)
 		{
 			var delayBytes = USBManager.Send(device, 0x39, 0x01);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
 				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
-			return delay;
+			Thread.Sleep(delay);
 		}
 
 		static bool GetStatusOS(Device device)

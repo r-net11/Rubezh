@@ -132,6 +132,7 @@
     <Compile Include="ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="ViewModels\DeviceStateViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />

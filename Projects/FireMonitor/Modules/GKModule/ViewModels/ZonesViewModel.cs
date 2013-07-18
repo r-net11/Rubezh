@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
         public DeviceViewModel RootDevice { get; private set; }
         public DeviceViewModel[] RootDevices
         {
-            get { return new DeviceViewModel[] { RootDevice }; }
+            get { return RootDevice == null ? null : new DeviceViewModel[] { RootDevice }; }
         }
 
         void InitializeDevices()

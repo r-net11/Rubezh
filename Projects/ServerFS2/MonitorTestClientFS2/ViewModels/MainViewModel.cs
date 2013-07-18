@@ -20,12 +20,14 @@ using System.Threading.Tasks;
 using FiresecAPI.Models;
 using System.Diagnostics;
 using ServerFS2.USB;
+using MonitorTestClientFS2.ViewModels;
 
 namespace MonitorClientFS2
 {
 	public class MainViewModel : BaseViewModel
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
+		public ZonesViewModel ZonesViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -40,11 +42,14 @@ namespace MonitorClientFS2
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration);
 
 			DevicesViewModel = new DevicesViewModel();
+			ZonesViewModel = new ZonesViewModel();
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 
 			CallbackManager.NewJournalItem += new Action<FS2JournalItem>(ShowNewItem);
 			ProgressInfos = new ObservableRangeCollection<FS2ProgressInfo>();
+			Logs = new ObservableCollection<string>();
 			CallbackManager.ProgressEvent += new System.Action<FS2ProgressInfo>(CallbackManager_ProgressEvent);
+			CallbackManager.LogEvent += new System.Action<string>(CallbackManager_LogEvent);
 
 			//if (StartMonitoring)
 			//    ServerFS2.Bootstrapper.Run();
@@ -188,5 +193,15 @@ namespace MonitorClientFS2
 		{
 			ComPortHelper.Run();
 		}
+
+		void CallbackManager_LogEvent(string value)
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				Logs.Insert(0, value);
+			}));
+		}
+
+		public ObservableCollection<string> Logs { get; private set; }
 	}
 }

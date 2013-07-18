@@ -19,6 +19,8 @@ using Common;
 using DevicesModule.Plans;
 using FiresecAPI;
 using System.ComponentModel;
+using Infrastructure.Common.Ribbon;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
@@ -31,7 +33,7 @@ namespace DevicesModule.ViewModels
 			WriteCommand = new RelayCommand(OnWrite, CanReadWrite);
 			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
 			WriteAllCommand = new RelayCommand(OnWriteAll, CanReadWriteAll);
-			
+
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			PasteAllCommand = new RelayCommand(OnPasteAll, CanPasteAll);
@@ -44,6 +46,7 @@ namespace DevicesModule.ViewModels
 			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 
 			Invalidate();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -479,7 +482,7 @@ namespace DevicesModule.ViewModels
 
 		void UpdateIsMissmatch()
 		{
-			AllDevices.ForEach(x=>x.IsMissmatch = false);
+			AllDevices.ForEach(x => x.IsMissmatch = false);
 			foreach (var deviceViewModel in AllDevices)
 			{
 				deviceViewModel.UpdateIsMissmatch();
@@ -511,7 +514,7 @@ namespace DevicesModule.ViewModels
 						property.DriverProperty = driverProperty;
 					}
 				}
-				if(device.SystemAUProperties != null)
+				if (device.SystemAUProperties != null)
 					device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
 			}
 		}
@@ -545,11 +548,33 @@ namespace DevicesModule.ViewModels
 			}
 			AllDevices.ForEach(x => x.Device.Changed += UpdateIsMissmatch);
 		}
-
 		public override void OnHide()
 		{
 			base.OnHide();
 			AllDevices.ForEach(x => x.Device.Changed -= UpdateIsMissmatch);
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Считать параметры", ReadCommand, "/Controls;component/Images/BParametersRead.png"),
+					new RibbonMenuItemViewModel("Записать параметры", WriteCommand, "/Controls;component/Images/BParametersWrite.png"),
+					new RibbonMenuItemViewModel("Считать параметры дочерних устройств", ReadAllCommand, "/Controls;component/Images/BParametersReadAll.png"),
+					new RibbonMenuItemViewModel("Записать параметры дочерних устройств", WriteAllCommand, "/Controls;component/Images/BParametersWriteAll.png"),
+					new RibbonMenuItemViewModel("Копировать параметры", CopyCommand, "/Controls;component/Images/BCopy.png"),
+					new RibbonMenuItemViewModel("Вставить параметры", PasteCommand, "/Controls;component/Images/BPaste.png"),
+					new RibbonMenuItemViewModel("Синхронизация", new ObservableCollection<RibbonMenuItemViewModel>()
+					{
+						new RibbonMenuItemViewModel("Из системы в устройство", SyncFromSystemToDeviceCommand),
+						new RibbonMenuItemViewModel("Из всех дочерних устройств системы в устройства", SyncFromAllSystemToDeviceCommand),
+						new RibbonMenuItemViewModel("Из устройства в систему", SyncFromDeviceToSystemCommand) { IsNewGroup = true },
+						new RibbonMenuItemViewModel("Из всех дочерних устройств прибора в систему", SyncFromAllDeviceToSystemCommand),
+					}, "/Controls;component/Images/BParametersSync.png"),
+				}, "/Controls;component/Images/BAllParameters.png") { Order = 2 }
+			};
 		}
 	}
 }
