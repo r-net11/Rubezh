@@ -73,8 +73,14 @@ namespace ServerFS2
 
 			FS2JournalItem.EventClass = GetIntEventClass();
 
-			FS2JournalItem.UserName = "Usr";
-			return FS2JournalItem;
+            ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault();
+            if (bytes[21] != 0)
+            {
+                var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == bytes[21]);
+                FS2JournalItem.GuardUser = guardUser;
+                FS2JournalItem.UserName = guardUser.Name;
+            }
+            return FS2JournalItem;
 		}
 
 		void InitializeDetalization()

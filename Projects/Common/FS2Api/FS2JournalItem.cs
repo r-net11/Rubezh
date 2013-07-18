@@ -50,7 +50,7 @@ namespace FS2Api
 		[DataMember]
 		public SubsystemType SubsystemType { get; set; }
 
-		[DataMember]
+        [DataMember]
 		public string UserName { get; set; }
 
 
@@ -66,5 +66,6 @@ namespace FS2Api
 		public int EventCode { get; set; }
 		public int EventChoiceNo { get; set; }
 		public string BytesString { get; set; }
-	}
+        public GuardUser GuardUser { get; set; }
+    }
 }

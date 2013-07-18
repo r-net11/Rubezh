@@ -236,7 +236,7 @@ namespace ServerFS2.Monitoring
 				}
 			}
 
-			for (int i = Math.Max(LastDeviceFireIndex - MaxSecurityMessages,  LastSystemSecurityIndex + 1); i <= LastDeviceSecurityIndex; i++)
+            for (int i = Math.Max(LastDeviceSecurityIndex - MaxSecurityMessages, LastSystemSecurityIndex + 1); i <= LastDeviceSecurityIndex; i++)
 			{
 				if (doProgress)
 				{
