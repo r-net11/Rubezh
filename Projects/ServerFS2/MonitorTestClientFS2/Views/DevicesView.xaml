@@ -12,7 +12,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Controls:TreeListView Grid.Column="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
+            <Controls:TreeListView Grid.Column="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True" Margin="2">
                 <Controls:TreeListView.Columns>
                     <GridViewColumn Width="250" Header="Устройство">
                         <GridViewColumn.CellTemplate>
@@ -31,8 +31,6 @@
                                                         <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" />
                                                         <MenuItem Header="Снять с охраны" Command="{Binding ResetGuardCommand}" />
                                                         <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                                        <MenuItem Header="Включить РМ" Command="{Binding TurnOnRMTestCommand}" />
-                                                        <MenuItem Header="Выключить РМ" Command="{Binding TurnOffRMTestCommand}" />
                                                     </ContextMenu>
                                                 </StackPanel.ContextMenu>
                                             </StackPanel>
@@ -45,7 +43,7 @@
                     <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" />
                 </Controls:TreeListView.Columns>
             </Controls:TreeListView>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" DataContext="{Binding SelectedDevice}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -64,7 +62,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}">
+        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" Margin="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel TextBlock.Foreground="White">
                     <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">

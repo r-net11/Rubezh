@@ -56,8 +56,20 @@ namespace ServerFS2.Monitoring
 								var hasBit = bitArray[pabelBitNo];
 								if (!hasBit)
 								{
+									//if (device.Driver.DriverType == DriverType.MPT)
+									//{
+									//    Trace.WriteLine("");
+									//    foreach (var state in device.DeviceState.States)
+									//    {
+									//        Trace.Write(state.DriverState.Name + " \t");
+									//    }
+									//}
 									if (device.DeviceState.States.RemoveAll(x => x.DriverState.Code == metadataDeviceState.ID) > 0)
 									{
+										//if (device.Driver.DriverType == DriverType.MPT)
+										//{
+										//    ;
+										//}
 										ForseUpdateDeviceStates(device);
 									}
 								}

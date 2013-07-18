@@ -55,15 +55,14 @@ namespace ServerFS2.Monitoring
 			{
 				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
 			}
-			//if (device.Driver.DriverType == DriverType.MDU)
+
+			if (device.Driver.DriverType == DriverType.MPT)
 			{
-				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, 10);
+				;
 			}
-
 			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
-
 			UpdateDeviceStateDetalisation(device);
-			
+
 			if (HasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;

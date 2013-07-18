@@ -63,6 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="ViewModels\DeviceCommandViewModel.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />

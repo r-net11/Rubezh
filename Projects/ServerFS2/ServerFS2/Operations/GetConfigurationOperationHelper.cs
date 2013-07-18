@@ -8,6 +8,7 @@ using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
 using System.Diagnostics;
+using ServerFS2.Service;
 
 namespace ServerFS2
 {
@@ -69,6 +70,10 @@ namespace ServerFS2
 					rawParametersLength = 2;
 					break;
 			}
+
+			//var length = DeviceFlash[pointer + 26];
+			//CallbackManager.OnLog("Detalization Parameters " + driverType + " " + length);
+
 			var device = new Device
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),

@@ -14,6 +14,7 @@ using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using MonitorTestClientFS2.ViewModels;
+using ServerFS2.Service;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -29,11 +30,9 @@ namespace MonitorClientFS2.ViewModels
 			SetGuardCommand = new RelayCommand(OnSetGuard);
 			ResetGuardCommand = new RelayCommand(OnResetGuard);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			TurnOnRMTestCommand = new RelayCommand(OnTurnOnRMTest);
-			TurnOffRMTestCommand = new RelayCommand(OnTurnOffRMTest);
 			ExecuteCommand = new RelayCommand(OnExecute);
-			DeviceCommands = new List<DeviceCommandViewModel>();
 			Device = device;
+			InitializeCommands();
 			device.DeviceState.StateChanged += new Action(OnStateChanged);
 			device.DeviceState.ParametersChanged += new Action(OnParametersChanged);
 		}
@@ -207,18 +206,30 @@ namespace MonitorClientFS2.ViewModels
 			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
 
-		public RelayCommand TurnOnRMTestCommand { get; private set; }
-		void OnTurnOnRMTest()
+		void InitializeCommands()
 		{
-			MainManager.ExecuteCommand(Device, "RunWODelay", "Пользователь");
-		}
+			DeviceCommands = new List<DeviceCommandViewModel>();
 
-		public RelayCommand TurnOffRMTestCommand { get; private set; }
-		void OnTurnOffRMTest()
-		{
-			MainManager.ExecuteCommand(Device, "Stop", "Пользователь");
+			var tableNo = MetadataHelper.GetDeviceTableNo(Device);
+			var metadataDeviceCommands = MetadataHelper.Metadata.devicePropInfos.Where(x => x.tableType == tableNo);
+			foreach (var metadataDeviceCommand in metadataDeviceCommands)
+			{
+				if (metadataDeviceCommand.commandDev != null)
+				{
+					var deviceCommandViewModel = new DeviceCommandViewModel()
+					{
+						Name = metadataDeviceCommand.name,
+						Caption = metadataDeviceCommand.caption,
+						Command1 = metadataDeviceCommand.command1,
+						ShiftInMemory = metadataDeviceCommand.shiftInMemory,
+						CommandDev = metadataDeviceCommand.commandDev,
+						MaskCmdDev = metadataDeviceCommand.maskCmdDev
+					};
+					DeviceCommands.Add(deviceCommandViewModel);
+				}
+			}
+			SelectedDeviceCommand = DeviceCommands.FirstOrDefault();
 		}
-
 
 		public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
 
@@ -238,7 +249,7 @@ namespace MonitorClientFS2.ViewModels
 		{
 			if (SelectedDeviceCommand != null)
 			{
-				ServerHelper.ExecuteCommand(Device, SelectedDeviceCommand.Name);
+				MainManager.ExecuteCommand(Device, SelectedDeviceCommand.Name, "Пользователь");
 			}
 		}
 	}

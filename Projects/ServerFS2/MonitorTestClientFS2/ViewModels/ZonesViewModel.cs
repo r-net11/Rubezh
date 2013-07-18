@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using ServerFS2;
 
 namespace MonitorTestClientFS2.ViewModels
 {
@@ -13,7 +14,7 @@ namespace MonitorTestClientFS2.ViewModels
 		public ZonesViewModel()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in FiresecManager.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 				Zones.Add(zoneViewModel);

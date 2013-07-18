@@ -56,7 +56,7 @@ namespace ServerFS2.Monitoring
 					{
 						deviceZoneNo = zone.LocalDeviceNo;
 					}
-					CallbackManager.OnLog("Постановка на охрану");
+					CallbackManager.AddLog("Постановка на охрану");
 					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToSetGuard = new List<Zone>();
@@ -70,7 +70,7 @@ namespace ServerFS2.Monitoring
 					{
 						deviceZoneNo = zone.LocalDeviceNo;
 					}
-					CallbackManager.OnLog("Снятие с охраны");
+					CallbackManager.AddLog("Снятие с охраны");
 					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToResetGuard = new List<Zone>();

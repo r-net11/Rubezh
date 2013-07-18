@@ -183,6 +183,10 @@ namespace ServerFS2.Monitoring
 					return;
 				lastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 0);
 			}
+
+			if (lastDeviceIndex > 1000000)
+				return;
+
 			if (requestType == RequestType.ReadFireIndex)
 			{
 				LastDeviceFireIndex = lastDeviceIndex;
@@ -215,13 +219,20 @@ namespace ServerFS2.Monitoring
 					IsSecurityReadingNeeded = true;
 				}
 			}
+
+			var deltaIndex = LastDeviceFireIndex - LastSystemFireIndex;
+			if (deltaIndex > 100)
+			{
+				CallbackManager.AddLog("GetNewJournalItems " + deltaIndex);
+			}
 		}
 
 		public List<FS2JournalItem> GetNewJournalItems(bool doProgress = false)
 		{
 			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex || x.RequestType == RequestType.ReadSecurityIndex);
 			var journalItems = new List<FS2JournalItem>();
-			for (int i = Math.Max(LastDeviceFireIndex - MaxFireMessages,  LastSystemFireIndex + 1); i <= LastDeviceFireIndex; i++)
+
+			for (int i = Math.Max(LastDeviceFireIndex - MaxFireMessages, LastSystemFireIndex + 1); i <= LastDeviceFireIndex; i++)
 			{
 				if (doProgress)
 				{
