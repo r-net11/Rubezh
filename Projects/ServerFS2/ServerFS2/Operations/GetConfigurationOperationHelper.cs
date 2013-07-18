@@ -332,46 +332,14 @@ namespace ServerFS2
 					device.ZoneUID = device.Zone.UID;
 				}
 			}
-			//if (driverType == DriverType.AM_1)
-			if (false)
+			if (driverType == DriverType.AM_1)
+			//if (false)
 			{
 				var driverCode = DeviceFlash[pointer + 10];
-				var rmCount = BytesHelper.ExtractShort(DeviceFlash, pointer + 11); // количество РМ привязанных к сработке виртуальных кнопок
-				for (int i = 0; i < rmCount; i++)
-				{
-					var rmPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 13 + i * 3); // абсолютный адрес размещения привязанного к сработке РМ (3)
-					var clause = new Clause
-					{
-						DeviceUID = device.UID,
-						State = ZoneLogicState.AM1TOn
-					};
-					var rmDevice = new Device()
-					{
-						IntAddress = DeviceFlash[rmPointer + 1] + 256 * (DeviceFlash[rmPointer + 2] + 1)
-					};
-					foreach (var deviceChild in PanelDevice.Children)
-					{
-						if (deviceChild.IntAddress == rmDevice.IntAddress)
-						{
-							rmDevice = deviceChild;
-							break;
-						}
-						if ((deviceChild.Children != null) && (deviceChild.Children.Count > 0))
-							foreach (var devicechildchild in deviceChild.Children)
-							{
-								if (devicechildchild.IntAddress == rmDevice.IntAddress)
-								{
-									rmDevice = devicechildchild;
-									break;
-								}
-							}
-					}
-					rmDevice.ZoneLogic.Clauses.Add(clause);
-				}
 				device.DriverUID = MetadataHelper.GetUidById(driverCode);
 				device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				var config = DeviceFlash[pointer + 9];
-				if ((config & 16) >> 4 == 1)
+				if ((config & 64) >> 6 == 1)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo);
@@ -414,7 +382,7 @@ namespace ServerFS2
 			if (driverType == DriverType.AM1_O)
 			{
 				var config = DeviceFlash[pointer + 7 + tableDynamicSize];
-				if ((config & 16) >> 4 == 1)
+				if ((config & 64) >> 6 == 1)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo));
@@ -437,7 +405,7 @@ namespace ServerFS2
 			if (driverType == DriverType.AM1_T)
 			{
 				var config = DeviceFlash[pointer + 9];
-				if ((config & 16) >> 4 == 1)
+				if ((config & 64) >> 6 == 1)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo);
