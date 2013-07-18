@@ -46,12 +46,35 @@ namespace ServerFS2
 
 		void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
+			int rawParametersLength;
+			switch (driverType)
+			{
+				case DriverType.Valve:
+					rawParametersLength = 6;
+					break;
+				case DriverType.MPT:
+					rawParametersLength = 5;
+					break;
+				case DriverType.BUNS:
+					rawParametersLength = 0;
+					break;
+				case DriverType.MDU:
+					rawParametersLength = 4;
+					break;
+				case DriverType.MRO_2:
+				case DriverType.MRO:
+					rawParametersLength = 3;
+					break;
+				default:
+					rawParametersLength = 2;
+					break;
+			}
 			var device = new Device
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),
 				StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4]),
 				StateWordOffset = pointer + 3,
-				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
+				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(pointer + 29, rawParametersLength)),
 				RawParametersOffset = pointer + 29
 			};
 			device.IntAddress = driverType == DriverType.Exit ? DeviceFlash[pointer + 1] : DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
@@ -133,7 +156,6 @@ namespace ServerFS2
 					}
 					else
 					{
-
 						for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
 						{
 							tableDynamicSize += 3;
@@ -281,29 +303,7 @@ namespace ServerFS2
 
 		void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
-			int rawParametersLength;
-			switch (driverType)
-			{
-				case DriverType.Valve:
-					rawParametersLength = 6;
-					break;
-				case DriverType.MPT:
-					rawParametersLength = 5;
-					break;
-				case DriverType.BUNS:
-					rawParametersLength = 0;
-					break;
-				case DriverType.MDU:
-					rawParametersLength = 4;
-					break;
-				case DriverType.MRO_2:
-				case DriverType.MRO:
-					rawParametersLength = 3;
-					break;
-				default:
-					rawParametersLength = 2;
-					break;
-			}
+			int rawParametersLength = 2;
 
 			var device = new Device
 			{
@@ -314,10 +314,6 @@ namespace ServerFS2
 				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(pointer + 8, rawParametersLength)),
 				RawParametersOffset = pointer + 8
 			};
-			if (device.Driver.DriverType == DriverType.MDU)
-			{
-				;
-			}
 			device.DriverUID = device.Driver.UID;
 			Device groupDevice;
 			TraceHelper.TraceBytes(device.StateWordBytes, device.PresentationAddressAndName);
