@@ -29,6 +29,12 @@ namespace ServerFS2.ConfigurationWriter
 					case DriverType.Rubezh_4A:
 					case DriverType.Rubezh_2OP:
 					case DriverType.BUNS:
+					case DriverType.Rubezh_P:
+					case DriverType.USB_Rubezh_2AM:
+					case DriverType.USB_Rubezh_4A:
+					case DriverType.USB_Rubezh_2OP:
+					case DriverType.USB_BUNS:
+					case DriverType.USB_Rubezh_P:
 						FS2Contract.CheckCancellationAndNotify("Формирования базы прибора " + device.DottedPresentationNameAndAddress);
 						var panelDatabase = new PanelDatabase(device, offset);
 						PanelDatabases.Add(panelDatabase);
