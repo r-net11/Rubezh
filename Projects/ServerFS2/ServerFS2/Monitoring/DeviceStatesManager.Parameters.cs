@@ -56,10 +56,6 @@ namespace ServerFS2.Monitoring
 				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
 			}
 
-			if (device.Driver.DriverType == DriverType.MPT)
-			{
-				;
-			}
 			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
 			UpdateDeviceStateDetalisation(device);
 

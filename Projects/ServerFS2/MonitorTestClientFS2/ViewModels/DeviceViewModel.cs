@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using MonitorTestClientFS2.ViewModels;
 using ServerFS2.Service;
+using FiresecClient;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -25,17 +26,20 @@ namespace MonitorClientFS2.ViewModels
 		public DeviceViewModel(Device device)
 		{
 			ResetCommand = new RelayCommand<DriverState>(OnReset, CanReset);
-			SetIgnoreCommand = new RelayCommand(OnSetIgnore);
-			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
-			SetGuardCommand = new RelayCommand(OnSetGuard);
-			ResetGuardCommand = new RelayCommand(OnResetGuard);
+			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
+			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetResetGuard);
+			ResetGuardCommand = new RelayCommand(OnResetGuard, CanSetResetGuard);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			ExecuteCommand = new RelayCommand(OnExecute);
+			ExecuteCommand = new RelayCommand(OnExecute, CanExecute);
 			Device = device;
+			PresentationZone = ConfigurationManager.DeviceConfiguration.GetPresentationZone(Device);
 			InitializeCommands();
 			device.DeviceState.StateChanged += new Action(OnStateChanged);
 			device.DeviceState.ParametersChanged += new Action(OnParametersChanged);
 		}
+
+		public string PresentationZone { get; private set; }
 
 		void OnStateChanged()
 		{
@@ -181,11 +185,19 @@ namespace MonitorClientFS2.ViewModels
 		{
 			MonitoringManager.AddTaskIgnore(new List<Device>() { Device });
 		}
+		bool CanSetIgnore()
+		{
+			return DeviceState.Device.Driver.CanDisable && !DeviceState.IsDisabled;
+		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
 			MonitoringManager.AddTaskResetIgnore(new List<Device>() { Device });
+		}
+		bool CanResetIgnore()
+		{
+			return DeviceState.Device.Driver.CanDisable && DeviceState.IsDisabled;
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }
@@ -198,6 +210,11 @@ namespace MonitorClientFS2.ViewModels
 		void OnResetGuard()
 		{
 			MonitoringManager.AddTaskResetGuard(Device, "Пользователь", null);
+		}
+
+		bool CanSetResetGuard()
+		{
+			return Device.Driver.DriverType == DriverType.Rubezh_2OP || Device.Driver.DriverType == DriverType.USB_Rubezh_2OP;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -247,10 +264,11 @@ namespace MonitorClientFS2.ViewModels
 		public RelayCommand ExecuteCommand { get; private set; }
 		void OnExecute()
 		{
-			if (SelectedDeviceCommand != null)
-			{
-				MainManager.ExecuteCommand(Device, SelectedDeviceCommand.Name, "Пользователь");
-			}
+			MainManager.ExecuteCommand(Device, SelectedDeviceCommand.Name, "Пользователь");
+		}
+		bool CanExecute()
+		{
+			return SelectedDeviceCommand != null && SelectedDeviceCommand != null;
 		}
 	}
 }

@@ -54,7 +54,7 @@ namespace ServerFS2
 					rawParametersLength = 6;
 					break;
 				case DriverType.MPT:
-					rawParametersLength = 5;
+					rawParametersLength = 15;
 					break;
 				case DriverType.BUNS:
 					rawParametersLength = 0;

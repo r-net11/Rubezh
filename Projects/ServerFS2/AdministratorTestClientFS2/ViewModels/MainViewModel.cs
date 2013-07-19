@@ -38,12 +38,8 @@ namespace AdministratorTestClientFS2.ViewModels
 			SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
 			RunOtherFunctionsCommand = new RelayCommand(OnRunOtherFunctions, CanRunOtherFunctions);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
-			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
-			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			GetDeviceStatusCommand = new RelayCommand(OnGetDeviceStatus, CanGetResetDeviceStatus);
-			AddDeviceToCheckListCommand = new RelayCommand(OnAddDeviceToCheckList, CanAddOrRemoveDeviceToCheckList);
-			RemoveDeviceFromCheckListCommand = new RelayCommand(OnRemoveDeviceFromCheckList, CanAddOrRemoveDeviceToCheckList);
 			TestCommand = new RelayCommand(OnTest);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -242,26 +238,6 @@ namespace AdministratorTestClientFS2.ViewModels
 			return false;
 		}
 
-		public RelayCommand SetPanelRegimeCommand { get; private set; }
-		void OnSetPanelRegime()
-		{
-
-		}
-		bool CanSetPanelRegime()
-		{
-			return false;
-		}
-
-		public RelayCommand UnsetPanelRegimeCommand { get; private set; }
-		void OnUnsetPanelRegime()
-		{
-
-		}
-		bool CanUnsetPanelRegime()
-		{
-			return false;
-		}
-
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		void OnWriteConfiguration()
 		{
@@ -278,28 +254,11 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			Status = ServerHelper.GetDeviceStatus(DevicesViewModel.SelectedDevice.Device);
 		}
-
 		bool CanGetResetDeviceStatus()
 		{
 			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
-		public RelayCommand AddDeviceToCheckListCommand { get; private set; }
-		void OnAddDeviceToCheckList()
-		{
-			MainManager.AddToIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
-		}
-
-		bool CanAddOrRemoveDeviceToCheckList()
-		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.ParentPanel != null));
-		}
-
-		public RelayCommand RemoveDeviceFromCheckListCommand { get; private set; }
-		void OnRemoveDeviceFromCheckList()
-		{
-			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
-		}
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()

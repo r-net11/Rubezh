@@ -161,6 +161,17 @@ namespace ServerFS2
 			return false;
 		}
 
+		public static bool HasZone(int eventCode)
+		{
+			string stringCode = "$" + eventCode.ToString("X2");
+			var metadataEvent = Metadata.events.FirstOrDefault(x => x.rawEventCode == stringCode);
+			if (metadataEvent != null)
+			{
+				return metadataEvent.hasZoneExt != null && metadataEvent.hasZoneExt == "1";
+			}
+			return false;
+		}
+
 		public static string GetEventStateClassString(int eventCode, int additionalEventCode)
 		{
 			string stringCode = "$" + eventCode.ToString("X2");

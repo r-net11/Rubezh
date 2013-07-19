@@ -29,10 +29,6 @@ namespace ServerFS2.Monitoring
 
 			try
 			{
-				if (device.Driver.DriverType == DriverType.MPT)
-				{
-					;
-				}
 				var additionalparameters = new List<Parameter>();
 
 				var deviceTable = MetadataHelper.GetMetadataDeviceTable(device);
@@ -41,7 +37,7 @@ namespace ServerFS2.Monitoring
 					foreach (var metadataDetalization in deviceTable.detalization)
 					{
 						var stateType = (StateType)Int32.Parse(metadataDetalization.@class);
-						var parameterName = "";
+						string parameterName = null;
 						switch (stateType)
 						{
 							case StateType.Norm:
@@ -56,87 +52,89 @@ namespace ServerFS2.Monitoring
 								parameterName = "AlarmReason";
 								break;
 						}
-
-						if (device.DeviceState.StateType == stateType)
+						if (parameterName != null)
 						{
-							var rawParameterValue = 0;
-							var rawParameterIndex = -1;
-							if (metadataDetalization.source == null)
+							if (device.DeviceState.StateType == stateType)
 							{
-								if (metadataDetalization.stateByte != null)
+								var rawParameterValue = 0;
+								var rawParameterIndex = -1;
+								if (metadataDetalization.source == null)
 								{
-									switch (metadataDetalization.stateByte)
+									if (metadataDetalization.stateByte != null)
 									{
-										case "high":
-											if (device.StateWordBytes.Count > 0)
-												rawParameterValue = device.StateWordBytes[0];
-											break;
-									}
-								}
-								else
-								{
-									rawParameterIndex = 1;
-								}
-							}
-							else
-							{
-								var splittedSources = metadataDetalization.source.Split('_');
-								var source = splittedSources.Last();
-								rawParameterIndex = GetRawParameterIndex(source);
-							}
-							if (rawParameterIndex != -1)
-							{
-								if (device.RawParametersBytes != null && device.RawParametersBytes.Count > rawParameterIndex)
-								{
-									rawParameterValue = device.RawParametersBytes[rawParameterIndex];
-								}
-							}
-
-							var statusBytesArray = new byte[] { (byte)rawParameterValue };
-							var bitArray = new BitArray(statusBytesArray);
-
-							var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetalization.dictionary);
-							if (metadataDictionary != null)
-							{
-								foreach (var matadataBit in metadataDictionary.bit)
-								{
-									var isMatch = false;
-									if (matadataBit.no.Contains("-"))
-									{
-										var stringBits = matadataBit.no.Split('-');
-										if (stringBits.Count() == 2)
+										switch (metadataDetalization.stateByte)
 										{
-											var startBit = Int32.Parse(stringBits[0]);
-											var endBit = Int32.Parse(stringBits[1]);
-											var maskedParameterValue = rawParameterValue & ((1 << startBit) + (1 << endBit));
-											if (maskedParameterValue == Int32.Parse(matadataBit.val))
-											{
-												isMatch = true;
-											}
+											case "high":
+												if (device.StateWordBytes.Count > 0)
+													rawParameterValue = device.StateWordBytes[0];
+												break;
 										}
 									}
 									else
 									{
-										var bitNo = Int32.Parse(matadataBit.no);
-										if (bitArray[bitNo])
-										{
-											isMatch = true;
-										}
+										rawParameterIndex = 1;
 									}
-									if (isMatch)
+								}
+								else
+								{
+									var splittedSources = metadataDetalization.source.Split('_');
+									var source = splittedSources.Last();
+									rawParameterIndex = GetRawParameterIndex(source);
+								}
+								if (rawParameterIndex != -1)
+								{
+									if (device.RawParametersBytes != null && device.RawParametersBytes.Count > rawParameterIndex)
 									{
-										var additionalparameter = new Parameter()
+										rawParameterValue = device.RawParametersBytes[rawParameterIndex];
+									}
+								}
+
+								var statusBytesArray = new byte[] { (byte)rawParameterValue };
+								var bitArray = new BitArray(statusBytesArray);
+
+								var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetalization.dictionary);
+								if (metadataDictionary != null)
+								{
+									foreach (var matadataBit in metadataDictionary.bit)
+									{
+										var isMatch = false;
+										if (matadataBit.no.Contains("-"))
 										{
-											Name = parameterName,
-											Value = matadataBit.value,
-											Visible = true,
-										};
-										var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == parameterName);
-										if (driverParameter != null)
-										{
-											additionalparameter.Caption = driverParameter.Caption;
+											var stringBits = matadataBit.no.Split('-');
+											if (stringBits.Count() == 2)
+											{
+												var startBit = Int32.Parse(stringBits[0]);
+												var endBit = Int32.Parse(stringBits[1]);
+												var maskedParameterValue = rawParameterValue & ((1 << startBit) + (1 << endBit));
+												if (maskedParameterValue == Int32.Parse(matadataBit.val))
+												{
+													isMatch = true;
+												}
+											}
 										}
-										additionalparameters.Add(additionalparameter);
+										else
+										{
+											var bitNo = Int32.Parse(matadataBit.no);
+											if (bitArray[bitNo])
+											{
+												isMatch = true;
+											}
+										}
+										if (isMatch)
+										{
+											var additionalparameter = new Parameter()
+											{
+												Name = parameterName,
+												Value = matadataBit.value,
+												Visible = true,
+											};
+											var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == parameterName);
+											if (driverParameter != null)
+											{
+												additionalparameter.Caption = driverParameter.Caption;
+											}
+											additionalparameters.Add(additionalparameter);
+										}
 									}
 								}
 							}
