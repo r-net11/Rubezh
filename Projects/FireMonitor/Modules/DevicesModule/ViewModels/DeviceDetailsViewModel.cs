@@ -18,18 +18,17 @@ namespace DevicesModule.ViewModels
 	public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Device Device { get; private set; }
+		public Guid AlternativeLibraryDeviceUID { get; private set; }
 		public DeviceState DeviceState { get; private set; }
 		public DeviceControlViewModel DeviceControlViewModel { get; private set; }
-		DeviceControls.DeviceControl _deviceControl;
-		private Guid _guid;
 
-		public DeviceDetailsViewModel(Device device)
+		public DeviceDetailsViewModel(Device device, Guid alternativeLibraryDeviceUID)
 		{
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			Device = device;
-			_guid = device.UID;
+			AlternativeLibraryDeviceUID = alternativeLibraryDeviceUID;
 			DeviceState = Device.DeviceState;
 			DeviceControlViewModel = new DeviceControlViewModel(Device);
 			DeviceState.StateChanged += new Action(OnStateChanged);
@@ -47,9 +46,7 @@ namespace DevicesModule.ViewModels
 
 		void OnStateChanged()
 		{
-			if (DeviceState != null && _deviceControl != null)
-				_deviceControl.StateType = DeviceState.StateType;
-			OnPropertyChanged("DevicePicture");
+			OnPropertyChanged(() => DevicePicture);
 
 			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeStates)
@@ -113,7 +110,7 @@ namespace DevicesModule.ViewModels
 						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
 						var timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "AU_Delay");
-                        if(timeoutProperty == null)
+						if (timeoutProperty == null)
 							timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "Задержка включения, с");
 						if (timeoutProperty != null)
 						{
@@ -148,7 +145,7 @@ namespace DevicesModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return DevicePictureCache.GetDynamicBrush(Device, System.Guid.Empty); }
+			get { return DevicePictureCache.GetDynamicBrush(Device, AlternativeLibraryDeviceUID); }
 		}
 
 		public StateType StateType
@@ -269,7 +266,7 @@ namespace DevicesModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return _guid.ToString(); }
+			get { return Device.UID.ToString(); }
 		}
 		#endregion
 	}

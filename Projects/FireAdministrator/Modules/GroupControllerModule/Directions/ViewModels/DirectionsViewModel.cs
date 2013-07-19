@@ -17,6 +17,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Common.Ribbon;
 
 namespace GKModule.ViewModels
 {
@@ -36,6 +37,7 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
 			SubscribeEvents();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -300,6 +302,19 @@ namespace GKModule.ViewModels
 			if (elementDirection == null)
 				elementDirection = element as ElementPolygonXDirection;
 			return elementDirection;
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+				}, "/Controls;component/Images/BDirection.png") { Order = 2 }
+			};
 		}
 	}
 }

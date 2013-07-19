@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System.Diagnostics;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -129,7 +130,7 @@ namespace DevicesModule.ViewModels
 
 				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
-                    if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
+					if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
 					{
 						stringBuilder.Append(parameter.Caption);
 						stringBuilder.Append(" - ");
@@ -301,7 +302,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(new ElementDeviceReference() { DeviceUID = Device.UID });
 		}
 		bool CanShowProperties()
 		{
