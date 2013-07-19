@@ -106,7 +106,7 @@ namespace ServerFS2.ConfigurationWriter
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.Valve:
-					count = 6;
+					count = 17;
 					break;
 
 				case DriverType.MPT:
@@ -118,7 +118,7 @@ namespace ServerFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MDU:
-					count = 4;
+					count = 14;
 					break;
 
 				case DriverType.MRO_2:
@@ -180,7 +180,7 @@ namespace ServerFS2.ConfigurationWriter
 					{
 						var childIndex = Device.Parent.Children.IndexOf(Device);
 						config += (childIndex << 1);
-						config += 16;
+						config += 64;
 					}
 					break;
 			}

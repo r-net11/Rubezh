@@ -97,20 +97,26 @@ namespace ServerFS2.ConfigurationWriter
 				case DriverType.HeatDetector:
 					BytesDatabase.AddByte(0, "Температура", true);
 					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.CombinedDetector:
 					BytesDatabase.AddByte(computerConfigurationData, "Конфигурация с компа");
-                    BytesDatabase.AddByte(0, "Запыленность", true);
-                    BytesDatabase.AddByte(0, "Температура", true);
-
-                    BytesDatabase.AddByte(0, "Пустой байт", true);
-                    BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Запыленность", true);
+					BytesDatabase.AddByte(0, "Температура", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.RadioSmokeDetector:
-                    BytesDatabase.AddByte(0, "Запыленность", true);
+					BytesDatabase.AddByte(0, "Запыленность", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					BytesDatabase.AddByte(Device.Parent.AddressOnShleif, "Адрес родительского МРК");
 					break;
 				case DriverType.RadioHandDetector:
+					BytesDatabase.AddByte(0, "Пустой байт", true);
 					BytesDatabase.AddByte(Device.Parent.AddressOnShleif, "Адрес родительского МРК");
 					break;
 			}
@@ -123,7 +129,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				var childIndex = Device.Parent.Children.IndexOf(Device);
 				childIndex = childIndex << 1;
-				config += 16 + childIndex;
+				config += 64 + childIndex;
 			}
 			BytesDatabase.AddByte(config, "Конфиг с компа");
 
@@ -137,6 +143,24 @@ namespace ServerFS2.ConfigurationWriter
 			//    BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
 			//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			//}
+
+			switch (Device.Driver.DriverType)
+			{
+				case DriverType.ShuzOnButton:
+				case DriverType.ShuzOffButton:
+				case DriverType.ShuzUnblockButton:
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					BytesDatabase.AddByte(0, "Пустой байт", true);
+					break;
+			}
 		}
 
 		void AddAMT4Config()
@@ -191,20 +215,29 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			if (rmDevices.Count > 0)
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
-				foreach (var rmDevice in rmDevices)
-				{
-					TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == rmDevice.UID);
-					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ " + rmDevice.DottedPresentationAddressAndName);
-				}
-				for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
-				{
-					BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-					BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
-				}
+				BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 			}
+
+			BytesDatabase.AddByte(0, "Пустой байт", true);
+			BytesDatabase.AddByte(0, "Пустой байт", true);
+
+			//BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			//if (rmDevices.Count > 0)
+			//{
+			//    foreach (var rmDevice in rmDevices)
+			//    {
+			//        TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == rmDevice.UID);
+			//        BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ " + rmDevice.DottedPresentationAddressAndName);
+			//    }
+			//    for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+			//    {
+			//        BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+			//        BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+			//    }
+			//}
 		}
 
 		void AddAMP_4Config()
@@ -214,7 +247,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				var childIndex = Device.Parent.Children.IndexOf(Device);
 				childIndex = childIndex << 1;
-				config += 16 + childIndex;
+				config += 64 + childIndex;
 			}
 			BytesDatabase.AddByte(config, "Конфиг с компа");
 		}

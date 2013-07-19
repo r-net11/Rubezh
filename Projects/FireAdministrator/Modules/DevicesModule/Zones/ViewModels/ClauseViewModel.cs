@@ -344,7 +344,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDevice()
 		{
-			var zoneLogicDevicesSelectionViewModel = new ZoneLogicDevicesSelectionViewModel(Device, SelectedDevices);
+			var zoneLogicDevicesSelectionViewModel = new ZoneLogicDevicesSelectionViewModel(Device, SelectedDevices, SelectedState);
 			if (DialogService.ShowModalWindow(zoneLogicDevicesSelectionViewModel))
 			{
 				SelectedDevices = zoneLogicDevicesSelectionViewModel.SelectedDevices;

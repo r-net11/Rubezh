@@ -12,14 +12,16 @@ namespace DevicesModule.ViewModels
 	{
 		Device Device;
 		public List<Device> SelectedDevices { get; private set; }
+		ZoneLogicState ZoneLogicState;
 
-		public ZoneLogicDevicesSelectionViewModel(Device device, List<Device> selectedDevices)
+		public ZoneLogicDevicesSelectionViewModel(Device device, List<Device> selectedDevices, ZoneLogicState zoneLogicState)
 		{
 			Title = "Выбор устройств";
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
 			Device = device;
+			ZoneLogicState = zoneLogicState;
 			SelectedDevices = selectedDevices;
 			InitializeDevices();
 			InitializeAvailableDevices();
@@ -48,7 +50,8 @@ namespace DevicesModule.ViewModels
 				if (device.ParentChannel != null && device.ParentChannel.UID != Device.ParentChannel.UID)
 					continue;
 
-				if (device.Driver.DriverType == DriverType.AM1_T || device.Driver.DriverType == DriverType.MDU)
+				if ((ZoneLogicState == ZoneLogicState.AM1TOn && (device.Driver.DriverType == DriverType.AM1_T || device.Driver.DriverType == DriverType.MDU || device.Driver.DriverType == DriverType.ShuzOffButton || device.Driver.DriverType == DriverType.ShuzOnButton || device.Driver.DriverType == DriverType.ShuzUnblockButton)) ||
+					(ZoneLogicState == ZoneLogicState.ShuzOn && device.Driver.DriverType == DriverType.Valve))
 				{
 					device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
