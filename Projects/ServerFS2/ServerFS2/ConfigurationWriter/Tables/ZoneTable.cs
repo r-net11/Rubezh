@@ -43,12 +43,10 @@ namespace ServerFS2.ConfigurationWriter
 			int zoneAttributes = 0;
 			if (Zone.ZoneType == ZoneType.Guard)
 			{
-				if (Zone.GuardZoneType == GuardZoneType.Ordinary)
+				if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
 					zoneAttributes += 1;
 				if (Zone.GuardZoneType == GuardZoneType.Delay)
 					zoneAttributes += 8;
-				if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
-					zoneAttributes += 16;
 				if (Zone.Skipped)
 					zoneAttributes += 2;
 			}

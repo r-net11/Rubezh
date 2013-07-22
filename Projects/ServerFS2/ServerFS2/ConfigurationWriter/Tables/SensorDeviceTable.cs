@@ -208,36 +208,32 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				foreach (var clause in device.ZoneLogic.Clauses)
 				{
-                    if (clause.Device != null && clause.Device == Device && clause.Device.Driver.DriverType == DriverType.AM1_T)
+					foreach (var clauseDevice in clause.Devices)
 					{
-						rmDevices.Add(device);
+						if (clauseDevice != null && clauseDevice == Device && clauseDevice.Driver.DriverType == DriverType.AM1_T)
+						{
+							rmDevices.Add(device);
+						}
 					}
 				}
 			}
 
-			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+			BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			if (rmDevices.Count > 0)
 			{
-				BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-				BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+				{
+					var devicesOnShleif = rmDevices.Where(x => x.ShleifNo == i + 1);
+					BytesDatabase.AddByte(devicesOnShleif.Count(), "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+					TableBase table = null;
+					var firstDevice = devicesOnShleif.FirstOrDefault();
+					if (firstDevice != null)
+					{
+						table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == firstDevice.UID);
+					}
+					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				}
 			}
-
-			BytesDatabase.AddByte(0, "Пустой байт", true);
-			BytesDatabase.AddByte(0, "Пустой байт", true);
-
-			//BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			//if (rmDevices.Count > 0)
-			//{
-			//    foreach (var rmDevice in rmDevices)
-			//    {
-			//        TableBase table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == rmDevice.UID);
-			//        BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения связанного ИУ " + rmDevice.DottedPresentationAddressAndName);
-			//    }
-			//    for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
-			//    {
-			//        BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-			//        BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
-			//    }
-			//}
 		}
 
 		void AddAMP_4Config()

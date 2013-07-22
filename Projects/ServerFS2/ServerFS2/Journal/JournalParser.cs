@@ -161,7 +161,7 @@ namespace ServerFS2
                 case (0x45):
                 case (0x31):
                 case (0x46):
-                    var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == bytes[21]);
+                    var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == Bytes[21]);
                     FS2JournalItem.GuardUser = guardUser;
                     FS2JournalItem.UserName = guardUser.Name;
                     break;

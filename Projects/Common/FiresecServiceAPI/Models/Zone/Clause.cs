@@ -17,7 +17,6 @@ namespace FiresecAPI.Models
 			DeviceUIDs = new List<Guid>();
         }
 
-		public Device Device { get; set; }
         public List<Device> Devices { get; set; }
         public List<Zone> Zones { get; set; }
 
@@ -29,9 +28,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<Guid> ZoneUIDs { get; set; }
-
-		[DataMember]
-		public Guid DeviceUID { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
