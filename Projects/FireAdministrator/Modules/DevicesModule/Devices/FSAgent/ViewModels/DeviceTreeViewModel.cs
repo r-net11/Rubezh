@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
 		DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
-			deviceViewModel.XXXPresentationZone = device.ZonesConfiguration.GetPresentationZone(device);
+			deviceViewModel.XXXPresentationZone = device.DeviceConfiguration.GetPresentationZone(device);
 			var indexOf = Devices.IndexOf(parentDeviceViewModel);
 			Devices.Insert(indexOf + 1, deviceViewModel);
 
