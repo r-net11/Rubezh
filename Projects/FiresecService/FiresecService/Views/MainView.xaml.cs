@@ -34,9 +34,9 @@ namespace FiresecService.Views
 
 		private void OnShow(object sender, EventArgs e)
 		{
+			_window.WindowState = WindowState.Normal;
 			_window.Left = SystemParameters.WorkArea.Right - _window.ActualWidth;
 			_window.Top = SystemParameters.WorkArea.Bottom - _window.ActualHeight;
-			_window.WindowState = WindowState.Normal;
 			_window.Activate();
 		}
 		private void OnClose(object sender, EventArgs e)
