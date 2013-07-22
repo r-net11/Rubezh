@@ -16,6 +16,21 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +57,9 @@
   <PropertyGroup>
     <ApplicationIcon>FS2.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>ServerFS2.exe.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
@@ -50,11 +68,13 @@
       <HintPath>..\..\..\3rdParty\LibUsbDotNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +86,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -80,7 +103,9 @@
     <Compile Include="ConfigurationWriter\Classes\DevicesGroupHelper.cs" />
     <Compile Include="ConfigurationWriter\Classes\TableGroup.cs" />
     <Compile Include="ConfigurationWriter\SystemDatabaseCreator.cs" />
-    <Compile Include="ConfigurationWriter\Helpers\BytesHelper.cs" />
+    <Compile Include="FS2StopMonitoringException.cs" />
+    <Compile Include="FS2USBException.cs" />
+    <Compile Include="Helpers\BytesHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleif.cs" />
     <Compile Include="ConfigurationWriter\Helpers\DevicesOnShleifHelper.cs" />
     <Compile Include="ConfigurationWriter\Helpers\ZonePanelRelations.cs" />
@@ -101,39 +126,81 @@
     <Compile Include="ConfigurationWriter\Tables\TableBase.cs" />
     <Compile Include="ConfigurationWriter\Tables\ZoneTable.cs" />
     <Compile Include="ConfigurationWriter\ZoneHelper.cs" />
-    <Compile Include="DataBase\DBJournalHelper.cs" />
-    <Compile Include="DataBase\FSJournalItem.cs" />
+    <Compile Include="Helpers\ConfigurationCompareHelper.cs" />
     <Compile Include="Helpers\Crc16Helper.cs" />
+    <Compile Include="Helpers\DeviceCustomFunctionListHelper.cs" />
+    <Compile Include="Helpers\DeviceLastIndexCollection.cs" />
     <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
     <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
+    <Compile Include="Helpers\LastJournalIndexHelper.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
-    <Compile Include="Helpers\ServerHelper.AutoDetect.cs" />
-    <Compile Include="Helpers\ServerHelper.GetConfiguration.cs" />
-    <Compile Include="Helpers\ServerHelper.Parameters.cs" />
-    <Compile Include="Helpers\ServerHelper.ReadJournal.cs" />
-    <Compile Include="Helpers\ServerHelper.SetConfiguration.cs" />
+    <Compile Include="Helpers\ServerHelper.Monitoring.cs" />
+    <Compile Include="Helpers\TraceHelper.cs" />
+    <Compile Include="Helpers\USBConfigHelper.cs" />
+    <Compile Include="Helpers\USBExceptionHelper.cs" />
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
-    <Compile Include="JournalParser.cs" />
-    <Compile Include="Helpers\MetadataHelper.cs" />
-    <Compile Include="Helpers\rubezh2010.cs" />
+    <Compile Include="Journal\BitsExtracter.cs" />
+    <Compile Include="Journal\CustomMessageJournalHelper.cs" />
+    <Compile Include="Journal\DatabaseHelper.cs" />
+    <Compile Include="Journal\DatabaseHelper.Monitoring.cs" />
+    <Compile Include="Journal\FSInternalJournal.cs" />
+    <Compile Include="Journal\JournalParser.cs" />
+    <Compile Include="Journal\ServerJournalHelper.cs" />
+    <Compile Include="Metadata\MetadataHelper.cs" />
+    <Compile Include="Metadata\rubezh2010.cs" />
     <Compile Include="Helpers\DriversHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Monitoring\CommandExecutor.cs" />
+    <Compile Include="Monitoring\DeviceStatesManager.cs" />
+    <Compile Include="Monitoring\DeviceStatesManager.Parameters.cs" />
+    <Compile Include="Monitoring\JournalHelper.cs" />
+    <Compile Include="Monitoring\CommandItem.cs" />
+    <Compile Include="Monitoring\MonitoringPanel.Connection.cs" />
+    <Compile Include="Monitoring\MonitoringPanel.cs" />
+    <Compile Include="Monitoring\MonitoringManager.cs" />
+    <Compile Include="Monitoring\MonitoringPanel.Tasks.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.AllStates.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.StartStop.cs" />
+    <Compile Include="Monitoring\MonitoringUSB.TimeSynchronisation.cs" />
+    <Compile Include="Monitoring\NonPanelStatesManager.cs" />
+    <Compile Include="Monitoring\ZoneStateManager.cs" />
+    <Compile Include="Monitoring\DeviceStatesManager.DeviceStateDetalisation.cs" />
+    <Compile Include="Operations\AutoDetectOperationHelper.cs" />
+    <Compile Include="Operations\ConfigurationWriterOperationHelper.cs" />
+    <Compile Include="Operations\CustomFunctionOperationHelper.cs" />
+    <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
+    <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
+    <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
+    <Compile Include="Operations\GetInformationOperationHelper.cs" />
+    <Compile Include="Operations\GuardUsersOperationHelper.cs" />
+    <Compile Include="Operations\ReadJournalOperationHelper.cs" />
+    <Compile Include="Operations\ReadPanelDatabaseOperationHelper.cs" />
+    <Compile Include="Operations\SetConfigurationOperationHelper.cs" />
+    <Compile Include="Operations\SetPasswordOperationHelper.cs" />
+    <Compile Include="USB\ComPortHelper.cs" />
+    <Compile Include="USB\RequestType.cs" />
+    <Compile Include="Operations\TouchMemoryOperationHelper.cs" />
     <Compile Include="PatchManager.cs" />
-    <Compile Include="Processor\WatcherManager.cs" />
-    <Compile Include="TimeParceHelper.cs" />
+    <Compile Include="Processor\MainManager.cs" />
+    <Compile Include="Journal\TimeParceHelper.cs" />
     <Compile Include="Helpers\ServerHelper.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="RequestCollection.cs" />
-    <Compile Include="Response.cs" />
+    <Compile Include="USB\USBDetectorHelper.cs" />
+    <Compile Include="USB\USBManager.cs" />
+    <Compile Include="USB\UsbHidBase.cs" />
+    <Compile Include="USB\Request.cs" />
+    <Compile Include="USB\RequestCollection.cs" />
+    <Compile Include="USB\Response.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\FS2Contracr.cs" />
+    <Compile Include="Service\FS2Contract.cs" />
     <Compile Include="Service\FS2ServiceHost.cs" />
-    <Compile Include="UsbRunner.cs" />
+    <Compile Include="USB\UsbHid.cs" />
+    <Compile Include="USB\UsbHidInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
@@ -160,6 +227,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ServerFS2.exe.manifest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -168,7 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FS2.ico" />
-    <Content Include="Helpers\rubezh2010.xml">
+    <Content Include="Metadata\rubezh2010.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
@@ -194,8 +264,14 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\USB\usb hid\UsbLibrary\UsbLibrary.csproj">
+      <Project>{71E42A6D-C432-4C03-BF4F-ABFD2A3173E0}</Project>
+      <Name>UsbLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Administrator\" />
+  </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
@@ -213,6 +289,28 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

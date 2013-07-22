@@ -8,6 +8,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Single" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True">
             <DataGrid.Resources>
@@ -24,7 +25,9 @@
                 <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="40" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.Name}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
-                <DataGridTextColumn Header="Число ИП для перехода в пожар" Binding="{Binding DetectorCount}" />
+                <DataGridTextColumn Header="Число ИП для перехода в пожар" Binding="{Binding DetectorCount}"
+                    Visibility="{Binding Source={x:Reference chkColumnVisible}, Path=IsChecked,
+                     Converter={StaticResource BooleanToVisibilityConverter}}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -33,5 +36,6 @@
             </DataGrid.ContextMenu>
         </DataGrid>
         <Button Grid.Row="1" Command="{Binding CreateCommand}" Content="Создать" Width="100" Margin="0, 2, 0, 2" HorizontalAlignment="Right" />
+        <CheckBox Grid.Row="2" x:Name="chkColumnVisible" IsChecked="{Binding IsFireDevice, Mode=OneWay}" Width="0" Height="0" />
     </Grid>
 </UserControl>

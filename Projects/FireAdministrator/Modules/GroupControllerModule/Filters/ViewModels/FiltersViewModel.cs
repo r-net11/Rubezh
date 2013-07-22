@@ -9,6 +9,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Common.Ribbon;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -21,6 +23,7 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             RegisterShortcuts();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -115,5 +118,19 @@ namespace GKModule.ViewModels
             RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
             RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
         }
+
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+				}, "/Controls;component/Images/BFilter.png") { Order = 2 }
+			};
+		}
 	}
 }

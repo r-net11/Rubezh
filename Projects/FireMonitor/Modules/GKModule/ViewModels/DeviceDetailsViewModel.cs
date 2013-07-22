@@ -14,6 +14,8 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Events;
 using Controls.Converters;
+using System.Windows.Media;
+using DeviceControls;
 
 namespace GKModule.ViewModels
 {
@@ -64,7 +66,7 @@ namespace GKModule.ViewModels
 		{
 			if (DeviceState != null && _deviceControl != null)
 				_deviceControl.StateClass = DeviceState.StateClass;
-			OnPropertyChanged("DeviceControlContent");
+			OnPropertyChanged("DevicePicture");
 			OnPropertyChanged("DeviceState");
             OnPropertyChanged("DeviceStateViewModel");
 			OnPropertyChanged("HasOnDelay");
@@ -72,29 +74,9 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("HasOffDelay");
 		}
 
-		public object DeviceControlContent
+		public Brush DevicePicture
 		{
-			get
-			{
-				var libraryDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == Device.Driver.UID);
-				if (libraryDevice == null)
-				{
-					return null;
-				}
-				if (DeviceState != null)
-				{
-					_deviceControl = new DeviceControls.XDeviceControl()
-					{
-						DriverId = Device.Driver.UID,
-						Width = 50,
-						Height = 50,
-						StateClass = DeviceState.StateClass
-					};
-					_deviceControl.Update();
-				}
-
-				return _deviceControl;
-			}
+			get { return DevicePictureCache.GetDynamicXBrush(Device); }
 		}
 
 		public string PresentationZone

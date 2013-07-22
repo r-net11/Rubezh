@@ -2,7 +2,6 @@
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
-using GKModule.Plans.Designer;
 
 namespace GKModule.ViewModels
 {
@@ -89,7 +88,7 @@ namespace GKModule.ViewModels
 		public static DeviceViewModel AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(xDevice);
-			parentDeviceViewModel.Children.Add(deviceViewModel);
+			parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in xDevice.Children)
 			{

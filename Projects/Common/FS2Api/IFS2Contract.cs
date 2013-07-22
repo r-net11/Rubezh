@@ -22,45 +22,45 @@ namespace FS2Api
 
 		#region Common
 		[OperationContract]
-		OperationResult<string> GetCoreConfig();
+		OperationResult<DeviceConfiguration> GetDeviceConfiguration();
 
 		[OperationContract]
-		OperationResult<string> GetMetadata();
+		OperationResult<DriversConfiguration> GetDriversConfiguration();
 		#endregion
 
 		#region Monitor
 		[OperationContract]
-		OperationResult<string> GetCoreState();
+		OperationResult<List<DeviceState>> GetDeviceStates();
 
 		[OperationContract]
-		OperationResult<string> GetCoreDeviceParams();
+		OperationResult<List<DeviceState>> GetDeviceParameters();
 
 		[OperationContract]
-		OperationResult<string> ReadEvents(int fromId, int limit);
+		OperationResult<List<ZoneState>> GetZoneStates();
 
 		[OperationContract]
-		void AddToIgnoreList(List<Guid> deviceUIDs);
+		OperationResult AddToIgnoreList(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
-		void RemoveFromIgnoreList(List<Guid> deviceUIDs);
+		OperationResult RemoveFromIgnoreList(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
-		void ResetStates(string states);
+		OperationResult SetZoneGuard(Guid zoneUID, string userName);
 
 		[OperationContract]
-		void SetZoneGuard(Guid deviceUID, string localZoneNo);
+		OperationResult UnSetZoneGuard(Guid zoneUID, string userName);
 
 		[OperationContract]
-		void UnSetZoneGuard(Guid deviceUID, string localZoneNo);
+		OperationResult SetDeviceGuard(Guid deviceUID, string userName);
 
 		[OperationContract]
-		void AddUserMessage(string message);
+		OperationResult UnSetDeviceGuard(Guid deviceUID, string userName);
 
 		[OperationContract]
-		OperationResult<string> ExecuteRuntimeDeviceMethod(Guid deviceUID, string methodName, string parameters);
+		OperationResult ResetStates(List<PanelResetItem> panelResetItems, string userName);
 
 		[OperationContract]
-		OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
+		OperationResult ExecuteCommand(Guid deviceUID, string methodName, string userName);
 
 		[OperationContract]
 		OperationResult<bool> CheckHaspPresence();
@@ -68,52 +68,81 @@ namespace FS2Api
 
 		#region Administrator
 		[OperationContract]
-		OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration);
+		OperationResult SetNewConfiguration(DeviceConfiguration deviceConfiguration, string userName);
 
 		[OperationContract]
-		OperationResult<bool> DeviceWriteConfig(Guid deviceUID);
+		OperationResult<bool> DeviceWriteConfiguration(Guid deviceUID, bool isUSB, string userName);
 
 		[OperationContract]
-		OperationResult<bool> DeviceSetPassword(Guid deviceUID, string password, int deviceUser);
+		OperationResult<List<Guid>> DeviceWriteAllConfiguration(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
-		OperationResult<bool> DeviceDatetimeSync(Guid deviceUID);
+		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetInformation(Guid deviceUID);
+		OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetSerialList(Guid deviceUID);
+		OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, string fileName);
+		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, string fileName);
+		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult<string> DeviceReadConfig(Guid deviceUID);
+		OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult<string> DeviceReadEventLog(Guid deviceUID, int type);
+		OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
+		OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB);
 
 		[OperationContract]
-		OperationResult<string> DeviceCustomFunctionList(Guid deviceUID);
+		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
 
 		[OperationContract]
-		OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName);
+		OperationResult<List<DeviceCustomFunction>> DeviceGetCustomFunctions(DriverType driverType);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID);
+		OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName);
 
 		[OperationContract]
-		OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users);
+		OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUser);
 
 		[OperationContract]
 		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties);
+
+		[OperationContract]
+		OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID);
+		#endregion
+
+		#region Journal
+		[OperationContract]
+		OperationResult<List<FS2JournalItem>> GetFilteredJournal(JournalFilter journalFilter);
+
+		[OperationContract]
+		OperationResult<List<FS2JournalItem>> GetFilteredArchive(ArchiveFilter archiveFilter);
+
+		[OperationContract]
+		OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter);
+
+		[OperationContract]
+		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
+
+		[OperationContract]
+		OperationResult<DateTime> GetArchiveStartDate();
+
+		[OperationContract()]
+		OperationResult AddJournalRecords(List<FS2JournalItem> journalItems);
 		#endregion
 	}
 }

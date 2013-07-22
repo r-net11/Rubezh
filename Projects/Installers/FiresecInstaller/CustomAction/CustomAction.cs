@@ -34,7 +34,7 @@ namespace CustomAction
 				}
 				catch(Exception e)
 				{
-					MessageBox.Show(e.ToString());
+					//MessageBox.Show(e.ToString());
 				}
 			}
 			return ActionResult.Success;

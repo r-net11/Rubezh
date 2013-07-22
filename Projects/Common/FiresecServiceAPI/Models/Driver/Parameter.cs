@@ -29,6 +29,8 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public bool IsDeleting { get; set; }
+
 		public Parameter Copy()
 		{
 			var parameter = new Parameter();

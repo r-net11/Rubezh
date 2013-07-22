@@ -1,9 +1,7 @@
 ﻿using System.Windows.Controls;
-using DiagnosticsModule.ViewModels;
-using System.Collections.Generic;
-using FiresecClient;
-using FiresecAPI.Models;
 using DevicesModule.ViewModels;
+using FiresecAPI.Models;
+using FiresecClient;
 
 namespace DiagnosticsModule.Views
 {
@@ -18,7 +16,7 @@ namespace DiagnosticsModule.Views
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);

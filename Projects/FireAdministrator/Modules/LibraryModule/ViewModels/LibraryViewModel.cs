@@ -35,7 +35,7 @@ namespace LibraryModule.ViewModels
 				}
 				else
 				{
-					Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverId.ToString());
+					Logger.Error("LibraryViewModel.Initialize driver = null " + libraryDevice.DriverId.ToString());
 				}
 			}
 			FiresecManager.DeviceLibraryConfiguration.Devices.RemoveAll(x => x.Driver == null);

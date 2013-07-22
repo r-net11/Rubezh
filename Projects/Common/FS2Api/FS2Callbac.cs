@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace FS2Api
 {
@@ -11,22 +9,29 @@ namespace FS2Api
 	{
 		public FS2Callbac()
 		{
-			JournalRecords = new List<FS2JournalItem>();
+			JournalItems = new List<FS2JournalItem>();
+			ArchiveJournalItems = new List<FS2JournalItem>();
+			ChangedDeviceStates = new List<DeviceState>();
+			ChangedDeviceParameters = new List<DeviceState>();
+			ChangedZoneStates = new List<ZoneState>();
 		}
 
 		[DataMember]
-		public List<FS2JournalItem> JournalRecords { get; set; }
+		public List<FS2JournalItem> JournalItems { get; set; }
 
 		[DataMember]
-		public string CoreCongig { get; set; }
+		public List<FS2JournalItem> ArchiveJournalItems { get; set; }
 
 		[DataMember]
-		public string CoreDeviceParams { get; set; }
+		public List<DeviceState> ChangedDeviceStates { get; set; }
+
+		[DataMember]
+		public List<DeviceState> ChangedDeviceParameters { get; set; }
+
+		[DataMember]
+		public List<ZoneState> ChangedZoneStates { get; set; }
 
 		[DataMember]
 		public FS2ProgressInfo FS2ProgressInfo { get; set; }
-
-		[DataMember]
-		public bool IsConnectionLost { get; set; }
 	}
 }

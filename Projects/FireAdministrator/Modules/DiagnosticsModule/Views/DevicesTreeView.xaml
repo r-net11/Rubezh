@@ -93,11 +93,8 @@
 										</c:EditorPresenter.ViewTemplate>
 										<c:EditorPresenter.EditTemplate>
 											<ControlTemplate>
-												<Grid>
-													<Views:AddressEditor Address="{Binding Address, UpdateSourceTrigger=Default}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
-													<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-												</Grid>
-											</ControlTemplate>
+                                                <TextBlock Text="{Binding Address}" />
+                                            </ControlTemplate>
 										</c:EditorPresenter.EditTemplate>
 									</c:EditorPresenter>
 								</DataTemplate>

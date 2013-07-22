@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.ComponentModel;
-using System.Windows;
+using Infrastructure.Common.TreeList;
 
 namespace Controls.TreeList
 {
 	public class TreeListItem : ListViewItem, INotifyPropertyChanged
 	{
-		private TreeNode _node;
-		public TreeNode Node
+		private TreeNodeViewModel _node;
+		public TreeNodeViewModel Node
 		{
 			get { return _node; }
 			internal set
@@ -22,10 +18,17 @@ namespace Controls.TreeList
 			}
 		}
 
+		public TreeList Tree { get; internal set; }
+
 		public TreeListItem()
 		{
 		}
 
+		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+		{
+			if (e.ChangedButton == MouseButton.Left && e.Source.GetType() != typeof(RowExpander) && Node != null && Node.HasChildren)
+				Node.IsExpanded = !Node.IsExpanded;
+		}
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (Node != null)
@@ -38,18 +41,18 @@ namespace Controls.TreeList
 							Node.IsExpanded = true;
 							ChangeFocus(Node);
 						}
-						else if (Node.Children.Count > 0)
-							ChangeFocus(Node.Children[0]);
+						else if (Node.Nodes.Count > 0)
+							ChangeFocus(Node.Nodes[0]);
 						break;
 					case Key.Left:
 						e.Handled = true;
-						if (Node.IsExpanded && Node.IsExpandable)
+						if (Node.IsExpanded && Node.HasChildren)
 						{
 							Node.IsExpanded = false;
 							ChangeFocus(Node);
 						}
 						else
-							ChangeFocus(Node.Parent);
+							ChangeFocus(Node.ParentNode);
 						break;
 					case Key.Subtract:
 						e.Handled = true;
@@ -66,16 +69,16 @@ namespace Controls.TreeList
 				base.OnKeyDown(e);
 		}
 
-		private void ChangeFocus(TreeNode node)
+		private void ChangeFocus(TreeNodeViewModel node)
 		{
-			var tree = node.Tree;
-			if (tree != null)
+			if (Tree != null)
 			{
-				var item = tree.ItemContainerGenerator.ContainerFromItem(node) as TreeListItem;
+				Tree.ScrollIntoView(node);
+				var item = Tree.ItemContainerGenerator.ContainerFromItem(node) as TreeListItem;
 				if (item != null)
 					item.Focus();
 				else
-					tree.PendingFocusNode = node;
+					Tree.PendingFocusNode = node;
 			}
 		}
 

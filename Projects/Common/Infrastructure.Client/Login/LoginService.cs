@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Client.Login.ViewModels;
+using Infrastructure.Client.Properties;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Client.Properties;
 
 namespace Infrastructure.Client.Login
 {
@@ -38,10 +38,16 @@ namespace Infrastructure.Client.Login
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
 			bool isAutoconnect = GlobalSettingsHelper.GlobalSettings.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
+			var saveCredential = !isAutoconnect && !isMulticlient;
 			if (isAutoconnect)
 			{
 				loginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.Login;
 				loginViewModel.Password = GlobalSettingsHelper.GlobalSettings.Password;
+			}
+			else
+			{
+				loginViewModel.UserName = Settings.Default.UserName;
+				loginViewModel.Password = Settings.Default.Password;
 			}
 
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
@@ -54,14 +60,10 @@ namespace Infrastructure.Client.Login
 				}
 				else
 				{
-					if (isAutoconnect && (Settings.Default.UserName != "adm" || !GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm))
-					{
+					if (isAutoconnect && (loginViewModel.UserName != "adm" || !GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm))
 						loginViewModel.SaveCommand.Execute();
-					}
 					else
-					{
 						DialogService.ShowModalWindow(loginViewModel);
-					}
 				}
 				if (!string.IsNullOrEmpty(loginViewModel.Message))
 					MessageBoxService.Show(loginViewModel.Message);
@@ -69,6 +71,12 @@ namespace Infrastructure.Client.Login
 
 				if (isMulticlient)
 					break;
+			}
+			if (loginViewModel.IsConnected && saveCredential && (Settings.Default.UserName != loginViewModel.UserName || Settings.Default.Password != (loginViewModel.SavePassword ? loginViewModel.Password : string.Empty)))
+			{
+				Settings.Default.UserName = loginViewModel.UserName;
+				Settings.Default.Password = loginViewModel.SavePassword ? loginViewModel.Password : string.Empty;
+				Settings.Default.Save();
 			}
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			Login = loginViewModel.UserName;

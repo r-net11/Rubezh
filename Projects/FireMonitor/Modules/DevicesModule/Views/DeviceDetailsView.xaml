@@ -19,8 +19,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-                <StackPanel Margin="5, 0, 0, 0">
+				<Border Background="{Binding DevicePicture}" BorderThickness="0" Width="50" Height="50" Margin="0, 0, 0, 5" />
+				<StackPanel Margin="5, 0, 0, 0">
                     <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" VerticalAlignment="Center" Foreground="White" Margin="1" />
                     <TextBlock Text="Автоматика отключена" Visibility="{Binding IsAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="White" Margin="1" />
                 </StackPanel>

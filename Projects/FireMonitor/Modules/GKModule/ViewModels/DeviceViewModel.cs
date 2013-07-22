@@ -10,7 +10,7 @@ using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels
 {
-    public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+    public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
         public XDeviceState DeviceState { get; private set; }

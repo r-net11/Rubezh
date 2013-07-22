@@ -14,7 +14,7 @@ namespace Firesec
 
         public FiresecSerializedClient()
         {
-			FiresecDriverAuParametersHelper.FiresecSerializedClient = this;
+			Firesec_50.FiresecDriverAuParametersHelper.FiresecSerializedClient = this;
         }
 
 		public event Action<List<JournalRecord>> NewJournalRecords;
@@ -34,7 +34,7 @@ namespace Firesec
 		{
 			foreach (var journalRecord in journalRecords)
 			{
-				JournalConverter.SetDeviceCatogory(journalRecord);
+				JournalConverter.SetDeviceCatogoryAndDevieUID(journalRecord);
 			}
 			if (NewJournalRecords != null)
 				NewJournalRecords(journalRecords);
@@ -43,6 +43,14 @@ namespace Firesec
 		void FSAgent_CoreConfigChanged(string result)
 		{
 			var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
+			if (coreState != null && coreState.Result != null)
+			{
+				foreach (var device in coreState.Result.dev)
+				{
+					if (device.name == null)
+						device.name = "";
+				}
+			}
 			if (coreState.Result != null)
 			{
 				if (StateChanged != null)
@@ -97,6 +105,8 @@ namespace Firesec
         public OperationResult<Firesec.Models.Metadata.config> GetMetaData()
         {
 			var result = FSAgent.GetMetadata();
+			if (result.HasError)
+				return new OperationResult<Models.Metadata.config>(result.Error);
             return ConvertResultData<Firesec.Models.Metadata.config>(result);
         }
 

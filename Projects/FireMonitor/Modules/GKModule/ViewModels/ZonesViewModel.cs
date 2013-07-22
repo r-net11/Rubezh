@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
         public DeviceViewModel RootDevice { get; private set; }
         public DeviceViewModel[] RootDevices
         {
-            get { return new DeviceViewModel[] { RootDevice }; }
+            get { return RootDevice == null ? null : new DeviceViewModel[] { RootDevice }; }
         }
 
         void InitializeDevices()
@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
                 if (device.Device.Parent != null)
                 {
                     var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    parent.Children.Add(device);
+                    parent.AddChild(device);
                 }
             }
 

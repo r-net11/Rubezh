@@ -15,6 +15,7 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Services.Ribbon;
 
 namespace Infrastructure.Client
 {
@@ -92,6 +93,7 @@ namespace Infrastructure.Client
 
 		protected bool RunShell(ShellViewModel shellViewModel)
 		{
+			ApplicationService.RegisterShell(shellViewModel);
 			LoadingService.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
 			shellViewModel.NavigationItems = GetNavigationItems();
@@ -100,18 +102,14 @@ namespace Infrastructure.Client
 				ApplicationService.User = FiresecManager.CurrentUser;
 				LoadingService.DoStep("Запуск приложения");
 				ApplicationService.Run(shellViewModel);
+				return true;
 			}
-			else
-			{
-				return false;
-			}
-			return true;
+			return false;
 		}
 		protected bool InitializeModules()
 		{
 			ReadConfiguration();
 			foreach (IModule module in _modules.OrderBy(module => module.Order))
-			{
 				try
 				{
 					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
@@ -126,7 +124,6 @@ namespace Infrastructure.Client
 					Application.Current.Shutdown();
 					return false;
 				}
-			}
 			return true;
 		}
 		protected List<NavigationItem> GetNavigationItems()
@@ -137,9 +134,7 @@ namespace Infrastructure.Client
 			{
 				var items = module.CreateNavigation();
 				if (items != null && items.Count() > 0)
-				{
 					navigationItems.AddRange(items);
-				}
 			}
 			return navigationItems;
 		}

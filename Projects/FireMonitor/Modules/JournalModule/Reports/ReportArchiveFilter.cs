@@ -23,11 +23,11 @@ namespace JournalModule.Reports
 
 		void Initialize()
 		{
-			JournalRecords = new List<JournalRecord>();
+			JournalRecords = new List<JournalRecordViewModel>();
 		}
 
-		public readonly DateTime ArchiveFirstDate = FiresecManager.FiresecService.GetArchiveStartDate().Result;
-		public List<JournalRecord> JournalRecords { get; set; }
+		public readonly DateTime ArchiveFirstDate = FiresecManager.GetArchiveStartDate().Result;
+		public List<JournalRecordViewModel> JournalRecords { get; set; }
 		public ArchiveFilter ArchiveFilter { get; set; }
 		public bool IsFilterOn { get; set; }
 		public DateTime StartDate { get; private set; }
@@ -51,16 +51,29 @@ namespace JournalModule.Reports
 
 		public void LoadArchive()
 		{
-			JournalRecords = new List<JournalRecord>();
-			OperationResult<List<JournalRecord>> operationResult = FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter);
-			if (operationResult.HasError == false)
+			JournalRecords = new List<JournalRecordViewModel>();
+			if (FiresecManager.IsFS2Enabled)
 			{
-				foreach (var journalRecord in operationResult.Result)
+				var operationResult = FiresecManager.FS2ClientContract.GetFilteredArchive(ArchiveFilter);
+				if (operationResult.HasError == false)
 				{
-					JournalRecords.Add(journalRecord);
+					foreach (var journalRecord in operationResult.Result)
+					{
+						JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+					}
+				}
+			}
+			else
+			{
+				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter);
+				if (operationResult.HasError == false)
+				{
+					foreach (var journalRecord in operationResult.Result)
+					{
+						JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+					}
 				}
 			}
 		}
 	}
-
 }

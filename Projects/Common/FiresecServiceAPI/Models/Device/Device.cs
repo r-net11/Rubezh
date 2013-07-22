@@ -16,6 +16,8 @@ namespace FiresecAPI.Models
 			UID = Guid.NewGuid();
 			Children = new List<Device>();
 			Properties = new List<Property>();
+			SystemAUProperties = new List<Property>();
+			DeviceAUProperties = new List<Property>();
 			IndicatorLogic = new IndicatorLogic();
 			PDUGroupLogic = new PDUGroupLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -27,8 +29,9 @@ namespace FiresecAPI.Models
 			ShapeIds = new List<string>();
 			ZonesInLogic = new List<Zone>();
 			DependentDevices = new List<Device>();
-			ZonesConfiguration = new DeviceConfiguration();
-			InnerDeviceParameters = new List<byte>();
+			DeviceConfiguration = new DeviceConfiguration();
+			StateWordBytes = new List<byte>();
+			RawParametersBytes = new List<byte>();
 		}
         
         public bool IsUsb
@@ -54,14 +57,15 @@ namespace FiresecAPI.Models
 	            }
 	        }
 	    }
-		public DeviceConfiguration ZonesConfiguration { get; set; }
+		public DeviceConfiguration DeviceConfiguration { get; set; }
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
 		public BinaryDevice BinaryDevice { get; set; }
-		public List<byte> InnerDeviceParameters{get;set;}
+		public List<byte> StateWordBytes { get; set; }
+		public List<byte> RawParametersBytes { get; set; }
 
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic
@@ -132,6 +136,12 @@ namespace FiresecAPI.Models
 		public List<Property> Properties { get; set; }
 
 		[DataMember]
+		public List<Property> DeviceAUProperties { get; set; }
+
+		[DataMember]
+		public List<Property> SystemAUProperties { get; set; }
+
+		[DataMember]
 		public string Description { get; set; }
 
 		[DataMember]
@@ -163,6 +173,12 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
+
+		[DataMember]
+		public int StateWordOffset { get; set; }
+
+		[DataMember]
+		public int RawParametersOffset { get; set; }
 
 		public bool CanBeNotUsed
 		{
@@ -198,15 +214,19 @@ namespace FiresecAPI.Models
 			return reservedCount - 1;
 		}
 
-		public void SetAddress(string address)
+		public bool SetAddress(string address)
 		{
 			var intAddress = AddressConverter.StringToIntAddress(Driver, address);
 			if (Driver.IsChildAddressReservedRange)
 			{
 				if ((intAddress & 0xff) + GetReservedCount() > 255)
-					return;
+					return false;
 			}
 
+			if (IntAddress == intAddress)
+			{
+				return false;
+			}
 			var oldIntAddress = IntAddress;
 			IntAddress = intAddress;
 			if (Driver.IsChildAddressReservedRange)
@@ -227,6 +247,7 @@ namespace FiresecAPI.Models
 				}
 			}
 			OnChanged();
+			return true;
 		}
 
 		public string AddressFullPath
@@ -291,12 +312,27 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public Device ParentUSB
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_BUNS ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_4A ||
+					x.Driver.DriverType == DriverType.USB_Rubezh_P ||
+					x.Driver.DriverType == DriverType.MS_1 ||
+					x.Driver.DriverType == DriverType.MS_2));
+			}
+		}
+
 		public Device ParentChannel
 		{
 			get
 			{
 				var usbDevice = AllParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_BUNS ||
-					x.Driver.DriverType == DriverType.USB_BUNS_2 ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2AM ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_2OP ||
 					x.Driver.DriverType == DriverType.USB_Rubezh_4A ||
@@ -307,15 +343,31 @@ namespace FiresecAPI.Models
 
 				var channelDevice = AllParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_Channel ||
 					x.Driver.DriverType == DriverType.USB_Channel_1 ||
-					x.Driver.DriverType == DriverType.USB_Channel_2));
+					x.Driver.DriverType == DriverType.USB_Channel_2 ||
+					x.Driver.DriverType == DriverType.ComPort_V2));
 
 				return channelDevice;
 			}
 		}
 
+		public bool IsParentMonitoringDisabled
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.Any(x => x.IsMonitoringDisabled);
+			}
+		}
+
 		public Device ParentPanel
 		{
-			get { return AllParents.FirstOrDefault(x => (x.Driver.IsPanel)); }
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => (x.Driver.IsPanel));
+			}
 		}
 
 		public string ConnectedTo
@@ -473,12 +525,32 @@ namespace FiresecAPI.Models
 
 		public string DottedPresentationAddressAndName
 		{
-			get { return DottedAddress + " - " + PresentationName; }
+			get
+			{
+				if (Driver.HasAddress)
+					return DottedAddress + " - " + PresentationName;
+				return PresentationName;
+			}
 		}
 
 		public string DottedPresentationNameAndAddress
 		{
-			get { return PresentationName + " - " + DottedAddress; }
+			get
+			{
+				if (Driver.HasAddress)
+					return PresentationName + " - " + DottedAddress;
+				return PresentationName;
+			}
+		}
+
+		public string DatabaseName
+		{
+			get
+			{
+				if (Driver.HasAddress)
+					return PresentationName + " " + DottedAddress;
+				return PresentationName;
+			}
 		}
 
 		public int ShleifNo
@@ -496,7 +568,7 @@ namespace FiresecAPI.Models
 			var devices = new List<Device>();
 			foreach (var device in Children)
 			{
-				if (!IsGroupDevice(device.Driver.DriverType))
+				if (!device.Driver.IsGroupDevice)
 				{
 					devices.Add(device);
 				}
@@ -510,19 +582,15 @@ namespace FiresecAPI.Models
 			return devices;
 		}
 
-		bool IsGroupDevice(DriverType driverType)
+		public List<Device> GetAllChildren()
 		{
-			switch (driverType)
+			var result = new List<Device>();
+			foreach (var device in Children)
 			{
-				case DriverType.AM4:
-				case DriverType.AMP_4:
-				case DriverType.RM_2:
-				case DriverType.RM_3:
-				case DriverType.RM_4:
-				case DriverType.RM_5:
-					return true;
+				result.Add(device);
+				result.AddRange(device.GetAllChildren());
 			}
-			return false;
+			return result;
 		}
 
 		public void OnChanged()

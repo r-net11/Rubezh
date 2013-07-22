@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Designer;

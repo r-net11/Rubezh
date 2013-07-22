@@ -110,7 +110,7 @@ namespace AlarmModule.ViewModels
 				}
 			}
 
-			FiresecManager.FiresecDriver.ResetStates(resetItems);
+			FiresecManager.ResetStates(resetItems);
 			AllAlarmsResetingTimer = new DispatcherTimer();
 			AllAlarmsResetingTimer.Interval = TimeSpan.FromSeconds(2);
 			AllAlarmsResetingTimer.Tick += new EventHandler(AllAlarmsResetingTimer_Tick);
@@ -147,7 +147,7 @@ namespace AlarmModule.ViewModels
 
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+				FiresecManager.RemoveFromIgnoreList(devices);
             }
         }
 		public bool CanRemoveAllFromIgnoreList()
@@ -180,9 +180,7 @@ namespace AlarmModule.ViewModels
 			{
 				if (e.Key == System.Windows.Input.Key.F1 && GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled)
 				{
-					var fileName = Infrastructure.Common.AppDataFolderHelper.GetFile("Manual.pdf");
-					if (File.Exists(fileName))
-						Process.Start(fileName);
+					ManualPdfHelper.Show();
 				}
 				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{
@@ -198,6 +196,11 @@ namespace AlarmModule.ViewModels
 				{
 					if (CanResetAll())
 						OnResetAll();
+				}
+				if (e.Key == System.Windows.Input.Key.F12 && GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled)
+				{
+					var haspInfo = LicenseHelper.GetHaspInfo();
+					MessageBoxService.Show(haspInfo);
 				}
 			}
 			catch (Exception ex)

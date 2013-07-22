@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 
-namespace Firesec
+namespace Firesec_48
 {
 	public static partial class FiresecDriverAuParametersHelper
 	{

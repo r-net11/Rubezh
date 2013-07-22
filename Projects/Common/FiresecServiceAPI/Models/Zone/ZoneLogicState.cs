@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+
 namespace FiresecAPI.Models
 {
 	public enum ZoneLogicState
@@ -43,6 +44,12 @@ namespace FiresecAPI.Models
 		PumpStationOn = 13,
 
 		[DescriptionAttribute("Выключение автоматики НС")]
-		PumpStationAutomaticOff = 14
+		PumpStationAutomaticOff = 14,
+
+		[DescriptionAttribute("Сработка ШУЗ")]
+		ShuzOn = 18,
+
+		[DescriptionAttribute("Включение без задержки по пожару двух зонах")]
+		DoubleFire = 17
 	}
 }

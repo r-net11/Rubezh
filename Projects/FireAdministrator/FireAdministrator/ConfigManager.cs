@@ -39,20 +39,27 @@ namespace FireAdministrator
 				WaitHelper.Execute(() =>
 				{
 					LoadingService.ShowProgress("Применение конфигурации", "Применение конфигурации", 10);
-					if (ServiceFactory.SaveService.FSChanged)
+					if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
 					{
-						if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
+						if (FiresecManager.IsFS2Enabled)
 						{
-							LoadingService.DoStep("Применение конфигурации устройств");
-							if (FiresecManager.FiresecDriver != null)
+							FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
+						}
+						else
+						{
+							if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
 							{
-								var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-								if (fsResult.HasError)
+								LoadingService.DoStep("Применение конфигурации устройств");
+								if (FiresecManager.FiresecDriver != null)
 								{
-									MessageBoxService.ShowError(fsResult.Error);
+									var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+									if (fsResult.HasError)
+									{
+										MessageBoxService.ShowError(fsResult.Error);
+									}
+									LoadingService.DoStep("Синхронизация конфигурации");
+									FiresecManager.FiresecDriver.Synchronyze(false);
 								}
-								LoadingService.DoStep("Синхронизация конфигурации");
-								FiresecManager.FiresecDriver.Synchronyze(false);
 							}
 						}
 					}
@@ -65,6 +72,7 @@ namespace FireAdministrator
 					File.Delete(tempFileName);
 
 					if (ServiceFactory.SaveService.FSChanged ||
+						ServiceFactory.SaveService.FSParametersChanged ||
 						ServiceFactory.SaveService.PlansChanged ||
 						ServiceFactory.SaveService.GKChanged)
 						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
@@ -95,7 +103,7 @@ namespace FireAdministrator
 
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-				if (ServiceFactory.SaveService.FSChanged || saveAnyway)
+				if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);

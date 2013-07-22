@@ -13,6 +13,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		public BinaryConfigurationHelper()
 		{
+			CreateAll();
 			Current = this;
 			CreatePanels();
 			CreateZones();
@@ -23,7 +24,7 @@ namespace ServerFS2.ConfigurationWriter
 		void CreatePanels()
 		{
 			BinaryPanels = new List<BinaryPanel>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.IsPanel)
 				{
@@ -83,7 +84,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		void CreateZones()
 		{
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
 				if (device.Zone != null)
@@ -92,7 +93,7 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
 
@@ -163,7 +164,7 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				var localBinaryPanel = BinaryPanels.FirstOrDefault(x => x.ParentPanel == device.ParentPanel);
 
@@ -201,7 +202,7 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				var binaryPanels = new HashSet<Device>();
 				foreach (var device in zone.DevicesInZone)
@@ -245,7 +246,12 @@ namespace ServerFS2.ConfigurationWriter
 
 			foreach (var binaryPanel in BinaryPanels)
 			{
-				binaryPanel.BinaryLocalZones = binaryPanel.BinaryLocalZones.OrderBy(x => x.Zone.No).ToList();
+				var guardZones = binaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Guard).OrderBy(x => x.Zone.No);
+				var fireZones = binaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Fire).OrderBy(x => x.Zone.No);
+				var sortedZones = guardZones.ToList();
+				sortedZones.AddRange(fireZones);
+
+				binaryPanel.BinaryLocalZones = sortedZones;
 				for (int i = 0; i < binaryPanel.BinaryLocalZones.Count; i++)
 				{
 					binaryPanel.BinaryLocalZones[i].LocalNo = i + 1;
@@ -259,7 +265,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				foreach (var zoneUID in direction.ZoneUIDs)
 				{
-					var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						foreach (var deviceInZone in zone.DevicesInZone)
@@ -320,7 +326,7 @@ namespace ServerFS2.ConfigurationWriter
 					}
 				}
 			}
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{
@@ -328,6 +334,64 @@ namespace ServerFS2.ConfigurationWriter
 				}
 			}
 			RelationPanels = relationPanels.OrderBy(x=>x.IntAddress).ToList();
+		}
+
+		public void CreateAll()
+		{
+			var panelDevices = new List<Device>();
+			var nonPanelDevices = new List<Device>();
+
+			foreach (var childDevice in ConfigurationManager.DeviceConfiguration.RootDevice.Children)
+			{
+				switch(childDevice.Driver.DriverType)
+				{
+					case DriverType.USB_BUNS:
+					case DriverType.USB_Rubezh_2AM:
+					case DriverType.USB_Rubezh_2OP:
+					case DriverType.USB_Rubezh_4A:
+					case DriverType.USB_Rubezh_P:
+						panelDevices.Add(childDevice);
+						break;
+				}
+				foreach (var childDevice1 in childDevice.Children)
+				{
+					foreach (var childDevice2 in childDevice1.Children)
+					{
+						switch (childDevice2.Driver.DriverType)
+						{
+							case DriverType.BUNS:
+							case DriverType.Rubezh_2AM:
+							case DriverType.Rubezh_2OP:
+							case DriverType.Rubezh_4A:
+								panelDevices.Add(childDevice);
+								break;
+
+							case DriverType.IndicationBlock:
+							case DriverType.PDU:
+							case DriverType.PDU_PTDirection:
+								nonPanelDevices.Add(childDevice2);
+								break;
+						}
+					}
+				}
+			}
+
+			foreach (var panelDevice in panelDevices)
+			{
+				foreach (var device in panelDevice.Children)
+				{
+					ProcessDevice(device, panelDevice);
+					foreach (var childDevice in device.Children)
+					{
+						ProcessDevice(childDevice, panelDevice);
+					}
+				}
+			}
+		}
+
+		void ProcessDevice(Device device, Device parentPanel)
+		{
+
 		}
 	}
 }

@@ -7,7 +7,7 @@ using System.Windows;
 // связанные со сборкой.
 [assembly: AssemblyCompany("Группа компаний 'Рубеж'")]
 [assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2013")]
-[assembly: AssemblyVersion("1.1.0.*")]
+[assembly: AssemblyVersion("1.2.0.*")]
 //[assembly: AssemblyFileVersion("1.0.0.*")]
 [assembly: AssemblyTrademark("http://www.rubezh.ru/")]
 [assembly: AssemblyCulture("")]

@@ -1,115 +1,116 @@
-﻿<UserControl x:Class="DevicesModule.Views.DevicesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <UserControl.Resources>
-        <Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-    </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
+﻿<UserControl x:Class="DevicesModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:DevicesModule.ViewModels">
+	<UserControl.Resources>
+		<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
+		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
+		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
+		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
+		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
+		<viewModel:DeviceViewModelFailureTypeComparer x:Key="DeviceViewModelFailureTypeComparer" />
+		<viewModel:DeviceViewModelAlarmReasonComparer x:Key="DeviceViewModelAlarmReasonComparer" />
+		<viewModel:DeviceViewModelSmokinessComparer x:Key="DeviceViewModelSmokinessComparer" />
+		<viewModel:DeviceViewModelDustinessComparer x:Key="DeviceViewModelDustinessComparer" />
+		<viewModel:DeviceViewModelTemperatureComparer x:Key="DeviceViewModelTemperatureComparer" />
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100" MinHeight="100" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
-            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
-                <Controls:TreeListView.Columns>
-                    <GridViewColumn Width="250" Header="Устройство">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" />
-                                    <StackPanel.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                            <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
-                                            <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
-                                            <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                            <MenuItem Header="Снять с охраны" Command="{Binding UnsetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                            <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                        </ContextMenu>
-                                    </StackPanel.ContextMenu>
-                                    <StackPanel.InputBindings>
-                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
-                                    </StackPanel.InputBindings>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding PresentationAddress}" />
-                    <GridViewColumn Width="100" Header="Зона">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" HorizontalAlignment="Stretch" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Примечание" Width="100" DisplayMemberBinding="{Binding Device.Description}" />
-                    <GridViewColumn Header="Неисправность" Width="200" DisplayMemberBinding="{Binding FailureType}" />
-                    <GridViewColumn Header="Причина тревоги" Width="200" DisplayMemberBinding="{Binding AlarmReason}" />
-                    <GridViewColumn Header="Дым, %" Width="100" DisplayMemberBinding="{Binding Smokiness}" />
-                    <GridViewColumn Header="Пыль, %" Width="100" DisplayMemberBinding="{Binding Dustiness}" />
-                    <GridViewColumn Header="Температура, °С" Width="100" DisplayMemberBinding="{Binding Temperature}" />
-                </Controls:TreeListView.Columns>
-            </Controls:TreeListView>
-        </Grid>
-        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
-        <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="12" TextBlock.Foreground="White" >
-            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
-                            <TextBlock Text="{Binding Device.PresentationAddressAndName}" />
-                            <TextBlock Text="{Binding GuardDeviceType}" />
-                            <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
-                            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
-                        </StackPanel>
-                        <ItemsControl ItemsSource="{Binding States}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
-                                           Margin="0, 0, 5, 0" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
-                                        <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
-                                        Width="32" Height="32" VerticalAlignment="Center"
-                                        Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
-                                        CommandParameter="{Binding DriverState.Name}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl ItemsSource="{Binding ParentStates}" Margin="0, 5, 0, 0">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
-                                           Margin="-2, -2, 0, 0" Width="16" Height="16" />
-                                        <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding HasChildStates, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Image Source="{Binding ChildState, Converter={StaticResource StateTypeToIconConverter}}" Margin="-2, -2, 0, 0" Width="16" Height="16" />
-                            <TextBlock Text="Причина в дочернем устройстве" VerticalAlignment="Center" />
-                        </StackPanel>
-                        <ItemsControl ItemsSource="{Binding Parameters}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </ScrollViewer>
-            </Border>
-        </Grid>
-    </Grid>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+			<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
+				<tree:TreeList.View>
+					<GridView>
+						<GridViewColumn Width="250" Header="Устройство" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+										<Image Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource}" />
+										<TextBlock Width="200" HorizontalAlignment="Stretch" Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" />
+										<StackPanel.ContextMenu>
+											<ContextMenu>
+												<MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+												<MenuItem Command="{Binding ShowZoneCommand}" Header="Показать зону" />
+												<MenuItem Command="{Binding DisableCommand}" Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" />
+												<MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+												<MenuItem Command="{Binding UnsetGuardCommand}" Header="Снять с охраны" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+												<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
+											</ContextMenu>
+										</StackPanel.ContextMenu>
+										<StackPanel.InputBindings>
+											<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
+										</StackPanel.InputBindings>
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Width="50" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
+						<GridViewColumn Width="100" Header="Зона" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" />
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}" />
+						<GridViewColumn Width="200" DisplayMemberBinding="{Binding FailureType}" Header="Неисправность" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelFailureTypeComparer}" />
+						<GridViewColumn Width="200" DisplayMemberBinding="{Binding AlarmReason}" Header="Причина тревоги" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAlarmReasonComparer}" />
+						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Smokiness}" Header="Дым, %" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelSmokinessComparer}" />
+						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Dustiness}" Header="Пыль, %" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDustinessComparer}" />
+						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Temperature}" Header="Температура, °С" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelTemperatureComparer}" />
+					</GridView>
+				</tree:TreeList.View>
+			</tree:TreeList>
+		</Grid>
+		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+		<Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="12" TextBlock.Foreground="White">
+			<Border Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Padding="5">
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
+					<StackPanel>
+						<StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
+							<TextBlock Text="{Binding Device.PresentationAddressAndName}" />
+							<TextBlock Text="{Binding GuardDeviceType}" />
+							<TextBlock Margin="10, 0, 0, 0" Text="Состояние" />
+							<TextBlock Margin="2, 0, 0, 0" Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+						</StackPanel>
+						<ItemsControl ItemsSource="{Binding States}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Margin="0, 0, 5, 0" VerticalAlignment="Center" Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+										<TextBlock VerticalAlignment="Center" Text="{Binding DriverState.Name}" />
+										<Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" ImageSource="/Controls;component/Images/Close.png" ToolTip="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}" />
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+						<ItemsControl Margin="0, 5, 0, 0" ItemsSource="{Binding ParentStates}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Height="16" Margin="-2, -2, 0, 0" Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+										<TextBlock VerticalAlignment="Center" Text="{Binding DeviceName}" />
+										<TextBlock Margin="5, 0, 0, 0" VerticalAlignment="Center" Text="{Binding DriverState.Name}" />
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+						<StackPanel Orientation="Horizontal" Visibility="{Binding HasChildStates, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Image Width="16" Height="16" Margin="-2, -2, 0, 0" Source="{Binding ChildState, Converter={StaticResource StateTypeToIconConverter}}" />
+							<TextBlock VerticalAlignment="Center" Text="Причина в дочернем устройстве" />
+						</StackPanel>
+						<ItemsControl ItemsSource="{Binding Parameters}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding .}" />
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
+				</ScrollViewer>
+			</Border>
+		</Grid>
+	</Grid>
 </UserControl>

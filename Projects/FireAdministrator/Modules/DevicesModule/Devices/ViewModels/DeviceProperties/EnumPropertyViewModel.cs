@@ -66,10 +66,7 @@ namespace DevicesModule.DeviceProperties
 
 		public List<DriverPropertyParameter> Parameters
 		{
-			get
-			{
-				return DriverProperty.Parameters;
-			}
+			get { return DriverProperty.Parameters; }
 		}
 
 		DriverPropertyParameter _selectedParameter;
@@ -83,30 +80,5 @@ namespace DevicesModule.DeviceProperties
 				Save(value.Value);
 			}
 		}
-
-		//public List<string> Values
-		//{
-		//    get
-		//    {
-		//        var values = new List<string>();
-		//        foreach (var propertyParameter in _driverProperty.Parameters)
-		//        {
-		//            values.Add(propertyParameter.Name);
-		//        }
-		//        return values;
-		//    }
-		//}
-
-		//string _selectedValue;
-		//public string SelectedValue
-		//{
-		//    get { return _selectedValue; }
-		//    set
-		//    {
-		//        _selectedValue = value;
-		//        OnPropertyChanged("SelectedValue");
-		//        Save(value);
-		//    }
-		//}
 	}
 }

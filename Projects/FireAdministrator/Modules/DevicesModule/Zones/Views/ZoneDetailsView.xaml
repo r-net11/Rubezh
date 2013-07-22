@@ -74,7 +74,8 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Число датчиков для формирования сигнала Пожар" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Минимальное число адресных устройств в состоянии 'Сработка', необходимых для включения МПТ, НС"
+                            TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                         <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" HorizontalAlignment="Right" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Foreground="White" Margin="2" />

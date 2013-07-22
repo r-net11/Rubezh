@@ -20,7 +20,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase = new BytesDatabase();
 
 			var headBytesDatabase = new BytesDatabase("Заголовок");
-			if (FlashDatabase.ParentPanel.Driver.DriverType == DriverType.BUNS || FlashDatabase.ParentPanel.Driver.DriverType == DriverType.USB_BUNS || FlashDatabase.ParentPanel.Driver.DriverType == DriverType.BUNS_2)
+			if (FlashDatabase.ParentPanel.Driver.DriverType == DriverType.BUNS || FlashDatabase.ParentPanel.Driver.DriverType == DriverType.USB_BUNS)
 			{
 				headBytesDatabase.AddString("BUNS", "Сигнатура базы", 4);
 			}
@@ -28,7 +28,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				headBytesDatabase.AddString("BASE", "Сигнатура базы", 4);
 			}
-			headBytesDatabase.AddShort(4, "Версия базы");
+			headBytesDatabase.AddShort(5, "Версия базы");
 			headBytesDatabase.AddReference(FlashDatabase.BytesDatabase.ByteDescriptions.Last(), "Абсолютный указатель на конец базы во внешней энергонезависимой паияти");
 			var pointerToLast = headBytesDatabase.AddReference((ByteDescription)null, "Абсолютный указатель на конец блока, записываемого в память кристалла");
 			BytesDatabase.Add(headBytesDatabase);
@@ -79,7 +79,7 @@ namespace ServerFS2.ConfigurationWriter
 					byteDescription.AddressReference = FlashDatabase.BytesDatabase.ByteDescriptions.FirstOrDefault(x => x.TableHeader != null && x.TableHeader.ReferenceUID == byteDescription.TableBaseReference.ReferenceUID);
 				}
 			}
-			BytesDatabase.ResolverReferences();
+			BytesDatabase.ResolveReferences();
 
 			var allBytes = BytesDatabase.GetBytes();
 			var crc16Value = Crc16Helper.ComputeChecksum(allBytes);

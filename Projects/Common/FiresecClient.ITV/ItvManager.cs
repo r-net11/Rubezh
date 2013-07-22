@@ -65,7 +65,7 @@ namespace FiresecClient.Itv
             var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
             if (device != null)
             {
-                FiresecManager.FiresecDriver.ExecuteCommand(device, methodName);
+                FiresecManager.ExecuteCommand(device, methodName);
             }
         }
 
@@ -86,12 +86,12 @@ namespace FiresecClient.Itv
 
         public static void AddToIgnoreList(List<Device> devices)
         {
-			FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+			FiresecManager.AddToIgnoreList(devices);
         }
 
         public static void RemoveFromIgnoreList(List<Device> devices)
         {
-			FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+			FiresecManager.RemoveFromIgnoreList(devices);
         }
 
         public static void ShowImitator()

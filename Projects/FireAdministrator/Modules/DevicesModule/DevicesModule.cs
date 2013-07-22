@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using DevicesModule.Plans;
+using DevicesModule.Plans.Designer;
 using DevicesModule.Validation;
 using DevicesModule.ViewModels;
 using FiresecAPI;
@@ -14,19 +16,20 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using DevicesModule.Plans;
-using DevicesModule.Plans.Designer;
 
 namespace DevicesModule
 {
 	public class DevicesModule : ModuleBase, IValidationModule
 	{
-		private NavigationItem _guardNavigationItem;
-		private DevicesViewModel DevicesViewModel;
-		private ZonesViewModel ZonesViewModel;
-		private DirectionsViewModel DirectionsViewModel;
-		private GuardViewModel GuardViewModel;
-		private PlanExtension _planExtension;
+		NavigationItem _guardNavigationItem;
+		DevicesViewModel DevicesViewModel;
+		DeviceParametersViewModel DeviceParametersViewModel;
+		ParameterTemplatesViewModel ParameterTemplatesViewModel;
+		ZonesViewModel ZonesViewModel;
+		DirectionsViewModel DirectionsViewModel;
+		GuardViewModel GuardViewModel;
+		SimulationViewModel SimulationViewModel;
+		PlanExtension _planExtension;
 
 		public override void CreateViewModels()
 		{
@@ -35,9 +38,12 @@ namespace DevicesModule
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
 
 			DevicesViewModel = new DevicesViewModel();
+			DeviceParametersViewModel = new DeviceParametersViewModel();
+			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			GuardViewModel = new GuardViewModel();
+			SimulationViewModel = new SimulationViewModel();
 			_planExtension = new PlanExtension(DevicesViewModel, ZonesViewModel);
 		}
 
@@ -57,16 +63,21 @@ namespace DevicesModule
 		public override void RegisterResource()
 		{
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Simulation/DataTemplates/Dictionary.xaml"));
 		}
 		public override void Initialize()
 		{
 			DevicesViewModel.Initialize();
+			DeviceParametersViewModel.Initialize();
+			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
+			SimulationViewModel.Initialize();
 			GuardViewModel.Initialize();
 			_planExtension.Initialize();
 
@@ -81,8 +92,11 @@ namespace DevicesModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
+				new NavigationItem<ShowDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
+				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
-				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty),
+				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty){IsVisible=GlobalSettingsHelper.GlobalSettings.Administrator_ShowDirectories},
+				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/Bug.png", null, null, Guid.Empty) { IsVisible = GlobalSettingsHelper.GlobalSettings.Administrator_ShowSimulation },
 				_guardNavigationItem
 			};
 		}
@@ -133,12 +147,13 @@ namespace DevicesModule
 				Logger.Error(e, "DevicesModule.BeforeInitialize");
 				MessageBoxService.ShowError(e.Message);
 				return false;
-            }
+			}
 #if RELEASE
 					if (LoadingErrorManager.HasError)
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 #endif
-            return true;
+			return true;
 		}
+
 	}
 }

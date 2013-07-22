@@ -6,8 +6,9 @@ using System.Windows.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Firesec;
 
-namespace Firesec
+namespace Firesec_48
 {
 	public static partial class FiresecDriverAuParametersHelper
 	{
@@ -105,14 +106,14 @@ namespace Firesec
                                 {
                                     foreach (var resultProperty in devicePropertyRequest.Properties)
                                     {
-                                        var property = devicePropertyRequest.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+                                        var property = devicePropertyRequest.Device.DeviceAUProperties.FirstOrDefault(x => x.Name == resultProperty.Name);
                                         if (property == null)
                                         {
                                             property = new Property()
                                             {
                                                 Name = resultProperty.Name
                                             };
-                                            devicePropertyRequest.Device.Properties.Add(property);
+                                            devicePropertyRequest.Device.DeviceAUProperties.Add(property);
                                         }
                                         property.Value = resultProperty.Value;
                                     }

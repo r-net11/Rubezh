@@ -8,11 +8,11 @@ namespace ServerFS2.ConfigurationWriter
 		public FlashDatabase FlashDatabase { get; set; }
 		public Device ParentPanel { get; set; }
 
-		public PanelDatabase(Device parentDevice)
+		public PanelDatabase(Device parentDevice, int offset)
 		{
 			ParentPanel = parentDevice;
 			FlashDatabase = new FlashDatabase(parentDevice);
-			RomDatabase = new RomDatabase(FlashDatabase, 0x2000);
+			RomDatabase = new RomDatabase(FlashDatabase, offset);
 		}
 	}
 }

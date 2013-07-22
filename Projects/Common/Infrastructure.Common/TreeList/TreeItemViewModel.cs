@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections;
 
 namespace Infrastructure.Common.TreeList
 {
@@ -22,13 +22,16 @@ namespace Infrastructure.Common.TreeList
 		}
 
 		private bool _isSelected;
-		public bool IsSelected
+		public virtual bool IsSelected
 		{
 			get { return _isSelected; }
 			set
 			{
-				_isSelected = value;
-				OnPropertyChanged("IsSelected");
+				if (IsSelected != value)
+				{
+					_isSelected = value;
+					OnPropertyChanged("IsSelected");
+				}
 			}
 		}
 
@@ -82,7 +85,17 @@ namespace Infrastructure.Common.TreeList
 			get { return GetAllParents().Count(); }
 		}
 
-		public void ExpantToThis()
+		public override bool IsSelected
+		{
+			get { return base.IsSelected; }
+			set
+			{
+				ExpandToThis();
+				base.IsSelected = value;
+			}
+		}
+
+		public void ExpandToThis()
 		{
 			GetAllParents().ForEach(x => x.IsExpanded = true);
 		}

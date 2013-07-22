@@ -9,7 +9,7 @@ namespace JournalModule.Reports
 {
 	internal class JournalReport : ISingleReportProvider, IFilterableReport
 	{
-		private ReportArchiveFilter ReportArchiveFilter { get; set; }
+		ReportArchiveFilter ReportArchiveFilter = new ReportArchiveFilter();
 
 		#region IFilterableReport Members
 		public void Filter(RelayCommand refreshCommand)
@@ -17,6 +17,7 @@ namespace JournalModule.Reports
 			var archiveFilterViewModel = new ArchiveFilterViewModel(ReportArchiveFilter.ArchiveFilter);
 			if (DialogService.ShowModalWindow(archiveFilterViewModel))
 			{
+				ReportArchiveFilter.ArchiveFilter = archiveFilterViewModel.GetModel();
 				ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
 				refreshCommand.Execute();
 			}
@@ -26,7 +27,6 @@ namespace JournalModule.Reports
 		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
-            ReportArchiveFilter = new ReportArchiveFilter();
 			ReportArchiveFilter.LoadArchive();
 			var data = new ReportData();
 			data.ReportDocumentValues.Add("StartDate", ReportArchiveFilter.StartDate);

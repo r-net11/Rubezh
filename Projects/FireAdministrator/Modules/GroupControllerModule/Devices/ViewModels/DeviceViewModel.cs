@@ -2,22 +2,23 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Shapes;
+using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
-using System.Windows.Shapes;
-using DeviceControls;
 using Infrustructure.Plans.Painters;
-using Infrastructure.Common.TreeList;
+using XFiresecAPI;
+using Infrustructure.Plans.Helper;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
@@ -34,11 +35,12 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-            GetAUPropertiesCommand = new RelayCommand(OnGetAUProperties);
-            SetAUPropertiesCommand = new RelayCommand(OnSetAUProperties);
-            ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
+			GetAUPropertiesCommand = new RelayCommand(OnGetAUProperties);
+			SetAUPropertiesCommand = new RelayCommand(OnSetAUProperties);
+			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
+			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
 
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
@@ -63,10 +65,9 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			IsExpanded = false;
-			IsExpanded = true;
 			OnPropertyChanged("HasChildren");
 			OnPropertyChanged("IsOnPlan");
+			OnPropertyChanged(() => VisualizationState);
 		}
 
 		public string Address
@@ -165,15 +166,15 @@ namespace GKModule.ViewModels
 			var parent = Parent;
 			if (parent != null)
 			{
-				var index = parent.Children.IndexOf(this);
-				parent.Children.Remove(this);
+				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
+				parent.Nodes.Remove(this);
 				parent.Update();
 
 				ServiceFactory.SaveService.GKChanged = true;
 
-				index = Math.Min(index, parent.Children.Count - 1);
+				index = Math.Min(index, parent.ChildrenCount - 1);
 				DevicesViewModel.Current.AllDevices.Remove(this);
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
+				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			GKModule.Plans.Designer.Helper.BuildMap();
 		}
@@ -232,10 +233,15 @@ namespace GKModule.ViewModels
 		{
 			get { return !Device.IsNotUsed && (Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0); }
 		}
+		public VisualizationState VisualizationState
+		{
+			get { return Driver != null && Driver.IsPlaceable ? (IsOnPlan ? (Device.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent) : VisualizationState.Prohibit; }
+		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
+			IsSelected = true;
 			var plansElement = new ElementXDevice()
 			{
 				XDeviceUID = Device.UID
@@ -244,7 +250,7 @@ namespace GKModule.ViewModels
 		}
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
-			return Driver != null && Driver.IsPlaceable;
+			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
@@ -258,12 +264,23 @@ namespace GKModule.ViewModels
 				Width = PainterCache.PointZoom * PainterCache.Zoom,
 			};
 		}
-		
+
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
 			if (Device.PlanElementUIDs.Count > 0)
 				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs);
+		}
+
+		public RelayCommand<bool> AllowMultipleVizualizationCommand { get; private set; }
+		private void OnAllowMultipleVizualizationCommand(bool isAllow)
+		{
+			Device.AllowMultipleVizualization = isAllow;
+			Update();
+		}
+		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
+		{
+			return Device.AllowMultipleVizualization != isAllow;
 		}
 
 		public RelayCommand ShowLogicCommand { get; private set; }
@@ -419,36 +436,36 @@ namespace GKModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 
-        public bool HasAUProperties
-        {
-            get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
-        }
+		public bool HasAUProperties
+		{
+			get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
+		}
 
-        public RelayCommand GetAUPropertiesCommand { get; private set; }
-        void OnGetAUProperties()
-        {
-            ParametersHelper.GetSingleParameter(Device);
-        }
+		public RelayCommand GetAUPropertiesCommand { get; private set; }
+		void OnGetAUProperties()
+		{
+			ParametersHelper.GetSingleParameter(Device);
+		}
 
-        public RelayCommand SetAUPropertiesCommand { get; private set; }
-        void OnSetAUProperties()
-        {
-            ParametersHelper.SetSingleParameter(Device);
-        }
+		public RelayCommand SetAUPropertiesCommand { get; private set; }
+		void OnSetAUProperties()
+		{
+			ParametersHelper.SetSingleParameter(Device);
+		}
 
-        public RelayCommand ResetAUPropertiesCommand { get; private set; }
-        void OnResetAUProperties()
-        {
-            foreach (var property in Device.Properties)
-            {
-                var driverProperty = Device.Driver.Properties.FirstOrDefault(x=>x.Name == property.Name);
-                if(driverProperty != null)
-                {
-                    property.Value = driverProperty.Default;
-                }
-            }
-            PropertiesViewModel = new PropertiesViewModel(Device);
+		public RelayCommand ResetAUPropertiesCommand { get; private set; }
+		void OnResetAUProperties()
+		{
+			foreach (var property in Device.Properties)
+			{
+				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null)
+				{
+					property.Value = driverProperty.Default;
+				}
+			}
+			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
-        }
+		}
 	}
 }

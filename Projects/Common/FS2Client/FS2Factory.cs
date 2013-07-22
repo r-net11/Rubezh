@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ServiceModel;
-using FS2Api;
-using Common;
-using System.Threading;
-using Infrastructure.Common.BalloonTrayTip;
 using System.ServiceModel.Description;
+using System.Threading;
+using Common;
+using FS2Api;
 using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 
 namespace FS2Client
 {
@@ -34,12 +31,12 @@ namespace FS2Client
 			return null;
 		}
 
-		private IFS2Contract DoCreate(string serverAddress)
+		IFS2Contract DoCreate(string serverAddress)
 		{
 			if (serverAddress.StartsWith("net.pipe:"))
 			{
 				if (!FS2LoadHelper.Load())
-					BalloonHelper.ShowFromAdm("Не удается соединиться с агентом 2");
+					BalloonHelper.ShowFromFiresec("Не удается соединиться с агентом 2");
 			}
 
 			var binding = BindingHelper.CreateBindingFromAddress(serverAddress);

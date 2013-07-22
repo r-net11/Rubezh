@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using Common;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Microsoft.Practices.Prism.Events;
-using System.Windows.Input;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -178,6 +178,10 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public virtual void BackgroundMouseDown(MouseButtonEventArgs e)
+		{
+		}
+
+		public virtual void RevertLastAction()
 		{
 		}
 	}

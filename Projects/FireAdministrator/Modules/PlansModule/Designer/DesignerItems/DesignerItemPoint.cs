@@ -1,7 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Adorners;
-using System.Windows;
 
 namespace PlansModule.Designer.DesignerItems
 {

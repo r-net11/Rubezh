@@ -1,11 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
+	[DataContract]
 	public class DeviceState
 	{
+		[DataMember]
+		public Guid DeviceUID { get; set; }
+
+		[DataMember]
+		public List<DeviceDriverState> SerializableStates { get; set; }
+
+		[DataMember]
+		public List<ParentDeviceState> ParentStates { get; set; }
+
+		[DataMember]
+		public List<ChildDeviceState> ChildStates { get; set; }
+
+		[DataMember]
+		public List<Parameter> Parameters { get; set; }
+
+		[DataMember]
+		public float Smokiness { get; set; }
+
+		[DataMember]
+		public float Dustiness { get; set; }
+
+		[DataMember]
+		public float Temperature { get; set; }
+
+		[DataMember]
+		public bool IsInitializing { get; set; }
+
+		[DataMember]
+		public bool IsPanelConnectionLost { get; set; }
+
+		[DataMember]
+		public bool IsUsbConnectionLost { get; set; }
+
+		[DataMember]
+		public bool IsDBMissmatch { get; set; }
+
+		[DataMember]
+		public bool IsWrongPanel { get; set; }
+
 		public Device Device { get; set; }
 
 		static object locker = new object();
@@ -43,10 +84,6 @@ namespace FiresecAPI.Models
             }
         }
 
-		public List<ParentDeviceState> ParentStates { get; set; }
-		public List<ChildDeviceState> ChildStates { get; set; }
-		public List<Parameter> Parameters { get; set; }
-
 		public List<ParentDeviceState> ThreadSafeParentStates
 		{
 			get
@@ -83,6 +120,7 @@ namespace FiresecAPI.Models
 
 		public DeviceState()
 		{
+			SerializableStates = new List<DeviceDriverState>();
 			States = new List<DeviceDriverState>();
 			ParentStates = new List<ParentDeviceState>();
 			ChildStates = new List<ChildDeviceState>();

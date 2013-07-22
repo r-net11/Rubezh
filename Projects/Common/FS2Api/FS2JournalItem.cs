@@ -1,4 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FS2Api
 {
@@ -9,48 +12,60 @@ namespace FS2Api
 		public int No { get; set; }
 
 		[DataMember]
-		public string Date { get; set; }
+		public DateTime DeviceTime { get; set; }
 
 		[DataMember]
-		public string EventName { get; set; }
+		public DateTime SystemTime { get; set; }
 
 		[DataMember]
 		public string Description { get; set; }
 
 		[DataMember]
-		public int Flag { get; set; }
+		public string Detalization { get; set; }
 
 		[DataMember]
-		public int ShleifNo { get; set; }
+		public string DeviceName { get; set; }
 
 		[DataMember]
-		public int IntType { get; set; }
+		public string PanelName { get; set; }
 
 		[DataMember]
-		public int FirstAddress { get; set; }
+		public Guid DeviceUID { get; set; }
 
 		[DataMember]
-		public int Address { get; set; }
+		public Guid PanelUID { get; set; }
 
 		[DataMember]
-		public int State { get; set; }
+		public Guid ZoneUID { get; set; }
 
 		[DataMember]
+		public string ZoneName { get; set; }
+
+		[DataMember]
+		public int DeviceCategory { get; set; }
+
+		[DataMember]
+		public StateType StateType { get; set; }
+
+		[DataMember]
+		public SubsystemType SubsystemType { get; set; }
+
+        [DataMember]
+		public string UserName { get; set; }
+
+
+
+		public int DeviceAddress { get; set; }
+		public Zone Zone { get; set; }
 		public int ZoneNo { get; set; }
-
-		[DataMember]
-		public int DescriptorNo { get; set; }
-
-		[DataMember]
-		public string StringType { get; set; }
-
-		[DataMember]
 		public int EventClass { get; set; }
-
-		[DataMember]
-		public string ByteTracer { get; set; }
-
-		[DataMember]
 		public uint IntDate { get; set; }
-	}
+		public Device PanelDevice { get; set; }
+		public Device Device { get; set; }
+		public int StateByte { get; set; }
+		public int EventCode { get; set; }
+		public int EventChoiceNo { get; set; }
+		public string BytesString { get; set; }
+        public GuardUser GuardUser { get; set; }
+    }
 }

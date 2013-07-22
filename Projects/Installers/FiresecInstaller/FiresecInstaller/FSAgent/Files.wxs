@@ -22,6 +22,7 @@
         <File Id="FSAgent.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.FSAgent.TargetDir)" />
         <File Id="FSAgent.NLog.dll" Name="NLog.dll" Source="$(var.FSAgent.TargetDir)" />
+        <File Id="FSAgent.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.FSAgent.TargetDir)" />
       </Component>
 
       <Component Id="FSAgent.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">

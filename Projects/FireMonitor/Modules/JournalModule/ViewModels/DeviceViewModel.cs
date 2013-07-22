@@ -26,11 +26,7 @@ namespace JournalModule.ViewModels
 
 		public string DatabaseName
 		{
-			get
-			{
-				var name = Device.PresentationName + " " + Device.DottedAddress + " ";
-				return name;
-			}
+			get { return Device.DatabaseName; }
 		}
 	}
 }

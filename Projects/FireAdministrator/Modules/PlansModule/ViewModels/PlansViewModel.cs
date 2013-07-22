@@ -99,7 +99,7 @@ namespace PlansModule.ViewModels
 			if (parentPlanViewModel == null)
 				Plans.Add(planViewModel);
 			else
-				parentPlanViewModel.Children.Add(planViewModel);
+				parentPlanViewModel.AddChild(planViewModel);
 
 			foreach (var childPlan in plan.Children)
 				AddPlan(childPlan, planViewModel);
@@ -213,7 +213,7 @@ namespace PlansModule.ViewModels
 			{
 				var planFolder = viewModel.PlanFolder;
 				var planViewModel = new PlanViewModel(planFolder);
-				SelectedPlan.Children.Add(planViewModel);
+				SelectedPlan.AddChild(planViewModel);
 				SelectedPlan.Plan.Children.Add(planFolder);
 				SelectedPlan.Update();
 				SelectedPlan = planViewModel;

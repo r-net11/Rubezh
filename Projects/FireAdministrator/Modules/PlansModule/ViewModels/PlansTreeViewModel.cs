@@ -1,8 +1,7 @@
-﻿using Infrastructure.Common;
-using System.Windows;
-using Infrastructure.Common.Services.DragDrop;
-using FiresecClient;
+﻿using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services.DragDrop;
 namespace PlansModule.ViewModels
 {
 	public class PlansTreeViewModel
@@ -10,13 +9,13 @@ namespace PlansModule.ViewModels
 		public PlansTreeViewModel(PlansViewModel plansViewModel)
 		{
 			PlansViewModel = plansViewModel;
-			TreeItemDropCommand = new RelayCommand<TreeItemDropObject>(OnDrop, CanDrop);
+			TreeNodeDropCommand = new RelayCommand<TreeNodeDropObject>(OnDrop, CanDrop);
 		}
 
 		public PlansViewModel PlansViewModel { get; private set; }
 
-		public RelayCommand<TreeItemDropObject> TreeItemDropCommand { get; private set; }
-		private void OnDrop(TreeItemDropObject data)
+		public RelayCommand<TreeNodeDropObject> TreeNodeDropCommand { get; private set; }
+		private void OnDrop(TreeNodeDropObject data)
 		{
 			var source = data.DataObject.GetData(typeof(PlanViewModel)) as PlanViewModel;
 			var target = data.Target as PlanViewModel;
@@ -28,7 +27,7 @@ namespace PlansModule.ViewModels
 			}
 			else
 			{
-				parent.Children.Remove(source);
+				parent.RemoveChild(source);
 				parent.Plan.Children.Remove(source.Plan);
 				parent.Update();
 				parent.IsExpanded = true;
@@ -38,12 +37,11 @@ namespace PlansModule.ViewModels
 				PlansViewModel.Plans.Add(source);
 				FiresecManager.PlansConfiguration.Plans.Add(source.Plan);
 				source.Plan.Parent = null;
-				source.ResetParent();
 			}
 			else
 			{
 				target.IsExpanded = true;
-				target.Children.Add(source);
+				target.AddChild(source);
 				target.Plan.Children.Add(source.Plan);
 				source.Plan.Parent = target.Plan;
 			}
@@ -51,7 +49,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.SaveService.PlansChanged = true;
 			PlansViewModel.SelectedPlan = source;
 		}
-		private bool CanDrop(TreeItemDropObject data)
+		private bool CanDrop(TreeNodeDropObject data)
 		{
 			var source = data.DataObject.GetData(typeof(PlanViewModel)) as PlanViewModel;
 			if (source == null)

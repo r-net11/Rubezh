@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels" xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" Width="{Binding Width}" Height="{Binding Height}" MinWidth="{Binding MinWidth}" MinHeight="{Binding MinHeight}">
+﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="clr-namespace:Infrastructure.Common.Windows.ViewModels" xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" xmlns:ribbon="clr-namespace:Infrastructure.Common.Ribbon" Width="{Binding Width}" Height="{Binding Height}" MinWidth="{Binding MinWidth}" MinHeight="{Binding MinHeight}">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="{Binding Width1, Mode=TwoWay}" MinWidth="{Binding Width1, Converter={StaticResource GridLengthToMinWidthConverter}}" />
@@ -9,7 +9,12 @@
 			<Border Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}" DockPanel.Dock="Top">
 				<DockPanel>
 					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<ContentPresenter Content="{Binding Toolbar}" />
+					<StackPanel Orientation="Horizontal">
+						<ribbon:RibbonButton Margin="10,0,0,0" Content="{Binding RibbonContent}" Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+						<Border Visibility="{Binding ToolbarVisible, Converter={StaticResource BoolToVisibilityConverter}}" BorderThickness="0">
+							<ContentPresenter Content="{Binding Toolbar}" />
+						</Border>
+					</StackPanel>
 				</DockPanel>
 			</Border>
 			<Grid>

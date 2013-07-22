@@ -2,15 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
-using Infrastructure.Common.Windows;
-using System.Windows.Controls;
-using System;
 
 namespace PlansModule.ViewModels
 {
@@ -225,11 +224,16 @@ namespace PlansModule.ViewModels
 							ExecuteCommand(PlansViewModel.RedoCommand);
 							break;
 						case Key.A:
-							var designerCanvas = PlansViewModel.DesignerCanvas;
-							if (designerCanvas != null)
+							if (PlansViewModel.DesignerCanvas != null)
 								using (new WaitWrapper())
 								using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
-									designerCanvas.SelectAll();
+									PlansViewModel.DesignerCanvas.SelectAll();
+							break;
+						case Key.D:
+							if (PlansViewModel.DesignerCanvas != null)
+								using (new WaitWrapper())
+								using (new TimeCounter("DesignerCanvas.DeselectAll: {0}"))
+									PlansViewModel.DesignerCanvas.DeselectAll();
 							break;
 					}
 				DefaultKeyHandler(e);

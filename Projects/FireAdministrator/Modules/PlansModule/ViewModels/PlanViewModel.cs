@@ -1,11 +1,9 @@
 ﻿using FiresecAPI.Models;
-using Infrastructure.Common;
-using System.Windows;
 using Infrastructure.Common.TreeList;
 
 namespace PlansModule.ViewModels
 {
-	public class PlanViewModel : TreeItemViewModel<PlanViewModel>
+	public class PlanViewModel : TreeNodeViewModel<PlanViewModel>
 	{
 		public Plan Plan { get; private set; }
 		public PlanFolder PlanFolder { get; private set; }
@@ -32,6 +30,10 @@ namespace PlansModule.ViewModels
 		public string Description
 		{
 			get { return Plan.Description; }
+		}
+		public bool IsFolder
+		{
+			get { return PlanFolder != null; }
 		}
 	}
 }

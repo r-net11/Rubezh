@@ -1,12 +1,13 @@
-﻿using System.ComponentModel;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System;
-using Infrastructure;
-using Infrastructure.Common.Windows;
-using FiresecClient;
-using FiresecAPI.Models;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireAdministrator.ViewModels
 {
@@ -26,9 +27,21 @@ namespace FireAdministrator.ViewModels
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
 			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
 		}
 
-		private BaseViewModel _extendedMenu;
+		void OnSetNewConfiguration(CancelEventArgs e)
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				e.Cancel = true;
+				return;
+			}
+			e.Cancel = !ConfigManager.SetNewConfig();
+		}
+
+		BaseViewModel _extendedMenu;
 		public BaseViewModel ExtendedMenu
 		{
 			get { return _extendedMenu; }
@@ -44,13 +57,14 @@ namespace FireAdministrator.ViewModels
 			get { return GlobalSettingsHelper.GlobalSettings.Administrator_IsMenuIconText; }
 		}
 
-		public event CancelEventHandler SetNewConfigEvent;
 		public bool SetNewConfig()
 		{
-			CancelEventArgs e = new CancelEventArgs(false);
-			if (SetNewConfigEvent != null)
-				SetNewConfigEvent(this, e);
-			return e.Cancel;
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				return false;
+			}
+			return ConfigManager.SetNewConfig();
 		}
 
 		public bool CanShowMainMenu

@@ -10,24 +10,25 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Windows;
+using System.Windows.Media;
+using DeviceControls;
 
 namespace DevicesModule.ViewModels
 {
 	public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Device Device { get; private set; }
+		public Guid AlternativeLibraryDeviceUID { get; private set; }
 		public DeviceState DeviceState { get; private set; }
 		public DeviceControlViewModel DeviceControlViewModel { get; private set; }
-		DeviceControls.DeviceControl _deviceControl;
-		private Guid _guid;
 
-		public DeviceDetailsViewModel(Device device)
+		public DeviceDetailsViewModel(Device device, Guid alternativeLibraryDeviceUID)
 		{
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			Device = device;
-			_guid = device.UID;
+			AlternativeLibraryDeviceUID = alternativeLibraryDeviceUID;
 			DeviceState = Device.DeviceState;
 			DeviceControlViewModel = new DeviceControlViewModel(Device);
 			DeviceState.StateChanged += new Action(OnStateChanged);
@@ -45,9 +46,7 @@ namespace DevicesModule.ViewModels
 
 		void OnStateChanged()
 		{
-			if (DeviceState != null && _deviceControl != null)
-				_deviceControl.StateType = DeviceState.StateType;
-			OnPropertyChanged("DeviceControlContent");
+			OnPropertyChanged(() => DevicePicture);
 
 			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeStates)
@@ -74,12 +73,16 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("ParentStringStates");
 			OnPropertyChanged("IsAutomaticOff");
 
-			StartTimer(DriverType.RM_1, "RMOn");
-			StartTimer(DriverType.MRO, "MRO_On");
-            StartTimer(DriverType.MRO_2, "MRO_On");
-			StartTimer(DriverType.MDU, "ClapanOn1e");
-			StartTimer(DriverType.Valve, "Bolt_On");
-			StartTimer(DriverType.MPT, "MPT_On");
+			var property = Device.Properties.FirstOrDefault(x => x.Name == "EnableCountDownTimer");
+			if (property != null && property.Value == "1")
+			{
+				StartTimer(DriverType.RM_1, "RMOn");
+				StartTimer(DriverType.MRO, "MRO_On");
+				StartTimer(DriverType.MRO_2, "MRO_On");
+				StartTimer(DriverType.MDU, "ClapanOn1e");
+				StartTimer(DriverType.Valve, "Bolt_On");
+				StartTimer(DriverType.MPT, "MPT_On");
+			}
 		}
 
 		public bool IsAutomaticOff
@@ -106,9 +109,9 @@ namespace DevicesModule.ViewModels
 					{
 						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
-						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
-                        if(timeoutProperty == null)
-                            timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Задержка включения, с");
+						var timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "AU_Delay");
+						if (timeoutProperty == null)
+							timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "Задержка включения, с");
 						if (timeoutProperty != null)
 						{
 							int timeout = 0;
@@ -140,32 +143,9 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("Parameters");
 		}
 
-		public object DeviceControlContent
+		public Brush DevicePicture
 		{
-			get
-			{
-				var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
-				if (libraryDevice == null)
-				{
-					return null;
-				}
-				if (DeviceState != null)
-				{
-					_deviceControl = new DeviceControls.DeviceControl()
-					{
-						DriverId = Device.Driver.UID,
-						Width = 50,
-						Height = 50,
-						StateType = DeviceState.StateType,
-						AdditionalStateCodes = new List<string>(
-							from state in DeviceState.ThreadSafeStates
-							select state.DriverState.Code)
-					};
-					_deviceControl.Update();
-				}
-
-				return _deviceControl;
-			}
+			get { return DevicePictureCache.GetDynamicBrush(Device, AlternativeLibraryDeviceUID); }
 		}
 
 		public StateType StateType
@@ -286,7 +266,7 @@ namespace DevicesModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return _guid.ToString(); }
+			get { return Device.UID.ToString(); }
 		}
 		#endregion
 	}

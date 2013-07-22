@@ -14,6 +14,7 @@ namespace FiresecAPI.Models
 			Zones = new List<Zone>();
 			Directions = new List<Direction>();
 			GuardUsers = new List<GuardUser>();
+			ParameterTemplates = new List<ParameterTemplate>();
 		}
 
 		public List<Device> Devices { get; set; }
@@ -29,6 +30,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<GuardUser> GuardUsers { get; set; }
+
+		[DataMember]
+		public List<ParameterTemplate> ParameterTemplates { get; set; }
 
 		public void Update()
 		{
@@ -83,15 +87,28 @@ namespace FiresecAPI.Models
 
 			while (true)
 			{
-				var copyDevice = new Device()
-				{
-					UID = currentDevice.UID,
-					DriverUID = currentDevice.DriverUID,
-					IntAddress = currentDevice.IntAddress,
-					Description = currentDevice.Description,
-                    ZoneUID = currentDevice.ZoneUID,
-					Properties = new List<Property>(currentDevice.Properties)
-				};
+				var copyDevice = new Device();
+				//{
+				//    UID = currentDevice.UID,
+				//    DriverUID = currentDevice.DriverUID,
+				//    IntAddress = currentDevice.IntAddress,
+				//    Description = currentDevice.Description,
+				//    ZoneUID = currentDevice.ZoneUID,
+				//    Properties = new List<Property>(currentDevice.Properties),
+				//    SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties),
+				//    DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties)
+				//};
+				copyDevice.UID = currentDevice.UID;
+				copyDevice.DriverUID = currentDevice.DriverUID;
+				copyDevice.IntAddress = currentDevice.IntAddress;
+				copyDevice.Description = currentDevice.Description;
+                copyDevice.ZoneUID = currentDevice.ZoneUID;
+				copyDevice.Properties = new List<Property>(currentDevice.Properties);
+				if (currentDevice.SystemAUProperties != null)
+					copyDevice.SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties);
+				if (currentDevice.DeviceAUProperties != null)
+					copyDevice.DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties);
+
 				if ((currentDevice.UID == device.UID))
 				{
 					copyDevice.IsAltInterface = isUsb;
@@ -167,6 +184,51 @@ namespace FiresecAPI.Models
 					result = false;
 				}
 			}
+			if (ParameterTemplates == null)
+			{
+				ParameterTemplates = new List<ParameterTemplate>();
+				result = false;
+			}
+
+			foreach (var parameterTemplate in ParameterTemplates)
+			{
+				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
+				{
+					if (deviceParameterTemplate.Device.SystemAUProperties == null)
+					{
+						deviceParameterTemplate.Device.SystemAUProperties = new List<Property>();
+						result = false;
+					}
+					if (deviceParameterTemplate.Device.DeviceAUProperties == null)
+					{
+						deviceParameterTemplate.Device.DeviceAUProperties = new List<Property>();
+						result = false;
+					}
+				}
+			}
+
+			foreach (var device in RootDevice.GetAllChildren())
+			{
+				if (device.SystemAUProperties == null)
+				{
+					device.SystemAUProperties = new List<Property>();
+					result = false;
+				}
+				if (device.DeviceAUProperties == null)
+				{
+					device.DeviceAUProperties = new List<Property>();
+					result = false;
+				}
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					if (clause.DeviceUIDs == null)
+					{
+						clause.DeviceUIDs = new List<Guid>();
+						result = false;
+					}
+				}
+			}
+
 			return result;
         }
 	}

@@ -11,7 +11,16 @@
         </Grid.ColumnDefinitions>
         <DataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Устройство" Binding="{Binding Driver.ShortName}" />
+                <DataGridTemplateColumn Header="Устройство" Width="150" SortMemberPath="Driver.ShortName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="5 0">
+                                <Image Width="16" Height="16" Margin="1" Source="{Binding Driver.ImageSource}" />
+                                <TextBlock Margin="1" Text="{Binding Driver.ShortName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Адрес" Binding="{Binding DottedAddress}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
             </DataGrid.Columns>

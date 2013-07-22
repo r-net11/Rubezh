@@ -10,5 +10,7 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Value { get; set; }
+
+		public DriverProperty DriverProperty { get; set; }
 	}
 }

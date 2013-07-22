@@ -1,12 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
-using System.Windows.Media;
-using FiresecClient;
 
 namespace GKModule.Plans.Designer
 {

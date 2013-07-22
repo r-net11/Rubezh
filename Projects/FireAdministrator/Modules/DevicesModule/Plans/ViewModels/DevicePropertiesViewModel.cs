@@ -13,10 +13,10 @@ namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private Devices.DevicesViewModel _devicesViewModel;
+		private DevicesViewModel _devicesViewModel;
 		private ElementDevice _elementDevice;
 
-		public DevicePropertiesViewModel(Devices.DevicesViewModel devicesViewModel, ElementDevice elementDevice)
+		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство";
 			_elementDevice = elementDevice;
@@ -34,7 +34,7 @@ namespace DevicesModule.Plans.ViewModels
 				if (device.Device.Parent != null)
 				{
 					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.Children.Add(device);
+					parent.AddChild(device);
 				}
 			}
 
@@ -60,7 +60,7 @@ namespace DevicesModule.Plans.ViewModels
 		void AddChildPlainDevices(DeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
+			foreach (DeviceViewModel childViewModel in parentViewModel.Children)
 			{
 				AddChildPlainDevices(childViewModel);
 			}
@@ -73,7 +73,7 @@ namespace DevicesModule.Plans.ViewModels
 			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceViewModel != null)
 			{
-				deviceViewModel.ExpantToThis();
+				deviceViewModel.ExpandToThis();
 			}
 			SelectedDevice = deviceViewModel;
 		}
@@ -97,7 +97,7 @@ namespace DevicesModule.Plans.ViewModels
 		{
 			parentDeviceViewModel.IsExpanded = false;
 
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
+			foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
 			{
 				CollapseChild(deviceViewModel);
 			}
@@ -108,7 +108,7 @@ namespace DevicesModule.Plans.ViewModels
 			if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
 			{
 				parentDeviceViewModel.IsExpanded = true;
-				foreach (var deviceViewModel in parentDeviceViewModel.Children)
+				foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
 				{
 					ExpandChild(deviceViewModel);
 				}

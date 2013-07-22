@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace Infrastructure.Common.Windows.Views
 {
@@ -27,17 +28,16 @@ namespace Infrastructure.Common.Windows.Views
 		}
 		private WindowBaseViewModel _model;
 
-		DateTime startDateTime = DateTime.Now;
-		static double avarageTime = 0;
-		static int count = 0;
-		static double totalMilliseconds = 0;
+		private DateTime startDateTime = DateTime.Now;
+		private static double avarageTime = 0;
+		private static int count = 0;
+		private static double totalMilliseconds = 0;
 
 		public WindowBaseView()
 		{
 			this.ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
 			InitializeComponent();
 		}
-
 		public WindowBaseView(WindowBaseViewModel model)
 		{
 			this.ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
@@ -47,7 +47,7 @@ namespace Infrastructure.Common.Windows.Views
 			InitializeComponent();
 		}
 
-		void WindowBaseView_ContentRendered(object sender, EventArgs e)
+		private void WindowBaseView_ContentRendered(object sender, EventArgs e)
 		{
 			var timeDelta = DateTime.Now - startDateTime;
 			//Trace.WriteLine("Window rendered at " + timeDelta.ToString());
@@ -65,14 +65,8 @@ namespace Infrastructure.Common.Windows.Views
 		{
 			base.OnSourceInitialized(e);
 			CalculateSize();
-			if (MinHeight < AbsolutMinSize)
-				MinHeight = AbsolutMinSize;
-			if (MinWidth < AbsolutMinSize)
-				MinWidth = AbsolutMinSize;
-			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
-				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
-			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
-				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+			UpdateWindowSize();
+			TruncateSize();
 			var shellViewModel = _model as ShellViewModel;
 			if (shellViewModel != null)
 			{
@@ -147,6 +141,25 @@ namespace Infrastructure.Common.Windows.Views
 			}
 		}
 
+		private void TruncateSize()
+		{
+			if (MinHeight < AbsolutMinSize)
+				MinHeight = AbsolutMinSize;
+			if (MinWidth < AbsolutMinSize)
+				MinWidth = AbsolutMinSize;
+			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
+				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
+			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
+				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+			if (Left < 0)
+				Left = 0;
+			if (Top < 0)
+				Top = 0;
+			if (Left + Width > SystemParameters.MaximizedPrimaryScreenWidth)
+				Left = SystemParameters.MaximizedPrimaryScreenWidth - Width;
+			if (Top + Height > SystemParameters.MaximizedPrimaryScreenHeight)
+				Top = SystemParameters.MaximizedPrimaryScreenHeight - Height;
+		}
 		private void CalculateSize()
 		{
 			ContentPresenter presenter = FindPresenter(this);
@@ -193,6 +206,51 @@ namespace Infrastructure.Common.Windows.Views
 				}
 			}
 			return result;
+		}
+
+		private void UpdateWindowSize()
+		{
+			try
+			{
+				var isSaveSize = _model.GetType().GetCustomAttributes(typeof(SaveSizeAttribute), true).Length > 0;
+				if (isSaveSize)
+				{
+					string key = "WindowRect." + _model.GetType().AssemblyQualifiedName;
+					var windowRect = RegistrySettingsHelper.GetWindowRect(key);
+					if (windowRect != null)
+					{
+						Top = windowRect.Top;
+						Left = windowRect.Left;
+						Width = windowRect.Width;
+						Height = windowRect.Height;
+						WindowStartupLocation = WindowStartupLocation.Manual;
+					}
+					Closed += SaveWindowSize;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "WindowBaseView.UpdateWindowSize");
+			}
+		}
+		private void SaveWindowSize(object sender, EventArgs e)
+		{
+			try
+			{
+				string key = "WindowRect." + _model.GetType().AssemblyQualifiedName;
+				var windowRect = new WindowRect()
+				{
+					Left = Left,
+					Top = Top,
+					Width = Width,
+					Height = Height
+				};
+				RegistrySettingsHelper.SetWindowRect(key, windowRect);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "WindowBaseView.SaveWindowSize");
+			}
 		}
 	}
 }

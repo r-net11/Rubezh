@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Models;
+using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
-using GKModule.Plans.Designer;
+using Infrastructure.Common.Ribbon;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -37,6 +38,7 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
 			SubscribeEvents();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -78,7 +80,7 @@ namespace GKModule.ViewModels
 				FillAllDevices();
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
-					deviceViewModel.ExpantToThis();
+					deviceViewModel.ExpandToThis();
 				SelectedDevice = deviceViewModel;
 			}
 		}
@@ -91,8 +93,9 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
+				UpdateRibbonItems();
 				if (value != null)
-					value.ExpantToThis();
+					value.ExpandToThis();
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
@@ -129,7 +132,7 @@ namespace GKModule.ViewModels
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
@@ -251,7 +254,7 @@ namespace GKModule.ViewModels
 				// TODO: FIX IT
 				if (!_lockSelection)
 				{
-					device.ExpantToThis();
+					device.ExpandToThis();
 					SelectedDevice = device;
 				}
 			}
@@ -293,6 +296,42 @@ namespace GKModule.ViewModels
 		public override void OnHide()
 		{
 			base.OnHide();
+		}
+
+		protected override void UpdateRibbonItems()
+		{
+			base.UpdateRibbonItems();
+			RibbonItems[0][0].Command = SelectedDevice == null ? null : SelectedDevice.AddCommand;
+			RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
+			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
+		}
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
+					new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
+				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
+				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Считать конфигурацию", DeviceCommandsViewModel.ReadConfigurationCommand, "/Controls;component/Images/BParametersRead.png"),
+					new RibbonMenuItemViewModel("Записать конфигурацию в приборы", DeviceCommandsViewModel.WriteConfigCommand, "/Controls;component/Images/BParametersWrite.png"),
+					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ReadConfigurationCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },
+					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "/Controls;component/Images/BWatch.png"),
+					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "/Controls;component/Images/BJournal.png"),
+					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "/Controls;component/Images/BParametersSync.png"),
+					new RibbonMenuItemViewModel("Считать параметры из всех устройств", DeviceCommandsViewModel.GetAllParametersCommand, "/Controls;component/Images/BParametersReadAll.png") { IsNewGroup = true },
+					new RibbonMenuItemViewModel("Записать параметры во все устройства", DeviceCommandsViewModel.SetAllParametersCommand, "/Controls;component/Images/BParametersWriteAll.png"),
+					new RibbonMenuItemViewModel("Считать параметры одного устройства", DeviceCommandsViewModel.GetSingleParameterCommand, "/Controls;component/Images/BParametersRead.png"),
+					new RibbonMenuItemViewModel("Записать параметры в одно устройство", DeviceCommandsViewModel.SetSingleParameterCommand, "/Controls;component/Images/BParametersWrite.png"),
+				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
+			};
 		}
 	}
 }

@@ -16,14 +16,14 @@ namespace ServerFS2.ConfigurationWriter
 		public static void Initialize()
 		{
 			ZonePanelItems = new List<ZonePanelItem>();
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				foreach (var device in zone.DevicesInZone)
 				{
 					Add(zone, device.ParentPanel, false);
 				}
 			}
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				foreach (var device in zone.DevicesInZoneLogic)
 				{
@@ -55,7 +55,7 @@ namespace ServerFS2.ConfigurationWriter
 		public static List<Device> GetAllPanelDevices()
 		{
 			var devices = new List<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.IsPanel)
 					devices.Add(device);

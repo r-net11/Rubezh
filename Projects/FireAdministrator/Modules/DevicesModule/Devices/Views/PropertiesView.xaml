@@ -68,7 +68,7 @@
             </StackPanel>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel DataContext="{Binding PropertiesViewModel}" Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
+            <StackPanel DataContext="{Binding PropertiesViewModel}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="group1" Width="600" />

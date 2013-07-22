@@ -120,6 +120,10 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				ByteDescriptions[i].Offset = startOffset + i;
 				ByteDescriptions[i].RelativeOffset = i;
+				if (ByteDescriptions[i].DeviceState != null)
+				{
+					ByteDescriptions[i].DeviceState.StateWordOffset = ByteDescriptions[i].Offset;
+				}
 			}
 		}
 
@@ -134,7 +138,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 		}
 
-		public void ResolverReferences()
+		public void ResolveReferences()
 		{
 			for (int i = 0; i < ByteDescriptions.Count; i++)
 			{

@@ -45,11 +45,14 @@ namespace FiresecAPI
 			Monitor_F2_Enabled = true;
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
+			Monitor_HaspInfo_Enabled = false;
 
 			Administrator_HideMainMenuIcons = false;
 			Administrator_IsExpertMode = false;
 			Administrator_ShowMainMenu = false;
 			Administrator_ShowGridLineInstruments = false;
+			Administrator_ShowDirectories = false;
+			Administrator_ShowSimulation = false;
 		}
 
 		[DataMember]
@@ -111,6 +114,8 @@ namespace FiresecAPI
 		[DataMember]
 		public bool Monitor_F4_Enabled { get; set; }
 		[DataMember]
+		public bool Monitor_HaspInfo_Enabled { get; set; }
+		[DataMember]
 		public bool Monitor_DoNotShowConfirmatinoOnIgnore { get; set; }
 		[DataMember]
 		public bool Monitor_DoNotShowZones { get; set; }
@@ -129,6 +134,10 @@ namespace FiresecAPI
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
 		[DataMember]
 		public bool Administrator_ShowGridLineInstruments { get; set; }
+		[DataMember]
+		public bool Administrator_ShowDirectories { get; set; }
+		[DataMember]
+		public bool Administrator_ShowSimulation { get; set; }
 
 		public List<string> GetModules()
 		{

@@ -170,9 +170,15 @@ namespace FiresecClient
 					}
 				}
 
-				if (clause.DeviceUID != Guid.Empty)
+				if (clause.DeviceUIDs != null && clause.DeviceUIDs.Count > 0)
 				{
-					result += "Сработка устройства " + clause.Device.PresentationAddressAndName;
+					result += "Сработка устройств ";
+					foreach (var device in clause.Devices)
+					{
+						result += device.PresentationAddressAndName + ", ";
+					}
+					if (result.EndsWith(", "))
+						result = result.Remove(result.Length - 2, 2);
 					continue;
 				}
 

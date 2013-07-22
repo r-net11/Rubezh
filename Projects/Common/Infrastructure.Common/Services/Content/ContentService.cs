@@ -13,7 +13,8 @@ namespace Infrastructure.Common.Services.Content
 	{
 		private const string ContentFolderRelativePath = @"Configuration\Unzip\Content";
 		public string ContentFolder { get; private set; }
-		private List<Stream> _streams;
+		private Dictionary<string, Stream> _streams;
+		private Dictionary<string, BitmapImage> _images;
 
 		public ContentService(string applicationName)
 		{
@@ -42,11 +43,13 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public Stream GetContentStream(string guid)
 		{
+			if (_streams.ContainsKey(guid))
+				return _streams[guid];
 			var fileName = GetContentFileName(guid);
 			if (!File.Exists(fileName))
 				return null;
 			var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-			_streams.Add(stream);
+			_streams.Add(guid, stream);
 			return stream;
 		}
 		public BitmapImage GetBitmapContent(Guid guid)
@@ -55,16 +58,17 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public BitmapImage GetBitmapContent(string guid)
 		{
+			if (_images.ContainsKey(guid))
+				return _images[guid];
 			BitmapImage bitmap = new BitmapImage();
 			try
 			{
 				bitmap.BeginInit();
 				var contentStream = GetContentStream(guid);
 				if (contentStream != null)
-				{
 					bitmap.StreamSource = contentStream;
-				}
 				bitmap.EndInit();
+				_images.Add(guid, bitmap);
 			}
 			catch (Exception e)
 			{
@@ -130,7 +134,14 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public void RemoveContent(string guid)
 		{
-			var contentFile = Path.Combine(ContentFolder, guid.ToString());
+			if (_images.ContainsKey(guid))
+				_images.Remove(guid);
+			if (_streams.ContainsKey(guid))
+			{
+				_streams[guid].Dispose();
+				_streams.Remove(guid);
+			}
+			var contentFile = Path.Combine(ContentFolder, guid);
 			if (File.Exists(contentFile))
 				File.Delete(contentFile);
 		}
@@ -138,7 +149,8 @@ namespace Infrastructure.Common.Services.Content
 		public void Invalidate()
 		{
 			Close();
-			_streams = new List<Stream>();
+			_streams = new Dictionary<string, Stream>();
+			_images = new Dictionary<string, BitmapImage>();
 			if (!Directory.Exists(ContentFolder))
 				Directory.CreateDirectory(ContentFolder);
 		}
@@ -146,9 +158,12 @@ namespace Infrastructure.Common.Services.Content
 		{
 			if (_streams != null)
 			{
-				_streams.ForEach(stream => stream.Dispose());
+				foreach (var stream in _streams.Values)
+					stream.Dispose();
 				_streams = null;
 			}
+			if (_images != null)
+				_images = null;
 			PainterCache.Dispose();
 		}
 

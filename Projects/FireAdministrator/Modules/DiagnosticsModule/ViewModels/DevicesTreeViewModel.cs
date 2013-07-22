@@ -8,10 +8,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections;
-using Infrastructure.Common.TreeList;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -67,7 +66,6 @@ namespace DiagnosticsModule.ViewModels
 		}
 	}
 
-
 	public class DeviceViewModel2 : TreeItemViewModel<DeviceViewModel2> , ITreeNodeModel
 	{
 		public Device Device { get; private set; }
@@ -90,7 +88,6 @@ namespace DiagnosticsModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
 			device.Changed += new Action(device_Changed);
-			device.AUParametersChanged += new Action(device_AUParametersChanged);
 		}
 
 		void device_Changed()
@@ -99,18 +96,6 @@ namespace DiagnosticsModule.ViewModels
 			OnPropertyChanged("PresentationZone");
 			OnPropertyChanged("EditingPresentationZone");
 			OnPropertyChanged("HasExternalDevices");
-		}
-
-		void device_AUParametersChanged()
-		{
-			UpdataConfigurationProperties();
-			PropertiesViewModel.IsAuParametersReady = true;
-		}
-
-		public void UpdataConfigurationProperties()
-		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
-			OnPropertyChanged("PropertiesViewModel");
 		}
 
 		public void Update()
@@ -463,21 +448,6 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
-
-		#region ITreeNodeModel Members
-
-
-		public IEnumerable GetChildren()
-		{
-			return Children;
-		}
-
-		public bool HasChild()
-		{
-			return HasChildren;
-		}
-
-		#endregion
 	}
 
 
@@ -529,7 +499,7 @@ namespace DiagnosticsModule.ViewModels
 
 		public void UpdataConfigurationProperties()
 		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
 

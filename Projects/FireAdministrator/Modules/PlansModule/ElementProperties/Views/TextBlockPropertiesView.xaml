@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PlansModule.Views.TextBlockPropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" MinWidth="400" MinHeight="450">
+﻿<UserControl x:Class="PlansModule.Views.TextBlockPropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" MinWidth="400" MinHeight="450" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit">
 
 	<Border Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
 		<Grid Margin="2">
@@ -46,9 +46,9 @@
 					 TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" />
             </Grid>
             <ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
-			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedItem="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
-			<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" SelectedItem="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
-			<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" SelectedItem="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ColorPickerComboBox}" />
+			<xc:ColorPicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}"  />
+			<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}"  />
+			<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}"  />
 			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Minimum="0" />
 			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" Minimum="5"/>
 			<ComboBox Grid.Row="7" Grid.Column="1" Margin="2" ItemsSource="{Binding Fonts}" SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">

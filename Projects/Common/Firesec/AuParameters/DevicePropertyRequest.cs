@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 
-namespace Firesec
+namespace Firesec_48
 {
 	public class DevicePropertyRequest
 	{

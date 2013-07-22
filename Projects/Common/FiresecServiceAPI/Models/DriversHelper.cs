@@ -42,7 +42,7 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("80A37AF1-B1AD-45D5-A34C-6FA2960F9706", 2, "Виртуальная панель", DriverType.OLD_VirtualPanel));
 			DriverDataList.Add(new DriverData("743CEBD1-B91D-4521-9B02-1E674F94789A", 2, "Виртуальный порт", DriverType.OLD_VirtualPort));
 			DriverDataList.Add(new DriverData("F8340ECE-C950-498D-88CD-DCBABBC604F3", 0, "Компьютер", DriverType.Computer));
-			DriverDataList.Add(new DriverData("{0695ADC6-4D28-44D4-8E24-7F13D91F62ED}", 2, "COM порт (V1)", DriverType.OLD_ComPort_V2));
+			DriverDataList.Add(new DriverData("{0695ADC6-4D28-44D4-8E24-7F13D91F62ED}", 2, "COM порт (V1)", DriverType.OLD_ComPort_V1));
 			DriverDataList.Add(new DriverData("{07C5D4D8-19AC-4786-832A-7A81ACCE364C}", 2, "Прибор Рубеж 10A", DriverType.OLD_Rubezh_10A));
 			DriverDataList.Add(new DriverData("8CE7A914-4FF2-41F2-B991-70E84228D38D", 2, "Прибор Рубеж 2A", DriverType.OLD_Rubezh_2A));
 			DriverDataList.Add(new DriverData("{FD91CD1A-4F3B-4F76-AA74-AB9C8B9E79F3}", 2, "Пожарный комбинированный извещатель ИП212&#047;101-64-А2R1", DriverType.OLD_CombinedDetector));
@@ -53,14 +53,13 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("50CDD49E-4981-475C-9083-ADB79458B0B0", 2, "Метка контроля питания", DriverType.OLD_MKP));
 			DriverDataList.Add(new DriverData("75D4399D-EC01-42E0-B77E-31F5E1248905", 2, "Релейный исполнительный модуль РМ-1", DriverType.OLD_RM_1));
 			DriverDataList.Add(new DriverData("{C87E5BBD-2E0C-4213-84D0-2376DB27BDF2}", 2, "АСПТ", DriverType.OLD_ASPT));
-			DriverDataList.Add(new DriverData("ABDE5AF2-2B77-4421-879C-2A14E7F056B2", 2, "COM порт (V2)", DriverType.OLD_ComPort_V1));
+			DriverDataList.Add(new DriverData("ABDE5AF2-2B77-4421-879C-2A14E7F056B2", 0, "COM порт (V2)", DriverType.ComPort_V2));
 			DriverDataList.Add(new DriverData("6298807D-850B-4C65-8792-A4EAB2A4A72A", 0, "Страница", DriverType.Page));
 			DriverDataList.Add(new DriverData("E486745F-6130-4027-9C01-465DE5415BBF", 0, "Индикатор", DriverType.Indicator));
 			DriverDataList.Add(new DriverData("7C4B1A3E-BC00-4542-9AB7-061D2AE92BA2", 0, "Направление", DriverType.PDUDirection));
 			DriverDataList.Add(new DriverData("145B6D5B-FD19-4E1F-8ED3-70923A11232B", 0, "Направление", DriverType.PDUDirection));
 			DriverDataList.Add(new DriverData("B476541B-5298-4B3E-A9BA-605B839B1011", 0, "Прибор Рубеж-2AM", DriverType.Rubezh_2AM));
 			DriverDataList.Add(new DriverData("02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C", 0, "БУНС", DriverType.BUNS));
-			DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", 0, "БУНС-2", DriverType.BUNS_2));
 			DriverDataList.Add(new DriverData("F966D47B-468D-40A5-ACA7-9BE30D0A3847", 0, "Модуль сопряжения МС-3", DriverType.MS_3));
 			DriverDataList.Add(new DriverData("{868ED643-0ED6-48CD-A0E0-4AD46104C419}", 0, "Модуль сопряжения МС-4", DriverType.MS_4));
 			DriverDataList.Add(new DriverData("{584BC59A-28D5-430B-90BF-592E40E843A6}", 0, "Устройство оконечное объектовое", DriverType.UOO_TL));
@@ -125,8 +124,7 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A", DriverType.USB_Rubezh_4A));
 			DriverDataList.Add(new DriverData("39DBC715-C4B5-4AE6-A809-4F214BBBD6C1", 1, "USB Рубеж-2ОП", DriverType.USB_Rubezh_2OP));
 			DriverDataList.Add(new DriverData("4A3D1FA3-4F13-44D8-B9AD-825B53416A71", 1, "USB БУНС", DriverType.USB_BUNS));
-			DriverDataList.Add(new DriverData("64CB0AB4-D9BE-4C71-94A1-CF24406DAF92", 1, "USB БУНС-2", DriverType.USB_BUNS_2));
-			DriverDataList.Add(new DriverData("E05EE5B7-8D89-4BF2-933B-9D6E6B0AAB2D", 0, "Глухая панель П", DriverType.BlindPanel));
+			DriverDataList.Add(new DriverData("E05EE5B7-8D89-4BF2-933B-9D6E6B0AAB2D", 0, "Глухая панель П", DriverType.Rubezh_P));
 			DriverDataList.Add(new DriverData("3268E93C-A532-4CB1-A60A-FA95713EE1BD", 0, "Шкаф управления", DriverType.ControlCabinet));
 			DriverDataList.Add(new DriverData("80141D2F-0863-49A4-A49E-EF7A5C2B798D", 0, "Источник питания ИВЭПР-А", DriverType.PowerSupply));
 			DriverDataList.Add(new DriverData("C6A963F8-9F89-48E7-A492-77F7BD6E7892", 0, "Шкаф управления вентилятором", DriverType.FanCabinet));
@@ -142,7 +140,6 @@ namespace FiresecAPI.Models
 			{
 				var panelDrivers = new List<DriverType>();
 				panelDrivers.Add(DriverType.BUNS);
-				panelDrivers.Add(DriverType.BUNS_2);
 				panelDrivers.Add(DriverType.Rubezh_2AM);
 				panelDrivers.Add(DriverType.Rubezh_2OP);
 				panelDrivers.Add(DriverType.Rubezh_4A);
@@ -157,7 +154,6 @@ namespace FiresecAPI.Models
 			{
 				var usbPanelDrivers = new List<DriverType>();
 				usbPanelDrivers.Add(DriverType.USB_BUNS);
-				usbPanelDrivers.Add(DriverType.USB_BUNS_2);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_2AM);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_2OP);
 				usbPanelDrivers.Add(DriverType.USB_Rubezh_4A);
@@ -166,7 +162,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public static int GetCodeForFriver(DriverType driverType)
+		public static int GetCodeForDriver(DriverType driverType)
 		{
 			switch (driverType)
 			{
@@ -181,9 +177,6 @@ namespace FiresecAPI.Models
 
 				case DriverType.BUNS:
 					return 2;
-
-				case DriverType.BUNS_2:
-					return 8;
 
 				case DriverType.IndicationBlock:
 					return 3;

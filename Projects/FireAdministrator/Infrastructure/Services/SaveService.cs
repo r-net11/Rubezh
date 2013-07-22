@@ -4,6 +4,7 @@ namespace Infrastructure
 {
 	public class SaveService
 	{
+		public int FSChangesCount { get; private set; }
 		bool _fsChanged;
 		public bool FSChanged
 		{
@@ -11,6 +12,18 @@ namespace Infrastructure
 			set
 			{
 				_fsChanged = value;
+				OnChanged();
+				FSChangesCount++;
+			}
+		}
+
+		bool _fsParametersChanged;
+		public bool FSParametersChanged
+		{
+			get { return _fsParametersChanged; }
+			set
+			{
+				_fsParametersChanged = value;
 				OnChanged();
 			}
 		}
@@ -158,7 +171,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged;
 			}
 		}
 
@@ -175,6 +188,7 @@ namespace Infrastructure
 		void SetAllValues(bool value)
 		{
 			FSChanged = value;
+			FSParametersChanged = value;
 			GKChanged = value;
 			PlansChanged = value;
 			LibraryChanged = value;

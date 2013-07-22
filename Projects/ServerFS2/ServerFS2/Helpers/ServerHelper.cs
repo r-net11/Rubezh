@@ -1,112 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models;
+using FS2Api;
 using ServerFS2.Helpers;
+using ServerFS2.Service;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.Monitoring;
+using System.Diagnostics;
+using System.Threading;
 
 namespace ServerFS2
 {
 	public static partial class ServerHelper
 	{
-		public static event Action<int, int, string> Progress;
-		public static List<Driver> Drivers;
-		static readonly object Locker = new object();
-		public static readonly UsbRunner UsbRunner;
-		static int UsbRequestNo;
-		public static bool IsExtendedMode { get; set; }
-
-		static ServerHelper()
-		{
-			var str = DateConverter.ConvertToBytes(DateTime.Now);
-			MetadataHelper.Initialize();
-			ConfigurationManager.Load();
-			Drivers = ConfigurationManager.DriversConfiguration.Drivers;
-			UsbRunner = new UsbRunner();
-			try
-			{
-				var result = UsbRunner.Open();
-			}
-			catch { }
-		}
-
-		public static OperationResult<List<Response>> SendCode(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(++UsbRequestNo, bytesList, maxDelay, maxTimeout, true);
-		}
-
-		public static OperationResult<List<Response>> SendCode(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(++UsbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
-		}
-
-		public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(-1, new List<List<byte>> { bytes }, maxDelay, maxTimeout, true);
-		}
-
-		public static OperationResult<List<Response>> SendCodeWithoutRequestNo(List<List<byte>> bytesList, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			return UsbRunner.AddRequest(-1, bytesList, maxDelay, maxTimeout, true);
-		}
-
-		public static void SendCodeAsync(int usbRequestNo, List<byte> bytes, int maxDelay = 1000, int maxTimeout = 1000)
-		{
-			UsbRunner.AddRequest(usbRequestNo, new List<List<byte>> { bytes }, maxDelay, maxTimeout, false);
-		}
-
-		public static bool IsUsbDevice
-		{
-			get { return UsbRunner.IsUsbDevice; }
-			set
-			{
-				UsbRunner.IsUsbDevice = value;
-				UsbRunner.Close();
-				UsbRunner.Open();
-			}
-		}
-
-		public static List<byte> SendRequest(List<byte> bytes)
-		{
-			return SendCode(bytes, 100000, 100000).Result.FirstOrDefault().Data;
-		}
-
 		public static void SynchronizeTime(Device device)
 		{
-			var bytes = CreateBytesArray(Convert.ToByte(device.Parent.IntAddress + 2),
-			device.IntAddress, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
-			SendCode(bytes);
+			USBManager.Send(device, 0x02, 0x11, DateConverter.ConvertToBytes(DateTime.Now));
 		}
 
-		static List<byte> CreateBytesArray(params object[] values)
+		public static List<byte> GetBytesFromFlashDB(Device device, int pointer, int count)
 		{
-			var bytes = new List<byte>();
-			foreach (var value in values)
-			{
-				if (value as IEnumerable<Byte> != null)
-					bytes.AddRange((IEnumerable<Byte>)value);
-				else
-					bytes.Add(Convert.ToByte(value));
-			}
-			return bytes;
+			var response = USBManager.Send(device, 0x01, 0x52, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+			return response.Bytes;
 		}
 
-        public static void BytesToFile(string fileName, List<byte> bytes)
-        {
-            var deviceRamTxt = new StreamWriter("..\\" + fileName);
-            int j = 0;
-            foreach (var b in bytes)
-            {
-                deviceRamTxt.Write("{0} ", b.ToString("X2"));
-                j++;
-                if (j % 16 == 0)
-                    deviceRamTxt.Write("\n");
-                if (j % 64 == 0)
-                    deviceRamTxt.Write("\n");
-            }
-            deviceRamTxt.Close();
-        }
+		public static List<byte> GetBytesFromRomDB(Device device, int pointer, int count)
+		{
+			var response = USBManager.Send(device, 0x38, BitConverter.GetBytes(pointer).Reverse(), count - 1);
+			if (response.Bytes == null)
+			{
+				;
+			}
+			return response.Bytes;
+		}
 	}
 }

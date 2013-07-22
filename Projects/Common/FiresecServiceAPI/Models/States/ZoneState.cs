@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
+	[DataContract]
 	public class ZoneState
 	{
-		public Zone Zone { get; set; }
+		[DataMember]
+		public Guid ZoneUID { get; set; }
+
+		[DataMember]
 		public StateType StateType { get; set; }
+
+		public Zone Zone { get; set; }
 
 		public ZoneState()
 		{

@@ -28,7 +28,7 @@ namespace ServerFS2.ConfigurationWriter
 			var localValves = new HashSet<Device>();
 			foreach (var zoneUID in Direction.ZoneUIDs)
 			{
-				var zone = ConfigurationManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 				if (zone != null)
 				{
 					foreach (var device in zone.DevicesInZoneLogic)
@@ -50,7 +50,7 @@ namespace ServerFS2.ConfigurationWriter
 			var rmAddress = 0;
 			if (Direction.DeviceRm != Guid.Empty)
 			{
-				var rmDevice = ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceRm);
+				var rmDevice = ConfigurationManager.Devices.FirstOrDefault(x => x.UID == Direction.DeviceRm);
 				if (rmDevice != null)
 				{
 					rmShleif = rmDevice.ShleifNo - 1;

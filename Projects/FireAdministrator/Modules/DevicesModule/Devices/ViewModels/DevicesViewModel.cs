@@ -17,6 +17,8 @@ using DevicesModule.Plans.Designer;
 using Infrustructure.Plans.Events;
 using Common;
 using DevicesModule.Plans;
+using Infrastructure.Common.Ribbon;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
@@ -44,6 +46,7 @@ namespace DevicesModule.ViewModels
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
 			SubscribeEvents();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -70,7 +73,7 @@ namespace DevicesModule.ViewModels
 		void AddChildPlainDevices(DeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
+			foreach (DeviceViewModel childViewModel in parentViewModel.Children)
 				AddChildPlainDevices(childViewModel);
 		}
 
@@ -82,7 +85,7 @@ namespace DevicesModule.ViewModels
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 				{
-					deviceViewModel.ExpantToThis();
+					deviceViewModel.ExpandToThis();
 					SelectedDevice = deviceViewModel;
 					//deviceViewModel.IsSelected = true;
 				}
@@ -97,9 +100,8 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				if (value != null)
-					value.ExpantToThis();
 				OnPropertyChanged("SelectedDevice");
+				UpdateRibbonItems();
 				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
 			}
@@ -137,15 +139,15 @@ namespace DevicesModule.ViewModels
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
 		}
 
-		private Device _deviceToCopy;
-		private bool _planUpdateRequired;
+		Device _deviceToCopy;
+		bool _planUpdateRequired;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
@@ -265,6 +267,8 @@ namespace DevicesModule.ViewModels
 
 		void RegisterShortcuts()
 		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.J, ModifierKeys.Control), () => SelectedDevice = RootDevice);
+
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
@@ -331,7 +335,7 @@ namespace DevicesModule.ViewModels
 				// TODO: FIX IT
 				if (!_lockSelection)
 				{
-					device.ExpantToThis();
+					device.ExpandToThis();
 					SelectedDevice = device;
 				}
 			}
@@ -378,6 +382,58 @@ namespace DevicesModule.ViewModels
 		public bool IsFSAgentEnabled
 		{
 			get { return !FiresecManager.IsFS2Enabled; }
+		}
+
+		protected override void UpdateRibbonItems()
+		{
+			base.UpdateRibbonItems();
+			RibbonItems[0][0].Command = SelectedDevice == null ? null : SelectedDevice.AddCommand;
+			RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
+			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
+			RibbonItems[1][12].IsVisible = DeviceCommandsViewModel.IsFS2Enabled;
+			RibbonItems[1][10].IsVisible = DeviceCommandsViewModel.IsAlternativeUSB;
+		}
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
+					new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
+				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
+				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Автопоиск", DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
+					new RibbonMenuItemViewModel("Считать конфигурацию из прибора", DeviceCommandsViewModel.ReadDeviceCommand,false, "/Controls;component/Images/BParametersRead.png"),
+					new RibbonMenuItemViewModel("Информация о приборе", DeviceCommandsViewModel.GetDescriptionCommand, false, "/Controls;component/Images/BInformation.png"),
+					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.GetDeviceJournalCommand, false, "/Controls;component/Images/BJournal.png"),
+					new RibbonMenuItemViewModel("Записать конфигурацию в прибор", DeviceCommandsViewModel.WriteDeviceCommand, false, "/Controls;component/Images/BParametersWrite.png") { IsNewGroup = true },
+					new RibbonMenuItemViewModel("Записать конфигурацию во все приборы", DeviceCommandsViewModel.WriteAllDeviceCommand , "/Controls;component/Images/BParametersWriteAll.png"),
+					new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", DeviceCommandsViewModel.SynchronizeDeviceCommand, false, "/Controls;component/Images/BWatch.png")  { IsNewGroup = true },
+					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateSoftCommand, false, "/Controls;component/Images/BParametersSync.png"),
+					new RibbonMenuItemViewModel("Задать пароль", DeviceCommandsViewModel.SetPasswordCommand, false, "/Controls;component/Images/BPassword.png"),
+					new RibbonMenuItemViewModel("Привязать", DeviceCommandsViewModel.BindMsCommand, "/Controls;component/Images/BLink.png"),
+					new RibbonMenuItemViewModel("Другие функции", DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, false, "/Controls;component/Images/BSettings.png"),
+					new RibbonMenuItemViewModel("USB", new ObservableCollection<RibbonMenuItemViewModel>()
+					{
+						new RibbonMenuItemViewModel("Считать конфигурацию из прибора", DeviceCommandsViewModel.ReadDeviceCommand, true, "/Controls;component/Images/BParametersRead.png"),
+						new RibbonMenuItemViewModel("Информация о приборе", DeviceCommandsViewModel.GetDescriptionCommand, true, "/Controls;component/Images/BInformation.png"),
+						new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.GetDeviceJournalCommand, true, "/Controls;component/Images/BJournal.png"),
+						new RibbonMenuItemViewModel("Записать конфигурацию в прибор", DeviceCommandsViewModel.WriteDeviceCommand, true, "/Controls;component/Images/BParametersWrite.png") { IsNewGroup = true },
+						new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", DeviceCommandsViewModel.SynchronizeDeviceCommand, true, "/Controls;component/Images/BWatch.png") { IsNewGroup = true },
+						new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateSoftCommand, true, "/Controls;component/Images/BParametersSync.png"),
+						new RibbonMenuItemViewModel("Задать пароль", DeviceCommandsViewModel.SetPasswordCommand, true, "/Controls;component/Images/BPassword.png"),
+						new RibbonMenuItemViewModel("Другие функции", DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, true, "/Controls;component/Images/BInformation.png"),
+					}, "/Controls;component/Images/BUsb.png") { IsNewGroup = true },
+					new RibbonMenuItemViewModel("Считать журнал событий из файла", DeviceCommandsViewModel.ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
+					new RibbonMenuItemViewModel("Слияние конфигураций", DeviceCommandsViewModel.MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png"),
+				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
+			};
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace FSAgentServer
 		{
 			foreach (var process in Process.GetProcesses())
 			{
-				if (process.ProcessName == "scktsrvr")
+				if (process.ProcessName == "scktsrvr" || process.ProcessName == "ScktSrvr")
 					return;
 			}
 
@@ -94,6 +94,26 @@ namespace FSAgentServer
 		{
 			try
 			{
+				var fileName00 = @"..\..\Firesec5\scktsrvr.exe";
+				if (File.Exists(fileName00))
+				{
+					return fileName00;
+				}
+				else
+				{
+					Logger.Error("SocketServerHelper.GetSocketServerPath File00 Not Exists " + fileName00);
+				}
+
+				var fileName01 = @"..\..\Firesec\scktsrvr.exe";
+				if (File.Exists(fileName01))
+				{
+					return fileName01;
+				}
+				else
+				{
+					Logger.Error("SocketServerHelper.GetSocketServerPath File01 Not Exists " + fileName01);
+				}
+
 				var directoryPath = GetPathFromRegistry();
 				if (directoryPath != null)
 				{

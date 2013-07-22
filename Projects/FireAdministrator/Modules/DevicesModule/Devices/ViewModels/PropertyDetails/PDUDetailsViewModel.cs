@@ -90,11 +90,11 @@ namespace DevicesModule.ViewModels
 				if (device.Device.Parent != null)
 				{
 					var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.Children.Add(device);
+					parent.AddChild(device);
 				}
 			}
 
-			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.HasChildren == false);
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.ChildrenCount == 0);
 		}
 
 		ObservableCollection<PDUDeviceViewModel> _devices;

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
-using System.Security.Cryptography;
-using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Common;
 using Infrustructure.Plans.Elements;
-using System.Windows.Media.Imaging;
-using System.Reflection;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -84,14 +83,14 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static Brush GetBrush(IElementBackground element)
 		{
-			if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
-				return _transparentBackgroundBrush;
-			else if (element.BackgroundImageSource.HasValue)
+			if (element.BackgroundImageSource.HasValue)
 			{
 				CacheBrush(element);
 				return _pictureBrushes[element.BackgroundImageSource.Value];
 				//return GetBrush(element.BackgroundImageSource.Value);
 			}
+			else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
+				return _transparentBackgroundBrush;
 			else
 				return GetBrush(element.BackgroundColor);
 		}

@@ -10,14 +10,14 @@ namespace ServerFS2.ConfigurationWriter
 		public ZonePanelRelationsInfo()
 		{
 			ZonePanelItems = new List<ZonePanelItem>();
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				foreach (var device in zone.DevicesInZone)
 				{
 					Add(zone, device.ParentPanel, false);
 				}
 			}
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationManager.Zones)
 			{
 				foreach (var device in zone.DevicesInZoneLogic)
 				{
@@ -49,7 +49,7 @@ namespace ServerFS2.ConfigurationWriter
 		public List<Device> GetAllPanelDevices()
 		{
 			var devices = new List<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.IsPanel)
 					devices.Add(device);
@@ -68,21 +68,6 @@ namespace ServerFS2.ConfigurationWriter
 			return zones;
 		}
 
-		public bool IsLocalZone(Zone zone, Device panelDevice)
-		{
-			return ZonePanelItems.Any(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == false);
-		}
-
-		public int GetLocalZoneNo(Zone zone, Device panelDevice)
-		{
-			var zonePanelItem = ZonePanelItems.FirstOrDefault(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == false);
-			if (zonePanelItem != null)
-			{
-				return zonePanelItem.No;
-			}
-			return 0;
-		}
-
 		void Add(Zone zone, Device panelDevice, bool isRemote)
 		{
 			if (!ZonePanelItems.Any(x => x.Zone.UID == zone.UID && x.PanelDevice.UID == panelDevice.UID && x.IsRemote == isRemote))
@@ -97,12 +82,4 @@ namespace ServerFS2.ConfigurationWriter
 			}
 		}
 	}
-
-	//public class ZonePanelItem
-	//{
-	//    public Zone Zone { get; set; }
-	//    public Device PanelDevice { get; set; }
-	//    public bool IsRemote { get; set; }
-	//    public int No { get; set; }
-	//}
 }

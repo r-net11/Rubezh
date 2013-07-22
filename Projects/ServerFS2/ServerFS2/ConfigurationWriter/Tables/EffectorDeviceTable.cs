@@ -32,7 +32,7 @@ namespace ServerFS2.ConfigurationWriter
 		{
 			if (IsRemote)
 			{
-				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(Device.Driver.DriverType);
+				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(Device.Driver.DriverType);
 				BytesDatabase.AddByte(deviceCode, "Тип внешнего ИУ");
 			}
 			var outerPanelAddress = 0;
@@ -43,7 +43,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddByte(outerPanelAddress, "Адрес прибора привязки в сети");
 			BytesDatabase.AddByte((Device.AddressOnShleif), "Адрес");
 			BytesDatabase.AddByte(Math.Max(Device.ShleifNo - 1, 0), "Номер шлейфа");
-			BytesDatabase.AddShort(0, "Внутренние параметры", true);
+			BytesDatabase.AddShort(0, "Слово состояния", true).DeviceState = Device;
 			BytesDatabase.AddByte(0, "Динамические параметры для базы", true);
 
 			var description = Device.Description;
@@ -56,13 +56,12 @@ namespace ServerFS2.ConfigurationWriter
 				}
 				else
 				{
-					description += "0.";
+					if (Device.Driver.DriverType != DriverType.PumpStation && Device.Driver.DriverType != DriverType.Exit)
+					{
+						description += "0.";
+					}
 				}
 				var shleifNo = Device.ShleifNo;
-				if (Device.Driver.DriverType == DriverType.PumpStation)
-					shleifNo = 1;
-				if (Device.Driver.DriverType == DriverType.Exit)
-					shleifNo = Device.AddressOnShleif;
 				description += shleifNo.ToString() + "." + Device.AddressOnShleif.ToString();
 			}
 			BytesDatabase.AddString(description, "Описание");
@@ -95,7 +94,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.SetShort(lengtByteDescription, length);
 
 			if (Device.Driver.DriverType == DriverType.PumpStation &&
-				(ParentPanel.Driver.DriverType == DriverType.BUNS || ParentPanel.Driver.DriverType == DriverType.BUNS_2 || ParentPanel.Driver.DriverType == DriverType.USB_BUNS))
+				(ParentPanel.Driver.DriverType == DriverType.BUNS || ParentPanel.Driver.DriverType == DriverType.USB_BUNS))
 			{
 				AddPumpStation();
 			}
@@ -107,7 +106,7 @@ namespace ServerFS2.ConfigurationWriter
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.Valve:
-					count = 6;
+					count = 17;
 					break;
 
 				case DriverType.MPT:
@@ -119,7 +118,7 @@ namespace ServerFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MDU:
-					count = 4;
+					count = 14;
 					break;
 
 				case DriverType.MRO_2:
@@ -181,7 +180,7 @@ namespace ServerFS2.ConfigurationWriter
 					{
 						var childIndex = Device.Parent.Children.IndexOf(Device);
 						config += (childIndex << 1);
-						config += 16;
+						config += 64;
 					}
 					break;
 			}

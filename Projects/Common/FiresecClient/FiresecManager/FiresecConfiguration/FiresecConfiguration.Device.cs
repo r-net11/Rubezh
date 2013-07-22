@@ -51,6 +51,26 @@ namespace FiresecClient
 				});
 			}
 
+			newDevice.SystemAUProperties = new List<Property>();
+			foreach (var property in device.SystemAUProperties)
+			{
+				newDevice.SystemAUProperties.Add(new Property()
+				{
+					Name = property.Name,
+					Value = property.Value
+				});
+			}
+
+			newDevice.DeviceAUProperties = new List<Property>();
+			foreach (var property in device.DeviceAUProperties)
+			{
+				newDevice.DeviceAUProperties.Add(new Property()
+				{
+					Name = property.Name,
+					Value = property.Value
+				});
+			}
+
 			newDevice.Children = new List<Device>();
 			foreach (var childDevice in device.Children)
 			{

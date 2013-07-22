@@ -1,18 +1,9 @@
-﻿using System.Windows.Shapes;
-using FiresecAPI.Models;
-using PlansModule.Designer;
+﻿using System.Linq;
 using System.Windows.Controls;
-using Infrustructure.Plans.InstrumentAdorners;
 using System.Windows.Input;
-using System.Windows;
-using System.Windows.Media;
-using System.Collections.Generic;
-using Infrustructure.Plans.Painters;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Linq;
 using Infrustructure.Plans.Designer;
-using System;
+using Infrustructure.Plans.InstrumentAdorners;
+using PlansModule.Designer;
 
 namespace PlansModule.InstrumentAdorners
 {

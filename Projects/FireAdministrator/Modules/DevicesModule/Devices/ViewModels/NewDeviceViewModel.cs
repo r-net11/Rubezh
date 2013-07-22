@@ -82,7 +82,14 @@ namespace DevicesModule.ViewModels
 			}
 			else
 			{
-				SelectedShleif = AvailableShleifs.FirstOrDefault();
+				if (AvailableShleifs.Contains(LastSelectedShleif))
+				{
+					SelectedShleif = AvailableShleifs.FirstOrDefault(x => x == LastSelectedShleif);
+				}
+				else
+				{
+					SelectedShleif = AvailableShleifs.FirstOrDefault();
+				}
 			}
 		}
 
@@ -94,12 +101,15 @@ namespace DevicesModule.ViewModels
 			get { return _selectedShleif; }
 			set
 			{
+				LastSelectedShleif = value;
 				_selectedShleif = value;
 				UpdateMinAddress();
 				UpdateFreeAddresses();
 				OnPropertyChanged("SelectedShleif");
 			}
 		}
+
+		static int LastSelectedShleif;
 
 		int _startAddress;
 		public int StartAddress
@@ -244,7 +254,7 @@ namespace DevicesModule.ViewModels
 			{
 				int reservedCount = SelectedDriver.ChildAddressReserveRangeCount;
 				if (SelectedDriver.DriverType == DriverType.MRK_30)
-					reservedCount = 31;
+					reservedCount = 30;
 				return reservedCount;
 			}
 			return 1;

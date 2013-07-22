@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using FS2Api;
 
 namespace FireMonitor
 {
@@ -18,10 +19,18 @@ namespace FireMonitor
 
 		public static void Run()
 		{
-			if (FiresecManager.FiresecDriver != null && FiresecManager.FiresecDriver.Watcher != null)
+			if (FiresecManager.IsFS2Enabled)
 			{
-				ClosingTimer.Tick += new EventHandler(ClosingTimer_Tick);
-				FiresecManager.FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(Watcher_Progress);
+				ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Unsubscribe(OnFS2Progress);
+				ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Subscribe(OnFS2Progress);
+			}
+			else
+			{
+				if (FiresecManager.FiresecDriver != null && FiresecManager.FiresecDriver.Watcher != null)
+				{
+					ClosingTimer.Tick += new EventHandler(ClosingTimer_Tick);
+					FiresecManager.FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(Watcher_Progress);
+				}
 			}
 		}
 
@@ -29,6 +38,11 @@ namespace FireMonitor
         {
             progressViewModel.Close();
         }
+
+		static void OnFS2Progress(FS2ProgressInfo progressInfo)
+		{
+			Watcher_Progress(progressInfo.CurrentStage, progressInfo.Comment, progressInfo.PercentComplete, progressInfo.BytesRW);
+		}
 
 		static void Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{

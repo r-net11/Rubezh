@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Designer;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Presenter

@@ -27,10 +27,10 @@
 			</Setter>
 			</Style>
 		-->
-		<Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type tree:TreeList}" />
+		<!--<Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type tree:TreeList}" />
 		<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type tree:TreeListItem}">
 			<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-		</Style>
+		</Style>-->
 
 		<ContextMenu x:Key="DeviceContextMenu">
 			<MenuItem Command="{Binding CopyCommand}" Header="Копировать" />

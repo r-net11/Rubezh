@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ServiceModel;
-using Infrastructure.Common;
-using Common;
-using Infrastructure.Common.BalloonTrayTip;
 using System.Net;
+using System.ServiceModel;
+using Common;
+using Infrastructure.Common;
+using Infrastructure.Common.BalloonTrayTip;
 using ServerFS2.ViewModels;
 
 namespace ServerFS2.Service
@@ -14,7 +12,7 @@ namespace ServerFS2.Service
 	public class FS2ServiceHost
 	{
 		static ServiceHost ServiceHost;
-		static FS2Contracr FS2Contract;
+		static FS2Contract FS2Contract;
 
 		public static bool Start()
 		{
@@ -22,10 +20,10 @@ namespace ServerFS2.Service
 			{
 				Stop();
 
-				FS2Contract = new FS2Contracr();
-				ServiceHost = new ServiceHost(FS2Contract);
+				FS2Contract = new FS2Contract();
+				ServiceHost = new ServiceHost(typeof(FS2Contract));
 
-				if (UACHelper.IsAdministrator)
+				if (GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
 					CreateHttpEndpoint();
 				}

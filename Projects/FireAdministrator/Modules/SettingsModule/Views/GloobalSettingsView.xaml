@@ -22,6 +22,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Расширеное редактирование" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Administrator_IsExpertMode}" HorizontalAlignment="Left" Margin="2" />
@@ -40,6 +42,12 @@
 
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Показывать инструменты линий привязки" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Administrator_ShowGridLineInstruments}" HorizontalAlignment="Left" Margin="2" />
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Показывать вкладку Направления" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Administrator_ShowDirectories}" HorizontalAlignment="Left" Margin="2" />
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Показывать вкладку Симуляция" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding Administrator_ShowSimulation}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="ОЗ">
@@ -49,6 +57,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -77,6 +86,9 @@
 
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="F4 - сбросить все" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Monitor_F4_Enabled}" HorizontalAlignment="Left" Margin="2" />
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Сервер">

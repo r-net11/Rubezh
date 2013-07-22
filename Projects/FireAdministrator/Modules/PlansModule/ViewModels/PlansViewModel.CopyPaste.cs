@@ -4,17 +4,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Common;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using FiresecAPI.Models;
-using FiresecClient;
-using System.Runtime.Serialization;
 
 namespace PlansModule.ViewModels
 {
@@ -204,22 +202,21 @@ namespace PlansModule.ViewModels
 					Plans.Remove(selectedPlan);
 					FiresecManager.PlansConfiguration.Plans.Remove(plan);
 					if (!withChild)
-						foreach (var childPlanViewModel in selectedPlan.Children)
+						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
 							Plans.Add(childPlanViewModel);
 							FiresecManager.PlansConfiguration.Plans.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = null;
-							childPlanViewModel.ResetParent();
 						}
 				}
 				else
 				{
-					parent.Children.Remove(selectedPlan);
+					parent.RemoveChild(selectedPlan);
 					parent.Plan.Children.Remove(plan);
 					if (!withChild)
-						foreach (var childPlanViewModel in selectedPlan.Children)
+						foreach (var childPlanViewModel in selectedPlan.Children.ToArray())
 						{
-							parent.Children.Add(childPlanViewModel);
+							parent.AddChild(childPlanViewModel);
 							parent.Plan.Children.Add(childPlanViewModel.Plan);
 							childPlanViewModel.Plan.Parent = parent.Plan;
 						}

@@ -72,7 +72,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			BytesDatabase.Order();
 			BytesDatabase.ResolveTableReferences();
-			BytesDatabase.ResolverReferences();
+			BytesDatabase.ResolveReferences();
 
 			var crcBytes = BytesDatabase.GetBytes();
 			crcBytes.RemoveRange(0, 256);
@@ -101,7 +101,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		void CreateLocalZones()
 		{
-			foreach (var zone in BinaryPanel.BinaryLocalZones.OrderBy(x=>x.Zone.No))
+			foreach (var zone in BinaryPanel.BinaryLocalZones)
 			{
 				var zoneTable = new ZoneTable(this, zone);
 				Tables.Add(zoneTable);
@@ -132,7 +132,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			var nonPanelremoteDevices = new HashSet<Device>();
-			foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{
@@ -176,7 +176,7 @@ namespace ServerFS2.ConfigurationWriter
 			for (int i = 0; i < remotePanelLists.Count; i++)
 			{
 				var device = remotePanelLists[i];
-				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForFriver(device.Driver.DriverType);
+				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(device.Driver.DriverType);
 				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{
 					if (!nonPanelremoteDevices.Any(x => x.IntAddress == device.IntAddress))
@@ -262,7 +262,7 @@ namespace ServerFS2.ConfigurationWriter
 		void CreateLastTable()
 		{
 			LastTable = new TableBase(this, "Последняя таблица");
-			LastTable.BytesDatabase.AddByte(8, "Версия MD5");
+			LastTable.BytesDatabase.AddByte(9, "Версия MD5");
 			for (int i = 0; i < 16; i++)
 			{
 				LastTable.BytesDatabase.AddByte(0, "MD5", true, true);

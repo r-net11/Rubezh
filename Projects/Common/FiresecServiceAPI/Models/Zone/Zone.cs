@@ -110,6 +110,8 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<string> ShapeIds { get; set; }
 
+		public int LocalDeviceNo { get; set; }
+
 		public string PresentationName
 		{
 			get { return No + "." + Name; }

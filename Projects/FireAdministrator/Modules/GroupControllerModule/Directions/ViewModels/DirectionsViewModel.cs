@@ -1,22 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
-using GKModule.Plans.Designer;
 using Infrastructure.Events;
-using XFiresecAPI;
-using Infrustructure.Plans.Events;
+using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
-using System.Collections.Generic;
-using FiresecAPI.Models;
+using Infrustructure.Plans.Events;
+using XFiresecAPI;
+using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Common.Ribbon;
 
 namespace GKModule.ViewModels
 {
@@ -36,6 +37,7 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
 			SubscribeEvents();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -300,6 +302,19 @@ namespace GKModule.ViewModels
 			if (elementDirection == null)
 				elementDirection = element as ElementPolygonXDirection;
 			return elementDirection;
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+				}, "/Controls;component/Images/BDirection.png") { Order = 2 }
+			};
 		}
 	}
 }

@@ -16,6 +16,7 @@ using Infrustructure.Plans.Presenter;
 using System.Windows.Controls;
 using Controls.Converters;
 using System.Windows.Input;
+using Infrastructure.Models;
 
 namespace DevicesModule.Plans.Designer
 {
@@ -119,7 +120,7 @@ namespace DevicesModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(new ElementDeviceReference() { DeviceUID = _elementDevice.DeviceUID, AlternativeUID = _elementDevice.AlternativeLibraryDeviceUID });
 		}
 
 		ContextMenu CreateContextMenu()

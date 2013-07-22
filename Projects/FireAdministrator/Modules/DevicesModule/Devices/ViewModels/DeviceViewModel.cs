@@ -20,7 +20,7 @@ using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
@@ -43,12 +43,10 @@ namespace DevicesModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
-			BeginDragCommand = new RelayCommand(OnBeginDragCommand);
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
 			device.Changed += new Action(device_Changed);
-			device.AUParametersChanged += new Action(device_AUParametersChanged);
 
 			UpdateZoneName();
 		}
@@ -60,22 +58,8 @@ namespace DevicesModule.ViewModels
 			UpdateZoneName();
 		}
 
-		void device_AUParametersChanged()
-		{
-			UpdataConfigurationProperties();
-			PropertiesViewModel.IsAuParametersReady = true;
-		}
-
-		public void UpdataConfigurationProperties()
-		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
-			OnPropertyChanged("PropertiesViewModel");
-		}
-
 		public void Update()
 		{
-			IsExpanded = false;
-			IsExpanded = true;
 			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
@@ -86,15 +70,17 @@ namespace DevicesModule.ViewModels
 			get { return Device.PresentationAddress; }
 			set
 			{
-				Device.SetAddress(value);
-				if (Driver.IsChildAddressReservedRange)
+				if (Device.SetAddress(value))
 				{
-					foreach (var deviceViewModel in Children)
+					if (Driver.IsChildAddressReservedRange)
 					{
-						deviceViewModel.OnPropertyChanged("Address");
+						foreach (var deviceViewModel in Children)
+						{
+							deviceViewModel.OnPropertyChanged("Address");
+						}
 					}
+					ServiceFactory.SaveService.FSChanged = true;
 				}
-				ServiceFactory.SaveService.FSChanged = true;
 				OnPropertyChanged("Address");
 			}
 		}
@@ -328,16 +314,16 @@ namespace DevicesModule.ViewModels
 			var parent = Parent;
 			if (parent != null)
 			{
-				var index = parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
-				parent.Children.Remove(this);
+				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
+				parent.Nodes.Remove(this);
 				parent.Update();
 
 				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 
-				index = Math.Min(index, parent.Children.Count - 1);
+				index = Math.Min(index, parent.ChildrenCount - 1);
 				DevicesViewModel.Current.AllDevices.Remove(this);
-				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
+				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			Helper.BuildMap();
 		}
@@ -355,7 +341,7 @@ namespace DevicesModule.ViewModels
 					if (DialogService.ShowModalWindow(new IndicatorPageDetailsViewModel(Device)))
 					{
 						ServiceFactory.SaveService.FSChanged = true;
-						foreach (var deviceViewModel in Children)
+						foreach (DeviceViewModel deviceViewModel in Children)
 						{
 							deviceViewModel.UpdateZoneName();
 						}
@@ -436,12 +422,6 @@ namespace DevicesModule.ViewModels
 			return Device.AllowMultipleVizualization != isAllow;
 		}
 
-		public RelayCommand BeginDragCommand { get; private set; }
-		private void OnBeginDragCommand()
-		{
-			Console.WriteLine("BeginDrag");
-		}
-
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
@@ -510,13 +490,13 @@ namespace DevicesModule.ViewModels
 						var devicesToRemove = new List<DeviceViewModel>();
 						if (value.ShleifCount < Device.Driver.ShleifCount)
 						{
-							foreach (var child in Children)
+							foreach (DeviceViewModel child in Children)
 							{
 								if (child.Device.IntAddress / 256 > value.ShleifCount)
 									devicesToRemove.Add(child);
 							}
 						}
-						foreach (var child in Children)
+						foreach (DeviceViewModel child in Children)
 						{
 							if (Driver.AutoCreateChildren.Contains(child.Driver.UID) && !value.AutoCreateChildren.Contains(child.Driver.UID))
 								devicesToRemove.Add(child);
@@ -524,7 +504,7 @@ namespace DevicesModule.ViewModels
 						foreach (var deviceToRemove in devicesToRemove)
 						{
 							FiresecManager.FiresecConfiguration.RemoveDevice(deviceToRemove.Device);
-							Children.Remove(deviceToRemove);
+							Nodes.Remove(deviceToRemove);
 						}
 
 						foreach (var autoCreateDriverId in value.AutoCreateChildren)
@@ -549,12 +529,12 @@ namespace DevicesModule.ViewModels
 							var child = Device.Children[i];
 							FiresecManager.FiresecConfiguration.RemoveDevice(child);
 						}
-						for (int i = Children.Count - 1; i > 0; i--)
+						for (int i = ChildrenCount - 1; i > 0; i--)
 						{
-							var child = Children[i];
+							var child = this[i];
 							DevicesViewModel.Current.AllDevices.Remove(child);
 						}
-						Children.Clear();
+						Nodes.Clear();
 						Device.Children.Clear();
 						if (Device.Driver.AutoChild != Guid.Empty)
 						{
@@ -588,7 +568,7 @@ namespace DevicesModule.ViewModels
 			};
 			Device.Children.Insert(0, device);
 			var deviceViewModel = new DeviceViewModel(device);
-			Children.Insert(0, deviceViewModel);
+			Nodes.Insert(0, deviceViewModel);
 			DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
 			FiresecManager.Devices.Add(device);
 		}
@@ -612,7 +592,6 @@ namespace DevicesModule.ViewModels
 				{
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS_2));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_4A));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2OP));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_P));
@@ -625,7 +604,6 @@ namespace DevicesModule.ViewModels
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_4A));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_2OP));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS_2));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_P));
 					return;
 				}
@@ -715,5 +693,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
+
+		public override string ToString()
+		{
+			return Device.FullPresentationName;
+		}
 	}
 }

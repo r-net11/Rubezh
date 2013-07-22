@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Ribbon;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -27,6 +28,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
 			TextVisibility = !RegistrySettingsHelper.GetBool(Name + ".Shell.TextVisibility");
+			RibbonVisible = false;
+			ToolbarVisible = true;
 		}
 
 		public RelayCommand<MinimizeTarget> MinimizeCommand { get; private set; }
@@ -135,6 +138,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		private bool _toolbarVisible;
+		public bool ToolbarVisible
+		{
+			get { return _toolbarVisible; }
+			set
+			{
+				_toolbarVisible = value;
+				OnPropertyChanged(() => ToolbarVisible);
+			}
+		}
+		
 		private BaseViewModel _toolbar;
 		public BaseViewModel Toolbar
 		{
@@ -207,6 +221,27 @@ namespace Infrastructure.Common.Windows.ViewModels
 					else
 						RightContent.Content.Hide();
 				}
+			}
+		}
+
+		private bool _ribbonVisible;
+		public bool RibbonVisible
+		{
+			get { return _ribbonVisible; }
+			set
+			{
+				_ribbonVisible = value;
+				OnPropertyChanged(() => RibbonVisible);
+			}
+		}
+		private RibbonMenuViewModel _ribbonContent;
+		public RibbonMenuViewModel RibbonContent
+		{
+			get { return _ribbonContent; }
+			set
+			{
+				_ribbonContent = value;
+				OnPropertyChanged(() => RibbonContent);
 			}
 		}
 

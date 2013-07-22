@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
@@ -154,6 +153,16 @@ namespace PlansModule.ViewModels
 		bool CanRedo()
 		{
 			return HistoryItems.Count > Offset;
+		}
+
+		public void RevertLastAction()
+		{
+			if (UndoCommand.CanExecute(null))
+			{
+				UndoCommand.Execute();
+				if (HistoryItems.Count > Offset)
+					HistoryItems.RemoveAt(Offset);
+			}
 		}
 	}
 

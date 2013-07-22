@@ -42,7 +42,7 @@ namespace OPCModule.ViewModels
 			{
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
-					deviceViewModel.ExpantToThis();
+					deviceViewModel.ExpandToThis();
 				SelectedDevice = deviceViewModel;
 			}
 		}
@@ -56,7 +56,7 @@ namespace OPCModule.ViewModels
 			{
 				_selectedDevice = value;
 				if (value != null)
-					value.ExpantToThis();
+					value.ExpandToThis();
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
@@ -87,7 +87,7 @@ namespace OPCModule.ViewModels
 		{
 			var deviceViewModel = new OPCDeviceViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.Children.Add(deviceViewModel);
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);

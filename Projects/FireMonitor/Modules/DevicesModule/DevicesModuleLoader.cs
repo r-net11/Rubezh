@@ -15,6 +15,7 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Models;
 
 namespace DevicesModule
 {
@@ -38,15 +39,15 @@ namespace DevicesModule
 			ZonesViewModel = new ZonesViewModel();
 		}
 
-		void OnShowDeviceDetails(Guid deviceUID)
+		void OnShowDeviceDetails(ElementDeviceReference elementDeviceReference)
 		{
-			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDeviceReference.DeviceUID);
 			if (device == null)
 			{
-				Logger.Error("DevicesModuleLoader.OnShowDeviceDetails device=null " + deviceUID.ToString());
+				Logger.Error("DevicesModuleLoader.OnShowDeviceDetails device=null " + elementDeviceReference.DeviceUID.ToString());
 				return;
 			}
-			DialogService.ShowWindow(new DeviceDetailsViewModel(device));
+			DialogService.ShowWindow(new DeviceDetailsViewModel(device, elementDeviceReference.AlternativeUID));
 		}
 
 		public override void Initialize()
@@ -87,33 +88,43 @@ namespace DevicesModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			if (firstTime)
+			if (FiresecManager.IsFS2Enabled)
 			{
-				LoadingService.DoStep("Инициализация драйвера устройств");
-				var connectionResult = FiresecManager.InitializeFiresecDriver(true);
-				if (connectionResult.HasError)
+				FiresecManager.InitializeFS2();
+				FiresecManager.FS2ClientContract.Start();
+				FiresecManager.FS2UpdateDeviceStates();
+				return true;
+			}
+			else
+			{
+				if (firstTime)
 				{
-					MessageBoxService.ShowError(connectionResult.Error);
-					return false;
+					LoadingService.DoStep("Инициализация драйвера устройств");
+					var connectionResult = FiresecManager.InitializeFiresecDriver(true);
+					if (connectionResult.HasError)
+					{
+						MessageBoxService.ShowError(connectionResult.Error);
+						return false;
+					}
 				}
+
+				LoadingService.DoStep("Синхронизация конфигурации");
+				FiresecManager.FiresecDriver.Synchronyze(true);
+				LoadingService.DoStep("Старт мониторинга");
+				FiresecManager.FiresecDriver.StartWatcher(true, true);
+
+				FiresecManager.FSAgent.Start();
+
+				if (LoadingErrorManager.HasError)
+					MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
+
+				if (firstTime)
+				{
+					CheckHasp();
+				}
+
+				return true;
 			}
-
-			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.FiresecDriver.Synchronyze(true);
-			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.FiresecDriver.StartWatcher(true, true);
-
-			FiresecManager.FSAgent.Start();
-
-			if (LoadingErrorManager.HasError)
-				MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
-
-			if (firstTime)
-			{
-				CheckHasp();
-			}
-
-			return true;
 		}
 
 		void CheckHasp()
@@ -129,6 +140,10 @@ namespace DevicesModule
 
 		public override void AfterInitialize()
 		{
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2Helper.Initialize();
+			}
 			ServiceFactory.SubscribeEvents();
 		}
 	}

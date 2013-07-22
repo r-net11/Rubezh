@@ -67,6 +67,7 @@
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\PumpDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />
@@ -200,13 +201,9 @@
     <Compile Include="Plans\ViewModels\XDirectionPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\PlanDevicesViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\PlanDevicesView.xaml.cs">
-      <DependentUpon>PlanDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\XDirectionPropertiesView.xaml.cs">
       <DependentUpon>XDirectionPropertiesView.xaml</DependentUpon>
@@ -419,10 +416,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\DevicePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\PlanDevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

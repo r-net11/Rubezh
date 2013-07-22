@@ -1,15 +1,15 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using FiresecClient;
-using System.Collections.Generic;
 
 namespace DiagnosticsModule.Views
 {
-    public partial class DiagnosticsView : UserControl
-    {
-        public DiagnosticsView()
-        {
-            InitializeComponent();
-        }
+	public partial class DiagnosticsView : UserControl
+	{
+		public DiagnosticsView()
+		{
+			InitializeComponent();
+		}
 
 		private void AutoCompleteBox_Populating(object sender, PopulatingEventArgs e)
 		{
@@ -21,5 +21,10 @@ namespace DiagnosticsModule.Views
 			AutoCompleteBox autoCompleteBox = sender as AutoCompleteBox;
 			autoCompleteBox.ItemsSource = zones;
 		}
-    }
+
+		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			//ColorPicker
+		}
+	}
 }

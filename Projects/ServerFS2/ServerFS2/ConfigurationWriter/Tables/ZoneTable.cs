@@ -49,7 +49,6 @@ namespace ServerFS2.ConfigurationWriter
 					zoneAttributes += 8;
 				if (Zone.GuardZoneType == GuardZoneType.CanNotReset)
 					zoneAttributes += 16;
-				zoneAttributes += 1;
 				if (Zone.Skipped)
 					zoneAttributes += 2;
 			}
@@ -163,9 +162,8 @@ namespace ServerFS2.ConfigurationWriter
 			}
 		}
 
-		List<Device> GetDevicesInZoneLogic()
+		List<Device> GetDevicesInLogic()
 		{
-			//var parentPanel = Zone.DevicesInZone.FirstOrDefault().ParentPanel;
 			var result = new List<Device>();
 			foreach (var device in Zone.DevicesInZoneLogic)
 			{
@@ -174,12 +172,7 @@ namespace ServerFS2.ConfigurationWriter
 					result.Add(device);
 				}
 			}
-			return result;
-		}
 
-		List<Device> GetDevicesInLogic()
-		{
-			var result = GetDevicesInZoneLogic();
 			foreach (var device in Zone.DevicesInZone)
 			{
 				if (device.Driver.DriverType == DriverType.MPT)

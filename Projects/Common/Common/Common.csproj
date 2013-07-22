@@ -154,6 +154,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="QSort.cs" />
     <Compile Include="SafeContext.cs" />
     <Compile Include="SortableObservableCollection.cs" />
     <Compile Include="SystemInfo.cs" />

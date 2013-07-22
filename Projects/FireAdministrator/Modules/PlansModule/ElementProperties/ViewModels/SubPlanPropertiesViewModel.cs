@@ -2,7 +2,6 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
 using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
@@ -36,7 +35,7 @@ namespace PlansModule.ViewModels
 			if (parentPlanViewModel == null)
 				Plans.Add(planViewModel);
 			else
-				parentPlanViewModel.Children.Add(planViewModel);
+				parentPlanViewModel.AddChild(planViewModel);
 			var plan = planFolder as Plan;
 			if (plan != null && plan.UID == _elementSubPlan.PlanUID)
 				SelectedPlan = planViewModel;

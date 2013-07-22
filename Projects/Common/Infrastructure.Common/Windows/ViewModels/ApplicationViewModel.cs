@@ -62,9 +62,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		public virtual void ShowHelp()
 		{
-			var fileName = Infrastructure.Common.AppDataFolderHelper.GetFile("Manual.pdf");
-			if (File.Exists(fileName))
-				Process.Start(fileName);
+			ManualPdfHelper.Show();
 		}
 		public virtual void ShowAbout()
 		{

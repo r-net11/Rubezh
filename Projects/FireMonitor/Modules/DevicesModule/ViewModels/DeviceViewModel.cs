@@ -12,10 +12,11 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using System.Diagnostics;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Models;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public DeviceState DeviceState { get; private set; }
@@ -129,7 +130,7 @@ namespace DevicesModule.ViewModels
 
 				foreach (var parameter in DeviceState.ThreadSafeParameters)
 				{
-                    if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
+					if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
 					{
 						stringBuilder.Append(parameter.Caption);
 						stringBuilder.Append(" - ");
@@ -301,7 +302,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(new ElementDeviceReference() { DeviceUID = Device.UID });
 		}
 		bool CanShowProperties()
 		{
@@ -319,7 +320,7 @@ namespace DevicesModule.ViewModels
 			var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
-			FiresecManager.FiresecDriver.ResetStates(resetItems);
+			FiresecManager.ResetStates(resetItems);
 
 			OnPropertyChanged("DeviceState");
 		}
@@ -381,7 +382,7 @@ namespace DevicesModule.ViewModels
 					{
 						var timeSpan = DateTime.Now - deviceDriverState.Time;
 
-						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
+						var timeoutProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)
 						{
 							int timeout = 0;

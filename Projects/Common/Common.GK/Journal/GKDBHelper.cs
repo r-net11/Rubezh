@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using XFiresecAPI;
+using System.Data.SqlServerCe;
 using System.IO;
 using Infrastructure.Common;
-using System.Data.SqlServerCe;
+using XFiresecAPI;
 
 namespace Common.GK
 {
     public static class GKDBHelper
     {
-		public static string ConnectionString { get; set; }
+		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 
 		public static void Add(JournalItem journalItem)

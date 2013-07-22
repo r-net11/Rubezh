@@ -1,11 +1,10 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 
 namespace OPCModule.ViewModels
 {
-	public class OPCDeviceViewModel : TreeItemViewModel<OPCDeviceViewModel>
+	public class OPCDeviceViewModel : TreeNodeViewModel<OPCDeviceViewModel>
 	{
 		public Device Device { get; private set; }
 
@@ -14,10 +13,10 @@ namespace OPCModule.ViewModels
 			Device = device;
 		}
 
-        public bool CanOPCUsed
-        {
-            get { return Device.Driver.IsPlaceable; }
-        }
+		public bool CanOPCUsed
+		{
+			get { return Device.Driver.IsPlaceable; }
+		}
 
 		public bool IsOPCUsed
 		{
@@ -25,9 +24,9 @@ namespace OPCModule.ViewModels
 			set
 			{
 				Device.IsOPCUsed = value;
-				OnPropertyChanged("IsOPCUsed");
-                ServiceFactory.SaveService.OPCChanged = true;
-                ServiceFactory.SaveService.FSChanged = true;
+				OnPropertyChanged(() => IsOPCUsed);
+				ServiceFactory.SaveService.OPCChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 	}

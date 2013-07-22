@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Common;
+using FiresecAPI.Models;
 using FS2Api;
 
 namespace FS2Client
@@ -85,38 +84,37 @@ namespace FS2Client
 					{
 						foreach (var changeResult in changeResults)
 						{
-							if (changeResult.CoreCongig != null)
+							if (changeResult.ChangedDeviceStates != null && changeResult.ChangedDeviceStates.Count > 0)
 							{
-								if (CoreConfigChanged != null)
-									CoreConfigChanged(changeResult.CoreCongig);
+								OnDeviceStateChanged(changeResult.ChangedDeviceStates);
 							}
 
-							if (changeResult.CoreDeviceParams != null)
+							if (changeResult.ChangedDeviceParameters != null && changeResult.ChangedDeviceParameters.Count > 0)
 							{
-								if (CoreDeviceParamsChanged != null)
-									CoreDeviceParamsChanged(changeResult.CoreDeviceParams);
+								OnDeviceParametersChanged(changeResult.ChangedDeviceParameters);
 							}
 
-							if (changeResult.JournalRecords != null && changeResult.JournalRecords.Count > 0)
+							if (changeResult.ChangedZoneStates != null && changeResult.ChangedZoneStates.Count > 0)
 							{
-								if (NewJournalRecords != null)
-									NewJournalRecords(changeResult.JournalRecords);
+								OnZoneStatesChanged(changeResult.ChangedZoneStates);
+							}
+
+							if (changeResult.JournalItems != null && changeResult.JournalItems.Count > 0)
+							{
+								if (NewJournalItems != null)
+									NewJournalItems(changeResult.JournalItems);
+							}
+
+							if (changeResult.ArchiveJournalItems != null && changeResult.ArchiveJournalItems.Count > 0)
+							{
+								if (NewArchiveJournalItems != null)
+									NewArchiveJournalItems(changeResult.ArchiveJournalItems);
 							}
 
 							if (changeResult.FS2ProgressInfo != null)
 							{
 								if (Progress != null)
 									Progress(changeResult.FS2ProgressInfo);
-							}
-							if (changeResult.IsConnectionLost)
-							{
-								if (ConnectionLost != null)
-									ConnectionLost();
-							}
-							else
-							{
-								if (ConnectionAppeared != null)
-									ConnectionAppeared();
 							}
 						}
 					}
@@ -133,9 +131,29 @@ namespace FS2Client
 			}
 		}
 
-		public event Action<string> CoreConfigChanged;
-		public event Action<string> CoreDeviceParamsChanged;
-		public event Action<List<FS2JournalItem>> NewJournalRecords;
+		void OnDeviceStateChanged(List<DeviceState> deviceStates)
+		{
+			if (DeviceStateChanged != null)
+				DeviceStateChanged(deviceStates);
+		}
+
+		void OnDeviceParametersChanged(List<DeviceState> deviceStates)
+		{
+			if (DeviceParametersChanged != null)
+				DeviceParametersChanged(deviceStates);
+		}
+
+		void OnZoneStatesChanged(List<ZoneState> zoneStates)
+		{
+			if (ZoneStatesChanged != null)
+				ZoneStatesChanged(zoneStates);
+		}
+
+		public event Action<List<DeviceState>> DeviceStateChanged;
+		public event Action<List<DeviceState>> DeviceParametersChanged;
+		public event Action<List<ZoneState>> ZoneStatesChanged;
+		public event Action<List<FS2JournalItem>> NewJournalItems;
+		public event Action<List<FS2JournalItem>> NewArchiveJournalItems;
 		public event Action<FS2ProgressInfo> Progress;
 	}
 }

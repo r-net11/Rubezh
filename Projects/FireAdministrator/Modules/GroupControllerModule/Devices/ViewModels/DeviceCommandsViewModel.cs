@@ -1,22 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Windows;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Converter;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
-using System.Windows.Input;
-using Common;
-using System;
-using System.Diagnostics;
 using Infrastructure.Events;
-using System.Windows;
+using XFiresecAPI;
 
 namespace GKModule.Models
 {
@@ -129,7 +121,7 @@ namespace GKModule.Models
 				{
 					XManager.UpdateConfiguration();
 					SelectedDevice.CollapseChildren();
-					SelectedDevice.Children.Clear();
+					SelectedDevice.ClearChildren();
 					foreach (var remoteDevice in remoteDevices)
 					{
 						DevicesViewModel.Current.AddDevice(remoteDevice, SelectedDevice);

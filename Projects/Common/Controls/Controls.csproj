@@ -98,6 +98,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -115,6 +118,7 @@
     <Compile Include="Converters\BoolToFontStyleConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
+    <Compile Include="Converters\BoolInverterConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
@@ -150,6 +154,7 @@
     <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
+    <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
@@ -162,6 +167,10 @@
     <Compile Include="Menu\Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopupButton.cs" />
+    <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
+    <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
+    <Compile Include="Ribbon\Views\RibbonPopup.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
     <Compile Include="ToggleButton.cs" />
@@ -193,6 +202,7 @@
     <Compile Include="TreeList\Converters\CanExpandConverter.cs" />
     <Compile Include="TreeList\Converters\LevelToIndentConverter.cs" />
     <Compile Include="TreeList\RowExpander.cs" />
+    <Compile Include="TreeList\SortBehavior.cs" />
     <Compile Include="TreeList\TreeList.cs" />
     <Compile Include="TreeList\TreeListItem.cs" />
     <Compile Include="TreeList\TreeNode.cs" />
@@ -216,11 +226,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ribbon\Themes\RibbonMenuItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Themes\RibbonMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Menu\Views\MenuButtonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Menu\Views\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -232,7 +254,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Constants.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Themes\RibbonButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -593,7 +623,6 @@
     <Resource Include="FSIcons\ASPT.png" />
     <Resource Include="FSIcons\AutomaticButton.png" />
     <Resource Include="FSIcons\BUNS.png" />
-    <Resource Include="FSIcons\BUNS_2.png" />
     <Resource Include="FSIcons\CombinedDetector.png" />
     <Resource Include="FSIcons\CompensationPump.png" />
     <Resource Include="FSIcons\Compressor.png" />
@@ -641,7 +670,6 @@
     <Resource Include="FSIcons\StopButton.png" />
     <Resource Include="FSIcons\UOO_TL.png" />
     <Resource Include="FSIcons\USB_BUNS.png" />
-    <Resource Include="FSIcons\USB_BUNS_2.png" />
     <Resource Include="FSIcons\USB_Channel.png" />
     <Resource Include="FSIcons\USB_Channel_1.png" />
     <Resource Include="FSIcons\USB_Channel_2.png" />
@@ -819,7 +847,7 @@
     <Resource Include="FSIcons\USB_Rubezh_P.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FSIcons\BlindPanel.png" />
+    <Resource Include="FSIcons\Rubezh_P.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FSIcons\Sonar.png" />
@@ -914,7 +942,129 @@
   <ItemGroup>
     <Resource Include="StateClassIcons\Off.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\AllParameters.png" />
+    <Resource Include="Images\briefcase.png" />
+    <Resource Include="Images\ParametersRead.png" />
+    <Resource Include="Images\ParametersReadWrite.png" />
+    <Resource Include="Images\ParametersSync.png" />
+    <Resource Include="Images\ParametersWrite.png" />
+    <Resource Include="Images\Star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\ComPort_V2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDownload.png" />
+    <Resource Include="Images\BCheck.png" />
+    <Resource Include="Images\BNew.png" />
+    <Resource Include="Images\BLoad.png" />
+    <Resource Include="Images\BSave.png" />
+    <Resource Include="Images\BSync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ParametersReadAll.png" />
+    <Resource Include="Images\ParametersWriteAll.png" />
+    <Resource Include="Images\BConfig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BArrowRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAdd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BCut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BCopy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDelete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BEdit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPaste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BArrowUpDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersWriteAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersReadAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersReadWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersSync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAllParameters.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BBriefcase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BZones.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDirection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDeleteEmpty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUsers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPlay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BStop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDeleteAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDevice.png" />
+    <Resource Include="Images\BJournal.png" />
+    <Resource Include="Images\BLink.png" />
+    <Resource Include="Images\BPassword.png" />
+    <Resource Include="Images\BSearch.png" />
+    <Resource Include="Images\BUsb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MessageBox\BWatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWatch.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

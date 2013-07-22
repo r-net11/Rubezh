@@ -61,17 +61,18 @@
 
     <DirectoryRef Id="FIRMWHARELOCATION">
       <Component Id="Firesec5.Firmwhare.Files" Guid="FF3E4DD2-37B6-444E-ADC3-B7323E9B0A86">
-        <File Id="Firmwhare.1" Name="2АМ_v2.29.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.2" Name="2ОП_v1.8.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.3" Name="4А_v1.8.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.4" Name="БИ_v1.06.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.5" Name="БУНС_v4.24.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.6" Name="МС-1_v2.34.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.7" Name="МС-2_v2.35.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.8" Name="МС-3_v2.0.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.9" Name="МС-4_v2.0.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.10" Name="ПДУ_v1.4.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
-        <File Id="Firmwhare.11" Name="УОО-ТЛ_v1.3.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.1" Name="2АМ_v2.30.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.2" Name="2ОП_v1.13.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.3" Name="4А_v1.13.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.4" Name="БИ_v1.09.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.5" Name="БУНС_v4.30.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.6" Name="МС-1_v3.02.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.7" Name="МС-2_v3.02.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.8" Name="МС-3_v2.01.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.9" Name="МС-4_v2.01.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.10" Name="ПДУ_v1.09.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.11" Name="ПДУ-ПТ_v1.02.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
+        <File Id="Firmwhare.12" Name="УОО-ТЛ_v1.05.HXC" Source="$(var.Firesec5.TargetDir)Актуальные прошивки\" />
       </Component>
     </DirectoryRef>
 

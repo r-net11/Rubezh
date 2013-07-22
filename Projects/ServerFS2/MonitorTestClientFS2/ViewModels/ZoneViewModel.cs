@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
+using Infrastructure.Common;
+using FiresecAPI;
+using ServerFS2.Monitoring;
+
+namespace MonitorTestClientFS2.ViewModels
+{
+	public class ZoneViewModel : BaseViewModel
+	{
+		public Zone Zone { get; private set; }
+
+		public ZoneViewModel(Zone zone)
+		{
+			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetResetGuard);
+			ResetGuardCommand = new RelayCommand(OnResetGuard, CanSetResetGuard);
+			Zone = zone;
+			Zone.ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+		}
+
+		void ZoneState_StateChanged()
+		{
+			StateType = Zone.ZoneState.StateType;
+			OnPropertyChanged("StateType");
+		}
+
+		public StateType StateType { get; private set; }
+
+		public RelayCommand SetGuardCommand { get; private set; }
+		void OnSetGuard()
+		{
+			MonitoringManager.AddTaskSetGuard(Zone, "Пользователь");
+		}
+
+		public RelayCommand ResetGuardCommand { get; private set; }
+		void OnResetGuard()
+		{
+			MonitoringManager.AddTaskSetGuard(Zone, "Пользователь");
+		}
+
+		bool CanSetResetGuard()
+		{
+			return Zone.ZoneType == ZoneType.Guard;
+		}
+	}
+}
