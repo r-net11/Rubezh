@@ -38,6 +38,7 @@ namespace ServerFS2.Monitoring
                     UpdateUOOTL();
                     break;
 			}
+            Trace.WriteLine(Panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
 		}
 
 		static void UpdatePDU_PT()
@@ -46,17 +47,15 @@ namespace ServerFS2.Monitoring
                 return;
             if (BitArray[0])
                 AddStateByName("Потеря связи с устройством");
-            else if (BitArray[1])
+            if (BitArray[1])
                 AddStateByName("Несоответствие версий БД с панелью");
-            else if (BitArray[2])
+            if (BitArray[2])
                 AddStateByName("Клавиатура заблокирована");
-            else if (BitArray[3])
-                AddStateByName("Авария питания 2");
-            else if (BitArray[4])
+            if (!BitArray[3])
                 AddStateByName("Авария питания 1");
-            else if (BitArray[5])
-                AddStateByName("Вскрытие");
-		}
+            if (!BitArray[4])
+                AddStateByName("Авария питания 2");
+        }
 
         static void UpdatePDU()
         {
@@ -64,7 +63,7 @@ namespace ServerFS2.Monitoring
                 return;
             if (BitArray[0])
                 AddStateByName("Потеря связи с устройством");
-            else if (BitArray[1])
+            if (BitArray[1])
                 AddStateByName("Несоответствие версий БД с панелью");
         }
 
@@ -74,15 +73,15 @@ namespace ServerFS2.Monitoring
                 return;
             if (BitArray[0])
                 AddStateByName("Неисправность телефонной линии");
-            else if (BitArray[1])
+            if (BitArray[1])
                 AddStateByName("Невозможно доставить сообщение");
-            else if (BitArray[2])
+            if (BitArray[2])
                 AddStateByName("Переполнение журнала событий");
-            else if (BitArray[3])
+            if (BitArray[3])
                 AddStateByName("неисправность линии устранена");
-            else if (BitArray[4])
+            if (BitArray[4])
                 AddStateByName("доставка сообщений восстановлена");
-            else if (BitArray[5])
+            if (BitArray[5])
                 AddStateByName("Потеря связи с прибором");
         }
 
