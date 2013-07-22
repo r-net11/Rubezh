@@ -38,8 +38,7 @@ namespace ServerFS2.Monitoring
                     UpdateUOOTL();
                     break;
 			}
-            Trace.WriteLine(Panel.PresentationAddressAndName + " " + BytesHelper.BytesToString(bytes));
-		}
+        }
 
 		static void UpdatePDU_PT()
 		{
