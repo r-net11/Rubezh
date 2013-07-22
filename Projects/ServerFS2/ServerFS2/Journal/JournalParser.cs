@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Monitoring;
+using Rubezh2010;
 
 namespace ServerFS2
 {
@@ -15,6 +16,7 @@ namespace ServerFS2
 		DeviceConfiguration DeviceConfiguration;
 		public FSInternalJournal FSInternalJournal { get; private set; }
 		public FS2JournalItem FS2JournalItem { get; private set; }
+        driverConfigEventsEvent MetadataEvent; 
 		public List<byte> Bytes { get; private set; }
 
 		public FS2JournalItem Parce(DeviceConfiguration deviceConfiguration, Device panelDevice, List<byte> bytes)
@@ -48,6 +50,8 @@ namespace ServerFS2
 			FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
 			FS2JournalItem.PanelName = FS2JournalItem.PanelDevice.DottedPresentationNameAndAddress;
 
+            MetadataEvent = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + FSInternalJournal.EventCode.ToString("X2"));
+
 			if (MetadataHelper.HasDevise(FSInternalJournal.EventCode))
 			{
 				var intAddress = FSInternalJournal.AddressOnShleif + 256 * FSInternalJournal.ShleifNo;
@@ -73,10 +77,15 @@ namespace ServerFS2
 
 			FS2JournalItem.EventClass = GetIntEventClass();
 
-            ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault();
+            if (MetadataEvent != null && MetadataEvent.hasPassword == "1")
+            {
+                FS2JournalItem.UserName = bytes[10].ToString() + " " + bytes[11].ToString();
+            }
+
+            
             if (bytes[21] != 0)
             {
-                var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == bytes[21]);
+                 var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == bytes[21]);
                 FS2JournalItem.GuardUser = guardUser;
                 FS2JournalItem.UserName = guardUser.Name;
             }
@@ -109,10 +118,9 @@ namespace ServerFS2
 					var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
 					if (stringTableType != null)
 					{
-						var metadataEvent = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + FSInternalJournal.EventCode.ToString("X2"));
-						if (metadataEvent.detailsFor != null)
+						if (MetadataEvent.detailsFor != null)
 						{
-							var metadataDetailsFor = metadataEvent.detailsFor.FirstOrDefault(x => x.tableType == stringTableType);
+							var metadataDetailsFor = MetadataEvent.detailsFor.FirstOrDefault(x => x.tableType == stringTableType);
 							if (metadataDetailsFor != null)
 							{
 								var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetailsFor.dictionary);
