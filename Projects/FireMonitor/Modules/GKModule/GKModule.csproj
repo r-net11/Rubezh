@@ -162,6 +162,7 @@
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
+    <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
     <Compile Include="Watcher\Watcher.Parameters.cs" />
     <Compile Include="Watcher\Watcher.PingJournal.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Watcher\LifeTimeWatcher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
