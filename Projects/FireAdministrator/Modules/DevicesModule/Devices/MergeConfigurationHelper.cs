@@ -126,8 +126,14 @@ namespace DevicesModuleMerge
 					AddDeviceTree(device);
 				}
 			}
+			var maxZoneNo = 0;
+			if (FiresecManager.Zones.Count > 0)
+			{
+				maxZoneNo = FiresecManager.Zones.Max(x => x.No);
+			}
 			foreach (var zone in deviceConfiguration.Zones)
 			{
+				zone.No += maxZoneNo;
 				FiresecManager.Zones.Add(zone);
 			}
 		}

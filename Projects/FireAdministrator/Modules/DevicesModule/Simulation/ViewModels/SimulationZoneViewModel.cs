@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using FiresecAPI;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -17,45 +18,22 @@ namespace DevicesModule.ViewModels
 			Zone = zone;
 			SetFireCommand = new RelayCommand(OnSetFire, CanSetFire);
 			SetNormCommand = new RelayCommand(OnSetNorm, CanSetNorm);
-
-			ZoneState = ZoneLogicState.Fire;
-			StateType = StateType.Fire;
+			SetAttentionCommand = new RelayCommand(OnSetAttention);
+			SetMPTAutomaticOnCommand = new RelayCommand(OnSetMPTAutomaticOn, CanSetMPTAutomaticOn);
+			SetMPTOnCommand = new RelayCommand(OnSetMPTOn, CanSetMPTOn);
+			SetFirefightingCommand = new RelayCommand(OnFirefighting, CanSetFirefighting);
+			SetGuardSetCommand = new RelayCommand(OnSetGuardSet, CanSetGuardSet);
+			SetGuardUnSetCommand = new RelayCommand(OnSetGuardUnSet, CanSetGuardUnSet);
+			SetLampCommand = new RelayCommand(OnSetLamp, CanSetLamp);
+			SetPCNCommand = new RelayCommand(OnSetPCN, CanSetPCN);
+			SetAlarmCommand = new RelayCommand(OnSetAlarm, CanSetAlarm);
 		}
 
 		public void Initialize()
 		{
-			Devices = new ObservableCollection<SimulationDeviceViewModel>();
-			foreach (var device in Zone.DevicesInZoneLogic)
-			{
-				var simulationDeviceViewModel = new SimulationDeviceViewModel(device);
-				Devices.Add(simulationDeviceViewModel);
-			}
-			SelectedDevice = Devices.FirstOrDefault();
 		}
 
 		public Zone Zone { get; private set; }
-
-		ObservableCollection<SimulationDeviceViewModel> _devices;
-		public ObservableCollection<SimulationDeviceViewModel> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
-		}
-
-		SimulationDeviceViewModel _selectedDevice;
-		public SimulationDeviceViewModel SelectedDevice
-		{
-			get { return _selectedDevice; }
-			set
-			{
-				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
-			}
-		}
 
 		ZoneLogicState? _zoneState;
 		public ZoneLogicState? ZoneState
@@ -68,22 +46,126 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public StateType StateType { get; set; }
+		void UpdateDevices()
+		{
+			SimulationViewModel.Current.UpdateDevices();
+		}
 
 		public RelayCommand SetFireCommand { get; private set; }
 		void OnSetFire()
 		{
 			ZoneState = ZoneLogicState.Fire;
+			UpdateDevices();
 		}
 		bool CanSetFire()
 		{
 			return Zone.ZoneType == ZoneType.Fire;
 		}
 
+		public RelayCommand SetAttentionCommand { get; private set; }
+		void OnSetAttention()
+		{
+			ZoneState = ZoneLogicState.Attention;
+			UpdateDevices();
+		}
+		bool CanSetAttention()
+		{
+			return Zone.ZoneType == ZoneType.Fire;
+		}
+
+		public RelayCommand SetMPTAutomaticOnCommand { get; private set; }
+		void OnSetMPTAutomaticOn()
+		{
+			ZoneState = ZoneLogicState.MPTAutomaticOn;
+			UpdateDevices();
+		}
+		bool CanSetMPTAutomaticOn()
+		{
+			return Zone.ZoneType == ZoneType.Fire && Zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT);
+		}
+
+		public RelayCommand SetMPTOnCommand { get; private set; }
+		void OnSetMPTOn()
+		{
+			ZoneState = ZoneLogicState.MPTOn;
+			UpdateDevices();
+		}
+		bool CanSetMPTOn()
+		{
+			return Zone.ZoneType == ZoneType.Fire && Zone.DevicesInZone.Any(x=>x.Driver.DriverType == DriverType.MPT);
+		}
+
+		public RelayCommand SetFirefightingCommand { get; private set; }
+		void OnFirefighting()
+		{
+			ZoneState = ZoneLogicState.Firefighting;
+			UpdateDevices();
+		}
+		bool CanSetFirefighting()
+		{
+			return Zone.ZoneType == ZoneType.Fire && Zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT);
+		}
+
+		public RelayCommand SetAlarmCommand { get; private set; }
+		void OnSetAlarm()
+		{
+			ZoneState = ZoneLogicState.Alarm;
+			UpdateDevices();
+		}
+		bool CanSetAlarm()
+		{
+			return Zone.ZoneType == ZoneType.Guard;
+		}
+
+		public RelayCommand SetGuardSetCommand { get; private set; }
+		void OnSetGuardSet()
+		{
+			ZoneState = ZoneLogicState.GuardSet;
+			UpdateDevices();
+		}
+		bool CanSetGuardSet()
+		{
+			return Zone.ZoneType == ZoneType.Guard;
+		}
+
+		public RelayCommand SetGuardUnSetCommand { get; private set; }
+		void OnSetGuardUnSet()
+		{
+			ZoneState = ZoneLogicState.GuardUnSet;
+			UpdateDevices();
+		}
+		bool CanSetGuardUnSet()
+		{
+			return Zone.ZoneType == ZoneType.Guard;
+		}
+
+		public RelayCommand SetLampCommand { get; private set; }
+		void OnSetLamp()
+		{
+			ZoneState = ZoneLogicState.Lamp;
+			UpdateDevices();
+		}
+		bool CanSetLamp()
+		{
+			return Zone.ZoneType == ZoneType.Guard;
+		}
+
+		public RelayCommand SetPCNCommand { get; private set; }
+		void OnSetPCN()
+		{
+			ZoneState = ZoneLogicState.PCN;
+			UpdateDevices();
+		}
+		bool CanSetPCN()
+		{
+			return Zone.ZoneType == ZoneType.Guard;
+		}
+
 		public RelayCommand SetNormCommand { get; private set; }
 		void OnSetNorm()
 		{
 			ZoneState = null;
+			UpdateDevices();
 		}
 		bool CanSetNorm()
 		{
