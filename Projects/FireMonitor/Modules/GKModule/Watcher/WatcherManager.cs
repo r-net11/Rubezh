@@ -14,7 +14,7 @@ namespace GKModule
 {
 	public static class WatcherManager
 	{
-		static List<Watcher> Watchers;
+		public static List<Watcher> Watchers { get; private set; }
 
 		public static void Start()
 		{
@@ -36,6 +36,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			AutoActivationWatcher.Run();
+			TimeSynchronisationHelper.Start();
+			LifeTimeWatcher.Start();
 		}
 
 		static void Stop()
@@ -45,6 +47,8 @@ namespace GKModule
 				foreach (var watcher in Watchers)
 				{
 					watcher.StopThread();
+					TimeSynchronisationHelper.Stop();
+					LifeTimeWatcher.Stop();
 				}
 			}
 			catch (Exception e)

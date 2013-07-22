@@ -11,6 +11,7 @@ namespace GKModule
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
+		public DateTime LastUpdateTime { get; private set; }
 
 		public Watcher(GkDatabase gkDatabase)
 		{
@@ -39,11 +40,19 @@ namespace GKModule
 			{
 				RunThread.Join(TimeSpan.FromSeconds(1));
 			}
+			RunThread = null;
 		}
 
 		void OnRunThread()
 		{
-            GetAllStates();
+			try
+			{
+				GetAllStates();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalWatcher.OnRunThread GetAllStates");
+			}
 
 			while (true)
 			{
@@ -79,6 +88,8 @@ namespace GKModule
 					if (StopEvent.WaitOne(10))
 						break;
 				}
+
+				LastUpdateTime = DateTime.Now;
 			}
 		}
 	}

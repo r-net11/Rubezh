@@ -338,6 +338,8 @@ namespace GKModule.ViewModels
 			eventNames.Add("Режим работы");
 			eventNames.Add("Дежурный");
 			eventNames.Add("Отключение");
+			eventNames.Add("Вход пользователя в прибор");
+			eventNames.Add("Выход пользователя из прибора");
 			eventNames.Add("Вход пользователя в систему");
 			eventNames.Add("Выход пользователя из системы");
             eventNames.Add("Команда оператора");
