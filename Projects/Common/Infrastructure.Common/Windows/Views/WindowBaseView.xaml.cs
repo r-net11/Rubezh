@@ -64,6 +64,11 @@ namespace Infrastructure.Common.Windows.Views
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
+            if (WindowState == WindowState.Minimized)
+            {
+                Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                Arrange(new Rect(0, 0, DesiredSize.Width, DesiredSize.Height));
+            }
 			CalculateSize();
 			UpdateWindowSize();
 			TruncateSize();
