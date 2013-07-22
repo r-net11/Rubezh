@@ -39,6 +39,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="200" />
                     </Grid.RowDefinitions>
                     <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">
@@ -84,7 +85,8 @@
                             <TextBlock Text="{Binding Detalization}" TextWrapping="WrapWithOverflow" Foreground="White" Margin="2" />
                         </StackPanel>
                     </StackPanel>
-                    <TabControl Grid.Row="2">
+                    <!--<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />-->
+                    <TabControl Grid.Row="3">
                         <TabItem Header="Прогресс">
                             <DataGrid ItemsSource="{Binding ProgressInfos}">
                                 <DataGrid.Columns>

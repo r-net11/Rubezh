@@ -15,7 +15,7 @@
 		</Grid.ColumnDefinitions>
 		<Label Grid.Row="0" Grid.Column="0" Content="Логин" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
 		<Label Grid.Row="1" Grid.Column="0" Content="Пароль" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
-		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanEditUserName}" Margin="2" />
+		<TextBox Name="nameTextBox" Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanEditUserName}" Margin="2" />
 		<Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 		<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding SavePassword}" Visibility="{Binding CanSavePassword, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Label Content="Сохранить пароль"/>

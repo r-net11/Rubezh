@@ -10,7 +10,7 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
             <Controls:TreeListView Grid.Column="0" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True" Margin="2">
                 <Controls:TreeListView.Columns>
@@ -41,6 +41,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" />
+                    <GridViewColumn Header="Зона" Width="100" DisplayMemberBinding="{Binding PresentationZone}" />
                 </Controls:TreeListView.Columns>
             </Controls:TreeListView>
             <Grid Grid.Column="1" DataContext="{Binding SelectedDevice}">

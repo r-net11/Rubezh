@@ -38,8 +38,7 @@ namespace ServerFS2
 			FSInternalJournal.AddressOnShleif = bytes[8];
 			FSInternalJournal.State = bytes[9];
 
-			FSInternalJournal.ZoneNo = BytesHelper.ExtractShort(bytes, 10);
-			FSInternalJournal.DescriptorNo = BytesHelper.ExtractTriple(bytes, 12);
+			FSInternalJournal.UnusedDescriptorNo = BytesHelper.ExtractTriple(bytes, 12);
 
 			var timeBytes = bytes.GetRange(1, 4);
 			FS2JournalItem.DeviceTime = TimeParceHelper.ParceDateTime(timeBytes);
@@ -64,6 +63,12 @@ namespace ServerFS2
 				}
 			}
 
+			if (MetadataHelper.HasZone(FSInternalJournal.EventCode))
+			{
+				FSInternalJournal.ZoneNo = BytesHelper.ExtractShort(bytes, 10);
+				InitializeZone();
+			}
+
 			FS2JournalItem.StateType = GetEventStateType();
 			FS2JournalItem.Description = GetEventName();
 			FS2JournalItem.SubsystemType = GetSubsystemType(FS2JournalItem.PanelDevice);
@@ -72,7 +77,6 @@ namespace ServerFS2
 				FS2JournalItem.DeviceName = "АСПТ " + (FSInternalJournal.ShleifNo - 1) + ".";
 
 			InitializeDetalization();
-			InitializeZone();
 			InitializeGuardEvents();
 
 			FS2JournalItem.EventClass = GetIntEventClass();
@@ -94,14 +98,24 @@ namespace ServerFS2
 
 		void InitializeDetalization()
 		{
-			if (FSInternalJournal.ShleifNo == 0x83)
-				FS2JournalItem.Detalization += "Выход: " + FSInternalJournal.ShleifNo + "\n";
-			if (FSInternalJournal.ShleifNo == 0x0F)
-				FS2JournalItem.Detalization += "АЛС: " + FSInternalJournal.ShleifNo + "\n";
+			FS2JournalItem.Detalization = "";
+			//if (FSInternalJournal.ShleifNo == 0x83)
+			//    FS2JournalItem.Detalization += "Выход: " + FSInternalJournal.ShleifNo + "\n";
+			//if (FSInternalJournal.ShleifNo == 0x0F)
+			//    FS2JournalItem.Detalization += "АЛС: " + FSInternalJournal.ShleifNo + "\n";
 
 			if (FSInternalJournal.EventCode == 0x0D && FS2JournalItem.StateByte == 0x20)
 			{
 				FS2JournalItem.Detalization += "база (сигнатура) повреждена или отсутствует\n";
+			}
+
+			if (FS2JournalItem.Device != null)
+			{
+				FS2JournalItem.Detalization += "Устройство: " + FS2JournalItem.Device.DottedPresentationNameAndAddress + "\n";
+			}
+			if (FS2JournalItem.Zone != null)
+			{
+				FS2JournalItem.Detalization += "Зона: " + FS2JournalItem.Zone.No + "\n";
 			}
 
 			FS2JournalItem.Detalization += GetDetalizationForConnectionLost();
@@ -186,8 +200,8 @@ namespace ServerFS2
 						return "Устройство: МС-4 Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
 					case 102:
 						return "Устройство: УОО-ТЛ Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
-					default:
-						return "Неизв. устр." + "(" + FSInternalJournal.DeviceType.ToString() + ") Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
+					//default:
+					//    return "Неизв. устр." + "(" + FSInternalJournal.DeviceType.ToString() + ") Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
 				}
 			}
 			return "";
@@ -226,9 +240,9 @@ namespace ServerFS2
 					case 102:
 						FS2JournalItem.Detalization += "Устройство: УОО-ТЛ Адрес:" + Bytes[16] + "\n";
 						break;
-					default:
-						FS2JournalItem.Detalization += "Неизв. устр." + "(" + Bytes[17] + ") Адрес:" + Bytes[16] + "\n";
-						break;
+					//default:
+					//    FS2JournalItem.Detalization += "Неизв. устр." + "(" + Bytes[17] + ") Адрес:" + Bytes[16] + "\n";
+					//    break;
 				}
 				if (FS2JournalItem.DeviceCategory == 0x00)
 					FS2JournalItem.DeviceCategory = 0x75;

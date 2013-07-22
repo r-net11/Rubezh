@@ -160,7 +160,7 @@ namespace Common.GK
 							break;
 
 						case 7:
-							EventName = "Вход пользователя в систему";
+							EventName = "Вход пользователя в прибор";
 							EventDescription = StringHelper.ToUser(bytes[32 + 15]);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
@@ -170,7 +170,7 @@ namespace Common.GK
 							break;
 
 						case 8:
-							EventName = "Выход пользователя из системы";
+							EventName = "Выход пользователя из прибора";
 							EventDescription = StringHelper.ToUser(bytes[32 + 15]);
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);

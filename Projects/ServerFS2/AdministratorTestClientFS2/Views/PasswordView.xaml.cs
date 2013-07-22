@@ -6,9 +6,6 @@ using System.Windows.Input;
 
 namespace AdministratorTestClientFS2.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для PasswordView.xaml
-	/// </summary>
 	public partial class PasswordView : UserControl
 	{
 		public PasswordView()
@@ -42,7 +39,7 @@ namespace AdministratorTestClientFS2.Views
 				e.CancelCommand();
 			}
 		}
-		
+
 		private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			var ke = e;

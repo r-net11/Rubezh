@@ -8,9 +8,7 @@ namespace AdministratorTestClientFS2.ViewModels
 {
 	public class PropertiesViewModel : BaseViewModel
 	{
-		private bool _isAuParametersReady = true;
-		private bool choise = true;
-		private bool parameterVis;
+		public static DevicesViewModel Context { get; private set; }
 
 		public PropertiesViewModel(DevicesViewModel deviceViewModel)
 		{
@@ -19,8 +17,6 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		public PropertiesViewModel(Device device)
 		{
-			ParamVisCommand = new RelayCommand(OnParamVis);
-			PropVisCommand = new RelayCommand(OnPropVis);
 			Device = device;
 			StringProperties = new List<StringPropertyViewModel>();
 			BoolProperties = new List<BoolPropertyViewModel>();
@@ -61,62 +57,5 @@ namespace AdministratorTestClientFS2.ViewModels
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
-
-		public static DevicesViewModel Context { get; private set; }
-
-		public bool ParameterVis
-		{
-			get { return parameterVis; }
-			set
-			{
-				parameterVis = value;
-				OnPropertyChanged("ParameterVis");
-			}
-		}
-
-		public bool Choise
-		{
-			get
-			{
-				bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-							   (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-							   (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
-				if (choise1)
-				{
-					choise = false;
-					ParameterVis = false;
-				}
-				return choise;
-			}
-			set
-			{
-				choise = value;
-				OnPropertyChanged("Choise");
-			}
-		}
-
-		public RelayCommand ParamVisCommand { get; private set; }
-
-		public RelayCommand PropVisCommand { get; private set; }
-
-		public bool IsAuParametersReady
-		{
-			get { return _isAuParametersReady; }
-			set
-			{
-				_isAuParametersReady = value;
-				OnPropertyChanged("IsAuParametersReady");
-			}
-		}
-
-		private void OnParamVis()
-		{
-			ParameterVis = true;
-		}
-
-		private void OnPropVis()
-		{
-			ParameterVis = false;
-		}
 	}
 }

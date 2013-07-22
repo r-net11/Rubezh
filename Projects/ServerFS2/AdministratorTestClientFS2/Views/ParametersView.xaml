@@ -16,7 +16,7 @@
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
-            <StackPanel Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel>
                 <ItemsControl ItemsSource="{Binding StringProperties}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
