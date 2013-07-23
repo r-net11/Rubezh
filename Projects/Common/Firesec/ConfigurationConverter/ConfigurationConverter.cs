@@ -79,6 +79,7 @@ namespace Firesec
 			{
 				return new OperationResult<DriversConfiguration>("Список драйверов пуст");
 			}
+
 			foreach (var innerDriver in coreDriversConfig.drv)
 			{
 				var driver = DriverConverter.Convert(coreDriversConfig, innerDriver);

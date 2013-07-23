@@ -21,6 +21,7 @@ using FiresecAPI;
 using System.ComponentModel;
 using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -47,7 +48,20 @@ namespace DevicesModule.ViewModels
 
 			Invalidate();
 			SetRibbonItems();
+
+			Firesec_50.FiresecDriverAuParametersHelper.Progress += new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
 		}
+
+		void FiresecDriverAuParametersHelper_Progress(string value, int percentsCompleted)
+		{
+			ProgressCaption = value;
+			PercentsCompleted = percentsCompleted;
+			OnPropertyChanged("ProgressCaption");
+			OnPropertyChanged("PercentsCompleted");
+		}
+
+		public string ProgressCaption { get; set; }
+		public int PercentsCompleted { get; set; }
 
 		public void Initialize()
 		{
@@ -162,7 +176,7 @@ namespace DevicesModule.ViewModels
 				{
 					SelectedDevice.Device.DeviceAUProperties.Clear();
 					SelectedDevice.Update();
-					ReadOneDevice(SelectedDevice.Device);
+					ReadDevices(new List<Device>() { SelectedDevice.Device });
 				});
 				ServiceFactory.SaveService.FSParametersChanged = true;
 			}
@@ -175,7 +189,7 @@ namespace DevicesModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
-					WriteOneDevice(SelectedDevice.Device);
+					WriteDevices(new List<Device>() { SelectedDevice.Device });
 				});
 			}
 		}
@@ -192,6 +206,7 @@ namespace DevicesModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
+					var devices = new List<Device>();
 					foreach (var device in SelectedDevice.Device.GetAllChildren())
 					{
 						device.DeviceAUProperties.Clear();
@@ -200,8 +215,9 @@ namespace DevicesModule.ViewModels
 						{
 							deviceViewModel.Update();
 						}
-						ReadOneDevice(device);
+						devices.Add(device);
 					}
+					ReadDevices(devices);
 				});
 			}
 		}
@@ -215,7 +231,7 @@ namespace DevicesModule.ViewModels
 				{
 					foreach (var device in SelectedDevice.Device.GetAllChildren())
 					{
-						WriteOneDevice(device);
+						WriteDevices(new List<Device>() { device });
 					}
 				});
 			}
@@ -237,28 +253,26 @@ namespace DevicesModule.ViewModels
 					(value < driverProperty.Min || value > driverProperty.Max));
 		}
 
-		void WriteOneDevice(Device device)
+		void WriteDevices(List<Device> devices)
 		{
-			foreach (var property in device.SystemAUProperties)
+			foreach (var device in devices)
 			{
-				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (IsPropertyValid(property, driverProperty))
+				foreach (var property in device.SystemAUProperties)
 				{
-					MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
-					return;
+					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (IsPropertyValid(property, driverProperty))
+					{
+						MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						return;
+					}
 				}
 			}
-			Firesec_50.FiresecDriverAuParametersHelper.SetConfigurationParameters(device.UID, device.SystemAUProperties);
+			Firesec_50.FiresecDriverAuParametersHelper.BeginSetConfigurationParameters(devices);
 		}
 
-		void ReadOneDevice(Device device)
+		void ReadDevices(List<Device> devices)
 		{
-			OperationResult<bool> result = Firesec_50.FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(device);
-			if (result.HasError)
-			{
-				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
-				return;
-			}
+			Firesec_50.FiresecDriverAuParametersHelper.BeginGetConfigurationParameters(devices);
 			SelectedDevice.IsAuParametersReady = false;
 		}
 		#endregion
@@ -394,6 +408,7 @@ namespace DevicesModule.ViewModels
 				CopyFromSystemToDevice(SelectedDevice.Device);
 				SelectedDevice.Update();
 				UpdateIsMissmatch();
+				WriteDevices(new List<Device>() { SelectedDevice.Device });
 			}
 		}
 
@@ -402,7 +417,8 @@ namespace DevicesModule.ViewModels
 		{
 			if (CheckNeedSave())
 			{
-				foreach (var device in SelectedDevice.Device.GetAllChildren())
+				var devices = SelectedDevice.Device.GetAllChildren();
+				foreach (var device in devices)
 				{
 					CopyFromSystemToDevice(device);
 					var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
@@ -410,6 +426,7 @@ namespace DevicesModule.ViewModels
 						deviceViewModel.Update();
 				}
 				UpdateIsMissmatch();
+				WriteDevices(devices);
 			}
 		}
 
@@ -476,7 +493,6 @@ namespace DevicesModule.ViewModels
 				};
 				device.DeviceAUProperties.Add(clonedProperty);
 			}
-			WriteOneDevice(device);
 		}
 		#endregion
 
