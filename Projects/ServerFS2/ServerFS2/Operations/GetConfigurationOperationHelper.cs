@@ -87,6 +87,7 @@ namespace ServerFS2
 			Device groupDevice;
 			var parentAddress = 0;
 			var config = DeviceFlash[pointer + 31];
+			var countInGroup = ((config & 64)>>6) * 4 + ((config & 32)>>5) * 2 + ((config & 16)>>4);
 			switch (driverType)
 			{
 				case DriverType.MPT:
@@ -223,7 +224,7 @@ namespace ServerFS2
 
 			if (driverType == DriverType.RM_1)
 			{
-				if ((config & 16) >> 4 == 1)
+				if (countInGroup > 0)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo));
@@ -236,7 +237,7 @@ namespace ServerFS2
 						PanelDevice.Children.Add(groupDevice);
 					}
 					groupDevice.Children.Add(device);
-					switch (localNo + 1) // смотрим сколько дочерних устройств у группового устройства
+					switch (countInGroup) // смотрим сколько дочерних устройств у группового устройства
 					{
 						case 2:
 							groupDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_2);
