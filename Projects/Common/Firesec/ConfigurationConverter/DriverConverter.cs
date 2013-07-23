@@ -52,6 +52,8 @@ namespace Firesec
 					&& driver.DriverType != DriverType.MS_1
 					&& driver.DriverType != DriverType.MS_2
 					&& driver.DriverType != DriverType.IndicationBlock
+					&& driver.DriverType != DriverType.MS_3
+					&& driver.DriverType != DriverType.MS_4
 					&& driver.DriverType != DriverType.PDU
 					&& driver.DriverType != DriverType.PDU_PT
 					&& driver.DriverType != DriverType.UOO_TL;

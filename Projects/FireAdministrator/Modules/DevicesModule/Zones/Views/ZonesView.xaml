@@ -31,7 +31,6 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Width="*" Binding="{Binding Name}" Header="Наименование" IsReadOnly="True" SortMemberPath="Name" />
                     <DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" IsReadOnly="True" SortMemberPath="Description" />
-				    <DataGridTextColumn Width="*" Binding="{Binding DetectorCount}" Header="Число ИП" IsReadOnly="True" SortMemberPath="DetectorCount" />
 			    </DataGrid.Columns>
 		    </Controls:XDataGrid>
             <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="0 5 0 0">

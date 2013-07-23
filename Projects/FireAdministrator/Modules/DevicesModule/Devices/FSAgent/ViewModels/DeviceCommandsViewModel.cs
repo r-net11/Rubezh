@@ -251,7 +251,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.FSChanged)
 			{
-				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Примнить сейчас?") == System.Windows.MessageBoxResult.Yes)
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
 				{
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);

@@ -400,7 +400,6 @@
 							<GridViewColumn DisplayMemberBinding="{Binding Zone.No}" Header="№" />
 							<GridViewColumn DisplayMemberBinding="{Binding Zone.Name}" Header="Наименование" />
 							<GridViewColumn DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
-							<GridViewColumn DisplayMemberBinding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" />
 						</GridView>
 					</ListView.View>
 				</ListView>
@@ -411,7 +410,6 @@
 						<DataGridTextColumn Width="1*" Binding="{Binding Zone.No}" Header="№" />
 						<DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
 						<DataGridTextColumn Width="2*" Binding="{Binding Zone.Description}" Header="Примечание" />
-						<DataGridTextColumn Width="2*" Binding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
