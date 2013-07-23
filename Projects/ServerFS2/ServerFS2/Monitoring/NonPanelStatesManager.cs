@@ -18,8 +18,8 @@ namespace ServerFS2.Monitoring
 		{
 			Panel = panel;
             Panel.DeviceState.States = new List<DeviceDriverState>();
-			var bytes = ServerHelper.GetDeviceStatus(Panel);
-            BitArray = new BitArray(new byte[] {bytes[3]});
+            var bytes = ServerHelper.GetDeviceStatus(Panel);
+            BitArray = new BitArray(new byte[] { bytes[3] });
             DeviceStatesManager = new DeviceStatesManager();
 			switch(Panel.Driver.DriverType)
 			{
@@ -76,10 +76,10 @@ namespace ServerFS2.Monitoring
                 AddStateByName("Невозможно доставить сообщение");
             if (BitArray[2])
                 AddStateByName("Переполнение журнала событий");
-            if (BitArray[3])
-                AddStateByName("неисправность линии устранена");
-            if (BitArray[4])
-                AddStateByName("доставка сообщений восстановлена");
+            //if (BitArray[3])
+            //    AddStateByName("неисправность линии устранена");
+            //if (BitArray[4])
+            //    AddStateByName("доставка сообщений восстановлена");
             if (BitArray[5])
                 AddStateByName("Потеря связи с прибором");
         }

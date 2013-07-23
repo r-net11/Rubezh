@@ -82,15 +82,7 @@ namespace ServerFS2
 
 			FS2JournalItem.EventClass = GetIntEventClass();
 
-            if (MetadataEvent != null && MetadataEvent.hasPassword == "1")
-            {
-                GetUserName();
-                Trace.WriteLine(panelDevice.PresentationAddressAndName + " " + BytesHelper.BytesToString(Bytes));
-            }
-            else if (bytes[21] != 0)
-            {
-                
-            }
+            GetUserName();
             return FS2JournalItem;
 		}
 
