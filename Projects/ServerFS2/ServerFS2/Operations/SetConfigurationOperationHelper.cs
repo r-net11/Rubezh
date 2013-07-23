@@ -16,16 +16,16 @@ namespace ServerFS2
 	{
 		static List<byte> _crc;
 
-		public static bool UpdateFoolFlash(Device device)
+		public static string UpdateFoolFlash(Device device)
 		{
 			// 01 01, 01 03, 37 02, 37 03, 37 01
 			BeginUpdateFirmWare(device);
 			ConfirmLongTermOperation(device);
 			// 3D
-			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "2OP\\frm.fscf");
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "2AM\\frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
-			var r2amInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2OP_loader_v1.03_CRP.hex");
-			var rubezhOPSInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_2OP.hex");
+			var r2amInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_update_usb_v3.09.hex");
+			var rubezhOPSInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_OPS.hex");
 			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
 			BeginUpdateRom(device);
 			ConfirmLongTermOperation(device);
@@ -62,29 +62,29 @@ namespace ServerFS2
 			ServerHelper.SynchronizeTime(device);
 			*/
 
-			return true;
+			return "";
 		}
 
 		public static bool WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
 		{
-			UpdateFoolFlash(device);
-			//var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
-			//var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
-			//BlockBD(device);
-			//WriteFlashConfiguration(device, Flash);
-			//Thread.Sleep(BeginUpdateFirmWare(device));
-			//ConfirmLongTermOperation(device);
-			//var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
-			//var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
-			//WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
-			//Thread.Sleep(BeginUpdateRom(device));
-			//ConfirmLongTermOperation(device);
-			//ClearSector(device);
-			//ConfirmLongTermOperation(device);
-			//WriteRomConfiguration(device, Rom, romDBFirstIndex);
-			//StopUpdating(device);
-			//ConfirmLongTermOperation(device);
-			//ServerHelper.SynchronizeTime(device);
+			//UpdateFoolFlash(device);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
+			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
+			BlockBD(device);
+			WriteFlashConfiguration(device, Flash);
+			BeginUpdateFirmWare(device);
+			ConfirmLongTermOperation(device);
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
+			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
+			BeginUpdateRom(device);
+			ConfirmLongTermOperation(device);
+			ClearSector(device);
+			ConfirmLongTermOperation(device);
+			WriteRomConfiguration(device, Rom, romDBFirstIndex);
+			StopUpdating(device);
+			ConfirmLongTermOperation(device);
+			ServerHelper.SynchronizeTime(device);
 			return true;
 		}
 

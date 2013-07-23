@@ -314,7 +314,7 @@ namespace ServerFS2.Service
 			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceUpdateFirmware(device, isUSB, fileName);
+				MainManager.DeviceUpdateFirmware(device, isUSB);
 			}, "DeviceUpdateFirmware", device, true);
 		}
 

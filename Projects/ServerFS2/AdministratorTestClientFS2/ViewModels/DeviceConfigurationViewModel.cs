@@ -34,13 +34,14 @@ namespace AdministratorTestClientFS2.ViewModels
             RemoteDeviceConfiguration.InvalidateConfiguration();
             RemoteDeviceConfiguration.UpdateCrossReferences();
 
-            foreach (var device in RemoteDeviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-            }
+			//foreach (var device in RemoteDeviceConfiguration.Devices)
+			//{
+			//    device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.UID);
+			//}
 
             LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
             RemoteRootDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+        	RemoteRootDevice.Driver = LocalRootDevice.Driver;
 
             LocalRootClone = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
             RemoteRootClone = (Device)RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
