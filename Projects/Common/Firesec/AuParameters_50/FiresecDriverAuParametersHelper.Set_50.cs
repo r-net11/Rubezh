@@ -8,15 +8,15 @@ namespace Firesec_50
 {
 	public static partial class FiresecDriverAuParametersHelper
 	{
-		public static void BeginSetConfigurationParameters(List<Device> devices)
+		public static void BeginSetAuParameters(List<Device> devices)
 		{
 			StopAUParametersThread();
 			StopEvent = new AutoResetEvent(false);
-			AUParametersThread = new Thread(() => { SetConfigurationParameters(devices); });
+			AUParametersThread = new Thread(() => { SetAuParameters(devices); });
 			AUParametersThread.Start();
 		}
 
-		static void SetConfigurationParameters(List<Device> devices)
+		static void SetAuParameters(List<Device> devices)
 		{
 			for (int i = 0; i < devices.Count; i++)
 			{
@@ -66,6 +66,11 @@ namespace Firesec_50
 							{
 								intValue = (int)Math.Truncate((double)intValue / 5);
 							}
+						}
+
+						if (driverProperty.Multiplier > 0)
+						{
+							intValue = (int)(intValue * driverProperty.Multiplier);
 						}
 
 						if (driverProperty.BitOffset > 0)

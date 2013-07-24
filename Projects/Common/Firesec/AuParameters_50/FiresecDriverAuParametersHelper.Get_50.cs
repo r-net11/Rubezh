@@ -44,15 +44,15 @@ namespace Firesec_50
 			AUParametersThread = null;
 		}
 
-		public static void BeginGetConfigurationParameters(List<Device> devices)
+		public static void BeginGetAuParameters(List<Device> devices)
 		{
 			StopAUParametersThread();
 			StopEvent = new AutoResetEvent(false);
-			AUParametersThread = new Thread(() => { GetConfigurationParameters(devices); });
+			AUParametersThread = new Thread(() => { GetAuParameters(devices); });
 			AUParametersThread.Start();
 		}
 
-		static void GetConfigurationParameters(List<Device> devices)
+		static void GetAuParameters(List<Device> devices)
 		{
 			for(int i = 0; i < devices.Count; i++)
 			{
@@ -169,53 +169,58 @@ namespace Firesec_50
 
 		static Property CreateProperty(int paramValue, DriverProperty driverProperty)
 		{
-			var offsetParamValue = paramValue;
+			var realParamValue = paramValue;
 
 			var highByteValue = paramValue / 256;
 			var lowByteValue = paramValue - highByteValue * 256;
 
 			if (driverProperty.HighByte)
-				offsetParamValue = highByteValue;
+				realParamValue = highByteValue;
 			else if (driverProperty.LargeValue)
-				offsetParamValue = paramValue;
+				realParamValue = paramValue;
 			else
-				offsetParamValue = lowByteValue;
+				realParamValue = lowByteValue;
 
 			if (driverProperty.Caption == "Проигрываемое сообщение")
 			{
-				return MRO2Helper.GetMessageNumber(offsetParamValue);
+				return MRO2Helper.GetMessageNumber(realParamValue);
 			}
 
 			if (driverProperty.MinBit > 0)
 			{
-				byte byteOffsetParamValue = (byte)offsetParamValue;
+				byte byteOffsetParamValue = (byte)realParamValue;
 				byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinBit);
 				byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinBit);
-				offsetParamValue = byteOffsetParamValue;
+				realParamValue = byteOffsetParamValue;
 			}
 
 			if (driverProperty.MaxBit > 0)
 			{
-				byte byteOffsetParamValue = (byte)offsetParamValue;
+				byte byteOffsetParamValue = (byte)realParamValue;
 				byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxBit);
 				byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
-				offsetParamValue = byteOffsetParamValue;
+				realParamValue = byteOffsetParamValue;
 			}
 
 			if (driverProperty.BitOffset > 0)
 			{
-				offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
+				realParamValue = realParamValue >> driverProperty.BitOffset;
 			}
 
 			if (driverProperty.Caption == "Задержка включения МРО, с")
 			{
-				offsetParamValue = offsetParamValue * 5;
+				realParamValue = realParamValue * 5;
+			}
+
+			if (driverProperty.Multiplier > 0)
+			{
+				realParamValue = (int)(realParamValue / driverProperty.Multiplier);
 			}
 
 			var property = new Property()
 			{
 				Name = driverProperty.Name,
-				Value = offsetParamValue.ToString()
+				Value = realParamValue.ToString()
 			};
 
 			return property;

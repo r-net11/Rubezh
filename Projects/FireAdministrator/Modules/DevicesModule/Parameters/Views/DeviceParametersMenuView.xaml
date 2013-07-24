@@ -10,19 +10,5 @@
         <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
         <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать параметры" ImageSource="/Controls;component/Images/Copy.png" />
         <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить параметры" ImageSource="/Controls;component/Images/Paste.png" />
-
-        <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem >
-                <MenuItem.Header>
-                    <Image Source="/Controls;component/Images/ParametersSync.png" Height="24" ToolTip="Синхронизация" />
-                </MenuItem.Header>
-
-                <MenuItem Command="{Binding SyncFromSystemToDeviceCommand}" Header="Из системы в устройство" />
-                <MenuItem Command="{Binding SyncFromAllSystemToDeviceCommand}" Header="Из всех дочерних устройств системы в устройства" />
-                <Separator />
-                <MenuItem Command="{Binding SyncFromDeviceToSystemCommand}" Header="Из устройства в систему" />
-                <MenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" Header="Из всех дочерних устройств прибора в систему" />
-            </MenuItem>
-        </Menu>
     </StackPanel>
 </UserControl>

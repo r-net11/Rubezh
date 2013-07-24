@@ -56,40 +56,41 @@ namespace DevicesModule.ViewModels
 
 			OnPropertyChanged("StringAUProperties");
 			OnPropertyChanged("EnumAUProperties");
-			UpdateIsMissmatch();
+			UpdateDeviceParameterMissmatchType();
 		}
 
-		public void UpdateIsMissmatch()
+		public void UpdateDeviceParameterMissmatchType()
 		{
-			if (EnumAUProperties.Any(x => x.IsMissmatch) || StringAUProperties.Any(x => x.IsMissmatch))
-				IsMissmatch = true;
+			if (StringAUProperties.Count + EnumAUProperties.Count > 0)
+			{
+				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
+				foreach (var auProperty in StringAUProperties)
+				{
+					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+				}
+				foreach (var auProperty in EnumAUProperties)
+				{
+					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+				}
+				DeviceParameterMissmatchType = maxDeviceParameterMissmatchType;
+			}
 		}
 
 		void On_AUParametersChanged()
 		{
 			Update();
-			IsAuParametersReady = true;
 		}
 
-		bool _isMissmatch;
-		public bool IsMissmatch
+		DeviceParameterMissmatchType _deviceParameterMissmatchType;
+		public DeviceParameterMissmatchType DeviceParameterMissmatchType
 		{
-			get { return _isMissmatch; }
+			get { return _deviceParameterMissmatchType; }
 			set
 			{
-				_isMissmatch = value;
-				OnPropertyChanged("IsMissmatch");
-			}
-		}
-
-		bool _isAuParametersReady = true;
-		public bool IsAuParametersReady
-		{
-			get { return _isAuParametersReady; }
-			set
-			{
-				_isAuParametersReady = value;
-				OnPropertyChanged("IsAuParametersReady");
+				_deviceParameterMissmatchType = value;
+				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
 		}
 	}

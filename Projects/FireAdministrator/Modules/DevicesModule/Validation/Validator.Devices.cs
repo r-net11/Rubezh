@@ -35,7 +35,6 @@ namespace DevicesModule.Validation
 				ValidateDeviceEvents(device);
 				ValidateDeviceLoopLines(device);
 				ValidateDeviceMaxExtCount(device);
-				ValidateDeviceSecurityPanel(device);
 				ValidateDeviceRangeAddress(device);
 				ValidateMRK30(device);
 				ValidatePumpStation(device);
@@ -275,29 +274,6 @@ namespace DevicesModule.Validation
 			}
 		}
 
-		void ValidateDeviceSecurityPanel(Device device)
-		{
-			var property = device.Driver.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
-			if (property != null)
-			{
-				var value = property.Parameters.First(x => x.Value == property.Default).Name;
-				var deviceSecurityDeviceCountProperty = device.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
-				if (deviceSecurityDeviceCountProperty != null)
-					value = deviceSecurityDeviceCountProperty.Value;
-
-				if (value == property.Parameters[0].Name || value == property.Parameters[0].Value)
-					ValidateDeviceCountAndOrderOnShlief(device, 64, 0);
-				else if (value == property.Parameters[1].Name || value == property.Parameters[1].Value)
-					ValidateDeviceCountAndOrderOnShlief(device, 48, 16);
-				else if (value == property.Parameters[2].Name || value == property.Parameters[2].Value)
-					ValidateDeviceCountAndOrderOnShlief(device, 32, 32);
-				else if (value == property.Parameters[3].Name || value == property.Parameters[3].Value)
-					ValidateDeviceCountAndOrderOnShlief(device, 16, 48);
-				else if (value == property.Parameters[4].Name || value == property.Parameters[4].Value)
-					ValidateDeviceCountAndOrderOnShlief(device, 0, 64);
-			}
-		}
-
 		void ValidateDeviceCountAndOrderOnShlief(Device device, int firstShliefMaxCount, int secondShliefMaxCount)
 		{
 			int deviceOnFirstShliefCount = 0;
@@ -436,7 +412,7 @@ namespace DevicesModule.Validation
 			}
 		}
 
-		bool ValidateString(string str)
+		public static bool ValidateString(string str)
 		{
 			return str.All(x => ValidChars.Contains(x));
 		}

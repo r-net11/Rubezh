@@ -61,7 +61,7 @@ namespace FireAdministrator.ViewModels
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Проект", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel("Новый", _menu.CreateNewCommand, "/Controls;component/Images/BNew.png", "Создать новую конфигурацию"),
-				new RibbonMenuItemViewModel("Считать", _menu.LoadFromFileCommand, "/Controls;component/Images/BLoad.png", "Считать конфигурацию из файла"),
+				new RibbonMenuItemViewModel("Открыть", _menu.LoadFromFileCommand, "/Controls;component/Images/BLoad.png", "Открыть конфигурацию из файла"),
 				new RibbonMenuItemViewModel("Сохранить", _menu.SaveAsCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
 				new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "/Controls;component/Images/BCheck.png", "Проверить конфигурацию"),
 				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "/Controls;component/Images/BDownload.png", "Применить конфигурацию"),

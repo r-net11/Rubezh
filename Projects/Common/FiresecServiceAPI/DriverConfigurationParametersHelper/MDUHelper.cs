@@ -72,7 +72,7 @@ namespace FiresecAPI.Models
 				MinBit = 0,
 				MaxBit = 3
 			};
-			
+
 			var property6Parameter1 = new DriverPropertyParameter()
 			{
 				Name = "Реверсивный ДУ",
@@ -116,67 +116,65 @@ namespace FiresecAPI.Models
 				"защита",
 				"норма", 0, 0, 0, false, false, "0");
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x87, "ПАРАМЕТР 0x87", "AU_Test", 0, 0, 0, 255);
+			var property7 = new DriverProperty()
+			{
+				IsAUParameter = true,
+				No = 0x87,
+				Name = "Установленные концевики",
+				Caption = "Установленные концевики",
+				ToolTip = "Установленные на приводе концевики. Применима только для ручного привода",
+				Default = "0",
+				MinBit = 0,
+				MaxBit = 2,
+			};
 
-		//    var property7 = new DriverProperty()
-		//    {
-		//        IsAUParameter = true,
-		//        No = 0x87,
-		//        Name = "Установленные концевики",
-		//        Caption = "Установленные концевики",
-		//        ToolTip = "Установленные на приводе концевики. Применима только для ручного привода",
-		//        Default = "0",
-		//        MinBit = 0,
-		//        MaxBit = 0
-		//    };
+			var property7Parameter1 = new DriverPropertyParameter()
+			{
+				Name = "Норма и защита",
+				Value = "0"
+			};
+			var property7Parameter2 = new DriverPropertyParameter()
+			{
+				Name = "Только защита",
+				Value = "1"
+			};
+			var property7Parameter3 = new DriverPropertyParameter()
+			{
+				Name = "Только норма",
+				Value = "2"
+			};
 
-		//    var property7Parameter1 = new DriverPropertyParameter()
-		//    {
-		//        Name = "Норма и защита",
-		//        Value = "0"
-		//    };
-		//    var property7Parameter2 = new DriverPropertyParameter()
-		//    {
-		//        Name = "Только защита",
-		//        Value = "1"
-		//    };
-		//    var property7Parameter3 = new DriverPropertyParameter()
-		//    {
-		//        Name = "Только норма",
-		//        Value = "2"
-		//    };
+			property7.Parameters.Add(property7Parameter1);
+			property7.Parameters.Add(property7Parameter2);
+			property7.Parameters.Add(property7Parameter3);
+			driver.Properties.Add(property7);
 
-		//    property7.Parameters.Add(property7Parameter1);
-		//    property7.Parameters.Add(property7Parameter2);
-		//    property7.Parameters.Add(property7Parameter3);
-		//    driver.Properties.Add(property7);
+			var property8 = new DriverProperty()
+			{
+				IsAUParameter = true,
+				No = 0x87,
+				Name = "Контроль эл. магнита",
+				Caption = "Контроль эл. магнита",
+				ToolTip = "Отключение контроля только в сработавшем состоянии (в защите). Применима только для ручного привода",
+				Default = "0",
+				MinBit = 2,
+				MaxBit = 3
+			};
 
-		//    var property8 = new DriverProperty()
-		//    {
-		//        IsAUParameter = true,
-		//        No = 0x87,
-		//        Name = "Контроль эл. магнита",
-		//        Caption = "Контроль эл. магнита",
-		//        ToolTip = "Отключение контроля только в сработавшем состоянии (в защите). Применима только для ручного привода"
-		//        Default = "0",
-		//        MinBit = 0,
-		//        MaxBit = 0
-		//    };
+			var property8Parameter1 = new DriverPropertyParameter()
+			{
+				Name = "Вкл",
+				Value = "0"
+			};
+			var property8Parameter2 = new DriverPropertyParameter()
+			{
+				Name = "Выкл",
+				Value = "4"
+			};
 
-		//    var property8Parameter1 = new DriverPropertyParameter()
-		//    {
-		//        Name = "Вкл",
-		//        Value = "0"
-		//    };
-		//    var property8Parameter2 = new DriverPropertyParameter()
-		//    {
-		//        Name = "Выкл",
-		//        Value = "1"
-		//    };
-
-		//    property8.Parameters.Add(property8Parameter1);
-		//    property8.Parameters.Add(property8Parameter2);
-		//    driver.Properties.Add(property8);
+			property8.Parameters.Add(property8Parameter1);
+			property8.Parameters.Add(property8Parameter2);
+			driver.Properties.Add(property8);
 		}
 	}
 }

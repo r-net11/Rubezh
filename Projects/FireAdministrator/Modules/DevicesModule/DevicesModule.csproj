@@ -159,7 +159,10 @@
     <Compile Include="Devices\FSAgent\ViewModels\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
     <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />

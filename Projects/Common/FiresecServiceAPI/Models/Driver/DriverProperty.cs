@@ -75,5 +75,8 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IsReadOnly { get; set; }
+
+		[DataMember]
+		public double Multiplier { get; set; }
 	}
 }
