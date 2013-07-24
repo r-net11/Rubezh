@@ -40,15 +40,6 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
-		public string DetectorCount
-		{
-			get
-			{
-				if (Zone.ZoneType == ZoneType.Fire)
-					return Zone.DetectorCount.ToString();
-				return null;
-			}
-		}
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }
@@ -59,7 +50,6 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("Zone");
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
-			OnPropertyChanged("DetectorCount");
 			Update();
 		}
 

@@ -147,13 +147,15 @@ namespace DevicesModule.ViewModels
 		{
 			try
 			{
-				var value = Device.Properties.FirstOrDefault(x => x.Name == name).Value;
-				return System.Convert.ToInt32(value);
+				var property = Device.Properties.FirstOrDefault(x => x.Name == name);
+				if (property != null)
+				{
+					var value = property.Value;
+					return System.Convert.ToInt32(value);
+				}
 			}
-			catch
-			{
-				return null;
-			}
+			catch { }
+			return null;
 		}
         string StringToString(string name)
         {
