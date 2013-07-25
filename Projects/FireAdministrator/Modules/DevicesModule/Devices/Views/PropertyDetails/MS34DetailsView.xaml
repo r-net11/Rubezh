@@ -4,10 +4,15 @@
              MinWidth="500" MinHeight="500">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" ItemsSource="{Binding FilterItems}">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Считать" Command="{Binding ReadCommand}" Width="150" Margin="2" />
+            <Button Content="Выбелить все" Command="{Binding SetAllCommand}" Width="150" Margin="2" />
+            <Button Content="Снять все выделения" Command="{Binding ResetAllCommand}" Width="150" Margin="2" />
+        </StackPanel>
+        <ListBox Grid.Row="1" ItemsSource="{Binding FilterItems}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -17,6 +22,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Grid.Row="1" Command="{Binding ReadCommand}" Width="150" Margin="2" />
     </Grid>
 </UserControl>

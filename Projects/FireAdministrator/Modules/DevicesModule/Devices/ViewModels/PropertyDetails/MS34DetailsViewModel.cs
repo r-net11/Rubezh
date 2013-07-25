@@ -21,6 +21,8 @@ namespace DevicesModule.ViewModels
 			Title = "Параметры устройства: МС";
 			Device = device;
             ReadCommand = new RelayCommand(OnRead);
+			SetAllCommand = new RelayCommand(OnSetAll);
+			ResetAllCommand = new RelayCommand(OnResetAll);
 
 			InitializeFilters();
 			var eventsFilterString = Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter");
@@ -115,9 +117,32 @@ namespace DevicesModule.ViewModels
             }
             GetConfiguration(_operationResult.Result);
         }
-        public void GetConfiguration(string DeviceData)
+        public void GetConfiguration(string deviceData)
         {
-            return;
+			if (deviceData != null && deviceData.Length >= 54)
+			{
+				for (int i = 0; i < 54; i++)
+				{
+					if (deviceData[i] == '1')
+						FilterItems[i].IsActive = true;
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка при получении данных");
+			}
+        }
+
+		public RelayCommand SetAllCommand { get; private set; }
+        void OnSetAll()
+        {
+			FilterItems.ForEach(x => x.IsActive = true);
+        }
+
+		public RelayCommand ResetAllCommand { get; private set; }
+        void OnResetAll()
+        {
+			FilterItems.ForEach(x => x.IsActive = false);
         }
 
 		void SaveProperties()
