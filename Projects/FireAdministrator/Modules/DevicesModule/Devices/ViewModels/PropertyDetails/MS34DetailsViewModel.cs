@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
+using Infrastructure.Common;
+using Infrastructure;
+using FiresecAPI;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,6 +20,7 @@ namespace DevicesModule.ViewModels
 		{
 			Title = "Параметры устройства: МС";
 			Device = device;
+            ReadCommand = new RelayCommand(OnRead);
 
 			InitializeFilters();
 			var eventsFilterString = Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter");
@@ -89,6 +95,30 @@ namespace DevicesModule.ViewModels
 		}
 
 		public List<FilterItemViewModel> FilterItems { get; private set; }
+
+        public RelayCommand ReadCommand { get; private set; }
+        void OnRead()
+        {
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Получение данных с модуля доставки сообщений");
+        }
+        OperationResult<string> _operationResult;
+        void OnPropgress()
+        {
+            _operationResult = FiresecManager.DeviceGetMDS5Data(Device);
+        }
+        void OnCompleted()
+        {
+            if (_operationResult.HasError)
+            {
+                MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                return;
+            }
+            GetConfiguration(_operationResult.Result);
+        }
+        public void GetConfiguration(string DeviceData)
+        {
+            return;
+        }
 
 		void SaveProperties()
 		{

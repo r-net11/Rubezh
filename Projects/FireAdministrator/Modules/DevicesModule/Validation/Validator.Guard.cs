@@ -52,7 +52,7 @@ namespace DevicesModule.Validation
 								}
 							}
 
-							if (guardUser.Name != null && Validator.ValidateString(guardUser.Name))
+							if (guardUser.Name != null && !Validator.ValidateString(guardUser.Name))
 							{
 								Errors.Add(new DeviceValidationError(device, "Недопустимые символы в имени пользователя прибора " + guardUser.Name, ValidationErrorLevel.CannotWrite));
 							}

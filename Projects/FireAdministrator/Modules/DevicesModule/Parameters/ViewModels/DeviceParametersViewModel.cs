@@ -504,10 +504,8 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var device in FiresecManager.Devices)
 			{
-				if (device.IntAddress == 257)
-				{
-					;
-				}
+                if (device.SystemAUProperties == null)
+                    device.SystemAUProperties = new List<Property>();
 				foreach (var driverProperty in device.Driver.Properties)
 				{
 					if (driverProperty.IsAUParameter)

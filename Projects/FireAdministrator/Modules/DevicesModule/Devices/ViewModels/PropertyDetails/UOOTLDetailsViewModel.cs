@@ -422,7 +422,7 @@ namespace DevicesModule.ViewModels
 			return base.Save();
 		}
 
-		public void GetConfiguration(string DeviceData)
+		public void GetConfiguration(string deviceData)
 		{
 			// TESTMODE
 			// var DeviceData = "0                    0                    0                    0                    00000212010100000000111001100000000000000000000000000000000000000000000000";
@@ -432,38 +432,38 @@ namespace DevicesModule.ViewModels
 			bool b = true; // if Device.DeviceDriver.GetBaseType = 102
 			if (b)
 			{
-				s = DeviceData.Substring(0, 21);
+				s = deviceData.Substring(0, 21);
 				s = DeleteCharsFromEnd(s, ' ');
 				Phone1 = s;
 
-				s = DeviceData.Substring(21, 21);
+				s = deviceData.Substring(21, 21);
 				s = DeleteCharsFromEnd(s, ' ');
 				Phone2 = s;
 
-				s = DeviceData.Substring(42, 21);
+				s = deviceData.Substring(42, 21);
 				s = DeleteCharsFromEnd(s, ' ');
 				Phone3 = s;
 
-				s = DeviceData.Substring(63, 21);
+				s = deviceData.Substring(63, 21);
 				s = DeleteCharsFromEnd(s, ' ');
 				Phone4 = s;
 
-				ObjectNumber = int.Parse(DeviceData.Substring(84, 4));
-				TestDialtone = int.Parse(DeviceData.Substring(88, 2)) * 5;
-				TestVoltage = int.Parse(DeviceData.Substring(90, 1)) * 10;
-				CountRecalls = int.Parse(DeviceData.Substring(91, 1));
-				Timeout = int.Parse(DeviceData.Substring(92, 1)) * 10;
-				OutcomingTest = int.Parse(DeviceData.Substring(93, 1)) * 10;
+				ObjectNumber = int.Parse(deviceData.Substring(84, 4));
+				TestDialtone = int.Parse(deviceData.Substring(88, 2)) * 5;
+				TestVoltage = int.Parse(deviceData.Substring(90, 1)) * 10;
+				CountRecalls = int.Parse(deviceData.Substring(91, 1));
+				Timeout = int.Parse(deviceData.Substring(92, 1)) * 10;
+				OutcomingTest = int.Parse(deviceData.Substring(93, 1)) * 10;
 				for (int i = 0; i < 54; i++)
 				{
-					if (DeviceData[94 + i] == '1')
+					if (deviceData[94 + i] == '1')
 						FilterItems[i].IsActive = true;
 				}
 			}
 			else
 				for (int i = 0; i < 54; i++)
 				{
-					if (DeviceData[i] == '1')
+					if (deviceData[i] == '1')
 						FilterItems[i].IsActive = true;
 				}
 		}

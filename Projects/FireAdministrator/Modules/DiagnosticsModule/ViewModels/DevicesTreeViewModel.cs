@@ -129,6 +129,11 @@ namespace DiagnosticsModule.ViewModels
 			get { return Device.HasDifferences; }
 			set { }
 		}
+        public bool HasMissingDifferences
+        {
+            get { return Device.HasMissingDifferences; }
+            set { }
+        }
 
 		public string XXXPresentationZone { get; set; }
 
