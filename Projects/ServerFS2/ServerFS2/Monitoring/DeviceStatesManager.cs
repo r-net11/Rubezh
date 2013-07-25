@@ -109,8 +109,17 @@ namespace ServerFS2.Monitoring
 			ParseRawParametersBytes(device, rawParametersBytes);
 		}
 
+        void ParseDeviceState(Device device)
+        {
+            ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
+        }
+
 		void ParseStateWordBytes(Device device, List<byte> stateWordBytes)
 		{
+            if (device.Driver.DriverType == DriverType.Exit)
+            {
+                ;
+            }
             if (stateWordBytes == null || stateWordBytes.Count <= 0)
 				return;
 			BitArray stateWordBitArray = new BitArray(stateWordBytes.ToArray());
