@@ -97,7 +97,7 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				if (ParentNode == null)
+				if (ParentNode == Root)
 					return 0;
 				else
 					return ParentNode.Level + 1;

@@ -18,9 +18,10 @@ namespace LibraryModule.ViewModels
 		{
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
-			AddAdditionalDeviceCommand = new RelayCommand(OnAddAdditionalDevice, CanRemoveDevice);
+			AddAdditionalDeviceCommand = new RelayCommand(OnAddAdditionalDevice, CanAddAdditionalDevice);
 			AddStateCommand = new RelayCommand(OnAddState, CanAddState);
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
+			AddDevicePresenterCommand = new RelayCommand(OnAddDevicePresenter, CanAddDevicePresenter);
 			Current = this;
 		}
 		public static LibraryViewModel Current { get; private set; }
@@ -79,7 +80,7 @@ namespace LibraryModule.ViewModels
 				{
 					var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.DriverId);
 					States = new ObservableCollection<StateViewModel>();
-					var libraryStates = from LibraryState libraryState in SelectedDevice.LibraryDevice.States orderby libraryState.StateType descending select libraryState;
+					var libraryStates = from LibraryState libraryState in SelectedDevice.States orderby libraryState.StateType descending select libraryState;
 					foreach (var libraryState in libraryStates)
 					{
 						var stateViewModel = new StateViewModel(libraryState, driver);
@@ -112,9 +113,19 @@ namespace LibraryModule.ViewModels
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
-			FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDevice.LibraryDevice);
-			Devices.Remove(SelectedDevice);
-			SelectedDevice = Devices.FirstOrDefault();
+			if (SelectedDevice.Presenter == null)
+			{
+				FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDevice.LibraryDevice);
+				Devices.Remove(SelectedDevice);
+				SelectedDevice = Devices.FirstOrDefault();
+			}
+			else
+			{
+				SelectedDevice.LibraryDevice.Presenters.Remove(SelectedDevice.Presenter);
+				var parent = SelectedDevice.Parent;
+				parent.RemoveChild(SelectedDevice);
+				SelectedDevice = parent;
+			}
 			ServiceFactory.SaveService.LibraryChanged = true;
 		}
 		bool CanRemoveDevice()
@@ -137,6 +148,31 @@ namespace LibraryModule.ViewModels
 			Devices.Add(deviceViewModel);
 			SelectedDevice = Devices.LastOrDefault();
 			ServiceFactory.SaveService.LibraryChanged = true;
+		}
+		bool CanAddAdditionalDevice()
+		{
+			return SelectedDevice != null && SelectedDevice.Presenter == null;
+		}
+
+		public RelayCommand AddDevicePresenterCommand { get; private set; }
+		void OnAddDevicePresenter()
+		{
+			if (SelectedDevice.LibraryDevice.Presenters == null)
+				SelectedDevice.LibraryDevice.Presenters = new List<LibraryDevicePresenter>();
+			var presenter = new LibraryDevicePresenter()
+			{
+				Key = "XXXXX"
+			};
+			SelectedDevice.LibraryDevice.Presenters.Add(presenter);
+			var newDevice = new DeviceViewModel(SelectedDevice.LibraryDevice, presenter);
+			SelectedDevice.AddChild(newDevice);
+			SelectedDevice.IsExpanded = true;
+			SelectedDevice = newDevice;
+			ServiceFactory.SaveService.LibraryChanged = true;
+		}
+		bool CanAddDevicePresenter()
+		{
+			return SelectedDevice != null && SelectedDevice.Presenter == null && SelectedDevice.Driver.Properties.Any(item => item.IsPresenterKey);
 		}
 
 		ObservableCollection<StateViewModel> _states;
@@ -165,10 +201,10 @@ namespace LibraryModule.ViewModels
 		public RelayCommand AddStateCommand { get; private set; }
 		void OnAddState()
 		{
-			var stateDetailsViewModel = new StateDetailsViewModel(SelectedDevice.LibraryDevice);
+			var stateDetailsViewModel = new StateDetailsViewModel(SelectedDevice);
 			if (DialogService.ShowModalWindow(stateDetailsViewModel))
 			{
-				SelectedDevice.LibraryDevice.States.Add(stateDetailsViewModel.SelectedState.State);
+				SelectedDevice.States.Add(stateDetailsViewModel.SelectedState.State);
 				States.Add(stateDetailsViewModel.SelectedState);
 				SelectedState = States.LastOrDefault();
 				ServiceFactory.SaveService.LibraryChanged = true;
@@ -182,7 +218,7 @@ namespace LibraryModule.ViewModels
 		public RelayCommand RemoveStateCommand { get; private set; }
 		void OnRemoveState()
 		{
-			SelectedDevice.LibraryDevice.States.Remove(SelectedState.State);
+			SelectedDevice.States.Remove(SelectedState.State);
 			States.Remove(SelectedState);
 			SelectedState = States.FirstOrDefault();
 			ServiceFactory.SaveService.LibraryChanged = true;
