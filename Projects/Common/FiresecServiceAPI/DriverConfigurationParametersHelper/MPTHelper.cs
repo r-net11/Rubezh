@@ -79,10 +79,53 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Ведущий", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Ведомый", 2);
 			driver.Properties.Add(property1);
+
+			var eduProperty = new DriverProperty()
+			{
+				IsAUParameter = true,
+				No = 0x87,
+				Name = "Количество ЭДУ-ПТ",
+				Caption = "Количество ЭДУ-ПТ",
+				Default = "0",
+				MinBit = 4,
+				MaxBit = 7
+			};
+
+			var eduPropertyParameter1 = new DriverPropertyParameter()
+			{
+				Name = "0",
+				Value = "0"
+			};
+			var eduPropertyParameter2 = new DriverPropertyParameter()
+			{
+				Name = "1",
+				Value = "16"
+			};
+			var eduPropertyParameter3 = new DriverPropertyParameter()
+			{
+				Name = "2",
+				Value = "32"
+			};
+			var eduPropertyParameter4 = new DriverPropertyParameter()
+			{
+				Name = "3",
+				Value = "64"
+			};
+			var eduPropertyParameter5 = new DriverPropertyParameter()
+			{
+				Name = "4",
+				Value = "128"
+			};
+
+			eduProperty.Parameters.Add(eduPropertyParameter1);
+			eduProperty.Parameters.Add(eduPropertyParameter2);
+			eduProperty.Parameters.Add(eduPropertyParameter3);
+			eduProperty.Parameters.Add(eduPropertyParameter4);
+			eduProperty.Parameters.Add(eduPropertyParameter5);
+			driver.Properties.Add(eduProperty);
 		}
 
-		#region Methods
-
+		#region Helpers
 		private static void AddControlType(Driver driver, byte no, string propertyName)
 		{
 			var property = new DriverProperty()
@@ -93,6 +136,8 @@ namespace FiresecAPI.Models
 				Caption = propertyName,
 				Default = "4",
 				UseMask = true,
+				MinBit = 0,
+				MaxBit = 3
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на обрыв", 2);
@@ -165,7 +210,6 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Разомкнутое", 2);
 			driver.Properties.Add(property);
 		}
-
 		#endregion Methods
 	}
 }

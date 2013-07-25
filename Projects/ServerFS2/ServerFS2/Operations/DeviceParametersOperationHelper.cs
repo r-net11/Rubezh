@@ -30,8 +30,8 @@ namespace ServerFS2
 		public static void SetDeviceParameters(Device device, List<Property> properties)
 		{
 			CopyPropertiesToDevice(device, properties);
-			//var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
-			var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
+			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
+			//var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			foreach (var property in driverProperties)
 			{
 				var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));

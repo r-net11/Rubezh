@@ -221,21 +221,22 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			var openFileDialog = new OpenFileDialog()
-			{
-				Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
-			};
-			if (openFileDialog.ShowDialog() == true)
-			{
-				var fileName = openFileDialog.FileName;
-				var message = MainManager.DeviceVerifyFirmwareVersion(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
-				MessageBoxService.Show(message);
-				MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
-			}
+			//var openFileDialog = new OpenFileDialog()
+			//{
+			//    Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
+			//};
+			//if (openFileDialog.ShowDialog() == true)
+			//{
+			//    var fileName = openFileDialog.FileName;
+			//    var message = MainManager.DeviceVerifyFirmwareVersion(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+			//    MessageBoxService.Show(message);
+			//    MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+			//}
+			MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return false;
+			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 
 		public RelayCommand WriteConfigurationCommand { get; private set; }

@@ -59,14 +59,6 @@ namespace GKModule
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			Helper.BuildMap();
-
-			foreach (var driver in XManager.DriversConfiguration.XDrivers)
-			{
-				if (driver.AvailableStates.Contains(XStateType.Fire2))
-				{
-					Trace.WriteLine("Driver contains Fire2: " + driver.ShortName);
-				}
-			}
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

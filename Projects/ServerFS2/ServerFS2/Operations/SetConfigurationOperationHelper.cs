@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using FiresecAPI.Models;
 using Infrastructure.Common;
-using Ionic.Zip;
 using Device = FiresecAPI.Models.Device;
 
 namespace ServerFS2
@@ -16,75 +12,81 @@ namespace ServerFS2
 	{
 		static List<byte> _crc;
 
-		public static bool UpdateFoolFlash(Device device)
+		public static string UpdateFoolFlash(Device device)
+		{
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "Сборка 2АМ\\sborka2AM.zip");
+			
+			var tempLoaderInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_BUNS_update_rs_v3.10.hex");
+			var avrInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "avr_buns_new_hard_m88_v1_20.hex");
+			var loaderInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_loader_v3.10_CRP.hex");
+			var softWareInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_OPS.hex");
+
+			WriteTempLoader(device, tempLoaderInfo); //Временный Ram загрузчика RS-485
+			//WriteAvr(device, avrInfo); //ПО контроллера однопроводного интерфейса (AVR)
+			WriteLoader(device, loaderInfo); //Загрузчик ROM
+			WriteSoftWare(device, softWareInfo); //Пользовательское ПО (ARM)
+
+			return "";
+		}
+
+		#region
+		// Записать временный загрузчик
+		private static void WriteTempLoader(Device device, HexInfo tempLoaderInfo)
 		{
 			// 01 01, 01 03, 37 02, 37 03, 37 01
 			BeginUpdateFirmWare(device);
 			ConfirmLongTermOperation(device);
 			// 3D
-			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "2OP\\frm.fscf");
-			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
-			var r2amInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2OP_loader_v1.03_CRP.hex");
-			var rubezhOPSInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "Rubezh_2OP.hex");
-			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
+			WriteRomConfiguration(device, tempLoaderInfo.Bytes, tempLoaderInfo.Offset);
 			BeginUpdateRom(device);
 			ConfirmLongTermOperation(device);
 			// 3D, 01 01
-
-			WriteRomConfiguration(device, r2amInfo.Bytes, r2amInfo.Offset); // Запись прошивки с 00 00 по 00 2F
+		}
+		private static void WriteAvr(Device device, HexInfo avrInfo)
+		{
+			WriteAVRConfiguration(device, avrInfo.Bytes, 0x7D000);
 			ConfirmLongTermOperation(device);
-			// 3D
 			ClearAvrSector(device);
 			ConfirmLongTermOperation(device);
-			// 3D
-			WriteRomConfiguration(device, rubezhOPSInfo.Bytes, 0x5000); // Запись прошивки с 50 00 по 07 CF
+		}
+		private static void WriteLoader(Device device, HexInfo loaderInfo)
+		{
+			WriteRomConfiguration(device, loaderInfo.Bytes, loaderInfo.Offset); // Запись прошивки с 00 00 по 00 2F
+			ConfirmLongTermOperation(device);
+			ClearAvrSector(device);
+			ConfirmLongTermOperation(device);
+		}
+		private static void WriteSoftWare(Device device, HexInfo softWareInfo)
+		{
+			WriteRomConfiguration(device, softWareInfo.Bytes, 0x5000); // Запись прошивки с 50 00 по 07 CF
 			USBManager.Send(device, 0x02, 0x12, 0x02, 0x30);// 02 12 version(For Example 02 30)
 			// 01 12
 			StopUpdating(device);
 			USBManager.Send(device.ParentUSB, 0x01, 0x36);
 			ConfirmLongTermOperation(device);
-			/*
-			var foolFlashFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "fullflash2am.zip");
-			var foolFlashHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(foolFlashFileName, "fullflash2am.hex");
-			foolFlashHexInfo.Offset = 0;
-
-			WriteFoolFlashConfiguration(device, @"C:\test\soft.txt");
-
-			ConfirmLongTermOperation(device);
-			ClearSector(device);
-			ConfirmLongTermOperation(device);
-
-			var avrHexInfo = FirmwareUpdateOperationHelper.GetHexInfo(@"C:\test\", "Rubezh_OPS.hex");
-			WriteRomConfiguration(device, avrHexInfo.Bytes, avrHexInfo.Offset);
-
-			StopUpdating(device);
-			ConfirmLongTermOperation(device);
-			ServerHelper.SynchronizeTime(device);
-			*/
-
-			return true;
 		}
+		#endregion
 
 		public static bool WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
 		{
-			UpdateFoolFlash(device);
-			//var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
-			//var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
-			//BlockBD(device);
-			//WriteFlashConfiguration(device, Flash);
-			//Thread.Sleep(BeginUpdateFirmWare(device));
-			//ConfirmLongTermOperation(device);
-			//var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
-			//var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
-			//WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
-			//Thread.Sleep(BeginUpdateRom(device));
-			//ConfirmLongTermOperation(device);
-			//ClearSector(device);
-			//ConfirmLongTermOperation(device);
-			//WriteRomConfiguration(device, Rom, romDBFirstIndex);
-			//StopUpdating(device);
-			//ConfirmLongTermOperation(device);
-			//ServerHelper.SynchronizeTime(device);
+			//UpdateFoolFlash(device);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
+			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
+			BlockBD(device);
+			WriteFlashConfiguration(device, Flash);
+			BeginUpdateFirmWare(device);
+			ConfirmLongTermOperation(device);
+			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
+			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
+			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
+			BeginUpdateRom(device);
+			ConfirmLongTermOperation(device);
+			ClearSector(device);
+			ConfirmLongTermOperation(device);
+			WriteRomConfiguration(device, Rom, romDBFirstIndex);
+			StopUpdating(device);
+			ConfirmLongTermOperation(device);
+			ServerHelper.SynchronizeTime(device);
 			return true;
 		}
 
@@ -132,6 +134,16 @@ namespace ServerFS2
 			}
 		}
 
+		static void WriteAVRConfiguration(Device device, List<byte> deviceRom, int begin)
+		{
+			for (int i = 0; i < deviceRom.Count; i = i + 0x100)
+			{
+				USBManager.Send(device, 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
+				USBManager.Send(device, 0x3C);
+				USBManager.Send(device, 0x3D);
+			}
+		}
+
 		static void WriteFoolFlashConfiguration(Device device, string fileName)
 		{
 			var bytesArray = new List<byte>();
@@ -154,7 +166,11 @@ namespace ServerFS2
 		// Окончание записи памяти - сброс
 		private static void StopUpdating(Device device)
 		{
-			USBManager.Send(device, 0x3A);
+			var delayBytes = USBManager.Send(device, 0x3A);
+			int delay = 0;
+			if (delayBytes.Bytes.Count > 1)
+				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
+			Thread.Sleep(delay);
 		}
 
 		// Установка блокировки БД

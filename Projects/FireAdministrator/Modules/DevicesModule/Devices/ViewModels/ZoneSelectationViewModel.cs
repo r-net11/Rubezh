@@ -44,10 +44,7 @@ namespace DevicesModule.ViewModels
 		}
 
 		public bool IsGuardDevice { get; private set; }
-		public bool IsFireDevice
-		{
-			get { return !IsGuardDevice; }
-		}
+
 		public BindingList<ZoneViewModel> Zones { get; private set; }
 
 		private ZoneViewModel _selectedZone;

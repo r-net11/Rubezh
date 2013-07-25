@@ -378,6 +378,12 @@ namespace DevicesModule.ViewModels
 						ServiceFactory.SaveService.FSChanged = true;
 					break;
 
+				case DriverType.MS_3:
+				case DriverType.MS_4:
+					if (DialogService.ShowModalWindow(new MS34DetailsViewModel(Device)))
+						ServiceFactory.SaveService.FSChanged = true;
+					break;
+
 				case DriverType.MPT:
 					if (DialogService.ShowModalWindow(new MptDetailsViewModel(Device)))
 						ServiceFactory.SaveService.FSChanged = true;
@@ -398,6 +404,8 @@ namespace DevicesModule.ViewModels
 				case DriverType.CompensationPump:
 				case DriverType.PDUDirection:
 				case DriverType.UOO_TL:
+				case DriverType.MS_3:
+				case DriverType.MS_4:
 				case DriverType.MPT:
 					return true;
 			}

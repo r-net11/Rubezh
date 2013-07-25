@@ -38,7 +38,7 @@ namespace Firesec
 				driver.DisableAutoCreateChildren = innerDriver.options.Contains("DisableAutoCreateChildren");
 				driver.IsZoneLogicDevice = innerDriver.options.Contains("ExtendedZoneLogic");
 				driver.CanDisable = innerDriver.options.Contains("Ignorable");
-				driver.IsPlaceable = innerDriver.options.Contains("Placeable");
+				driver.IsPlaceable = innerDriver.options.Contains("Placeable") && driver.DriverType != DriverType.Computer;
 				driver.IsOutDevice = innerDriver.options.Contains("OutDevice");
 				driver.IgnoreInZoneState = innerDriver.options.Contains("IgnoreInZoneState");
 				driver.IsNotValidateZoneAndChildren = innerDriver.options.Contains("NotValidateZoneAndChildren");
@@ -52,6 +52,8 @@ namespace Firesec
 					&& driver.DriverType != DriverType.MS_1
 					&& driver.DriverType != DriverType.MS_2
 					&& driver.DriverType != DriverType.IndicationBlock
+					&& driver.DriverType != DriverType.MS_3
+					&& driver.DriverType != DriverType.MS_4
 					&& driver.DriverType != DriverType.PDU
 					&& driver.DriverType != DriverType.PDU_PT
 					&& driver.DriverType != DriverType.UOO_TL;
@@ -232,6 +234,8 @@ namespace Firesec
 					if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
 						continue;
 					if (internalProperty.name.StartsWith("Config$"))
+						continue;
+					if (internalProperty.name == "DeviceCountSecDev")
 						continue;
 
 					var driverProperty = new DriverProperty()

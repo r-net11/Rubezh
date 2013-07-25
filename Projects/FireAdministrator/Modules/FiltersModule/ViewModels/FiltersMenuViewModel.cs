@@ -1,5 +1,5 @@
-﻿
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
+
 namespace FiltersModule.ViewModels
 {
 	public class FiltersMenuViewModel : BaseViewModel

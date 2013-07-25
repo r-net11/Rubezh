@@ -219,10 +219,10 @@ namespace ServerFS2.Processor
 				device, isUSB);
 		}
 
-		public static void DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
+		public static void DeviceUpdateFirmware(Device device, bool isUSB)
 		{
 			TempConfigSafeCall(x =>
-				FirmwareUpdateOperationHelper.Update(x, isUSB, fileName),
+				SetConfigurationOperationHelper.UpdateFoolFlash(device),
 				device, isUSB);
 		}
 
