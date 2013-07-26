@@ -8,6 +8,10 @@
 		<Views:DeviceDeailsView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:LibraryMenuViewModel}">
+        <Views:LibraryMenuView />
+    </DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:StateDetailsViewModel}">
 		<Views:StateDetailsView />
 	</DataTemplate>

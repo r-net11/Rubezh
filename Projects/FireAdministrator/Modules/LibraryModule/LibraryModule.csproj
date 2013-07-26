@@ -153,11 +153,15 @@
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
+    <Compile Include="ViewModels\LibraryMenuViewModel.cs" />
     <Compile Include="ViewModels\StateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="Views\PresenterKeyView.xaml.cs">
       <DependentUpon>PresenterKeyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryMenuView.xaml.cs">
+      <DependentUpon>LibraryMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
@@ -219,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PresenterKeyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LibraryMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

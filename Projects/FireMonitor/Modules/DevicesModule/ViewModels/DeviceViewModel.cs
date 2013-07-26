@@ -193,7 +193,8 @@ namespace DevicesModule.ViewModels
 				if (DeviceState != null)
 					foreach (var parameter in DeviceState.ThreadSafeParameters)
 					{
-						if (!parameter.IsIgnore && parameter.Visible)
+						//if (!parameter.IsIgnore && parameter.Visible)
+						if (!parameter.IsIgnore)
 						{
 							parameters.Add(parameter.Caption + ": " + parameter.Value);
 						}

@@ -11,13 +11,15 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Media;
 using DeviceControls;
+using Infrastructure.ViewModels;
 
 namespace LibraryModule.ViewModels
 {
-	public class LibraryViewModel : ViewPartViewModel
+	public class LibraryViewModel : MenuViewPartViewModel
 	{
 		public LibraryViewModel()
 		{
+			Menu = new LibraryMenuViewModel(this);
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
 			AddAdditionalDeviceCommand = new RelayCommand(OnAddAdditionalDevice, CanAddAdditionalDevice);

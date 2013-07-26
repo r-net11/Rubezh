@@ -8,9 +8,41 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding HasDifferences}" Value="true"/>
+                        <Condition Binding="{Binding HasMissingDifferences}" Value="true"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Foreground" Value="#ACA899"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding HasMissingDifferences}" Value="true" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="Red" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding HasDifferences}" Value="true" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="Pink" />
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -26,8 +58,9 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Row="1" Grid.Column="0"  DataContext="{Binding LocalDevices}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                      ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" Name="DataGrid1" VirtualizingStackPanel.IsVirtualizing="True" MinWidth="300" Margin="2">
+            <DataGrid Grid.Column="0" DataContext="{Binding LocalDevices}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+                      Name="DataGrid1" ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
+                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Устройства в конфигурации" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -60,8 +93,9 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Grid.Row="1" Grid.Column="1" DataContext="{Binding RemoteDevices}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                      ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" Name="DataGrid2" VirtualizingStackPanel.IsVirtualizing="True" MinWidth="300" Margin="2">
+            <DataGrid Grid.Column="1" DataContext="{Binding RemoteDevices}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+                      Name="DataGrid2" ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
+                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Устройства в приборе" Width="250">
                         <DataGridTemplateColumn.CellTemplate>

@@ -159,7 +159,14 @@
     <Compile Include="Devices\FSAgent\ViewModels\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\MS34DetailsViewModel.cs" />
+    <Compile Include="Devices\Views\PropertyDetails\MS34DetailsView.xaml.cs">
+      <DependentUpon>MS34DetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
     <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
@@ -538,6 +545,10 @@
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\MS34DetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Parameters\Views\DeviceParametersMenuView.xaml">
       <SubType>Designer</SubType>

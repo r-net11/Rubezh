@@ -85,15 +85,10 @@ namespace Firesec_48
                                     devicePropertyRequest.RequestIds.Remove(request.id);
                                     int propertyNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
                                     int propertyValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
-                                    if (propertyNo == 0x87)
-                                    {
-                                        ;
-                                    }
                                     foreach (var driverProperty in devicePropertyRequest.Device.Driver.Properties.FindAll(x => x.No == propertyNo))
                                     {
                                         if (devicePropertyRequest.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
                                         {
-                                            
                                             devicePropertyRequest.Properties.Add(CreateProperty(propertyValue, driverProperty));
                                         }
                                     }

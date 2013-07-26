@@ -23,7 +23,7 @@
         <Control Id="InstallText" Type="Text" X="30" Y="54" Width="340" Height="80" Hidden="yes" Text="!(loc.VerifyReadyDlgInstallText)">
           <Condition Action="show">1</Condition>
         </Control>
-        <Control Id="AttentionText" Type="Text" X="30" Y="100" Width="340" Height="80" Hidden="yes" NoPrefix="yes" Text="Внимание!!! Необходимо завершить все работающие приложения Оперативной задачи, Администратора и сервера, в противном случае они будут завршены автоматически.">
+        <Control Id="AttentionText" Type="Text" X="30" Y="100" Width="340" Height="80" Hidden="yes" NoPrefix="yes" Text="Внимание!!! Необходимо завершить все работающие приложения Оперативной задачи, Администратора и сервера, в противном случае они будут завершены автоматически.">
           <Condition Action="show">1</Condition>
         </Control>
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" TabSkip="yes" Disabled="yes" />

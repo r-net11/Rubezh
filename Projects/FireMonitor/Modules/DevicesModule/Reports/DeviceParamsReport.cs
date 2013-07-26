@@ -23,7 +23,6 @@ namespace DevicesModule.Reports
 			table.Columns.Add("Dustiness");
 			table.Columns.Add("FailureType");
 
-			//DataList = new List<ReportDeviceParamsModel>();
 			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
 				string type = "";
@@ -53,26 +52,18 @@ namespace DevicesModule.Reports
 					}
 
 					var deviceState = device.DeviceState;
-					var parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));
+					var parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "Dustiness"));
 					if (parameter != null)
 					{
 						if (!parameter.IsIgnore)
 							dustiness = parameter.Value;
 					}
-					parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "FailureType" && x.Visible));
+					parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "FailureType"));
 					if (parameter != null)
 					{
 						if (!parameter.IsIgnore)
 							failureType = parameter.Value;
 					}
-					//DataList.Add(new ReportDeviceParamsModel()
-					//{
-					//    Type = type,
-					//    Address = address,
-					//    Zone = zonePresentationName,
-					//    Dustiness = dustiness,
-					//    FailureType = failureType
-					//});
 					table.Rows.Add(type, address, zonePresentationName, dustiness, failureType);
 				}
 			}

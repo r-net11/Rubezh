@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
 using DevicesModule.Guard;
+using DevicesModule.Validation;
 
 namespace DevicesModule.ViewModels
 {
@@ -22,6 +23,7 @@ namespace DevicesModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			AddCommand = new RelayCommand(OnAdd);
+			EditDeviceUserCommand = new RelayCommand(EditDeviceUser);
 
 			ReadGuardUserCommand = new RelayCommand(OnReadGuardUser);
 			WriteGuardUserCommand = new RelayCommand(OnWriteGuardUser, CanWriteGuardUser);
@@ -60,6 +62,8 @@ namespace DevicesModule.ViewModels
 			UpdateZonesSelectation();
 			UpdateUsersSelectation();
 		}
+
+		#region Helpers
 		string AddCharsToLen(string str, int Len, char ch)
 		{
 			int i;
@@ -121,6 +125,7 @@ namespace DevicesModule.ViewModels
 			}
 			return deviceGuardData;
 		}
+		#endregion
 
 		public RelayCommand WriteGuardUserCommand { get; private set; }
 		void OnWriteGuardUser()
@@ -133,20 +138,22 @@ namespace DevicesModule.ViewModels
 					if (result == MessageBoxResult.No)
 						return;
 				}
-				if (FiresecManager.IsFS2Enabled)
+				if (Validate())
 				{
-					var guardUsers = new List<GuardUser>();
-					foreach (var deviceUser in DeviceUsers)
+					if (FiresecManager.IsFS2Enabled)
 					{
-						guardUsers.Add(deviceUser.GuardUser);
+						var guardUsers = new List<GuardUser>();
+						foreach (var deviceUser in DeviceUsers)
+						{
+							guardUsers.Add(deviceUser.GuardUser);
+						}
+						FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
 					}
-					var userlist = CodeDateToTranslate();
-					FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
-				}
-				else
-				{
-					var userlist = CodeDateToTranslate();
-					DeviceSetGuardUsersListHelper.Run(SelectedDevice, userlist);
+					else
+					{
+						var userlist = CodeDateToTranslate();
+						DeviceSetGuardUsersListHelper.Run(SelectedDevice, userlist);
+					}
 				}
 			}
 		}
@@ -156,6 +163,41 @@ namespace DevicesModule.ViewModels
 			foreach (var deviceUser in DeviceUsers)
 				if (deviceUser.GuardUser.ZoneUIDs.Count == 0)
 					return false;
+			return true;
+		}
+
+		bool Validate()
+		{
+			foreach (var deviceUser in DeviceUsers)
+			{
+				if (deviceUser.GuardUser.Name != null && Validator.ValidateString(deviceUser.GuardUser.Name))
+				{
+					MessageBoxService.ShowError("Недопустимые символы в имени пользователя " + deviceUser.GuardUser.Name);
+					return false;
+				}
+				if (string.IsNullOrEmpty(deviceUser.GuardUser.Password))
+				{
+					MessageBoxService.ShowError("Отсутствует пароль у пользователя " + deviceUser.GuardUser.Name);
+					return false;
+				}
+				if (DeviceUsers.Count(x => x.GuardUser.Password == deviceUser.GuardUser.Password) > 1)
+				{
+					MessageBoxService.ShowError("Задиблирован пароль у пользователя " + deviceUser.GuardUser.Name);
+					return false;
+				}
+
+				var zones = new List<Zone>();
+				foreach (var zoneUID in deviceUser.GuardUser.ZoneUIDs)
+				{
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					zones.Add(zone);
+				}
+				if (zones.Count == 0)
+				{
+					MessageBoxService.ShowError("Отсутствуют зоны у пользователя " + deviceUser.GuardUser.Name);
+					return false;
+				}
+			}
 			return true;
 		}
 
@@ -399,6 +441,7 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		public RelayCommand EditDeviceUserCommand { get; private set; }
 		public void EditDeviceUser()
 		{
 			if (SelectedDeviceUser != null)
