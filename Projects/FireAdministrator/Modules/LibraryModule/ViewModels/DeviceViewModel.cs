@@ -17,7 +17,21 @@ namespace LibraryModule.ViewModels
 		}
 		public string Title
 		{
-			get { return Presenter == null ? LibraryDevice.PresentationName : Presenter.Key; }
+			get
+			{
+				if (Presenter == null)
+					return LibraryDevice.PresentationName;
+				else
+				{
+					if (LibraryDevice.Driver.PresenterKeyProperty != null && LibraryDevice.Driver.PresenterKeyProperty.DriverPropertyType == DriverPropertyTypeEnum.EnumType)
+					{
+						var parameter = LibraryDevice.Driver.PresenterKeyProperty.Parameters.FirstOrDefault(item => item.Value == Presenter.Key);
+						if (parameter != null)
+							return parameter.Name;
+					}
+					return Presenter.Key;
+				}
+			}
 		}
 		public List<LibraryState> States
 		{

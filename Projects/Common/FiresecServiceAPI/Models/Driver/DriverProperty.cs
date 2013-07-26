@@ -75,8 +75,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IsReadOnly { get; set; }
-
-		[DataMember]
-		public bool IsPresenterKey { get; set; }
 	}
 }

@@ -149,12 +149,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ImageConverters.cs" />
+    <Compile Include="ViewModels\PresenterKeyViewModel.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
     <Compile Include="ViewModels\StateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
+    <Compile Include="Views\PresenterKeyView.xaml.cs">
+      <DependentUpon>PresenterKeyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
@@ -211,6 +215,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PresenterKeyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

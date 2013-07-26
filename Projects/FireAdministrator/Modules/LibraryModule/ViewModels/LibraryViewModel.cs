@@ -9,6 +9,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Media;
+using DeviceControls;
 
 namespace LibraryModule.ViewModels
 {
@@ -157,22 +159,30 @@ namespace LibraryModule.ViewModels
 		public RelayCommand AddDevicePresenterCommand { get; private set; }
 		void OnAddDevicePresenter()
 		{
-			if (SelectedDevice.LibraryDevice.Presenters == null)
-				SelectedDevice.LibraryDevice.Presenters = new List<LibraryDevicePresenter>();
-			var presenter = new LibraryDevicePresenter()
+			var presenterProperty = SelectedDevice.Driver.PresenterKeyProperty;
+			if (presenterProperty != null)
 			{
-				Key = "XXXXX"
-			};
-			SelectedDevice.LibraryDevice.Presenters.Add(presenter);
-			var newDevice = new DeviceViewModel(SelectedDevice.LibraryDevice, presenter);
-			SelectedDevice.AddChild(newDevice);
-			SelectedDevice.IsExpanded = true;
-			SelectedDevice = newDevice;
-			ServiceFactory.SaveService.LibraryChanged = true;
+				var viewModel = new PresenterKeyViewModel(presenterProperty);
+				if (DialogService.ShowModalWindow(viewModel))
+				{
+					if (SelectedDevice.LibraryDevice.Presenters == null)
+						SelectedDevice.LibraryDevice.Presenters = new List<LibraryDevicePresenter>();
+					var presenter = new LibraryDevicePresenter()
+					{
+						Key = viewModel.Value
+					};
+					SelectedDevice.LibraryDevice.Presenters.Add(presenter);
+					var newDevice = new DeviceViewModel(SelectedDevice.LibraryDevice, presenter);
+					SelectedDevice.AddChild(newDevice);
+					SelectedDevice.IsExpanded = true;
+					SelectedDevice = newDevice;
+					ServiceFactory.SaveService.LibraryChanged = true;
+				}
+			}
 		}
 		bool CanAddDevicePresenter()
 		{
-			return SelectedDevice != null && SelectedDevice.Presenter == null && SelectedDevice.Driver.Properties.Any(item => item.IsPresenterKey);
+			return SelectedDevice != null && SelectedDevice.Presenter == null && SelectedDevice.Driver.PresenterKeyProperty != null;
 		}
 
 		ObservableCollection<StateViewModel> _states;
@@ -194,7 +204,7 @@ namespace LibraryModule.ViewModels
 			{
 				_selectedState = value;
 				OnPropertyChanged("SelectedState");
-				OnPropertyChanged("DeviceControl");
+				OnPropertyChanged(() => PreviewBrush);
 			}
 		}
 
@@ -228,31 +238,22 @@ namespace LibraryModule.ViewModels
 			return (SelectedState != null && SelectedState.State.StateType != StateType.No);
 		}
 
-		public DeviceControls.DeviceControl DeviceControl
+		public bool IsPreviewEnabled { get; private set; }
+		public Brush PreviewBrush
 		{
 			get
 			{
-				if (SelectedDevice == null)
-					return null;
-				if (SelectedState == null)
-					return null;
-
-				var deviceControl = new DeviceControls.DeviceControl()
-				{
-					DriverId = SelectedDevice.LibraryDevice.DriverId
-				};
-				deviceControl.StateType = SelectedState.State.StateType;
-
-				var additionalStateCodes = new List<string>();
-				if (SelectedState.IsAdditional)
-				{
-					additionalStateCodes.Add(SelectedState.State.Code);
-					deviceControl.AdditionalStateCodes = additionalStateCodes;
-				}
-
-				deviceControl.Update();
-				return deviceControl;
+				var brush = (Brush)Brushes.Transparent;
+				if (SelectedDevice != null && SelectedState != null)
+					brush = DevicePictureCache.CreatePreviewBrush(SelectedState.State.Frames);
+				IsPreviewEnabled = brush != null && brush != Brushes.Transparent;
+				OnPropertyChanged(() => IsPreviewEnabled);
+				return brush;
 			}
+		}
+		public void InvalidatePreview()
+		{
+			OnPropertyChanged(() => PreviewBrush);
 		}
 
 		public bool IsDebug
