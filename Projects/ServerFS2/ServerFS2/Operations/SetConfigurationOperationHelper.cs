@@ -12,7 +12,7 @@ namespace ServerFS2
 	{
 		static List<byte> _crc;
 
-		public static string UpdateFoolFlash(Device device)
+		public static string UpdateFullFlash(Device device)
 		{
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "Сборка 2АМ\\sborka2AM.zip");
 			
@@ -69,7 +69,7 @@ namespace ServerFS2
 
 		public static bool WriteDeviceConfiguration(Device device, List<byte> Flash, List<byte> Rom)
 		{
-			//UpdateFoolFlash(device);
+			//UpdateFullFlash(device);
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
 			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
 			BlockBD(device);

@@ -214,6 +214,8 @@ namespace ServerFS2
 
 		static UsbHid GetUsbUsbHid(Device panelDevice)
 		{
+			if (panelDevice == null)
+				return null;
 			var parentUSB = panelDevice.ParentUSB;
 			if (parentUSB != null)
 			{
