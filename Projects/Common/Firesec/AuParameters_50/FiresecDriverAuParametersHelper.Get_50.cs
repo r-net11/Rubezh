@@ -92,8 +92,10 @@ namespace Firesec_50
 							continue;
 						}
 
-						Firesec.Models.DeviceCustomFunctions_50.Requests requests = Firesec.SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions_50.Requests>(result.Result);
-						if (requests != null)
+					var stringResult = result.Result;
+					stringResult = ClearString(stringResult);
+
+					Firesec.Models.DeviceCustomFunctions_50.Requests requests = Firesec.SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions_50.Requests>(stringResult);
 						{
 							foreach (var request in requests.Request)
 							{
@@ -224,6 +226,41 @@ namespace Firesec_50
 			};
 
 			return property;
+		}
+
+		static string ClearString(string value)
+		{
+			for (int a = 0; a < 100; a++)
+			{
+				int startIndex = -1;
+				int cdataLength = -1;
+				var length = value.Length;
+				for (int i = 0; i < value.Length; i++)
+				{
+					if (i < length - 9)
+					{
+						if (value.Substring(i, 9) == "<![CDATA[")
+						{
+							var cdataEndIndex = value.Substring(i + 9).IndexOf("]");
+							if (cdataEndIndex > 10)
+							{
+								startIndex = i + 9;
+								cdataLength = cdataEndIndex;
+								break;
+							}
+						}
+					}
+				}
+				if (startIndex != -1)
+				{
+					value = value.Remove(startIndex, cdataLength);
+				}
+				else
+				{
+					break;
+				}
+			}
+			return value;
 		}
 	}
 }

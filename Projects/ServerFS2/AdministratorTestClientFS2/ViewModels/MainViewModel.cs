@@ -140,7 +140,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
 		void OnAutoDetectDevice()
 		{
-			var device = AutoDetectOperationHelper.AutoDetectDevice();
+			var device = AutoDetectOperationHelper.AutoDetectDevice(DevicesViewModel.SelectedDevice.Device);
 			var autoDetectedDevicesViewModel = new DevicesViewModel(device);
 			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
