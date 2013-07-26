@@ -38,12 +38,8 @@ namespace AdministratorTestClientFS2.ViewModels
 			SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
 			RunOtherFunctionsCommand = new RelayCommand(OnRunOtherFunctions, CanRunOtherFunctions);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
-			SetPanelRegimeCommand = new RelayCommand(OnSetPanelRegime, CanSetPanelRegime);
-			UnsetPanelRegimeCommand = new RelayCommand(OnUnsetPanelRegime, CanUnsetPanelRegime);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			GetDeviceStatusCommand = new RelayCommand(OnGetDeviceStatus, CanGetResetDeviceStatus);
-			AddDeviceToCheckListCommand = new RelayCommand(OnAddDeviceToCheckList, CanAddOrRemoveDeviceToCheckList);
-			RemoveDeviceFromCheckListCommand = new RelayCommand(OnRemoveDeviceFromCheckList, CanAddOrRemoveDeviceToCheckList);
 			TestCommand = new RelayCommand(OnTest);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -144,7 +140,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
 		void OnAutoDetectDevice()
 		{
-			var device = AutoDetectOperationHelper.AutoDetectDevice();
+			var device = AutoDetectOperationHelper.AutoDetectDevice(DevicesViewModel.SelectedDevice.Device);
 			var autoDetectedDevicesViewModel = new DevicesViewModel(device);
 			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
@@ -225,41 +221,22 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			var openFileDialog = new OpenFileDialog()
-			{
-				Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
-			};
-			if (openFileDialog.ShowDialog() == true)
-			{
-				var fileName = openFileDialog.FileName;
-				var message = MainManager.DeviceVerifyFirmwareVersion(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
-				MessageBoxService.Show(message);
-				MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
-			}
+			//var openFileDialog = new OpenFileDialog()
+			//{
+			//    Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.FSCF)|*.FSCF|All files (*.*)|*.*"
+			//};
+			//if (openFileDialog.ShowDialog() == true)
+			//{
+			//    var fileName = openFileDialog.FileName;
+			//    var message = MainManager.DeviceVerifyFirmwareVersion(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+			//    MessageBoxService.Show(message);
+			//    MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
+			//}
+			MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return false;
-		}
-
-		public RelayCommand SetPanelRegimeCommand { get; private set; }
-		void OnSetPanelRegime()
-		{
-
-		}
-		bool CanSetPanelRegime()
-		{
-			return false;
-		}
-
-		public RelayCommand UnsetPanelRegimeCommand { get; private set; }
-		void OnUnsetPanelRegime()
-		{
-
-		}
-		bool CanUnsetPanelRegime()
-		{
-			return false;
+			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
 		}
 
 		public RelayCommand WriteConfigurationCommand { get; private set; }
@@ -278,28 +255,11 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			Status = ServerHelper.GetDeviceStatus(DevicesViewModel.SelectedDevice.Device);
 		}
-
 		bool CanGetResetDeviceStatus()
 		{
 			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
-		public RelayCommand AddDeviceToCheckListCommand { get; private set; }
-		void OnAddDeviceToCheckList()
-		{
-			MainManager.AddToIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
-		}
-
-		bool CanAddOrRemoveDeviceToCheckList()
-		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.ParentPanel != null));
-		}
-
-		public RelayCommand RemoveDeviceFromCheckListCommand { get; private set; }
-		void OnRemoveDeviceFromCheckList()
-		{
-			MainManager.RemoveFromIgnoreList(new List<Device>() { DevicesViewModel.SelectedDevice.Device }, null);
-		}
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()

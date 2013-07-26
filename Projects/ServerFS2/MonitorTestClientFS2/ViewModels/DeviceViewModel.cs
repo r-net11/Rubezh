@@ -13,6 +13,9 @@ using System;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
+using MonitorTestClientFS2.ViewModels;
+using ServerFS2.Service;
+using FiresecClient;
 
 namespace MonitorClientFS2.ViewModels
 {
@@ -23,17 +26,20 @@ namespace MonitorClientFS2.ViewModels
 		public DeviceViewModel(Device device)
 		{
 			ResetCommand = new RelayCommand<DriverState>(OnReset, CanReset);
-			SetIgnoreCommand = new RelayCommand(OnSetIgnore);
-			ResetIgnoreCommand = new RelayCommand(OnResetIgnore);
-			SetGuardCommand = new RelayCommand(OnSetGuard);
-			ResetGuardCommand = new RelayCommand(OnResetGuard);
+			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
+			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetResetGuard);
+			ResetGuardCommand = new RelayCommand(OnResetGuard, CanSetResetGuard);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			TurnOnRMTestCommand = new RelayCommand(OnTurnOnRMTest);
-			TurnOffRMTestCommand = new RelayCommand(OnTurnOffRMTest);
+			ExecuteCommand = new RelayCommand(OnExecute, CanExecute);
 			Device = device;
+			PresentationZone = ConfigurationManager.DeviceConfiguration.GetPresentationZone(Device);
+			InitializeCommands();
 			device.DeviceState.StateChanged += new Action(OnStateChanged);
 			device.DeviceState.ParametersChanged += new Action(OnParametersChanged);
 		}
+
+		public string PresentationZone { get; private set; }
 
 		void OnStateChanged()
 		{
@@ -179,11 +185,19 @@ namespace MonitorClientFS2.ViewModels
 		{
 			MonitoringManager.AddTaskIgnore(new List<Device>() { Device });
 		}
+		bool CanSetIgnore()
+		{
+			return DeviceState.Device.Driver.CanDisable && !DeviceState.IsDisabled;
+		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
 			MonitoringManager.AddTaskResetIgnore(new List<Device>() { Device });
+		}
+		bool CanResetIgnore()
+		{
+			return DeviceState.Device.Driver.CanDisable && DeviceState.IsDisabled;
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }
@@ -198,22 +212,63 @@ namespace MonitorClientFS2.ViewModels
 			MonitoringManager.AddTaskResetGuard(Device, "Пользователь", null);
 		}
 
+		bool CanSetResetGuard()
+		{
+			return Device.Driver.DriverType == DriverType.Rubezh_2OP || Device.Driver.DriverType == DriverType.USB_Rubezh_2OP;
+		}
+
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
 			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
 
-		public RelayCommand TurnOnRMTestCommand { get; private set; }
-		void OnTurnOnRMTest()
+		void InitializeCommands()
 		{
-			MainManager.ExecuteCommand(Device, "RunWODelay", "Пользователь");
+			DeviceCommands = new List<DeviceCommandViewModel>();
+
+			var tableNo = MetadataHelper.GetDeviceTableNo(Device);
+			var metadataDeviceCommands = MetadataHelper.Metadata.devicePropInfos.Where(x => x.tableType == tableNo);
+			foreach (var metadataDeviceCommand in metadataDeviceCommands)
+			{
+				if (metadataDeviceCommand.commandDev != null)
+				{
+					var deviceCommandViewModel = new DeviceCommandViewModel()
+					{
+						Name = metadataDeviceCommand.name,
+						Caption = metadataDeviceCommand.caption,
+						Command1 = metadataDeviceCommand.command1,
+						ShiftInMemory = metadataDeviceCommand.shiftInMemory,
+						CommandDev = metadataDeviceCommand.commandDev,
+						MaskCmdDev = metadataDeviceCommand.maskCmdDev
+					};
+					DeviceCommands.Add(deviceCommandViewModel);
+				}
+			}
+			SelectedDeviceCommand = DeviceCommands.FirstOrDefault();
 		}
 
-		public RelayCommand TurnOffRMTestCommand { get; private set; }
-		void OnTurnOffRMTest()
+		public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
+
+		DeviceCommandViewModel _selectedDeviceCommand;
+		public DeviceCommandViewModel SelectedDeviceCommand
 		{
-			MainManager.ExecuteCommand(Device, "Stop", "Пользователь");
+			get { return _selectedDeviceCommand; }
+			set
+			{
+				_selectedDeviceCommand = value;
+				OnPropertyChanged("SelectedDeviceCommand");
+			}
+		}
+
+		public RelayCommand ExecuteCommand { get; private set; }
+		void OnExecute()
+		{
+			MainManager.ExecuteCommand(Device, SelectedDeviceCommand.Name, "Пользователь");
+		}
+		bool CanExecute()
+		{
+			return SelectedDeviceCommand != null && SelectedDeviceCommand != null;
 		}
 	}
 }

@@ -28,7 +28,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				headBytesDatabase.AddString("BASE", "Сигнатура базы", 4);
 			}
-			headBytesDatabase.AddShort(4, "Версия базы");
+			headBytesDatabase.AddShort(5, "Версия базы");
 			headBytesDatabase.AddReference(FlashDatabase.BytesDatabase.ByteDescriptions.Last(), "Абсолютный указатель на конец базы во внешней энергонезависимой паияти");
 			var pointerToLast = headBytesDatabase.AddReference((ByteDescription)null, "Абсолютный указатель на конец блока, записываемого в память кристалла");
 			BytesDatabase.Add(headBytesDatabase);

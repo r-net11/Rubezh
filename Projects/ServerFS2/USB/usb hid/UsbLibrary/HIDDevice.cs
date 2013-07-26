@@ -72,7 +72,7 @@ namespace UsbLibrary
 		#endregion
 
 		#region Privates/protected
-		private void Initialise(string strPath)
+		void Initialise(string strPath)
 		{
 			// Create the file from the device path
 			m_hHandle = CreateFile(strPath, GENERIC_READ | GENERIC_WRITE, 0, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, IntPtr.Zero);
@@ -115,7 +115,7 @@ namespace UsbLibrary
 			}
 		}
 
-		private void BeginAsyncRead()
+		void BeginAsyncRead()
 		{
 			try
 			{
@@ -201,7 +201,7 @@ namespace UsbLibrary
 		/// <param name="hInfoSet">Handle to the InfoSet</param>
 		/// <param name="oInterface">DeviceInterfaceData structure</param>
 		/// <returns>The device path or null if there was some problem</returns>
-		private static string GetDevicePath(IntPtr hInfoSet, ref DeviceInterfaceData oInterface)
+		static string GetDevicePath(IntPtr hInfoSet, ref DeviceInterfaceData oInterface)
 		{
 			uint nRequiredSize = 0;
 			// Get the device interface details

@@ -11,7 +11,8 @@ namespace ServerFS2
 		public static List<Property> GetDeviceParameters(Device device)
 		{
 			var allAUProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
-			var properties = RemoveDublicateProperties(allAUProperties);
+			//var properties = RemoveDublicateProperties(allAUProperties);
+			var properties = allAUProperties;
 			foreach (var property in properties)
 			{
 				var response = USBManager.Send(device.Parent, 0x02, 0x53, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
@@ -30,6 +31,7 @@ namespace ServerFS2
 		{
 			CopyPropertiesToDevice(device, properties);
 			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
+			//var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			foreach (var property in driverProperties)
 			{
 				var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));

@@ -246,7 +246,12 @@ namespace ServerFS2.ConfigurationWriter
 
 			foreach (var binaryPanel in BinaryPanels)
 			{
-				binaryPanel.BinaryLocalZones = binaryPanel.BinaryLocalZones.OrderBy(x => x.Zone.No).ToList();
+				var guardZones = binaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Guard).OrderBy(x => x.Zone.No);
+				var fireZones = binaryPanel.BinaryLocalZones.Where(x => x.Zone.ZoneType == ZoneType.Fire).OrderBy(x => x.Zone.No);
+				var sortedZones = guardZones.ToList();
+				sortedZones.AddRange(fireZones);
+
+				binaryPanel.BinaryLocalZones = sortedZones;
 				for (int i = 0; i < binaryPanel.BinaryLocalZones.Count; i++)
 				{
 					binaryPanel.BinaryLocalZones[i].LocalNo = i + 1;

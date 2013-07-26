@@ -17,18 +17,21 @@ namespace ServerFS2.Helpers
 
 			foreach (var localDevice in localDevices)
 			{
-				var remoteDevice = remoteDevices.FirstOrDefault(x => x.IntAddress == localDevice.IntAddress);
-				if (remoteDevice == null)
-					return false;
-				if (localDevice.Zone != null)
+				if (!localDevice.Driver.IsGroupDevice)
 				{
-					if (remoteDevice.Zone == null || localDevice.Zone.PresentationName != remoteDevice.Zone.PresentationName)
+					var remoteDevice = remoteDevices.FirstOrDefault(x => x.IntAddress == localDevice.IntAddress && !x.Driver.IsGroupDevice);
+					if (remoteDevice == null)
 						return false;
-				}
-				else
-				{
-					if (remoteDevice.Zone != null)
-						return false;
+					if (localDevice.Zone != null)
+					{
+						if (remoteDevice.Zone == null || localDevice.Zone.PresentationName != remoteDevice.Zone.PresentationName)
+							return false;
+					}
+					else
+					{
+						if (remoteDevice.Zone != null)
+							return false;
+					}
 				}
 			}
 

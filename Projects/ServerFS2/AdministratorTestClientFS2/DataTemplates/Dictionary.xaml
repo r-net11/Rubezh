@@ -11,10 +11,6 @@
         <Views:DevicesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
-        <Views:PropertiesView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DeviceConfigurationViewModel}">
         <Views:DeviceConfigurationView />
     </DataTemplate>

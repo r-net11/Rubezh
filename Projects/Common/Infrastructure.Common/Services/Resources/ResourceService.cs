@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Common
 {
-	public class ResourceService
+	public class ResourceService : IResourceService
 	{
 		public void AddResource(ResourceDescription description)
 		{

@@ -159,7 +159,14 @@
     <Compile Include="Devices\FSAgent\ViewModels\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\MS34DetailsViewModel.cs" />
+    <Compile Include="Devices\Views\PropertyDetails\MS34DetailsView.xaml.cs">
+      <DependentUpon>MS34DetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
     <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
@@ -277,7 +284,6 @@
     <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
-    <Compile Include="Plans\ViewModels\PlanDevicesViewModel.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
@@ -285,9 +291,6 @@
     </Compile>
     <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
       <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\PlanDevicesView.xaml.cs">
-      <DependentUpon>PlanDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
@@ -361,7 +364,7 @@
     <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDetailsViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneLogicDevicesSelectionViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
@@ -411,8 +414,8 @@
     <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
       <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml.cs">
-      <DependentUpon>ZoneLogicDeviceSelectionView.xaml</DependentUpon>
+    <Compile Include="Zones\Views\ZoneLogicDevicesSelectionView.xaml.cs">
+      <DependentUpon>ZoneLogicDevicesSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
       <DependentUpon>ZonesMenuView.xaml</DependentUpon>
@@ -542,6 +545,10 @@
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\MS34DetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Parameters\Views\DeviceParametersMenuView.xaml">
       <SubType>Designer</SubType>
@@ -687,10 +694,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Plans\Views\PlanDevicesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Plans\Views\ZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -719,7 +722,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml">
+    <Page Include="Zones\Views\ZoneLogicDevicesSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

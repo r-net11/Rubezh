@@ -48,6 +48,11 @@ namespace GKModule
 				GKObjectNo = (ushort)gkObjectNo,
 				UserName = FiresecManager.CurrentUser.Name
 			};
+			Add(journalItem);
+		}
+
+		public static void Add(JournalItem journalItem)
+		{
 			GKDBHelper.Add(journalItem);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(new List<JournalItem>() { journalItem });
 		}

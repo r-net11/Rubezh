@@ -219,10 +219,10 @@ namespace ServerFS2.Processor
 				device, isUSB);
 		}
 
-		public static void DeviceUpdateFirmware(Device device, bool isUSB, string fileName)
+		public static void DeviceUpdateFirmware(Device device, bool isUSB)
 		{
 			TempConfigSafeCall(x =>
-				FirmwareUpdateOperationHelper.Update(x, isUSB, fileName),
+				SetConfigurationOperationHelper.UpdateFullFlash(device),
 				device, isUSB);
 		}
 
@@ -245,12 +245,25 @@ namespace ServerFS2.Processor
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
 		{
-			var rootDevice = AutoDetectOperationHelper.AutoDetectDevice();
-			var deviceConfiguration = new DeviceConfiguration()
+			try
 			{
-				RootDevice = rootDevice
-			};
-			return deviceConfiguration;
+				StopMonitoring();
+				var rootDevice = AutoDetectOperationHelper.AutoDetectDevice(device);
+				var deviceConfiguration = new DeviceConfiguration()
+				{
+					RootDevice = rootDevice
+				};
+				return deviceConfiguration;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.SetNewConfig");
+				throw;
+			}
+			finally
+			{
+				StartMonitoring();
+			}
 		}
 
 		public static List<DeviceCustomFunction> DeviceGetCustomFunctions(DriverType driverType)

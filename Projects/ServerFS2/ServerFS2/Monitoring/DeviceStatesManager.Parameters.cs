@@ -7,6 +7,7 @@ using ServerFS2.Service;
 using System.Diagnostics;
 using Common;
 using System.Collections;
+using FiresecAPI;
 
 namespace ServerFS2.Monitoring
 {
@@ -17,7 +18,6 @@ namespace ServerFS2.Monitoring
 		public void UpdateDeviceStateAndParameters(Device device)
 		{
 			List<byte> stateBytes;
-			List<byte> rawParametersBytes;
 			HasChanges = false;
 
 			switch (device.Driver.DriverType)
@@ -51,20 +51,23 @@ namespace ServerFS2.Monitoring
 					break;
 			}
 			device.StateWordBytes = stateBytes;
-			device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
-			ParseDeviceState(device, device.StateWordBytes, device.RawParametersBytes);
+			if (device.RawParametersBytes != null)
+			{
+				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
+			}
+
+            if (device.Driver.DriverType == DriverType.Exit && device.IntAddress == 3)
+            {
+                ;
+            }
+			ParseDeviceState(device);
+			UpdateDeviceStateDetalisation(device);
+
 			if (HasChanges)
 			{
 				device.DeviceState.SerializableStates = device.DeviceState.States;
 				CallbackManager.DeviceParametersChanged(new List<DeviceState>() { device.DeviceState });
 				device.DeviceState.OnStateChanged();
-			}
-
-			if (device.IntAddress == 2 * 256 + 6)
-			{
-				//Trace.WriteLine("Smokiness " + device.DeviceState.Smokiness);
-				//Trace.WriteLine("Dustiness " + device.DeviceState.Dustiness);
-				//Trace.WriteLine("Temperature " + device.DeviceState.Temperature);
 			}
 		}
 
@@ -96,28 +99,22 @@ namespace ServerFS2.Monitoring
 
 			var faultyCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Неисправность")).Count();
 			SetParameter(panel, faultyCount, "Heиcпpaвныx локальных уcтpoйcтв");
-			//Trace.WriteLine("faultyCount " + faultyCount);
-
+			
 			var externalCount = 0;
 			SetParameter(panel, externalCount, "Внешних устройств");
-			//Trace.WriteLine("externalCount " + externalCount);
-
+			
 			var totalCount = panel.GetRealChildren().Count;
 			SetParameter(panel, totalCount, "Всего устройств");
-			//Trace.WriteLine("totalCount " + totalCount);
-
+			
 			var bypassCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Аппаратный обход устройства")).Count();
 			SetParameter(panel, bypassCount, "Обойденных устройств");
-			//Trace.WriteLine("bypassCount " + bypassCount);
-
+			
 			var lostCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Name == "Потеря связи")).Count();
 			SetParameter(panel, lostCount, "Потерянных устройств");
-			//Trace.WriteLine("lostCount " + lostCount);
-
+			
 			var dustfilledCount = panel.GetRealChildren().Where(x => x.DeviceState.States.Any(y => y.DriverState.Code == "HighDustiness")).Count();
 			SetParameter(panel, dustfilledCount, "Запыленных устройств");
-			//Trace.WriteLine("dustfilledCount " + dustfilledCount);
-
+			
 			if (HasChanges)
 				NotifyStateChanged(panel);
 		}

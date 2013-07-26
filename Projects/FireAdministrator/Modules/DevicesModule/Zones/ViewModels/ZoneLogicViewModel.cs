@@ -146,15 +146,19 @@ namespace DevicesModule.ViewModels
 				{
 					case ZoneLogicState.AM1TOn:
 					case ZoneLogicState.ShuzOn:
-						if (clauseViewModel.SelectedDevice != null)
+						if (clauseViewModel.SelectedDevices.Count > 0)
 						{
 							var clause = new Clause()
 							{
 								State = clauseViewModel.SelectedState,
 								Operation = clauseViewModel.SelectedOperation,
-								DeviceUID = clauseViewModel.SelectedDevice.UID,
-								Device = clauseViewModel.SelectedDevice
 							};
+							foreach (var device in clauseViewModel.SelectedDevices)
+							{
+								clause.DeviceUIDs.Add(device.UID);
+								clause.Devices.Add(device);
+							}
+
 							zoneLogic.Clauses.Add(clause);
 						}
 						break;

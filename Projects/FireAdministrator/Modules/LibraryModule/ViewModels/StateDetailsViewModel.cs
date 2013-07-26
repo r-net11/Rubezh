@@ -9,7 +9,7 @@ namespace LibraryModule.ViewModels
 {
     public class StateDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public StateDetailsViewModel(LibraryDevice libraryDevice)
+		public StateDetailsViewModel(DeviceViewModel deviceViewModel)
 			: base()
 		{
 			Title = "Добавить состояние";
@@ -17,7 +17,7 @@ namespace LibraryModule.ViewModels
             var libraryStates = new List<LibraryState>();
 			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
 			{
-                if (!libraryDevice.States.Any(x => x.StateType == stateType && x.Code == null))
+				if (!deviceViewModel.States.Any(x => x.StateType == stateType && x.Code == null))
                 {
                     var libraryState = new LibraryState()
                     {
@@ -27,10 +27,10 @@ namespace LibraryModule.ViewModels
                 }
 			}
 
-            var driverStates = from DriverState driverState in libraryDevice.Driver.States orderby driverState.StateType select driverState;
+			var driverStates = from DriverState driverState in deviceViewModel.Driver.States orderby driverState.StateType select driverState;
             foreach (var driverState in driverStates)
             {
-                if (driverState.Name != null && !libraryDevice.States.Any(x => x.Code == driverState.Code))
+				if (driverState.Name != null && !deviceViewModel.States.Any(x => x.Code == driverState.Code))
                 {
                     var libraryState = new LibraryState()
                     {
@@ -44,7 +44,7 @@ namespace LibraryModule.ViewModels
             States = new List<StateViewModel>();
             foreach (var libraryState in libraryStates)
             {
-                var stateViewModel = new StateViewModel(libraryState, libraryDevice.Driver);
+				var stateViewModel = new StateViewModel(libraryState, deviceViewModel.Driver);
                 States.Add(stateViewModel);
             }
             SelectedState = States.FirstOrDefault();

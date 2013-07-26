@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 		{
 			if (DeviceState != null && _deviceControl != null)
 				_deviceControl.StateClass = DeviceState.StateClass;
-			OnPropertyChanged("DeviceControlContent");
+			OnPropertyChanged("DevicePicture");
 			OnPropertyChanged("DeviceState");
             OnPropertyChanged("DeviceStateViewModel");
 			OnPropertyChanged("HasOnDelay");
@@ -78,30 +78,6 @@ namespace GKModule.ViewModels
 		{
 			get { return DevicePictureCache.GetDynamicXBrush(Device); }
 		}
-		//public object DeviceControlContent
-		//{
-		//    get
-		//    {
-		//        var libraryDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == Device.Driver.UID);
-		//        if (libraryDevice == null)
-		//        {
-		//            return null;
-		//        }
-		//        if (DeviceState != null)
-		//        {
-		//            _deviceControl = new DeviceControls.XDeviceControl()
-		//            {
-		//                DriverId = Device.Driver.UID,
-		//                Width = 50,
-		//                Height = 50,
-		//                StateClass = DeviceState.StateClass
-		//            };
-		//            _deviceControl.Update();
-		//        }
-
-		//        return _deviceControl;
-		//    }
-		//}
 
 		public string PresentationZone
 		{

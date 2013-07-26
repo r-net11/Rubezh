@@ -25,17 +25,18 @@ namespace FiresecService.Views
 		{
 			_window = Window.GetWindow(this);
 			_window.StateChanged += new EventHandler(Window_StateChanged);
+			_window.WindowState = WindowState.Minimized;
 			_window.ShowInTaskbar = false;
+			_window.WindowStyle = WindowStyle.ToolWindow;
 			_window.Left = SystemParameters.WorkArea.Right;
 			_window.Top = SystemParameters.WorkArea.Bottom;
 		}
 
 		private void OnShow(object sender, EventArgs e)
 		{
+			_window.WindowState = WindowState.Normal;
 			_window.Left = SystemParameters.WorkArea.Right - _window.ActualWidth;
 			_window.Top = SystemParameters.WorkArea.Bottom - _window.ActualHeight;
-			_window.ShowInTaskbar = true;
-			_window.WindowState = WindowState.Normal;
 			_window.Activate();
 		}
 		private void OnClose(object sender, EventArgs e)
@@ -54,9 +55,11 @@ namespace FiresecService.Views
 			switch (window.WindowState)
 			{
 				case WindowState.Minimized:
+					window.WindowStyle = WindowStyle.ToolWindow;
 					window.ShowInTaskbar = false;
 					break;
 				case WindowState.Normal:
+					window.WindowStyle = WindowStyle.None;
 					window.ShowInTaskbar = true;
 					break;
 			}

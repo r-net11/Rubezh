@@ -95,6 +95,13 @@ namespace ServerFS2.Service
 		}
 
 		public static event Action<FS2JournalItem> NewJournalItem;
+
+		public static event Action<string> LogEvent;
+		public static void AddLog(string value)
+		{
+			if (LogEvent != null)
+				LogEvent(value);
+		}
 	}
 
 	public class FSAgentCallbacCash

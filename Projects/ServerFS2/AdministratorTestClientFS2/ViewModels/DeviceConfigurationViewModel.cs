@@ -34,13 +34,14 @@ namespace AdministratorTestClientFS2.ViewModels
             RemoteDeviceConfiguration.InvalidateConfiguration();
             RemoteDeviceConfiguration.UpdateCrossReferences();
 
-            foreach (var device in RemoteDeviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-            }
+			//foreach (var device in RemoteDeviceConfiguration.Devices)
+			//{
+			//    device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.UID);
+			//}
 
             LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
             RemoteRootDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+        	RemoteRootDevice.Driver = LocalRootDevice.Driver;
 
             LocalRootClone = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
             RemoteRootClone = (Device)RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
@@ -50,7 +51,7 @@ namespace AdministratorTestClientFS2.ViewModels
                 foreach (var children in LocalRootDevice.Children)
                 {
                     var childrenClone = (Device)children.Clone();
-                    childrenClone.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+                    childrenClone.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
                     LocalRootClone.Children.Add(childrenClone);
                     if (children.Children != null)
                     {
@@ -63,7 +64,7 @@ namespace AdministratorTestClientFS2.ViewModels
                         foreach (var chch in children.Children)
                         {
                             var chchClone = (Device)chch.Clone();
-                            chchClone.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+                            chchClone.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
                             localchch.Children.Add(chchClone);
                         }
                     }
@@ -74,7 +75,7 @@ namespace AdministratorTestClientFS2.ViewModels
                 foreach (var children in RemoteRootDevice.Children)
                 {
                     var childrenClone = (Device)children.Clone();
-                    childrenClone.ZonesConfiguration = RemoteDeviceConfiguration;
+                    childrenClone.DeviceConfiguration = RemoteDeviceConfiguration;
                     RemoteRootClone.Children.Add(childrenClone);
                     if (children.Children != null)
                     {
@@ -87,7 +88,7 @@ namespace AdministratorTestClientFS2.ViewModels
                         foreach (var chch in children.Children)
                         {
                             var chchClone = (Device)chch.Clone();
-                            chchClone.ZonesConfiguration = RemoteDeviceConfiguration;
+                            chchClone.DeviceConfiguration = RemoteDeviceConfiguration;
                             remotechch.Children.Add(chchClone);
                         }
                     }
@@ -103,7 +104,7 @@ namespace AdministratorTestClientFS2.ViewModels
         }
         private void IntoLocalDevice(Device localRootDevice, Device remoteRootDevice)
         {
-            remoteRootDevice.ZonesConfiguration = RemoteDeviceConfiguration;
+            remoteRootDevice.DeviceConfiguration = RemoteDeviceConfiguration;
             foreach (var local in localRootDevice.Children)
             {
                 var remoteAndLocal =
@@ -114,7 +115,7 @@ namespace AdministratorTestClientFS2.ViewModels
                     remote.Children = new List<Device>();
                     remote.HasDifferences = true;
                     remoteAndLocal = remote;
-                    remoteAndLocal.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+                    remoteAndLocal.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
                     remoteRootDevice.Children.Add(remote);
                 }
                 else
@@ -123,19 +124,19 @@ namespace AdministratorTestClientFS2.ViewModels
                     {
                         remoteAndLocal.Zone = local.Zone;
                         remoteAndLocal.HasDifferences = true;
-                        remoteAndLocal.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+                        remoteAndLocal.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
                     }
                     else if ((remoteAndLocal.ZonesInLogic.Count == 0) && (local.ZonesInLogic.Count != 0))
                     {
                         remoteAndLocal.ZonesInLogic = local.ZonesInLogic;
                         remoteAndLocal.ZoneLogic = local.ZoneLogic;
                         remoteAndLocal.HasDifferences = true;
-                        remoteAndLocal.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+                        remoteAndLocal.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
                     }
                     else
                     {
                         remoteAndLocal.HasDifferences = false;
-                        remoteAndLocal.ZonesConfiguration = RemoteDeviceConfiguration;
+                        remoteAndLocal.DeviceConfiguration = RemoteDeviceConfiguration;
                     }
                 }
 
@@ -147,7 +148,7 @@ namespace AdministratorTestClientFS2.ViewModels
         }
         private void IntoRemoteDevice(Device remoteRootDevice, Device localRootDevice)
         {
-            localRootDevice.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+            localRootDevice.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
             foreach (var remote in remoteRootDevice.Children)
             {
                 var localAndRemote = localRootDevice.Children.FirstOrDefault(x => (x.Driver.ShortName == remote.Driver.ShortName) && (x.AddressFullPath == remote.AddressFullPath));
@@ -157,7 +158,7 @@ namespace AdministratorTestClientFS2.ViewModels
                     local.Children = new List<Device>();
                     local.HasDifferences = true;
                     localAndRemote = local;
-                    localAndRemote.ZonesConfiguration = RemoteDeviceConfiguration;
+                    localAndRemote.DeviceConfiguration = RemoteDeviceConfiguration;
                     localRootDevice.Children.Add(local);
                 }
                 else
@@ -166,19 +167,19 @@ namespace AdministratorTestClientFS2.ViewModels
                     {
                         localAndRemote.Zone = remote.Zone;
                         localAndRemote.HasDifferences = true;
-                        localAndRemote.ZonesConfiguration = RemoteDeviceConfiguration;
+                        localAndRemote.DeviceConfiguration = RemoteDeviceConfiguration;
                     }
                     else if ((localAndRemote.ZonesInLogic.Count == 0) && (remote.ZonesInLogic.Count != 0))
                     {
                         localAndRemote.ZonesInLogic = remote.ZonesInLogic;
                         localAndRemote.ZoneLogic = remote.ZoneLogic;
                         localAndRemote.HasDifferences = true;
-                        localAndRemote.ZonesConfiguration = RemoteDeviceConfiguration;
+                        localAndRemote.DeviceConfiguration = RemoteDeviceConfiguration;
                     }
                     else
                     {
                         localAndRemote.HasDifferences = false;
-                        localAndRemote.ZonesConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
+                        localAndRemote.DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration;
                     }
                 }
                 if ((remote.Children != null) && (remote.Children.Count > 0))

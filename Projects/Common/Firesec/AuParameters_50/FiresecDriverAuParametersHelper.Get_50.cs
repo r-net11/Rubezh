@@ -11,6 +11,13 @@ namespace Firesec_50
 {
 	public static partial class FiresecDriverAuParametersHelper
 	{
+		public static event Action<string, int> Progress;
+		static void OnPropgress(string value, int percentsCompleted)
+		{
+			if (Progress != null)
+				Progress(value, percentsCompleted);
+		}
+
 		public static Firesec.FiresecSerializedClient FiresecSerializedClient { get; set; }
 		static List<DevicePropertyRequest> DevicePropertyRequests = new List<DevicePropertyRequest>();
 		static Thread AUParametersThread;
@@ -20,187 +27,202 @@ namespace Firesec_50
 		{
 			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
 			{
-				if (StopEvent != null)
-				{
-					StopEvent.Set();
-				}
-				if (AUParametersThread != null)
-				{
-					AUParametersThread.Join(TimeSpan.FromSeconds(1));
-				}
+				StopAUParametersThread();
 			};
 		}
 
-		public static OperationResult<bool> BeginGetConfigurationParameters(Device device)
+		static void StopAUParametersThread()
 		{
-			var devicePropertyRequest = new DevicePropertyRequest(device);
-			foreach (var propertyNo in devicePropertyRequest.PropertyNos)
+			if (StopEvent != null)
 			{
-				int requestId = 0;
-				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", propertyNo.ToString(), ref requestId);
-				if (result.HasError)
-				{
-					return new OperationResult<bool>(result.Error);
-				}
-				var requestInfo = new Firesec_50.DevicePropertyRequest.RequestInfo()
-				{
-					ParamNo = propertyNo,
-					RequestId = requestId
-				};
-				devicePropertyRequest.RequestIds.Add(requestInfo);
+				StopEvent.Set();
 			}
-			DevicePropertyRequests.Add(devicePropertyRequest);
-
-			if (AUParametersThread == null)
+			if (AUParametersThread != null)
 			{
-				StopEvent = new AutoResetEvent(false);
-				AUParametersThread = new Thread(AUParametersThreadRun);
-				AUParametersThread.Start();
+				AUParametersThread.Join(TimeSpan.FromSeconds(5));
 			}
-			return new OperationResult<bool>() { Result = true };
+			AUParametersThread = null;
 		}
 
-		static void AUParametersThreadRun()
+		public static void BeginGetAuParameters(List<Device> devices)
 		{
-			try
-			{
-				while (DevicePropertyRequests.Count > 0)
-				{
-					DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
-					var devicePropertyRequests = DevicePropertyRequests.ToList();
+			StopAUParametersThread();
+			StopEvent = new AutoResetEvent(false);
+			AUParametersThread = new Thread(() => { GetAuParameters(devices); });
+			AUParametersThread.Start();
+		}
 
-					int stateConfigQueriesRequestId = 0;
-					var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod("", "StateConfigQueries", null, ref stateConfigQueriesRequestId);
-					if (result == null || result.HasError || result.Result == null)
+		static void GetAuParameters(List<Device> devices)
+		{
+			for(int i = 0; i < devices.Count; i++)
+			{
+				var device = devices[i];
+				OnPropgress("Чтение параметров устройства " + device.DottedPresentationNameAndAddress, (i * 100) / devices.Count);
+				var addedDevicePropertyRequest = new DevicePropertyRequest(device);
+				foreach (var propertyNo in addedDevicePropertyRequest.PropertyNos)
+				{
+					int requestId = 0;
+					var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", propertyNo.ToString(), ref requestId);
+					if (result.HasError)
 					{
-						Thread.Sleep(TimeSpan.FromSeconds(1));
-						continue;
+						AUParametersThread = null;
+						return;
 					}
+					var requestInfo = new Firesec_50.DevicePropertyRequest.RequestInfo()
+					{
+						ParamNo = propertyNo,
+						RequestId = requestId
+					};
+					addedDevicePropertyRequest.RequestIds.Add(requestInfo);
+				}
+				DevicePropertyRequests.Add(addedDevicePropertyRequest);
+
+				try
+				{
+					while (DevicePropertyRequests.Count > 0)
+					{
+						DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
+						var devicePropertyRequests = DevicePropertyRequests.ToList();
+
+						int stateConfigQueriesRequestId = 0;
+						var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod("", "StateConfigQueries", null, ref stateConfigQueriesRequestId);
+						if (result == null || result.HasError || result.Result == null)
+						{
+							Thread.Sleep(TimeSpan.FromSeconds(1));
+							continue;
+						}
 
 					var stringResult = result.Result;
 					stringResult = ClearString(stringResult);
 
 					Firesec.Models.DeviceCustomFunctions_50.Requests requests = Firesec.SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions_50.Requests>(stringResult);
-					if (requests != null && requests.Request.Count() > 0)
-					{
-						foreach (var request in requests.Request)
 						{
-							foreach (var devicePropertyRequest in devicePropertyRequests)
+							foreach (var request in requests.Request)
 							{
-								if (devicePropertyRequest.RequestIds.Any(x => x.RequestId == request.ID))
+								foreach (var devicePropertyRequest in devicePropertyRequests)
 								{
-									if (request.State != "5")
-										continue;
-
-									string resultString = request.resultString;
-									if (resultString == null)
-										continue;
-
-									var requestInfo = devicePropertyRequest.RequestIds.FirstOrDefault(x => x.RequestId == request.ID);
-									if (requestInfo == null)
-										continue;
-									devicePropertyRequest.RequestIds.RemoveAll(x => x.RequestId == request.ID);
-									int propertyNo = requestInfo.ParamNo;
-									int propertyValue = 0;
-									try
+									if (devicePropertyRequest.RequestIds.Any(x => x.RequestId == request.ID))
 									{
-										if (!string.IsNullOrEmpty(resultString))
-											propertyValue = int.Parse(resultString);
-									}
-									catch { ;}
+										if (request.State != "5")
+											continue;
 
-									foreach (var driverProperty in devicePropertyRequest.Device.Driver.Properties.FindAll(x => x.No == propertyNo))
-									{
-										if (devicePropertyRequest.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+										var resultString = request.resultString;
+										if (resultString == null)
+											continue;
+
+										var requestInfo = devicePropertyRequest.RequestIds.FirstOrDefault(x => x.RequestId == request.ID);
+										if (requestInfo == null)
+											continue;
+										devicePropertyRequest.RequestIds.RemoveAll(x => x.RequestId == request.ID);
+										int propertyNo = requestInfo.ParamNo;
+										int propertyValue = 0;
+										try
 										{
-											devicePropertyRequest.Properties.Add(CreateProperty(propertyValue, driverProperty));
+											if (!string.IsNullOrEmpty(resultString))
+												propertyValue = int.Parse(resultString);
+										}
+										catch { ;}
+
+										foreach (var driverProperty in devicePropertyRequest.Device.Driver.Properties.FindAll(x => x.No == propertyNo))
+										{
+											if (devicePropertyRequest.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+											{
+												devicePropertyRequest.Properties.Add(CreateProperty(propertyValue, driverProperty));
+												OnPropgress("Чтение параметров устройства " + device.DottedPresentationNameAndAddress + " (" + driverProperty.Caption + ")", (i * 100) / devices.Count);
+											}
 										}
 									}
 								}
-							}
 
-							foreach (var devicePropertyRequest in devicePropertyRequests)
-							{
-								if (devicePropertyRequest.RequestIds.Count == 0)
+								foreach (var devicePropertyRequest in devicePropertyRequests)
 								{
-									foreach (var resultProperty in devicePropertyRequest.Properties)
+									if (devicePropertyRequest.RequestIds.Count == 0)
 									{
-										var property = devicePropertyRequest.Device.DeviceAUProperties.FirstOrDefault(x => x.Name == resultProperty.Name);
-										if (property == null)
+										foreach (var resultProperty in devicePropertyRequest.Properties)
 										{
-											property = new Property()
+											var property = devicePropertyRequest.Device.DeviceAUProperties.FirstOrDefault(x => x.Name == resultProperty.Name);
+											if (property == null)
 											{
-												Name = resultProperty.Name
-											};
-											devicePropertyRequest.Device.DeviceAUProperties.Add(property);
+												property = new Property()
+												{
+													Name = resultProperty.Name
+												};
+												devicePropertyRequest.Device.DeviceAUProperties.Add(property);
+											}
+											property.Value = resultProperty.Value;
 										}
-										property.Value = resultProperty.Value;
+										devicePropertyRequest.Device.OnAUParametersChanged();
 									}
-									devicePropertyRequest.Device.OnAUParametersChanged();
 								}
 							}
 						}
+						if (StopEvent.WaitOne(1000))
+							break;
 					}
-					if (StopEvent.WaitOne(1000))
-						break;
+					OnPropgress("", 0);
+					AUParametersThread = null;
 				}
-				AUParametersThread = null;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecDriverAuParametersHelper.AUParametersThreadRun");
+				catch (Exception e)
+				{
+					Logger.Error(e, "FiresecDriverAuParametersHelper.AUParametersThreadRun");
+				}
 			}
 		}
 
 		static Property CreateProperty(int paramValue, DriverProperty driverProperty)
 		{
-			var offsetParamValue = paramValue;
+			var realParamValue = paramValue;
 
 			var highByteValue = paramValue / 256;
 			var lowByteValue = paramValue - highByteValue * 256;
 
 			if (driverProperty.HighByte)
-				offsetParamValue = highByteValue;
+				realParamValue = highByteValue;
 			else if (driverProperty.LargeValue)
-				offsetParamValue = paramValue;
+				realParamValue = paramValue;
 			else
-				offsetParamValue = lowByteValue;
+				realParamValue = lowByteValue;
 
 			if (driverProperty.Caption == "Проигрываемое сообщение")
 			{
-				return MRO2Helper.GetMessageNumber(offsetParamValue);
+				return MRO2Helper.GetMessageNumber(realParamValue);
 			}
 
 			if (driverProperty.MinBit > 0)
 			{
-				byte byteOffsetParamValue = (byte)offsetParamValue;
+				byte byteOffsetParamValue = (byte)realParamValue;
 				byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinBit);
 				byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinBit);
-				offsetParamValue = byteOffsetParamValue;
+				realParamValue = byteOffsetParamValue;
 			}
 
 			if (driverProperty.MaxBit > 0)
 			{
-				byte byteOffsetParamValue = (byte)offsetParamValue;
+				byte byteOffsetParamValue = (byte)realParamValue;
 				byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxBit);
 				byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
-				offsetParamValue = byteOffsetParamValue;
+				realParamValue = byteOffsetParamValue;
 			}
 
 			if (driverProperty.BitOffset > 0)
 			{
-				offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
+				realParamValue = realParamValue >> driverProperty.BitOffset;
 			}
 
 			if (driverProperty.Caption == "Задержка включения МРО, с")
 			{
-				offsetParamValue = offsetParamValue * 5;
+				realParamValue = realParamValue * 5;
+			}
+
+			if (driverProperty.Multiplier > 0)
+			{
+				realParamValue = (int)(realParamValue / driverProperty.Multiplier);
 			}
 
 			var property = new Property()
 			{
 				Name = driverProperty.Name,
-				Value = offsetParamValue.ToString()
+				Value = realParamValue.ToString()
 			};
 
 			return property;

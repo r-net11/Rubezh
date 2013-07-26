@@ -154,6 +154,7 @@
     <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
+    <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="PopupButton.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
+    <Compile Include="Ribbon\Views\RibbonPopup.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
     <Compile Include="ToggleButton.cs" />
@@ -965,6 +967,103 @@
     <Resource Include="Images\ParametersWriteAll.png" />
     <Resource Include="Images\BConfig.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BArrowRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAdd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BCut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BCopy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDelete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BEdit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPaste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BArrowUpDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersWriteAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersReadAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersReadWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersSync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BParametersWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAllParameters.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BBriefcase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BZones.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDirection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDeleteEmpty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUsers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPlay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BStop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDeleteAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BDevice.png" />
+    <Resource Include="Images\BJournal.png" />
+    <Resource Include="Images\BLink.png" />
+    <Resource Include="Images\BPassword.png" />
+    <Resource Include="Images\BSearch.png" />
+    <Resource Include="Images\BUsb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MessageBox\BWatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWatch.png" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

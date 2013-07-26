@@ -63,6 +63,13 @@
                 </Grid>
 
                 <StackPanel Visibility="{Binding IsFireZone, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Минимальное число адресных устройств в состоянии 'Сработка', необходимых для включения МПТ, НС. При '1' и одном устройстве в состоянии 'Пожар' запуск будет только от АМ1"
+                            TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                    <extToolkit:IntegerUpDown Value="{Binding DetectorCount}" Minimum="1" Maximum="999" HorizontalAlignment="Right" Width="120" Margin="2" />
+
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации). Берется с параметров МПТ или ППУ этой зоны" Foreground="White" Margin="2" />
+                    <TextBox Text="{Binding EvacuationTime, Mode=OneWay}" IsEnabled="False" HorizontalAlignment="Right" Width="100" Margin="2" />
+                    
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="group1" />
@@ -71,20 +78,13 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Число датчиков для формирования сигнала Пожар" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Maximum="999" Margin="2" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" HorizontalAlignment="Right" Text="Время эвакуации, с(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Foreground="White" Margin="2" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EvacuationTime}" Foreground="White" Margin="2" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Влючить отсчет времени задержки" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                        <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding EnableExitTime}" Margin="2" />
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Влючить отсчет времени задержки" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                        <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding EnableExitTime}" Margin="2" />
-
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="При возобновлении запуска" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableExitRestoreTypes}" SelectedItem="{Binding ExitRestoreType}" Margin="2">
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="При возобновлении запуска" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableExitRestoreTypes}" SelectedItem="{Binding ExitRestoreType}" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource ExitRestoreTypeToStringConverter}}" />

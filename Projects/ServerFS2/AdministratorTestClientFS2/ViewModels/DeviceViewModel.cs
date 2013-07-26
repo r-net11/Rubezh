@@ -2,6 +2,7 @@
 using FiresecClient;
 using Infrastructure.Common.TreeList;
 using ServerFS2;
+using Infrastructure.Common;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -9,6 +10,9 @@ namespace AdministratorTestClientFS2.ViewModels
 	{
 		public DeviceViewModel(Device device, bool intitialize = true)
 		{
+			GetParametersCommand = new RelayCommand(OnGetParameters);
+			SetParametersCommand = new RelayCommand(OnSetParameters);
+
 			Device = device;
 			if (!intitialize)
 				return;
@@ -17,7 +21,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		 	FiresecManager.FiresecConfiguration = new FiresecConfiguration();
 			FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationManager.DeviceConfiguration;
 			FiresecManager.FiresecConfiguration.DriversConfiguration = ConfigurationManager.DriversConfiguration;
-			UpdateZoneName();
+			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
 		}
 
 		public bool HasDifferences
@@ -37,37 +41,40 @@ namespace AdministratorTestClientFS2.ViewModels
 		void device_AUParametersChanged()
 		{
 			UpdataConfigurationProperties();
-			PropertiesViewModel.IsAuParametersReady = true;
 		}
 
 		public void UpdataConfigurationProperties()
 		{
-			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
 
 		public bool IsBold { get; set; }
-		public string XXXPresentationZone { get; set; }
 
 		#region Zone
+		public string PresentationZone { get; set; }
+
 		public bool IsZoneDevice
 		{
 			get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
 		}
-
-		void UpdateZoneName()
-		{
-			EditingPresentationZone = PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
-		}
-
-		public string PresentationZone { get; private set; }
-		public string EditingPresentationZone { get; private set; }
-
 		public bool IsZoneOrLogic
 		{
 			get { return Driver.IsZoneDevice || Driver.IsZoneLogicDevice || Driver.DriverType == DriverType.Indicator || Driver.DriverType == DriverType.PDUDirection; }
 		}
-
 		#endregion
+
+		public RelayCommand GetParametersCommand { get; private set; }
+		void OnGetParameters()
+		{
+			DeviceParametersOperationHelper.GetDeviceParameters(Device);
+			Device.OnAUParametersChanged();
+		}
+
+		public RelayCommand SetParametersCommand { get; private set; }
+		void OnSetParameters()
+		{
+			DeviceParametersOperationHelper.SetDeviceParameters(Device, Device.Properties);
+		}
 	}
 }

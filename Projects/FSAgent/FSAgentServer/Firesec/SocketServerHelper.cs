@@ -15,7 +15,7 @@ namespace FSAgentServer
 		{
 			foreach (var process in Process.GetProcesses())
 			{
-				if (process.ProcessName == "scktsrvr")
+				if (process.ProcessName == "scktsrvr" || process.ProcessName == "ScktSrvr")
 					return;
 			}
 

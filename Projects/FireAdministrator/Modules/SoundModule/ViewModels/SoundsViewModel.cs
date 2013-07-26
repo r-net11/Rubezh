@@ -5,6 +5,8 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.ViewModels;
+using Infrastructure.Common.Ribbon;
+using System.Collections.Generic;
 
 namespace SoundsModule.ViewModels
 {
@@ -14,6 +16,7 @@ namespace SoundsModule.ViewModels
 		{
 			Menu = new SoundsMenuViewModel(this);
 			PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -77,6 +80,7 @@ namespace SoundsModule.ViewModels
 			{
 				_isNowPlaying = value;
 				OnPropertyChanged("IsNowPlaying");
+				UpdateRibbonItems();
 			}
 		}
 
@@ -112,6 +116,21 @@ namespace SoundsModule.ViewModels
 			base.OnHide();
 			IsNowPlaying = false;
 			AlarmPlayerHelper.Stop();
+		}
+
+		protected override void UpdateRibbonItems()
+		{
+			base.UpdateRibbonItems();
+			RibbonItems[0].IsVisible = !IsNowPlaying;
+			RibbonItems[1].IsVisible = IsNowPlaying;
+		}
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Проверить звук", PlaySoundCommand, "/Controls;component/Images/BPlay.png") { Order = 2 },
+				new RibbonMenuItemViewModel("Остановить", PlaySoundCommand, "/Controls;component/Images/BStop.png") { Order = 3 }
+			};
 		}
 	}
 }

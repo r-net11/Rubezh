@@ -5,6 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace LibraryModule.ViewModels
 {
@@ -29,6 +31,7 @@ namespace LibraryModule.ViewModels
 				Frame.Image = value;
 				OnPropertyChanged("Image");
 				ServiceFactory.SaveService.XLibraryChanged = true;
+				Refresh();
 			}
 		}
 
@@ -45,13 +48,38 @@ namespace LibraryModule.ViewModels
 			}
 		}
 
+		private Canvas _xamlOfImage;
 		public Canvas XamlOfImage
 		{
 			get
 			{
-				try { return ImageConverters.Xml2Canvas(Frame.Image); }
-				catch { return ImageConverters.Xml2Canvas(ErrorFrame); }
+				if (_xamlOfImage == null)
+					_xamlOfImage = ImageConverters.Xml2Canvas(Frame.Image) ?? ImageConverters.Xml2Canvas(ErrorFrame);
+				return _xamlOfImage;
 			}
+		}
+		private CancellationTokenSource tockenSource;
+		private void Refresh()
+		{
+			if (tockenSource != null)
+				tockenSource.Cancel();
+			tockenSource = new CancellationTokenSource();
+			TaskScheduler uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+			Task.Factory.StartNew((tocken) =>
+				{
+					Thread.Sleep(1000);
+					return tocken;
+				}, (object)tockenSource.Token, tockenSource.Token, TaskCreationOptions.None, TaskScheduler.Default).
+				ContinueWith((task) =>
+				{
+					if (!((CancellationToken)task.AsyncState).IsCancellationRequested)
+					{
+						System.Console.WriteLine("REFRESH !!!");
+						_xamlOfImage = null;
+						OnPropertyChanged(() => XamlOfImage);
+						LibraryViewModel.Current.InvalidatePreview();
+					}
+				}, CancellationToken.None, TaskContinuationOptions.OnlyOnRanToCompletion, uiScheduler);
 		}
 
 		public RelayCommand ImportSvgCommand { get; private set; }

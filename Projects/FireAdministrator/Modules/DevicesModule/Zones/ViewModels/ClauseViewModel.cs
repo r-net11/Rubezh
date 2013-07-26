@@ -29,8 +29,19 @@ namespace DevicesModule.ViewModels
 			_selectedState = clause.State;
 			SelectedOperation = clause.Operation;
 
-			if (clause.DeviceUID != Guid.Empty)
-				SelectedDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
+			if (clause.DeviceUIDs == null)
+			{
+				clause.DeviceUIDs = new List<Guid>();
+			}
+			SelectedDevices = new List<Device>();
+			foreach (var deviceUID in clause.DeviceUIDs)
+			{
+				var deviceInClause = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (deviceInClause != null)
+				{
+					SelectedDevices.Add(deviceInClause);
+				}
+			}
 
 			SelectedMROMessageNo = clause.ZoneLogicMROMessageNo;
 			SelectedMROMessageType = clause.ZoneLogicMROMessageType;
@@ -190,11 +201,12 @@ namespace DevicesModule.ViewModels
 		void Update()
 		{
 			Zones = new List<Guid>();
-			SelectedDevice = null;
+			SelectedDevices = new List<Device>(); ;
 			OnPropertyChanged("CanSelectOperation");
 			OnPropertyChanged("CanSelectZones");
 			OnPropertyChanged("CanSelectDevice");
 			OnPropertyChanged("PresenrationZones");
+			OnPropertyChanged("PresenrationSelectedDevice");
 
 			_zoneLogicViewModel.OnCurrentClauseStateChanged(SelectedState);
 		}
@@ -270,14 +282,29 @@ namespace DevicesModule.ViewModels
 		}
 		#endregion
 
-		Device _selectedDevice;
-		public Device SelectedDevice
+		List<Device> _selectedDevices;
+		public List<Device> SelectedDevices
 		{
-			get { return _selectedDevice; }
+			get { return _selectedDevices; }
 			set
 			{
-				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				_selectedDevices = value;
+				OnPropertyChanged("SelectedDevices");
+			}
+		}
+
+		public string PresenrationSelectedDevice
+		{
+			get
+			{
+				var result = "";
+				foreach (var device in SelectedDevices)
+				{
+					result += device.DottedPresentationNameAndAddress + ", ";
+				}
+				if (result.EndsWith(", "))
+					result = result.Remove(result.Length - 2, 2);
+				return result;
 			}
 		}
 
@@ -310,7 +337,6 @@ namespace DevicesModule.ViewModels
                 }
                 var zoneUIDs = from Zone zone in zones orderby zone.No select zone.UID;
 				Zones = zoneUIDs.ToList();
-				//Zones = zonesSelectionViewModel.Zones;
 				OnPropertyChanged("PresenrationZones");
 			}
 		}
@@ -318,9 +344,12 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDevice()
 		{
-			var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(Device.ParentPanel, SelectedState);
-			if (DialogService.ShowModalWindow(zoneLogicDeviceSelectionViewModel))
-				SelectedDevice = zoneLogicDeviceSelectionViewModel.SelectedDevice;
+			var zoneLogicDevicesSelectionViewModel = new ZoneLogicDevicesSelectionViewModel(Device, SelectedDevices, SelectedState);
+			if (DialogService.ShowModalWindow(zoneLogicDevicesSelectionViewModel))
+			{
+				SelectedDevices = zoneLogicDevicesSelectionViewModel.SelectedDevices;
+				OnPropertyChanged("PresenrationSelectedDevice");
+			}
 		}
 	}
 }

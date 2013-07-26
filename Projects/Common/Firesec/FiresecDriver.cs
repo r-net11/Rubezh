@@ -27,7 +27,6 @@ namespace Firesec
 				var result = ConfigurationConverter.ConvertMetadataFromFiresec();
                 if (!result.HasError)
                 {
-					var rmDriver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_1);
                     ConfigurationCash.DriversConfiguration = result.Result;
                     return new OperationResult<bool>() { Result = true };
                 }

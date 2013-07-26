@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.Models;
 using Device = FiresecAPI.Models.Device;
 
@@ -8,112 +9,97 @@ namespace ServerFS2
 {
 	public static class AutoDetectOperationHelper
 	{
-		public static Device AutoDetectDevice()
+		public static Device AutoDetectDevice(Device device)
 		{
-			byte deviceCount;
-			var bytes = new List<byte>();
-			bytes.Add(0x01);
-			bytes.Add(0x01);
-			bytes.Add(0x04);
-			var response = USBManager.Send(null, bytes);
+			var rootDevice = (Device)device.Clone();
+			var usbDevice = new Device();
+			if (rootDevice.Driver.DriverType == DriverType.Computer)
+			{
+				USBManager.Dispose();
+				rootDevice.Children = new List<Device>();
 
-			var computerDevice = new Device();
-			var msDevice = new Device();
+				var usbHidInfos = USBDetectorHelper.FindAllUsbHidInfo();
+				foreach (var usbHidInfo in usbHidInfos)
+				{
+					usbDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == usbHidInfo.USBDriverType);
+					usbDevice.DriverUID = usbDevice.Driver.UID;
+					AddChanelToMS(usbDevice);
+					rootDevice.Children.Add(usbDevice);
+					usbHidInfo.UsbHid.Dispose();
+				}
+				USBManager.Initialize();
+			}
+			if ((rootDevice.Driver.DriverType == DriverType.MS_1) || (rootDevice.Driver.DriverType == DriverType.MS_2))
+			{
+				for (byte sleifNo = 0; sleifNo < rootDevice.Children.Count; sleifNo++)
+				{
+					rootDevice.Children[sleifNo].Children = new List<Device>();
+					for (byte deviceNo = 1; deviceNo < 128; deviceNo++)
+					{
+						var tempDevice = new Device();
+						tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
+						tempDevice.IntAddress = deviceNo;
+						tempDevice.Parent = rootDevice.Children[sleifNo];
+						var response = USBManager.Send(tempDevice, 0x3C);
+						if (response.FunctionCode == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
+						{
+							response = USBManager.Send(tempDevice, 0x01, 0x03);
+							var driverUid = DriversHelper.GetDriverUidByType(response.Bytes[0]);
+							if (driverUid == null)
+								continue;
+							tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == driverUid);
+							rootDevice.Children[sleifNo].Children.Add(tempDevice);
+						}
+					}
+				}
+			}
+			if ((rootDevice.Driver.DriverType == DriverType.USB_Channel_1) || (rootDevice.Driver.DriverType == DriverType.USB_Channel_2))
+			{
+				rootDevice.Children = new List<Device>();
+				for (byte deviceNo = 1; deviceNo < 128; deviceNo++)
+				{
+					var tempDevice = new Device();
+					tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
+					tempDevice.IntAddress = deviceNo;
+					tempDevice.Parent = rootDevice;
+					var response = USBManager.Send(tempDevice, 0x3C);
+					if (response.FunctionCode == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
+					{
+						response = USBManager.Send(tempDevice, 0x01, 0x03);
+						var driverUid = DriversHelper.GetDriverUidByType(response.Bytes[0]);
+						if (driverUid == null)
+							continue;
+						tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == driverUid);
+						rootDevice.Children.Add(tempDevice);
+					}
+				}
+			}
+			return rootDevice;
+		}
+
+		static void AddChanelToMS(Device device)
+		{
+			if ((device.Driver.DriverType != DriverType.MS_1) && (device.Driver.DriverType != DriverType.MS_2))
+				return;
 			var usbChannel1Device = new Device();
 			var usbChannel2Device = new Device();
-
-			// Добавляем компьютер
-			computerDevice.DriverUID = new Guid("F8340ECE-C950-498D-88CD-DCBABBC604F3");
-			computerDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == computerDevice.DriverUID);
-
-			// МС-1
-			byte ms = 0x03;
-			msDevice.DriverUID = new Guid("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6");
-			msDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
-
 			// Добавляем 1-й канал
 			usbChannel1Device.DriverUID = new Guid("780DE2E6-8EDD-4CFA-8320-E832EB699544");
 			usbChannel1Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == usbChannel1Device.DriverUID);
 			usbChannel1Device.IntAddress = 1;
-			msDevice.Children.Add(usbChannel1Device);
+			usbChannel1Device.Children = new List<Device>();
 
-			if (response.Bytes[5] == 0x41) // запрашиваем второй шлейф
+			device.Children.Add(usbChannel1Device);
+			if (device.Driver.DriverType == DriverType.MS_2)
 			{
-				// МС-2
-				ms = 0x04;
-				msDevice.DriverUID = new Guid("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6");
-				msDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == msDevice.DriverUID);
-
 				// Добавляем 2-й канал
 				usbChannel2Device.DriverUID = new Guid("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E");
 				usbChannel2Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == usbChannel2Device.DriverUID);
 				usbChannel2Device.IntAddress = 2;
-				msDevice.Children.Add(usbChannel2Device);
+				usbChannel1Device.Children = new List<Device>();
+
+				device.Children.Add(usbChannel2Device);
 			}
-
-			// Добавляем МС
-			computerDevice.Children.Add(msDevice);
-			for (byte sleif = 0x03; sleif <= ms; sleif++)
-			{
-				for (deviceCount = 1; deviceCount < 128; deviceCount++)
-				{
-					//if (Progress != null)
-					//    Progress(Convert.ToInt32(deviceCount), 127, (sleif - 2) + " - Канал. Поиск PNP-устройств Рубеж с адресом: " + deviceCount + ". Всего адресов: 127");
-					bytes = new List<byte>();
-					bytes.Add(sleif);
-					bytes.Add(deviceCount);
-					bytes.Add(0x3C);
-					response = USBManager.Send(msDevice, bytes);
-					if (response.Bytes[6] == 0x7C) // Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
-					{
-						var device = new Device();
-						device.Properties = new List<Property>();
-						device.Driver = new Driver();
-						device.IntAddress = response.Bytes[5];
-						device.Driver.HasAddress = true;
-						bytes = new List<byte>();
-						bytes.Add(sleif);
-						bytes.Add(deviceCount);
-						bytes.Add(0x01);
-						bytes.Add(0x03);
-						response = USBManager.Send(msDevice, bytes);
-						device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == DriversHelper.GetDriverUidByType(response.Bytes[7]));
-
-						bytes = new List<byte>();
-						bytes.Add(sleif);
-						bytes.Add(deviceCount);
-						bytes.Add(0x01);
-						bytes.Add(0x12);
-						response = USBManager.Send(msDevice, bytes);
-						device.Properties.Add(new Property() { Name = "Version", Value = response.Bytes[7].ToString("X2") + "." + response.Bytes[8].ToString("X2") });
-
-						bytes = new List<byte>();
-						bytes.Add(sleif);
-						bytes.Add(deviceCount);
-						bytes.Add(0x01);
-						bytes.Add(0x52);
-						bytes.Add(0x00);
-						bytes.Add(0x00);
-						bytes.Add(0x00);
-						bytes.Add(0xF4);
-						bytes.Add(0x0B);
-						response = USBManager.Send(msDevice, bytes);
-						if (response.Bytes.Count >= 18)
-						{
-							var serilaNo = "";
-							for (int i = 7; i <= 18; i++)
-								serilaNo += response.Bytes[i] - 0x30 + ".";
-							serilaNo = serilaNo.Remove(serilaNo.Length - 1);
-							device.Properties.Add(new Property() { Name = "SerialNo", Value = serilaNo });
-						}
-						if (sleif == 0x03)
-							usbChannel1Device.Children.Add(device);
-						else
-							usbChannel2Device.Children.Add(device);
-					}
-				}
-			}
-			return computerDevice;
 		}
 	}
 }

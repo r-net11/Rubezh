@@ -29,6 +29,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
 			TextVisibility = !RegistrySettingsHelper.GetBool(Name + ".Shell.TextVisibility");
 			RibbonVisible = false;
+			ToolbarVisible = true;
 		}
 
 		public RelayCommand<MinimizeTarget> MinimizeCommand { get; private set; }
@@ -137,6 +138,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		private bool _toolbarVisible;
+		public bool ToolbarVisible
+		{
+			get { return _toolbarVisible; }
+			set
+			{
+				_toolbarVisible = value;
+				OnPropertyChanged(() => ToolbarVisible);
+			}
+		}
+		
 		private BaseViewModel _toolbar;
 		public BaseViewModel Toolbar
 		{

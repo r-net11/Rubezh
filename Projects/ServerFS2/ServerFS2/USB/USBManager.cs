@@ -51,7 +51,7 @@ namespace ServerFS2
 					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall);
 					if (response != null)
 					{
-						var inputBytes = response.Bytes.ToList();
+						response.InputBytes = response.Bytes.ToList();
 						if (usbHid.UseId)
 						{
 							if (response.Bytes.Count < 4)
@@ -181,9 +181,6 @@ namespace ServerFS2
 
 		static List<byte> CreateRootBytes(Device device, bool useId)
 		{
-			var parentPanel = device.ParentPanel;
-			var parentUSB = device.ParentUSB;
-
 			var result = new List<byte>();
 			if (useId)
 			{
@@ -193,6 +190,7 @@ namespace ServerFS2
 				}
 				else
 				{
+					var parentPanel = device.ParentPanel;
 					result.Add((byte)(parentPanel.Parent.IntAddress + 2));
 					result.Add((byte)parentPanel.IntAddress);
 				}
@@ -216,6 +214,8 @@ namespace ServerFS2
 
 		static UsbHid GetUsbUsbHid(Device panelDevice)
 		{
+			if (panelDevice == null)
+				return null;
 			var parentUSB = panelDevice.ParentUSB;
 			if (parentUSB != null)
 			{

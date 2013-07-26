@@ -54,8 +54,9 @@ namespace ServerFS2.Monitoring
 					var deviceZoneNo = 0;
 					if (zone != null)
 					{
-						deviceZoneNo = 0;
+						deviceZoneNo = zone.LocalDeviceNo;
 					}
+					CallbackManager.AddLog("Постановка на охрану");
 					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToSetGuard = new List<Zone>();
@@ -67,8 +68,9 @@ namespace ServerFS2.Monitoring
 					var deviceZoneNo = 0;
 					if (zone != null)
 					{
-						deviceZoneNo = 0;
+						deviceZoneNo = zone.LocalDeviceNo;
 					}
+					CallbackManager.AddLog("Снятие с охраны");
 					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToResetGuard = new List<Zone>();
@@ -87,16 +89,21 @@ namespace ServerFS2.Monitoring
 				}
 				IsStateRefreshNeeded = false;
 			}
-			DeviceStatesManager.UpdatePanelExtraDevices(PanelDevice);
 
 			DeviceStatesManager.UpdateDeviceStateAndParameters(RealChildren[RealChildIndex]);
 			NextIndextoGetParams();
+			if (RealChildIndex == 0)
+			{
+				DeviceStatesManager.UpdatePanelExtraDevices(PanelDevice);
+				DeviceStatesManager.UpdatePanelState(PanelDevice);
+				DeviceStatesManager.UpdatePanelParameters(PanelDevice);
+			}
 		}
 
 		void NextIndextoGetParams()
 		{
 			RealChildIndex++;
-			if (RealChildIndex + 1 >= RealChildren.Count)
+			if (RealChildIndex >= RealChildren.Count)
 				RealChildIndex = 0;
 		}
 

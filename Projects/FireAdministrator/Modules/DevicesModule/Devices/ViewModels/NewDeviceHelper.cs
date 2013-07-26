@@ -104,6 +104,8 @@ namespace DevicesModule.ViewModels
 			foreach (var child in device.Children)
 			{
 				var reservedCount = Math.Max(child.GetReservedCount(), 1);
+				if (child.Driver.DriverType == DriverType.MRK_30)
+					reservedCount += 1;
 				if (isMRK30)
 					reservedCount = 1;
 				for (int i = 0; i < reservedCount; i++)

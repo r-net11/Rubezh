@@ -29,7 +29,7 @@ namespace FiresecAPI.Models
 			ShapeIds = new List<string>();
 			ZonesInLogic = new List<Zone>();
 			DependentDevices = new List<Device>();
-			ZonesConfiguration = new DeviceConfiguration();
+			DeviceConfiguration = new DeviceConfiguration();
 			StateWordBytes = new List<byte>();
 			RawParametersBytes = new List<byte>();
 		}
@@ -57,12 +57,13 @@ namespace FiresecAPI.Models
 	            }
 	        }
 	    }
-		public DeviceConfiguration ZonesConfiguration { get; set; }
+		public DeviceConfiguration DeviceConfiguration { get; set; }
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
+        public bool HasMissingDifferences { get; set; }
 		public BinaryDevice BinaryDevice { get; set; }
 		public List<byte> StateWordBytes { get; set; }
 		public List<byte> RawParametersBytes { get; set; }
@@ -568,7 +569,7 @@ namespace FiresecAPI.Models
 			var devices = new List<Device>();
 			foreach (var device in Children)
 			{
-				if (!IsGroupDevice(device.Driver.DriverType))
+				if (!device.Driver.IsGroupDevice)
 				{
 					devices.Add(device);
 				}
@@ -591,21 +592,6 @@ namespace FiresecAPI.Models
 				result.AddRange(device.GetAllChildren());
 			}
 			return result;
-		}
-
-		bool IsGroupDevice(DriverType driverType)
-		{
-			switch (driverType)
-			{
-				case DriverType.AM4:
-				case DriverType.AMP_4:
-				case DriverType.RM_2:
-				case DriverType.RM_3:
-				case DriverType.RM_4:
-				case DriverType.RM_5:
-					return true;
-			}
-			return false;
 		}
 
 		public void OnChanged()

@@ -18,10 +18,21 @@ namespace ServerFS2
 		{
 			SetIdOn();
 			if (UsbHid.UseId)
+			{
 				TypeNo = -1;
+				var bytes = new List<byte>() { 0x01, 0x01, 0x04 };
+				var bytesList = new List<List<byte>>();
+				bytesList.Add(bytes);
+				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
+				if (responce.Bytes[5] == 0x41)
+					USBDriverType = DriverType.MS_2;
+			}
 			else
+			{
 				TypeNo = GetUSBTypeNo();
-			USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
+				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
+			}
 			SerialNo = GetUSBSerialNo();
 		}
 

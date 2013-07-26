@@ -7,7 +7,7 @@ namespace Infrastructure.Common.Ribbon
 	{
 		public RibbonMenuViewModel(ObservableCollection<RibbonMenuItemViewModel> items = null)
 		{
-			Items = items;
+			Items = items ?? new ObservableCollection<RibbonMenuItemViewModel>();
 		}
 
 		private ObservableCollection<RibbonMenuItemViewModel> _items;

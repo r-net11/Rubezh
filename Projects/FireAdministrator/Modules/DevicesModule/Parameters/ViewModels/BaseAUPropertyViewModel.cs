@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using DevicesModule.ViewModels;
 
 namespace DevicesModule.DeviceProperties
 {
@@ -28,11 +29,7 @@ namespace DevicesModule.DeviceProperties
 			else
 				DeviceAUParameterValue = "Неизвестно";
 
-			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			if (!DriverProperty.IsReadOnly)
-			{
-				IsMissmatch = (deviceProperty != null && systemProperty != null && deviceProperty.Value != systemProperty.Value);
-			}
+			UpdateDeviceParameterMissmatchType();
 		}
 
 		public string Caption
@@ -45,14 +42,34 @@ namespace DevicesModule.DeviceProperties
 			get { return DriverProperty.ToolTip; }
 		}
 
-		bool _isMissmatch;
-		public bool IsMissmatch
+		void UpdateDeviceParameterMissmatchType()
 		{
-			get { return _isMissmatch; }
+			var deviceProperty = Device.DeviceAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			if (!DriverProperty.IsReadOnly)
+			{
+				if (deviceProperty == null)
+				{
+					DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown;
+				}
+				else
+				{
+					if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
+						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
+					else
+						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal;
+				}
+			}
+		}
+
+		DeviceParameterMissmatchType _deviceParameterMissmatchType;
+		public DeviceParameterMissmatchType DeviceParameterMissmatchType
+		{
+			get { return _deviceParameterMissmatchType; }
 			set
 			{
-				_isMissmatch = value;
-				OnPropertyChanged("IsMissmatch");
+				_deviceParameterMissmatchType = value;
+				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
 		}
 
@@ -67,7 +84,7 @@ namespace DevicesModule.DeviceProperties
 		{
             if (useSaveService)
             {
-                ServiceFactory.SaveService.FSChanged = true;
+				ServiceFactory.SaveService.FSParametersChanged = true;
             }
 
 			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
@@ -85,8 +102,7 @@ namespace DevicesModule.DeviceProperties
 				};
 				Device.SystemAUProperties.Add(newProperty);
 			}
-			var deviceProperty = Device.DeviceAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			IsMissmatch = (deviceProperty != null && systemProperty != null && deviceProperty.Value != systemProperty.Value);
+			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
 	}

@@ -24,6 +24,7 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Охранный шлейф 70 мс", 7);
 
 			driver.Properties.Add(property1);
+			driver.PresenterKeyPropertyName = "GuardType";
 		}
 	}
 }

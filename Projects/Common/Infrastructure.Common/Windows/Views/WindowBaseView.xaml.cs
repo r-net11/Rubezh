@@ -64,6 +64,11 @@ namespace Infrastructure.Common.Windows.Views
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
+            if (WindowState == WindowState.Minimized)
+            {
+                Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                Arrange(new Rect(0, 0, DesiredSize.Width, DesiredSize.Height));
+            }
 			CalculateSize();
 			UpdateWindowSize();
 			TruncateSize();
@@ -148,7 +153,7 @@ namespace Infrastructure.Common.Windows.Views
 			if (MinWidth < AbsolutMinSize)
 				MinWidth = AbsolutMinSize;
 			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
-				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
 			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
 				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
 			if (Left < 0)
@@ -157,7 +162,7 @@ namespace Infrastructure.Common.Windows.Views
 				Top = 0;
 			if (Left + Width > SystemParameters.MaximizedPrimaryScreenWidth)
 				Left = SystemParameters.MaximizedPrimaryScreenWidth - Width;
-			if (Top + Height> SystemParameters.MaximizedPrimaryScreenHeight)
+			if (Top + Height > SystemParameters.MaximizedPrimaryScreenHeight)
 				Top = SystemParameters.MaximizedPrimaryScreenHeight - Height;
 		}
 		private void CalculateSize()

@@ -31,24 +31,31 @@ namespace ServerFS2
 				var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
 				if (metadataPanelState != null)
 				{
-					if (metadataPanelState.@class == "0")
+					if (metadataPanelState.ID == "Warning")
 					{
-						if (metadataPanelState.ID == "Alarm")
-						{
-							ResetAlarm(panelDevice);
-						}
-						else
-						{
-							ResetFire(panelDevice);
-						}
+						ResetFire(panelDevice);
 					}
 					else
 					{
-						var bitNo = Int16.Parse(metadataPanelState.no);
-						if (bitArray[bitNo] == true)
+						if (metadataPanelState.@class == "0")
 						{
-							bitArray[bitNo] = false;
-							hasBytesToReset = true;
+							if (metadataPanelState.ID == "Alarm")
+							{
+								ResetAlarm(panelDevice);
+							}
+							else
+							{
+								ResetFire(panelDevice);
+							}
+						}
+						else
+						{
+							var bitNo = Int16.Parse(metadataPanelState.no);
+							if (bitArray[bitNo] == true)
+							{
+								bitArray[bitNo] = false;
+								hasBytesToReset = true;
+							}
 						}
 					}
 				}
@@ -102,7 +109,7 @@ namespace ServerFS2
 			{
 				var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
 				var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
-				USBManager.Send(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, device.ShleifNo - 1, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.Driver.DriverType == DriverType.MRO ? 0x01 : 0x00);
+				USBManager.Send(device.Parent, 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, 0x00, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.ShleifNo - 1);
 			}
 		}
 	}

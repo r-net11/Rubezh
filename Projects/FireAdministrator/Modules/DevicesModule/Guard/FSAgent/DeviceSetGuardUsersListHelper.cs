@@ -30,7 +30,10 @@ namespace DevicesModule.Guard
 			{
 				MessageBoxService.ShowError(OperationResult.Error, "Ошибка при выполнении операции");
 			}
-			MessageBoxService.Show("Операция завершилась успешно");
+			else
+			{
+				MessageBoxService.Show("Операция завершилась успешно");
+			}
 		}
 	}
 }

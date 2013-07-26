@@ -12,10 +12,12 @@ namespace FiresecAPI.Models
             ZoneUIDs = new List<Guid>();
             State = ZoneLogicState.Fire;
             Operation = ZoneLogicOperation.Any;
+			Devices = new List<Device>();
             Zones = new List<Zone>();
+			DeviceUIDs = new List<Guid>();
         }
 
-        public Device Device { get; set; }
+        public List<Device> Devices { get; set; }
         public List<Zone> Zones { get; set; }
 
         [DataMember]
@@ -27,8 +29,8 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<Guid> ZoneUIDs { get; set; }
 
-        [DataMember]
-        public Guid DeviceUID { get; set; }
+		[DataMember]
+		public List<Guid> DeviceUIDs { get; set; }
 
         [DataMember]
         public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
@@ -54,12 +56,12 @@ namespace FiresecAPI.Models
         {
             return new Clause()
             {
-                Device = Device,
+                Devices = Devices,
                 Zones = Zones,
                 State = State,
                 Operation = Operation,
                 ZoneUIDs = ZoneUIDs,
-                DeviceUID = DeviceUID,
+                DeviceUIDs = DeviceUIDs,
                 ZoneLogicMROMessageNo = ZoneLogicMROMessageNo,
                 ZoneLogicMROMessageType = ZoneLogicMROMessageType
             };

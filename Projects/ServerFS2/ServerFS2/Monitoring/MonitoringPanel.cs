@@ -39,6 +39,10 @@ namespace ServerFS2.Monitoring
 			get { return _lastSystemFireIndex; }
 			set
 			{
+				if (value > 100000)
+				{
+					return;
+				}
 				_lastSystemFireIndex = value;
 				LastJournalIndexHelper.SetLastFireJournalIndex(PanelDevice, value);
 			}
@@ -90,6 +94,12 @@ namespace ServerFS2.Monitoring
 			GetInformationOperationHelper.GetDeviceInformation(PanelDevice);
 			DeviceStatesManager.CanNotifyClients = true;
 			SerialNo = GetSerialNo();
+
+			SynchronyzeJournal(0x00);
+			if (PanelDevice.Driver.DriverType == DriverType.Rubezh_2OP || PanelDevice.Driver.DriverType == DriverType.USB_Rubezh_2OP)
+			{
+				SynchronyzeJournal(0x02);
+			}
 			return true;
 		}
 
@@ -99,12 +109,16 @@ namespace ServerFS2.Monitoring
 			{
 				if (IsFireReadingNeeded || IsSecurityReadingNeeded)
 				{
-					var journalItems = GetNewItems();
+					var journalItems = new List<FS2JournalItem>();
+                    if (IsFireReadingNeeded)
+                        journalItems.AddRange(GetNewFireJournalItems());
+                    if (IsSecurityReadingNeeded)
+                        journalItems.AddRange(GetNewSecurityJournalItems());
 					DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
 					DeviceStatesManager.UpdatePanelState(PanelDevice);
 					DeviceStatesManager.UpdatePanelParameters(PanelDevice);
 				}
-				DoTasks();
+                DoTasks();
 			}
 
 			CheckConnectionLost();
@@ -169,10 +183,14 @@ namespace ServerFS2.Monitoring
 			}
 			else
 			{
-				if (response.Bytes.Count < 4)
+				if (response.Bytes.Count != 4)
 					return;
 				lastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 0);
 			}
+
+			if (lastDeviceIndex > 1000000)
+				return;
+
 			if (requestType == RequestType.ReadFireIndex)
 			{
 				LastDeviceFireIndex = lastDeviceIndex;
@@ -205,14 +223,26 @@ namespace ServerFS2.Monitoring
 					IsSecurityReadingNeeded = true;
 				}
 			}
+
+			var deltaIndex = LastDeviceFireIndex - LastSystemFireIndex;
+			if (deltaIndex > 100)
+			{
+				CallbackManager.AddLog("GetNewJournalItems " + deltaIndex);
+			}
 		}
 
-		public List<FS2JournalItem> GetNewItems()
+		public List<FS2JournalItem> GetNewFireJournalItems(bool doProgress = false)
 		{
-			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex || x.RequestType == RequestType.ReadSecurityIndex);
+			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex);
 			var journalItems = new List<FS2JournalItem>();
-			for (int i = LastSystemFireIndex + 1; i <= LastDeviceFireIndex; i++)
+
+			for (int i = Math.Max(LastDeviceFireIndex - MaxFireMessages, LastSystemFireIndex + 1); i <= LastDeviceFireIndex; i++)
 			{
+				if (doProgress)
+				{
+					CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала " + (i - LastSystemFireIndex).ToString() + " из " + (LastDeviceFireIndex - LastSystemFireIndex).ToString(),
+						(i - LastSystemFireIndex) * 100 / (LastDeviceFireIndex - LastSystemFireIndex)));
+				}
 				var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x00);
 				if (journalItem != null)
 				{
@@ -220,21 +250,54 @@ namespace ServerFS2.Monitoring
 					journalItems.Add(journalItem);
 				}
 			}
-			for (int i = LastSystemSecurityIndex + 1; i <= LastDeviceSecurityIndex; i++)
-			{
-				var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x02);
-				if (journalItem != null)
-				{
-					OnNewJournalItem(journalItem);
-					journalItems.Add(journalItem);
-				}
-			}
-			LastSystemFireIndex = LastDeviceFireIndex;
-			LastSystemSecurityIndex = LastDeviceSecurityIndex;
+
+            LastSystemFireIndex = LastDeviceFireIndex;
 			IsFireReadingNeeded = false;
-			IsSecurityReadingNeeded = false;
 			return journalItems;
 		}
+
+        public List<FS2JournalItem> GetNewSecurityJournalItems(bool doProgress = false)
+        {
+            Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadSecurityIndex);
+            var journalItems = new List<FS2JournalItem>();
+            
+            for (int i = Math.Max(LastDeviceSecurityIndex - MaxSecurityMessages, LastSystemSecurityIndex + 1); i <= LastDeviceSecurityIndex; i++)
+            {
+                if (doProgress)
+                {
+                    CallbackManager.AddProgress(new FS2ProgressInfo("Чтение охранных записей журнала " + (i - LastSystemSecurityIndex).ToString() + " из " + (LastDeviceSecurityIndex - LastSystemSecurityIndex).ToString(),
+                            (i - LastSystemSecurityIndex) * 100 / (LastDeviceSecurityIndex - LastSystemSecurityIndex)));
+                }
+                var journalItem = JournalHelper.ReadItem(RemoteDeviceConfiguration, PanelDevice, i, 0x02);
+                if (journalItem != null)
+                {
+                    OnNewJournalItem(journalItem);
+                    journalItems.Add(journalItem);
+                }
+            }
+            LastSystemSecurityIndex = LastDeviceSecurityIndex;
+            IsSecurityReadingNeeded = false;
+            return journalItems;
+        }
+
+		void SynchronyzeJournal(int journalType)
+		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи", 50));
+			var response = USBManager.Send(PanelDevice, 0x01, 0x21, journalType);
+			if (response.HasError)
+				return;
+            if (journalType == 0x00)
+            {
+                LastDeviceFireIndex = BytesHelper.ExtractInt(response.Bytes, 0);
+                GetNewFireJournalItems(true);
+            }
+            if (journalType == 0x02)
+            {
+                LastDeviceSecurityIndex = BytesHelper.ExtractInt(response.Bytes, 0);
+                GetNewSecurityJournalItems(true);
+            }
+			
+        }
 
 		void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{

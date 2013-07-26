@@ -12,63 +12,65 @@ namespace DevicesModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
+			//return Brushes.Red;
+
 			ZoneLogicState? zoneLogicState = (ZoneLogicState?)value;
 			if (zoneLogicState == null)
-				return Colors.Green;
+				return Brushes.White;
 
 			switch(zoneLogicState.Value)
 			{
 				case ZoneLogicState.Fire:
-					return Colors.Red;
+					return Brushes.Red;
 
 				case ZoneLogicState.Attention:
-					return Colors.Yellow;
+					return Brushes.Yellow;
+
+				case ZoneLogicState.MPTAutomaticOn:
+					return Brushes.DarkRed;
+
+				case ZoneLogicState.MPTOn:
+					return Brushes.DarkRed;
+
+				case ZoneLogicState.Firefighting:
+					return Brushes.DarkRed;
+
+				case ZoneLogicState.DoubleFire:
+					return Brushes.Pink;
+
 
 				case ZoneLogicState.Alarm:
+					return Brushes.Red;
+
+				case ZoneLogicState.GuardSet:
+					return Brushes.Blue;
+
+				case ZoneLogicState.GuardUnSet:
+					return Brushes.Blue;
+
+				case ZoneLogicState.Lamp:
+					return Brushes.Red;
+
+				case ZoneLogicState.PCN:
 					return Colors.Red;
 
 
+				case ZoneLogicState.Failure:
+					return Brushes.Green;
 
 				case ZoneLogicState.AM1TOn:
-					return Colors.Green;
-
-				case ZoneLogicState.DoubleFire:
-					return Colors.Green;
-
-				case ZoneLogicState.Failure:
-					return Colors.Green;
-
-				case ZoneLogicState.Firefighting:
-					return Colors.Green;
-
-				case ZoneLogicState.GuardSet:
-					return Colors.Green;
-
-				case ZoneLogicState.GuardUnSet:
-					return Colors.Green;
-
-				case ZoneLogicState.Lamp:
-					return Colors.Green;
-
-				case ZoneLogicState.MPTAutomaticOn:
-					return Colors.Green;
-
-				case ZoneLogicState.MPTOn:
-					return Colors.Green;
-
-				case ZoneLogicState.PCN:
-					return Colors.Green;
+					return Brushes.DarkRed;
 
 				case ZoneLogicState.PumpStationAutomaticOff:
-					return Colors.Green;
+					return Brushes.Green;
 
 				case ZoneLogicState.PumpStationOn:
-					return Colors.Green;
+					return Brushes.Green;
 
 				case ZoneLogicState.ShuzOn:
-					return Colors.Green;
+					return Brushes.Green;
 			}
-			return Colors.Green;
+			return Brushes.White;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

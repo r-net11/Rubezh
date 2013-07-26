@@ -7,6 +7,8 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Monitoring;
+using Rubezh2010;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -15,6 +17,7 @@ namespace ServerFS2
 		DeviceConfiguration DeviceConfiguration;
 		public FSInternalJournal FSInternalJournal { get; private set; }
 		public FS2JournalItem FS2JournalItem { get; private set; }
+        driverConfigEventsEvent MetadataEvent; 
 		public List<byte> Bytes { get; private set; }
 
 		public FS2JournalItem Parce(DeviceConfiguration deviceConfiguration, Device panelDevice, List<byte> bytes)
@@ -22,7 +25,7 @@ namespace ServerFS2
 			if (bytes.Count != 32)
 				return null;
 			Bytes = bytes;
-			DeviceConfiguration = deviceConfiguration;
+            DeviceConfiguration = deviceConfiguration;
 			FSInternalJournal = new FSInternalJournal();
 			FS2JournalItem = new FS2JournalItem();
 			FS2JournalItem.BytesString = BytesHelper.BytesToString(bytes);
@@ -36,8 +39,7 @@ namespace ServerFS2
 			FSInternalJournal.AddressOnShleif = bytes[8];
 			FSInternalJournal.State = bytes[9];
 
-			FSInternalJournal.ZoneNo = BytesHelper.ExtractShort(bytes, 10);
-			FSInternalJournal.DescriptorNo = BytesHelper.ExtractTriple(bytes, 12);
+			FSInternalJournal.UnusedDescriptorNo = BytesHelper.ExtractTriple(bytes, 12);
 
 			var timeBytes = bytes.GetRange(1, 4);
 			FS2JournalItem.DeviceTime = TimeParceHelper.ParceDateTime(timeBytes);
@@ -47,6 +49,8 @@ namespace ServerFS2
 
 			FS2JournalItem.PanelUID = FS2JournalItem.PanelDevice.UID;
 			FS2JournalItem.PanelName = FS2JournalItem.PanelDevice.DottedPresentationNameAndAddress;
+
+            MetadataEvent = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + FSInternalJournal.EventCode.ToString("X2"));
 
 			if (MetadataHelper.HasDevise(FSInternalJournal.EventCode))
 			{
@@ -60,6 +64,12 @@ namespace ServerFS2
 				}
 			}
 
+			if (MetadataHelper.HasZone(FSInternalJournal.EventCode))
+			{
+				FSInternalJournal.ZoneNo = BytesHelper.ExtractShort(bytes, 10);
+				InitializeZone();
+			}
+
 			FS2JournalItem.StateType = GetEventStateType();
 			FS2JournalItem.Description = GetEventName();
 			FS2JournalItem.SubsystemType = GetSubsystemType(FS2JournalItem.PanelDevice);
@@ -68,25 +78,110 @@ namespace ServerFS2
 				FS2JournalItem.DeviceName = "АСПТ " + (FSInternalJournal.ShleifNo - 1) + ".";
 
 			InitializeDetalization();
-			InitializeZone();
 			InitializeGuardEvents();
 
 			FS2JournalItem.EventClass = GetIntEventClass();
 
-			FS2JournalItem.UserName = "Usr";
-			return FS2JournalItem;
+            GetUserName();
+            return FS2JournalItem;
 		}
+
+        void GetUserName()
+        {
+            switch (FSInternalJournal.EventCode)
+            {
+                case (0x35):
+                case (0x32):
+                    switch (Bytes[18])
+                    {
+                        case (0x6f):
+                            FS2JournalItem.UserName = "Дежурный";
+                            break;
+                        case (0x2a):
+                            FS2JournalItem.UserName = "Инсталлятор";
+                            break;
+                        case (0x4c):
+                            FS2JournalItem.UserName = "Администратор";
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case (0x3b):
+                case (0x3f):
+                case (0x34):
+                case (0x04):
+                    switch (Bytes[18])
+                    {
+                        case (0xef):
+                            FS2JournalItem.UserName = "Дежурный";
+                            break;
+                        case (0xaa):
+                            FS2JournalItem.UserName = "Инсталлятор";
+                            break;
+                        case (0xcc):
+                            FS2JournalItem.UserName = "Администратор";
+                            break;
+                        case (0x4d):
+                            FS2JournalItem.UserName = "Кнопка управления СПТ";
+                            break;
+                        case (0x4e):
+                            FS2JournalItem.UserName = "Кнопка ПУСК/СТОП";
+                            break;
+                        case (0x01):
+                            FS2JournalItem.UserName = "ЭДУ-ПТ1";
+                            break;
+                        case (0x02):
+                            FS2JournalItem.UserName = "ЭДУ-ПТ2";
+                            break;
+                        case (0x04):
+                            FS2JournalItem.UserName = "ЭДУ-ПТ3";
+                            break;
+                        case (0x05):
+                            FS2JournalItem.UserName = "Кнопка ДУ";
+                            break;
+                        case (0x06):
+                            FS2JournalItem.UserName = "Панель шкафа";
+                            break;
+                        case (0x08):
+                            FS2JournalItem.UserName = "ЭДУ-ПТ4";
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case (0x45):
+                case (0x31):
+                case (0x46):
+                    var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == Bytes[21]);
+                    FS2JournalItem.GuardUser = guardUser;
+                    FS2JournalItem.UserName = guardUser.Name;
+                    break;
+                default:
+                    break;
+            }
+        }
 
 		void InitializeDetalization()
 		{
-			if (FSInternalJournal.ShleifNo == 0x83)
-				FS2JournalItem.Detalization += "Выход: " + FSInternalJournal.ShleifNo + "\n";
-			if (FSInternalJournal.ShleifNo == 0x0F)
-				FS2JournalItem.Detalization += "АЛС: " + FSInternalJournal.ShleifNo + "\n";
+			FS2JournalItem.Detalization = "";
+			//if (FSInternalJournal.ShleifNo == 0x83)
+			//    FS2JournalItem.Detalization += "Выход: " + FSInternalJournal.ShleifNo + "\n";
+			//if (FSInternalJournal.ShleifNo == 0x0F)
+			//    FS2JournalItem.Detalization += "АЛС: " + FSInternalJournal.ShleifNo + "\n";
 
 			if (FSInternalJournal.EventCode == 0x0D && FS2JournalItem.StateByte == 0x20)
 			{
 				FS2JournalItem.Detalization += "база (сигнатура) повреждена или отсутствует\n";
+			}
+
+			if (FS2JournalItem.Device != null)
+			{
+				FS2JournalItem.Detalization += "Устройство: " + FS2JournalItem.Device.DottedPresentationNameAndAddress + "\n";
+			}
+			if (FS2JournalItem.Zone != null)
+			{
+				FS2JournalItem.Detalization += "Зона: " + FS2JournalItem.Zone.No + "\n";
 			}
 
 			FS2JournalItem.Detalization += GetDetalizationForConnectionLost();
@@ -103,10 +198,9 @@ namespace ServerFS2
 					var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
 					if (stringTableType != null)
 					{
-						var metadataEvent = MetadataHelper.Metadata.events.FirstOrDefault(x => x.rawEventCode == "$" + FSInternalJournal.EventCode.ToString("X2"));
-						if (metadataEvent.detailsFor != null)
+						if (MetadataEvent.detailsFor != null)
 						{
-							var metadataDetailsFor = metadataEvent.detailsFor.FirstOrDefault(x => x.tableType == stringTableType);
+							var metadataDetailsFor = MetadataEvent.detailsFor.FirstOrDefault(x => x.tableType == stringTableType);
 							if (metadataDetailsFor != null)
 							{
 								var metadataDictionary = MetadataHelper.Metadata.dictionary.FirstOrDefault(x => x.name == metadataDetailsFor.dictionary);
@@ -172,8 +266,8 @@ namespace ServerFS2
 						return "Устройство: МС-4 Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
 					case 102:
 						return "Устройство: УОО-ТЛ Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
-					default:
-						return "Неизв. устр." + "(" + FSInternalJournal.DeviceType.ToString() + ") Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
+					//default:
+					//    return "Неизв. устр." + "(" + FSInternalJournal.DeviceType.ToString() + ") Адрес:" + (FSInternalJournal.ShleifNo - 1).ToString() + "\n";
 				}
 			}
 			return "";
@@ -212,9 +306,9 @@ namespace ServerFS2
 					case 102:
 						FS2JournalItem.Detalization += "Устройство: УОО-ТЛ Адрес:" + Bytes[16] + "\n";
 						break;
-					default:
-						FS2JournalItem.Detalization += "Неизв. устр." + "(" + Bytes[17] + ") Адрес:" + Bytes[16] + "\n";
-						break;
+					//default:
+					//    FS2JournalItem.Detalization += "Неизв. устр." + "(" + Bytes[17] + ") Адрес:" + Bytes[16] + "\n";
+					//    break;
 				}
 				if (FS2JournalItem.DeviceCategory == 0x00)
 					FS2JournalItem.DeviceCategory = 0x75;
@@ -235,8 +329,10 @@ namespace ServerFS2
 						FS2JournalItem.ZoneUID = zone.UID;
 						FS2JournalItem.ZoneNo = zone.No;
 						FS2JournalItem.ZoneName = zone.No + "." + zone.Name;
+                        return;
 					}
 				}
+                FS2JournalItem.ZoneName = "Номер зоны не прочитан";
 			}
 		}
 
@@ -245,8 +341,8 @@ namespace ServerFS2
 			if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
 				return GetEventNameAMT();
 
-								var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
-								var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode, stringTableType);
+			var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
+			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode, stringTableType);
 			var firstIndex = eventName.IndexOf("[");
 			var lastIndex = eventName.IndexOf("]");
 			if (firstIndex != -1 && lastIndex != -1)

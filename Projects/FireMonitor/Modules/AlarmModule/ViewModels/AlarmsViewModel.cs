@@ -180,9 +180,7 @@ namespace AlarmModule.ViewModels
 			{
 				if (e.Key == System.Windows.Input.Key.F1 && GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled)
 				{
-					var fileName = Infrastructure.Common.AppDataFolderHelper.GetFile("Manual.pdf");
-					if (File.Exists(fileName))
-						Process.Start(fileName);
+					ManualPdfHelper.Show();
 				}
 				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{

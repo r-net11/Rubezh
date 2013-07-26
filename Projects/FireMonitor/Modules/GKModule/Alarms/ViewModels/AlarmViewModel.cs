@@ -101,20 +101,31 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			switch (Alarm.AlarmType)
+			if (Alarm.Zone != null)
 			{
-				case XAlarmType.Fire1:
-					ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
-					break;
+				switch (Alarm.AlarmType)
+				{
+					case XAlarmType.Fire1:
+						ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
+						break;
 
-				case XAlarmType.Fire2:
-					ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
-					break;
+					case XAlarmType.Fire2:
+						ObjectCommandSendHelper.ResetFire2(Alarm.Zone);
+						break;
+				}
+			}
+			if (Alarm.Device != null)
+			{
+				ObjectCommandSendHelper.ResetDevice(Alarm.Device);
 			}
 		}
 		bool CanReset()
 		{
-			return Alarm.Zone != null && (Alarm.AlarmType == XAlarmType.Fire1 || Alarm.AlarmType == XAlarmType.Fire2);
+			if (Alarm.Zone != null)
+				return (Alarm.AlarmType == XAlarmType.Fire1 || Alarm.AlarmType == XAlarmType.Fire2);
+			if (Alarm.Device != null)
+				return Alarm.Device.DeviceState.States.Contains(XStateType.Fire2) || Alarm.Device.DeviceState.States.Contains(XStateType.Fire1);
+			return false;
 		}
 		public bool CanResetCommand
 		{

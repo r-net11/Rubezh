@@ -24,6 +24,7 @@ namespace Infrastructure.Common.Windows
 		public static Action<FrameworkElement> ApplicationController { get; set; }
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
+		public static ShellViewModel Shell { get; private set; }
 
 		static ApplicationService()
 		{
@@ -34,7 +35,7 @@ namespace Infrastructure.Common.Windows
 			};
 		}
 
-		public static void Run(ApplicationViewModel model, bool noBorder, bool isMaximized)
+		public static void Run(ApplicationViewModel model, bool noBorder, bool? isMaximized)
 		{
 			var windowBaseView = new WindowBaseView(model);
 			if (noBorder)
@@ -45,10 +46,8 @@ namespace Infrastructure.Common.Windows
 				windowBaseView.SetValue(Window.WindowStyleProperty, WindowStyle.None);
 				windowBaseView.SetValue(Window.BackgroundProperty, new SolidColorBrush(Color.FromRgb(0x26, 0x61, 0x99)));
 			}
-			if (isMaximized)
-			{
-				windowBaseView.SetValue(Window.WindowStateProperty, WindowState.Maximized);
-			}
+			if (isMaximized.HasValue)
+				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
@@ -91,6 +90,7 @@ namespace Infrastructure.Common.Windows
 		}
 		public static void Run(ShellViewModel model)
 		{
+			Shell = model;
 			Layout = new LayoutService(model);
 			if (Starting != null)
 				Starting(Layout, EventArgs.Empty);
@@ -150,6 +150,10 @@ namespace Infrastructure.Common.Windows
 		public static void RegisterModules(List<IModule> modules)
 		{
 			Modules = new ReadOnlyCollection<IModule>(modules);
+		}
+		public static void RegisterShell(ShellViewModel shell)
+		{
+			Shell = shell;
 		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)

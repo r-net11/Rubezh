@@ -32,7 +32,17 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick" CanUserSortColumns="True">
+            <DataGrid Grid.Row="0" Name="DeviceUsersDataGrid" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" CanUserSortColumns="True">
+                <DataGrid.Resources>
+                    <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                        <MouseBinding Command="{Binding DataContext.EditDeviceUserCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=DeviceUsersDataGrid, Path=SelectedItems}" />
+                    </InputBindingCollection>
+                </DataGrid.Resources>
+                <DataGrid.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                    </Style>
+                </DataGrid.ItemContainerStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="25" Binding="{Binding GuardUser.Id}" />
                     <DataGridTextColumn Header="Пользователь прибора" Width="2*" Binding="{Binding GuardUser.Name}" />
@@ -47,7 +57,17 @@
                 <Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
                 <Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1" CanUserSortColumns="True">
+            <DataGrid Grid.Row="2" Name="UsersDataGrid" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" CanUserSortColumns="True">
+                <DataGrid.Resources>
+                    <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                        <MouseBinding Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=usersDataGrid, Path=SelectedItems}" />
+                    </InputBindingCollection>
+                </DataGrid.Resources>
+                <DataGrid.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                    </Style>
+                </DataGrid.ItemContainerStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="25" Binding="{Binding GuardUser.Id}" />
                     <DataGridTextColumn Header="Пользователь" Width="2*" Binding="{Binding GuardUser.Name}" />

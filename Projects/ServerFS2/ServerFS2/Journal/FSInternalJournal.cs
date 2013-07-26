@@ -10,6 +10,6 @@
 		public int AddressOnShleif { get; set; }
 		public int State { get; set; }
 		public int ZoneNo { get; set; }
-		public int DescriptorNo { get; set; }
+		public int UnusedDescriptorNo { get; set; }
 	}
 }

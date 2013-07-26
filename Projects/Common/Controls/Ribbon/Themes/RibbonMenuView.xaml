@@ -3,6 +3,9 @@
 		<Setter Property="OverridesDefaultStyle" Value="True" />
 		<Setter Property="SnapsToDevicePixels" Value="True" />
 		<Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
+		<Setter Property="KeyboardNavigation.ControlTabNavigation" Value="Cycle" />
+		<Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle" />
+		<Setter Property="KeyboardNavigation.DirectionalNavigation" Value="Cycle" />
 		<Setter Property="ItemsSource" Value="{Binding Items}" />
 		<Setter Property="Template">
 			<Setter.Value>

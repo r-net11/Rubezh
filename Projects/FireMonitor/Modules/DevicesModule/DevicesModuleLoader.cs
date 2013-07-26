@@ -15,6 +15,7 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Models;
 
 namespace DevicesModule
 {
@@ -38,15 +39,15 @@ namespace DevicesModule
 			ZonesViewModel = new ZonesViewModel();
 		}
 
-		void OnShowDeviceDetails(Guid deviceUID)
+		void OnShowDeviceDetails(ElementDeviceReference elementDeviceReference)
 		{
-			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDeviceReference.DeviceUID);
 			if (device == null)
 			{
-				Logger.Error("DevicesModuleLoader.OnShowDeviceDetails device=null " + deviceUID.ToString());
+				Logger.Error("DevicesModuleLoader.OnShowDeviceDetails device=null " + elementDeviceReference.DeviceUID.ToString());
 				return;
 			}
-			DialogService.ShowWindow(new DeviceDetailsViewModel(device));
+			DialogService.ShowWindow(new DeviceDetailsViewModel(device, elementDeviceReference.AlternativeUID));
 		}
 
 		public override void Initialize()

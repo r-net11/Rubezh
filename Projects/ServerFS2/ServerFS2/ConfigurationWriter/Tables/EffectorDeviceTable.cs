@@ -56,13 +56,12 @@ namespace ServerFS2.ConfigurationWriter
 				}
 				else
 				{
-					description += "0.";
+					if (Device.Driver.DriverType != DriverType.PumpStation && Device.Driver.DriverType != DriverType.Exit)
+					{
+						description += "0.";
+					}
 				}
 				var shleifNo = Device.ShleifNo;
-				if (Device.Driver.DriverType == DriverType.PumpStation)
-					shleifNo = 1;
-				if (Device.Driver.DriverType == DriverType.Exit)
-					shleifNo = Device.AddressOnShleif;
 				description += shleifNo.ToString() + "." + Device.AddressOnShleif.ToString();
 			}
 			BytesDatabase.AddString(description, "Описание");
@@ -107,7 +106,7 @@ namespace ServerFS2.ConfigurationWriter
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.Valve:
-					count = 6;
+					count = 17;
 					break;
 
 				case DriverType.MPT:
@@ -119,7 +118,7 @@ namespace ServerFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MDU:
-					count = 4;
+					count = 14;
 					break;
 
 				case DriverType.MRO_2:
@@ -181,7 +180,7 @@ namespace ServerFS2.ConfigurationWriter
 					{
 						var childIndex = Device.Parent.Children.IndexOf(Device);
 						config += (childIndex << 1);
-						config += 16;
+						config += 64;
 					}
 					break;
 			}
@@ -291,8 +290,11 @@ namespace ServerFS2.ConfigurationWriter
                         }
                     }
 
+					var actualDevicesCount = 0;
+					actualDevicesCount = clause.Devices.Count;
+
                     var zonesOrDevicesCount = 0;
-                    zonesOrDevicesCount = actualZoneTables.Count;
+					zonesOrDevicesCount = actualZoneTables.Count + actualDevicesCount;
 					if(clause.State == ZoneLogicState.Failure)
 						zonesOrDevicesCount = 1;
 
@@ -316,6 +318,7 @@ namespace ServerFS2.ConfigurationWriter
             foreach (var clause in clauses)
             {
                 var actualZoneTables = new HashSet<TableBase>();
+				var actualDeviceTables = new HashSet<TableBase>();
                 foreach (var zone in clause.Zones)
                 {
                     var binaryPanels = new HashSet<Device>();
@@ -346,7 +349,6 @@ namespace ServerFS2.ConfigurationWriter
                         {
 							var zoneTable = table as ZoneTable;
 							if (zoneTable.Zone.No == zone.No && zoneTable.BinaryZone.ParentPanel.UID == binaryPanel.UID)
-							//if (zoneTable.Zone.No == zone.No && zoneTable.Zone.DevicesInZone.Any(x => x.ParentPanel.UID == binaryPanel.UID))
                             {
                                 actualZoneTables.Add(table);
                             }
@@ -354,10 +356,24 @@ namespace ServerFS2.ConfigurationWriter
                     }
                 }
 
+				foreach (var clauseDevice in clause.Devices)
+				{
+					var binaryPanel = clauseDevice.BinaryDevice.BinaryPanel;
+					foreach (var table in PanelDatabase.Tables)
+					{
+						if (table is SensorDeviceTable)
+						{
+							var sensorDeviceTable = table as SensorDeviceTable;
+							if (sensorDeviceTable.Device.UID == clauseDevice.UID && sensorDeviceTable.ParentPanel.UID == binaryPanel.ParentPanel.UID)
+							{
+								actualDeviceTables.Add(table);
+							}
+						}
+					}
+				}
+
                 var zonesOrDevicesCount = 0;
-                zonesOrDevicesCount = actualZoneTables.Count;
-                if (clause.Device != null)
-                    zonesOrDevicesCount = 1;
+				zonesOrDevicesCount = actualZoneTables.Count + actualDeviceTables.Count; ;
 
                 var joinOperation = clause.Operation.Value == ZoneLogicOperation.All ? 1 : 2;
                 var mroLogic = 0;
@@ -439,11 +455,15 @@ namespace ServerFS2.ConfigurationWriter
 
                 if (zonesOrDevicesCount > 0 || clauses.IndexOf(clause) == 0)
                 {
-                    BytesDatabase.AddShort(zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
+					BytesDatabase.AddShort(zonesOrDevicesCount, "Количество зон в этой группе или ИУ, по активации которого должно включится");
                     foreach (var tableBase in actualZoneTables)
                     {
                         BytesDatabase.AddReferenceToTable(tableBase, tableBase.BytesDatabase.Name + " Указатель на участвующую в логике зону, в которой не локальные ИП управляют данным локальным ИУ по логике межприборное И или ИУ, по активации которого должно включится");
                     }
+					foreach (var tableBase in actualDeviceTables)
+					{
+						BytesDatabase.AddReferenceToTable(tableBase, tableBase.BytesDatabase.Name + " Указатель на участвующее в логике устройство");
+					}
                 }
             }
         }

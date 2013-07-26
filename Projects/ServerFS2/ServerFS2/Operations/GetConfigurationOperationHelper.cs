@@ -8,6 +8,7 @@ using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
 using System.Diagnostics;
+using ServerFS2.Service;
 
 namespace ServerFS2
 {
@@ -46,12 +47,39 @@ namespace ServerFS2
 
 		void ParseUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
+			int rawParametersLength;
+			switch (driverType)
+			{
+				case DriverType.Valve:
+					rawParametersLength = 6;
+					break;
+				case DriverType.MPT:
+					rawParametersLength = 15;
+					break;
+				case DriverType.BUNS:
+					rawParametersLength = 0;
+					break;
+				case DriverType.MDU:
+					rawParametersLength = 4;
+					break;
+				case DriverType.MRO_2:
+				case DriverType.MRO:
+					rawParametersLength = 3;
+					break;
+				default:
+					rawParametersLength = 2;
+					break;
+			}
+
+			//var length = DeviceFlash[pointer + 26];
+			//CallbackManager.OnLog("Detalization Parameters " + driverType + " " + length);
+
 			var device = new Device
 			{
 				Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType),
 				StateWordBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 3], DeviceFlash[pointer + 4]),
 				StateWordOffset = pointer + 3,
-				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash[pointer + 29], DeviceFlash[pointer + 30]),
+				RawParametersBytes = USBManager.CreateBytesArray(DeviceFlash.GetRange(pointer + 29, rawParametersLength)),
 				RawParametersOffset = pointer + 29
 			};
 			device.IntAddress = driverType == DriverType.Exit ? DeviceFlash[pointer + 1] : DeviceFlash[pointer + 1] + 256 * (DeviceFlash[pointer + 2] + 1);
@@ -59,6 +87,7 @@ namespace ServerFS2
 			Device groupDevice;
 			var parentAddress = 0;
 			var config = DeviceFlash[pointer + 31];
+			var countInGroup = ((config & 64)>>6) * 4 + ((config & 32)>>5) * 2 + ((config & 16)>>4);
 			switch (driverType)
 			{
 				case DriverType.MPT:
@@ -107,38 +136,65 @@ namespace ServerFS2
 						State = GetDeviceConfigHelper.GetEventTypeByCode(eventType),
 						Operation = zoneLogicOperationByte == 0x01 ? ZoneLogicOperation.All : ZoneLogicOperation.Any
 					};
-					for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
+					if (eventType == 0x0b) // Активация устройства АМ-1Т или МДУ (начиная с 10 версиии базы)
 					{
-						tableDynamicSize += 3;
-						var localPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 34 + zoneNo * 3);
-						// ... здесь инициализируются все зоны учавствующие в логике ... //
-						var zone = new Zone();
-						if ((localPointer >= outZonesBegin) && (localPointer < outZonesEnd))// зона внешняя
+						var deviceCount = zonesCount;
+						for (var deviceNo = 0; deviceNo < deviceCount; deviceNo++)
 						{
-							zone.No = DeviceFlash[localPointer + 6] * 256 + DeviceFlash[localPointer + 7];
-							continue;
-						}
-						zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
-						zone.Name = BytesHelper.ExtractString(DeviceFlash, localPointer + 6);
-						zone.DevicesInZoneLogic.Add(device);
-						if (zones.Any(x => x.No == zone.No))
-						// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
-						{
-							clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
-							continue;
-						}
+							tableDynamicSize += 3;
+							var logicDevice = new Device();
+							var localPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 34 + deviceNo*3);
+							var am1tPointer = BytesHelper.ExtractTriple(DeviceRom, 96);
+							var mduPointer = BytesHelper.ExtractTriple(DeviceRom, 120);
+							if (localPointer == am1tPointer)
+							{
+								logicDevice.IntAddress = DeviceFlash[am1tPointer] + 256 * (DeviceFlash[am1tPointer + 1] + 1);
+								logicDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == logicDevice.IntAddress);
+							}
 
-						clause.ZoneUIDs.Add(zone.UID);
-						zones.Add(zone);
-						var zonePanelItem = new ZonePanelItem()
+							if (localPointer == mduPointer)
+							{
+								logicDevice.IntAddress = DeviceFlash[mduPointer + 1] + 256 * (DeviceFlash[mduPointer + 2] + 1);
+								logicDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == logicDevice.IntAddress);
+							}
+							clause.DeviceUIDs.Add(logicDevice.UID);
+						}
+					}
+					else
+					{
+						for (var zoneNo = 0; zoneNo < zonesCount; zoneNo++)
 						{
-							IsRemote = true,
-							No = BytesHelper.ExtractShort(DeviceFlash, localPointer + 4),
-							PanelDevice = PanelDevice,
-							Zone = zone
-						};
-						zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-						remoteDeviceConfiguration.Zones.Add(zone);
+							tableDynamicSize += 3;
+							var localPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 34 + zoneNo * 3);
+							// ... здесь инициализируются все зоны учавствующие в логике ... //
+							var zone = new Zone();
+							if ((localPointer >= outZonesBegin) && (localPointer < outZonesEnd))// зона внешняя
+							{
+								zone.No = DeviceFlash[localPointer + 6] * 256 + DeviceFlash[localPointer + 7];
+								continue;
+							}
+							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
+							zone.Name = BytesHelper.ExtractString(DeviceFlash, localPointer + 6);
+							zone.DevicesInZoneLogic.Add(device);
+							if (zones.Any(x => x.No == zone.No))
+							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
+							{
+								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+								continue;
+							}
+
+							clause.ZoneUIDs.Add(zone.UID);
+							zones.Add(zone);
+							var zonePanelItem = new ZonePanelItem()
+							{
+								IsRemote = true,
+								No = BytesHelper.ExtractShort(DeviceFlash, localPointer + 4),
+								PanelDevice = PanelDevice,
+								Zone = zone
+							};
+							zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
+							remoteDeviceConfiguration.Zones.Add(zone);
+						}
 					}
 					if (zoneLogicOperationByte != 0)
 						device.ZoneLogic.Clauses.Add(clause);
@@ -168,7 +224,7 @@ namespace ServerFS2
 
 			if (driverType == DriverType.RM_1)
 			{
-				if ((config & 16) >> 4 == 1)
+				if (countInGroup > 0)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo));
@@ -181,7 +237,7 @@ namespace ServerFS2
 						PanelDevice.Children.Add(groupDevice);
 					}
 					groupDevice.Children.Add(device);
-					switch (localNo + 1) // смотрим сколько дочерних устройств у группового устройства
+					switch (countInGroup) // смотрим сколько дочерних устройств у группового устройства
 					{
 						case 2:
 							groupDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_2);
@@ -253,29 +309,7 @@ namespace ServerFS2
 
 		void ParseNoUIDevicesFlash(ref int pointer, DriverType driverType)
 		{
-			int rawParametersLength;
-			switch (driverType)
-			{
-				case DriverType.Valve:
-					rawParametersLength = 6;
-					break;
-				case DriverType.MPT:
-					rawParametersLength = 5;
-					break;
-				case DriverType.BUNS:
-					rawParametersLength = 0;
-					break;
-				case DriverType.MDU:
-					rawParametersLength = 4;
-					break;
-				case DriverType.MRO_2:
-				case DriverType.MRO:
-					rawParametersLength = 3;
-					break;
-				default:
-					rawParametersLength = 2;
-					break;
-			}
+			int rawParametersLength = 2;
 
 			var device = new Device
 			{
@@ -301,44 +335,13 @@ namespace ServerFS2
 				}
 			}
 			if (driverType == DriverType.AM_1)
+			//if (false)
 			{
 				var driverCode = DeviceFlash[pointer + 10];
-				var rmCount = BytesHelper.ExtractShort(DeviceFlash, pointer + 11); // количество РМ привязанных к сработке виртуальных кнопок
-				for (int i = 0; i < rmCount; i++)
-				{
-					var rmPointer = BytesHelper.ExtractTriple(DeviceFlash, pointer + 13 + i * 3); // абсолютный адрес размещения привязанного к сработке РМ (3)
-					var clause = new Clause
-					{
-						DeviceUID = device.UID,
-						State = ZoneLogicState.AM1TOn
-					};
-					var rmDevice = new Device()
-					{
-						IntAddress = DeviceFlash[rmPointer + 1] + 256 * (DeviceFlash[rmPointer + 2] + 1)
-					};
-					foreach (var deviceChild in PanelDevice.Children)
-					{
-						if (deviceChild.IntAddress == rmDevice.IntAddress)
-						{
-							rmDevice = deviceChild;
-							break;
-						}
-						if ((deviceChild.Children != null) && (deviceChild.Children.Count > 0))
-							foreach (var devicechildchild in deviceChild.Children)
-							{
-								if (devicechildchild.IntAddress == rmDevice.IntAddress)
-								{
-									rmDevice = devicechildchild;
-									break;
-								}
-							}
-					}
-					rmDevice.ZoneLogic.Clauses.Add(clause);
-				}
 				device.DriverUID = MetadataHelper.GetUidById(driverCode);
 				device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				var config = DeviceFlash[pointer + 9];
-				if ((config & 16) >> 4 == 1)
+				if ((config & 64) >> 6 == 1)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo);
@@ -381,7 +384,7 @@ namespace ServerFS2
 			if (driverType == DriverType.AM1_O)
 			{
 				var config = DeviceFlash[pointer + 7 + tableDynamicSize];
-				if ((config & 16) >> 4 == 1)
+				if ((config & 64) >> 6 == 1)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo));
@@ -404,7 +407,7 @@ namespace ServerFS2
 			if (driverType == DriverType.AM1_T)
 			{
 				var config = DeviceFlash[pointer + 9];
-				if ((config & 16) >> 4 == 1)
+				if ((config & 64) >> 6 == 1)
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo);
@@ -539,10 +542,13 @@ namespace ServerFS2
 			outZonesCount = DeviceRom[1552] * 256 + DeviceRom[1553];
 			outZonesEnd = outZonesBegin + outZonesCount * 9;
 			#endregion
+			#region Хидеры таблиц на устройства из логики
+			ParseUIDevicesRom(DriverType.MDU);
+			ParseNoUIDevicesRom(DriverType.AM1_T);
+			#endregion
 			#region Хидеры таблиц на исполнительные устройства
 			ParseUIDevicesRom(DriverType.RM_1);
 			ParseUIDevicesRom(DriverType.MPT);
-			ParseUIDevicesRom(DriverType.MDU);
 			ParseUIDevicesRom(DriverType.MRO);
 			ParseUIDevicesRom(DriverType.MRO_2);
 			ParseUIDevicesRom(DriverType.Exit);
@@ -555,7 +561,6 @@ namespace ServerFS2
 			ParseNoUIDevicesRom(DriverType.AM_1);
 			ParseNoUIDevicesRom(DriverType.AMP_4);
 			ParseNoUIDevicesRom(DriverType.AM1_O);
-			ParseNoUIDevicesRom(DriverType.AM1_T);
 			ParseNoUIDevicesRom(DriverType.RadioHandDetector);
 			ParseNoUIDevicesRom(DriverType.RadioSmokeDetector);
 			ParseUIDevicesRom(DriverType.Valve);

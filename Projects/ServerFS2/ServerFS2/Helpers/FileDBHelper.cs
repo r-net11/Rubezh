@@ -9,7 +9,7 @@ namespace ServerFS2.Helpers
 	{
 		public static List<byte> GetRomDBFromFS1File(Device parentPanel)
 		{
-			var fileName = @"C:\Program Files\Firesec\TstData\" + parentPanel.Driver.ShortName + " - " + parentPanel.DottedAddress + "_rom.bin";
+			var fileName = @"C:\Program Files\Firesec\TstData\" + parentPanel.Driver.ShortName + " - " + GetAddress(parentPanel) + "_rom.bin";
 			if (File.Exists(fileName))
 			{
 				var byteArray = File.ReadAllBytes(fileName);
@@ -24,7 +24,7 @@ namespace ServerFS2.Helpers
 
 		public static List<byte> GetFlashDBFromFS1File(Device parentPanel)
 		{
-			var fileName = @"C:\Program Files\Firesec\TstData\" + parentPanel.Driver.ShortName + " - " + parentPanel.DottedAddress + "_flash.bin";
+			var fileName = @"C:\Program Files\Firesec\TstData\" + parentPanel.Driver.ShortName + " - " + GetAddress(parentPanel) + "_flash.bin";
 			if (File.Exists(fileName))
 			{
 				var byteArray = File.ReadAllBytes(fileName);
@@ -35,6 +35,14 @@ namespace ServerFS2.Helpers
 				}
 			}
 			return new List<byte>();
+		}
+
+		static string GetAddress(Device device)
+		{
+			var result = device.DottedAddress;
+			if (device.Parent.Driver.DriverType == DriverType.Computer)
+				result = "USB " + result;
+			return result;
 		}
 	}
 }

@@ -19,8 +19,6 @@ namespace AdministratorTestClientFS2.ViewModels
 		public DevicesViewModel()
 		{
 			Current = this;
-			GetParametersCommand = new RelayCommand(OnGetParameters, CanGetParameters);
-			SetParametersCommand = new RelayCommand(OnSetParameters, CanSetParameters);
 			BuildTree();
 			OnPropertyChanged("RootDevices");
 		}
@@ -105,9 +103,6 @@ namespace AdministratorTestClientFS2.ViewModels
 			get { return new[] { RootDevice }; }
 		}
 
-		public RelayCommand GetParametersCommand { get; private set; }
-		public RelayCommand SetParametersCommand { get; private set; }
-
 		private void BuildTree(Device device)
 		{
 			RootDevice = AddDeviceInternal(device, null);
@@ -120,29 +115,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			FillAllDevices();
 		}
 
-		private void OnGetParameters()
-		{
-			DeviceParametersOperationHelper.GetDeviceParameters(SelectedDevice.Device);
-			SelectedDevice.Device.OnAUParametersChanged();
-		}
-
-		private bool CanGetParameters()
-		{
-			return SelectedDevice != null;
-		}
-
-		private void OnSetParameters()
-		{
-			DeviceParametersOperationHelper.SetDeviceParameters(SelectedDevice.Device, SelectedDevice.Device.Properties);
-		}
-
-		private bool CanSetParameters()
-		{
-			return SelectedDevice != null;
-		}
-
-		private static DeviceViewModel AddDeviceInternal(Device device,
-														 TreeItemViewModel<DeviceViewModel> parentDeviceViewModel)
+		static DeviceViewModel AddDeviceInternal(Device device, TreeItemViewModel<DeviceViewModel> parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

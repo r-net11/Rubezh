@@ -33,9 +33,9 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="200" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="150" MinHeight="150" />
+			<RowDefinition Height="1000*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="150" />
         </Grid.RowDefinitions>
 		<tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.Resources>

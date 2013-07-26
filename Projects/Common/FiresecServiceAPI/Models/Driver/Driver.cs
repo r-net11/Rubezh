@@ -201,6 +201,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool HasConfigurationProperties { get; set; }
 
+		[DataMember]
+		public string PresenterKeyPropertyName { get; set; }
+
 		public string ImageSource
 		{
 			get { return "/Controls;component/FSIcons/" + this.DriverType.ToString() + ".png"; }
@@ -244,6 +247,11 @@ namespace FiresecAPI.Models
 				DriverType == DriverType.Compressor ||
 				DriverType == DriverType.DrenazhPump ||
 				DriverType == DriverType.CompensationPump);
+		}
+
+		public DriverProperty PresenterKeyProperty
+		{
+			get { return Properties.FirstOrDefault(item => item.Name == PresenterKeyPropertyName); }
 		}
 	}
 }

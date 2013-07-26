@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using DevicesModule.Plans;
+using DevicesModule.Plans.Designer;
 using DevicesModule.Validation;
 using DevicesModule.ViewModels;
 using FiresecAPI;
@@ -14,9 +16,6 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using DevicesModule.Plans;
-using DevicesModule.Plans.Designer;
-using DevicesModule.Plans.ViewModels;
 
 namespace DevicesModule
 {
@@ -148,12 +147,13 @@ namespace DevicesModule
 				Logger.Error(e, "DevicesModule.BeforeInitialize");
 				MessageBoxService.ShowError(e.Message);
 				return false;
-            }
+			}
 #if RELEASE
 					if (LoadingErrorManager.HasError)
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 #endif
-            return true;
+			return true;
 		}
+
 	}
 }

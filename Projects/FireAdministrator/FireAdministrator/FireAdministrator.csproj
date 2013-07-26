@@ -134,7 +134,6 @@
       <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AdministratorShellViewModel.cs" />
-    <Compile Include="ViewModels\RibbonViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="Views\MenuView.xaml.cs">

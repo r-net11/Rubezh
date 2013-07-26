@@ -59,7 +59,7 @@ namespace FireMonitor.ViewModels
 				return true;
 			}
 			var result = MessageBoxService.ShowConfirmation("Вы действительно хотите выйти из программы?");
-			if (result == MessageBoxResult.No)
+			if (result != MessageBoxResult.Yes)
 				return true;
 			if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))
 			{

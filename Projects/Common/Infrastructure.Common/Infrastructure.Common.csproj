@@ -158,6 +158,7 @@
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="LoadingErrorManager.cs" />
     <Compile Include="Mail\MailHelper.cs" />
+    <Compile Include="ManualPdfHelper.cs" />
     <Compile Include="ObservableRangeCollection.cs" />
     <Compile Include="PatchHelper.cs" />
     <Compile Include="ProcessHelper.cs" />
@@ -166,6 +167,8 @@
     <Compile Include="LoadHelper\RevisorLoadHelper.cs" />
     <Compile Include="FSCP\ZipSerializeHelper.cs" />
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
+    <Compile Include="RelayCommand\DisabledRelayCommand.cs" />
+    <Compile Include="RelayCommand\RelayCommandProvider.cs" />
     <Compile Include="Ribbon\RibbonButton.cs" />
     <Compile Include="Ribbon\RibbonMenuItemViewModel.cs" />
     <Compile Include="Ribbon\RibbonMenuViewModel.cs" />
@@ -178,9 +181,12 @@
     <Compile Include="Services\DragDrop\DragDropService.cs" />
     <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
+    <Compile Include="Services\Resources\IResourceService.cs" />
     <Compile Include="Services\Resources\ResourceDescription.cs" />
     <Compile Include="Services\Resources\ResourceHelper.cs" />
     <Compile Include="Services\Resources\ResourceService.cs" />
+    <Compile Include="Services\Ribbon\IRibbonService.cs" />
+    <Compile Include="Services\Ribbon\RibbonService.cs" />
     <Compile Include="SeviceRightsHelper.cs" />
     <Compile Include="ShellIntegrationHelper.cs" />
     <Compile Include="StackTraceHelper.cs" />
@@ -236,7 +242,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RelayCommand.cs" />
+    <Compile Include="RelayCommand\RelayCommand.cs" />
     <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="TreeList\TreeBaseViewModel.cs" />
     <Compile Include="Video\VideoService.cs" />

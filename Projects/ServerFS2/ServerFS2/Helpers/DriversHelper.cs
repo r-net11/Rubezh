@@ -28,9 +28,12 @@ namespace ServerFS2
 			return DriverDataList.FirstOrDefault(x => x.DriverCode == driverType).Name;
 		}
 
-		public static Guid GetDriverUidByType(byte driverType)
+		public static Guid? GetDriverUidByType(byte driverType)
 		{
-			return new Guid(DriverDataList.FirstOrDefault(x => x.DriverCode == driverType).DriverUid);
+			var driverData = DriverDataList.FirstOrDefault(x => x.DriverCode == driverType);
+			if (driverData == null)
+				return null;
+			return new Guid(driverData.DriverUid);
 		}
 
 		public static List<DriverData> DriverDataList { get; private set; }
@@ -83,7 +86,7 @@ namespace ServerFS2
 				case 102:
 					return DriverType.UOO_TL;
 			}
-			return DriverType.Computer;
+			return DriverType.MS_1;
 		}
 
 		public static int GetTypeNoByDriverType(DriverType driverType)

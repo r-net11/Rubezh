@@ -42,7 +42,11 @@
     <DataTemplate DataType="{x:Type ViewModels:UOOTLDetailsViewModel}">
         <Views:UOOTLDetailsView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:MS34DetailsViewModel}">
+        <Views:MS34DetailsView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PumpDetailsViewModel}">
         <Views:PumpDetailsView />
     </DataTemplate>

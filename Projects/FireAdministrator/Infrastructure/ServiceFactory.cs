@@ -6,6 +6,7 @@ using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.Services.Ribbon;
 
 namespace Infrastructure
 {
@@ -22,6 +23,7 @@ namespace Infrastructure
 			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
 			ContentService = new ContentService("Administrator");
 			DragDropService = new DragDropService();
+			RibbonService = new RibbonService();
 		}
 
 		public static SaveService SaveService { get; private set; }
@@ -31,5 +33,6 @@ namespace Infrastructure
 		public static IValidationService ValidationService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		public static MenuService MenuService { get; set; }
+		public static IRibbonService RibbonService { get; private set; }
 	}
 }
