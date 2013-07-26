@@ -310,16 +310,13 @@ namespace Firesec
 			{
 				foreach (var innerParameter in innerDriver.paramInfo)
 				{
-					if (innerParameter.caption == "Всего устройств")
-					{
-						;
-					}
-
 					driver.Parameters.Add(new Parameter()
 					{
 						Name = innerParameter.name,
 						Caption = innerParameter.caption,
-						Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "1"
+						//Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "1"
+                        //Visible = innerParameter.hidden == "0"
+                        Visible = innerParameter.showOnlyInState == "1"
 					});
 				}
 			}

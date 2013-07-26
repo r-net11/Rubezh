@@ -34,6 +34,10 @@ namespace DevicesModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
+                if (zone.ZoneType == ZoneType.Fire && device.Driver.DriverType == DriverType.AM1_O)
+                    continue;
+                if (zone.ZoneType == ZoneType.Guard && device.Driver.DriverType != DriverType.AM1_O)
+                    continue;
 
 				if (device.Driver.IsZoneDevice)
 				{

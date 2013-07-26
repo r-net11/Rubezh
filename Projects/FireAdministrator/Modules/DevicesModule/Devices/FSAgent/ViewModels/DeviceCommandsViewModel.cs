@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using FS2Api;
 using System.ComponentModel;
 using Infrastructure.Events;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -65,6 +66,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanReadDevice(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
         }
 
@@ -79,6 +82,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanWriteDevice(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanWriteDatabase && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig));
         }
 
@@ -109,6 +114,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanSynchronizeDevice(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSynchonize);
         }
 
@@ -139,6 +146,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanUpdateSoft(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanUpdateSoft && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
         }
 
@@ -152,6 +161,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanGetDescription(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
         }
 
@@ -165,6 +176,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanGetDeviceJournal(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanReadJournal);
         }
 
@@ -178,6 +191,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanSetPassword(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSetPassword);
         }
 
@@ -204,6 +219,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {
+            if (isUsb && !IsAlternativeUSB)
+                return false;
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.IndicationBlock ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));

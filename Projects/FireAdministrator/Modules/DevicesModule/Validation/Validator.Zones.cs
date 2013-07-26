@@ -21,7 +21,6 @@ namespace DevicesModule.Validation
                 }
                 else
                 {
-                    ValidateZoneDetectorCount(zone);
                     ValidateZoneType(zone);
                     ValidateZoneOutDevices(zone);
                     ValidateZoneSingleNS(zone);
@@ -82,15 +81,6 @@ namespace DevicesModule.Validation
                 Errors.Add(new CommonValidationError("FS", "Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
         }
 
-        void ValidateZoneDetectorCount(Zone zone)
-        {
-            if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.HandDetector))
-                return;
-			var sensorDevices = GetSensorsInZone(zone);
-			if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > sensorDevices.Count))
-                Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ValidationErrorLevel.Warning));
-        }
-
         void ValidateZoneType(Zone zone)
         {
             switch (zone.ZoneType)
@@ -141,9 +131,19 @@ namespace DevicesModule.Validation
 			{
 				if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.HandDetector))
 					return;
-				var sensorDevices = GetSensorsInZone(zone);
-				if (sensorDevices.Count < 2)
-					Errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));
+                var amDevices = zone.DevicesInZone.Where(x => x.Driver.DriverType == DriverType.AM_1 ||
+                    x.Driver.DriverType == DriverType.AMP_4);
+                if (amDevices.Count() > 0)
+                {
+                    if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > amDevices.Count()))
+                        Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне адресных меток меньше настроенного в зоне количества", ValidationErrorLevel.Warning));
+                }
+                else
+                {
+                    var sensorDevices = GetSensorsInZone(zone);
+                    if (sensorDevices.Count < 2)
+                        Errors.Add(new ZoneValidationError(zone, "В зоне с МПТ не может быть менее двух извещателей", ValidationErrorLevel.CannotWrite));
+                }
 			}
 		}
 

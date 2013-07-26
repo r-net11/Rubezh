@@ -141,8 +141,8 @@ namespace FiresecAPI.Models
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на обрыв", 2);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на короткое замыкание", 3);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется на короткое замыкание и на обрыв", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на КЗ", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется на КЗ и на обрыв", 4);
 			driver.Properties.Add(property);
 		}
 

@@ -31,7 +31,7 @@
                 <MenuItem Name="bindMsButton" Command="{Binding BindMsCommand}" Header="_Привязать" />
                 <MenuItem Name="executeCustomAdminFunctionButton" Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="_Другие функции" />
                 <Separator />
-                <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
+                <MenuItem Header="USB" Margin="12, 0, 0, 0">
                     <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из прибора" />
                     <MenuItem Name="usbGetDescription" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="_Информация о приборе" />
                     <MenuItem Name="usbGetDeviceJournalButton" Command="{Binding GetDeviceJournalCommand}" CommandParameter="{StaticResource True}" Header="_Журнал событий" />
