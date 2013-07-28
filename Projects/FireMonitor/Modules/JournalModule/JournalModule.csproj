@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Reports\JournalReport.cs" />
     <Compile Include="Reports\ReportArchiveFilter.cs" />
+    <Compile Include="ViewModels\ArchivePageViewModel.cs" />
     <Compile Include="ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />
