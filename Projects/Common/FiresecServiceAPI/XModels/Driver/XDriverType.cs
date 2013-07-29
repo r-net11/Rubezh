@@ -46,6 +46,6 @@
 		RSR2_MAP4_Group,
 		RSR2_MVK8_Group,
 		RSR2_HeatDetector,
-		RSR2_Pump
+		RSR2_Bush
     }
 }

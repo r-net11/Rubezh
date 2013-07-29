@@ -6,11 +6,11 @@
 		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
 	</UserControl.Resources>
 		<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="1000*" MinHeight="200" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" MinHeight="100" />
-		</Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="150" MinHeight="150" />
+        </Grid.RowDefinitions>
 		<Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<tree:TreeList Name="_devicesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
