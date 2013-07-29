@@ -23,7 +23,7 @@
 					<Controls:ToolBarButton Command="{Binding FilterCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
 					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Начальная страница" />
 					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Предыдущая страница" />
-					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
 					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
 					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="/Controls;component/Images/Right.png" ToolTip="Следующая страница" />

@@ -2,9 +2,9 @@
 
 	<UserControl.Resources>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-		<Conv:SwitchConverter x:Key="Tooltip">
-			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="Multiple" />
-			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="NotPresent" />
+		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
+			<!--<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="Multiple" />
+			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="NotPresent" />-->
 			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>

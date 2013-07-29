@@ -2,6 +2,7 @@
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using System;
+using System.Collections.ObjectModel;
 
 namespace Infrastructure.Common.Services.Ribbon
 {
@@ -9,6 +10,11 @@ namespace Infrastructure.Common.Services.Ribbon
 	{
 		private object _locker = new object();
 		#region IRibbonService Members
+
+		public ObservableCollection<RibbonMenuItemViewModel> Items 
+		{
+			get { return ApplicationService.Shell.RibbonContent.Items; }
+		}
 
 		public void AddRibbonItems(IEnumerable<RibbonMenuItemViewModel> ribbonMenuItems)
 		{

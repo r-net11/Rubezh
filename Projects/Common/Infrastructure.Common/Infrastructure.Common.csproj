@@ -212,6 +212,7 @@
     <Compile Include="Validation\ValidationErrorLevel.cs" />
     <Compile Include="Validation\IValidationError.cs" />
     <Compile Include="Validation\IValidationModule.cs" />
+    <Compile Include="Windows\Converters\PanelTooltipConverter.cs" />
     <Compile Include="Windows\DataTemplates\MulticlientDataTemplateSelector.cs" />
     <Compile Include="Windows\ILayoutService.cs" />
     <Compile Include="Windows\LayoutService.cs" />
@@ -419,6 +420,7 @@
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

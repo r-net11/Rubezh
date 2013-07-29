@@ -15,7 +15,6 @@
 					<ContextMenu>
 						<MenuItem Command="{Binding AddDeviceCommand}" Header="Добавить устройство" />
 						<MenuItem Command="{Binding RemoveDeviceCommand}" Header="Удалить устройство" />
-						<MenuItem Command="{Binding AddAdditionalDeviceCommand}" Header="Добавить дополнительное устройство" />
 						<MenuItem Command="{Binding AddDevicePresenterCommand}" Header="Добавить представление устройства" />
 					</ContextMenu>
 				</tree:TreeList.ContextMenu>
@@ -41,10 +40,6 @@
 					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
-			<WrapPanel Grid.Row="1" DataContext="{Binding SelectedDevice}" Visibility="{Binding LibraryDevice.IsAlternative, Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBlock Margin="2" Foreground="White" Text="Альтернативное название" />
-				<TextBox Margin="2" Text="{Binding AlternativeName, UpdateSourceTrigger=PropertyChanged}" />
-			</WrapPanel>
 		</Grid>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Column="2">

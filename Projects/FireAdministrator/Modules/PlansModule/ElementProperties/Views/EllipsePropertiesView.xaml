@@ -19,7 +19,7 @@
 
 				<xc:ColorPicker Grid.Row="0" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
 				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Maximum="10" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Изображение">

@@ -17,7 +17,7 @@
                 <Label Grid.Column="0" Grid.Row="1" Content="Ширина линии" HorizontalAlignment="Right" />
 
 				<xc:ColorPicker Grid.Column="1" Grid.Row="0" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" Minimum="0"/>
+				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" Minimum="0" Maximum="10" />
             </Grid>
         </TabItem>
     </TabControl>

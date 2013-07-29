@@ -22,7 +22,6 @@ namespace LibraryModule.ViewModels
 			Menu = new LibraryMenuViewModel(this);
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
-			AddAdditionalDeviceCommand = new RelayCommand(OnAddAdditionalDevice, CanAddAdditionalDevice);
 			AddStateCommand = new RelayCommand(OnAddState, CanAddState);
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
 			AddDevicePresenterCommand = new RelayCommand(OnAddDevicePresenter, CanAddDevicePresenter);
@@ -135,27 +134,6 @@ namespace LibraryModule.ViewModels
 		bool CanRemoveDevice()
 		{
 			return SelectedDevice != null;
-		}
-
-		public RelayCommand AddAdditionalDeviceCommand { get; private set; }
-		void OnAddAdditionalDevice()
-		{
-			var libraryDevice = new LibraryDevice()
-			{
-				IsAlternative = true,
-				Driver = SelectedDevice.LibraryDevice.Driver,
-				DriverId = SelectedDevice.LibraryDevice.DriverId
-			};
-			var deviceViewModel = new DeviceViewModel(libraryDevice);
-
-			FiresecManager.DeviceLibraryConfiguration.Devices.Add(libraryDevice);
-			Devices.Add(deviceViewModel);
-			SelectedDevice = Devices.LastOrDefault();
-			ServiceFactory.SaveService.LibraryChanged = true;
-		}
-		bool CanAddAdditionalDevice()
-		{
-			return SelectedDevice != null && SelectedDevice.Presenter == null;
 		}
 
 		public RelayCommand AddDevicePresenterCommand { get; private set; }

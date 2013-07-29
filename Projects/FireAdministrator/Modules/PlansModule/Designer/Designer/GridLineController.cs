@@ -23,10 +23,7 @@ namespace PlansModule.Designer
 			get { return _isVisible; }
 			set
 			{
-				_isVisible = false;
-#if DEBUG
 				_isVisible = value;
-#endif
 				if (_canvas != null)
 					_canvas.Refresh();
 			}
