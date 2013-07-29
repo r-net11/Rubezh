@@ -241,7 +241,7 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		public static void	Initialize()
+		public static void Initialize()
 		{
 			lock (Locker)
 			{

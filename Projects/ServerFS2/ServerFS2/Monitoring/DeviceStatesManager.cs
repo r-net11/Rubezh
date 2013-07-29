@@ -429,7 +429,8 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var state in device.DeviceState.States.Where(x => x.DriverState.AffectChildren))
 				{
-					foreach (var childDevice in device.GetAllChildren())
+					var allChildren = device.GetAllChildren();
+					foreach (var childDevice in allChildren)
 					{
 						var parentDeviceState = new ParentDeviceState()
 						{

@@ -936,7 +936,7 @@
     <Resource Include="GKIcons\RSR2_HeatDetector.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="GKIcons\RSR2_Pump.png" />
+    <Resource Include="GKIcons\RSR2_Bush.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_CombinedDetector.png" />

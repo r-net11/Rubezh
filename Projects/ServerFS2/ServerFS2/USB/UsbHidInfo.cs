@@ -26,7 +26,7 @@ namespace ServerFS2
 				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
 				if (responce.Bytes[5] == 0x41)
-					USBDriverType = DriverType.MS_2;
+					USBDriverType = DriverType.MS_1;
 			}
 			else
 			{
@@ -52,32 +52,45 @@ namespace ServerFS2
 			return -1;
 		}
 
-		bool SetIdOn()
+		void SetIdOn()
 		{
-			if (HasResponceWithoutID())
+			//if (HasResponceWithoutID())
+			//{
+			//    UsbHid.UseId = false;
+			//    var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
+			//    var bytesList = new List<List<byte>>();
+			//    bytesList.Add(bytes);
+			//    var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			//    UsbHid.UseId = true;
+			//}
+			UsbHid.UseId = true;
+			var result = HasResponceWithID();
+			if (!result)
 			{
 				UsbHid.UseId = false;
-				var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
-				var bytesList = new List<List<byte>>();
-				bytesList.Add(bytes);
-				var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+				result = SetResponceId();
 				UsbHid.UseId = true;
+				result = HasResponceWithID();
 			}
-			var result = HasResponceWithID();
 			UsbHid.UseId = result;
-			return result;
 		}
 
-		bool HasResponceWithoutID()
+		bool SetResponceId()
 		{
-			UsbHid.UseId = false;
-			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
+			var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
 			var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
-			UsbHid.UseId = true;
 			return responce != null;
 		}
+		//bool HasResponceWithoutID()
+		//{
+		//    var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
+		//    var bytesList = new List<List<byte>>();
+		//    bytesList.Add(bytes);
+		//    var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+		//    return responce != null;
+		//}
 
 		bool HasResponceWithID()
 		{
