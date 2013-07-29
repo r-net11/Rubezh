@@ -28,11 +28,11 @@ namespace ServerFS2
 			return DriverDataList.FirstOrDefault(x => x.DriverCode == driverType).Name;
 		}
 
-		public static Guid? GetDriverUidByType(byte driverType)
+		public static Guid GetDriverUidByType(byte driverType)
 		{
 			var driverData = DriverDataList.FirstOrDefault(x => x.DriverCode == driverType);
 			if (driverData == null)
-				return null;
+				return Guid.Empty;
 			return new Guid(driverData.DriverUid);
 		}
 
