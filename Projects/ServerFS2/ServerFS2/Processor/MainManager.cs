@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FS2Api;
+using Infrastructure.Common.Windows;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Monitoring;
 using ServerFS2.Service;
@@ -247,12 +248,27 @@ namespace ServerFS2.Processor
 		{
 			try
 			{
-				StopMonitoring();
 				var rootDevice = AutoDetectOperationHelper.AutoDetectDevice(device);
 				var deviceConfiguration = new DeviceConfiguration()
 				{
 					RootDevice = rootDevice
 				};
+				if (deviceConfiguration.RootDevice == null)
+				{
+					if ((device.Driver.DriverType == DriverType.USB_Channel_1) || (device.Driver.DriverType == DriverType.USB_Channel_2))
+						MessageBoxService.ShowError("Устройство " + device.Parent.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
+					else
+						MessageBoxService.ShowError("Устройство " + device.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
+					return null;
+				}
+				foreach (var child in rootDevice.Children)
+				{
+					deviceConfiguration.Devices.Add(child);
+				}
+				deviceConfiguration.Reorder();
+				deviceConfiguration.Update();
+				deviceConfiguration.InvalidateConfiguration();
+				deviceConfiguration.UpdateCrossReferences();
 				return deviceConfiguration;
 			}
 			catch (Exception e)
@@ -262,7 +278,7 @@ namespace ServerFS2.Processor
 			}
 			finally
 			{
-				StartMonitoring();
+				//StartMonitoring();
 			}
 		}
 

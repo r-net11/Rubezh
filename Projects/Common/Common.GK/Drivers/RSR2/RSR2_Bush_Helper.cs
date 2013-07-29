@@ -10,7 +10,7 @@ namespace Common.GK
 			var driver = new XDriver()
 			{
 				DriverTypeNo = 0xE0,
-				DriverType = XDriverType.RSR2_Pump,
+				DriverType = XDriverType.RSR2_Bush,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
 				Name = "Блок управления шкафом RSR2",
 				ShortName = "БУШ RSR2",
@@ -53,9 +53,6 @@ namespace Common.GK
 
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на включение", IsDelay = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение", IsDelay = true });
-			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Тип шкафа" });
-			driver.AUParameters.Add(new XAUParameter() { No = 5, Name = "Уточнение неисправности" });
-			driver.AUParameters.Add(new XAUParameter() { No = 6, Name = "Состояние" });
 
 			return driver;
 		}
