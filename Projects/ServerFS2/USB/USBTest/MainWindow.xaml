@@ -2,12 +2,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <!--<Grid>
         <StackPanel>
             <Button Width="100" Content="Create 1" Click="Button_Click_1" Margin="2" />
             <Button Width="100" Content="Send 1" Click="Button_Click_2" Margin="2" />
             <Button Name="button1" Width="100" Content="Create 2" Click="Button_Click_3" Margin="2" />
             <Button Width="100" Content="Send 2" Click="Button_Click_4" Margin="2" />
         </StackPanel>
-    </Grid>
+    </Grid>-->
+    <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <Rectangle Width="600" Height="300" Fill="#0099FF" Stroke="#000000" StrokeThickness="20"/>
+        <Polyline Points="0, 150 200, 150" Stroke="#000000" StrokeThickness="20"/>
+        <Polyline Points="200,250 200,50" Stroke="#000000" StrokeThickness="20"/>
+        <Polyline Points="300,225 300,75" Stroke="#000000" StrokeThickness="20"/>
+        <Polyline Points="400,200 400,100" Stroke="#000000" StrokeThickness="20"/>
+        <Polyline Points="400, 150 600, 150" Stroke="#000000" StrokeThickness="20"/>
+    </Canvas>
 </Window>
