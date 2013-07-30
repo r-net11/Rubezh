@@ -105,8 +105,16 @@ namespace ServerFS2.Monitoring
 
 		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes)
 		{
-			ParseStateWordBytes(device, stateWordBytes);
-			ParseRawParametersBytes(device, rawParametersBytes);
+			if (device.Driver.DriverType == DriverType.Exit)
+			{
+				ParseStateWordBytes(device, rawParametersBytes);
+				ParseRawParametersBytes(device, stateWordBytes);
+			}
+			else
+			{
+				ParseStateWordBytes(device, stateWordBytes);
+				ParseRawParametersBytes(device, rawParametersBytes);
+			}
 		}
 
         void ParseDeviceState(Device device)
