@@ -173,6 +173,7 @@
     <Compile Include="Parameters\ViewModels\DeviceParameterTemplateViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Parameters\ViewModels\EnumAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\FS2AuParametersHelper.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplateSelectationViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesMenuViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesViewModel.cs" />

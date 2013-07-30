@@ -20,7 +20,7 @@ namespace ServerFS2.Monitoring
 		{
 			var states = new List<DeviceDriverState>();
 			var statusBytes = ServerHelper.GetDeviceStatus(panel);
-			if (statusBytes.Count < 8)
+			if (statusBytes == null || statusBytes.Count < 8)
 				return;
 			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
 			var bitArray = new BitArray(statusBytesArray);

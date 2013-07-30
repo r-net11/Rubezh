@@ -26,6 +26,8 @@ namespace ServerFS2
 				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
 				if (responce.Bytes[5] == 0x41)
+					USBDriverType = DriverType.MS_2;
+				else
 					USBDriverType = DriverType.MS_1;
 			}
 			else

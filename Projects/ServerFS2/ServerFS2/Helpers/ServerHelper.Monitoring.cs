@@ -72,8 +72,13 @@ namespace ServerFS2
 		{
 			var result = new List<byte>();
 			var response1 = USBManager.Send(device, 0x01, 0x10);
-			var response2 = USBManager.Send(device, 0x01, 0x0F);
+			if (response1.HasError && response1.Bytes == null)
+				return null;
 			result.AddRange(response1.Bytes);
+
+			var response2 = USBManager.Send(device, 0x01, 0x0F);
+			if (response2.HasError && response2.Bytes == null)
+				return null;
 			result.AddRange(response2.Bytes);
 			return result;
 		}

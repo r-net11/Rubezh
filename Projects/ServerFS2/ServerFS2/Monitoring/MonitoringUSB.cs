@@ -106,39 +106,59 @@ namespace ServerFS2.Monitoring
 					if (CheckSuspending(false))
 						return;
 
-					foreach (var monitoringPanel in MonitoringPanels)
+					try
 					{
-						if (CheckSuspending(false))
-							return;
-
-						if (!monitoringPanel.IsInitialized)
-							monitoringPanel.Initialize();
-
-						if (CheckSuspending(false))
-							return;
-
-						if (monitoringPanel.IsInitialized)
+						foreach (var monitoringPanel in MonitoringPanels)
 						{
-							monitoringPanel.ProcessMonitoring();
+							if (CheckSuspending(false))
+								return;
+
+							if (!monitoringPanel.IsInitialized)
+								monitoringPanel.Initialize();
+
+							if (CheckSuspending(false))
+								return;
+
+							if (monitoringPanel.IsInitialized)
+							{
+								monitoringPanel.ProcessMonitoring();
+							}
 						}
 					}
-
-					foreach (var monitoringNonPanel in MonitoringNonPanels)
+					catch (Exception e)
 					{
-						if (CheckSuspending(false))
-							return;
-						NonPanelStatesManager.UpdatePDUPanelState(monitoringNonPanel);
+						Logger.Error(e, "MonitoringUSB.Error 1");
+					}
+
+					try
+					{
+						foreach (var monitoringNonPanel in MonitoringNonPanels)
+						{
+							if (CheckSuspending(false))
+								return;
+							NonPanelStatesManager.UpdatePDUPanelState(monitoringNonPanel);
+						}
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "MonitoringUSB.Error 1");
 					}
 
 					if (CheckSuspending(false))
 						return;
 
-					if (IsTimeSynchronizationNeeded)
+					try
 					{
-						MonitoringPanels.ForEach(x => x.SynchronizeTime());
-						IsTimeSynchronizationNeeded = false;
+						if (IsTimeSynchronizationNeeded)
+						{
+							MonitoringPanels.ForEach(x => x.SynchronizeTime());
+							IsTimeSynchronizationNeeded = false;
+						}
 					}
-
+					catch (Exception e)
+					{
+						Logger.Error(e, "MonitoringUSB.Error 1");
+					}
 					CheckConnection();
 				}
 				catch (FS2StopMonitoringException)
@@ -242,7 +262,7 @@ namespace ServerFS2.Monitoring
 			}
 			catch (Exception e)
 			{
-				;
+				Logger.Error(e, "MonitoringUSB.CheckConnection");
 			}
 		}
 	}
