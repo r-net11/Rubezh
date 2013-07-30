@@ -9,80 +9,80 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class JournalViewModel : BaseViewModel
-    {
-        public XJournalFilter JournalFilter { get; private set; }
+	public class JournalViewModel : BaseViewModel
+	{
+		public XJournalFilter JournalFilter { get; private set; }
 
-        public JournalViewModel(XJournalFilter journalFilter)
-        {
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+		public JournalViewModel(XJournalFilter journalFilter)
+		{
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
 
-            JournalFilter = journalFilter;
-            JournalItems = new ObservableCollection<JournalItemViewModel>();
-        }
+			JournalFilter = journalFilter;
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
+		}
 
-        ObservableCollection<JournalItemViewModel> _journalItems;
-        public ObservableCollection<JournalItemViewModel> JournalItems
-        {
-            get { return _journalItems; }
-            set
-            {
-                _journalItems = value;
-                OnPropertyChanged("JournalItems");
-            }
-        }
+		ObservableCollection<JournalItemViewModel> _journalItems;
+		public ObservableCollection<JournalItemViewModel> JournalItems
+		{
+			get { return _journalItems; }
+			set
+			{
+				_journalItems = value;
+				OnPropertyChanged("JournalItems");
+			}
+		}
 
-        JournalItemViewModel _selectedJournal;
-        public JournalItemViewModel SelectedJournal
-        {
-            get { return _selectedJournal; }
-            set
-            {
-                _selectedJournal = value;
-                OnPropertyChanged("SelectedJournal");
-            }
-        }
+		JournalItemViewModel _selectedJournal;
+		public JournalItemViewModel SelectedJournal
+		{
+			get { return _selectedJournal; }
+			set
+			{
+				_selectedJournal = value;
+				OnPropertyChanged("SelectedJournal");
+			}
+		}
 
-        public void OnNewJournal(List<JournalItem> journalItems)
-        {
-            foreach (var journalItem in journalItems)
-            {
-                if (FilterStateClass(journalItem) == false)
-                    continue;
-                if (FilterEventName(journalItem) == false)
-                    continue;
+		public void OnNewJournal(List<JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (FilterStateClass(journalItem) == false)
+					continue;
+				if (FilterEventName(journalItem) == false)
+					continue;
 
-                var journalItemViewModel = new JournalItemViewModel(journalItem);
-                if (JournalItems.Count > 0)
-                    JournalItems.Insert(0, journalItemViewModel);
-                else
-                    JournalItems.Add(journalItemViewModel);
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				if (JournalItems.Count > 0)
+					JournalItems.Insert(0, journalItemViewModel);
+				else
+					JournalItems.Add(journalItemViewModel);
 
-                if (JournalItems.Count > JournalFilter.LastRecordsCount)
-                    JournalItems.RemoveAt(JournalFilter.LastRecordsCount);
-            }
+				if (JournalItems.Count > JournalFilter.LastRecordsCount)
+					JournalItems.RemoveAt(JournalFilter.LastRecordsCount);
+			}
 
-            if (SelectedJournal == null)
-                SelectedJournal = JournalItems.FirstOrDefault();
-        }
+			if (SelectedJournal == null)
+				SelectedJournal = JournalItems.FirstOrDefault();
+		}
 
-        bool FilterStateClass(JournalItem journalItem)
-        {
-            if (JournalFilter.StateClasses.Count > 0)
-            {
-                return JournalFilter.StateClasses.Contains(journalItem.StateClass);
-            }
-            return true;
-        }
+		bool FilterStateClass(JournalItem journalItem)
+		{
+			if (JournalFilter.StateClasses.Count > 0)
+			{
+				return JournalFilter.StateClasses.Contains(journalItem.StateClass);
+			}
+			return true;
+		}
 
-        bool FilterEventName(JournalItem journalItem)
-        {
-            if (JournalFilter.EventNames.Count > 0)
-            {
-                return JournalFilter.EventNames.Contains(journalItem.Name);
-            }
-            return true;
-        }
-    }
+		bool FilterEventName(JournalItem journalItem)
+		{
+			if (JournalFilter.EventNames.Count > 0)
+			{
+				return JournalFilter.EventNames.Contains(journalItem.Name);
+			}
+			return true;
+		}
+	}
 }

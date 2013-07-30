@@ -80,6 +80,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
@@ -87,6 +90,10 @@
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояния" />
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Класс состояния" />
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
+            
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Объект" />
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Объект" />
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Объект" />
 
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
@@ -98,6 +105,10 @@
 					<TextBlock Text="{Binding PresentationName}" />
 				</Hyperlink>
             </TextBlock>
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.GKNo}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.KAUNo}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.GKObjectNo}" Margin="2" />
         </Grid>
     </Grid>
 </UserControl>
