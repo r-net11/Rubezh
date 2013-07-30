@@ -59,7 +59,7 @@ namespace FSAgentServer.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			ApplicationMinimizeCommand.Execute();
+			ApplicationMinimizeCommand.ForceExecute();
 			return true;
 		}
 	}
