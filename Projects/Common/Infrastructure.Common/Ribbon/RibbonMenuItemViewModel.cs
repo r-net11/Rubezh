@@ -152,5 +152,11 @@ namespace Infrastructure.Common.Ribbon
 				return menuViewModel == null ? null : menuViewModel.Items[index];
 			}
 		}
+		public void Add(RibbonMenuItemViewModel ribbonMenuItemViewModel)
+		{
+			var menuViewModel = Content as RibbonMenuViewModel;
+			if (menuViewModel != null)
+				menuViewModel.Items.Add(ribbonMenuItemViewModel);
+		}
 	}
 }

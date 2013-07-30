@@ -159,15 +159,23 @@ namespace ReportsModule.Views
 			get { return DocumentPaginator == null ? 0 : PageView.PageNumber + 1; }
 			set
 			{
-				using (new WaitWrapper())
+				if (value > DocumentPaginator.PageCount)
 				{
-					PageView.PageNumber = value - 1;
-					OnPropertyChanged("CurrentPageNumber");
-					OnPropertyChanged("TotalPageNumber");
-					CommandManager.InvalidateRequerySuggested();
-					ResetScroll();
-					PageView.UpdateLayout();
+					if (PageView.PageNumber == DocumentPaginator.PageCount - 1)
+						throw new ApplicationException();
+					else
+						value = DocumentPaginator.PageCount;
 				}
+				using (new WaitWrapper())
+					if (PageView.PageNumber != value - 1)
+					{
+						PageView.PageNumber = value - 1;
+						CommandManager.InvalidateRequerySuggested();
+						ResetScroll();
+						PageView.UpdateLayout();
+					}
+				OnPropertyChanged("CurrentPageNumber");
+				OnPropertyChanged("TotalPageNumber");
 			}
 		}
 		public double PageBorderThickness

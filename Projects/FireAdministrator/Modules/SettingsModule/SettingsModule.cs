@@ -16,7 +16,7 @@ namespace SettingsModule
 		public override void CreateViewModels()
 		{
 			SettingsViewModel = new SettingsViewModel();
-			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel("Настройки", SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue });
+			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel("Настройки", SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
 		}
 
 		public override void Initialize()

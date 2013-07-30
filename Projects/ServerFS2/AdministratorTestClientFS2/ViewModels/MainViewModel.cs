@@ -140,8 +140,12 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
 		void OnAutoDetectDevice()
 		{
-			var device = AutoDetectOperationHelper.AutoDetectDevice(DevicesViewModel.SelectedDevice.Device);
-			var autoDetectedDevicesViewModel = new DevicesViewModel(device);
+			var fs2Contract = new FS2Contract();
+			var deviceConfiguration = fs2Contract.DeviceAutoDetectChildren(DevicesViewModel.SelectedDevice.Device.UID, false).Result;
+			if (deviceConfiguration == null)
+				return;
+			var autoDetectedDevicesViewModel = new DevicesViewModel(deviceConfiguration.RootDevice);
+			autoDetectedDevicesViewModel.Title = "Найденные устройства";
 			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
 

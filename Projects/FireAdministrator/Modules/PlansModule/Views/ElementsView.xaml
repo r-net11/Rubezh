@@ -29,7 +29,7 @@
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
 							</Trigger>
 							<Trigger Property="IsChecked" Value="false">
-								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Empty.png" />
+								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye3.png" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>

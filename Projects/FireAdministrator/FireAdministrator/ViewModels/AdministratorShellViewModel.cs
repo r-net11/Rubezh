@@ -65,8 +65,11 @@ namespace FireAdministrator.ViewModels
 				new RibbonMenuItemViewModel("Сохранить", _menu.SaveAsCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
 				new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "/Controls;component/Images/BCheck.png", "Проверить конфигурацию"),
 				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "/Controls;component/Images/BDownload.png", "Применить конфигурацию"),
+				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "/Controls;component/Images/BSaveAs.png", "Сохранить как"),
+				new RibbonMenuItemViewModel("Сохранить все", _menu.SaveAllCommand, "/Controls;component/Images/BSaveAll.png", "Сохранить все"),
 				_showToolbar,
 			}, "/Controls;component/Images/BConfig.png", "Операции с конфигурацией") { Order = int.MinValue });
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
 		}
 
 		public RelayCommand ShowToolbarCommand { get; private set; }

@@ -44,7 +44,8 @@ namespace USBTest
 			for (int i = 0; i < 1000; i++)
 			{
 				Thread.Sleep(10);
-				var bytes = new List<byte>() { 0x00, 0x7e, 0x00, 0x00, 0x00, 0x01, 0x03, 0x02, 0x01, 0x57, 0x3e };
+				//var bytes = new List<byte>() { 0x00, 0x7e, 0x00, 0x00, 0x00, 0x01, 0x03, 0x01, 0x01, 0x57, 0x3e };
+				var bytes = new List<byte>() { 0, 126, 0, 0, 0, 11, 3, 1, 1, 33, 0, 62};
 				while (bytes.Count % 65 > 0)
 				{
 					bytes.Add(0);
@@ -67,16 +68,9 @@ namespace USBTest
 
 		void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			for (int i = 0; i < 1000; i++)
-			{
-				Thread.Sleep(10);
-				//var bytes = new List<byte>() { 0x7e, 0x00, 0x00, 0x00, 0x01, 0x03, 0x02, 0x01, 0x57, 0x3e };
-				//var bytes = new List<byte>() { 0x03, 0x02, 0x01, 0x57 };
-				var bytes = new List<byte>() { 0x03, 0x02, 0x01, 0x21, 0x00 };
-				var bytesList = new List<List<byte>>();
-				bytesList.Add(bytes);
-				UsbHid.AddRequest(i, bytesList, 1000, 1000, true);
-			}
+			ConfigurationManager.Load();
+			USBManager.Initialize();
+			USBManager.Dispose();
 		}
 	}
 }

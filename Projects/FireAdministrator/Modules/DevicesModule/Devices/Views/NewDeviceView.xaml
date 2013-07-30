@@ -11,7 +11,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers, Mode=OneTime}" SelectedItem="{Binding SelectedDriver}" SelectionMode="Single" CanUserSortColumns="True">
+        <DataGrid x:Name="xxx" Grid.Row="0" ItemsSource="{Binding Drivers, Mode=OneTime}" SelectedItem="{Binding SelectedDriver}" SelectionMode="Single" CanUserSortColumns="True" FocusManager.IsFocusScope="True" FocusManager.FocusedElement="{Binding ElementName=xxx}">
             <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />

@@ -20,7 +20,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ResizeMode = System.Windows.ResizeMode.CanResize;
 		}
 
-		public Window Surface { get; internal set; }
+		public Window Surface { get; private set; }
+		internal protected virtual void SetSurface(Window surface)
+		{
+			Surface = surface;
+		}
 
 		private string _icon;
 		public string Icon

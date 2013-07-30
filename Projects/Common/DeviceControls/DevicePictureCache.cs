@@ -80,6 +80,7 @@ namespace DeviceControls
 						});
 					});
 			});
+			_driverPresenterMap.Clear();
 			FiresecManager.Drivers.ForEach(driver => _driverPresenterMap.Add(driver.UID, driver.PresenterKeyPropertyName));
 		}
 		public static void LoadXDynamicCache()

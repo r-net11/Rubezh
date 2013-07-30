@@ -79,14 +79,14 @@ namespace Infrustructure.Plans.InstrumentAdorners
 							Points.Add(CutPoint(point));
 						break;
 					case MouseButton.Right:
-						ElementBaseShape element = CreateElement();
-						if (element != null)
+						if (Points.Count > 1)
 						{
-							if (Points.Count > 1)
+							ElementBaseShape element = CreateElement();
+							if (element != null)
+							{
 								element.Points = new PointCollection(Points);
-							else
-								element.Position = CutPoint(point);
-							DesignerCanvas.CreateDesignerItem(element);
+								DesignerCanvas.CreateDesignerItem(element);
+							}
 						}
 						Cleanup();
 						break;
