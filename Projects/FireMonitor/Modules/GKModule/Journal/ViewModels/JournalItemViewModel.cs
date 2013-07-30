@@ -169,5 +169,16 @@ namespace GKModule.ViewModels
 			}
 			return false;
 		}
+
+		public bool ShowAdditionalProperties
+		{
+			get
+			{
+#if DEBUG
+				return true;
+#endif
+				return false;
+			}
+		}
 	}
 }
