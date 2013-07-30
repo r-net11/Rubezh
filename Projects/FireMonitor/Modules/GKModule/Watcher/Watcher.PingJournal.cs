@@ -134,9 +134,20 @@ namespace GKModule
 		{
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				if ((direction.DirectionState.StateClass == XStateClass.TurningOn && direction.DirectionState.OnDelay >= 0) ||
-					(direction.DirectionState.StateClass == XStateClass.On && direction.DirectionState.HoldDelay >= 0) ||
-					(direction.DirectionState.StateClass == XStateClass.TurningOff && direction.DirectionState.OffDelay >= 0))
+				bool mustGetState = false;
+				switch(direction.DirectionState.StateClass)
+				{
+					case XStateClass.TurningOn:
+						mustGetState = direction.DirectionState.OnDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
+						break;
+					case XStateClass.On:
+						mustGetState = direction.DirectionState.HoldDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
+						break;
+					case XStateClass.TurningOff:
+						mustGetState = direction.DirectionState.OffDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
+						break;
+				}
+				if (mustGetState)
 				{
 					GetState(direction);
 				}
@@ -144,9 +155,20 @@ namespace GKModule
 
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if ((device.DeviceState.StateClass == XStateClass.TurningOn && device.DeviceState.OnDelay >= 0) ||
-					(device.DeviceState.StateClass == XStateClass.On && device.DeviceState.HoldDelay >= 0) ||
-					(device.DeviceState.StateClass == XStateClass.TurningOff && device.DeviceState.OffDelay >= 0))
+				bool mustGetState = false;
+				switch (device.DeviceState.StateClass)
+				{
+					case XStateClass.TurningOn:
+						mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+						break;
+					case XStateClass.On:
+						mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+						break;
+					case XStateClass.TurningOff:
+						mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+						break;
+				}
+				if (mustGetState)
 				{
 					GetState(device);
 				}
