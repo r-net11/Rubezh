@@ -29,6 +29,6 @@
 				</TreeView.ItemTemplate>
 			</TreeView>
 		</Grid>
-		<Button Grid.Row="1" Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.NavigationText}" Content="{Binding TextVisibility, Converter={StaticResource BoolToMinimizeTextConverter}}" />
+		<Button Grid.Row="1" Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.NavigationText}" Content="{Binding TextVisibility, Converter={StaticResource BoolToMinimizeTextConverter}}" ToolTip="{Binding TextVisibility, Converter={StaticResource BoolToMinimizeTooltipConverter}}" />
 	</Grid>
 </UserControl>

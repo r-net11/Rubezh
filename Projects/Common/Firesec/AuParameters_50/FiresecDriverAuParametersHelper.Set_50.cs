@@ -104,7 +104,7 @@ namespace Firesec_50
 				}
 			}
 			AUParametersThread = null;
-			OnPropgress("", 0);
+			OnPropgress("Готово", 0);
 		}
 
 		static int ExchangeLowAndHighBytes(int value)

@@ -221,12 +221,26 @@ namespace DevicesModule.ViewModels
 
 		void WriteDevices(List<Device> devices)
 		{
-			Firesec_50.FiresecDriverAuParametersHelper.BeginSetAuParameters(devices);
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2AuParametersHelper.BeginSetAuParameters(devices);
+			}
+			else
+			{
+				Firesec_50.FiresecDriverAuParametersHelper.BeginSetAuParameters(devices);
+			}
 		}
 
 		void ReadDevices(List<Device> devices)
 		{
-			Firesec_50.FiresecDriverAuParametersHelper.BeginGetAuParameters(devices);
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2AuParametersHelper.BeginGetAuParameters(devices);
+			}
+			else
+			{
+				Firesec_50.FiresecDriverAuParametersHelper.BeginGetAuParameters(devices);
+			}
 		}
 		#endregion
 
