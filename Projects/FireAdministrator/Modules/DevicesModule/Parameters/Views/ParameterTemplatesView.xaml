@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding ParameterTemplates}" SelectedItem="{Binding SelectedParameterTemplate}" CanUserSortColumns="True" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Наименование" Width="*" SortMemberPath="Driver.Name">
+                    <DataGridTemplateColumn Header="Наименование" Width="*" SortMemberPath="Name">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" Margin="5 0 0 0" />

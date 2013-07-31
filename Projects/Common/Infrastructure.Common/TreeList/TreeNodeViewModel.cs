@@ -100,7 +100,11 @@ namespace Infrastructure.Common.TreeList
 				if (ParentNode == Root)
 					return 0;
 				else
+				{
+					if (ParentNode == null)
+						return 0;
 					return ParentNode.Level + 1;
+				}
 			}
 		}
 		public int Index { get; private set; }
