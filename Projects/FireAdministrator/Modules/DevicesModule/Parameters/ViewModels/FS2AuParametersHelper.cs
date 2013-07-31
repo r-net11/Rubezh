@@ -52,6 +52,7 @@ namespace DevicesModule.ViewModels
 
 		static void GetAuParameters(List<Device> devices)
 		{
+			string errorMessage = "";
 			for (int i = 0; i < devices.Count; i++)
 			{
 				var device = devices[i];
@@ -75,8 +76,22 @@ namespace DevicesModule.ViewModels
 					}
 					device.OnAUParametersChanged();
 				}
+				else
+				{
+					errorMessage += device.DottedPresentationNameAndAddress + " ,";
+				}
 			}
-			OnPropgress("Готово", 0);
+			if (errorMessage != "")
+			{
+				errorMessage = "Ошибка при чтении устройств " + errorMessage;
+				if (errorMessage.EndsWith(" ,"))
+					errorMessage = errorMessage.Remove(errorMessage.Length - 2, 2);
+				OnPropgress(errorMessage, 0);
+			}
+			else
+			{
+				OnPropgress("Готово", 0);
+			}
 			AUParametersThread = null;
 		}
 
