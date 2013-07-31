@@ -124,8 +124,12 @@
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
             <Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="10">
-                        <StackPanel DataContext="{Binding SelectedDevice}"
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" DataContext="{Binding SelectedDevice}"
                                 Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -176,7 +180,7 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </StackPanel>
-                        <Grid>
+                        <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                                 <ColumnDefinition SharedSizeGroup="group2" Width="*" />
@@ -191,7 +195,7 @@
                                 <Controls:ToolBarButton Command="{Binding SyncFromAllSystemToDeviceCommand}" ToolTip="Заменить все значения параметров в устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/RightRight.png" />
                             </StackPanel>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
                 </ScrollViewer>
             </Border>
         </Grid>
