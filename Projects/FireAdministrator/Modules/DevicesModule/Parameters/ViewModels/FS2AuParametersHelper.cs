@@ -4,32 +4,80 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace DevicesModule.ViewModels
 {
 	public static class FS2AuParametersHelper
 	{
+		public static event Action<string, int> Progress;
+		static void OnPropgress(string value, int percentsCompleted)
+		{
+			if (Progress != null)
+				Progress(value, percentsCompleted);
+		}
+
+		static Thread AUParametersThread;
+		static AutoResetEvent StopEvent;
+
+		static FS2AuParametersHelper()
+		{
+			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+			{
+				StopAUParametersThread();
+			};
+		}
+
+		static void StopAUParametersThread()
+		{
+			if (StopEvent != null)
+			{
+				StopEvent.Set();
+			}
+			if (AUParametersThread != null)
+			{
+				AUParametersThread.Join(TimeSpan.FromSeconds(5));
+			}
+			AUParametersThread = null;
+		}
+
 		public static void BeginGetAuParameters(List<Device> devices)
 		{
-			var device = devices.FirstOrDefault();
-			var result = FiresecManager.FS2ClientContract.GetConfigurationParameters(device.UID);
-			if (result != null && !result.HasError && result.Result != null)
+			StopAUParametersThread();
+			StopEvent = new AutoResetEvent(false);
+			AUParametersThread = new Thread(() => { GetAuParameters(devices); });
+			AUParametersThread.Start();
+		}
+
+		static void GetAuParameters(List<Device> devices)
+		{
+			for (int i = 0; i < devices.Count; i++)
 			{
-				foreach (var resultProperty in result.Result)
+				var device = devices[i];
+				OnPropgress("Чтение параметров устройства " + device.DottedPresentationNameAndAddress, (i * 100) / devices.Count);
+
+				var result = FiresecManager.FS2ClientContract.GetConfigurationParameters(device.UID);
+				if (result != null && !result.HasError && result.Result != null)
 				{
-					var property = device.DeviceAUProperties.FirstOrDefault(x => x.Name == resultProperty.Name);
-					if (property == null)
+					foreach (var resultProperty in result.Result)
 					{
-						property = new Property()
+						var property = device.DeviceAUProperties.FirstOrDefault(x => x.Name == resultProperty.Name);
+						if (property == null)
 						{
-							Name = resultProperty.Name
-						};
-						device.DeviceAUProperties.Add(property);
+							property = new Property()
+							{
+								Name = resultProperty.Name
+							};
+							device.DeviceAUProperties.Add(property);
+						}
+						property.Value = resultProperty.Value;
 					}
-					property.Value = resultProperty.Value;
+					device.OnAUParametersChanged();
 				}
-				device.OnAUParametersChanged();
 			}
+			OnPropgress("Готово", 0);
+			AUParametersThread = null;
 		}
 
 		public static void BeginSetAuParameters(List<Device> devices)

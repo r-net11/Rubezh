@@ -20,15 +20,19 @@ namespace MonitorTestClientFS2.ViewModels
 			ResetGuardCommand = new RelayCommand(OnResetGuard, CanSetResetGuard);
 			Zone = zone;
 			Zone.ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+			ZoneState_StateChanged();
 		}
 
 		void ZoneState_StateChanged()
 		{
 			StateType = Zone.ZoneState.StateType;
+			ZoneState = Zone.ZoneState;
 			OnPropertyChanged("StateType");
+			OnPropertyChanged("ZoneState");
 		}
 
 		public StateType StateType { get; private set; }
+		public ZoneState ZoneState { get; private set; }
 
 		public RelayCommand SetGuardCommand { get; private set; }
 		void OnSetGuard()
