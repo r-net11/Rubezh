@@ -203,6 +203,7 @@ namespace VideoModule.ViewModels
 			Camera.Height = Height;
 			Camera.StateType = SelectedStateType;
 			Camera.ZoneUIDs = Zones.ToList();
+			Camera.IgnoreMoveResize = IgnoreMoveResize;
 			return base.Save();
 		}
 	}

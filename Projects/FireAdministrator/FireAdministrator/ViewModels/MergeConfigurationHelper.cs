@@ -14,7 +14,7 @@ using FiresecAPI.Models;
 using Ionic.Zip;
 using System.Diagnostics;
 
-namespace DevicesModuleMerge
+namespace FireAdministrator.ViewModels
 {
 	public static class MergeConfigurationHelper
 	{

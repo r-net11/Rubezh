@@ -21,33 +21,21 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Расширеное редактирование" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Administrator_IsExpertMode}" HorizontalAlignment="Left" Margin="2" />
-                
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Текст в иконках меню" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Administrator_IsMenuIconText}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Скрывать иконки главного меню" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Administrator_HideMainMenuIcons}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Скрывать инструменты выравнивания в планах" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Показывать главное меню" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Administrator_ShowMainMenu}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Показывать инструменты линий привязки" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Administrator_ShowGridLineInstruments}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Скрывать инструменты выравнивания в планах" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Показывать вкладку Направления" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Administrator_ShowDirectories}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Показывать инструменты линий привязки" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Administrator_ShowGridLineInstruments}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Показывать вкладку Направления" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Administrator_ShowDirectories}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="7" Grid.Column="0" Text="Показывать вкладку Симуляция" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding Administrator_ShowSimulation}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Показывать вкладку Симуляция" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Administrator_ShowSimulation}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="ОЗ">

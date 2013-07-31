@@ -7,13 +7,10 @@
 					<Image Height="24" Source="/Controls;component/Images/Logo.png" ToolTip="Меню" />
 				</MenuItem.Header>
 				<MenuItem Margin="1" Command="{Binding LoadFromFileCommand}" Header="Открыть конфигурацию из файла" />
-				<MenuItem Margin="1" Command="{Binding SaveCommand}" Header="Сохранить" />
 				<MenuItem Margin="1" Command="{Binding SaveAsCommand}" Header="Сохранить как" />
-				<MenuItem Margin="1" Command="{Binding SaveAllCommand}" Header="Сохранить все" />
 				<MenuItem Margin="1" Command="{Binding CreateNewCommand}" Header="Создать новую конфигурацию" />
 				<MenuItem Margin="1" Command="{Binding ValidateCommand}" Header="Проверить конфигурацию" />
 				<MenuItem Margin="1" Command="{Binding SetNewConfigCommand}" Header="Применить конфигурацию" />
-				<MenuItem Margin="1" Command="{Binding SetPnanNameToZoneDescriptionsCommand}" Header="Привязать названия планов к примечаниям зон" />
 			</MenuItem>
 		</Menu>
 		<ContentControl MinWidth="400" Content="{Binding ExtendedMenu}" />

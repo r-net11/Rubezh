@@ -17,7 +17,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrastructure.Common.Ribbon;
-using DevicesModuleMerge;
 
 namespace DevicesModule
 {
@@ -47,9 +46,6 @@ namespace DevicesModule
 			GuardViewModel = new GuardViewModel();
 			SimulationViewModel = new SimulationViewModel();
 			_planExtension = new PlanExtension(DevicesViewModel, ZonesViewModel);
-
-			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
-			ServiceFactory.RibbonService.Items[0].Add(new RibbonMenuItemViewModel("Слияние конфигураций", MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png"));
 		}
 
 		void OnCreateZone(CreateZoneEventArg createZoneEventArg)
@@ -158,19 +154,6 @@ namespace DevicesModule
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 #endif
 			return true;
-		}
-
-		public RelayCommand MergeConfigurationCommand { get; private set; }
-		void OnMergeConfiguration()
-		{
-			MergeConfigurationHelper.Merge();
-		}
-		bool CanMergeConfiguration()
-		{
-#if DEBUG
-			return true;
-#endif
-			return false;
 		}
 	}
 }

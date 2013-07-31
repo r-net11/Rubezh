@@ -175,7 +175,7 @@
     <Compile Include="Operations\CustomFunctionOperationHelper.cs" />
     <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
     <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
-    <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
+    <Compile Include="Operations\AuParametersOperationHelper.cs" />
     <Compile Include="Operations\GetInformationOperationHelper.cs" />
     <Compile Include="Operations\GuardUsersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />
@@ -269,9 +269,7 @@
       <Name>UsbLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Administrator\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>

@@ -28,6 +28,7 @@ namespace Infrastructure.Common
 				if (camera.IgnoreMoveResize)
 				{
 					videoWindow.WindowStyle = System.Windows.WindowStyle.None;
+					videoWindow.Topmost = true;
 					videoWindow.MinHeight = videoWindow.MaxHeight = videoWindow.Height;
 					videoWindow.MinWidth = videoWindow.MaxWidth = videoWindow.Width;
 					videoWindow._title.Text = videoWindow.Title;

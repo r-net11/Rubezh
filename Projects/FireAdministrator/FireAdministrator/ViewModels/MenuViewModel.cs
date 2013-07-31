@@ -28,6 +28,7 @@ namespace FireAdministrator.ViewModels
 			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
+			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 		}
 
 		void OnSetNewConfiguration(CancelEventArgs e)
@@ -52,11 +53,6 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		public bool ShowTextInMenu
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.Administrator_IsMenuIconText; }
-		}
-
 		public bool SetNewConfig()
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
@@ -69,7 +65,7 @@ namespace FireAdministrator.ViewModels
 
 		public bool CanShowMainMenu
 		{
-			get { return GlobalSettingsHelper.GlobalSettings.Administrator_ShowMainMenu; }
+			get { return false; }
 		}
 
 		void SaveService_Changed()
@@ -157,9 +153,10 @@ namespace FireAdministrator.ViewModels
 		{
 		}
 
-		public bool IsMainMenuIconsVisible
+		public RelayCommand MergeConfigurationCommand { get; private set; }
+		void OnMergeConfiguration()
 		{
-			get { return !GlobalSettingsHelper.GlobalSettings.Administrator_HideMainMenuIcons; }
+			MergeConfigurationHelper.Merge();
 		}
 	}
 }
