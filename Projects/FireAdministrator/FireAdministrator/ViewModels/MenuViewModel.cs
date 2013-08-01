@@ -28,6 +28,7 @@ namespace FireAdministrator.ViewModels
 			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
+			IsMainMenuVisible = false;
 		}
 
 		void OnSetNewConfiguration(CancelEventArgs e)
@@ -160,6 +161,17 @@ namespace FireAdministrator.ViewModels
 		public bool IsMainMenuIconsVisible
 		{
 			get { return !GlobalSettingsHelper.GlobalSettings.Administrator_HideMainMenuIcons; }
+		}
+
+		private bool _isMainMenuVisible;
+		public bool IsMainMenuVisible
+		{
+			get { return _isMainMenuVisible; }
+			set
+			{
+				_isMainMenuVisible = value;
+				OnPropertyChanged(() => IsMainMenuVisible);
+			}
 		}
 	}
 }

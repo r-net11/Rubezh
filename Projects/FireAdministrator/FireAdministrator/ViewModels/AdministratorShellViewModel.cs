@@ -24,7 +24,7 @@ namespace FireAdministrator.ViewModels
 			MinWidth = 1000;
 			MinHeight = 550;
 			ShowToolbarCommand = new RelayCommand(OnShowToolbar);
-			ShowMenuCommand = new RelayCommand(OnShowMenu);
+			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
 			Toolbar = _menu;
 			RibbonContent = new RibbonMenuViewModel();
@@ -81,21 +81,28 @@ namespace FireAdministrator.ViewModels
 		}
 
 		public RelayCommand ShowToolbarCommand { get; private set; }
-		void OnShowToolbar()
+		private void OnShowToolbar()
 		{
 			ToolbarVisible = !ToolbarVisible;
 			UpdateToolbarTitle();
 		}
+
 		public RelayCommand ShowMenuCommand { get; private set; }
-		void OnShowMenu()
+		private void OnShowMenu()
 		{
-			ToolbarVisible = !ToolbarVisible;
+			_menu.IsMainMenuVisible = !_menu.IsMainMenuVisible;
 			UpdateToolbarTitle();
 		}
+		private bool CanShowMenu()
+		{
+			return ToolbarVisible;
+		}
+
 		private void UpdateToolbarTitle()
 		{
 			_showToolbar.Text = ToolbarVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
-			_showMenu.Text = ToolbarVisible ? "Скрыть панель меню" : "Показать панель меню";
+			_showMenu.Text = _menu.IsMainMenuVisible ? "Скрыть панель меню" : "Показать панель меню";
 		}
+
 	}
 }
