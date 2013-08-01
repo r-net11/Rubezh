@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2.Processor;
 using ServerFS2.Service;
 using Device = FiresecAPI.Models.Device;
 
@@ -19,7 +18,6 @@ namespace ServerFS2
 			{
 				case DriverType.Computer:
 					{
-						//MainManager.StopMonitoring();
 						USBManager.Dispose();
 						var usbHidInfos = USBDetectorHelper.FindAllUsbHidInfo();
 						rootDevice.Children = new List<Device>();
@@ -32,7 +30,6 @@ namespace ServerFS2
 							usbDevice.Parent = rootDevice;
 							usbHidInfo.UsbHid.Dispose();
 						}
-						//MainManager.StartMonitoring();
 					}
 					break;
 				case DriverType.MS_1:
@@ -50,8 +47,6 @@ namespace ServerFS2
 				case DriverType.USB_Channel_2:
 					{
 						USBManager.ReInitialize(device.Parent);
-						rootDevice.Parent = CopyDevice(device);
-
 						rootDevice.Children = new List<Device>();
 						if (!AddDevicesToChanel(rootDevice))
 							return null;
@@ -77,7 +72,7 @@ namespace ServerFS2
 				// Добавляем 2-й канал
 				var usbChannel2Device = new Device();
 				usbChannel2Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_2);
-				usbChannel2Device.DriverUID = usbChannel1Device.Driver.UID;
+				usbChannel2Device.DriverUID = usbChannel2Device.Driver.UID;
 				usbChannel2Device.IntAddress = 2;
 				usbChannel2Device.Parent = device;
 				device.Children.Add(usbChannel2Device);
@@ -88,23 +83,24 @@ namespace ServerFS2
 			var response = USBManager.Send(chanel.Parent, 0x01, chanel.IntAddress + 2);
 			return response.Bytes;
 		}
-		public static void SetAddressListToChanel(Device chanel)
-		{
-			var bytes = new List<byte>();
-			var chanelAddress = Convert.ToByte(chanel.Properties.FirstOrDefault(x => x.Name == "Address").Value);
-			var baudRate = Convert.ToByte(chanel.Parent.Properties.FirstOrDefault(x => x.Name == "BaudRate").Value);
-			bytes.Add(chanelAddress);
-			foreach (var child in chanel.Children)
-			{
-				bytes.Add((byte)child.AddressOnShleif);
-			}
-			bytes.Sort();
-			int nullCount = 32 - bytes.Count;
-			for (int i = 0; i < nullCount; i++)
-				bytes.Add(0x00);
-			USBManager.Send(chanel.Parent, 0x02, chanel.IntAddress + 2, chanelAddress, baudRate, bytes);
-		}
 		static Device CopyDevice(Device device)
+		{
+			var newDevice = CopyOneDevice(device);
+			if (device.Parent != null)
+			{
+				var newParent = CopyOneDevice(device.Parent);
+				newDevice.Parent = newParent;
+			}
+
+			foreach (var child in device.Children)
+			{
+				var newChild = CopyOneDevice(child);
+				newChild.Parent = newDevice;
+				newDevice.Children.Add(newChild);
+			}
+			return newDevice;
+		}
+		static Device CopyOneDevice(Device device)
 		{
 			var newDevice = new Device();
 			newDevice.IntAddress = device.IntAddress;
@@ -112,29 +108,6 @@ namespace ServerFS2
 			newDevice.DriverUID = device.DriverUID;
 			newDevice.UID = device.UID;
 			newDevice.Properties = device.Properties;
-
-			if (device.Parent != null)
-			{
-				var newParent = new Device();
-				newParent.IntAddress = device.Parent.IntAddress;
-				newParent.Driver = device.Parent.Driver;
-				newParent.DriverUID = device.Parent.DriverUID;
-				newParent.UID = device.Parent.UID;
-				newParent.Properties = device.Parent.Properties;
-				newDevice.Parent = newParent;
-			}
-
-			foreach (var child in device.Children)
-			{
-				var newChild = new Device();
-				newChild.Parent = newDevice;
-				newChild.IntAddress = child.IntAddress;
-				newChild.Driver = child.Driver;
-				newChild.DriverUID = child.DriverUID;
-				newChild.UID = child.UID;
-				newChild.Properties = child.Properties;
-				newDevice.Children.Add(newChild);
-			}
 			return newDevice;
 		}
 		static bool AddDevicesToChanel(Device chanel)
