@@ -43,14 +43,6 @@
           <Directory Id="INTL" Name="intl" />
           <Directory Id="FIRESECLOCATION.Cache" Name="Cache" />
         </Directory>
-        <Directory Id="FIRESECLOCATION5" Name="Firesec5">
-          <Directory Id="FIRESECLOCATION5_CONFIG" Name="Config" />
-          <Directory Id="FIRESECLOCATION5_LIB" Name="lib">
-            <Directory Id="FIRESECLOCATION5_FireBird" Name="FireBird">
-              <Directory Id="FIRESECLOCATION5_INTL" Name="intl" />
-            </Directory>
-          </Directory>
-        </Directory>
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
           <Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
             <Directory Id="Server.ConfigFolder" Name="$(var.ConfigurationFolder)">
@@ -83,6 +75,14 @@
             </Directory>
           </Directory>
           <Directory Id="FIRMWHARELOCATION" Name="Актуальные прошивки" />
+        </Directory>
+        <Directory Id="FIRESECLOCATION5" Name="Firesec5">
+          <Directory Id="FIRESECLOCATION5_CONFIG" Name="Config" />
+          <Directory Id="FIRESECLOCATION5_LIB" Name="lib">
+            <Directory Id="FIRESECLOCATION5_FireBird" Name="FireBird">
+              <Directory Id="FIRESECLOCATION5_INTL" Name="intl" />
+            </Directory>
+          </Directory>
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">

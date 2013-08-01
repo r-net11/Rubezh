@@ -310,14 +310,14 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void SetConfigurationParameters(Device device, List<Property> properties)
+		public static void SetAuParameters(Device device, List<Property> properties)
 		{
-			DeviceParametersOperationHelper.SetDeviceParameters(device, properties);
+			AuParametersOperationHelper.Set(device, properties);
 		}
 
-		public static List<Property> GetConfigurationParameters(Device device)
+		public static List<Property> GetAuParameters(Device device)
 		{
-			return DeviceParametersOperationHelper.GetDeviceParameters(device);
+			return AuParametersOperationHelper.Get(device);
 		}
 		#endregion
 

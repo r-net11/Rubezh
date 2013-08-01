@@ -102,7 +102,7 @@ namespace PlansModule.ViewModels
 			_flushAdorner.Show(presenterItem);
 		}
 
-		void OnUserChanged(bool isReconnect)
+		void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
 		{
 			OnPropertyChanged("HasPermissionsToScale");
 		}

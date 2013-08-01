@@ -146,7 +146,7 @@ namespace GKModule
 			XManager.CreateStates();
 			DatabaseManager.Convert();
 			if (firstTime)
-				WatcherManager.OnUserChanged(false);
+				WatcherManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;
 		}
 

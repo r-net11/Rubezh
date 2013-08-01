@@ -49,7 +49,16 @@ namespace DevicesModule.ViewModels
 			Invalidate();
 			SetRibbonItems();
 
-			Firesec_50.FiresecDriverAuParametersHelper.Progress += new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+			if (FiresecManager.IsFS2Enabled)
+			{
+				FS2AuParametersHelper.Progress -= new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+				FS2AuParametersHelper.Progress += new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+			}
+			else
+			{
+				Firesec_50.FiresecDriverAuParametersHelper.Progress -= new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+				Firesec_50.FiresecDriverAuParametersHelper.Progress += new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+			}
 		}
 
 		void FiresecDriverAuParametersHelper_Progress(string value, int percentsCompleted)

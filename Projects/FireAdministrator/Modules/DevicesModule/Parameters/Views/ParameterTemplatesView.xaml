@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding ParameterTemplates}" SelectedItem="{Binding SelectedParameterTemplate}" CanUserSortColumns="True" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Наименование" Width="*" SortMemberPath="Driver.Name">
+                    <DataGridTemplateColumn Header="Наименование" Width="*" SortMemberPath="Name">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" Margin="5 0 0 0" />
@@ -58,42 +58,44 @@
         </Grid>
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
         <Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" DataContext="{Binding SelectedParameterTemplate}" Margin="2">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" IsEnabled="{Binding IsEnabled}">
-                <StackPanel DataContext="{Binding SelectedDeviceParameterTemplate.DeviceParameterViewModel}" Margin="5">
-                    <ItemsControl ItemsSource="{Binding StringAUProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group2" Width="2*" />
-                                        <ColumnDefinition SharedSizeGroup="group1" Width="1*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding EnumAUProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group2" Width="2*" />
-                                        <ColumnDefinition SharedSizeGroup="group1" Width="1*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel IsEnabled="{Binding IsEnabled}">
+                    <StackPanel IsEnabled="{Binding IsEnabled}" DataContext="{Binding SelectedDeviceParameterTemplate.DeviceParameterViewModel}" Margin="5">
+                        <ItemsControl ItemsSource="{Binding StringAUProperties}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="group2" Width="2*" />
+                                            <ColumnDefinition SharedSizeGroup="group1" Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding EnumAUProperties}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="group2" Width="2*" />
+                                            <ColumnDefinition SharedSizeGroup="group1" Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Border>
