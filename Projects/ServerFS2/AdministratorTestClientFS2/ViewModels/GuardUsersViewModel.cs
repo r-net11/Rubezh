@@ -6,7 +6,7 @@ using ServerFS2.Processor;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
-	class GuardUsersViewModel: DialogViewModel
+	class GuardUsersViewModel : DialogViewModel
 	{
 		public GuardUsersViewModel(Device device)
 		{
@@ -29,7 +29,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SetGuardUsersCommand { get; private set; }
 		private void OnSetGuardUsers()
 		{
-			MainManager.DeviceSetGuardUsers(selectedDeivce, false, GuardUsers);
+			MainManager.DeviceSetGuardUsers(selectedDeivce, GuardUsers);
 		}
 	}
 }

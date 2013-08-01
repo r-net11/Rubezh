@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace JournalModule.ViewModels
 {
@@ -25,12 +26,22 @@ namespace JournalModule.ViewModels
 
 			UseSystemDate = archiveFilter.UseSystemDate;
 
-			if (archiveFilter.Descriptions.IsNotNullOrEmpty())
+			if (archiveFilter.DescriptionAndStateInfos.IsNotNullOrEmpty())
 			{
-				JournalEvents.Where(x => archiveFilter.Descriptions.Any(description => description == x.Name)).
-							  AsParallel().ForAll(x => x.IsEnable = true);
-				JournalTypes.Where(x => JournalEvents.Any(journalEvent => journalEvent.ClassId == x.StateType && journalEvent.IsEnable)).
+				JournalEvents.Where(x => archiveFilter.DescriptionAndStateInfos.Any(description => description.Description == x.Name && description.StateType == x.StateType)).
+					AsParallel().ForAll(x => x.IsEnable = true);
+				JournalTypes.Where(x => JournalEvents.Any(journalEvent => journalEvent.StateType == x.StateType && journalEvent.IsEnable)).
 							 AsParallel().ForAll(x => x.IsEnable = true);
+			}
+			else
+			{
+				if (archiveFilter.Descriptions.IsNotNullOrEmpty())
+				{
+					JournalEvents.Where(x => archiveFilter.Descriptions.Any(description => description == x.Name)).
+								  AsParallel().ForAll(x => x.IsEnable = true);
+					JournalTypes.Where(x => JournalEvents.Any(journalEvent => journalEvent.StateType == x.StateType && journalEvent.IsEnable)).
+								 AsParallel().ForAll(x => x.IsEnable = true);
+				}
 			}
 
 			if (archiveFilter.DeviceNames.IsNotNullOrEmpty())
@@ -59,7 +70,9 @@ namespace JournalModule.ViewModels
 			{
 				if (operationResult.Result.Count > 0)
 				{
-					foreach (var journalRecord in operationResult.Result.Take(2000))
+					var distinctJournalRecords = new HashSet<string>();
+
+					foreach (var journalRecord in operationResult.Result.Take(1000).Distinct())
 					{
 						var eventViewModel = new EventViewModel(journalRecord.StateType, journalRecord.Description);
 						JournalEvents.Add(eventViewModel);
@@ -68,7 +81,7 @@ namespace JournalModule.ViewModels
 			}
 
 			JournalTypes = new List<ClassViewModel>(
-				JournalEvents.Select(x => x.ClassId).Distinct().
+				JournalEvents.Select(x => x.StateType).Distinct().
 				Select(x => new ClassViewModel((StateType)x))
 			);
 
@@ -137,12 +150,13 @@ namespace JournalModule.ViewModels
 		{
 			return new ArchiveFilter()
 			{
-                StartDate = StartDateTime,
-                EndDate = EndDateTime,
-                UseSystemDate = UseSystemDate,
+				StartDate = StartDateTime,
+				EndDate = EndDateTime,
+				UseSystemDate = UseSystemDate,
 				Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
 				DeviceNames = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseName)),
 				Subsystems = new List<SubsystemType>(Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)),
+				DescriptionAndStateInfos = new List<DescriptionAndStateInfo>(JournalEvents.Where(x => x.IsEnable).Select(x => new DescriptionAndStateInfo() { Description = x.Name, StateType = x.StateType }))
 			};
 		}
 

@@ -14,6 +14,8 @@ namespace FiresecAPI.Models
 			DeviceNames = new List<string>();
 		}
 
+		public List<DescriptionAndStateInfo> DescriptionAndStateInfos = new List<DescriptionAndStateInfo>();
+
 		[DataMember]
 		public bool UseSystemDate { get; set; }
 
@@ -31,5 +33,11 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<SubsystemType> Subsystems { get; set; }
+	}
+
+	public class DescriptionAndStateInfo
+	{
+		public string Description { get; set; }
+		public StateType StateType { get; set; }
 	}
 }
