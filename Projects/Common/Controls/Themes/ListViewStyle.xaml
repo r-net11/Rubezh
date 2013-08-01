@@ -178,8 +178,4 @@
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 	</Style>
 
-	<Style BasedOn="{StaticResource {x:Type GridView}}" TargetType="{x:Type GridView}">
-		<Setter Property="AllowsColumnReorder" Value="False" />
-	</Style>
-
 </ResourceDictionary>

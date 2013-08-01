@@ -28,6 +28,6 @@
 			<Controls:ToolBarButton2 Command="{Binding SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" Text="Применить" ToolTip="Применить конфигурацию"
 					HasText="{Binding ShowTextInMenu}" />
 		</StackPanel>
-		<ContentControl MinWidth="400" Content="{Binding ExtendedMenu}" />
+		<ContentControl MinWidth="400" Content="{Binding ExtendedMenu}" Visibility="{Binding IsMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 	</StackPanel>
 </UserControl>

@@ -23,7 +23,7 @@ namespace FireAdministrator.ViewModels
 			Width = 1000;
 			MinWidth = 1000;
 			MinHeight = 550;
-			ShowToolbarCommand = new RelayCommand(OnShowToolbar);
+			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
 			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
 			Toolbar = _menu;
@@ -59,8 +59,8 @@ namespace FireAdministrator.ViewModels
 
 		private void AddRibbonItem()
 		{
-			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "/Controls;component/Images/BToolbar.png") { Order = 1 };
-			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "/Controls;component/Images/BMenu.png") { Order = 2 };
+			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "/Controls;component/Images/BToolbar.png");
+			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "/Controls;component/Images/BMenu.png");
 			UpdateToolbarTitle();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Проект", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
@@ -74,8 +74,8 @@ namespace FireAdministrator.ViewModels
 				new RibbonMenuItemViewModel("Слияние конфигураций", _menu.MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png", "Слияние конфигураций"),
 				new RibbonMenuItemViewModel("Вид", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					_showToolbar,
 					_showMenu,
+					_showToolbar,
 				}, "/Controls;component/Images/BView.png") { Order = 1000 }, 
 			}, "/Controls;component/Images/BConfig.png", "Операции с конфигурацией") { Order = int.MinValue });
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
@@ -84,10 +84,9 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand ShowToolbarCommand { get; private set; }
 		private void OnShowToolbar()
 		{
-			ToolbarVisible = !ToolbarVisible;
+			_menu.IsMenuVisible = !_menu.IsMenuVisible;
 			UpdateToolbarTitle();
 		}
-
 		public RelayCommand ShowMenuCommand { get; private set; }
 		private void OnShowMenu()
 		{
@@ -101,7 +100,7 @@ namespace FireAdministrator.ViewModels
 
 		private void UpdateToolbarTitle()
 		{
-			_showToolbar.Text = ToolbarVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
+			_showToolbar.Text = _menu.IsMenuVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
 			_showMenu.Text = _menu.IsMainMenuVisible ? "Скрыть панель меню" : "Показать панель меню";
 		}
 
