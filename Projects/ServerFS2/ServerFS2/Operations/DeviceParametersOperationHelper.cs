@@ -8,7 +8,7 @@ namespace ServerFS2
 {
 	public static class DeviceParametersOperationHelper
 	{
-		public static List<Property> GetDeviceParameters(Device device)
+		public static List<Property> Get(Device device)
 		{
 			var allAUProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			//var properties = RemoveDublicateProperties(allAUProperties);
@@ -27,7 +27,7 @@ namespace ServerFS2
 			return device.Properties;
 		}
 
-		public static void SetDeviceParameters(Device device, List<Property> properties)
+		public static void Set(Device device, List<Property> properties)
 		{
 			CopyPropertiesToDevice(device, properties);
 			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Controls.Menu.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 namespace PlansModule.ViewModels
 {
 	//public class PlansMenuViewModel : BaseViewModel
@@ -38,17 +39,21 @@ namespace PlansModule.ViewModels
 	            new MenuButtonViewModel(context.PlanDesignerViewModel.MoveBackwardCommand, "/Controls;component/Images/MoveBack.png" , "Ниже"),
 				//new MenuSeparatorViewModel(),
 				//context.DesignerCanvas.Toolbox
-				new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalLeftCommand, "/Controls;component/Images/shapes-align-hori-left.png" , "Выровнять по левому краю"),
-	            new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalCenterCommand, "/Controls;component/Images/shapes-align-hori-center.png" , "Выровнять по вертикали"),
-	            new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalRightCommand, "/Controls;component/Images/shapes-align-hori-right.png" , "Выровнять по правому краю"),
-	            new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalTopCommand, "/Controls;component/Images/shapes-align-verti-top.png" , "Выровнять по верхнему краю"),
-	            new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalCenterCommand, "/Controls;component/Images/shapes-align-verti-middle.png" , "Выровнять по горизонтали"),
-	            new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalBottomCommand, "/Controls;component/Images/shapes-align-verti-bottom.png" , "Выровнять по нижнему краю"),
+				
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "/Controls;component/Images/shapes-flip-horizontal.png" , "Ниже"),
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "/Controls;component/Images/shapes-flip-vertical.png" , "Ниже"),
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "/Controls;component/Images/shapes-rotate-anticlockwise.png" , "Ниже"),
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "/Controls;component/Images/shapes-rotate-clockwise.png" , "Ниже"),
 	        };
+			if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
+			{
+				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalLeftCommand, "/Controls;component/Images/shapes-align-hori-left.png", "Выровнять по левому краю"));
+				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalCenterCommand, "/Controls;component/Images/shapes-align-hori-center.png", "Выровнять по вертикали"));
+				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalRightCommand, "/Controls;component/Images/shapes-align-hori-right.png", "Выровнять по правому краю"));
+				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalTopCommand, "/Controls;component/Images/shapes-align-verti-top.png", "Выровнять по верхнему краю"));
+				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalCenterCommand, "/Controls;component/Images/shapes-align-verti-middle.png", "Выровнять по горизонтали"));
+				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalBottomCommand, "/Controls;component/Images/shapes-align-verti-bottom.png", "Выровнять по нижнему краю"));
+			}
 		}
 	}
 }
