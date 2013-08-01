@@ -16,16 +16,7 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				var videoWindow = new VideoWindow()
-				{
-					Title = "Видео с камеры " + camera.Address,
-					Address = camera.Address,
-					Left = camera.Left,
-					Top = camera.Top,
-					Width = camera.Width,
-					Height = camera.Height,
-					Topmost = true
-				};
+				var videoWindow = CreateWindow(camera);
 				if (camera.IgnoreMoveResize)
 				{
 					videoWindow.WindowStyle = System.Windows.WindowStyle.None;
@@ -58,15 +49,7 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				var videoWindow = new VideoWindow()
-				{
-					Title = "Видео с камеры " + camera.Address,
-					Address = camera.Address,
-					Left = camera.Left,
-					Top = camera.Top,
-					Width = camera.Width,
-					Height = camera.Height
-				};
+				var videoWindow = CreateWindow(camera);
 				videoWindow.ShowDialog();
 
 				camera.Left = (int)videoWindow.Left;
@@ -78,6 +61,24 @@ namespace Infrastructure.Common
 			{
 				Logger.Error(e, "VideoService.ShowModal");
 			}
+		}
+
+		static VideoWindow CreateWindow(Camera camera)
+		{
+			var title = camera.Name;
+			if(string.IsNullOrEmpty(title))
+				title = "Видео с камеры " + camera.Address;
+
+			var videoWindow = new VideoWindow()
+			{
+				Title = title,
+				Address = camera.Address,
+				Left = camera.Left,
+				Top = camera.Top,
+				Width = camera.Width,
+				Height = camera.Height
+			};
+			return videoWindow;
 		}
 
 		internal static void Open()

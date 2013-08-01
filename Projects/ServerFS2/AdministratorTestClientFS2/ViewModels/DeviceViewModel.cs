@@ -67,14 +67,14 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand GetParametersCommand { get; private set; }
 		void OnGetParameters()
 		{
-			DeviceParametersOperationHelper.GetDeviceParameters(Device);
+			DeviceParametersOperationHelper.Get(Device);
 			Device.OnAUParametersChanged();
 		}
 
 		public RelayCommand SetParametersCommand { get; private set; }
 		void OnSetParameters()
 		{
-			DeviceParametersOperationHelper.SetDeviceParameters(Device, Device.Properties);
+			DeviceParametersOperationHelper.Set(Device, Device.Properties);
 		}
 	}
 }

@@ -48,7 +48,6 @@ namespace FiresecAPI
 			Monitor_HaspInfo_Enabled = false;
 
 			Administrator_IsExpertMode = false;
-			Administrator_ShowGridLineInstruments = false;
 			Administrator_ShowDirectories = false;
 			Administrator_ShowSimulation = false;
 		}
@@ -124,8 +123,6 @@ namespace FiresecAPI
 		public bool Administrator_IsExpertMode { get; set; }
 		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
-		[DataMember]
-		public bool Administrator_ShowGridLineInstruments { get; set; }
 		[DataMember]
 		public bool Administrator_ShowDirectories { get; set; }
 		[DataMember]
