@@ -27,8 +27,6 @@ namespace ServerFS2
 				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
 				if (responce.Bytes[5] == 0x41)
 					USBDriverType = DriverType.MS_2;
-				else
-					USBDriverType = DriverType.MS_1;
 			}
 			else
 			{
@@ -121,50 +119,71 @@ namespace ServerFS2
 		{
 			foreach (var channelDevice in USBDevice.Children)
 			{
-				byte paramNo = 0;
-				switch (channelDevice.IntAddress)
-				{
-					case 1:
-						paramNo = 0x03;
-						break;
+				SetAddressListToChanel(channelDevice);
+				//byte paramNo = 0;
+				//switch (channelDevice.IntAddress)
+				//{
+				//    case 1:
+				//        paramNo = 0x03;
+				//        break;
 
-					case 2:
-						paramNo = 0x04;
-						break;
-				}
+				//    case 2:
+				//        paramNo = 0x04;
+				//        break;
+				//}
 
-				byte freeChannelAddress = 0;
-				for (int i = 1; i <= 256; i++)
-				{
+				//byte freeChannelAddress = 0;
+				//for (int i = 1; i <= 256; i++)
+				//{
 
-					if (!channelDevice.Children.Any(x => x.IntAddress == i))
-					{
-						freeChannelAddress = (byte)i;
-						break;
-					}
-				}
+				//    if (!channelDevice.Children.Any(x => x.IntAddress == i))
+				//    {
+				//        freeChannelAddress = (byte)i;
+				//        break;
+				//    }
+				//}
 
-				byte baudRateValue = 0;
-				var baudRateProperty = USBDevice.Properties.FirstOrDefault(x => x.Name == "BaudRate");
-				if (baudRateProperty != null)
-				{
-					baudRateValue = Byte.Parse(baudRateProperty.Value);
-				}
+				//byte baudRateValue = 0;
+				//var baudRateProperty = USBDevice.Properties.FirstOrDefault(x => x.Name == "BaudRate");
+				//if (baudRateProperty != null)
+				//{
+				//    baudRateValue = Byte.Parse(baudRateProperty.Value);
+				//}
 
-				var addressListBytes = new List<byte>();
-				addressListBytes.Add(freeChannelAddress);
-				var bytesToAdd = 32 - addressListBytes.Count();
-				for (int i = 0; i < bytesToAdd; i++)
-				{
-					addressListBytes.Add(0);
-				}
+				//var addressListBytes = new List<byte>();
+				//addressListBytes.Add(freeChannelAddress);
+				//var bytesToAdd = 32 - addressListBytes.Count();
+				//for (int i = 0; i < bytesToAdd; i++)
+				//{
+				//    addressListBytes.Add(0);
+				//}
 
-				var bytes = new List<byte>() { 0x01, 0x02, paramNo, freeChannelAddress, baudRateValue };
-				bytes.AddRange(addressListBytes);
-				var bytesList = new List<List<byte>>();
-				bytesList.Add(bytes);
-				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+				//var bytes = new List<byte>() { 0x01, 0x02, paramNo, freeChannelAddress, baudRateValue };
+				//bytes.AddRange(addressListBytes);
+				//var bytesList = new List<List<byte>>();
+				//bytesList.Add(bytes);
+				//var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
 			}
+		}
+		public void SetAddressListToChanel(Device chanel)
+		{
+			var bytes = new List<byte>();
+			var chanelAddress = Convert.ToByte(chanel.Properties.FirstOrDefault(x => x.Name == "Address").Value);
+			var baudRate = Convert.ToByte(chanel.Parent.Properties.FirstOrDefault(x => x.Name == "BaudRate").Value);
+			bytes.Add(chanelAddress);
+			foreach (var child in chanel.Children)
+			{
+				bytes.Add((byte)child.AddressOnShleif);
+			}
+			bytes.Sort();
+			int nullCount = 32 - bytes.Count;
+			for (int i = 0; i < nullCount; i++)
+				bytes.Add(0x00);
+
+			var allBytes =  new List<byte>(){0x01, 0x02, (byte)(chanel.IntAddress + 2), chanelAddress, baudRate};
+			allBytes.AddRange(bytes);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, new List<List<byte>>() { allBytes }, 1000, 1000, true, 1);
+			//USBManager.Send(chanel.Parent, 0x02, chanel.IntAddress + 2, chanelAddress, baudRate, bytes);
 		}
 	}
 }

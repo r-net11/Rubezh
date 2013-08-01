@@ -12,7 +12,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
 using DevicesModule.Guard;
 using DevicesModule.Validation;
-using Infrastructure.Common.Ribbon;
 
 namespace DevicesModule.ViewModels
 {
@@ -33,7 +32,6 @@ namespace DevicesModule.ViewModels
 			AddZoneCommand = new RelayCommand(OnAddZone, CanAddZone);
 			RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveZone);
 			ShowSynchronizationCommand = new RelayCommand(OnShowSynchronization, CanShowSynchronization);
-			SetRibbonItems();
 		}
 
 		public class User
@@ -172,7 +170,7 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var deviceUser in DeviceUsers)
 			{
-				if (deviceUser.GuardUser.Name != null && Validator.ValidateString(deviceUser.GuardUser.Name))
+				if (deviceUser.GuardUser.Name != null && !Validator.ValidateString(deviceUser.GuardUser.Name))
 				{
 					MessageBoxService.ShowError("Недопустимые символы в имени пользователя " + deviceUser.GuardUser.Name);
 					return false;
@@ -553,18 +551,6 @@ namespace DevicesModule.ViewModels
 		public override void OnHide()
 		{
 			base.OnHide();
-		}
-
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
-			{
-				new RibbonMenuItemViewModel("Охрана", new ObservableCollection<RibbonMenuItemViewModel>()
-				{
-					new RibbonMenuItemViewModel("Считать охранную конфигурацию", ReadGuardUserCommand, "/Controls;component/Images/BRead.png", "Считать охранную конфигурацию из устройства"),
-					new RibbonMenuItemViewModel("Записать охранную конфигурацию", WriteGuardUserCommand, "/Controls;component/Images/BWrite.png", "Записать охранную конфигурацию в устройство"),
-				}, "/Controls;component/Images/BUser.png") { Order = 1 } ,
-			};
 		}
 	}
 }
