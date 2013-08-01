@@ -36,7 +36,6 @@ namespace AdministratorTestClientFS2.ViewModels
 			GetInformationCommand = new RelayCommand(OnGetInformation, CanGetInformation);
 			SynchronizeTimeCommand = new RelayCommand(OnSynchronizeTime, CanSynchronizeTime);
 			SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
-			SetGuardUsersCommand = new RelayCommand(OnSetGuardUsers, CanSetGuardUsers);
 			RunOtherFunctionsCommand = new RelayCommand(OnRunOtherFunctions, CanRunOtherFunctions);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
@@ -222,17 +221,6 @@ namespace AdministratorTestClientFS2.ViewModels
 		bool CanSetPassword()
 		{
 			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
-		}
-
-		public RelayCommand SetGuardUsersCommand { get; private set; }
-		void OnSetGuardUsers()
-		{
-			DialogService.ShowModalWindow(new GuardUsersViewModel(DevicesViewModel.SelectedDevice.Device));
-		}
-
-		bool CanSetGuardUsers()
-		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.DriverType == DriverType.Rubezh_2OP));
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }

@@ -74,7 +74,7 @@ namespace ServerFS2.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			ApplicationMinimizeCommand.ForceExecute();
+			ApplicationMinimizeCommand.Execute();
 			return true;
 		}
 	}

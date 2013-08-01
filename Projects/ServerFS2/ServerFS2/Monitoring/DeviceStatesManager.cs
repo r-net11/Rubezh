@@ -20,7 +20,7 @@ namespace ServerFS2.Monitoring
 		{
 			var states = new List<DeviceDriverState>();
 			var statusBytes = ServerHelper.GetDeviceStatus(panel);
-			if (statusBytes == null || statusBytes.Count < 8)
+			if (statusBytes.Count < 8)
 				return;
 			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
 			var bitArray = new BitArray(statusBytesArray);
@@ -105,16 +105,8 @@ namespace ServerFS2.Monitoring
 
 		void ParseDeviceState(Device device, List<byte> stateWordBytes, List<byte> rawParametersBytes)
 		{
-			if (device.Driver.DriverType == DriverType.Exit)
-			{
-				ParseStateWordBytes(device, rawParametersBytes);
-				ParseRawParametersBytes(device, stateWordBytes);
-			}
-			else
-			{
-				ParseStateWordBytes(device, stateWordBytes);
-				ParseRawParametersBytes(device, rawParametersBytes);
-			}
+			ParseStateWordBytes(device, stateWordBytes);
+			ParseRawParametersBytes(device, rawParametersBytes);
 		}
 
         void ParseDeviceState(Device device)

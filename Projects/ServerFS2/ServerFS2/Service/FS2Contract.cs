@@ -394,22 +394,22 @@ namespace ServerFS2.Service
 			}, "DeviceGetMDS5Data", device, false);
 		}
 
-		public OperationResult SetAuParameters(Guid deviceUID, List<Property> properties)
+		public OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties)
 		{
 			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.SetAuParameters(device, properties);
-			}, "SetAuParameters", device, false);
+				MainManager.SetConfigurationParameters(device, properties);
+			}, "SetConfigurationParameters", device, false);
 		}
 
-		public OperationResult<List<Property>> GetAuParameters(Guid deviceUID)
+		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
 			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending<List<Property>>(() =>
 			{
-				return MainManager.GetAuParameters(device);
-			}, "GetAuParameters", device, false);
+				return MainManager.GetConfigurationParameters(device);
+			}, "GetConfigurationParameters", device, false);
 		}
 		#endregion
 

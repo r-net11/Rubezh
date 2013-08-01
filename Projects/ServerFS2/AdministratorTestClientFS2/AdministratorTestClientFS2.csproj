@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Class1.cs" />
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\GuardUsersViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="ViewModels\OtherFunctionViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
