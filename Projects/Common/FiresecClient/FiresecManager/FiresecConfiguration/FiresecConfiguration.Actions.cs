@@ -63,39 +63,32 @@ namespace FiresecClient
 
 		public void RemoveDevice(Device device)
 		{
+			deletingDevice = device;
+			RemoveOneDevice(device);
+			FiresecManager.UpdateConfiguration();
+		}
+		Device deletingDevice;
+
+		public void RemoveOneDevice(Device device)
+		{
 			DeviceConfiguration.Devices.Remove(device);
-			if (device.Zone != null)
-			{
-                device.Zone.UpdateExternalDevices();
-                device.Zone.DevicesInZone.Remove(device);
-                device.Zone.OnChanged();
-			}
-
-            foreach (var zone in device.ZonesInLogic)
-            {
-                zone.DevicesInZoneLogic.Remove(device);
-                zone.OnChanged();
-            }
-
-			foreach (var zone in device.IndicatorLogic.Zones)
-			{
-				zone.IndicatorsInZone.Remove(device);
-				zone.OnChanged();
-			}
 
 			var dependentDevices = new List<Device>(device.DependentDevices);
-            foreach (var dependentDevice in dependentDevices)
-            {
-                DeviceConfiguration.InvalidateOneDevice(dependentDevice);
-                DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
-				dependentDevice.OnChanged();
-            }
+			foreach (var dependentDevice in dependentDevices)
+			{
+				if (!device.AllParents.Contains(deletingDevice))
+				{
+					DeviceConfiguration.InvalidateOneDevice(dependentDevice);
+					DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
+					dependentDevice.OnChanged();
+				}
+			}
 
-            var children = new List<Device>(device.Children);
-            foreach (var child in children)
-            {
-                RemoveDevice(child);
-            }
+			var children = new List<Device>(device.Children);
+			foreach (var child in children)
+			{
+				RemoveOneDevice(child);
+			}
 			var parentDevice = device.Parent;
 			parentDevice.Children.Remove(device);
 			parentDevice.OnChanged();

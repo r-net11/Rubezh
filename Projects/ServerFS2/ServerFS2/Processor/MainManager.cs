@@ -307,11 +307,6 @@ namespace ServerFS2.Processor
 			return GuardUsersOperationHelper.DeviceGetGuardUsers(device);
 		}
 
-		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
-		{
-			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
-		}
-
 		public static string DeviceGetMDS5Data(Device device)
 		{
 			throw new FS2Exception("Функция пока не реализована");

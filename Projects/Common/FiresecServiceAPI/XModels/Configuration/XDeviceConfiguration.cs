@@ -159,6 +159,9 @@ namespace XFiresecAPI
 				}
 				if (device.PumpStationProperty == null)
 					device.PumpStationProperty = new XPumpStationProperty();
+
+				if (device.PumpStationProperty.PumpStationPumps == null)
+					device.PumpStationProperty.PumpStationPumps = new List<XPumpStationPump>();
 			}
 			foreach (var zone in Zones)
 			{
