@@ -144,7 +144,7 @@ namespace ServerFS2
 			}
 		}
 
-		static void WriteFoolFlashConfiguration(Device device, string fileName)
+		static void WriteFullFlashConfiguration(Device device, string fileName)
 		{
 			var bytesArray = new List<byte>();
 			var strings = File.ReadAllLines(fileName).ToList();
@@ -200,7 +200,7 @@ namespace ServerFS2
 		}
 
 		// Подтверждение / завершение долговременной операции
-		private static void ConfirmLongTermOperation(Device device)
+		public static void ConfirmLongTermOperation(Device device)
 		{
 			var functionCode = USBManager.Send(device, 0x3C).FunctionCode;
 			if (functionCode != 0x7c)
