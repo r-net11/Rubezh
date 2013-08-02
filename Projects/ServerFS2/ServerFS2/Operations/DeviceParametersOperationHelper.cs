@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using ServerFS2.Helpers;
+using ServerFS2.Service;
+using FS2Api;
 
 namespace ServerFS2
 {
@@ -10,6 +12,7 @@ namespace ServerFS2
 	{
 		public static List<Property> Get(Device device)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение параметров устройства " + device.PresentationName));
 			var allAUProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			//var properties = RemoveDublicateProperties(allAUProperties);
 			var properties = allAUProperties;
@@ -29,6 +32,7 @@ namespace ServerFS2
 
 		public static void Set(Device device, List<Property> properties)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запись параметров устройства " + device.PresentationName));
 			CopyPropertiesToDevice(device, properties);
 			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
 			//var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);

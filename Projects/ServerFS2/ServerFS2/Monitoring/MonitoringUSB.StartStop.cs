@@ -52,7 +52,7 @@ namespace ServerFS2.Monitoring
 			CheckPauseEvent = new AutoResetEvent(false);
 			var result = CheckPauseEvent.WaitOne(TimeSpan.FromSeconds(10));
 			CheckPauseEvent = null;
-			SetAllInitializing();
+			SetAllInitializing(false);
 			return result;
 		}
 
@@ -61,7 +61,7 @@ namespace ServerFS2.Monitoring
 			if (PauseEvent != null)
 				PauseEvent.Set();
 			PauseEvent = null;
-			RemoveAllInitializing();
+			RemoveAllInitializing(false);
 		}
 
 		public bool CheckSuspending(bool throwException = true)

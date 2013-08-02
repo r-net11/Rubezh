@@ -33,6 +33,7 @@ namespace ServerFS2.Processor
 		public static void SuspendMonitoring(Device device = null)
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Приостановка мониторинга"));
+			//MonitoringManager.MonitoringUSBs
 			MonitoringManager.SuspendMonitoring(device);
 		}
 

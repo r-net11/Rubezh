@@ -137,17 +137,17 @@ namespace ServerFS2.Journal
 					query += ")";
 				}
 
-				if (archiveFilter.DeviceNames.Count > 0)
+				if (archiveFilter.PanelUIDs.Count > 0)
 				{
 					query += "\n AND (";
-					for (int i = 0; i < archiveFilter.DeviceNames.Count; i++)
+					for (int i = 0; i < archiveFilter.PanelUIDs.Count; i++)
 					{
-						var deviceName = archiveFilter.DeviceNames[i];
+						var deviceName = archiveFilter.PanelUIDs[i];
 						if (deviceName != null)
 						{
 							if (i > 0)
 								query += "\n OR ";
-							query += " PanelName = '" + deviceName + "'";
+							query += " PanelUIDs = '" + deviceName + "'";
 						}
 					}
 					query += ")";
