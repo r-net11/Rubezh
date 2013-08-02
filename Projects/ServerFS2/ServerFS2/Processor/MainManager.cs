@@ -263,10 +263,8 @@ namespace ServerFS2.Processor
 				if (deviceConfiguration.RootDevice == null)
 				{
 					if ((device.Driver.DriverType == DriverType.USB_Channel_1) || (device.Driver.DriverType == DriverType.USB_Channel_2))
-						MessageBoxService.ShowError("Устройство " + device.Parent.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
-					else
-						MessageBoxService.ShowError("Устройство " + device.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
-					return null;
+						throw new FS2Exception("Устройство " + device.Parent.PresentationName + " не найдено");
+					throw new FS2Exception("Устройство " + device.PresentationName + " не найдено");
 				}
 				foreach (var child in rootDevice.Children)
 				{
