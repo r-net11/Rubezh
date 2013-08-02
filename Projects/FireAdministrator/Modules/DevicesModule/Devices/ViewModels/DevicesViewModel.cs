@@ -240,11 +240,18 @@ namespace DevicesModule.ViewModels
 				_planUpdateRequired = false;
 			}
 		}
-		void CopyPlanUIDs(Device device, Device originalDevice)
+		void CopyPlanUIDs(Device device, Device originalPanelDevice)
 		{
-			device.PlanElementUIDs = originalDevice.PlanElementUIDs;
+			device.PlanElementUIDs = originalPanelDevice.PlanElementUIDs;
 			for (int i = 0; i < device.Children.Count; i++)
-				CopyPlanUIDs(device.Children[i], originalDevice.Children[i]);
+			{
+				var newDevice = device.Children[i];
+				var originalDevice = originalPanelDevice.Children.FirstOrDefault(x => x.IntAddress == newDevice.IntAddress);
+				if (originalDevice != null)
+				{
+					CopyPlanUIDs(newDevice, originalDevice);
+				}
+			}
 		}
 		void UpdatePlans(Device device, List<Guid> uids)
 		{

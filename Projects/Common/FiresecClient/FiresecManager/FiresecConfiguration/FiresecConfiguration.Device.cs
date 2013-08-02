@@ -16,7 +16,8 @@ namespace FiresecClient
 				Description = device.Description,
 				ZoneUID = device.ZoneUID,
 				Zone = device.Zone,
-				HasExternalDevices = device.HasExternalDevices
+				HasExternalDevices = device.HasExternalDevices,
+				IsNotUsed = device.IsNotUsed
 			};
 
 			if (fullCopy)
