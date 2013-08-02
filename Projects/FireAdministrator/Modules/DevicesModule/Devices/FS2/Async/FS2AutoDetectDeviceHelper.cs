@@ -42,13 +42,19 @@ namespace DevicesModule.ViewModels
 
 			var deviceConfiguration = OperationResult.Result;
 			deviceConfiguration.Update();
-			deviceConfiguration.UpdateIdPath();
-
 			foreach (var device in deviceConfiguration.Devices)
 			{
 				var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID.ToString().ToUpper() == device.DriverUID.ToString().ToUpper());
+				if (driver == null)
+				{
+					;
+				}
 				device.Driver = driver;
+
 			}
+
+
+			deviceConfiguration.UpdateIdPath();
 
 			var autodetectionViewModel = new AutoSearchViewModel(deviceConfiguration);
 			if (DialogService.ShowModalWindow(autodetectionViewModel))

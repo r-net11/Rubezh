@@ -83,10 +83,16 @@ namespace GKModule
 			}
 		}
 
-		public static void OnUserChanged(bool isReconnect)
+		public static void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
 		{
-			var name = isReconnect ? "Смена пользователя" : "Вход пользователя в систему";
-			JournaActionlHelper.Add(name, "");
+			if (userChangedEventArgs.IsReconnect)
+			{
+				JournaActionlHelper.Add("Смена пользователя", userChangedEventArgs.OldName + " вышел. " + userChangedEventArgs.NewName + " вошел");
+			}
+			else
+			{
+				JournaActionlHelper.Add("Вход пользователя в систему", "");
+			}
 		}
 	}
 }

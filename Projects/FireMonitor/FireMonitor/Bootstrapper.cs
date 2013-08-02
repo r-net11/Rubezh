@@ -27,7 +27,11 @@ namespace FireMonitor
 
 			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password, App.IsMulticlient))
 			{
-				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(false);
+				var userChangedEventArgs = new UserChangedEventArgs
+				{
+					IsReconnect = false
+				};
+				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
 				App.Login = ServiceFactory.LoginService.Login;
 				App.Password = ServiceFactory.LoginService.Password;
 				try

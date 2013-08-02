@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FS2Api;
+using Infrastructure.Common.Windows;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Monitoring;
 using ServerFS2.Service;
@@ -179,7 +180,14 @@ namespace ServerFS2.Processor
 				SetPasswordOperationHelper.SetPassword(x, devicePasswordType, password),
 				device, isUSB);
 		}
-
+		
+		public static void DeviceSetGuardUsers(Device device, bool isUSB, List<GuardUser> guardUsers)
+		{
+			TempConfigSafeCall(x =>
+				GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
+				device, isUSB);
+		}
+		
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
 			TempConfigSafeCall<bool>(x =>
@@ -222,7 +230,7 @@ namespace ServerFS2.Processor
 		public static void DeviceUpdateFirmware(Device device, bool isUSB)
 		{
 			TempConfigSafeCall(x =>
-				SetConfigurationOperationHelper.UpdateFoolFlash(device),
+				SetConfigurationOperationHelper.UpdateFullFlash(device),
 				device, isUSB);
 		}
 
@@ -245,12 +253,40 @@ namespace ServerFS2.Processor
 
 		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
 		{
-			var rootDevice = AutoDetectOperationHelper.AutoDetectDevice();
-			var deviceConfiguration = new DeviceConfiguration()
+			try
 			{
-				RootDevice = rootDevice
-			};
-			return deviceConfiguration;
+				var rootDevice = AutoDetectOperationHelper.AutoDetectDevice(device);
+				var deviceConfiguration = new DeviceConfiguration()
+				{
+					RootDevice = rootDevice
+				};
+				if (deviceConfiguration.RootDevice == null)
+				{
+					if ((device.Driver.DriverType == DriverType.USB_Channel_1) || (device.Driver.DriverType == DriverType.USB_Channel_2))
+						MessageBoxService.ShowError("Устройство " + device.Parent.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
+					else
+						MessageBoxService.ShowError("Устройство " + device.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
+					return null;
+				}
+				foreach (var child in rootDevice.Children)
+				{
+					deviceConfiguration.Devices.Add(child);
+				}
+				deviceConfiguration.Reorder();
+				deviceConfiguration.Update();
+				deviceConfiguration.InvalidateConfiguration();
+				deviceConfiguration.UpdateCrossReferences();
+				return deviceConfiguration;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "MainManager.SetNewConfig");
+				throw;
+			}
+			finally
+			{
+				//StartMonitoring();
+			}
 		}
 
 		public static List<DeviceCustomFunction> DeviceGetCustomFunctions(DriverType driverType)
@@ -273,7 +309,7 @@ namespace ServerFS2.Processor
 
 		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
 		{
-			DeviceSetGuardUsers(device, guardUsers);
+			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
 		}
 
 		public static string DeviceGetMDS5Data(Device device)
@@ -281,14 +317,14 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void SetConfigurationParameters(Device device, List<Property> properties)
+		public static void SetAuParameters(Device device, List<Property> properties)
 		{
-			DeviceParametersOperationHelper.SetDeviceParameters(device, properties);
+			DeviceParametersOperationHelper.Set(device, properties);
 		}
 
-		public static List<Property> GetConfigurationParameters(Device device)
+		public static List<Property> GetAuParameters(Device device)
 		{
-			return DeviceParametersOperationHelper.GetDeviceParameters(device);
+			return DeviceParametersOperationHelper.Get(device);
 		}
 		#endregion
 

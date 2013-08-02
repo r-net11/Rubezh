@@ -30,12 +30,15 @@ namespace SettingsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
-					var convertstionResult = FiresecManager.FiresecDriver.Convert();
-					if (convertstionResult.HasError)
+					var convertationResult = FiresecManager.FiresecDriver.Convert();
+					if (convertationResult.HasError)
 					{
-						MessageBoxService.ShowError(convertstionResult.Error);
+						MessageBoxService.ShowError(convertationResult.Error);
 						return;
 					}
+                    LoadingService.ShowProgress("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
+                    FiresecManager.FiresecDriver.Synchronyze(false);
+
 					ServiceFactory.SaveService.FSChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;
 					LoadingService.DoStep("Обновление конфигурации");

@@ -13,6 +13,8 @@ namespace FireAdministrator.ViewModels
 	{
 		private MenuViewModel _menu;
 		private RibbonMenuItemViewModel _showToolbar;
+		private RibbonMenuItemViewModel _showMenu;
+
 		public AdministratorShellViewModel()
 			: base("Administrator")
 		{
@@ -21,7 +23,8 @@ namespace FireAdministrator.ViewModels
 			Width = 1000;
 			MinWidth = 1000;
 			MinHeight = 550;
-			ShowToolbarCommand = new RelayCommand(OnShowToolbar);
+			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
+			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
 			Toolbar = _menu;
 			RibbonContent = new RibbonMenuViewModel();
@@ -56,28 +59,50 @@ namespace FireAdministrator.ViewModels
 
 		private void AddRibbonItem()
 		{
-			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand) { Order = int.MaxValue - 1 };
+			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "/Controls;component/Images/BToolbar.png");
+			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "/Controls;component/Images/BMenu.png");
 			UpdateToolbarTitle();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Проект", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel("Новый", _menu.CreateNewCommand, "/Controls;component/Images/BNew.png", "Создать новую конфигурацию"),
 				new RibbonMenuItemViewModel("Открыть", _menu.LoadFromFileCommand, "/Controls;component/Images/BLoad.png", "Открыть конфигурацию из файла"),
-				new RibbonMenuItemViewModel("Сохранить", _menu.SaveAsCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
 				new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "/Controls;component/Images/BCheck.png", "Проверить конфигурацию"),
 				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "/Controls;component/Images/BDownload.png", "Применить конфигурацию"),
-				_showToolbar,
+				new RibbonMenuItemViewModel("Сохранить", _menu.SaveCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
+				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "/Controls;component/Images/BSaveAs.png", "Сохранить как"),
+				new RibbonMenuItemViewModel("Сохранить все", _menu.SaveAllCommand, "/Controls;component/Images/BSaveAll.png", "Сохранить все"),
+				new RibbonMenuItemViewModel("Слияние конфигураций", _menu.MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png", "Слияние конфигураций"),
+				new RibbonMenuItemViewModel("Вид", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					_showMenu,
+					_showToolbar,
+				}, "/Controls;component/Images/BView.png") { Order = 1000 }, 
 			}, "/Controls;component/Images/BConfig.png", "Операции с конфигурацией") { Order = int.MinValue });
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
 		}
 
 		public RelayCommand ShowToolbarCommand { get; private set; }
-		void OnShowToolbar()
+		private void OnShowToolbar()
 		{
-			ToolbarVisible = !ToolbarVisible;
+			_menu.IsMenuVisible = !_menu.IsMenuVisible;
 			UpdateToolbarTitle();
 		}
+		public RelayCommand ShowMenuCommand { get; private set; }
+		private void OnShowMenu()
+		{
+			_menu.IsMainMenuVisible = !_menu.IsMainMenuVisible;
+			UpdateToolbarTitle();
+		}
+		private bool CanShowMenu()
+		{
+			return ToolbarVisible;
+		}
+
 		private void UpdateToolbarTitle()
 		{
-			_showToolbar.Text = ToolbarVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
+			_showToolbar.Text = _menu.IsMenuVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
+			_showMenu.Text = _menu.IsMainMenuVisible ? "Скрыть панель меню" : "Показать панель меню";
 		}
+
 	}
 }

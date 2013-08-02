@@ -67,7 +67,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Border>
+                    <Border IsEnabled="{Binding CanEditColors}">
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />

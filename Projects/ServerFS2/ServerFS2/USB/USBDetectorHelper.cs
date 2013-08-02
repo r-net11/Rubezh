@@ -67,7 +67,7 @@ namespace ServerFS2
 				{
 					case DriverType.MS_1:
 					case DriverType.MS_2:
-						//usbHidInfo.WriteConfigToMS();
+						usbHidInfo.WriteConfigToMS();
 						break;
 				}
 			}
@@ -92,27 +92,6 @@ namespace ServerFS2
 					};
 					usbHidInfos.Add(usbHidInfo);
 				}
-
-				//HIDDevice.AddedDevices = new List<string>();
-				//while (true)
-				//{
-				//    try
-				//    {
-				//        var usbHid = new UsbHid();
-				//        var result = usbHid.Open();
-				//        if (!result)
-				//            break;
-				//        var usbHidInfo = new UsbHidInfo()
-				//        {
-				//            UsbHid = usbHid
-				//        };
-				//        usbHidInfos.Add(usbHidInfo);
-				//    }
-				//    catch (Exception)
-				//    {
-				//        break;
-				//    }
-				//}
 
 				foreach (var usbHidInfo in usbHidInfos)
 				{

@@ -34,17 +34,20 @@ namespace Infrastructure.Common.Windows.Views
 		private static double totalMilliseconds = 0;
 
 		public WindowBaseView()
+			: this(null)
 		{
-			this.ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
-			InitializeComponent();
 		}
 		public WindowBaseView(WindowBaseViewModel model)
 		{
-			this.ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
-			_model = model;
-			_model.Surface = this;
-			DataContext = _model;
+			ContentRendered += new EventHandler(WindowBaseView_ContentRendered);
+			if (model != null)
+			{
+				_model = model;
+				_model.SetSurface(this);
+				DataContext = _model;
+			}
 			InitializeComponent();
+			Loaded += (s, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 		}
 
 		private void WindowBaseView_ContentRendered(object sender, EventArgs e)
@@ -64,11 +67,11 @@ namespace Infrastructure.Common.Windows.Views
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
-            if (WindowState == WindowState.Minimized)
-            {
-                Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                Arrange(new Rect(0, 0, DesiredSize.Width, DesiredSize.Height));
-            }
+			if (WindowState == WindowState.Minimized)
+			{
+				Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+				Arrange(new Rect(0, 0, DesiredSize.Width, DesiredSize.Height));
+			}
 			CalculateSize();
 			UpdateWindowSize();
 			TruncateSize();

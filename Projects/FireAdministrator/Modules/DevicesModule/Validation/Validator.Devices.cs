@@ -36,6 +36,7 @@ namespace DevicesModule.Validation
 				ValidateDeviceLoopLines(device);
 				ValidateDeviceMaxExtCount(device);
 				ValidateDeviceRangeAddress(device);
+				Validate176AM1O(device);
 				ValidateMRK30(device);
 				ValidatePumpStation(device);
 				ValidatePanelZonesCount(device);
@@ -274,52 +275,10 @@ namespace DevicesModule.Validation
 			}
 		}
 
-		void ValidateDeviceCountAndOrderOnShlief(Device device, int firstShliefMaxCount, int secondShliefMaxCount)
+		void Validate176AM1O(Device device)
 		{
-			int deviceOnFirstShliefCount = 0;
-			int deviceOnSecondShliefCount = 0;
-			int shliefNumber = 0;
-			int firstShliefDeviceNumber = 0;
-			int firstShliefDevicePrevNumber = 0;
-			int secondShliefDeviceNumber = 0;
-			int secondShliefDevicePrevNumber = 0;
-			bool isFirstShliefOrederCorrupt = false;
-			bool isSecondShliefOrederCorrupt = false;
-
-			foreach (var intAddress in device.Children.Where(x => x.Driver.DeviceType == DeviceType.Sequrity).Select(x => x.IntAddress))
-			{
-				shliefNumber = intAddress >> 8;
-				if (shliefNumber == 1)
-				{
-					++deviceOnFirstShliefCount;
-					firstShliefDevicePrevNumber = firstShliefDeviceNumber;
-					firstShliefDeviceNumber = intAddress & 0xff;
-					if (isFirstShliefOrederCorrupt == false)
-					{
-						if (firstShliefDeviceNumber < 176 || (firstShliefDevicePrevNumber > 0 && (firstShliefDeviceNumber - firstShliefDevicePrevNumber) > 1))
-							isFirstShliefOrederCorrupt = true;
-					}
-				}
-				else if (shliefNumber == 2)
-				{
-					++deviceOnSecondShliefCount;
-					secondShliefDevicePrevNumber = secondShliefDeviceNumber;
-					secondShliefDeviceNumber = intAddress & 0xff;
-					if (isSecondShliefOrederCorrupt == false)
-					{
-						if (secondShliefDeviceNumber < 176 || (secondShliefDevicePrevNumber > 0 && (secondShliefDeviceNumber - secondShliefDevicePrevNumber) > 1))
-							isSecondShliefOrederCorrupt = true;
-					}
-				}
-			}
-			if (deviceOnFirstShliefCount > firstShliefMaxCount)
-				Errors.Add(new DeviceValidationError(device, "Превышено максимальное количество подключаемых охранных устройств на 1-ом шлейфе", ValidationErrorLevel.CannotWrite));
-			if (deviceOnSecondShliefCount > secondShliefMaxCount)
-				Errors.Add(new DeviceValidationError(device, "Превышено максимальное количество подключаемых охранных устройств на 2-ом шлейфе", ValidationErrorLevel.CannotWrite));
-			if (isFirstShliefOrederCorrupt)
-				Errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 1-ом шлейфе начиная  с 176 адреса", ValidationErrorLevel.Warning));
-			if (isSecondShliefOrederCorrupt)
-				Errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ValidationErrorLevel.Warning));
+			if (device.Driver.DriverType == DriverType.AM1_O && device.AddressOnShleif < 176)
+				Errors.Add(new DeviceValidationError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств начиная  с 176 адреса", ValidationErrorLevel.Warning));
 		}
 
 		void ValidateDeviceRangeAddress(Device device)
@@ -346,18 +305,18 @@ namespace DevicesModule.Validation
 
 				foreach (var childDevice in device.Parent.Children)
 				{
-					if ((childDevice.IntAddress >= minChildAddress) && (childDevice.IntAddress <= maxChildAddress))
+					if (childDevice.IntAddress >= minChildAddress && childDevice.IntAddress <= maxChildAddress)
 					{
 						if (childDevice.Parent.UID != device.UID)
-							Errors.Add(new DeviceValidationError(device, string.Format("Устройство находится в зарезервированном диапазоне адресов МРК-30: {0}", childDevice.PresentationAddress), ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DeviceValidationError(childDevice, string.Format("Устройство находится в зарезервированном диапазоне адресов МРК-30: {0}", device.PresentationAddress), ValidationErrorLevel.CannotWrite));
 					}
 				}
 
 				foreach (var childDevice in device.Children)
 				{
-					if ((childDevice.IntAddress < minChildAddress) && (childDevice.IntAddress > maxChildAddress))
+					if (childDevice.IntAddress < minChildAddress || childDevice.IntAddress > maxChildAddress)
 					{
-						Errors.Add(new DeviceValidationError(device, string.Format("Устройство находится за пределами диапазона адресов МРК-30: {0}", childDevice.PresentationAddress), ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DeviceValidationError(childDevice, string.Format("Устройство находится за пределами диапазона адресов МРК-30: {0}", device.PresentationAddress), ValidationErrorLevel.CannotWrite));
 					}
 				}
 			}

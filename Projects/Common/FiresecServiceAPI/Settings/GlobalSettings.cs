@@ -47,10 +47,7 @@ namespace FiresecAPI
 			Monitor_F4_Enabled = true;
 			Monitor_HaspInfo_Enabled = false;
 
-			Administrator_HideMainMenuIcons = false;
 			Administrator_IsExpertMode = false;
-			Administrator_ShowMainMenu = false;
-			Administrator_ShowGridLineInstruments = false;
 			Administrator_ShowDirectories = false;
 			Administrator_ShowSimulation = false;
 		}
@@ -125,15 +122,7 @@ namespace FiresecAPI
 		[DataMember]
 		public bool Administrator_IsExpertMode { get; set; }
 		[DataMember]
-		public bool Administrator_IsMenuIconText { get; set; }
-		[DataMember]
-		public bool Administrator_HideMainMenuIcons { get; set; }
-		[DataMember]
-		public bool Administrator_ShowMainMenu { get; set; }
-		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
-		[DataMember]
-		public bool Administrator_ShowGridLineInstruments { get; set; }
 		[DataMember]
 		public bool Administrator_ShowDirectories { get; set; }
 		[DataMember]

@@ -422,51 +422,44 @@ namespace DevicesModule.ViewModels
 			return base.Save();
 		}
 
-		public void GetConfiguration(string DeviceData)
-		{
-			// TESTMODE
-			// var DeviceData = "0                    0                    0                    0                    00000212010100000000111001100000000000000000000000000000000000000000000000";
-			string result = "";
-			result = result.PadRight(result.Length, '0');
-			string s;
-			bool b = true; // if Device.DeviceDriver.GetBaseType = 102
-			if (b)
-			{
-				s = DeviceData.Substring(0, 21);
-				s = DeleteCharsFromEnd(s, ' ');
-				Phone1 = s;
+        public void GetConfiguration(string deviceData)
+        {
+            // TESTMODE
+            // var DeviceData = "0                    0                    0                    0                    00000212010100000000111001100000000000000000000000000000000000000000000000";
 
-				s = DeviceData.Substring(21, 21);
-				s = DeleteCharsFromEnd(s, ' ');
-				Phone2 = s;
+            deviceData = deviceData.Substring(0, 84) + deviceData.Substring(84).Replace(" ", "");
+            string result = "";
 
-				s = DeviceData.Substring(42, 21);
-				s = DeleteCharsFromEnd(s, ' ');
-				Phone3 = s;
+            result = result.PadRight(result.Length, '0');
+            string s;
+            s = deviceData.Substring(0, 21);
+            s = DeleteCharsFromEnd(s, ' ');
+            Phone1 = s;
 
-				s = DeviceData.Substring(63, 21);
-				s = DeleteCharsFromEnd(s, ' ');
-				Phone4 = s;
+            s = deviceData.Substring(21, 21);
+            s = DeleteCharsFromEnd(s, ' ');
+            Phone2 = s;
 
-				ObjectNumber = int.Parse(DeviceData.Substring(84, 4));
-				TestDialtone = int.Parse(DeviceData.Substring(88, 2)) * 5;
-				TestVoltage = int.Parse(DeviceData.Substring(90, 1)) * 10;
-				CountRecalls = int.Parse(DeviceData.Substring(91, 1));
-				Timeout = int.Parse(DeviceData.Substring(92, 1)) * 10;
-				OutcomingTest = int.Parse(DeviceData.Substring(93, 1)) * 10;
-				for (int i = 0; i < 54; i++)
-				{
-					if (DeviceData[94 + i] == '1')
-						FilterItems[i].IsActive = true;
-				}
-			}
-			else
-				for (int i = 0; i < 54; i++)
-				{
-					if (DeviceData[i] == '1')
-						FilterItems[i].IsActive = true;
-				}
-		}
+            s = deviceData.Substring(42, 21);
+            s = DeleteCharsFromEnd(s, ' ');
+            Phone3 = s;
+
+            s = deviceData.Substring(63, 21);
+            s = DeleteCharsFromEnd(s, ' ');
+            Phone4 = s;
+
+            ObjectNumber = int.Parse(deviceData.Substring(84, 4));
+            TestDialtone = int.Parse(deviceData.Substring(88, 3)) * 5;
+            TestVoltage = int.Parse(deviceData.Substring(91, 1)) * 10;
+            CountRecalls = int.Parse(deviceData.Substring(92, 1));
+            Timeout = int.Parse(deviceData.Substring(93, 1)) * 10;
+            OutcomingTest = int.Parse(deviceData.Substring(94, 1)) * 10;
+            for (int i = 0; i < 54; i++)
+            {
+                if (deviceData[95 + i] == '1')
+                    FilterItems[i].IsActive = true;
+            }
+        }
 		static int BinStrToByte(string str)
 		{
 			int result = 0;

@@ -19,8 +19,8 @@ namespace JournalModule.Views
 			{
 				bool isChecked = (bool)checkBox.IsChecked;
 				var archiveFilter = DataContext as ArchiveFilterViewModel;
-				var classId = (checkBox.DataContext as ClassViewModel).StateType;
-				archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => (x.IsEnable = isChecked) == isChecked);
+				var stateType = (checkBox.DataContext as ClassViewModel).StateType;
+				archiveFilter.JournalEvents.Where(x => x.StateType == stateType).All(x => (x.IsEnable = isChecked) == isChecked);
 			}
 		}
 
@@ -28,25 +28,25 @@ namespace JournalModule.Views
 		{
 			var checkBox = sender as CheckBox;
 			var archiveFilter = DataContext as ArchiveFilterViewModel;
-			var classId = (checkBox.DataContext as EventViewModel).ClassId;
+			var stateType = (checkBox.DataContext as EventViewModel).StateType;
 
-			if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => x.IsEnable == checkBox.IsChecked))
-				archiveFilter.JournalTypes.Find(x => x.StateType == classId).IsEnable = checkBox.IsChecked;
+			if (archiveFilter.JournalEvents.Where(x => x.StateType == stateType).All(x => x.IsEnable == checkBox.IsChecked))
+				archiveFilter.JournalTypes.Find(x => x.StateType == stateType).IsEnable = checkBox.IsChecked;
 			else
-				archiveFilter.JournalTypes.Find(x => x.StateType == classId).IsEnable = null;
+				archiveFilter.JournalTypes.Find(x => x.StateType == stateType).IsEnable = null;
 		}
 
 		void CheckBox_Indeterminate(object sender, RoutedEventArgs e)
 		{
 			var checkBox = sender as CheckBox;
 			var archiveFilter = DataContext as ArchiveFilterViewModel;
-			var classId = (checkBox.DataContext as ClassViewModel).StateType;
-			if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => x.IsEnable))
+			var stateType = (checkBox.DataContext as ClassViewModel).StateType;
+			if (archiveFilter.JournalEvents.Where(x => x.StateType == stateType).All(x => x.IsEnable))
 			{
 				checkBox.IsChecked = false;
 				e.Handled = true;
 			}
-			else if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => !x.IsEnable))
+			else if (archiveFilter.JournalEvents.Where(x => x.StateType == stateType).All(x => !x.IsEnable))
 			{
 				checkBox.IsChecked = true;
 				e.Handled = true;

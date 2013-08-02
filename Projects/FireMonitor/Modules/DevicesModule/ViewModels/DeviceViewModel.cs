@@ -189,16 +189,11 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				var parameters = new List<string>();
 				if (DeviceState != null)
-					foreach (var parameter in DeviceState.ThreadSafeParameters)
-					{
-						if (!parameter.IsIgnore && parameter.Visible)
-						{
-							parameters.Add(parameter.Caption + ": " + parameter.Value);
-						}
-					}
-				return parameters;
+				{
+					return DeviceState.StateParameters;
+				}
+				return new List<string>();
 			}
 		}
 

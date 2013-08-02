@@ -97,10 +97,11 @@ namespace Infrastructure.Common.TreeList
 		{
 			get
 			{
-				if (ParentNode == null)
+				if (this == Root)
+					return -1;
+				if (ParentNode == Root)
 					return 0;
-				else
-					return ParentNode.Level + 1;
+				return ParentNode.Level + 1;
 			}
 		}
 		public int Index { get; private set; }

@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}">
+        <DataGrid Grid.Row="0" Name="JournalDataGrid" ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}" SelectionChanged="DataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
                 <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />

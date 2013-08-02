@@ -214,6 +214,8 @@ namespace ServerFS2
 
 		static UsbHid GetUsbUsbHid(Device panelDevice)
 		{
+			if (panelDevice == null)
+				return null;
 			var parentUSB = panelDevice.ParentUSB;
 			if (parentUSB != null)
 			{
@@ -239,7 +241,7 @@ namespace ServerFS2
 			return bytes;
 		}
 
-		public static void	Initialize()
+		public static void Initialize()
 		{
 			lock (Locker)
 			{

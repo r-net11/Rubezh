@@ -174,8 +174,8 @@
     <Compile Include="Operations\ConfigurationWriterOperationHelper.cs" />
     <Compile Include="Operations\CustomFunctionOperationHelper.cs" />
     <Compile Include="Operations\FirmwareUpdateOperationHelper.cs" />
-    <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\DeviceParametersOperationHelper.cs" />
+    <Compile Include="Operations\GetConfigurationOperationHelper.cs" />
     <Compile Include="Operations\GetInformationOperationHelper.cs" />
     <Compile Include="Operations\GuardUsersOperationHelper.cs" />
     <Compile Include="Operations\ReadJournalOperationHelper.cs" />

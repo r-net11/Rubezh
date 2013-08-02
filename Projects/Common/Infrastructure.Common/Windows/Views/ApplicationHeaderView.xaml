@@ -19,17 +19,22 @@
 					<MenuItem.Header>
 						<Image Height="12" Margin="-2" Source="/Controls;component/Images/Help.png" />
 					</MenuItem.Header>
-					<MenuItem Click="OnShowHelp" Header="Помощь" />
-					<MenuItem Click="OnShowAbout" Header="О программе" />
+					<MenuItem Command="{Binding Content.ApplicationHelpCommand}" Header="Помощь" />
+					<MenuItem Command="{Binding Content.ApplicationAboutCommand}" Header="О программе" />
 				</MenuItem>
 			</Menu>
-			<Button Click="OnMinimize" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Command="{Binding Content.ApplicationMinimizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Minimize.png" />
 			</Button>
-			<Button Click="OnMaximize" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
-			</Button>
-			<Button Click="OnClose" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
+			<StackPanel Orientation="Horizontal" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Button Command="{Binding Content.ApplicationMaximizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
+				</Button>
+				<Button Command="{Binding Content.ApplicationNormalizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Нормальный размер" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Normalize.png" />
+				</Button>
+			</StackPanel>
+			<Button Command="{Binding Content.ApplicationCloseCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Close.png" />
 			</Button>
 		</StackPanel>

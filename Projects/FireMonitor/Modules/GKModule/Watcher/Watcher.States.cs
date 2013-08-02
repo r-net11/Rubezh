@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
+using System;
 
 namespace GKModule
 {
@@ -57,6 +58,7 @@ namespace GKModule
 				binaryState.OnDelay = binaryObjectState.OnDelay;
 				binaryState.HoldDelay = binaryObjectState.HoldDelay;
 				binaryState.OffDelay = binaryObjectState.OffDelay;
+				binaryState.LastDateTime = DateTime.Now;
 			});
 			return true;
 		}

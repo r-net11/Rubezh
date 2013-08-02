@@ -7,7 +7,7 @@
 			</Grid.ColumnDefinitions>
 
 			<TextBlock Grid.Column="0" Margin="10, 0, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Text="{Binding Content.Title}" />
-			<Button Grid.Column="1" Margin="0, 0, 10, 0" Click="OnCloseButton" Style="{StaticResource ToolBarButtonStyle}" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Grid.Column="1" Margin="0, 0, 10, 0" Click="OnCloseButton" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Height="16" Source="/Controls;component/Images/Close.png" />
 			</Button>
 		</Grid>

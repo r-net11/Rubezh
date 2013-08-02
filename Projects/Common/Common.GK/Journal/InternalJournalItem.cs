@@ -21,8 +21,8 @@ namespace Common.GK
 		string UserName;
 		int ObjectState;
 
-		ushort GKObjectNo;
-		int KAUNo;
+		public ushort GKObjectNo { get; private set; }
+		public int KAUNo { get; private set; }
 
 		byte Day;
 		byte Month;

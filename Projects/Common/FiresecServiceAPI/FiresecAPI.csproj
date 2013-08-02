@@ -179,6 +179,7 @@
     <Compile Include="ConfigurationVersion.cs" />
     <Compile Include="Models\Device\DeviceParameterTemplate.cs" />
     <Compile Include="Models\Device\ParameterTemplate.cs" />
+    <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Notification\Email.cs" />
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />

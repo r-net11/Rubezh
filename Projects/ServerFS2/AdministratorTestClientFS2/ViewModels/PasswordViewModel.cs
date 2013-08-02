@@ -44,5 +44,6 @@ namespace AdministratorTestClientFS2.ViewModels
 			MainManager.DeviceSetPassword(selectedDeivce, false, DevicePasswordType, PasswordString);
 			Close(true);
 		}
+
 	}
 }

@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
+using Infrastructure.Common;
+using Infrastructure;
+using FiresecAPI;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,6 +20,9 @@ namespace DevicesModule.ViewModels
 		{
 			Title = "Параметры устройства: МС";
 			Device = device;
+            ReadCommand = new RelayCommand(OnRead);
+			SetAllCommand = new RelayCommand(OnSetAll);
+			ResetAllCommand = new RelayCommand(OnResetAll);
 
 			InitializeFilters();
 			var eventsFilterString = Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter");
@@ -89,6 +97,53 @@ namespace DevicesModule.ViewModels
 		}
 
 		public List<FilterItemViewModel> FilterItems { get; private set; }
+
+        public RelayCommand ReadCommand { get; private set; }
+        void OnRead()
+        {
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Получение данных с модуля доставки сообщений");
+        }
+        OperationResult<string> _operationResult;
+        void OnPropgress()
+        {
+            _operationResult = FiresecManager.DeviceGetMDS5Data(Device);
+        }
+        void OnCompleted()
+        {
+            if (_operationResult.HasError)
+            {
+                MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                return;
+            }
+            GetConfiguration(_operationResult.Result);
+        }
+        public void GetConfiguration(string deviceData)
+        {
+			if (deviceData != null && deviceData.Length >= 54)
+			{
+				for (int i = 0; i < 54; i++)
+				{
+					if (deviceData[i] == '1')
+						FilterItems[i].IsActive = true;
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка при получении данных");
+			}
+        }
+
+		public RelayCommand SetAllCommand { get; private set; }
+        void OnSetAll()
+        {
+			FilterItems.ForEach(x => x.IsActive = true);
+        }
+
+		public RelayCommand ResetAllCommand { get; private set; }
+        void OnResetAll()
+        {
+			FilterItems.ForEach(x => x.IsActive = false);
+        }
 
 		void SaveProperties()
 		{

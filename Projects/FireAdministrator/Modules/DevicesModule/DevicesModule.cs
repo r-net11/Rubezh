@@ -16,6 +16,7 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Common.Ribbon;
 
 namespace DevicesModule
 {
@@ -154,6 +155,5 @@ namespace DevicesModule
 #endif
 			return true;
 		}
-
 	}
 }

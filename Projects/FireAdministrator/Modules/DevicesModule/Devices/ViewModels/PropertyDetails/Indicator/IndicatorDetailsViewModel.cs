@@ -109,8 +109,19 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged("SelectedDevice");
+                OnPropertyChanged("CanEditColors");
 			}
 		}
+
+        public bool CanEditColors
+        {
+            get
+            {
+                return SelectedDevice != null &&
+                (SelectedDevice.Driver.DriverType != DriverType.PumpStation ||
+                SelectedDevice.Parent.Driver.DriverType != DriverType.PumpStation);
+            }
+        }
 
 		public List<IndicatorColorType> Colors
 		{
@@ -175,7 +186,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowDevicesCommand { get; private set; }
 		void OnShowDevices()
 		{
-			var indicatorDeviceSelectionViewModel = new IndicatorDeviceSelectionViewModel(SelectedDevice);
+			var indicatorDeviceSelectionViewModel = new IndicatorDeviceSelectionViewModel(Device, SelectedDevice);
 			if (DialogService.ShowModalWindow(indicatorDeviceSelectionViewModel))
 			{
 				SelectedDevice = indicatorDeviceSelectionViewModel.SelectedDevice;

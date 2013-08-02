@@ -82,6 +82,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -111,6 +115,7 @@
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
+    <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
@@ -205,7 +210,7 @@
     <Compile Include="TreeList\SortBehavior.cs" />
     <Compile Include="TreeList\TreeList.cs" />
     <Compile Include="TreeList\TreeListItem.cs" />
-    <Compile Include="TreeList\TreeNode.cs" />
+    <Compile Include="XAutoCompleteBox.cs" />
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
@@ -931,7 +936,7 @@
     <Resource Include="GKIcons\RSR2_HeatDetector.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="GKIcons\RSR2_Pump.png" />
+    <Resource Include="GKIcons\RSR2_Bush.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_CombinedDetector.png" />
@@ -1064,6 +1069,36 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BWatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Normalize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BExit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Eye3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSaveAs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSaveAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BView.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BToolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMenu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

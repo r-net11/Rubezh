@@ -140,8 +140,12 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand AutoDetectDeviceCommand { get; private set; }
 		void OnAutoDetectDevice()
 		{
-			var device = AutoDetectOperationHelper.AutoDetectDevice();
-			var autoDetectedDevicesViewModel = new DevicesViewModel(device);
+			var fs2Contract = new FS2Contract();
+			var deviceConfiguration = fs2Contract.DeviceAutoDetectChildren(DevicesViewModel.SelectedDevice.Device.UID, false).Result;
+			if (deviceConfiguration == null)
+				return;
+			var autoDetectedDevicesViewModel = new DevicesViewModel(deviceConfiguration.RootDevice);
+			autoDetectedDevicesViewModel.Title = "Найденные устройства";
 			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
 
@@ -213,6 +217,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			DialogService.ShowModalWindow(new PasswordViewModel(DevicesViewModel.SelectedDevice.Device));
 		}
+
 		bool CanSetPassword()
 		{
 			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));

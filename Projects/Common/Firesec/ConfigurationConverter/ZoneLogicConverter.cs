@@ -103,6 +103,14 @@ namespace Firesec
 							case "5":
 								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message6;
 								break;
+
+                            case "6":
+                                clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message7;
+                                break;
+
+                            case "7":
+                                clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message8;
+                                break;
 						}
 					}
 
@@ -194,6 +202,14 @@ namespace Firesec
 						case ZoneLogicMROMessageNo.Message6:
 							innerClause.MRO_MessageNo = "5";
 							break;
+
+                        case ZoneLogicMROMessageNo.Message7:
+                            innerClause.MRO_MessageNo = "6";
+                            break;
+
+                        case ZoneLogicMROMessageNo.Message8:
+                            innerClause.MRO_MessageNo = "7";
+                            break;
 
 						default:
 							innerClause.MRO_MessageNo = null;

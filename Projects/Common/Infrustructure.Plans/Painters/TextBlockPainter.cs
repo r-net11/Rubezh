@@ -34,7 +34,9 @@ namespace Infrustructure.Plans.Painters
 		{
 			base.Transform();
 			IElementTextBlock elementText = (IElementTextBlock)Element;
-			Rect bound = new Rect(Rect.Left + Element.BorderThickness / 2, Rect.Top + Element.BorderThickness / 2, Rect.Width - Element.BorderThickness, Rect.Height - Element.BorderThickness);
+			var height = Rect.Height > Element.BorderThickness ? Rect.Height - Element.BorderThickness : 0;
+			var width = Rect.Width > Element.BorderThickness ? Rect.Width - Element.BorderThickness : 0;
+			Rect bound = new Rect(Rect.Left + Element.BorderThickness / 2, Rect.Top + Element.BorderThickness / 2, width, height);
 			var typeface = new Typeface(new FontFamily(elementText.FontFamilyName), elementText.FontItalic ? FontStyles.Italic : FontStyles.Normal, elementText.FontBold ? FontWeights.Bold : FontWeights.Normal, new FontStretch());
 			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.BlackBrush);
 			formattedText.TextAlignment = (TextAlignment)elementText.TextAlignment;
@@ -49,7 +51,7 @@ namespace Infrustructure.Plans.Painters
 					break;
 			}
 			if (_clipGeometry != null)
-				_clipGeometry.Rect = new Rect(Rect.Left + Element.BorderThickness / 2, Rect.Top + Element.BorderThickness / 2, Rect.Width - Element.BorderThickness, Rect.Height - Element.BorderThickness);
+				_clipGeometry.Rect = bound;
 			if (_scaleTransform != null)
 			{
 				_scaleTransform.CenterX = point.X;

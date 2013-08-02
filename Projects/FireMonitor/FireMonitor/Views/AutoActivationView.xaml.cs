@@ -32,7 +32,7 @@ namespace FireMonitor.Views
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
 
-		void OnUserChanged(bool isReconnect)
+		void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
 		{
 			OnPropertyChanged("HasPermission");
 		}

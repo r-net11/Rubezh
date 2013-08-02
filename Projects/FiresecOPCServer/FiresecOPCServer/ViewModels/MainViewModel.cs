@@ -60,7 +60,7 @@ namespace FiresecOPCServer.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			Minimize();
+			ApplicationMinimizeCommand.ForceExecute();
 			return true;
 		}
 	}

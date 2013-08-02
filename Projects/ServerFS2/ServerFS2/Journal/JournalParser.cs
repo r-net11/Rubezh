@@ -332,7 +332,7 @@ namespace ServerFS2
                         return;
 					}
 				}
-                FS2JournalItem.ZoneName = "Номер зоны не прочитан";
+                FS2JournalItem.ZoneName = null;
 			}
 		}
 

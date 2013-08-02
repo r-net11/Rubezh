@@ -31,7 +31,7 @@
                 <MenuItem Name="bindMsButton" Command="{Binding BindMsCommand}" Header="_Привязать" />
                 <MenuItem Name="executeCustomAdminFunctionButton" Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="_Другие функции" />
                 <Separator />
-                <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
+                <MenuItem Header="USB" Margin="12, 0, 0, 0">
                     <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из прибора" />
                     <MenuItem Name="usbGetDescription" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="_Информация о приборе" />
                     <MenuItem Name="usbGetDeviceJournalButton" Command="{Binding GetDeviceJournalCommand}" CommandParameter="{StaticResource True}" Header="_Журнал событий" />
@@ -44,7 +44,6 @@
                     <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="_Другие функции" />
                 </MenuItem>
                 <MenuItem Command="{Binding ReadJournalFromFileCommand}" Header="Считать журнал событий из файла" Visibility="{Binding IsFS2Enabled, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <MenuItem Command="{Binding MergeConfigurationCommand}" Header="Слияние конфигураций" />
             </MenuItem>
         </Menu>
     </StackPanel>

@@ -27,7 +27,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Content);
 			}
 		}
-			
+
 		private ShellViewModel _shell;
 		public ShellViewModel Shell
 		{
@@ -38,6 +38,5 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => Shell);
 			}
 		}
-		
 	}
 }

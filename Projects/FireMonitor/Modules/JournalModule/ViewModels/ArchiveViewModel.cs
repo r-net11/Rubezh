@@ -30,6 +30,11 @@ namespace JournalModule.ViewModels
 		{
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			FirstPageCommand = new RelayCommand(OnFirstPage, CanFirstPage);
+			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
+			NextPageCommand = new RelayCommand(OnNextPage, CanNextPage);
+			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
+			Pages = new ObservableCollection<ArchivePageViewModel>();
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 			ServiceFactory.Events.GetEvent<GetFS2FilteredArchiveCompletedEvent>().Subscribe(OnGetFS2FilteredArchiveCompleted);
 
@@ -45,6 +50,28 @@ namespace JournalModule.ViewModels
 			{
 				ArchiveFirstDate = operationResult.Result;
 				_isFilterOn = false;
+			}
+		}
+
+		ObservableCollection<ArchivePageViewModel> _pages;
+		public ObservableCollection<ArchivePageViewModel> Pages
+		{
+			get { return _pages; }
+			set
+			{
+				_pages = value;
+				OnPropertyChanged("Pages");
+			}
+		}
+
+		ArchivePageViewModel _selectedPage;
+		public ArchivePageViewModel SelectedPage
+		{
+			get { return _selectedPage; }
+			set
+			{
+				_selectedPage = value;
+				OnPropertyChanged("SelectedPage");
 			}
 		}
 
@@ -187,6 +214,95 @@ namespace JournalModule.ViewModels
 			}
 		}
 
+		public bool HasPages
+		{
+			get { return TotalPageNumber > 0; }
+		}
+
+		public RelayCommand FirstPageCommand { get; private set; }
+		void OnFirstPage()
+		{
+			CurrentPageNumber = 1;
+		}
+		bool CanFirstPage()
+		{
+			return CurrentPageNumber > 1;
+		}
+
+		public RelayCommand PreviousPageCommand { get; private set; }
+		void OnPreviousPage()
+		{
+			CurrentPageNumber--;
+		}
+		bool CanPreviousPage()
+		{
+			return CurrentPageNumber > 1;
+		}
+
+		public RelayCommand NextPageCommand { get; private set; }
+		void OnNextPage()
+		{
+			CurrentPageNumber++;
+		}
+		bool CanNextPage()
+		{
+			return CurrentPageNumber < TotalPageNumber;
+		}
+
+		public RelayCommand LastPageCommand { get; private set; }
+		void OnLastPage()
+		{
+			CurrentPageNumber = TotalPageNumber;
+		}
+		bool CanLastPage()
+		{
+			return CurrentPageNumber < TotalPageNumber;
+		}
+
+		int _totalPageNumber;
+		public int TotalPageNumber
+		{
+			get { return _totalPageNumber; }
+			set
+			{
+				_totalPageNumber = value;
+				OnPropertyChanged("TotalPageNumber");
+				OnPropertyChanged("HasPages");
+			}
+		}
+
+		int _currentPageNumber;
+		public int CurrentPageNumber
+		{
+			get { return _currentPageNumber; }
+			set
+			{
+				if (value < 1)
+					value = 1;
+				if (value > Pages.Count)
+					value = Pages.Count;
+
+				_currentPageNumber = value;
+				OnPropertyChanged("CurrentPageNumber");
+
+				if (value > 0 && value <= Pages.Count)
+				{
+					var page = Pages[value - 1];
+
+					var journalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
+					var journalRecordViewModels = new List<JournalRecordViewModel>();
+					foreach (var journalRecord in page.JournalRecordsList)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						journalRecordViewModels.Add(journalRecordViewModel);
+					}
+					journalRecords.AddRange(journalRecordViewModels);
+					JournalRecords = journalRecords;
+					SelectedRecord = JournalRecords.FirstOrDefault();
+				}
+			}
+		}
+
 		public void Update(bool abortRunnig = true)
 		{
 			if (abortRunnig)
@@ -199,6 +315,12 @@ namespace JournalModule.ViewModels
 			{
 				Status = "Загрузка данных";
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
+
+				Pages = new ObservableCollection<ArchivePageViewModel>();
+				TotalPageNumber = 0;
+				CurrentPageNumber = 0;
+				SelectedPage = null;
+
 				UpdateThread = new Thread(OnUpdate);
 				UpdateThread.Start();
 			}
@@ -226,24 +348,12 @@ namespace JournalModule.ViewModels
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
 		{
-			Dispatcher.BeginInvoke(new Action(() =>
-			{
-				if (JournalRecords == null)
-					JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
-
-				var journalRecordViewModels = new List<JournalRecordViewModel>();
-				foreach (var journalRecord in journalRecords)
-				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					journalRecordViewModels.Add(journalRecordViewModel);
-				}
-				JournalRecords.AddRange(journalRecordViewModels);
-
-				Status = "Количество записей: " + JournalRecords.Count.ToString();
-				ApplicationService.DoEvents();
-			}
-				));
-			ApplicationService.DoEvents();
+			var archivePageViewModel = new ArchivePageViewModel(journalRecords);
+			Pages.Add(archivePageViewModel);
+			TotalPageNumber = Pages.Count;
+			if (CurrentPageNumber == 0)
+				CurrentPageNumber = 1;
+			Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalRecords.Count()).ToString();
 		}
 
 		void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
@@ -262,8 +372,7 @@ namespace JournalModule.ViewModels
 				JournalRecords.AddRange(journalRecordViewModels);
 
 				Status = "Количество записей: " + JournalRecords.Count.ToString();
-			}
-				));
+			}));
 		}
 
 		public override void OnShow()

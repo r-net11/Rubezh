@@ -222,7 +222,7 @@ namespace Firesec
 				driver.AutoChildCount = int.Parse(innerDriver.child_count);
 			}
 
-			driver.CanAutoDetect = allChildren.Any(x => (x.options != null) && (x.options.Contains("CanAutoDetectInstances")));
+			driver.CanAutoDetect = allChildren.Any(x => (x.options != null) && (x.options.Contains("CanAutoDetectInstances"))) && driver.DriverType != DriverType.MS_1 && driver.DriverType != DriverType.MS_2;
 
 			driver.Properties = new List<DriverProperty>();
 			if (innerDriver.propInfo != null && driver.DriverType != DriverType.PumpStation)
@@ -310,16 +310,12 @@ namespace Firesec
 			{
 				foreach (var innerParameter in innerDriver.paramInfo)
 				{
-					if (innerParameter.caption == "Всего устройств")
-					{
-						;
-					}
-
 					driver.Parameters.Add(new Parameter()
 					{
 						Name = innerParameter.name,
 						Caption = innerParameter.caption,
-						Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "1"
+						//Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "1"
+                        Visible = innerParameter.showOnlyInState == "1"
 					});
 				}
 			}
@@ -353,23 +349,7 @@ namespace Firesec
 					});
 				}
 			}
-
-			if (driver.DriverType == DriverType.Valve)
-			{
-				AddValveControlProperties(driver);
-			}
 			return driver;
-		}
-
-		static void AddValveControlProperties(Driver driver)
-		{
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltClose", Caption = "Закрыть" });
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltStop", Caption = "Стоп" });
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltOpen", Caption = "Открыть" });
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Автоматика", Name = "BoltAutoOn", Caption = "Включение автоматики" });
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Автоматика", Name = "BoltAutoOff", Caption = "Отключение автоматики" });
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Задержка пуска", Name = "BoltStart", Caption = "Пуск" });
-			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Задержка пуска", Name = "BoltStop", Caption = "Стоп" });
 		}
 	}
 }

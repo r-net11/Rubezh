@@ -63,6 +63,7 @@ namespace FiresecAPI.Models
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
+        public bool HasMissingDifferences { get; set; }
 		public BinaryDevice BinaryDevice { get; set; }
 		public List<byte> StateWordBytes { get; set; }
 		public List<byte> RawParametersBytes { get; set; }

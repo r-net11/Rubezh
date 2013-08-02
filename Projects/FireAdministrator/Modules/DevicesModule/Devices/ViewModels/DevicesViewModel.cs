@@ -431,7 +431,6 @@ namespace DevicesModule.ViewModels
 						new RibbonMenuItemViewModel("Другие функции", DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, true, "/Controls;component/Images/BInformation.png"),
 					}, "/Controls;component/Images/BUsb.png") { IsNewGroup = true },
 					new RibbonMenuItemViewModel("Считать журнал событий из файла", DeviceCommandsViewModel.ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
-					new RibbonMenuItemViewModel("Слияние конфигураций", DeviceCommandsViewModel.MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png"),
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};
 		}

@@ -17,6 +17,7 @@ namespace FiresecAPI.Models
 				StateType = StateType.No,
 			};
 			States.Add(libraryState);
+			Presenters = new List<LibraryDevicePresenter>();
 		}
 
 		public Driver Driver { get; set; }
@@ -35,6 +36,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<LibraryState> States { get; set; }
+
+		[DataMember]
+		public List<LibraryDevicePresenter> Presenters { get; set; }
 
 		public string PresentationName
 		{

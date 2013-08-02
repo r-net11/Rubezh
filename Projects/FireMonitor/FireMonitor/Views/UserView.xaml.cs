@@ -23,10 +23,17 @@ namespace FireMonitor.Views
 		public RelayCommand ChangeUserCommand { get; private set; }
 		void OnChangeUser()
 		{
+			var oldUserName = UserName;
 			var result = ServiceFactory.LoginService.ExecuteReconnect();
 			if (result)
 			{
-				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(true);
+				var userChangedEventArgs = new UserChangedEventArgs()
+				{
+					IsReconnect = true,
+					OldName = oldUserName,
+					NewName = UserName
+				};
+				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
 			}
 		}
 	}

@@ -80,7 +80,7 @@
     <Compile Include="BinaryDatabase\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="BinaryDatabase\DB\PumpStationCreator.cs" />
     <Compile Include="BinaryDatabase\KauChildrenHelper.cs" />
-    <Compile Include="Drivers\RSR2\RSR2_Pump_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Bush_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HeatDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MAP4_Group_Helper.cs" />

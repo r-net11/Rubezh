@@ -17,7 +17,7 @@ namespace DevicesModule.Guard
 		{
 			Device = device;
 			GuardUsers = guardUser;
-			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndName + ". Запись списка пользователей");
+			ServiceFactory.FS2ProgressService.Run(OnPropgress, OnCompleted, Device.PresentationAddressAndName + ". Запись списка пользователей");
 		}
 
 		static void OnPropgress()

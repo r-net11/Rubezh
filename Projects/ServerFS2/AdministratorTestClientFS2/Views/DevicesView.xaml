@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="AdministratorTestClientFS2.Views.DevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls" MinHeight="300" MinWidth="300">
 
     <Controls:TreeListView ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Focusable="True">
         <Controls:TreeListView.Columns>

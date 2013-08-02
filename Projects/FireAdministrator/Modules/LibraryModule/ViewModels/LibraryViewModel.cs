@@ -9,6 +9,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Media;
+using DeviceControls;
 using Infrastructure.ViewModels;
 
 namespace LibraryModule.ViewModels
@@ -20,9 +22,9 @@ namespace LibraryModule.ViewModels
 			Menu = new LibraryMenuViewModel(this);
 			AddDeviceCommand = new RelayCommand(OnAddDevice);
 			RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
-			AddAdditionalDeviceCommand = new RelayCommand(OnAddAdditionalDevice, CanRemoveDevice);
 			AddStateCommand = new RelayCommand(OnAddState, CanAddState);
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
+			AddDevicePresenterCommand = new RelayCommand(OnAddDevicePresenter, CanAddDevicePresenter);
 			Current = this;
 		}
 		public static LibraryViewModel Current { get; private set; }
@@ -81,7 +83,7 @@ namespace LibraryModule.ViewModels
 				{
 					var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.DriverId);
 					States = new ObservableCollection<StateViewModel>();
-					var libraryStates = from LibraryState libraryState in SelectedDevice.LibraryDevice.States orderby libraryState.StateType descending select libraryState;
+					var libraryStates = from LibraryState libraryState in SelectedDevice.States orderby libraryState.StateType descending select libraryState;
 					foreach (var libraryState in libraryStates)
 					{
 						var stateViewModel = new StateViewModel(libraryState, driver);
@@ -114,9 +116,19 @@ namespace LibraryModule.ViewModels
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
-			FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDevice.LibraryDevice);
-			Devices.Remove(SelectedDevice);
-			SelectedDevice = Devices.FirstOrDefault();
+			if (SelectedDevice.Presenter == null)
+			{
+				FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDevice.LibraryDevice);
+				Devices.Remove(SelectedDevice);
+				SelectedDevice = Devices.FirstOrDefault();
+			}
+			else
+			{
+				SelectedDevice.LibraryDevice.Presenters.Remove(SelectedDevice.Presenter);
+				var parent = SelectedDevice.Parent;
+				parent.RemoveChild(SelectedDevice);
+				SelectedDevice = parent;
+			}
 			ServiceFactory.SaveService.LibraryChanged = true;
 		}
 		bool CanRemoveDevice()
@@ -124,21 +136,33 @@ namespace LibraryModule.ViewModels
 			return SelectedDevice != null;
 		}
 
-		public RelayCommand AddAdditionalDeviceCommand { get; private set; }
-		void OnAddAdditionalDevice()
+		public RelayCommand AddDevicePresenterCommand { get; private set; }
+		void OnAddDevicePresenter()
 		{
-			var libraryDevice = new LibraryDevice()
+			var presenterProperty = SelectedDevice.Driver.PresenterKeyProperty;
+			if (presenterProperty != null)
 			{
-				IsAlternative = true,
-				Driver = SelectedDevice.LibraryDevice.Driver,
-				DriverId = SelectedDevice.LibraryDevice.DriverId
-			};
-			var deviceViewModel = new DeviceViewModel(libraryDevice);
-
-			FiresecManager.DeviceLibraryConfiguration.Devices.Add(libraryDevice);
-			Devices.Add(deviceViewModel);
-			SelectedDevice = Devices.LastOrDefault();
-			ServiceFactory.SaveService.LibraryChanged = true;
+				var viewModel = new PresenterKeyViewModel(presenterProperty);
+				if (DialogService.ShowModalWindow(viewModel))
+				{
+					if (SelectedDevice.LibraryDevice.Presenters == null)
+						SelectedDevice.LibraryDevice.Presenters = new List<LibraryDevicePresenter>();
+					var presenter = new LibraryDevicePresenter()
+					{
+						Key = viewModel.Value
+					};
+					SelectedDevice.LibraryDevice.Presenters.Add(presenter);
+					var newDevice = new DeviceViewModel(SelectedDevice.LibraryDevice, presenter);
+					SelectedDevice.AddChild(newDevice);
+					SelectedDevice.IsExpanded = true;
+					SelectedDevice = newDevice;
+					ServiceFactory.SaveService.LibraryChanged = true;
+				}
+			}
+		}
+		bool CanAddDevicePresenter()
+		{
+			return SelectedDevice != null && SelectedDevice.Presenter == null && SelectedDevice.Driver.PresenterKeyProperty != null;
 		}
 
 		ObservableCollection<StateViewModel> _states;
@@ -160,17 +184,17 @@ namespace LibraryModule.ViewModels
 			{
 				_selectedState = value;
 				OnPropertyChanged("SelectedState");
-				OnPropertyChanged("DeviceControl");
+				OnPropertyChanged(() => PreviewBrush);
 			}
 		}
 
 		public RelayCommand AddStateCommand { get; private set; }
 		void OnAddState()
 		{
-			var stateDetailsViewModel = new StateDetailsViewModel(SelectedDevice.LibraryDevice);
+			var stateDetailsViewModel = new StateDetailsViewModel(SelectedDevice);
 			if (DialogService.ShowModalWindow(stateDetailsViewModel))
 			{
-				SelectedDevice.LibraryDevice.States.Add(stateDetailsViewModel.SelectedState.State);
+				SelectedDevice.States.Add(stateDetailsViewModel.SelectedState.State);
 				States.Add(stateDetailsViewModel.SelectedState);
 				SelectedState = States.LastOrDefault();
 				ServiceFactory.SaveService.LibraryChanged = true;
@@ -184,7 +208,7 @@ namespace LibraryModule.ViewModels
 		public RelayCommand RemoveStateCommand { get; private set; }
 		void OnRemoveState()
 		{
-			SelectedDevice.LibraryDevice.States.Remove(SelectedState.State);
+			SelectedDevice.States.Remove(SelectedState.State);
 			States.Remove(SelectedState);
 			SelectedState = States.FirstOrDefault();
 			ServiceFactory.SaveService.LibraryChanged = true;
@@ -194,31 +218,22 @@ namespace LibraryModule.ViewModels
 			return (SelectedState != null && SelectedState.State.StateType != StateType.No);
 		}
 
-		public DeviceControls.DeviceControl DeviceControl
+		public bool IsPreviewEnabled { get; private set; }
+		public Brush PreviewBrush
 		{
 			get
 			{
-				if (SelectedDevice == null)
-					return null;
-				if (SelectedState == null)
-					return null;
-
-				var deviceControl = new DeviceControls.DeviceControl()
-				{
-					DriverId = SelectedDevice.LibraryDevice.DriverId
-				};
-				deviceControl.StateType = SelectedState.State.StateType;
-
-				var additionalStateCodes = new List<string>();
-				if (SelectedState.IsAdditional)
-				{
-					additionalStateCodes.Add(SelectedState.State.Code);
-					deviceControl.AdditionalStateCodes = additionalStateCodes;
-				}
-
-				deviceControl.Update();
-				return deviceControl;
+				var brush = (Brush)Brushes.Transparent;
+				if (SelectedDevice != null && SelectedState != null)
+					brush = DevicePictureCache.CreatePreviewBrush(SelectedState.State.Frames);
+				IsPreviewEnabled = brush != null && brush != Brushes.Transparent;
+				OnPropertyChanged(() => IsPreviewEnabled);
+				return brush;
 			}
+		}
+		public void InvalidatePreview()
+		{
+			OnPropertyChanged(() => PreviewBrush);
 		}
 
 		public bool IsDebug
