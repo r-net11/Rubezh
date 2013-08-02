@@ -59,10 +59,6 @@ namespace DevicesModule.ViewModels
 			{
 				var toolTip = Zone.FullPresentationName;
 				toolTip += "\n" + "Состояние: " + StateType.ToDescription();
-				if (Zone.ZoneType == ZoneType.Fire)
-				{
-					toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();
-				}
 				if (Zone.ZoneType == ZoneType.Guard)
 				{
 					if (FiresecManager.IsZoneOnGuardAlarm(ZoneState))

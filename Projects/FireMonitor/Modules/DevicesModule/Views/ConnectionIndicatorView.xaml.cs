@@ -21,7 +21,7 @@ namespace DevicesModule.Views
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
+			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsConnected));
 			SafeFiresecService.ConnectionLost += new Action(OnService_ConnectionLost);
 			SafeFiresecService.ConnectionAppeared += new Action(OnService_ConnectionAppeared);
 
@@ -37,53 +37,86 @@ namespace DevicesModule.Views
 			}
 		}
 
-		bool _isServiceConnected = true;
-		public bool IsServiceConnected
+		bool _isConnected = true;
+		public bool IsConnected
 		{
-			get { return _isServiceConnected; }
+			get { return _isConnected; }
 			set
 			{
-				_isServiceConnected = value;
-				OnPropertyChanged("IsServiceConnected");
+				_isConnected = value;
+				OnPropertyChanged("IsConnected");
 				if (value)
 				{
-					_serviceConnectionControl.ToolTip = "Связь с сервером в норме";
-					_serviceConnectionControl.Background = Brushes.Transparent;
-					_serviceConnectionIndicator.Opacity = 0.4;
+					_connectionControl.ToolTip = "Связь с сервером в норме";
+					_connectionControl.Background = Brushes.Transparent;
+					_connectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
-					_serviceConnectionControl.ToolTip = "Связь с сервером потеряна";
-					_serviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
-					_serviceConnectionControl.Background = Brushes.DarkOrange;
-					_serviceConnectionIndicator.Opacity = 1;
-					BalloonHelper.ShowFromMonitor("Связь с сервером потеряна");
+					var text = "";
+					if (!IsServerConnected && IsFS2OrAgentConnected)
+					{
+						text = "Связь с сервером потеряна";
+					}
+					if (IsServerConnected && !IsFS2OrAgentConnected)
+					{
+						text = "Связь с агентом потеряна";
+					}
+					if (!IsServerConnected && !IsFS2OrAgentConnected)
+					{
+						text = "Связь с сервером и агентом потеряна";
+					}
+					_connectionControl.ToolTip = text;
+					_connectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+					_connectionControl.Background = Brushes.DarkOrange;
+					_connectionIndicator.Opacity = 1;
+					BalloonHelper.ShowFromMonitor(text);
 				}
+				_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(value));
 			}
 		}
 
-		bool _isDeviceConnected = true;
-		public bool IsDeviceConnected
+		bool IsServerConnected = true;
+		bool IsFS2OrAgentConnected = true;
+		bool IsAllConnected
 		{
-			get { return _isDeviceConnected; }
-			set
+			get { return IsServerConnected && IsFS2OrAgentConnected; }
+		}
+
+		void OnService_ConnectionLost()
+		{
+			Dispatcher.Invoke(new Action(() =>
 			{
-				_isDeviceConnected = value;
-				OnPropertyChanged("IsDeviceConnected");
-				if (value)
-				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами в норме";
-					_deviceConnectionControl.Background = Brushes.Transparent;
-					_deviceConnectionIndicator.Opacity = 0.4;
-				}
-				else
-				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами потеряна";
-					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
-					_deviceConnectionIndicator.Opacity = 1;
-					BalloonHelper.ShowFromMonitor("Связь с агентом потеряна");
-				}
-			}
+				IsServerConnected = false;
+				IsConnected = IsAllConnected;
+			}));
+		}
+
+		void OnService_ConnectionAppeared()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsServerConnected = true;
+				IsConnected = IsAllConnected;
+			}));
+		}
+
+		void FS2OrAgent_ConnectionLost()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsFS2OrAgentConnected = false;
+				IsConnected = IsAllConnected;
+			}));
+		}
+
+		void FS2OrAgent_ConnectionAppeared()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsFS2OrAgentConnected = true;
+				IsConnected = IsAllConnected;
+			}));
 		}
 
 		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
@@ -104,42 +137,6 @@ namespace DevicesModule.Views
 				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible));
 			}
 			return animation;
-		}
-
-		void OnService_ConnectionLost()
-		{
-			Dispatcher.Invoke(new Action(() =>
-			{
-				IsServiceConnected = false;
-				_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
-			}));
-		}
-
-		void OnService_ConnectionAppeared()
-		{
-			Dispatcher.Invoke(new Action(() =>
-			{
-				IsServiceConnected = true;
-				_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
-			}));
-		}
-
-		void FS2OrAgent_ConnectionLost()
-		{
-			Dispatcher.Invoke(new Action(() =>
-			{
-				IsDeviceConnected = false;
-				_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
-			}));
-		}
-
-		void FS2OrAgent_ConnectionAppeared()
-		{
-			Dispatcher.Invoke(new Action(() =>
-			{
-				IsDeviceConnected = true;
-				_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
-			}));
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

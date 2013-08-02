@@ -945,9 +945,6 @@
     <Resource Include="StateClassIcons\TurningOff.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="StateClassIcons\Off.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\AllParameters.png" />
     <Resource Include="Images\briefcase.png" />
     <Resource Include="Images\ParametersRead.png" />

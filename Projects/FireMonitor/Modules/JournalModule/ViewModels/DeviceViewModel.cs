@@ -24,6 +24,15 @@ namespace JournalModule.ViewModels
 			}
 		}
 
+		public string DeviceUID
+		{
+			get
+			{
+				var result = Device.UID.ToString().ToLower();
+				return result;
+			}
+		}
+
 		public string DatabaseName
 		{
 			get { return Device.DatabaseName; }
