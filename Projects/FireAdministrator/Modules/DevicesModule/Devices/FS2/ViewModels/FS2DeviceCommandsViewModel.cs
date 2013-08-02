@@ -34,7 +34,6 @@ namespace DevicesModule.ViewModels
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
-			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
         }
@@ -225,19 +224,6 @@ namespace DevicesModule.ViewModels
 					return false;
 			}
 			return true;
-		}
-
-		public RelayCommand MergeConfigurationCommand { get; private set; }
-		void OnMergeConfiguration()
-		{
-			DevicesModuleMerge.MergeConfigurationHelper.Merge();
-		}
-		bool CanMergeConfiguration()
-		{
-#if DEBUG
-			return true;
-#endif
-			return false;
 		}
 
 		public RelayCommand ReadJournalFromFileCommand { get; private set; }

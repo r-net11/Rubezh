@@ -115,6 +115,7 @@
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
+    <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
@@ -209,7 +210,6 @@
     <Compile Include="TreeList\SortBehavior.cs" />
     <Compile Include="TreeList\TreeList.cs" />
     <Compile Include="TreeList\TreeListItem.cs" />
-    <Compile Include="TreeList\TreeNode.cs" />
     <Compile Include="XAutoCompleteBox.cs" />
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
@@ -1084,6 +1084,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BSaveAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWrite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BView.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BToolbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMenu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

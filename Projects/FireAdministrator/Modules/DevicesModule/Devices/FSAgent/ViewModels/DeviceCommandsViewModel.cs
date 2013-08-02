@@ -32,7 +32,6 @@ namespace DevicesModule.ViewModels
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
-			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration, CanMergeConfiguration);
 
             DevicesViewModel = devicesViewModel;
         }
@@ -250,19 +249,6 @@ namespace DevicesModule.ViewModels
 				return result;
 			}
         }
-
-		public RelayCommand MergeConfigurationCommand { get; private set; }
-		void OnMergeConfiguration()
-		{
-			DevicesModuleMerge.MergeConfigurationHelper.Merge();
-		}
-		bool CanMergeConfiguration()
-		{
-#if DEBUG
-			return true;
-#endif
-			return false;
-		}
 
 		bool CheckNeedSave()
 		{

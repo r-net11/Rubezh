@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -17,10 +18,12 @@ namespace GKModule.ViewModels
 			Device = device;
 			DeviceViewModel = new DeviceViewModel(device);
 
+			Smokiness = " - ";
 			Temperature = " - ";
 			Dustinness = " - ";
 			LastServiceTime = " - ";
 			Resistance = " - ";
+			AUParameterValues = new ObservableCollection<AUParameterValue>();
 		}
 
 		bool _isCurrent;
@@ -42,6 +45,17 @@ namespace GKModule.ViewModels
 			{
 				_temperature = value;
 				OnPropertyChanged("Temperature");
+			}
+		}
+
+		string _smokiness;
+		public string Smokiness
+		{
+			get { return _smokiness; }
+			set
+			{
+				_smokiness = value;
+				OnPropertyChanged("Smokiness");
 			}
 		}
 
@@ -75,6 +89,33 @@ namespace GKModule.ViewModels
 			{
 				_resistance = value;
 				OnPropertyChanged("Resistance");
+			}
+		}
+
+		public void OnNewAUParameterValue(AUParameterValue value)
+		{
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == value.Name);
+				if (auParameterValue == null)
+				{
+					auParameterValue = value;
+					AUParameterValues.Add(auParameterValue);
+				}
+				auParameterValue.Value = value.Value;
+				auParameterValue.StringValue = value.StringValue;
+				OnPropertyChanged("AUParameterValues");
+			}));
+		}
+
+		ObservableCollection<AUParameterValue> _auParameterValues;
+		public ObservableCollection<AUParameterValue> AUParameterValues
+		{
+			get { return _auParameterValues; }
+			set
+			{
+				_auParameterValues = value;
+				OnPropertyChanged("AUParameterValues");
 			}
 		}
 	}

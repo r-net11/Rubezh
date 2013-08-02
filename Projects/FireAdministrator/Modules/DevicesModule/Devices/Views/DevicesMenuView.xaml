@@ -44,7 +44,6 @@
                     <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="_Другие функции" />
                 </MenuItem>
                 <MenuItem Command="{Binding ReadJournalFromFileCommand}" Header="Считать журнал событий из файла" Visibility="{Binding IsFS2Enabled, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <MenuItem Command="{Binding MergeConfigurationCommand}" Header="Слияние конфигураций" />
             </MenuItem>
         </Menu>
     </StackPanel>

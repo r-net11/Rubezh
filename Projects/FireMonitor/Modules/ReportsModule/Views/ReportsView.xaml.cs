@@ -159,7 +159,9 @@ namespace ReportsModule.Views
 			get { return DocumentPaginator == null ? 0 : PageView.PageNumber + 1; }
 			set
 			{
-				if (value > DocumentPaginator.PageCount)
+				if (value < 0)
+					throw new ApplicationException();
+				else if (value > DocumentPaginator.PageCount)
 				{
 					if (PageView.PageNumber == DocumentPaginator.PageCount - 1)
 						throw new ApplicationException();

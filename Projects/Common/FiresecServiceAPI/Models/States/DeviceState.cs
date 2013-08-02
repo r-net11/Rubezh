@@ -118,6 +118,50 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		public List<string> StateParameters
+		{
+			get
+			{
+				var parameters = new List<string>();
+				foreach (var parameter in ThreadSafeParameters)
+				{
+					var mustShowParameter = false;
+					if (!parameter.IsIgnore && parameter.Visible)
+					{
+						mustShowParameter = true;
+					}
+					else
+					{
+						switch (parameter.Name)
+						{
+							case "FailureType":
+							case "AlarmReason":
+							case "OtherMessage":
+							case "FailureType5":
+							case "AlarmReason5":
+							case "OtherMessage5":
+							case "FailureType6":
+							case "AlarmReason6":
+							case "OtherMessage6":
+							case "VoltageBattery1":
+							case "VoltageBattery2":
+							case "VoltageOutput1":
+							case "VoltageOutput2":
+							case "VoltageInput":
+								mustShowParameter = true;
+								break;
+						}
+					}
+
+					if (mustShowParameter && !string.IsNullOrEmpty(parameter.Value) && parameter.Value != "<NULL>")
+					{
+						parameters.Add(parameter.Caption + ": " + parameter.Value);
+					}
+				}
+				return parameters;
+			}
+		}
+
 		public DeviceState()
 		{
 			SerializableStates = new List<DeviceDriverState>();

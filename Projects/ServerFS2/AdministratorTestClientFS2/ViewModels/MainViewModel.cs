@@ -217,6 +217,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			DialogService.ShowModalWindow(new PasswordViewModel(DevicesViewModel.SelectedDevice.Device));
 		}
+
 		bool CanSetPassword()
 		{
 			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));

@@ -99,7 +99,8 @@
                                 <DataTemplate>
                                     <WrapPanel>
                                         <CheckBox Margin="2" IsChecked="{Binding IsEnable}" Content="{Binding Name}"
-                                          Checked="CheckBox_Checked_1" Unchecked="CheckBox_Checked_1" />
+                                            ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}"
+                                            Checked="CheckBox_Checked_1" Unchecked="CheckBox_Checked_1" />
                                     </WrapPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

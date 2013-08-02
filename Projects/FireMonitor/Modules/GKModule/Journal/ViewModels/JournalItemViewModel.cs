@@ -83,6 +83,8 @@ namespace GKModule.ViewModels
 				stringBuilder.Append(state.ToDescription() + " ");
 			}
 			StringStates = stringBuilder.ToString();
+
+			//journalItem.InternalJournalItem.GKObjectNo
 		}
 
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
@@ -166,6 +168,17 @@ namespace GKModule.ViewModels
 					break;
 			}
 			return false;
+		}
+
+		public bool ShowAdditionalProperties
+		{
+			get
+			{
+#if DEBUG
+				return true;
+#endif
+				return false;
+			}
 		}
 	}
 }

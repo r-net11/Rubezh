@@ -180,7 +180,14 @@ namespace ServerFS2.Processor
 				SetPasswordOperationHelper.SetPassword(x, devicePasswordType, password),
 				device, isUSB);
 		}
-
+		
+		public static void DeviceSetGuardUsers(Device device, bool isUSB, List<GuardUser> guardUsers)
+		{
+			TempConfigSafeCall(x =>
+				GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
+				device, isUSB);
+		}
+		
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
 		{
 			TempConfigSafeCall<bool>(x =>
@@ -302,7 +309,7 @@ namespace ServerFS2.Processor
 
 		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
 		{
-			DeviceSetGuardUsers(device, guardUsers);
+			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
 		}
 
 		public static string DeviceGetMDS5Data(Device device)
@@ -310,14 +317,14 @@ namespace ServerFS2.Processor
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void SetConfigurationParameters(Device device, List<Property> properties)
+		public static void SetAuParameters(Device device, List<Property> properties)
 		{
-			DeviceParametersOperationHelper.SetDeviceParameters(device, properties);
+			DeviceParametersOperationHelper.Set(device, properties);
 		}
 
-		public static List<Property> GetConfigurationParameters(Device device)
+		public static List<Property> GetAuParameters(Device device)
 		{
-			return DeviceParametersOperationHelper.GetDeviceParameters(device);
+			return DeviceParametersOperationHelper.Get(device);
 		}
 		#endregion
 

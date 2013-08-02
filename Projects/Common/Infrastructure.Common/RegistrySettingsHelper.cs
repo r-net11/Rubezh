@@ -45,12 +45,16 @@ namespace Infrastructure.Common
 
 		public static bool GetBool(string name)
 		{
+			return GetBool(name, false);
+		}
+		public static bool GetBool(string name, bool defaultValue)
+		{
 			var registryData = GetRegistryData(name);
 			if (registryData != null)
 			{
 				return registryData.BoolValue;
 			}
-			return false;
+			return defaultValue;
 		}
 
 		public static List<string> GetStrings(string name)

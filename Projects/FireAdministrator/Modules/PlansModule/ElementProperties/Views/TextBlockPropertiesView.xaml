@@ -49,7 +49,7 @@
 			<xc:ColorPicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}"  />
 			<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}"  />
 			<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}"  />
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="10"/>
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="100"/>
 			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" Minimum="5"/>
 			<ComboBox Grid.Row="7" Grid.Column="1" Margin="2" ItemsSource="{Binding Fonts}" SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>

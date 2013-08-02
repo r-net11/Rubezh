@@ -119,10 +119,10 @@ namespace FS2Api
 		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties);
+		OperationResult SetAuParameters(Guid deviceUID, List<Property> properties);
 
 		[OperationContract]
-		OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID);
+		OperationResult<List<Property>> GetAuParameters(Guid deviceUID);
 		#endregion
 
 		#region Journal

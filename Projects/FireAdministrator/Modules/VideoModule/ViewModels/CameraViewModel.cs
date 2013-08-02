@@ -21,19 +21,15 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var presenrationZones = new StringBuilder();
-				if (Camera.ZoneUIDs == null)
-					Camera.ZoneUIDs = new List<Guid>();
-				for (int i = 0; i < Camera.ZoneUIDs.Count; i++)
+				var zones = new List<Zone>();
+				foreach (var zoneUID in Camera.ZoneUIDs)
 				{
-					if (i > 0)
-						presenrationZones.Append(", ");
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Camera.ZoneUIDs[i]);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
-						presenrationZones.Append(zone.PresentationName);
+						zones.Add(zone);
 				}
-
-				return presenrationZones.ToString();
+				var presentationZones = FiresecManager.FiresecConfiguration.DeviceConfiguration.GetCommaSeparatedZones(zones);
+				return presentationZones;
 			}
 		}
 

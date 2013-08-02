@@ -185,14 +185,14 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.DeviceGetMDS5Data(deviceUID); }, "DeviceGetMDS5Data");
 		}
 
-		public OperationResult SetConfigurationParameters(Guid deviceUID, List<Property> properties)
+		public OperationResult SetAuParameters(Guid deviceUID, List<Property> properties)
 		{
-			return SafeOperationCall(() => { return FS2Contract.SetConfigurationParameters(deviceUID, properties); }, "SetConfigurationParameters");
+			return SafeOperationCall(() => { return FS2Contract.SetAuParameters(deviceUID, properties); }, "SetAuParameters");
 		}
 
-		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
+		public OperationResult<List<Property>> GetAuParameters(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FS2Contract.GetConfigurationParameters(deviceUID); }, "GetConfigurationParameters");
+			return SafeOperationCall(() => { return FS2Contract.GetAuParameters(deviceUID); }, "GetAuParameters");
 		}
 		#endregion
 

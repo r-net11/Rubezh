@@ -17,7 +17,7 @@ namespace FireMonitor.ViewModels
 		{
 			get { return FiresecManager.CurrentUser.Name; }
 		}
-		void OnUserChanged(bool isReconnect)
+		void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
 		{
 			OnPropertyChanged("UserName");
 		}

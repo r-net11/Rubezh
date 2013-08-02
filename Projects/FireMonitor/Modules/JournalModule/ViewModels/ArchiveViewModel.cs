@@ -353,28 +353,7 @@ namespace JournalModule.ViewModels
 			TotalPageNumber = Pages.Count;
 			if (CurrentPageNumber == 0)
 				CurrentPageNumber = 1;
-			Status = "Количество записей: " + (TotalPageNumber*100 + journalRecords.Count()).ToString();
-			return;
-
-
-			Dispatcher.BeginInvoke(new Action(() =>
-			{
-				if (JournalRecords == null)
-					JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
-
-				var journalRecordViewModels = new List<JournalRecordViewModel>();
-				foreach (var journalRecord in journalRecords)
-				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					journalRecordViewModels.Add(journalRecordViewModel);
-				}
-				JournalRecords.AddRange(journalRecordViewModels);
-
-				Status = "Количество записей: " + JournalRecords.Count.ToString();
-				ApplicationService.DoEvents();
-			}
-				));
-			ApplicationService.DoEvents();
+			Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalRecords.Count()).ToString();
 		}
 
 		void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)

@@ -51,9 +51,18 @@ namespace GKModule.ViewModels
 
 		public override void OnShow()
 		{
-			BackgroundWorker = new BackgroundWorker();
-			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
-			BackgroundWorker.RunWorkerAsync();
+			CancelBackgroundWorker = false;
+			foreach (var device in Devices)
+			{
+				device.IsCurrent = false;
+			}
+
+			if (BackgroundWorker == null)
+			{
+				BackgroundWorker = new BackgroundWorker();
+				BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
+				BackgroundWorker.RunWorkerAsync();
+			}
 		}
 
 		public override void OnHide()
@@ -65,10 +74,16 @@ namespace GKModule.ViewModels
 		{
 			while (true)
 			{
-				if (CancelBackgroundWorker)
-					break;
 				foreach (var deviceParameterViewModel in Devices)
 				{
+					if (CancelBackgroundWorker)
+					{
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+						continue;
+					}
+
+					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Smokiness"))
+						deviceParameterViewModel.Smokiness = "опрос";
 					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Temperature"))
 						deviceParameterViewModel.Temperature = "опрос";
 					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Dustinness"))
@@ -90,8 +105,14 @@ namespace GKModule.ViewModels
 			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.UID == auParameterValue.Device.UID);
 			if (deviceParameterViewModel != null)
 			{
+				deviceParameterViewModel.OnNewAUParameterValue(auParameterValue);
+
 				switch (auParameterValue.DriverParameter.InternalName)
 				{
+					case "Smokiness":
+						deviceParameterViewModel.Smokiness = auParameterValue.StringValue;
+						break;
+
 					case "Temperature":
 						deviceParameterViewModel.Temperature = auParameterValue.StringValue;
 						break;
@@ -109,7 +130,6 @@ namespace GKModule.ViewModels
 						break;
 				}
 			}
-			//Trace.WriteLine("AUParameterValue " + auParameterValue.Device.ShortNameAndDottedAddress + " - " + auParameterValue.Name + " - " + auParameterValue.Value);
 		}
 	}
 }

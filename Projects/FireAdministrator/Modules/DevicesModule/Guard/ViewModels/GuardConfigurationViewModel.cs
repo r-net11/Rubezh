@@ -60,7 +60,9 @@ namespace DevicesModule.ViewModels
 						guardUser.Id = i + 1;
 						guardUser.Name = result.Substring(174 * i + 115, 20);
 						guardUser.Password = result.Substring(174 * i + 147, 6);
-						guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
+						var indexOfF = guardUser.Password.IndexOf('F');
+						if(indexOfF >= 0)
+							guardUser.Password = guardUser.Password.Remove(indexOfF);
 						guardUser.CanUnSetZone = (result[174 * i + 107] == '1');
 						guardUser.CanSetZone = (result[174 * i + 108] == '1');
 						guardUser.KeyTM = result.Substring(174 * i + 135, 12);

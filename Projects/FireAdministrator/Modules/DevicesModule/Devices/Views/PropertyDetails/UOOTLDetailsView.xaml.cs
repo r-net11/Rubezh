@@ -95,5 +95,13 @@ namespace DevicesModule.Views
 				e.Handled = true;
 			}
 		}
+
+		private void TextBox_PreviewCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (e.Command == ApplicationCommands.Paste)
+			{
+				e.Handled = true;
+			}
+		}
 	}
 }

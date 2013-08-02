@@ -6,6 +6,8 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FS2Api;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace JournalModule.ViewModels
 {
@@ -15,6 +17,7 @@ namespace JournalModule.ViewModels
 		{
 			Title = "Подтверждение критических событий";
             ConfirmCommand = new RelayCommand(OnConfirm);
+			JournalRecord = journalRecord;
 			ZoneName = journalRecord.ZoneName;
 			StateType = journalRecord.StateType;
 		}
@@ -46,7 +49,7 @@ namespace JournalModule.ViewModels
                 }
                 );
             FiresecManager.FiresecService.AddJournalRecords(journalRecords);
-
+			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
             Close();
         }
 	}

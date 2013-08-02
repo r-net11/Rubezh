@@ -120,7 +120,9 @@ namespace Infrastructure.Common.TreeList
 			SortDirection = column == SortColumn ? (SortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending) : ListSortDirection.Ascending;
 			SortColumn = column;
 			ItemComparer = itemComparer;
+			var selected = SelectedTreeNode;
 			Sort();
+			SelectedTreeNode = selected;
 		}
 	}
 }

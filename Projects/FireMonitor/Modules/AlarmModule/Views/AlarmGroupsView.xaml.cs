@@ -10,13 +10,13 @@ namespace AlarmModule.Views
 			InitializeComponent();
 		}
 
-        private void Button_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            AlarmGroupsViewModel alarmGroupsViewModel = DataContext as AlarmGroupsViewModel;
-            if (alarmGroupsViewModel != null)
-            {
-                alarmGroupsViewModel.ResetCommand.Execute();
-            }
-        }
+		private void Button_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			AlarmGroupsViewModel alarmGroupsViewModel = DataContext as AlarmGroupsViewModel;
+			if (alarmGroupsViewModel != null)
+			{
+				alarmGroupsViewModel.ResetCommand.Execute();
+			}
+		}
 	}
 }

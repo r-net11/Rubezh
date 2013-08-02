@@ -26,8 +26,11 @@ namespace FireAdministrator.ViewModels
 			ValidateCommand = new RelayCommand(OnValidate);
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
 			SetPnanNameToZoneDescriptionsCommand = new RelayCommand(OnSetPnanNameToZoneDescriptions);
+			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
+			IsMainMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMainMenuVisible", false);
+			IsMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMenuVisible", true);
 		}
 
 		void OnSetNewConfiguration(CancelEventArgs e)
@@ -52,11 +55,6 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		public bool ShowTextInMenu
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.Administrator_IsMenuIconText; }
-		}
-
 		public bool SetNewConfig()
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
@@ -69,7 +67,7 @@ namespace FireAdministrator.ViewModels
 
 		public bool CanShowMainMenu
 		{
-			get { return GlobalSettingsHelper.GlobalSettings.Administrator_ShowMainMenu; }
+			get { return false; }
 		}
 
 		void SaveService_Changed()
@@ -157,9 +155,35 @@ namespace FireAdministrator.ViewModels
 		{
 		}
 
-		public bool IsMainMenuIconsVisible
+		public RelayCommand MergeConfigurationCommand { get; private set; }
+		void OnMergeConfiguration()
 		{
-			get { return !GlobalSettingsHelper.GlobalSettings.Administrator_HideMainMenuIcons; }
+			MergeConfigurationHelper.Merge();
+		}
+
+		private bool _isMainMenuVisible;
+		public bool IsMainMenuVisible
+		{
+			get { return _isMainMenuVisible; }
+			set
+			{
+				if (IsMainMenuVisible != value)
+					RegistrySettingsHelper.SetBool("Administrato.Shell.IsMainMenuVisible", value);
+				_isMainMenuVisible = value;
+				OnPropertyChanged(() => IsMainMenuVisible);
+			}
+		}
+		private bool _isMenuVisible;
+		public bool IsMenuVisible
+		{
+			get { return _isMenuVisible; }
+			set
+			{
+				if (IsMenuVisible != value)
+					RegistrySettingsHelper.SetBool("Administrato.Shell.IsMenuVisible", value);
+				_isMenuVisible = value;
+				OnPropertyChanged(() => IsMenuVisible);
+			}
 		}
 	}
 }
