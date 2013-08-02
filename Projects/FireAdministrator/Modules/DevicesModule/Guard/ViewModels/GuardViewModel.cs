@@ -172,7 +172,7 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var deviceUser in DeviceUsers)
 			{
-				if (deviceUser.GuardUser.Name != null && Validator.ValidateString(deviceUser.GuardUser.Name))
+				if (deviceUser.GuardUser.Name != null && !Validator.ValidateString(deviceUser.GuardUser.Name))
 				{
 					MessageBoxService.ShowError("Недопустимые символы в имени пользователя " + deviceUser.GuardUser.Name);
 					return false;

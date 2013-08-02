@@ -381,7 +381,7 @@ namespace ServerFS2.Service
 			var device = FindDevice(deviceUID);
 			return SafeCallWithMonitoringSuspending(() =>
 			{
-				MainManager.DeviceSetGuardUsers(device, guardUsers);
+				MainManager.DeviceSetGuardUsers(device, USBManager.IsUsbDevice(device), guardUsers);
 			}, "DeviceSetGuardUsers", device, false);
 		}
 

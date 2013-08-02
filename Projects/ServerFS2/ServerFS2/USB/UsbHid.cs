@@ -171,6 +171,7 @@ namespace ServerFS2
 						bytesToSend.Insert(0, 0);
 						Send(bytesToSend);
 					}
+					return Responses.FirstOrDefault();
 				}
 				else
 				{
