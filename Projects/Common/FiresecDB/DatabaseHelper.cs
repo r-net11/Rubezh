@@ -12,6 +12,8 @@ namespace FiresecDB
 	public static class DatabaseHelper
 	{
 		public static string ConnectionString { get; set; }
+		public static DateTime LastForbidEventsFromAuParametersTime = DateTime.Now;
+
 		public static List<JournalRecord> AddJournalRecords(List<JournalRecord> journalRecords)
 		{
 			var sortedJournalRecords = new List<JournalRecord>();
@@ -22,6 +24,8 @@ namespace FiresecDB
 					if (journalRecord.Description == "Потеря связи с пользователем." ||
 						journalRecord.Description == "Вход пользователя в систему" ||
 						journalRecord.Description == "Неизвестный запрос")
+						continue;
+					if ((DateTime.Now - LastForbidEventsFromAuParametersTime).Minutes < 1 && journalRecord.Description == "Получена команда управления устройством")
 						continue;
 					sortedJournalRecords.Add(journalRecord);
 				}

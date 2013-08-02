@@ -31,6 +31,10 @@ namespace FSAgentClient
 		{
 			return SafeOperationCall(() => { return FSAgentContract.GetMetadata(); }, "GetMetadata");
 		}
+		public void ForbidEventsFromAuParameters()
+		{
+			SafeOperationCall(() => { FSAgentContract.ForbidEventsFromAuParameters(); }, "ForbidEventsFromAuParameters");
+		}
 		#endregion
 
 		#region Monitor

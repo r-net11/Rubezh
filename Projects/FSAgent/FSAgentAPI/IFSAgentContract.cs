@@ -25,6 +25,9 @@ namespace FSAgentAPI
 
         [OperationContract]
         OperationResult<string> GetMetadata();
+
+		[OperationContract]
+		void ForbidEventsFromAuParameters();
         #endregion
 
         #region Monitor

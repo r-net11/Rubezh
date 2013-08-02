@@ -9,6 +9,7 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using System.Diagnostics;
+using FiresecDB;
 
 namespace FSAgentServer
 {
@@ -77,6 +78,10 @@ namespace FSAgentServer
 			{
 				return DirectClient.GetMetadata();
 			}));
+		}
+		public void ForbidEventsFromAuParameters()
+		{
+			DatabaseHelper.LastForbidEventsFromAuParametersTime = DateTime.Now;
 		}
 		#endregion
 
