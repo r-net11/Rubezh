@@ -102,34 +102,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		void AddDynamicBlock()
 		{
-			var count = 2;
-			switch (Device.Driver.DriverType)
-			{
-				case DriverType.Valve:
-					count = 17;
-					break;
-
-				case DriverType.MPT:
-					count = 5;
-					break;
-
-				case DriverType.PumpStation:
-					count = 0;
-					break;
-
-				case DriverType.MDU:
-					count = 14;
-					break;
-
-				case DriverType.MRO_2:
-					count = 3;
-					break;
-
-				case DriverType.Exit:
-					count = 1;
-					break;
-			}
-
+			var count = GetDynamicBlockCount();
 			for (int i = 0; i < count; i++)
 			{
 				BytesDatabase.AddByte(0, "Сырой параметр устройства " + (i + 1).ToString());
@@ -246,6 +219,49 @@ namespace ServerFS2.ConfigurationWriter
 					//    }
 					//}
 					break;
+				case DriverType.Valve:
+					AddValveConfig();
+					break;
+			}
+		}
+
+		void AddValveConfig()
+		{
+			var rmDevices = new HashSet<Device>();
+			foreach (var device in ConfigurationManager.Devices)
+			{
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					foreach (var clauseDevice in clause.Devices)
+					{
+						if (clauseDevice != null && clauseDevice == Device && clauseDevice.Driver.DriverType == DriverType.Valve)
+						{
+							rmDevices.Add(device);
+						}
+					}
+				}
+			}
+
+			BytesDatabase.AddByte(0, "Пустой байт");
+			BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+			{
+				var devicesOnShleif = rmDevices.Where(x => x.ShleifNo == i + 1);
+				BytesDatabase.AddByte(devicesOnShleif.Count(), "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+
+				if (devicesOnShleif.Count() == 0)
+				{
+					BytesDatabase.AddReferenceToTable((TableBase)null, "Пустой указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				}
+				else
+				{
+					foreach (var deviceOnShleif in devicesOnShleif)
+					{
+						TableBase table = null;
+						table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == deviceOnShleif.UID);
+						BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+					}
+				}
 			}
 		}
 
@@ -356,7 +372,7 @@ namespace ServerFS2.ConfigurationWriter
                     }
                 }
 
-				foreach (var clauseDevice in clause.Devices)
+				foreach (var clauseDevice in clause.Devices.OrderBy(x=>x.IntAddress))
 				{
 					var binaryPanel = clauseDevice.BinaryDevice.BinaryPanel;
 					foreach (var table in PanelDatabase.Tables)
@@ -365,6 +381,14 @@ namespace ServerFS2.ConfigurationWriter
 						{
 							var sensorDeviceTable = table as SensorDeviceTable;
 							if (sensorDeviceTable.Device.UID == clauseDevice.UID && sensorDeviceTable.ParentPanel.UID == binaryPanel.ParentPanel.UID)
+							{
+								actualDeviceTables.Add(table);
+							}
+						}
+						if (table is EffectorDeviceTable)
+						{
+							var effectorDeviceTable = table as EffectorDeviceTable;
+							if (effectorDeviceTable.Device.UID == clauseDevice.UID && effectorDeviceTable.ParentPanel.UID == binaryPanel.ParentPanel.UID)
 							{
 								actualDeviceTables.Add(table);
 							}
@@ -380,61 +404,7 @@ namespace ServerFS2.ConfigurationWriter
                 joinOperation += mroLogic;
                 BytesDatabase.AddByte(joinOperation, "Логика внутри группы зон");
 
-                var state = 0;
-                switch (clause.State)
-                {
-                    case ZoneLogicState.MPTAutomaticOn:
-                        state = 0x01;
-                        break;
-
-                    case ZoneLogicState.Alarm:
-                        state = 0x02;
-                        break;
-
-                    case ZoneLogicState.GuardSet:
-                        state = 0x03;
-                        break;
-
-                    case ZoneLogicState.GuardUnSet:
-                        state = 0x05;
-                        break;
-
-                    case ZoneLogicState.PCN:
-                        state = 0x06;
-                        break;
-
-                    case ZoneLogicState.Fire:
-                        state = 0x04;
-                        break;
-
-                    case ZoneLogicState.Failure:
-                        state = 0x08;
-                        break;
-
-                    case ZoneLogicState.PumpStationOn:
-                        state = 0x09;
-                        break;
-
-                    case ZoneLogicState.PumpStationAutomaticOff:
-                        state = 0x0A;
-                        break;
-
-                    case ZoneLogicState.Attention:
-                        state = 0x20;
-                        break;
-
-                    case ZoneLogicState.MPTOn:
-                        state = 0x40;
-                        break;
-
-                    case ZoneLogicState.Firefighting:
-                        state = 0x80;
-                        break;
-
-                    case ZoneLogicState.AM1TOn:
-                        state = 0x0B;
-                        break;
-                }
+                var state = ZoneLogicStateToInt(clause.State);
                 BytesDatabase.AddByte(state, "Состояние");
 
                 var joinOperator = 0;
@@ -467,25 +437,6 @@ namespace ServerFS2.ConfigurationWriter
                 }
             }
         }
-
-		int GetRmChildCount()
-		{
-			switch(Device.Parent.Driver.DriverType)
-			{
-				case DriverType.RM_2:
-					return 2;
-
-				case DriverType.RM_3:
-					return 3;
-
-				case DriverType.RM_4:
-					return 4;
-
-				case DriverType.RM_5:
-					return 5;
-			}
-			return 0;
-		}
 
 		void AddPumpStation()
 		{
@@ -529,5 +480,100 @@ namespace ServerFS2.ConfigurationWriter
 			catch { }
 			return propertyValue;
 		}
+
+		#region Helpers
+		int GetRmChildCount()
+		{
+			switch (Device.Parent.Driver.DriverType)
+			{
+				case DriverType.RM_2:
+					return 2;
+
+				case DriverType.RM_3:
+					return 3;
+
+				case DriverType.RM_4:
+					return 4;
+
+				case DriverType.RM_5:
+					return 5;
+			}
+			return 0;
+		}
+
+		int ZoneLogicStateToInt(ZoneLogicState zoneLogicState)
+		{
+			switch (zoneLogicState)
+			{
+				case ZoneLogicState.MPTAutomaticOn:
+					return 0x01;
+
+				case ZoneLogicState.Alarm:
+					return 0x02;
+
+				case ZoneLogicState.GuardSet:
+					return 0x03;
+
+				case ZoneLogicState.GuardUnSet:
+					return 0x05;
+
+				case ZoneLogicState.PCN:
+					return 0x06;
+
+				case ZoneLogicState.Fire:
+					return 0x04;
+
+				case ZoneLogicState.Failure:
+					return 0x08;
+
+				case ZoneLogicState.PumpStationOn:
+					return 0x09;
+
+				case ZoneLogicState.PumpStationAutomaticOff:
+					return 0x0A;
+
+				case ZoneLogicState.Attention:
+					return 0x20;
+
+				case ZoneLogicState.MPTOn:
+					return 0x40;
+
+				case ZoneLogicState.Firefighting:
+					return 0x80;
+
+				case ZoneLogicState.AM1TOn:
+					return 0x0B;
+
+				case ZoneLogicState.ShuzOn:
+					return 0x0D;
+			}
+			return 0;
+		}
+
+		int GetDynamicBlockCount()
+		{
+			switch (Device.Driver.DriverType)
+			{
+				case DriverType.Valve:
+					return 6;
+
+				case DriverType.MPT:
+					return 5;
+
+				case DriverType.PumpStation:
+					return 0;
+
+				case DriverType.MDU:
+					return 14;
+
+				case DriverType.MRO_2:
+					return 3;
+
+				case DriverType.Exit:
+					return 1;
+			}
+			return 2;
+		}
+		#endregion
 	}
 }

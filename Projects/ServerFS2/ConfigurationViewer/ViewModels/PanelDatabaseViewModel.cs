@@ -51,6 +51,11 @@ namespace ConfigurationViewer.ViewModels
 			}
 		}
 
+		public bool HasUnequalBytes
+		{
+			get { return (RomUnequalBytes.Count + FlashUnequalBytes.Count) > 0; }
+		}
+
 		void MergeRomDatabase()
 		{
 			foreach (var byteDescription in RomDatabase.BytesDatabase.ByteDescriptions)

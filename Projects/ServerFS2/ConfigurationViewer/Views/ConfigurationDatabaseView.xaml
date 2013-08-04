@@ -14,7 +14,17 @@
             <TabControl Name="tabControl" ItemsSource="{Binding PanelDatabases}" SelectedIndex="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding ParentPanel.PresentationAddressAndName}" />
+                        <TextBlock Text="{Binding ParentPanel.PresentationAddressAndName}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasUnequalBytes}" Value="True">
+                                            <Setter Property="Foreground" Value="DarkRed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>

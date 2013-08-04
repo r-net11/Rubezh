@@ -219,19 +219,21 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			if (rmDevices.Count > 0)
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
-				for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+				var devicesOnShleif = rmDevices.Where(x => x.ShleifNo == i + 1);
+				BytesDatabase.AddByte(devicesOnShleif.Count(), "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+				if (devicesOnShleif.Count() > 0)
 				{
-					var devicesOnShleif = rmDevices.Where(x => x.ShleifNo == i + 1);
-					BytesDatabase.AddByte(devicesOnShleif.Count(), "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-					TableBase table = null;
-					var firstDevice = devicesOnShleif.FirstOrDefault();
-					if (firstDevice != null)
+					foreach (var deviceOnShleif in devicesOnShleif)
 					{
-						table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == firstDevice.UID);
+						var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == deviceOnShleif.UID);
+						BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 					}
-					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				}
+				else
+				{
+					BytesDatabase.AddReferenceToTable((TableBase)null, "Нулевой указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 				}
 			}
 		}
@@ -261,6 +263,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddString(Device.Description, "Описание");
 		}
 
+		#region Helpers
 		int GetAMVitualType()
 		{
 			switch (Device.Driver.DriverType)
@@ -302,5 +305,6 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			return false;
 		}
+		#endregion
 	}
 }
