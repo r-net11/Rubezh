@@ -23,7 +23,7 @@ namespace ServerFS2
 				var bytes = new List<byte>() { 0x01, 0x01, 0x04 };
 				var bytesList = new List<List<byte>>();
 				bytesList.Add(bytes);
-				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1, "Запрос количества каналов МС");
 				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
 				if (responce.Bytes[5] == 0x41)
 					USBDriverType = DriverType.MS_2;
@@ -41,7 +41,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x02, 0x01, 0x03 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1, "Запрос типа устройства");
 			if (responce != null)
 			{
 				if (responce.Bytes.Count > 2)
@@ -80,7 +80,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x02, 0x34, 0x01 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(-1, bytesList, 1000, 1000, true, 1, "Установка идентификатора пакета");
 			return responce != null;
 		}
 		//bool HasResponceWithoutID()
@@ -97,7 +97,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x01, 0x34 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1, "Запрос наличия идентификатора пакета");
 			return responce != null;
 		}
 
@@ -106,7 +106,7 @@ namespace ServerFS2
 			var bytes = new List<byte>() { 0x01, 0x01, 0x32 };
 			var bytesList = new List<List<byte>>();
 			bytesList.Add(bytes);
-			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1);
+			var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1, "Запрос серийного номера");
 			if (responce != null)
 			{
 				responce.Bytes.RemoveRange(0, 6);
@@ -141,7 +141,7 @@ namespace ServerFS2
 
 				var allBytes = new List<byte>() { 0x01, 0x02, (byte)(chanel.IntAddress + 2), chanelAddressByte, baudRateByte };
 				allBytes.AddRange(bytes);
-				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, new List<List<byte>>() { allBytes }, 1000, 1000, true, 1);
+				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, new List<List<byte>>() { allBytes }, 1000, 1000, true, 1, "Запись конфигурации МС");
 				//USBManager.Send(chanel.Parent, 0x02, chanel.IntAddress + 2, chanelAddress, baudRate, bytes);
 			}
 		}

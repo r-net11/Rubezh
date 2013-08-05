@@ -14,24 +14,24 @@ namespace ServerFS2.Operations
 
 			if (driverType == DriverType.MS_1 || driverType == DriverType.MS_2)
 			{
-				var driverTypeBytes = USBManager.Send(device, 0x01, 0x04).MsFlag;
+				var driverTypeBytes = USBManager.Send(device, "Запрос типа устройства", 0x01, 0x04).MsFlag;
 				result += "Тип устройства: " + (driverTypeBytes == 0x41 ? FiresecAPI.Models.DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.MS_2).Name : FiresecAPI.Models.DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.MS_1).Name) + "\n";
 
-				var serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				var serialNoBytes = USBManager.Send(device, "Запрос серийного номера", 0x01, 0x32).Bytes;
 				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
 				result += "Заводской номер: " + serialNo + "\n";
 			}
 
 			else if (driverType == DriverType.IndicationBlock || driverType == DriverType.PDU || driverType == DriverType.PDU_PT)
 			{
-				var driverTypeBytes = USBManager.Send(device, 0x01, 0x03).Bytes;
+				var driverTypeBytes = USBManager.Send(device, "Запрос типа устройства", 0x01, 0x03).Bytes;
 				result += "Тип устройства: " + DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverCode == driverTypeBytes[0]).Name + "\n";
 
-				var serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
+				var serialNoBytes = USBManager.Send(device, "Запрос серийного номера", 0x01, 0x32).Bytes;
 				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
 				result += "Заводской номер: " + serialNo + "\n";
 
-				var addressBytes = USBManager.Send(device, 0x01, 0x31).Bytes;
+				var addressBytes = USBManager.Send(device, "Запрос адресного листа", 0x01, 0x31).Bytes;
 				result += "Адрес: " + addressBytes[2] + "\n";
 				result += "Скорость: ";
 				switch (addressBytes[1])
@@ -46,10 +46,10 @@ namespace ServerFS2.Operations
 			}
 			else
 			{
-				var driverTypeBytes = USBManager.Send(device, 0x01, 0x03).Bytes;
+				var driverTypeBytes = USBManager.Send(device, "Запрос типа устройства", 0x01, 0x03).Bytes;
 				result += "Тип устройства: " + DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverCode == driverTypeBytes[0]).Name + "\n";
 
-				var serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
+				var serialNoBytes = USBManager.Send(device, "Запрос серийного номера", 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
 				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
 				result += "Заводской номер: " + serialNo + "\n";
 
@@ -59,7 +59,7 @@ namespace ServerFS2.Operations
 
 				result += "Версия базы: " + bdVersion + "\n";
 			}
-			var softVersionBytes = USBManager.Send(device, 0x01, 0x12).Bytes;
+			var softVersionBytes = USBManager.Send(device, "Запрос версии ПО", 0x01, 0x12).Bytes;
 			string softVersion = softVersionBytes[0].ToString("X") + "." + softVersionBytes[1].ToString("X");
 			result += "Версия микропрограммы: " + softVersion;
 

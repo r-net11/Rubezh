@@ -132,7 +132,7 @@ namespace ServerFS2.Processor
 		public static void ExecuteCommand(Device device, string commandName, string userName)
 		{
 			CustomMessageJournalHelper.Add("Команда оператора. Управление устройством", userName, device.ParentPanel, device);
-			var commandExecutor = new CommandExecutor(device, commandName);
+			MonitoringManager.AddCommand(device, commandName);
 		}
 
 		#endregion

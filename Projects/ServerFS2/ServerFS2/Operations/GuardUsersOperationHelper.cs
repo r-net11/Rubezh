@@ -14,7 +14,7 @@ namespace ServerFS2.Operations
 
 			for (var i = 0x14000; i < 0x14E00; i += 0x100)
 			{
-				var response = USBManager.Send(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), Math.Min(0xFF, 0x14E00 - i));
+				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), Math.Min(0xFF, 0x14E00 - i));
 			    if (response.HasError)
 			        return null;
 			    result.AddRange(response.Bytes);
@@ -67,7 +67,7 @@ namespace ServerFS2.Operations
 			var begin = 0x14000;
 			for (int i = 0; i < bytes.Count; i = i + 0x100)
 			{
-				USBManager.Send(device, 0x02, 0x52, BitConverter.GetBytes(begin + i).Reverse(), Math.Min(bytes.Count - i - 1, 0xFF), bytes.GetRange(i, Math.Min(bytes.Count - i, 0x100)));
+				USBManager.Send(device, "Запись охранных пользователей", 0x02, 0x52, BitConverter.GetBytes(begin + i).Reverse(), Math.Min(bytes.Count - i - 1, 0xFF), bytes.GetRange(i, Math.Min(bytes.Count - i, 0x100)));
 			}
 		}
 

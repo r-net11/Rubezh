@@ -150,6 +150,7 @@ namespace ServerFS2.Monitoring
 					Logger.Error(e, "MonitoringProcessor.LoopMonitoring");
 				}
 			}
+			;
 		}
 
 		void UsbRunner_NewResponse(Device usbDevice, Response response)
@@ -210,7 +211,7 @@ namespace ServerFS2.Monitoring
 				//        return;
 				//}
 
-				var response = USBManager.Send(USBDevice, 0x01, 0x12);
+				var response = USBManager.Send(USBDevice, "Пинг", 0x01, 0x12);
 				if (response.HasError)
 				{
 					if (USBDevice.DeviceState.IsUsbConnectionLost == false)

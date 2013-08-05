@@ -25,10 +25,13 @@ namespace MonitorTestClientFS2.ViewModels
 		void ZoneState_StateChanged()
 		{
 			StateType = Zone.ZoneState.StateType;
+			ZoneState = Zone.ZoneState;
 			OnPropertyChanged("StateType");
+			OnPropertyChanged("ZoneState");
 		}
 
 		public StateType StateType { get; private set; }
+		public ZoneState ZoneState { get; private set; }
 
 		public RelayCommand SetGuardCommand { get; private set; }
 		void OnSetGuard()

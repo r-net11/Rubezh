@@ -56,10 +56,6 @@ namespace ServerFS2.Monitoring
 				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
 			}
 
-            if (device.Driver.DriverType == DriverType.Exit && device.IntAddress == 3)
-            {
-                ;
-            }
 			ParseDeviceState(device);
 			UpdateDeviceStateDetalisation(device);
 
@@ -75,7 +71,7 @@ namespace ServerFS2.Monitoring
 		{
 			HasChanges = false;
 
-			var responce = USBManager.Send(panel, 0x01, 0x13);
+			var responce = USBManager.Send(panel, "Запрос количества лишних устройств", 0x01, 0x13);
 			if (responce.HasError)
 			{
 				Logger.Error(responce.Error);
@@ -121,7 +117,7 @@ namespace ServerFS2.Monitoring
 
 		void UpdateSmokiness(Device device)
 		{
-			var smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+			var smokiness = USBManager.Send(device.Parent, "Запрос значения задымленности", 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 			if (device.DeviceState.Smokiness != smokiness)
 			{
 				device.DeviceState.Smokiness = smokiness;

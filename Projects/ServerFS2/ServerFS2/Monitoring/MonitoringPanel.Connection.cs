@@ -117,7 +117,7 @@ namespace ServerFS2.Monitoring
 
 		string GetSerialNo()
 		{
-			var response = USBManager.Send(PanelDevice, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
+			var response = USBManager.Send(PanelDevice, "Запрос серийного номера прибора", 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
 			if (!response.HasError)
 			{
 				var result = new string(Encoding.Default.GetChars(response.Bytes.ToArray()));

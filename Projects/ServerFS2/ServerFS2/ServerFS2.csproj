@@ -191,7 +191,7 @@
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="USB\USBDetectorHelper.cs" />
     <Compile Include="USB\USBManager.cs" />
-    <Compile Include="USB\UsbHidBase.cs" />
+    <Compile Include="USB\UsbHid.Comon.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
     <Compile Include="USB\Response.cs" />

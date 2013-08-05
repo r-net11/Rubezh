@@ -116,10 +116,6 @@ namespace ServerFS2.Monitoring
 
 		void ParseStateWordBytes(Device device, List<byte> stateWordBytes)
 		{
-            if (device.Driver.DriverType == DriverType.Exit)
-            {
-                ;
-            }
             if (stateWordBytes == null || stateWordBytes.Count <= 0)
 				return;
 			BitArray stateWordBitArray = new BitArray(stateWordBytes.ToArray());
@@ -226,11 +222,10 @@ namespace ServerFS2.Monitoring
 										}
 									}
 								}
-
-								ParceDeviceOrZoneLeave(journalItem, journalItem.Device);
 							}
 						}
 					}
+					ParceDeviceOrZoneLeave(journalItem, journalItem.Device);
 					UpdateDeviceStateAndParameters(journalItem.Device);
 				}
 				if (journalItem.Zone != null)
@@ -238,7 +233,6 @@ namespace ServerFS2.Monitoring
 					foreach (var device in journalItem.Zone.DevicesInZone)
 					{
 						ParceDeviceOrZoneLeave(journalItem, device);
-						UpdateDeviceStateAndParameters(device);
 					}
 				}
 			}

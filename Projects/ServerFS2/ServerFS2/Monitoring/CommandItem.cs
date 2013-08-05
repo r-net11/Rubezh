@@ -17,7 +17,6 @@ namespace ServerFS2.Monitoring
 		public void Send()
 		{
 			ServerHelper.ExecuteCommand(Device, CommandName);
-			Thread.Sleep(1000);
 		}
 	}
 }

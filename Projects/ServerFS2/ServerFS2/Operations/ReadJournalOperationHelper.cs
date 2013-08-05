@@ -32,13 +32,13 @@ namespace ServerFS2
 			var result = new List<FS2JournalItem>();
 
 			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи", 50, currentStage, stageCount));
-			var response = USBManager.Send(device, 0x01, 0x21, journalType);
+			var response = USBManager.Send(device, "Чтение индекса последней записи", 0x01, 0x21, journalType);
 			if (response.HasError)
 				return null;
 			int lastIndex = BytesHelper.ExtractInt(response.Bytes, 0);
 
 			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса первой записи", 50, currentStage, stageCount));
-			response = USBManager.Send(device, 0x01, 0x24, journalType);
+			response = USBManager.Send(device, "Чтение индекса первой записи", 0x01, 0x24, journalType);
 			if (response.HasError)
 				return null;
 			var count = BytesHelper.ExtractShort(response.Bytes, 0);
@@ -49,7 +49,7 @@ namespace ServerFS2
 			{
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение записей журнала " + (i - firstIndex).ToString() + " из " + (lastIndex - firstIndex + 1).ToString(),
 					(i - firstIndex) * 100 / (lastIndex - firstIndex), currentStage, stageCount));
-				response = USBManager.Send(device, 0x01, 0x20, journalType, BitConverter.GetBytes(i).Reverse());
+				response = USBManager.Send(device, "Чтение конкретной записи журнала", 0x01, 0x20, journalType, BitConverter.GetBytes(i).Reverse());
 				if (!response.HasError)
 				{
 					try
