@@ -20,7 +20,7 @@ namespace XFiresecAPI
 		}
 
 		public event Action StateChanged;
-		protected void OnStateChanged()
+		public void OnStateChanged()
 		{
 			SafeCall(() =>
 			{
