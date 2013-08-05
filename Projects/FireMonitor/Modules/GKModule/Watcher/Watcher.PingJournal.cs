@@ -60,6 +60,25 @@ namespace GKModule
 			{
 				var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
 				var journalItem = internalJournalItem.ToJournalItem();
+				if (internalJournalItem != null && internalJournalItem.Device != null)
+				{
+					GetState(internalJournalItem.Device);
+					if (internalJournalItem.Device.Driver.DriverType == XDriverType.RSR2_Bush)
+					{
+						internalJournalItem.Device.DeviceState.AdditionalStates = new List<string>();
+						switch(journalItem.Description)
+						{
+							case "Давление низкое     ":
+								internalJournalItem.Device.DeviceState.AdditionalStates.Add("Давление низкое");
+								break;
+
+							case "Давление норма      ":
+								internalJournalItem.Device.DeviceState.AdditionalStates.Add("Давление норма");
+								break;
+						}
+						internalJournalItem.Device.DeviceState.OnStateChanged();
+					}
+				}
 				return journalItem;
 			}
 			return null;

@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.XModels;
 using FiresecClient;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace Common.GK
 {
