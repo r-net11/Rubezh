@@ -50,7 +50,7 @@ namespace ServerFS2.Journal
 			lock (Locker)
 			{
 				CallbackManager.NewJournalItems(new List<FS2JournalItem>() { fsJournalItem });
-				DatabaseHelper.AddJournalItem(fsJournalItem);
+				ServerFS2Database.AddJournalItem(fsJournalItem);
 			}
 		}
 	}

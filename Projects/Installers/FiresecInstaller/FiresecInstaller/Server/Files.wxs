@@ -36,6 +36,7 @@
         <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.FS2Database.dll" Name="FS2Database.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
       <Component Id="Server.SKUD_MODULE" Guid="C9D9C6A5-6D49-4E76-919E-F4831BEEE135">

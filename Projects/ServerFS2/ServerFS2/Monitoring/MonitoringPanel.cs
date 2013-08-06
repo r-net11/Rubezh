@@ -302,7 +302,7 @@ namespace ServerFS2.Monitoring
 		void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
 			CallbackManager.NewJournalItems(new List<FS2JournalItem>() { fsJournalItem });
-			DatabaseHelper.AddJournalItem(fsJournalItem);
+			ServerFS2Database.AddJournalItem(fsJournalItem);
 		}
 	}
 }

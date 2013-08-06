@@ -96,8 +96,7 @@ namespace DevicesModule.ViewModels
 		{
 			try
 			{
-				FiresecManager.ExecuteCommand(Device, GetCommandName());
-				var result = FiresecManager.FiresecDriver.ExecuteCommand(Device, "ClearAllQueries");
+				FiresecManager.ExecuteCommand(Device, SelectedBlock.SelectedCommand.Name);
 			}
 			catch (Exception e)
 			{
@@ -112,37 +111,6 @@ namespace DevicesModule.ViewModels
 				Logger.Error(e, "DeviceControlViewModel.DoConfirm.BeginInvoke");
 			}
 		}
-
-		#region Valve
-		string GetCommandName()
-		{
-			var commandName = SelectedBlock.SelectedCommand.Name;
-			//if (Device.Driver.DriverType == DriverType.Valve)
-			//{
-			//    switch (commandName)
-			//    {
-			//        case "BoltStart":
-			//            commandName = HasActionProprty() ? "BoltOpen" : "BoltClose";
-			//            break;
-
-			//        case "BoltStop":
-			//            commandName = HasActionProprty() ? "BoltClose" : "BoltOpen";
-			//            break;
-			//    }
-			//}
-			return commandName;
-		}
-
-		bool HasActionProprty()
-		{
-			var actionProperty = Device.Properties.FirstOrDefault(x => x.Name == "Action");
-			if (actionProperty != null)
-			{
-				return actionProperty.Value == "1";
-			}
-			return false;
-		}
-		#endregion
 
 		#region Timer
 		bool _isTimerEnabled;

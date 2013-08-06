@@ -12,6 +12,7 @@ using FS2Api;
 using ServerFS2.Journal;
 using ServerFS2.Processor;
 using System.ServiceModel.Channels;
+using System.Net;
 
 namespace ServerFS2.Service
 {
@@ -454,12 +455,12 @@ namespace ServerFS2.Service
 			}, "GetArchiveStartDate");
 		}
 
-		public OperationResult AddJournalRecords(List<FS2JournalItem> journalItems)
+		public OperationResult AddJournalItems(List<FS2JournalItem> journalItems)
 		{
 			return SafeCall(() =>
 			{
-				//return ServerJournalHelper.AddJournalRecords(journalItems);
-			}, "AddJournalRecords");
+				ServerJournalHelper.AddJournalItems(journalItems);
+			}, "AddJournalItems");
 		}
 		#endregion
 
@@ -675,16 +676,22 @@ namespace ServerFS2.Service
 		{
 			try
 			{
-				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+				string userIp = "127.0.0.1";
+				try
 				{
-					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-					var clientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
-					if (endpoint.Address == "127.0.0.1" || endpoint.Address == "localhost")
+					if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
 					{
-						clientIpAddressAndPort = "localhost";
+						var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+						userIp = endpoint.Address;
 					}
-					return userName + "(" + clientIpAddressAndPort + ")";
 				}
+				catch { }
+
+				var addressList = Dns.GetHostEntry("localhost").AddressList;
+				if (addressList.Any(ip => ip.ToString() == userIp))
+					userIp = "localhost";
+
+				return userName + " (" + userIp + ")";
 			}
 			catch (Exception e)
 			{

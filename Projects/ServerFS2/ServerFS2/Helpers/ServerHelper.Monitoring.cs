@@ -104,12 +104,22 @@ namespace ServerFS2
 
 		public static void ExecuteCommand(Device device, string commandName)
 		{
-			var tableNo = MetadataHelper.GetDeviceTableNo(device);
-			if (tableNo != null)
+			try
 			{
-				var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
-				var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
-				USBManager.SendShortAttempt(device.Parent, "Выполнение команды", 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, 0x00, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.ShleifNo - 1);
+				var tableNo = MetadataHelper.GetDeviceTableNo(device);
+				if (tableNo != null)
+				{
+					var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
+					var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
+					if (devicePropInfo != null)
+					{
+						USBManager.SendShortAttempt(device.Parent, "Выполнение команды", 0x02, 0x53, Convert.ToByte(devicePropInfo.command1.Substring(1, 2), 16), deviceId, device.AddressOnShleif, 0x00, Convert.ToByte(devicePropInfo.shiftInMemory.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.maskCmdDev.Substring(1, 2), 16), Convert.ToByte(devicePropInfo.commandDev.Substring(1, 2), 16), device.ShleifNo - 1);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error("ServerHelper.ExecuteCommand");
 			}
 		}
 	}

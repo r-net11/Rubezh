@@ -142,7 +142,7 @@ namespace FS2Api
 		OperationResult<DateTime> GetArchiveStartDate();
 
 		[OperationContract()]
-		OperationResult AddJournalRecords(List<FS2JournalItem> journalItems);
+		OperationResult AddJournalItems(List<FS2JournalItem> journalItems);
 		#endregion
 	}
 }

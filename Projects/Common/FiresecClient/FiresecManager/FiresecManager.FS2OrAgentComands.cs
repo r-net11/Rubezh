@@ -77,11 +77,14 @@ namespace FiresecClient
 		{
 			if (IsFS2Enabled)
 			{
+				if (methodName.StartsWith("Control$"))
+					methodName = methodName.Replace("Control$", "");
 				FS2ClientContract.ExecuteCommand(device.UID, methodName, FiresecManager.CurrentUser.Name);
 			}
 			else
 			{
 				FiresecDriver.ExecuteCommand(device, methodName);
+				FiresecDriver.ExecuteCommand(device, "ClearAllQueries");
 			}
 		}
 

@@ -41,13 +41,9 @@ namespace JournalModule.ViewModels
 			Detalization = GetDetalization(journalRecord.Detalization);
 
 			if (journalRecord.DeviceDatabaseUID != Guid.Empty)
-			{
 				Device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
-			}
 			else
-			{
 				Device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalRecord.PanelDatabaseUID);
-			}
 
 			Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalRecord.ZoneName);
 		}
@@ -101,12 +97,6 @@ namespace JournalModule.ViewModels
 				var result = textrange.Text;
 
 				result = result.Replace("- ", "\r\n");
-
-				//result = result.Replace("</li><li>", "\r\n");
-				//result = result.Replace("<li>", "");
-				//result = result.Replace("</li>", "");
-				//if (result == "я")
-				//    result = "";
 				return result;
 			}
 			catch (Exception e)
