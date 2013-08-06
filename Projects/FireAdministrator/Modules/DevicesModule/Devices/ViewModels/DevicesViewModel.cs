@@ -437,7 +437,7 @@ namespace DevicesModule.ViewModels
 						new RibbonMenuItemViewModel("Задать пароль", DeviceCommandsViewModel.SetPasswordCommand, true, "/Controls;component/Images/BPassword.png"),
 						new RibbonMenuItemViewModel("Другие функции", DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, true, "/Controls;component/Images/BInformation.png"),
 					}, "/Controls;component/Images/BUsb.png") { IsNewGroup = true },
-					new RibbonMenuItemViewModel("Считать журнал событий из файла", DeviceCommandsViewModel.ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
+					new RibbonMenuItemViewModel("Считать журнал событий из файла", FS2DeviceCommandsViewModel.ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};
 		}

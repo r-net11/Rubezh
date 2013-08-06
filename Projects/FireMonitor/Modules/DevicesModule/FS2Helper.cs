@@ -108,7 +108,14 @@ namespace DevicesModule
 					{
 						DeviceTime = journalRecord.DeviceTime,
 						SystemTime = journalRecord.SystemTime,
-						Description = journalRecord.Description
+						Description = journalRecord.Description,
+						Detalization = journalRecord.Detalization,
+						DeviceCategory = journalRecord.DeviceCategory,
+						StateType = journalRecord.StateType,
+						DeviceUID = journalRecord.DeviceDatabaseUID,
+						PanelUID = journalRecord.PanelDatabaseUID,
+						ZoneName = journalRecord.ZoneName,
+						UserName = journalRecord.User
 					};
 					journalItems.Add(journalItem);
 					ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);
