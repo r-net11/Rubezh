@@ -23,58 +23,69 @@ namespace ServerFS2
 		public static void ResetOnePanelStates(Device panelDevice, IEnumerable<string> stateIds)
 		{
 			var hasBytesToReset = false;
-			var statusBytes = GetDeviceStatus(panelDevice);
-			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
-			var bitArray = new BitArray(statusBytesArray);
-			foreach (var stateId in stateIds)
+			var statusBytes = GetPanelStatus(panelDevice);
+			if (statusBytes != null)
 			{
-				var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
-				if (metadataPanelState != null)
+				var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+				var bitArray = new BitArray(statusBytesArray);
+				foreach (var stateId in stateIds)
 				{
-					if (metadataPanelState.ID == "Warning")
+					var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
+					if (metadataPanelState != null)
 					{
-						ResetFire(panelDevice);
-					}
-					else
-					{
-						if (metadataPanelState.@class == "0")
+						if (metadataPanelState.ID == "Warning")
 						{
-							if (metadataPanelState.ID == "Alarm")
-							{
-								ResetAlarm(panelDevice);
-							}
-							else
-							{
-								ResetFire(panelDevice);
-							}
+							ResetFire(panelDevice);
 						}
 						else
 						{
-							var bitNo = Int16.Parse(metadataPanelState.no);
-							if (bitArray[bitNo] == true)
+							if (metadataPanelState.@class == "0")
 							{
-								bitArray[bitNo] = false;
-								hasBytesToReset = true;
+								if (metadataPanelState.ID == "Alarm")
+								{
+									ResetAlarm(panelDevice);
+								}
+								else
+								{
+									ResetFire(panelDevice);
+								}
+							}
+							else
+							{
+								var bitNo = Int16.Parse(metadataPanelState.no);
+								if (bitArray[bitNo] == true)
+								{
+									bitArray[bitNo] = false;
+									hasBytesToReset = true;
+								}
 							}
 						}
 					}
 				}
-			}
 
-			var newStatusBytes = BytesHelper.BytesFromBitArray(bitArray);
-			if (hasBytesToReset)
-			{
-				USBManager.Send(panelDevice, "Установка байт статуса прибора", 0x02, 0x10, newStatusBytes);
+				var newStatusBytes = BytesHelper.BytesFromBitArray(bitArray);
+				if (hasBytesToReset)
+				{
+					USBManager.Send(panelDevice, "Установка байт статуса прибора", 0x02, 0x10, newStatusBytes);
+				}
 			}
 		}
 
-		public static List<byte> GetDeviceStatus(Device device)
+		public static List<byte> GetPanelStatus(Device device, bool includHighBytes = true)
 		{
 			var result = new List<byte>();
 			var response1 = USBManager.Send(device, "Запрос старших 4 байт статуса прибора", 0x01, 0x10);
-			var response2 = USBManager.Send(device, "Запрос младших 4 байт статуса прибора", 0x01, 0x0F);
+			if (response1.HasError)
+				return null;
 			result.AddRange(response1.Bytes);
-			result.AddRange(response2.Bytes);
+			
+			if (includHighBytes)
+			{
+				var response2 = USBManager.Send(device, "Запрос младших 4 байт статуса прибора", 0x01, 0x0F);
+				if (response2.HasError)
+					return null;
+				result.AddRange(response2.Bytes);
+			}
 			return result;
 		}
 

@@ -46,8 +46,8 @@
                 <StackPanel Grid.Row="1">
                     <StackPanel Orientation="Horizontal">
                         <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="100" Margin="2" />
-                        <Button Content="Выключить" Command="{Binding AddToIgnoreListCommand}" DataContext="{Binding SelectedDevice}" Width="100" Margin="2" />
-                        <Button Content="Включить" Command="{Binding RemoveFromIgnoreListCommand}" DataContext="{Binding SelectedDevice}" Width="100" Margin="2" />
+                        <Button Content="Отключить" Command="{Binding AddToIgnoreListCommand}" DataContext="{Binding SelectedDevice}" Width="150" Margin="2" />
+                        <Button Content="Снять отключение" Command="{Binding RemoveFromIgnoreListCommand}" DataContext="{Binding SelectedDevice}" Width="150" Margin="2" />
                     </StackPanel>
                     <ItemsControl ItemsSource="{Binding DeviceCommands}" DataContext="{Binding SelectedDevice}">
                         <ItemsControl.ItemTemplate>

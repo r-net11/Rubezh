@@ -258,7 +258,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand GetDeviceStatusCommand { get; private set; }
 		void OnGetDeviceStatus()
 		{
-			Status = ServerHelper.GetDeviceStatus(DevicesViewModel.SelectedDevice.Device);
+			Status = ServerHelper.GetPanelStatus(DevicesViewModel.SelectedDevice.Device);
 		}
 		bool CanGetResetDeviceStatus()
 		{

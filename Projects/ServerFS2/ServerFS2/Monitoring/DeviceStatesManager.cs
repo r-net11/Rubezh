@@ -19,25 +19,26 @@ namespace ServerFS2.Monitoring
 		public void UpdatePanelState(Device panel)
 		{
 			var states = new List<DeviceDriverState>();
-			var statusBytes = ServerHelper.GetDeviceStatus(panel);
-			if (statusBytes.Count < 8)
-				return;
-			var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
-			var bitArray = new BitArray(statusBytesArray);
-			for (int i = 0; i < bitArray.Count; i++)
+			var statusBytes = ServerHelper.GetPanelStatus(panel);
+			if (statusBytes != null && statusBytes.Count == 8)
 			{
-				if (bitArray[i])
+				var statusBytesArray = new byte[] { statusBytes[3], statusBytes[2], statusBytes[1], statusBytes[0], statusBytes[7], statusBytes[6], statusBytes[5], statusBytes[4] };
+				var bitArray = new BitArray(statusBytesArray);
+				for (int i = 0; i < bitArray.Count; i++)
 				{
-					var metadataDeviceState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.no == i.ToString());
-					var state = panel.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
-					states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
+					if (bitArray[i])
+					{
+						var metadataDeviceState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.no == i.ToString());
+						var state = panel.Driver.States.FirstOrDefault(x => x.Code == metadataDeviceState.ID);
+						states.Add(new DeviceDriverState { DriverState = state, Time = DateTime.Now });
+					}
 				}
+				if (SetNewDeviceStates(panel, states))
+				{
+					ForseUpdateDeviceStates(panel);
+				}
+				UpdateRealChildrenStateOnPanelState(panel, bitArray);
 			}
-			if (SetNewDeviceStates(panel, states))
-			{
-				ForseUpdateDeviceStates(panel);
-			}
-			UpdateRealChildrenStateOnPanelState(panel, bitArray);
 		}
 
 		void UpdateRealChildrenStateOnPanelState(Device panelDevice, BitArray bitArray)
