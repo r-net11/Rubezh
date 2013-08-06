@@ -1,13 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using ServerFS2.Service;
-using System.Diagnostics;
 using Common;
-using System.Collections;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace ServerFS2.Monitoring
 {

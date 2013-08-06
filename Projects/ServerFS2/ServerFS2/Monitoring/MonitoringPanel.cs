@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2.Journal;
-using ServerFS2.Service;
-using System.Diagnostics;
-using ServerFS2.Operations;
 using ServerFS2.Helpers;
+using ServerFS2.Journal;
+using ServerFS2.Operations;
+using ServerFS2.Service;
 
 namespace ServerFS2.Monitoring
 {

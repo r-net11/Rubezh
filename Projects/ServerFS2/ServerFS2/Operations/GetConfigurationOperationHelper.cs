@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
-using System.Diagnostics;
-using ServerFS2.Service;
 
 namespace ServerFS2
 {

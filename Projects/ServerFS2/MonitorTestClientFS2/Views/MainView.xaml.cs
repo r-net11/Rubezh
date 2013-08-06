@@ -1,8 +1,4 @@
 ﻿using System.Windows;
-using System;
-using System.Windows.Interop;
-using ServerFS2;
-using System.Windows.Forms;
 
 namespace MonitorClientFS2
 {

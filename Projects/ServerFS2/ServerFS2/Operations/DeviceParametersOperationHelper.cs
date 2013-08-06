@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using FS2Api;
 using ServerFS2.Helpers;
 using ServerFS2.Service;
-using FS2Api;
 
 namespace ServerFS2
 {

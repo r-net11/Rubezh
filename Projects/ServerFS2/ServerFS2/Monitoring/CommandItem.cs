@@ -1,5 +1,4 @@
 ﻿using FiresecAPI.Models;
-using System.Threading;
 
 namespace ServerFS2.Monitoring
 {

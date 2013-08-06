@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using FiresecAPI.Models;
-using FS2Api;
 using Common;
-using System.Windows.Forms;
-using System.Collections;
+using FiresecAPI.Models;
 
 namespace ServerFS2.Monitoring
 {

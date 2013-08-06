@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using FiresecAPI;
 using UsbLibrary;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Windows.Interop;
 
 namespace ServerFS2
 {

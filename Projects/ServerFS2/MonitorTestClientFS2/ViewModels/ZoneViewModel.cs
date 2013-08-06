@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using FiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.Monitoring;
 
 namespace MonitorTestClientFS2.ViewModels

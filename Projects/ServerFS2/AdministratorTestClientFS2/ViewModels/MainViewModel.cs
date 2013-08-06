@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 using FiresecAPI.Models;
+using FS2Api;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
-using ServerFS2.ConfigurationWriter;
 using ServerFS2.Processor;
-using System.Diagnostics;
-using Microsoft.Win32;
 using ServerFS2.Service;
-using FS2Api;
-using System;
-using System.Windows;
-using System.Windows.Threading;
-using System.Threading;
-using System.IO;
 
 namespace AdministratorTestClientFS2.ViewModels
 {

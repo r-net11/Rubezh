@@ -6,9 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2.Monitoring;
 using Rubezh2010;
-using System.Diagnostics;
 
 namespace ServerFS2
 {

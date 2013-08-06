@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common.Windows.ViewModels;
 using Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows.Views
 {

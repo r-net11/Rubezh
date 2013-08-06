@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
@@ -11,8 +12,6 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Journal;
 using ServerFS2.Processor;
-using System.ServiceModel.Channels;
-using System.Net;
 
 namespace ServerFS2.Service
 {
