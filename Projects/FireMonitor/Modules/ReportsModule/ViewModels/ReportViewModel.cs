@@ -9,6 +9,7 @@ using CodeReason.Reports;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace ReportsModule.ViewModels
 {
@@ -38,12 +39,13 @@ namespace ReportsModule.ViewModels
 
 		public DocumentPaginator GenerateReport()
 		{
-			DateTime dt = DateTime.Now;
-			ReportDocument reportDocument = new ReportDocument();
-			reportDocument.XamlData = GetXaml();
-			DocumentPaginator documentPaginator = GetPaginator(reportDocument);
-			Debug.WriteLine("Build report: {0}", DateTime.Now - dt);
-			return documentPaginator;
+			using (new TimeCounter("Build report: {0}"))
+			{
+				ReportDocument reportDocument = new ReportDocument();
+				reportDocument.XamlData = GetXaml();
+				DocumentPaginator documentPaginator = GetPaginator(reportDocument);
+				return documentPaginator;
+			}
 		}
 
 		public void Filter(RelayCommand refreshCommand)

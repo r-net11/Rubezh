@@ -119,6 +119,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			if (Closed != null)
 				Closed(this, EventArgs.Empty);
 			OnClosed();
+			if (Surface.Owner != null)
+				Surface.Owner.Activate();
 		}
 
 		public virtual void Loaded()

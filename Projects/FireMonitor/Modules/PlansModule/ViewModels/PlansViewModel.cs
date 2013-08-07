@@ -122,7 +122,7 @@ namespace PlansModule.ViewModels
 		}
 		void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
-			Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
+			//Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 			OnSelectPlan(args.PlanUID);
 			OnShowElement(args.ElementUID);

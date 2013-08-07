@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="FireMonitor.Views.TimePresenterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Focusable="False">
     <TextBlock Name="_textBlock" FontFamily="Arial" Foreground="White" FontSize="23" />
 </UserControl>

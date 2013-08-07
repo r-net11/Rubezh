@@ -15,7 +15,7 @@
 						<ScaleTransform x:Name="scaleTransform" />
 					</TransformGroup>
 				</Grid.LayoutTransform>
-				<ContentControl Name="_contentControl" Content="{Binding Canvas}" />
+				<ContentPresenter Name="_contentControl" Content="{Binding Canvas}" />
 			</Grid>
 		</ScrollViewer>
 

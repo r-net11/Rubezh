@@ -277,7 +277,6 @@ namespace PlansModule.ViewModels
 
 		public override void OnShow()
 		{
-			Debug.WriteLine("===========================================");
 			using (new WaitWrapper())
 			using (new TimeCounter("PlansViewModel.OnShow: {0}"))
 			{
@@ -290,7 +289,6 @@ namespace PlansModule.ViewModels
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;
 			}
-			Debug.WriteLine("===========================================");
 			if (SelectedPlan == null)
 				SelectedPlan = Plans.FirstOrDefault();
 		}

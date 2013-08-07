@@ -1,67 +1,63 @@
 ﻿<UserControl x:Class="FireMonitor.Views.AutoActivationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel Orientation="Horizontal" Visibility="{Binding HasPermission, Converter={StaticResource BoolToVisibilityConverter}}">
-        <Button Command="{Binding ChangeAutoActivationCommand}" Style="{StaticResource ToolBarButtonStyle}">
-            <ContentControl>
-                <ContentControl.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsAutoActivation}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="ContentControl.Content">
-                                        <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Button.ToolTip" Value="Автоматическая активация ВКЛючена" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsAutoActivation}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="ContentControl.Content">
-                                        <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Button.ToolTip" Value="Автоматическая активация ВЫКЛючена" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
-        </Button>
+	<StackPanel Orientation="Horizontal" Visibility="{Binding HasPermission, Converter={StaticResource BoolToVisibilityConverter}}">
+		<Button Command="{Binding ChangeAutoActivationCommand}">
+			<Button.Style>
+				<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsAutoActivation}" Value="True">
+							<DataTrigger.Setters>
+								<Setter Property="ContentControl.Content">
+									<Setter.Value>
+										<Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Button.ToolTip" Value="Автоматическая активация ВКЛючена" />
+							</DataTrigger.Setters>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding IsAutoActivation}" Value="False">
+							<DataTrigger.Setters>
+								<Setter Property="ContentControl.Content">
+									<Setter.Value>
+										<Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Button.ToolTip" Value="Автоматическая активация ВЫКЛючена" />
+							</DataTrigger.Setters>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+		</Button>
 
-        <Button Command="{Binding ChangePlansAutoActivationCommand}" Style="{StaticResource ToolBarButtonStyle}" Margin="2, 0, 0, 0">
-            <ContentControl>
-                <ContentControl.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPlansAutoActivation}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="ContentControl.Content">
-                                        <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВКЛючена" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsPlansAutoActivation}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="ContentControl.Content">
-                                        <Setter.Value>
-                                            <Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВЫКЛючена" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
-        </Button>
-    </StackPanel>
+		<Button Command="{Binding ChangePlansAutoActivationCommand}" Margin="2, 0, 0, 0">
+			<Button.Style>
+				<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsPlansAutoActivation}" Value="True">
+							<DataTrigger.Setters>
+								<Setter Property="ContentControl.Content">
+									<Setter.Value>
+										<Image Source="/Controls;component/Images/windowNormal.png" Opacity="0.5" />
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВКЛючена" />
+							</DataTrigger.Setters>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding IsPlansAutoActivation}" Value="False">
+							<DataTrigger.Setters>
+								<Setter Property="ContentControl.Content">
+									<Setter.Value>
+										<Image Source="/Controls;component/Images/windowCross.png" Opacity="0.5" />
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВЫКЛючена" />
+							</DataTrigger.Setters>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+		</Button>
+	</StackPanel>
 </UserControl>
