@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using FiresecAPI;
-using FiresecAPI.Models;
-using UsbLibrary;
 using System.Threading;
-using System.Windows.Forms;
+using FiresecAPI.Models;
 
 namespace ServerFS2
 {
@@ -21,22 +17,22 @@ namespace ServerFS2
 		static object Locker = new object();
 		public static List<UsbHidInfo> UsbHidInfos { get; set; }
 
-		public static Response SendWithoutException(Device device, params object[] value)
+		public static Response SendWithoutException(Device device, string name, params object[] value)
 		{
-			return InternalSend(device, true, 15, value);
+			return InternalSend(device, true, 15, name, value);
 		}
 
-		public static Response Send(Device device, params object[] value)
+		public static Response Send(Device device, string name, params object[] value)
 		{
-			return InternalSend(device, false, 15, value);
+			return InternalSend(device, false, 15, name, value);
 		}
 
-		public static Response SendShortAttempt(Device device, params object[] value)
+		public static Response SendShortAttempt(Device device, string name, params object[] value)
 		{
-			return InternalSend(device, false, 1, value);
+			return InternalSend(device, false, 0, name, value);
 		}
 
-		static Response InternalSend(Device device, bool throwException, int countRacall, params object[] value)
+		static Response InternalSend(Device device, bool throwException, int countRacall, string name, params object[] value)
 		{
 			lock (Locker)
 			{
@@ -48,7 +44,7 @@ namespace ServerFS2
 					var rootBytes = CreateRootBytes(device, usbHid.UseId);
 					bytes.InsertRange(0, rootBytes);
 
-					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall);
+					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall, name);
 					if (response != null)
 					{
 						response.InputBytes = response.Bytes.ToList();
@@ -150,7 +146,7 @@ namespace ServerFS2
 			}
 		}
 
-		public static void SendAsync(Device device, Request request)
+		public static void SendAsync(Device device, string name, Request request)
 		{
 			lock (Locker)
 			{
@@ -170,7 +166,7 @@ namespace ServerFS2
 						request.Id = 0;
 					}
 					request.RootBytes = rootBytes;
-					usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false);
+					usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false, 15, name);
 				}
 				else
 				{
@@ -250,7 +246,7 @@ namespace ServerFS2
 				foreach (var usbHidInfo in UsbHidInfos)
 				{
 					usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
-					usbHidInfo.UsbHid.NewResponse += new Action<UsbHidBase, Response>(OnNewResponse);
+					usbHidInfo.UsbHid.NewResponse += new Action<UsbHid, Response>(OnNewResponse);
 				}
 			}
 		}
@@ -269,17 +265,17 @@ namespace ServerFS2
 				foreach (var usbHidInfo in newUsbHidInfos)
 				{
 					usbHidInfo.UsbHid.DeviceRemoved += new Action<UsbHid>(UsbUsbHid_DeviceRemoved);
-					usbHidInfo.UsbHid.NewResponse += new Action<UsbHidBase, Response>(OnNewResponse);
+					usbHidInfo.UsbHid.NewResponse += new Action<UsbHid, Response>(OnNewResponse);
 				}
 				UsbHidInfos.AddRange(newUsbHidInfos);
 			}
 		}
 
-		static void OnNewResponse(UsbHidBase usbHidBase, Response response)
+		static void OnNewResponse(UsbHid usbHid, Response response)
 		{
 			try
 			{
-				var usbHidInfo = UsbHidInfos.FirstOrDefault(x => x.UsbHid != null && x.UsbHid == usbHidBase);
+				var usbHidInfo = UsbHidInfos.FirstOrDefault(x => x.UsbHid != null && x.UsbHid == usbHid);
 				if (usbHidInfo != null)
 				{
 					if (NewResponse != null)

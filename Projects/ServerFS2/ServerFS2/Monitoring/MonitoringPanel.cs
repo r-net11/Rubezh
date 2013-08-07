@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using FiresecAPI.Models;
 using FS2Api;
-using ServerFS2.Journal;
-using ServerFS2.Service;
-using System.Diagnostics;
-using ServerFS2.Operations;
 using ServerFS2.Helpers;
+using ServerFS2.Journal;
+using ServerFS2.Operations;
+using ServerFS2.Service;
 
 namespace ServerFS2.Monitoring
 {
@@ -141,7 +138,7 @@ namespace ServerFS2.Monitoring
 			}
 			if (PanelDevice.ParentUSB.UID == PanelDevice.UID)
 			{
-				var response = USBManager.SendShortAttempt(PanelDevice, request.Bytes);
+				var response = USBManager.SendShortAttempt(PanelDevice, "Запрос индекса последней записи", request.Bytes);
 				if (!response.HasError)
 				{
 					OnResponceRecieved(request, response);
@@ -149,7 +146,7 @@ namespace ServerFS2.Monitoring
 			}
 			else
 			{
-				USBManager.SendAsync(PanelDevice, request);
+				USBManager.SendAsync(PanelDevice, "Запрос индекса последней записи", request);
 			}
 		}
 
@@ -283,7 +280,7 @@ namespace ServerFS2.Monitoring
 		void SynchronyzeJournal(int journalType)
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение индекса последней записи", 50));
-			var response = USBManager.Send(PanelDevice, 0x01, 0x21, journalType);
+			var response = USBManager.Send(PanelDevice, "Запрос индекса последней записи", 0x01, 0x21, journalType);
 			if (response.HasError)
 				return;
             if (journalType == 0x00)
@@ -302,7 +299,7 @@ namespace ServerFS2.Monitoring
 		void OnNewJournalItem(FS2JournalItem fsJournalItem)
 		{
 			CallbackManager.NewJournalItems(new List<FS2JournalItem>() { fsJournalItem });
-			DatabaseHelper.AddJournalItem(fsJournalItem);
+			ServerFS2Database.AddJournalItem(fsJournalItem);
 		}
 	}
 }

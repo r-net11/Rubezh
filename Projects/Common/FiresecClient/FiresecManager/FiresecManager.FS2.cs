@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using Common;
+using FiresecAPI.Models;
 using FS2Client;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace FiresecClient
 {

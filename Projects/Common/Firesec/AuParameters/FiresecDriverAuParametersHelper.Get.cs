@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using Common;
+using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Firesec;
 
 namespace Firesec_48
 {

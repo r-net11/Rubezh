@@ -6,7 +6,7 @@ namespace ServerFS2.Operations
 	{
 		public static void Operation(Device device, int operationNo)
 		{
-			USBManager.Send(device, 0x33, operationNo);
+			USBManager.Send(device, "Выполнение дополнительной функции", 0x33, operationNo);
 		}
 	}
 }

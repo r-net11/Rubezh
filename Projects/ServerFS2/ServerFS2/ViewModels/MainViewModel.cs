@@ -1,8 +1,8 @@
 ﻿using System;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using System.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ServerFS2.ViewModels
 {
@@ -74,7 +74,7 @@ namespace ServerFS2.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			ApplicationMinimizeCommand.Execute();
+			ApplicationMinimizeCommand.ForceExecute();
 			return true;
 		}
 	}

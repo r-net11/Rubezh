@@ -945,9 +945,6 @@
     <Resource Include="StateClassIcons\TurningOff.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="StateClassIcons\Off.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\AllParameters.png" />
     <Resource Include="Images\briefcase.png" />
     <Resource Include="Images\ParametersRead.png" />
@@ -1099,6 +1096,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\_Off.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

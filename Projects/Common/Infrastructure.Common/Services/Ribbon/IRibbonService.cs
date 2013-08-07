@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Infrastructure.Common.Ribbon;
 
 namespace Infrastructure.Common.Services.Ribbon
 {

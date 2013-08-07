@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using FiresecAPI.Models;
-using FS2Api;
-using ServerFS2.Journal;
 using ServerFS2.Service;
-using System.Diagnostics;
-using ServerFS2.Operations;
 
 namespace ServerFS2.Monitoring
 {
@@ -35,7 +29,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToIgnore)
 				{
-					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					var response = USBManager.Send(PanelDevice, "Постановка в обход", 0x02, 0x54, 0x0B, 0x01, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToIgnore = new List<Device>();
 			}
@@ -43,7 +37,7 @@ namespace ServerFS2.Monitoring
 			{
 				foreach (var deviceToIgnore in DevicesToResetIgnore)
 				{
-					USBManager.Send(PanelDevice, 0x02, 0x54, 0x0B, 0x00, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
+					USBManager.Send(PanelDevice, "Снятие с обхода", 0x02, 0x54, 0x0B, 0x00, 0x00, deviceToIgnore.AddressOnShleif, 0x00, 0x00, 0x00, deviceToIgnore.ShleifNo - 1);
 				}
 				DevicesToResetIgnore = new List<Device>();
 			}
@@ -57,7 +51,7 @@ namespace ServerFS2.Monitoring
 						deviceZoneNo = zone.LocalDeviceNo;
 					}
 					CallbackManager.AddLog("Постановка на охрану");
-					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+					var response = USBManager.Send(PanelDevice, "Постановка на охрану", 0x02, 0x54, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToSetGuard = new List<Zone>();
 			}
@@ -71,7 +65,7 @@ namespace ServerFS2.Monitoring
 						deviceZoneNo = zone.LocalDeviceNo;
 					}
 					CallbackManager.AddLog("Снятие с охраны");
-					var response = USBManager.Send(PanelDevice, 0x02, 0x54, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+					var response = USBManager.Send(PanelDevice, "Снятие с охраны", 0x02, 0x54, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToResetGuard = new List<Zone>();
 			}

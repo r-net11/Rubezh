@@ -13,8 +13,8 @@ namespace Common.GK
 		public int GKNo { get; private set; }
 		string GKIpAddress;
 		string StringDate;
-		JournalItemType JournalItemType;
-		Guid ObjectUID;
+		public JournalItemType JournalItemType { get; private set; }
+		public Guid ObjectUID { get; private set; }
 		string EventName;
 		JournalYesNoType EventYesNo;
 		string EventDescription;
@@ -41,27 +41,31 @@ namespace Common.GK
 		public ushort ObjectDeviceAddress { get; private set; }
 		int ObjectFactoryNo;
 
+		public XDevice Device { get; private set; }
+		public XZone Zone { get; private set; }
+		public XDirection Direction { get; private set; }
+
 		void InitializeFromObjectUID()
 		{
 			if (GKObjectNo != 0)
 			{
-				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
-				if (device != null)
+				Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				if (Device != null)
 				{
 					JournalItemType = JournalItemType.Device;
-					ObjectUID = device.UID;
+					ObjectUID = Device.UID;
 				}
-				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
-				if (zone != null)
+				Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				if (Zone != null)
 				{
 					JournalItemType = JournalItemType.Zone;
-					ObjectUID = zone.UID;
+					ObjectUID = Zone.UID;
 				}
-				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
-				if (direction != null)
+				Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				if (Direction != null)
 				{
 					JournalItemType = JournalItemType.Direction;
-					ObjectUID = direction.UID;
+					ObjectUID = Direction.UID;
 				}
 			}
 		}
@@ -531,6 +535,8 @@ namespace Common.GK
 				case 35: return "Запрет пуска компрес";
 				case 36: return "Ввод 1              ";
 				case 37: return "Ввод 2              ";
+				case 40: return "Давление низкое     ";
+				case 42: return "Давление норма      ";
 			}
 			return "";
 		}

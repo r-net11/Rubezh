@@ -20,7 +20,7 @@ namespace RepFileManager
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			var message = ItvManager.Connect(AppSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
+			var message = ItvManager.Connect(GlobalSettingsHelper.GlobalSettings.RemoteAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
 			if (message != null)
 			{
 				MessageBoxService.Show(message);

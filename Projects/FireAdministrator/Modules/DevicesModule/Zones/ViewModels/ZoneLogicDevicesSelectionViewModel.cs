@@ -47,14 +47,21 @@ namespace DevicesModule.ViewModels
 				if (Devices.Any(x => x.Device.UID == device.UID))
 					continue;
 
-				if (device.ParentChannel != null && device.ParentChannel.UID != Device.ParentChannel.UID)
-					continue;
-
-				if ((ZoneLogicState == ZoneLogicState.AM1TOn && (device.Driver.DriverType == DriverType.AM1_T || device.Driver.DriverType == DriverType.MDU || device.Driver.DriverType == DriverType.ShuzOffButton || device.Driver.DriverType == DriverType.ShuzOnButton || device.Driver.DriverType == DriverType.ShuzUnblockButton)) ||
-					(ZoneLogicState == ZoneLogicState.ShuzOn && device.Driver.DriverType == DriverType.Valve))
+				if (ZoneLogicState == ZoneLogicState.AM1TOn && (device.Driver.DriverType == DriverType.AM1_T || device.Driver.DriverType == DriverType.MDU || device.Driver.DriverType == DriverType.ShuzOffButton || device.Driver.DriverType == DriverType.ShuzOnButton || device.Driver.DriverType == DriverType.ShuzUnblockButton))
 				{
-					device.AllParents.ForEach(x => { devices.Add(x); });
-					devices.Add(device);
+					if (device.ParentPanel != null && device.ParentPanel.UID == Device.ParentPanel.UID)
+					{
+						device.AllParents.ForEach(x => { devices.Add(x); });
+						devices.Add(device);
+					}
+				}
+				if (ZoneLogicState == ZoneLogicState.ShuzOn && device.Driver.DriverType == DriverType.Valve)
+				{
+					if (device.ParentPanel != null && device.ParentPanel.UID == Device.ParentPanel.UID)
+					{
+						device.AllParents.ForEach(x => { devices.Add(x); });
+						devices.Add(device);
+					}
 				}
 			}
 

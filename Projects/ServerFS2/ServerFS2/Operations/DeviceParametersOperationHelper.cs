@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using FS2Api;
 using ServerFS2.Helpers;
+using ServerFS2.Service;
 
 namespace ServerFS2
 {
@@ -10,12 +12,13 @@ namespace ServerFS2
 	{
 		public static List<Property> Get(Device device)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение параметров устройства " + device.PresentationName));
 			var allAUProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			//var properties = RemoveDublicateProperties(allAUProperties);
 			var properties = allAUProperties;
 			foreach (var property in properties)
 			{
-				var response = USBManager.Send(device.Parent, 0x02, 0x53, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
+				var response = USBManager.Send(device.Parent, "Запрос параметра АУ", 0x02, 0x53, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
 				device.AddressOnShleif, 0x00, property.No, 0x00, 0x00, device.ShleifNo - 1);
 				foreach (var driverProperty in allAUProperties.FindAll(x => x.No == response.Bytes[4]))
 				{
@@ -29,13 +32,14 @@ namespace ServerFS2
 
 		public static void Set(Device device, List<Property> properties)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Запись параметров устройства " + device.PresentationName));
 			CopyPropertiesToDevice(device, properties);
 			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
 			//var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			foreach (var property in driverProperties)
 			{
 				var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));
-				USBManager.Send(device.Parent, 0x02, 0x53, 0x03, MetadataHelper.GetIdByUid(device.Driver.UID), device.AddressOnShleif,
+				USBManager.Send(device.Parent, "Запись параметра АУ", 0x02, 0x53, 0x03, MetadataHelper.GetIdByUid(device.Driver.UID), device.AddressOnShleif,
 				0x00, property.No, value % 256, value / 256, device.ShleifNo - 1);
 			}
 		}

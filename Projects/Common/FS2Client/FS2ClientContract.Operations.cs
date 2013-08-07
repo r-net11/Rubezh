@@ -222,9 +222,9 @@ namespace FS2Client
 			return SafeOperationCall(() => { return FS2Contract.GetArchiveStartDate(); }, "GetArchiveStartDate");
 		}
 
-		public OperationResult AddJournalRecords(List<FS2JournalItem> journalItems)
+		public OperationResult AddJournalItems(List<FS2JournalItem> journalItems)
 		{
-			return SafeOperationCall(() => { return FS2Contract.AddJournalRecords(journalItems); }, "AddJournalRecords");
+			return SafeOperationCall(() => { return FS2Contract.AddJournalItems(journalItems); }, "AddJournalItems");
 		}
 		#endregion
 	}

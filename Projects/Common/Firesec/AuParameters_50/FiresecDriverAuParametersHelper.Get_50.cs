@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using Common;
-using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace Firesec_50
@@ -57,6 +56,7 @@ namespace Firesec_50
             string errorMessage = "";
             for (int i = 0; i < devices.Count; i++)
             {
+				FiresecSerializedClient.FSAgent.ForbidEventsFromAuParameters();
                 var device = devices[i];
                 OnPropgress("Чтение параметров устройства " + device.DottedPresentationNameAndAddress, (i * 100) / devices.Count);
                 var addedDevicePropertyRequest = new DevicePropertyRequest(device);
@@ -83,6 +83,7 @@ namespace Firesec_50
                     var lastActivityTime = DateTime.Now;
                     while (DevicePropertyRequests.Count > 0)
                     {
+						FiresecSerializedClient.FSAgent.ForbidEventsFromAuParameters();
                         DevicePropertyRequests.RemoveAll(x => x.IsDeleting);
                         var devicePropertyRequests = DevicePropertyRequests.ToList();
 

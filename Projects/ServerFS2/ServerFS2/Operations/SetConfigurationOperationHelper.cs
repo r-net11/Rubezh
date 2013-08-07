@@ -59,10 +59,10 @@ namespace ServerFS2
 		private static void WriteSoftWare(Device device, HexInfo softWareInfo)
 		{
 			WriteRomConfiguration(device, softWareInfo.Bytes, 0x5000); // Запись прошивки с 50 00 по 07 CF
-			USBManager.Send(device, 0x02, 0x12, 0x02, 0x30);// 02 12 version(For Example 02 30)
+			USBManager.Send(device, "Уточнить у Ромы", 0x02, 0x12, 0x02, 0x30);// 02 12 version(For Example 02 30)
 			// 01 12
 			StopUpdating(device);
-			USBManager.Send(device.ParentUSB, 0x01, 0x36);
+			USBManager.Send(device.ParentUSB, "Уточнить у Ромы", 0x01, 0x36);
 			ConfirmLongTermOperation(device);
 		}
 		#endregion
@@ -92,7 +92,7 @@ namespace ServerFS2
 
 		static void BeginUpdateRom(Device device)
 		{
-			var delayBytes = USBManager.Send(device, 0x39, 0x04);
+			var delayBytes = USBManager.Send(device, "Уточнить у Ромы", 0x39, 0x04);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
 				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
@@ -101,7 +101,7 @@ namespace ServerFS2
 
 		static void BeginUpdateFirmWare(Device device)
 		{
-			var delayBytes = USBManager.Send(device, 0x39, 0x01);
+			var delayBytes = USBManager.Send(device, "Уточнить у Ромы", 0x39, 0x01);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
 				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
@@ -110,7 +110,7 @@ namespace ServerFS2
 
 		static bool GetStatusOS(Device device)
 		{
-			if (USBManager.Send(device, 0x01, 0x01).Bytes[1] == 0) // Если младший байт = 0, то режим пользовательский
+			if (USBManager.Send(device, "Уточнить у Ромы", 0x01, 0x01).Bytes[1] == 0) // Если младший байт = 0, то режим пользовательский
 				return true;
 			return false;
 		}
@@ -122,15 +122,15 @@ namespace ServerFS2
 			deviceFlash[0] = 0;
 			deviceFlash[1] = 0;
 			for (int i = 0; i < deviceFlash.Count - 1; i = i + 0x100)
-				USBManager.Send(device, 0x02, 0x52, BitConverter.GetBytes(0x100 + i).Reverse(), Math.Min(deviceFlash.Count - i - 1, 0xFF), deviceFlash.GetRange(i, Math.Min(deviceFlash.Count - i, 0x100)));
-			USBManager.Send(device, 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x01, _crc[0], _crc[1]);
+				USBManager.Send(device, "Уточнить у Ромы", 0x02, 0x52, BitConverter.GetBytes(0x100 + i).Reverse(), Math.Min(deviceFlash.Count - i - 1, 0xFF), deviceFlash.GetRange(i, Math.Min(deviceFlash.Count - i, 0x100)));
+			USBManager.Send(device, "Уточнить у Ромы", 0x02, 0x52, BitConverter.GetBytes(0x100).Reverse(), 0x01, _crc[0], _crc[1]);
 		}
 
 		static void WriteRomConfiguration(Device device, List<byte> deviceRom, int begin)
 		{
 			for (int i = 0; i < deviceRom.Count; i = i + 0x100)
 			{
-				USBManager.Send(device, 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
+				USBManager.Send(device, "Уточнить у Ромы", 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
 			}
 		}
 
@@ -138,13 +138,13 @@ namespace ServerFS2
 		{
 			for (int i = 0; i < deviceRom.Count; i = i + 0x100)
 			{
-				USBManager.Send(device, 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
-				USBManager.Send(device, 0x3C);
-				USBManager.Send(device, 0x3D);
+				USBManager.Send(device, "Уточнить у Ромы", 0x3E, BitConverter.GetBytes(begin + i).Reverse(), deviceRom.GetRange(i, Math.Min(deviceRom.Count - i, 0x100)));
+				USBManager.Send(device, "Уточнить у Ромы", 0x3C);
+				USBManager.Send(device, "Уточнить у Ромы", 0x3D);
 			}
 		}
 
-		static void WriteFoolFlashConfiguration(Device device, string fileName)
+		static void WriteFullFlashConfiguration(Device device, string fileName)
 		{
 			var bytesArray = new List<byte>();
 			var strings = File.ReadAllLines(fileName).ToList();
@@ -159,14 +159,14 @@ namespace ServerFS2
 			for (int i = 0; i < bytesArray.Count; i = i + 0x104)
 			{
 				var offset = BytesHelper.ExtractInt(bytesArray, i);
-				USBManager.Send(device, 0x3E, BitConverter.GetBytes(offset).Reverse(), bytesArray.GetRange(i, Math.Min(bytesArray.Count - i, 0x100)));
+				USBManager.Send(device, "Уточнить у Ромы", 0x3E, BitConverter.GetBytes(offset).Reverse(), bytesArray.GetRange(i, Math.Min(bytesArray.Count - i, 0x100)));
 			}
 		}
 
 		// Окончание записи памяти - сброс
 		private static void StopUpdating(Device device)
 		{
-			var delayBytes = USBManager.Send(device, 0x3A);
+			var delayBytes = USBManager.Send(device, "Уточнить у Ромы", 0x3A);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
 				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
@@ -176,7 +176,7 @@ namespace ServerFS2
 		// Установка блокировки БД
 		private static void BlockBD(Device device)
 		{
-			USBManager.Send(device, 0x02, 0x55, 0x01);
+			USBManager.Send(device, "Уточнить у Ромы", 0x02, 0x55, 0x01);
 			var status = GetAddressList(device)[1];
 			while (status != 0x00)
 				status = GetAddressList(device)[1];
@@ -184,25 +184,25 @@ namespace ServerFS2
 
 		private static List<byte> GetAddressList(Device device)
 		{
-			var result = USBManager.Send(device, 0x01, 0x14).Bytes;
+			var result = USBManager.Send(device, "Уточнить у Ромы", 0x01, 0x14).Bytes;
 			return result;
 		}
 
 		// Очистка сектора памяти bSectorStart, bSectorEnd
 		private static void ClearSector(Device device)
 		{
-			USBManager.Send(device, 0x3B, 0x03, 0x04);
+			USBManager.Send(device, "Уточнить у Ромы", 0x3B, 0x03, 0x04);
 		}
 
 		private static void ClearAvrSector(Device device)
 		{
-			USBManager.Send(device, 0x3B, 0x05, 0x1A);
+			USBManager.Send(device, "Уточнить у Ромы", 0x3B, 0x05, 0x1A);
 		}
 
 		// Подтверждение / завершение долговременной операции
-		private static void ConfirmLongTermOperation(Device device)
+		public static void ConfirmLongTermOperation(Device device)
 		{
-			var functionCode = USBManager.Send(device, 0x3C).FunctionCode;
+			var functionCode = USBManager.Send(device, "Уточнить у Ромы", 0x3C).FunctionCode;
 			if (functionCode != 0x7c)
 				ConfirmLongTermOperation(device);
 		}

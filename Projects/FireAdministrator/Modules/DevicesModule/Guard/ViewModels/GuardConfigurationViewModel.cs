@@ -161,6 +161,7 @@ namespace DevicesModule.ViewModels
 		protected override bool Save()
 		{
 			SaveConfiguration();
+			ServiceFactory.SaveService.FSChanged = true;
 			return base.Save();
 		}
 	}

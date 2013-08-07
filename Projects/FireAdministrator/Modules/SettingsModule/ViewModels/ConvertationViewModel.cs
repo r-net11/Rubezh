@@ -115,10 +115,6 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ConvertJournalCommand { get; private set; }
 		void OnConvertJournal()
 		{
-#if DEBUG
-			Encode();
-			return;
-#endif
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
 			{
 				WaitHelper.Execute(() =>
@@ -131,17 +127,6 @@ namespace SettingsModule.ViewModels
 		bool CanConvertJournal()
 		{
 			return FiresecManager.FiresecDriver != null;
-		}
-
-		void Encode()
-		{
-			StreamReader streamReader = new StreamReader("D:/plans.txt");
-			string text = streamReader.ReadToEnd();
-			streamReader.Close();
-
-			var bytes = ZipStr(text);
-			var output = System.Convert.ToBase64String(bytes);
-			;
 		}
 
 		public static byte[] ZipStr(String str)

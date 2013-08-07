@@ -81,8 +81,6 @@ namespace ServerFS2.ConfigurationWriter
 
 		void AddDetectorProperties()
 		{
-			byte computerConfigurationData = 0;
-
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.HandDetector:
@@ -101,7 +99,7 @@ namespace ServerFS2.ConfigurationWriter
 					BytesDatabase.AddByte(0, "Пустой байт", true);
 					break;
 				case DriverType.CombinedDetector:
-					BytesDatabase.AddByte(computerConfigurationData, "Конфигурация с компа");
+					BytesDatabase.AddByte(0, "Конфигурация с компа");
 					BytesDatabase.AddByte(0, "Запыленность", true);
 					BytesDatabase.AddByte(0, "Температура", true);
 					BytesDatabase.AddByte(0, "Пустой байт", true);
@@ -136,29 +134,12 @@ namespace ServerFS2.ConfigurationWriter
 			var amVitualType = GetAMVitualType();
 			BytesDatabase.AddByte(amVitualType, "ID виртуального типа");
 
-			//BytesDatabase.AddShort(0, "Общее оличество привязаннфх к сработке ИУ");
-			//BytesDatabase.AddShort(0, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			//for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
-			//{
-			//    BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-			//    BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
-			//}
-
 			switch (Device.Driver.DriverType)
 			{
 				case DriverType.ShuzOnButton:
 				case DriverType.ShuzOffButton:
 				case DriverType.ShuzUnblockButton:
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
-					BytesDatabase.AddByte(0, "Пустой байт", true);
+					AddDeviceLogic(Device.Driver.DriverType);
 					break;
 			}
 		}
@@ -203,6 +184,11 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddString(event1PropertyValue, "Описание сработавшего состояния");
 			BytesDatabase.AddString(event2PropertyValue, "Описание состояния норма");
 
+			AddDeviceLogic(DriverType.AM1_T);
+		}
+
+		void AddDeviceLogic(DriverType driverType)
+		{
 			var rmDevices = new HashSet<Device>();
 			foreach (var device in ConfigurationManager.Devices)
 			{
@@ -210,7 +196,7 @@ namespace ServerFS2.ConfigurationWriter
 				{
 					foreach (var clauseDevice in clause.Devices)
 					{
-						if (clauseDevice != null && clauseDevice == Device && clauseDevice.Driver.DriverType == DriverType.AM1_T)
+						if (clauseDevice != null && clauseDevice == Device && clauseDevice.Driver.DriverType == driverType)
 						{
 							rmDevices.Add(device);
 						}
@@ -219,19 +205,21 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			BytesDatabase.AddShort(rmDevices.Count, "Общее количество привязанных к сработке виртуальных кнопок ИУ");
-			if (rmDevices.Count > 0)
+			for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
 			{
-				for (int i = 0; i < ParentPanel.Driver.ShleifCount; i++)
+				var devicesOnShleif = rmDevices.Where(x => x.ShleifNo == i + 1);
+				BytesDatabase.AddByte(devicesOnShleif.Count(), "Количество связанных ИУ шлейфа " + (i + 1).ToString());
+				if (devicesOnShleif.Count() > 0)
 				{
-					var devicesOnShleif = rmDevices.Where(x => x.ShleifNo == i + 1);
-					BytesDatabase.AddByte(devicesOnShleif.Count(), "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-					TableBase table = null;
-					var firstDevice = devicesOnShleif.FirstOrDefault();
-					if (firstDevice != null)
+					foreach (var deviceOnShleif in devicesOnShleif)
 					{
-						table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == firstDevice.UID);
+						var table = PanelDatabase.Tables.FirstOrDefault(x => x.UID == deviceOnShleif.UID);
+						BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 					}
-					BytesDatabase.AddReferenceToTable(table, "Указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
+				}
+				else
+				{
+					BytesDatabase.AddReferenceToTable((TableBase)null, "Нулевой указатель на размещение абсолютного адреса размещения первого в списке связанного ИУ шлейфа " + (i + 1).ToString());
 				}
 			}
 		}
@@ -261,6 +249,7 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.AddString(Device.Description, "Описание");
 		}
 
+		#region Helpers
 		int GetAMVitualType()
 		{
 			switch (Device.Driver.DriverType)
@@ -302,5 +291,6 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			return false;
 		}
+		#endregion
 	}
 }

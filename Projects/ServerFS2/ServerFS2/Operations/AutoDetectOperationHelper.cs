@@ -80,7 +80,7 @@ namespace ServerFS2
 		}
 		public static List<byte> GetAddressListFromChanel(Device chanel)
 		{
-			var response = USBManager.Send(chanel.Parent, 0x01, chanel.IntAddress + 2);
+			var response = USBManager.Send(chanel.Parent, "Запрос адресного листа", 0x01, chanel.IntAddress + 2);
 			return response.Bytes;
 		}
 		static Device CopyDevice(Device device)
@@ -121,13 +121,13 @@ namespace ServerFS2
 				tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
 				tempDevice.IntAddress = deviceNo;
 				tempDevice.Parent = chanel;
-				var response = USBManager.Send(tempDevice, 0x3C);
+				var response = USBManager.Send(tempDevice, "Пинг", 0x3C);
 				if (response.Bytes == null)
 					return false;
 				if (response.FunctionCode == 0x7C)
 				// Если по данному адресу найдено устройство, узнаем тип устройства и его версию ПО
 				{
-					response = USBManager.Send(tempDevice, 0x01, 0x03);
+					response = USBManager.Send(tempDevice, "Запрос типа устройства", 0x01, 0x03);
 					var driverUid = DriversHelper.GetDriverUidByType(response.Bytes[0]);
 					if (driverUid == Guid.Empty)
 						continue;

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Common;
 using FiresecAPI.Models;
 using FS2Api;
-using Infrastructure.Common.Windows;
-using ServerFS2.ConfigurationWriter;
-using ServerFS2.Monitoring;
-using ServerFS2.Service;
-using Common;
-using System.Threading;
-using ServerFS2.Operations;
-using System.Threading.Tasks;
 using ServerFS2.Journal;
+using ServerFS2.Monitoring;
+using ServerFS2.Operations;
+using ServerFS2.Service;
 
 namespace ServerFS2.Processor
 {
@@ -33,6 +29,7 @@ namespace ServerFS2.Processor
 		public static void SuspendMonitoring(Device device = null)
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Приостановка мониторинга"));
+			//MonitoringManager.MonitoringUSBs
 			MonitoringManager.SuspendMonitoring(device);
 		}
 
@@ -131,7 +128,7 @@ namespace ServerFS2.Processor
 		public static void ExecuteCommand(Device device, string commandName, string userName)
 		{
 			CustomMessageJournalHelper.Add("Команда оператора. Управление устройством", userName, device.ParentPanel, device);
-			var commandExecutor = new CommandExecutor(device, commandName);
+			MonitoringManager.AddCommand(device, commandName);
 		}
 
 		#endregion
@@ -263,10 +260,8 @@ namespace ServerFS2.Processor
 				if (deviceConfiguration.RootDevice == null)
 				{
 					if ((device.Driver.DriverType == DriverType.USB_Channel_1) || (device.Driver.DriverType == DriverType.USB_Channel_2))
-						MessageBoxService.ShowError("Устройство " + device.Parent.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
-					else
-						MessageBoxService.ShowError("Устройство " + device.PresentationName + " не найдено", "Ошибка: Устройство не найдено");
-					return null;
+						throw new FS2Exception("Устройство " + device.Parent.PresentationName + " не найдено");
+					throw new FS2Exception("Устройство " + device.PresentationName + " не найдено");
 				}
 				foreach (var child in rootDevice.Children)
 				{
@@ -305,11 +300,6 @@ namespace ServerFS2.Processor
 		public static List<GuardUser> DeviceGetGuardUsers(Device device)
 		{
 			return GuardUsersOperationHelper.DeviceGetGuardUsers(device);
-		}
-
-		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
-		{
-			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
 		}
 
 		public static string DeviceGetMDS5Data(Device device)

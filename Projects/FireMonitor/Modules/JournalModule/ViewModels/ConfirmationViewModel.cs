@@ -17,39 +17,51 @@ namespace JournalModule.ViewModels
 		{
 			Title = "Подтверждение критических событий";
             ConfirmCommand = new RelayCommand(OnConfirm);
-			JournalRecord = journalRecord;
-			ZoneName = journalRecord.ZoneName;
-			StateType = journalRecord.StateType;
+			JournalRecord = new JournalRecordViewModel(journalRecord);
 		}
 
 		public ConfirmationViewModel(FS2JournalItem journalItem)
 		{
 			Title = "Подтверждение критических событий";
 			ConfirmCommand = new RelayCommand(OnConfirm);
-			ZoneName = journalItem.ZoneName;
-			StateType = journalItem.StateType;
+			JournalRecord = new JournalRecordViewModel(journalItem);
 		}
 
-        public JournalRecord JournalRecord { get; private set; }
-		public string ZoneName { get; private set; }
-		public StateType StateType { get; private set; }
+        public JournalRecordViewModel JournalRecord { get; private set; }
 
         public RelayCommand ConfirmCommand { get; private set; }
         void OnConfirm()
         {
-            var journalRecords = new List<JournalRecord>();
-            journalRecords.Add(
-                new JournalRecord()
-                {
-                    SystemTime = DateTime.Now,
-                    DeviceTime = DateTime.Now,
-                    ZoneName = ZoneName,
-                    Description = "Состояние \"" + StateType.ToDescription() + "\" подтверждено оператором",
-                    StateType = StateType.Info
-                }
-                );
-            FiresecManager.FiresecService.AddJournalRecords(journalRecords);
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+			if (FiresecManager.IsFS2Enabled)
+			{
+				var journalItems = new List<FS2JournalItem>();
+				journalItems.Add(
+					new FS2JournalItem()
+					{
+						SystemTime = DateTime.Now,
+						DeviceTime = DateTime.Now,
+						ZoneName = JournalRecord.ZoneName,
+						Description = "Состояние \"" + JournalRecord.StateType.ToDescription() + "\" подтверждено оператором",
+						StateType = StateType.Info
+					});
+				FiresecManager.FS2ClientContract.AddJournalItems(journalItems);
+				ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);
+			}
+			else
+			{
+				var journalRecords = new List<JournalRecord>();
+				journalRecords.Add(
+					new JournalRecord()
+					{
+						SystemTime = DateTime.Now,
+						DeviceTime = DateTime.Now,
+						ZoneName = JournalRecord.ZoneName,
+						Description = "Состояние \"" + JournalRecord.StateType.ToDescription() + "\" подтверждено оператором",
+						StateType = StateType.Info
+					});
+				FiresecManager.FiresecService.AddJournalRecords(journalRecords);
+				ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+			}
             Close();
         }
 	}

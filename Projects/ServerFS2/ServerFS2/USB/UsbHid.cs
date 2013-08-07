@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using FiresecAPI;
 using UsbLibrary;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Windows.Interop;
 
 namespace ServerFS2
 {
-	public class UsbHid : UsbHidBase
+	public partial class UsbHid
 	{
 		public UsbHidPort UsbHidPort { get; private set; }
 		bool IsDisposed = false;
 
-		public override bool Open()
+		public bool Open()
 		{
-			No = NextNo++;
 			UsbHidPort = new UsbHidPort()
 			{
 				VendorId = 0xC251,
@@ -33,7 +29,6 @@ namespace ServerFS2
 
 		public void SetUsbHidPort(UsbHidPort usbHidPort)
 		{
-			No = NextNo++;
 			UsbHidPort = usbHidPort;
 			UsbHidPort.SpecifiedDevice.DataRecieved += new DataRecievedEventHandler(OnDataRecieved);
 			UsbHidPort.SpecifiedDevice.OnDeviceRemoved += new EventHandler(UsbHidPort_OnDeviceRemoved);
@@ -46,7 +41,7 @@ namespace ServerFS2
 		}
 		public event Action<UsbHid> DeviceRemoved;
 
-		public override void Dispose()
+		public void Dispose()
 		{
 			IsDisposed = true;
 			AutoWaitEvent.Set();
@@ -56,9 +51,9 @@ namespace ServerFS2
 			//AutoWaitEvent.Set();
 		}
 
-		public override bool Send(List<byte> bytes)
+		public bool Send(List<byte> bytes, string name, int attemptNo)
 		{
-			//Trace.WriteLine("Send " + No + " " + BytesHelper.BytesToString(bytes));
+			Trace.WriteLine(DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo);
 			if (IsDisposed)
 				return false;
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());
@@ -93,7 +88,6 @@ namespace ServerFS2
 							response.Id = BytesHelper.ExtractInt(bytes.ToList(), 0);
 						}
 						OnResponseRecieved(response);
-						AutoResetEvent.Set();
 						OnNewResponse(response);
 						return;
 					}
@@ -116,7 +110,6 @@ namespace ServerFS2
 
 		void OnResponseRecieved(Response response)
 		{
-			//Trace.WriteLine("Response " + No + " " + BytesHelper.BytesToString(response.Bytes));
 			if (UseId)
 			{
 				var request = RequestCollection.GetById(response.Id);
@@ -139,7 +132,7 @@ namespace ServerFS2
 			}
 		}
 
-		public override Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall = 15)
+		public Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall, string name)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
@@ -169,17 +162,23 @@ namespace ServerFS2
 					{
 						var bytesToSend = request.Bytes.GetRange(i * 64, 64);
 						bytesToSend.Insert(0, 0);
-						Send(bytesToSend);
+						Send(bytesToSend, name, -1);
 					}
+					RequestCollection.Clear();
+					return Responses.FirstOrDefault();
 				}
 				else
 				{
 					request.Bytes.Insert(0, 0);
-					Send(request.Bytes);
-				}
-				if (isSyncronuos)
-				{
-					AutoResetEvent.WaitOne(delay);
+					if (isSyncronuos)
+					{
+						AutoWaitEvent = new AutoResetEvent(false);
+					}
+					Send(request.Bytes, name, -1);
+					if (isSyncronuos)
+					{
+						AutoWaitEvent.WaitOne(delay);
+					}
 				}
 			}
 
@@ -191,19 +190,39 @@ namespace ServerFS2
 					{
 						for (int i = 0; i < countRacall; i++)
 						{
-							var result = Send(request.Bytes);
-							if (!result)
+							if (IsDisposed)
+							{
+								RequestCollection.Clear();
 								return null;
-							AutoWaitEvent.WaitOne(timeout);
+							}
+
 							if (RequestCollection.Count() == 0)
 								break;
-							if (IsDisposed)
+
+							AutoWaitEvent.Reset();
+
+							var result = Send(request.Bytes, name, i);
+							if (!result)
+							{
+								RequestCollection.Clear();
 								return null;
+							}
+
+							if (RequestCollection.Count() == 0)
+								break;
+							AutoWaitEvent.WaitOne(timeout);
+
+							if (i > 5)
+							{
+								Trace.WriteLine("CountRacall = " + i + " - " + name);
+							}
 						}
 					}
 				}
+				RequestCollection.Clear();
 				return Responses.FirstOrDefault();
 			}
+			RequestCollection.Clear();
 			return null;
 		}
 	}

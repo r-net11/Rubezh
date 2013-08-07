@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace MonitorTestClientFS2.ViewModels
 {
 	public class DeviceCommandViewModel

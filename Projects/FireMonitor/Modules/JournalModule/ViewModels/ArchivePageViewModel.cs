@@ -6,11 +6,11 @@ namespace JournalModule.ViewModels
 {
     public class ArchivePageViewModel : BaseViewModel
     {
-		public ArchivePageViewModel(IEnumerable<JournalRecord> journalRecords)
+		public ArchivePageViewModel(List<JournalRecordViewModel> journalRecords)
         {
-			JournalRecordsList = journalRecords;
+			JournalRecords = journalRecords;
         }
 
-		public IEnumerable<JournalRecord> JournalRecordsList { get; private set; }
+		public List<JournalRecordViewModel> JournalRecords { get; private set; }
     }
 }

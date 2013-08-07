@@ -492,7 +492,7 @@ namespace DevicesModule.ViewModels
 					{
 						if (Device.Children.Count == 1)
 						{
-							FiresecManager.FiresecConfiguration.RemoveDevice(Device.Children[1]);
+							FiresecManager.FiresecConfiguration.RemoveDevice(Device.Children[0]);
 							var channelDevice = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_2);
 							AddDeviceOnDriverChanged(channelDevice, 0);
 						}
@@ -547,17 +547,23 @@ namespace DevicesModule.ViewModels
 							var child = this[i];
 							DevicesViewModel.Current.AllDevices.Remove(child);
 						}
+
 						Nodes.Clear();
 						Device.Children.Clear();
-						if (Device.Driver.AutoChild != Guid.Empty)
+
+						foreach (var autoCreateDriverId in value.AutoCreateChildren)
 						{
-							var autoChildDriver = FiresecManager.FiresecConfiguration.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == Device.Driver.AutoChild);
-							for (int i = 0; i < Device.Driver.AutoChildCount; i++)
+							var autoCreateDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
+							for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
 							{
-								AddDeviceOnDriverChanged(autoChildDriver, Device.IntAddress + i);
+								if (!Device.Children.Any(x => x.IntAddress == i))
+									AddDeviceOnDriverChanged(autoCreateDriver, i);
 							}
 						}
 					}
+
+					Device.Driver = value;
+					Device.DriverUID = value.UID;
 
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Driver");
@@ -598,26 +604,6 @@ namespace DevicesModule.ViewModels
 				{
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
 					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
-					return;
-				}
-
-				if (Driver.IsPanel && Device.Parent.Driver.DriverType != DriverType.Computer)
-				{
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_4A));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2OP));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_P));
-					return;
-				}
-
-				if (Driver.IsPanel && Device.Parent.Driver.DriverType == DriverType.Computer)
-				{
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_2AM));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_4A));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_2OP));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_BUNS));
-					AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Rubezh_P));
 					return;
 				}
 #endif

@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using FiresecAPI.Models.Binary;
 
-
 namespace FiresecAPI.Models
 {
 	[DataContract]

@@ -149,6 +149,8 @@ namespace Infrastructure.Common.Ribbon
 			get
 			{
 				var menuViewModel = Content as RibbonMenuViewModel;
+				if (index >= menuViewModel.Items.Count)
+					return null;
 				return menuViewModel == null ? null : menuViewModel.Items[index];
 			}
 		}

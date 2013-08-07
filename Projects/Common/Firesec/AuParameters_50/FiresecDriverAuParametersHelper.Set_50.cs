@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
 using System.Threading;
+using FiresecAPI.Models;
 
 namespace Firesec_50
 {
@@ -20,6 +20,7 @@ namespace Firesec_50
 		{
 			for (int i = 0; i < devices.Count; i++)
 			{
+				FiresecSerializedClient.FSAgent.ForbidEventsFromAuParameters();
 				var device = devices[i];
 				OnPropgress("Запись параметров устройства " + device.DottedPresentationNameAndAddress, (i * 100) / devices.Count);
 				var binProperties = new List<BinProperty>();

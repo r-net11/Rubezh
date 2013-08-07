@@ -12,6 +12,8 @@ namespace FiresecDB
 	public static class DatabaseHelper
 	{
 		public static string ConnectionString { get; set; }
+		public static DateTime LastForbidEventsFromAuParametersTime = DateTime.Now;
+
 		public static List<JournalRecord> AddJournalRecords(List<JournalRecord> journalRecords)
 		{
 			var sortedJournalRecords = new List<JournalRecord>();
@@ -22,6 +24,8 @@ namespace FiresecDB
 					if (journalRecord.Description == "Потеря связи с пользователем." ||
 						journalRecord.Description == "Вход пользователя в систему" ||
 						journalRecord.Description == "Неизвестный запрос")
+						continue;
+					if ((DateTime.Now - LastForbidEventsFromAuParametersTime).Minutes < 1 && journalRecord.Description == "Получена команда управления устройством")
 						continue;
 					sortedJournalRecords.Add(journalRecord);
 				}
@@ -233,17 +237,17 @@ namespace FiresecDB
 					query += ")";
 				}
 
-				if (archiveFilter.DeviceNames.Count > 0)
+				if (archiveFilter.PanelUIDs.Count > 0)
 				{
 					query += "\n AND (";
-					for (int i = 0; i < archiveFilter.DeviceNames.Count; i++)
+					for (int i = 0; i < archiveFilter.PanelUIDs.Count; i++)
 					{
-						var deviceName = archiveFilter.DeviceNames[i];
+						var deviceName = archiveFilter.PanelUIDs[i];
 						if (deviceName != null)
 						{
 							if (i > 0)
 								query += "\n OR ";
-							query += " PanelName = '" + deviceName + "'";
+							query += " PanelDatabaseId = '" + deviceName + "'";
 						}
 					}
 					query += ")";

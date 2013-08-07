@@ -8,6 +8,7 @@
         <File Id="FS2.ServerFS2.exe" Name="ServerFS2.exe" Source="$(var.FS2.TargetDir)" KeyPath="yes" />
         <File Id="FS2.ServerFS2.exe.config" Name="ServerFS2.exe.config" Source="$(var.FS2.TargetDir)" />
         <File Id="FS2.ServerFS2.exe.manifest" Name="ServerFS2.exe.manifest" Source="$(var.FS2.TargetDir)" />
+        <File Id="FS2.FS2Database.dll" Name="FS2Database.dll" Source="$(var.FS2.TargetDir)" />
         <File Id="FS2.Common.dll" Name="Common.dll" Source="$(var.FS2.TargetDir)" />
         <File Id="FS2.Controls.dll" Name="Controls.dll" Source="$(var.FS2.TargetDir)" />
         <File Id="FS2.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.FS2.TargetDir)" />
@@ -17,6 +18,7 @@
         <File Id="FS2.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.FS2.TargetDir)" />
         <File Id="FS2.UsbLibrary.dll" Name="UsbLibrary.dll" Source="$(var.FS2.TargetDir)" />
         <File Id="FS2.NLog.dll" Name="NLog.dll" Source="$(var.FS2.TargetDir)" />
+        <File Id="FS2.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.FS2.TargetDir)" />
       </Component>
 
       <Component Id="FS2.DB" Guid="30D04A0C-8A44-43EF-B62B-9109BCFC229B">

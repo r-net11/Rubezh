@@ -25,7 +25,7 @@ namespace Common.GK
 			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
 			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
-			driver.AvailableCommands.Add(XStateType.ForbidStart_InManual);
+			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 2, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Задержка на выключение, с", 0, 2, 0, 65535);

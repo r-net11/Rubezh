@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using FiresecAPI.Models;
-using FS2Api;
 using Common;
-using System.Windows.Forms;
-using System.Collections;
+using FiresecAPI.Models;
 
 namespace ServerFS2.Monitoring
 {
@@ -150,6 +145,7 @@ namespace ServerFS2.Monitoring
 					Logger.Error(e, "MonitoringProcessor.LoopMonitoring");
 				}
 			}
+			;
 		}
 
 		void UsbRunner_NewResponse(Device usbDevice, Response response)
@@ -210,7 +206,7 @@ namespace ServerFS2.Monitoring
 				//        return;
 				//}
 
-				var response = USBManager.Send(USBDevice, 0x01, 0x12);
+				var response = USBManager.Send(USBDevice, "Пинг", 0x01, 0x12);
 				if (response.HasError)
 				{
 					if (USBDevice.DeviceState.IsUsbConnectionLost == false)

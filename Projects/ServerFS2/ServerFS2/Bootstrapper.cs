@@ -3,11 +3,10 @@ using System.Diagnostics;
 using System.Threading;
 using Common;
 using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using ServerFS2.Processor;
 using ServerFS2.Service;
 using ServerFS2.ViewModels;
-using ServerFS2.Processor;
 
 namespace ServerFS2
 {

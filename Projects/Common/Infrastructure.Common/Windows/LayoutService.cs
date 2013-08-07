@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows
 {

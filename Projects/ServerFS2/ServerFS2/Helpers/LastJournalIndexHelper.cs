@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
 using System.IO;
-using Infrastructure.Common;
+using System.Linq;
+using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace ServerFS2.Helpers
 {

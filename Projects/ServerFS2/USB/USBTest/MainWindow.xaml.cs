@@ -58,10 +58,10 @@ namespace USBTest
 		{
 			UsbHid = new UsbHid();
 			UsbHid.Open();
-			UsbHid.NewResponse += new Action<UsbHidBase, Response>(UsbRunner2_NewResponse);
+			UsbHid.NewResponse += new Action<UsbHid, Response>(UsbRunner2_NewResponse);
 		}
 
-		void UsbRunner2_NewResponse(UsbHidBase usbHidBase, Response response)
+		void UsbRunner2_NewResponse(UsbHid usbHid, Response response)
 		{
 			Trace.WriteLine("UsbRunner2_NewResponse " + BytesHelper.BytesToString(response.Bytes));
 		}
