@@ -37,7 +37,7 @@ namespace PlansModule.Designer
 			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
 			Width = 100;
 			Height = 100;
-			Focusable = true;
+			Focusable = false;
 
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
