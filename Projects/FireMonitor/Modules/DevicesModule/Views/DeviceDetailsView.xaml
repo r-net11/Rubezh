@@ -82,9 +82,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
+                                        <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="0, 0, 5, 0" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -93,10 +93,10 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
+                                        <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="-2, -2, 0, 0" Width="16" Height="16" />
                                         <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

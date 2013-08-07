@@ -15,6 +15,7 @@ namespace ServerFS2.ViewModels
 			Current = this;
 			Title = "Сервер ОПС FS2";
 			ExitCommand = new RelayCommand(OnExit);
+			ShowLogCommand = new RelayCommand(OnShowLog);
 		}
 
 		private string _status;
@@ -69,7 +70,14 @@ namespace ServerFS2.ViewModels
 				this.Close();
 				NotifyIconService.Stop();
 				Bootstrapper.Close();
-			}	
+			}
+		}
+
+		public RelayCommand ShowLogCommand { get; private set; }
+		void OnShowLog()
+		{
+			var logViewModel = new LogsViewModel();
+			DialogService.ShowWindow(logViewModel);
 		}
 
 		public override bool OnClosing(bool isCanceled)

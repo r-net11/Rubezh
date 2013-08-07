@@ -360,12 +360,21 @@ namespace ServerFS2
 
 		string GetEventNameAMT()
 		{
-			if (FSInternalJournal.AdditionalEventCode == 0)
-				return FS2JournalItem.Device.Properties.FirstOrDefault(x => x.Name == "Event1").Value;
-			else if (FSInternalJournal.AdditionalEventCode == 1)
-				return FS2JournalItem.Device.Properties.FirstOrDefault(x => x.Name == "Event2").Value;
-			else
-				return "";
+			switch (FSInternalJournal.AdditionalEventCode)
+			{
+				case 0:
+					var property = FS2JournalItem.Device.Properties.FirstOrDefault(x => x.Name == "Event1");
+					if (property != null)
+						return property.Value;
+					break;
+
+				case 1:
+					property = FS2JournalItem.Device.Properties.FirstOrDefault(x => x.Name == "Event2");
+					if (property != null)
+						return property.Value;
+					break;
+			}
+			return "";
 		}
 
 		StateType GetEventStateType()

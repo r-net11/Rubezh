@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using UsbLibrary;
+using ServerFS2.ViewModels;
 
 namespace ServerFS2
 {
@@ -53,7 +54,9 @@ namespace ServerFS2
 
 		public bool Send(List<byte> bytes, string name, int attemptNo)
 		{
-			Trace.WriteLine(DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo);
+			var message = DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo;
+			Trace.WriteLine(message);
+			LogService.AddUSBHidLog(message);
 			if (IsDisposed)
 				return false;
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());

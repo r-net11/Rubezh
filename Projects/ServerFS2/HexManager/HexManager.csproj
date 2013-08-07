@@ -75,6 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\DriverTypeToStringConverter.cs" />
     <Compile Include="Converters\HexMemotyTypeToStringConverter.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="Models\HEXFileInfo.cs" />

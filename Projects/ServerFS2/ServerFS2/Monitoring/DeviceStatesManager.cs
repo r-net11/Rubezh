@@ -8,6 +8,7 @@ using FS2Api;
 using Rubezh2010;
 using ServerFS2.Helpers;
 using ServerFS2.Service;
+using System.Diagnostics;
 
 namespace ServerFS2.Monitoring
 {
@@ -148,8 +149,6 @@ namespace ServerFS2.Monitoring
 					if (intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
 					{
 						var hasBit = rawParametersBitArray[intBitNo];
-						if (metadataDeviceState.inverse == "1")
-							hasBit = !hasBit;
 						SetStateFromMetadata(device, metadataDeviceState, hasBit);
 					}
 				}
@@ -158,6 +157,17 @@ namespace ServerFS2.Monitoring
 
 		void SetStateFromMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit)
 		{
+			if (device.Driver.DriverType == DriverType.AM1_T)
+			{
+				;
+			}
+
+			if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != "Security" && metadataDeviceState.type != "security")
+				return;
+
+			if (metadataDeviceState.inverse == "1")
+				hasBit = !hasBit;
+
 			if (hasBit)
 			{
 				if (!device.DeviceState.States.Any(x => x.DriverState.Code == metadataDeviceState.ID))

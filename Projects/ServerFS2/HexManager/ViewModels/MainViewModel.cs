@@ -4,6 +4,9 @@ using HexManager.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
+using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace HexManager.ViewModels
 {
@@ -17,6 +20,86 @@ namespace HexManager.ViewModels
 			SaveFileCommand = new RelayCommand(OnSaveFile, CanSaveFile);
 			LoadFileCommand = new RelayCommand(OnLoadFile);
 			Files = new ObservableRangeCollection<FileViewModel>();
+
+			Drivers = new ObservableCollection<DriverType>();
+			Drivers.Add(DriverType.Rubezh_2AM);
+			Drivers.Add(DriverType.Rubezh_4A);
+			Drivers.Add(DriverType.Rubezh_2OP);
+			Drivers.Add(DriverType.BUNS);
+			Drivers.Add(DriverType.IndicationBlock);
+			Drivers.Add(DriverType.PDU);
+			Drivers.Add(DriverType.PDU_PT);
+			Drivers.Add(DriverType.MS_1);
+			Drivers.Add(DriverType.MS_2);
+			Drivers.Add(DriverType.MS_3);
+			Drivers.Add(DriverType.MS_4);
+			Drivers.Add(DriverType.UOO_TL);
+		}
+
+		ObservableCollection<DriverType> _drivers;
+		public ObservableCollection<DriverType> Drivers
+		{
+			get { return _drivers; }
+			set
+			{
+				_drivers = value;
+				OnPropertyChanged("Drives");
+			}
+		}
+
+		DriverType _selectedDriver;
+		public DriverType SelectedDriver
+		{
+			get { return _selectedDriver; }
+			set
+			{
+				_selectedDriver = value;
+				OnPropertyChanged("SelectedDriver");
+			}
+		}
+
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged("Name");
+			}
+		}
+
+		int _minorVersion;
+		public int MinorVersion
+		{
+			get { return _minorVersion; }
+			set
+			{
+				_minorVersion = value;
+				OnPropertyChanged("MinorVersion");
+			}
+		}
+
+		int _majorVersion;
+		public int MajorVersion
+		{
+			get { return _majorVersion; }
+			set
+			{
+				_majorVersion = value;
+				OnPropertyChanged("MajorVersion");
+			}
+		}
+
+		string _autorName;
+		public string AutorName
+		{
+			get { return _autorName; }
+			set
+			{
+				_autorName = value;
+				OnPropertyChanged("AutorName");
+			}
 		}
 
 		ObservableRangeCollection<FileViewModel> _files;
@@ -91,7 +174,14 @@ namespace HexManager.ViewModels
 				if (File.Exists(saveDialog.FileName))
 					File.Delete(saveDialog.FileName);
 
-				var hxcFileInfo = new HXCFileInfo();
+				var hxcFileInfo = new HXCFileInfo()
+				{
+					DriverType = SelectedDriver,
+					Name = Name,
+					MinorVersion = MinorVersion,
+					MajorVersion = MajorVersion,
+					AutorName = AutorName
+				};
 				foreach (var file in Files)
 				{
 					var hexFileInfo = new HEXFileInfo()
@@ -125,6 +215,12 @@ namespace HexManager.ViewModels
 				var hxcFileInfo = HXCFileInfoHelper.Load(openFileDialog.FileName);
 				if (hxcFileInfo != null)
 				{
+					SelectedDriver = hxcFileInfo.DriverType;
+					Name = hxcFileInfo.Name;
+					MinorVersion = hxcFileInfo.MinorVersion;
+					MajorVersion = hxcFileInfo.MajorVersion;
+					AutorName = hxcFileInfo.AutorName;
+
 					Files = new ObservableRangeCollection<FileViewModel>();
 					foreach (var fileInfo in hxcFileInfo.FileInfos)
 					{
