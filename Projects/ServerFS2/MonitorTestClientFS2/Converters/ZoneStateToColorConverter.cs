@@ -12,6 +12,9 @@ namespace MonitorTestClientFS2.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			ZoneState zoneState = (ZoneState)value;
+			if (zoneState == null)
+				return Brushes.Transparent;
+
 			if (zoneState.Zone.ZoneType == ZoneType.Guard)
 			{
 				if (zoneState.StateType == StateType.Norm)

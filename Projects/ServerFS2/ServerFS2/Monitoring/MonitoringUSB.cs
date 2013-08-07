@@ -145,7 +145,6 @@ namespace ServerFS2.Monitoring
 					Logger.Error(e, "MonitoringProcessor.LoopMonitoring");
 				}
 			}
-			;
 		}
 
 		void UsbRunner_NewResponse(Device usbDevice, Response response)

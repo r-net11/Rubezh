@@ -102,7 +102,8 @@ namespace ServerFS2.Monitoring
 
 		public void ProcessMonitoring()
 		{
-			if (IsInitialized && !PanelDevice.DeviceState.IsWrongPanel && !PanelDevice.DeviceState.IsDBMissmatch)
+			//if (IsInitialized && !PanelDevice.DeviceState.IsWrongPanel && !PanelDevice.DeviceState.IsDBMissmatch)
+			if (IsInitialized && !PanelDevice.DeviceState.IsWrongPanel)
 			{
 				if (IsFireReadingNeeded || IsSecurityReadingNeeded)
 				{
@@ -185,40 +186,43 @@ namespace ServerFS2.Monitoring
 				lastDeviceIndex = BytesHelper.ExtractInt(response.Bytes, 0);
 			}
 
-			if (lastDeviceIndex > 1000000)
-				return;
+			switch (requestType)
+			{
+				case RequestType.ReadFireIndex:
+					LastDeviceFireIndex = lastDeviceIndex;
+					if (LastSystemFireIndex == -1)
+					{
+						LastSystemFireIndex = LastDeviceFireIndex;
+					}
+					if (LastDeviceFireIndex - LastSystemFireIndex > MaxFireMessages)
+					{
+						LastSystemFireIndex = LastDeviceFireIndex - MaxFireMessages;
+					}
+					if (LastDeviceFireIndex > LastSystemFireIndex)
+					{
+						IsFireReadingNeeded = true;
+					}
+					if (LastDeviceFireIndex < LastSystemFireIndex)
+						LastDeviceFireIndex = LastSystemFireIndex;
+					break;
 
-			if (requestType == RequestType.ReadFireIndex)
-			{
-				LastDeviceFireIndex = lastDeviceIndex;
-				if (LastSystemFireIndex == -1)
-				{
-					LastSystemFireIndex = LastDeviceFireIndex;
-				}
-				if (LastDeviceFireIndex - LastSystemFireIndex > MaxFireMessages)
-				{
-					LastSystemFireIndex = LastDeviceFireIndex - MaxFireMessages;
-				}
-				if (LastDeviceFireIndex > LastSystemFireIndex)
-				{
-					IsFireReadingNeeded = true;
-				}
-			}
-			else
-			{
-				LastDeviceSecurityIndex = lastDeviceIndex;
-				if (LastSystemSecurityIndex == -1)
-				{
-					LastSystemSecurityIndex = LastDeviceSecurityIndex;
-				}
-				if (LastDeviceSecurityIndex - LastSystemSecurityIndex > MaxSecurityMessages)
-				{
-					LastSystemSecurityIndex = LastDeviceSecurityIndex - MaxSecurityMessages;
-				}
-				if (LastDeviceSecurityIndex > LastSystemSecurityIndex)
-				{
-					IsSecurityReadingNeeded = true;
-				}
+				case RequestType.ReadSecurityIndex:
+					LastDeviceSecurityIndex = lastDeviceIndex;
+					if (LastSystemSecurityIndex == -1)
+					{
+						LastSystemSecurityIndex = LastDeviceSecurityIndex;
+					}
+					if (LastDeviceSecurityIndex - LastSystemSecurityIndex > MaxSecurityMessages)
+					{
+						LastSystemSecurityIndex = LastDeviceSecurityIndex - MaxSecurityMessages;
+					}
+					if (LastDeviceSecurityIndex > LastSystemSecurityIndex)
+					{
+						IsSecurityReadingNeeded = true;
+					}
+					if (LastDeviceSecurityIndex < LastSystemSecurityIndex)
+						LastDeviceSecurityIndex = LastSystemSecurityIndex;
+					break;
 			}
 
 			var deltaIndex = LastDeviceFireIndex - LastSystemFireIndex;
@@ -232,6 +236,9 @@ namespace ServerFS2.Monitoring
 		{
 			Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadFireIndex);
 			var journalItems = new List<FS2JournalItem>();
+
+			if (LastSystemFireIndex == 0)
+				LastSystemFireIndex = LastDeviceFireIndex;
 
 			for (int i = Math.Max(LastDeviceFireIndex - MaxFireMessages, LastSystemFireIndex + 1); i <= LastDeviceFireIndex; i++)
 			{
@@ -257,7 +264,10 @@ namespace ServerFS2.Monitoring
         {
             Requests.RemoveAll(x => x != null && x.RequestType == RequestType.ReadSecurityIndex);
             var journalItems = new List<FS2JournalItem>();
-            
+
+			if (LastSystemSecurityIndex == 0)
+				LastSystemSecurityIndex = LastDeviceSecurityIndex;
+
             for (int i = Math.Max(LastDeviceSecurityIndex - MaxSecurityMessages, LastSystemSecurityIndex + 1); i <= LastDeviceSecurityIndex; i++)
             {
                 if (doProgress)
@@ -293,7 +303,6 @@ namespace ServerFS2.Monitoring
                 LastDeviceSecurityIndex = BytesHelper.ExtractInt(response.Bytes, 0);
                 GetNewSecurityJournalItems(true);
             }
-			
         }
 
 		void OnNewJournalItem(FS2JournalItem fsJournalItem)

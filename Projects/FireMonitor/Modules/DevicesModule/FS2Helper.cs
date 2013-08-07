@@ -55,7 +55,7 @@ namespace DevicesModule
 						if (device != null)
 						{
 							FiresecManager.CopyDeviceStatesFromFS2Server(device, deviceState);
-							device.DeviceState.OnStateChanged();
+							device.DeviceState.OnParametersChanged();
 							ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(device.UID);
 						}
 					}

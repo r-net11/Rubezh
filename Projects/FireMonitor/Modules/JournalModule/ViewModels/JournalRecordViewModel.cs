@@ -58,6 +58,7 @@ namespace JournalModule.ViewModels
 			SystemTime = journalItem.SystemTime;
 			ZoneName = journalItem.ZoneName;
 			Description = journalItem.Description;
+			Detalization = journalItem.Detalization;
 			DeviceName = journalItem.DeviceName;
 			PanelName = journalItem.PanelName;
 			User = journalItem.UserName;

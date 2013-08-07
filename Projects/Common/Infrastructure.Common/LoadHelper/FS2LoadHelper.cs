@@ -57,6 +57,7 @@ namespace Infrastructure.Common
 		{
 			Process[] processes = Process.GetProcessesByName("ServerFS2");
 			Process[] processesVsHost = Process.GetProcessesByName("ServerFS2.vshost");
+			Process[] processesVsHost2 = Process.GetProcessesByName("MonitorTestClientFS2.vshost");
 			var isRunning = false;
 			foreach (var process in processes)
 			{
@@ -64,8 +65,7 @@ namespace Infrastructure.Common
 				if (isCurrentUser)
 					isRunning = true;
 			}
-			//if (!isRunning && (processesVsHost.Count() == 0))
-			if ((processes.Count() == 0) && (processesVsHost.Count() == 0))
+			if (processes.Count() + processesVsHost.Count() + processesVsHost2.Count() == 0)
 			{
 				try
 				{

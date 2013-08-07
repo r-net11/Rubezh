@@ -22,7 +22,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
-                                <TextBlock Text="{Binding Alarm.StateName}" />
+                                <TextBlock Text="{Binding Alarm.StateName}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
