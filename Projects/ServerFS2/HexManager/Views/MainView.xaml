@@ -5,6 +5,7 @@
         Title="Firesec-2. Редактор пакетов обновлений" Height="600" Width="800">
     <Window.Resources>
         <Converters:HexMemotyTypeToStringConverter x:Key="HexMemotyTypeToStringConverter" />
+        <Converters:DriverTypeToStringConverter x:Key="DriverTypeToStringConverter" />
     </Window.Resources>
 
     <Grid Background="{DynamicResource BaseWindowBackgroundBrush}">
@@ -12,12 +13,46 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Новый" Command="{Binding CreateNewCommand}" Width="100" Margin="2" />
-            <Button Content="Добавить" Command="{Binding AddFileCommand}" Width="100" Margin="2" />
-            <Button Content="Удалить" Command="{Binding RemoveFileCommand}" Width="100" Margin="2" />
-            <Button Content="Сохранить" Command="{Binding SaveFileCommand}" Width="100" Margin="2" />
-            <Button Content="Загрузить" Command="{Binding LoadFileCommand}" Width="100" Margin="2" />
+        <StackPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Новый" Command="{Binding CreateNewCommand}" Width="100" Margin="2" />
+                <Button Content="Добавить" Command="{Binding AddFileCommand}" Width="100" Margin="2" />
+                <Button Content="Удалить" Command="{Binding RemoveFileCommand}" Width="100" Margin="2" />
+                <Button Content="Сохранить" Command="{Binding SaveFileCommand}" Width="100" Margin="2" />
+                <Button Content="Загрузить" Command="{Binding LoadFileCommand}" Width="100" Margin="2" />
+            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="5 2" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Тип прибора" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver, UpdateSourceTrigger=PropertyChanged}" Margin="5 2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource DriverTypeToStringConverter}}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Black" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Версия" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <TextBox Text="{Binding MinorVersion}" Margin="5 2" />
+                    <TextBox Text="{Binding MajorVersion}" Margin="5 2" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Автор" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AutorName}" Margin="5 2" />
+            </Grid>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -62,27 +97,25 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel Grid.Row="2" Margin="2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Версия" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Version}" Foreground="White" Margin="5 1" />
+                <Grid Grid.Row="2" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Версия" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Version}" Foreground="White" Margin="5 1" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Диапазон адресов" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding AddressRange}" Foreground="White" Margin="5 1" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Диапазон адресов" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding AddressRange}" Foreground="White" Margin="5 1" />
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="CRC" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CRC}" Foreground="White" Margin="5 1" />
-                    </Grid>
-                </StackPanel>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="CRC" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CRC}" Foreground="White" Margin="5 1" />
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
