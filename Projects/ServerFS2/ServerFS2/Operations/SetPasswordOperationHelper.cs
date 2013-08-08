@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
 
 namespace ServerFS2.Operations
@@ -22,7 +19,7 @@ namespace ServerFS2.Operations
 			var bytes = password.Split().Select(t => byte.Parse(t, NumberStyles.AllowHexSpecifier)).ToList();
 
 			var passwordTypeNo = GetPasswordTypeNo(devicePasswordType);
-			USBManager.Send(device, 0x02, 0x52, BytesHelper.IntToBytes(passwordTypeNo), 0x02, bytes);
+			USBManager.Send(device, "Запись пароля", 0x02, 0x52, BytesHelper.IntToBytes(passwordTypeNo), 0x02, bytes);
 		}
 
 		static int GetPasswordTypeNo(DevicePasswordType devicePasswordType)

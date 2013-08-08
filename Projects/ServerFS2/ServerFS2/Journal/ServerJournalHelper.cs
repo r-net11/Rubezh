@@ -15,27 +15,27 @@ namespace ServerFS2.Journal
 
 		public static List<FS2JournalItem> GetFilteredJournal(JournalFilter journalFilter)
 		{
-			return DatabaseHelper.GetFilteredJournal(journalFilter);
+			return ServerFS2Database.GetFilteredJournal(journalFilter);
 		}
 
 		public static List<FS2JournalItem> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-			return DatabaseHelper.OnGetFilteredArchive(archiveFilter, true);
+			return ServerFS2Database.OnGetFilteredArchive(archiveFilter, true);
 		}
 		public static void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
 		{
 			if (CurrentThread != null)
 			{
-				DatabaseHelper.IsAbort = true;
+				ServerFS2Database.IsAbort = true;
 				CurrentThread.Join(TimeSpan.FromMinutes(1));
 				CurrentThread = null;
 			}
-			DatabaseHelper.IsAbort = false;
+			ServerFS2Database.IsAbort = false;
 			var thread = new Thread(new ThreadStart((new Action(() =>
 			{
-				DatabaseHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-				DatabaseHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				DatabaseHelper.OnGetFilteredArchive(archiveFilter, false);
+				ServerFS2Database.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+				ServerFS2Database.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+				ServerFS2Database.OnGetFilteredArchive(archiveFilter, false);
 			}))));
 			CurrentThread = thread;
 			thread.Start();
@@ -52,12 +52,12 @@ namespace ServerFS2.Journal
 
 		public static List<JournalDescriptionItem> GetDistinctDescriptions()
 		{
-			return DatabaseHelper.GetDistinctDescriptions();
+			return ServerFS2Database.GetDistinctDescriptions();
 		}
 
 		public static DateTime GetArchiveStartDate()
 		{
-			return DatabaseHelper.GetArchiveStartDate();
+			return ServerFS2Database.GetArchiveStartDate();
 		}
 
 		public static void AddJournalItems(List<FS2JournalItem> journalItems)
@@ -65,7 +65,7 @@ namespace ServerFS2.Journal
 			var operationResult = new OperationResult<bool>();
 			try
 			{
-				DatabaseHelper.AddJournalItems(journalItems);
+				ServerFS2Database.AddJournalItems(journalItems);
 				operationResult.Result = true;
 			}
 			catch (Exception e)
@@ -87,7 +87,7 @@ namespace ServerFS2.Journal
 				UserName = userName,
 			};
 
-			DatabaseHelper.AddJournalItems(new List<FS2JournalItem>() { journalItem });
+			ServerFS2Database.AddJournalItems(new List<FS2JournalItem>() { journalItem });
 			//NotifyNewJournal(new List<FS2JournalItem>() { journalItem });
 		}
 	}

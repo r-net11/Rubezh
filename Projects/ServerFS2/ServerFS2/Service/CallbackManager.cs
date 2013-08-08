@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using FS2Api;
 using FiresecAPI.Models;
+using FS2Api;
 
 namespace ServerFS2.Service
 {

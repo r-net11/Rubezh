@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using Common;
-using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace Firesec_50

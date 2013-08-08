@@ -218,6 +218,10 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\FS2Api\FS2API.csproj">
+      <Project>{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}</Project>
+      <Name>FS2API</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
@@ -225,6 +229,10 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ServerFS2\FS2Database\FS2Database.csproj">
+      <Project>{AC115AEC-105A-4D2A-A5EC-D796BF4AE45D}</Project>
+      <Name>FS2Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
       <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>

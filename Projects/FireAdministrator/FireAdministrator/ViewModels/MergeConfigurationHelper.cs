@@ -108,34 +108,24 @@ namespace FireAdministrator.ViewModels
 		{
 			deviceConfiguration.Update();
 			foreach (var device in deviceConfiguration.Devices)
-			{
-				var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				device.Driver = driver;
-			}
+				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			foreach (var device in deviceConfiguration.Devices)
-			{
-				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
-				{
+				if (device.Driver != null && (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2))
 					AddDeviceTree(device);
-				}
-			}
 			foreach (var device in deviceConfiguration.Devices)
-			{
-				if (device.Driver.IsPanel)
-				{
+				if (device.Driver != null && device.Driver.IsPanel)
 					AddDeviceTree(device);
-				}
-			}
 			var maxZoneNo = 0;
 			if (FiresecManager.Zones.Count > 0)
-			{
 				maxZoneNo = FiresecManager.Zones.Max(x => x.No);
-			}
+			var zoneMap = new List<Guid>();
+			FiresecManager.Zones.ForEach(zone => zoneMap.Add(zone.UID));
 			foreach (var zone in deviceConfiguration.Zones)
-			{
-				zone.No += maxZoneNo;
-				FiresecManager.Zones.Add(zone);
-			}
+				if (!zoneMap.Contains(zone.UID))
+				{
+					zone.No += maxZoneNo;
+					FiresecManager.Zones.Add(zone);
+				}
 		}
 
 		static void AddDeviceTree(Device device)

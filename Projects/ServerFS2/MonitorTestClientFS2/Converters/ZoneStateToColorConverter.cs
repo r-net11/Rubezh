@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using FiresecAPI.Models;
-using FiresecAPI;
 using System.Windows.Media;
+using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 
 namespace MonitorTestClientFS2.Converters
@@ -15,6 +12,9 @@ namespace MonitorTestClientFS2.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			ZoneState zoneState = (ZoneState)value;
+			if (zoneState == null)
+				return Brushes.Transparent;
+
 			if (zoneState.Zone.ZoneType == ZoneType.Guard)
 			{
 				if (zoneState.StateType == StateType.Norm)

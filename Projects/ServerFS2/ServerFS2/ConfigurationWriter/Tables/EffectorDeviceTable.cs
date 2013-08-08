@@ -19,13 +19,13 @@ namespace ServerFS2.ConfigurationWriter
 		BinaryDevice BinaryDevice;
 		public List<ZoneTable> ZonesInLogic = new List<ZoneTable>();
 
-		public EffectorDeviceTable(FlashDatabase panelDatabase, BinaryDevice binaryDevice, bool isOuter)
-			: base(panelDatabase, isOuter ? "Внешнее устройство " : "" + binaryDevice.Device.DottedPresentationAddressAndName)
+		public EffectorDeviceTable(FlashDatabase panelDatabase, BinaryDevice binaryDevice, bool isRemote)
+			: base(panelDatabase, isRemote ? "Внешнее устройство " : "" + binaryDevice.Device.DottedPresentationAddressAndName)
 		{
 			binaryDevice.TableBase = this;
 			BinaryDevice = binaryDevice;
 			Device = binaryDevice.Device;
-			IsRemote = isOuter;
+			IsRemote = isRemote;
 		}
 
 		public override void Create()
@@ -208,24 +208,13 @@ namespace ServerFS2.ConfigurationWriter
 					break;
 
 				case DriverType.MDU:
-					//var outDevicesCount = 0;
-					//BytesDatabase.AddShort(outDevicesCount, "Общее количество связанных ИУ");
-					//if (outDevicesCount > 0)
-					//{
-					//    for (int i = 0; i < ParentPanel.ShleifNo; i++)
-					//    {
-					//        BytesDatabase.AddByte(0, "Количество связанных ИУ шлейфа " + (i + 1).ToString());
-					//        BytesDatabase.AddReference((ByteDescription)null, "Указатель на размещение абсолютного адреса размещения первого саиска связанного ИУ шлейфа " + (i + 1).ToString());
-					//    }
-					//}
-					break;
 				case DriverType.Valve:
-					AddValveConfig();
+					AddDeviceZoneLogic(Device.Driver.DriverType);
 					break;
 			}
 		}
 
-		void AddValveConfig()
+		void AddDeviceZoneLogic(DriverType driverType)
 		{
 			var rmDevices = new HashSet<Device>();
 			foreach (var device in ConfigurationManager.Devices)
@@ -234,7 +223,7 @@ namespace ServerFS2.ConfigurationWriter
 				{
 					foreach (var clauseDevice in clause.Devices)
 					{
-						if (clauseDevice != null && clauseDevice == Device && clauseDevice.Driver.DriverType == DriverType.Valve)
+						if (clauseDevice != null && clauseDevice == Device && clauseDevice.Driver.DriverType == driverType)
 						{
 							rmDevices.Add(device);
 						}
@@ -564,7 +553,7 @@ namespace ServerFS2.ConfigurationWriter
 					return 0;
 
 				case DriverType.MDU:
-					return 14;
+					return 3;
 
 				case DriverType.MRO_2:
 					return 3;

@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using ServerFS2.Service;
-using System.Diagnostics;
 using Common;
-using System.Collections;
 using FiresecAPI;
+using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace ServerFS2.Monitoring
 {
@@ -15,21 +13,9 @@ namespace ServerFS2.Monitoring
 	{
 		void UpdateDeviceStateDetalisation(Device device)
 		{
-			//foreach (var deviceTable in MetadataHelper.Metadata.deviceTables)
-			//{
-			//    if (deviceTable.detalization != null)
-			//    {
-			//        foreach (var detalization in deviceTable.detalization)
-			//        {
-			//            if (detalization.source != null)
-			//                Trace.WriteLine(detalization.source);
-			//        }
-			//    }
-			//}
-
 			try
 			{
-				var additionalparameters = new List<Parameter>();
+				var additionalParameters = new List<Parameter>();
 
 				var deviceTable = MetadataHelper.GetMetadataDeviceTable(device);
 				if (deviceTable != null && deviceTable.detalization != null)
@@ -65,8 +51,9 @@ namespace ServerFS2.Monitoring
 										switch (metadataDetalization.stateByte)
 										{
 											case "high":
-												if (device.StateWordBytes.Count > 0)
-													rawParameterValue = device.StateWordBytes[0];
+												rawParameterIndex = 0;
+												//if (device.StateWordBytes.Count > 0)
+												//    rawParameterValue = device.StateWordBytes[0];
 												break;
 										}
 									}
@@ -122,18 +109,26 @@ namespace ServerFS2.Monitoring
 										}
 										if (isMatch)
 										{
-											var additionalparameter = new Parameter()
+											var additionalParameter = additionalParameters.FirstOrDefault(x => x.Name == parameterName);
+											if (additionalParameter == null)
 											{
-												Name = parameterName,
-												Value = matadataBit.value,
-												Visible = true,
-											};
-											var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == parameterName);
-											if (driverParameter != null)
-											{
-												additionalparameter.Caption = driverParameter.Caption;
+												additionalParameter = new Parameter()
+												{
+													Name = parameterName,
+													Value = matadataBit.value,
+													Visible = true,
+												};
+												var driverParameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == parameterName);
+												if (driverParameter != null)
+												{
+													additionalParameter.Caption = driverParameter.Caption;
+												}
+												additionalParameters.Add(additionalParameter);
 											}
-											additionalparameters.Add(additionalparameter);
+											else
+											{
+												additionalParameter.Value += ", " + matadataBit.value;
+											}
 										}
 									}
 								}
@@ -146,7 +141,7 @@ namespace ServerFS2.Monitoring
 				{
 					if (parameter.Name == "OtherMessage" || parameter.Name == "FailureType" || parameter.Name == "AlarmReason")
 					{
-						var additionalparameter = additionalparameters.FirstOrDefault(x => x.Value == parameter.Value);
+						var additionalparameter = additionalParameters.FirstOrDefault(x => x.Value == parameter.Value);
 						if (additionalparameter != null)
 						{
 							if (parameter.Value != additionalparameter.Value)
@@ -162,7 +157,7 @@ namespace ServerFS2.Monitoring
 						}
 					}
 				}
-				foreach (var additionalparameter in additionalparameters)
+				foreach (var additionalparameter in additionalParameters)
 				{
 					var parameter = device.DeviceState.Parameters.FirstOrDefault(x => x.Value == additionalparameter.Value);
 					if (parameter == null)

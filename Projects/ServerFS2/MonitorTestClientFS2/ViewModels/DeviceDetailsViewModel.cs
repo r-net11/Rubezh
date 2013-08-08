@@ -4,9 +4,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using ServerFS2;
-using ServerFS2.Processor;
 using MonitorTestClientFS2.ViewModels;
+using ServerFS2;
 
 namespace MonitorClientFS2.ViewModels
 {

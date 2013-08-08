@@ -14,27 +14,27 @@
 		<Image Grid.Row="1" Grid.Column="0" Width="32" Height="26" Margin="10 5 0 5" HorizontalAlignment="Left" Opacity="0.5" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="/Controls;component/Images/logo.png" Visibility="{Binding Content.AllowLogoIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<TextBlock Grid.Row="1" Grid.Column="1" Margin="0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="White" Opacity="0.5" Text="{Binding Content.Title}" />
 		<StackPanel Grid.Row="1" Grid.Column="2" Margin="0, 2, 2, 0" VerticalAlignment="Top" Orientation="Horizontal">
-			<Menu VerticalAlignment="Center" Background="Transparent" Visibility="{Binding Content.AllowHelp, Converter={StaticResource BoolToVisibilityConverter}}">
-				<MenuItem>
+			<Menu VerticalAlignment="Center" Background="Transparent" Visibility="{Binding Content.AllowHelp, Converter={StaticResource BoolToVisibilityConverter}}" Focusable="False">
+				<MenuItem Focusable="False">
 					<MenuItem.Header>
 						<Image Height="12" Margin="-2" Source="/Controls;component/Images/Help.png" />
 					</MenuItem.Header>
-					<MenuItem Command="{Binding Content.ApplicationHelpCommand}" Header="Помощь" />
-					<MenuItem Command="{Binding Content.ApplicationAboutCommand}" Header="О программе" />
+					<MenuItem Command="{Binding Content.ApplicationHelpCommand}" Header="Помощь" Focusable="False"/>
+					<MenuItem Command="{Binding Content.ApplicationAboutCommand}" Header="О программе" Focusable="False"/>
 				</MenuItem>
 			</Menu>
-			<Button Command="{Binding Content.ApplicationMinimizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Command="{Binding Content.ApplicationMinimizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}" Focusable="False">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Minimize.png" />
 			</Button>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Button Command="{Binding Content.ApplicationMaximizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Button Command="{Binding Content.ApplicationMaximizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}}" Focusable="False">
 					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
 				</Button>
-				<Button Command="{Binding Content.ApplicationNormalizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Нормальный размер" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+				<Button Command="{Binding Content.ApplicationNormalizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Нормальный размер" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" Focusable="False">
 					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Normalize.png" />
 				</Button>
 			</StackPanel>
-			<Button Command="{Binding Content.ApplicationCloseCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Command="{Binding Content.ApplicationCloseCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}" Focusable="False">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Close.png" />
 			</Button>
 		</StackPanel>

@@ -79,9 +79,9 @@
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Margin="0, 0, 5, 0" VerticalAlignment="Center" Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}" />
-										<TextBlock VerticalAlignment="Center" Text="{Binding DriverState.Name}" />
-										<Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" ImageSource="/Controls;component/Images/Close.png" ToolTip="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image Margin="0, 0, 5, 0" VerticalAlignment="Center" Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+										<TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                        <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" ImageSource="/Controls;component/Images/Close.png" ToolTip="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -90,9 +90,9 @@
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Height="16" Margin="-2, -2, 0, 0" Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+										<Image Width="16" Height="16" Margin="-2, -2, 0, 0" Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" />
 										<TextBlock VerticalAlignment="Center" Text="{Binding DeviceName}" />
-										<TextBlock Margin="5, 0, 0, 0" VerticalAlignment="Center" Text="{Binding DriverState.Name}" />
+										<TextBlock Margin="5, 0, 0, 0" VerticalAlignment="Center" Text="{Binding Name}" />
 									</StackPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>

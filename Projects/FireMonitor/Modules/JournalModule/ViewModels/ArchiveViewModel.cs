@@ -290,13 +290,7 @@ namespace JournalModule.ViewModels
 					var page = Pages[value - 1];
 
 					var journalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
-					var journalRecordViewModels = new List<JournalRecordViewModel>();
-					foreach (var journalRecord in page.JournalRecordsList)
-					{
-						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-						journalRecordViewModels.Add(journalRecordViewModel);
-					}
-					journalRecords.AddRange(journalRecordViewModels);
+					journalRecords.AddRange(page.JournalRecords);
 					JournalRecords = journalRecords;
 					SelectedRecord = JournalRecords.FirstOrDefault();
 				}
@@ -348,7 +342,14 @@ namespace JournalModule.ViewModels
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
 		{
-			var archivePageViewModel = new ArchivePageViewModel(journalRecords);
+			var journalRecordViewModels = new List<JournalRecordViewModel>();
+			foreach (var journalRecord in journalRecords)
+			{
+				var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+				journalRecordViewModels.Add(journalRecordViewModel);
+			}
+			var archivePageViewModel = new ArchivePageViewModel(journalRecordViewModels);
+
 			Pages.Add(archivePageViewModel);
 			TotalPageNumber = Pages.Count;
 			if (CurrentPageNumber == 0)
@@ -358,21 +359,19 @@ namespace JournalModule.ViewModels
 
 		void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
 		{
-			Dispatcher.Invoke(new Action(() =>
+			var journalRecordViewModels = new List<JournalRecordViewModel>();
+			foreach (var journalItem in journalItems)
 			{
-				if (JournalRecords == null)
-					JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
+				var journalRecordViewModel = new JournalRecordViewModel(journalItem);
+				journalRecordViewModels.Add(journalRecordViewModel);
+			}
+			var archivePageViewModel = new ArchivePageViewModel(journalRecordViewModels);
 
-				var journalRecordViewModels = new List<JournalRecordViewModel>();
-				foreach (var journalItem in journalItems)
-				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-					journalRecordViewModels.Add(journalRecordViewModel);
-				}
-				JournalRecords.AddRange(journalRecordViewModels);
-
-				Status = "Количество записей: " + JournalRecords.Count.ToString();
-			}));
+			Pages.Add(archivePageViewModel);
+			TotalPageNumber = Pages.Count;
+			if (CurrentPageNumber == 0)
+				CurrentPageNumber = 1;
+			Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalItems.Count()).ToString();
 		}
 
 		public override void OnShow()

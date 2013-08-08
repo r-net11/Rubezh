@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using FiresecAPI.Models;
-using FS2Api;
-using ServerFS2.Journal;
-using ServerFS2.Service;
-using System.Diagnostics;
-using ServerFS2.Operations;
 using System.Text;
+using ServerFS2.Journal;
 
 namespace ServerFS2.Monitoring
 {
@@ -117,7 +110,7 @@ namespace ServerFS2.Monitoring
 
 		string GetSerialNo()
 		{
-			var response = USBManager.Send(PanelDevice, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
+			var response = USBManager.Send(PanelDevice, "Запрос серийного номера прибора", 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
 			if (!response.HasError)
 			{
 				var result = new string(Encoding.Default.GetChars(response.Bytes.ToArray()));

@@ -9,11 +9,11 @@ using Infrastructure.Common;
 
 namespace ServerFS2.Journal
 {
-	public static partial class DatabaseHelper
+	public static partial class ServerFS2Database
 	{
 		public static string ConnectionString { get; set; }
 
-		static DatabaseHelper()
+		static ServerFS2Database()
 		{
 			ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("FSDB.sdf") + ";Password=adm;Max Database Size=4000";
 		}

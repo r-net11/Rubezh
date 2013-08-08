@@ -51,19 +51,15 @@ namespace DevicesModule.ViewModels
 			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeStates)
 			{
-				var stateViewModel = new StateViewModel()
-				{
-					DriverState = state.DriverState
-				};
+				var stateViewModel = new StateViewModel(state.DriverState, DeviceState.Device);
 				States.Add(stateViewModel);
 			}
 
 			ParentStates = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeParentStates)
 			{
-				var stateViewModel = new StateViewModel()
+				var stateViewModel = new StateViewModel(state.DriverState.Clone())
 				{
-					DriverState = state.DriverState.Clone(),
 					DeviceName = state.ParentDevice.DottedPresentationAddressAndName
 				};
 				ParentStates.Add(stateViewModel);

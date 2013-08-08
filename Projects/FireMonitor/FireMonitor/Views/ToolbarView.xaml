@@ -14,7 +14,7 @@
             </Grid.RowDefinitions>
             <Views:TimePresenterView Grid.Row="0" Margin="11 11 0 0"  />
 
-			<ItemsControl Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding ToolbarItems}">
+			<ItemsControl Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding ToolbarItems}" Focusable="False">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />
@@ -23,7 +23,7 @@
 			</ItemsControl>
         </Grid>
         <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15,0,10,5">
-			<ContentControl Content="{Binding AlarmGroups}"/>
+			<ContentPresenter Content="{Binding AlarmGroups}"/>
         </StackPanel>
     </Grid>
 </UserControl>

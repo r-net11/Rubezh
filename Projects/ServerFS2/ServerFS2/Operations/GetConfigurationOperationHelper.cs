@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using FiresecAPI.Models;
 using ServerFS2.ConfigurationWriter;
 using ServerFS2.Helpers;
 using Device = FiresecAPI.Models.Device;
-using System.Diagnostics;
-using ServerFS2.Service;
 
 namespace ServerFS2
 {
@@ -620,7 +617,7 @@ namespace ServerFS2
 					if ((device.Driver.DriverType == DriverType.SmokeDetector) || (device.Driver.DriverType == DriverType.RadioSmokeDetector))
 					{
 						device.DeviceState.Dustiness = (float)data[8] / 100;
-						device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+						device.DeviceState.Smokiness = USBManager.Send(device.Parent, "Запрос задымленности", 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 					}
 					if (device.Driver.DriverType == DriverType.HeatDetector)
 						device.DeviceState.Temperature = data[8];
@@ -628,7 +625,7 @@ namespace ServerFS2
 					{
 						device.DeviceState.Dustiness = (float)data[9] / 100;
 						device.DeviceState.Temperature = data[10];
-						device.DeviceState.Smokiness = USBManager.Send(device.Parent, 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
+						device.DeviceState.Smokiness = USBManager.Send(device.Parent, "Запрос задымленности", 0x01, 0x56, device.ShleifNo, device.AddressOnShleif).Bytes[0];
 					}
 				}
 			}

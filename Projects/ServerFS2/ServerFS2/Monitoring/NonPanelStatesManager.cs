@@ -1,10 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
-using System.Diagnostics;
-using System.Collections;
 
 namespace ServerFS2.Monitoring
 {
@@ -13,32 +11,35 @@ namespace ServerFS2.Monitoring
 		static Device Panel;
         static BitArray BitArray;
         static DeviceStatesManager DeviceStatesManager;
-		
+
 		public static void UpdatePDUPanelState(Device panel, bool isSilent = false)
 		{
 			Panel = panel;
-            Panel.DeviceState.States = new List<DeviceDriverState>();
-            var bytes = ServerHelper.GetDeviceStatus(Panel);
-            BitArray = new BitArray(new byte[] { bytes[3] });
-            DeviceStatesManager = new DeviceStatesManager();
-			switch(Panel.Driver.DriverType)
+			Panel.DeviceState.States = new List<DeviceDriverState>();
+			var statusBytes = ServerHelper.GetPanelStatus(Panel, false);
+			if (statusBytes != null && statusBytes.Count == 4)
 			{
-				case DriverType.IndicationBlock:
-				case DriverType.PDU_PT:
-                    UpdatePDU_PT();	
-                    break;
+				BitArray = new BitArray(new byte[] { statusBytes[3] });
+				DeviceStatesManager = new DeviceStatesManager();
+				switch (Panel.Driver.DriverType)
+				{
+					case DriverType.IndicationBlock:
+					case DriverType.PDU_PT:
+						UpdatePDU_PT();
+						break;
 
-				case DriverType.PDU:
-                    UpdatePDU();
-                    break;
+					case DriverType.PDU:
+						UpdatePDU();
+						break;
 
-				case DriverType.UOO_TL:
-				case DriverType.MS_3:
-				case DriverType.MS_4:
-                    UpdateUOOTL();
-                    break;
+					case DriverType.UOO_TL:
+					case DriverType.MS_3:
+					case DriverType.MS_4:
+						UpdateUOOTL();
+						break;
+				}
 			}
-        }
+		}
 
 		static void UpdatePDU_PT()
 		{

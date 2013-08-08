@@ -1,21 +1,10 @@
-﻿
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Controls.Menu.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+
 namespace PlansModule.ViewModels
 {
-	//public class PlansMenuViewModel : BaseViewModel
-	//{
-	//    public PlansMenuViewModel(PlansViewModel context)
-	//    {
-	//        Context = context;
-	//    }
-
-	//    public PlansViewModel Context { get; private set; }
-	//}
-
-
 	public class PlansMenuViewModel : MenuViewModel
 	{
 		public PlansMenuViewModel(PlansViewModel context)

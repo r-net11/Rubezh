@@ -1,8 +1,8 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using ServerFS2;
-using Infrastructure.Common;
 
 namespace AdministratorTestClientFS2.ViewModels
 {

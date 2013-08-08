@@ -14,7 +14,6 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
                         <DataGridTextColumn Header="Событие" Binding="{Binding Description}" />
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
                         <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" />
                         <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" />
                         <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" />
@@ -33,7 +32,6 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
                         <DataGridTextColumn Header="Событие" Binding="{Binding Description}" />
-                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
                         <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" />
                         <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" />
                         <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" />

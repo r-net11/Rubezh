@@ -16,6 +16,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.DesignerItems;
 using PlansModule.ViewModels;
+using System.Diagnostics;
 
 namespace PlansModule.Designer
 {
@@ -36,7 +37,7 @@ namespace PlansModule.Designer
 			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
 			Width = 100;
 			Height = 100;
-			Focusable = true;
+			Focusable = false;
 
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
@@ -271,7 +272,7 @@ namespace PlansModule.Designer
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
-			System.Console.WriteLine("CloneElements");
+			//Debug.WriteLine("CloneElements");
 			_initialElements = new List<ElementBase>();
 			foreach (var designerItem in designerItems)
 			{
@@ -283,7 +284,7 @@ namespace PlansModule.Designer
 
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{
-			System.Console.WriteLine("BeginChange");
+			//Debug.WriteLine("BeginChange");
 			_initialElements = CloneElements(designerItems);
 		}
 		public override void BeginChange()
@@ -292,7 +293,7 @@ namespace PlansModule.Designer
 		}
 		public override void EndChange()
 		{
-			System.Console.WriteLine("EndChange");
+			//Debug.WriteLine("EndChange");
 			var after = Toolbox.PlansViewModel.AddHistoryItem(_initialElements);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(after);
 			foreach (var designerItem in SelectedItems)

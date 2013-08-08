@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ServerFS2.Service;
+using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.ConfigurationWriter;
-using FiresecAPI.Models;
-using System.Diagnostics;
+using ServerFS2.Service;
 
 namespace ServerFS2
 {

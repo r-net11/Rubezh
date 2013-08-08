@@ -23,6 +23,8 @@ namespace FiresecClient
 							{
 								DeviceState = device.DeviceState
 							};
+							resetItem.States.Add(deviceDriverState);
+
 							var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceState == resetItem.DeviceState);
 							if (existringResetItem != null)
 							{

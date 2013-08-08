@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FS2Api;
 using ServerFS2.Service;
 
 namespace ServerFS2.Monitoring

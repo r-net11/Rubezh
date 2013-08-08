@@ -55,7 +55,7 @@ namespace DevicesModule
 						if (device != null)
 						{
 							FiresecManager.CopyDeviceStatesFromFS2Server(device, deviceState);
-							device.DeviceState.OnStateChanged();
+							device.DeviceState.OnParametersChanged();
 							ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(device.UID);
 						}
 					}
@@ -108,7 +108,14 @@ namespace DevicesModule
 					{
 						DeviceTime = journalRecord.DeviceTime,
 						SystemTime = journalRecord.SystemTime,
-						Description = journalRecord.Description
+						Description = journalRecord.Description,
+						Detalization = journalRecord.Detalization,
+						DeviceCategory = journalRecord.DeviceCategory,
+						StateType = journalRecord.StateType,
+						DeviceUID = journalRecord.DeviceDatabaseUID,
+						PanelUID = journalRecord.PanelDatabaseUID,
+						ZoneName = journalRecord.ZoneName,
+						UserName = journalRecord.User
 					};
 					journalItems.Add(journalItem);
 					ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Publish(journalItems);

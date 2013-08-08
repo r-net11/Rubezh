@@ -5,6 +5,7 @@ namespace Common
 {
 	public class TimeCounter : IDisposable
 	{
+		private bool CounterEnabled = false;
 		private const string Separator = "===========================================";
 		public string Label { get; private set; }
 		public DateTime Start { get; private set; }
@@ -15,23 +16,29 @@ namespace Common
 
 		public TimeCounter(string label = "{0}", bool showStartSeparator = false, bool showEndSeparator = false)
 		{
-			Start = DateTime.Now;
-			Label = label;
-			ShowStartSeparator = showStartSeparator;
-			ShowEndSeparator = showEndSeparator;
-			if (ShowStartSeparator)
-				Debug.WriteLine(Separator);
+			if (CounterEnabled)
+			{
+				Start = DateTime.Now;
+				Label = label;
+				ShowStartSeparator = showStartSeparator;
+				ShowEndSeparator = showEndSeparator;
+				if (ShowStartSeparator)
+					Debug.WriteLine(Separator);
+			}
 		}
 
 		#region IDisposable Members
 
 		public void Dispose()
 		{
-			End = DateTime.Now;
-			Period = End - Start;
-			Debug.WriteLine(string.Format(Label, Period, Start, End));
-			if (ShowEndSeparator)
-				Debug.WriteLine(Separator);
+			if (CounterEnabled)
+			{
+				End = DateTime.Now;
+				Period = End - Start;
+				Debug.WriteLine(string.Format(Label, Period, Start, End));
+				if (ShowEndSeparator)
+					Debug.WriteLine(Separator);
+			}
 		}
 
 		#endregion

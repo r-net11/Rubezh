@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
+using FS2Api;
 
 namespace ServerFS2.Operations
 {
@@ -11,30 +12,41 @@ namespace ServerFS2.Operations
 			string serialNo;
 			var result = "";
 			var driverType = device.Driver.DriverType;
+			Response response = null;
 
 			if (driverType == DriverType.MS_1 || driverType == DriverType.MS_2)
 			{
-				var driverTypeBytes = USBManager.Send(device, 0x01, 0x04).MsFlag;
-				result += "Тип устройства: " + (driverTypeBytes == 0x41 ? FiresecAPI.Models.DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.MS_2).Name : FiresecAPI.Models.DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.MS_1).Name) + "\n";
+				response = USBManager.Send(device, "Запрос типа устройства", 0x01, 0x04);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				result += "Тип устройства: " + (response.MsFlag == 0x41 ? FiresecAPI.Models.DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.MS_2).Name : FiresecAPI.Models.DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.MS_1).Name) + "\n";
 
-				var serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
-				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+				response = USBManager.Send(device, "Запрос серийного номера", 0x01, 0x32);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				serialNo = new string(Encoding.Default.GetChars(response.Bytes.ToArray()));
 				result += "Заводской номер: " + serialNo + "\n";
 			}
 
 			else if (driverType == DriverType.IndicationBlock || driverType == DriverType.PDU || driverType == DriverType.PDU_PT)
 			{
-				var driverTypeBytes = USBManager.Send(device, 0x01, 0x03).Bytes;
-				result += "Тип устройства: " + DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverCode == driverTypeBytes[0]).Name + "\n";
+				response = USBManager.Send(device, "Запрос типа устройства", 0x01, 0x03);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				result += "Тип устройства: " + DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverCode == response.Bytes[0]).Name + "\n";
 
-				var serialNoBytes = USBManager.Send(device, 0x01, 0x32).Bytes;
-				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+				response = USBManager.Send(device, "Запрос серийного номера", 0x01, 0x32);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				serialNo = new string(Encoding.Default.GetChars(response.Bytes.ToArray()));
 				result += "Заводской номер: " + serialNo + "\n";
 
-				var addressBytes = USBManager.Send(device, 0x01, 0x31).Bytes;
-				result += "Адрес: " + addressBytes[2] + "\n";
+				response = USBManager.Send(device, "Запрос адресного листа", 0x01, 0x31);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				result += "Адрес: " + response.Bytes[2] + "\n";
 				result += "Скорость: ";
-				switch (addressBytes[1])
+				switch (response.Bytes[1])
 				{
 					case 0: result += "9600\n"; break;
 					case 1: result += "19200\n"; break;
@@ -46,21 +58,29 @@ namespace ServerFS2.Operations
 			}
 			else
 			{
-				var driverTypeBytes = USBManager.Send(device, 0x01, 0x03).Bytes;
-				result += "Тип устройства: " + DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverCode == driverTypeBytes[0]).Name + "\n";
+				response = USBManager.Send(device, "Запрос типа устройства", 0x01, 0x03);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				result += "Тип устройства: " + DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverCode == response.Bytes[0]).Name + "\n";
 
-				var serialNoBytes = USBManager.Send(device, 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B).Bytes;
-				serialNo = new string(Encoding.Default.GetChars(serialNoBytes.ToArray()));
+				response = USBManager.Send(device, "Запрос серийного номера", 0x01, 0x52, 0x00, 0x00, 0x00, 0xF4, 0x0B);
+				if (response.HasError)
+					throw new FS2Exception("USB устройство отсутствует");
+				serialNo = new string(Encoding.Default.GetChars(response.Bytes.ToArray()));
 				result += "Заводской номер: " + serialNo + "\n";
 
 				var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
 				var bdVersionBytes = ServerHelper.GetBytesFromRomDB(device, panelDatabaseReader.GetRomFirstIndex(device) + 4, 2);
+				if (bdVersionBytes == null)
+					throw new FS2Exception("USB устройство отсутствует");
 				string bdVersion = bdVersionBytes[0].ToString("X") + "." + bdVersionBytes[1].ToString("X");
 
 				result += "Версия базы: " + bdVersion + "\n";
 			}
-			var softVersionBytes = USBManager.Send(device, 0x01, 0x12).Bytes;
-			string softVersion = softVersionBytes[0].ToString("X") + "." + softVersionBytes[1].ToString("X");
+			response = USBManager.Send(device, "Запрос версии ПО", 0x01, 0x12);
+			if (response.HasError)
+				throw new FS2Exception("USB устройство отсутствует");
+			string softVersion = response.Bytes[0].ToString("X") + "." + response.Bytes[1].ToString("X");
 			result += "Версия микропрограммы: " + softVersion;
 
 			return result;

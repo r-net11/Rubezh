@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Infrastructure.Common.BalloonTrayTip.ViewModels;
-using Common;
 
 namespace Infrastructure.Common.BalloonTrayTip.Views
 {

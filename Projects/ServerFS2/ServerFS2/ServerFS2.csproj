@@ -130,7 +130,6 @@
     <Compile Include="Helpers\Crc16Helper.cs" />
     <Compile Include="Helpers\DeviceCustomFunctionListHelper.cs" />
     <Compile Include="Helpers\DeviceLastIndexCollection.cs" />
-    <Compile Include="Helpers\DevicePropertyRequest.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
     <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
     <Compile Include="Helpers\LastJournalIndexHelper.cs" />
@@ -143,8 +142,6 @@
     <Compile Include="Helpers\ZonePanelRelationsInfo.cs" />
     <Compile Include="Journal\BitsExtracter.cs" />
     <Compile Include="Journal\CustomMessageJournalHelper.cs" />
-    <Compile Include="Journal\DatabaseHelper.cs" />
-    <Compile Include="Journal\DatabaseHelper.Monitoring.cs" />
     <Compile Include="Journal\FSInternalJournal.cs" />
     <Compile Include="Journal\JournalParser.cs" />
     <Compile Include="Journal\ServerJournalHelper.cs" />
@@ -191,7 +188,7 @@
     <Compile Include="Helpers\ServerHelper.cs" />
     <Compile Include="USB\USBDetectorHelper.cs" />
     <Compile Include="USB\USBManager.cs" />
-    <Compile Include="USB\UsbHidBase.cs" />
+    <Compile Include="USB\UsbHid.Comon.cs" />
     <Compile Include="USB\Request.cs" />
     <Compile Include="USB\RequestCollection.cs" />
     <Compile Include="USB\Response.cs" />
@@ -201,9 +198,14 @@
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="USB\UsbHid.cs" />
     <Compile Include="USB\UsbHidInfo.cs" />
+    <Compile Include="ViewModels\LogService.cs" />
+    <Compile Include="ViewModels\LogsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
+    <Compile Include="Views\LogsView.xaml.cs">
+      <DependentUpon>LogsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -264,14 +266,16 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FS2Database\FS2Database.csproj">
+      <Project>{AC115AEC-105A-4D2A-A5EC-D796BF4AE45D}</Project>
+      <Name>FS2Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\USB\usb hid\UsbLibrary\UsbLibrary.csproj">
       <Project>{71E42A6D-C432-4C03-BF4F-ABFD2A3173E0}</Project>
       <Name>UsbLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Administrator\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
@@ -282,6 +286,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

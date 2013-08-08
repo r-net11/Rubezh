@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using FS2Api;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using MonitorClientFS2.ViewModels;
-using ServerFS2;
-using ServerFS2.Processor;
-using Ionic.Zip;
-using System.Text;
-using System.Linq;
-using System.IO;
-using ServerFS2.Service;
-using ServerFS2.Monitoring;
-using System.Windows;
-using System.Threading;
-using System.Threading.Tasks;
-using FiresecAPI.Models;
-using System.Diagnostics;
-using ServerFS2.USB;
 using MonitorTestClientFS2.ViewModels;
+using ServerFS2;
+using ServerFS2.Monitoring;
+using ServerFS2.Processor;
+using ServerFS2.Service;
+using ServerFS2.USB;
 
 namespace MonitorClientFS2
 {

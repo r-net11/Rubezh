@@ -1,8 +1,8 @@
 ﻿using System;
-using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using System.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ServerFS2.ViewModels
 {
@@ -15,6 +15,7 @@ namespace ServerFS2.ViewModels
 			Current = this;
 			Title = "Сервер ОПС FS2";
 			ExitCommand = new RelayCommand(OnExit);
+			ShowLogCommand = new RelayCommand(OnShowLog);
 		}
 
 		private string _status;
@@ -69,12 +70,19 @@ namespace ServerFS2.ViewModels
 				this.Close();
 				NotifyIconService.Stop();
 				Bootstrapper.Close();
-			}	
+			}
+		}
+
+		public RelayCommand ShowLogCommand { get; private set; }
+		void OnShowLog()
+		{
+			var logViewModel = new LogsViewModel();
+			DialogService.ShowWindow(logViewModel);
 		}
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			ApplicationMinimizeCommand.Execute();
+			ApplicationMinimizeCommand.ForceExecute();
 			return true;
 		}
 	}

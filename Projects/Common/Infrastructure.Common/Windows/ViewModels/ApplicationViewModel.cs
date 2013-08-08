@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using Infrastructure.Common.About.ViewModels;
 
 namespace Infrastructure.Common.Windows.ViewModels

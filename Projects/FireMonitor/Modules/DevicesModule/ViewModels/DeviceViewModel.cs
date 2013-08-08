@@ -49,7 +49,6 @@ namespace DevicesModule.ViewModels
 
 			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
 			PresentationAddress = Device.PresentationAddress;
-
 		}
 
 		public string PresentationZone { get; private set; }
@@ -60,19 +59,15 @@ namespace DevicesModule.ViewModels
 			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeStates)
 			{
-				var stateViewModel = new StateViewModel()
-				{
-					DriverState = state.DriverState
-				};
+				var stateViewModel = new StateViewModel(state.DriverState, DeviceState.Device);
 				States.Add(stateViewModel);
 			}
 
 			ParentStates = new List<StateViewModel>();
 			foreach (var state in DeviceState.ThreadSafeParentStates)
 			{
-				var stateViewModel = new StateViewModel()
+				var stateViewModel = new StateViewModel(state.DriverState)
 				{
-					DriverState = state.DriverState,
 					DeviceName = state.ParentDevice.DottedPresentationAddressAndName
 				};
 				ParentStates.Add(stateViewModel);
@@ -147,6 +142,12 @@ namespace DevicesModule.ViewModels
 
 		void OnParametersChanged()
 		{
+			FailureType = "";
+			AlarmReason = "";
+			Smokiness = "";
+			Dustiness = "";
+			Temperature = "";
+
 			if (DeviceState != null)
 			{
 				foreach (var parameter in DeviceState.ThreadSafeParameters)

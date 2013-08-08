@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Input;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls
 {

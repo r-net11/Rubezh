@@ -1,7 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using ServerFS2;
 using ServerFS2.Processor;
 
 namespace AdministratorTestClientFS2.ViewModels

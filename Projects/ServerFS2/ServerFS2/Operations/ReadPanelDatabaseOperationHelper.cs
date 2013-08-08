@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
+using FS2Api;
 using ServerFS2.Monitoring;
 using ServerFS2.Service;
-using FS2Api;
 
 namespace ServerFS2
 {
@@ -37,7 +36,7 @@ namespace ServerFS2
 		public List<byte> GetRomDBBytes(Device device)
 		{
 			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
-			var response = USBManager.Send(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
+			var response = USBManager.Send(device, "Уточнить у Ромы", 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
 			if (response.HasError || response.Bytes.Count < 12)
 				return null;
 			var result = response.Bytes;
@@ -51,7 +50,7 @@ namespace ServerFS2
 				CheckSuspending();
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы ROM " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, romDBLastIndex - i);
-				response = USBManager.Send(device, 0x38, BitConverter.GetBytes(i).Reverse(), length);
+				response = USBManager.Send(device, "Чтение базы ROM", 0x38, BitConverter.GetBytes(i).Reverse(), length);
 				if (response.HasError)
 					return null;
 				result.AddRange(response.Bytes);
@@ -72,7 +71,7 @@ namespace ServerFS2
 				CheckSuspending();
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение базы FLASH " + packetNo + " из " + numberOfPackets));
 				var length = Math.Min(packetLenght, FlashDBLastIndex - i);
-				var response = USBManager.Send(device, 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
+				var response = USBManager.Send(device, "Чтение базы FLASH", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), length);
 				if (response.HasError)
 					return null;
 				result.AddRange(response.Bytes);
@@ -88,7 +87,7 @@ namespace ServerFS2
 		{
 			CheckSuspending();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера ROM части базы"));
-			var response = USBManager.Send(device, 0x01, 0x57);
+			var response = USBManager.Send(device, "Запрос размера ROM части базы", 0x01, 0x57);
 			if (response.HasError || response.Bytes.Count < 4)
 			{
 				return -1;
@@ -100,7 +99,7 @@ namespace ServerFS2
 		{
 			CheckSuspending();
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запрос размера FLASH части базы"));
-			var response = USBManager.Send(device, 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
+			var response = USBManager.Send(device, "Запрос размера FLASH части базы", 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), 0x0B);
 			if (response.HasError || response.Bytes.Count < 9)
 			{
 				return -1;

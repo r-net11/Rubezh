@@ -129,7 +129,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.ToString());
+				Trace.WriteLine(ex.ToString());
 				ForceShutdown();
 			}
 			finally

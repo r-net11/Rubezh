@@ -9,7 +9,7 @@ using FS2Api;
 
 namespace ServerFS2.Journal
 {
-	public static partial class DatabaseHelper
+	public static partial class ServerFS2Database
 	{
 		public static List<FS2JournalItem> GetFilteredJournal(JournalFilter journalFilter)
 		{

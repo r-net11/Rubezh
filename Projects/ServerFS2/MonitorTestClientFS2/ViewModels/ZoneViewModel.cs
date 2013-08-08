@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using FiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2.Monitoring;
 
 namespace MonitorTestClientFS2.ViewModels
@@ -25,10 +22,13 @@ namespace MonitorTestClientFS2.ViewModels
 		void ZoneState_StateChanged()
 		{
 			StateType = Zone.ZoneState.StateType;
+			ZoneState = Zone.ZoneState;
 			OnPropertyChanged("StateType");
+			OnPropertyChanged("ZoneState");
 		}
 
 		public StateType StateType { get; private set; }
+		public ZoneState ZoneState { get; private set; }
 
 		public RelayCommand SetGuardCommand { get; private set; }
 		void OnSetGuard()
