@@ -84,81 +84,83 @@ namespace ServerFS2
             return FS2JournalItem;
 		}
 
-        void GetUserName()
-        {
-            switch (FSInternalJournal.EventCode)
-            {
-                case (0x35):
-                case (0x32):
-                    switch (Bytes[18])
-                    {
-                        case (0x6f):
-                            FS2JournalItem.UserName = "Дежурный";
-                            break;
-                        case (0x2a):
-                            FS2JournalItem.UserName = "Инсталлятор";
-                            break;
-                        case (0x4c):
-                            FS2JournalItem.UserName = "Администратор";
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case (0x3b):
-                case (0x3f):
-                case (0x34):
-                case (0x04):
-                    switch (Bytes[18])
-                    {
-                        case (0xef):
-                            FS2JournalItem.UserName = "Дежурный";
-                            break;
-                        case (0xaa):
-                            FS2JournalItem.UserName = "Инсталлятор";
-                            break;
-                        case (0xcc):
-                            FS2JournalItem.UserName = "Администратор";
-                            break;
-                        case (0x4d):
-                            FS2JournalItem.UserName = "Кнопка управления СПТ";
-                            break;
-                        case (0x4e):
-                            FS2JournalItem.UserName = "Кнопка ПУСК/СТОП";
-                            break;
-                        case (0x01):
-                            FS2JournalItem.UserName = "ЭДУ-ПТ1";
-                            break;
-                        case (0x02):
-                            FS2JournalItem.UserName = "ЭДУ-ПТ2";
-                            break;
-                        case (0x04):
-                            FS2JournalItem.UserName = "ЭДУ-ПТ3";
-                            break;
-                        case (0x05):
-                            FS2JournalItem.UserName = "Кнопка ДУ";
-                            break;
-                        case (0x06):
-                            FS2JournalItem.UserName = "Панель шкафа";
-                            break;
-                        case (0x08):
-                            FS2JournalItem.UserName = "ЭДУ-ПТ4";
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case (0x45):
-                case (0x31):
-                case (0x46):
-                    var guardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == Bytes[21]);
-                    FS2JournalItem.GuardUser = guardUser;
-                    FS2JournalItem.UserName = guardUser.Name;
-                    break;
-                default:
-                    break;
-            }
-        }
+		void GetUserName()
+		{
+			switch (FSInternalJournal.EventCode)
+			{
+				case (0x35):
+				case (0x32):
+					switch (Bytes[18])
+					{
+						case (0x6f):
+							FS2JournalItem.UserName = "Дежурный";
+							break;
+						case (0x2a):
+							FS2JournalItem.UserName = "Инсталлятор";
+							break;
+						case (0x4c):
+							FS2JournalItem.UserName = "Администратор";
+							break;
+						default:
+							break;
+					}
+					break;
+				case (0x3b):
+				case (0x3f):
+				case (0x34):
+				case (0x04):
+					switch (Bytes[18])
+					{
+						case (0xef):
+							FS2JournalItem.UserName = "Дежурный";
+							break;
+						case (0xaa):
+							FS2JournalItem.UserName = "Инсталлятор";
+							break;
+						case (0xcc):
+							FS2JournalItem.UserName = "Администратор";
+							break;
+						case (0x4d):
+							FS2JournalItem.UserName = "Кнопка управления СПТ";
+							break;
+						case (0x4e):
+							FS2JournalItem.UserName = "Кнопка ПУСК/СТОП";
+							break;
+						case (0x01):
+							FS2JournalItem.UserName = "ЭДУ-ПТ1";
+							break;
+						case (0x02):
+							FS2JournalItem.UserName = "ЭДУ-ПТ2";
+							break;
+						case (0x04):
+							FS2JournalItem.UserName = "ЭДУ-ПТ3";
+							break;
+						case (0x05):
+							FS2JournalItem.UserName = "Кнопка ДУ";
+							break;
+						case (0x06):
+							FS2JournalItem.UserName = "Панель шкафа";
+							break;
+						case (0x08):
+							FS2JournalItem.UserName = "ЭДУ-ПТ4";
+							break;
+						default:
+							break;
+					}
+					break;
+				case (0x45):
+				case (0x31):
+				case (0x46):
+					FS2JournalItem.GuardUser = ConfigurationManager.DeviceConfiguration.GuardUsers.FirstOrDefault(x => x.Id == Bytes[21]);
+					if (FS2JournalItem.GuardUser != null)
+					{
+						FS2JournalItem.UserName = FS2JournalItem.GuardUser.Name;
+					}
+					break;
+				default:
+					break;
+			}
+		}
 
 		void InitializeDetalization()
 		{

@@ -191,9 +191,9 @@ namespace FiresecClient
 				{
 					return FiresecService.Connect(uid, clientCredentials, isNew);
 				}
-				catch (EndpointNotFoundException) { }
-				catch (System.IO.PipeException) { }
-				catch (SecurityNegotiationException) { }
+				//catch (EndpointNotFoundException) { }
+				//catch (System.IO.PipeException) { }
+				//catch (SecurityNegotiationException) { }
 				catch (Exception e)
 				{
 					Logger.Error(e, "Исключение при вызове FiresecClient.Connect");
