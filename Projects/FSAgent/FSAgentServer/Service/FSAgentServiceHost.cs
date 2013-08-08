@@ -80,8 +80,7 @@ namespace FSAgentServer
 				var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
-					GlobalSettingsHelper.GlobalSettings.RemotePort = 8001;
-					var remoteAddress = "net.tcp://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FSAgent/";
+					var remoteAddress = "net.tcp://" + ipAddress + ":" + (GlobalSettingsHelper.GlobalSettings.RemotePort + 1).ToString() + "/FSAgent/";
 					ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
 					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}

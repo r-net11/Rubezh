@@ -36,12 +36,11 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return "net.tcp://172.16.5.150:8000/FiresecService/";
-
 				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
+					serviceAddress = "net.tcp://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
+					//serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
 				}
 				return serviceAddress;
 			}
@@ -51,12 +50,10 @@ namespace Infrastructure.Common
 		{
 			get
 			{
-				return "net.tcp://172.16.5.150:8001/FSAgent/";
-
 				var serviceAddress = "net.pipe://127.0.0.1/FSAgent/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FSAgent/";
+					serviceAddress = "net.tcp://" + RemoteAddress + ":" + (RemotePort + 1).ToString() + "/FSAgent/";
 				}
 				return serviceAddress;
 			}
