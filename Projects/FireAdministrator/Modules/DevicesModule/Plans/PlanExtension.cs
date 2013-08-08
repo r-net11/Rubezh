@@ -277,12 +277,12 @@ namespace DevicesModule.Plans
 				using (new WaitWrapper())
 				using (new TimeCounter("\tUpdateDeviceInZones: {0}"))
 				{
-					Dictionary<Geometry, Guid> geometries = new Dictionary<Geometry, Guid>();
+					Dictionary<Geometry, IElementZone> geometries = new Dictionary<Geometry, IElementZone>();
 					foreach (var designerItem in _designerCanvas.Items)
 					{
 						var elementZone = designerItem.Element as IElementZone;
 						if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
-							geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone.ZoneUID);
+							geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone);
 					}
 					foreach (var designerItem in _designerCanvas.Items)
 					{
@@ -293,24 +293,19 @@ namespace DevicesModule.Plans
 							if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
 								continue;
 							var point = new Point(elementDevice.Left, elementDevice.Top);
-							var zoneUIDs = new List<Guid>();
+							var zones = new List<IElementZone>();
 							foreach (var pair in geometries)
 								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
-									zoneUIDs.Add(pair.Value);
+									zones.Add(pair.Value);
 							if (device.ZoneUID != Guid.Empty)
 							{
-								var isInZone = zoneUIDs.Any(x => x == device.ZoneUID);
+								var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUID);
 								if (!isInZone)
-								{
-									if (!deviceInZones.ContainsKey(device))
-										deviceInZones.Add(device, zoneUIDs.Count > 0 ? zoneUIDs[0] : Guid.Empty);
-									else if (zoneUIDs.Count > 0)
-										deviceInZones[device] = zoneUIDs[0];
-								}
+									deviceInZones.Add(device, GetTopZoneUID(zones));
 							}
-							else if (zoneUIDs.Count > 0)
+							else if (zones.Count > 0)
 							{
-								var zone = Helper.GetZone(zoneUIDs[0]);
+								var zone = Helper.GetZone(GetTopZoneUID(zones));
 								if (zone != null)
 									FiresecManager.FiresecConfiguration.AddDeviceToZone(device, zone);
 							}
@@ -325,6 +320,10 @@ namespace DevicesModule.Plans
 						_designerCanvas.RevertLastAction();
 				}
 			}
+		}
+		private Guid GetTopZoneUID(List<IElementZone> zones)
+		{
+			return zones.OrderByDescending(item => item.ZIndex).Select(item => item.ZoneUID).FirstOrDefault();
 		}
 
 		public static void Invalidate(List<Guid> planUIDs)

@@ -10,5 +10,7 @@ namespace Infrustructure.Plans.Elements
 		Color BackgroundColor { get; set; }
 		void SetZLayer(int zlayer);
 		bool IsHiddenZone { get; set; }
+		int ZIndex { get; set; }
+		int ZLayer { get; }
 	}
 }
