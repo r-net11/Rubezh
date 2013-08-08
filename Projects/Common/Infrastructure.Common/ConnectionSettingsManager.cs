@@ -36,6 +36,8 @@ namespace Infrastructure.Common
 		{
 			get
 			{
+				return "net.tcp://172.16.5.150:8000/FiresecService/";
+
 				var serviceAddress = "net.pipe://127.0.0.1/FiresecService/";
 				if (IsRemote)
 				{
@@ -49,6 +51,8 @@ namespace Infrastructure.Common
 		{
 			get
 			{
+				return "net.tcp://172.16.5.150:8001/FSAgent/";
+
 				var serviceAddress = "net.pipe://127.0.0.1/FSAgent/";
 				if (IsRemote)
 				{

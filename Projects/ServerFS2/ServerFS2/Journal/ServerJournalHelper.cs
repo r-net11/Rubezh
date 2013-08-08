@@ -35,7 +35,11 @@ namespace ServerFS2.Journal
 			{
 				ServerFS2Database.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 				ServerFS2Database.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				ServerFS2Database.OnGetFilteredArchive(archiveFilter, false);
+				try
+				{
+					ServerFS2Database.OnGetFilteredArchive(archiveFilter, false);
+				}
+				catch { }
 			}))));
 			CurrentThread = thread;
 			thread.Start();

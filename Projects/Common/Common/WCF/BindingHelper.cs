@@ -15,7 +15,7 @@ namespace Common
 			}
 			else
 			{
-				binding = CreateWSHttpBinding();
+				binding = CreateNetTcpBinding();
 			}
 			return binding;
 		}

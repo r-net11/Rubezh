@@ -119,6 +119,7 @@ namespace ServerFS2.Journal
 						if (i > 0)
 							query += "\n OR ";
 						var description = archiveFilter.Descriptions[i];
+						description = description.Replace("'", "''");
 						query += " Description = '" + description + "'";
 					}
 					query += ")";
@@ -142,19 +143,18 @@ namespace ServerFS2.Journal
 					query += "\n AND (";
 					for (int i = 0; i < archiveFilter.PanelUIDs.Count; i++)
 					{
-						var deviceName = archiveFilter.PanelUIDs[i];
-						if (deviceName != null)
+						var panelUID = archiveFilter.PanelUIDs[i];
+						if (panelUID != null)
 						{
 							if (i > 0)
 								query += "\n OR ";
-							query += " PanelUIDs = '" + deviceName + "'";
+							query += " PanelUID = '" + panelUID + "'";
 						}
 					}
 					query += ")";
 				}
 
 				query += "\n ORDER BY " + dateInQuery + " DESC";
-				//query = "SELECT * FROM Journal";
 
 				using (var sqlCeConnection = new SqlCeConnection(ConnectionString))
 				{

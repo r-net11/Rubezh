@@ -62,7 +62,7 @@ namespace ServerFS2
 				}
 			}
 
-			if (MetadataHelper.HasZone(FSInternalJournal.EventCode))
+			//if (MetadataHelper.HasZone(FSInternalJournal.EventCode))
 			{
 				FSInternalJournal.ZoneNo = BytesHelper.ExtractShort(bytes, 10);
 				InitializeZone();
