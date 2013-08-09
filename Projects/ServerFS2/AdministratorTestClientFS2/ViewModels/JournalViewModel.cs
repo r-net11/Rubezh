@@ -3,19 +3,15 @@ using System.Collections.ObjectModel;
 using FS2Api;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
 	public class JournalViewModel : DialogViewModel
 	{
-		public JournalViewModel(List<FS2JournalItem> journalItems)
+		public JournalViewModel(List<FS2JournalItem> journalItems, string name)
 		{
-			Title = "Журнал событий";
-			if (journalItems == null)
-			{
-				MessageBoxService.ShowError("Ошибка при чтении журнала событий");
-				return;
-			}
+			Title = "Журнал событий " + name;
 
 			JournalItems = new ObservableCollection<FS2JournalItem>();
 			foreach (var journalItem in journalItems)
@@ -24,5 +20,16 @@ namespace AdministratorTestClientFS2.ViewModels
 			}
 		}
 		public ObservableCollection<FS2JournalItem> JournalItems { get; set; }
+
+		FS2JournalItem _selectedJournalItem;
+		public FS2JournalItem SelectedJournalItem
+		{
+			get { return _selectedJournalItem; }
+			set
+			{
+				_selectedJournalItem = value;
+				OnPropertyChanged("SelectedJournalItem");
+			}
+		}
 	}
 }

@@ -8,6 +8,11 @@ namespace FS2Api
 	[DataContract]
 	public class FS2JournalItem
 	{
+		public FS2JournalItem()
+		{
+			SubsystemType = SubsystemType.Other;
+		}
+
 		[DataMember]
 		public int No { get; set; }
 
@@ -53,19 +58,13 @@ namespace FS2Api
         [DataMember]
 		public string UserName { get; set; }
 
-
-
-		public int DeviceAddress { get; set; }
+		public string BytesString { get; set; }
+		public int EventCode { get; set; }
+		public int AdditionalEventCode { get; set; }
+		public Device PanelDevice { get; set; }
 		public Zone Zone { get; set; }
 		public int ZoneNo { get; set; }
-		public int EventClass { get; set; }
-		public uint IntDate { get; set; }
-		public Device PanelDevice { get; set; }
 		public Device Device { get; set; }
-		public int StateByte { get; set; }
-		public int EventCode { get; set; }
-		public int EventChoiceNo { get; set; }
-		public string BytesString { get; set; }
         public GuardUser GuardUser { get; set; }
     }
 }

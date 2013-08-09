@@ -21,9 +21,11 @@ namespace ServerFS2.Monitoring
 						var journalParser = new JournalParser();
 						try
 						{
-							var fsJournalItem = journalParser.Parce(deviceConfiguration, device, response.Bytes);
+							var fsJournalItem = journalParser.Parce(deviceConfiguration, device, response.Bytes, journalType);
 							if (fsJournalItem != null)
+							{
 								return fsJournalItem;
+							}
 						}
 						catch
 						{

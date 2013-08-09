@@ -54,7 +54,7 @@ namespace ServerFS2
 					try
 					{
 						var journalParser = new JournalParser();
-						var journalItem = journalParser.Parce(null, device, response.Bytes);
+						var journalItem = journalParser.Parce(null, device, response.Bytes, journalType);
 						if (journalItem != null)
 						{
 							result.Add(journalItem);
@@ -66,6 +66,8 @@ namespace ServerFS2
 					}
 				}
 			}
+
+			result.Reverse();
 			for (int i = 0; i < result.Count; i++)
 			{
 				result[i].No = i + 1;

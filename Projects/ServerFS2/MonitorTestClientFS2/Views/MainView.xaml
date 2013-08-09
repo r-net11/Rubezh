@@ -42,7 +42,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="200" />
                     </Grid.RowDefinitions>
-                    <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" MinRowHeight="20">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" RowHeight="40">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
                             <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
