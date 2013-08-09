@@ -14,7 +14,7 @@ namespace HexManager.ViewModels
 	{
 		public MainViewModel()
 		{
-			CreateNewCommand = new RelayCommand(OnCreateNew, CanCreateNew);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 			AddFileCommand = new RelayCommand(OnAddFile);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanRemoveFile);
 			SaveFileCommand = new RelayCommand(OnSaveFile, CanSaveFile);
@@ -34,6 +34,25 @@ namespace HexManager.ViewModels
 			Drivers.Add(DriverType.MS_3);
 			Drivers.Add(DriverType.MS_4);
 			Drivers.Add(DriverType.UOO_TL);
+
+			OnCreateNew();
+		}
+
+		void CopyProperties(HXCFileInfo hxcFileInfo)
+		{
+			SelectedDriver = hxcFileInfo.DriverType;
+			Name = hxcFileInfo.Name;
+			MinorVersion = hxcFileInfo.MinorVersion;
+			MajorVersion = hxcFileInfo.MajorVersion;
+			AutorName = hxcFileInfo.AutorName;
+
+			Files = new ObservableRangeCollection<FileViewModel>();
+			foreach (var fileInfo in hxcFileInfo.FileInfos)
+			{
+				var fileViewModel = new FileViewModel(fileInfo);
+				Files.Add(fileViewModel);
+				SelectedFile = Files.FirstOrDefault();
+			}
 		}
 
 		ObservableCollection<DriverType> _drivers;
@@ -127,11 +146,8 @@ namespace HexManager.ViewModels
 		public RelayCommand CreateNewCommand { get; private set; }
 		void OnCreateNew()
 		{
-			Files = new ObservableRangeCollection<FileViewModel>();
-		}
-		bool CanCreateNew()
-		{
-			return Files.Count > 0;
+			var hxcFileInfo = new HXCFileInfo();
+			CopyProperties(hxcFileInfo);
 		}
 
 		public RelayCommand AddFileCommand { get; private set; }
@@ -215,19 +231,7 @@ namespace HexManager.ViewModels
 				var hxcFileInfo = HXCFileInfoHelper.Load(openFileDialog.FileName);
 				if (hxcFileInfo != null)
 				{
-					SelectedDriver = hxcFileInfo.DriverType;
-					Name = hxcFileInfo.Name;
-					MinorVersion = hxcFileInfo.MinorVersion;
-					MajorVersion = hxcFileInfo.MajorVersion;
-					AutorName = hxcFileInfo.AutorName;
-
-					Files = new ObservableRangeCollection<FileViewModel>();
-					foreach (var fileInfo in hxcFileInfo.FileInfos)
-					{
-						var fileViewModel = new FileViewModel(fileInfo);
-						Files.Add(fileViewModel);
-						SelectedFile = Files.FirstOrDefault();
-					}
+					CopyProperties(hxcFileInfo);
 				}
 			}
 		}

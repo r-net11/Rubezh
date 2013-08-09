@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using HexManager.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using ServerFS2;
 
 namespace HexManager.ViewModels
 {
