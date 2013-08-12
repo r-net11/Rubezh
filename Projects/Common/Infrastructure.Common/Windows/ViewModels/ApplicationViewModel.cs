@@ -91,7 +91,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public bool IsMaximized
 		{
-			get { return Surface.WindowState == WindowState.Normal; }
+			get { return Surface != null && Surface.WindowState == WindowState.Normal; }
 		}
 
 		private BaseViewModel _headerTop;

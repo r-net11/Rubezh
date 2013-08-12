@@ -46,7 +46,13 @@ namespace MultiClientAdministrator.ViewModels
 			{
 				_selectedAppItem = value;
 				OnPropertyChanged("SelectedAppItem");
+				OnPropertyChanged("IsEnabled");
 			}
+		}
+
+		public bool IsEnabled
+		{
+			get { return SelectedAppItem != null; }
 		}
 
 		public RelayCommand AddCommand { get; private set; }

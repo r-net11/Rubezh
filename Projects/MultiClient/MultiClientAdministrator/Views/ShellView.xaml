@@ -27,29 +27,31 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Grid Grid.Column="1" DataContext="{Binding SelectedAppItem}" Margin="10, 2, 2, 2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Название" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+            <Grid Grid.Column="1" IsEnabled="{Binding IsEnabled}" Margin="10, 2, 2, 2">
+                <Grid DataContext="{Binding SelectedAppItem}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Название" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль" Foreground="White" HorizontalAlignment="Right" Margin="2" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
