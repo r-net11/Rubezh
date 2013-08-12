@@ -25,17 +25,25 @@ namespace ServerFS2.Operations
 			for (int i = 0; i < guardUsersCount; i++)
 			{
 				var guardUser = new GuardUser();
-				guardUser.CanUnSetZone = Convert.ToBoolean(result[i * 46 + 14]);
-				guardUser.CanSetZone = Convert.ToBoolean(result[i * 46 + 14] >> 1);
-				guardUser.Name = BytesHelper.BytesToString(result.GetRange(i*46 + 15, 20));
+				guardUser.CanUnSetZone = Convert.ToBoolean((result[i * 46 + 14])&1);
+				guardUser.CanSetZone = Convert.ToBoolean((result[i * 46 + 14] >> 1)&1);
+				guardUser.Name = BytesHelper.BytesToStringDescription(result.GetRange(i * 46 + 15, 20));
 				guardUser.KeyTM = BytesHelper.BytesToString(result.GetRange(i*46 + 35, 6));
-				guardUser.Password = BytesHelper.BytesToString(result.GetRange(i * 46 + 41, 3));
+				guardUser.Password = BytesToPasswordString(result.GetRange(i * 46 + 41, 3));
 				var guardZonesBytes = result.GetRange(i*46 + 44, 16);
 				var localZones = GetLocalZones(device);
-				for (int j = 0; j < guardZonesBytes.Count; j ++)
+				for (int j = 0; j < guardZonesBytes.Count; j++)
 				{
-
+					for (int k = 0; k < 8; k++)
+					{
+						Zone guardZone = null;
+						if (((guardZonesBytes[j] >> k) & 1) == 1)
+							guardZone = localZones[j*8 + k];
+						if (guardZone != null)
+							guardUser.ZoneUIDs.Add(guardZone.UID);
+					}
 				}
+				guardUsers.Add(guardUser);
 			}
 			return guardUsers;
 		}
@@ -71,7 +79,7 @@ namespace ServerFS2.Operations
 			}
 		}
 
-		static List<byte> CreatePasswordBytes(string password)
+		static List<byte> PasswordStringToBytes(string password)
 		{
 			var passwordByte = new List<byte>();
 			var newPasswordString = new String('F',6);
@@ -90,6 +98,21 @@ namespace ServerFS2.Operations
 			}
 			var newPasswordByte = BytesHelper.HexStringToByteArray(newPasswordString);
 			return newPasswordByte;
+		}
+
+		static string BytesToPasswordString(List<byte> bytes)
+		{
+			var result = "";
+			foreach (var b in bytes)
+			{
+				var c1 = b & 15;
+				var c2 = (b>>4) & 15;
+				if (c1 != 15)
+					result += c1;
+				if (c2 != 15)
+					result += c2;
+			}
+			return result;
 		}
 
 		static List<Zone> GetLocalZones(Device device)
@@ -161,7 +184,7 @@ namespace ServerFS2.Operations
 			var guardUserAttribute = GetUserAttribute(guardUser);
 			var guardUserName = BytesHelper.StringToBytes(guardUser.Name);
 			var guardUserKeyTM = BytesHelper.HexStringToByteArray(guardUser.KeyTM);
-			var guardUserPassword = CreatePasswordBytes(guardUser.Password);
+			var guardUserPassword = PasswordStringToBytes(guardUser.Password);
 			var guardZonesBytes = GetGuardZones(device, guardUser);
 
 			bytes.AddRange(USBManager.CreateBytesArray(guardUserAttribute, guardUserName,
