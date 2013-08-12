@@ -22,6 +22,12 @@ namespace Infrastructure.Common.Services.Content
 			Invalidate();
 		}
 
+		public void SetMulticlientFolder(string multiclientFolderName)
+		{
+			ContentFolder = AppDataFolderHelper.GetLocalFolder(Path.Combine(multiclientFolderName + @"\Unzip\Content"));
+			Invalidate();
+		}
+
 		#region IContentService Members
 
 		public string GetContentFileName(Guid guid)

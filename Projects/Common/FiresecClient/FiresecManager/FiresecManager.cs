@@ -25,9 +25,14 @@ namespace FiresecClient
 					ClientUID = FiresecServiceFactory.UID
 				};
 
-				FiresecService = new SafeFiresecService(serverAddress);
-
-				var operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
+				var operationResult = new OperationResult<bool>();
+				for (int i = 0; i < 3; i++)
+				{
+					FiresecService = new SafeFiresecService(serverAddress);
+					operationResult = FiresecService.Connect(FiresecServiceFactory.UID, ClientCredentials, true);
+					if (!operationResult.HasError)
+						break;
+				}
 				if (operationResult.HasError)
 				{
 					return operationResult.Error;
