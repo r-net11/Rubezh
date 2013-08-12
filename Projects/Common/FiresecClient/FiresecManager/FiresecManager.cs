@@ -99,8 +99,8 @@ namespace FiresecClient
                 {
                     if (!IsDisconnected)
                     {
-                        if (FSAgent != null)
-                            FSAgent.Stop();
+						if (FSAgent != null)
+							FSAgent.Stop();
 
 						if (FS2ClientContract != null)
 							FS2ClientContract.Stop();

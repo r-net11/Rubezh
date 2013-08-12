@@ -47,22 +47,26 @@ namespace Infrastructure.Common
 				var unicodeEncoding = new UnicodeEncoding();
 				byte[] key = unicodeEncoding.GetBytes(FormatPassword(password));
 
+				if (!File.Exists(inputFile))
+				{
+					File.Create(inputFile);
+				}
 				FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
 				var rijndaelManaged = new RijndaelManaged();
 				var cryptoStream = new CryptoStream(fsCrypt, rijndaelManaged.CreateDecryptor(key, key), CryptoStreamMode.Read);
-				FileStream fsOut = new FileStream(outputFile, FileMode.Create);
+				var fileStream = new FileStream(outputFile, FileMode.Create);
 
 				try
 				{
 					int data;
 					while ((data = cryptoStream.ReadByte()) != -1)
-						fsOut.WriteByte((byte)data);
+						fileStream.WriteByte((byte)data);
 				}
 				catch { throw; }
 				finally
 				{
 					fsCrypt.Close();
-					fsOut.Close();
+					fileStream.Close();
 					cryptoStream.Close();
 				}
 			}

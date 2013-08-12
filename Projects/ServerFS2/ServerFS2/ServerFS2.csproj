@@ -239,6 +239,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Metadata\FS1JournalParser.txt" />
     <Resource Include="FS2.ico" />
     <Content Include="Metadata\rubezh2010.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

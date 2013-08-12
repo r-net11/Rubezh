@@ -35,25 +35,33 @@ namespace FireAdministrator.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			AlarmPlayerHelper.Dispose();
-			if (ServiceFactory.SaveService.HasChanges)
+			try
 			{
-				var result = MessageBoxService.ShowQuestion("Применить изменения в настройках?");
-				switch (result)
+				AlarmPlayerHelper.Dispose();
+				if (ServiceFactory.SaveService.HasChanges)
 				{
-					case MessageBoxResult.Yes:
-						return !((MenuViewModel)Toolbar).SetNewConfig();
-					case MessageBoxResult.No:
-						return false;
-					case MessageBoxResult.Cancel:
-						return true;
+					var result = MessageBoxService.ShowQuestion("Применить изменения в настройках?");
+					switch (result)
+					{
+						case MessageBoxResult.Yes:
+							return !((MenuViewModel)Toolbar).SetNewConfig();
+						case MessageBoxResult.No:
+							return false;
+						case MessageBoxResult.Cancel:
+							return true;
+					}
 				}
+				FiresecManager.Disconnect();
+				return base.OnClosing(isCanceled);
 			}
-			return base.OnClosing(isCanceled);
+			finally
+			{
+
+			}
 		}
 		public override void OnClosed()
 		{
-			FiresecManager.Disconnect();
+			//FiresecManager.Disconnect();
 			base.OnClosed();
 		}
 

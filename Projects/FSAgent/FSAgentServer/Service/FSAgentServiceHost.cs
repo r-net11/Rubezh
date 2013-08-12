@@ -25,7 +25,8 @@ namespace FSAgentServer
 
 				if (UACHelper.IsAdministrator)
 				{
-					CreateHttpEndpoint();
+					//CreateHttpEndpoint();
+					CreateTcpEndpoint();
 				}
 				CreateNetPipesEndpoint();
 				ServiceHost.Open();
@@ -69,6 +70,24 @@ namespace FSAgentServer
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecServiceManager.CreateHttpEndpoint");
+			}
+		}
+
+		private static void CreateTcpEndpoint()
+		{
+			try
+			{
+				var ipAddress = GetIPAddress();
+				if (ipAddress != null)
+				{
+					var remoteAddress = "net.tcp://" + ipAddress + ":" + (GlobalSettingsHelper.GlobalSettings.RemotePort + 1).ToString() + "/FSAgent/";
+					ServiceHost.AddServiceEndpoint("FSAgentAPI.IFSAgentContract", Common.BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
+					UILogger.Log("Удаленный адрес: " + remoteAddress);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecServiceManager.CreateTcpEndpoint");
 			}
 		}
 

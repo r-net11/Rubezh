@@ -4,6 +4,8 @@
 - Нужна возможность в ОЗ на вкладке Архив сохранять отчет в .pdf
 - Перенос строк в отчете
 - Заголовки на каждой странице отчета
+- Коммит от 12.08. ApplicationViewModel { return Surface != null && Surface.WindowState == WindowState.Normal; }
+- Не работает релизная сборка мультисерверной ОЗ из-за Infrastructure.Common
 
 
 СРЕДНЕЙ СРОЧНОСТИ

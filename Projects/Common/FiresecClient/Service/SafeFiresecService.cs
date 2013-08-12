@@ -187,16 +187,19 @@ namespace FiresecClient
 			_clientCredentials = clientCredentials;
 			return SafeOperationCall(() =>
 			{
-				try
+				for (int i = 0; i < 3; i++)
 				{
-					return FiresecService.Connect(uid, clientCredentials, isNew);
-				}
-				catch (EndpointNotFoundException) { }
-				catch (System.IO.PipeException) { }
-				catch (SecurityNegotiationException) { }
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове FiresecClient.Connect");
+					try
+					{
+						return FiresecService.Connect(uid, clientCredentials, isNew);
+					}
+					//catch (EndpointNotFoundException) { }
+					//catch (System.IO.PipeException) { }
+					//catch (SecurityNegotiationException) { }
+					catch (Exception e)
+					{
+						Logger.Error(e, "Исключение при вызове FiresecClient.Connect");
+					}
 				}
 				return new OperationResult<bool>()
 				{

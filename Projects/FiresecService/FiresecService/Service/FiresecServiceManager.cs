@@ -25,7 +25,8 @@ namespace FiresecService.Service
 
 				if (GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
-					CreateHttpEndpoint();
+					//CreateHttpEndpoint();
+					CreateTcpEndpoint();
 				}
 				CreateNetPipesEndpoint();
 				ServiceHost.Open();

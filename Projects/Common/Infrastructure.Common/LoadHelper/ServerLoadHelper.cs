@@ -48,9 +48,11 @@ namespace Infrastructure.Common
 		{
 			for (int i = 0; i < 100; i++)
 			{
-				var fsAgentState = GetStatus();
-				if (fsAgentState == FSServerState.Opened)
+				var fsServerState = GetStatus();
+				if (fsServerState == FSServerState.Opened)
+				{
 					return true;
+				}
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 			}
 			return false;

@@ -118,6 +118,7 @@ namespace DiagnosticsModule.ViewModels
 
 		private void OnTest1()
 		{
+			FiresecManager.Disconnect();
 		}
 
 		public RelayCommand Test2Command { get; private set; }

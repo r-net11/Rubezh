@@ -150,13 +150,11 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnReadJournal()
 		{
 			var fs2JournalItemsCollection = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
-			var journalViewModel = new JournalViewModel(fs2JournalItemsCollection.FireJournalItems);
-			DialogService.ShowModalWindow(journalViewModel);
 			if (fs2JournalItemsCollection.SecurityJournalItems.Count > 0)
 			{
-				journalViewModel = new JournalViewModel(fs2JournalItemsCollection.SecurityJournalItems);
-				DialogService.ShowModalWindow(journalViewModel);
+				DialogService.ShowModalWindow(new JournalViewModel(fs2JournalItemsCollection.SecurityJournalItems, "охранный"));
 			}
+			DialogService.ShowModalWindow(new JournalViewModel(fs2JournalItemsCollection.FireJournalItems, "пожарный"));
 		}
 		bool CanReadJournal()
 		{

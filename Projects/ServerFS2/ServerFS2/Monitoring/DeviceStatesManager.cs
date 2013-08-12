@@ -209,7 +209,7 @@ namespace ServerFS2.Monitoring
 								{
 									foreach (var deviceStateEnter in metadataDeviceState.enter)
 									{
-										var eventValue = MetadataHelper.GetDeviceStateEventEnter(deviceStateEnter, journalItem.EventChoiceNo);
+										var eventValue = MetadataHelper.GetDeviceStateEventEnter(deviceStateEnter, journalItem.AdditionalEventCode);
 										if (eventValue != null)
 										{
 											if (eventValue == "$" + journalItem.EventCode.ToString("X2"))
@@ -261,10 +261,10 @@ namespace ServerFS2.Monitoring
 						{
 							foreach (var deviceStateLeave in metadataDeviceState.leave)
 							{
-								var eventValue = MetadataHelper.GetDeviceStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
+								var eventValue = MetadataHelper.GetDeviceStateEventLeave(deviceStateLeave, journalItem.AdditionalEventCode);
 								if (eventValue == null)
 								{
-									eventValue = MetadataHelper.GetZoneStateEventLeave(deviceStateLeave, journalItem.EventChoiceNo);
+									eventValue = MetadataHelper.GetZoneStateEventLeave(deviceStateLeave, journalItem.AdditionalEventCode);
 								}
 								if (eventValue != null)
 								{
