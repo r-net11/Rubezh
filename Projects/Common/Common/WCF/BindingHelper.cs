@@ -32,6 +32,7 @@ namespace Common
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			binding.Security.Mode = NetNamedPipeSecurityMode.None;
 			return binding;
 		}
 
@@ -48,6 +49,7 @@ namespace Common
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			binding.Security.Mode = SecurityMode.None;
 			return binding;
 		}
 
@@ -64,6 +66,7 @@ namespace Common
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			binding.Security.Mode = SecurityMode.None;
 			return binding;
 		}
 	}
