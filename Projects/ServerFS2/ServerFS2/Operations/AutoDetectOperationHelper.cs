@@ -13,7 +13,6 @@ namespace ServerFS2
 		public static Device AutoDetectDevice(Device device)
 		{
 			var rootDevice = CopyDevice(device);
-			var usbDevice = new Device();
 			switch (rootDevice.Driver.DriverType)
 			{
 				case DriverType.Computer:
@@ -23,6 +22,7 @@ namespace ServerFS2
 						rootDevice.Children = new List<Device>();
 						foreach (var usbHidInfo in usbHidInfos)
 						{
+							var usbDevice = new Device();
 							usbDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == usbHidInfo.USBDriverType);
 							usbDevice.DriverUID = usbDevice.Driver.UID;
 							AddChanelToMS(usbDevice);
