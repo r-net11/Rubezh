@@ -202,7 +202,7 @@ namespace FiresecClient
 				{
 					Result = false,
 					HasError = true,
-					Error = "Не удается соединиться с сервером"
+					Error = "Не удается соединиться с сервером " + _serverAddress
 				};
 			}, "Connect");
 		}
